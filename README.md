@@ -18,4 +18,4 @@ Validation will be added after all endpoints work.
 
 ### Colloborate with Me
 
-If you would like to colloborate on this project with me message then tweet me [@sebd86](https://twitter.com/sebd86). Help from developers who developed extensions for new product types would also be a great help. :smile:
+If you would like to colloborate on this project with me then tweet me [@sebd86](https://twitter.com/sebd86). Help from developers who developed extensions for new product types would also be a great help. :smile:
