@@ -1,7 +1,7 @@
 # WooCommerce Cart REST-API
 An experimental feature plugin providing additional REST-API endpoints for WooCommerce to enable the ability to add items, view items, update items and delete items from the cart.
 
-> Development on this project has not yet started. Will wait until WooCommerce 2.7 is finalized before proceeding.
+> Development on this project has not yet started. Will wait until WooCommerce 3.0 is finalized before proceeding.
 
 ### Endpoints
 
