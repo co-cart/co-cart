@@ -11,13 +11,15 @@ This is how I see the endpoints. The **namespace** has been set to `wc/v2` to ma
 * Clear Cart - ```/wc/v2/cart/clear```
 * Add Item to Cart - ```/wc/v2/cart/add```
 * Update Cart - ```/wc/v2/cart/update```
-* Delete Item from Cart - ```/wc/v2/cart/delete/%product_id%```
-* Update Item in Cart - ```/wc/v2/cart/update/%product_id%```
+* Remove Item from Cart - ```/wc/v2/cart/remove/%cart_item_id%```
+* Restore Item to Cart - ```/wc/v2/cart/restore/%cart_item_id%```
+* Update Item in Cart - ```/wc/v2/cart/update/%cart_item_id%```
+* Calculate Cart Totals - ```/wc/v2/cart/calculate-totals```
 
 ### To Do
 * Create all endpoints.
 * Validate each endpoint.
-* Filters for product support.
+* Filters for product support?
 * Create Storefront Child-Theme using the REST-API for demonstration.
 
 ### Testing or Support Needed
