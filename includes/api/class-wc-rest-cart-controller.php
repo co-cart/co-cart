@@ -79,37 +79,48 @@ class WC_REST_Cart_Controller {
 			),
 		) );
 
-		/*register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
-			'args' => array(
-				'id' => array(
-					'description' => __( 'Unique identifier for the resource.', 'woocommerce-cart-rest-api' ),
-					'type'        => 'integer',
+		// Update Item - wc/v2/cart/update/1
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/update/(?P<cart_item_key>[0-9a-z\-_]+)', array(
+			'methods'  => WP_REST_Server::EDITABLE,
+			'callback' => array( $this, 'update_item' ),
+			'args'     => array(
+				'cart_item_key' => array(
+					'default' => null
+				),
+				'quantity' => array(
+					'default' => null,
+					'validate_callback' => 'is_numeric'
 				),
 			),
-			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_item' ),
-				'args'                => array(
-					'context'         => $this->get_context_param( array( 'default' => 'view' ) ),
+		) );
+
+		// Remove Item - wc/v2/cart/remove/1
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/remove/(?P<cart_item_key>[0-9a-z\-_]+)', array(
+			'methods'  => WP_REST_Server::EDITABLE,
+			'callback' => array( $this, 'remove_item' ),
+			'args'     => array(
+				'cart_item_key' => array(
+					'default' => null
 				),
 			),
-			array(
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'update_item' ),
-				'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
-			),
-			array(
-				'methods'             => WP_REST_Server::DELETABLE,
-				'callback'            => array( $this, 'delete_item' ),
-				'args'                => array(
-					'force' => array(
-						'default'     => false,
-						'type'        => 'boolean',
-						'description' => __( 'Whether to bypass trash and force deletion.', 'woocommerce-cart-rest-api' ),
-					),
+		) );
+
+		// Restore Item - wc/v2/cart/restore/1
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/restore/(?P<cart_item_key>[0-9a-z\-_]+)', array(
+			'methods'  => WP_REST_Server::EDITABLE,
+			'callback' => array( $this, 'restore_item' ),
+			'args'     => array(
+				'cart_item_key' => array(
+					'default' => null
 				),
 			),
-		) );*/
+		) );
+
+		// Calculate Cart Totals - wc/v2/cart/calculate-totals
+		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/calculate-total', array(
+			'methods'  => WP_REST_Server::EDITABLE,
+			'callback' => array( $this, 'calculate_totals' ),
+		));
 	}
 
 	/**
@@ -260,10 +271,60 @@ class WC_REST_Cart_Controller {
 		if ( $item_key ) {
 			$data = WC()->cart->get_cart_item( $item_key );
 
-			return new WP_REST_Response( $data, array( 'status' => 200 ) );
+			if ( is_array( $data ) ) {
+				return new WP_REST_Response( $data, 200 );
+			}
 		} else {
 			return new WP_Error( 'cannot_add_to_cart', sprintf( __( 'Error: You cannot add "%s" to your cart.', 'woocommerce-cart-rest-api' ), $product_data->get_name() ), array( 'status' => 500 ) );
 		}
 	} // END add_to_cart()
+
+	/**
+	 * Remove Item in Cart.
+	 *
+	 * @TODO
+	 * @access protected
+	 * @since  1.0.0
+	 * @return WP_Error|WP_REST_Response
+	 */
+	protected function remove_item() {
+		// Add function code here.
+	} // END remove_item()
+
+	/**
+	 * Restore Item in Cart.
+	 *
+	 * @TODO
+	 * @access protected
+	 * @since  1.0.0
+	 * @return WP_Error|WP_REST_Response
+	 */
+	protected function restore_item() {
+		// Add function code here.
+	} // END restore_item()
+
+	/**
+	 * Update Item in Cart.
+	 *
+	 * @TODO
+	 * @access protected
+	 * @since  1.0.0
+	 * @return WP_Error|WP_REST_Response
+	 */
+	protected function update_item() {
+		// Add function code here.
+	} // END update_item()
+
+	/**
+	 * Calculate Cart Totals.
+	 *
+	 * @TODO
+	 * @access protected
+	 * @since  1.0.0
+	 * @return WP_Error|WP_REST_Response
+	 */
+	protected function calculate_totals() {
+		// Add function code here.
+	} // END calculate_totals()
 
 } // END class
