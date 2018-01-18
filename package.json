@@ -1,0 +1,48 @@
+{
+  "title": "WooCommerce Cart REST API",
+  "name": "woocommerce-cart-rest-api",
+  "author": "seb86",
+  "license": "GPL-3.0",
+  "version": "1.0.0",
+  "description": "Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.",
+  "homepage": "https://sebastiendumont.com/",
+  "wp_required": "4.5",
+  "wp_tested": "4.9.2",
+  "wc_required": "3.0",
+  "wc_tested": "3.2.6",
+  "plugin_class_name": "WC_CART_REST_API",
+  "shortname": "wc-cart-rest-api",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seb86/WooCommerce-Cart-REST-API"
+  },
+  "bugs": {
+    "url": "https://github.com/seb86/WooCommerce-Cart-REST-API/issues"
+  },
+  "dependencies": {
+    "grunt": "^1.0.1"
+  },
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-checktextdomain": "~1.0.1",
+    "grunt-contrib-clean": "~1.1.0",
+    "grunt-contrib-compress": "^1.4.3",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "~2.2.0",
+    "grunt-file-replace": "~0.0.3",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-uglify": "~1.0.0",
+    "grunt-contrib-watch": "~1.0.0",
+    "grunt-newer": "~1.3.0",
+    "grunt-potomo": "~3.5.0",
+    "grunt-replace": "~1.0.1",
+    "grunt-text-replace": "^0.4.0",
+    "grunt-wp-i18n": "~1.0.0",
+    "jshint-stylish": "~2.2.0",
+    "load-grunt-tasks": "~3.5.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

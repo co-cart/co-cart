@@ -1,32 +1,38 @@
 # WooCommerce Cart REST-API
-An experimental feature plugin providing additional REST-API endpoints for WooCommerce to enable the ability to add items, view items, update items and delete items from the cart.
+Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
 
-> Development on this project has not yet started.
+> Development on this project has started but no testing has been done yet. Still have a few endpoints to create.
 
 ### Endpoints
 
-This is how I see the endpoints.
+This is how I see the endpoints. The **namespace** has been set to `wc/v2` to match with the current WooCommerce REST API version so when this API is used it does not confuse developers.
 
-* View Cart - ```/v1/cart```
-* Clear Cart - ```/v1/cart/clear```
-* Update Cart - ```/v1/cart/update```
-* Delete Item from Cart - ```/v1/cart/delete/%product_id%```
-* Update Item in Cart - ```/v1/cart/update/%product_id%```
-* Add Item to Cart - ```/v1/cart/add```
+* View Cart - ```/wc/v2/cart```
+* Clear Cart - ```/wc/v2/cart/clear```
+* Add Item to Cart - ```/wc/v2/cart/add```
+* Update Cart - ```/wc/v2/cart/update```
+* Delete Item from Cart - ```/wc/v2/cart/delete/%product_id%```
+* Update Item in Cart - ```/wc/v2/cart/update/%product_id%```
 
 ### To Do
-* Create new endpoints.
+* Create all endpoints.
 * Validate each endpoint.
 * Filters for product support.
-* Create Storefront Child-Theme with REST-API supported for demonstration.
+* Create Storefront Child-Theme using the REST-API for demonstration.
 
-### Support Needed
-* Subscription product types (WC Subscriptions & Subscribe All the Things)
+### Testing or Support Needed
+
+Below is a list of extensions that require testing or adding support.
+
+* Subscriptions (including Subscribe All the Things)
 * Bookings
 * Product Bundles
 * Composite Products
 * Mix and Match Products
+* Name Your Price
+* Product Addons
 
-### Colloborate with Me
+### Support Sébastien's Open Source Projects!
+If you'd like me to keep producing free and open source software or if you use this plugin and find it useful then please consider [paying for an hour](https://www.paypal.me/CodeBreaker/100eur) of my time. I'll spend two hours on open source for each contribution.
 
-If you would like to colloborate on this project with me then tweet me [@sebd86](https://twitter.com/sebd86). Help from developers who developed extensions for new product types would also be a great help. :smile:
+You can find more of my Free and Open Source plugins on [GitHub](https://github.com/seb86)
