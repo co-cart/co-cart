@@ -37,9 +37,10 @@ class WC_REST_Cart_Controller {
 
 	/**
 	 * Register the routes for cart.
+	 *
+	 * @access public
 	 */
 	public function register_routes() {
-
 		// View Cart - wc/v2/cart
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'methods'  => WP_REST_Server::READABLE,
@@ -78,7 +79,7 @@ class WC_REST_Cart_Controller {
 			),
 		) );
 
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
+		/*register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
 			'args' => array(
 				'id' => array(
 					'description' => __( 'Unique identifier for the resource.', 'woocommerce-cart-rest-api' ),
@@ -108,7 +109,7 @@ class WC_REST_Cart_Controller {
 					),
 				),
 			),
-		) );
+		) );*/
 	}
 
 	/**
@@ -133,7 +134,7 @@ class WC_REST_Cart_Controller {
 		if ( WC()->cart->empty_cart() == null ) {
 			return new WP_REST_Response( __( 'Success: Cart is now cleared!', 'woocommerce-cart-rest-api' ), 200 );
 		} else {
-			return new WP_Error( 'clear-cart-failed', __( 'Error: Clearing the cart failed.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
+			return new WP_Error( 'clear_cart_failed', __( 'Error: Clearing the cart failed.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
 		}
 	} // END clear_cart()
 
@@ -147,11 +148,11 @@ class WC_REST_Cart_Controller {
 	 */
 	protected function validate_product_id( $product_id ) {
 		if ( $product_id <= 0 ) {
-			return new WP_Error( 'product-id-required', __( 'Error: Product ID number is required.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
+			return new WP_Error( 'product_id_required', __( 'Error: Product ID number is required.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
 		}
 
 		if ( ! is_numeric( $product_id ) ) {
-			return new WP_Error( 'product-id-not-numeric', __( 'Error: Product ID must be numeric.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
+			return new WP_Error( 'product_id_not_numeric', __( 'Error: Product ID must be numeric.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
 		}
 	} // END validate_product_id()
 
@@ -165,7 +166,7 @@ class WC_REST_Cart_Controller {
 	 */
 	protected function validate_quantity( $quantity ) {
 		if ( ! is_numeric( $quantity ) ) {
-			return new WP_Error( 'quantity-not-numeric', __( 'Error: Quantity must be numeric.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
+			return new WP_Error( 'quantity_not_numeric', __( 'Error: Quantity must be numeric.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
 		}
 	} // END validate_quantity()
 
@@ -204,7 +205,7 @@ class WC_REST_Cart_Controller {
 		$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
 		if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
-			return new WP_Error( 'product-does-not-exist', __( 'Error: This product does not exist.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
+			return new WP_Error( 'product_does_not_exist', __( 'Error: This product does not exist.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
 		}
 
 		// Force quantity to 1 if sold individually and check for existing item in cart.
@@ -217,22 +218,22 @@ class WC_REST_Cart_Controller {
 
 			if ( $found_in_cart ) {
 				/* translators: %s: product name */
-				return new WP_Error( 'product-sold-individually', sprintf( __( 'Error: You cannot add another "%s" to your cart.', 'woocommerce-cart-rest-api' ), $product_data->get_name() ), array( 'status' => 500 ) );
+				return new WP_Error( 'product_sold_individually', sprintf( __( 'Error: You cannot add another "%s" to your cart.', 'woocommerce-cart-rest-api' ), $product_data->get_name() ), array( 'status' => 500 ) );
 			}
 		}
 
 		// Product is purchasable check.
 		if ( ! $product_data->is_purchasable() ) {
-			throw new WP_Error( 'cannot-be-purchased', __( 'Sorry, this product cannot be purchased.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
+			throw new WP_Error( 'cannot_be_purchased', __( 'Sorry, this product cannot be purchased.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
 		}
 
 		// Stock check - only check if we're managing stock and backorders are not allowed.
 		if ( ! $product_data->is_in_stock() ) {
-			throw new WP_Error( 'product-out-of-stock', sprintf( __( 'You cannot add &quot;%s&quot; to the cart because the product is out of stock.', 'woocommerce-cart-rest-api' ), $product_data->get_name() ), array( 'status' => 500 ) );
+			throw new WP_Error( 'product_out_of_stock', sprintf( __( 'You cannot add &quot;%s&quot; to the cart because the product is out of stock.', 'woocommerce-cart-rest-api' ), $product_data->get_name() ), array( 'status' => 500 ) );
 		}
 		if ( ! $product_data->has_enough_stock( $quantity ) ) {
 			/* translators: 1: product name 2: quantity in stock */
-			throw new WP_Error( sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'woocommerce-cart-rest-api' ), $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
+			throw new WP_Error( 'not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'woocommerce-cart-rest-api' ), $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
 		}
 
 		// Stock check - this time accounting for whats already in-cart.
@@ -241,6 +242,7 @@ class WC_REST_Cart_Controller {
 
 			if ( isset( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] ) && ! $product_data->has_enough_stock( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] + $quantity ) ) {
 				throw new WP_Error(
+					'not_enough_stock_remaining',
 					sprintf(
 						__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'woocommerce-cart-rest-api' ),
 						wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ),
@@ -260,7 +262,7 @@ class WC_REST_Cart_Controller {
 
 			return new WP_REST_Response( $data, array( 'status' => 200 ) );
 		} else {
-			return new WP_Error( 'cannot-add-to-cart', sprintf( __( 'Error: You cannot add "%s" to your cart.', 'woocommerce-cart-rest-api' ), $product_data->get_name() ), array( 'status' => 500 ) );
+			return new WP_Error( 'cannot_add_to_cart', sprintf( __( 'Error: You cannot add "%s" to your cart.', 'woocommerce-cart-rest-api' ), $product_data->get_name() ), array( 'status' => 500 ) );
 		}
 	} // END add_to_cart()
 
