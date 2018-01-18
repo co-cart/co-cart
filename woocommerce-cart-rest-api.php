@@ -29,11 +29,11 @@ if ( ! is_woocommerce_active() ) {
 	return;
 }
 
-if ( ! class_exists( 'WC_Cart_REST_API' ) ) {
-	class WC_Cart_REST_API {
+if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
+	class WC_Cart_Endpoint_REST_API {
 
 		/**
-		 * @var WC_Cart_REST_API - the single instance of the class.
+		 * @var WC_Cart_Endpoint_REST_API - the single instance of the class.
 		 *
 		 * @access protected
 		 * @static
@@ -59,15 +59,15 @@ if ( ! class_exists( 'WC_Cart_REST_API' ) ) {
 		public $required_woo = '3.0.0';
 
 		/**
-		 * Main WC_Cart_REST_API Instance.
+		 * Main WC_Cart_Endpoint_REST_API Instance.
 		 *
-		 * Ensures only one instance of WC_Cart_REST_API is loaded or can be loaded.
+		 * Ensures only one instance of WC_Cart_Endpoint_REST_API is loaded or can be loaded.
 		 *
 		 * @access public
 		 * @static
 		 * @since  1.0.0
-		 * @see    WC_Cart_REST_API()
-		 * @return WC_Cart_REST_API - Main instance
+		 * @see    WC_Cart_Endpoint_REST_API()
+		 * @return WC_Cart_Endpoint_REST_API - Main instance
 		 */
 		public static function instance() {
 			if ( is_null( self::$_instance ) ) {
@@ -176,4 +176,4 @@ if ( ! class_exists( 'WC_Cart_REST_API' ) ) {
 
 } // END if class exists
 
-return WC_Cart_REST_API::instance();
+return WC_Cart_Endpoint_REST_API::instance();
