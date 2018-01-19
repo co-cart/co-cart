@@ -36,7 +36,7 @@ I was expecting to see...
 
 - [ ] This bug happens with only WooCommerce Cart REST-API plugin active.
 - [ ] This bug happens with a default WordPress theme active.
-- [ ] This bug happens with a latest release of WooCommerce active.
+- [ ] This bug happens with the latest release of WooCommerce active.
 - [ ] I can reproduce this bug consistently using the steps above.
 
 
