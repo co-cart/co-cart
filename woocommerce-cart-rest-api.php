@@ -10,7 +10,7 @@
  * Text Domain: woocommerce-cart-rest-api
  * Domain Path: /languages/
  *
- * Requires at least: 4.5
+ * Requires at least: 4.4
  * Tested up to: 4.9.2
  * WC requires at least: 3.0.0
  * WC tested up to: 3.2.6
