@@ -167,9 +167,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @return void
 		 */
 		public function includes() {
-			if ( ! is_admin() ) {
-				include_once( $this->plugin_path() .'/includes/class-wc-cart-rest-api-init.php' );
-			}
+			include_once( $this->plugin_path() .'/includes/class-wc-cart-rest-api-init.php' );
 		} // END include()
 
 	} // END class
