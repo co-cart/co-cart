@@ -49,7 +49,7 @@ class WC_REST_Cart_Controller {
 
 		// View Cart - wc/v2/cart/clear
 		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/clear', array(
-			'methods'  => WP_REST_Server::EDITABLE,
+			'methods'  => WP_REST_Server::READABLE,
 			'callback' => array( $this, 'clear_cart' ),
 		));
 
@@ -57,26 +57,23 @@ class WC_REST_Cart_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/add', array(
 			'methods'  => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'add_to_cart' ),
-			'args'     => array_merge(
-				$this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
-				array(
-					'product_id' => array(
-						'validate_callback' => 'is_numeric'
-					),
-					'quantity' => array(
-						'validate_callback' => 'is_numeric'
-					),
-					'variation_id' => array(
-						'validate_callback' => 'is_numeric'
-					),
-					'variation' => array(
-						'validate_callback' => 'is_array'
-					),
-					'cart_item_data' => array(
-						'validate_callback' => 'is_array'
-					),
+			'args'     => array(
+				'product_id' => array(
+					'validate_callback' => 'is_numeric'
 				),
-			),
+				'quantity' => array(
+					'validate_callback' => 'is_numeric'
+				),
+				'variation_id' => array(
+					'validate_callback' => 'is_numeric'
+				),
+				'variation' => array(
+					'validate_callback' => 'is_array'
+				),
+				'cart_item_data' => array(
+					'validate_callback' => 'is_array'
+				)
+			)
 		) );
 
 		// Update Item - wc/v2/cart/update/1
@@ -126,23 +123,49 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Get cart.
 	 *
+	 * @access public
+	 * @since  1.0.0
+	 * @return array|string
+	 */
+	public function get_cart() {
+		$cart = WC()->cart->get_cart();
+
+		if ( $this->get_cart_contents_count() <= 0 ) {
+			$cart = __( 'Cart is empty!', 'woocommerce-cart-rest-api' );
+		}
+
+		return new WP_REST_Response( $cart, 200 );
+	} // END get_cart()
+
+	/**
+	 * Get cart contents count.
+	 *
 	 * @access protected
 	 * @since  1.0.0
-	 * @return array
+	 * @param  string $return
+	 * @return array|string
 	 */
-	protected function get_cart() {
-		return WC()->cart->get_cart();
-	} // END get_cart()
+	protected function get_cart_contents_count( $return = 'numeric' ) {
+		$count = WC()->cart->get_cart_contents_count();
+
+		if ( $return != 'numeric' && $count <= 0 ) {
+			return new WP_REST_Response( __( 'There are no items in the cart!', 'woocommerce-cart-rest-api' ), 200 );
+		}
+
+		return $count;
+	} // END get_cart_contents_count()
 
 	/**
 	 * Clear cart.
 	 *
-	 * @access protected
+	 * @access public
 	 * @since  1.0.0
 	 * @return array
 	 */
-	protected function clear_cart() {
-		if ( WC()->cart->empty_cart() == null ) {
+	public function clear_cart() {
+		WC()->cart->empty_cart();
+
+		if ( WC()->cart->is_empty() == 0 ) {
 			return new WP_REST_Response( __( 'Success: Cart is now cleared!', 'woocommerce-cart-rest-api' ), 200 );
 		} else {
 			return new WP_Error( 'clear_cart_failed', __( 'Error: Clearing the cart failed.', 'woocommerce-cart-rest-api' ), array( 'status' => 500 ) );
@@ -190,7 +213,7 @@ class WC_REST_Cart_Controller {
 	 * @param  int $quantity
 	 * @return WP_Error
 	 */
-	protected function validate_product( $product_id, $quantity ) {
+	protected function validate_product( $product_id = null, $quantity = 1 ) {
 		$this->validate_product_id( $product_id );
 
 		$this->validate_quantity( $quantity );
