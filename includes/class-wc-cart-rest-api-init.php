@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Cart REST API class.
  */
-class WC_Cart_Rest_API extends WC_API {
+class WC_Cart_Rest_API {
 
 	/**
 	 * Setup class.
@@ -25,8 +25,6 @@ class WC_Cart_Rest_API extends WC_API {
 	 * @access public
 	 */
 	public function __construct() {
-		parent::__construct();
-
 		// WC Cart REST API.
 		$this->cart_rest_api_init();
 	} // END setup
@@ -46,7 +44,7 @@ class WC_Cart_Rest_API extends WC_API {
 		$this->include();
 
 		// Init Cart REST API route.
-		add_action( 'rest_api_init', array( $this, 'register_rest_route' ), 10 );
+		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 0 );
 	} // cart_rest_api_init()
 
 	/**
@@ -61,14 +59,16 @@ class WC_Cart_Rest_API extends WC_API {
 	} // include()
 
 	/**
-	 * Register Cart REST API route.
+	 * Register Cart REST API routes.
 	 *
 	 * @access public
 	 * @since  1.0.0
 	 */
-	public function register_rest_route() {
-		$this->$controller = new WC_REST_Cart_Controller();
-		$this->$controller->register_routes();
-	} // END register_rest_route
+	public function register_cart_routes() {
+		$controller = new WC_REST_Cart_Controller();
+		$controller->register_routes();
+	} // END register_cart_route
 
 } // END class
+
+return new WC_Cart_Rest_API();
