@@ -53,6 +53,17 @@ class WC_REST_Cart_Controller {
 			'callback' => array( $this, 'clear_cart' ),
 		));
 
+		// Count Items in Cart - wc/v2/cart/count-items
+		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/count-items', array(
+			'methods'  => WP_REST_Server::READABLE,
+			'callback' => array( $this, 'get_cart_contents_count' ),
+			'args'     => array(
+				'return' => array(
+					'default' => 'numeric'
+				),
+			),
+		));
+
 		// Add Item - wc/v2/cart/add
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/add', array(
 			'methods'  => WP_REST_Server::CREATABLE,
@@ -140,13 +151,15 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Get cart contents count.
 	 *
-	 * @access protected
+	 * @access public
 	 * @since  1.0.0
 	 * @param  string $return
 	 * @return array|string
 	 */
-	protected function get_cart_contents_count( $return = 'numeric' ) {
+	public function get_cart_contents_count( $data = array() ) {
 		$count = WC()->cart->get_cart_contents_count();
+
+		$return = ! empty( $data['return'] ) ? $data['return'] : '';
 
 		if ( $return != 'numeric' && $count <= 0 ) {
 			return new WP_REST_Response( __( 'There are no items in the cart!', 'woocommerce-cart-rest-api' ), 200 );

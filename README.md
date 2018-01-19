@@ -9,6 +9,7 @@ This is how I see the endpoints. The **namespace** has been set to `wc/v2` to ma
 
 * View Cart - ```/wc/v2/cart```
 * Clear Cart - ```/wc/v2/cart/clear```
+* Count Items in Cart - ```/wc/v2/cart/count-items```
 * Add Item to Cart - ```/wc/v2/cart/add```
 * Update Cart - ```/wc/v2/cart/update```
 * Remove Item from Cart - ```/wc/v2/cart/remove/%cart_item_id%```
