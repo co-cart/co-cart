@@ -88,11 +88,11 @@ msgstr ""
 msgid "Error: You cannot add \"%s\" to your cart."
 msgstr ""
 
-#: woocommerce-cart-rest-api.php:86 woocommerce-cart-rest-api.php:96
+#: cart-rest-api-for-woocommerce.php:86 cart-rest-api-for-woocommerce.php:96
 msgid "Foul!"
 msgstr ""
 
-#: woocommerce-cart-rest-api.php:147
+#: cart-rest-api-for-woocommerce.php:147
 #, php-format
 msgid ""
 "%1$s requires at least %2$s v%3$s in order to function. Please upgrade "

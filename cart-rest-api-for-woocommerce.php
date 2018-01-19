@@ -7,7 +7,7 @@
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
  *
- * Text Domain: woocommerce-cart-rest-api
+ * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * Requires at least: 4.4
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @since  1.0.0
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, __( 'Foul!', 'woocommerce-cart-rest-api' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, __( 'Foul!', 'cart-rest-api-for-woocommerce' ), '1.0.0' );
 		}
 
 		/**
@@ -93,7 +93,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @since  1.0.0
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, __( 'Foul!', 'woocommerce-cart-rest-api' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, __( 'Foul!', 'cart-rest-api-for-woocommerce' ), '1.0.0' );
 		}
 
 		/**
@@ -144,7 +144,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @return void
 		 */
 		public function wc_cart_rest_api_admin_notice() {
-			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s in order to function. Please upgrade %2$s.', 'woocommerce-cart-rest-api' ), 'WooCommerce Cart REST API', 'WooCommerce', $this->required_woo ) . '</p></div>';
+			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s in order to function. Please upgrade %2$s.', 'cart-rest-api-for-woocommerce' ), 'WooCommerce Cart REST API', 'WooCommerce', $this->required_woo ) . '</p></div>';
 		} // END wc_cart_rest_api_admin_notice()
 
 		/**
@@ -156,7 +156,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 */
 		public function init_plugin() {
 			// Load text domain.
-			load_plugin_textdomain( 'woocommerce-cart-rest-api', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END init_plugin()
 
 		/**
