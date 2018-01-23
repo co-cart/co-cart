@@ -16,15 +16,18 @@ The **namespace** has been set to `wc/v2` to match with the current WooCommerce 
 * Count Items in Cart - ```/wc/v2/cart/count-items``` - **TESTING**
 * Add Item to Cart - ```/wc/v2/cart/add``` - **NEEDS TESTING**
 * Update Cart - ```/wc/v2/cart/update``` - **CALLBACK FUNCTION TO CREATE**
-* Remove Item from Cart - ```/wc/v2/cart/remove/%cart_item_id%``` - **CALLBACK FUNCTION TO CREATE**
-* Restore Item to Cart - ```/wc/v2/cart/restore/%cart_item_id%``` - **CALLBACK FUNCTION TO CREATE**
-* Update Item in Cart - ```/wc/v2/cart/update/%cart_item_id%``` - **CALLBACK FUNCTION TO CREATE**
 * Calculate Cart Totals - ```/wc/v2/cart/calculate-totals``` - **CALLBACK FUNCTION TO CREATE**
+
+The following are the same for ```/wc/v2/cart/%cart_item_id%```:
+* Remove Item from Cart - **TESTING**
+* Restore Item to Cart - **TESTING**
+* Update Item in Cart - **TESTING**
 
 ### To Do
 * Complete all endpoints.
 * Validate each endpoints.
 * Release on WordPress.org
+* Create documentation.
 
 ### Testing or Support Needed
 
@@ -44,7 +47,7 @@ Below is a list of extensions that require testing or adding support.
 * Pretty permalinks in Settings > Permalinks so that the custom endpoints are supported. **Default permalinks will not work.**
 * You may access the API over either HTTP or HTTPS, but HTTPS is recommended where possible.
 
-If you use ModSecurity and see 501 Method Not Implemented errors, see this issue for details.
+If you use ModSecurity and see 501 Method Not Implemented errors, see [this issue](https://github.com/woocommerce/woocommerce/issues/9838) for details.
 
 ### Bugs
 If you find an issue, [create an issue](https://github.com/seb86/WooCommerce-Cart-REST-API/issues?state=open). You can also send a pull request with your bug fixes and/or new features.
