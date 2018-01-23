@@ -1,0 +1,11 @@
+# Grunt
+/node_modules/
+npm-debug.log
+
+# Various file types to ignore when exporting.
+.DS_Store
+Thumbs.db
+*.sh
+.gitconfig
+*.zip
+releases/*.zip
