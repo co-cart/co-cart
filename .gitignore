@@ -1,4 +1,5 @@
 # Grunt
+/releases/
 /node_modules/
 npm-debug.log
 
@@ -8,4 +9,4 @@ Thumbs.db
 *.sh
 .gitconfig
 *.zip
-releases/*.zip
+package-lock.json
