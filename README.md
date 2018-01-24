@@ -5,41 +5,42 @@
 
 Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
 
-> Development on this project has started. Yeah! :smile:
+> This project is currently in development so please be aware that there may be bugs. [See bugs](https://github.com/seb86/WooCommerce-Cart-REST-API#bugs) on how to report.
 
 ### Endpoints
 
 The **namespace** has been set to `wc/v2` to match with the current WooCommerce REST API version so when this API is used it does not confuse developers. It also registers before WooCommerce endpoints so the routes are in alphabetical order.
 
 * View Cart - ```/wc/v2/cart``` - **TESTING**
-* Clear Cart - ```/wc/v2/cart/clear``` - **TESTING**
+* Clear Cart - ```/wc/v2/cart/clear``` - **Complete**
 * Count Items in Cart - ```/wc/v2/cart/count-items``` - **TESTING**
 * Add Item to Cart - ```/wc/v2/cart/add``` - **NEEDS TESTING**
-* Update Cart - ```/wc/v2/cart/update``` - **CALLBACK FUNCTION TO CREATE**
-* Calculate Cart Totals - ```/wc/v2/cart/calculate-totals``` - **CALLBACK FUNCTION TO CREATE**
+* Calculate Cart Totals - ```/wc/v2/cart/calculate-totals``` - **Complete**
+* Get Cart Totals - ```/wc/v2/cart/totals``` - **Complete**
 
 The following are the same for ```/wc/v2/cart/%cart_item_id%```:
-* Remove Item from Cart - **TESTING**
-* Restore Item to Cart - **TESTING**
-* Update Item in Cart - **TESTING**
+* Remove Item from Cart - **NEEDS TESTING**
+* Restore Item to Cart - **NEEDS TESTING**
+* Update Item in Cart - **NEEDS TESTING**
 
 ### To Do
-* Complete all endpoints.
-* Validate each endpoints.
-* Release on WordPress.org
-* Create documentation.
+* [ ] Complete all endpoints.
+* [ ] Validate each endpoints.
+* [ ] Release on WordPress.org
+* [ ] Create documentation.
+* [ ] Get the response messages translated. POT file ready and available.
 
 ### Testing or Support Needed
 
 Below is a list of extensions that require testing or adding support.
 
-* Subscriptions (including Subscribe All the Things)
-* Bookings
-* Product Bundles
-* Composite Products
-* Mix and Match Products
-* Name Your Price
-* Product Add-ons
+* [ ] Subscriptions (including Subscribe All the Things)
+* [ ] Bookings
+* [ ] Product Bundles
+* [ ] Composite Products
+* [ ] Mix and Match Products
+* [ ] Name Your Price
+* [ ] Product Add-ons
 
 ### Requirements
 * WooCommerce v3.0.0+
