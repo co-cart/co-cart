@@ -87,48 +87,68 @@ class WC_REST_Cart_Controller {
 			)
 		) );
 
-		// Update Item - wc/v2/cart/update/1
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/update/(?P<cart_item_key>[0-9a-z\-_]+)', array(
-			'methods'  => WP_REST_Server::EDITABLE,
-			'callback' => array( $this, 'update_item' ),
-			'args'     => array(
-				'cart_item_key' => array(
-					'default' => null
-				),
-				'quantity' => array(
-					'default' => null,
-					'validate_callback' => 'is_numeric'
-				),
-			),
-		) );
-
-		// Remove Item - wc/v2/cart/remove/1
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/remove/(?P<cart_item_key>[0-9a-z\-_]+)', array(
-			'methods'  => WP_REST_Server::EDITABLE,
-			'callback' => array( $this, 'remove_item' ),
-			'args'     => array(
-				'cart_item_key' => array(
-					'default' => null
-				),
-			),
-		) );
-
-		// Restore Item - wc/v2/cart/restore/1
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/restore/(?P<cart_item_key>[0-9a-z\-_]+)', array(
-			'methods'  => WP_REST_Server::EDITABLE,
-			'callback' => array( $this, 'restore_item' ),
-			'args'     => array(
-				'cart_item_key' => array(
-					'default' => null
-				),
-			),
-		) );
-
-		// Calculate Cart Totals - wc/v2/cart/calculate-totals
-		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/calculate-total', array(
-			'methods'  => WP_REST_Server::EDITABLE,
+		// Calculate Cart Total - wc/v2/cart/calculate
+		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/calculate', array(
+			'methods'  => WP_REST_Server::READABLE,
 			'callback' => array( $this, 'calculate_totals' ),
 		));
+
+		// Get Cart Totals - wc/v2/cart/totals
+		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/totals', array(
+			'methods'  => WP_REST_Server::READABLE,
+			'callback' => array( $this, 'get_totals' ),
+		));
+
+		// Update, Remove or Restore Item - wc/v2/cart/270edd69788dce200a3b395a6da6fdb7
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<cart_item_key>[0-9a-z\-_]+)', array(
+			'args' => array(
+				'cart_item_key' => array(
+					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+				),
+			),
+			array(
+				'methods'  => WP_REST_Server::EDITABLE,
+				'callback' => array( $this, 'update_item' ),
+				'args'     => array(
+					'cart_item_key' => array(
+						'default' => null
+					),
+					'quantity' => array(
+						'default' => null,
+						'validate_callback' => 'is_numeric'
+					),
+				),
+			),
+			array(
+				'methods'  => WP_REST_Server::DELETABLE,
+				'callback' => array( $this, 'remove_item' ),
+				'args'     => array(
+					'cart_item_key' => array(
+						'default' => null
+					),
+				),
+			),
+			array(
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'restore_item' ),
+				'args'     => array(
+					'cart_item_key' => array(
+						'default' => null
+					),
+				),
+			)
+		) );
+
+		/**
+		 * More endpoints to possibly create. (Must be registered before cart base endpoint.)
+		 *
+		 * Get Cart Shipping Total - wc/v2/cart/totals?shipping_only=true
+		 * Calculate Shipping - wc/v2/cart/calculate?shipping_only=true
+		 * Shipping Methods - wc/v2/cart/shipping-methods
+		 * Chosen Shipping Method Only - wc/v2/cart/shipping-methods?chosen_only=true
+		 * Calculate Fees, Get Fees and Add Fees - wc/v2/cart/fees
+		 */
 	}
 
 	/**
@@ -136,7 +156,7 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access public
 	 * @since  1.0.0
-	 * @return array|string
+	 * @return WP_REST_Response
 	 */
 	public function get_cart() {
 		$cart = WC()->cart->get_cart();
@@ -153,8 +173,8 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access public
 	 * @since  1.0.0
-	 * @param  string $return
-	 * @return array|string
+	 * @param  array $data
+	 * @return string|WP_REST_Response
 	 */
 	public function get_cart_contents_count( $data = array() ) {
 		$count = WC()->cart->get_cart_contents_count();
@@ -173,15 +193,15 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access public
 	 * @since  1.0.0
-	 * @return array
+	 * @return WP_ERROR|WP_REST_Response
 	 */
 	public function clear_cart() {
 		WC()->cart->empty_cart();
 
-		if ( WC()->cart->is_empty() == 0 ) {
-			return new WP_REST_Response( __( 'Success: Cart is now cleared!', 'cart-rest-api-for-woocommerce' ), 200 );
+		if ( WC()->cart->is_empty() ) {
+			return new WP_REST_Response( __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' ), 200 );
 		} else {
-			return new WP_Error( 'clear_cart_failed', __( 'Error: Clearing the cart failed.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'clear_cart_failed', __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 	} // END clear_cart()
 
@@ -195,11 +215,11 @@ class WC_REST_Cart_Controller {
 	 */
 	protected function validate_product_id( $product_id ) {
 		if ( $product_id <= 0 ) {
-			return new WP_Error( 'product_id_required', __( 'Error: Product ID number is required.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'product_id_required', __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
 		if ( ! is_numeric( $product_id ) ) {
-			return new WP_Error( 'product_id_not_numeric', __( 'Error: Product ID must be numeric.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				return new WP_Error( 'product_id_not_numeric', __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 	} // END validate_product_id()
 
@@ -213,7 +233,7 @@ class WC_REST_Cart_Controller {
 	 */
 	protected function validate_quantity( $quantity ) {
 		if ( ! is_numeric( $quantity ) ) {
-			return new WP_Error( 'quantity_not_numeric', __( 'Error: Quantity must be numeric.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'quantity_not_numeric', __( 'Quantity must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 	} // END validate_quantity()
 
@@ -235,12 +255,12 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Add to Cart.
 	 *
-	 * @access protected
+	 * @access public
 	 * @since  1.0.0
 	 * @param  array $data
 	 * @return WP_Error|WP_REST_Response
 	 */
-	protected function add_to_cart( $data = array() ) {
+	public function add_to_cart( $data = array() ) {
 		$product_id     = ! isset( $data['product_id'] ) ? 0 : absint( $data['product_id'] );
 		$quantity       = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
 		$variation_id   = ! isset( $data['variation_id'] ) ? 0 : absint( $data['variation_id'] );
@@ -252,7 +272,7 @@ class WC_REST_Cart_Controller {
 		$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
 		if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
-			return new WP_Error( 'product_does_not_exist', __( 'Error: This product does not exist.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
 		// Force quantity to 1 if sold individually and check for existing item in cart.
@@ -265,7 +285,7 @@ class WC_REST_Cart_Controller {
 
 			if ( $found_in_cart ) {
 				/* translators: %s: product name */
-				return new WP_Error( 'product_sold_individually', sprintf( __( 'Error: You cannot add another "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+				return new WP_Error( 'product_sold_individually', sprintf( __( 'You cannot add another "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
 			}
 		}
 
@@ -311,56 +331,120 @@ class WC_REST_Cart_Controller {
 				return new WP_REST_Response( $data, 200 );
 			}
 		} else {
-			return new WP_Error( 'cannot_add_to_cart', sprintf( __( 'Error: You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+			return new WP_Error( 'cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
 		}
 	} // END add_to_cart()
 
 	/**
 	 * Remove Item in Cart.
 	 *
-	 * @TODO
-	 * @access protected
+	 * @access public
 	 * @since  1.0.0
+	 * @param  array $data
 	 * @return WP_Error|WP_REST_Response
 	 */
-	protected function remove_item() {
-		// Add function code here.
+	public function remove_item( $data = array() ) {
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : absint( $data['cart_item_key'] );
+
+		if ( $cart_item_key > 0 ) {
+			if ( WC()->cart->remove_cart_item( $cart_item_key ) ) {
+				return new WP_REST_Response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), 200 );
+			} else {
+				return new WP_ERROR( 'can_not_remove_item', __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			}
+		} else {
+			return new WP_ERROR( 'cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+		}
 	} // END remove_item()
 
 	/**
 	 * Restore Item in Cart.
 	 *
-	 * @TODO
-	 * @access protected
+	 * @access public
 	 * @since  1.0.0
+	 * @param  array $data
 	 * @return WP_Error|WP_REST_Response
 	 */
-	protected function restore_item() {
-		// Add function code here.
+	public function restore_item( $data = array() ) {
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : absint( $data['cart_item_key'] );
+
+		if ( $cart_item_key > 0 ) {
+			if ( WC()->cart->restore_cart_item( $cart_item_key ) ) {
+				return new WP_REST_Response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), 200 );
+			} else {
+				return new WP_ERROR( 'can_not_restore_item', __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			}
+		} else {
+			return new WP_ERROR( 'cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+		}
 	} // END restore_item()
 
 	/**
 	 * Update Item in Cart.
 	 *
-	 * @TODO
-	 * @access protected
+	 * @access public
 	 * @since  1.0.0
+	 * @param  array $data
 	 * @return WP_Error|WP_REST_Response
 	 */
-	protected function update_item() {
-		// Add function code here.
+	public function update_item( $data = array() ) {
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : absint( $data['cart_item_key'] );
+		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+
+		$this->validate_quantity( $quantity );
+
+		if ( $cart_item_key > 0 ) {
+			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
+
+				$new_data = WC()->cart->get_cart_item( $cart_item_key );
+
+				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( $new_data['product_id'] );
+				$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( $new_data['variation_id'] );
+
+				$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
+
+				// Return response based on product quantity increment.
+				if ( $quantity > $new_data['quantity'] ) {
+					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has descreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
+				} else if ( $quantity < $new_data['quantity'] ) {
+					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
+				} else {
+					return new WP_REST_Response( sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), 200 );
+				}
+			} else {
+				return new WP_ERROR( 'can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			}
+		} else {
+			return new WP_ERROR( 'cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+		}
 	} // END update_item()
 
 	/**
 	 * Calculate Cart Totals.
 	 *
-	 * @TODO
-	 * @access protected
+	 * @access public
 	 * @since  1.0.0
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_REST_Response
 	 */
-	protected function calculate_totals() {
-		// Add function code here.
+	public function calculate_totals() {
+		WC()->cart->calculate_totals();
+
+		return new WP_REST_Response( __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' ), 200 );
 	} // END calculate_totals()
+
+	/**
+	 * Get Cart Totals.
+	 *
+	 * @access public
+	 * @since  1.0.0
+	 * @return array
+	 */
+	public function get_totals() {
+		$totals = array(
+			'total' => WC()->cart->get_cart_contents_total(),
+		);
+
+		return $totals;
+	} // END get_totals()
 
 } // END class
