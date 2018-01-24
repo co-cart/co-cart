@@ -2,7 +2,7 @@
 Contributors: sebd86
 Tags: woocommerce, cart, rest api
 Donate link: https://www.paypal.me/CodeBreaker
-Stable tag: 1.0.0
+Stable tag: 1.0.0-Beta
 Requires at least: 4.4
 Tested up to: 4.9.2
 Requires PHP: 5.6

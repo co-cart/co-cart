@@ -1,36 +1,26 @@
 # Copyright (C) 2018 Sébastien Dumont
 # This file is distributed under the GNU General Public License v3.0.
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Cart REST API 1.0.0\n"
-"Report-Msgid-Bugs-To: https://sebastiendumont.com/contact-me/\n"
-"POT-Creation-Date: 2018-01-24 02:11+0100\n"
+"Project-Id-Version: WooCommerce Cart REST API 1.0.0-Beta\n"
+"Report-Msgid-Bugs-To: "
+"https://github.com/seb86/WooCommerce-Cart-REST-API/issues\n"
+"POT-Creation-Date: 2018-01-24 02:52:44+00:00\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Sébastien Dumont <EMAIL@ADDRESS>\n"
-"Language-Team: Sébastien Dumont <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Sébastien Dumont <mailme@sebastiendumont.com>\n"
 "Language: en_US\n"
-"X-Generator: Poedit 2.0.5\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
-"_n_noop:1,2;_c;_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
-"X-Textdomain-Support: yes\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: node_modules\n"
+"X-Generator: grunt-wp-i18n1.0.1\n"
 
 #: cart-rest-api-for-woocommerce.php:86 cart-rest-api-for-woocommerce.php:96
 msgid "Foul!"
 msgstr ""
 
 #: cart-rest-api-for-woocommerce.php:147
-#, php-format
-msgid ""
-"%1$s requires at least %2$s v%3$s in order to function. Please upgrade "
-"%2$s."
+msgid "%1$s requires at least %2$s v%3$s in order to function. Please upgrade %2$s."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:106
@@ -70,7 +60,7 @@ msgid "Warning: This product does not exist!"
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:288
-#, php-format
+#. translators: %s: product name
 msgid "You cannot add another \"%s\" to your cart."
 msgstr ""
 
@@ -79,28 +69,25 @@ msgid "Sorry, this product cannot be purchased."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:299
-#, php-format
 msgid ""
 "You cannot add &quot;%s&quot; to the cart because the product is out of "
 "stock."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:303
-#, php-format
+#. translators: 1: product name 2: quantity in stock
 msgid ""
-"You cannot add that amount of &quot;%1$s&quot; to the cart because there "
-"is not enough stock (%2$s remaining)."
+"You cannot add that amount of &quot;%1$s&quot; to the cart because there is "
+"not enough stock (%2$s remaining)."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:314
-#, php-format
 msgid ""
 "You cannot add that amount to the cart &mdash; we have %1$s in stock and "
 "you already have %2$s in your cart."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:334
-#, php-format
 msgid "You cannot add \"%s\" to your cart."
 msgstr ""
 
@@ -127,17 +114,14 @@ msgid "Unable to restore item to the cart."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:408
-#, php-format
 msgid "The quantity for \"%1$s\" has descreased to \"%2$s\"."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:410
-#, php-format
 msgid "The quantity for \"%1$s\" has increased to \"%2$s\"."
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:412
-#, php-format
 msgid "The quantity for \"%s\" has not changed."
 msgstr ""
 
@@ -147,4 +131,22 @@ msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:432
 msgid "Cart totals have been calculated."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WooCommerce Cart REST API"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://sebastiendumont.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Provides additional REST-API endpoints for WooCommerce to enable the "
+"ability to add, view, update and delete items from the cart."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Sébastien Dumont"
 msgstr ""
