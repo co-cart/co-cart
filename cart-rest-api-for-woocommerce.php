@@ -2,7 +2,7 @@
 /*
  * Plugin Name: WooCommerce Cart REST API
  * Plugin URI:  https://sebastiendumont.com
- * Version:     1.0.0
+ * Version:     1.0.0 Beta
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
