@@ -20,15 +20,6 @@
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-if ( ! class_exists( 'WC_Dependencies' ) ) {
-	require_once( 'woo-dependencies/woo-dependencies.php' );
-}
-
-// Quit right now if WooCommerce is not active
-if ( ! is_woocommerce_active() ) {
-	return;
-}
-
 if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 	class WC_Cart_Endpoint_REST_API {
 
@@ -144,7 +135,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @return void
 		 */
 		public function wc_cart_rest_api_admin_notice() {
-			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s in order to function. Please upgrade %2$s.', 'cart-rest-api-for-woocommerce' ), 'WooCommerce Cart REST API', 'WooCommerce', $this->required_woo ) . '</p></div>';
+			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'WooCommerce Cart REST API', 'WooCommerce', $this->required_woo ) . '</p></div>';
 		} // END wc_cart_rest_api_admin_notice()
 
 		/**
