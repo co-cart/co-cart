@@ -7,8 +7,6 @@
 
 Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
 
-> This project is currently in development so please be aware that there may be bugs. [See bugs](https://github.com/seb86/WooCommerce-Cart-REST-API#bugs) on how to report.
-
 ### Documentation
 
 [View Documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)
@@ -52,7 +50,7 @@ If you do need support then simply select the size of your project/priority of t
 
 > Safe and Secure payments are processed by [PayPal](https://www.paypal.com).
 
-After you made payment, when you [report your issue](https://github.com/seb86/WooCommerce-Cart-REST-API/issues/new), please provide your WooCommerce System status report from your WordPress Dashboard. `wp-admin/admin.php?page=wc-status`
+After you made payment, when you [report your issue](https://github.com/seb86/WooCommerce-Cart-REST-API/issues/new), please provide your WooCommerce System status report from your WordPress Dashboard. `https://yourdomain.com/wp-admin/admin.php?page=wc-status`
 
 Thank you.
 
@@ -61,9 +59,9 @@ Thank you.
 | Limited to 1 project | Unlimited projects |
 | Community Support | Priority Support for 1 Year |
 | $49 USD/39€ EUR | $199 USD/189€ EUR |
-| <a href="https://www.paypal.me/CodeBreaker/49usd" style="background-color:red; padding:8px; border-radius:14px">Buy Now in USD</a> | <a href="https://www.paypal.me/CodeBreaker/199usd" style="background-color:red; padding:8px; border-radius:14px">Buy Now in USD</a> |
+| <a href="https://www.paypal.me/CodeBreaker/49usd">Buy Now for $49 USD</a> | <a href="https://www.paypal.me/CodeBreaker/199usd">Buy Now for $199 USD</a> |
 | or | or |
-|  <a href="https://www.paypal.me/CodeBreaker/39eur" style="background-color:blue; padding:8px; border-radius:14px">Buy Now in EUR</a> | <a href="https://www.paypal.me/CodeBreaker/189eur" style="background-color:blue; padding:8px; border-radius:14px">Buy Now in EUR</a> |
+|  <a href="https://www.paypal.me/CodeBreaker/39eur">Buy Now 39€ EUR</a> | <a href="https://www.paypal.me/CodeBreaker/189eur">Buy Now for 189€ EUR</a> |
 
 > Please provide me your GitHub username via notes when making payment via PayPal. This will help me identify who paid for support when you [report your issue](https://github.com/seb86/WooCommerce-Cart-REST-API/issues/new).
 
