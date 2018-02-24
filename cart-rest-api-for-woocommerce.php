@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: WooCommerce Cart REST API
+ * Plugin Name: Cart REST API for WooCommerce
  * Plugin URI:  https://github.com/seb86/WooCommerce-Cart-REST-API
  * Version:     1.0.0
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
@@ -11,9 +11,9 @@
  * Domain Path: /languages/
  *
  * Requires at least: 4.4
- * Tested up to: 4.9.2
+ * Tested up to: 4.9.4
  * WC requires at least: 3.0.0
- * WC tested up to: 3.2.6
+ * WC tested up to: 3.3.3
  *
  * Copyright: © 2018 Sébastien Dumont
  * License: GNU General Public License v3.0
@@ -94,8 +94,10 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @since  1.0.0
 		 */
 		public function __construct() {
-			add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
+			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
 			add_action( 'init', array( $this, 'init_plugin' ) );
+
+			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 			// Include required files
 			add_action( 'woocommerce_loaded', array( $this, 'includes' ) );
@@ -114,18 +116,18 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		} // END plugin_path()
 
 		/**
-		 * Check requirements on activation.
+		 * Check WooCommerce dependency on activation.
 		 *
 		 * @access public
 		 * @since  1.0.0
 		 */
-		public function load_plugin() {
+		public function check_woocommerce_dependency() {
 			// Check we're running the required version of WooCommerce.
 			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, $this->required_woo, '<' ) ) {
 				add_action( 'admin_notices', array( $this, 'wc_cart_rest_api_admin_notice' ) );
 				return false;
 			}
-		} // END load_plugin()
+		} // END check_woocommerce_dependency()
 
 		/**
 		 * Display a warning message if minimum version of WooCommerce check fails.
@@ -149,6 +151,28 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 			// Load text domain.
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END init_plugin()
+
+		/**
+		 * Show row meta on the plugin screen.
+		 *
+		 * @access public
+		 * @static
+		 * @param  mixed $links
+		 * @param  mixed $file
+		 * @return array
+		 */
+		public static function plugin_row_meta( $links, $file ) {
+			if ( $file == plugin_basename( __FILE__ ) ) {
+				$row_meta = array(
+					'docs'    => '<a href="https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'support' => '<a href="https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/#support" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+				);
+
+				$links = array_merge( $links, $row_meta );
+			}
+
+			return $links;
+		} // END plugin_row_meta()
 
 		/**
 		 * Includes WooCommerce Cart REST API Admin.
