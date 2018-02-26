@@ -25,7 +25,7 @@ This saves time running additional requests.
 
 Cart REST API for WooCommerce is created for developers in mind and allows you to use WooCommerce's REST API to it's full potential. This also provides the option to create a full app for your WooCommerce store.
 
-Intrigued? __I bet you are.__ [See documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/) on how to use the API today.
+Intrigued? _I bet you are._ [See documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/) on how to use the API today.
 
 You can also [contribute](https://github.com/seb86/WooCommerce-Cart-REST-API/blob/master/CONTRIBUTING.md) to Cart REST API for WooCommerce.
 

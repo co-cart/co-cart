@@ -1,9 +1,10 @@
 # WooCommerce Cart REST-API
-[![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/seb86/WooCommerce-Cart-REST-API/blob/master/LICENSE)
-![GitHub forks](https://img.shields.io/github/forks/seb86/WooCommerce-Cart-REST-API.svg?style=flat)
-![WordPress.org downloads](https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg)
-![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/cart-rest-api-for-woocommerce.svg)
-[![Maintainability](https://api.codeclimate.com/v1/badges/cb9aabd1f1e93dbe2d9c/maintainability)](https://codeclimate.com/repos/5a621ca0b44b2f029600151c/maintainability)
+[![WP Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
+[![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/seb86/WooCommerce-Cart-REST-API/blob/master/LICENSE.md)
+[![GitHub forks](https://img.shields.io/github/forks/seb86/WooCommerce-Cart-REST-API.svg?style=flat)](https://github.com/seb86/WooCommerce-Cart-REST-API/network)
+[![WordPress.org downloads](https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
+[![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#reviews)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Enable%20the%20ability%20to%20add,%20view,%20count,%20update%20and%20delete%20items%20from%20the%20cart%20using%20the%20REST%20API%20for%20WooCommerce.%20—&url=https://wordpress.org/plugins/cart-rest-api-for-woocommerce//&via=sebd86&hashtags=WordPress)
 
 Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
 
