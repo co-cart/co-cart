@@ -12,7 +12,7 @@ Provides additional REST-API endpoints for WooCommerce to enable the ability to 
 [View Documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)
 
 ### To Do
-* [ ] Release on WordPress.org
+* [X] Release on WordPress.org
 * [X] Create documentation.
 * [ ] Get the response messages translated. POT file ready and available.
 
