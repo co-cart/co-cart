@@ -447,6 +447,10 @@ class WC_REST_Cart_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function calculate_totals() {
+		if ( $this->get_cart_contents_count( array( 'return' => numeric ) ) <= 0 ) {
+			return new WP_REST_Response( __( 'No items in cart to calculate totals.', 'cart-rest-api-for-woocommerce' ), 200 );
+		}
+
 		WC()->cart->calculate_totals();
 
 		return new WP_REST_Response( __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' ), 200 );
