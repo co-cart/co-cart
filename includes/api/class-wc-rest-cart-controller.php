@@ -371,7 +371,7 @@ class WC_REST_Cart_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function remove_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : absint( $data['cart_item_key'] );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : wc_clean( $data['cart_item_key'] );
 
 		if ( $cart_item_key != 0 ) {
 			if ( WC()->cart->remove_cart_item( $cart_item_key ) ) {
@@ -393,7 +393,7 @@ class WC_REST_Cart_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function restore_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : absint( $data['cart_item_key'] );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : wc_clean( $data['cart_item_key'] );
 
 		if ( $cart_item_key != 0 ) {
 			if ( WC()->cart->restore_cart_item( $cart_item_key ) ) {
@@ -415,7 +415,7 @@ class WC_REST_Cart_Controller {
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function update_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : absint( $data['cart_item_key'] );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : wc_clean( $data['cart_item_key'] );
 		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
 
 		$this->validate_quantity( $quantity );
