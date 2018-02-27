@@ -2,7 +2,7 @@
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires at least: 4.4
 Tested up to: 4.9.4
 Requires PHP: 5.6
@@ -52,6 +52,12 @@ Installing "Cart REST API for WooCommerce" can be done using the following steps
 All can be explained via the [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/).
 
 == Changelog ==
+
+= v1.0.0 - 27th February, 2018 =
+* Added: Fetch current cart item data before it is updated.
+* Added: New endpoint to restore, remove and update items in cart due to a conflict that prevented from registering the route.
+* Corrected: Fetching cart item key as integer to a clean string.
+* Corrected: Had response messages for updating quantity backwards. Oops!
 
 = v1.0.0 - 26th February, 2018 =
 * Initial release on WordPress.org. Enjoy!
