@@ -437,10 +437,10 @@ class WC_REST_Cart_Controller {
 				}
 
 				// Return response based on product quantity increment.
-				if ( $quantity > $new_data['quantity'] ) {
-					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has descreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
-				} else if ( $quantity < $new_data['quantity'] ) {
+				if ( $quantity > $current_data['quantity'] ) {
 					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
+				} else if ( $quantity < $current_data['quantity'] ) {
+					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
 				} else {
 					return new WP_REST_Response( sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), 200 );
 				}
