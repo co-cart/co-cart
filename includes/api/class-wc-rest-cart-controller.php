@@ -104,23 +104,24 @@ class WC_REST_Cart_Controller {
 			'callback' => array( $this, 'calculate_totals' ),
 		));
 
-		// Update, Remove or Restore Item - wc/v2/cart/?cart_item_key=270edd69788dce200a3b395a6da6fdb7
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<cart_item_key>[0-9a-z\-_]+)', array(
+		// Update, Remove or Restore Item - wc/v2/cart/cart-item (GET, POST, DELETE)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/cart-item', array(
 			'args' => array(
 				'cart_item_key' => array(
-					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The cart item key is what identifies the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
+			),
+			array(
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'restore_item' ),
 			),
 			array(
 				'methods'  => WP_REST_Server::CREATABLE,
 				'callback' => array( $this, 'update_item' ),
 				'args'     => array(
-					'cart_item_key' => array(
-						'default' => null
-					),
 					'quantity' => array(
-						'default' => null,
+						'default' => 1,
 						'validate_callback' => 'is_numeric'
 					),
 				),
@@ -128,21 +129,7 @@ class WC_REST_Cart_Controller {
 			array(
 				'methods'  => WP_REST_Server::DELETABLE,
 				'callback' => array( $this, 'remove_item' ),
-				'args'     => array(
-					'cart_item_key' => array(
-						'default' => null
-					),
-				),
 			),
-			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'restore_item' ),
-				'args'     => array(
-					'cart_item_key' => array(
-						'default' => null
-					),
-				),
-			)
 		) );
 
 		/**
