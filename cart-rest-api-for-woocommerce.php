@@ -96,8 +96,11 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
-			add_action( 'init', array( $this, 'init_plugin' ) );
 
+			// Load translation files.
+			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
+			// Add link to documentation and support.
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 			// Include required files
@@ -142,14 +145,16 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		} // END wc_cart_rest_api_admin_notice()
 
 		/**
-		 * Initialize the plugin if ready.
+		 * Make the plugin translation ready.
+		 *
+		 * Translations should be added in the WordPress language directory:
+		 *      - WP_LANG_DIR/plugins/cart-rest-api-for-woocommerce-LOCALE.mo
 		 *
 		 * @access public
 		 * @since  1.0.0
 		 * @return void
 		 */
-		public function init_plugin() {
-			// Load text domain.
+		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END init_plugin()
 
