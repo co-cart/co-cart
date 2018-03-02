@@ -171,6 +171,17 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		/*-----------------------------------------------------------------------------------*/
 
 		/**
+		 * Includes Cart REST API for WooCommerce Admin.
+		 *
+		 * @access public
+		 * @since  1.0.0
+		 * @return void
+		 */
+		public function includes() {
+			include_once( $this->plugin_path() .'/includes/class-wc-cart-rest-api-init.php' );
+		} // END includes()
+
+		/**
 		 * Show row meta on the plugin screen.
 		 *
 		 * @access public
@@ -191,17 +202,6 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 
 			return $links;
 		} // END plugin_row_meta()
-
-		/**
-		 * Includes WooCommerce Cart REST API Admin.
-		 *
-		 * @access public
-		 * @since  1.0.0
-		 * @return void
-		 */
-		public function includes() {
-			include_once( $this->plugin_path() .'/includes/class-wc-cart-rest-api-init.php' );
-		} // END include()
 
 	} // END class
 
