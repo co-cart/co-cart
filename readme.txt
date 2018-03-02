@@ -53,11 +53,19 @@ All can be explained via the [documentation](https://seb86.github.io/WooCommerce
 
 == Changelog ==
 
-= v1.0.0 - 27th February, 2018 =
+= v1.0.1 - 2nd March, 2018 =
 * Added: Fetch current cart item data before it is updated.
 * Added: New endpoint to restore, remove and update items in cart due to a conflict that prevented from registering the route.
 * Corrected: Fetching cart item key as integer to a clean string.
 * Corrected: Had response messages for updating quantity backwards. Oops!
+* Improved: Made sure it returns a response if the cart is empty.
+* Enhanced: Added a check to see if the cart has any items before calculating totals.
 
 = v1.0.0 - 26th February, 2018 =
 * Initial release on WordPress.org. Enjoy!
+
+== Screenshots ==
+1. Viewing the carts content.
+
+== Upgrade Notice ==
+Updated endpoint for updating, restoring and removing items due to a conflict that prevented from registering the route. Please see [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/) on how to use the endpoint.
