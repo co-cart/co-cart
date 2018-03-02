@@ -1,4 +1,4 @@
-# Changelog for WooCommerce Cart REST API
+# Changelog for Cart REST API for WooCommerce
 
 ## v1.0.1
 * Added: Fetch current cart item data before it is updated.

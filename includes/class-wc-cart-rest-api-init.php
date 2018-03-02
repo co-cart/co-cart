@@ -1,13 +1,14 @@
 <?php
 /**
- * WooCommerce Cart REST API
+ * Cart REST API for WooCommerce
  *
  * Handles cart endpoints requests for WC-API.
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  WooCommerce Cart REST API/API
+ * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
+ * @version  1.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

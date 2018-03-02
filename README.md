@@ -1,4 +1,4 @@
-# WooCommerce Cart REST-API
+# Cart REST API for WooCommerce
 [![WP Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/seb86/WooCommerce-Cart-REST-API/blob/master/LICENSE.md)
 [![GitHub forks](https://img.shields.io/github/forks/seb86/WooCommerce-Cart-REST-API.svg?style=flat)](https://github.com/seb86/WooCommerce-Cart-REST-API/network)
