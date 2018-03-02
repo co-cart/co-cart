@@ -137,8 +137,8 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @since  1.0.0
 		 * @return void
 		 */
-		public function wc_cart_rest_api_admin_notice() {
-			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'WooCommerce Cart REST API', 'WooCommerce', $this->required_woo ) . '</p></div>';
+		public function admin_notice() {
+			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'Cart REST API for WooCommerce', 'WooCommerce', self::$required_woo ) . '</p></div>';
 		} // END wc_cart_rest_api_admin_notice()
 
 		/**
