@@ -117,15 +117,15 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		} // END plugin_path()
 
 		/**
-		 * Check WooCommerce dependency on activation.
+		 * Check WooCommerce dependency before activation.
 		 *
 		 * @access public
 		 * @since  1.0.0
 		 */
 		public function check_woocommerce_dependency() {
 			// Check we're running the required version of WooCommerce.
-			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, $this->required_woo, '<' ) ) {
-				add_action( 'admin_notices', array( $this, 'wc_cart_rest_api_admin_notice' ) );
+			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, self::$required_woo, '<' ) ) {
+				add_action( 'admin_notices', array( $this, 'admin_notice' ) );
 				return false;
 			}
 		} // END check_woocommerce_dependency()
