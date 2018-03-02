@@ -10,7 +10,7 @@ Provides additional REST-API endpoints for WooCommerce to enable the ability to 
 
 ### Documentation
 
-[Cart REST API for WooCommerce Docs](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)
+[Cart REST API for WooCommerce Docs](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)<br>
 [WooCommerce REST API Docs](https://woocommerce.github.io/woocommerce-rest-api-docs/)
 
 ### To Do
