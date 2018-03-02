@@ -11,7 +11,7 @@ WC tested up to: 3.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
+Adds additional REST-API endpoints for WooCommerce to enable the ability to manage the cart.
 
 == Description ==
 
