@@ -65,7 +65,9 @@ All can be explained via the [documentation](https://seb86.github.io/WooCommerce
 * Initial release on WordPress.org. Enjoy!
 
 == Screenshots ==
-1. Viewing the carts content.
+1. Empty Cart
+2. Viewing the carts content without product thumbnail.
+3. Viewing the carts content with product thumbnail.
 
 == Upgrade Notice ==
 Updated endpoint for updating, restoring and removing items due to a conflict that prevented from registering the route. Please see [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/) on how to use the endpoint.
