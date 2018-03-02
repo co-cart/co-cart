@@ -45,9 +45,10 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * Required WooCommerce Version
 		 *
 		 * @access public
+		 * @static
 		 * @since  1.0.0
 		 */
-		public $required_woo = '3.0.0';
+		public static $required_woo = '3.0.0';
 
 		/**
 		 * Main WC_Cart_Endpoint_REST_API Instance.
