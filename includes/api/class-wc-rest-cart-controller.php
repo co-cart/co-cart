@@ -156,7 +156,7 @@ class WC_REST_Cart_Controller {
 		$cart = WC()->cart->get_cart();
 
 		if ( $this->get_cart_contents_count( array( 'return' => numeric ) ) <= 0 ) {
-			$cart = __( 'Cart is empty!', 'cart-rest-api-for-woocommerce' );
+			return new WP_REST_Response( __( 'Cart is empty!', 'cart-rest-api-for-woocommerce' ), 200 );
 		}
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
