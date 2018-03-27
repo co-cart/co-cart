@@ -161,20 +161,22 @@ class WC_REST_Cart_Controller {
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
 
-		foreach ( $cart as $item_key => $cart_item ) {
-			$_product = apply_filters( 'wc_cart_rest_api_cart_item_product', $cart_item['data'], $cart_item, $item_key );
+		if( !empty( $cart ) && is_array( $cart ) ) {
+			foreach ( $cart as $item_key => $cart_item ) {
+				$_product = apply_filters( 'wc_cart_rest_api_cart_item_product', $cart_item['data'], $cart_item, $item_key );
 
-			// Adds the product name as a new variable.
-			$cart[$item_key]['product_name'] = $_product->get_name();
+				// Adds the product name as a new variable.
+				$cart[ $item_key ]['product_name'] = $_product->get_name();
 
-			// If main product thumbnail is requested then add it to each item in cart.
-			if ( $show_thumb ) {
-				$thumbnail_id = apply_filters( 'wc_cart_rest_api_cart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
+				// If main product thumbnail is requested then add it to each item in cart.
+				if ( $show_thumb ) {
+					$thumbnail_id = apply_filters( 'wc_cart_rest_api_cart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
 
-				$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, 'woocommerce_thumbnail' );
+					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, 'woocommerce_thumbnail' );
 
-				// Add main product image as a new variable.
-				$cart[$item_key]['product_image'] = esc_url( $thumbnail_src[0] );
+					// Add main product image as a new variable.
+					$cart[ $item_key ]['product_image'] = esc_url( $thumbnail_src[0] );
+				}
 			}
 		}
 
