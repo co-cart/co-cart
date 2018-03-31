@@ -52,6 +52,8 @@ Installing "Cart REST API for WooCommerce" can be done using the following steps
 All can be explained via the [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/).
 
 == Changelog ==
+= v1.0.2 - 31st March 2018 =
+* Fixed: Invalid Argument Error should the cart be empty. Now returns "Cart is empty" properly. Thanks to Mr-AjayM for the contribution.
 
 = v1.0.1 - 2nd March, 2018 =
 * Added: Fetch current cart item data before it is updated.
