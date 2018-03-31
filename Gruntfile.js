@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 					mainFile: '<%= pkg.name %>.php', // Main project file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					potHeaders: {
-						'Report-Msgid-Bugs-To': 'https://github.com/seb86/WooCommerce-Cart-REST-API/issues',
+						'Report-Msgid-Bugs-To': 'https://github.com/seb86/cart-rest-api-for-woocommerce/issues',
 						'language-team': 'Sébastien Dumont <mailme@sebastiendumont.com>',
 						'language': 'en_US'
 					},
@@ -93,8 +93,8 @@ module.exports = function(grunt) {
 						to: "Version:     <%= pkg.version %>"
 					},
 					{
-						from: /public \$version = \'.*.'/m,
-						to: "public $version = '<%= pkg.version %>'"
+						from: /public static \$version = \'.*.'/m,
+						to: "public static $version = '<%= pkg.version %>'"
 					}
 				]
 			}

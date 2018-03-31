@@ -1,5 +1,8 @@
 # Changelog for Cart REST API for WooCommerce
 
+## v1.0.2
+* Fixed: Invalid Argument Error should the cart be empty. Now returns "Cart is empty" properly. Thanks to Mr-AjayM for the contribution.
+
 ## v1.0.1
 * Added: Fetch current cart item data before it is updated.
 * Added: New endpoint to restore, remove and update items in cart due to a conflict that prevented from registering the route.

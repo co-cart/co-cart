@@ -3,16 +3,16 @@
   "name": "cart-rest-api-for-woocommerce",
   "author": "seb86",
   "license": "GPL-3.0",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.",
   "homepage": "https://sebastiendumont.com/",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/seb86/WooCommerce-Cart-REST-API"
+    "url": "https://github.com/seb86/cart-rest-api-for-woocommerce"
   },
   "bugs": {
-    "url": "https://github.com/seb86/WooCommerce-Cart-REST-API/issues"
+    "url": "https://github.com/seb86/cart-rest-api-for-woocommerce/issues"
   },
   "dependencies": {
     "grunt": "^1.0.2"

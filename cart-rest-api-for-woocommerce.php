@@ -1,8 +1,8 @@
 <?php
 /*
  * Plugin Name: Cart REST API for WooCommerce
- * Plugin URI:  https://github.com/seb86/WooCommerce-Cart-REST-API
- * Version:     1.0.1
+ * Plugin URI:  https://github.com/seb86/cart-rest-api-for-woocommerce
+ * Version:     1.0.2
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
@@ -13,7 +13,7 @@
  * Requires at least: 4.4
  * Tested up to: 4.9.4
  * WC requires at least: 3.0.0
- * WC tested up to: 3.3.3
+ * WC tested up to: 3.3.4
  *
  * Copyright: © 2018 Sébastien Dumont
  * License: GNU General Public License v3.0
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.0.0';
+		public static $version = '1.0.2';
 
 		/**
 		 * Required WooCommerce Version

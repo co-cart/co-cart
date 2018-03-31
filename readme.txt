@@ -2,7 +2,7 @@
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires at least: 4.4
 Tested up to: 4.9.4
 Requires PHP: 5.6
@@ -27,7 +27,7 @@ Cart REST API for WooCommerce is created for developers in mind and allows you t
 
 Intrigued? _I bet you are._ [See documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/) on how to use the API today.
 
-You can also [contribute](https://github.com/seb86/WooCommerce-Cart-REST-API/blob/master/CONTRIBUTING.md) to Cart REST API for WooCommerce.
+You can also [contribute](https://github.com/seb86/cart-rest-api-for-woocommerce/blob/master/CONTRIBUTING.md) to Cart REST API for WooCommerce.
 
 Enjoy!
 
@@ -37,7 +37,7 @@ If you use the Cart REST API for WooCommerce and find it useful for your project
 
 All contributions are most appreciated and will go towards improving the API and documentation.
 
-> As this is a free plugin I can not provide support for free. If you are in need of support, please [see support](https://github.com/seb86/WooCommerce-Cart-REST-API#support) for details.
+> As this is a free plugin I can not provide support for free. If you are in need of support, please [see support](https://github.com/seb86/cart-rest-api-for-woocommerce#support) for details.
 
 == Installation ==
 
