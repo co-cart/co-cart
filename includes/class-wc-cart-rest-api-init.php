@@ -42,7 +42,7 @@ class WC_Cart_Rest_API {
 			return;
 		}
 
-		$this->include();
+		$this->include_cart_controller();
 
 		// Init Cart REST API route.
 		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 0 );
@@ -54,7 +54,7 @@ class WC_Cart_Rest_API {
 	 * @access private
 	 * @since  1.0.0
 	 */
-	private function include() {
+	private function include_cart_controller() {
 		// REST API v2 controller.
 		include_once( dirname( __FILE__ ) . '/api/class-wc-rest-cart-controller.php' );
 	} // include()
