@@ -107,31 +107,41 @@ class WC_REST_Cart_Controller {
 
 		// Update, Remove or Restore Item - wc/v2/cart/cart-item (GET, POST, DELETE)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/cart-item', array(
-			'args' => array(
-				'cart_item_key' => array(
-					'description' => __( 'The cart item key is what identifies the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-				),
-			),
-			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'restore_item' ),
-			),
-			array(
-				'methods'  => WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'update_item' ),
-				'args'     => array(
-					'quantity' => array(
-						'default' => 1,
-						'validate_callback' => 'is_numeric'
-					),
-				),
-			),
-			array(
-				'methods'  => WP_REST_Server::DELETABLE,
-				'callback' => array( $this, 'remove_item' ),
-			),
-		) );
+                        'methods'  => 'PUT',
+                        'callback' => array( $this, 'restore_item' ),
+                        'args' => array(
+                                'cart_item_key' => array(
+                                        'description' => __( 'The cart item key is what identifies the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+                                        'type'        => 'string',
+                                ),
+                        ),
+                ));
+                
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/cart-item',	array(
+                        'methods'  => 'POST',
+                        'callback' => array( $this, 'update_item' ),
+                        'args' => array(
+                                'cart_item_key' => array(
+                                        'description' => __( 'The cart item key is what identifies the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+                                        'type'        => 'string',
+                                ),
+                                'quantity' => array(
+                                        'default' => 1,
+                                        'validate_callback' => 'is_numeric'
+                                ),
+                        ),
+                ));
+		
+                register_rest_route( $this->namespace, '/' . $this->rest_base . '/cart-item', array(
+                        'methods'  => WP_REST_Server::DELETABLE,
+                        'callback' => array( $this, 'remove_item' ),
+                        'args' => array(
+                                'cart_item_key' => array(
+                                        'description' => __( 'The cart item key is what identifies the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+                                        'type'        => 'string',
+                                ),
+                        ),
+		));
 
 		/**
 		 * More endpoints to possibly create. (Must be registered before cart base endpoint.)
