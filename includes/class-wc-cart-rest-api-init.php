@@ -28,13 +28,14 @@ class WC_Cart_Rest_API {
 	public function __construct() {
 		// WC Cart REST API.
 		$this->cart_rest_api_init();
-	} // END setup
+	} // END __construct()
 
 	/**
 	 * Init WC Cart REST API.
 	 *
-	 * @access private
-	 * @since  1.0.0
+	 * @access  private
+	 * @since   1.0.0
+	 * @version 1.0.3
 	 */
 	private function cart_rest_api_init() {
 		// REST API was included starting WordPress 4.4.

@@ -2,20 +2,20 @@
 /*
  * Plugin Name: Cart REST API for WooCommerce
  * Plugin URI:  https://github.com/seb86/cart-rest-api-for-woocommerce
- * Version:     1.0.2
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- *
+ * Version:     1.0.3
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * Requires at least: 4.4
- * Tested up to: 4.9.4
+ * Tested up to: 4.9.5
  * WC requires at least: 3.0.0
- * WC tested up to: 3.3.4
+ * WC tested up to: 3.3.5
  *
- * Copyright: © 2018 Sébastien Dumont
+ * Copyright: © 2018 Sébastien Dumont, (mailme@sebastiendumont.com)
+ *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.0.2';
+		public static $version = '1.0.3';
 
 		/**
 		 * Required WooCommerce Version
@@ -73,20 +73,22 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
+		 * @return void
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, __( 'Foul!', 'cart-rest-api-for-woocommerce' ), '1.0.0' );
-		}
+			_doing_it_wrong( __FUNCTION__, __( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), '1.0.0' );
+		} // END __clone()
 
 		/**
 		 * Unserializing instances of this class is forbidden.
 		 *
 		 * @access public
 		 * @since  1.0.0
+		 * @return void
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, __( 'Foul!', 'cart-rest-api-for-woocommerce' ), '1.0.0' );
-		}
+			_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), '1.0.0' );
+		} // END __wakeup()
 
 		/**
 		 * Load the plugin.
@@ -95,6 +97,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @since  1.0.0
 		 */
 		public function __construct() {
+			// Check WooCommerce dependency.
 			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
 
 			// Load translation files.
@@ -146,7 +149,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 */
 		public function admin_notice() {
 			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'Cart REST API for WooCommerce', 'WooCommerce', self::$required_woo ) . '</p></div>';
-		} // END wc_cart_rest_api_admin_notice()
+		} // END admin_notice()
 
 		/*-----------------------------------------------------------------------------------*/
 		/*  Localization                                                                     */
@@ -164,7 +167,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 */
 		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-		} // END init_plugin()
+		} // END load_plugin_textdomain()
 
 		/*-----------------------------------------------------------------------------------*/
 		/*  Load Files                                                                       */
@@ -178,7 +181,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @return void
 		 */
 		public function includes() {
-			include_once( $this->plugin_path() .'/includes/class-wc-cart-rest-api-init.php' );
+			include_once( $this->plugin_path() . '/includes/class-wc-cart-rest-api-init.php' );
 		} // END includes()
 
 		/**

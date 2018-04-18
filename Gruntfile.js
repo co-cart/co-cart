@@ -108,7 +108,7 @@ module.exports = function(grunt) {
 					'!.*',
 					'!*.md',
 					'!.*/**',
-					'.htaccess',
+					'!.htaccess',
 					'!Gruntfile.js',
 					'!package.json',
 					'!package-lock.json',

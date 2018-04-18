@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.1
+ * @version  1.0.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -134,7 +134,7 @@ class WC_REST_Cart_Controller {
 		) );
 
 		/**
-		 * More endpoints to possibly create. (Must be registered before cart base endpoint.)
+		 * Developer Notes: More endpoints to possibly create. (Must be registered before cart base endpoint.)
 		 *
 		 * Get Cart Shipping Total - wc/v2/cart/totals?shipping_only=true
 		 * Calculate Shipping - wc/v2/cart/calculate?shipping_only=true
@@ -353,15 +353,16 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Remove Item in Cart.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @param  array $data
-	 * @return WP_Error|WP_REST_Response
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 1.0.3
+	 * @param   array $data
+	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function remove_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : wc_clean( $data['cart_item_key'] );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
 
-		if ( $cart_item_key != 0 ) {
+		if ( $cart_item_key != '0' ) {
 			if ( WC()->cart->remove_cart_item( $cart_item_key ) ) {
 				return new WP_REST_Response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), 200 );
 			} else {
@@ -375,15 +376,16 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Restore Item in Cart.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @param  array $data
-	 * @return WP_Error|WP_REST_Response
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 1.0.3
+	 * @param   array $data
+	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function restore_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : wc_clean( $data['cart_item_key'] );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
 
-		if ( $cart_item_key != 0 ) {
+		if ( $cart_item_key != '0' ) {
 			if ( WC()->cart->restore_cart_item( $cart_item_key ) ) {
 				return new WP_REST_Response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), 200 );
 			} else {
@@ -397,18 +399,19 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Update Item in Cart.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @param  array $data
-	 * @return WP_Error|WP_REST_Response
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 1.0.3
+	 * @param   array $data
+	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function update_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? 0 : wc_clean( $data['cart_item_key'] );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
 		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
 
 		$this->validate_quantity( $quantity );
 
-		if ( $cart_item_key != 0 ) {
+		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
 			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {

@@ -2,12 +2,12 @@
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires at least: 4.4
-Tested up to: 4.9.4
+Tested up to: 4.9.5
 Requires PHP: 5.6
 WC requires at least: 3.0.0
-WC tested up to: 3.3.3
+WC tested up to: 3.3.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,9 +17,7 @@ Adds additional REST-API endpoints for WooCommerce to enable the ability to mana
 
 WooCommerce REST API is great but it's missing one important endpoint that allows you to manage the cart.
 
-That's were Cart REST API for WooCommerce comes in. It uses the Cart the same way Ajax requests are handled. Two added missing components to when viewing the cart contents are the product name and the main featured image URL which is normally requested after.
-
-This saves time running additional requests.
+That's were Cart REST API for WooCommerce comes in. It uses the Cart the same way Ajax requests are handled allowing you to add, remove, restore and update items to and from the cart.
 
 = Built with Developers in Mind =
 
@@ -52,6 +50,11 @@ Installing "Cart REST API for WooCommerce" can be done using the following steps
 All can be explained via the [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/).
 
 == Changelog ==
+= v1.0.3 - 18th April 2018 =
+* Fixed: Syntax error for including cart controller for sites running versions of PHP lower than 7. Thanks to Mr-AjayM for another contribution.
+* Fixed: Validation of `cart_item_key` when removing, restoring or updating an item. Item keys starting with a letter were returning false. Reported by @Janie20.
+* Tested up to WooCommerce v3.3.5 and up to WordPress v4.9.5
+
 = v1.0.2 - 31st March 2018 =
 * Fixed: Invalid Argument Error should the cart be empty. Now returns "Cart is empty" properly. Thanks to Mr-AjayM for the contribution.
 
@@ -72,4 +75,5 @@ All can be explained via the [documentation](https://seb86.github.io/WooCommerce
 3. Viewing the carts content with product thumbnail.
 
 == Upgrade Notice ==
-Updated endpoint for updating, restoring and removing items due to a conflict that prevented from registering the route. Please see [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/) on how to use the endpoint.
+* Fixed: Syntax error for including cart controller for sites running versions of PHP lower than 7. Thanks to Mr-AjayM for another contribution.
+* Fixed: Validation of `cart_item_key` when removing, restoring or updating an item. Item keys starting with a letter were returning false. Reported by @Janie20.

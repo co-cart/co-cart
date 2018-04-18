@@ -32,6 +32,7 @@ Below is a list of extensions that require testing or adding support.
 * [ ] Deposits
 
 ### Requirements
+* PHP v5.6+ (Recommend PHP 7+)
 * WooCommerce v3.0.0+
 * WordPress v4.4+
 * Pretty permalinks in Settings > Permalinks so that the custom endpoints are supported. **Default permalinks will not work.**
