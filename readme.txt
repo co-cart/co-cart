@@ -50,7 +50,7 @@ Installing "Cart REST API for WooCommerce" can be done using the following steps
 All can be explained via the [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/).
 
 == Changelog ==
-= v1.0.3 - 18th April 2018 =
+= v1.0.3 - 22nd April 2018 =
 * Fixed: Syntax error for including cart controller for sites running versions of PHP lower than 7. Thanks to Mr-AjayM for another contribution.
 * Fixed: Validation of `cart_item_key` when removing, restoring or updating an item. Item keys starting with a letter were returning false. Reported by @Janie20.
 * Tested up to WooCommerce v3.3.5 and up to WordPress v4.9.5
