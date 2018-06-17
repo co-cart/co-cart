@@ -2,12 +2,12 @@
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires at least: 4.4
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 Requires PHP: 5.6
 WC requires at least: 3.0.0
-WC tested up to: 3.3.5
+WC tested up to: 3.4.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,6 +50,10 @@ Installing "Cart REST API for WooCommerce" can be done using the following steps
 All can be explained via the [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/).
 
 == Changelog ==
+= v1.0.4 - 17th June 2018=
+* Fixed: Return response for numeric thanks to @campusboy87
+* Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30
+
 = v1.0.3 - 22nd April 2018 =
 * Fixed: Syntax error for including cart controller for sites running versions of PHP lower than 7. Thanks to Mr-AjayM for another contribution.
 * Fixed: Validation of `cart_item_key` when removing, restoring or updating an item. Item keys starting with a letter were returning false. Reported by @Janie20.
@@ -75,5 +79,5 @@ All can be explained via the [documentation](https://seb86.github.io/WooCommerce
 3. Viewing the carts content with product thumbnail.
 
 == Upgrade Notice ==
-* Fixed: Syntax error for including cart controller for sites running versions of PHP lower than 7. Thanks to Mr-AjayM for another contribution.
-* Fixed: Validation of `cart_item_key` when removing, restoring or updating an item. Item keys starting with a letter were returning false. Reported by @Janie20.
+* Fixed: Return response for numeric thanks to @campusboy87
+* Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30

@@ -3,7 +3,7 @@
   "name": "cart-rest-api-for-woocommerce",
   "author": "seb86",
   "license": "GPL-3.0",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.",
   "homepage": "https://sebastiendumont.com/",
   "main": "Gruntfile.js",

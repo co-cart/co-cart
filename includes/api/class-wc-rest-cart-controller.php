@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.3
+ * @version  1.0.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -82,13 +82,19 @@ class WC_REST_Cart_Controller {
 			'callback' => array( $this, 'add_to_cart' ),
 			'args'     => array(
 				'product_id' => array(
-					'validate_callback' => 'is_numeric'
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
 				),
 				'quantity' => array(
-					'validate_callback' => 'is_numeric'
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
 				),
 				'variation_id' => array(
-					'validate_callback' => 'is_numeric'
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
 				),
 				'variation' => array(
 					'validate_callback' => 'is_array'
@@ -123,7 +129,9 @@ class WC_REST_Cart_Controller {
 				'args'     => array(
 					'quantity' => array(
 						'default' => 1,
-						'validate_callback' => 'is_numeric'
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_numeric( $param );
+						}
 					),
 				),
 			),
@@ -451,7 +459,7 @@ class WC_REST_Cart_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function calculate_totals() {
-		if ( $this->get_cart_contents_count( array( 'return' => numeric ) ) <= 0 ) {
+		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
 			return new WP_REST_Response( __( 'No items in cart to calculate totals.', 'cart-rest-api-for-woocommerce' ), 200 );
 		}
 

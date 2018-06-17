@@ -1,5 +1,9 @@
 # Changelog for Cart REST API for WooCommerce
 
+## v1.0.4
+* Fixed: Return response for numeric thanks to @campusboy87
+* Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30
+
 ## v1.0.3
 * Fixed: Syntax error for including cart controller for sites running versions of PHP lower than 7. Thanks to @Mr-AjayM for another contribution.
 * Fixed: Validation of `cart_item_key` when removing, restoring or updating an item. Item keys starting with a letter were returning false. Reported by @Janie20.
