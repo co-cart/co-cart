@@ -76,7 +76,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @return void
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, __( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), self:$version );
+			_doing_it_wrong( __FUNCTION__, __( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), self::$version );
 		} // END __clone()
 
 		/**
@@ -87,7 +87,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @return void
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), self:$version );
+			_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), self::$version );
 		} // END __wakeup()
 
 		/**
