@@ -7,7 +7,7 @@ Requires at least: 4.4
 Tested up to: 4.9.6
 Requires PHP: 5.6
 WC requires at least: 3.0.0
-WC tested up to: 3.4.2
+WC tested up to: 3.4.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,8 +49,14 @@ Installing "Cart REST API for WooCommerce" can be done using the following steps
 = How do I start to use the cart endpoint? =
 All can be explained via the [documentation](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/).
 
+= Does it work with any of the official WooCommerce libraries? =
+I'm afraid not. This is because the libraries require authentication which the cart does not require.
+
+= Can I view any customers cart? =
+No. Only the one in session, just as you view the cart via the site.
+
 == Changelog ==
-= v1.0.4 - 17th June 2018=
+= v1.0.4 - 5th July 2018=
 * Fixed: Return response for numeric thanks to @campusboy87
 * Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30
 
