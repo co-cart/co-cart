@@ -8,15 +8,15 @@
 
 Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
 
+> This is not an official WooCommerce project. Do not ask WooCommerce for support.
+
 ### Documentation
 
 [Cart REST API for WooCommerce Docs](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)<br>
 [WooCommerce REST API Docs](https://woocommerce.github.io/woocommerce-rest-api-docs/)
 
 ### To Do
-* [X] Release on WordPress.org
-* [X] Create documentation.
-* [ ] Get the response messages translated. POT file ready and available.
+* [ ] Get the response messages translated. POT file ready and available for translations.
 
 ### Testing or Support Needed
 
@@ -45,7 +45,7 @@ If you [find an issue](https://github.com/seb86/cart-rest-api-for-woocommerce/is
 
 ### Licence
 
-WooCommerce Cart REST API is licenced under the GPLv3 licence for all open source applications.
+Cart REST API for WooCommerce is licenced under the GPLv3 licence for all open source applications.
 
 ### Support
 
@@ -61,10 +61,10 @@ Thank you.
 | -------------- | ------------------ |
 | Limited to 1 project | Unlimited projects |
 | Community Support | Priority Support for 1 Year |
-| $49 USD/39€ EUR | $199 USD/189€ EUR |
-| <a href="https://www.paypal.me/CodeBreaker/49usd">Buy Now for $49 USD</a> | <a href="https://www.paypal.me/CodeBreaker/199usd">Buy Now for $199 USD</a> |
+| $39 USD/29€ EUR | $199 USD/189€ EUR |
+| <a href="https://www.paypal.me/CodeBreaker/39usd">Buy Now for $39 USD</a> | <a href="https://www.paypal.me/CodeBreaker/199usd">Buy Now for $199 USD</a> |
 | or | or |
-|  <a href="https://www.paypal.me/CodeBreaker/39eur">Buy Now 39€ EUR</a> | <a href="https://www.paypal.me/CodeBreaker/189eur">Buy Now for 189€ EUR</a> |
+| <a href="https://www.paypal.me/CodeBreaker/29eur">Buy Now 29€ EUR</a> | <a href="https://www.paypal.me/CodeBreaker/189eur">Buy Now for 189€ EUR</a> |
 
 > Please provide me your GitHub username via notes when making payment via PayPal. This will help me identify who paid for support when you [report your issue](https://github.com/seb86/cart-rest-api-for-woocommerce/issues/new).
 
