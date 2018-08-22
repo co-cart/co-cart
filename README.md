@@ -57,8 +57,8 @@ Please understand that this repository is not a place to seek help with configur
 
 #### Documentation 📖
 
-Documentation for the [Cart REST API for WooCommerce](https://seb86.github.io/WooCommerce-Cart-REST API-Docs/)<br>
-The official [WooCommerce REST API Documentation](https://woocommerce.github.io/woocommerce-REST API-docs/)
+Documentation for the [Cart REST API for WooCommerce](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)<br>
+The official [WooCommerce REST API Documentation](https://woocommerce.github.io/woocommerce-rest-api-docs/)
 
 
 #### Requirements ✅
@@ -93,7 +93,7 @@ If you use ModSecurity and see 501 Method Not Implemented errors, see [this issu
 
 To view the cart endpoint, go to `yourdomainname.xyz/wp-json/wc/v2/cart/`
 
-See [documentation](#documentation) on how to use all endpoints.
+See [documentation](#documentation-) on how to use all endpoints.
 
 
 ## Support ⭐
