@@ -140,16 +140,6 @@ class WC_REST_Cart_Controller {
 				'callback' => array( $this, 'remove_item' ),
 			),
 		) );
-
-		/**
-		 * Developer Notes: More endpoints to possibly create. (Must be registered before cart base endpoint.)
-		 *
-		 * Get Cart Shipping Total - wc/v2/cart/totals?shipping_only=true
-		 * Calculate Shipping - wc/v2/cart/calculate?shipping_only=true
-		 * Shipping Methods - wc/v2/cart/shipping-methods
-		 * Chosen Shipping Method Only - wc/v2/cart/shipping-methods?chosen_only=true
-		 * Calculate Fees, Get Fees and Add Fees - wc/v2/cart/fees
-		 */
 	} // register_routes()
 
 	/**
@@ -240,7 +230,7 @@ class WC_REST_Cart_Controller {
 		}
 
 		if ( ! is_numeric( $product_id ) ) {
-				return new WP_Error( 'wc_cart_rest_product_id_not_numeric', __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'wc_cart_rest_product_id_not_numeric', __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 	} // END validate_product_id()
 
