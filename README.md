@@ -6,66 +6,159 @@
 [![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#reviews)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Enable%20the%20ability%20to%20add,%20view,%20count,%20update%20and%20delete%20items%20from%20the%20cart%20using%20the%20REST%20API%20for%20WooCommerce.%20—&url=https://wordpress.org/plugins/cart-rest-api-for-woocommerce//&via=sebd86&hashtags=WordPress)
 
-Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
+**Contributors:** sebd86  
+**Tags:** woocommerce, cart, endpoint, JSON, rest, api, REST API  
+**Requires at least:** 4.4  
+**Tested up to:** 4.9.8  
+**Requires PHP:** 5.6  
+**WC requires at least: 3.2.0  
+**WC tested up to: 3.4.4  
+**Stable tag:** 1.0.4  
+**License:** GPL v2 or later  
 
-> This is not an official WooCommerce project. Do not ask WooCommerce for support.
+Provides additional REST API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
 
-### Documentation
 
-[Cart REST API for WooCommerce Docs](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)<br>
-[WooCommerce REST API Docs](https://woocommerce.github.io/woocommerce-rest-api-docs/)
+## Overview 🔔
 
-### To Do
-* [ ] Get the response messages translated. POT file ready and available for translations.
+WooCommerce REST API is great but it’s missing one important endpoint that allows you to manage the cart. That is Cart REST API for WooCommerce comes in.
 
-### Testing or Support Needed
+Cart REST API for WooCommerce is created for developers 💻 in mind and allows you to use WooCommerce’s REST API to its full potential providing the option to create a full app 📱 for your store powered by WooCommerce.
 
-Below is a list of extensions that require testing or adding support.
 
-* [ ] Subscriptions (including Subscribe All the Things)
-* [ ] Bookings
-* [ ] Product Bundles
-* [ ] Composite Products
-* [ ] Mix and Match Products
-* [ ] Name Your Price
-* [ ] Product Add-ons
-* [ ] Deposits
+### Is This Free?
 
-### Requirements
-* PHP v5.6+ (Recommend PHP 7+)
-* WooCommerce v3.0.0+
+Yes, it's free. But here's what you should _really_ care about:
+
+* The code adheres to the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards) and follows best practices and conventions.
+* The project is experimental at this time.
+
+> At this time, none of the official WooCommerce library wrappers can be used with this REST API as they all require authentication which makes it difficult to use along with the other official REST API endpoints that WooCommerce provides.
+
+
+### What's the Catch?
+
+This is a non-commercial plugin. As such:
+
+* Development time for it is effectively being donated and is, therefore, limited.
+* Support inquiries may not be answered in a timely manner.
+* Critical issues may not be resolved promptly.
+
+If you:
+
+* have a customization/integration requirement, or
+* want to see another feature added, e.g. support for **shipping total** or **coupons**,
+
+...then I'd love to [hear from you](mailto:mailme@sebastiendumont.com)!
+
+Please understand that this repository is not a place to seek help with configuration-related issues. Use it to report bugs, propose improvements, or discuss new features.
+
+## Guide 📘
+
+#### Documentation 📖
+
+Documentation for the [Cart REST API for WooCommerce](https://seb86.github.io/WooCommerce-Cart-REST API-Docs/)<br>
+The official [WooCommerce REST API Documentation](https://woocommerce.github.io/woocommerce-REST API-docs/)
+
+
+#### Requirements ✅
+
+To use this plugin you will need:
+
+* PHP v5.6+ (Recommend PHP v7.0+)
 * WordPress v4.4+
+* WooCommerce v3.0.0+
 * Pretty permalinks in Settings > Permalinks so that the custom endpoints are supported. **Default permalinks will not work.**
 * You may access the API over either HTTP or HTTPS, but HTTPS is recommended where possible.
 
 If you use ModSecurity and see 501 Method Not Implemented errors, see [this issue](https://github.com/woocommerce/woocommerce/issues/9838) for details.
 
-### Bugs
-If you [find an issue](https://github.com/seb86/cart-rest-api-for-woocommerce/issues?state=open) that has not been reported, [create a new issue](https://github.com/seb86/cart-rest-api-for-woocommerce/issues/new). You can also send a pull request with your bug fixes and/or new features.
 
-### Licence
+#### Installation 💽
 
-Cart REST API for WooCommerce is licenced under the GPLv3 licence for all open source applications.
+###### Manual
+1. Download a `.zip` file with the [latest version](https://github.com/seb86/cart-rest-api-for-woocommerce/releases).
+2. Go to **WordPress Admin > Plugins > Add New**.
+3. Click **Upload Plugin** at the top.
+4. **Choose File** and select the `.zip` file you downloaded in **Step 1**.
+5. Click **Install Now** and **Activate** the plugin.
 
-### Support
+###### Automatic
+1. Go to **WordPress Admin > Plugins > Add New**.
+2. Search for **Cart REST API for WooCommerce**
+3. Click **Install Now** on the plugin and **Activate** the plugin.
 
-If you do need support then simply select the size of your project/priority of the support you require and the currency you wish to pay in.
 
-> Safe and Secure payments are processed by [PayPal](https://www.paypal.com).
+### Usage
 
-After you made payment, when you [report your issue](https://github.com/seb86/cart-rest-api-for-woocommerce/issues/new), please provide your WooCommerce System status report from your WordPress Dashboard. `https://yourdomain.com/wp-admin/admin.php?page=wc-status`
+To view the cart endpoint, go to `yourdomainname.xyz/wp-json/wc/v2/cart/`
 
-Thank you.
+See [documentation](#documentation) on how to use all endpoints.
 
-| Single Project | Unlimited Projects |
-| -------------- | ------------------ |
-| Limited to 1 project | Unlimited projects |
-| Community Support | Priority Support for 1 Year |
-| $39 USD/29€ EUR | $199 USD/189€ EUR |
-| <a href="https://www.paypal.me/CodeBreaker/39usd">Buy Now for $39 USD</a> | <a href="https://www.paypal.me/CodeBreaker/199usd">Buy Now for $199 USD</a> |
-| or | or |
-| <a href="https://www.paypal.me/CodeBreaker/29eur">Buy Now 29€ EUR</a> | <a href="https://www.paypal.me/CodeBreaker/189eur">Buy Now for 189€ EUR</a> |
 
-> Please provide me your GitHub username via notes when making payment via PayPal. This will help me identify who paid for support when you [report your issue](https://github.com/seb86/cart-rest-api-for-woocommerce/issues/new).
+## Support ⭐
 
-If you paid for Single Project, I will respond within 72 hours. If you paid for Unlimited Projects, I will respond within 24 hours.
+Cart REST API for WooCommerce is released freely and openly. Feedback or ideas and approaches to solving limitations in Cart REST API for WooCommerce is greatly appreciated.
+
+Cart REST API for WooCommerce is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via Woocommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
+
+At present, I **do not offer a dedicated, premium support channel** for Cart REST API for WooCommerce. Please understand this is a non-commercial plugin. As such:
+
+* Development time for it is effectively being donated and is, therefore, limited.
+* Support inquiries may not be answered in a timely manner.
+* Critical issues may not be resolved promptly.
+
+#### Reporting Issues 📝
+
+If you think you have found a bug in the plugin, a problem with the documentation, or want to see a new feature added, please [open a new issue](https://github.com/seb86/cart-rest-api-for-woocommerce/issues/new) and I will do my best to help you out.
+
+
+## Contribute
+
+If you or your company use Cart REST API for WooCommerce or appreciate the work I’m doing in open source, please consider supporting me directly so I can continue maintaining it and keep evolving the project. It's pretty clear that software actually costs something, and even though it may be offered freely, somebody is paying the cost.
+
+You'll be helping to ensure I can spend the time not just fixing bugs, adding features, releasing new versions, but also keeping the project afloat. Any contribution you make is a big help and is greatly appreciated.
+
+Please also consider starring ✨ and sharing 👍 the repo! This helps the project getting known and grow with the community. 🙏
+
+If you want to do a one-time donation, you can donate to:
+- [My PayPal](https://www.paypal.me/codebreaker)
+- [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
+
+<!--
+Need to work on how to support monthly donations. Once I have figured it out, share details here.
+-->
+If you have special requirements for a sponsorship, you can [email me](mailto:mailme@sebastiendumont.com) and we can talk.
+
+<!--
+Uncomment this part once the project has a least one supporter.
+[See all my amazing supports](#supporters) 🌟
+-->
+
+If you would like to contribute code to this project then please follow these [contribution guidelines](https://github.com/seb86/cart-rest-api-for-woocommerce/blob/master/CONTRIBUTING.md).
+
+Thank you for your support! 🙌
+
+<!--
+## Supporters
+
+> No supporters yet! 🔒
+-->
+
+---
+
+
+##### License
+
+Cart REST API for WooCommerce is released under [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.html).
+
+
+##### Credits
+
+Cart REST API for WooCommerce is developed and maintained by [Sébastien Dumont](https://github.com/seb86).
+
+---
+
+<p align="center">
+	<img src="https://raw.githubusercontent.com/seb86/my-open-source-readme-template/master/a-sebastien-dumont-production.png" width="353">
+</p>
