@@ -4,10 +4,10 @@ Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
 Stable tag: 1.0.4
 Requires at least: 4.4
-Tested up to: 4.9.6
+Tested up to: 4.9.8
 Requires PHP: 5.6
 WC requires at least: 3.0.0
-WC tested up to: 3.4.3
+WC tested up to: 3.4.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -56,7 +56,7 @@ I'm afraid not. This is because the libraries require authentication which the c
 No. Only the one in session, just as you view the cart via the site.
 
 == Changelog ==
-= v1.0.4 - 5th July 2018=
+= v1.0.4 - 5th July 2018 =
 * Fixed: Return response for numeric thanks to @campusboy87
 * Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30
 
