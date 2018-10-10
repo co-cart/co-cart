@@ -97,10 +97,14 @@ class WC_REST_Cart_Controller {
 					}
 				),
 				'variation' => array(
-					'validate_callback' => 'is_array'
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_array( $param );
+					}
 				),
 				'cart_item_data' => array(
-					'validate_callback' => 'is_array'
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_array( $param );
+					}
 				)
 			)
 		) );
