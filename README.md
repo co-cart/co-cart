@@ -57,7 +57,7 @@ Please understand that this repository is not a place to seek help with configur
 
 #### Documentation 📖
 
-Documentation for the [Cart REST API for WooCommerce](https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/)<br>
+Documentation for the [Cart REST API for WooCommerce](https://co-cart.github.io/co-cart-docs/)<br>
 The official [WooCommerce REST API Documentation](https://woocommerce.github.io/woocommerce-rest-api-docs/)
 
 
