@@ -90,14 +90,14 @@ To use this plugin you will need:
 
 To view the cart endpoint, go to `yourdomainname.xyz/wp-json/wc/v2/cart/`
 
-See [documentation](#documentation-) on how to use all endpoints.
+See [documentation](#-documentation) on how to use all endpoints.
 
 
 ## ⭐ Support
 
 CoCart is released freely and openly. Feedback or ideas and approaches to solving limitations in CoCart is greatly appreciated.
 
-CoCart is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via Woocommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
+CoCart is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
 
 At present, I **do not offer a dedicated, premium support channel** for CoCart but will soon. Please understand this is a non-commercial plugin. As such:
 
