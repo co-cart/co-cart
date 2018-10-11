@@ -1,10 +1,10 @@
-# Cart REST API for WooCommerce
+# CoCart
 [![WP Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
-[![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/seb86/cart-rest-api-for-woocommerce/blob/master/LICENSE.md)
-[![GitHub forks](https://img.shields.io/github/forks/seb86/cart-rest-api-for-woocommerce.svg?style=flat)](https://github.com/seb86/cart-rest-api-for-woocommerce/network)
+[![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/co-cart/co-cart/blob/master/LICENSE.md)
+[![GitHub forks](https://img.shields.io/github/forks/co-cart/co-cart.svg?style=flat)](https://github.com/co-cart/co-cart/network)
 [![WordPress.org downloads](https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#reviews)
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Enable%20the%20ability%20to%20add,%20view,%20count,%20update%20and%20delete%20items%20from%20the%20cart%20using%20the%20REST%20API%20for%20WooCommerce.%20—&url=https://wordpress.org/plugins/cart-rest-api-for-woocommerce//&via=sebd86&hashtags=WordPress)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Enable%20the%20ability%20to%20add,%20view,%20count,%20update%20and%20delete%20items%20from%20the%20cart%20using%20CoCart.%20—&url=https://wordpress.org/plugins/cart-rest-api-for-woocommerce//&via=sebd86&hashtags=WordPress,CoCart)
 
 **Contributors:** sebd86  
 **Tags:** woocommerce, cart, endpoint, JSON, rest, api, REST API  
@@ -13,17 +13,19 @@
 **Requires PHP:** 5.6  
 **WC requires at least:** 3.2.0  
 **WC tested up to:** 3.4.4  
-**Stable tag:** 1.0.4  
+**Stable tag:** 1.0.5  
 **License:** GPL v2 or later  
 
 Provides additional REST API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
 
 
-## Overview 🔔
+## 🔔 Overview
 
-WooCommerce REST API is great but it’s missing one important endpoint that allows you to manage the cart. That is Cart REST API for WooCommerce comes in.
+CoCart, also written as co-cart, is a REST API for WooCommerce. Accessing the cart via the REST API was highly requested by mobile and app developers and was missing from the core of WooCommerce.
 
-Cart REST API for WooCommerce is created for developers 💻 in mind and allows you to use WooCommerce’s REST API to its full potential providing the option to create a full app 📱 for your store powered by WooCommerce.
+So I built it. Tada!
+
+It allows you to use WooCommerce’s REST API to its full potential providing the option to create a full web or mobile app 📱 for your store powered by WooCommerce.
 
 
 ### Is This Free?
@@ -44,24 +46,21 @@ This is a non-commercial plugin. As such:
 * Support inquiries may not be answered in a timely manner.
 * Critical issues may not be resolved promptly.
 
-If you:
+If you have a customization/integration requirement then I'd love to [hear from you](mailto:mailme@sebastiendumont.com)!
 
-* have a customization/integration requirement, or
-* want to see another feature added, e.g. support for **shipping total** or **coupons**,
+Please understand that this repository is not a place to seek help with configuration-related issues. Use it to report bugs or propose improvements.
 
-...then I'd love to [hear from you](mailto:mailme@sebastiendumont.com)!
+## 📘 Guide
 
-Please understand that this repository is not a place to seek help with configuration-related issues. Use it to report bugs, propose improvements, or discuss new features.
+#### 📖 Documentation
 
-## Guide 📘
+> Documentation for CoCart is a working progress.
 
-#### Documentation 📖
-
-Documentation for the [Cart REST API for WooCommerce](https://co-cart.github.io/co-cart-docs/)<br>
+Documentation for [CoCart](https://co-cart.github.io/co-cart-docs/)<br>
 The official [WooCommerce REST API Documentation](https://woocommerce.github.io/woocommerce-rest-api-docs/)
 
 
-#### Requirements ✅
+#### ✅ Requirements
 
 To use this plugin you will need:
 
@@ -71,13 +70,11 @@ To use this plugin you will need:
 * Pretty permalinks in Settings > Permalinks so that the custom endpoints are supported. **Default permalinks will not work.**
 * You may access the API over either HTTP or HTTPS, but HTTPS is recommended where possible.
 
-If you use ModSecurity and see 501 Method Not Implemented errors, see [this issue](https://github.com/woocommerce/woocommerce/issues/9838) for details.
 
-
-#### Installation 💽
+#### 💽 Installation
 
 ###### Manual
-1. Download a `.zip` file with the [latest version](https://github.com/seb86/cart-rest-api-for-woocommerce/releases).
+1. Download a `.zip` file with the [latest version](https://github.com/co-cart/co-cart/releases).
 2. Go to **WordPress Admin > Plugins > Add New**.
 3. Click **Upload Plugin** at the top.
 4. **Choose File** and select the `.zip` file you downloaded in **Step 1**.
@@ -85,7 +82,7 @@ If you use ModSecurity and see 501 Method Not Implemented errors, see [this issu
 
 ###### Automatic
 1. Go to **WordPress Admin > Plugins > Add New**.
-2. Search for **Cart REST API for WooCommerce**
+2. Search for **CoCart**
 3. Click **Install Now** on the plugin and **Activate** the plugin.
 
 
@@ -96,26 +93,26 @@ To view the cart endpoint, go to `yourdomainname.xyz/wp-json/wc/v2/cart/`
 See [documentation](#documentation-) on how to use all endpoints.
 
 
-## Support ⭐
+## ⭐ Support
 
-Cart REST API for WooCommerce is released freely and openly. Feedback or ideas and approaches to solving limitations in Cart REST API for WooCommerce is greatly appreciated.
+CoCart is released freely and openly. Feedback or ideas and approaches to solving limitations in CoCart is greatly appreciated.
 
-Cart REST API for WooCommerce is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via Woocommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
+CoCart is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via Woocommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
 
-At present, I **do not offer a dedicated, premium support channel** for Cart REST API for WooCommerce. Please understand this is a non-commercial plugin. As such:
+At present, I **do not offer a dedicated, premium support channel** for CoCart but will soon. Please understand this is a non-commercial plugin. As such:
 
 * Development time for it is effectively being donated and is, therefore, limited.
 * Support inquiries may not be answered in a timely manner.
 * Critical issues may not be resolved promptly.
 
-#### Reporting Issues 📝
+#### 📝 Reporting Issues
 
-If you think you have found a bug in the plugin, a problem with the documentation, or want to see a new feature added, please [open a new issue](https://github.com/seb86/cart-rest-api-for-woocommerce/issues/new) and I will do my best to help you out.
+If you think you have found a bug in the plugin, a problem with the documentation, or want to see a new feature added, please [open a new issue](https://github.com/co-cart/co-cart/issues/new) and I will do my best to help you out.
 
 
 ## Contribute
 
-If you or your company use Cart REST API for WooCommerce or appreciate the work I’m doing in open source, please consider supporting me directly so I can continue maintaining it and keep evolving the project. It's pretty clear that software actually costs something, and even though it may be offered freely, somebody is paying the cost.
+If you or your company use CoCart or appreciate the work I’m doing in open source, please consider supporting me directly so I can continue maintaining it and keep evolving the project. It's pretty clear that software actually costs something, and even though it may be offered freely, somebody is paying the cost.
 
 You'll be helping to ensure I can spend the time not just fixing bugs, adding features, releasing new versions, but also keeping the project afloat. Any contribution you make is a big help and is greatly appreciated.
 
@@ -135,7 +132,7 @@ Uncomment this part once the project has a least one supporter.
 [See all my amazing supports](#supporters) 🌟
 -->
 
-If you would like to contribute code to this project then please follow these [contribution guidelines](https://github.com/seb86/cart-rest-api-for-woocommerce/blob/master/CONTRIBUTING.md).
+If you would like to contribute code to this project then please follow these [contribution guidelines](https://github.com/co-cart/co-cart/blob/master/CONTRIBUTING.md).
 
 Thank you for your support! 🙌
 
@@ -150,12 +147,12 @@ Thank you for your support! 🙌
 
 ##### License
 
-Cart REST API for WooCommerce is released under [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.html).
+CoCart is released under [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.html).
 
 
 ##### Credits
 
-Cart REST API for WooCommerce is developed and maintained by [Sébastien Dumont](https://github.com/seb86).
+CoCart is developed and maintained by [Sébastien Dumont](https://github.com/seb86).
 
 ---
 
