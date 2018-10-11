@@ -4,7 +4,7 @@ Community made patches, localisations, bug reports and contributions are always 
 
 When contributing please ensure you follow the guidelines below so that I can keep on top of things.
 
-__Please Note:__ GitHub is for bug reports and contributions only - if you require support, see the [support section](https://github.com/co-cart/co-cart#support) for details.
+__Please Note:__ GitHub is for bug reports and contributions only - if you require support, see the [support section](https://github.com/co-cart/co-cart#-support) for details.
 
 ## Getting Started
 
