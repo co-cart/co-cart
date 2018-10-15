@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 					mainFile: '<%= pkg.name %>.php', // Main project file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					potHeaders: {
-						'Report-Msgid-Bugs-To': 'https://github.com/seb86/cart-rest-api-for-woocommerce/issues',
+						'Report-Msgid-Bugs-To': 'https://github.com/co-cart/co-cart/issues',
 						'language-team': 'Sébastien Dumont <mailme@sebastiendumont.com>',
 						'language': 'en_US'
 					},

@@ -1,4 +1,9 @@
-# Changelog for Cart REST API for WooCommerce
+# Changelog for CoCart
+
+## v1.0.5
+* Fixed: Variation and cart item data validation callback. - Issue #40 Thanks to @DennisMatise
+* Fixed: A fatal error that caused errors not to return properly. - Issue #35 Thanks to @skunkbad
+* Changed: Name of the plugin is now CoCart. The plugin slug will remain the same.
 
 ## v1.0.4
 * Fixed: Return response for numeric thanks to @campusboy87

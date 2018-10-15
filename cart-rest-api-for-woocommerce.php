@@ -1,18 +1,18 @@
 <?php
 /*
- * Plugin Name: Cart REST API for WooCommerce
- * Plugin URI:  https://github.com/seb86/cart-rest-api-for-woocommerce
+ * Plugin Name: CoCart
+ * Plugin URI:  https://github.com/co-cart/co-cart
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     1.0.4
+ * Version:     1.0.5
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * Requires at least: 4.4
- * Tested up to: 4.9.6
- * WC requires at least: 3.0.0
- * WC tested up to: 3.4.3
+ * Tested up to: 4.9.8
+ * WC requires at least: 3.2.0
+ * WC tested up to: 3.4.4
  *
  * Copyright: © 2018 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.0.4';
+		public static $version = '1.0.5';
 
 		/**
 		 * Required WooCommerce Version
@@ -196,8 +196,8 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		public static function plugin_row_meta( $links, $file ) {
 			if ( $file == plugin_basename( __FILE__ ) ) {
 				$row_meta = array(
-					'docs'    => '<a href="https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'support' => '<a href="https://seb86.github.io/WooCommerce-Cart-REST-API-Docs/#support" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'docs'    => '<a href="https://co-cart.github.io/co-cart-docs/" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'support' => '<a href="https://co-cart.github.io/co-cart-docs/#support" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				$links = array_merge( $links, $row_meta );
