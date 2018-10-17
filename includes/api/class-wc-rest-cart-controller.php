@@ -416,7 +416,7 @@ class WC_REST_Cart_Controller {
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
-			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
+			if ($product_data->has_enough_stock( $quantity ) && WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
 
@@ -429,10 +429,6 @@ class WC_REST_Cart_Controller {
 					do_action( 'wc_cart_rest_item_quantity_changed', $cart_item_key, $new_data );
 				}
 
-				if ( ! $product_data->has_enough_stock( $quantity ) ) {
-					return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
-				}
-				
 				// Return response based on product quantity increment.
 				if ( $quantity > $current_data['quantity'] ) {
 					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
