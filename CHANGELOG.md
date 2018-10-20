@@ -1,5 +1,9 @@
 # Changelog for CoCart
 
+## v1.0.6
+* Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
+* Improved: Updating items by adding a check to see if there is enough stock. Thanks to @DennisMatise
+
 ## v1.0.5
 * Fixed: Variation and cart item data validation callback. - Issue #40 Thanks to @DennisMatise
 * Fixed: A fatal error that caused errors not to return properly. - Issue #35 Thanks to @skunkbad

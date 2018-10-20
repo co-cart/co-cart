@@ -2,7 +2,7 @@
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 Requires at least: 4.4
 Tested up to: 4.9.8
 Requires PHP: 5.6
@@ -28,6 +28,17 @@ Intrigued? _I bet you are._ [See documentation](https://co-cart.github.io/co-car
 You can also [contribute](https://github.com/co-cart/co-cart/blob/master/CONTRIBUTING.md) to CoCart.
 
 Enjoy!
+
+> #### CoCart Pro
+> Want to control more? _I bet you do._ Here are just a few additional features.
+>
+> - Add and Remove Coupons to Cart<br />
+> - Calculate Shipping Fees<br />
+> - Calculate Totals and Fees<br />
+> - Support via Slack<br />
+> - and more features and add-ons to follow.<br />
+>
+> [Sign up if you are interested in CoCart Pro](http://eepurl.com/dKIYXE)
 
 = Support the Plugin =
 
