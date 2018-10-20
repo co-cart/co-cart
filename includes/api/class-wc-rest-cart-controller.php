@@ -417,7 +417,7 @@ class WC_REST_Cart_Controller {
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
-			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
+			if ($product_data->has_enough_stock( $quantity ) && WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
 
