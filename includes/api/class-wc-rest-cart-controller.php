@@ -417,6 +417,14 @@ class WC_REST_Cart_Controller {
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
+			$product_id = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
+			$variation_id = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
+			$current_prodcut = wc_get_product( $variation_id ? $variation_id : $product_id );
+
+			if (!$current_prodcut->has_enough_stock( $quantity ) ) {
+				return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_prodcut->get_name(), wc_format_stock_quantity_for_display( $current_prodcut->get_stock_quantity(), $current_prodcut ) ), array( 'status' => 500 ) );
+			}
+
 			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
@@ -425,9 +433,7 @@ class WC_REST_Cart_Controller {
 				$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( $new_data['variation_id'] );
 
 				$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
-				if (!$product_data->has_enough_stock( $quantity )) {
-					return new WP_ERROR( 'wc_cart_rest_can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
-				}
+
 				if ( $quantity != $new_data['quantity'] ) {
 					do_action( 'wc_cart_rest_item_quantity_changed', $cart_item_key, $new_data );
 				}
