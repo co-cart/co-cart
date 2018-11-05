@@ -417,7 +417,15 @@ class WC_REST_Cart_Controller {
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
-			if ($product_data->has_enough_stock( $quantity ) && WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
+			$product_id = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
+			$variation_id = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
+			$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
+
+			if (!$current_product->has_enough_stock( $quantity ) ) {
+				return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
+			}
+
+			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
 
