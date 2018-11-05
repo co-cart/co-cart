@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.7
+ * @version  1.0.6
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -151,7 +151,7 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 1.0.7
+	 * @version 1.0.6
 	 * @param   array $data
 	 * @return  WP_REST_Response
 	 */
