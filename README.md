@@ -13,7 +13,7 @@
 **Requires PHP:** 5.6  
 **WC requires at least:** 3.2.0  
 **WC tested up to:** 3.4.4  
-**Stable tag:** 1.0.5  
+**Stable tag:** 1.0.6  
 **License:** GPL v2 or later  
 
 Provides additional REST API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
@@ -91,6 +91,18 @@ To use this plugin you will need:
 To view the cart endpoint, go to `yourdomainname.xyz/wp-json/wc/v2/cart/`
 
 See [documentation](#-documentation) on how to use all endpoints.
+
+
+## 🚀 CoCart Pro
+Want to control more? _I bet you do._
+
+* Add and Remove Coupons to Cart<br />
+* Calculate Shipping Fees<br />
+* Calculate Totals and Fees<br />
+* Support via Slack<br />
+* and possibly more features and add-ons to follow.<br />
+
+[Sign up if you are interested in CoCart Pro](http://eepurl.com/dKIYXE)
 
 
 ## ⭐ Support
