@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.4
+ * @version  1.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -149,10 +149,11 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Get cart.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @param  array $data
-	 * @return WP_REST_Response
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 1.0.7
+	 * @param   array $data
+	 * @return  WP_REST_Response
 	 */
 	public function get_cart( $data = array() ) {
 		$cart = WC()->cart->get_cart();
