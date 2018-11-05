@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.6
+ * @version  1.0.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -149,17 +149,16 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Get cart.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 1.0.6
-	 * @param   array $data
-	 * @return  WP_REST_Response
+	 * @access public
+	 * @since  1.0.0
+	 * @param  array $data
+	 * @return WP_REST_Response
 	 */
 	public function get_cart( $data = array() ) {
 		$cart = WC()->cart->get_cart();
 
 		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
-			return new WP_REST_Response( array(), 200 );
+			return new WP_REST_Response( __( 'Cart is empty!', 'cart-rest-api-for-woocommerce' ), 200 );
 		}
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
@@ -417,7 +416,7 @@ class WC_REST_Cart_Controller {
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
-			if ($product_data->has_enough_stock( $quantity ) && WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
+			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
 
@@ -425,7 +424,9 @@ class WC_REST_Cart_Controller {
 				$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( $new_data['variation_id'] );
 
 				$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
-
+				if (!$product_data->has_enough_stock( $quantity )) {
+					return new WP_ERROR( 'wc_cart_rest_can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				}
 				if ( $quantity != $new_data['quantity'] ) {
 					do_action( 'wc_cart_rest_item_quantity_changed', $cart_item_key, $new_data );
 				}
