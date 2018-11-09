@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: CoCart
- * Plugin URI:  https://github.com/co-cart/co-cart
+ * Plugin URI:  https://cocart.xyz
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
@@ -12,7 +12,7 @@
  * Requires at least: 4.4
  * Tested up to: 4.9.8
  * WC requires at least: 3.2.0
- * WC tested up to: 3.4.4
+ * WC tested up to: 3.5
  *
  * Copyright: © 2018 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
@@ -20,11 +20,11 @@
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
-	class WC_Cart_Endpoint_REST_API {
+if ( ! class_exists( 'CoCart' ) ) {
+	class CoCart {
 
 		/**
-		 * @var WC_Cart_Endpoint_REST_API - the single instance of the class.
+		 * @var CoCart - the single instance of the class.
 		 *
 		 * @access protected
 		 * @static
@@ -51,15 +51,16 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		public static $required_woo = '3.0.0';
 
 		/**
-		 * Main WC_Cart_Endpoint_REST_API Instance.
+		 * Main CoCart Instance.
 		 *
-		 * Ensures only one instance of WC_Cart_Endpoint_REST_API is loaded or can be loaded.
+		 * Ensures only one instance of CoCart is loaded or can be loaded.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @since  1.0.0
-		 * @see    WC_Cart_Endpoint_REST_API()
-		 * @return WC_Cart_Endpoint_REST_API - Main instance
+		 * @since   1.0.0
+		 * @version 1.0.6
+		 * @see     CoCart()
+		 * @return  CoCart - Main instance
 		 */
 		public static function instance() {
 			if ( is_null( self::$_instance ) ) {
@@ -93,8 +94,9 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		/**
 		 * Load the plugin.
 		 *
-		 * @access public
-		 * @since  1.0.0
+		 * @access  public
+		 * @since   1.0.0
+		 * @version 2.0.0
 		 */
 		public function __construct() {
 			// Check WooCommerce dependency.
@@ -103,12 +105,9 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
-			// Add link to documentation and support.
+			// Add links to documentation and support.
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
-
-			// Include required files
-			add_action( 'woocommerce_loaded', array( $this, 'includes' ) );
-		}
+		} // END __construct()
 
 		/*-----------------------------------------------------------------------------------*/
 		/*  Helper Functions                                                                 */
@@ -129,27 +128,57 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		/**
 		 * Check WooCommerce dependency before activation.
 		 *
-		 * @access public
-		 * @since  1.0.0
+		 * @access  public
+		 * @since   1.0.0
+		 * @version 2.0.0
 		 */
 		public function check_woocommerce_dependency() {
-			// Check we're running the required version of WooCommerce.
-			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, self::$required_woo, '<' ) ) {
-				add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+			// Check if WooCommerce is installed.
+			if ( ! defined( 'WC_VERSION' ) ) {
+				add_action( 'admin_notices', array( $this, 'woocommerce_not_installed' ) );
 				return false;
 			}
+			// Check we're running the required version of WooCommerce.
+			else if ( version_compare( WC_VERSION, self::$required_woo, '<' ) ) {
+				add_action( 'admin_notices', array( $this, 'required_wc_version_failed' ) );
+				return false;
+			}
+
+			$this->woocommerce_is_active();
 		} // END check_woocommerce_dependency()
 
 		/**
-		 * Display a warning message if minimum version of WooCommerce check fails.
+		 * Run action hooks if WooCommerce is active.
 		 *
 		 * @access public
-		 * @since  1.0.0
+		 */
+		public function woocommerce_is_active() {
+			// Include required files
+			add_action( 'woocommerce_loaded', array( $this, 'includes' ) );
+		} // END woocommerce_is_active()
+
+		/**
+		 * WooCommerce is Not Installed or Activated Notice.
+		 *
+		 * @access public
 		 * @return void
 		 */
-		public function admin_notice() {
-			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'Cart REST API for WooCommerce', 'WooCommerce', self::$required_woo ) . '</p></div>';
-		} // END admin_notice()
+		public function woocommerce_not_installed() {
+			include_once( $this->plugin_path() . '/includes/admin/views/html-notice-wc-not-installed.php' );
+		} // END woocommerce_not_installed()
+
+		/**
+		 * Display a warning message if minimum version of WooCommerce check fails and
+		 * provide an update button if the user has admin capabilities to update plugins.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		public function required_wc_version_failed() {
+			//$wc_required = self::$required_woo;
+
+			include_once( $this->plugin_path() . '/includes/admin/views/html-notice-required-wc.php' );
+		} // END required_wc_version_failed()
 
 		/*-----------------------------------------------------------------------------------*/
 		/*  Localization                                                                     */
@@ -174,14 +203,14 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		/*-----------------------------------------------------------------------------------*/
 
 		/**
-		 * Includes Cart REST API for WooCommerce Admin.
+		 * Includes CoCart API.
 		 *
 		 * @access public
 		 * @since  1.0.0
 		 * @return void
 		 */
 		public function includes() {
-			include_once( $this->plugin_path() . '/includes/class-wc-cart-rest-api-init.php' );
+			include_once( $this->plugin_path() . '/includes/class-co-cart-init.php' );
 		} // END includes()
 
 		/**
@@ -210,4 +239,4 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 
 } // END if class exists
 
-return WC_Cart_Endpoint_REST_API::instance();
+return CoCart::instance();
