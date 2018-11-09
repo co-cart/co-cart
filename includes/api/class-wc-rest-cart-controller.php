@@ -269,6 +269,27 @@ class WC_REST_Cart_Controller {
 	} // END validate_product()
 
 	/**
+	 * Checks if the product in the cart has enough stock 
+	 * before updating the quantity.
+	 * 
+	 * @access protected
+	 * @since  1.0.6
+	 * @param  array $current_data
+	 * @return bool|WP_Error
+	 */
+	protected function has_enough_stock( $current_data = array() ) {
+		$product_id      = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
+		$variation_id    = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
+		$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
+
+		if ( ! $current_product->has_enough_stock( $quantity ) ) {
+			return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
+		}
+
+		return true;
+	} // END has_enough_stock()
+
+	/**
 	 * Add to Cart.
 	 *
 	 * @access public
@@ -404,7 +425,7 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 1.0.3
+	 * @version 1.0.6
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -417,13 +438,7 @@ class WC_REST_Cart_Controller {
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
-			$product_id = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
-			$variation_id = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
-			$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
-
-			if (!$current_product->has_enough_stock( $quantity ) ) {
-				return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
-			}
+			$this->has_enough_stock( $current_data ); // Checks if the item has enough stock before updating.
 
 			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 
