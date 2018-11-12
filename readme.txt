@@ -30,13 +30,13 @@ You can also [contribute](https://github.com/co-cart/co-cart/blob/master/CONTRIB
 Enjoy!
 
 > #### CoCart Pro
-> Want to control more? _I bet you do._ Here are just a few additional features.
+> Want to control more? _I bet you do._
 >
 > - Add and Remove Coupons to Cart<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
 > - Support via Slack<br />
-> - and more features and add-ons to follow.<br />
+> - and possibly more features and add-ons to follow.<br />
 >
 > [Sign up if you are interested in CoCart Pro](http://eepurl.com/dKIYXE)
 
