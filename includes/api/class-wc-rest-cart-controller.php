@@ -283,6 +283,8 @@ class WC_REST_Cart_Controller {
 		$variation_id    = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
 		$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
+		$quantity = absint( $quantity );
+
 		if ( ! $current_product->has_enough_stock( $quantity ) ) {
 			return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
 		}
