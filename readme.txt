@@ -67,7 +67,7 @@ I'm afraid not. This is because the libraries require authentication which the c
 No. Only the one in session, just as you would view the cart via the site.
 
 == Changelog ==
-= v1.0.6 - 11th November 2018 =
+= v1.0.6 - 12th November 2018 =
 * Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
 * Improved: Updating items by adding a check to see if there is enough stock. Thanks to @DennisMatise
 
