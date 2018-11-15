@@ -20,9 +20,17 @@ echo '<p>' . sprintf( __( '%1$s requires %2$sWooCommerce%3$s to be installed and
 
 echo '<p>';
 
-if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) && current_user_can( 'activate_plugin', 'woocommerce/woocommerce.php' ) ) :
+if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) && file_exists( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' ) ) :
 
-	echo '<a href="' . esc_url( wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php&plugin_status=active' ), 'activate-plugin_woocommerce/woocommerce.php' ) ) . '" class="button button-primary">' . esc_html__( 'Activate WooCommerce', 'cart-rest-api-for-woocommerce' ) . '</a>';
+	if ( current_user_can( 'activate_plugin', 'woocommerce/woocommerce.php' ) ) :
+
+		echo '<a href="' . esc_url( wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php&plugin_status=active' ), 'activate-plugin_woocommerce/woocommerce.php' ) ) . '" class="button button-primary">' . esc_html__( 'Activate WooCommerce', 'cart-rest-api-for-woocommerce' ) . '</a>';
+
+	else :
+
+		echo esc_html__( 'As you do not have permission to activate a plugin. Please ask a site administrator to activate WooCommerce for you.', 'cart-rest-api-for-woocommerce' );
+
+	endif;
 
 else:
 
@@ -37,7 +45,9 @@ else:
 endif;
 
 if ( current_user_can( 'deactivate_plugin', 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' ) ) :
-	echo '<a href="' . esc_url( wp_nonce_url( 'plugins.php?action=deactivate&plugin=cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php&plugin_status=inactive', 'deactivate-plugin_cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' ) ) . '" class="button button-secondary">' . esc_html__( 'Turn off CoCart plugin', 'cart-rest-api-for-woocommerce' ) . '</a>';
+
+	echo ' <a href="' . esc_url( wp_nonce_url( 'plugins.php?action=deactivate&plugin=cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php&plugin_status=inactive', 'deactivate-plugin_cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' ) ) . '" class="button button-secondary">' . esc_html__( 'Turn off CoCart plugin', 'cart-rest-api-for-woocommerce' ) . '</a>';
+
 endif;
 
 echo '</p>';
