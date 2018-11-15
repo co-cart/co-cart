@@ -105,8 +105,8 @@ if ( ! class_exists( 'CoCart' ) ) {
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
-			// Add links to documentation and support.
-			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+			// Setup Constants.
+			$this->setup_constants();
 		} // END __construct()
 
 		/*-----------------------------------------------------------------------------------*/
@@ -114,16 +114,35 @@ if ( ! class_exists( 'CoCart' ) ) {
 		/*-----------------------------------------------------------------------------------*/
 
 		/**
-		 * Get the Plugin Path.
+		 * Setup Constants
 		 *
+		 * @since  2.0.0
 		 * @access public
-		 * @static
-		 * @since  1.0.0
-		 * @return string
 		 */
-		public static function plugin_path() {
-			return untrailingslashit( plugin_dir_path( __FILE__ ) );
-		} // END plugin_path()
+		public function setup_constants() {
+			$this->define( 'COCART_VERSION', self::$version );
+			$this->define( 'COCART_FILE', __FILE__ );
+			$this->define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
+
+			$this->define( 'COCART_URL_PATH', untrailingslashit( plugins_url('/', __FILE__) ) );
+			$this->define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+
+			$this->define( 'COCART_WP_VERSION_REQUIRE', '4.4' );
+		} // END setup_constants()
+
+		/**
+		 * Define constant if not already set.
+		 *
+		 * @param  string $name
+		 * @param  string|bool $value
+		 * @access private
+		 * @since  2.0.0
+		 */
+		private function define( $name, $value ) {
+			if ( ! defined( $name ) ) {
+				define( $name, $value );
+			}
+		} // END define()
 
 		/**
 		 * Check WooCommerce dependency before activation.
