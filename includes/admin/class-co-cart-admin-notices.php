@@ -114,7 +114,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			// Is this version of CoCart a beta release?
-			if ( CoCart_Rest_API()::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
+			if ( CoCart_Rest_API::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
 		} // END add_notices()

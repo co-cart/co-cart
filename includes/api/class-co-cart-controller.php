@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart REST API/API
  */
-class WC_REST_Cart_Controller {
+class CoCart_API_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -324,7 +324,7 @@ class WC_REST_Cart_Controller {
 	 */
 	public function find_product_in_cart( $cart_id = false ) {
 		if ( false !== $cart_id ) {
-			if ( is_array( $this->get_cart() ) && isset( $this->get_cart( array(), $cart_id ) ) {
+			if ( is_array( $this->get_cart() ) && null !== $this->get_cart( array(), $cart_id ) ) {
 				return $cart_id;
 			}
 		}

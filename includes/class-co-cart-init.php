@@ -46,7 +46,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access public
 	 * @since  2.0.0
-	 * @param  array    $vars Query vars.
+	 * @param  array $vars Query vars.
 	 * @return string[]
 	 */
 	public function add_query_vars( $vars ) {
@@ -154,25 +154,24 @@ class CoCart_Rest_API {
 			'WC_REST_Cart_Controller',
 
 			// CoCart REST API v1 controller.
-			'CoCart_Controller'
+			'CoCart_API_Controller'
 		);
 
 		foreach ( $controllers as $controller ) {
 			$this->$controller = new $controller();
 			$this->$controller->register_routes();
 		}
-
-		$controller->register_routes();
 	} // END register_cart_route
 
 	/**
 	 * Detects if CoCart Pro is installed.
 	 *
 	 * @access public
+	 * @static
 	 * @since  2.0.0
 	 * @return boolean
 	 */
-	public function is_cocart_pro_version_installed() {
+	public static function is_cocart_pro_installed() {
 		$active_plugins = (array) get_option( 'active_plugins', array() );
 
 		if ( is_multisite() ) {
@@ -180,17 +179,18 @@ class CoCart_Rest_API {
 		}
 
 		return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
-	} // END is_cocart_pro_version_installed()
+	} // END is_cocart_pro_installed()
 
 	/**
 	 * Returns true if CoCart is a beta release.
 	 *
 	 * @access public
+	 * @static
 	 * @since  2.0.0
 	 * @return boolean
 	 */
-	public function is_cocart_beta() {
-		if ( strpos( CoCart::$version, 'beta' ) ) {
+	public static function is_cocart_beta() {
+		if ( strpos( COCART_VERSION, 'beta' ) ) {
 			return true;
 		}
 

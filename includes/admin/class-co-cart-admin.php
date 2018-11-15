@@ -72,7 +72,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			if ( current_user_can( 'manage_options' ) ) {
 				// Checks if CoCart Pro has been installed.
-				if ( ! CoCart_Rest_API()::is_cocart_pro_installed() ) {
+				if ( ! CoCart_Rest_API::is_cocart_pro_installed() ) {
 					$plugin_action_links['go-pro'] = '<a href="' . esc_url( 'https://cocart.xyz/pro/?utm_source=plugin&utm_medium=link&utm_campaign=plugins-page' ) . '" target="_blank" style="color:green; font-weight:bold;">' . __( 'Signup for CoCart Pro', 'cart-rest-api-for-woocommerce' ) . '</a>';
 				}
 
