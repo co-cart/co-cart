@@ -7,8 +7,7 @@
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/API
- * @since    1.0.0
- * @version  2.0.0
+ * @since    2.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -144,6 +143,9 @@ class CoCart_API_Controller {
 				'callback' => array( $this, 'remove_item' ),
 			),
 		) );
+
+		// Allows CoCart Pro to register additional routes for the API.
+		do_action( 'cocart_register_routes', $this->namespace, $this->rest_base );
 	} // register_routes()
 
 	/**
