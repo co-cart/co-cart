@@ -109,10 +109,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->setup_constants();
 		} // END __construct()
 
-		/*-----------------------------------------------------------------------------------*/
-		/*  Helper Functions                                                                 */
-		/*-----------------------------------------------------------------------------------*/
-
 		/**
 		 * Setup Constants
 		 *
@@ -245,10 +241,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END load_plugin_textdomain()
-
-		/*-----------------------------------------------------------------------------------*/
-		/*  Load Files                                                                       */
-		/*-----------------------------------------------------------------------------------*/
 
 		/**
 		 * Includes the required core files used for admin and the CoCart API.

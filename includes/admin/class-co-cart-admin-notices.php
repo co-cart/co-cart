@@ -56,7 +56,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function check_wp() {
 			global $wp_version;
 
-			if ( ! version_compare( $wp_version, '4.4', '>=' ) ) {
+			if ( ! version_compare( $wp_version, COCART_WP_VERSION_REQUIRE, '>=' ) ) {
 				add_action( 'admin_notices', array( $this, 'requirement_wp_notice' ) );
 				return false;
 			}
@@ -114,7 +114,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			// Is this version of CoCart a beta release?
-			if ( CoCart_Rest_API::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
+			if ( CoCart::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
 		} // END add_notices()

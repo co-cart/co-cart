@@ -12,7 +12,7 @@
 **Tested up to:** 4.9.8  
 **Requires PHP:** 5.6  
 **WC requires at least:** 3.2.0  
-**WC tested up to:** 3.4.4  
+**WC tested up to:** 3.5.1  
 **Stable tag:** 1.0.6  
 **License:** GPL v2 or later  
 
