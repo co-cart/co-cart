@@ -121,13 +121,15 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 */
 		public function setup_constants() {
 			$this->define( 'COCART_VERSION', self::$version );
-			$this->define( 'COCART_FILE', __FILE__ );
 			$this->define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
-
+			$this->define( 'COCART_FILE', __FILE__ );
+			$this->define( 'COCART_BASE', plugin_basename( __FILE__ ) );
 			$this->define( 'COCART_URL_PATH', untrailingslashit( plugins_url('/', __FILE__) ) );
 			$this->define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
 			$this->define( 'COCART_WP_VERSION_REQUIRE', '4.4' );
+			$this->define( 'COCART_SHOP_URL', 'https://cocart.xyz' );
+			$this->define( 'COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/' );
 		} // END setup_constants()
 
 		/**
@@ -197,9 +199,38 @@ if ( ! class_exists( 'CoCart' ) ) {
 			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-required-wc.php' );
 		} // END required_wc_version_failed()
 
-		/*-----------------------------------------------------------------------------------*/
-		/*  Localization                                                                     */
-		/*-----------------------------------------------------------------------------------*/
+		/**
+		 * Detects if CoCart Pro is activated.
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.0.0
+		 * @return boolean
+		 */
+		public static function is_cocart_pro_active() {
+			if ( class_exists( 'CoCart_Pro' ) ) {
+				return true;
+			}
+
+			return false;
+		} // END is_cocart_pro_active()
+
+
+		/**
+		 * Returns true if CoCart is a beta release.
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.0.0
+		 * @return boolean
+		 */
+		public static function is_cocart_beta() {
+			if ( strpos( COCART_VERSION, 'beta' ) ) {
+				return true;
+			}
+
+			return false;
+		} // END is_cocart_beta()
 
 		/**
 		 * Make the plugin translation ready.

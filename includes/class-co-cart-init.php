@@ -163,40 +163,6 @@ class CoCart_Rest_API {
 		}
 	} // END register_cart_route
 
-	/**
-	 * Detects if CoCart Pro is installed.
-	 *
-	 * @access public
-	 * @static
-	 * @since  2.0.0
-	 * @return boolean
-	 */
-	public static function is_cocart_pro_installed() {
-		$active_plugins = (array) get_option( 'active_plugins', array() );
-
-		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
-		}
-
-		return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
-	} // END is_cocart_pro_installed()
-
-	/**
-	 * Returns true if CoCart is a beta release.
-	 *
-	 * @access public
-	 * @static
-	 * @since  2.0.0
-	 * @return boolean
-	 */
-	public static function is_cocart_beta() {
-		if ( strpos( COCART_VERSION, 'beta' ) ) {
-			return true;
-		}
-
-		return false;
-	} // END is_cocart_beta()
-
 } // END class
 
 return new CoCart_Rest_API();

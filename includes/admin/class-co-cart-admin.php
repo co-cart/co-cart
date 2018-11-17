@@ -31,7 +31,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			//add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ), 10 );
 
 			// Filters
-			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
+			add_filter( 'plugin_action_links_' . COCART_BASE, array( $this, 'plugin_action_links' ) );
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta'), 10, 3 );
 		} // END __construct()
 
@@ -71,8 +71,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			$plugin_action_links = array();
 
 			if ( current_user_can( 'manage_options' ) ) {
-				// Checks if CoCart Pro has been installed.
-				if ( ! CoCart_Rest_API::is_cocart_pro_installed() ) {
+				// Checks if CoCart Pro is active.
+				if ( ! CoCart::is_cocart_pro_active() ) {
 					$plugin_action_links['go-pro'] = '<a href="' . esc_url( 'https://cocart.xyz/pro/?utm_source=plugin&utm_medium=link&utm_campaign=plugins-page' ) . '" target="_blank" style="color:green; font-weight:bold;">' . __( 'Signup for CoCart Pro', 'cart-rest-api-for-woocommerce' ) . '</a>';
 				}
 
