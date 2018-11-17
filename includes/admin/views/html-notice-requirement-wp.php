@@ -15,5 +15,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="notice notice-error">
-	<p><?php echo sprintf( __( 'Sorry, <strong>%s</strong> requires WordPress %s or higher. Please upgrade your WordPress setup.', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cocart' ), '4.4' ); ?></p>
+	<p><?php echo sprintf( __( 'Sorry, <strong>%s</strong> requires WordPress %s or higher. Please upgrade your WordPress setup.', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cocart' ), COCART_WP_VERSION_REQUIRE ); ?></p>
 </div>

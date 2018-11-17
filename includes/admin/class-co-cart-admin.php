@@ -100,8 +100,9 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				$links[ 1 ] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data[ 'AuthorURI' ] . '">' . $data[ 'Author' ] . '</a>' );
 
 				$row_meta = array(
-					'documentation' => '<a href="' . esc_url( 'https://co-cart.github.io/co-cart-docs/' ) . '" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'support'       => '<a href="' . esc_url( 'https://cocart.xyz/support/?utm_source=plugin&utm_medium=link&utm_campaign=plugins-page' ) . '" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'documentation' => '<a href="' . esc_url( 'https://co-cart.github.io/co-cart-docs/' ) . '" aria-label="' . esc_attr( __( 'View CoCart Documentation', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'support'       => '<a href="' . esc_url( 'https://cocart.xyz/support/?utm_source=plugin&utm_medium=link&utm_campaign=plugins-page' ) . '" aria-label="' . esc_attr( __( 'CoCart Support', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'review'        => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" aria-label="' . esc_attr( __( 'Review CoCart on WordPress.org', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank">' . __( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				$links = array_merge( $links, $row_meta );

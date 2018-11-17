@@ -30,8 +30,8 @@ $time = cocart_seconds_to_words( time() - $install_date );
 		</div>
 
 		<div class="cocart-review-now">
-			<?php printf( '<a href="%1$s" class="button button-primary cocart-review-button" target="_blank">%2$s</a>', esc_url( 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews?rate=5#new-post' ), esc_html__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) ); ?>
-			<a href="<?php echo esc_url( add_query_arg( 'hide_cocart_review_notice', 'true' ) ); ?>" class="no-thanks"><?php echo esc_html__( 'No thank you / I already have', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<?php printf( '<a href="%1$s" class="button button-primary cocart-review-button" aria-label="' . esc_html__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '" target="_blank">%2$s</a>', esc_url( 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews?rate=5#new-post' ), esc_html__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) ); ?>
+			<a href="<?php echo esc_url( add_query_arg( 'hide_cocart_review_notice', 'true' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide Review Notice', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'No thank you / I already have', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>
 </div>
