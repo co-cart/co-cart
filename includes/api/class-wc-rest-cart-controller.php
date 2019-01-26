@@ -213,6 +213,7 @@ class WC_REST_Cart_Controller {
 	 */
 	public function clear_cart() {
 		WC()->cart->empty_cart();
+		WC()->session->set('cart', array()); // Empty the session cart data
 
 		if ( WC()->cart->is_empty() ) {
 			return new WP_REST_Response( __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' ), 200 );
