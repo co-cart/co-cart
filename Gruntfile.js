@@ -86,7 +86,7 @@ module.exports = function(grunt) {
 				replacements: [
 					{
 						from: /Description:.*$/m,
-						to: "Description:     <%= pkg.description %>"
+						to: "Description: <%= pkg.description %>"
 					},
 					{
 						from: /Requires at least:.*$/m,
