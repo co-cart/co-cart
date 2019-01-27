@@ -1,19 +1,19 @@
-=== CoCart ===
+=== CoCart === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
-Stable tag: 1.0.6
-Requires at least: 4.4
-Tested up to: 4.9.8
+Requires at least: 4.9.8
 Requires PHP: 5.6
+Tested up to: 5.0.3
+Stable tag: 1.0.7
 WC requires at least: 3.0.0
-WC tested up to: 3.5.1
+WC tested up to: 3.5.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Adds additional REST-API endpoints for WooCommerce to enable the ability to manage the cart.
+A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
 
 == Description ==
 
@@ -111,4 +111,3 @@ See changelog for list of changes.
 
 = v1.0.0 - 26th February, 2018 =
 * Initial release on WordPress.org. Enjoy!
-
