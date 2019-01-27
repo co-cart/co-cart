@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.6
+ * @version  1.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -207,9 +207,10 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Clear cart.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @return WP_ERROR|WP_REST_Response
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 1.0.7
+	 * @return  WP_ERROR|WP_REST_Response
 	 */
 	public function clear_cart() {
 		WC()->cart->empty_cart();
