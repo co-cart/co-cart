@@ -1,5 +1,8 @@
 # Changelog for CoCart
 
+## v1.0.7
+* Tweaked: Clear cart now clears cart in session if the user is logged in.
+
 ## v1.0.6
 * Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
 * Improved: Updating items by adding a check to see if there is enough stock. Thanks to @DennisMatise
