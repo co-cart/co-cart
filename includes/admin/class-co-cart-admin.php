@@ -56,7 +56,9 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
 
-			wp_register_style( 'cocart-admin', COCART_SLUG . '_admin', '/assets/css/admin/cocart' . COCART_SCRIPT_MODE . '.css' );
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+			wp_register_style( 'cocart-admin', COCART_SLUG . '_admin', '/assets/css/admin/cocart' . $suffix . '.css' );
 			wp_enqueue_style( 'cocart-admin' );
 		} // END admin_styles()
 
@@ -96,7 +98,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @return  array  $links
 		 */
 		public function plugin_row_meta( $links, $file, $data ) {
-			if ( $file == plugin_basename( COCART_FILE ) ) {
+			if ( $file == COCART_BASE ) {
 				$links[ 1 ] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data[ 'AuthorURI' ] . '">' . $data[ 'Author' ] . '</a>' );
 
 				$row_meta = array(
