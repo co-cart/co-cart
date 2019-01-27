@@ -1,4 +1,6 @@
 === CoCart ===
+Author URI: https://sebastiendumont.com
+Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://www.paypal.me/CodeBreaker
@@ -66,7 +68,18 @@ I'm afraid not. This is because the libraries require authentication which the c
 = Can I view any customers cart? =
 No. Only the one in session, just as you would view the cart via the site.
 
+== Screenshots ==
+1. Empty Cart
+2. Viewing the carts content without product thumbnail.
+3. Viewing the carts content with product thumbnail.
+
+== Upgrade Notice ==
+See changelog for list of changes.
+
 == Changelog ==
+= v1.0.7 - 28th January 2019 =
+* Tweaked: Clear cart now clears cart in session if the user is logged in.
+
 = v1.0.6 - 12th November 2018 =
 * Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
 * Improved: Updating items by adding a check to see if there is enough stock. Thanks to @DennisMatise
@@ -99,10 +112,3 @@ No. Only the one in session, just as you would view the cart via the site.
 = v1.0.0 - 26th February, 2018 =
 * Initial release on WordPress.org. Enjoy!
 
-== Screenshots ==
-1. Empty Cart
-2. Viewing the carts content without product thumbnail.
-3. Viewing the carts content with product thumbnail.
-
-== Upgrade Notice ==
-See changelog for list of changes. I mainly wanted to let you know that the plugin has changed it's name to CoCart.
