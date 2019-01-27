@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: "Create a \U0001F41B report to help us improve CoCart"
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 <!-- Hi there! This form is for reporting bugs and issues specific to the CoCart plugin. This is not a support portal. -->
 
 <!-- Please be as descriptive as possible; issues lacking the below details, or for any other reason than to report a bug, may be closed without action. -->
@@ -48,3 +57,4 @@ I was expecting to see...
 Go to "WooCommerce > System Status then copy and paste the system status report here.
 ```
 </details>
+    
