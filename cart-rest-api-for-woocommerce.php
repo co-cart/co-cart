@@ -117,6 +117,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 */
 		public function setup_constants() {
 			$this->define( 'COCART_VERSION', self::$version );
+			$this->define( 'COCART_HAS_PRO', false );
 			$this->define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 			$this->define( 'COCART_FILE', __FILE__ );
 			$this->define( 'COCART_BASE', plugin_basename( __FILE__ ) );
@@ -211,6 +212,20 @@ if ( ! class_exists( 'CoCart' ) ) {
 			return false;
 		} // END is_cocart_pro_active()
 
+		/**
+		 * Checks if CoCart Pro exists.
+		 *
+		 * @access public
+		 * @static
+		 * @return boolean
+		 */
+		public static function has_cocart_pro() {
+			if ( COCART_HAS_PRO === true ) {
+				return true;
+			}
+
+			return false;
+		} // END has_cocart_pro()
 
 		/**
 		 * Returns true if CoCart is a beta release.
