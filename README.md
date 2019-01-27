@@ -8,15 +8,15 @@
 
 **Contributors:** sebd86  
 **Tags:** woocommerce, cart, endpoint, JSON, rest, api, REST API  
-**Requires at least:** 4.4  
-**Tested up to:** 4.9.8  
+**Requires at least:** 4.9.8  
+**Tested up to:** 5.0.3  
 **Requires PHP:** 5.6  
-**WC requires at least:** 3.2.0  
-**WC tested up to:** 3.4.4  
-**Stable tag:** 1.0.6  
+**WC requires at least:** 3.0.0  
+**WC tested up to:** 3.5.4  
+**Stable tag:** 1.0.7  
 **License:** GPL v2 or later  
 
-Provides additional REST API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
+A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
 
 
 ## 🔔 Overview
@@ -65,7 +65,7 @@ The official [WooCommerce REST API Documentation](https://woocommerce.github.io/
 To use this plugin you will need:
 
 * PHP v5.6+ (Recommend PHP v7.0+)
-* WordPress v4.4+
+* WordPress v4.9.8+
 * WooCommerce v3.0.0+
 * Pretty permalinks in Settings > Permalinks so that the custom endpoints are supported. **Default permalinks will not work.**
 * You may access the API over either HTTP or HTTPS, but HTTPS is recommended where possible.
