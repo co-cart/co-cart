@@ -85,8 +85,32 @@ module.exports = function(grunt) {
 				overwrite: true,
 				replacements: [
 					{
+						from: /Description:.*$/m,
+						to: "Description:     <%= pkg.description %>"
+					},
+					{
+						from: /Requires at least:.*$/m,
+						to: "Requires at least: <%= pkg.requires %>"
+					},
+					{
+						from: /Requires PHP:.*$/m,
+						to: "Requires PHP: <%= pkg.requires_php %>"
+					},
+					{
+						from: /Tested up to:.*$/m,
+						to: "Tested up to: <%= pkg.tested_up_to %>"
+					},
+					{
 						from: /Stable tag:.*$/m,
 						to: "Stable tag: <%= pkg.version %>"
+					},
+					{
+						from: /WC requires at least:.*$/m,
+						to: "WC requires at least: <%= pkg.wc_requires %>"
+					},
+					{
+						from: /WC tested up to:.*$/m,
+						to: "WC tested up to: <%= pkg.wc_tested_up_to %>"
 					},
 					{
 						from: /Version:.*$/m,
