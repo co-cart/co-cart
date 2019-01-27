@@ -9,11 +9,11 @@
 **Contributors:** sebd86  
 **Tags:** woocommerce, cart, endpoint, JSON, rest, api, REST API  
 **Requires at least:** 4.4  
-**Tested up to:** 4.9.8  
+**Tested up to:** 5.0.3  
 **Requires PHP:** 5.6  
 **WC requires at least:** 3.2.0  
-**WC tested up to:** 3.5.1  
-**Stable tag:** 1.0.6  
+**WC tested up to:** 3.5.4  
+**Stable tag:** 2.0.0  
 **License:** GPL v2 or later  
 
 Provides additional REST API endpoints for WooCommerce to enable the ability to add, view, count, update and delete items from the cart.
@@ -33,7 +33,6 @@ It allows you to use WooCommerce’s REST API to its full potential providing th
 Yes, it's free. But here's what you should _really_ care about:
 
 * The code adheres to the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards) and follows best practices and conventions.
-* The project is experimental at this time.
 
 > At this time, none of the official WooCommerce library wrappers can be used with this REST API as they all require authentication which makes it difficult to use along with the other official REST API endpoints that WooCommerce provides.
 
