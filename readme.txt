@@ -67,6 +67,13 @@ I'm afraid not. This is because the libraries require authentication which the c
 No. Only the one in session, just as you would view the cart via the site.
 
 == Changelog ==
+= v2.0.0 - ?? ?? 201? =
+* NEW: REST API endpoint. CoCart is now an individual API and is no longer nested with WooCommerce core REST API.
+* NEW: A check to see if the cart is empty and fallback to the cart in session if one exists.
+* NEW: Get a specific customers cart via their customer ID number. Only works if persistent cart was left enabled in WooCommerce.
+* Added: New filter to allow additional checks before the item is added to the cart.
+* Changed: Filter and Action Hook names. See documentation for details.
+* Improved: Checking for items already in the cart.
 
 = v1.0.6 - 12th November 2018 =
 * Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
