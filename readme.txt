@@ -35,6 +35,7 @@ Enjoy!
 > Want to control more? _I bet you do._
 >
 > - Add and Remove Coupons to Cart<br />
+> - Get and Set Shipping Methods<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
 > - Support via Slack<br />
