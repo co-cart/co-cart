@@ -3,11 +3,11 @@ Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
-Donate link: https://www.paypal.me/CodeBreaker
+Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
-Tested up to: 5.0.3
-Stable tag: 1.0.7
+Tested up to: 5.1
+Stable tag: 1.0.8
 WC requires at least: 3.0.0
 WC tested up to: 3.5.4
 License: GPLv3
@@ -78,8 +78,12 @@ No. Only the one in session, just as you would view the cart via the site.
 See changelog for list of changes.
 
 == Changelog ==
+= v1.0.8 - 18th February 2019 =
+* New: Ready for WordPress 5.1 release. 🎊
+* Added: Review link to plugins row.
+
 = v1.0.7 - 28th January 2019 =
-* Tweaked: Clear cart now clears cart in session if the user is logged in.
+* Tweaked: Clear cart now clears cart in session if the user is logged in. - Thanks to @elron for the patch.
 
 = v1.0.6 - 12th November 2018 =
 * Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz

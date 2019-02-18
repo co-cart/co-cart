@@ -1,7 +1,11 @@
 # Changelog for CoCart
 
+## v1.0.8
+* New: Ready for WordPress 5.1 release. 🎊
+* Added: Review link to plugins row.
+
 ## v1.0.7
-* Tweaked: Clear cart now clears cart in session if the user is logged in.
+* Tweaked: Clear cart now clears cart in session if the user is logged in. - Thanks to @elron for the patch.
 
 ## v1.0.6
 * Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz

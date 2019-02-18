@@ -5,12 +5,12 @@
  * Description: A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     1.0.7
+ * Version:     1.0.8
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * Requires at least: 4.9.8
- * Tested up to: 5.0.3
+ * Tested up to: 5.1
  * WC requires at least: 3.0.0
  * WC tested up to: 3.5.4
  *
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.0.7';
+		public static $version = '1.0.8';
 
 		/**
 		 * Required WooCommerce Version
@@ -187,17 +187,20 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		/**
 		 * Show row meta on the plugin screen.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @param  mixed $links
-		 * @param  mixed $file
-		 * @return array
+		 * @since   1.0.0
+		 * @version 1.0.8
+		 * @param   mixed $links
+		 * @param   mixed $file
+		 * @return  array
 		 */
 		public static function plugin_row_meta( $links, $file ) {
 			if ( $file == plugin_basename( __FILE__ ) ) {
 				$row_meta = array(
-					'docs'    => '<a href="https://co-cart.github.io/co-cart-docs/" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'support' => '<a href="https://co-cart.github.io/co-cart-docs/#support" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'docs'    => '<a href="' . esc_url( 'https://co-cart.github.io/co-cart-docs/' ) . '" target="_blank" aria-label="' . esc_attr( __( 'View CoCart Documentation', 'cart-rest-api-for-woocommerce' ) ) . '">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'support' => '<a href="' . esc_url( 'https://co-cart.github.io/co-cart-docs/#support' ) . '" target="_blank" aria-label="' . esc_attr( __( 'Create a support ticket for CoCart', 'cart-rest-api-for-woocommerce' ) ) . '">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'review'  => '<a href="' . esc_url( 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#reviews' ) . '" target="_blank" aria-label="' . esc_attr( __( 'Review CoCart on WordPress.org', 'cart-rest-api-for-woocommerce' ) ) . '">' . __( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				$links = array_merge( $links, $row_meta );
