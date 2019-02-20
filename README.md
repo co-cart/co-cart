@@ -124,8 +124,6 @@ I accept one-time donations and monthly via [BuyMeACoffee.com](https://www.buyme
 - Ethereum (ETH): `0xc6a3C18cf11f5307bFa11F8BCBD51F355b6431cB`
 - Litecoin (LTC): `MNNy3xBK8sM8t1YUA2iAwdi9wRvZp9yRoi`
 
-Thank you for your support! 🙌
-
 <!--
 Need to work on how to support monthly donations. Once I have figured it out, share details here.
 -->
