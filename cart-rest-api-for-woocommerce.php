@@ -110,10 +110,6 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 			add_action( 'woocommerce_loaded', array( $this, 'includes' ) );
 		}
 
-		/*-----------------------------------------------------------------------------------*/
-		/*  Helper Functions                                                                 */
-		/*-----------------------------------------------------------------------------------*/
-
 		/**
 		 * Get the Plugin Path.
 		 *
@@ -151,10 +147,6 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'Cart REST API for WooCommerce', 'WooCommerce', self::$required_woo ) . '</p></div>';
 		} // END admin_notice()
 
-		/*-----------------------------------------------------------------------------------*/
-		/*  Localization                                                                     */
-		/*-----------------------------------------------------------------------------------*/
-
 		/**
 		 * Make the plugin translation ready.
 		 *
@@ -168,10 +160,6 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END load_plugin_textdomain()
-
-		/*-----------------------------------------------------------------------------------*/
-		/*  Load Files                                                                       */
-		/*-----------------------------------------------------------------------------------*/
 
 		/**
 		 * Includes Cart REST API for WooCommerce Admin.
