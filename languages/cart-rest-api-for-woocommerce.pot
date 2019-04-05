@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 1.0.8\n"
+"Project-Id-Version: CoCart 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2019-02-18 19:23:08+00:00\n"
+"POT-Creation-Date: 2019-04-05 14:24:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,31 +22,31 @@ msgstr ""
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:151
+#: cart-rest-api-for-woocommerce.php:147
 msgid "%1$s requires at least %2$s v%3$s or higher."
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:201
+#: cart-rest-api-for-woocommerce.php:189
 msgid "View CoCart Documentation"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:201
+#: cart-rest-api-for-woocommerce.php:189
 msgid "Documentation"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:202
+#: cart-rest-api-for-woocommerce.php:190
 msgid "Create a support ticket for CoCart"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:202
+#: cart-rest-api-for-woocommerce.php:190
 msgid "Support"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:203
+#: cart-rest-api-for-woocommerce.php:191
 msgid "Review CoCart on WordPress.org"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:203
+#: cart-rest-api-for-woocommerce.php:191
 msgid "Leave a Review"
 msgstr ""
 
