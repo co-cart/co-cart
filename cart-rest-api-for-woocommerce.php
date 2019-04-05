@@ -199,7 +199,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 			if ( $file == plugin_basename( __FILE__ ) ) {
 				$row_meta = array(
 					'docs'    => '<a href="' . esc_url( 'https://co-cart.github.io/co-cart-docs/' ) . '" target="_blank" aria-label="' . esc_attr( __( 'View CoCart Documentation', 'cart-rest-api-for-woocommerce' ) ) . '">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'support' => '<a href="' . esc_url( 'https://co-cart.github.io/co-cart-docs/#support' ) . '" target="_blank" aria-label="' . esc_attr( __( 'Create a support ticket for CoCart', 'cart-rest-api-for-woocommerce' ) ) . '">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'support' => '<a href="' . esc_url( 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/' ) . '" target="_blank" aria-label="' . esc_attr( __( 'Create a support ticket for CoCart', 'cart-rest-api-for-woocommerce' ) ) . '">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'review'  => '<a href="' . esc_url( 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#reviews' ) . '" target="_blank" aria-label="' . esc_attr( __( 'Review CoCart on WordPress.org', 'cart-rest-api-for-woocommerce' ) ) . '">' . __( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
