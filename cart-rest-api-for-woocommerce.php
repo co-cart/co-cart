@@ -5,14 +5,14 @@
  * Description: A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     1.0.9
+ * Version:     1.1.0-rc.1
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * Requires at least: 4.9.8
  * Tested up to: 5.1.1
  * WC requires at least: 3.0.0
- * WC tested up to: 3.5.7
+ * WC tested up to: 3.6.1
  *
  * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.0.9';
+		public static $version = '1.1.0-rc.1';
 
 		/**
 		 * Required WooCommerce Version
@@ -100,14 +100,14 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 			// Check WooCommerce dependency.
 			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
 
-			// Load translation files.
-			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-
 			// Add link to documentation and support.
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 
 			// Include required files
-			add_action( 'woocommerce_loaded', array( $this, 'includes' ) );
+			add_action( 'init', array( $this, 'includes' ) );
+
+			// Load translation files.
+			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		}
 
 		/**
