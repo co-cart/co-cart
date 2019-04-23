@@ -12,14 +12,13 @@
 **Tags:** woocommerce, cart, endpoint, JSON, rest, api, REST API  
 **Requires at least:** 4.9.8  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.1  
+**Tested up to:** 5.1.1  
 **WC requires at least:** 3.0.0  
-**WC tested up to:** 3.5.4  
+**WC tested up to:** 3.6.1  
 **Stable tag:** 1.0.8  
 **License:** GPL v2 or later  
 
 A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
-
 
 ## 🔔 Overview
 
@@ -29,7 +28,6 @@ So I built it. Tada!
 
 It allows you to use WooCommerce’s REST API to its full potential providing the option to create a full web or mobile app 📱 for your store powered by WooCommerce.
 
-
 ### Is This Free?
 
 Yes, it's free. But here's what you should _really_ care about:
@@ -38,7 +36,6 @@ Yes, it's free. But here's what you should _really_ care about:
 * The project is experimental at this time.
 
 > At this time, none of the official WooCommerce library wrappers can be used with this REST API as they all require authentication which makes it difficult to use along with the other official REST API endpoints that WooCommerce provides.
-
 
 ### What's the Catch?
 
@@ -54,10 +51,9 @@ Please understand that this repository is not a place to seek help with configur
 
 ## 📘 Guide
 
-#### 📖 Documentation
+### 📖 Documentation
 
 [View documentation for CoCart](https://co-cart.github.io/co-cart-docs/). Documentation currently only has examples for using with _cURL_.
-
 
 #### ✅ Requirements
 
@@ -69,28 +65,27 @@ To use this plugin you will need:
 * Pretty permalinks in Settings > Permalinks so that the custom endpoints are supported. **Default permalinks will not work.**
 * You may access the API over either HTTP or HTTPS, but HTTPS is recommended where possible.
 
-
 #### 💽 Installation
 
-###### Manual
+##### Manual
+
 1. Download a `.zip` file with the [latest version](https://github.com/co-cart/co-cart/releases).
 2. Go to **WordPress Admin > Plugins > Add New**.
 3. Click **Upload Plugin** at the top.
 4. **Choose File** and select the `.zip` file you downloaded in **Step 1**.
 5. Click **Install Now** and **Activate** the plugin.
 
-###### Automatic
+##### Automatic
+
 1. Go to **WordPress Admin > Plugins > Add New**.
 2. Search for **CoCart**
 3. Click **Install Now** on the plugin and **Activate** the plugin.
-
 
 ### Usage
 
 To view the cart endpoint, go to `yourdomainname.xyz/wp-json/wc/v2/cart/`
 
 See [documentation](#-documentation) on how to use all endpoints.
-
 
 ## ⭐ Support
 
@@ -104,10 +99,9 @@ At present, I **do not offer a dedicated, premium support channel** for CoCart b
 * Support inquiries may not be answered in a timely manner.
 * Critical issues may not be resolved promptly.
 
-#### 📝 Reporting Issues
+### 📝 Reporting Issues
 
 If you think you have found a bug in the plugin, a problem with the documentation, or want to see a new feature added, please [open a new issue](https://github.com/co-cart/co-cart/issues/new) and I will do my best to help you out.
-
 
 ## Contribute
 
@@ -118,11 +112,12 @@ You'll be helping to ensure I can spend the time not just fixing bugs, adding fe
 Please also consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
 
 I accept one-time donations and monthly via [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
-- [My PayPal](https://www.paypal.me/codebreaker)
-- [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
-- Bitcoin (BTC): `3L4cU7VJsXBFckstfJdP2moaNhTHzVDkKQ`
-- Ethereum (ETH): `0xc6a3C18cf11f5307bFa11F8BCBD51F355b6431cB`
-- Litecoin (LTC): `MNNy3xBK8sM8t1YUA2iAwdi9wRvZp9yRoi`
+
+* [My PayPal](https://www.paypal.me/codebreaker)
+* [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
+* Bitcoin (BTC): `3L4cU7VJsXBFckstfJdP2moaNhTHzVDkKQ`
+* Ethereum (ETH): `0xc6a3C18cf11f5307bFa11F8BCBD51F355b6431cB`
+* Litecoin (LTC): `MNNy3xBK8sM8t1YUA2iAwdi9wRvZp9yRoi`
 
 <!--
 Need to work on how to support monthly donations. Once I have figured it out, share details here.
@@ -146,11 +141,9 @@ Thank you for your support! 🙌
 
 ---
 
-
 ##### License
 
 CoCart is released under [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.html).
-
 
 ##### Credits
 

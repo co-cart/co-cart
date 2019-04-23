@@ -1,6 +1,6 @@
 # Changelog for CoCart
 
-## v1.1.0 - ?? ??, 2019
+## v1.1.0 - 23rd April, 2019
 
 * Compatible: Support for WooCommerce 3.6+
 
