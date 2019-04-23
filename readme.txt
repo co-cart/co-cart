@@ -94,6 +94,10 @@ See changelog for list of changes.
 
 == Changelog ==
 
+= v1.1.0 - 23rd April, 2019 =
+
+* Compatible: Support for WooCommerce 3.6+
+
 = v1.0.9 - 5th April, 2019 =
 
 * Compatible: Tested up to WordPress 5.1.1
