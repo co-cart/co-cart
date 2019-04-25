@@ -14,8 +14,8 @@
 **Requires PHP:** 5.6  
 **Tested up to:** 5.1.1  
 **WC requires at least:** 3.0.0  
-**WC tested up to:** 3.6.1  
-**Stable tag:** 1.0.8  
+**WC tested up to:** 3.6.2  
+**Stable tag:** 1.1.1  
 **License:** GPL v2 or later  
 
 A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
