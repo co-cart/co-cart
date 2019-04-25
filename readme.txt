@@ -95,6 +95,7 @@ See changelog for list of changes.
 == Changelog ==
 
 = v1.1.1 - 25th April, 2019 =
+
 * Checked: Compatibility with WooCommerce v3.6.2
 * Updated: Changelog. Forgot to do it in last update.
 
