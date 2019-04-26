@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.7
+ * @version  1.0.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -144,6 +144,21 @@ class WC_REST_Cart_Controller {
 				'callback' => array( $this, 'remove_item' ),
 			),
 		) );
+		
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/coupon', 
+			array(
+				'methods'  => WP_REST_Server::CREATABLE,
+				'callback' => array( $this, 'apply_coupon' ),
+				'args'     => array(
+					'coupon' => array(
+						'default' => 1,
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param );
+						}
+					)
+				),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -503,5 +518,17 @@ class WC_REST_Cart_Controller {
 
 		return $totals;
 	} // END get_totals()
+	
+	/**
+	 * Apply coupon to cart
+	 *
+	 * @access public
+	 * @since  1.0.8
+	 * @param  array $data
+	 * @return boolean
+	 */
+	public function apply_coupon( $data = array() ) { 
+		return WC()->cart->apply_coupon($data['coupon']);
+	}
 
 } // END class
