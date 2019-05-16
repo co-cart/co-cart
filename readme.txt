@@ -35,9 +35,15 @@ Enjoy!
 > Want to control more? _I bet you do._
 >
 > - Add and Remove Coupons to Cart<br />
+> - Get Applied Coupons<br />
+> - Get Coupon Discount Total<br />
+> - Get Cart Total Weight<br />
+> - Get Cross Sales<br />
 > - Get and Set Shipping Methods<br />
+> - Get and Set Tax Fees<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
+> - Calculate Total and Shipping Tax Fees<br />
 > - Support via Slack<br />
 > - and possibly more features and add-ons to follow.<br />
 >
