@@ -137,12 +137,13 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		/**
 		 * Display a warning message if minimum version of WooCommerce check fails.
 		 *
-		 * @access public
-		 * @since  1.0.0
-		 * @return void
+		 * @access  public
+		 * @since   1.0.0
+		 * @version 1.1.2
+		 * @return  void
 		 */
 		public function admin_notice() {
-			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'Cart REST API for WooCommerce', 'WooCommerce', self::$required_woo ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ), esc_html__( 'WooCommerce', 'cart-rest-api-for-woocommerce' ), self::$required_woo ) . '</p></div>';
 		} // END admin_notice()
 
 		/**
