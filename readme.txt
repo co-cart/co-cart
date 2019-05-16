@@ -76,26 +76,33 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 == Frequently Asked Questions ==
 
 = How do I access the cart endpoints? =
+
 All can be explained via the API [documentation](https://co-cart.github.io/co-cart-docs/).
 
 = Does it work with any of the official WooCommerce libraries? =
+
 I'm afraid not. This is because the libraries require authentication which the cart does not require.
 
 = Can I view any customers cart? =
+
 No. Only the one in session, just as you would view the cart via the site.
 
 = Where can I report bugs or contribute to the project? =
+
 Bugs can be reported either in the community support forum or preferably on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues).
 
 = Where can I ask for help? =
+
 Please reach out via the official [support forum on WordPress.org](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
 
 == Screenshots ==
+
 1. Empty Cart
 2. Viewing the carts content without product thumbnail.
 3. Viewing the carts content with product thumbnail.
 
 == Upgrade Notice ==
+
 See changelog for list of changes.
 
 == Changelog ==
