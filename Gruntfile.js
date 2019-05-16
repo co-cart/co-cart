@@ -7,27 +7,52 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
-		// Generate .pot file
-		makepot: {
-			target: {
+		// Update developer dependencies
+		devUpdate: {
+			packages: {
 				options: {
-					type: 'wp-plugin', // Type of project (wp-plugin or wp-theme).
-					domainPath: 'languages', // Where to save the POT file.
-					mainFile: '<%= pkg.name %>.php', // Main project file.
-					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
-					potHeaders: {
-						'Report-Msgid-Bugs-To': 'https://github.com/co-cart/co-cart/issues',
-						'language-team': 'Sébastien Dumont <mailme@sebastiendumont.com>',
-						'language': 'en_US'
+					packageJson: null,
+					packages: {
+						devDependencies: true,
+						dependencies: false
 					},
-					exclude: [
-						'woo-dependencies/.*',
-						'node_modules'
-					]
+					reportOnlyPkgs: [],
+					reportUpdated: false,
+					semver: true,
+					updateType: 'force'
 				}
 			}
 		},
 
+		// Generate .pot file
+		makepot: {
+			target: {
+				options: {
+					cwd: '',
+					domainPath: 'languages',                                  // Where to save the POT file.
+					exclude: [
+						'releases',
+						'woo-dependencies/.*',
+						'node_modules'
+					],
+					mainFile: '<%= pkg.name %>.php', // Main project file.
+					potComments: '# Copyright (c) {{year}} Sébastien Dumont', // The copyright at the beginning of the POT file.
+					domainPath: 'languages', // Where to save the POT file.
+					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
+					potHeaders: {
+						'poedit': true,                                       // Includes common Poedit headers.
+						'x-poedit-keywordslist': true,                        // Include a list of all possible gettext functions.
+						'Report-Msgid-Bugs-To': 'https://github.com/co-cart/co-cart/issues',
+						'language-team': 'Sébastien Dumont <mailme@sebastiendumont.com>',
+						'language': 'en_US'
+					},
+					type: 'wp-plugin',                                        // Type of project.
+					updateTimestamp: true,                                    // Whether the POT-Creation-Date should be updated without other changes.
+				}
+			}
+		},
+
+		// Check strings for localization issues
 		checktextdomain: {
 			options:{
 				text_domain: '<%= pkg.name %>', // Project text domain.
@@ -77,32 +102,13 @@ module.exports = function(grunt) {
 
 		// Bump version numbers (replace with version in package.json)
 		replace: {
-			Version: {
-				src: [
-					'readme.txt',
-					'<%= pkg.name %>.php'
-				],
+			php: {
+				src: [ '<%= pkg.name %>.php' ],
 				overwrite: true,
 				replacements: [
 					{
 						from: /Description:.*$/m,
 						to: "Description: <%= pkg.description %>"
-					},
-					{
-						from: /Requires at least:.*$/m,
-						to: "Requires at least: <%= pkg.requires %>"
-					},
-					{
-						from: /Requires PHP:.*$/m,
-						to: "Requires PHP: <%= pkg.requires_php %>"
-					},
-					{
-						from: /Tested up to:.*$/m,
-						to: "Tested up to: <%= pkg.tested_up_to %>"
-					},
-					{
-						from: /Stable tag:.*$/m,
-						to: "Stable tag: <%= pkg.version %>"
 					},
 					{
 						from: /WC requires at least:.*$/m,
@@ -121,35 +127,67 @@ module.exports = function(grunt) {
 						to: "public static $version = '<%= pkg.version %>'"
 					}
 				]
+			},
+			readme: {
+				src: [
+					'readme.txt',
+					'README.md'
+				],
+				overwrite: true,
+				replacements: [
+					{
+						from: /Requires at least:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
+						to: 'Requires at least:$1$2<%= pkg.requires %>$3'
+					},
+					{
+						from: /Requires PHP:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
+						to: 'Requires PHP:$1$2<%= pkg.requires_php %>$3'
+					},
+					{
+						from: /Stable tag:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
+						to: 'Stable tag:$1$2<%= pkg.version %>$3'
+					},
+					{
+						from: /Tested up to:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
+						to: 'Tested up to:$1$2<%= pkg.tested_up_to %>$3'
+					},
+					{
+						from: /WC requires at least:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
+						to: 'WC requires at least:$1$2<%= pkg.wc_requires %>$3'
+					},
+					{
+						from: /WC tested up to:(\*\*|)(\s*?)[a-zA-Z0-9.-]+(\s*?)$/mi,
+						to: 'WC tested up to:$1$2<%= pkg.wc_tested_up_to %>$3'
+					},
+				]
 			}
 		},
 
 		// Copies the plugin to create deployable plugin.
 		copy: {
-			deploy: {
+			build: {
+				files: [
+					{
+						expand: true,
 				src: [
 					'**',
 					'!.*',
-					'!*.md',
+							'!**/*.{gif,jpg,jpeg,js,json,log,md,png,scss,sh,txt,xml,zip}',
 					'!.*/**',
+							'!.DS_Store',
 					'!.htaccess',
-					'!Gruntfile.js',
-					'!package.json',
-					'!package-lock.json',
+							'!assets/scss/**',
+							'!assets/**/*.scss',
+							'!<%= pkg.name %>-git/**',
+							'!<%= pkg.name %>-svn/**',
+							'!node_modules/**',
 					'!releases/**',
-					'!node_modules/**',
-					'!.DS_Store',
-					'!npm-debug.log',
-					'!*.sh',
-					'!*.zip',
-					'!*.jpg',
-					'!*.jpeg',
-					'!*.gif',
-					'!*.png'
+							'readme.txt'
 				],
-				dest: '<%= pkg.name %>',
-				expand: true,
+						dest: 'build/',
 				dot: true
+			}
+				]
 			}
 		},
 
@@ -163,7 +201,7 @@ module.exports = function(grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: './<%= pkg.name %>/',
+						cwd: './build/',
 						src: '**',
 						dest: '<%= pkg.name %>'
 					}
@@ -172,17 +210,22 @@ module.exports = function(grunt) {
 		},
 
 		// Deletes the deployable plugin folder once zipped up.
-		clean: [ '<%= pkg.name %>' ]
+		clean: {
+			build: [ 'build/' ]
+		}
 	});
 
 	// Set the default grunt command to run test cases.
 	grunt.registerTask( 'default', [ 'test' ] );
 
+	// Checks for developer dependencie updates.
+	grunt.registerTask( 'check', [ 'devUpdate' ] );
+
 	// Checks for errors.
 	grunt.registerTask( 'test', [ 'checktextdomain' ]);
 
-	// Checks for errors, updates version and runs i18n tasks.
-	grunt.registerTask( 'dev', [ 'replace', 'makepot' ]);
+	// Update version of plugin.
+	grunt.registerTask( 'version', [ 'replace' ] );
 
 	/**
 	 * Run i18n related tasks.
@@ -196,5 +239,5 @@ module.exports = function(grunt) {
 	 * Creates a deployable plugin zipped up ready to upload
 	 * and install on a WordPress installation.
 	 */
-	grunt.registerTask( 'zip', [ 'copy', 'compress', 'clean' ]);
+	grunt.registerTask( 'zip', [ 'copy:build', 'compress', 'clean:build' ]);
 };
