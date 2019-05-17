@@ -5,12 +5,12 @@
  * Description: A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     1.1.1
+ * Version:     1.1.2
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * WC requires at least: 3.0.0
- * WC tested up to: 3.6.2
+ * WC tested up to: 3.6.3
  *
  * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
@@ -37,7 +37,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.1.1';
+		public static $version = '1.1.2';
 
 		/**
 		 * Required WooCommerce Version

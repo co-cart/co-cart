@@ -12,10 +12,10 @@
 **Tags:** woocommerce, cart, endpoint, JSON, rest, api, REST API  
 **Requires at least:** 4.9.8  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.1.1  
+**Tested up to:** 5.2  
 **WC requires at least:** 3.0.0  
-**WC tested up to:** 3.6.2  
-**Stable tag:** 1.1.1  
+**WC tested up to:** 3.6.3  
+**Stable tag:** 1.1.2  
 **License:** GPL v2 or later  
 
 A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
