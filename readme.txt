@@ -107,7 +107,7 @@ See changelog for list of changes.
 
 == Changelog ==
 
-= v1.1.2 - 17th April, 2019 =
+= v1.1.2 - 17th May, 2019 =
 
 * Tweaked: Allow removing of items via update logic if quantity is zero. Thanks to [@SHoogland](https://github.com/SHoogland)
 
