@@ -107,6 +107,10 @@ See changelog for list of changes.
 
 == Changelog ==
 
+= v1.1.2 - 17th April, 2019 =
+
+* Tweaked: Allow removing of items via update logic if quantity is zero. Thanks to [@SHoogland](https://github.com/SHoogland)
+
 = v1.1.1 - 25th April, 2019 =
 
 * Checked: Compatibility with WooCommerce v3.6.2
