@@ -438,6 +438,10 @@ class WC_REST_Cart_Controller {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
 		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
 
+		if ( $quantity === 0 ) {
+			return $this->remove_item( $data );
+		}
+
 		$this->validate_quantity( $quantity );
 
 		if ( $cart_item_key != '0' ) {
