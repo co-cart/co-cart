@@ -430,7 +430,7 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 1.0.6
+	 * @version 1.1.2
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -438,6 +438,7 @@ class WC_REST_Cart_Controller {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
 		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
 
+		// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 		if ( $quantity === 0 ) {
 			return $this->remove_item( $data );
 		}
