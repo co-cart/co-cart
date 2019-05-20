@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v1.2.0 - 20th May, 2019
+
+* NEW: Add Getting Started page to introduce users to view the documentation once installed.
+* NEW: Plugin review notice appears after the first week of use.
+* Tweaked: Improved code base of the plugin, **NOT** the REST-API.
+
 ## v1.1.2 - 17th May, 2019
 
 * Tweaked: Allow removing of items via update logic if quantity is zero. Thanks to [@SHoogland](https://github.com/SHoogland)

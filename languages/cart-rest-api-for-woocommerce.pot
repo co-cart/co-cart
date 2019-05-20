@@ -1,10 +1,9 @@
-# Copyright (C) 2019 Sébastien Dumont
-# This file is distributed under the GNU General Public License v3.0.
+# # Copyright (c) {2019} Sébastien Dumont
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 1.1.1\n"
+"Project-Id-Version: CoCart 1.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2019-04-25 14:44:58+00:00\n"
+"POT-Creation-Date: 2019-05-20 16:34:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,42 +11,235 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Sébastien Dumont <mailme@sebastiendumont.com>\n"
 "Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: cart-rest-api-for-woocommerce.php:79
+#: cart-rest-api-for-woocommerce.php:78
 msgid "Cloning this object is forbidden."
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:90
+#: cart-rest-api-for-woocommerce.php:89
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:147
-msgid "%1$s requires at least %2$s v%3$s or higher."
+#: includes/admin/class-cocart-admin-action-links.php:43
+#: includes/admin/class-cocart-admin.php:51
+msgid "Getting Started with %s"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:189
-msgid "View CoCart Documentation"
+#. Plugin Name of the plugin/theme
+msgid "CoCart"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:189
+#: includes/admin/class-cocart-admin-action-links.php:43
+msgid "Getting Started"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:63
+msgid "Developed By %s"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:63
+msgid "View the developers site"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:73
+msgid "View %s documentation"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:73
 msgid "Documentation"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:190
-msgid "Create a support ticket for CoCart"
+#: includes/admin/class-cocart-admin-action-links.php:74
+msgid "Get support from the community"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:190
-msgid "Support"
+#: includes/admin/class-cocart-admin-action-links.php:74
+msgid "Community Support"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:191
-msgid "Review CoCart on WordPress.org"
+#: includes/admin/class-cocart-admin-action-links.php:75
+msgid "Review %s on WordPress.org"
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:191
+#: includes/admin/class-cocart-admin-action-links.php:75
+#: includes/admin/views/html-notice-please-review.php:33
 msgid "Leave a Review"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:82
+msgid "Sign up for %s"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:82
+#: includes/admin/views/html-getting-started.php:34
+msgid "CoCart Pro"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:82
+msgid "Pro Coming Soon"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:137
+#. translators: Number of years
+msgid "%s years"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:139
+msgid "a year"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:146
+#. translators: Number of weeks
+msgid "%s weeks"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:148
+msgid "a week"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:155
+#. translators: Number of days
+msgid "%s days"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:157
+msgid "a day"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:164
+#. translators: Number of hours
+msgid "%s hours"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:166
+msgid "an hour"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:173
+#. translators: Number of minutes
+msgid "%s minutes"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:175
+msgid "a minute"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:182
+#. translators: Number of seconds
+msgid "%s seconds"
+msgstr ""
+
+#: includes/admin/class-cocart-admin.php:184
+msgid "a second"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:28
+msgid "Getting Started with %s."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:34
+msgid "Thanks for purchasing %s."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:36
+msgid ""
+"You've just added more power to %1$s. %2$s to learn the additional "
+"endpoints now available to you."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:36
+#: includes/admin/views/html-getting-started.php:44
+msgid "View Documentation"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:38
+msgid "Thanks for choosing %s."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:40
+msgid ""
+"You've just added more control for the %2$s REST-API. %1$s gives you the "
+"final piece to the %2$s REST-API to enable it's full potential allowing you "
+"to build a store entirely via the REST-API."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:40
+#: includes/admin/views/html-notice-requirement-wc.php:18
+msgid "WooCommerce"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:51
+#. translators: 1: Opening <a> tag to the CoCart Twitter account, 2: Opening
+#. <a> tag to the CoCart Instagram account, 3: Opening <a> tag to the Auto Load
+#. Next Post contact page, 4: Opening <a> tag to the CoCart newsletter, 5:
+#. Closing </a> tag, 6: Plugin Name
+msgid ""
+"If you have any questions or feedback, let me know on %1$sTwitter%5$s, "
+"%2$sInstagram%5$s or via the %3$sFeedback page%5$s. Also, %4$ssubscribe to "
+"my newsletter%5$s if you want to stay up to date with what's new and "
+"upcoming in %6$s."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:55
+msgid "Enjoy!"
+msgstr ""
+
+#: includes/admin/views/html-notice-please-review.php:24
+#: includes/admin/views/html-notice-trying-beta.php:20
+msgid "CoCart WooCommerce REST-API Extension"
+msgstr ""
+
+#: includes/admin/views/html-notice-please-review.php:28
+msgid "Hi %1$s, are you enjoying %2$s?"
+msgstr ""
+
+#: includes/admin/views/html-notice-please-review.php:29
+msgid ""
+"You have been using %1$s for %2$s now! Mind leaving a review and let me "
+"know know what you think of the plugin? I'd really appreciate it!"
+msgstr ""
+
+#: includes/admin/views/html-notice-please-review.php:34
+msgid "No thank you / I already have"
+msgstr ""
+
+#: includes/admin/views/html-notice-requirement-wc.php:18
+msgid "%1$s requires at least %2$s v%3$s or higher."
+msgstr ""
+
+#: includes/admin/views/html-notice-requirement-wp.php:18
+msgid ""
+"Sorry, %1$s%3$s%2$s requires WordPress %4$s or higher. Please upgrade your "
+"WordPress setup."
+msgstr ""
+
+#: includes/admin/views/html-notice-trying-beta.php:24
+msgid "Thanks for trying out this beta/pre-release!"
+msgstr ""
+
+#: includes/admin/views/html-notice-trying-beta.php:25
+msgid ""
+"If you have any questions or any feedback at all, please let me know. Any "
+"little bit you're willing to share helps."
+msgstr ""
+
+#: includes/admin/views/html-notice-trying-beta.php:29
+msgid "Give Feedback"
+msgstr ""
+
+#: includes/admin/views/html-notice-trying-beta.php:30
+msgid "Ask me again in 7 days"
 msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:122
@@ -125,7 +317,7 @@ msgstr ""
 
 #: includes/api/class-wc-rest-cart-controller.php:401
 #: includes/api/class-wc-rest-cart-controller.php:424
-#: includes/api/class-wc-rest-cart-controller.php:473
+#: includes/api/class-wc-rest-cart-controller.php:478
 msgid "Cart item key is required!"
 msgstr ""
 
@@ -137,32 +329,32 @@ msgstr ""
 msgid "Unable to restore item to the cart."
 msgstr ""
 
-#: includes/api/class-wc-rest-cart-controller.php:463
+#: includes/api/class-wc-rest-cart-controller.php:468
 msgid "The quantity for \"%1$s\" has increased to \"%2$s\"."
 msgstr ""
 
-#: includes/api/class-wc-rest-cart-controller.php:465
+#: includes/api/class-wc-rest-cart-controller.php:470
 msgid "The quantity for \"%1$s\" has decreased to \"%2$s\"."
 msgstr ""
 
-#: includes/api/class-wc-rest-cart-controller.php:467
+#: includes/api/class-wc-rest-cart-controller.php:472
 msgid "The quantity for \"%s\" has not changed."
 msgstr ""
 
-#: includes/api/class-wc-rest-cart-controller.php:470
+#: includes/api/class-wc-rest-cart-controller.php:475
 msgid "Unable to update item quantity in cart."
 msgstr ""
 
-#: includes/api/class-wc-rest-cart-controller.php:486
+#: includes/api/class-wc-rest-cart-controller.php:491
 msgid "No items in cart to calculate totals."
 msgstr ""
 
-#: includes/api/class-wc-rest-cart-controller.php:491
+#: includes/api/class-wc-rest-cart-controller.php:496
 msgid "Cart totals have been calculated."
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "CoCart"
+#: includes/class-cocart-install.php:126
+msgid "Get started with %3$s here:"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -171,8 +363,8 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"A REST-API for WooCommerce that enables the ability to add, view, update "
-"and delete items from the cart."
+"Provides additional REST-API endpoints for WooCommerce to enable the "
+"ability to add, view, update and delete items from the cart."
 msgstr ""
 
 #. Author of the plugin/theme

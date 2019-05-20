@@ -1,6 +1,8 @@
 module.exports = function(grunt) {
 	'use strict';
 
+	var sass = require( 'node-sass' );
+
 	require('load-grunt-tasks')(grunt);
 
 	// Project configuration.
@@ -22,6 +24,83 @@ module.exports = function(grunt) {
 					updateType: 'force'
 				}
 			}
+		},
+
+		// SASS to CSS
+		sass: {
+			options: {
+				implementation: sass,
+				sourcemap: 'none'
+			},
+			dist: {
+				files: {
+					'assets/css/admin/cocart.css' : 'assets/scss/admin.scss'
+				}
+			}
+		},
+
+		// Post CSS
+		postcss: {
+			options: {
+				//map: false,
+				processors: [
+					require('autoprefixer')({
+						browsers: [
+							'> 0.1%',
+							'ie 8',
+							'ie 9'
+						]
+					})
+				]
+			},
+			dist: {
+				src: [
+					'!assets/css/admin/*.min.css',
+					'assets/css/admin/*.css'
+				]
+			}
+		},
+
+		// Minify CSS
+		cssmin: {
+			options: {
+				processImport: false,
+				roundingPrecision: -1,
+				shorthandCompacting: false
+			},
+			target: {
+				files: [{
+					expand: true,
+					cwd: 'assets/css/admin',
+					src: [
+						'*.css',
+						'!*.min.css'
+					],
+					dest: 'assets/css/admin',
+					ext: '.min.css'
+				}]
+			}
+		},
+
+		// Watch for changes made in SASS.
+		watch: {
+			css: {
+				files: [
+					'assets/scss/*.scss',
+					'assets/scss/admin/*.scss',
+				],
+				tasks: ['sass', 'postcss']
+			},
+		},
+
+		// Check for Sass errors with "stylelint"
+		stylelint: {
+			options: {
+				configFile: '.stylelintrc'
+			},
+			all: [
+				'assets/scss/**/*.scss',
+			]
 		},
 
 		// Generate .pot file
@@ -77,7 +156,6 @@ module.exports = function(grunt) {
 				src:  [
 					'*.php',
 					'**/*.php', // Include all files
-					'!woo-dependencies/**', // Exclude woo-dependencies/
 					'!node_modules/**' // Exclude node_modules/
 				],
 				expand: true
@@ -169,24 +247,24 @@ module.exports = function(grunt) {
 				files: [
 					{
 						expand: true,
-				src: [
-					'**',
-					'!.*',
+						src: [
+							'**',
+							'!.*',
 							'!**/*.{gif,jpg,jpeg,js,json,log,md,png,scss,sh,txt,xml,zip}',
-					'!.*/**',
+							'!.*/**',
 							'!.DS_Store',
-					'!.htaccess',
+							'!.htaccess',
 							'!assets/scss/**',
 							'!assets/**/*.scss',
 							'!<%= pkg.name %>-git/**',
 							'!<%= pkg.name %>-svn/**',
 							'!node_modules/**',
-					'!releases/**',
+							'!releases/**',
 							'readme.txt'
-				],
+						],
 						dest: 'build/',
-				dot: true
-			}
+						dot: true
+					}
 				]
 			}
 		},
@@ -222,7 +300,10 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'check', [ 'devUpdate' ] );
 
 	// Checks for errors.
-	grunt.registerTask( 'test', [ 'checktextdomain' ]);
+	grunt.registerTask( 'test', [ 'stylelint', 'checktextdomain' ]);
+
+	// Build CSS, minify CSS and runs i18n tasks.
+	grunt.registerTask( 'build', [ 'sass', 'postcss', 'cssmin', 'update-pot' ]);
 
 	// Update version of plugin.
 	grunt.registerTask( 'version', [ 'replace' ] );
