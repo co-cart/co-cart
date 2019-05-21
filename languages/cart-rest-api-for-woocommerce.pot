@@ -1,9 +1,9 @@
 # # Copyright (c) {2019} Sébastien Dumont
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 1.2.0\n"
+"Project-Id-Version: CoCart 1.2.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2019-05-20 16:34:42+00:00\n"
+"POT-Creation-Date: 2019-05-21 10:52:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
