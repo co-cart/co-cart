@@ -7,7 +7,7 @@ Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 WC requires at least: 3.0.0
 WC tested up to: 3.6.3
 License: GPLv3
@@ -106,6 +106,10 @@ Please reach out via the official [support forum on WordPress.org](https://wordp
 See changelog for list of changes.
 
 == Changelog ==
+
+= v1.2.1 - 21st May, 2019 =
+
+* Fix: Reverted change for including classes so **WC_VERSION** constant was defined first.
 
 = v1.2.0 - 20th May, 2019 =
 

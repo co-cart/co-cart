@@ -1,5 +1,9 @@
 # Changelog for CoCart
 
+## v1.2.1 - 21st May, 2019
+
+* Fix: Reverted change for including classes so **WC_VERSION** constant was defined first.
+
 ## v1.2.0 - 20th May, 2019
 
 * NEW: Add Getting Started page to introduce users to view the documentation once installed.
