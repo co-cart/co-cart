@@ -3,6 +3,7 @@
  * Admin View: Plugin Review Notice.
  *
  * @since    1.2.0
+ * @version  1.2.2
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Views
@@ -21,7 +22,7 @@ $time = CoCart_Admin::cocart_seconds_to_words( time() - $install_date );
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="https://ps.w.org/cart-rest-api-for-woocommerce/assets/icon-256x256.jpg" alt="<?php echo esc_attr__( 'CoCart WooCommerce REST-API Extension', 'cart-rest-api-for-woocommerce' ); ?>" />
+			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="<?php echo esc_attr__( 'CoCart WooCommerce REST-API Extension', 'cart-rest-api-for-woocommerce' ); ?>" />
 		</div>
 
 		<div class="cocart-notice-content">
