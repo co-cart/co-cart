@@ -28,7 +28,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			add_action( 'init', array( $this, 'check_version' ), 5 );
 
 			// Redirect to Getting Started page once activated.
-			add_action( 'activated_plugin', array( $this, 'redirect_getting_started') );
+			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ) );
 		} // END __construct()
 
 		/**
@@ -137,6 +137,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			wp_safe_redirect( $getting_started );
 			exit;
 		} // END redirect_getting_started()
+
 	} // END class.
 
 } // END if class exists.
