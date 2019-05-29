@@ -98,6 +98,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 */
 		public function __construct() {
 			$this->setup_constants();
+			$this->admin_includes();
 
 			// Initialize plugin.
 			add_action( 'plugins_loaded', array( $this, 'initialize_plugin' ) );
@@ -173,7 +174,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @return  void
 		 */
 		public function requirement_wc_notice() {
-			include( dirname( __FILE__ ) . '/views/html-notice-requirement-wc.php' );
+			include( dirname( __FILE__ ) . '/admin/views/html-notice-requirement-wc.php' );
 		} // END requirement_wc_notice()
 
 		/**
@@ -186,15 +187,21 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 */
 		public function includes() {
 			include_once( dirname( __FILE__ ) . '/includes/class-wc-cart-rest-api-init.php' );
-
-			// Include admin class to handle all back-end functions.
-			if ( is_admin() ) {
-				include_once( dirname( __FILE__ ) . '/includes/admin/class-cocart-admin.php' );
-			}
-
-			// Install.
-			require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' );
 		} // END includes()
+
+		/**
+		 * Include admin class to handle all back-end functions.
+		 *
+		 * @access public
+		 * @since  1.2.2
+		 * @return void
+		 */
+		public function admin_includes() {
+			if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+				include_once( dirname( __FILE__ ) . '/includes/admin/class-cocart-admin.php' );
+				require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' ); // Install CoCart.
+			}
+		} // END admin_includes()
 
 		/**
 		 * Make the plugin translation ready.
