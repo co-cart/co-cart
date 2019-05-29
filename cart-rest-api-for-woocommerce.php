@@ -5,7 +5,7 @@
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     1.2.1
+ * Version:     1.2.2
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
@@ -37,7 +37,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.2.1';
+		public static $version = '1.2.2';
 
 		/**
 		 * Required WooCommerce Version
@@ -94,7 +94,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 1.2.1
+		 * @version 1.2.2
 		 */
 		public function __construct() {
 			$this->setup_constants();
@@ -170,7 +170,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 1.2.0
+		 * @version 1.2.2
 		 * @return  void
 		 */
 		public function requirement_wc_notice() {
@@ -182,7 +182,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 1.2.0
+		 * @version 1.2.2
 		 * @return  void
 		 */
 		public function includes() {
