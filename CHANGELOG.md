@@ -1,8 +1,15 @@
 # Changelog for CoCart
 
+## v1.2.2 - 30th May, 2019
+
+* Fix: Plugin would fail to install date and version for future updates.
+* Fix: Plugin would fail to redirect to Getting Started page once activated.
+
+> Both of these failed due to reverting a change in the last update to fix the API from crashing.
+
 ## v1.2.1 - 21st May, 2019
 
-* Fix: Reverted change for including classes so **WC_VERSION** constant was defined first.
+* HOTFIX: Reverted change for including classes so **WC_VERSION** constant was defined first.
 
 ## v1.2.0 - 20th May, 2019
 
