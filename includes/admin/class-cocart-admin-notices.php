@@ -3,6 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
+ * @version  1.2.2
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -98,12 +99,16 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END dont_bug_me()
 
 		/**
-		 * Checks if the theme supports the plugin and display the plugin review
-		 * notice after 7 days or more from the time the plugin was installed.
+		 * Displays admin notices for the following:
 		 *
-		 * @access public
-		 * @global $current_user
-		 * @return void|bool
+		 * 1. Plugin review, shown after 7 days or more from the time the plugin was installed.
+		 * 2. Testing a beta/pre-release version of the plugin.
+		 *
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 1.2.2
+		 * @global  $current_user
+		 * @return  void|bool
 		 */
 		public function add_notices() {
 			global $current_user;
