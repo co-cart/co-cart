@@ -101,9 +101,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->setup_constants();
 			$this->admin_includes();
 
-			// Check WooCommerce dependency.
-			add_action( 'plugins_loaded', array( $this, 'initialize_plugin' ) );
-
 			// Include required files.
 			add_action( 'init', array( $this, 'includes' ) );
 
@@ -147,37 +144,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 				define( $name, $value );
 			}
 		} // END define()
-
-		/**
-		 * Include the rest of the plugin if WooCommerce is active.
-		 *
-		 * @access public
-		 */
-		public function woocommerce_is_active() {
-			// Include required files
-			$this->includes();
-		} // END woocommerce_is_active()
-
-		/**
-		 * WooCommerce is Not Installed or Activated Notice.
-		 *
-		 * @access public
-		 * @return void
-		 */
-		public function woocommerce_not_installed() {
-			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-wc-not-installed.php' );
-		} // END woocommerce_not_installed()
-
-		/**
-		 * Display a warning message if minimum version of WooCommerce check fails and
-		 * provide an update button if the user has admin capabilities to update plugins.
-		 *
-		 * @access public
-		 * @return void
-		 */
-		public function required_wc_version_failed() {
-			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-required-wc.php' );
-		} // END required_wc_version_failed()
 
 		/**
 		 * Includes Cart REST-API for WooCommerce.
