@@ -138,7 +138,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * Define constant if not already set.
 		 *
 		 * @access private
-		 * @since  2.0.0
+		 * @since  1.2.0
 		 * @param  string $name
 		 * @param  string|bool $value
 		 */
@@ -180,11 +180,11 @@ if ( ! class_exists( 'CoCart' ) ) {
 		} // END required_wc_version_failed()
 
 		/**
-		 * Includes the required core files used for admin and the CoCart API.
+		 * Includes Cart REST-API for WooCommerce.
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.0.0
+		 * @version 1.2.2
 		 * @return  void
 		 */
 		public function includes() {
