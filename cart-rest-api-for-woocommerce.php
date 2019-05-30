@@ -9,12 +9,10 @@
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
- * Requires at least: 4.4
- * Tested up to: 4.9.8
- * WC requires at least: 3.2.0
- * WC tested up to: 3.5
+ * WC requires at least: 3.0.0
+ * WC tested up to: 3.6.3
  *
- * Copyright: © 2018 Sébastien Dumont, (mailme@sebastiendumont.com)
+ * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -99,40 +97,58 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @version 2.0.0
 		 */
 		public function __construct() {
+			// Setup Constants.
+			$this->setup_constants();
+			$this->admin_includes();
+
 			// Check WooCommerce dependency.
-			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
+			add_action( 'plugins_loaded', array( $this, 'initialize_plugin' ) );
+
+			// Include required files.
+			add_action( 'init', array( $this, 'includes' ) );
 
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-
-			// Add links to documentation and support.
-			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		} // END __construct()
 
-		/*-----------------------------------------------------------------------------------*/
-		/*  Helper Functions                                                                 */
-		/*-----------------------------------------------------------------------------------*/
-
 		/**
-		 * Get the Plugin Path.
+		 * Setup Constants
 		 *
 		 * @access public
-		 * @static
-		 * @since  1.0.0
-		 * @return string
+		 * @since  1.2.0
 		 */
-		public static function plugin_path() {
-			return untrailingslashit( plugin_dir_path( __FILE__ ) );
-		} // END plugin_path()
+		public function setup_constants() {
+			$this->define('COCART_VERSION', self::$version);
+			$this->define('COCART_FILE', __FILE__);
+			$this->define('COCART_SLUG', 'cart-rest-api-for-woocommerce');
+
+			$this->define('COCART_URL_PATH', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
+			$this->define('COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+
+			$this->define('COCART_WP_VERSION_REQUIRE', '4.4' );
+
+			$this->define('COCART_STORE_URL', 'https://cocart.xyz/');
+			$this->define('COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/');
+			$this->define('COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce');
+			$this->define('COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/');
+			$this->define('COCART_DOCUMENTATION_URL', 'https://co-cart.github.io/co-cart-docs/');
+		} // END setup_constants()
 
 		/**
-		 * Check WooCommerce dependency before activation.
+		 * Define constant if not already set.
 		 *
-		 * @access  public
-		 * @since   1.0.0
-		 * @version 2.0.0
+		 * @access private
+		 * @since  2.0.0
+		 * @param  string $name
+		 * @param  string|bool $value
 		 */
-		public function check_woocommerce_dependency() {
+		private function define( $name, $value ) {
+			if ( ! defined( $name ) ) {
+				define( $name, $value );
+			}
+		} // END define()
+
+		/**
 			// Check if WooCommerce is installed.
 			if ( ! defined( 'WC_VERSION' ) ) {
 				add_action( 'admin_notices', array( $this, 'woocommerce_not_installed' ) );
@@ -164,7 +180,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @return void
 		 */
 		public function woocommerce_not_installed() {
-			include_once( $this->plugin_path() . '/includes/admin/views/html-notice-wc-not-installed.php' );
+			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-wc-not-installed.php' );
 		} // END woocommerce_not_installed()
 
 		/**
@@ -175,14 +191,34 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @return void
 		 */
 		public function required_wc_version_failed() {
-			//$wc_required = self::$required_woo;
-
-			include_once( $this->plugin_path() . '/includes/admin/views/html-notice-required-wc.php' );
+			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-required-wc.php' );
 		} // END required_wc_version_failed()
 
-		/*-----------------------------------------------------------------------------------*/
-		/*  Localization                                                                     */
-		/*-----------------------------------------------------------------------------------*/
+		/**
+		 * Includes the required core files used for admin and the CoCart API.
+		 *
+		 * @access  public
+		 * @since   1.0.0
+		 * @version 2.0.0
+		 * @return  void
+		 */
+		public function includes() {
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
+		} // END includes()
+
+		/**
+		 * Include admin class to handle all back-end functions.
+		 *
+		 * @access public
+		 * @since  1.2.2
+		 * @return void
+		 */
+		public function admin_includes() {
+			if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+				include_once( dirname( __FILE__ ) . '/includes/admin/class-cocart-admin.php' );
+				require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' ); // Install CoCart.
+			}
+		} // END admin_includes()
 
 		/**
 		 * Make the plugin translation ready.
@@ -197,43 +233,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END load_plugin_textdomain()
-
-		/*-----------------------------------------------------------------------------------*/
-		/*  Load Files                                                                       */
-		/*-----------------------------------------------------------------------------------*/
-
-		/**
-		 * Includes CoCart API.
-		 *
-		 * @access public
-		 * @since  1.0.0
-		 * @return void
-		 */
-		public function includes() {
-			include_once( $this->plugin_path() . '/includes/class-co-cart-init.php' );
-		} // END includes()
-
-		/**
-		 * Show row meta on the plugin screen.
-		 *
-		 * @access public
-		 * @static
-		 * @param  mixed $links
-		 * @param  mixed $file
-		 * @return array
-		 */
-		public static function plugin_row_meta( $links, $file ) {
-			if ( $file == plugin_basename( __FILE__ ) ) {
-				$row_meta = array(
-					'docs'    => '<a href="https://co-cart.github.io/co-cart-docs/" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'support' => '<a href="https://co-cart.github.io/co-cart-docs/#support" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
-				);
-
-				$links = array_merge( $links, $row_meta );
-			}
-
-			return $links;
-		} // END plugin_row_meta()
 
 	} // END class
 

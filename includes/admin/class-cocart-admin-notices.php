@@ -1,8 +1,8 @@
 <?php
 /**
- * Display notices in the WordPress admin.
+ * CoCart - Display notices in the WordPress admin.
  *
- * @since    2.0.0
+ * @since    1.2.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -42,21 +42,25 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
 
 			// Display other admin notices when required. All are dismissable.
-			add_action( 'admin_notices', array( $this, 'add_notices' ), 0 );
+			add_action( 'admin_print_styles', array( $this, 'add_notices' ), 0 );
 		} // END __construct()
 
 		/**
 		 * Checks that the WordPress version meets the plugin requirement.
 		 *
 		 * @access public
-		 * @since  2.0.0
 		 * @global string $wp_version
 		 * @return bool
 		 */
 		public function check_wp() {
 			global $wp_version;
 
-			if ( ! version_compare( $wp_version, '4.4', '>=' ) ) {
+			// If the current user can not install plugins then return nothing!
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				return false;
+			}
+
+			if ( ! version_compare( $wp_version, COCART_WP_VERSION_REQUIRE, '>=' ) ) {
 				add_action( 'admin_notices', array( $this, 'requirement_wp_notice' ) );
 				return false;
 			}
@@ -88,7 +92,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			if ( $user_hidden_notice ) {
 				// Redirect to the plugins page.
-				wp_safe_redirect( admin_url( 'plugins.php' ) ); exit;
+				wp_safe_redirect( admin_url( 'plugins.php' ) );
+				exit;
 			}
 		} // END dont_bug_me()
 
@@ -98,23 +103,37 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @global $current_user
+		 * @return void|bool
 		 */
 		public function add_notices() {
 			global $current_user;
+
+			// If the current user can not install plugins then return nothing!
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				return false;
+			}
+
+			$screen    = get_current_screen();
+			$screen_id = $screen ? $screen->id : '';
+
+			// Notices should only show on the main dashboard and on the plugins screen.
+			if ( ! in_array( $screen_id, CoCart_Admin::cocart_get_admin_screens() ) ) {
+				return false;
+			}
 
 			// Is admin review notice hidden?
 			$hide_review_notice = get_user_meta( $current_user->ID, 'cocart_hide_review_notice', true );
 
 			// Check if we need to display the review plugin notice.
-			if ( current_user_can( 'install_plugins' ) && empty( $hide_review_notice ) ) {
+			if ( empty( $hide_review_notice ) ) {
 				// If it has been a week or more since activating the plugin then display the review notice.
 				if ( ( intval( time() - self::$install_date ) ) > WEEK_IN_SECONDS ) {
 					add_action( 'admin_notices', array( $this, 'plugin_review_notice' ) );
 				}
 			}
 
-			// Is this version of CoCart a beta release?
-			if ( CoCart_Rest_API()::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
+			// Is this version of CoCart a beta/pre-release?
+			if ( CoCart_Admin::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
 		} // END add_notices()

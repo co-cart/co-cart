@@ -2,7 +2,7 @@
 /**
  * Admin View: WordPress Requirment Notice.
  *
- * @since    2.0.0
+ * @since    1.2.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Views
@@ -15,5 +15,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="notice notice-error">
-	<p><?php echo sprintf( __( 'Sorry, <strong>%s</strong> requires WordPress %s or higher. Please upgrade your WordPress setup.', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cocart' ), '4.4' ); ?></p>
+	<p><?php echo sprintf( __( 'Sorry, %1$s%3$s%2$s requires WordPress %4$s or higher. Please upgrade your WordPress setup.', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>', esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ), COCART_WP_VERSION_REQUIRE ); ?></p>
 </div>

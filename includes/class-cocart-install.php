@@ -2,7 +2,7 @@
 /**
  * CoCart - Installation related functions and actions.
  *
- * @since    2.0.0
+ * @since    1.2.0
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart/Classes/Install
@@ -19,25 +19,16 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 	class CoCart_Install {
 
 		/**
-		 * Plugin version.
-		 *
-		 * @access private
-		 * @static
-		 * @var    string
-		 */
-		private static $current_version;
-
-		/**
 		 * Constructor.
 		 *
 		 * @access public
 		 */
 		public function __construct() {
-			add_action( 'init', array( __CLASS__, 'add_rewrite_endpoint' ), 0 );
-			add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
+			// Checks version of CoCart and install/update if needed.
+			add_action( 'init', array( $this, 'check_version' ), 5 );
 
-			// Get plugin version.
-			self::$current_version = get_option( 'cocart_version' );
+			// Redirect to Getting Started page once activated.
+			add_action( 'activated_plugin', array( $this, 'redirect_getting_started') );
 		} // END __construct()
 
 		/**
@@ -49,7 +40,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function check_version() {
-			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( self::$current_version, COCART_VERSION, '<' ) ) {
+			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 				self::install();
 				do_action( 'cocart_updated' );
 			}
@@ -83,9 +74,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			// Update plugin version.
 			self::update_version();
 
-			// Refresh rewrite rules.
-			self::flush_rewrite_rules();
-
 			delete_transient( 'cocart_installing' );
 
 			do_action( 'cocart_installed' );
@@ -108,31 +96,47 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function set_install_date() {
-			$install_date = get_site_option( 'cocart_install_date' );
-
 			add_site_option( 'cocart_install_date', time() );
 		} // END set_install_date()
 
 		/**
-		 * Add rewrite endpoint for CoCart.
+		 * Redirects to the Getting Started page upon plugin activation.
 		 *
 		 * @access public
 		 * @static
+		 * @param  string $plugin The activate plugin name.
 		 */
-		public static function add_rewrite_endpoint() {
-			add_rewrite_endpoint( 'cocart', EP_ALL );
-		} // END add_rewrite_endpoint()
+		public static function redirect_getting_started( $plugin ) {
+			// Prevent redirect if plugin name does not match.
+			if ( $plugin !== plugin_basename( COCART_FILE ) ) {
+				return;
+			}
 
-		/**
-		 * Flush rewrite rules.
-		 *
-		 * @access public
-		 * @static
-		 */
-		public static function flush_rewrite_rules() {
-			flush_rewrite_rules();
-		} // END flush_rewrite_rules()
+			$getting_started = add_query_arg( array(
+				'page' => 'cocart-getting-started'
+			), admin_url( 'admin.php' ) );
 
+			/**
+			 * Should CoCart be installed via WP-CLI,
+			 * display a link to the Getting Started page.
+			 */
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				WP_CLI::log(
+					WP_CLI::colorize(
+						'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ) . '%n'
+					)
+				);
+				return;
+			}
+
+			// If activated on a Multisite, don't redirect.
+			if ( is_multisite() ) {
+				return;
+			}
+
+			wp_safe_redirect( $getting_started );
+			exit;
+		} // END redirect_getting_started()
 	} // END class.
 
 } // END if class exists.

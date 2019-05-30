@@ -1,4 +1,5 @@
 # Grunt
+/build/
 /releases/
 /node_modules/
 npm-debug.log

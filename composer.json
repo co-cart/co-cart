@@ -1,0 +1,29 @@
+{
+    "name": "co-cart/co-cart",
+    "description": "A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.",
+    "homepage": "https://github.com/co-cart/co-cart",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Sébastien Dumont",
+            "email": "mailme@sebastiendumont.com",
+            "homepage": "https://sebastiendumont.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/co-cart/co-cart/issues"
+    },
+    "keywords": [
+      "wordpress",
+      "plugin",
+      "woocommerce",
+      "api",
+      "cart"
+    ],
+    "require": {
+        "composer/installers": "~1.2"
+    }
+}
