@@ -7,8 +7,7 @@
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/API
- * @since    1.0.0
- * @version  2.0.0
+ * @since    2.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart REST API/API
  */
-class WC_REST_Cart_Controller {
+class CoCart_API_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -144,6 +143,9 @@ class WC_REST_Cart_Controller {
 				'callback' => array( $this, 'remove_item' ),
 			),
 		) );
+
+		// Allows CoCart Pro to register additional routes for the API.
+		do_action( 'cocart_register_routes', $this->namespace, $this->rest_base );
 	} // register_routes()
 
 	/**
@@ -313,6 +315,30 @@ class WC_REST_Cart_Controller {
 	} // END validate_product()
 
 	/**
+	 * Checks if the product in the cart has enough stock 
+	 * before updating the quantity.
+	 * 
+	 * @access protected
+	 * @since  1.0.6
+	 * @param  array  $current_data
+	 * @param  string $quantity
+	 * @return bool|WP_Error
+	 */
+	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
+		$product_id      = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
+		$variation_id    = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
+		$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
+
+		$quantity = absint( $quantity );
+
+		if ( ! $current_product->has_enough_stock( $quantity ) ) {
+			return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
+		}
+
+		return true;
+	} // END has_enough_stock()
+
+	/**
 	 * Check if product is in the cart and return cart item key.
 	 *
 	 * Cart item key will be unique based on the item and its properties, such as variations.
@@ -324,7 +350,7 @@ class WC_REST_Cart_Controller {
 	 */
 	public function find_product_in_cart( $cart_id = false ) {
 		if ( false !== $cart_id ) {
-			if ( is_array( $this->get_cart() ) && isset( $this->get_cart( array(), $cart_id ) ) {
+			if ( is_array( $this->get_cart() ) && null !== $this->get_cart( array(), $cart_id ) ) {
 				return $cart_id;
 			}
 		}
@@ -486,7 +512,7 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 1.0.3
+	 * @version 1.0.6
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -499,7 +525,9 @@ class WC_REST_Cart_Controller {
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
 
-			if ( $product_data->has_enough_stock( $quantity ) && WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
+			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+
+			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
 

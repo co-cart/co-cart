@@ -132,8 +132,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				}
 			}
 
+<<<<<<< HEAD:includes/admin/class-cocart-admin-notices.php
 			// Is this version of CoCart a beta/pre-release?
 			if ( CoCart_Admin::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
+=======
+			// Is this version of CoCart a beta release?
+			if ( CoCart::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
+>>>>>>> 93fa8e1584b1ed86a03bd4c0f91db373984e3d73:includes/admin/class-co-cart-admin-notices.php
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
 		} // END add_notices()

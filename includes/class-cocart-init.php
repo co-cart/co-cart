@@ -120,11 +120,60 @@ class CoCart_Rest_API {
 			return;
 		}
 
+		$this->maybe_load_cart();
+
 		$this->include_cart_controller();
 
 		// Init CoCart REST API route.
 		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 10 );
 	} // cart_rest_api_init()
+
+	/**
+	 * Loads the cart and notices should it be required.
+	 *
+	 * @access private
+	 * @since  2.0.0
+	 */
+	private function maybe_load_cart() {
+		/**
+		 * WooCommerce 3.6+ Compatibility
+		 * 
+		 * Cart and notice functions are not included during a REST request.
+		 */
+		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
+			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
+			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
+
+			if ( null === WC()->session ) {
+				$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+
+				// Prefix session class with global namespace if not already namespaced
+				if ( false === strpos( $session_class, '\\' ) ) {
+					$session_class = '\\' . $session_class;
+				}
+
+				WC()->session = new $session_class();
+				WC()->session->init();
+			}
+
+			/**
+			 * For logged in customers, pull data from their account rather than the 
+			 * session which may contain incomplete data.
+			 */
+			if ( null === WC()->customer ) {
+				if ( is_user_logged_in() ) {
+					WC()->customer = new WC_Customer( get_current_user_id() );
+				} else {
+					WC()->customer = new WC_Customer( get_current_user_id(), true );
+				}
+			}
+
+			// Load Cart.
+			if ( null === WC()->cart ) {
+				WC()->cart = new WC_Cart();
+			}
+		}
+	} // END maybe_load_cart()
 
 	/**
 	 * Include CoCart REST API controller.
@@ -138,7 +187,7 @@ class CoCart_Rest_API {
 		include_once( dirname( __FILE__ ) . '/api/wc-v2/class-wc-rest-cart-controller.php' );
 
 		// CoCart REST API controller.
-		include_once( dirname( __FILE__ ) . '/api/class-co-cart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
 	} // include()
 
 	/**
@@ -162,6 +211,40 @@ class CoCart_Rest_API {
 			$this->$controller->register_routes();
 		}
 	} // END register_cart_route
+
+	/**
+	 * Detects if CoCart Pro is installed.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.0.0
+	 * @return boolean
+	 */
+	public static function is_cocart_pro_installed() {
+		$active_plugins = (array) get_option( 'active_plugins', array() );
+
+		if ( is_multisite() ) {
+			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+		}
+
+		return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
+	} // END is_cocart_pro_installed()
+
+	/**
+	 * Returns true if CoCart is a beta release.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.0.0
+	 * @return boolean
+	 */
+	public static function is_cocart_beta() {
+		if ( strpos( COCART_VERSION, 'beta' ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_cocart_beta()
 
 } // END class
 

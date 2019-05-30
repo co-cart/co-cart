@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="cocart-review-now">
 			<?php $upgrade_url = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=woocommerce' ), 'upgrade-plugin_woocommerce' ); ?>
 
-			<p><a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary cocart-review-button"><?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?></a></p>
+			<p><a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary cocart-review-button" aria-label="<?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?></a></p>
 		</div>
 		<?php } ?>
 	</div>
