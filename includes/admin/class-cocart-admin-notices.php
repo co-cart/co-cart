@@ -3,6 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
+ * @version  1.2.2
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -98,12 +99,19 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END dont_bug_me()
 
 		/**
-		 * Display the plugin review notice after 7 days or more 
-		 * from the time the plugin was installed.
+		 * Displays admin notices for the following:
 		 *
+		 * 1. Plugin review, shown after 7 days or more from the time the plugin was installed.
+		 * 2. Testing a beta/pre-release version of the plugin.
 		 * @access public
 		 * @global $current_user
 		 * @return void|bool
+		 *
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 1.2.3
+		 * @global  $current_user
+		 * @return  void|bool
 		 */
 		public function add_notices() {
 			global $current_user;
@@ -132,13 +140,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				}
 			}
 
-<<<<<<< HEAD:includes/admin/class-cocart-admin-notices.php
 			// Is this version of CoCart a beta/pre-release?
 			if ( CoCart_Admin::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
-=======
-			// Is this version of CoCart a beta release?
-			if ( CoCart::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
->>>>>>> 93fa8e1584b1ed86a03bd4c0f91db373984e3d73:includes/admin/class-co-cart-admin-notices.php
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
 		} // END add_notices()
