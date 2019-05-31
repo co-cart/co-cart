@@ -3,6 +3,7 @@
  * CoCart - Admin.
  *
  * @since    1.2.0
+ * @version  2.0.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -48,11 +49,11 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @access public
 		 */
 		public function admin_menu() {
-			$title = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) );
+			$title = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
 
 			add_menu_page(
 				$title,
-				esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ),
+				'CoCart',
 				apply_filters( 'cocart_screen_capability', 'manage_options' ),
 				'cocart-getting-started',
 				array( $this, 'getting_started_content' ),

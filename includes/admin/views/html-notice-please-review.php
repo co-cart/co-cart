@@ -26,8 +26,8 @@ $time = CoCart_Admin::cocart_seconds_to_words( time() - $install_date );
 		</div>
 
 		<div class="cocart-notice-content">
-			<h3><?php printf( esc_html__( 'Hi %1$s, are you enjoying %2$s?', 'cart-rest-api-for-woocommerce' ), $current_user->display_name, esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ); ?></h3>
-			<p><?php printf( esc_html__( 'You have been using %1$s for %2$s now! Mind leaving a review and let me know know what you think of the plugin? I\'d really appreciate it!', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ), esc_html( $time ) ); ?></p>
+			<h3><?php printf( esc_html__( 'Hi %1$s, are you enjoying %2$s?', 'cart-rest-api-for-woocommerce' ), $current_user->display_name, 'CoCart' ); ?></h3>
+			<p><?php printf( esc_html__( 'You have been using %1$s for %2$s now! Mind leaving a review and let me know know what you think of the plugin? I\'d really appreciate it!', 'cart-rest-api-for-woocommerce' ), 'CoCart', esc_html( $time ) ); ?></p>
 		</div>
 
 		<div class="cocart-review-now">

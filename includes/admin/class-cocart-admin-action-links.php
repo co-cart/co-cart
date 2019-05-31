@@ -5,6 +5,7 @@
  * Adds links to CoCart on the plugins page.
  *
  * @since    1.2.0
+ * @version  2.0.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -40,7 +41,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		public function plugin_action_links( $links ) {
 			if ( current_user_can( 'manage_options' ) ) {
 				$action_links = array(
-					'getting-started' => '<a href="' . add_query_arg( array( 'page' => 'cocart-getting-started' ), admin_url( 'admin.php' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ) . '">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'getting-started' => '<a href="' . add_query_arg( array( 'page' => 'cocart-getting-started' ), admin_url( 'admin.php' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				return array_merge( $action_links, $links );
@@ -70,9 +71,9 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				);
 
 				$row_meta = array(
-					'docs' => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'View %s documentation', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'docs' => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'View %s documentation', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'community' => '<a href="' . esc_url( COCART_SUPPORT_URL ) . '" aria-label="' . esc_attr__( 'Get support from the community', 'cart-rest-api-for-woocommerce' ). '" target="_blank">' . esc_attr__( 'Community Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'review' => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'review' => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				// Checks if CoCart Pro has been installed.

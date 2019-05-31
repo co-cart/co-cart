@@ -13,17 +13,16 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 ?>
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="https://ps.w.org/cart-rest-api-for-woocommerce/assets/icon-256x256.jpg" alt="<?php echo esc_attr__( 'CoCart a WooCommerce API extension', 'cart-rest-api-for-woocommerce' ); ?>" />
+			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="<?php echo esc_attr__( 'CoCart a WooCommerce API extension', 'cart-rest-api-for-woocommerce' ); ?>" />
 		</div>
 
 		<div class="cocart-notice-content">
 			<h3><?php echo esc_html__( 'Update Required!', 'cart-rest-api-for-woocommerce' ); ?></h3>
-			<p><?php echo sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce', CoCart()::$required_woo ); ?></p>
+			<p><?php echo sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce', CoCart::$required_woo ); ?></p>
 		</div>
 
 		<?php if ( current_user_can( 'update_plugins' ) ) { ?>
