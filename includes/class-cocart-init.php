@@ -125,11 +125,9 @@ class CoCart_Rest_API {
 			return;
 		}
 
-		$this->maybe_load_cart();
+		add_action( 'rest_api_init', array( $this, 'rest_api_includes' ), 5 );
 
-		$this->include_cart_controller();
-
-		// Init CoCart REST API route.
+		// Register CoCart REST API routes.
 		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 10 );
 	} // cart_rest_api_init()
 
@@ -145,7 +143,7 @@ class CoCart_Rest_API {
 		 * 
 		 * Cart and notice functions are not included during a REST request.
 		 */
-		if ( defined( WC_VERSION ) && version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
+		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
 
@@ -181,19 +179,21 @@ class CoCart_Rest_API {
 	} // END maybe_load_cart()
 
 	/**
-	 * Include CoCart REST API controller.
+	 * Include CoCart REST API controllers.
 	 *
-	 * @access  private
+	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.0.0
 	 */
-	private function include_cart_controller() {
+	public function rest_api_includes() {
+		$this->maybe_load_cart();
+
 		// WC Cart REST API v2 controller.
 		include_once( dirname( __FILE__ ) . '/api/wc-v2/class-wc-rest-cart-controller.php' );
 
 		// CoCart REST API controller.
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
-	} // include()
+	} // rest_api_includes()
 
 	/**
 	 * Register CoCart REST API routes.
@@ -215,7 +215,7 @@ class CoCart_Rest_API {
 			$this->$controller = new $controller();
 			$this->$controller->register_routes();
 		}
-	} // END register_cart_route
+	} // END register_cart_routes()
 
 } // END class
 
