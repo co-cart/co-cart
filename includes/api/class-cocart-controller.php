@@ -212,6 +212,9 @@ class CoCart_API_Controller {
 				// Add main product image as a new variable.
 				$cart_contents[$item_key]['product_image'] = esc_url( $thumbnail_src[0] );
 			}
+
+			// This filter allows additional data to be returned for the items in cart, i.e. weight of item.
+			$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents );
 		}
 
 		return new WP_REST_Response( $cart_contents, 200 );
