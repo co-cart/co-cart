@@ -49,6 +49,9 @@ class CoCart_API_Controller {
 				'thumb' => array(
 					'default' => null
 				),
+				'customer_id' => array(
+					'default' => 'numeric'
+			),
 			),
 		));
 
@@ -156,14 +159,17 @@ class CoCart_API_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function get_cart( $data = array(), $item_key = '0' ) {
-		$cart_contents = isset( WC()->cart ) ? WC()->cart->cart_contents : WC()->session->cart;
+		$cart_contents = isset( WC()->cart ) ? WC()->cart->get_cart() : WC()->session->cart;
 
 		// If a specific customer ID is requested then we look to see if that customer has a saved cart.
-		if ( ! empty( $data['customer_id'] ) ) {
+		// Only those who are administrators can do this.
+		if ( ! empty( $data['customer_id'] ) && current_user_can( 'administrator' ) ) {
 			$saved_cart = $this->get_saved_cart( $data );
 
 			// If a saved cart exists then replace the carts content.
-			if ( ! empty( $saved_cart ) ) $cart_contents = $saved_cart;
+			if ( ! empty( $saved_cart ) ) {
+				$cart_contents = $saved_cart;
+			}
 		}
 
 		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
