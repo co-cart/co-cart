@@ -3,7 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
- * @version  1.2.2
+ * @version  2.0.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -39,6 +39,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			// Check WordPress enviroment.
 			add_action( 'admin_init', array( $this, 'check_wp' ), 12 );
 
+			// Check WooCommerce dependency.
+			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
+
 			// Don't bug the user if they don't want to see any notices.
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
 
@@ -68,6 +71,29 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			return true;
 		} // END check_wp()
+
+		/**
+		 * Check WooCommerce Dependency.
+		 *
+		 * @access public
+		 * @since  2.0.0
+		 */
+		public function check_woocommerce_dependency() {
+			// If the current user can not install plugins then return nothing!
+			if ( ! current_user_can( 'install_plugins' ) ) {
+				return false;
+			}
+
+			if ( ! defined( 'WC_VERSION' ) ) {
+				add_action( 'admin_notices', array( $this, 'woocommerce_not_installed' ) );
+				return false;
+			}
+
+			else if ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+				add_action( 'admin_notices', array( $this, 'required_wc_version_failed' ) );
+				return false;
+			}
+		} // END check_woocommerce_dependency()
 
 		/**
 		 * Don't bug the user if they don't want to see any notices.
@@ -106,7 +132,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @access public
 		 * @global $current_user
 		 * @return void|bool
-		 *
+		 * 
 		 * @access  public
 		 * @since   1.2.0
 		 * @version 1.2.3
@@ -154,6 +180,29 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function requirement_wp_notice() {
 			include( dirname( __FILE__ ) . '/views/html-notice-requirement-wp.php' );
 		} // END requirement_wp_notice()
+
+		/**
+		 * WooCommerce is Not Installed or Activated Notice.
+		 *
+		 * @access public
+		 * @since  2.0.0
+		 * @return void
+		 */
+		public function woocommerce_not_installed() {
+			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-wc-not-installed.php' );
+		} // END woocommerce_not_installed()
+
+		/**
+		 * Display a warning message if minimum version of WooCommerce check fails and
+		 * provide an update button if the user has admin capabilities to update plugins.
+		 *
+		 * @access public
+		 * @since  2.0.0
+		 * @return void
+		 */
+		public function required_wc_version_failed() {
+			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-required-wc.php' );
+		} // END required_wc_version_failed()
 
 		/**
 		 * Show the beta notice.
