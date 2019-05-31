@@ -120,6 +120,11 @@ class CoCart_Rest_API {
 			return;
 		}
 
+		// If WooCommerce does not exists then do nothing!
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			return;
+		}
+
 		$this->maybe_load_cart();
 
 		$this->include_cart_controller();
@@ -140,7 +145,7 @@ class CoCart_Rest_API {
 		 * 
 		 * Cart and notice functions are not included during a REST request.
 		 */
-		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
+		if ( defined( WC_VERSION ) && version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
 
