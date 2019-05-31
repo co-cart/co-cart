@@ -41,8 +41,8 @@ class CoCart_API_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// View Cart - cocart/v1/cart (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
+		// View Cart - cocart/v1/get-cart (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
 			'methods'  => WP_REST_Server::READABLE,
 			'callback' => array( $this, 'get_cart' ),
 			'args'     => array(
