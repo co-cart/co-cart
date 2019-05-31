@@ -192,6 +192,12 @@ class CoCart_API_Controller {
 		}
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
+			// If product data is missing then get product data and apply.
+			if ( ! isset( $cart_item['data'] ) ) {
+				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+				$cart_contents[$item_key]['data'] = $cart_item['data'];
+			}
+
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
 
 			// Adds the product name as a new variable.
