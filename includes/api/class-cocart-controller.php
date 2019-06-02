@@ -446,7 +446,7 @@ class CoCart_API_Controller {
 		}
 
 		$response  = '';
-		$ok_to_add = apply_filters( 'cocart_ok_to_add', true, $response );
+		$ok_to_add = apply_filters( 'cocart_ok_to_add', true, $response, $product_data );
 
 		// If it is not OK to add the item, return an error response.
 		if ( ! $ok_to_add ) {
