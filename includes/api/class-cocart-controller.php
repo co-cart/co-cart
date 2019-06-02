@@ -207,7 +207,7 @@ class CoCart_API_Controller {
 			if ( $show_thumb ) {
 				$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
 
-				$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, 'woocommerce_thumbnail' );
+				$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
 
 				// Add main product image as a new variable.
 				$cart_contents[$item_key]['product_image'] = esc_url( $thumbnail_src[0] );
