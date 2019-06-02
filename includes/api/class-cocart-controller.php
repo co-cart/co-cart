@@ -214,7 +214,7 @@ class CoCart_API_Controller {
 			}
 
 			// This filter allows additional data to be returned for the items in cart, i.e. weight of item.
-			$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents );
+			$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents, $item_key, $cart_item, $_product );
 		}
 
 		return new WP_REST_Response( $cart_contents, 200 );
