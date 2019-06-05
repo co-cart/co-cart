@@ -68,8 +68,8 @@ class CoCart_API_Controller {
 			),
 		));
 
-		// Add Item - cocart/v1/add (POST)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/add', array(
+		// Add Item - cocart/v1/add-item (POST)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/add-item', array(
 			'methods'  => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'add_to_cart' ),
 			'args'     => array(
