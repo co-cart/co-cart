@@ -99,6 +99,8 @@ if ( ! class_exists( 'CoCart' ) ) {
 		public function __construct() {
 			// Setup Constants.
 			$this->setup_constants();
+
+			// Include admin classes to handle all back-end functions.
 			$this->admin_includes();
 
 			// Include required files.
@@ -150,15 +152,16 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 1.2.2
+		 * @version 2.0.0
 		 * @return  void
 		 */
 		public function includes() {
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
 		} // END includes()
 
 		/**
-		 * Include admin class to handle all back-end functions.
+		 * Include admin classes to handle all back-end functions.
 		 *
 		 * @access public
 		 * @since  1.2.2

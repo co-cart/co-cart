@@ -125,6 +125,7 @@ class CoCart_Rest_API {
 			return;
 		}
 
+		// Include REST API Controllers.
 		add_action( 'rest_api_init', array( $this, 'rest_api_includes' ), 5 );
 
 		// Register CoCart REST API routes.
