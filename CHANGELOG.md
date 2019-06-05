@@ -2,12 +2,19 @@
 
 ## v2.0.0 - ?? ??, 2019
 
-* NEW: REST API endpoint. CoCart is now an individual API and is no longer nested with WooCommerce core REST API.
-* NEW: A check to see if the cart is empty and fallback to the cart in session if one exists.
-* NEW: Get a specific customers cart via their customer ID number. Only works if persistent cart was left enabled in WooCommerce.
-* Added: New filter to allow additional checks before the item is added to the cart.
-* Changed: Filter and Action Hook names. See documentation for details.
-* Improved: Checking for items already in the cart.
+* NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
+* NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
+* NEW: Get a specific customers cart via their customer ID number. - See documentation for details.
+* NEW: Product title also returns besides just the product name when getting the cart.
+* Changed: Filter and Action Hook names in new API. - See documentation for details.
+* Improved: Complexity of functions for better performance and usage.
+* Tweaked: Added checking for items already in the cart.
+* Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
+* Tweaked: Totals can now return once calculated if requested.
+* Dev: Added action hooks for getting cart, cart is cleared, item added, item removed and item restored.
+* Dev: Added filter to allow additional checks before the item is added to the cart.
+* Dev: Added filter to apply additional data to return when cart is returned.
+* Dev: Added filter to change the size of the thumbnail returned.
 
 ## v1.2.2 - 30th May, 2019
 
