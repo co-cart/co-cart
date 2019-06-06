@@ -257,8 +257,8 @@ class CoCart_API_Controller {
 	 * @return array  $cart_contents
 	 */
 	public function return_cart_contents( $cart_contents, $data = array(), $item_key = '0' ) {
-		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
-			return new WP_REST_Response( array(), 200 );
+		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
+			return array();
 		}
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
