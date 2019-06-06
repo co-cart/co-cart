@@ -47,7 +47,7 @@ class CoCart_API_Controller {
 			'callback' => array( $this, 'get_cart' ),
 			'args'     => array(
 				'thumb' => array(
-					'default' => null
+					'default' => false,
 				),
 			),
 		));
@@ -57,13 +57,14 @@ class CoCart_API_Controller {
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => array( $this, 'get_cart_customer' ),
 			'permission_callback' => array( $this, 'get_permission_check' ),
-			'args'     => array(
+			'args'                => array(
 				'id' => array(
+					'required'    => true,
 					'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 				),
 				'thumb' => array(
-					'default' => null
+					'default' => false,
 				),
 			),
 		));
@@ -139,7 +140,8 @@ class CoCart_API_Controller {
 					'type'        => 'string',
 				),
 				'return_cart' => array(
-					'description' => __( 'Returns the whole cart if requested.', 'cart-rest-api-for-woocommerce' ),
+					'description'       => __( 'Returns the whole cart if requested.', 'cart-rest-api-for-woocommerce' ),
+					'default'           => false,
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_bool( $param );
 					}
@@ -154,7 +156,7 @@ class CoCart_API_Controller {
 				'callback' => array( $this, 'update_item' ),
 				'args'     => array(
 					'quantity' => array(
-						'default' => 1,
+						'default'           => 1,
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_numeric( $param );
 						}
