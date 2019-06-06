@@ -3,7 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
- * @version  1.2.2
+ * @version  1.2.3
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -72,8 +72,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Don't bug the user if they don't want to see any notices.
 		 *
-		 * @access public
-		 * @global $current_user
+		 * @access  public
+		 * @version 1.2.3
+		 * @global  $current_user
 		 */
 		public function dont_bug_me() {
 			global $current_user;
@@ -83,6 +84,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			// If the user is allowed to install plugins and requested to hide the review notice then hide it for that user.
 			if ( ! empty( $_GET['hide_cocart_review_notice'] ) && current_user_can( 'install_plugins' ) ) {
 				add_user_meta( $current_user->ID, 'cocart_hide_review_notice', '1', true );
+				$user_hidden_notice = true;
+			}
+
+			// If the user is allowed to install plugins and requested to dismiss upgrade notice then hide it for that user.
+			if ( ! empty( $_GET['hide_cocart_upgrade_notice'] ) && current_user_can( 'install_plugins' ) ) {
+				add_user_meta( $current_user->ID, 'cocart_hide_upgrade_notice', '1', true );
 				$user_hidden_notice = true;
 			}
 
@@ -103,10 +110,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * 1. Plugin review, shown after 7 days or more from the time the plugin was installed.
 		 * 2. Testing a beta/pre-release version of the plugin.
+		 * 3. Upgrade warning for a future release coming.
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 1.2.2
+		 * @version 1.2.3
 		 * @global  $current_user
 		 * @return  void|bool
 		 */
@@ -141,7 +149,25 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( CoCart_Admin::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
+
+			// Upgrade warning notice that will disappear once the new release is installed.
+			$upgrade_version = '2.0.0';
+
+			if ( version_compare( COCART_VERSION, $upgrade_version, '<' ) ) {
+				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
+			}
 		} // END add_notices()
+
+		/**
+		 * Shows an upgrade warning notice if the installed version is less
+		 * than the new release coming soon.
+		 *
+		 * @access public
+		 * @since  1.2.3
+		 */
+		public function upgrade_warning() {
+			include_once( dirname( __FILE__ ) . '/views/html-notice-upgrade-warning.php' );
+		} // END upgrade_warning()
 
 		/**
 		 * Show the WordPress requirement notice.
