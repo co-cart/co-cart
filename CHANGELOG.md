@@ -16,6 +16,10 @@
 * Dev: Added filter to apply additional data to return when cart is returned.
 * Dev: Added filter to change the size of the thumbnail returned.
 
+## v1.2.3 - 7th June, 2019
+
+* Added: Upgrade warning notice in preparation for CoCart v2 release.
+
 ## v1.2.2 - 30th May, 2019
 
 * Fix: Plugin would fail to install date and version for future updates.
