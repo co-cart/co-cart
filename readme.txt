@@ -7,7 +7,7 @@ Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 WC requires at least: 3.0.0
 WC tested up to: 3.6.4
 License: GPLv3
@@ -25,7 +25,12 @@ That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpresso
 
 CoCart is created for developers in mind and allows you to use WooCommerce's REST API to it's full potential. This also provides the option to create a full app for your WooCommerce store.
 
-Don't take my word for it. See what [Scott Bolinger](https://wordpress.org/support/topic/works-great-out-of-the-box-16/), co-founder of [AppPresser](https://wordpress.org/plugins/apppresser/) had to say about it.
+It also works well with official WooCommerce extensions such as:
+
+* Bookings
+* Name Your Price
+* Pre-Orders
+* Product Add-ons
 
 Intrigued? _I bet you are._ [See documentation](https://co-cart.github.io/co-cart-docs/) on how to use CoCart today.
 
