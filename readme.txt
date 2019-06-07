@@ -25,6 +25,13 @@ That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpresso
 
 CoCart is created for developers in mind and allows you to use WooCommerce's REST API to it's full potential. This also provides the option to create a full app for your WooCommerce store.
 
+It also works well with official WooCommerce extensions such as:
+
+* Bookings
+* Name Your Price
+* Pre-Orders
+* Product Add-ons
+
 Intrigued? _I bet you are._ [See documentation](https://co-cart.github.io/co-cart-docs/) on how to use CoCart today.
 
 You can also [contribute](https://github.com/co-cart/co-cart/blob/master/CONTRIBUTING.md) to CoCart.
