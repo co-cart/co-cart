@@ -114,6 +114,10 @@ See changelog for list of changes.
 
 == Changelog ==
 
+= v1.2.3 - 7th June, 2019 =
+
+* Added: Upgrade warning notice in prepartion for CoCart v2 release.
+
 = v1.2.2 - 30th May, 2019 =
 
 * Fix: Plugin would fail to install date and version for future updates.
