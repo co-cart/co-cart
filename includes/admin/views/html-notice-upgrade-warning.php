@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="cocart-send-feedback">
 			<?php printf( '<a href="%1$s" class="button button-primary cocart-feedback-button" target="_blank">%2$s</a>', esc_url( 'https://cocart.xyz/cocart-v2-preview/' ), esc_html__( 'Learn More', 'cart-rest-api-for-woocommerce' ) ); ?>
-			<a href="<?php echo esc_url( add_query_arg( 'hide_cocart_upgrade_notice', 'true' ) ); ?>" class="no-thanks"><?php echo esc_html__( 'Dismiss', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( add_query_arg( 'hide_cocart_upgrade_notice', 'true' ) ); ?>" class="no-thanks"><?php echo esc_html__( 'Ask me again in 2 weeks', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>
 </div>
