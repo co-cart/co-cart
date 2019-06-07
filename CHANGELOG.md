@@ -2,7 +2,7 @@
 
 ## v1.2.3 - 7th June, 2019
 
-* Added: Upgrade warning notice in prepartion for CoCart v2 release.
+* Added: Upgrade warning notice in preparation for CoCart v2 release.
 
 ## v1.2.2 - 30th May, 2019
 
