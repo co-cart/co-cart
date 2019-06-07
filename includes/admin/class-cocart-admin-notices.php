@@ -98,8 +98,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Don't bug the user if they don't want to see any notices.
 		 *
-		 * @access public
-		 * @global $current_user
+		 * @access  public
+		 * @version 1.2.3
+		 * @global  $current_user
 		 */
 		public function dont_bug_me() {
 			global $current_user;
@@ -112,11 +113,19 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$user_hidden_notice = true;
 			}
 
+			// If the user is allowed to install plugins and requested to dismiss upgrade notice then hide it 2 weeks.
+			if ( ! empty( $_GET['hide_cocart_upgrade_notice'] ) && current_user_can( 'install_plugins' ) ) {
+				set_transient( 'cocart_upgrade_notice_hidden', 'hidden', WEEK_IN_SECONDS * 2 );
+				$user_hidden_notice = true;
+			}
+
+			// If the user is allowed to install plugins and requested to dimiss beta notice then hide it for 1 week.
 			if ( ! empty( $_GET['hide_cocart_beta_notice'] ) && current_user_can( 'install_plugins' ) ) {
 				set_transient( 'cocart_beta_notice_hidden', 'hidden', WEEK_IN_SECONDS );
 				$user_hidden_notice = true;
 			}
 
+			// Did user hide a notice?
 			if ( $user_hidden_notice ) {
 				// Redirect to the plugins page.
 				wp_safe_redirect( admin_url( 'plugins.php' ) );
@@ -129,13 +138,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * 1. Plugin review, shown after 7 days or more from the time the plugin was installed.
 		 * 2. Testing a beta/pre-release version of the plugin.
-		 * @access public
-		 * @global $current_user
-		 * @return void|bool
+		 * 3. Upgrade warning for a future release coming.
 		 * 
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 1.2.3
+		 * @version 2.0.0
 		 * @global  $current_user
 		 * @return  void|bool
 		 */
@@ -170,7 +177,25 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( CoCart_Admin::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
+
+			// Upgrade warning notice that will disappear once the new release is installed.
+			$upgrade_version = '2.0.0';
+
+			if ( ! CoCart_Admin::is_cocart_beta() && version_compare( COCART_VERSION, $upgrade_version, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
+				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
+			}
 		} // END add_notices()
+
+		/**
+		 * Shows an upgrade warning notice if the installed version is less
+		 * than the new release coming soon.
+		 *
+		 * @access public
+		 * @since  1.2.3
+		 */
+		public function upgrade_warning() {
+			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-upgrade-warning.php' );
+		} // END upgrade_warning()
 
 		/**
 		 * Show the WordPress requirement notice.
@@ -178,7 +203,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @access public
 		 */
 		public function requirement_wp_notice() {
-			include( dirname( __FILE__ ) . '/views/html-notice-requirement-wp.php' );
+			include( COCART_FILE_PATH . '/includes/admin/views/html-notice-requirement-wp.php' );
 		} // END requirement_wp_notice()
 
 		/**
@@ -210,7 +235,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @access public
 		 */
 		public function beta_notice() {
-			include( dirname( __FILE__ ) . '/views/html-notice-trying-beta.php' );
+			include( COCART_FILE_PATH . '/includes/admin/views/html-notice-trying-beta.php' );
 		} // END beta_notice()
 
 		/**
@@ -221,7 +246,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function plugin_review_notice() {
 			$install_date = self::$install_date;
 
-			include( dirname( __FILE__ ) . '/views/html-notice-please-review.php' );
+			include( COCART_FILE_PATH . '/includes/admin/views/html-notice-please-review.php' );
 		} // END plugin_review_notice()
 
 	} // END class.
