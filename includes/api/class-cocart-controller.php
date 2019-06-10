@@ -729,14 +729,15 @@ class CoCart_API_Controller {
 	/**
 	 * Returns all calculated totals.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @return array
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 2.0.0
+	 * @return  WP_REST_Response
 	 */
 	public function get_totals() {
 		$totals = WC()->cart->get_totals();
 
-		return $totals;
+		return new WP_REST_Response( $totals, 200 );
 	} // END get_totals()
 
 } // END class
