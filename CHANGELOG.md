@@ -1,6 +1,6 @@
 # Changelog for CoCart
 
-## v2.0.0 - ?? ??, 2019
+## v2.0.0 - ?? June, 2019
 
 * NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
 * NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
