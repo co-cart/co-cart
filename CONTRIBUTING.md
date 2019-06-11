@@ -1,4 +1,4 @@
-## Contribute to CoCart
+# Contribute to CoCart
 
 Community made patches, localisations, bug reports and contributions are always welcome!
 
@@ -27,12 +27,13 @@ __Please Note:__ GitHub is for bug reports and contributions only - if you requi
 ## Code Documentation
 
 * Ensure that every endpoint is documented well and follows the standards set by WooCommerce
-* Finally, please use tabs and not spaces. The tab indent size should be 8.
+* Finally, please use tabs and not spaces. The tab indent size should be 4.
 
 At this point you're waiting on me to merge your pull request. I'll review all pull requests, and make suggestions and changes if necessary.
 
 Thanks for contributing to CoCart!
 
-# Additional Resources
+### Additional Resources
+
 * [General GitHub Documentation](https://help.github.com/)
 * [GitHub Pull Request documentation](https://help.github.com/send-pull-requests/)

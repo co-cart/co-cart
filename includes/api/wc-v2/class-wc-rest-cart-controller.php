@@ -70,7 +70,7 @@ class WC_REST_Cart_Controller {
 			'callback' => array( $this, 'get_totals' ),
 		));
 
-		// View Cart - wc/v2/cart/clear (POST)
+		// Clear Cart - wc/v2/cart/clear (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/clear', array(
 			'methods'  => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'clear_cart' ),

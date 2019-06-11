@@ -1,30 +1,28 @@
 <?php
 /*
  * Plugin Name: CoCart
- * Plugin URI:  https://github.com/co-cart/co-cart
+ * Plugin URI:  https://cocart.xyz
  * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     1.0.6
+ * Version:     2.0.0-beta.1
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
- * Requires at least: 4.4
- * Tested up to: 4.9.8
- * WC requires at least: 3.2.0
- * WC tested up to: 3.5.1
+ * WC requires at least: 3.0.0
+ * WC tested up to: 3.6.4
  *
- * Copyright: © 2018 Sébastien Dumont, (mailme@sebastiendumont.com)
+ * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
-	class WC_Cart_Endpoint_REST_API {
+if ( ! class_exists( 'CoCart' ) ) {
+	class CoCart {
 
 		/**
-		 * @var WC_Cart_Endpoint_REST_API - the single instance of the class.
+		 * @var CoCart - the single instance of the class.
 		 *
 		 * @access protected
 		 * @static
@@ -39,7 +37,7 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '1.0.6';
+		public static $version = '2.0.0-beta.1';
 
 		/**
 		 * Required WooCommerce Version
@@ -51,15 +49,16 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		public static $required_woo = '3.0.0';
 
 		/**
-		 * Main WC_Cart_Endpoint_REST_API Instance.
+		 * Main CoCart Instance.
 		 *
-		 * Ensures only one instance of WC_Cart_Endpoint_REST_API is loaded or can be loaded.
+		 * Ensures only one instance of CoCart is loaded or can be loaded.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @since  1.0.0
-		 * @see    WC_Cart_Endpoint_REST_API()
-		 * @return WC_Cart_Endpoint_REST_API - Main instance
+		 * @since   1.0.0
+		 * @version 1.0.6
+		 * @see     CoCart()
+		 * @return  CoCart - Main instance
 		 */
 		public static function instance() {
 			if ( is_null( self::$_instance ) ) {
@@ -93,67 +92,87 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 		/**
 		 * Load the plugin.
 		 *
-		 * @access public
-		 * @since  1.0.0
+		 * @access  public
+		 * @since   1.0.0
+		 * @version 2.0.0
 		 */
 		public function __construct() {
-			// Check WooCommerce dependency.
-			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
+			// Setup Constants.
+			$this->setup_constants();
+
+			// Include admin classes to handle all back-end functions.
+			$this->admin_includes();
+
+			// Include required files.
+			add_action( 'init', array( $this, 'includes' ) );
 
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-
-			// Add link to documentation and support.
-			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
-
-			// Include required files
-			add_action( 'woocommerce_loaded', array( $this, 'includes' ) );
-		}
-
-		/*-----------------------------------------------------------------------------------*/
-		/*  Helper Functions                                                                 */
-		/*-----------------------------------------------------------------------------------*/
+		} // END __construct()
 
 		/**
-		 * Get the Plugin Path.
+		 * Setup Constants
 		 *
 		 * @access public
-		 * @static
-		 * @since  1.0.0
-		 * @return string
+		 * @since  1.2.0
 		 */
-		public static function plugin_path() {
-			return untrailingslashit( plugin_dir_path( __FILE__ ) );
-		} // END plugin_path()
+		public function setup_constants() {
+			$this->define('COCART_VERSION', self::$version);
+			$this->define('COCART_FILE', __FILE__);
+			$this->define('COCART_SLUG', 'cart-rest-api-for-woocommerce');
+
+			$this->define('COCART_URL_PATH', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
+			$this->define('COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+
+			$this->define('COCART_WP_VERSION_REQUIRE', '4.4' );
+
+			$this->define('COCART_STORE_URL', 'https://cocart.xyz/');
+			$this->define('COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/');
+			$this->define('COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce');
+			$this->define('COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/');
+			$this->define('COCART_DOCUMENTATION_URL', 'https://co-cart.github.io/co-cart-docs/');
+		} // END setup_constants()
 
 		/**
-		 * Check WooCommerce dependency before activation.
+		 * Define constant if not already set.
 		 *
-		 * @access public
-		 * @since  1.0.0
+		 * @access private
+		 * @since  1.2.0
+		 * @param  string $name
+		 * @param  string|bool $value
 		 */
-		public function check_woocommerce_dependency() {
-			// Check we're running the required version of WooCommerce.
-			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, self::$required_woo, '<' ) ) {
-				add_action( 'admin_notices', array( $this, 'admin_notice' ) );
-				return false;
+		private function define( $name, $value ) {
+			if ( ! defined( $name ) ) {
+				define( $name, $value );
 			}
-		} // END check_woocommerce_dependency()
+		} // END define()
 
 		/**
-		 * Display a warning message if minimum version of WooCommerce check fails.
+		 * Includes Cart REST-API for WooCommerce.
+		 *
+		 * @access  public
+		 * @since   1.0.0
+		 * @version 2.0.0
+		 * @return  void
+		 */
+		public function includes() {
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
+		} // END includes()
+
+		/**
+		 * Include admin classes to handle all back-end functions.
 		 *
 		 * @access public
-		 * @since  1.0.0
+		 * @since  1.2.2
 		 * @return void
 		 */
-		public function admin_notice() {
-			echo '<div class="error"><p>' . sprintf( __( '%1$s requires at least %2$s v%3$s or higher.', 'cart-rest-api-for-woocommerce' ), 'Cart REST API for WooCommerce', 'WooCommerce', self::$required_woo ) . '</p></div>';
-		} // END admin_notice()
-
-		/*-----------------------------------------------------------------------------------*/
-		/*  Localization                                                                     */
-		/*-----------------------------------------------------------------------------------*/
+		public function admin_includes() {
+			if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+				include_once( dirname( __FILE__ ) . '/includes/admin/class-cocart-admin.php' );
+				require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' ); // Install CoCart.
+			}
+		} // END admin_includes()
 
 		/**
 		 * Make the plugin translation ready.
@@ -169,45 +188,8 @@ if ( ! class_exists( 'WC_Cart_Endpoint_REST_API' ) ) {
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END load_plugin_textdomain()
 
-		/*-----------------------------------------------------------------------------------*/
-		/*  Load Files                                                                       */
-		/*-----------------------------------------------------------------------------------*/
-
-		/**
-		 * Includes Cart REST API for WooCommerce Admin.
-		 *
-		 * @access public
-		 * @since  1.0.0
-		 * @return void
-		 */
-		public function includes() {
-			include_once( $this->plugin_path() . '/includes/class-wc-cart-rest-api-init.php' );
-		} // END includes()
-
-		/**
-		 * Show row meta on the plugin screen.
-		 *
-		 * @access public
-		 * @static
-		 * @param  mixed $links
-		 * @param  mixed $file
-		 * @return array
-		 */
-		public static function plugin_row_meta( $links, $file ) {
-			if ( $file == plugin_basename( __FILE__ ) ) {
-				$row_meta = array(
-					'docs'    => '<a href="https://co-cart.github.io/co-cart-docs/" target="_blank">' . __( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'support' => '<a href="https://co-cart.github.io/co-cart-docs/#support" target="_blank">' . __( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
-				);
-
-				$links = array_merge( $links, $row_meta );
-			}
-
-			return $links;
-		} // END plugin_row_meta()
-
 	} // END class
 
 } // END if class exists
 
-return WC_Cart_Endpoint_REST_API::instance();
+return CoCart::instance();
