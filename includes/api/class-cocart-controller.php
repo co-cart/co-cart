@@ -710,7 +710,7 @@ class CoCart_API_Controller {
 	 * @since   1.0.0
 	 * @version 2.0.0
 	 * @param   array $data
-	 * @return  array|WP_REST_Response
+	 * @return  WP_REST_Response
 	 */
 	public function calculate_totals( $data = array() ) {
 		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
