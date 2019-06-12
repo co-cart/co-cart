@@ -8,7 +8,7 @@
  * @category API
  * @package  Cart REST API for WooCommerce/API
  * @since    1.0.0
- * @version  1.0.6
+ * @version  1.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -207,12 +207,14 @@ class WC_REST_Cart_Controller {
 	/**
 	 * Clear cart.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @return WP_ERROR|WP_REST_Response
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 1.0.7
+	 * @return  WP_ERROR|WP_REST_Response
 	 */
 	public function clear_cart() {
 		WC()->cart->empty_cart();
+		WC()->session->set('cart', array()); // Empty the session cart data
 
 		if ( WC()->cart->is_empty() ) {
 			return new WP_REST_Response( __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' ), 200 );
@@ -428,13 +430,18 @@ class WC_REST_Cart_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 1.0.6
+	 * @version 1.1.2
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function update_item( $data = array() ) {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
 		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+
+		// Allows removing of items if quantity is zero should for example the item was with a product bundle.
+		if ( $quantity === 0 ) {
+			return $this->remove_item( $data );
+		}
 
 		$this->validate_quantity( $quantity );
 
