@@ -29,7 +29,7 @@
 
 ## v1.2.1 - 21st May, 2019
 
-* Fix: Reverted change for including classes so **WC_VERSION** constant was defined first.
+* HOTFIX: Reverted change for including classes so **WC_VERSION** constant was defined first.
 
 ## v1.2.0 - 20th May, 2019
 
@@ -65,33 +65,33 @@
 
 * Tweaked: Clear cart now clears cart in session if the user is logged in. - Thanks to @elron for the patch.
 
-## v1.0.6
+## v1.0.6 - 12th November, 2018
 
 * Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
 * Improved: Updating items by adding a check to see if there is enough stock. Thanks to @DennisMatise
 
-## v1.0.5
+## v1.0.5 - 11th October, 2018
 
 * Fixed: Variation and cart item data validation callback. - Issue #40 Thanks to @DennisMatise
 * Fixed: A fatal error that caused errors not to return properly. - Issue #35 Thanks to @skunkbad
 * Changed: Name of the plugin is now CoCart. The plugin slug will remain the same.
 
-## v1.0.4
+## v1.0.4 - 5th July, 2018
 
 * Fixed: Return response for numeric thanks to @campusboy87
 * Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30
 
-## v1.0.3
+## v1.0.3 - 22nd April, 2018
 
 * Fixed: Syntax error for including cart controller for sites running versions of PHP lower than 7. Thanks to @Mr-AjayM for another contribution.
 * Fixed: Validation of `cart_item_key` when removing, restoring or updating an item. Item keys starting with a letter were returning false. Reported by @Janie20.
 * Tested up to WooCommerce v3.3.5 and up to WordPress v4.9.5
 
-## v1.0.2
+## v1.0.2 - 31st March, 2018
 
 * Fixed: Invalid Argument Error should the cart be empty. Now returns "Cart is empty" properly. Thanks to @Mr-AjayM for the contribution.
 
-## v1.0.1
+## v1.0.1 - 2nd March, 2018
 
 * Added: Fetch current cart item data before it is updated.
 * Added: New endpoint to restore, remove and update items in cart due to a conflict that prevented from registering the route.
@@ -102,4 +102,4 @@
 
 ## v1.0.0
 
-* Initial version.
+* Initial version. Released on WordPress.org on 26th February, 2018
