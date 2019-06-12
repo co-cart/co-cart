@@ -1,4 +1,5 @@
-# Grunt
+# Folders and Grunt
+/assets/scss/
 /build/
 /releases/
 /node_modules/
@@ -10,4 +11,5 @@ Thumbs.db
 *.sh
 .gitconfig
 *.zip
-package-lock.json
+*.json
+*.yml
