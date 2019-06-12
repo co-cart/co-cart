@@ -725,7 +725,7 @@ class CoCart_API_Controller {
 		WC()->cart->calculate_totals();
 
 		if ( isset( $data['return'] ) ) {
-			return $this->get_totals();
+			return $this->get_totals( $data );
 		}
 
 		return new WP_REST_Response( __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' ), 200 );
