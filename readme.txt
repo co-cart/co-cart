@@ -123,6 +123,7 @@ v2.0.0 is backwards compatible so you can still use the current API. See https:/
 * Tweaked: Added checking for items already in the cart.
 * Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
 * Tweaked: Totals can now return once calculated if requested.
+* Tweaked: Totals now return from session and return as strings if it is an integer value.
 * Dev: Added action hooks for getting cart, cart is cleared, item added, item removed and item restored.
 * Dev: Added filter to allow additional checks before the item is added to the cart.
 * Dev: Added filter to apply additional data to return when cart is returned.
