@@ -173,6 +173,11 @@ class CoCart_API_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/totals', array(
 			'methods'  => WP_REST_Server::READABLE,
 			'callback' => array( $this, 'get_totals' ),
+			'args'     => array(
+				'html' => array(
+					'default' => false,
+				),
+			),
 		));
 	} // register_routes()
 
@@ -720,7 +725,7 @@ class CoCart_API_Controller {
 		WC()->cart->calculate_totals();
 
 		if ( isset( $data['return'] ) ) {
-			return $this->get_totals();
+			return $this->get_totals( $data );
 		}
 
 		return new WP_REST_Response( __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' ), 200 );
@@ -732,28 +737,40 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.0.0
+	 * @param   array $data
 	 * @return  WP_REST_Response
 	 */
-	public function get_totals() {
+	public function get_totals( $data = array() ) {
 		$totals = WC()->session->get( 'cart_totals' );
 
-		$new_totals = array();
+		$pre_formatted = ! empty( $data['html'] ) ? $data['html'] : false;
 
-		$ignore_convert = array(
-			'shipping_taxes',
-			'cart_contents_taxes',
-			'fee_taxes'
-		);
+		if ( $pre_formatted ) {
+			$new_totals = array();
 
-		foreach( $totals as $type => $sum ) {
-			if ( in_array( $type, $ignore_convert ) || is_string( $sum ) ) {
-				$new_totals[$type] = $sum;
-			} else {
-				$new_totals[$type] = strval( $sum );
+			$ignore_convert = array(
+				'shipping_taxes',
+				'cart_contents_taxes',
+				'fee_taxes'
+			);
+
+			foreach( $totals as $type => $sum ) {
+				if ( in_array( $type, $ignore_convert ) ) {
+					$new_totals[$type] = $sum;
+				} else {
+					if ( is_string( $sum ) ) {
+						$new_totals[$type] =  html_entity_decode( strip_tags( wc_price( $sum ) ) );
+					}
+					else {
+						$new_totals[$type] =  html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
+					}
+				}
 			}
+
+			return new WP_REST_Response( $new_totals, 200 );
 		}
 
-		return new WP_REST_Response( $new_totals, 200 );
+		return new WP_REST_Response( $totals, 200 );
 	} // END get_totals()
 
 } // END class
