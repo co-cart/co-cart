@@ -735,9 +735,25 @@ class CoCart_API_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function get_totals() {
-		$totals = WC()->cart->get_totals();
+		$totals = WC()->session->get( 'cart_totals' );
 
-		return new WP_REST_Response( $totals, 200 );
+		$new_totals = array();
+
+		$ignore_convert = array(
+			'shipping_taxes',
+			'cart_contents_taxes',
+			'fee_taxes'
+		);
+
+		foreach( $totals as $type => $sum ) {
+			if ( in_array( $type, $ignore_convert ) || is_string( $sum ) ) {
+				$new_totals[$type] = $sum;
+			} else {
+				$new_totals[$type] = strval( $sum );
+			}
+		}
+
+		return new WP_REST_Response( $new_totals, 200 );
 	} // END get_totals()
 
 } // END class
