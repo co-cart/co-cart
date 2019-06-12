@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php } ?>
 
 			<p style="text-align: center;">
-				<a class="button button-primary button-large" href="<?php echo COCART_DOCUMENTATION_URL; ?>" target="_blank"><?php _e( 'View Documentation', 'cart-rest-api-for-woocommerce' ); ?></a>
+				<?php printf( '<a class="button button-primary button-large" href="%1$s" target="_blank">%2$s</a>', apply_filters( 'cocart_getting_started_doc_url', COCART_DOCUMENTATION_URL ), esc_html__( 'View Documentation', 'cart-rest-api-for-woocommerce' ) ); ?>
 			</p>
 
 			<hr>
