@@ -41,34 +41,6 @@ class CoCart_API_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Cart - cocart/v1/get-cart (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_cart' ),
-			'args'     => array(
-				'thumb' => array(
-					'default' => false,
-				),
-			),
-		));
- 
-		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\d]+)', array(
-			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => array( $this, 'get_cart_customer' ),
-			'permission_callback' => array( $this, 'get_permission_check' ),
-			'args'                => array(
-				'id' => array(
-					'required'    => true,
-					'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'integer',
-				),
-				'thumb' => array(
-					'default' => false,
-				),
-			),
-		));
-
 		// Add Item - cocart/v1/add-item (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/add-item', array(
 			'methods'  => WP_REST_Server::CREATABLE,
@@ -128,6 +100,34 @@ class CoCart_API_Controller {
 			'args'     => array(
 				'return' => array(
 					'default' => 'numeric'
+				),
+			),
+		));
+
+		// Get Cart - cocart/v1/get-cart (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
+			'methods'  => WP_REST_Server::READABLE,
+			'callback' => array( $this, 'get_cart' ),
+			'args'     => array(
+				'thumb' => array(
+					'default' => false,
+				),
+			),
+		));
+ 
+		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\d]+)', array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => array( $this, 'get_cart_customer' ),
+			'permission_callback' => array( $this, 'get_permission_check' ),
+			'args'                => array(
+				'id' => array(
+					'required'    => true,
+					'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+				),
+				'thumb' => array(
+					'default' => false,
 				),
 			),
 		));
@@ -436,7 +436,7 @@ class CoCart_API_Controller {
 	 */
 	public function find_product_in_cart( $cart_id = false ) {
 		if ( false !== $cart_id ) {
-			if ( is_array( $this->get_cart() ) && null !== $this->get_cart( array(), $cart_id ) ) {
+			if ( is_array( WC()->cart->get_cart() ) && null !== WC()->cart->get_cart( array(), $cart_id ) ) {
 				return $cart_id;
 			}
 		}
@@ -590,6 +590,11 @@ class CoCart_API_Controller {
 	 */
 	public function remove_item( $data = array() ) {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
+
+		// Checks to see if the cart is empty before attempting to remove item.
+		if ( WC()->cart->is_empty() ) {
+			return new WP_Error( 'cocart_no_items', __( 'No items in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+		}
 
 		if ( $cart_item_key != '0' ) {
 			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is removed.
@@ -759,10 +764,10 @@ class CoCart_API_Controller {
 					$new_totals[$type] = $sum;
 				} else {
 					if ( is_string( $sum ) ) {
-						$new_totals[$type] =  html_entity_decode( strip_tags( wc_price( $sum ) ) );
+						$new_totals[$type] = html_entity_decode( strip_tags( wc_price( $sum ) ) );
 					}
 					else {
-						$new_totals[$type] =  html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
+						$new_totals[$type] = html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
 					}
 				}
 			}

@@ -9,6 +9,7 @@
 * Changed: Filter and Action Hook names in new API. - See documentation for details.
 * Improved: Complexity of functions for better performance and usage.
 * Tweaked: Added checking for items already in the cart.
+* Tweaked: Check if cart is empty before removing an item.
 * Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
 * Tweaked: Totals can now return once calculated if requested.
 * Tweaked: Totals now return from session and can be returned pre-formatted if requested. - See documentation for details.
