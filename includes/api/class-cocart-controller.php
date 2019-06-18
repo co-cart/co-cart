@@ -436,7 +436,7 @@ class CoCart_API_Controller {
 	 */
 	public function find_product_in_cart( $cart_id = false ) {
 		if ( false !== $cart_id ) {
-			if ( is_array( $this->get_cart() ) && null !== $this->get_cart( array(), $cart_id ) ) {
+			if ( is_array( WC()->cart->get_cart() ) && null !== WC()->cart->get_cart( array(), $cart_id ) ) {
 				return $cart_id;
 			}
 		}
