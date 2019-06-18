@@ -41,34 +41,6 @@ class CoCart_API_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Cart - cocart/v1/get-cart (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_cart' ),
-			'args'     => array(
-				'thumb' => array(
-					'default' => false,
-				),
-			),
-		));
- 
-		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\d]+)', array(
-			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => array( $this, 'get_cart_customer' ),
-			'permission_callback' => array( $this, 'get_permission_check' ),
-			'args'                => array(
-				'id' => array(
-					'required'    => true,
-					'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'integer',
-				),
-				'thumb' => array(
-					'default' => false,
-				),
-			),
-		));
-
 		// Add Item - cocart/v1/add-item (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/add-item', array(
 			'methods'  => WP_REST_Server::CREATABLE,
@@ -128,6 +100,34 @@ class CoCart_API_Controller {
 			'args'     => array(
 				'return' => array(
 					'default' => 'numeric'
+				),
+			),
+		));
+
+		// Get Cart - cocart/v1/get-cart (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
+			'methods'  => WP_REST_Server::READABLE,
+			'callback' => array( $this, 'get_cart' ),
+			'args'     => array(
+				'thumb' => array(
+					'default' => false,
+				),
+			),
+		));
+ 
+		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\d]+)', array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => array( $this, 'get_cart_customer' ),
+			'permission_callback' => array( $this, 'get_permission_check' ),
+			'args'                => array(
+				'id' => array(
+					'required'    => true,
+					'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+				),
+				'thumb' => array(
+					'default' => false,
 				),
 			),
 		));
