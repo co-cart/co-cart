@@ -48,18 +48,22 @@ class CoCart_API_Controller {
 			'args'     => array(
 				'product_id' => array(
 					'description'       => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'integer',
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					}
 				),
 				'quantity' => array(
 					'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+					'default'           => 1,
+					'type'              => 'integer',
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					}
 				),
 				'variation_id' => array(
 					'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'integer',
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					}
@@ -83,9 +87,9 @@ class CoCart_API_Controller {
 			'callback' => array( $this, 'calculate_totals' ),
 			'args'     => array(
 				'return' => array(
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_bool( $param );
-					}
+					'default'     => false,
+					'description' => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'boolean',
 				)
 			)
 		));
@@ -147,11 +151,9 @@ class CoCart_API_Controller {
 					'type'        => 'string',
 				),
 				'return_cart' => array(
-					'description'       => __( 'Returns the whole cart if requested.', 'cart-rest-api-for-woocommerce' ),
-					'default'           => false,
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_bool( $param );
-					}
+					'description' => __( 'Returns the whole cart to reduce requests.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
 				)
 			),
 			array(
@@ -182,7 +184,11 @@ class CoCart_API_Controller {
 			'callback' => array( $this, 'get_totals' ),
 			'args'     => array(
 				'html' => array(
-					'default' => false,
+					'default'           => false,
+					'type'              => 'boolean',
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_bool( $param );
+					}
 				),
 			),
 		));
@@ -578,7 +584,7 @@ class CoCart_API_Controller {
 			do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
 
 			// Was it requested to return the whole cart once item added?
-			if ( isset( $data['return_cart'] ) ) {
+			if ( $data['return_cart'] ) {
 				$cart_contents = $this->get_cart_contents( $data );
 
 				return new WP_REST_Response( $cart_contents, 200 );
@@ -617,7 +623,7 @@ class CoCart_API_Controller {
 				do_action( 'cocart_item_removed', $current_data );
 
 				// Was it requested to return the whole cart once item removed?
-				if ( isset( $data['return_cart'] ) ) {
+				if ( $data['return_cart'] ) {
 					$cart_contents = $this->get_cart_contents( $data );
 
 					return new WP_REST_Response( $cart_contents, 200 );
@@ -651,7 +657,7 @@ class CoCart_API_Controller {
 				do_action( 'cocart_item_restored', $current_data );
 
 				// Was it requested to return the whole cart once item restored?
-				if ( isset( $data['return_cart'] ) ) {
+				if ( $data['return_cart'] ) {
 					$cart_contents = $this->get_cart_contents( $data );
 
 					return new WP_REST_Response( $cart_contents, 200 );
@@ -705,7 +711,7 @@ class CoCart_API_Controller {
 				}
 
 				// Was it requested to return the whole cart once item updated?
-				if ( isset( $data['return_cart'] ) ) {
+				if ( $data['return_cart'] ) {
 					$cart_contents = $this->get_cart_contents( $data );
 
 					return new WP_REST_Response( $cart_contents, 200 );
@@ -746,7 +752,8 @@ class CoCart_API_Controller {
 
 		WC()->cart->calculate_totals();
 
-		if ( isset( $data['return'] ) ) {
+		// Was it requested to return all totals once calculated?
+		if ( $data['return'] ) {
 			return $this->get_totals( $data );
 		}
 
