@@ -119,6 +119,7 @@ v2.0.0 is backwards compatible so you can still use the current API. See https:/
 * NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
 * NEW: Get a specific customers cart via their customer ID number. - See documentation for details.
 * NEW: Product title also returns besides just the product name when getting the cart.
+* NEW: Product price also returns when getting the cart.
 * Changed: Filter and Action Hook names in new API. - See documentation for details.
 * Improved: Complexity of functions for better performance and usage.
 * Tweaked: Added checking for items already in the cart.
