@@ -779,7 +779,7 @@ class CoCart_API_Controller {
 				}
 			}
 
-			return new WP_REST_Response( $new_totals, 200 );
+			$totals = $new_totals;
 		}
 
 		return new WP_REST_Response( $totals, 200 );
