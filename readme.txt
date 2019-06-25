@@ -44,7 +44,7 @@ Enjoy!
 > - Get Applied Coupons<br />
 > - Get Coupon Discount Total<br />
 > - Get Cart Total Weight<br />
-> - Get Cross Sales<br />
+> - Get Cross Sells<br />
 > - Get and Set Shipping Methods<br />
 > - Get and Set Tax Fees<br />
 > - Calculate Shipping Fees<br />
