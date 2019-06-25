@@ -109,11 +109,11 @@ Please reach out via the official [support forum on WordPress.org](https://wordp
 
 == Upgrade Notice ==
 
-v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information.
+v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information on the new API.
 
 == Changelog ==
 
-= v2.0.0 =
+= v2.0.0 - 25th June, 2019 =
 
 * NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
 * NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
