@@ -462,7 +462,8 @@ class CoCart_API_Controller {
 		$quantity = absint( $quantity );
 
 		if ( ! $current_product->has_enough_stock( $quantity ) ) {
-			return new WP_Error( 'cocart_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
+			/* translators: 1: quantity requested, 2: product name 3: quantity in stock */
+			return new WP_Error( 'cocart_not_enough_in_stock', sprintf( __( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ), $quantity, $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
 		}
 
 		return true;
@@ -516,12 +517,13 @@ class CoCart_API_Controller {
 
 		// Stock check - only check if we're managing stock and backorders are not allowed.
 		if ( ! $product_data->is_in_stock() ) {
-			return new WP_Error( 'cocart_product_out_of_stock', sprintf( __( 'You cannot add &quot;%s&quot; to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+			/* translators: %s: product name */
+			return new WP_Error( 'cocart_product_out_of_stock', sprintf( __( 'You cannot add "%s" to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
 		}
 
 		if ( ! $product_data->has_enough_stock( $quantity ) ) {
-			/* translators: 1: product name 2: quantity in stock */
-			return new WP_Error( 'cocart_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
+			/* translators: 1: quantity requested, 2: product name, 3: quantity in stock */
+			return new WP_Error( 'cocart_not_enough_in_stock', sprintf( __( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ), $quantity, $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
 		}
 
 		// Stock check - this time accounting for whats already in-cart.
@@ -529,6 +531,7 @@ class CoCart_API_Controller {
 			$products_qty_in_cart = WC()->cart->get_cart_item_quantities();
 
 			if ( isset( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] ) && ! $product_data->has_enough_stock( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] + $quantity ) ) {
+				/* translators: 1: quantity in stock, 2: quantity in cart */
 				return new WP_Error(
 					'cocart_not_enough_stock_remaining',
 					sprintf(
@@ -575,6 +578,7 @@ class CoCart_API_Controller {
 				return new WP_REST_Response( $item_added, 200 );
 			}
 		} else {
+			/* translators: %s: product name */
 			return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
 		}
 	} // END add_to_cart()
@@ -699,10 +703,13 @@ class CoCart_API_Controller {
 
 				// Return response based on product quantity increment.
 				if ( $quantity > $current_data['quantity'] ) {
+					/* translators: 1: product name, 2: new quantity */
 					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
 				} else if ( $quantity < $current_data['quantity'] ) {
+					/* translators: 1: product name, 2: new quantity */
 					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
 				} else {
+					/* translators: %s: product name */
 					return new WP_REST_Response( sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), 200 );
 				}
 			} else {
