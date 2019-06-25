@@ -47,16 +47,19 @@ class CoCart_API_Controller {
 			'callback' => array( $this, 'add_to_cart' ),
 			'args'     => array(
 				'product_id' => array(
+					'description'       => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					}
 				),
 				'quantity' => array(
+					'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					}
 				),
 				'variation_id' => array(
+					'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					}
@@ -110,7 +113,9 @@ class CoCart_API_Controller {
 			'callback' => array( $this, 'get_cart' ),
 			'args'     => array(
 				'thumb' => array(
-					'default' => false,
+					'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
 				),
 			),
 		));
@@ -127,7 +132,9 @@ class CoCart_API_Controller {
 					'type'        => 'integer',
 				),
 				'thumb' => array(
-					'default' => false,
+					'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
 				),
 			),
 		));
@@ -136,7 +143,7 @@ class CoCart_API_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/item', array(
 			'args' => array(
 				'cart_item_key' => array(
-					'description' => __( 'The cart item key is what identifies the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
 				'return_cart' => array(
