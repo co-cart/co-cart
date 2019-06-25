@@ -186,7 +186,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  2.0.0
-	 * @return bool|WP_ERROR
+	 * @return bool|WP_Error
 	 */
 	public function get_permission_check() {
 		if ( ! current_user_can( 'administrator' ) ) {
@@ -221,7 +221,7 @@ class CoCart_API_Controller {
 	 * @since  2.0.0
 	 * @param  array $data
 	 * @param  string $item_key
-	 * @return array|WP_ERROR
+	 * @return array|WP_Error
 	 */
 	public function get_cart_customer( $data = array(), $item_key = '0' ) {
 		if ( empty( $data['id'] ) ) {
@@ -362,7 +362,7 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.0.0
-	 * @return  WP_ERROR|WP_REST_Response
+	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function clear_cart() {
 		WC()->cart->empty_cart();
@@ -611,10 +611,10 @@ class CoCart_API_Controller {
 
 				return new WP_REST_Response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), 200 );
 			} else {
-				return new WP_ERROR( 'cocart_can_not_remove_item', __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_can_not_remove_item', __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 			}
 		} else {
-			return new WP_ERROR( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 	} // END remove_item()
 
@@ -645,10 +645,10 @@ class CoCart_API_Controller {
 
 				return new WP_REST_Response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), 200 );
 			} else {
-				return new WP_ERROR( 'cocart_can_not_restore_item', __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_can_not_restore_item', __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 			}
 		} else {
-			return new WP_ERROR( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 	} // END restore_item()
 
@@ -706,10 +706,10 @@ class CoCart_API_Controller {
 					return new WP_REST_Response( sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), 200 );
 				}
 			} else {
-				return new WP_ERROR( 'cocart_can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 			}
 		} else {
-			return new WP_ERROR( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 	} // END update_item()
 
