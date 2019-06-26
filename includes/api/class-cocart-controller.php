@@ -515,6 +515,9 @@ class CoCart_API_Controller {
 			return new WP_Error( 'cocart_product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
+		// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
+		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+
 		// Find the cart item key in the existing cart.
 		$cart_item_key = $this->find_product_in_cart( $cart_id );
 
