@@ -57,13 +57,11 @@
 .notice.cocart-notice h3 {
   margin: 0 0 5px; }
 
-.notice.cocart-notice .cocart-review-now,
-.notice.cocart-notice .cocart-send-feedback {
+.notice.cocart-notice .cocart-action {
   float: right;
   text-align: center; }
 
-.notice.cocart-notice .cocart-review-now .cocart-review-button,
-.notice.cocart-notice .cocart-send-feedback .cocart-feedback-button {
+.notice.cocart-notice .cocart-action .cocart-button {
   height: auto;
   line-height: 20px;
   padding: 6px 50px; }
@@ -89,7 +87,8 @@
     font-size: 0;
     width: 64px; }
 
-body.cocart-getting-started .notice {
+body.cocart-getting-started .notice,
+body.cocart-getting-started .error {
   display: none; }
 
 @media (max-width: 767px) {
@@ -102,8 +101,7 @@ body.cocart-getting-started .notice {
     padding: 0; }
   .notice.cocart-notice .cocart-notice-inner .cocart-notice-icon {
     display: none; }
-  .notice.cocart-notice .cocart-notice-inner .cocart-review-now,
-  .notice.cocart-notice .cocart-notice-inner .cocart-send-feedback {
+  .notice.cocart-notice .cocart-notice-inner .cocart-action {
     margin-top: 20px;
     display: block;
     text-align: left; }
