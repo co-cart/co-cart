@@ -617,7 +617,13 @@ class CoCart_API_Controller {
 		}
 
 		if ( $cart_item_key != '0' ) {
-			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is removed.
+			// Check item exists in cart before fetching the cart item data to update.
+			$current_data = WC()->cart->get_cart_item( $cart_item_key );
+
+			// If item does not exist in cart return response.
+			if ( empty( $current_data ) ) {
+				return new WP_Error( 'cocart_item_not_in_cart', __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			}
 
 			if ( WC()->cart->remove_cart_item( $cart_item_key ) ) {
 				do_action( 'cocart_item_removed', $current_data );
@@ -693,7 +699,13 @@ class CoCart_API_Controller {
 		$this->validate_quantity( $quantity );
 
 		if ( $cart_item_key != '0' ) {
-			$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data before it is updated.
+			// Check item exists in cart before fetching the cart item data to update.
+			$current_data = WC()->cart->get_cart_item( $cart_item_key );
+
+			// If item does not exist in cart return response.
+			if ( empty( $current_data ) ) {
+				return new WP_Error( 'cocart_item_not_in_cart', __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			}
 
 			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
