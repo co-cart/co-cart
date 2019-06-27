@@ -476,18 +476,17 @@ class CoCart_API_Controller {
 	 * Checks if the product in the cart has enough stock 
 	 * before updating the quantity.
 	 * 
-	 * @access protected
-	 * @since  1.0.6
-	 * @param  array  $current_data
-	 * @param  string $quantity
-	 * @return bool|WP_Error
+	 * @access  protected
+	 * @since   1.0.6
+	 * @version 2.0.0
+	 * @param   array  $current_data
+	 * @param   string $quantity
+	 * @return  bool|WP_Error
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
 		$product_id      = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
 		$variation_id    = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
 		$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
-
-		$quantity = absint( $quantity );
 
 		if ( ! $current_product->has_enough_stock( $quantity ) ) {
 			/* translators: 1: quantity requested, 2: product name 3: quantity in stock */
