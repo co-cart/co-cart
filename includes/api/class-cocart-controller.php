@@ -628,9 +628,7 @@ class CoCart_API_Controller {
 		// Was it requested to return the whole cart once item added?
 		if ( $data['return_cart'] ) {
 			$response = $this->get_cart_contents( $data );
-		}
-
-		if ( is_array( $item_added ) ) {
+		} else if ( is_array( $item_added ) ) {
 			$response = $item_added;
 		}
 
