@@ -150,6 +150,11 @@ class CoCart_API_Controller {
 					'description' => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
+				'refresh_totals' => array(
+					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
+				),
 				'return_cart' => array(
 					'description' => __( 'Returns the whole cart to reduce requests.', 'cart-rest-api-for-woocommerce' ),
 					'default'     => false,
@@ -588,6 +593,11 @@ class CoCart_API_Controller {
 
 		// Return response to added item to cart or return error.
 		if ( $item_key ) {
+				// Re-calculate cart totals once item has been added.
+				if ( $data['refresh_totals'] ) {
+					WC()->cart->calculate_totals();
+				}
+
 			$item_added = WC()->cart->get_cart_item( $item_key );
 
 			do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
