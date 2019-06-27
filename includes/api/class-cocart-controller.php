@@ -222,12 +222,19 @@ class CoCart_API_Controller {
 	 * @version 2.0.0
 	 * @param   array  $data
 	 * @param   string $item_key
-	 * @return  WP_REST_Response
+	 * @return  array|WP_REST_Response
 	 */
 	public function get_cart( $data = array(), $item_key = '0' ) {
 		$cart_contents = $this->get_cart_contents( $data, $item_key );
 
 		do_action( 'cocart_get_cart', $cart_contents );
+
+		$show_raw = ! empty( $data['raw'] ) ? $data['raw'] : false;
+
+		// Return cart contents raw if requested.
+		if ( $show_raw ) {
+			return $cart_contents;
+		}
 
 		return new WP_REST_Response( $cart_contents, 200 );
 	} // END get_cart()
