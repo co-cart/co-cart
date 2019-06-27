@@ -144,9 +144,7 @@ class CoCart_Rest_API {
 		 * 
 		 * Cart and notice functions are not included during a REST request.
 		 */
-		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
-			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
-			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
+		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
 
 			if ( null === WC()->session ) {
 				$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
