@@ -189,11 +189,9 @@ class CoCart_API_Controller {
 			'callback' => array( $this, 'get_totals' ),
 			'args'     => array(
 				'html' => array(
-					'default'           => false,
-					'type'              => 'boolean',
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_bool( $param );
-					}
+					'description' => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
+					'default' => false,
+					'type'    => 'boolean',
 				),
 			),
 		));
