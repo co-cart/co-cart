@@ -1,9 +1,9 @@
 # # Copyright (c) {2019} Sébastien Dumont
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.0.0\n"
+"Project-Id-Version: CoCart 2.0.0-rc.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2019-06-25 15:43:26+00:00\n"
+"POT-Creation-Date: 2019-06-27 21:09:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -303,87 +303,117 @@ msgstr ""
 msgid "Turn off the CoCart plugin"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:126
+#: includes/api/class-cocart-controller.php:50
+msgid "Unique identifier for the product ID."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:57
+msgid "The quantity amount of the item to add to cart."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:65
+msgid "Unique identifier for the variation ID."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:91
+msgid "Returns the cart totals once calculated."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:120
+#: includes/api/class-cocart-controller.php:139
+msgid "Returns the URL of the product image thumbnail."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:135
 msgid "Unique identifier for the customer."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:139
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:122
-msgid "The cart item key is what identifies the item in the cart."
+#: includes/api/class-cocart-controller.php:150
+msgid "Unique identifier for the item in the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:143
-msgid "Returns the whole cart if requested."
+#: includes/api/class-cocart-controller.php:154
+msgid ""
+"Re-calculates the totals once item has been added or the quantity of the "
+"item has increased."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:193
+#: includes/api/class-cocart-controller.php:159
+msgid "Returns the whole cart to reduce requests."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:192
+msgid "Returns the totals pre-formatted."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:209
 msgid "Cannot read cart!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:228
+#: includes/api/class-cocart-controller.php:251
 msgid "Customer ID is required!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:331
+#: includes/api/class-cocart-controller.php:351
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:201
 msgid "There are no items in the cart!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:374
+#: includes/api/class-cocart-controller.php:394
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:220
 msgid "Cart is cleared."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:376
+#: includes/api/class-cocart-controller.php:396
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:222
 msgid "Clearing the cart failed!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:390
+#: includes/api/class-cocart-controller.php:410
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:236
 msgid "Product ID number is required!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:394
+#: includes/api/class-cocart-controller.php:414
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:240
 msgid "Product ID must be numeric!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:408
+#: includes/api/class-cocart-controller.php:428
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:254
 msgid "Quantity must be numeric!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:466
-#: includes/api/class-cocart-controller.php:526
+#: includes/api/class-cocart-controller.php:485
+#: includes/api/class-cocart-controller.php:556
 #. translators: 1: quantity requested, 2: product name 3: quantity in stock
 msgid ""
 "You cannot add a quantity of %1$s for \"%2$s\" to the cart because there is "
 "not enough stock. - only %3$s remaining!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:493
+#: includes/api/class-cocart-controller.php:520
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:317
 msgid "Warning: This product does not exist!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:509
+#: includes/api/class-cocart-controller.php:539
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:330
 #. translators: %s: product name
 msgid "You cannot add another \"%s\" to your cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:515
+#: includes/api/class-cocart-controller.php:545
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:336
 msgid "Sorry, this product cannot be purchased."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:521
+#: includes/api/class-cocart-controller.php:551
 #. translators: %s: product name
 msgid "You cannot add \"%s\" to the cart because the product is out of stock."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:538
+#: includes/api/class-cocart-controller.php:568
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:356
 #. translators: 1: quantity in stock, 2: quantity in cart
 msgid ""
@@ -391,80 +421,89 @@ msgid ""
 "you already have %2$s in your cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:552
+#: includes/api/class-cocart-controller.php:582
 msgid "This item can not be added to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:582
+#: includes/api/class-cocart-controller.php:616
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:378
 #. translators: %s: product name
 msgid "You cannot add \"%s\" to your cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:600
+#: includes/api/class-cocart-controller.php:646
 msgid "No items in cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:616
+#: includes/api/class-cocart-controller.php:655
+#: includes/api/class-cocart-controller.php:737
+msgid "Item specified does not exist in cart."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:668
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:396
 msgid "Item has been removed from cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:618
+#: includes/api/class-cocart-controller.php:670
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:398
 msgid "Unable to remove item from cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:621
-#: includes/api/class-cocart-controller.php:655
-#: includes/api/class-cocart-controller.php:719
+#: includes/api/class-cocart-controller.php:673
+#: includes/api/class-cocart-controller.php:707
+#: includes/api/class-cocart-controller.php:777
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:401
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:424
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:478
 msgid "Cart item key is required!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:650
+#: includes/api/class-cocart-controller.php:702
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:419
 msgid "Item has been restored to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:652
+#: includes/api/class-cocart-controller.php:704
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:421
 msgid "Unable to restore item to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:707
+#: includes/api/class-cocart-controller.php:765
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:468
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has increased to \"%2$s\"."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:710
+#: includes/api/class-cocart-controller.php:768
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:470
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has decreased to \"%2$s\"."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:713
+#: includes/api/class-cocart-controller.php:771
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:472
 #. translators: %s: product name
 msgid "The quantity for \"%s\" has not changed."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:716
+#: includes/api/class-cocart-controller.php:774
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:475
 msgid "Unable to update item quantity in cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:734
+#: includes/api/class-cocart-controller.php:792
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:491
 msgid "No items in cart to calculate totals."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:743
+#: includes/api/class-cocart-controller.php:802
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:496
 msgid "Cart totals have been calculated."
+msgstr ""
+
+#: includes/api/wc-v2/class-wc-rest-cart-controller.php:122
+msgid "The cart item key is what identifies the item in the cart."
 msgstr ""
 
 #: includes/api/wc-v2/class-wc-rest-cart-controller.php:291
