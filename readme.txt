@@ -123,12 +123,15 @@ v2.0.0 is backwards compatible so you can still use the current API. See https:/
 * Changed: Filter and Action Hook names in new API. - See documentation for details.
 * Improved: Complexity of functions for better performance and usage.
 * Tweaked: Added checking for items already in the cart.
+* Tweaked: Check if cart is empty before removing an item.
 * Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
 * Tweaked: Totals can now return once calculated if requested.
 * Tweaked: Totals now return from session and can be returned pre-formatted if requested. - See documentation for details.
+* Tweaked: New option to refresh cart totals once item has been added.
 * Dev: Added action hooks for getting cart, cart is cleared, item added, item removed and item restored.
 * Dev: Added filter to allow additional checks before the item is added to the cart.
 * Dev: Added filter to apply additional data to return when cart is returned.
 * Dev: Added filter to change the size of the thumbnail returned.
+* Dev: Added new option to return cart raw if requested.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).

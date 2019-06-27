@@ -14,10 +14,12 @@
 * Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
 * Tweaked: Totals can now return once calculated if requested.
 * Tweaked: Totals now return from session and can be returned pre-formatted if requested. - See documentation for details.
+* Tweaked: New option to refresh cart totals once item has been added.
 * Dev: Added action hooks for getting cart, cart is cleared, item added, item removed and item restored.
 * Dev: Added filter to allow additional checks before the item is added to the cart.
 * Dev: Added filter to apply additional data to return when cart is returned.
 * Dev: Added filter to change the size of the thumbnail returned.
+* Dev: Added new option to return cart raw if requested.
 
 ## v1.2.3 - 7th June, 2019
 
