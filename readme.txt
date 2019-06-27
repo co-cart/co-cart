@@ -7,7 +7,7 @@ Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
-Stable tag: 2.0.0
+Stable tag: 2.0.0-rc.1
 WC requires at least: 3.0.0
 WC tested up to: 3.6.4
 License: GPLv3
@@ -113,7 +113,7 @@ v2.0.0 is backwards compatible so you can still use the current API. See https:/
 
 == Changelog ==
 
-= v2.0.0 - 25th June, 2019 =
+= v2.0.0 - ?? ??, 2019 =
 
 * NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
 * NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
