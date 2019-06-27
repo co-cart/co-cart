@@ -513,6 +513,8 @@ class CoCart_API_Controller {
 		$variation      = ! isset( $data['variation'] ) ? array() : $data['variation'];
 		$cart_item_data = ! isset( $data['cart_item_data'] ) ? array() : $data['cart_item_data'];
 
+		$item_added = array();
+
 		$this->validate_product( $product_id, $quantity );
 
 		// Ensure we don't add a variation to the cart directly by variation ID.
@@ -595,6 +597,16 @@ class CoCart_API_Controller {
 			);
  		}
 
+		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
+		if ( $cart_item_key ) {
+			$cart_contents = $this->get_cart( array( 'raw' => true ) );
+
+			$new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
+
+			WC()->cart->set_quantity( $cart_item_key, $new_quantity, $data['refresh_totals'] );
+
+			$item_added = WC()->cart->get_cart_item( $cart_item_key );
+		} else {
 		// Add item to cart.
 		$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
 
@@ -608,21 +620,24 @@ class CoCart_API_Controller {
 			$item_added = WC()->cart->get_cart_item( $item_key );
 
 			do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
+			} else {
+				/* translators: %s: product name */
+				return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+			}
+		}
+
+		$response = '';
 
 			// Was it requested to return the whole cart once item added?
 			if ( $data['return_cart'] ) {
-				$cart_contents = $this->get_cart_contents( $data );
-
-				return new WP_REST_Response( $cart_contents, 200 );
+			$response = $this->get_cart_contents( $data );
 			}
 
 			if ( is_array( $item_added ) ) {
-				return new WP_REST_Response( $item_added, 200 );
-			}
-		} else {
-			/* translators: %s: product name */
-			return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+			$response = $item_added;
 		}
+
+		return new WP_REST_Response( $response, 200 );
 	} // END add_to_cart()
 
 	/**
