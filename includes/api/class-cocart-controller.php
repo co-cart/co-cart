@@ -293,17 +293,11 @@ class CoCart_API_Controller {
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
 
-		// Used to check if the item exists in the cart with `find_product_in_cart()` function.
-		if ( ! empty( $item_key ) && $item_key != '0' ) {
-			$does_item_exist = $cart_contents[$item_key];
+		// Find the cart item key in the existing cart.
+		if ( ! empty( $cart_item_key ) ) {
+			$cart_item_key = $this->find_product_in_cart( $cart_item_key );
 
-			// If the data does not return empty then the item is in cart.
-			if ( ! empty( $does_item_exist ) ) {
-				return true;
-			}
-			else {
-				return false;
-			}
+			return $cart_contents[$cart_item_key];
 		}
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
