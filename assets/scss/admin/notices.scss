@@ -24,14 +24,12 @@
 			margin: 0 0 5px;
 		}
 
-		.cocart-review-now,
-		.cocart-send-feedback {
+		.cocart-action {
 			float: right;
 			text-align: center;
 		}
 
-		.cocart-review-now .cocart-review-button,
-		.cocart-send-feedback .cocart-feedback-button {
+		.cocart-action .cocart-button {
 			height: auto;
 			line-height: 20px;
 			padding: 6px 50px;
@@ -67,7 +65,8 @@
 	}
 }
 
-body.cocart-getting-started .notice {
+body.cocart-getting-started .notice,
+body.cocart-getting-started .error {
 	display: none;
 }
 
@@ -89,8 +88,7 @@ body.cocart-getting-started .notice {
 		display: none;
 	}
 
-	.notice.cocart-notice .cocart-notice-inner .cocart-review-now,
-	.notice.cocart-notice .cocart-notice-inner .cocart-send-feedback {
+	.notice.cocart-notice .cocart-notice-inner .cocart-action {
 		margin-top: 20px;
 		display: block;
 		text-align: left;

@@ -6,7 +6,7 @@ Tags: woocommerce, cart, endpoint, JSON, rest, api, rest-api
 Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
-Tested up to: 5.2.1
+Tested up to: 5.2.2
 Stable tag: 1.2.3
 WC requires at least: 3.0.0
 WC tested up to: 3.6.4
@@ -44,7 +44,7 @@ Enjoy!
 > - Get Applied Coupons<br />
 > - Get Coupon Discount Total<br />
 > - Get Cart Total Weight<br />
-> - Get Cross Sales<br />
+> - Get Cross Sells<br />
 > - Get and Set Shipping Methods<br />
 > - Get and Set Tax Fees<br />
 > - Calculate Shipping Fees<br />
@@ -109,25 +109,29 @@ Please reach out via the official [support forum on WordPress.org](https://wordp
 
 == Upgrade Notice ==
 
-v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information.
+v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information on the new API.
 
 == Changelog ==
 
-= v2.0.0 =
+= v2.0.0 - ?? ??, 2019 =
 
 * NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
 * NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
 * NEW: Get a specific customers cart via their customer ID number. - See documentation for details.
 * NEW: Product title also returns besides just the product name when getting the cart.
+* NEW: Product price also returns when getting the cart.
 * Changed: Filter and Action Hook names in new API. - See documentation for details.
 * Improved: Complexity of functions for better performance and usage.
 * Tweaked: Added checking for items already in the cart.
+* Tweaked: Check if cart is empty before removing an item.
 * Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
 * Tweaked: Totals can now return once calculated if requested.
 * Tweaked: Totals now return from session and can be returned pre-formatted if requested. - See documentation for details.
+* Tweaked: New option to refresh cart totals once item has been added.
 * Dev: Added action hooks for getting cart, cart is cleared, item added, item removed and item restored.
 * Dev: Added filter to allow additional checks before the item is added to the cart.
 * Dev: Added filter to apply additional data to return when cart is returned.
 * Dev: Added filter to change the size of the thumbnail returned.
+* Dev: Added new option to return cart raw if requested.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).

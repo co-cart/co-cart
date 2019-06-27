@@ -126,7 +126,7 @@ class CoCart_Rest_API {
 		}
 
 		// Include REST API Controllers.
-		add_action( 'rest_api_init', array( $this, 'rest_api_includes' ), 5 );
+		add_action( 'wp_loaded', array( $this, 'rest_api_includes' ), 5 );
 
 		// Register CoCart REST API routes.
 		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 10 );
@@ -144,7 +144,7 @@ class CoCart_Rest_API {
 		 * 
 		 * Cart and notice functions are not included during a REST request.
 		 */
-		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
+		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
 
