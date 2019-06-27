@@ -219,11 +219,11 @@ class CoCart_API_Controller {
 	 * @since   1.0.0
 	 * @version 2.0.0
 	 * @param   array  $data
-	 * @param   string $item_key
+	 * @param   string $cart_item_key
 	 * @return  array|WP_REST_Response
 	 */
-	public function get_cart( $data = array(), $item_key = '0' ) {
-		$cart_contents = $this->get_cart_contents( $data, $item_key );
+	public function get_cart( $data = array(), $cart_item_key = '' ) {
+		$cart_contents = $this->get_cart_contents( $data, $cart_item_key );
 
 		do_action( 'cocart_get_cart', $cart_contents );
 
@@ -242,11 +242,11 @@ class CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  2.0.0
-	 * @param  array $data
-	 * @param  string $item_key
+	 * @param  array  $data
+	 * @param  string $cart_item_key
 	 * @return array|WP_Error
 	 */
-	public function get_cart_customer( $data = array(), $item_key = '0' ) {
+	public function get_cart_customer( $data = array(), $cart_item_key = '' ) {
 		if ( empty( $data['id'] ) ) {
 			return new WP_Error( 'cocart_customer_missing', __( 'Customer ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
@@ -255,10 +255,10 @@ class CoCart_API_Controller {
 
 		// If a saved cart exists then replace the carts content.
 		if ( ! empty( $saved_cart ) ) {
-			return $this->return_cart_contents( $saved_cart, $data, $item_key );
+			return $this->return_cart_contents( $saved_cart, $data, $cart_item_key );
 		}
 
-		return $this->get_cart_contents( $data, $item_key );
+		return $this->get_cart_contents( $data, $cart_item_key );
 	} // END get_cart_customer()
 
 	/**
@@ -267,13 +267,13 @@ class CoCart_API_Controller {
 	 * @access public
 	 * @since  2.0.0
 	 * @param  array  $data
-	 * @param  string $item_key
+	 * @param  string $cart_item_key
 	 * @return array  $cart_contents
 	 */
-	public function get_cart_contents( $data = array(), $item_key = '0' ) {
+	public function get_cart_contents( $data = array(), $cart_item_key = '' ) {
 		$cart_contents = isset( WC()->cart ) ? WC()->cart->get_cart() : WC()->session->cart;
 
-		return $this->return_cart_contents( $cart_contents, $data, $item_key );
+		return $this->return_cart_contents( $cart_contents, $data, $cart_item_key );
 	} // END get_cart_contents()
 
 	/**
@@ -283,10 +283,10 @@ class CoCart_API_Controller {
 	 * @since  2.0.0
 	 * @param  array  $cart_contents
 	 * @param  array  $data
-	 * @param  string $item_key
+	 * @param  string $cart_item_key
 	 * @return array  $cart_contents
 	 */
-	public function return_cart_contents( $cart_contents, $data = array(), $item_key = '0' ) {
+	public function return_cart_contents( $cart_contents, $data = array(), $cart_item_key = '' ) {
 		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
 			return array();
 		}
@@ -451,19 +451,19 @@ class CoCart_API_Controller {
 	} // END validate_product()
 
 	/**
-	 * Check if product is in the cart and return cart item key.
+	 * Check if product is in the cart and return cart item key if found.
 	 *
 	 * Cart item key will be unique based on the item and its properties, such as variations.
 	 *
 	 * @access public
 	 * @since  2.0.0
-	 * @param  mixed  $cart_id id of product to find in the cart.
-	 * @return string cart item key
+	 * @param  string $cart_item_key of product to find in the cart.
+	 * @return string Returns the same cart item key if valid.
 	 */
-	public function find_product_in_cart( $cart_id = false ) {
-		if ( false !== $cart_id ) {
-			if ( is_array( self::get_cart() ) && null !== self::get_cart( array(), $cart_id ) ) {
-				return $cart_id;
+	public function find_product_in_cart( $cart_item_key = '' ) {
+		if ( ! empty( $cart_item_key ) ) {
+			if ( is_array( self::get_cart() ) && null !== self::get_cart( array(), $cart_item_key ) ) {
+				return $cart_item_key;
 			}
 		}
 
