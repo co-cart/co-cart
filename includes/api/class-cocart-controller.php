@@ -77,6 +77,11 @@ class CoCart_API_Controller {
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_array( $param );
 					}
+				),
+				'refresh_totals' => array(
+					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
 				)
 			)
 		) );
@@ -92,13 +97,13 @@ class CoCart_API_Controller {
 					'type'        => 'boolean',
 				)
 			)
-		));
+		) );
 
 		// Clear Cart - cocart/v1/clear (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/clear', array(
 			'methods'  => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'clear_cart' ),
-		));
+		) );
 
 		// Count Items in Cart - cocart/v1/count-items (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base  . '/count-items', array(
@@ -109,7 +114,7 @@ class CoCart_API_Controller {
 					'default' => 'numeric'
 				),
 			),
-		));
+		) );
 
 		// Get Cart - cocart/v1/get-cart (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
@@ -122,7 +127,7 @@ class CoCart_API_Controller {
 					'type'        => 'boolean',
 				),
 			),
-		));
+		) );
  
 		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\d]+)', array(
@@ -141,7 +146,7 @@ class CoCart_API_Controller {
 					'type'        => 'boolean',
 				),
 			),
-		));
+		) );
 
 		// Update, Remove or Restore Item - cocart/v1/item (GET, POST, DELETE)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/item', array(
@@ -151,7 +156,7 @@ class CoCart_API_Controller {
 					'type'        => 'string',
 				),
 				'refresh_totals' => array(
-					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Re-calculates the totals once item has been updated.', 'cart-rest-api-for-woocommerce' ),
 					'default'     => false,
 					'type'        => 'boolean',
 				),
@@ -194,7 +199,7 @@ class CoCart_API_Controller {
 					'type'    => 'boolean',
 				),
 			),
-		));
+		) );
 	} // register_routes()
 
 	/**
@@ -471,8 +476,8 @@ class CoCart_API_Controller {
 	 * @access  protected
 	 * @since   1.0.6
 	 * @version 2.0.0
-	 * @param   array  $current_data
-	 * @param   string $quantity
+	 * @param   array   $current_data
+	 * @param   integer $quantity
 	 * @return  bool|WP_Error
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
@@ -586,7 +591,7 @@ class CoCart_API_Controller {
 				$error_msg, 
 				array( 'status' => 500 )
 			);
- 		}
+		}
 
 		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
 		if ( $cart_item_key ) {
@@ -598,19 +603,19 @@ class CoCart_API_Controller {
 
 			$item_added = WC()->cart->get_cart_item( $cart_item_key );
 		} else {
-		// Add item to cart.
-		$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
+			// Add item to cart.
+			$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
 
-		// Return response to added item to cart or return error.
-		if ( $item_key ) {
+			// Return response to added item to cart or return error.
+			if ( $item_key ) {
 				// Re-calculate cart totals once item has been added.
 				if ( $data['refresh_totals'] ) {
 					WC()->cart->calculate_totals();
 				}
 
-			$item_added = WC()->cart->get_cart_item( $item_key );
+				$item_added = WC()->cart->get_cart_item( $item_key );
 
-			do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
+				do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
 			} else {
 				/* translators: %s: product name */
 				return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
@@ -739,8 +744,7 @@ class CoCart_API_Controller {
 
 			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
-			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
-
+			if ( WC()->cart->set_quantity( $cart_item_key, $quantity, $data['refresh_totals'] ) ) {
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
 
 				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( $new_data['product_id'] );
