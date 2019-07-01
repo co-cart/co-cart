@@ -113,7 +113,7 @@ v2.0.0 is backwards compatible so you can still use the current API. See https:/
 
 == Changelog ==
 
-= v2.0.0 - ?? ??, 2019 =
+= v2.0.0 - ?? July, 2019 =
 
 * NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
 * NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
@@ -127,7 +127,7 @@ v2.0.0 is backwards compatible so you can still use the current API. See https:/
 * Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
 * Tweaked: Totals can now return once calculated if requested.
 * Tweaked: Totals now return from session and can be returned pre-formatted if requested. - See documentation for details.
-* Tweaked: New option to refresh cart totals once item has been added.
+* Tweaked: New option to refresh cart totals once item has been added or updated.
 * Dev: Added action hooks for getting cart, cart is cleared, item added, item removed and item restored.
 * Dev: Added filter to allow additional checks before the item is added to the cart.
 * Dev: Added filter to apply additional data to return when cart is returned.
