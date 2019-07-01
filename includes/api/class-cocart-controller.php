@@ -77,6 +77,11 @@ class CoCart_API_Controller {
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_array( $param );
 					}
+				),
+				'refresh_totals' => array(
+					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
 				)
 			)
 		) );
@@ -739,8 +744,7 @@ class CoCart_API_Controller {
 
 			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
-			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
-
+			if ( WC()->cart->set_quantity( $cart_item_key, $quantity, $data['refresh_totals'] ) ) {
 				$new_data = WC()->cart->get_cart_item( $cart_item_key );
 
 				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( $new_data['product_id'] );
