@@ -9,7 +9,7 @@
 
 **Contributors:** sebd86  
 **Donate link:** https://sebdumont.xyz/donate/  
-**Tags:** woocommerce, cart, endpoint, JSON, rest, api, REST API  
+**Tags:** woocommerce, cart, rest, rest-api, JSON  
 **Requires at least:** 4.9.8  
 **Requires PHP:** 5.6  
 **Tested up to:** 5.2.2  

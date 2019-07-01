@@ -29,7 +29,10 @@
 	"keywords": [
 		"woocommerce",
 		"api",
-		"cart"
+		"cart",
+		"rest",
+		"rest-api",
+		"JSON"
 	],
 	"scripts": {
 		"test": "grunt",
