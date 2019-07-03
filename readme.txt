@@ -7,9 +7,9 @@ Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
-Stable tag: 1.2.3
+Stable tag: 2.0.0
 WC requires at least: 3.0.0
-WC tested up to: 3.6.4
+WC tested up to: 3.6.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
