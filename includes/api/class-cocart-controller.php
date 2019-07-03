@@ -763,17 +763,30 @@ class CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
+				$response = array();
+
 				// Return response based on product quantity increment.
 				if ( $quantity > $current_data['quantity'] ) {
 					/* translators: 1: product name, 2: new quantity */
-					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
+					$response = array(
+						'message'  => sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
+						'quantity' => $new_data['quantity']
+					);
 				} else if ( $quantity < $current_data['quantity'] ) {
 					/* translators: 1: product name, 2: new quantity */
-					return new WP_REST_Response( sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ), 200 );
+					$response = array(
+						'message'  => sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
+						'quantity' => $new_data['quantity']
+					);
 				} else {
 					/* translators: %s: product name */
-					return new WP_REST_Response( sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), 200 );
+					$response = array(
+						'message'  => sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ),
+						'quantity' => $quantity
+					);
 				}
+
+				return new WP_REST_Response( $response, 200 );
 			} else {
 				return new WP_Error( 'cocart_can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 			}
