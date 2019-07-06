@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v2.0.1 - ?? July, 2019
+
+* Tweaked: `get_cart_contents_count()` is now called static.
+* Tweaked: Added check for cart totals to make sure they are set before falling back to cart totals in session.
+* Dev: Added filter `cocart_update_item` for the response when updating an item.
+
 ## v2.0.0 - 3rd July, 2019
 
 * NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
