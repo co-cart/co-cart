@@ -343,12 +343,14 @@ class CoCart_API_Controller {
 	/**
 	 * Get cart contents count.
 	 *
-	 * @access public
-	 * @since  1.0.0
-	 * @param  array $data
-	 * @return string|WP_REST_Response
+	 * @access  public
+	 * @static
+	 * @since   1.0.0
+	 * @version 2.0.1
+	 * @param   array $data
+	 * @return  string|WP_REST_Response
 	 */
-	public function get_cart_contents_count( $data = array() ) {
+	public static function get_cart_contents_count( $data = array() ) {
 		$count = WC()->cart->get_cart_contents_count();
 
 		$return = ! empty( $data['return'] ) ? $data['return'] : '';
