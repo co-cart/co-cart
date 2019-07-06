@@ -721,7 +721,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.0.1
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -789,7 +789,7 @@ class CoCart_API_Controller {
 					);
 				}
 
-				return new WP_REST_Response( $response, 200 );
+				return new WP_REST_Response( apply_filters( 'cocart_update_item', $response, $new_data, $quantity ), 200 );
 			} else {
 				return new WP_Error( 'cocart_can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 			}
