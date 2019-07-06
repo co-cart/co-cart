@@ -827,12 +827,16 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.0.1
 	 * @param   array $data
 	 * @return  WP_REST_Response
 	 */
 	public function get_totals( $data = array() ) {
-		$totals = WC()->session->get( 'cart_totals' );
+		if ( ! empty( WC()->cart->totals ) ) {
+			$totals = WC()->cart->get_totals();
+		} else {
+			$totals = WC()->session->get( 'cart_totals' );
+		}
 
 		$pre_formatted = ! empty( $data['html'] ) ? $data['html'] : false;
 
