@@ -176,6 +176,7 @@ class CoCart_API_Controller {
 				'args'     => array(
 					'quantity' => array(
 						'default'           => 1,
+						'type'              => 'integer',
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_numeric( $param );
 						}
