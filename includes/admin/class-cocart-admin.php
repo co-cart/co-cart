@@ -3,7 +3,7 @@
  * CoCart - Admin.
  *
  * @since    1.2.0
- * @version  2.0.0
+ * @version  2.0.1
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -46,20 +46,51 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		/**
 		 * Add CoCart to the menu.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   2.0.0
+		 * @version 2.0.1
 		 */
 		public function admin_menu() {
-			$title = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
+			$section = isset( $_GET['section'] ) ? trim( $_GET['section'] ) : 'getting-started';
+
+			switch( $section ) {
+				case 'getting-started':
+					$title = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
+					break;
+				default:
+					$title = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
+					break;
+			}
 
 			add_menu_page(
 				$title,
 				'CoCart',
 				apply_filters( 'cocart_screen_capability', 'manage_options' ),
-				'cocart-getting-started',
-				array( $this, 'getting_started_content' ),
+				'cocart',
+				array( $this, 'cocart_page' ),
 				'dashicons-cart'
 			);
 		} // END admin_menu()
+
+		/**
+		 * CoCart Page
+		 *
+		 * @access public
+		 * @since  2.0.1
+		 */
+		public function cocart_page() {
+			$section = isset( $_GET['section'] ) ? trim( $_GET['section'] ) : 'getting-started';
+
+			switch( $section ) {
+				case 'getting-started':
+					$this->getting_started_content();
+					break;
+
+				default:
+					do_action( 'cocart_page_section_' . strtolower( str_replace( '-', '_', $section ) ) );
+					break;
+			}
+		} // END cocart_page()
 
 		/**
 		 * Getting Started content.
@@ -90,15 +121,17 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * These are the only screens CoCart will focus 
 		 * on displaying notices or equeue scripts/styles.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @return array
+		 * @since   2.0.0
+		 * @version 2.0.1
+		 * @return  array
 		 */
 		public static function cocart_get_admin_screens() {
 			return array(
 				'dashboard',
 				'plugins',
-				'toplevel_page_cocart-getting-started'
+				'toplevel_page_cocart'
 			);
 		} // END cocart_get_admin_screens()
 

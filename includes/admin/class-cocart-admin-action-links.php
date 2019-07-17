@@ -34,14 +34,16 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		/**
 		 * Plugin action links.
 		 *
-		 * @access public
-		 * @param  array $links An array of plugin links.
-		 * @return array $links
+		 * @access  public
+		 * @since   2.0.0
+		 * @version 2.0.1
+		 * @param   array $links An array of plugin links.
+		 * @return  array $links
 		 */
 		public function plugin_action_links( $links ) {
 			if ( current_user_can( 'manage_options' ) ) {
 				$action_links = array(
-					'getting-started' => '<a href="' . add_query_arg( array( 'page' => 'cocart-getting-started' ), admin_url( 'admin.php' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'getting-started' => '<a href="' . add_query_arg( array( 'page' => 'cocart', 'section' => 'getting-started' ), admin_url( 'admin.php' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				return array_merge( $action_links, $links );
