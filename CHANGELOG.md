@@ -5,6 +5,7 @@
 * Tweaked: `get_cart_contents_count()` is now called static.
 * Tweaked: Added check for cart totals to make sure they are set before falling back to cart totals in session.
 * Dev: Added filter `cocart_update_item` for the response when updating an item.
+* Dev: Tweaked CoCart page in the WordPress dashboard to support sections.
 
 ## v2.0.0 - 3rd July, 2019
 
