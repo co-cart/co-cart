@@ -7,7 +7,7 @@ Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 WC requires at least: 3.0.0
 WC tested up to: 3.6.5
 License: GPLv3
@@ -32,6 +32,8 @@ It also works well with official WooCommerce extensions such as:
 * Points and Rewards
 * Pre-Orders
 * Product Add-ons
+
+More extensions will be supported in CoCart Pro starting with Subscriptions.
 
 Intrigued? _I bet you are._ [See documentation](https://co-cart.github.io/co-cart-docs/) on how to use CoCart today.
 
@@ -112,6 +114,13 @@ Please reach out via the official [support forum on WordPress.org](https://wordp
 v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information on the new API.
 
 == Changelog ==
+
+= v2.0.1 - 18th July, 2019 =
+
+* Tweaked: `get_cart_contents_count()` is now called static.
+* Tweaked: Added check for cart totals to make sure they are set before falling back to cart totals in session.
+* Dev: Added filter `cocart_update_item` for the response when updating an item.
+* Dev: Tweaked CoCart page in the WordPress dashboard to support sections.
 
 = v2.0.0 - 3rd July, 2019 =
 
