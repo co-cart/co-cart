@@ -57,11 +57,13 @@ class CoCart_API_Session {
 		if ( ! isset( $_COOKIE[ $this->cookie_name ] ) ) {
 			$value = $this->generate_customer_id();
 
-			// Set cookie with unique ID.
-			wc_setcookie( $this->cookie_name, $value );
+			if ( ! empty( $value ) ) {
+				// Set cookie with unique ID.
+				wc_setcookie( $this->cookie_name, $value );
 
-			// Create a new option in the database with the unique ID as the option name.
-			add_option( $value, '1' );
+				// Create a new option in the database with the unique ID as the option name.
+				add_option( $value, '1' );
+			}
 		}
 	} // END maybe_generate_unique_id()
 
