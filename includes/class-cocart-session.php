@@ -33,6 +33,9 @@ class CoCart_API_Session {
 
 		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_generate_unique_id' ), 0 );
 		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_save_cart_data' ), 99 );
+		add_action( 'woocommerce_cart_item_set_quantity', array( $this, 'maybe_save_cart_data' ), 99 );
+		add_action( 'woocommerce_cart_item_restored', array( $this, 'maybe_save_cart_data' ), 99 );
+		add_action( 'woocommerce_cart_item_removed', array( $this, 'maybe_clear_cart' ), 99 );
 	} // END __construct()
 
 	/**
@@ -73,6 +76,34 @@ class CoCart_API_Session {
 	} // END generate_customer_id()
 
 	/**
+	 * Returns true or false if the cart ID is saved in the database.
+	 *
+	 * @access public
+	 * @param  string $cart_id
+	 * @return bool
+	 */
+	public function is_cart_saved( $cart_id ) {
+		$cart_saved = get_option( $cart_id );
+
+		if ( ! empty( $cart_saved ) ) {
+			return true;
+		}
+
+		return false;
+	} // END maybe_save_cart_data()
+
+	/**
+	 * Save cart data under the cart ID provided.
+	 *
+	 * @access public
+	 */
+	public function save_cart_data( $cart_id ) {
+		$cart = WC()->cart;
+
+		update_option( $cart_id, $cart );
+	} // END save_cart_data()
+
+	/**
 	 * If the cart ID exists then save the cart data.
 	 *
 	 * @access public
@@ -81,15 +112,45 @@ class CoCart_API_Session {
 		if ( isset( $_COOKIE[ $this->cookie_name ] ) ) {
 			$cart_id = $_COOKIE[ $this->cookie_name ];
 
-			$cart_saved = get_option( $cart_id );
+			$cart_saved = $this->is_cart_saved( $cart_id );
 
-			if ( ! empty( $cart_saved ) ) {
-				$cart = WC()->cart;
-
-				update_option( $cart_id, $cart );
+			if ( $cart_saved ) {
+				$this->save_cart_data( $cart_id );
 			}
 		}
+		else {
+			$this->maybe_generate_unique_id();
+			$this->maybe_save_cart_data();
+		}
 	} // END maybe_save_cart_data()
+
+	/**
+	 * Checks if the cart has any items before deciding 
+	 * to delete cart data or update it.
+	 *
+	 * @access public
+	 */
+	public function maybe_clear_cart() {
+		$count = WC()->cart->get_cart_contents_count();
+
+		if ( isset( $_COOKIE[ $this->cookie_name ] ) ) {
+			$cart_id = $_COOKIE[ $this->cookie_name ];
+
+			$cart_saved = $this->is_cart_saved( $cart_id );
+
+			if ( $cart_saved ) {
+				if ( $count < 1 ) {
+					delete_option( $cart_id );
+
+					wc_setcookie( $this->cookie_name, 0, time() - HOUR_IN_SECONDS );
+					unset( $_COOKIE[ $this->cookie_name ] );
+				}
+				else {
+					$this->save_cart_data( $cart_id );
+				}
+			}
+		}
+	} // END maybe_clear_cart()
 
 } // END class
 
