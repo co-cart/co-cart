@@ -44,9 +44,9 @@ class CoCart_API_Session {
 	 * @access public
 	 */
 	public function maybe_generate_unique_id() {
-		$value = $this->generate_customer_id();
-
 		if ( ! isset( $_COOKIE[ $this->cookie_name ] ) ) {
+			$value = $this->generate_customer_id();
+
 			// Set cookie with unique ID.
 			wc_setcookie( $this->cookie_name, $value );
 
