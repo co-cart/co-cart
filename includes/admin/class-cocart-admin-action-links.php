@@ -55,14 +55,18 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		/**
 		 * Plugin row meta links
 		 *
-		 * @access public
-		 * @param  array  $metadata An array of the plugin's metadata.
-		 * @param  string $file     Path to the plugin file.
-		 * @param  array  $data     Plugin Information
-		 * @return array  $metadata
+		 * @access  public
+		 * @since   2.0.0
+		 * @version 2.0.1
+		 * @param   array  $metadata An array of the plugin's metadata.
+		 * @param   string $file     Path to the plugin file.
+		 * @param   array  $data     Plugin Information
+		 * @return  array  $metadata
 		 */
 		public function plugin_row_meta( $metadata, $file, $data ) {
 			if ( $file == plugin_basename( COCART_FILE ) ) {
+				$install_date = get_site_option( 'cocart_install_date', time() );
+
 				$metadata[ 1 ] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data[ 'AuthorURI' ] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data[ 'Author' ] . '</a>' );
 
 				$campaign_args = array(
@@ -80,9 +84,12 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 				// Checks if CoCart Pro has been installed.
 				if ( ! CoCart_Admin::is_cocart_pro_installed() ) {
-					$store_url = add_query_arg( $campaign_args, COCART_STORE_URL );
+					$store_url = add_query_arg( $campaign_args, COCART_STORE_URL . 'pricing-lite/' );
 
-					$row_meta['pro'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Sign up for %s', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart Pro', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank" style="color: #39b54a; font-weight: 700;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Pro Coming Soon', 'cart-rest-api-for-woocommerce' ) );
+					// If it has been a week or more since activating the plugin then offer to upgrade.
+					if ( ( intval( time() - $install_date ) ) > WEEK_IN_SECONDS ) {
+						$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart Pro', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank" style="color: #39b54a; font-weight: 700;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );
+					}
 				}
 
 				$metadata = array_merge( $metadata, $row_meta );
