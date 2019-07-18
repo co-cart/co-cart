@@ -17,15 +17,15 @@ Control the cart via the REST-API for WooCommerce.
 
 == Description ==
 
-[WooCommerce](https://wordpress.org/plugins/woocommerce/) REST API is great but it's missing one important endpoint that allows you to manage the cart.
+[WooCommerce](https://wordpress.org/plugins/woocommerce/) REST API is great but it's missing one important ability and that is to manage the shopping cart.
 
-That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) comes in. It creates requests for the cart the same way requests via direct URL or Ajax are handled allowing you to add, remove, restore and update items to and from the cart.
+That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) comes in. Just as a customer would interact with an online store in their browser, CoCart allows you to get the cart contents including totals, add, remove, restore and update items to and from the shopping cart via the REST API.
 
 = Built with Developers in Mind =
 
-CoCart is created for developers in mind and allows you to use WooCommerce's REST API to it's full potential. This also provides the option to create a full app for your WooCommerce store.
+Exclusively for WooCommerce. With CoCart, running your store completely via the REST API is now complete. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
 
-It also works well with official WooCommerce extensions such as:
+CoCart also works well with official WooCommerce extensions such as:
 
 * Bookings
 * Name Your Price
@@ -57,9 +57,15 @@ Enjoy!
 >
 > [Sign up if you are interested in CoCart Pro](http://eepurl.com/dKIYXE)
 
-= Need Support? =
+### More information
 
-At this time I can **NOT** provide support. [See support](https://github.com/co-cart/co-cart#-support) for details. If you [post a ticket](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) via the community support forum, a member of the community maybe able to help you.
+* [Visit the CoCart website](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme).
+* [Subscribe to updates](http://eepurl.com/dKIYXE)
+* [Follow on Twitter](https://twitter.com/cart_co)
+* [Follow on Instagram](https://www.instagram.com/co_cart/)
+* [GitHub](https://github.com/co-cart/co-cart)
+
+This plugin is created and maintained by [Sébastien Dumont](https://sebastiendumont.com).
 
 == Installation ==
 
@@ -83,25 +89,29 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Frequently Asked Questions ==
 
-= How do I access the cart endpoints? =
+= Where can I find documentation for CoCart? =
 
-All can be explained via the API [documentation](https://co-cart.github.io/co-cart-docs/).
+The documentation for CoCart can be found [here](https://co-cart.github.io/co-cart-docs/).
+
+= Can I change the layout format/add/change details to the responses? =
+
+You certainly can. Filters are available to do just that (so long as you are using version 2.0+). [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided.
 
 = Does it work with any of the official WooCommerce libraries? =
 
-I'm afraid not. This is because the libraries require authentication which the cart does not require.
+Only if you request your customers to be logged in first. This is because all the libraries require authentication which the cart does not require.
 
 = Can I view any customers cart? =
 
-Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://co-cart.github.io/co-cart-docs/) for more information.
+Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://co-cart.github.io/co-cart-docs/#get-customers-cart-contents) for more information.
 
 = Where can I report bugs or contribute to the project? =
 
-Bugs can be reported either in the community support forum or preferably on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues).
+Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues).
 
-= Where can I ask for help? =
+= Where can I get support or talk to other users? =
 
-Please reach out via the official [support forum on WordPress.org](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
+If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
 
 == Screenshots ==
 
