@@ -152,12 +152,13 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.0.0
+		 * @version 2.0.x
 		 * @return  void
 		 */
 		public function includes() {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
 		} // END includes()
 
 		/**
