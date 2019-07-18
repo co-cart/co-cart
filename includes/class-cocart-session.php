@@ -31,11 +31,21 @@ class CoCart_API_Session {
 	public function __construct() {
 		$this->cookie_name = 'cocart_cart_id';
 
+		// Generate a new unique ID if the customer is a guest and is adding the first item.
 		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_generate_unique_id' ), 0 );
+
+		// Update the saved cart data.
 		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_save_cart_data' ), 99 );
 		add_action( 'woocommerce_cart_item_set_quantity', array( $this, 'maybe_save_cart_data' ), 99 );
 		add_action( 'woocommerce_cart_item_restored', array( $this, 'maybe_save_cart_data' ), 99 );
+		add_action( 'woocommerce_applied_coupon', array( $this, 'maybe_save_cart_data' ), 99 );
+		add_action( 'woocommerce_removed_coupon', array( $this, 'maybe_save_cart_data' ), 99 );
+		add_action( 'woocommerce_cart_calculate_fees', array( $this, 'maybe_save_cart_data' ), 99 );
+		add_action( 'woocommerce_after_calculate_totals', array( $this, 'maybe_save_cart_data' ), 99 );
+
+		// Clears the cart data.
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'maybe_clear_cart' ), 99 );
+		add_action( 'woocommerce_cart_emptied', array( $this, 'maybe_clear_cart' ), 99 );
 	} // END __construct()
 
 	/**
