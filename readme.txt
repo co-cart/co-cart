@@ -7,7 +7,7 @@ Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 WC requires at least: 3.0.0
 WC tested up to: 3.6.5
 License: GPLv3
@@ -124,6 +124,10 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information on the new API.
 
 == Changelog ==
+
+= v2.0.2 - 19th July, 2019 =
+
+* Tweaked: Updated link to getting started page if CoCart was installed via WP-CLI.
 
 = v2.0.1 - 18th July, 2019 =
 

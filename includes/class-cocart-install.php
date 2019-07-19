@@ -3,6 +3,7 @@
  * CoCart - Installation related functions and actions.
  *
  * @since    1.2.0
+ * @version  2.0.2
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart/Classes/Install
@@ -102,9 +103,11 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Redirects to the Getting Started page upon plugin activation.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @param  string $plugin The activate plugin name.
+		 * @since   1.2.0
+		 * @version 2.0.2
+		 * @param   string $plugin The activate plugin name.
 		 */
 		public static function redirect_getting_started( $plugin ) {
 			// Prevent redirect if plugin name does not match.
@@ -112,8 +115,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return;
 			}
 
-			$getting_started = add_query_arg( array(
-				'page' => 'cocart-getting-started'
+			$getting_started = add_query_arg( array( 
+				'page'    => 'cocart', 
+				'section' => 'getting-started'
 			), admin_url( 'admin.php' ) );
 
 			/**
