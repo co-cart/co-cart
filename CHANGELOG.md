@@ -1,6 +1,10 @@
 # Changelog for CoCart
 
-## v2.0.1 - ?? July, 2019
+## v2.0.2 - 19th July, 2019
+
+* Tweaked: Updated link to getting started page if CoCart was installed via WP-CLI.
+
+## v2.0.1 - 18th July, 2019
 
 * Tweaked: `get_cart_contents_count()` is now called static.
 * Tweaked: Added check for cart totals to make sure they are set before falling back to cart totals in session.
