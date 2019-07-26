@@ -62,7 +62,7 @@ class CoCart_API_Session {
 				wc_setcookie( $this->cookie_name, $value );
 
 				// Create a new option in the database with the unique ID as the option name.
-				add_option( $value, '1' );
+				add_option( 'cocart_' . $value, '1' );
 			}
 		}
 	} // END maybe_generate_unique_id()
@@ -95,7 +95,7 @@ class CoCart_API_Session {
 	 * @return bool
 	 */
 	public function is_cart_saved( $cart_id ) {
-		$cart_saved = get_option( $cart_id );
+		$cart_saved = get_option( 'cocart_' . $cart_id );
 
 		if ( ! empty( $cart_saved ) ) {
 			return true;
@@ -112,7 +112,7 @@ class CoCart_API_Session {
 	public function save_cart_data( $cart_id ) {
 		$cart = WC()->cart;
 
-		update_option( $cart_id, $cart );
+		update_option( 'cocart_' . $cart_id, $cart );
 	} // END save_cart_data()
 
 	/**
@@ -152,7 +152,7 @@ class CoCart_API_Session {
 
 			if ( $cart_saved ) {
 				if ( $count < 1 ) {
-					delete_option( $cart_id );
+					delete_option( 'cocart_' . $cart_id );
 
 					wc_setcookie( $this->cookie_name, 0, time() - HOUR_IN_SECONDS );
 					unset( $_COOKIE[ $this->cookie_name ] );
