@@ -340,7 +340,7 @@ class CoCart_API_Controller {
 	 */
 	public function return_cart_contents( $cart_contents, $data = array(), $cart_item_key = '' ) {
 		if ( empty( $cart_contents ) ) {
-			return new WP_Error( 'cocart_no_cart_content', __( 'No cart content found!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return array();
 		}
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
