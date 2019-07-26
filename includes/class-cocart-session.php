@@ -61,6 +61,9 @@ class CoCart_API_Session {
 				// Set cookie with unique ID.
 				wc_setcookie( $this->cookie_name, $value );
 
+				// Temporarily store the unique id generated in session.
+				WC()->session->set( 'cocart_id', $value );
+
 				// Create a new option in the database with the unique ID as the option name.
 				add_option( 'cocart_' . $value, '1' );
 			}
@@ -121,6 +124,19 @@ class CoCart_API_Session {
 	 * @access public
 	 */
 	public function maybe_save_cart_data() {
+		$cart_id = WC()->session->get( 'cocart_id' );
+
+		if ( isset( $cart_id ) ) {
+			$cart_saved = $this->is_cart_saved( $cart_id );
+
+			if ( $cart_saved ) {
+				$this->save_cart_data( $cart_id );
+
+				// Now destroy ID stored in session as we will check the cookie from now on.
+				WC()->session->set( 'cocart_id', null );
+			}
+		}
+
 		if ( isset( $_COOKIE[ $this->cookie_name ] ) ) {
 			$cart_id = $_COOKIE[ $this->cookie_name ];
 
