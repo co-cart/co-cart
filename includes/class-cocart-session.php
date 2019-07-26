@@ -7,7 +7,7 @@
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/Session
- * @since    2.0.x
+ * @since    2.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

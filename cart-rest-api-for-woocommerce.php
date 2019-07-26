@@ -152,7 +152,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.0.x
+		 * @version 2.1.0
 		 * @return  void
 		 */
 		public function includes() {
