@@ -246,13 +246,14 @@ class CoCart_API_Controller {
 	/**
 	 * Get cart for a specific customer.
 	 *
-	 * @access public
-	 * @since  2.0.0
-	 * @param  array  $data
-	 * @param  string $cart_item_key
-	 * @return array|WP_Error
+	 * @access  public
+	 * @since   2.0.0
+	 * @version 2.1.0
+	 * @param   array  $data
+	 * @param   string $cart_item_key
+	 * @return  array|WP_Error
 	 */
-	public function get_cart_customer( $data = array(), $cart_item_key = '' ) {
+	public function get_cart_customer( $data = array() ) {
 		if ( empty( $data['id'] ) ) {
 			return new WP_Error( 'cocart_customer_missing', __( 'Customer ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
@@ -261,10 +262,10 @@ class CoCart_API_Controller {
 
 		// If a saved cart exists then replace the carts content.
 		if ( ! empty( $saved_cart ) ) {
-			return $this->return_cart_contents( $saved_cart, $data, $cart_item_key );
+			return $this->return_cart_contents( $saved_cart, $data, '' );
 		}
 
-		return $this->get_cart_contents( $data, $cart_item_key );
+		return $this->get_cart_contents( $data, '' );
 	} // END get_cart_customer()
 
 	/**
