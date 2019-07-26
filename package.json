@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.0.2",
+	"version": "2.1.0-beta.1",
 	"private": false,
 	"contributors": [
 		"sebd86"
@@ -12,7 +12,7 @@
 	"main": "Gruntfile.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/co-cart/co-cart"
+		"url": "https://github.com/co-cart/co-cart.git"
 	},
 	"bugs": {
 		"url": "https://github.com/co-cart/co-cart/issues"
