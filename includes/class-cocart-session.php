@@ -130,10 +130,6 @@ class CoCart_API_Session {
 				$this->save_cart_data( $cart_id );
 			}
 		}
-		else {
-			$this->maybe_generate_unique_id();
-			$this->maybe_save_cart_data();
-		}
 	} // END maybe_save_cart_data()
 
 	/**
