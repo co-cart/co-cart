@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v2.1.0 - ** **, 2019
+
+* NEW: Added support for guest carts.
+
+> This release is a work in progress and requires developer feedback.
+
 ## v2.0.2 - 19th July, 2019
 
 * Tweaked: Updated link to getting started page if CoCart was installed via WP-CLI.
