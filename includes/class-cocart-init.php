@@ -141,7 +141,7 @@ class CoCart_Rest_API {
 	 * @access protected
 	 * @since  2.x.x
 	 * @param  bool $request
-	 * @return bool $cocart
+	 * @return bool true|$request
 	 */
 	protected function allow_cocart_requests_wc( $request ) {
 		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
@@ -154,7 +154,11 @@ class CoCart_Rest_API {
 		// Check if the request is to the CoCart API endpoints.
 		$cocart = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
 
-		return $cocart;
+		if ( $cocart ) {
+			return true;
+		}
+
+		return $request;
 	} // END allow_cocart_requests_wc()
 
 	/**
