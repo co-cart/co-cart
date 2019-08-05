@@ -29,9 +29,9 @@ class CoCart_API_Session {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->cookie_name = 'cocart_cart_id';
+		$this->cookie_name = 'cocart_cart_key';
 
-		// Generate a new unique ID if the customer is a guest and is adding the first item.
+		// Generate a new unique key and store it in a cookie if adding the first item.
 		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_generate_unique_id' ), 0 );
 
 		// Update the saved cart data.
@@ -46,26 +46,26 @@ class CoCart_API_Session {
 		// Clears the cart data.
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'maybe_clear_cart' ), 99 );
 		add_action( 'woocommerce_cart_emptied', array( $this, 'maybe_clear_cart' ), 99 );
+
+		// Cleans up carts from the database that have expired.
+		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
 	} // END __construct()
 
 	/**
-	 * Check if we need to create a unique ID for the user in session.
+	 * Check if we need to create a unique key for the user in session.
 	 *
 	 * @access public
 	 */
 	public function maybe_generate_unique_id() {
 		if ( ! isset( $_COOKIE[ $this->cookie_name ] ) ) {
-			$value = $this->generate_customer_id();
+			$value = apply_filters( 'cocart_customer_id', $this->generate_customer_id() );
 
 			if ( ! empty( $value ) ) {
-				// Set cookie with unique ID.
+				// Set cookie with unique key.
 				wc_setcookie( $this->cookie_name, $value );
 
 				// Temporarily store the unique id generated in session.
-				WC()->session->set( 'cocart_id', $value );
-
-				// Create a new option in the database with the unique ID as the option name.
-				add_option( 'cocart_' . $value, '1' );
+				WC()->session->set( 'cocart_key', $value );
 			}
 		}
 	} // END maybe_generate_unique_id()
@@ -91,14 +91,14 @@ class CoCart_API_Session {
 	} // END generate_customer_id()
 
 	/**
-	 * Returns true or false if the cart ID is saved in the database.
+	 * Returns true or false if the cart key is saved in the database.
 	 *
 	 * @access public
-	 * @param  string $cart_id
+	 * @param  string $cart_key
 	 * @return bool
 	 */
-	public function is_cart_saved( $cart_id ) {
-		$cart_saved = get_option( 'cocart_' . $cart_id );
+	public function is_cart_saved( $cart_key ) {
+		$cart_saved = $this->get_cart( $cart_key );
 
 		if ( ! empty( $cart_saved ) ) {
 			return true;
@@ -108,42 +108,67 @@ class CoCart_API_Session {
 	} // END maybe_save_cart_data()
 
 	/**
-	 * Save cart data under the cart ID provided.
+	 * Save cart data under the cart key provided.
 	 *
 	 * @access public
+	 * @global $wpdb
+	 * @param  string $cart_key
 	 */
-	public function save_cart_data( $cart_id ) {
+	public function save_cart_data( $cart_key ) {
+		global $wpdb;
+
 		$cart = WC()->cart;
 
-		update_option( 'cocart_' . $cart_id, $cart );
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
+
+		$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', 60 * 60 * 48 ) ); // Default: 48 Hours.
+
+		if ( is_null( $value ) ) {
+			// Serialize cart data if not already.
+			if ( ! is_serialized( $cart ) ) {
+				$cart = maybe_serialize( $cart );
+			}
+
+			$wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
+					 ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
+					$this->_customer_id,
+					$cart,
+					$cart_expiration
+				)
+			);
+		//} else {
+
+		}
 	} // END save_cart_data()
 
 	/**
-	 * If the cart ID exists then save the cart data.
+	 * If the cart key exists then save the cart data.
 	 *
 	 * @access public
 	 */
 	public function maybe_save_cart_data() {
-		$cart_id = WC()->session->get( 'cocart_id' );
+		$cart_key = WC()->session->get( 'cocart_key' );
 
-		if ( isset( $cart_id ) ) {
-			$cart_saved = $this->is_cart_saved( $cart_id );
+		if ( isset( $cart_key ) ) {
+			$cart_saved = $this->is_cart_saved( $cart_key );
 
 			if ( $cart_saved ) {
-				$this->save_cart_data( $cart_id );
+				$this->save_cart_data( $cart_key );
 
-				// Now destroy ID stored in session as we will check the cookie from now on.
-				WC()->session->set( 'cocart_id', null );
+				// Now destroy key stored in session as we will check the cookie from now on.
+				WC()->session->set( 'cocart_key', null );
 			}
 		}
 
 		if ( isset( $_COOKIE[ $this->cookie_name ] ) ) {
-			$cart_id = $_COOKIE[ $this->cookie_name ];
+			$cart_key = $_COOKIE[ $this->cookie_name ];
 
-			$cart_saved = $this->is_cart_saved( $cart_id );
+			$cart_saved = $this->is_cart_saved( $cart_key );
 
 			if ( $cart_saved ) {
-				$this->save_cart_data( $cart_id );
+				$this->save_cart_data( $cart_key );
 			}
 		}
 	} // END maybe_save_cart_data()
@@ -158,23 +183,90 @@ class CoCart_API_Session {
 		$count = WC()->cart->get_cart_contents_count();
 
 		if ( isset( $_COOKIE[ $this->cookie_name ] ) ) {
-			$cart_id = $_COOKIE[ $this->cookie_name ];
+			$cart_key = $_COOKIE[ $this->cookie_name ];
 
-			$cart_saved = $this->is_cart_saved( $cart_id );
+			$cart_saved = $this->is_cart_saved( $cart_key );
 
 			if ( $cart_saved ) {
 				if ( $count < 1 ) {
-					delete_option( 'cocart_' . $cart_id );
+					//delete_option( 'cocart_' . $cart_key );
+					$this->delete_cart( $cart_key );
 
 					wc_setcookie( $this->cookie_name, 0, time() - HOUR_IN_SECONDS );
 					unset( $_COOKIE[ $this->cookie_name ] );
 				}
 				else {
-					$this->save_cart_data( $cart_id );
+					$this->save_cart_data( $cart_key );
 				}
 			}
 		}
 	} // END maybe_clear_cart()
+
+	/**
+	 * Gets a cart stored in the database.
+	 *
+	 * @access public
+	 * @global $wpdb
+	 * @param  string $cart_key
+	 * @return array
+	 */
+	public function get_cart( $cart_key ) {
+		global $wpdb;
+
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
+
+		if ( is_null( $value ) ) {
+			$value = false;
+		}
+
+		// Un-Serialize cart data if not already.
+		if ( is_serialized( $value ) ) {
+			$value = maybe_unserialize( $value );
+		}
+
+		return $value;
+	} // END get_cart()
+
+	/**
+	 * Deletes a cart stored in the database.
+	 *
+	 * @access public
+	 * @global $wpdb
+	 * @param  string $cart_key
+	 */
+	public function delete_cart( $cart_key ) {
+		global $wpdb;
+
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
+
+		if ( ! is_null( $value ) ) {
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
+		}
+	} // END delete_cart()
+
+	/**
+	 * Cleans up carts from the database that have expired.
+	 *
+	 * @access public
+	 * @global $wpdb
+	 */
+	public function cleanup_carts() {
+		global $wpdb;
+
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}cocart_carts WHERE cart_expiry < %d", time() ) );
+	} // END cleanup_carts()
+
+	/**
+	 * Clears all carts from the database.
+	 *
+	 * @access public
+	 * @global $wpdb
+	 */
+	public function clear_carts() {
+		global $wpdb;
+
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
+	} // END clear_cart()
 
 } // END class
 
