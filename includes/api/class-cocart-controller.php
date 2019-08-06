@@ -437,12 +437,12 @@ class CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  2.1.0
-	 * @param  array  $data       The session ID is a required variable.
+	 * @param  array  $data       The cart key is a required variable.
 	 * @param  string $return     Returns specified data. Default is `cart_contents`.
 	 * @return array  $saved_cart Returns the cart data from the database.
 	 */
 	public function get_saved_cart_in_session( $data = array(), $return = 'cart_contents' ) {
-		$session_id = ! empty( $data['id'] ) ? $data['id'] : '';
+		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
 
 		$saved_cart = get_option( 'cocart_' . $session_id );
 
