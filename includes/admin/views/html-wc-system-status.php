@@ -18,7 +18,7 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 	<tr>
 		<th colspan="3" data-export-label="<?php echo esc_attr( $section_title ); ?>">
 			<h2><?php echo esc_html( $section_title ); ?>
-				<?php echo wcs_help_tip( $section_tooltip ); ?>
+				<?php echo wc_help_tip( $section_tooltip ); ?>
 			</h2></th>
 	</tr>
 	</thead>
