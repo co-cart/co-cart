@@ -157,8 +157,8 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 */
 		public function includes() {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
-			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
 		} // END includes()
 
 		/**
