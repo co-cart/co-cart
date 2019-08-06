@@ -257,9 +257,10 @@ class CoCart_API_Session {
 	 * Clears all carts from the database.
 	 *
 	 * @access public
+	 * @static
 	 * @global $wpdb
 	 */
-	public function clear_carts() {
+	public static function clear_carts() {
 		global $wpdb;
 
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
