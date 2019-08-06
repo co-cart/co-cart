@@ -444,7 +444,7 @@ class CoCart_API_Controller {
 	public function get_saved_cart_in_session( $data = array(), $return = 'cart_contents' ) {
 		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
 
-		$saved_cart = get_option( 'cocart_' . $session_id );
+		$saved_cart = CoCart_API_Session::get_cart( $cart_key );
 
 		// If no cart is saved with the ID specified return error.
 		if ( empty( $saved_cart ) ) {
