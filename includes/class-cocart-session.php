@@ -189,7 +189,6 @@ class CoCart_API_Session {
 
 			if ( $cart_saved ) {
 				if ( $count < 1 ) {
-					//delete_option( 'cocart_' . $cart_key );
 					$this->delete_cart( $cart_key );
 
 					wc_setcookie( $this->cookie_name, 0, time() - HOUR_IN_SECONDS );
