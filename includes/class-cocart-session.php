@@ -119,28 +119,24 @@ class CoCart_API_Session {
 
 		$cart = WC()->cart;
 
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
-
+		// Sets the expiration time for the cart.
 		$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', 60 * 60 * 48 ) ); // Default: 48 Hours.
 
-		if ( is_null( $value ) ) {
-			// Serialize cart data if not already.
-			if ( ! is_serialized( $cart ) ) {
-				$cart = maybe_serialize( $cart );
-			}
-
-			$wpdb->query(
-				$wpdb->prepare(
-					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
-					 ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
-					$this->_customer_id,
-					$cart,
-					$cart_expiration
-				)
-			);
-		//} else {
-
+		// Serialize cart data if not already.
+		if ( ! is_serialized( $cart ) ) {
+			$cart = maybe_serialize( $cart );
 		}
+
+		// If cart is not saved, new data is inserted. If cart does already exist then it will update the data.
+		$wpdb->query(
+			$wpdb->prepare(
+				"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
+				 ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
+				$this->_customer_id,
+				$cart,
+				$cart_expiration
+			)
+		);
 	} // END save_cart_data()
 
 	/**
@@ -214,6 +210,7 @@ class CoCart_API_Session {
 
 		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
 
+		// If no cart data is found then return false.
 		if ( is_null( $value ) ) {
 			$value = false;
 		}
@@ -238,6 +235,7 @@ class CoCart_API_Session {
 
 		$value = $wpdb->get_var( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
 
+		// If cart data is found then proceed to delete the cart.
 		if ( ! is_null( $value ) ) {
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
 		}
