@@ -92,8 +92,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'desc'		=> sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-					__( 'This will clear all carts stored in the database but will %3$s clear cookies stored on customers devices.', 'cart-rest-api-for-woocommerce' ),
-					'<strong>' . __( 'NOT', 'cart-rest-api-for-woocommerce' ) . '</strong>'
+					sprintf( 
+						__( 'This will clear all carts stored in the database but will %s clear cookies stored on customers devices.', 'cart-rest-api-for-woocommerce' ),
+						'<strong>' . __( 'NOT', 'cart-rest-api-for-woocommerce' ) . '</strong>'
+					)
 				),
 				'callback'	=> array( $this, 'debug_clear_carts' ),
 			);
