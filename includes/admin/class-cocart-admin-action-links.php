@@ -88,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 					// If it has been a week or more since activating the plugin then offer to upgrade.
 					if ( ( intval( time() - $install_date ) ) > WEEK_IN_SECONDS ) {
-						$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart Pro', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank" style="color: #39b54a; font-weight: 700;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );
+						$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ) . '" target="_blank" style="color: #39b54a; font-weight: 700;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );
 					}
 				}
 
