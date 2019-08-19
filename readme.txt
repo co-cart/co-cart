@@ -7,9 +7,9 @@ Donate link: https://sebdumont.xyz/donate/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 WC requires at least: 3.0.0
-WC tested up to: 3.6.5
+WC tested up to: 3.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,7 +35,7 @@ CoCart also works well with official WooCommerce extensions such as:
 
 More extensions will be supported in CoCart Pro starting with Subscriptions.
 
-Intrigued? _I bet you are._ [See documentation](https://co-cart.github.io/co-cart-docs/) on how to use CoCart today.
+Intrigued? _I bet you are._ [See documentation](https://docs.cocart.xyz/) on how to use CoCart today.
 
 Enjoy!
 
@@ -47,8 +47,9 @@ Enjoy!
 > - Get Coupon Discount Total<br />
 > - Get Cart Total Weight<br />
 > - Get Cross Sells<br />
+> - Get and Set Payment Method<br />
 > - Get and Set Shipping Methods<br />
-> - Get and Set Tax Fees<br />
+> - Get and Set Fees<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
 > - Calculate Total and Shipping Tax Fees<br />
@@ -91,7 +92,7 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 = Where can I find documentation for CoCart? =
 
-The documentation for CoCart can be found [here](https://co-cart.github.io/co-cart-docs/).
+The documentation for CoCart can be found [here](https://docs.cocart.xyz/).
 
 = Can I change the layout format/add/change details to the responses? =
 
@@ -103,7 +104,9 @@ Only if you request your customers to be logged in first. This is because all th
 
 = Can I view any customers cart? =
 
-Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://co-cart.github.io/co-cart-docs/#get-customers-cart-contents) for more information.
+Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://docs.cocart.xyz/#get-customers-cart-contents) for more information.
+
+Are you a Mobile app developer? In prepartion for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/)
 
 = Where can I report bugs or contribute to the project? =
 
@@ -121,9 +124,15 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information on the new API.
 
 == Changelog ==
+
+= v2.0.3 - 19th August, 2019 =
+
+* Added: A notice under the plugin row providing information on future versions coming that require your feedback.
+* Tested: Compatible with WooCommerce v3.7
+* Tweaked: Admin body class for CoCart page.
+* Updated: Documentation URL has changed to https://docs.cocart.xyz
 
 = v2.0.2 - 19th July, 2019 =
 
