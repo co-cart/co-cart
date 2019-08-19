@@ -1,9 +1,10 @@
-# # Copyright (c) {2019} Sébastien Dumont
+# Copyright (c) 2019 Sébastien Dumont
+# This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.0.1\n"
+"Project-Id-Version: CoCart 2.0.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2019-07-18 16:46:12+00:00\n"
+"POT-Creation-Date: 2019-08-19 17:09:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -78,11 +79,16 @@ msgid "Upgrade to %s"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:91
-msgid "CoCart Pro"
+msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
-msgid "Upgrade to Pro"
+#: includes/admin/class-cocart-admin-notices.php:313
+#. translators: 1: plugin name, 2: version mentioned, 3: details URL
+msgid ""
+"Are you a Mobile app developer? In prepartion for <strong>%1$s "
+"v%2$s</strong>, support for storing cart data will be introduced to make it "
+"easier to access specific carts created and your feedback is needed. <a "
+"href=\"%3$s\" target=\"_blank\">Read this article for more details.</a>"
 msgstr ""
 
 #: includes/admin/class-cocart-admin.php:171
@@ -139,8 +145,13 @@ msgstr ""
 msgid "a second"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "CoCart"
+#: includes/admin/views/html-getting-started.php:25
+#: includes/admin/views/html-notice-please-review.php:25
+#: includes/admin/views/html-notice-required-wc.php:20
+#: includes/admin/views/html-notice-trying-beta.php:21
+#: includes/admin/views/html-notice-upgrade-warning.php:20
+#: includes/admin/views/html-notice-wc-not-installed.php:20
+msgid "CoCart, a WooCommerce REST-API extension"
 msgstr ""
 
 #: includes/admin/views/html-getting-started.php:29
@@ -189,11 +200,6 @@ msgstr ""
 msgid "Enjoy!"
 msgstr ""
 
-#: includes/admin/views/html-notice-please-review.php:25
-#: includes/admin/views/html-notice-trying-beta.php:21
-msgid "CoCart WooCommerce REST-API Extension"
-msgstr ""
-
 #: includes/admin/views/html-notice-please-review.php:29
 msgid "Hi %1$s, are you enjoying %2$s?"
 msgstr ""
@@ -210,12 +216,6 @@ msgstr ""
 
 #: includes/admin/views/html-notice-please-review.php:35
 msgid "No thank you / I already have"
-msgstr ""
-
-#: includes/admin/views/html-notice-required-wc.php:20
-#: includes/admin/views/html-notice-upgrade-warning.php:20
-#: includes/admin/views/html-notice-wc-not-installed.php:20
-msgid "CoCart a WooCommerce API extension"
 msgstr ""
 
 #: includes/admin/views/html-notice-required-wc.php:24
@@ -391,6 +391,7 @@ msgstr ""
 #: includes/api/class-cocart-controller.php:493
 #: includes/api/class-cocart-controller.php:564
 #. translators: 1: quantity requested, 2: product name 3: quantity in stock
+#. translators: 1: quantity requested, 2: product name, 3: quantity in stock
 msgid ""
 "You cannot add a quantity of %1$s for \"%2$s\" to the cart because there is "
 "not enough stock. - only %3$s remaining!"
@@ -524,24 +525,6 @@ msgid ""
 "stock."
 msgstr ""
 
-#: includes/class-cocart-install.php:126
+#: includes/class-cocart-install.php:130
 msgid "Get started with %3$s here:"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://cocart.xyz"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid ""
-"Provides additional REST-API endpoints for WooCommerce to enable the "
-"ability to add, view, update and delete items from the cart."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "Sébastien Dumont"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://sebastiendumont.com"
 msgstr ""
