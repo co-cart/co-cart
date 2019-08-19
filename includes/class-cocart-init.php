@@ -162,7 +162,7 @@ class CoCart_Rest_API {
 			 * For logged in customers, pull data from their account rather than the 
 			 * session which may contain incomplete data.
 			 */
-			if ( null === WC()->customer ) {
+			if ( is_null( WC()->customer ) ) {
 				if ( is_user_logged_in() ) {
 					WC()->customer = new WC_Customer( get_current_user_id() );
 				} else {
