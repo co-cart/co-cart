@@ -310,7 +310,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 				/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
 				printf(
-					__( 'Are you a Mobile app developer? In prepartion for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. <a href="%3$s" target="_blank">Read this article for more details.</a>', 'cart-rest-api-for-woocommerce' ),
+					__( 'Are you a Mobile app developer? In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. <a href="%3$s" target="_blank">Read this article for more details.</a>', 'cart-rest-api-for-woocommerce' ),
 					$plugin_name,
 					$version_mentioned,
 					$details_url
