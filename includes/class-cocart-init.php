@@ -168,6 +168,9 @@ class CoCart_Rest_API {
 				} else {
 					WC()->customer = new WC_Customer( get_current_user_id(), true );
 				}
+
+				// Customer should be saved during shutdown.
+				add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
 			}
 
 			// Load Cart.
