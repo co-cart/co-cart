@@ -134,12 +134,13 @@ class CoCart_Rest_API {
 
 	/**
 	 * Loads the cart, session and notices should it be required.
-	 *
+	 * 
 	 * Note: Only needed should the site be running WooCommerce 3.6 
 	 * or higher as they are not included during a REST request.
 	 *
-	 * @access private
-	 * @since  2.0.0
+	 * @access  private
+	 * @since   2.0.0
+	 * @version 2.0.3
 	 */
 	private function maybe_load_cart() {
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
