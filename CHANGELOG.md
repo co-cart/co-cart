@@ -1,5 +1,12 @@
 # Changelog for CoCart
 
+## v2.0.3 - 19th August, 2019
+
+* Added: A notice under the plugin row providing information on future versions coming that require your feedback.
+* Tested: Compatible with WooCommerce v3.7
+* Tweaked: Admin body class for CoCart page.
+* Updated: Documentation URL has changed to <https://docs.cocart.xyz>
+
 ## v2.0.2 - 19th July, 2019
 
 * Tweaked: Updated link to getting started page if CoCart was installed via WP-CLI.
