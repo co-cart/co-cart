@@ -87,8 +87,9 @@
     font-size: 0;
     width: 64px; }
 
-body.cocart-getting-started .notice,
-body.cocart-getting-started .error {
+body.cocart .notice,
+body.cocart .updated,
+body.cocart .error {
   display: none; }
 
 @media (max-width: 767px) {
