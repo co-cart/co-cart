@@ -3,7 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
- * @version  2.0.0
+ * @version  2.0.3
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -47,6 +47,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			// Display other admin notices when required. All are dismissable.
 			add_action( 'admin_print_styles', array( $this, 'add_notices' ), 0 );
+
+			// Add after_plugin_row... action for CoCart.
+			add_action( 'after_plugin_row_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_row' ), 11, 2 );
 		} // END __construct()
 
 		/**
@@ -248,6 +251,74 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			include( COCART_FILE_PATH . '/includes/admin/views/html-notice-please-review.php' );
 		} // END plugin_review_notice()
+
+		/**
+		 * Displays a notice under the plugin row for CoCart.
+		 *
+		 * @access public
+		 * @since  2.0.3
+		 * @param  string $file        Plugin basename.
+		 * @param  array  $plugin_data Plugin information.
+		 * @return false|void
+		 */
+		public function plugin_row( $file, $plugin_data ) {
+			?>
+			<style>
+			.mobile p::before {
+				color: #8564d2;
+				content: "\f470";
+				display: inline-block;
+				font: normal 20px/1 'dashicons';
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				vertical-align: top;
+			}
+			</style>
+			<?php
+			$plugins_allowedtags = array(
+				'a'       => array(
+					'href'  => array(),
+					'title' => array(),
+				),
+				'abbr'    => array( 'title' => array() ),
+				'acronym' => array( 'title' => array() ),
+				'code'    => array(),
+				'em'      => array(),
+				'strong'  => array(),
+			);
+
+			$plugin_name = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
+
+			$version_mentioned = '2.1.0';
+			$details_url       = esc_url( 'https://cocart.xyz/cocart-v2-1-0-beta-2/' );
+
+			if ( is_network_admin() || ! is_multisite() ) {
+				if ( is_network_admin() ) {
+					$active_class = is_plugin_active_for_network( $file ) ? ' active' : '';
+				} else {
+					$active_class = is_plugin_active( $file ) ? ' active' : '';
+				}
+
+				$notice_type = 'notice-warning';
+
+				// Only show the plugin notice if this version of CoCart is not a beta or is lower than the version mentioned in the notice.
+				if ( CoCart_Admin::is_cocart_beta() || version_compare( COCART_VERSION, $version_mentioned, '>' ) ) {
+					return;
+				}
+
+				echo '<tr class="plugin-update-tr' . $active_class . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="3" class="plugin-update colspanchange"><div class="mobile notice inline ' . $notice_type . ' notice-alt"><p>';
+
+				/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
+				printf(
+					__( 'Are you a Mobile app developer? In prepartion for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. <a href="%3$s" target="_blank">Read this article for more details.</a>', 'cart-rest-api-for-woocommerce' ),
+					$plugin_name,
+					$version_mentioned,
+					$details_url
+				);
+
+				echo '</p></div></td></tr>';
+			}
+		} // END plugin_row()
 
 	} // END class.
 
