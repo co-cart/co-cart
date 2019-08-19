@@ -130,7 +130,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/');
 			$this->define('COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce');
 			$this->define('COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/');
-			$this->define('COCART_DOCUMENTATION_URL', 'https://co-cart.github.io/co-cart-docs/');
+			$this->define('COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz');
 		} // END setup_constants()
 
 		/**
