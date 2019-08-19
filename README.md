@@ -14,8 +14,8 @@
 **Requires PHP:** 5.6  
 **Tested up to:** 5.2.2  
 **WC requires at least:** 3.0.0  
-**WC tested up to:** 3.6.5  
-**Stable tag:** 2.0.2  
+**WC tested up to:** 3.7.0  
+**Stable tag:** 2.0.3  
 **License:** GPL v2 or later  
 
 Control the cart via the REST-API for WooCommerce.
@@ -53,7 +53,7 @@ Please understand that this repository is not a place to seek help with configur
 
 ### 📖 Documentation
 
-[View documentation for CoCart](https://co-cart.github.io/co-cart-docs/). Documentation currently only has examples for using with _cURL_. If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documenation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
+[View documentation for CoCart](https://docs.cocart.xyz/). Documentation currently only has examples for using with _cURL_. If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documenation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
 
 #### ✅ Requirements
 
