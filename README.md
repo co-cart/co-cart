@@ -45,8 +45,6 @@ This is a non-commercial plugin. As such:
 * Support inquiries may not be answered in a timely manner.
 * Critical issues may not be resolved promptly.
 
-If you have a customization/integration requirement then I'd love to [hear from you](mailto:mailme@sebastiendumont.com)!
-
 Please understand that this repository is not a place to seek help with configuration-related issues. Use it to report bugs or propose improvements.
 
 ## 📘 Guide
@@ -93,11 +91,7 @@ CoCart is released freely and openly. Feedback or ideas and approaches to solvin
 
 CoCart is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
 
-At present, I **do not offer a dedicated, premium support channel** for CoCart but will soon with CoCart Pro. Please understand this is a non-commercial plugin. As such:
-
-* Development time for it is effectively being donated and is, therefore, limited.
-* Support inquiries may not be answered in a timely manner.
-* Critical issues may not be resolved promptly.
+If are in need of support, you can get it with a [purchase of CoCart Pro](https://cocart.xyz/pricing/).
 
 ### 📝 Reporting Issues
 
@@ -105,21 +99,17 @@ If you think you have found a bug in the plugin, a problem with the documentatio
 
 ## Contribute
 
-If you or your company use CoCart or appreciate the work I’m doing in open source, please consider supporting me directly so I can continue maintaining it and keep evolving the project.
-
-You'll be helping to ensure I can spend the time not just fixing bugs, adding features, releasing new versions, but also keeping the project afloat. Any contribution you make is a big help and is greatly appreciated.
+If you or your company use CoCart or appreciate the work I’m doing in open source, please consider [purchasing CoCart Pro](https://cocart.xyz/pricing/) to support me directly so I can continue maintaining CoCart and keep evolving the project.
 
 Please also consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
 
-I accept one-time donations and monthly via [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
+I also accept one-time donations and monthly via [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
 
 * [My PayPal](https://www.paypal.me/codebreaker)
 * [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
 * Bitcoin (BTC): `3L4cU7VJsXBFckstfJdP2moaNhTHzVDkKQ`
 * Ethereum (ETH): `0xc6a3C18cf11f5307bFa11F8BCBD51F355b6431cB`
 * Litecoin (LTC): `MNNy3xBK8sM8t1YUA2iAwdi9wRvZp9yRoi`
-
-If you have special requirements for a sponsorship, you can [email me](mailto:mailme@sebastiendumont.com) and we can talk.
 
 If you would like to contribute code to this project then please follow these [contribution guidelines](https://github.com/co-cart/co-cart/blob/master/CONTRIBUTING.md).
 
