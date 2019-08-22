@@ -91,7 +91,7 @@ CoCart is released freely and openly. Feedback or ideas and approaches to solvin
 
 CoCart is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
 
-If are in need of support, you can get it with a [purchase of CoCart Pro](https://cocart.xyz/pricing/).
+If you are in need of support, you can get it with a [purchase of CoCart Pro](https://cocart.xyz/pricing/).
 
 ### 📝 Reporting Issues
 
@@ -99,7 +99,7 @@ If you think you have found a bug in the plugin, a problem with the documentatio
 
 ## Contribute
 
-If you or your company use CoCart or appreciate the work I’m doing in open source, please consider [purchasing CoCart Pro](https://cocart.xyz/pricing/) to support me directly so I can continue maintaining CoCart and keep evolving the project.
+If you or your company use CoCart or appreciate the work I’m doing in open source, please consider [purchasing CoCart Pro](https://cocart.xyz/pricing/) where you not just get the full cart experience but also support me directly so I can continue maintaining CoCart and keep evolving the project.
 
 Please also consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
 
