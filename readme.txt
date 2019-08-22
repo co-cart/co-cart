@@ -27,20 +27,20 @@ Exclusively for WooCommerce. With CoCart, running your store completely via the 
 
 CoCart also works well with official WooCommerce extensions such as:
 
-* Bookings
-* Name Your Price
-* Points and Rewards
-* Pre-Orders
-* Product Add-ons
+* [Bookings](https://woocommerce.com/products/woocommerce-bookings/)
+* [Name Your Price](https://woocommerce.com/products/name-your-price/)
+* [Points and Rewards](https://woocommerce.com/products/woocommerce-points-and-rewards/)
+* [Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)
+* [Product Add-ons](https://woocommerce.com/products/product-add-ons/)
 
-More extensions will be supported in CoCart Pro starting with Subscriptions.
+More extensions are supported in CoCart Pro.
 
 Intrigued? _I bet you are._ [See documentation](https://docs.cocart.xyz/) on how to use CoCart today.
 
 Enjoy!
 
 > #### CoCart Pro
-> Want to control more? _I bet you do._
+> This plugin is just the tip of the iceberg. Want the full experience? _I bet you do._ With CoCart Pro you get the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 >
 > - Add and Remove Coupons to Cart<br />
 > - Get Applied Coupons<br />
@@ -53,10 +53,13 @@ Enjoy!
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
 > - Calculate Total and Shipping Tax Fees<br />
-> - Support via Slack<br />
-> - and possibly more features and add-ons to follow.<br />
 >
-> [Sign up if you are interested in CoCart Pro](http://eepurl.com/dKIYXE)
+> CoCart Pro also supports the following official WooCommerce extensions:
+>
+> - [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)<br />
+> - and more coming soon.<br />
+>
+> [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 ### More information
 
@@ -106,7 +109,7 @@ Only if you request your customers to be logged in first. This is because all th
 
 Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://docs.cocart.xyz/#get-customers-cart-contents) for more information.
 
-Are you a Mobile app developer? In prepartion for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/)
+Are you a Mobile app developer? In prepartion for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 = Where can I report bugs or contribute to the project? =
 
