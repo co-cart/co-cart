@@ -3,7 +3,7 @@ Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, rest, rest-api, JSON
-Donate link: https://sebdumont.xyz/donate/
+Donate link: https://cocart.xyz/pricing/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
@@ -19,28 +19,24 @@ Control the cart via the REST-API for WooCommerce.
 
 [WooCommerce](https://wordpress.org/plugins/woocommerce/) REST API is great but it's missing one important ability and that is to manage the shopping cart.
 
-That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) comes in. Just as a customer would interact with an online store in their browser, CoCart allows you to get the cart contents including totals, add, remove, restore and update items to and from the shopping cart via the REST API.
+That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) comes in. With CoCart, running your WooCommerce store completely via the REST API is now complete. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
 
-= Built with Developers in Mind =
+Intrigued? _I bet you are._ [See the documentation](https://docs.cocart.xyz/) on how to use CoCart today.
 
-Exclusively for WooCommerce. With CoCart, running your store completely via the REST API is now complete. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
+= Features =
 
-CoCart also works well with official WooCommerce extensions such as:
-
-* [Bookings](https://woocommerce.com/products/woocommerce-bookings/)
-* [Name Your Price](https://woocommerce.com/products/name-your-price/)
-* [Points and Rewards](https://woocommerce.com/products/woocommerce-points-and-rewards/)
-* [Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)
-* [Product Add-ons](https://woocommerce.com/products/product-add-ons/)
-
-More extensions are supported in CoCart Pro.
-
-Intrigued? _I bet you are._ [See documentation](https://docs.cocart.xyz/) on how to use CoCart today.
-
-Enjoy!
+* Add products to the cart.
+* Update items in the cart.
+* Remove items from the cart.
+* Restore items to the cart.
+* Calculate the totals.
+* Get the cart totals.
+* View the cart contents.
+* Get the item count.
+* Empty the cart.
 
 > #### CoCart Pro
-> This plugin is just the tip of the iceberg. Want the full experience? _I bet you do._ With CoCart Pro you get the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
+> This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 >
 > - Add and Remove Coupons to Cart<br />
 > - Get Applied Coupons<br />
@@ -54,16 +50,26 @@ Enjoy!
 > - Calculate Totals and Fees<br />
 > - Calculate Total and Shipping Tax Fees<br />
 >
-> CoCart Pro also supports the following official WooCommerce extensions:
->
-> - [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)<br />
-> - and more coming soon.<br />
->
 > [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+
+= Extensions supported =
+
+CoCart also works well with official WooCommerce extensions such as:
+
+* [Bookings](https://woocommerce.com/products/woocommerce-bookings/)
+* [Name Your Price](https://woocommerce.com/products/name-your-price/)
+* [Points and Rewards](https://woocommerce.com/products/woocommerce-points-and-rewards/)
+* [Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)
+* [Product Add-ons](https://woocommerce.com/products/product-add-ons/)
+
+More extensions are supported in CoCart Pro:
+* [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
+* and more coming soon.
 
 ### More information
 
 * [Visit the CoCart website](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme).
+* [Documentation](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
 * [Follow on Twitter](https://twitter.com/cart_co)
 * [Follow on Instagram](https://www.instagram.com/co_cart/)
