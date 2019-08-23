@@ -63,6 +63,7 @@ CoCart also works well with official WooCommerce extensions such as:
 * [Product Add-ons](https://woocommerce.com/products/product-add-ons/)
 
 More extensions are supported in CoCart Pro:
+
 * [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 * and more coming soon.
 
