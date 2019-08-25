@@ -1,5 +1,13 @@
 # Changelog for CoCart
 
+## v2.0.4 - 26th August, 2019
+
+* Added: More FAQ's to readme.txt file for the WordPress plugin directory.
+* Changed: Title of the plugin in readme.txt file to improve SEO Results.
+* Changed: Minimum WooCommerce version required and supported is v3.6.
+* Tweaked: Upgrade link now shows always once plugin is installed, not after 1 week.
+* Tweaked: Upgrade link colour changed from green to red to stand out more.
+
 ## v2.0.3 - 19th August, 2019
 
 * Added: A notice under the plugin row providing information on future versions coming that require your feedback.
