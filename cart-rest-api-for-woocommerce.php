@@ -2,14 +2,14 @@
 /*
  * Plugin Name: CoCart
  * Plugin URI:  https://cocart.xyz
- * Description: Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.
+ * Description: CoCart provides control for managing the shopping cart via the REST-API for WooCommerce.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     2.0.3
+ * Version:     2.0.4
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
- * WC requires at least: 3.0.0
+ * WC requires at least: 3.6.0
  * WC tested up to: 3.7.0
  *
  * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
@@ -37,7 +37,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '2.0.3';
+		public static $version = '2.0.4';
 
 		/**
 		 * Required WooCommerce Version
