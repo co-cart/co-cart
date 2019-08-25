@@ -1,4 +1,4 @@
-=== CoCart === 
+=== Cart REST API for WooCommerce - CoCart Lite === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
 Contributors: sebd86
@@ -7,13 +7,13 @@ Donate link: https://cocart.xyz/pricing/
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
-Stable tag: 2.0.3
-WC requires at least: 3.0.0
+Stable tag: 2.0.4
+WC requires at least: 3.6.0
 WC tested up to: 3.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Control the cart via the REST-API for WooCommerce.
+CoCart provides control for managing the shopping cart via the REST-API for WooCommerce.
 
 == Description ==
 
@@ -36,7 +36,7 @@ Intrigued? _I bet you are._ [See the documentation](https://docs.cocart.xyz/) on
 * Empty the cart.
 
 > #### CoCart Pro
-> This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
+> This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 >
 > - Add and Remove Coupons to Cart<br />
 > - Get Applied Coupons<br />
@@ -48,7 +48,6 @@ Intrigued? _I bet you are._ [See the documentation](https://docs.cocart.xyz/) on
 > - Get and Set Fees<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
-> - Calculate Total and Shipping Tax Fees<br />
 >
 > [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
@@ -67,6 +66,10 @@ More extensions are supported in CoCart Pro:
 * [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 * and more coming soon.
 
+Give CoCart a try.
+
+Want to unlock more? [Upgrade to the Pro version](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+
 ### More information
 
 * [Visit the CoCart website](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme).
@@ -76,7 +79,9 @@ More extensions are supported in CoCart Pro:
 * [Follow on Instagram](https://www.instagram.com/co_cart/)
 * [GitHub](https://github.com/co-cart/co-cart)
 
-This plugin is created and maintained by [Sébastien Dumont](https://sebastiendumont.com).
+= Credits =
+
+This plugin is created by [Sébastien Dumont](https://sebastiendumont.com).
 
 == Installation ==
 
@@ -100,9 +105,25 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Frequently Asked Questions ==
 
+= Is CoCart free? =
+
+Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the full cart experience!](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+
+= How do I start using CoCart? =
+
+You will first need WooCommerce v3.6 or higher installed with the REST API enabled. Then install CoCart and follow the documentation. That’s it!
+
+= Who should use CoCart? =
+
+CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom front-end shopping experience completly using WooCommerce's REST API, then you need to use CoCart to complete the full experience.
+
+= Do I need to have coding skills to use CoCart? =
+
+As this plugin provides only a REST API, yes you need to have coding skills to use it.
+
 = Where can I find documentation for CoCart? =
 
-The documentation for CoCart can be found [here](https://docs.cocart.xyz/).
+The documentation for CoCart can be [found here](https://docs.cocart.xyz/).
 
 = Can I change the layout format/add/change details to the responses? =
 
@@ -122,7 +143,11 @@ Are you a Mobile app developer? In prepartion for CoCart v2.1.0, support for sto
 
 Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues).
 
-= Where can I get support or talk to other users? =
+= Is CoCart translatable? =
+
+Yes! CoCart is deployed with full translation and localization support via the ‘cart-rest-api-for-woocommerce’ text-domain.
+
+= Where can I ask for help? =
 
 If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
 
@@ -134,8 +159,17 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
+WooCommerce version 3.6 is the minimum version CoCart will support from now on.
 
 == Changelog ==
+
+= v2.0.4 - 26th August, 2019 =
+
+* Added: More FAQ's to readme.txt file for the WordPress plugin directory.
+* Changed: Title of the plugin in readme.txt file to improve SEO Results.
+* Changed: Minimum WooCommerce version required and supported is v3.6.
+* Tweaked: Upgrade link now shows always once plugin is installed, not after 1 week.
+* Tweaked: Upgrade link colour changed from green to red to stand out more.
 
 = v2.0.3 - 19th August, 2019 =
 
