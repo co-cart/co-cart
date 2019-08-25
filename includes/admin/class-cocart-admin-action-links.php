@@ -65,8 +65,6 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 */
 		public function plugin_row_meta( $metadata, $file, $data ) {
 			if ( $file == plugin_basename( COCART_FILE ) ) {
-				$install_date = get_site_option( 'cocart_install_date', time() );
-
 				$metadata[ 1 ] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data[ 'AuthorURI' ] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data[ 'Author' ] . '</a>' );
 
 				$campaign_args = array(
