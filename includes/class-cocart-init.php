@@ -2,13 +2,13 @@
 /**
  * CoCart REST API
  *
- * Handles cart endpoints requests for WC-API.
+ * Handles cart and product endpoints requests for WC-API and CoCart.
  *
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/API
  * @since    1.0.0
- * @version  2.0.0
+ * @version  2.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -186,7 +186,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.0
 	 */
 	public function rest_api_includes() {
 		$this->maybe_load_cart();
@@ -194,8 +194,9 @@ class CoCart_Rest_API {
 		// WC Cart REST API v2 controller.
 		include_once( dirname( __FILE__ ) . '/api/wc-v2/class-wc-rest-cart-controller.php' );
 
-		// CoCart REST API controller.
+		// CoCart REST API controllers.
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-products-controller.php' );
 	} // rest_api_includes()
 
 	/**
@@ -203,7 +204,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.0
 	 */
 	public function register_cart_routes() {
 		$controllers = array(
@@ -211,7 +212,8 @@ class CoCart_Rest_API {
 			'WC_REST_Cart_Controller',
 
 			// CoCart REST API v1 controller.
-			'CoCart_API_Controller'
+			'CoCart_API_Controller',
+			'CoCart_Products_Controller'
 		);
 
 		foreach ( $controllers as $controller ) {
