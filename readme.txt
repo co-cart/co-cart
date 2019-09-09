@@ -3,7 +3,7 @@ Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, rest, rest-api, JSON
-Donate link: https://cocart.xyz/pricing/
+Donate link: https://opencollective.com/cocart
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.2
