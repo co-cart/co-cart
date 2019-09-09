@@ -1,4 +1,4 @@
-# [CoCart](https://cocart.xyz)
+# [CoCart Lite](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 
 [![WordPress Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/cart-rest-api-for-woocommerce.svg?style=flat)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
@@ -8,11 +8,11 @@
 [![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/co-cart/co-cart/blob/master/LICENSE.md)
 
 **Contributors:** sebd86  
-**Donate link:** https://cocart.xyz/pricing/  
+**Donate link:** https://opencollective.com/cocart  
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
 **Requires at least:** 4.9.8  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.2.2  
+**Tested up to:** 5.2.3  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 3.7.0  
 **Stable tag:** 2.0.4  
@@ -55,7 +55,7 @@ This plugin is just the tip of the iceberg. Want the full cart experience? CoCar
 
 ### 📖 Documentation
 
-[View documentation for CoCart](https://docs.cocart.xyz/). Documentation currently only has examples for using with _cURL_. If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documenation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
+[View documentation for CoCart](https://docs.cocart.xyz/). Documentation currently only has examples for using with _cURL_. If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
 
 #### 💽 Installation
 
@@ -93,7 +93,7 @@ If you think you have found a bug in the plugin, a problem with the documentatio
 
 ## Contribute
 
-If you or your company use CoCart or appreciate the work I’m doing in open source, please consider [purchasing CoCart Pro](https://cocart.xyz/pricing/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart) where you not just get the full cart experience but also support me directly so I can continue maintaining CoCart and keep evolving the project.
+If you or your company use CoCart or appreciate the work I’m doing in open source, please consider donating on [the open collective](https://opencollective.com/cocart) or [purchasing CoCart Pro](https://cocart.xyz/pricing/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart) where you not just get the full cart experience but also support me directly so I can continue maintaining CoCart and keep evolving the project.
 
 Please also consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
 
