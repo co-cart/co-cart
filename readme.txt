@@ -13,15 +13,21 @@ WC tested up to: 3.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-CoCart provides control for managing the shopping cart via the REST-API for WooCommerce.
+CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for WooCommerce.
 
 == Description ==
 
-[WooCommerce](https://wordpress.org/plugins/woocommerce/) REST API is great but it's missing one important ability and that is to manage the shopping cart.
+CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for [WooCommerce](https://wordpress.org/plugins/woocommerce/).
 
-That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) comes in. With CoCart, running your WooCommerce store completely via the REST API is now complete. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
+With [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart), running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
 
-Intrigued? _I bet you are._ [See the documentation](https://docs.cocart.xyz/) on how to use CoCart today.
+= Why should I use CoCart? =
+
+WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the stores customers access to the products in order to add them to the shopping cart.
+
+If you are wanting to run your store via the REST API then CoCart is the missing solution.
+
+With [the documentation](https://docs.cocart.xyz/), you’ll learn how to enable the cart for your store in no time.
 
 = Features =
 
@@ -69,6 +75,16 @@ More extensions are supported in CoCart Pro:
 Give CoCart a try.
 
 Want to unlock more? [Upgrade to the Pro version](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+
+= Join our growing community =
+
+A Slack community for WooCommerce developers, WordPress agencies and shop owners building the fastest and best stores using Restful applications.
+
+[Join our community](https://cocart.xyz/community/)
+
+= Built with developers in mind =
+
+Extensible, adaptable, and open source — CoCart is created with developers in mind. If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on GitHub](https://github.com/co-cart/co-cart) and join the party.
 
 ### More information
 
