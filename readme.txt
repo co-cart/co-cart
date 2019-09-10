@@ -115,7 +115,7 @@ You will first need WooCommerce v3.6 or higher installed with the REST API enabl
 
 = Who should use CoCart? =
 
-CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom front-end shopping experience completly using WooCommerce's REST API, then you need to use CoCart to complete the full experience.
+CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom front-end shopping experience completely using WooCommerce's REST API, then you need to use CoCart to complete the full experience.
 
 = Do I need to have coding skills to use CoCart? =
 
@@ -137,7 +137,7 @@ Only if you request your customers to be logged in first. This is because all th
 
 Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://docs.cocart.xyz/#get-customers-cart-contents) for more information.
 
-Are you a Mobile app developer? In prepartion for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+Are you a Mobile app developer? In preparation for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 = Where can I report bugs or contribute to the project? =
 
