@@ -28,9 +28,6 @@ class CoCart_Rest_API {
 	 * @version 2.0.0
 	 */
 	public function __construct() {
-		// Force WooCommerce to accept CoCart requests when authenticating.
-		add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
-
 		// Add query vars.
 		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
 
@@ -134,32 +131,6 @@ class CoCart_Rest_API {
 		// Register CoCart REST API routes.
 		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 10 );
 	} // cart_rest_api_init()
-
-	/**
-	 * Force WooCommerce to accept CoCart API requests when authenticating.
-	 *
-	 * @access protected
-	 * @since  2.x.x
-	 * @param  bool $request
-	 * @return bool true|$request
-	 */
-	protected function allow_cocart_requests_wc( $request ) {
-		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
-			return false;
-		}
-
-		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-
-		// Check if the request is to the CoCart API endpoints.
-		$cocart = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
-
-		if ( $cocart ) {
-			return true;
-		}
-
-		return $request;
-	} // END allow_cocart_requests_wc()
 
 	/**
 	 * Loads the cart and notices should it be required.
