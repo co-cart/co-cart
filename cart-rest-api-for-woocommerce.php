@@ -103,6 +103,9 @@ if ( ! class_exists( 'CoCart' ) ) {
 			// Include admin classes to handle all back-end functions.
 			$this->admin_includes();
 
+			// Force WooCommerce to accept CoCart requests when authenticating.
+			add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
+
 			// Include required files.
 			add_action( 'init', array( $this, 'includes' ) );
 
@@ -188,6 +191,32 @@ if ( ! class_exists( 'CoCart' ) ) {
 		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		} // END load_plugin_textdomain()
+
+		/**
+		 * Force WooCommerce to accept CoCart API requests when authenticating.
+		 *
+		 * @access public
+		 * @since  2.x.x
+		 * @param  bool $request
+		 * @return bool true|$request
+		 */
+		public function allow_cocart_requests_wc( $request ) {
+			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+				return false;
+			}
+
+			$rest_prefix = trailingslashit( rest_get_url_prefix() );
+			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+
+			// Check if the request is to the CoCart API endpoints.
+			$cocart = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
+
+			if ( $cocart ) {
+				return true;
+			}
+
+			return $request;
+		} // END allow_cocart_requests_wc()
 
 	} // END class
 
