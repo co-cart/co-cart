@@ -15,7 +15,7 @@
 **Tested up to:** 5.2.3  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 3.7.0  
-**Stable tag:** 2.0.4  
+**Stable tag:** 2.0.5  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview
@@ -28,9 +28,9 @@ With CoCart, running your WooCommerce store completely via the REST API is now p
 
 WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the store customers access to the products in order to add them to the shopping cart.
 
-If you are wanting to run your store via the REST API then CoCart is the missing solution.
+If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
 
-With the documentation, you’ll learn how to enable the cart for your store in no time.
+With the documentation provided, you’ll learn how to enable the cart for your store in no time.
 
 ## Features
 
@@ -43,6 +43,7 @@ With the documentation, you’ll learn how to enable the cart for your store in 
 * View the cart contents.
 * Get the item count.
 * Empty the cart.
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
 This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart):
 

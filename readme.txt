@@ -6,14 +6,14 @@ Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
 Requires at least: 4.9.8
 Requires PHP: 5.6
-Tested up to: 5.2.2
-Stable tag: 2.0.4
+Tested up to: 5.2.3
+Stable tag: 2.0.5
 WC requires at least: 3.6.0
 WC tested up to: 3.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for WooCommerce.
+CoCart enables the shopping cart via the REST API for WooCommerce.
 
 == Description ==
 
@@ -25,9 +25,9 @@ With [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_
 
 WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the stores customers access to the products in order to add them to the shopping cart.
 
-If you are wanting to run your store via the REST API then CoCart is the missing solution.
+If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
 
-With [the documentation](https://docs.cocart.xyz/), you’ll learn how to enable the cart for your store in no time.
+With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how to enable the cart for your store in no time.
 
 = Features =
 
@@ -40,6 +40,7 @@ With [the documentation](https://docs.cocart.xyz/), you’ll learn how to enable
 * View the cart contents.
 * Get the item count.
 * Empty the cart.
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
 > #### CoCart Pro
 > This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
@@ -91,6 +92,7 @@ Extensible, adaptable, and open source — CoCart is created with developers in 
 * [Visit the CoCart website](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme).
 * [Documentation](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
+* [Like and Follow on Facebook](https://www.facebook.com/cocartforwc/)
 * [Follow on Twitter](https://twitter.com/cart_co)
 * [Follow on Instagram](https://www.instagram.com/co_cart/)
 * [GitHub](https://github.com/co-cart/co-cart)
@@ -135,7 +137,7 @@ CoCart is perfect for store owners and developers. If you want to create an e-co
 
 = Do I need to have coding skills to use CoCart? =
 
-As this plugin provides only a REST API, yes you need to have coding skills to use it.
+As this plugin is built for developers you will need to have some coding knowledge to use it. [Checkout the documentation](https://docs.cocart.xyz) to get some understanding.
 
 = Where can I find documentation for CoCart? =
 
@@ -175,9 +177,13 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-WooCommerce version 3.6 is the minimum version CoCart will support from now on.
+WooCommerce's authentication method is supported again.
 
 == Changelog ==
+
+= v2.0.5 - 14th September, 2019 =
+
+* Added: Support for WooCommerce's authentication method.
 
 = v2.0.4 - 26th August, 2019 =
 
