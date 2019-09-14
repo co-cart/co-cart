@@ -94,7 +94,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.0.0
+		 * @version 2.0.5
 		 */
 		public function __construct() {
 			// Setup Constants.
@@ -196,7 +196,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * Force WooCommerce to accept CoCart API requests when authenticating.
 		 *
 		 * @access public
-		 * @since  2.x.x
+		 * @since  2.0.5
 		 * @param  bool $request
 		 * @return bool true|$request
 		 */
