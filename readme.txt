@@ -13,21 +13,27 @@ WC tested up to: 3.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-CoCart enables the shopping cart via the REST API for WooCommerce.
+A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 == Description ==
 
-CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for [WooCommerce](https://wordpress.org/plugins/woocommerce/).
+Building a headless store with the current WooCommerce REST API is kind of great, except, it’s missing one side of a store. The front side. 👕
 
-With [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart), running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
+See when your building a headless store, you want the ability to display your products so your customers can add them to the cart, 🛒 without the authentication roadblocks. 🔓 No need to force customers to register first. 🖊
 
-= Why should I use CoCart? =
+So when you request to show your products in your app. Look! Your products are showing! 😀
 
-WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the stores customers access to the products in order to add them to the shopping cart.
+But when your building a headless store with WooCommerce’s REST API, your only options are for the backend, not the frontend. 😭
 
-If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
+It’s hard to build a store that way.
 
-With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how to enable the cart for your store in no time.
+Now there’s [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart). With CoCart you can build your headless store with the right REST API, for the frontend.
+
+So if you want to display products by a category, go ahead, you can do it. 👍 All requests can be made in any code language and everything is completely customizable from the parameters, filters and action hooks.
+
+So now building a headless WooCommerce store really is possible, only a whole lot easier.
+
+CoCart. The fastest and easiest way to building headless WooCommerce stores.
 
 = Features =
 
@@ -79,7 +85,7 @@ Want to unlock more? [Upgrade to the Pro version](https://cocart.xyz/pricing/?ut
 
 = Join our growing community =
 
-A Slack community for WooCommerce developers, WordPress agencies and shop owners building the fastest and best stores using Restful applications.
+A Slack community for developers, WordPress agencies and shop owners building the fastest and best headless WooCommerce stores with CoCart.
 
 [Join our community](https://cocart.xyz/community/)
 
@@ -133,7 +139,7 @@ You will first need WooCommerce v3.6 or higher installed with the REST API enabl
 
 = Who should use CoCart? =
 
-CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom front-end shopping experience completely using WooCommerce's REST API, then you need to use CoCart to complete the full experience.
+CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom frontend shopping experience completely using the REST API, then you need to use CoCart.
 
 = Do I need to have coding skills to use CoCart? =
 
@@ -149,7 +155,7 @@ You certainly can. Filters are available to do just that (so long as you are usi
 
 = Does it work with any of the official WooCommerce libraries? =
 
-Only if you request your customers to be logged in first. This is because all the libraries require authentication which the cart does not require.
+Only if you request your customers to be logged in first. This is because all the official libraries require authentication which the cart does not require.
 
 = Can I view any customers cart? =
 
