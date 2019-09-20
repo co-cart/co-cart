@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v2.1.0 - ?? ??, 2019
+
+* NEW: Added a new endpoint for fetching products or a singular product in READ-ONLY. No authentication required.
+
+> Features from beta 2 are not included as this will be ready for release soon.
+
 ## v2.0.5 - 14th September, 2019
 
 * Added: Support for WooCommerce's authentication method.
