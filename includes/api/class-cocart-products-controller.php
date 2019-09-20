@@ -44,7 +44,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected $post_type = 'product';
 
 	/**
-	 * Register the routes for cart.
+	 * Register the routes for products.
 	 *
 	 * @access public
 	 */
