@@ -335,7 +335,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			if ( ! empty( $request[ $key ] ) ) {
 				$tax_query[] = array(
 					'taxonomy' => $taxonomy,
-					'field'    => 'term_id',
+					'field'    => 'slug',
 					'terms'    => $request[ $key ],
 				);
 			}
@@ -1339,15 +1339,15 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['category'] = array(
-			'description'       => __( 'Limit result set to products assigned a specific category ID.', 'cart-rest-api-for-woocommerce' ),
+			'description'       => __( 'Limit result set to products assigned a specific category slug.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
-			'sanitize_callback' => 'wp_parse_id_list',
+			'sanitize_callback' => 'sanitize_text_field',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['tag'] = array(
-			'description'       => __( 'Limit result set to products assigned a specific tag ID.', 'cart-rest-api-for-woocommerce' ),
+			'description'       => __( 'Limit result set to products assigned a specific tag slug.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
-			'sanitize_callback' => 'wp_parse_id_list',
+			'sanitize_callback' => 'sanitize_text_field',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['attribute'] = array(
