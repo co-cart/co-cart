@@ -63,7 +63,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
 			'args'   => array(
 				'id' => array(
-					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 				),
 			),
