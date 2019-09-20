@@ -1,5 +1,9 @@
 # Changelog for CoCart
 
+## v2.0.5 - 14th September, 2019
+
+* Added: Support for WooCommerce's authentication method.
+
 ## v2.0.4 - 26th August, 2019
 
 * Added: More FAQ's to readme.txt file for the WordPress plugin directory.

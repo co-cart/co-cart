@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"private": false,
 	"contributors": [
 		"sebd86"
@@ -19,12 +19,12 @@
 	},
 	"requires": "4.9.8",
 	"requires_php": "5.6",
-	"tested_up_to": "5.2.2",
+	"tested_up_to": "5.2.3",
 	"wc_requires": "3.6.0",
 	"wc_tested_up_to": "3.7.0",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2019, Sébastien Dumont",
-	"description": "Provides additional REST-API endpoints for WooCommerce to enable the ability to add, view, update and delete items from the cart.",
+	"description": "CoCart enables the shopping cart via the REST API for WooCommerce.",
 	"tags": "",
 	"keywords": [
 		"woocommerce",
