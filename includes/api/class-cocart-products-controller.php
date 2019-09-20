@@ -682,7 +682,6 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'date_on_sale_from_gmt' => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ) ),
 			'date_on_sale_to'       => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
 			'date_on_sale_to_gmt'   => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ) ),
-			'price_html'            => $product->get_price_html(),
 			'on_sale'               => $product->is_on_sale( 'view' ),
 			'purchasable'           => $product->is_purchasable(),
 			'total_sales'           => $product->get_total_sales( 'view' ),
@@ -853,12 +852,6 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'description' => __( 'End date of sale price, as GMT.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view' ),
-				),
-				'price_html'            => array(
-					'description' => __( 'Price formatted in HTML.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-					'context'     => array( 'view' ),
-					'readonly'    => true,
 				),
 				'on_sale'               => array(
 					'description' => __( 'Shows if the product is on sale.', 'cart-rest-api-for-woocommerce' ),
