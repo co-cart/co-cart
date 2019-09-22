@@ -42,10 +42,10 @@ CoCart. The fastest and easiest way to building headless WooCommerce stores.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
-* Calculate the totals.
-* Get the cart totals.
+* Calculate the totals. 
+* Retrieve the cart totals.
 * View the cart contents.
-* Get the item count.
+* Retrieve the item count.
 * Empty the cart.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
@@ -53,10 +53,10 @@ CoCart. The fastest and easiest way to building headless WooCommerce stores.
 > This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 >
 > - Add and Remove Coupons to Cart<br />
-> - Get Applied Coupons<br />
-> - Get Coupon Discount Total<br />
-> - Get Cart Total Weight<br />
-> - Get Cross Sells<br />
+> - Retrieve Applied Coupons<br />
+> - Retrieve Coupon Discount Total<br />
+> - Retrieve Cart's Total Weight<br />
+> - Retrieve Cross Sell Products<br />
 > - Get and Set Payment Method<br />
 > - Get and Set Shipping Methods<br />
 > - Get and Set Fees<br />

@@ -34,24 +34,25 @@ With the documentation provided, you’ll learn how to enable the cart for your 
 
 ## Features
 
+* NEW: Retrieve products or a single product.
 * Add products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
 * Calculate the totals.
-* Get the cart totals.
+* Retrieve the cart totals.
 * View the cart contents.
-* Get the item count.
+* Retrieve the item count.
 * Empty the cart.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
 This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart):
 
 * Add and Remove Coupons to Cart
-* Get Applied Coupons
-* Get Coupon Discount Total
-* Get Cart Total Weight
-* Get Cross Sells
+* Retrieve Applied Coupons
+* Retrieve Coupon Discount Total
+* Retrieve Cart's Total Weight
+* Retrieve Cross Sell Products
 * Get and Set Payment Method
 * Get and Set Shipping Methods
 * Get and Set Fees
