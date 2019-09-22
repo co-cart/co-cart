@@ -20,17 +20,15 @@
 
 ## 🔔 Overview
 
-CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for WooCommerce.
-
-With CoCart, running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
+A REST API designed to handle the frontend of your WooCommerce store. Control and manage the shopping cart in any framework of your choosing. Powerful and developer friendly, ready to build your headless store.
 
 ## Why should I use CoCart?
 
-WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the store customers access to the products in order to add them to the shopping cart.
+Well, even though the WooCommerce REST API is created with developers in mind, it’s only designed for controlling the backend of the store.
 
-If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
+Most developers have to fork out further custom development to enable the frontend to meet their client’s specifications and that can be costly. CoCart provides that missing component to bridge 🌉 the gap between your WooCommerce store and the app your building by enabling the features of the frontend at a fraction of the cost.
 
-With the documentation provided, you’ll learn how to enable the cart for your store in no time.
+If you are wanting to build a headless WooCommerce store then CoCart is your solution.
 
 ## Features
 
