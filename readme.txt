@@ -37,6 +37,7 @@ CoCart. The fastest and easiest way to building headless WooCommerce stores.
 
 = Features =
 
+* NEW: Retrieve products or a single product.
 * Add products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
@@ -161,7 +162,7 @@ Only if you request your customers to be logged in first. This is because all th
 
 Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://docs.cocart.xyz/#get-customers-cart-contents) for more information.
 
-Are you a Mobile app developer? In preparation for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+Are you a Mobile app developer? I'm currently working on support for storing cart data to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 = Where can I report bugs or contribute to the project? =
 
