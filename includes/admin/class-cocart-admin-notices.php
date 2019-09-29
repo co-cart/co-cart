@@ -3,7 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
- * @version  2.0.3
+ * @version  2.0.6
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -255,11 +255,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Displays a notice under the plugin row for CoCart.
 		 *
-		 * @access public
-		 * @since  2.0.3
-		 * @param  string $file        Plugin basename.
-		 * @param  array  $plugin_data Plugin information.
-		 * @return false|void
+		 * @access  public
+		 * @since   2.0.3
+		 * @version 2.0.6
+		 * @param   string $file        Plugin basename.
+		 * @param   array  $plugin_data Plugin information.
+		 * @return  false|void
 		 */
 		public function plugin_row( $file, $plugin_data ) {
 			?>
@@ -290,7 +291,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			$plugin_name = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
 
 			$version_mentioned = '2.1.0';
-			$details_url       = esc_url( 'https://cocart.xyz/cocart-v2-1-0-beta-2/' );
+			$details_url       = esc_url( 'https://cocart.xyz/cocart-v2-1-0-beta-4/' );
 
 			if ( is_network_admin() || ! is_multisite() ) {
 				if ( is_network_admin() ) {
