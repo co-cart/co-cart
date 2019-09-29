@@ -2,6 +2,7 @@
 
 ## v2.1.0 - ?? October, 2019
 
+* NEW: Added a new endpoint for fetching products or a singular product in READ-ONLY. No authentication required.
 * NEW: Added support for guest carts.
 * NEW: Cart data are stored in a new database table.
 * NEW: Added plugin details to WooCommerce System Status.
@@ -11,7 +12,6 @@
 * Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
 
 > Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
-
 > This release is a work in progress and requires developer feedback.
 
 ## v2.0.5 - 14th September, 2019

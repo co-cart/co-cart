@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.3
-Stable tag: 2.0.5
+Stable tag: 2.1.0-beta.3
 WC requires at least: 3.6.0
 WC tested up to: 3.7.0
 License: GPLv3
@@ -37,14 +37,15 @@ CoCart. The fastest and easiest way to building headless WooCommerce stores.
 
 = Features =
 
+* NEW: Retrieve products or a single product.
 * Add products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
-* Calculate the totals.
-* Get the cart totals.
+* Calculate the totals. 
+* Retrieve the cart totals.
 * View the cart contents.
-* Get the item count.
+* Retrieve the item count.
 * Empty the cart.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
@@ -52,10 +53,10 @@ CoCart. The fastest and easiest way to building headless WooCommerce stores.
 > This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 >
 > - Add and Remove Coupons to Cart<br />
-> - Get Applied Coupons<br />
-> - Get Coupon Discount Total<br />
-> - Get Cart Total Weight<br />
-> - Get Cross Sells<br />
+> - Retrieve Applied Coupons<br />
+> - Retrieve Coupon Discount Total<br />
+> - Retrieve Cart's Total Weight<br />
+> - Retrieve Cross Sell Products<br />
 > - Get and Set Payment Method<br />
 > - Get and Set Shipping Methods<br />
 > - Get and Set Fees<br />
@@ -161,7 +162,7 @@ Only if you request your customers to be logged in first. This is because all th
 
 Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://docs.cocart.xyz/#get-customers-cart-contents) for more information.
 
-Are you a Mobile app developer? In preparation for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+Are you a Mobile app developer? I'm currently working on support for storing cart data to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 = Where can I report bugs or contribute to the project? =
 
@@ -183,60 +184,12 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-WooCommerce's authentication method is supported again.
+Stop the presses. 📰 You can now access products without authentication. 😄
 
 == Changelog ==
 
-= v2.0.5 - 14th September, 2019 =
+= v2.1.0 - ?? ??, 2019 =
 
-* Added: Support for WooCommerce's authentication method.
-
-= v2.0.4 - 26th August, 2019 =
-
-* Added: More FAQ's to readme.txt file for the WordPress plugin directory.
-* Changed: Title of the plugin in readme.txt file to improve SEO Results.
-* Changed: Minimum WooCommerce version required and supported is v3.6.
-* Tweaked: Upgrade link now shows always once plugin is installed, not after 1 week.
-* Tweaked: Upgrade link colour changed from green to red to stand out more.
-
-= v2.0.3 - 19th August, 2019 =
-
-* Added: A notice under the plugin row providing information on future versions coming that require your feedback.
-* Tested: Compatible with WooCommerce v3.7
-* Tweaked: Admin body class for CoCart page.
-* Updated: Documentation URL has changed to https://docs.cocart.xyz
-
-= v2.0.2 - 19th July, 2019 =
-
-* Tweaked: Updated link to getting started page if CoCart was installed via WP-CLI.
-
-= v2.0.1 - 18th July, 2019 =
-
-* Tweaked: `get_cart_contents_count()` is now called static.
-* Tweaked: Added check for cart totals to make sure they are set before falling back to cart totals in session.
-* Dev: Added filter `cocart_update_item` for the response when updating an item.
-* Dev: Tweaked CoCart page in the WordPress dashboard to support sections.
-
-= v2.0.0 - 3rd July, 2019 =
-
-* NEW: REST API namespace. CoCart is now an individual API and is no longer nested with WooCommerce's core REST API.
-* NEW: Check to see if the cart is set before falling back to the cart in session if one exists.
-* NEW: Get a specific customers cart via their customer ID number. - See documentation for details.
-* NEW: Product title also returns besides just the product name when getting the cart.
-* NEW: Product price also returns when getting the cart.
-* Changed: Filter and Action Hook names in new API. - See documentation for details.
-* Improved: Complexity of functions for better performance and usage.
-* Tweaked: Added checking for items already in the cart.
-* Tweaked: Check if cart is empty before removing an item.
-* Tweaked: Responses for adding, updating, removing and restoring items to return whole cart if requested.
-* Tweaked: Responses for updating items to return the quantity of item along with message.
-* Tweaked: Totals can now return once calculated if requested.
-* Tweaked: Totals now return from session and can be returned pre-formatted if requested. - See documentation for details.
-* Tweaked: New option to refresh cart totals once item has been added or updated.
-* Dev: Added action hooks for getting cart, cart is cleared, item added, item removed and item restored.
-* Dev: Added filter to allow additional checks before the item is added to the cart.
-* Dev: Added filter to apply additional data to return when cart is returned.
-* Dev: Added filter to change the size of the thumbnail returned.
-* Dev: Added new option to return cart raw if requested.
+* NEW: Added a new endpoint for fetching products or a singular product in READ-ONLY. No authentication required.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
