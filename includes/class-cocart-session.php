@@ -201,11 +201,12 @@ class CoCart_API_Session {
 	 * Gets a cart stored in the database.
 	 *
 	 * @access public
+	 * @static
 	 * @global $wpdb
 	 * @param  string $cart_key
 	 * @return array
 	 */
-	public function get_cart( $cart_key ) {
+	public static function get_cart( $cart_key ) {
 		global $wpdb;
 
 		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
