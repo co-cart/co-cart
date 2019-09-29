@@ -378,6 +378,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		// Filter by sku.
 		if ( ! empty( $request['sku'] ) ) {
 			$skus = explode( ',', $request['sku'] );
+
 			// Include the current string as a SKU too.
 			if ( 1 < count( $skus ) ) {
 				$skus[] = $request['sku'];
@@ -689,8 +690,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'downloadable'          => $product->is_downloadable(),
 			'external_url'          => $product->is_type( 'external' ) ? $product->get_product_url( 'view' ) : '',
 			'button_text'           => $product->is_type( 'external' ) ? $product->get_button_text( 'view' ) : '',
-			'tax_status'            => $product->get_tax_status( 'view' ),
-			'tax_class'             => $product->get_tax_class( 'view' ),
+			//'tax_status'            => $product->get_tax_status( 'view' ),
+			//'tax_class'             => $product->get_tax_class( 'view' ),
 			'manage_stock'          => $product->managing_stock(),
 			'stock_quantity'        => $product->get_stock_quantity( 'view' ),
 			'in_stock'              => $product->is_in_stock(),
@@ -894,7 +895,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
-				'tax_status'            => array(
+				/*'tax_status'            => array(
 					'description' => __( 'Tax status.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'taxable',
@@ -905,7 +906,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'description' => __( 'Tax class.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
-				),
+				),*/
 				'manage_stock'          => array(
 					'description' => __( 'Stock management at product level.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
@@ -918,7 +919,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'context'     => array( 'view' ),
 				),
 				'in_stock'              => array(
-					'description' => __( 'Controls whether or not the product is listed as "in stock" or "out of stock" on the frontend.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Determins if product is listed as "in stock" or "out of stock".', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'default'     => true,
 					'context'     => array( 'view' ),
@@ -931,7 +932,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'context'     => array( 'view' ),
 				),
 				'backorders_allowed'    => array(
-					'description' => __( 'Shows if backorders are allowed.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Are backorders allowed?', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
@@ -943,7 +944,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 				),
 				'sold_individually'     => array(
-					'description' => __( 'Allow one item to be bought in a single order.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Allow one of the item to be bought in a single order.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'default'     => false,
 					'context'     => array( 'view' ),
@@ -1306,7 +1307,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	} // END add_additional_fields_schema()
 
 	/**
-	 * Get the query params for collections of attachments.
+	 * Get the query params for collections of products.
 	 *
 	 * @access public
 	 * @return array $params
@@ -1363,7 +1364,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		if ( wc_tax_enabled() ) {
+		/*if ( wc_tax_enabled() ) {
 			$params['tax_class'] = array(
 				'description'       => __( 'Limit result set to products with a specific tax class.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
@@ -1371,7 +1372,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			);
-		}
+		}*/
 
 		$params['stock_status'] = array(
 			'description'       => __( 'Limit result set to products with specified stock status.', 'cart-rest-api-for-woocommerce' ),
