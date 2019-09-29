@@ -15,7 +15,7 @@
 **Tested up to:** 5.2.3  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 3.7.0  
-**Stable tag:** 2.1.0-beta.3  
+**Stable tag:** 2.1.0-beta.4  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview
@@ -33,6 +33,7 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 ## Features
 
 * NEW: Retrieve products or a single product.
+* NEW: Guest carts are supported.
 * Add products to the cart.
 * Update items in the cart.
 * Remove items from the cart.

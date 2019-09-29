@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 4.9.8
 Requires PHP: 5.6
 Tested up to: 5.2.3
-Stable tag: 2.1.0-beta.3
+Stable tag: 2.1.0-beta.4
 WC requires at least: 3.6.0
 WC tested up to: 3.7.0
 License: GPLv3
@@ -38,6 +38,7 @@ CoCart. The fastest and easiest way to building headless WooCommerce stores.
 = Features =
 
 * NEW: Retrieve products or a single product.
+* NEW: Guest carts are supported.
 * Add products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
@@ -188,8 +189,18 @@ Stop the presses. 📰 You can now access products without authentication. 😄
 
 == Changelog ==
 
-= v2.1.0 - ?? ??, 2019 =
+= v2.1.0 - ?? October, 2019 =
 
 * NEW: Added a new endpoint for fetching products or a singular product in READ-ONLY. No authentication required.
+* NEW: Added support for guest carts.
+* NEW: Cart data are stored in a new database table.
+* NEW: Added plugin details to WooCommerce System Status.
+* NEW: Added uninstall.php file to delete tables and options.
+* Dev: Clear all carts stored in session via the Tools section of WC System Status.
+* Dev: Cart expiration can be filtered if the default 48 hours is not to your liking.
+* Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
+
+> Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
+> This release is a work in progress and requires developer feedback.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
