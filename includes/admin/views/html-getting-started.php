@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="content">
 			<div class="logo">
 				<a href="<?php echo COCART_STORE_URL; ?>" target="_blank">
-					<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="<?php esc_html_e( 'CoCart', 'cart-rest-api-for-woocommerce' ); ?>" />
+					<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="<?php echo esc_attr__( 'CoCart, a WooCommerce REST-API extension', 'cart-rest-api-for-woocommerce' ); ?>" />
 				</a>
 			</div>
 

@@ -133,17 +133,16 @@ class CoCart_Rest_API {
 	} // cart_rest_api_init()
 
 	/**
-	 * Loads the cart and notices should it be required.
+	 * Loads the cart, session and notices should it be required.
+	 * 
+	 * Note: Only needed should the site be running WooCommerce 3.6 
+	 * or higher as they are not included during a REST request.
 	 *
-	 * @access private
-	 * @since  2.0.0
+	 * @access  private
+	 * @since   2.0.0
+	 * @version 2.0.3
 	 */
 	private function maybe_load_cart() {
-		/**
-		 * WooCommerce 3.6+ Compatibility
-		 * 
-		 * Cart and notice functions are not included during a REST request.
-		 */
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
@@ -164,12 +163,15 @@ class CoCart_Rest_API {
 			 * For logged in customers, pull data from their account rather than the 
 			 * session which may contain incomplete data.
 			 */
-			if ( null === WC()->customer ) {
+			if ( is_null( WC()->customer ) ) {
 				if ( is_user_logged_in() ) {
 					WC()->customer = new WC_Customer( get_current_user_id() );
 				} else {
 					WC()->customer = new WC_Customer( get_current_user_id(), true );
 				}
+
+				// Customer should be saved during shutdown.
+				add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
 			}
 
 			// Load Cart.

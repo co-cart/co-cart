@@ -1,6 +1,6 @@
 # Changelog for CoCart
 
-## v2.1.0 - ?? August, 2019
+## v2.1.0 - ?? October, 2019
 
 * NEW: Added support for guest carts.
 * NEW: Cart data are stored in a new database table.
@@ -13,6 +13,25 @@
 > Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
 
 > This release is a work in progress and requires developer feedback.
+
+## v2.0.5 - 14th September, 2019
+
+* Added: Support for WooCommerce's authentication method.
+
+## v2.0.4 - 26th August, 2019
+
+* Added: More FAQ's to readme.txt file for the WordPress plugin directory.
+* Changed: Title of the plugin in readme.txt file to improve SEO Results.
+* Changed: Minimum WooCommerce version required and supported is v3.6.
+* Tweaked: Upgrade link now shows always once plugin is installed, not after 1 week.
+* Tweaked: Upgrade link colour changed from green to red to stand out more.
+
+## v2.0.3 - 19th August, 2019
+
+* Added: A notice under the plugin row providing information on future versions coming that require your feedback.
+* Tested: Compatible with WooCommerce v3.7
+* Tweaked: Admin body class for CoCart page.
+* Updated: Documentation URL has changed to <https://docs.cocart.xyz>
 
 ## v2.0.2 - 19th July, 2019
 

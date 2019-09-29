@@ -1,4 +1,4 @@
-# [CoCart](https://cocart.xyz)
+# [CoCart Lite](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 
 [![WordPress Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/cart-rest-api-for-woocommerce.svg?style=flat)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
@@ -8,68 +8,69 @@
 [![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/co-cart/co-cart/blob/master/LICENSE.md)
 
 **Contributors:** sebd86  
-**Donate link:** https://sebdumont.xyz/donate/  
+**Donate link:** https://opencollective.com/cocart  
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
 **Requires at least:** 4.9.8  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.2.2  
-**WC requires at least:** 3.0.0  
-**WC tested up to:** 3.6.5  
-**Stable tag:** 2.0.2  
+**Tested up to:** 5.2.3  
+**WC requires at least:** 3.6.0  
+**WC tested up to:** 3.7.0  
+**Stable tag:** 2.0.5  
 **License:** GPL v2 or later  
-
-Control the cart via the REST-API for WooCommerce.
 
 ## 🔔 Overview
 
-CoCart, also written as co-cart, is a REST API extension for WooCommerce. Accessing the cart via the REST API was highly requested by mobile and app developers and was missing from the core of WooCommerce.
+CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for WooCommerce.
 
-So I built it. Tada!
+With CoCart, running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
 
-It allows you to use WooCommerce’s REST API to its full potential providing the option to create a full web or mobile app 📱 for your store powered by WooCommerce.
+## Why should I use CoCart?
 
-### Is This Free?
+WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the store customers access to the products in order to add them to the shopping cart.
 
-Yes, it's free. But here's what you should _really_ care about:
+If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
 
-* The code adheres to the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards) and follows best practices and conventions.
-* There is nothing else out there.
+With the documentation provided, you’ll learn how to enable the cart for your store in no time.
 
-> At this time, none of the official WooCommerce library wrappers can be used with this REST API as they all require authentication which makes it difficult to use along with the other official REST API endpoints that WooCommerce provides.
+## Features
 
-### What's the Catch?
+* Add products to the cart.
+* Update items in the cart.
+* Remove items from the cart.
+* Restore items to the cart.
+* Calculate the totals.
+* Get the cart totals.
+* View the cart contents.
+* Get the item count.
+* Empty the cart.
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
-This is a non-commercial plugin. As such:
+This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart):
 
-* Development time for it is effectively being donated and is, therefore, limited.
-* Support inquiries may not be answered in a timely manner.
-* Critical issues may not be resolved promptly.
+* Add and Remove Coupons to Cart
+* Get Applied Coupons
+* Get Coupon Discount Total
+* Get Cart Total Weight
+* Get Cross Sells
+* Get and Set Payment Method
+* Get and Set Shipping Methods
+* Get and Set Fees
+* Calculate Shipping Fees
+* Calculate Totals and Fees
 
-If you have a customization/integration requirement then I'd love to [hear from you](mailto:mailme@sebastiendumont.com)!
-
-Please understand that this repository is not a place to seek help with configuration-related issues. Use it to report bugs or propose improvements.
+[Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart)
 
 ## 📘 Guide
 
 ### 📖 Documentation
 
-[View documentation for CoCart](https://co-cart.github.io/co-cart-docs/). Documentation currently only has examples for using with _cURL_. If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documenation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
-
-#### ✅ Requirements
-
-To use this plugin you will need:
-
-* PHP v5.6 minimum (Recommend PHP v7+)
-* WordPress v4.9.8 minimum
-* WooCommerce v3.0.0+
-* Pretty permalinks in Settings > Permalinks so that the custom endpoints are supported. **Default permalinks will not work.**
-* You may access the API over either HTTP or HTTPS, but HTTPS is recommended where possible.
+[View documentation for CoCart](https://docs.cocart.xyz/). Documentation currently only has examples for using with _cURL_. If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
 
 #### 💽 Installation
 
 ##### Manual
 
-1. Download a `.zip` file with the [latest version](https://github.com/co-cart/co-cart/releases).
+1. Download the [latest version](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/).
 2. Go to **WordPress Admin > Plugins > Add New**.
 3. Click **Upload Plugin** at the top.
 4. **Choose File** and select the `.zip` file you downloaded in **Step 1**.
@@ -93,35 +94,17 @@ CoCart is released freely and openly. Feedback or ideas and approaches to solvin
 
 CoCart is not supported via the [WooCommerce Helpdesk](https://woocommerce.com/). As the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
 
-At present, I **do not offer a dedicated, premium support channel** for CoCart but will soon with CoCart Pro. Please understand this is a non-commercial plugin. As such:
-
-* Development time for it is effectively being donated and is, therefore, limited.
-* Support inquiries may not be answered in a timely manner.
-* Critical issues may not be resolved promptly.
+If you are in need of support, you can get it with a [purchase of CoCart Pro](https://cocart.xyz/pricing/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart).
 
 ### 📝 Reporting Issues
 
-If you think you have found a bug in the plugin, a problem with the documentation, or want to see a new feature added, please [open a new issue](https://github.com/co-cart/co-cart/issues/new) and I will do my best to help you out.
+If you think you have found a bug in the plugin, a problem with the documentation, please [open a new issue](https://github.com/co-cart/co-cart/issues/new) and I will do my best to help you out.
 
 ## Contribute
 
-If you or your company use CoCart or appreciate the work I’m doing in open source, please consider supporting me directly so I can continue maintaining it and keep evolving the project.
-
-You'll be helping to ensure I can spend the time not just fixing bugs, adding features, releasing new versions, but also keeping the project afloat. Any contribution you make is a big help and is greatly appreciated.
+If you or your company use CoCart or appreciate the work I’m doing in open source, please consider donating on [the open collective](https://opencollective.com/cocart) or [purchasing CoCart Pro](https://cocart.xyz/pricing/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart) where you not just get the full cart experience but also support me directly so I can continue maintaining CoCart and keep evolving the project.
 
 Please also consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
-
-I accept one-time donations and monthly via [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
-
-* [My PayPal](https://www.paypal.me/codebreaker)
-* [BuyMeACoffee.com](https://www.buymeacoffee.com/sebastien)
-* Bitcoin (BTC): `3L4cU7VJsXBFckstfJdP2moaNhTHzVDkKQ`
-* Ethereum (ETH): `0xc6a3C18cf11f5307bFa11F8BCBD51F355b6431cB`
-* Litecoin (LTC): `MNNy3xBK8sM8t1YUA2iAwdi9wRvZp9yRoi`
-
-If you have special requirements for a sponsorship, you can [email me](mailto:mailme@sebastiendumont.com) and we can talk.
-
-If you would like to contribute code to this project then please follow these [contribution guidelines](https://github.com/co-cart/co-cart/blob/master/CONTRIBUTING.md).
 
 Thank you for your support! 🙌
 

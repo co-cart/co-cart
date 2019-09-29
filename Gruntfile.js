@@ -45,7 +45,7 @@ module.exports = function(grunt) {
 				//map: false,
 				processors: [
 					require('autoprefixer')({
-						browsers: [
+						overrideBrowserslist: [
 							'> 0.1%',
 							'ie 8',
 							'ie 9'
@@ -115,8 +115,7 @@ module.exports = function(grunt) {
 						'node_modules'
 					],
 					mainFile: '<%= pkg.name %>.php', // Main project file.
-					potComments: '# Copyright (c) {{year}} Sébastien Dumont', // The copyright at the beginning of the POT file.
-					domainPath: 'languages', // Where to save the POT file.
+					potComments: 'Copyright (c) {year} Sébastien Dumont\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					potHeaders: {
 						'poedit': true,                                       // Includes common Poedit headers.
@@ -124,6 +123,27 @@ module.exports = function(grunt) {
 						'Report-Msgid-Bugs-To': 'https://github.com/co-cart/co-cart/issues',
 						'language-team': 'Sébastien Dumont <mailme@sebastiendumont.com>',
 						'language': 'en_US'
+					},
+					processPot: function( pot ) {
+						var translation,
+							excluded_meta = [
+								'Plugin Name of the plugin/theme',
+								'Plugin URI of the plugin/theme',
+								'Description of the plugin/theme',
+								'Author of the plugin/theme',
+								'Author URI of the plugin/theme'
+							];
+	
+						for ( translation in pot.translations[''] ) {
+							if ( 'undefined' !== typeof pot.translations[''][ translation ].comments.extracted ) {
+								if ( excluded_meta.indexOf( pot.translations[''][ translation ].comments.extracted ) >= 0 ) {
+									console.log( 'Excluded meta: ' + pot.translations[''][ translation ].comments.extracted );
+									delete pot.translations[''][ translation ];
+								}
+							}
+						}
+	
+						return pot;
 					},
 					type: 'wp-plugin',                                        // Type of project.
 					updateTimestamp: true,                                    // Whether the POT-Creation-Date should be updated without other changes.

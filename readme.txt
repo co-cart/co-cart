@@ -1,71 +1,111 @@
-=== CoCart === 
+=== Cart REST API for WooCommerce - CoCart Lite === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, rest, rest-api, JSON
-Donate link: https://sebdumont.xyz/donate/
+Donate link: https://opencollective.com/cocart
 Requires at least: 4.9.8
 Requires PHP: 5.6
-Tested up to: 5.2.2
-Stable tag: 2.1.0-beta.1
-WC requires at least: 3.0.0
-WC tested up to: 3.6.5
+Tested up to: 5.2.3
+Stable tag: 2.0.5
+WC requires at least: 3.6.0
+WC tested up to: 3.7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Control the cart via the REST-API for WooCommerce.
+A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 == Description ==
 
-[WooCommerce](https://wordpress.org/plugins/woocommerce/) REST API is great but it's missing one important ability and that is to manage the shopping cart.
+Building a headless store with the current WooCommerce REST API is kind of great, except, it’s missing one side of a store. The front side. 👕
 
-That's were [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) comes in. Just as a customer would interact with an online store in their browser, CoCart allows you to get the cart contents including totals, add, remove, restore and update items to and from the shopping cart via the REST API.
+See when your building a headless store, you want the ability to display your products so your customers can add them to the cart, 🛒 without the authentication roadblocks. 🔓 No need to force customers to register first. 🖊
 
-= Built with Developers in Mind =
+So when you request to show your products in your app. Look! Your products are showing! 😀
 
-Exclusively for WooCommerce. With CoCart, running your store completely via the REST API is now complete. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
+But when your building a headless store with WooCommerce’s REST API, your only options are for the backend, not the frontend. 😭
 
-CoCart also works well with official WooCommerce extensions such as:
+It’s hard to build a store that way.
 
-* Bookings
-* Name Your Price
-* Points and Rewards
-* Pre-Orders
-* Product Add-ons
+Now there’s [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart). With CoCart you can build your headless store with the right REST API, for the frontend.
 
-More extensions will be supported in CoCart Pro starting with Subscriptions.
+So if you want to display products by a category, go ahead, you can do it. 👍 All requests can be made in any code language and everything is completely customizable from the parameters, filters and action hooks.
 
-Intrigued? _I bet you are._ [See documentation](https://co-cart.github.io/co-cart-docs/) on how to use CoCart today.
+So now building a headless WooCommerce store really is possible, only a whole lot easier.
 
-Enjoy!
+CoCart. The fastest and easiest way to building headless WooCommerce stores.
+
+= Features =
+
+* Add products to the cart.
+* Update items in the cart.
+* Remove items from the cart.
+* Restore items to the cart.
+* Calculate the totals.
+* Get the cart totals.
+* View the cart contents.
+* Get the item count.
+* Empty the cart.
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
 > #### CoCart Pro
-> Want to control more? _I bet you do._
+> This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 >
 > - Add and Remove Coupons to Cart<br />
 > - Get Applied Coupons<br />
 > - Get Coupon Discount Total<br />
 > - Get Cart Total Weight<br />
 > - Get Cross Sells<br />
+> - Get and Set Payment Method<br />
 > - Get and Set Shipping Methods<br />
-> - Get and Set Tax Fees<br />
+> - Get and Set Fees<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
-> - Calculate Total and Shipping Tax Fees<br />
-> - Support via Slack<br />
-> - and possibly more features and add-ons to follow.<br />
 >
-> [Sign up if you are interested in CoCart Pro](http://eepurl.com/dKIYXE)
+> [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+
+= Extensions supported =
+
+CoCart also works well with official WooCommerce extensions such as:
+
+* [Bookings](https://woocommerce.com/products/woocommerce-bookings/)
+* [Name Your Price](https://woocommerce.com/products/name-your-price/)
+* [Points and Rewards](https://woocommerce.com/products/woocommerce-points-and-rewards/)
+* [Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)
+* [Product Add-ons](https://woocommerce.com/products/product-add-ons/)
+
+More extensions are supported in CoCart Pro:
+
+* [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
+* and more coming soon.
+
+Give CoCart a try.
+
+Want to unlock more? [Upgrade to the Pro version](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+
+= Join our growing community =
+
+A Slack community for developers, WordPress agencies and shop owners building the fastest and best headless WooCommerce stores with CoCart.
+
+[Join our community](https://cocart.xyz/community/)
+
+= Built with developers in mind =
+
+Extensible, adaptable, and open source — CoCart is created with developers in mind. If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on GitHub](https://github.com/co-cart/co-cart) and join the party.
 
 ### More information
 
 * [Visit the CoCart website](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme).
+* [Documentation](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
+* [Like and Follow on Facebook](https://www.facebook.com/cocartforwc/)
 * [Follow on Twitter](https://twitter.com/cart_co)
 * [Follow on Instagram](https://www.instagram.com/co_cart/)
 * [GitHub](https://github.com/co-cart/co-cart)
 
-This plugin is created and maintained by [Sébastien Dumont](https://sebastiendumont.com).
+= Credits =
+
+This plugin is created by [Sébastien Dumont](https://sebastiendumont.com).
 
 == Installation ==
 
@@ -89,9 +129,25 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 == Frequently Asked Questions ==
 
+= Is CoCart free? =
+
+Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the full cart experience!](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+
+= How do I start using CoCart? =
+
+You will first need WooCommerce v3.6 or higher installed with the REST API enabled. Then install CoCart and follow the documentation. That’s it!
+
+= Who should use CoCart? =
+
+CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom frontend shopping experience completely using the REST API, then you need to use CoCart.
+
+= Do I need to have coding skills to use CoCart? =
+
+As this plugin is built for developers you will need to have some coding knowledge to use it. [Checkout the documentation](https://docs.cocart.xyz) to get some understanding.
+
 = Where can I find documentation for CoCart? =
 
-The documentation for CoCart can be found [here](https://co-cart.github.io/co-cart-docs/).
+The documentation for CoCart can be [found here](https://docs.cocart.xyz/).
 
 = Can I change the layout format/add/change details to the responses? =
 
@@ -99,17 +155,23 @@ You certainly can. Filters are available to do just that (so long as you are usi
 
 = Does it work with any of the official WooCommerce libraries? =
 
-Only if you request your customers to be logged in first. This is because all the libraries require authentication which the cart does not require.
+Only if you request your customers to be logged in first. This is because all the official libraries require authentication which the cart does not require.
 
 = Can I view any customers cart? =
 
-Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://co-cart.github.io/co-cart-docs/#get-customers-cart-contents) for more information.
+Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://docs.cocart.xyz/#get-customers-cart-contents) for more information.
+
+Are you a Mobile app developer? In preparation for CoCart v2.1.0, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 = Where can I report bugs or contribute to the project? =
 
 Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues).
 
-= Where can I get support or talk to other users? =
+= Is CoCart translatable? =
+
+Yes! CoCart is deployed with full translation and localization support via the ‘cart-rest-api-for-woocommerce’ text-domain.
+
+= Where can I ask for help? =
 
 If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
 
@@ -121,9 +183,28 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-v2.0.0 is backwards compatible so you can still use the current API. See https://cocart.xyz/cocart-v2-preview/ for more information on the new API.
+WooCommerce's authentication method is supported again.
 
 == Changelog ==
+
+= v2.0.5 - 14th September, 2019 =
+
+* Added: Support for WooCommerce's authentication method.
+
+= v2.0.4 - 26th August, 2019 =
+
+* Added: More FAQ's to readme.txt file for the WordPress plugin directory.
+* Changed: Title of the plugin in readme.txt file to improve SEO Results.
+* Changed: Minimum WooCommerce version required and supported is v3.6.
+* Tweaked: Upgrade link now shows always once plugin is installed, not after 1 week.
+* Tweaked: Upgrade link colour changed from green to red to stand out more.
+
+= v2.0.3 - 19th August, 2019 =
+
+* Added: A notice under the plugin row providing information on future versions coming that require your feedback.
+* Tested: Compatible with WooCommerce v3.7
+* Tweaked: Admin body class for CoCart page.
+* Updated: Documentation URL has changed to https://docs.cocart.xyz
 
 = v2.0.2 - 19th July, 2019 =
 

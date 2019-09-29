@@ -1,4 +1,5 @@
-# # Copyright (c) {2019} Sébastien Dumont
+# Copyright (c) 2019 Sébastien Dumont
+# This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
 "Project-Id-Version: CoCart 2.1.0-beta.2\n"
@@ -40,49 +41,54 @@ msgstr ""
 msgid "Getting Started"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:70
+#: includes/admin/class-cocart-admin-action-links.php:68
 msgid "Developed By %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:70
+#: includes/admin/class-cocart-admin-action-links.php:68
 msgid "View the developers site"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:78
 msgid "View %s documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:78
 msgid "Documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:81
+#: includes/admin/class-cocart-admin-action-links.php:79
 msgid "Get support from the community"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:81
+#: includes/admin/class-cocart-admin-action-links.php:79
 msgid "Community Support"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:82
+#: includes/admin/class-cocart-admin-action-links.php:80
 msgid "Review %s on WordPress.org"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:82
+#: includes/admin/class-cocart-admin-action-links.php:80
 #: includes/admin/views/html-notice-please-review.php:34
 msgid "Leave a Review"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
+#: includes/admin/class-cocart-admin-action-links.php:87
 msgid "Upgrade to %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
-msgid "CoCart Pro"
+#: includes/admin/class-cocart-admin-action-links.php:87
+msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
-msgid "Upgrade to Pro"
+#: includes/admin/class-cocart-admin-notices.php:313
+#. translators: 1: plugin name, 2: version mentioned, 3: details URL
+msgid ""
+"Are you a Mobile app developer? In preparation for <strong>%1$s "
+"v%2$s</strong>, support for storing cart data will be introduced to make it "
+"easier to access specific carts created and your feedback is needed. <a "
+"href=\"%3$s\" target=\"_blank\">Read this article for more details.</a>"
 msgstr ""
 
 #: includes/admin/class-cocart-admin.php:172
@@ -175,6 +181,13 @@ msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "CoCart"
+#: includes/admin/views/html-getting-started.php:25
+#: includes/admin/views/html-notice-please-review.php:25
+#: includes/admin/views/html-notice-required-wc.php:20
+#: includes/admin/views/html-notice-trying-beta.php:21
+#: includes/admin/views/html-notice-upgrade-warning.php:20
+#: includes/admin/views/html-notice-wc-not-installed.php:20
+msgid "CoCart, a WooCommerce REST-API extension"
 msgstr ""
 
 #: includes/admin/views/html-getting-started.php:29
@@ -223,11 +236,6 @@ msgstr ""
 msgid "Enjoy!"
 msgstr ""
 
-#: includes/admin/views/html-notice-please-review.php:25
-#: includes/admin/views/html-notice-trying-beta.php:21
-msgid "CoCart WooCommerce REST-API Extension"
-msgstr ""
-
 #: includes/admin/views/html-notice-please-review.php:29
 msgid "Hi %1$s, are you enjoying %2$s?"
 msgstr ""
@@ -244,12 +252,6 @@ msgstr ""
 
 #: includes/admin/views/html-notice-please-review.php:35
 msgid "No thank you / I already have"
-msgstr ""
-
-#: includes/admin/views/html-notice-required-wc.php:20
-#: includes/admin/views/html-notice-upgrade-warning.php:20
-#: includes/admin/views/html-notice-wc-not-installed.php:20
-msgid "CoCart a WooCommerce API extension"
 msgstr ""
 
 #: includes/admin/views/html-notice-required-wc.php:24

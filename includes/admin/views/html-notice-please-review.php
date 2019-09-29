@@ -22,7 +22,7 @@ $time = CoCart_Admin::cocart_seconds_to_words( time() - $install_date );
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="<?php echo esc_attr__( 'CoCart WooCommerce REST-API Extension', 'cart-rest-api-for-woocommerce' ); ?>" />
+			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="<?php echo esc_attr__( 'CoCart, a WooCommerce REST-API extension', 'cart-rest-api-for-woocommerce' ); ?>" />
 		</div>
 
 		<div class="cocart-notice-content">
