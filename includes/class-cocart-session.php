@@ -132,7 +132,7 @@ class CoCart_API_Session {
 			$wpdb->prepare(
 				"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
 				 ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
-				$this->_customer_id,
+				$cart_key,
 				$cart,
 				$cart_expiration
 			)
