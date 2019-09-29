@@ -68,10 +68,12 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_version'] = array(
 				'name'      => _x( 'Version', 'label that indicates the version of the plugin', 'cart-rest-api-for-woocommerce' ),
 				'label'     => __( 'Version', 'cart-rest-api-for-woocommerce' ),
-				'data'      => COCART_VERSION,
-				//'note'      => '',
-				//'mark'      => '',
-				//'mark_icon' => '',
+				//'data'      => array(),
+				'note'      => COCART_VERSION,
+				'mark'      => '',
+				'mark_icon' => '',
+				//'success'   => ''
+			);
 				//'success'   => ''
 			);
 
