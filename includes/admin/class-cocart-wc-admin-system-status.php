@@ -74,11 +74,38 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'mark_icon' => '',
 				//'success'   => ''
 			);
+
+			$data['cocart_carts_in_session'] = array(
+				'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
+				'label'     => __( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
+				//'data'      => array(),
+				'note'      => $this->carts_in_session(),
+				'mark'      => '',
+				'mark_icon' => '',
 				//'success'   => ''
 			);
 
 			return $data;
 		} // END get_system_status_data()
+
+
+		/**
+		 * Counts how many carts are currently in session.
+		 *
+		 * @access public
+		 * @global $wpdb
+		 * @return int - Number of carts in session.
+		 */
+		public function carts_in_session() {
+			global $wpdb;
+
+			$results = $wpdb->get_results( "
+				SELECT COUNT(cart_id) as count 
+				FROM {$wpdb->prefix}cocart_carts
+			", ARRAY_A );
+
+			return $results[0]['count'];
+		} // END carts_in_session()
 
 		/**
 		 * Adds a debug button under the tools section of WooCommerce System Status.
