@@ -116,9 +116,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public function debug_button( $tools ) {
 			$tools['cocart_clear_carts'] = array(
-				'name'		=> __( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
-				'button'	=> __( 'Clear', 'cart-rest-api-for-woocommerce' ),
-				'desc'		=> sprintf(
+				'name'   => __( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
+				'button' => __( 'Clear', 'cart-rest-api-for-woocommerce' ),
+				'desc'   => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					sprintf( 
@@ -126,7 +126,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 						'<strong>' . __( 'NOT', 'cart-rest-api-for-woocommerce' ) . '</strong>'
 					)
 				),
-				'callback'	=> array( $this, 'debug_clear_carts' ),
+				'callback' => array( $this, 'debug_clear_carts' ),
 			);
 
 			return $tools;
