@@ -155,6 +155,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * Create cron jobs (clear them first).
 		 *
 		 * @access private
+		 * @static
 		 */
 		private static function create_cron_jobs() {
 			wp_clear_scheduled_hook( 'cocart_cleanup_carts' );
@@ -166,9 +167,10 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * Creates database tables which the plugin needs to function.
 		 *
 		 * @access private
+		 * @static
 		 * @global $wpdb
 		 */
-		private function create_tables() {
+		private static function create_tables() {
 			global $wpdb;
 
 			$wpdb->hide_errors();
