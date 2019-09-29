@@ -150,7 +150,7 @@ class CoCart_API_Session {
 		if ( isset( $cart_key ) ) {
 			$cart_saved = $this->is_cart_saved( $cart_key );
 
-			if ( $cart_saved ) {
+			if ( ! $cart_saved ) {
 				$this->save_cart_data( $cart_key );
 
 				// Now destroy key stored in session as we will check the cookie from now on.
