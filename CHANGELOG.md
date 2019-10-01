@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v2.0.6 - 1st October, 2019
+
+* Added: Link to translate CoCart on the plugin row.
+* Tweaked: Upgrade admin notice for next release.
+* Tweaked: URL to latest beta news under the plugin row.
+
 ## v2.0.5 - 14th September, 2019
 
 * Added: Support for WooCommerce's authentication method.
