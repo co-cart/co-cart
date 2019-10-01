@@ -145,7 +145,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * 
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.0
+		 * @version 2.0.6
 		 * @global  $current_user
 		 * @return  void|bool
 		 */
@@ -182,7 +182,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			// Upgrade warning notice that will disappear once the new release is installed.
-			$upgrade_version = '2.0.0';
+			$upgrade_version = COCART_NEXT_VERSION;
 
 			if ( ! CoCart_Admin::is_cocart_beta() && version_compare( COCART_VERSION, $upgrade_version, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
@@ -290,8 +290,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			$plugin_name = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
 
-			$version_mentioned = '2.1.0';
-			$details_url       = esc_url( 'https://cocart.xyz/cocart-v2-1-0-beta-4/' );
+			$version_mentioned = COCART_NEXT_VERSION;
+			$details_url       = esc_url( COCART_NEXT_VERSION_DETAILS );
 
 			if ( is_network_admin() || ! is_multisite() ) {
 				if ( is_network_admin() ) {
@@ -311,7 +311,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 				/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
 				printf(
-					__( 'Are you a Mobile app developer? In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to make it easier to access specific carts created and your feedback is needed. <a href="%3$s" target="_blank">Read this article for more details.</a>', 'cart-rest-api-for-woocommerce' ),
+					__( 'Are you a Mobile app developer? In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to make it easier to access specific carts in session and your feedback is needed. <a href="%3$s" target="_blank">Read this article for more details.</a>', 'cart-rest-api-for-woocommerce' ),
 					$plugin_name,
 					$version_mentioned,
 					$details_url
