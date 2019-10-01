@@ -5,7 +5,7 @@
  * Adds links to CoCart on the plugins page.
  *
  * @since    1.2.0
- * @version  2.0.4
+ * @version  2.0.6
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -76,6 +76,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 				$row_meta = array(
 					'docs' => '<a href="' . apply_filters( 'cocart_docs_url', esc_url( COCART_DOCUMENTATION_URL ) ) . '" aria-label="' . sprintf( esc_attr__( 'View %s documentation', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'translate' => '<a href="' . esc_url( 'https://translate.cocart.xyz' ) . '" aria-label="' . sprintf( esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'community' => '<a href="' . esc_url( COCART_SUPPORT_URL ) . '" aria-label="' . esc_attr__( 'Get support from the community', 'cart-rest-api-for-woocommerce' ). '" target="_blank">' . esc_attr__( 'Community Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'review' => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
