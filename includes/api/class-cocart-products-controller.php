@@ -252,9 +252,6 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		/**
 		 * Filter the data for a response.
 		 *
-		 * The dynamic portion of the hook name, $this->post_type,
-		 * refers to object type being prepared for the response.
-		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param WC_Data          $object   Object data.
 		 * @param WP_REST_Request  $request  Request object.
