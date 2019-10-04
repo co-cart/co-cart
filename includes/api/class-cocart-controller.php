@@ -576,7 +576,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -657,8 +657,8 @@ class CoCart_API_Controller {
 			}
 		}
 
-		$response  = apply_filters( 'cocart_ok_to_add_response', '', $product_data );
-		$ok_to_add = apply_filters( 'cocart_ok_to_add', true, $product_data );
+		$response  = apply_filters( 'cocart_ok_to_add_response', '', $product_data, $product_id, $quantity );
+		$ok_to_add = apply_filters( 'cocart_ok_to_add', true, $product_data, $product_id, $quantity );
 
 		// If it is not OK to add the item, return an error response.
 		if ( ! $ok_to_add ) {
