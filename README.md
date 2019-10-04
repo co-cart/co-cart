@@ -15,7 +15,7 @@
 **Tested up to:** 5.2.3  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 3.7.0  
-**Stable tag:** 2.1.0-beta.4  
+**Stable tag:** 2.0.6  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview

@@ -118,7 +118,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.3
+		 * @version 2.0.6
 		 */
 		public function setup_constants() {
 			$this->define('COCART_VERSION', self::$version);
@@ -135,6 +135,10 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce');
 			$this->define('COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/');
 			$this->define('COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz');
+			$this->define('COCART_TRANSLATION_URL', 'https://translate.cocart.xyz');
+
+			$this->define('COCART_NEXT_VERSION', '2.1.0');
+			$this->define('COCART_NEXT_VERSION_DETAILS', 'https://cocart.xyz/cocart-v2-1-0-beta-4/');
 		} // END setup_constants()
 
 		/**

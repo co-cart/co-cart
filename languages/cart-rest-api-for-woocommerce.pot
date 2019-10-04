@@ -58,27 +58,35 @@ msgid "Documentation"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:79
-msgid "Get support from the community"
+msgid "Translate %s"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:79
+msgid "Translate"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:80
+msgid "Get support from the community"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-action-links.php:80
 msgid "Community Support"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:81
 msgid "Review %s on WordPress.org"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:81
 #: includes/admin/views/html-notice-please-review.php:34
 msgid "Leave a Review"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:87
+#: includes/admin/class-cocart-admin-action-links.php:88
 msgid "Upgrade to %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:87
+#: includes/admin/class-cocart-admin-action-links.php:88
 msgid "Upgrade to Pro"
 msgstr ""
 
@@ -178,7 +186,7 @@ msgstr ""
 #: includes/admin/views/html-notice-please-review.php:25
 #: includes/admin/views/html-notice-required-wc.php:20
 #: includes/admin/views/html-notice-trying-beta.php:21
-#: includes/admin/views/html-notice-upgrade-warning.php:20
+#: includes/admin/views/html-notice-upgrade-warning.php:21
 #: includes/admin/views/html-notice-wc-not-installed.php:20
 msgid "CoCart, a WooCommerce REST-API extension"
 msgstr ""
@@ -291,22 +299,24 @@ msgstr ""
 msgid "Ask me again in 7 days"
 msgstr ""
 
-#: includes/admin/views/html-notice-upgrade-warning.php:24
+#: includes/admin/views/html-notice-upgrade-warning.php:25
 msgid "Upgrade Warning!"
 msgstr ""
 
-#: includes/admin/views/html-notice-upgrade-warning.php:25
+#: includes/admin/views/html-notice-upgrade-warning.php:26
 msgid ""
-"Version %1$s2.0.0%2$s of %3$s is coming soon and will provide a new and "
-"improved API. Before it is released, I require your help to test it out and "
-"provide your feedback!"
-msgstr ""
-
-#: includes/admin/views/html-notice-upgrade-warning.php:29
-msgid "Learn More"
+"Version %1$s%4$s%2$s of %3$s is coming soon and will provide support for "
+"guest customers and a new endpoint to retrieve products without "
+"authentication. Before it is released, I require your help to test it out "
+"and provide your feedback! Documentation is also available for these "
+"features."
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:30
+msgid "Learn More"
+msgstr ""
+
+#: includes/admin/views/html-notice-upgrade-warning.php:31
 msgid "Ask me again in 2 weeks"
 msgstr ""
 

@@ -3,7 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
- * @version  2.0.0
+ * @version  2.0.6
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -142,7 +142,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * 
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.0
+		 * @version 2.0.6
 		 * @global  $current_user
 		 * @return  void|bool
 		 */
@@ -179,7 +179,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			// Upgrade warning notice that will disappear once the new release is installed.
-			$upgrade_version = '2.0.0';
+			$upgrade_version = COCART_NEXT_VERSION;
 
 			if ( ! CoCart_Admin::is_cocart_beta() && version_compare( COCART_VERSION, $upgrade_version, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
