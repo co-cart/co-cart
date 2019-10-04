@@ -64,7 +64,7 @@ This plugin is just the tip of the iceberg. Want the full cart experience? CoCar
 
 ### 📖 Documentation
 
-[View documentation for CoCart](https://docs.cocart.xyz/). Documentation currently only has examples for using with _cURL_. If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
+[View documentation for CoCart](https://docs.cocart.xyz/). If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
 
 #### 💽 Installation
 
