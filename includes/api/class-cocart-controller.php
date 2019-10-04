@@ -679,7 +679,7 @@ class CoCart_API_Controller {
 
 			WC()->cart->set_quantity( $cart_item_key, $new_quantity, $data['refresh_totals'] );
 
-			$item_added = WC()->cart->get_cart_item( $cart_item_key );
+			$item_added = $this->get_cart_item( $cart_item_key, 'add' );
 		} else {
 			// Add item to cart.
 			$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
@@ -691,7 +691,7 @@ class CoCart_API_Controller {
 					WC()->cart->calculate_totals();
 				}
 
-				$item_added = WC()->cart->get_cart_item( $item_key );
+				$item_added = $this->get_cart_item( $item_key, 'add' );
 
 				do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
 			} else {
@@ -713,6 +713,22 @@ class CoCart_API_Controller {
 	} // END add_to_cart()
 
 	/**
+	 * Look's up an item in the cart and returns it's data 
+	 * based on the condition it is being returned for.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 * @param  string $item_key
+	 * @param  string $condition - Default is 'add', other conditions are: container, update, remove, restore
+	 * @return array  $item
+	 */
+	public function get_cart_item( $item_key, $condition = 'add' ) {
+		$item = WC()->cart->get_cart_item( $item_key );
+
+		return apply_filters( 'cocart_get_cart_item', $item, $condition );
+	} // END get_cart_item()
+
+	/**
 	 * Remove Item in Cart.
 	 *
 	 * @access  public
@@ -731,7 +747,7 @@ class CoCart_API_Controller {
 
 		if ( $cart_item_key != '0' ) {
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = WC()->cart->get_cart_item( $cart_item_key );
+			$current_data = $this->get_cart_item( $cart_item_key, 'remove' );
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -771,7 +787,7 @@ class CoCart_API_Controller {
 
 		if ( $cart_item_key != '0' ) {
 			if ( WC()->cart->restore_cart_item( $cart_item_key ) ) {
-				$current_data = WC()->cart->get_cart_item( $cart_item_key ); // Fetches the cart item data once it is restored.
+				$current_data = $this->get_cart_item( $cart_item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
 				do_action( 'cocart_item_restored', $current_data );
 
@@ -813,7 +829,7 @@ class CoCart_API_Controller {
 
 		if ( $cart_item_key != '0' ) {
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = WC()->cart->get_cart_item( $cart_item_key );
+			$current_data = $this->get_cart_item( $cart_item_key, 'container' );
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -823,7 +839,7 @@ class CoCart_API_Controller {
 			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
 			if ( WC()->cart->set_quantity( $cart_item_key, $quantity, $data['refresh_totals'] ) ) {
-				$new_data = WC()->cart->get_cart_item( $cart_item_key );
+				$new_data = $this->get_cart_item( $cart_item_key, 'update' );
 
 				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( $new_data['product_id'] );
 				$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( $new_data['variation_id'] );
