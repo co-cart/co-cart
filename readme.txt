@@ -199,6 +199,7 @@ Stop the presses. 📰 You can now access products without authentication. 😄
 * Dev: Clear all carts stored in session via the Tools section of WC System Status.
 * Dev: Cart expiration can be filtered if the default 48 hours is not to your liking.
 * Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
+* Dev: Added conditional filter for returning a cart item.
 
 > Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
 > This release is a work in progress and requires developer feedback.
