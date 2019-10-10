@@ -1,4 +1,4 @@
-# Changelog for CoCart
+# Changelog for CoCart Lite
 
 ## v2.1.0 - ?? October, 2019
 
@@ -6,11 +6,12 @@
 * NEW: Added support for guest carts.
 * NEW: Cart data are stored in a new database table.
 * NEW: Added plugin details to WooCommerce System Status.
-* NEW: Added uninstall.php file to delete tables and options.
+* NEW: Added `uninstall.php` file to delete tables and options.
 * Dev: Clear all carts stored in session via the Tools section of WC System Status.
 * Dev: Cart expiration can be filtered if the default 48 hours is not to your liking.
 * Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
 * Dev: Added conditional filter for returning a cart item.
+* Dev: Added a log class that handles logging errors.
 
 > Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
 > This release is a work in progress and requires developer feedback.
