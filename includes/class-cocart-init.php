@@ -196,7 +196,13 @@ class CoCart_Rest_API {
 
 		// CoCart REST API controllers.
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-add-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-clear-cart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-calculate-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-count-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-item-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-products-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php' );
 	} // rest_api_includes()
 
 	/**
@@ -213,6 +219,12 @@ class CoCart_Rest_API {
 
 			// CoCart REST API v1 controller.
 			'CoCart_API_Controller',
+			'CoCart_Add_Item_Controller',
+			'CoCart_Clear_Cart_Controller',
+			'CoCart_Calculate_Controller',
+			'CoCart_Count_Items_Controller',
+			'CoCart_Item_Controller',
+			'CoCart_Totals_Controller',
 			'CoCart_Products_Controller'
 		);
 
