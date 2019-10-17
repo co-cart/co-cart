@@ -1,6 +1,6 @@
 # [CoCart Lite](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 
-[![Financial Contributors on Open Collective](https://opencollective.com/co-cart/all/badge.svg?label=financial+contributors)](https://opencollective.com/co-cart) [![WordPress Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
+[![Financial Contributors on Open Collective](https://opencollective.com/cocart/all/badge.svg?label=financial+contributors)](https://opencollective.com/cocart) [![WordPress Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/cart-rest-api-for-woocommerce.svg?style=flat)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Tested Up To](https://img.shields.io/wordpress/v/cart-rest-api-for-woocommerce.svg?style=flat)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/r/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#reviews)
@@ -115,30 +115,23 @@ Thank you for your support! 🙌
 ### Code Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/co-cart/co-cart/graphs/contributors"><img src="https://opencollective.com/co-cart/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/co-cart/co-cart/graphs/contributors"><img src="https://opencollective.com/cocart/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors
 
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/co-cart/contribute)]
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/cocart/contribute)]
 
 #### Individuals
 
-<a href="https://opencollective.com/co-cart"><img src="https://opencollective.com/co-cart/individuals.svg?width=890"></a>
+<a href="https://opencollective.com/cocart"><img src="https://opencollective.com/cocart/individuals.svg?width=890"></a>
 
 #### Organizations
 
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/co-cart/contribute)]
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/cocart/contribute)]
 
-<a href="https://opencollective.com/co-cart/organization/0/website"><img src="https://opencollective.com/co-cart/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/1/website"><img src="https://opencollective.com/co-cart/organization/1/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/2/website"><img src="https://opencollective.com/co-cart/organization/2/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/3/website"><img src="https://opencollective.com/co-cart/organization/3/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/4/website"><img src="https://opencollective.com/co-cart/organization/4/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/5/website"><img src="https://opencollective.com/co-cart/organization/5/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/6/website"><img src="https://opencollective.com/co-cart/organization/6/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/7/website"><img src="https://opencollective.com/co-cart/organization/7/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/8/website"><img src="https://opencollective.com/co-cart/organization/8/avatar.svg"></a>
-<a href="https://opencollective.com/co-cart/organization/9/website"><img src="https://opencollective.com/co-cart/organization/9/avatar.svg"></a>
+<a href="https://opencollective.com/cocart/organization/0/website"><img src="https://opencollective.com/cocart/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/cocart/organization/1/website"><img src="https://opencollective.com/cocart/organization/1/avatar.svg"></a>
+
 
 ##### License
 
