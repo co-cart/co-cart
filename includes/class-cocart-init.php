@@ -224,8 +224,8 @@ class CoCart_Rest_API {
 			'CoCart_Calculate_Controller',
 			'CoCart_Count_Items_Controller',
 			'CoCart_Item_Controller',
-			'CoCart_Totals_Controller',
-			'CoCart_Products_Controller'
+			'CoCart_Products_Controller',
+			'CoCart_Totals_Controller'
 		);
 
 		foreach ( $controllers as $controller ) {
