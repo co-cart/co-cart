@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: "Create a \U0001F41B report to help us improve CoCart"
+about: "Create a \U0001F41B report to help me improve CoCart"
 title: ''
 labels: ''
 assignees: ''
