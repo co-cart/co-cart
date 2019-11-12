@@ -26,7 +26,7 @@ __Please Note:__ GitHub is for bug reports and contributions only - if you requi
 
 ## Code Documentation
 
-* Ensure that every endpoint is documented well and follows the standards set by WooCommerce
+* Ensure that every endpoint is documented well and follows the standards set by WordPress.
 * Finally, please use tabs and not spaces. The tab indent size should be 4.
 
 At this point you're waiting on me to merge your pull request. I'll review all pull requests, and make suggestions and changes if necessary.
