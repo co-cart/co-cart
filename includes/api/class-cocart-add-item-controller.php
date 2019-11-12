@@ -72,8 +72,8 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 					}
 				),
 				'refresh_totals' => array(
-					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
+					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item was updated.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => true,
 					'type'        => 'boolean',
 				)
 			)
