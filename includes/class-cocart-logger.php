@@ -42,7 +42,7 @@ class CoCart_Logger {
 			$context = array( 'source' => apply_filters( 'cocart_log_source', 'cocart-lite' ) );
 
 			if ( $plugin == 'cocart-lite' ) {
-				$log_entry = "\n" . '====CoCart Version: ' . COCART_VERSION . '====' . "\n";
+				$log_entry = "\n" . '====CoCart Lite Version: ' . COCART_VERSION . '====' . "\n";
 			} else if ( $plugin == 'cocart-pro' ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
 			}
