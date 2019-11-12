@@ -140,7 +140,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.0.3
+	 * @version 2.1.0
 	 */
 	private function maybe_load_cart() {
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
@@ -164,10 +164,12 @@ class CoCart_Rest_API {
 			 * session which may contain incomplete data.
 			 */
 			if ( is_null( WC()->customer ) ) {
+				$customer_id = strval( get_current_user_id() );
+
 				if ( is_user_logged_in() ) {
-					WC()->customer = new WC_Customer( get_current_user_id() );
+					WC()->customer = new WC_Customer( $customer_id );
 				} else {
-					WC()->customer = new WC_Customer( get_current_user_id(), true );
+					WC()->customer = new WC_Customer( $customer_id, true );
 				}
 
 				// Customer should be saved during shutdown.
