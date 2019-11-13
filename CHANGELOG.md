@@ -8,13 +8,13 @@
 * NEW: Added plugin details to WooCommerce System Status.
 * NEW: Added `uninstall.php` file to delete tables and options.
 * NEW: Able to transfer a cart from your headless store to the web.
-* Tweaked: Totals are now freshed by default when adding items.
+* Tweaked: Totals are now refreshed by default when adding items.
 * Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
 * Dev: Cart expiration can be filtered if the default 48 hours is not to your liking.
 * Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
 * Dev: Added filter to override the quantity when adding an item.
 * Dev: Added filter so other plugins can pass cart item data when adding an item.
-* Dev: Added filters so the returned error messages can be changed.
+* Dev: Added filters so the returned response messages can be changed.
 * Dev: Added conditional filter for returning a cart item.
 * Dev: Added a new class that handles logging errors.
 
