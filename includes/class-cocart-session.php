@@ -28,7 +28,7 @@ class CoCart_API_Session {
 	 *
 	 * @access public
 	 */
-	public function __construct() {
+	public function init() {
 		$this->cookie_name = 'cocart_cart_key';
 
 		// Generate a new unique key and store it in a cookie if adding the first item.
@@ -272,5 +272,3 @@ class CoCart_API_Session {
 	} // END clear_cart()
 
 } // END class
-
-return new CoCart_API_Session();
