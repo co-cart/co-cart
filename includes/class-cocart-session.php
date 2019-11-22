@@ -61,8 +61,10 @@ class CoCart_API_Session {
 			$value = apply_filters( 'cocart_customer_id', $this->generate_customer_id() );
 
 			if ( ! empty( $value ) ) {
+				if ( apply_filters( 'cocart_session_set_cookie', false ) ) {
 				// Set cookie with unique key.
 				wc_setcookie( $this->cookie_name, $value );
+				}
 
 				// Temporarily store the unique id generated in session.
 				WC()->session->set( 'cocart_key', $value );
