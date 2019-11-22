@@ -43,7 +43,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				),
 				'refresh_totals' => array(
 					'description' => __( 'Re-calculates the totals once item has been updated.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
+					'default'     => true,
 					'type'        => 'boolean',
 				),
 				'return_cart' => array(
@@ -81,7 +81,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -90,7 +90,19 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 		// Checks to see if the cart is empty before attempting to remove item.
 		if ( WC()->cart->is_empty() ) {
-			return new WP_Error( 'cocart_no_items', __( 'No items in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			$message = __( 'No items in cart.', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about no items in cart.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_no_items_message', $message );
+
+			return new WP_Error( 'cocart_no_items', $message, array( 'status' => 500 ) );
 		}
 
 		if ( $cart_item_key != '0' ) {
@@ -99,7 +111,19 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				return new WP_Error( 'cocart_item_not_in_cart', __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about item not in cart.
+				 *
+				 * @since 2.1.0
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'remove' );
+
+				return new WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
 			}
 
 			if ( WC()->cart->remove_cart_item( $cart_item_key ) ) {
@@ -114,10 +138,34 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 				return new WP_REST_Response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), 200 );
 			} else {
-				return new WP_Error( 'cocart_can_not_remove_item', __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				$message = __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about can not remove item.
+				 *
+				 * @since 2.1.0
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_can_not_remove_item_message', $message );
+
+				return new WP_Error( 'cocart_can_not_remove_item', $message, array( 'status' => 500 ) );
 			}
 		} else {
-			return new WP_Error( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about cart item key required.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'remove' );
+
+			return new WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 500 ) );
 		}
 	} // END remove_item()
 
@@ -126,7 +174,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -148,10 +196,34 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 				return new WP_REST_Response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), 200 );
 			} else {
-				return new WP_Error( 'cocart_can_not_restore_item', __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				$message = __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about can not restore item.
+				 *
+				 * @since 2.1.0
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_can_not_restore_item_message', $message );
+
+				return new WP_Error( 'cocart_can_not_restore_item', $message, array( 'status' => 500 ) );
 			}
 		} else {
-			return new WP_Error( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about cart item key required.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'restore' );
+
+			return new WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 500 ) );
 		}
 	} // END restore_item()
 
@@ -160,7 +232,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.1
+	 * @version 2.1.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -181,7 +253,19 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				return new WP_Error( 'cocart_item_not_in_cart', __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about cart item key required.
+				 *
+				 * @since 2.1.0
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
+
+				return new WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
 			}
 
 			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
@@ -228,12 +312,36 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					);
 				}
 
-				return new WP_REST_Response( apply_filters( 'cocart_update_item', $response, $new_data, $quantity ), 200 );
+				return new WP_REST_Response( apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data ), 200 );
 			} else {
-				return new WP_Error( 'cocart_can_not_update_item', __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+				$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about can not update item.
+				 *
+				 * @since 2.1.0
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_can_not_update_item_message', $message );
+
+				return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 500 ) );
 			}
 		} else {
-			return new WP_Error( 'cocart_cart_item_key_required', __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about cart item key required.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'update' );
+
+			return new WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 500 ) );
 		}
 	} // END update_item()
 

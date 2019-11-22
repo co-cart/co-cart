@@ -71,7 +71,19 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 		$return = ! empty( $data['return'] ) ? $data['return'] : '';
 
 		if ( $return != 'numeric' && $count <= 0 ) {
-			return new WP_REST_Response( __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' ), 200 );
+			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'notice' );
+
+			/**
+			 * Filters message about no items in the cart.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
+
+			return new WP_REST_Response( $message, 200 );
 		}
 
 		return $count;

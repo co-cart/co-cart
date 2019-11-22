@@ -56,9 +56,33 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 		if ( WC()->cart->is_empty() ) {
 			do_action( 'cocart_cart_cleared' );
 
-			return new WP_REST_Response( __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' ), 200 );
+			$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'notice' );
+
+			/**
+			 * Filters message about the cart being cleared.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_cart_cleared_message', $message );
+
+			return new WP_REST_Response( $message, 200 );
 		} else {
-			return new WP_Error( 'cocart_clear_cart_failed', __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about the cart failing to clear.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_clear_cart_failed_message', $message );
+
+			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 500 ) );
 		}
 	} // END clear_cart()
 
