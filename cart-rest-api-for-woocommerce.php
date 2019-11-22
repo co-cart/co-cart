@@ -241,6 +241,24 @@ if ( ! class_exists( 'CoCart' ) ) {
 			return $request;
 		} // END allow_cocart_requests_wc()
 
+		/**
+		 * Returns true if we are making a REST API request.
+		 *
+		 * @access public
+		 * @since  2.1.0
+		 * @return bool
+		 */
+		public function is_rest_api_request() {
+			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+				return false;
+			}
+
+			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
+			$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) );
+
+			return $is_rest_api_request;
+		} // END is_rest_api_request()
+
 	} // END class
 
 } // END if class exists
