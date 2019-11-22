@@ -5,12 +5,12 @@
  * Description: A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     2.1.0-beta.4
+ * Version:     2.1.0-beta.5
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * WC requires at least: 3.6.0
- * WC tested up to: 3.7.0
+ * WC tested up to: 3.8.0
  *
  * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
@@ -22,6 +22,32 @@ if ( ! class_exists( 'CoCart' ) ) {
 	class CoCart {
 
 		/**
+		 * Plugin Version
+		 *
+		 * @access public
+		 * @static
+		 * @since  1.0.0
+		 */
+		public static $version = '2.1.0-beta.5';
+
+		/**
+		 * Required WooCommerce Version
+		 *
+		 * @access  public
+		 * @static
+		 * @since   1.0.0
+		 * @version 2.1.0
+		 */
+		public static $required_woo = '3.6.0';
+
+		/**
+		 * API Session instance.
+		 *
+		 * @var CoCart_API_Session
+		 */
+		public $session = null;
+
+		/**
 		 * @var CoCart - the single instance of the class.
 		 *
 		 * @access protected
@@ -29,24 +55,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @since 1.0.0
 		 */
 		protected static $_instance = null;
-
-		/**
-		 * Plugin Version
-		 *
-		 * @access public
-		 * @static
-		 * @since  1.0.0
-		 */
-		public static $version = '2.1.0-beta.4';
-
-		/**
-		 * Required WooCommerce Version
-		 *
-		 * @access public
-		 * @static
-		 * @since  1.0.0
-		 */
-		public static $required_woo = '3.0.0';
 
 		/**
 		 * Main CoCart Instance.
@@ -121,7 +129,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.6
+		 * @version 2.1.0
 		 */
 		public function setup_constants() {
 			$this->define('COCART_VERSION', self::$version);
@@ -131,7 +139,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_URL_PATH', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 			$this->define('COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
-			$this->define('COCART_WP_VERSION_REQUIRE', '4.4');
+			$this->define('COCART_WP_VERSION_REQUIRE', '4.9');
 
 			$this->define('COCART_STORE_URL', 'https://cocart.xyz/');
 			$this->define('COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/');
@@ -141,7 +149,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_TRANSLATION_URL', 'https://translate.cocart.xyz');
 
 			$this->define('COCART_NEXT_VERSION', '2.1.0');
-			$this->define('COCART_NEXT_VERSION_DETAILS', 'https://cocart.xyz/cocart-v2-1-0-beta-4/');
+			$this->define('COCART_NEXT_VERSION_DETAILS', 'https://cocart.xyz/cocart-v2-1-0-beta-5/');
 		} // END setup_constants()
 
 		/**
