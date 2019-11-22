@@ -12,6 +12,8 @@
 * Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
 * Dev: Cart expiration can be filtered if the default 48 hours is not to your liking.
 * Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
+* Dev: Added filters to override the product name, product title and product price when getting the cart contents.
+* Dev: Added filter to override the source URL of the product thumbnail when getting the cart contents.
 * Dev: Added filter to override the quantity when adding an item.
 * Dev: Added filter so other plugins can pass cart item data when adding an item.
 * Dev: Added filters so the returned response messages can be changed.
