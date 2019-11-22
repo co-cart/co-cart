@@ -33,7 +33,7 @@ class CoCart_Logger {
 	 * @param string $plugin  - The CoCart plugin being logged.
 	 */
 	public static function log( $message, $type, $plugin = 'cocart-lite' ) {
-		if ( apply_filters( 'cocart_logging', true ) ) {
+		if ( apply_filters( 'cocart_logging', false ) ) {
 
 			if ( empty( self::$logger ) ) {
 				self::$logger = wc_get_logger();
