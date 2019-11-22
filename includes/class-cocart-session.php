@@ -32,7 +32,7 @@ class CoCart_API_Session {
 		$this->cookie_name = 'cocart_cart_key';
 
 		// Generate a new unique key and store it in a cookie if adding the first item.
-		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_generate_unique_id' ), 0 );
+		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_generate_unique_key' ), 0 );
 
 		// Update the saved cart data.
 		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_save_cart_data' ), 99 );
@@ -56,8 +56,7 @@ class CoCart_API_Session {
 	 *
 	 * @access public
 	 */
-	public function maybe_generate_unique_id() {
-		if ( ! isset( $_COOKIE[ $this->cookie_name ] ) ) {
+	public function maybe_generate_unique_key() {
 			$value = apply_filters( 'cocart_customer_id', $this->generate_customer_id() );
 
 			if ( ! empty( $value ) ) {
