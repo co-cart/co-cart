@@ -57,6 +57,9 @@ class CoCart_API_Session {
 	 * @access public
 	 */
 	public function maybe_generate_unique_key() {
+		$cart_key = WC()->session->get( 'cocart_key' );
+
+		if ( ! isset( $cart_key ) ) {
 			$value = apply_filters( 'cocart_customer_id', $this->generate_customer_id() );
 
 			if ( ! empty( $value ) ) {
