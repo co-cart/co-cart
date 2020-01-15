@@ -697,9 +697,11 @@ class CoCart_API_Controller {
         if ( $item_key ) {
           $item_added[] = WC()->cart->get_cart_item( $item_key );
         } else {
+          error_log("add_to_cart: Product bundle could not be added to cart - ".print_r(wc_get_notices(), true));
           return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $bundle_id ), array( 'status' => 500 ) );
         }
       } else {
+        error_log("add_to_cart: Product bundle invalid - ".print_r($product_bundled_configuration, true));
         return new WP_Error( 'cocart_cannot_add_to_cart', 'Your bundle ID and/or variation IDs are invalid. Make sure you add all of the items in your bundle.', array( 'status' => 500 ) );
       }
     }
