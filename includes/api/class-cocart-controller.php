@@ -559,8 +559,8 @@ class CoCart_API_Controller {
               // Add the variation to the Bundle Configuration if the variation ID matches one of those provided
               if ( in_array($variation_product['variation_id'], $variation_id_array) ) {
                 $product_bundled_configuration[$bundled_item_id] = array(
-                    'quantity' => $quantity,
                     'variation_id' => $variation_product['variation_id'],
+                    'quantity' => $quantity,
                     'attributes' => $variation_product["attributes"]
                   );
               }
@@ -569,8 +569,8 @@ class CoCart_API_Controller {
           } else {
             if ( $bundled_item->product->get_id() === $product_id ) {
               $product_bundled_configuration[$bundled_item_id] = array(
-                  'quantity' => $quantity,
-                  'product_id' => $bundled_item->product->get_id()
+                  'product_id' => $bundled_item->product->get_id(),
+                  'quantity' => $quantity
                 );
             }
           }
@@ -580,7 +580,7 @@ class CoCart_API_Controller {
 
     // Check each Variation ID provided and add them all to the cart
     foreach ( $variation_id_array as $variation_id ) {
-      $product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
+      $product_data = wc_get_product( $variation_id );
   
       if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
         return new WP_Error( 'cocart_product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
@@ -700,7 +700,7 @@ class CoCart_API_Controller {
           return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $bundle_id ), array( 'status' => 500 ) );
         }
       } else {
-        return new WP_Error( 'cocart_cannot_add_to_cart', 'Your bundle ID and/or variation IDs are invalid', array( 'status' => 500 ) );
+        return new WP_Error( 'cocart_cannot_add_to_cart', 'Your bundle ID and/or variation IDs are invalid. Make sure you add all of the items in your bundle.', array( 'status' => 500 ) );
       }
     }
 
