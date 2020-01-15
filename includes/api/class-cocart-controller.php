@@ -62,10 +62,17 @@ class CoCart_API_Controller {
 					}
 				),
 				'variation_id' => array(
-					'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'integer',
+					'description'       => __( 'Unique identifier or array of identifiers for the variation ID.', 'cart-rest-api-for-woocommerce' ),
 					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
+            $is_numeric = true;
+            if (is_array($param)) {
+              foreach ($param as $par) {
+                $is_numeric = $is_numeric && is_numeric( $par );
+              }
+            } else {
+              $is_numeric = $param;
+            }
+						return $is_numeric;
 					}
 				),
 				'variation' => array(
@@ -506,131 +513,208 @@ class CoCart_API_Controller {
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function add_to_cart( $data = array() ) {
-		$product_id     = ! isset( $data['product_id'] ) ? 0 : absint( $data['product_id'] );
-		$quantity       = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
-		$variation_id   = ! isset( $data['variation_id'] ) ? 0 : absint( $data['variation_id'] );
+    $product_id     = ! isset( $data['product_id'] ) ? 0 : absint( $data['product_id'] );
+    $quantity       = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+    $bundle_id      = ! isset( $data['bundle_id'] ) ? 0 : absint( $data['bundle_id'] );
 		$variation      = ! isset( $data['variation'] ) ? array() : $data['variation'];
 		$cart_item_data = ! isset( $data['cart_item_data'] ) ? array() : $data['cart_item_data'];
 
-		$item_added = array();
+    // Check if an array of variation_id's were provided. Else, build one
+    if (is_array($data['variation_id'])) {
+      $variation_id_array = array();
+      foreach($data['variation_id'] as $variation_id) {
+        $variation_id_array[] = ! isset( $variation_id ) ? 0 : absint( $variation_id );
+      }
+    } else {
+      $variation_id   = ! isset( $data['variation_id'] ) ? 0 : absint( $data['variation_id'] );
+      $variation_id_array = array($variation_id);
+    }
+    
+    $item_added = array();
+    $bundle_id_not_valid = true;
+    $this->validate_product( $product_id, $quantity );
 
-		$this->validate_product( $product_id, $quantity );
-
-		// Ensure we don't add a variation to the cart directly by variation ID.
+    // Product ID provided was actually a variation ID. Fix it now
 		if ( 'product_variation' === get_post_type( $product_id ) ) {
 			$variation_id = $product_id;
-			$product_id   = wp_get_post_parent_id( $variation_id );
-		}
+			$variation_id_array = array($variation_id);
+      $product_id   = wp_get_post_parent_id( $variation_id );
+    // Variation ID provided correctly, but lets find the parent
+		} else if ( 'product_variation' === get_post_type( $variation_id_array[0] ) ) {
+			$product_id   = wp_get_post_parent_id( $variation_id_array[0] );
+    }
+    
+    // Check if a bundle ID was provided and that it is valid
+    $product_bundled_configuration = array();
+		if ( 'product' === get_post_type( $bundle_id ) ) {
+      $bundle_data = wc_get_product( $bundle_id );
+      // Check that bundle_id corresponds to a Bundle Product
+      if ( 'bundle' === $bundle_data->get_type() ) {
+        // Loop through each item in the Bundle Product. We want to identify which of the items the user is trying to add
+			  foreach ( $bundle_data->get_bundled_items() as $bundled_item_id => $bundled_item ) {
 
-		$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
+          // For variable products, we have to loop all variations and find the matching variation_id
+          if ( 'variable' === $bundled_item->product->get_type() ) {
+            foreach ( $bundled_item->get_product_variations() as $variation_index => $variation_product ) {
+              // Add the variation to the Bundle Configuration if the variation ID matches one of those provided
+              if ( in_array($variation_product['variation_id'], $variation_id_array) ) {
+                $product_bundled_configuration[$bundled_item_id] = array(
+                    'quantity' => $quantity,
+                    'variation_id' => $variation_product['variation_id'],
+                    'attributes' => $variation_product["attributes"]
+                  );
+              }
+            }
+          // Add the product to the Bundle Configuration if the product ID matches the one provided
+          } else {
+            if ( $bundled_item->product->get_id() === $product_id ) {
+              $product_bundled_configuration[$bundled_item_id] = array(
+                  'quantity' => $quantity,
+                  'product_id' => $bundled_item->product->get_id()
+                );
+            }
+          }
+        }
+      }
+    }
 
-		if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
-			return new WP_Error( 'cocart_product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
-		}
+    // Check each Variation ID provided and add them all to the cart
+    foreach ( $variation_id_array as $variation_id ) {
+      $product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
+  
+      if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
+        return new WP_Error( 'cocart_product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+      }
+  
+      // Check if the variation was previously added to cart. Only applicable if not a bundle product
+      if (count($product_bundled_configuration) === 0) {
+        // Generate a ID based on product ID, variation ID, variation data, and other cart item data.
+        $cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+    
+        // Find the cart item key in the existing cart.
+        $cart_item_key = $this->find_product_in_cart( $cart_id );
+    
+        // Force quantity to 1 if sold individually and check for existing item in cart.
+        if ( $product_data->is_sold_individually() ) {
+          $quantity = 1;
+    
+          $cart_contents = $this->get_cart();
+    
+          $found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $cart_item_key && $cart_contents[ $cart_item_key ]['quantity'] > 0, $product_id, $variation_id, $cart_item_data, $cart_id );
+    
+          if ( $found_in_cart ) {
+            /* translators: %s: product name */
+            return new WP_Error( 'cocart_product_sold_individually', sprintf( __( 'You cannot add another "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+          }
+        }
+      }
+  
+      // Product is purchasable check.
+      if ( ! $product_data->is_purchasable() ) {
+        return new WP_Error( 'cocart_cannot_be_purchased', __( 'Sorry, this product cannot be purchased.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+      }
+  
+      // Stock check - only check if we're managing stock and backorders are not allowed.
+      if ( ! $product_data->is_in_stock() ) {
+        /* translators: %s: product name */
+        return new WP_Error( 'cocart_product_out_of_stock', sprintf( __( 'You cannot add "%s" to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+      }
+  
+      if ( ! $product_data->has_enough_stock( $quantity ) ) {
+        /* translators: 1: quantity requested, 2: product name, 3: quantity in stock */
+        return new WP_Error( 'cocart_not_enough_in_stock', sprintf( __( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ), $quantity, $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
+      }
+  
+      // Stock check - this time accounting for whats already in-cart.
+      if ( $product_data->managing_stock() ) {
+        $products_qty_in_cart = WC()->cart->get_cart_item_quantities();
+  
+        if ( isset( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] ) && ! $product_data->has_enough_stock( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] + $quantity ) ) {
+          /* translators: 1: quantity in stock, 2: quantity in cart */
+          return new WP_Error(
+            'cocart_not_enough_stock_remaining',
+            sprintf(
+              __( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
+              wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ),
+              wc_format_stock_quantity_for_display( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ], $product_data )
+            ),
+            array( 'status' => 500 )
+          );
+        }
+      }
 
-		// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
-		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+      $response  = apply_filters( 'cocart_ok_to_add_response', '', $product_data );
+      $ok_to_add = apply_filters( 'cocart_ok_to_add', true, $product_data );
 
-		// Find the cart item key in the existing cart.
-		$cart_item_key = $this->find_product_in_cart( $cart_id );
+      // If it is not OK to add the item, return an error response.
+      if ( ! $ok_to_add ) {
+        $error_msg = empty( $response ) ? __( 'This item can not be added to the cart.', 'cart-rest-api-for-woocommerce' ) : $response;
+  
+        return new WP_Error(
+          'cocart_not_ok_to_add_item', 
+          $error_msg, 
+          array( 'status' => 500 )
+        );
+      }
 
-		// Force quantity to 1 if sold individually and check for existing item in cart.
-		if ( $product_data->is_sold_individually() ) {
-			$quantity = 1;
+      $item_added = array();
+      // If not a Product Bundle, try adding this item to the cart
+      if (count($product_bundled_configuration) === 0) {
+        // If cart_item_key is set, then the item is already in the cart so just update the quantity.
+        if ( $cart_item_key ) {
+          $cart_contents = $this->get_cart( array( 'raw' => true ) );
 
-			$cart_contents = $this->get_cart();
+          $new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
 
-			$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $cart_item_key && $cart_contents[ $cart_item_key ]['quantity'] > 0, $product_id, $variation_id, $cart_item_data, $cart_id );
+          WC()->cart->set_quantity( $cart_item_key, $new_quantity, $data['refresh_totals'] );
 
-			if ( $found_in_cart ) {
-				/* translators: %s: product name */
-				return new WP_Error( 'cocart_product_sold_individually', sprintf( __( 'You cannot add another "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
-			}
-		}
+          $item_added = WC()->cart->get_cart_item( $cart_item_key );
+        } else {
+          // Add item to cart.
+          $item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
 
-		// Product is purchasable check.
-		if ( ! $product_data->is_purchasable() ) {
-			return new WP_Error( 'cocart_cannot_be_purchased', __( 'Sorry, this product cannot be purchased.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
-		}
+          // Return response to added item to cart or return error.
+          if ( $item_key ) {
 
-		// Stock check - only check if we're managing stock and backorders are not allowed.
-		if ( ! $product_data->is_in_stock() ) {
-			/* translators: %s: product name */
-			return new WP_Error( 'cocart_product_out_of_stock', sprintf( __( 'You cannot add "%s" to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
-		}
+            $item_added[] = WC()->cart->get_cart_item( $item_key );
 
-		if ( ! $product_data->has_enough_stock( $quantity ) ) {
-			/* translators: 1: quantity requested, 2: product name, 3: quantity in stock */
-			return new WP_Error( 'cocart_not_enough_in_stock', sprintf( __( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ), $quantity, $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
-		}
+            do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
+          } else {
+            /* translators: %s: product name */
+            return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+          }
+        }
 
-		// Stock check - this time accounting for whats already in-cart.
-		if ( $product_data->managing_stock() ) {
-			$products_qty_in_cart = WC()->cart->get_cart_item_quantities();
+      }
+    }
 
-			if ( isset( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] ) && ! $product_data->has_enough_stock( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] + $quantity ) ) {
-				/* translators: 1: quantity in stock, 2: quantity in cart */
-				return new WP_Error(
-					'cocart_not_enough_stock_remaining',
-					sprintf(
-						__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
-						wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ),
-						wc_format_stock_quantity_for_display( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ], $product_data )
-					),
-					array( 'status' => 500 )
-				);
-			}
-		}
+    // Product Bundle Configuration was constructed. Validate it and add to cart
+    if (count($product_bundled_configuration) > 0) {
 
-		$response  = apply_filters( 'cocart_ok_to_add_response', '', $product_data );
-		$ok_to_add = apply_filters( 'cocart_ok_to_add', true, $product_data );
+      $bundle_is_valid = WC_PB()->cart->validate_bundle_configuration($bundle_id , $quantity, $product_bundled_configuration);
+      if ($bundle_is_valid) {
+        $item_key = WC_PB()->cart->add_bundle_to_cart( $bundle_id , $quantity, $product_bundled_configuration, $cart_item_data );
+        if ( $item_key ) {
+          $item_added[] = WC()->cart->get_cart_item( $item_key );
+        } else {
+          return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $bundle_id ), array( 'status' => 500 ) );
+        }
+      } else {
+        return new WP_Error( 'cocart_cannot_add_to_cart', 'Your bundle ID and/or variation IDs are invalid', array( 'status' => 500 ) );
+      }
+    }
 
-		// If it is not OK to add the item, return an error response.
-		if ( ! $ok_to_add ) {
-			$error_msg = empty( $response ) ? __( 'This item can not be added to the cart.', 'cart-rest-api-for-woocommerce' ) : $response;
-
-			return new WP_Error(
-				'cocart_not_ok_to_add_item', 
-				$error_msg, 
-				array( 'status' => 500 )
-			);
-		}
-
-		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
-		if ( $cart_item_key ) {
-			$cart_contents = $this->get_cart( array( 'raw' => true ) );
-
-			$new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
-
-			WC()->cart->set_quantity( $cart_item_key, $new_quantity, $data['refresh_totals'] );
-
-			$item_added = WC()->cart->get_cart_item( $cart_item_key );
-		} else {
-			// Add item to cart.
-			$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
-
-			// Return response to added item to cart or return error.
-			if ( $item_key ) {
-				// Re-calculate cart totals once item has been added.
-				if ( $data['refresh_totals'] ) {
-					WC()->cart->calculate_totals();
-				}
-
-				$item_added = WC()->cart->get_cart_item( $item_key );
-
-				do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
-			} else {
-				/* translators: %s: product name */
-				return new WP_Error( 'cocart_cannot_add_to_cart', sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
-			}
-		}
+    // Re-calculate cart totals once item has been added.
+    if ( $data['refresh_totals'] ) {
+      WC()->cart->calculate_totals();
+    }
 
 		$response = '';
 
 		// Was it requested to return the whole cart once item added?
 		if ( $data['return_cart'] ) {
 			$response = $this->get_cart_contents( $data );
-		} else if ( is_array( $item_added ) ) {
+		} else if ( count( $item_added ) > 0 ) {
 			$response = $item_added;
 		}
 
