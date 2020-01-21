@@ -560,7 +560,7 @@ class CoCart_API_Controller {
               if ( in_array($variation_product['variation_id'], $variation_id_array) ) {
                 $product_bundled_configuration[$bundled_item_id] = array(
                     'variation_id' => $variation_product['variation_id'],
-                    'quantity' => $quantity,
+                    'quantity' => 1,
                     'attributes' => $variation_product["attributes"]
                   );
               }
@@ -570,7 +570,7 @@ class CoCart_API_Controller {
             if ( $bundled_item->product->get_id() === $product_id ) {
               $product_bundled_configuration[$bundled_item_id] = array(
                   'product_id' => $bundled_item->product->get_id(),
-                  'quantity' => $quantity
+                  'quantity' => 1
                 );
             }
           }
