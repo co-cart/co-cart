@@ -47,6 +47,8 @@ I was expecting to see...
 - [ ] This bug happens with a default WordPress theme active.
 - [ ] This bug happens with the WordPress theme Storefront active.
 - [ ] This bug happens with the latest release of WooCommerce active.
+- [ ] This bug happens only when I authenticate as a customer.
+- [ ] This bug happens only when I authenticate as administrator.
 - [ ] I can reproduce this bug consistently using the steps above.
 
 
