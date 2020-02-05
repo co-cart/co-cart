@@ -115,12 +115,17 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.0.2
+		 * @version 2.1.0
 		 * @param   string $plugin The activate plugin name.
 		 */
 		public static function redirect_getting_started( $plugin ) {
-			// Prevent redirect if plugin name does not match.
-			if ( $plugin !== plugin_basename( COCART_FILE ) ) {
+			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
+			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
+				return;
+			}
+
+			// If CoCart has already been installed before then don't redirect.
+			if ( ! empty( get_option( 'cocart_version' ) ) || ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
 				return;
 			}
 
