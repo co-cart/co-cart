@@ -111,7 +111,6 @@ module.exports = function(grunt) {
 					domainPath: 'languages',                                  // Where to save the POT file.
 					exclude: [
 						'releases',
-						'woo-dependencies/.*',
 						'node_modules'
 					],
 					mainFile: '<%= pkg.name %>.php', // Main project file.
