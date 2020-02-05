@@ -99,7 +99,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Don't bug the user if they don't want to see any notices.
 		 *
 		 * @access  public
-		 * @version 1.2.3
+		 * @version 2.1.0
 		 * @global  $current_user
 		 */
 		public function dont_bug_me() {
@@ -115,13 +115,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			// If the user is allowed to install plugins and requested to dismiss upgrade notice then hide it 2 weeks.
 			if ( ! empty( $_GET['hide_cocart_upgrade_notice'] ) && current_user_can( 'install_plugins' ) ) {
-				set_transient( 'cocart_upgrade_notice_hidden', 'hidden', WEEK_IN_SECONDS * 2 );
+				set_transient( 'cocart_upgrade_notice_hidden', 'hidden', apply_filters( 'cocart_upgrade_notice_expiration', WEEK_IN_SECONDS * 2 ) );
 				$user_hidden_notice = true;
 			}
 
 			// If the user is allowed to install plugins and requested to dimiss beta notice then hide it for 1 week.
 			if ( ! empty( $_GET['hide_cocart_beta_notice'] ) && current_user_can( 'install_plugins' ) ) {
-				set_transient( 'cocart_beta_notice_hidden', 'hidden', WEEK_IN_SECONDS );
+				set_transient( 'cocart_beta_notice_hidden', 'hidden', apply_filters( 'cocart_beta_notice_expiration', WEEK_IN_SECONDS ) );
 				$user_hidden_notice = true;
 			}
 
