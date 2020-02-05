@@ -234,11 +234,11 @@ class CoCart_API_Controller {
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
 
 			// Adds the product name and title as new variables.
-			$cart_contents[$item_key]['product_name']  = $_product->get_name();
-			$cart_contents[$item_key]['product_title'] = $_product->get_title();
+			$cart_contents[$item_key]['product_name']  = apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key );
+			$cart_contents[$item_key]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
 
 			// Add product price as a new variable.
-			$cart_contents[$item_key]['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
+			$cart_contents[$item_key]['product_price'] = apply_filters( 'cocart_product_price', html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) ), $_product, $cart_item, $item_key );
 
 			// If main product thumbnail is requested then add it to each item in cart.
 			if ( $show_thumb ) {
@@ -246,8 +246,16 @@ class CoCart_API_Controller {
 
 				$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
 
+				/**
+				 * Filters the source of the product thumbnail.
+				 *
+				 * @since 2.1.0
+				 * @param string $thumbnail_src URL of the product thumbnail.
+				 */
+				$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
+
 				// Add main product image as a new variable.
-				$cart_contents[$item_key]['product_image'] = esc_url( $thumbnail_src[0] );
+				$cart_contents[$item_key]['product_image'] = esc_url( $thumbnail_src );
 			}
 
 			// This filter allows additional data to be returned for a specific item in cart.
