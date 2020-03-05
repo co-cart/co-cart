@@ -159,7 +159,20 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 			if ( $found_in_cart ) {
 				/* translators: %s: product name */
-				return new WP_Error( 'cocart_product_sold_individually', sprintf( __( 'You cannot add another "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+				$message = sprintf( __( 'You cannot add another "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about product not being allowed to add another.
+				 *
+				 * @since 2.1.0
+				 * @param string     $message Message.
+				 * @param WC_Product $product_data Product data.
+				 */
+				$message = apply_filters( 'cocart_product_can_not_add_another_message', $message, $product_data );
+
+				return new WP_Error( 'cocart_product_sold_individually', $message, array( 'status' => 500 ) );
 			}
 		}
 
