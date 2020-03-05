@@ -169,10 +169,12 @@ class CoCart_Rest_API {
 
 				$customer_id = strval( get_current_user_id() );
 
-				if ( is_user_logged_in() ) {
-					WC()->customer = new WC_Customer( $customer_id );
+
+				// If the ID is not ZERO, then the user is logged in.
+				if ( $customer_id > 0 ) {
+					WC()->customer = new WC_Customer( $customer_id ); // Loads from database.
 				} else {
-					WC()->customer = new WC_Customer( $customer_id, true );
+					WC()->customer = new WC_Customer( $customer_id, true ); // Loads from session.
 				}
 
 				// Customer should be saved during shutdown.
