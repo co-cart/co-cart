@@ -233,33 +233,50 @@ class CoCart_API_Controller {
 
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
 
-			// Adds the product name and title as new variables.
-			$cart_contents[$item_key]['product_name']  = apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key );
-			$cart_contents[$item_key]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
-
-			// Add product price as a new variable.
-			$cart_contents[$item_key]['product_price'] = apply_filters( 'cocart_product_price', html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) ), $_product, $cart_item, $item_key );
-
-			// If main product thumbnail is requested then add it to each item in cart.
-			if ( $show_thumb ) {
-				$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
-
-				$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
+			// If product is no longer purchasable then don't return it and notify customer.
+			if ( ! $_product->is_purchasable() ) {
+				/* translators: %s: product name */
+				$message = sprintf( __( '%s has been removed from your cart because it can no longer be purchased. Please contact us if you need assistance.', 'cart-rest-api-for-woocommerce' ), $_product->get_name() );
 
 				/**
-				 * Filters the source of the product thumbnail.
+				 * Filter message about item removed from the cart.
 				 *
 				 * @since 2.1.0
-				 * @param string $thumbnail_src URL of the product thumbnail.
+				 * @param string     $message Message.
+				 * @param WC_Product $_product Product data.
 				 */
-				$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
+				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
 
-				// Add main product image as a new variable.
-				$cart_contents[$item_key]['product_image'] = esc_url( $thumbnail_src );
+				wc_add_notice( $message, 'error' );
+			} else {
+				// Adds the product name and title as new variables.
+				$cart_contents[ $item_key ]['product_name']  = apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key );
+				$cart_contents[ $item_key ]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
+
+				// Add product price as a new variable.
+				$cart_contents[ $item_key ]['product_price'] = apply_filters( 'cocart_product_price', html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) ), $_product, $cart_item, $item_key );
+
+				// If main product thumbnail is requested then add it to each item in cart.
+				if ( $show_thumb ) {
+					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
+
+					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
+
+					/**
+					 * Filters the source of the product thumbnail.
+					 *
+					 * @since 2.1.0
+					 * @param string $thumbnail_src URL of the product thumbnail.
+					 */
+					$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
+
+					// Add main product image as a new variable.
+					$cart_contents[ $item_key ]['product_image'] = esc_url( $thumbnail_src );
+				}
+
+				// This filter allows additional data to be returned for a specific item in cart.
+				$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents, $item_key, $cart_item, $_product );
 			}
-
-			// This filter allows additional data to be returned for a specific item in cart.
-			$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents, $item_key, $cart_item, $_product );
 		}
 
 		// The cart contents is returned and can be filtered.
