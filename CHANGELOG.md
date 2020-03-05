@@ -1,8 +1,7 @@
 # Changelog for CoCart Lite
 
-## v2.1.0 - ?? November, 2019
+## v2.1.0 - ?? March, 2020
 
-* NEW: Added a new endpoint for fetching products or a singular product in READ-ONLY. No authentication required.
 * NEW: Added support for guest carts.
 * NEW: Cart data are stored in a new database table.
 * NEW: Added plugin details to WooCommerce System Status.
