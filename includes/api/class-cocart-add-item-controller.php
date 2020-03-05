@@ -178,7 +178,20 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		// Product is purchasable check.
 		if ( ! $product_data->is_purchasable() ) {
-			return new WP_Error( 'cocart_cannot_be_purchased', __( 'Sorry, this product cannot be purchased.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			$message = __( 'Sorry, this product cannot be purchased.', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about product unable to be purchased.
+			 *
+			 * @since 2.1.0
+			 * @param string     $message Message.
+			 * @param WC_Product $product_data Product data.
+			 */
+			$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product_data );
+
+			return new WP_Error( 'cocart_cannot_be_purchased', $message, array( 'status' => 500 ) );
 		}
 
 		// Stock check - only check if we're managing stock and backorders are not allowed.
