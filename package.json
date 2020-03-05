@@ -21,10 +21,10 @@
 	"requires_php": "5.6",
 	"tested_up_to": "5.3.0",
 	"wc_requires": "3.6.0",
-	"wc_tested_up_to": "3.8.0",
+	"wc_tested_up_to": "3.9.3",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2019, Sébastien Dumont",
-	"description": "A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.",
+	"copyright": "Copyright (c) 2020, Sébastien Dumont",
+	"description": "CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.",
 	"tags": "",
 	"keywords": [
 		"woocommerce",
