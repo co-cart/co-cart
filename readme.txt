@@ -4,12 +4,11 @@ Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
-Requires at least: 4.9.8
+Requires at least: 4.9
 Requires PHP: 5.6
-Tested up to: 5.2.3
-Stable tag: 2.0.6
+Tested up to: 5.3.0
 WC requires at least: 3.6.0
-WC tested up to: 3.7.0
+WC tested up to: 3.9.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -37,7 +36,6 @@ CoCart. The fastest and easiest way to building headless WooCommerce stores.
 
 = Features =
 
-* NEW: Retrieve products or a single product.
 * NEW: Guest carts are supported.
 * Add products to the cart.
 * Update items in the cart.
@@ -189,9 +187,8 @@ Stop the presses. 📰 You can now access products without authentication. 😄
 
 == Changelog ==
 
-= v2.1.0 - ?? October, 2019 =
+= v2.1.0 - ?? March, 2020 =
 
-* NEW: Added a new endpoint for fetching products or a singular product in READ-ONLY. No authentication required.
 * NEW: Added support for guest carts.
 * NEW: Cart data are stored in a new database table.
 * NEW: Added plugin details to WooCommerce System Status.

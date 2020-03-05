@@ -10,11 +10,11 @@
 **Contributors:** sebd86  
 **Donate link:** https://opencollective.com/cocart  
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
-**Requires at least:** 4.9.8  
+**Requires at least:** 4.9  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.2.3  
+**Tested up to:** 5.3.0  
 **WC requires at least:** 3.6.0  
-**WC tested up to:** 3.7.0  
+**WC tested up to:** 3.9.3  
 **Stable tag:** 2.0.6  
 **License:** GPL v2 or later  
 
@@ -32,8 +32,7 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 
 ## Features
 
-* NEW: Retrieve products or a single product.
-* NEW: Guest carts are supported.
+* NEW: Guest carts are now fully supported.
 * Add products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
@@ -64,7 +63,7 @@ This plugin is just the tip of the iceberg. Want the full cart experience? CoCar
 
 ### 📖 Documentation
 
-[View documentation for CoCart](https://docs.cocart.xyz/). If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
+[View documentation for CoCart](https://docs.cocart.xyz/). If you are interested to share on how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/.github/CONTRIBUTING.md).
 
 #### 💽 Installation
 
