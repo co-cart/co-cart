@@ -10,7 +10,7 @@
  * Domain Path: /languages/
  *
  * WC requires at least: 3.6.0
- * WC tested up to: 3.8.0
+ * WC tested up to: 3.9.3
  *
  * Copyright: © 2020 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
