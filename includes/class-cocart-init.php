@@ -164,6 +164,9 @@ class CoCart_Rest_API {
 			 * session which may contain incomplete data.
 			 */
 			if ( is_null( WC()->customer ) ) {
+				// Disable cookie authentication check.
+				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
+
 				$customer_id = strval( get_current_user_id() );
 
 				if ( is_user_logged_in() ) {
