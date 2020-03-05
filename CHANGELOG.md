@@ -7,7 +7,10 @@
 * NEW: Added plugin details to WooCommerce System Status.
 * NEW: Added `uninstall.php` file to delete tables and options.
 * NEW: Able to transfer a cart from your headless store to the web.
+* Tweaked: Products that are no longer purchasable and are in cart do not return.
 * Tweaked: Totals are now refreshed by default when adding items.
+* Tweaked: Stop redirect to getting started page if plugin was reactivated if already installed before.
+* Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
 * Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
 * Dev: Cart expiration can be filtered if the default 48 hours is not to your liking.
 * Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
@@ -18,6 +21,7 @@
 * Dev: Added filters so the returned response messages can be changed.
 * Dev: Added conditional filter for returning a cart item.
 * Dev: Added a new class that handles logging errors.
+* Dev: Added filters to admin notices to extend the length of time they hide.
 
 > Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
 > This release is a work in progress and requires developer feedback.
