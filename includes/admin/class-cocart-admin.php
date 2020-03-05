@@ -107,6 +107,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @return array
 		 */
 		public static function is_cocart_pro_installed() {
 			$active_plugins = (array) get_option( 'active_plugins', array() );
@@ -120,7 +121,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 		/**
 		 * These are the only screens CoCart will focus 
-		 * on displaying notices or equeue scripts/styles.
+		 * on displaying notices or enqueue scripts/styles.
 		 *
 		 * @access  public
 		 * @static
@@ -153,6 +154,23 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			return false;
 		} // END is_cocart_beta()
+
+		/**
+		 * Checks if the current user has the capabilities to install a plugin.
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.1.0
+		 * @return bool
+		 */
+		public static function user_has_capabilities() {
+			if ( current_user_can( apply_filters( 'cocart_install_capability', 'install_plugins' ) ) ) {
+				return true;
+			}
+
+			// If the current user can not install plugins then return nothing!
+			return false;
+		} // END user_has_capabilities()
 
 		/**
 		 * Seconds to words.
