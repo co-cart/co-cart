@@ -2,7 +2,7 @@
 /*
  * Plugin Name: CoCart
  * Plugin URI:  https://cocart.xyz
- * Description: A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
+ * Description: CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
  * Version:     2.1.0-beta.5
@@ -12,7 +12,7 @@
  * WC requires at least: 3.6.0
  * WC tested up to: 3.8.0
  *
- * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
+ * Copyright: © 2020 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
