@@ -121,7 +121,23 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $cart_item_data );
 
 		if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
-			return new WP_Error( 'cocart_product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			if ( $product_data ) {
+				$message = sprintf( __( 'Product "%s" either does not exist or something is preventing it from being added!', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
+			} else {
+				$message = __( 'This product does not exist!', 'cart-rest-api-for-woocommerce' );
+		}
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about product does not exist.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_product_does_not_exist_message', $message );
+
+			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 500 ) );
 		}
 
 		// Load cart item data - may be added by other plugins.
