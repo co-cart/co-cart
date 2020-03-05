@@ -197,7 +197,20 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		// Stock check - only check if we're managing stock and backorders are not allowed.
 		if ( ! $product_data->is_in_stock() ) {
 			/* translators: %s: product name */
-			return new WP_Error( 'cocart_product_out_of_stock', sprintf( __( 'You cannot add "%s" to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ), array( 'status' => 500 ) );
+			$message = sprintf( __( 'You cannot add "%s" to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about product is out of stock.
+			 *
+			 * @since 2.1.0
+			 * @param string     $message Message.
+			 * @param WC_Product $product_data Product data.
+			 */
+			$message = apply_filters( 'cocart_product_is_out_of_stock_message', $message, $product_data );
+
+			return new WP_Error( 'cocart_product_out_of_stock', $message, array( 'status' => 500 ) );
 		}
 
 		if ( ! $product_data->has_enough_stock( $quantity ) ) {
