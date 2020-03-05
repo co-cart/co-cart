@@ -203,7 +203,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @return void
 		 */
 		public function initialize_session() {
-			if ( is_null( $this->session ) && $this->is_rest_api_request() ) {
+			if ( is_null( $this->session ) && $this->is_rest_api_request() && class_exists( 'CoCart_API_Session' ) ) {
 				$this->session = new CoCart_API_Session();
 				$this->session->init();
 			}
