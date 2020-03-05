@@ -215,6 +215,8 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		if ( ! $product_data->has_enough_stock( $quantity ) ) {
 			/* translators: 1: quantity requested, 2: product name, 3: quantity in stock */
+			CoCart_Logger::log( $message, 'error' );
+
 			return new WP_Error( 'cocart_not_enough_in_stock', sprintf( __( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ), $quantity, $product_data->get_name(), wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data ) ), array( 'status' => 500 ) );
 		}
 
@@ -224,6 +226,9 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 			if ( isset( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] ) && ! $product_data->has_enough_stock( $products_qty_in_cart[ $product_data->get_stock_managed_by_id() ] + $quantity ) ) {
 				/* translators: 1: quantity in stock, 2: quantity in cart */
+
+				CoCart_Logger::log( $message, 'error' );
+
 				return new WP_Error(
 					'cocart_not_enough_stock_remaining',
 					sprintf(
@@ -243,11 +248,9 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		if ( ! $ok_to_add ) {
 			$error_msg = empty( $response ) ? __( 'This item can not be added to the cart.', 'cart-rest-api-for-woocommerce' ) : $response;
 
-			return new WP_Error(
-				'cocart_not_ok_to_add_item', 
-				$error_msg, 
-				array( 'status' => 500 )
-			);
+			CoCart_Logger::log( $error_msg, 'error' );
+
+			return new WP_Error( 'cocart_not_ok_to_add_item', $error_msg, array( 'status' => 500 ) );
 		}
 
 		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
