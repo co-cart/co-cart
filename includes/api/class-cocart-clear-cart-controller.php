@@ -51,7 +51,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 */
 	public function clear_cart() {
 		WC()->cart->empty_cart( true ); // Clears the cart deletes persistent cart permanently.
-		WC()->session->set('cart', array()); // Empty the session cart data.
+		//WC()->session->set('cart', array()); // Empty the session cart data.
 
 		if ( WC()->cart->is_empty() ) {
 			do_action( 'cocart_cart_cleared' );
