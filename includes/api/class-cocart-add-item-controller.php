@@ -125,7 +125,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				$message = sprintf( __( 'Product "%s" either does not exist or something is preventing it from being added!', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
 			} else {
 				$message = __( 'This product does not exist!', 'cart-rest-api-for-woocommerce' );
-		}
+			}
 
 			CoCart_Logger::log( $message, 'error' );
 
