@@ -108,6 +108,18 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
+		/**
+		 * Filters the quantity for specified products.
+		 *
+		 * @since 2.1.0
+		 * @param int   $quantity       - The original quantity of the item.
+		 * @param int   $product_id     - The product ID.
+		 * @param int   $variation_id   - The variation ID.
+		 * @param array $variation      - The variation data.
+		 * @param array $cart_item_data - The cart item data.
+		 */
+		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $cart_item_data );
+
 		if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
 			return new WP_Error( 'cocart_product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
