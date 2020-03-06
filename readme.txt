@@ -60,15 +60,7 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 
 = Extensions supported =
 
-CoCart also works well with official WooCommerce extensions such as:
-
-* [Bookings](https://woocommerce.com/products/woocommerce-bookings/)
-* [Name Your Price](https://woocommerce.com/products/name-your-price/)
-* [Points and Rewards](https://woocommerce.com/products/woocommerce-points-and-rewards/)
-* [Pre-Orders](https://woocommerce.com/products/woocommerce-pre-orders/)
-* [Product Add-ons](https://woocommerce.com/products/product-add-ons/)
-
-More extensions are supported in CoCart Pro:
+CoCart Pro supports:
 
 * [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
 * and more coming soon.
