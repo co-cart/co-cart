@@ -175,7 +175,7 @@ WooCommerce's authentication method is supported again.
 
 = v2.0.8 - 6th March, 2020 =
 
-* Dev: Added filter to empty cart response so developers can use as they see fit.
+* Dev: Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.
 
 = v2.0.7 - 5th March, 2020 =
 
