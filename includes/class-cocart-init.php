@@ -153,7 +153,7 @@ class CoCart_Rest_API {
 			}
 
 			if ( null === WC()->session ) {
-				$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+				$session_class = 'WC_Session_Handler';
 
 				// Prefix session class with global namespace if not already namespaced
 				if ( false === strpos( $session_class, '\\' ) ) {
