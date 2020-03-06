@@ -184,6 +184,7 @@ WooCommerce's authentication method is supported again.
 = v2.0.7 - 5th March, 2020 =
 
 * Disabled: Cookie authentication REST check, only if site is secure when authenticating the basic method.
+* Tested: Compatible with WooCommerce v3.9
 
 > The cookie check is only disabled when making a request with CoCart.
 
