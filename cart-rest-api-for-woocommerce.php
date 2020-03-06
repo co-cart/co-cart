@@ -5,14 +5,14 @@
  * Description: CoCart enables the shopping cart via the REST API for WooCommerce.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     2.0.7
+ * Version:     2.0.8
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * WC requires at least: 3.6.0
  * WC tested up to: 3.9.3
  *
- * Copyright: © 2019 Sébastien Dumont, (mailme@sebastiendumont.com)
+ * Copyright: © 2020 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,7 +37,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '2.0.7';
+		public static $version = '2.0.8';
 
 		/**
 		 * Required WooCommerce Version

@@ -1,9 +1,15 @@
 # Changelog for CoCart
 
+## v2.0.8 - 6th March, 2020
+
+* Dev: Added filter to empty cart response so developers can use as they see fit.
+
 ## v2.0.7 - 5th March, 2020
 
 * Disabled: Cookie authentication REST check, only if site is secure when authenticating the basic method.
-* Tested: Compatible with WooCommerce v3.9
+* Removed: Filter for session class handler as we need it to be untouched.
+* Tested: Compatible with WooCommerce v3.9.x
+* Tweaked: Use `get_current_user_id()` instead of `is_user_logged_in()` to check if user is logged in.
 
 > The cookie check is only disabled when making a request with CoCart.
 

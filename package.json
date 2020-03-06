@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.0.7",
+	"version": "2.0.8",
 	"private": false,
 	"contributors": [
 		"sebd86"
@@ -23,7 +23,7 @@
 	"wc_requires": "3.6.0",
 	"wc_tested_up_to": "3.9.3",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2019, Sébastien Dumont",
+	"copyright": "Copyright (c) 2020, Sébastien Dumont",
 	"description": "CoCart enables the shopping cart via the REST API for WooCommerce.",
 	"tags": "",
 	"keywords": [

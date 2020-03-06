@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    2.0.0
+ * @version  2.0.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -285,16 +286,24 @@ class CoCart_API_Controller {
 	/**
 	 * Return cart contents.
 	 *
-	 * @access public
-	 * @since  2.0.0
-	 * @param  array  $cart_contents
-	 * @param  array  $data
-	 * @param  string $cart_item_key
-	 * @return array  $cart_contents
+	 * @access  public
+	 * @since   2.0.0
+	 * @version 2.0.8
+	 * @param   array  $cart_contents
+	 * @param   array  $data
+	 * @param   string $cart_item_key
+	 * @return  array  $cart_contents
 	 */
 	public function return_cart_contents( $cart_contents, $data = array(), $cart_item_key = '' ) {
 		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
-			return array();
+			/**
+			 * Filter response for empty cart.
+			 *
+			 * @since 2.0.8
+			 */
+			$empty_cart = apply_filters( 'cocart_return_empty_cart', array() );
+
+			return $empty_cart;
 		}
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
