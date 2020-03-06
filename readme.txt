@@ -4,12 +4,12 @@ Plugin URI: https://cocart.xyz
 Contributors: sebd86
 Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
-Requires at least: 4.9.8
+Requires at least: 4.9
 Requires PHP: 5.6
-Tested up to: 5.2.3
-Stable tag: 2.0.6
+Tested up to: 5.3.2
+Stable tag: 2.0.7
 WC requires at least: 3.6.0
-WC tested up to: 3.7.0
+WC tested up to: 3.9.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,23 +17,17 @@ A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 == Description ==
 
-Building a headless store with the current WooCommerce REST API is kind of great, except, it’s missing one side of a store. The front side. 👕
+CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for [WooCommerce](https://wordpress.org/plugins/woocommerce/).
 
-See when your building a headless store, you want the ability to display your products so your customers can add them to the cart, 🛒 without the authentication roadblocks. 🔓 No need to force customers to register first. 🖊
+With [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart), running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
 
-So when you request to show your products in your app. Look! Your products are showing! 😀
+= Why should I use CoCart? =
 
-But when your building a headless store with WooCommerce’s REST API, your only options are for the backend, not the frontend. 😭
+WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the stores customers access to the products in order to add them to the shopping cart.
 
-It’s hard to build a store that way.
+If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
 
-Now there’s [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart). With CoCart you can build your headless store with the right REST API, for the frontend.
-
-So if you want to display products by a category, go ahead, you can do it. 👍 All requests can be made in any code language and everything is completely customizable from the parameters, filters and action hooks.
-
-So now building a headless WooCommerce store really is possible, only a whole lot easier.
-
-CoCart. The fastest and easiest way to building headless WooCommerce stores.
+With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how to enable the cart for your store in no time.
 
 = Features =
 
@@ -186,6 +180,12 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 WooCommerce's authentication method is supported again.
 
 == Changelog ==
+
+= v2.0.7 - 5th March, 2020 =
+
+* Disabled: Cookie authentication REST check, only if site is secure when authenticating the basic method.
+
+> The cookie check is only disabled when making a request with CoCart.
 
 = v2.0.6 - 1st October, 2019 =
 

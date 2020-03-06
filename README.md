@@ -10,12 +10,12 @@
 **Contributors:** sebd86  
 **Donate link:** https://opencollective.com/cocart  
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
-**Requires at least:** 4.9.8  
+**Requires at least:** 4.9  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.2.3  
+**Tested up to:** 5.3.2  
 **WC requires at least:** 3.6.0  
-**WC tested up to:** 3.7.0  
-**Stable tag:** 2.0.6  
+**WC tested up to:** 3.9.3  
+**Stable tag:** 2.0.7  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview

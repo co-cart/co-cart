@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v2.0.7 - 5th March, 2020
+
+* Disabled: Cookie authentication REST check, only if site is secure when authenticating the basic method.
+
+> The cookie check is only disabled when making a request with CoCart.
+
 ## v2.0.6 - 1st October, 2019
 
 * Added: Link to translate CoCart on the plugin row.

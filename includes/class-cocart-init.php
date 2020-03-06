@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    1.0.0
- * @version  2.0.0
+ * @version  2.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -140,12 +140,17 @@ class CoCart_Rest_API {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.0.3
+	 * @version 2.0.7
 	 */
 	private function maybe_load_cart() {
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
+
+			// Disable cookie authentication REST check and only if site is secure.
+			if ( is_ssl() ) {
+				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
+			}
 
 			if ( null === WC()->session ) {
 				$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
@@ -164,10 +169,13 @@ class CoCart_Rest_API {
 			 * session which may contain incomplete data.
 			 */
 			if ( is_null( WC()->customer ) ) {
-				if ( is_user_logged_in() ) {
-					WC()->customer = new WC_Customer( get_current_user_id() );
+				$customer_id = strval( get_current_user_id() );
+
+				// If the ID is not ZERO, then the user is logged in.
+				if ( $customer_id > 0 ) {
+					WC()->customer = new WC_Customer( $customer_id ); // Loads from database.
 				} else {
-					WC()->customer = new WC_Customer( get_current_user_id(), true );
+					WC()->customer = new WC_Customer( $customer_id, true ); // Loads from session.
 				}
 
 				// Customer should be saved during shutdown.
