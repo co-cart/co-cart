@@ -29,9 +29,11 @@ If you are wanting to build a headless WooCommerce store then CoCart is your mis
 
 With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how to enable the cart for your store in no time.
 
-= Features =
+## Features
 
-* Add products to the cart.
+CoCart provides the basic features to get you started.
+
+* Add simple and variable products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
@@ -41,55 +43,70 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 * Get the item count.
 * Empty the cart.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
+* **NEW** Supports basic authentication without the need to cookie authenticate.
 
-> #### CoCart Pro
-> This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
+Included with these features are **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers.
+
+* **[CoCart Tools](https://github.com/co-cart/cocart-tools)** provides tools to help with development testing with CoCart.
+* **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
+
+> ### CoCart Pro
+> This plugin is just the tip of the iceberg. CoCart Pro completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 >
 > - Add and Remove Coupons to Cart<br />
-> - Get Applied Coupons<br />
-> - Get Coupon Discount Total<br />
-> - Get Cart Total Weight<br />
-> - Get Cross Sells<br />
-> - Get and Set Payment Method<br />
-> - Get and Set Shipping Methods<br />
-> - Get and Set Fees<br />
+> - Retrieve Applied Coupons<br />
+> - Retrieve Coupon Discount Total<br />
+> - Retrieve Cart Total Weight<br />
+> - Retrieve Cross Sells<br />
+> - Retrieve and Set Payment Method<br />
+> - Retrieve and Set Shipping Methods<br />
+> - Retrieve and Set Fees<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
+> - **NEW** Retrieve Checkout Fields (In Development)<br />
+> - **NEW** Create Order (In Development)<br />
 >
 > [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
-= Extensions supported =
+### Extensions supported
 
-CoCart Pro supports:
+CoCart Pro also supports:
 
-* [Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)
-* and more coming soon.
+* **[WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)**
+* and more extension support in development.
 
-Give CoCart a try.
+#### Add-ons to further enhance your cart.
 
-Want to unlock more? [Upgrade to the Pro version](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** that extend CoCart to enhance your development and your customers shopping experience.
 
-= Join our growing community =
+* **[CoCart Get Cart Enhanced](https://cocart.xyz/add-ons/get-cart-enhanced/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
+* **[CoCart Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides a public version of WooCommerce REST API for accessing products, categories, tags, attributes and 
+even reviews without the need to authenticate. - **REQUIRES COCART PRO**
+* **[CoCart Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags.
+* and more add-ons in development. - **REQUIRES COCART PRO**
+
+### Join our growing community
 
 A Slack community for developers, WordPress agencies and shop owners building the fastest and best headless WooCommerce stores with CoCart.
 
-[Join our community](https://cocart.xyz/community/)
+[Join our community](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
-= Built with developers in mind =
+### Built with developers in mind
 
-Extensible, adaptable, and open source — CoCart is created with developers in mind. If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on GitHub](https://github.com/co-cart/co-cart) and join the party.
+Extensible, adaptable, and open source — CoCart is created with developers in mind. If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on the GitHub repository](https://github.com/co-cart/co-cart) and join the party.
+
+### Bug reports
+
+Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https://github.com/co-cart/co-cart). Please note that GitHub is not a support forum, and that issues that aren’t properly qualified as bugs will be closed.
 
 ### More information
 
-* [Visit the CoCart website](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme).
-* [Documentation](https://docs.cocart.xyz/)
+* The [CoCart plugin](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme) official website.
+* The CoCart [Documentation](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
-* [Like and Follow on Facebook](https://www.facebook.com/cocartforwc/)
-* [Follow on Twitter](https://twitter.com/cart_co)
-* [Follow on Instagram](https://www.instagram.com/co_cart/)
-* [GitHub](https://github.com/co-cart/co-cart)
+* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cart_co), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
 
-= Credits =
+#### Credits
 
 This plugin is created by [Sébastien Dumont](https://sebastiendumont.com).
 
@@ -169,7 +186,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-WooCommerce's authentication method is supported again.
+Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.
 
 == Changelog ==
 
