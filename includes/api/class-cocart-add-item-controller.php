@@ -75,6 +75,11 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item was updated.', 'cart-rest-api-for-woocommerce' ),
 					'default'     => true,
 					'type'        => 'boolean',
+				),
+				'return_cart' => array(
+					'description' => __( 'Returns the whole cart once item is added.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
 				)
 			)
 		) );
