@@ -254,7 +254,7 @@ class CoCart_API_Controller {
 				$cart_contents[ $item_key ]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
 
 				// Add product price as a new variable.
-				$cart_contents[ $item_key ]['product_price'] = apply_filters( 'cocart_product_price', html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) ), $_product, $cart_item, $item_key );
+				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
 
 				// If main product thumbnail is requested then add it to each item in cart.
 				if ( $show_thumb ) {
