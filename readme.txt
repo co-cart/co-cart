@@ -1,7 +1,7 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
-Contributors: sebd86
+Contributors: sebd86, cocartforwc
 Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
 Requires at least: 4.9
