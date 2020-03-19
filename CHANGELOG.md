@@ -1,5 +1,10 @@
 # Changelog for CoCart
 
+## v2.0.9 - 19th March, 2020
+
+* Corrected: Passed parameter to get specific customers cart.
+* Tweaked: Validation of returning persistent cart.
+
 ## v2.0.8 - 6th March, 2020
 
 * Dev: Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.

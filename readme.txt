@@ -1,13 +1,13 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
-Contributors: sebd86
+Contributors: sebd86, cocartforwc
 Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 5.3.2
-Stable tag: 2.0.8
+Stable tag: 2.0.9
 WC requires at least: 3.6.0
 WC tested up to: 3.9.3
 License: GPLv3
@@ -79,11 +79,11 @@ CoCart Pro also supports:
 
 We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** that extend CoCart to enhance your development and your customers shopping experience.
 
-* **[CoCart Get Cart Enhanced](https://cocart.xyz/add-ons/get-cart-enhanced/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
+* **[CoCart - Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
 * **[CoCart Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides a public version of WooCommerce REST API for accessing products, categories, tags, attributes and 
 even reviews without the need to authenticate. - **REQUIRES COCART PRO**
-* **[CoCart Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags.
-* and more add-ons in development. - **REQUIRES COCART PRO**
+* **[CoCart Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. - **REQUIRES COCART PRO**
+* and more add-ons in development.
 
 ### Join our growing community
 
@@ -189,6 +189,11 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.
 
 == Changelog ==
+
+= v2.0.9 - 19th March, 2020 =
+
+* Corrected: Passed parameter to get specific customers cart.
+* Tweaked: Validation of returning persistent cart.
 
 = v2.0.8 - 6th March, 2020 =
 

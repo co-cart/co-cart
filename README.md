@@ -7,7 +7,7 @@
 [![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/co-cart/co-cart/blob/master/LICENSE.md)
 
-**Contributors:** sebd86  
+**Contributors:** sebd86, cocartforwc  
 **Donate link:** https://opencollective.com/cocart  
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
 **Requires at least:** 4.9  
@@ -15,7 +15,7 @@
 **Tested up to:** 5.3.2  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 3.9.3  
-**Stable tag:** 2.0.8  
+**Stable tag:** 2.0.9  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview
