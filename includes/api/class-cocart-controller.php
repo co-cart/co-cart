@@ -205,14 +205,21 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 2.1.0
-	 * @param   array  $cart_contents - The cart contents that will be manipulated.
-	 * @param   array  $data          - The parameters passed to set conditions on the returned data.
-	 * @param   string $cart_item_key - The item key of a specified item in the cart contents.
-	 * @return  array  $cart_contents - Returning the updated cart contents.
+	 * @param   array  $cart_contents
+	 * @param   array  $data
+	 * @param   string $cart_item_key
+	 * @return  array  $cart_contents
 	 */
 	public function return_cart_contents( $cart_contents, $data = array(), $cart_item_key = '' ) {
-		if ( empty( $cart_contents ) ) {
-			return array();
+		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
+			/**
+			 * Filter response for empty cart.
+			 *
+			 * @since 2.0.8
+			 */
+			$empty_cart = apply_filters( 'cocart_return_empty_cart', array() );
+
+			return $empty_cart;
 		}
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;

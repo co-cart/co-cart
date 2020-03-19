@@ -1,21 +1,21 @@
 # [CoCart Lite](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 
-[![WordPress Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
+[![Financial Contributors on Open Collective](https://opencollective.com/cocart/all/badge.svg?label=financial+contributors)](https://opencollective.com/cocart) [![WordPress Plugin Page](https://img.shields.io/badge/WordPress-%E2%86%92-lightgrey.svg?style=flat-square)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/cart-rest-api-for-woocommerce.svg?style=flat)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Tested Up To](https://img.shields.io/wordpress/v/cart-rest-api-for-woocommerce.svg?style=flat)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/r/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#reviews)
 [![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg)](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/)
 [![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](https://github.com/co-cart/co-cart/blob/master/LICENSE.md)
 
-**Contributors:** sebd86  
+**Contributors:** sebd86, cocartforwc  
 **Donate link:** https://opencollective.com/cocart  
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
 **Requires at least:** 4.9  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.3.0  
+**Tested up to:** 5.3.2  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 3.9.3  
-**Stable tag:** 2.0.6  
+**Stable tag:** 2.0.8  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview
@@ -63,7 +63,7 @@ This plugin is just the tip of the iceberg. Want the full cart experience? CoCar
 
 ### 📖 Documentation
 
-[View documentation for CoCart](https://docs.cocart.xyz/). If you are interested to share on how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/.github/CONTRIBUTING.md).
+[View documentation for CoCart](https://docs.cocart.xyz/). If you are interested to share how to use CoCart in other languages, please follow the [contributing guidelines in the documentation repository](https://github.com/co-cart/co-cart-docs/blob/master/CONTRIBUTING.md).
 
 #### 💽 Installation
 
@@ -108,6 +108,29 @@ Please also consider starring ✨ and sharing 👍 the project repo! This helps 
 Thank you for your support! 🙌
 
 ---
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/co-cart/co-cart/graphs/contributors"><img src="https://opencollective.com/cocart/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/cocart/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/cocart"><img src="https://opencollective.com/cocart/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/cocart/contribute)]
+
+<a href="https://opencollective.com/cocart/organization/0/website"><img src="https://opencollective.com/cocart/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/cocart/organization/1/website"><img src="https://opencollective.com/cocart/organization/1/avatar.svg"></a>
+
 
 ##### License
 

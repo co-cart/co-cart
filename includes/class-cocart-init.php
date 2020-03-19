@@ -140,15 +140,20 @@ class CoCart_Rest_API {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.1.0
+	 * @version 2.0.7
 	 */
 	private function maybe_load_cart() {
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
 
+			// Disable cookie authentication REST check and only if site is secure.
+			if ( is_ssl() ) {
+				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
+			}
+
 			if ( null === WC()->session ) {
-				$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+				$session_class = 'WC_Session_Handler';
 
 				// Prefix session class with global namespace if not already namespaced
 				if ( false === strpos( $session_class, '\\' ) ) {
@@ -164,11 +169,7 @@ class CoCart_Rest_API {
 			 * session which may contain incomplete data.
 			 */
 			if ( is_null( WC()->customer ) ) {
-				// Disable cookie authentication check.
-				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
-
 				$customer_id = strval( get_current_user_id() );
-
 
 				// If the ID is not ZERO, then the user is logged in.
 				if ( $customer_id > 0 ) {

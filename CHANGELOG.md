@@ -26,6 +26,19 @@
 > Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
 > This release is a work in progress and requires developer feedback.
 
+## v2.0.8 - 6th March, 2020
+
+* Dev: Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.
+
+## v2.0.7 - 5th March, 2020
+
+* Disabled: Cookie authentication REST check, only if site is secure when authenticating the basic method.
+* Removed: Filter for session class handler as we need it to be untouched.
+* Tested: Compatible with WooCommerce v3.9.x
+* Tweaked: Use `get_current_user_id()` instead of `is_user_logged_in()` to check if user is logged in.
+
+> The cookie check is only disabled when making a request with CoCart.
+
 ## v2.0.6 - 1st October, 2019
 
 * Added: Link to translate CoCart on the plugin row.
