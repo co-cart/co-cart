@@ -271,4 +271,14 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 } // END if class exists
 
-return CoCart::instance();
+/**
+ * Returns the main instance of CoCart.
+ *
+ * @since  2.1.0
+ * @return CoCart
+ */
+function CoCart() {
+	return CoCart::instance();
+}
+
+CoCart();
