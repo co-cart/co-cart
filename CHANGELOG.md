@@ -1,5 +1,9 @@
 # Changelog for CoCart
 
+## v2.0.10 - 22nd March, 2020
+
+* Tweaked: Refresh totals parameter is now set to `true` by default when item is updated.
+
 ## v2.0.9 - 19th March, 2020
 
 * Corrected: Passed parameter to get specific customers cart.

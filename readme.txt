@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 5.3.2
-Stable tag: 2.0.9
+Stable tag: 2.0.10
 WC requires at least: 3.6.0
 WC tested up to: 3.9.3
 License: GPLv3
@@ -189,6 +189,10 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.
 
 == Changelog ==
+
+= v2.0.10 - 22nd March, 2020 =
+
+* Tweaked: Refresh totals parameter is now set to `true` by default when item is updated.
 
 = v2.0.9 - 19th March, 2020 =
 
