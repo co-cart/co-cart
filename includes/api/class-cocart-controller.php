@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    2.0.0
- * @version  2.0.9
+ * @version  2.0.10
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -158,7 +158,7 @@ class CoCart_API_Controller {
 				),
 				'refresh_totals' => array(
 					'description' => __( 'Re-calculates the totals once item has been updated.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
+					'default'     => true,
 					'type'        => 'boolean',
 				),
 				'return_cart' => array(
