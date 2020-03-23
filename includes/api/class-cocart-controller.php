@@ -317,7 +317,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 2.1.0
+	 * @version 2.0.9
 	 * @param   array $data       The customer ID is a required variable.
 	 * @return  array $saved_cart Returns the cart content from the database.
 	 */
@@ -326,10 +326,12 @@ class CoCart_API_Controller {
 
 		$customer_id = ! empty( $data['id'] ) ? $data['id'] : 0;
 
-		$saved_cart_meta = get_user_meta( $customer_id, '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
+		if ( $customer_id > 0 ) {
+			$saved_cart_meta = get_user_meta( $customer_id, '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
 
-		if ( isset( $saved_cart_meta['cart'] ) ) {
-			$saved_cart = array_filter( (array) $saved_cart_meta['cart'] );
+			if ( isset( $saved_cart_meta['cart'] ) ) {
+				$saved_cart = array_filter( (array) $saved_cart_meta['cart'] );
+			}
 		}
 
 		return $saved_cart;

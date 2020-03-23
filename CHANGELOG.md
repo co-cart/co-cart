@@ -26,6 +26,15 @@
 > Note: Carts that have expired past 48 hours are cleared via a cron-job twice daily.
 > This release is a work in progress and requires developer feedback.
 
+## v2.0.10 - 22nd March, 2020
+
+* Tweaked: Refresh totals parameter is now set to `true` by default when item is updated.
+
+## v2.0.9 - 19th March, 2020
+
+* Corrected: Passed parameter to get specific customers cart.
+* Tweaked: Validation of returning persistent cart.
+
 ## v2.0.8 - 6th March, 2020
 
 * Dev: Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.

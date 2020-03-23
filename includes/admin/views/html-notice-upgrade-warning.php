@@ -3,7 +3,7 @@
  * Admin View: Upgrade Warning Notice.
  *
  * @since    1.2.3
- * @version  2.1.0
+ * @version  2.0.9
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="cocart-notice-content">
 			<h3><?php esc_html_e( 'Upgrade Warning!', 'cart-rest-api-for-woocommerce' ); ?></h3>
-			<p><?php echo sprintf( __( 'Version %1$s%4$s%2$s of %3$s is coming soon and will provide support for guest customers. Before it is released, I require your help to test it out and provide your feedback! Documentation is also available for these features.', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>', 'CoCart', COCART_NEXT_VERSION ); ?></p>
+			<p><?php echo sprintf( __( 'Version %1$s%4$s%2$s of %3$s is coming soon and will provide support for guest customers among new filters for developers. Before it is released, I require your help to test it out and provide your feedback! Documentation is also available for these features.', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>', 'CoCart', COCART_NEXT_VERSION ); ?></p>
 		</div>
 
 		<div class="cocart-action">
