@@ -7,14 +7,13 @@
 * NEW: Added plugin details to WooCommerce System Status.
 * NEW: Added `uninstall.php` file to delete tables and options.
 * NEW: Able to transfer a cart from your headless store to the web.
-* Tweaked: Products that are no longer purchasable and are in cart do not return.
-* Tweaked: Totals are now refreshed by default when adding items.
-* Tweaked: Stop redirect to getting started page if plugin was reactivated if already installed before.
+* Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
+* Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
 * Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
 * Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
 * Dev: Cart expiration can be filtered if the default 48 hours is not to your liking.
 * Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
-* Dev: Added filters to override the product name, product title and product price when getting the cart contents.
+* Dev: Added filters to override the product name and product title when getting the cart contents.
 * Dev: Added filter to override the source URL of the product thumbnail when getting the cart contents.
 * Dev: Added filter to override the quantity when adding an item.
 * Dev: Added filter so other plugins can pass cart item data when adding an item.
