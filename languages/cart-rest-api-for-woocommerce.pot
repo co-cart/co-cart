@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.0.9\n"
+"Project-Id-Version: CoCart 2.0.11\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-03-19 19:56:57+00:00\n"
+"POT-Creation-Date: 2020-03-25 18:19:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -93,10 +93,10 @@ msgstr ""
 #: includes/admin/class-cocart-admin-notices.php:314
 #. translators: 1: plugin name, 2: version mentioned, 3: details URL
 msgid ""
-"Are you a Mobile app developer? In preparation for <strong>%1$s "
-"v%2$s</strong>, support for storing cart data will be introduced to make it "
-"easier to access specific carts in session and your feedback is needed. <a "
-"href=\"%3$s\" target=\"_blank\">Read this article for more details.</a>"
+"In preparation for <strong>%1$s v%2$s</strong>, support for storing cart "
+"data will be introduced to support guest customers. I am in need of testers "
+"and your feedback. <a href=\"%3$s\" target=\"_blank\">Contact me to sign up "
+"to be a tester.</a>"
 msgstr ""
 
 #: includes/admin/class-cocart-admin.php:171
@@ -153,59 +153,154 @@ msgstr ""
 msgid "a second"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:25
-#: includes/admin/views/html-notice-please-review.php:25
-#: includes/admin/views/html-notice-required-wc.php:20
-#: includes/admin/views/html-notice-trying-beta.php:21
-#: includes/admin/views/html-notice-upgrade-warning.php:21
-#: includes/admin/views/html-notice-wc-not-installed.php:20
-msgid "CoCart, a WooCommerce REST-API extension"
+#: includes/admin/views/html-getting-started.php:28
+msgid "Welcome to %s."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:29
-msgid "Getting Started with %s."
+#: includes/admin/views/html-getting-started.php:30
+msgid ""
+"Thank you for choosing %s - the one and only REST API for WooCommerce in "
+"the market that handles the cart."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:32
+msgid ""
+"%s makes it easy to control and manage the shopping cart in any framework "
+"of your choosing. Powerful and developer friendly, ready to build your "
+"headless store the way you want."
 msgstr ""
 
 #: includes/admin/views/html-getting-started.php:35
-msgid "Thanks for purchasing %s."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:37
-msgid ""
-"You've just added more power to %1$s. %2$s to learn the additional "
-"endpoints now available to you."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:37
-#: includes/admin/views/html-getting-started.php:45
 msgid "View Documentation"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:39
-msgid "Thanks for choosing %s."
+#: includes/admin/views/html-getting-started.php:46
+msgid "More features in %s"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:41
+#: includes/admin/views/html-getting-started.php:48
+msgid "Coupons"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:49
 msgid ""
-"You've just added more control for the %2$s REST-API. %1$s gives you the "
-"final piece to the %2$s REST-API to enable it's full potential allowing you "
-"to build a store entirely via the REST-API."
+"Apply coupons, remove coupons, validate coupons should the cart have been "
+"left unattended for some time and get all applied coupons to the cart."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:51
+msgid "Cross Sells"
 msgstr ""
 
 #: includes/admin/views/html-getting-started.php:52
-#. translators: 1: Opening <a> tag to the CoCart Twitter account, 2: Opening
-#. <a> tag to the CoCart Instagram account, 3: Opening <a> tag to the Auto Load
-#. Next Post contact page, 4: Opening <a> tag to the CoCart newsletter, 5:
-#. Closing </a> tag, 6: Plugin Name
 msgid ""
-"If you have any questions or feedback, let me know on %1$sTwitter%5$s, "
-"%2$sInstagram%5$s or via the %3$sFeedback page%5$s. Also, %4$ssubscribe to "
-"my newsletter%5$s if you want to stay up to date with what's new and "
-"upcoming in %6$s."
+"Return products based on the items in the cart to promote them to your "
+"customer."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:56
-msgid "Enjoy!"
+#: includes/admin/views/html-getting-started.php:54
+msgid "Customer Details"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:55
+msgid ""
+"Return details of the customer in session. If they are a returning "
+"customer, you are ready to pre-fill your checkout form for them."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:57
+msgid "Fees"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:58
+msgid ""
+"Need to apply an additional fee to the cart? No problem. Add a fee, Get all "
+"fees applied, Remove all fees and calculate fees."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:60
+msgid "Payment Methods"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:61
+msgid ""
+"Return the payment methods available in your store for your customer to "
+"choose from if more than one."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:63
+msgid "Shipping Methods"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:64
+msgid ""
+"Once the shipping is calculated you can fetch the available shipping "
+"methods and set according to the customers selection."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:66
+msgid "Quantities"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:67
+msgid ""
+"Return each item in the cart with the quantity of that item the customer "
+"has added."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:69
+msgid "Removed Items"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:70
+msgid ""
+"Access to items removed from the cart by the customer should you wish to "
+"allow the customer to re-add an item to the cart if they made a mistake."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:72
+msgid "Cart Weight"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:73
+msgid ""
+"If you are shipping a lot of heavy items, knowing how much a customers cart "
+"weighs is a no brainier."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:75
+msgid "Subscriptions"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:76
+msgid ""
+"Integration with the official <a href=\"%s\">WooCommerce Subscriptions</a> "
+"extension – see subscription details for any subscription product added to "
+"cart. Also extends support for Shipping Methods."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:80
+msgid ""
+"There are many add-ons also available to extend %s to enhance your "
+"development and your customers shopping experience."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:83
+msgid "See all Add-ons"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:88
+msgid ""
+"Upgrade to %s and get plugin updates and support per year up to 10 "
+"websites. Access to all pro add-ons plus all future pro add-ons."
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:91
+msgid "Upgrade Now"
+msgstr ""
+
+#: includes/admin/views/html-getting-started.php:98
+msgid "Testimonials"
 msgstr ""
 
 #: includes/admin/views/html-notice-please-review.php:29
@@ -226,15 +321,15 @@ msgstr ""
 msgid "No thank you / I already have"
 msgstr ""
 
-#: includes/admin/views/html-notice-required-wc.php:24
+#: includes/admin/views/html-notice-required-wc.php:25
 msgid "Update Required!"
 msgstr ""
 
-#: includes/admin/views/html-notice-required-wc.php:25
+#: includes/admin/views/html-notice-required-wc.php:26
 msgid "%1$s requires at least %2$s v%3$s or higher."
 msgstr ""
 
-#: includes/admin/views/html-notice-required-wc.php:32
+#: includes/admin/views/html-notice-required-wc.php:33
 msgid "Update WooCommerce"
 msgstr ""
 
@@ -277,38 +372,37 @@ msgstr ""
 #: includes/admin/views/html-notice-upgrade-warning.php:26
 msgid ""
 "Version %1$s%4$s%2$s of %3$s is coming soon and will provide support for "
-"guest customers among new filters for developers. Before it is released, I "
-"require your help to test it out and provide your feedback! Documentation "
-"is also available for these features."
+"guest customers among new filters for developers. I am in need of testers "
+"and your feedback."
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:30
-msgid "Learn More"
+msgid "Sign up to Test"
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:31
 msgid "Ask me again in 2 weeks"
 msgstr ""
 
-#: includes/admin/views/html-notice-wc-not-installed.php:24
+#: includes/admin/views/html-notice-wc-not-installed.php:25
 msgid "%1$s requires %2$s to be installed and activated."
 msgstr ""
 
-#: includes/admin/views/html-notice-wc-not-installed.php:32
+#: includes/admin/views/html-notice-wc-not-installed.php:33
 msgid "Activate WooCommerce"
 msgstr ""
 
-#: includes/admin/views/html-notice-wc-not-installed.php:36
+#: includes/admin/views/html-notice-wc-not-installed.php:37
 msgid ""
 "As you do not have permission to activate a plugin. Please ask a site "
 "administrator to activate WooCommerce for you."
 msgstr ""
 
-#: includes/admin/views/html-notice-wc-not-installed.php:48
+#: includes/admin/views/html-notice-wc-not-installed.php:49
 msgid "Install WooCommerce"
 msgstr ""
 
-#: includes/admin/views/html-notice-wc-not-installed.php:57
+#: includes/admin/views/html-notice-wc-not-installed.php:58
 msgid "Turn off the CoCart plugin"
 msgstr ""
 
