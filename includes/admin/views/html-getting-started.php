@@ -31,6 +31,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<p><?php printf( __( '%s makes it easy to control and manage the shopping cart in any framework of your choosing. Powerful and developer friendly, ready to build your headless store the way you want.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
 
+			<?php
+			// Display warning notice if WooCommerce is not installed or the minimum required version.
+			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+				echo '<p><strong>' . sprintf( __( 'It appears you either do not have %1$s installed or have the minimum required version to be compatible with %2$s. Please install or update your %1$s setup.', 'cart-rest-api-for-woocommerce' ), 'WooCommerce', 'CoCart' ) . '</strong></p>';
+			}
+			?>
+
 			<p style="text-align: center;">
 				<?php printf( '<a class="button button-primary button-large" href="%1$s" target="_blank">%2$s</a>', COCART_DOCUMENTATION_URL, esc_html__( 'View Documentation', 'cart-rest-api-for-woocommerce' ) ); ?>
 			</p>
@@ -73,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<p><?php _e( 'If you are shipping a lot of heavy items, knowing how much a customers cart weighs is a no brainier.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 				<h3><?php _e( 'Subscriptions', 'cart-rest-api-for-woocommerce' ); ?></h3>
-				<p><?php printf( __( 'Integration with the official <a href="%s">WooCommerce Subscriptions</a> extension – see subscription details for any subscription product added to cart. Also extends support for Shipping Methods.', 'cart-rest-api-for-woocommerce' ), 'https://woocommerce.com/products/woocommerce-subscriptions/' ); ?></p>
+				<p><?php printf( __( 'Integration with the official <a href="%s" target="_blank">WooCommerce Subscriptions</a> extension – see subscription details for any subscription product added to cart. Also extends support for Shipping Methods.', 'cart-rest-api-for-woocommerce' ), 'https://woocommerce.com/products/woocommerce-subscriptions/' ); ?></p>
 
 				<hr>
 
