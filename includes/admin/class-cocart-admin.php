@@ -119,7 +119,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 		/**
 		 * These are the only screens CoCart will focus 
-		 * on displaying notices or equeue scripts/styles.
+		 * on displaying notices or enqueue scripts/styles.
 		 *
 		 * @access  public
 		 * @static

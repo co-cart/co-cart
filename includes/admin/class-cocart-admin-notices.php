@@ -36,7 +36,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
 
-			// Check WordPress enviroment.
+			// Check WordPress environment.
 			add_action( 'admin_init', array( $this, 'check_wp' ), 12 );
 
 			// Check WooCommerce dependency.
@@ -45,7 +45,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			// Don't bug the user if they don't want to see any notices.
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
 
-			// Display other admin notices when required. All are dismissable.
+			// Display other admin notices when required. All are dismissible.
 			add_action( 'admin_print_styles', array( $this, 'add_notices' ), 0 );
 
 			// Add after_plugin_row... action for CoCart.
@@ -122,7 +122,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$user_hidden_notice = true;
 			}
 
-			// If the user is allowed to install plugins and requested to dimiss beta notice then hide it for 1 week.
+			// If the user is allowed to install plugins and requested to dismiss beta notice then hide it for 1 week.
 			if ( ! empty( $_GET['hide_cocart_beta_notice'] ) && current_user_can( 'install_plugins' ) ) {
 				set_transient( 'cocart_beta_notice_hidden', 'hidden', WEEK_IN_SECONDS );
 				$user_hidden_notice = true;
