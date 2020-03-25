@@ -3,7 +3,7 @@
  * CoCart - Display notices in the WordPress admin.
  *
  * @since    1.2.0
- * @version  2.0.6
+ * @version  2.0.11
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -307,14 +307,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 					return;
 				}
 
-				echo '<tr class="plugin-update-tr' . $active_class . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="3" class="plugin-update colspanchange"><div class="mobile notice inline ' . $notice_type . ' notice-alt"><p>';
+				echo '<tr class="plugin-update-tr' . $active_class . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="3" class="plugin-update colspanchange"><div class="notice inline ' . $notice_type . ' notice-alt"><p>';
 
 				/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
 				printf(
-					__( 'Are you a Mobile app developer? In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to make it easier to access specific carts in session and your feedback is needed. <a href="%3$s" target="_blank">Read this article for more details.</a>', 'cart-rest-api-for-woocommerce' ),
+					__( 'In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to support guest customers. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Contact me to sign up to be a tester.</a>', 'cart-rest-api-for-woocommerce' ),
 					$plugin_name,
 					$version_mentioned,
-					$details_url
+					esc_url( 'https://cocart.xyz/contact/' )
 				);
 
 				echo '</p></div></td></tr>';
