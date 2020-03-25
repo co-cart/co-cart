@@ -7,9 +7,9 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 5.3.2
-Stable tag: 2.0.10
+Stable tag: 2.0.11
 WC requires at least: 3.6.0
-WC tested up to: 3.9.3
+WC tested up to: 4.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -186,9 +186,19 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.
+Please temporarily deactivate CoCart and CoCart Pro (if you have it) before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.
 
 == Changelog ==
+
+= v2.0.11 - 25th March, 2020 =
+
+* Removed: `cocart_docs_url` filter for changing documentation link.
+* Tested: Compatible with WooCommerce v4.0.x
+* Updated: Getting Started page and removed `cocart_getting_started_doc_url` filter for the documentation button.
+* Updated: Plugin action link for upgrading to CoCart Pro.
+* Updated: Upgrade notices.
+
+> Please temporarily deactivate CoCart and CoCart Pro (if you have it) before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.
 
 = v2.0.10 - 22nd March, 2020 =
 
