@@ -311,7 +311,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 				/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
 				printf(
-					__( 'In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to support guest customers. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Contact me to sign up to be a tester.</a>', 'cart-rest-api-for-woocommerce' ),
+					__( 'In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to support guest customers. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Sign up to Test</a>.', 'cart-rest-api-for-woocommerce' ),
 					$plugin_name,
 					$version_mentioned,
 					esc_url( 'https://cocart.xyz/contact/' )
