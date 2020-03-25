@@ -14,8 +14,8 @@
 **Requires PHP:** 5.6  
 **Tested up to:** 5.3.2  
 **WC requires at least:** 3.6.0  
-**WC tested up to:** 3.9.3  
-**Stable tag:** 2.0.10  
+**WC tested up to:** 4.0.1  
+**Stable tag:** 2.0.11  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview
