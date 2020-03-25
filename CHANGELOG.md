@@ -1,5 +1,15 @@
 # Changelog for CoCart
 
+## v2.0.11 - 25th March, 2020
+
+* Removed: `cocart_docs_url` filter for changing documentation link.
+* Tested: Compatible with WooCommerce v4.0.x
+* Updated: Getting Started page and removed `cocart_getting_started_doc_url` filter for the documentation button.
+* Updated: Plugin action link for upgrading to CoCart Pro.
+* Updated: Upgrade notices.
+
+> Please temporarily deactivate CoCart and CoCart Pro if you have it before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.
+
 ## v2.0.10 - 22nd March, 2020
 
 * Tweaked: Refresh totals parameter is now set to `true` by default when item is updated.
