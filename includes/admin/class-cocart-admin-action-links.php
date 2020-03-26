@@ -1,8 +1,6 @@
 <?php
 /**
- * CoCart - Admin Action Links.
- *
- * Adds links to CoCart on the plugins page.
+ * Adds links for CoCart on the plugins page.
  *
  * @since    1.2.0
  * @version  2.0.11
