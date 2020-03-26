@@ -12,10 +12,10 @@
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
 **Requires at least:** 4.9  
 **Requires PHP:** 5.6  
-**Tested up to:** 5.3.2  
+**Tested up to:** 5.4  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 4.0.1  
-**Stable tag:** 2.0.11  
+**Stable tag:** 2.0.12  
 **License:** GPL v2 or later  
 
 ## 🔔 Overview
