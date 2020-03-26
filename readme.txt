@@ -184,10 +184,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 2. Viewing the carts content without product thumbnail.
 3. Viewing the carts content with product thumbnail.
 
-== Upgrade Notice ==
-
-Please temporarily deactivate CoCart and CoCart Pro (if you have it) before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.
-
 == Changelog ==
 
 = v2.0.11 - 25th March, 2020 =
@@ -281,3 +277,7 @@ Please temporarily deactivate CoCart and CoCart Pro (if you have it) before upda
 * Dev: Added new option to return cart raw if requested.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
+
+== Upgrade Notice ==
+
+Please temporarily deactivate CoCart and CoCart Pro (if you have it) before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.
