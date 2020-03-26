@@ -132,6 +132,9 @@
     font-size: 0;
     width: 64px; }
 
+.update-message p.cocart_plugin_upgrade_notice::before {
+  content: "\f534"; }
+
 body.cocart .notice,
 body.cocart .updated,
 body.cocart .error {
