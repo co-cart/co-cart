@@ -3,7 +3,7 @@
  * CoCart - Admin.
  *
  * @since    1.2.0
- * @version  2.0.1
+ * @version  2.0.12
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -35,12 +35,15 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		/**
 		 * Include any classes we need within admin.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.0.12
 		 */
 		public function includes() {
-			include( dirname( __FILE__ ) . '/class-cocart-admin-action-links.php' ); // Action Links
-			include( dirname( __FILE__ ) . '/class-cocart-admin-assets.php' );       // Admin Assets
-			include( dirname( __FILE__ ) . '/class-cocart-admin-notices.php' );      // Plugin Notices
+			include( dirname( __FILE__ ) . '/class-cocart-admin-action-links.php' );         // Action Links
+			include( dirname( __FILE__ ) . '/class-cocart-admin-assets.php' );               // Admin Assets
+			include( dirname( __FILE__ ) . '/class-cocart-admin-plugin-screen-update.php' ); // Plugin Screen Update
+			include( dirname( __FILE__ ) . '/class-cocart-admin-notices.php' );              // Plugin Notices
 		} // END includes()
 
 		/**
