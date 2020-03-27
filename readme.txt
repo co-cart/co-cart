@@ -186,6 +186,11 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
+= v2.0.12 - 27th March, 2020 =
+
+* Tested: Compatible with WordPress 5.4
+* Added: Upgrade notice message on plugins upgrade screen.
+
 = v2.0.11 - 25th March, 2020 =
 
 * Removed: `cocart_docs_url` filter for changing documentation link.
@@ -280,6 +285,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-= 2.0.11 =
+= 2.0.12 =
 
 Please temporarily deactivate CoCart and CoCart Pro (if you have it) before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.

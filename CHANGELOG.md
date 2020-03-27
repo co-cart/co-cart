@@ -1,5 +1,10 @@
 # Changelog for CoCart
 
+## v2.0.12 - 27th March, 2020
+
+* Tested: Compatible with WordPress 5.4
+* Added: Upgrade notice message on plugins upgrade screen.
+
 ## v2.0.11 - 25th March, 2020
 
 * Removed: `cocart_docs_url` filter for changing documentation link.
