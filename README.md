@@ -34,7 +34,7 @@ With the documentation provided, you’ll learn how to enable the cart for your 
 
 ## Features
 
-* Add products to the cart.
+* Add simple and variable products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
@@ -44,21 +44,39 @@ With the documentation provided, you’ll learn how to enable the cart for your 
 * Get the item count.
 * Empty the cart.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
+* **NEW** Supports basic authentication without the need to cookie authenticate.
 
-This plugin is just the tip of the iceberg. Want the full cart experience? CoCart Pro completes it by supporting the following [features](https://cocart.xyz/features/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart):
+Included with these features are **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers.
+
+* **[CoCart Tools](https://github.com/co-cart/cocart-tools)** provides tools to help with development testing with CoCart.
+* **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
+
+This plugin is just the tip of the iceberg. CoCart Pro completes it with the following [features](https://cocart.xyz/features/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart):
 
 * Add and Remove Coupons to Cart
-* Get Applied Coupons
-* Get Coupon Discount Total
-* Get Cart Total Weight
-* Get Cross Sells
-* Get and Set Payment Method
-* Get and Set Shipping Methods
-* Get and Set Fees
+* Retrieve Applied Coupons
+* Retrieve Coupon Discount Total
+* Retrieve Cart Total Weight
+* Retrieve Cross Sells
+* Retrieve and Set Payment Method
+* Retrieve and Set Shipping Methods
+* Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
+* **NEW** Retrieve Checkout Fields (In Development)
+* **NEW** Create Order (In Development)
 
 [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=github.com&utm_source=github&utm_campaign=readme&utm_content=cocart)
+
+### Add-ons to further enhance your cart.
+
+We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** that extend CoCart to enhance your development and your customers shopping experience.
+
+* **[CoCart - Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
+* **[CoCart Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides a public version of WooCommerce REST API for accessing products, categories, tags, attributes and 
+even reviews without the need to authenticate. - **REQUIRES COCART PRO**
+* **[CoCart Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. - **REQUIRES COCART PRO**
+* and more add-ons in development.
 
 ## 📘 Guide
 
