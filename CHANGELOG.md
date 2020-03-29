@@ -5,6 +5,11 @@
 * Changed: Quantity value type from integer to float suggested by @metemaddar to allow quantity to be used for weighing fruit for example.
 * Dev: Added filter for sold individual products quantity `cocart_sold_individually_quantity`.
 
+## v2.0.12 - 27th March, 2020
+
+* Tested: Compatible with WordPress 5.4
+* Added: Upgrade notice message on plugins upgrade screen.
+
 ## v2.0.11 - 25th March, 2020
 
 * Removed: `cocart_docs_url` filter for changing documentation link.
