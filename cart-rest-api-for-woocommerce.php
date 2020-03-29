@@ -94,7 +94,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.0.5
+		 * @version 2.0.13
 		 */
 		public function __construct() {
 			// Setup Constants.
@@ -111,6 +111,12 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
+			// Removes WooCommerce filter that validates the quantity value to be an integer.
+			remove_filter( 'woocommerce_stock_amount', 'intval' );
+
+			// Validates the quantity value to be a float.
+			add_filter( 'woocommerce_stock_amount', 'floatval' );
 		} // END __construct()
 
 		/**
@@ -222,7 +228,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			return $request;
 		} // END allow_cocart_requests_wc()
 
-	} // END class
+} // END class
 
 } // END if class exists
 
