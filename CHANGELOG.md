@@ -2,8 +2,11 @@
 
 ## v2.0.13 - ?? ??, 2020
 
-* Changed: Quantity value type from integer to float suggested by @metemaddar to allow quantity to be used for weighing fruit for example.
-* Dev: Added filter for sold individual products quantity `cocart_sold_individually_quantity`.
+* Filtered: `woocommerce_stock_amount` to validate as a float value.
+* Changed: Quantity value type from _integer_ to _float_ to allow quantity to be used for weighing fruit for example when adding or updating a product.
+* Dev: Added filter for sold individual products quantity to be overridden. - `cocart_sold_individually_quantity`
+
+> Community release by @metemaddar
 
 ## v2.0.12 - 27th March, 2020
 
