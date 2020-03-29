@@ -1,5 +1,10 @@
 # Changelog for CoCart
 
+## v2.0.13 - ?? ??, 2020
+
+* Changed: Quantity value type from integer to float suggested by @metemaddar to allow quantity to be used for weighing fruit for example.
+* Dev: Added filter for sold individual products quantity `cocart_sold_individually_quantity`.
+
 ## v2.0.11 - 25th March, 2020
 
 * Removed: `cocart_docs_url` filter for changing documentation link.
