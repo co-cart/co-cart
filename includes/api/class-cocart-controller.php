@@ -553,7 +553,7 @@ class CoCart_API_Controller {
 			 *
 			 * @since 2.0.13
 			 */
-			$quantity = apply_filters( 'cocart_sold_individually_quantity', 1 );
+			$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1 );
 
 			$cart_contents = $this->get_cart();
 
