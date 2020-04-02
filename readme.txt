@@ -33,7 +33,7 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 
 CoCart provides the basic features to get you started.
 
-* Add simple and variable products to the cart.
+* Add simple and variable products to the cart (including simple and variable subscription products).
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
