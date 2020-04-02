@@ -46,45 +46,7 @@ class CoCart_API_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/add-item', array(
 			'methods'  => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'add_to_cart' ),
-			'args'     => array(
-				'product_id' => array(
-					'description'       => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'integer',
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
-					}
-				),
-				'quantity' => array(
-					'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
-					'default'           => 1,
-					'type'              => 'integer',
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
-					}
-				),
-				'variation_id' => array(
-					'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'integer',
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
-					}
-				),
-				'variation' => array(
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_array( $param );
-					}
-				),
-				'cart_item_data' => array(
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_array( $param );
-					}
-				),
-				'refresh_totals' => array(
-					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				)
-			)
+			'args'     => $this->get_collection_params()
 		) );
 
 		// Calculate Cart Total - cocart/v1/calculate (POST)
@@ -178,8 +140,8 @@ class CoCart_API_Controller {
 					'quantity' => array(
 						'default'           => 1,
 						'type'              => 'integer',
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_numeric( $param );
+						'validate_callback' => function( $value, $request, $param ) {
+							return is_numeric( $value );
 						}
 					),
 				),
@@ -879,5 +841,56 @@ class CoCart_API_Controller {
 
 		return new WP_REST_Response( $totals, 200 );
 	} // END get_totals()
+
+	/**
+	 * Get the query params for adding items.
+	 *
+	 * @access public
+	 * @since  2.0.x
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'product_id' => array(
+				'description'       => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'integer',
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_numeric( $value );
+				}
+			),
+			'quantity' => array(
+				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => 1,
+				'type'              => 'integer',
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_numeric( $value );
+				}
+			),
+			'variation_id' => array(
+				'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'integer',
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_numeric( $value );
+				}
+			),
+			'variation' => array(
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_array( $value );
+				}
+			),
+			'cart_item_data' => array(
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_array( $value );
+				}
+			),
+			'refresh_totals' => array(
+				'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
+				'default'     => false,
+				'type'        => 'boolean',
+			)
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
