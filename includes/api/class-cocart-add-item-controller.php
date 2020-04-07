@@ -67,6 +67,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 					}
 				),
 				'cart_item_data' => array(
+					'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_array( $param );
 					}
