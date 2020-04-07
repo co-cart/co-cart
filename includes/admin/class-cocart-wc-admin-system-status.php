@@ -42,7 +42,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$system_status_sections = apply_filters( 'cocart_system_status_sections', array(
 				array(
 					'title'   => 'CoCart',
-					'tooltip' => sprintf( __( 'This section shows any information about %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+					'tooltip' => sprintf( esc_html__( 'This section shows any information about %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
 					'data'    => apply_filters( 'cocart_system_status_data', $data ),
 				),
 			) );
@@ -67,7 +67,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			$data['cocart_version'] = array(
 				'name'      => _x( 'Version', 'label that indicates the version of the plugin', 'cart-rest-api-for-woocommerce' ),
-				'label'     => __( 'Version', 'cart-rest-api-for-woocommerce' ),
+				'label'     => esc_html__( 'Version', 'cart-rest-api-for-woocommerce' ),
 				'note'      => COCART_VERSION,
 				'mark'      => '',
 				'mark_icon' => '',
@@ -92,7 +92,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			$data['cocart_carts_in_session'] = array(
 				'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
-				'label'     => __( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
+				'label'     => esc_html__( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
 				'note'      => $this->carts_in_session(),
 				'mark'      => '',
 				'mark_icon' => '',
@@ -100,7 +100,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			$data['cocart_carts_expired'] = array(
 				'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cart-rest-api-for-woocommerce' ),
-				'label'     => __( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
+				'label'     => esc_html__( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
 				'note'      => $this->count_carts_expired(),
 				'mark'      => '',
 				'mark_icon' => '',
@@ -155,28 +155,28 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public function debug_button( $tools ) {
 			$tools['cocart_clear_carts'] = array(
-				'name'   => __( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
-				'button' => __( 'Clear all', 'cart-rest-api-for-woocommerce' ),
+				'name'   => esc_html__( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
+				'button' => esc_html__( 'Clear all', 'cart-rest-api-for-woocommerce' ),
 				'desc'   => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
-					__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					sprintf( 
-						__( 'This will clear all carts stored in the database for %s including registered customers if enabled.', 'cart-rest-api-for-woocommerce' ),
-						'<strong>' . __( 'guest customers', 'cart-rest-api-for-woocommerce' ) . '</strong>'
+						esc_html__( 'This will clear all carts stored in the database for %s including registered customers if enabled.', 'cart-rest-api-for-woocommerce' ),
+						'<strong>' . esc_html__( 'guest customers', 'cart-rest-api-for-woocommerce' ) . '</strong>'
 					)
 				),
 				'callback' => array( $this, 'debug_clear_carts' ),
 			);
 
 			$tools['cocart_cleanup_carts'] = array(
-				'name'   => __( 'Clear expired carts', 'cart-rest-api-for-woocommerce' ),
-				'button' => __( 'Clear expired', 'cart-rest-api-for-woocommerce' ),
+				'name'   => esc_html__( 'Clear expired carts', 'cart-rest-api-for-woocommerce' ),
+				'button' => esc_html__( 'Clear expired', 'cart-rest-api-for-woocommerce' ),
 				'desc'   => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
-					__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					sprintf(
-						__( 'This will clear all expired carts %s stored in the database.', 'cart-rest-api-for-woocommerce' ),
-						'<strong>' . __( 'only', 'cart-rest-api-for-woocommerce' ) . '</strong>'
+						esc_html__( 'This will clear all expired carts %s stored in the database.', 'cart-rest-api-for-woocommerce' ),
+						'<strong>' . esc_html__( 'only', 'cart-rest-api-for-woocommerce' ) . '</strong>'
 					)
 				),
 				'callback' => array( $this, 'debug_clear_expired_carts' ),
@@ -193,7 +193,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function debug_clear_carts() {
 			CoCart_API_Session::clear_carts();
 
-			echo '<div class="updated inline"><p>' . __( 'All carts in session have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			echo '<div class="updated inline"><p>' . esc_html__( 'All carts in session have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		} // END debug_clear_carts()
 
 		/**
@@ -204,7 +204,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function debug_clear_expired_carts() {
 			CoCart_API_Session::cleanup_carts();
 
-			echo '<div class="updated inline"><p>' . __( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			echo '<div class="updated inline"><p>' . esc_html__( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		} // END debug_clear_expired_carts()
 
 	} // END class
