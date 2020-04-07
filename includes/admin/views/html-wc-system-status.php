@@ -44,7 +44,13 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 		?>
 		<tr>
 			<td data-export-label="<?php echo esc_attr( $data['label'] ) ?>"><?php echo esc_html( $data['name'] ) ?>:</td>
-			<td class="help">&nbsp;</td>
+			<td class="help">
+				<?php
+				if ( isset( $data['tip'] ) ) {
+					echo wc_help_tip( $data['tip'] );
+				}
+				?>
+			</td>
 			<td>
 				<?php
 				if ( isset( $data['data'] ) ) {
