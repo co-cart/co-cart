@@ -71,11 +71,6 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 						return is_array( $param );
 					}
 				),
-				'refresh_totals' => array(
-					'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item was updated.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => true,
-					'type'        => 'boolean',
-				),
 				'return_cart' => array(
 					'description' => __( 'Returns the whole cart once item is added.', 'cart-rest-api-for-woocommerce' ),
 					'default'     => false,
@@ -264,7 +259,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 			$new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
 
-			WC()->cart->set_quantity( $cart_item_key, $new_quantity, $data['refresh_totals'] );
+			WC()->cart->set_quantity( $cart_item_key, $new_quantity );
 
 			$item_added = $this->get_cart_item( $cart_item_key, 'add' );
 		} else {
@@ -274,9 +269,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			// Return response to added item to cart or return error.
 			if ( $item_key ) {
 				// Re-calculate cart totals once item has been added.
-				if ( $data['refresh_totals'] ) {
-					WC()->cart->calculate_totals();
-				}
+				WC()->cart->calculate_totals();
 
 				$item_added = $this->get_cart_item( $item_key, 'add' );
 
