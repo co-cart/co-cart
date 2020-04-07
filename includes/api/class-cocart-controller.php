@@ -450,7 +450,6 @@ class CoCart_API_Controller {
 		/**
 		 * Filters the quantity for specified products.
 		 *
-		 * @since 2.1.0
 		 * @param int   $quantity       - The original quantity of the item.
 		 * @param int   $product_id     - The product ID.
 		 * @param int   $variation_id   - The variation ID.
@@ -471,7 +470,6 @@ class CoCart_API_Controller {
 			/**
 			 * Filters message about product does not exist.
 			 *
-			 * @since 2.1.0
 			 * @param string     $message      - Message.
 			 * @param WC_Product $product_data - Product data.
 			 */
@@ -506,7 +504,6 @@ class CoCart_API_Controller {
 				/**
 				 * Filters message about product not being allowed to add another.
 				 *
-				 * @since 2.1.0
 				 * @param string     $message      - Message.
 				 * @param WC_Product $product_data - Product data.
 				 */
@@ -525,7 +522,6 @@ class CoCart_API_Controller {
 			/**
 			 * Filters message about product unable to be purchased.
 			 *
-			 * @since 2.1.0
 			 * @param string     $message      - Message.
 			 * @param WC_Product $product_data - Product data.
 			 */
@@ -544,7 +540,6 @@ class CoCart_API_Controller {
 			/**
 			 * Filters message about product is out of stock.
 			 *
-			 * @since 2.1.0
 			 * @param string     $message      - Message.
 			 * @param WC_Product $product_data - Product data.
 			 */
