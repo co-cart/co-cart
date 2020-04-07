@@ -57,7 +57,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		} // END render_system_status_items()
 
 		/**
-		 * Get's the system status data to return.
+		 * Gets the system status data to return.
 		 *
 		 * @access private
 		 * @return array $data
@@ -68,26 +68,29 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_version'] = array(
 				'name'      => _x( 'Version', 'label that indicates the version of the plugin', 'cart-rest-api-for-woocommerce' ),
 				'label'     => __( 'Version', 'cart-rest-api-for-woocommerce' ),
-				//'data'      => array(),
 				'note'      => COCART_VERSION,
 				'mark'      => '',
 				'mark_icon' => '',
-				//'success'   => ''
 			);
 
 			$data['cocart_carts_in_session'] = array(
 				'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
 				'label'     => __( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
-				//'data'      => array(),
 				'note'      => $this->carts_in_session(),
 				'mark'      => '',
 				'mark_icon' => '',
-				//'success'   => ''
+			);
+
+			$data['cocart_carts_expired'] = array(
+				'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cart-rest-api-for-woocommerce' ),
+				'label'     => __( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
+				'note'      => $this->count_carts_expired(),
+				'mark'      => '',
+				'mark_icon' => '',
 			);
 
 			return $data;
 		} // END get_system_status_data()
-
 
 		/**
 		 * Counts how many carts are currently in session.
@@ -108,7 +111,26 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		} // END carts_in_session()
 
 		/**
-		 * Adds a debug button under the tools section of WooCommerce System Status.
+		 * Counts how many carts have expired.
+		 *
+		 * @access public
+		 * @global $wpdb
+		 * @return int - Number of carts expired.
+		 */
+		public function count_carts_expired() {
+			global $wpdb;
+
+			$results = $wpdb->get_results( $wpdb->prepare( "
+				SELECT COUNT(cart_id) as count
+				FROM {$wpdb->prefix}cocart_carts 
+				WHERE cart_expiry < %d", time()
+			), ARRAY_A );
+
+			return $results[0]['count'];
+		} // END count_carts_expired()
+
+		/**
+		 * Adds debug buttons under the tools section of WooCommerce System Status.
 		 *
 		 * @access public
 		 * @param  array $tools - All tools before adding ours.
@@ -117,31 +139,56 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function debug_button( $tools ) {
 			$tools['cocart_clear_carts'] = array(
 				'name'   => __( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
-				'button' => __( 'Clear', 'cart-rest-api-for-woocommerce' ),
+				'button' => __( 'Clear all', 'cart-rest-api-for-woocommerce' ),
 				'desc'   => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					sprintf( 
-						__( 'This will clear all carts stored in the database but will %s clear cookies stored on customers devices.', 'cart-rest-api-for-woocommerce' ),
-						'<strong>' . __( 'NOT', 'cart-rest-api-for-woocommerce' ) . '</strong>'
+						__( 'This will clear all carts stored in the database for %s including registered customers if enabled.', 'cart-rest-api-for-woocommerce' ),
+						'<strong>' . __( 'guest customers', 'cart-rest-api-for-woocommerce' ) . '</strong>'
 					)
 				),
 				'callback' => array( $this, 'debug_clear_carts' ),
+			);
+
+			$tools['cocart_cleanup_carts'] = array(
+				'name'   => __( 'Clear expired carts', 'cart-rest-api-for-woocommerce' ),
+				'button' => __( 'Clear expired', 'cart-rest-api-for-woocommerce' ),
+				'desc'   => sprintf(
+					'<strong class="red">%1$s</strong> %2$s',
+					__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+					sprintf(
+						__( 'This will clear all expired carts %s stored in the database.', 'cart-rest-api-for-woocommerce' ),
+						'<strong>' . __( 'only', 'cart-rest-api-for-woocommerce' ) . '</strong>'
+					)
+				),
+				'callback' => array( $this, 'debug_clear_expired_carts' ),
 			);
 
 			return $tools;
 		} // END debug_button
 
 		/**
-		 * Runs the debug callback for clearing carts.
+		 * Runs the debug callback for clearing all carts.
 		 *
 		 * @access public
 		 */
 		public function debug_clear_carts() {
 			CoCart_API_Session::clear_carts();
 
-			echo '<div class="updated inline"><p>' . __( 'All carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
-		} // END debug_clear_cart()
+			echo '<div class="updated inline"><p>' . __( 'All carts in session have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+		} // END debug_clear_carts()
+
+		/**
+		 * Runs the debug callback for clearing expired carts ONLY.
+		 *
+		 * @access public
+		 */
+		public function debug_clear_expired_carts() {
+			CoCart_API_Session::cleanup_carts();
+
+			echo '<div class="updated inline"><p>' . __( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+		} // END debug_clear_expired_carts()
 
 	} // END class
 
