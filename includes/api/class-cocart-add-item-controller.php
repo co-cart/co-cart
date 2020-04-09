@@ -40,11 +40,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			'callback' => array( $this, 'add_to_cart' ),
 			'args'     => array(
 				'product_id' => array(
-					'description'       => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'integer',
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
-					}
+					'description' => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
 				),
 				'quantity' => array(
 					'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
@@ -91,12 +87,11 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function add_to_cart( $data = array() ) {
-		$product_id     = ! isset( $data['product_id'] ) ? 0 : absint( $data['product_id'] );
-		$quantity       = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
-		$variation_id   = ! isset( $data['variation_id'] ) ? 0 : absint( $data['variation_id'] );
+		$product_id     = ! isset( $data['product_id'] ) ? 0 : wc_clean( wp_unslash( $data['product_id'] ) );
 		$variation      = ! isset( $data['variation'] ) ? array() : $data['variation'];
 		$cart_item_data = ! isset( $data['cart_item_data'] ) ? array() : $data['cart_item_data'];
 
+		// Validate product ID before continuing.
 		$this->validate_product_id( $product_id );
 
 		// The product we are attempting to add to the cart.

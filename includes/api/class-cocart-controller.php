@@ -366,15 +366,25 @@ class CoCart_API_Controller {
 
 
 	/**
-	 * Validate the product id argument.
+	 * Validate the product id.
 	 *
-	 * @access protected
-	 * @since  1.0.0
-	 * @param  int $product_id
-	 * @return WP_Error
+	 * @access  protected
+	 * @since   1.0.0
+	 * @version 2.1.0
+	 * @param   int|string $product_id
+	 * @return  int|WP_Error
 	 */
 	protected function validate_product_id( $product_id ) {
-		if ( $product_id <= 0 ) {
+		// If the product ID was used by a SKU ID, then look up the product ID and return it.
+		if ( is_string( $product_id ) ) {
+			$product_id_by_sku = wc_get_product_id_by_sku( $product_id );
+
+			if ( $product_id_by_sku > 0 ) {
+				return $product_id_by_sku;
+			}
+		}
+
+		if ( empty( $product_id ) ) {
 			return new WP_Error( 'cocart_product_id_required', __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
