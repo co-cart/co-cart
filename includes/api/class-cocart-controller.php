@@ -422,6 +422,24 @@ class CoCart_API_Controller {
 			$product_id   = wp_get_post_parent_id( $variation_id );
 		}
 
+		// Validate variable product.
+		if ( $product_type == 'variable' ) {
+			if ( $variation_id == 0 ) {
+				$message = __( 'Can not add a variable product without specifying a variation!', 'cart-rest-api-for-woocommerce' );
+
+				CoCart_Logger::log( $message, 'error' );
+	
+				/**
+				 * Filters message about variable product failing validation.
+				 *
+				 * @param string $message - Message.
+				 */
+				$message = apply_filters( 'cocart_variable_product_failed_validation_message', $message );
+	
+				return new WP_Error( 'cocart_variable_product_failed_validation', $message, array( 'status' => 500 ) );
+			}
+		}
+
 		$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
 		// Look up the product type if not passed.
