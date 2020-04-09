@@ -394,7 +394,7 @@ class CoCart_API_Controller {
 	} // END validate_product_id()
 
 	/**
-	 * Validate the product quantity argument.
+	 * Validate the product quantity.
 	 *
 	 * @access protected
 	 * @since  1.0.0
@@ -419,7 +419,7 @@ class CoCart_API_Controller {
 	 * @param   array  $variation      - Attribute values.
 	 * @param   array  $cart_item_data - Extra cart item data we want to pass into the item.
 	 * @param   string $product_type   - The product type.
-	 * @return  string|WP_Error
+	 * @return  array|WP_Error
 	 */
 	protected function validate_product( $product_id = null, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array(), $product_type = '' ) {
 		$this->validate_product_id( $product_id );
@@ -616,7 +616,16 @@ class CoCart_API_Controller {
 			return new WP_Error( 'cocart_not_ok_to_add_item', $error_msg, array( 'status' => 500 ) );
 		}
 
-		return $cart_item_key;
+		// Returns all valid data.
+		return array(
+			'product_id'     => $product_id,
+			'quantity'       => $quantity,
+			'variation_id'   => $variation_id,
+			'variation'      => $variation,
+			'cart_item_data' => $cart_item_data,
+			'cart_item_key'  => $cart_item_key,
+			'product_data'   => $product_data
+		);
 	} // END validate_product()
 
 	/**
