@@ -182,7 +182,7 @@ class CoCart_Rest_API {
 				add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
 			}
 
-			// Load Cart.
+			// Load WooCommerce Cart.
 			if ( null === WC()->cart ) {
 				WC()->cart = new WC_Cart();
 			}
