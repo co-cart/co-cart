@@ -270,7 +270,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
-			if ( WC()->cart->set_quantity( $cart_item_key, $quantity, $data['refresh_totals'] ) ) {
+			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
 				$new_data = $this->get_cart_item( $cart_item_key, 'update' );
 
 				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
