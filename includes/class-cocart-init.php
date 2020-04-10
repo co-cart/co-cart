@@ -199,8 +199,8 @@ class CoCart_Rest_API {
 	public function rest_api_includes() {
 		$this->maybe_load_cart();
 
-		// WC Cart REST API v2 controller.
-		include_once( dirname( __FILE__ ) . '/api/wc-v2/class-wc-rest-cart-controller.php' );
+		// Legacy - WC Cart REST API v2 controller.
+		include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
 
 		// CoCart REST API controllers.
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
