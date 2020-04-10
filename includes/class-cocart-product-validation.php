@@ -24,8 +24,12 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
+			// Prevent certain product types from being added to the cart.
 			add_filter( 'cocart_add_to_cart_handler_external', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
 			add_filter( 'cocart_add_to_cart_handler_grouped', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
+
+			// Correct product name for missing variation details.
+			add_filter( 'cocart_product_name', array( $this, 'validate_variation_product_name' ), 0, 3 );
 		}
 
 		/**
@@ -51,6 +55,27 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 
 			return new WP_Error( 'cocart_cannot_add_product_type_to_cart', $message, array( 'status' => 500 ) );
 		} // END product_not_allowed_to_add()
+
+		/**
+		 * Validates the product name for a variable product.
+		 *
+		 * If variation details are missing then return the product title instead.
+		 *
+		 * @access public
+		 * @param  string $product_name - Product name before change.
+		 * @param  object $_product     - Product data.
+		 * @param  array  $cart_item    - Item details of the product in cart.
+		 * @return string $product_name - Product name after change.
+		 */
+		public function validate_variation_product_name( $product_name, $_product, $cart_item ) {
+			if ( $_product->get_type() == 'variation' ) {
+				if ( empty( $cart_item['variation'] ) ) {
+					return $_product->get_title();
+				}
+			}
+
+			return $product_name;
+		} // END validate_variation_product_name()
 
 	} // END class.
 
