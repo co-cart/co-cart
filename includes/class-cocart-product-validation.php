@@ -24,8 +24,8 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			add_action( 'cocart_add_to_cart_handler_external', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
-			add_action( 'cocart_add_to_cart_handler_grouped', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
+			add_filter( 'cocart_add_to_cart_handler_external', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
+			add_filter( 'cocart_add_to_cart_handler_grouped', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
 		}
 
 		/**
