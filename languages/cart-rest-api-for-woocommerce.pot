@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.0.9\n"
+"Project-Id-Version: CoCart 2.1.0-beta.5\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-03-19 19:56:57+00:00\n"
+"POT-Creation-Date: 2020-04-10 00:29:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,11 +24,11 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: cart-rest-api-for-woocommerce.php:78
+#: cart-rest-api-for-woocommerce.php:95
 msgid "Cloning this object is forbidden."
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:89
+#: cart-rest-api-for-woocommerce.php:106
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
@@ -90,57 +90,57 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:172
+#: includes/admin/class-cocart-admin.php:190
 #. translators: Number of years
 msgid "%s years"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:174
+#: includes/admin/class-cocart-admin.php:192
 msgid "a year"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:181
+#: includes/admin/class-cocart-admin.php:199
 #. translators: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:183
+#: includes/admin/class-cocart-admin.php:201
 msgid "a week"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:190
+#: includes/admin/class-cocart-admin.php:208
 #. translators: Number of days
 msgid "%s days"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:192
+#: includes/admin/class-cocart-admin.php:210
 msgid "a day"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:199
+#: includes/admin/class-cocart-admin.php:217
 #. translators: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:201
+#: includes/admin/class-cocart-admin.php:219
 msgid "an hour"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:208
+#: includes/admin/class-cocart-admin.php:226
 #. translators: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:210
+#: includes/admin/class-cocart-admin.php:228
 msgid "a minute"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:217
+#: includes/admin/class-cocart-admin.php:235
 #. translators: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:219
+#: includes/admin/class-cocart-admin.php:237
 msgid "a second"
 msgstr ""
 
@@ -152,34 +152,73 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
+#: includes/admin/class-cocart-wc-admin-system-status.php:78
+msgid "Database Version"
+msgstr ""
+
 #: includes/admin/class-cocart-wc-admin-system-status.php:80
+msgid ""
+"The version of %s reported by the database. This should be the same as the "
+"version of the plugin."
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:87
+msgid "Install Date"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:95
 msgid "Carts in Session"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:119
+#: includes/admin/class-cocart-wc-admin-system-status.php:103
+msgid "Carts Expired"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:158
 msgid "Clear cart sessions"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:120
-msgid "Clear"
+#: includes/admin/class-cocart-wc-admin-system-status.php:159
+msgid "Clear all"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:123
+#: includes/admin/class-cocart-wc-admin-system-status.php:162
+#: includes/admin/class-cocart-wc-admin-system-status.php:176
 msgid "Note:"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:125
+#: includes/admin/class-cocart-wc-admin-system-status.php:164
 msgid ""
-"This will clear all carts stored in the database but will %s clear cookies "
-"stored on customers devices."
+"This will clear all carts stored in the database for %s including "
+"registered customers if enabled."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:126
-msgid "NOT"
+#: includes/admin/class-cocart-wc-admin-system-status.php:165
+msgid "guest customers"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:143
-msgid "All carts have now been cleared from the database."
+#: includes/admin/class-cocart-wc-admin-system-status.php:172
+msgid "Clear expired carts"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:173
+msgid "Clear expired"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:178
+msgid "This will clear all expired carts %s stored in the database."
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:179
+msgid "only"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:196
+msgid "All carts in session have now been cleared from the database."
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:207
+msgid "All expired carts have now been cleared from the database."
 msgstr ""
 
 #: includes/admin/views/html-getting-started.php:25
@@ -316,7 +355,7 @@ msgid "Learn More"
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:31
-msgid "Ask me again in 2 weeks"
+msgid "Don't ask me again for another 2 weeks"
 msgstr ""
 
 #: includes/admin/views/html-notice-wc-not-installed.php:24
@@ -341,643 +380,329 @@ msgstr ""
 msgid "Turn off the CoCart plugin"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:53
+#: includes/api/class-cocart-add-item-controller.php:43
 msgid "Unique identifier for the product ID."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:60
+#: includes/api/class-cocart-add-item-controller.php:46
 msgid "The quantity amount of the item to add to cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:68
+#: includes/api/class-cocart-add-item-controller.php:54
 msgid "Unique identifier for the variation ID."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:85
-msgid ""
-"Re-calculates the totals once item has been added or the quantity of the "
-"item has increased."
+#: includes/api/class-cocart-add-item-controller.php:66
+#: includes/api/class-cocart-item-controller.php:49
+msgid "Additional item data passed to make item unique."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:99
+#: includes/api/class-cocart-add-item-controller.php:72
+msgid "Returns the whole cart once item is added."
+msgstr ""
+
+#: includes/api/class-cocart-add-item-controller.php:104
+#: includes/api/class-cocart-controller.php:485
+msgid "This product does not exist!"
+msgstr ""
+
+#: includes/api/class-cocart-add-item-controller.php:248
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:378
+#. translators: %s: product name
+msgid "You cannot add \"%s\" to your cart."
+msgstr ""
+
+#: includes/api/class-cocart-calculate-controller.php:44
 msgid "Returns the cart totals once calculated."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:128
-#: includes/api/class-cocart-controller.php:147
-#: includes/api/class-cocart-controller.php:165
-msgid "Returns the URL of the product image thumbnail."
+#: includes/api/class-cocart-calculate-controller.php:62
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:491
+msgid "No items in cart to calculate totals."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:143
-msgid "Unique identifier for the customer."
+#: includes/api/class-cocart-calculate-controller.php:84
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:496
+msgid "Cart totals have been calculated."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:161
-msgid "An alphanumeric identifier for the cart in session."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:176
-msgid "Unique identifier for the item in the cart."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:180
-msgid "Re-calculates the totals once item has been updated."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:185
-msgid "Returns the whole cart to reduce requests."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:219
-msgid "Returns the totals pre-formatted."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:236
-msgid "Cannot read cart!"
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:279
-msgid "Customer ID is required!"
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:368
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:201
-msgid "There are no items in the cart!"
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:414
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:220
+#: includes/api/class-cocart-clear-cart-controller.php:59
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:220
 msgid "Cart is cleared."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:416
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:222
+#: includes/api/class-cocart-clear-cart-controller.php:73
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:222
 msgid "Clearing the cart failed!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:430
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:236
+#: includes/api/class-cocart-controller.php:53
+#: includes/api/class-cocart-controller.php:72
+#: includes/api/class-cocart-controller.php:90
+msgid "Returns the URL of the product image thumbnail."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:68
+msgid "Unique identifier for the cart."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:86
+msgid "An alphanumeric identifier for the cart in session."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:107
+msgid "Cannot read cart!"
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:150
+msgid "Customer ID is required!"
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:232
+#. translators: %s: product name
+msgid ""
+"%s has been removed from your cart because it can no longer be purchased. "
+"Please contact us if you need assistance."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:320
+msgid "Cart Session ID is required!"
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:329
+msgid "Cart in Session is not valid!"
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:360
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:236
 msgid "Product ID number is required!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:434
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:240
+#: includes/api/class-cocart-controller.php:364
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:240
 msgid "Product ID must be numeric!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:448
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:254
+#: includes/api/class-cocart-controller.php:378
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:254
 msgid "Quantity must be numeric!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:505
-#: includes/api/class-cocart-controller.php:576
-#. translators: 1: quantity requested, 2: product name 3: quantity in stock
+#: includes/api/class-cocart-controller.php:410
+msgid "Can not add a variable product without specifying a variation!"
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:455
+msgid "Product did not pass validation!"
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:483
+msgid ""
+"Product \"%s\" either does not exist or something is preventing it from "
+"being added!"
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:520
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:330
+#. translators: %s: product name
+msgid "You cannot add another \"%s\" to your cart."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:538
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:336
+msgid "Sorry, this product cannot be purchased."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:556
+#. translators: %s: product name
+msgid "You cannot add \"%s\" to the cart because the product is out of stock."
+msgstr ""
+
+#: includes/api/class-cocart-controller.php:575
+#: includes/api/class-cocart-controller.php:661
 #. translators: 1: quantity requested, 2: product name, 3: quantity in stock
+#. translators: 1: quantity requested, 2: product name 3: quantity in stock
 msgid ""
 "You cannot add a quantity of %1$s for \"%2$s\" to the cart because there is "
 "not enough stock. - only %3$s remaining!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:540
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:317
-msgid "Warning: This product does not exist!"
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:559
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:330
-#. translators: %s: product name
-msgid "You cannot add another \"%s\" to your cart."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:565
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:336
-msgid "Sorry, this product cannot be purchased."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:571
-#. translators: %s: product name
-msgid "You cannot add \"%s\" to the cart because the product is out of stock."
-msgstr ""
-
-#: includes/api/class-cocart-controller.php:588
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:356
+#: includes/api/class-cocart-controller.php:590
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:356
 #. translators: 1: quantity in stock, 2: quantity in cart
 msgid ""
 "You cannot add that amount to the cart &mdash; we have %1$s in stock and "
 "you already have %2$s in your cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:602
+#: includes/api/class-cocart-controller.php:604
 msgid "This item can not be added to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:636
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:378
-#. translators: %s: product name
-msgid "You cannot add \"%s\" to your cart."
+#: includes/api/class-cocart-count-controller.php:74
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:201
+msgid "There are no items in the cart!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:666
+#: includes/api/class-cocart-item-controller.php:41
+msgid "The cart key which will identify the cart to add, update or restore an item."
+msgstr ""
+
+#: includes/api/class-cocart-item-controller.php:45
+msgid "Unique identifier for the item in the cart."
+msgstr ""
+
+#: includes/api/class-cocart-item-controller.php:55
+msgid "Returns the whole cart to reduce API requests."
+msgstr ""
+
+#: includes/api/class-cocart-item-controller.php:101
+#: includes/class-cocart-session.php:352
+msgid "Unable to find cart for: %s"
+msgstr ""
+
+#: includes/api/class-cocart-item-controller.php:116
 msgid "No items in cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:675
-#: includes/api/class-cocart-controller.php:757
+#: includes/api/class-cocart-item-controller.php:137
+#: includes/api/class-cocart-item-controller.php:279
 msgid "Item specified does not exist in cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:688
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:396
+#: includes/api/class-cocart-item-controller.php:162
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:396
 msgid "Item has been removed from cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:690
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:398
+#: includes/api/class-cocart-item-controller.php:164
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:398
 msgid "Unable to remove item from cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:693
-#: includes/api/class-cocart-controller.php:727
-#: includes/api/class-cocart-controller.php:809
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:401
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:424
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:478
+#: includes/api/class-cocart-item-controller.php:179
+#: includes/api/class-cocart-item-controller.php:237
+#: includes/api/class-cocart-item-controller.php:355
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:401
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:424
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:478
 msgid "Cart item key is required!"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:722
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:419
+#: includes/api/class-cocart-item-controller.php:220
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:419
 msgid "Item has been restored to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:724
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:421
+#: includes/api/class-cocart-item-controller.php:222
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:421
 msgid "Unable to restore item to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:787
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:468
+#: includes/api/class-cocart-item-controller.php:321
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:468
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has increased to \"%2$s\"."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:793
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:470
+#: includes/api/class-cocart-item-controller.php:327
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:470
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has decreased to \"%2$s\"."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:799
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:472
+#: includes/api/class-cocart-item-controller.php:333
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:472
 #. translators: %s: product name
 msgid "The quantity for \"%s\" has not changed."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:806
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:475
+#: includes/api/class-cocart-item-controller.php:340
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:475
 msgid "Unable to update item quantity in cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:824
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:491
-msgid "No items in cart to calculate totals."
+#: includes/api/class-cocart-save-cart-controller.php:43
+msgid "Unique identifier for the cart key."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:834
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:496
-msgid "Cart totals have been calculated."
+#: includes/api/class-cocart-save-cart-controller.php:47
+msgid "Email address to associate with the cart key."
 msgstr ""
 
-#: includes/api/class-cocart-products-controller.php:66
-#: includes/api/class-cocart-products-controller.php:746
-msgid "Unique identifier for the product."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:276
-msgid "Invalid ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:516
-#: includes/api/class-cocart-products-controller.php:517
-msgid "Placeholder"
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:752
-msgid "Product name."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:757
-msgid "Product slug."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:762
-msgid "The date the product was created, in the site's timezone."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:768
-msgid "The date the product was created, as GMT."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:774
-msgid "The date the product was last modified, in the site's timezone."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:780
-msgid "The date the product was last modified, as GMT."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:786
-msgid "Product type."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:793
-msgid "Featured product."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:799
-msgid "Catalog visibility."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:806
-msgid "Product description."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:811
-msgid "Product short description."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:816
-msgid "Unique identifier."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:821
-msgid "Current product price."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:827
-msgid "Product regular price."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:832
-msgid "Product sale price."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:837
-msgid "Start date of sale price, in the site's timezone."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:842
-msgid "Start date of sale price, as GMT."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:847
-msgid "End date of sale price, in the site's timezone."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:852
-msgid "End date of sale price, as GMT."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:857
-msgid "Shows if the product is on sale."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:863
-msgid "Shows if the product can be bought."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:869
-msgid "Amount of sales."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:875
-msgid "If the product is virtual."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:881
-msgid "If the product is downloadable."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:887
-msgid "Product external URL. Only for external products."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:893
-msgid "Product external button text. Only for external products."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:898
-msgid "Tax status."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:905
-msgid "Tax class."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:910
-msgid "Stock management at product level."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:916
-msgid "Stock quantity."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:921
+#: includes/api/class-cocart-save-cart-controller.php:70
 msgid ""
-"Controls whether or not the product is listed as \"in stock\" or \"out of "
-"stock\" on the frontend."
+"Either the cart key or a valid email address is missing. Please check the "
+"parameters."
 msgstr ""
 
-#: includes/api/class-cocart-products-controller.php:927
-msgid "If managing stock, this controls if backorders are allowed."
+#: includes/api/class-cocart-save-cart-controller.php:101
+msgid "Cart is already saved with another email address!"
 msgstr ""
 
-#: includes/api/class-cocart-products-controller.php:934
-msgid "Shows if backorders are allowed."
+#: includes/api/class-cocart-totals-controller.php:43
+msgid "Returns the totals pre-formatted."
 msgstr ""
 
-#: includes/api/class-cocart-products-controller.php:940
-msgid "Shows if the product is on backordered."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:946
-msgid "Allow one item to be bought in a single order."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:953
-#. translators: %s: weight unit
-msgid "Product weight (%s)."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:958
-msgid "Product dimensions."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:964
-#. translators: %s: dimension unit
-msgid "Product length (%s)."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:970
-#. translators: %s: dimension unit
-msgid "Product width (%s)."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:976
-#. translators: %s: dimension unit
-msgid "Product height (%s)."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:983
-msgid "Shows if the product need to be shipped."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:989
-msgid "Allow reviews."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:995
-msgid "Reviews average rating."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1001
-msgid "Amount of reviews that the product have."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1007
-msgid "List of related products IDs."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1016
-msgid "List of up-sell products IDs."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1024
-msgid "List of cross-sell products IDs."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1032
-msgid "Product parent ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1037
-msgid "List of categories."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1044
-msgid "Category ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1049
-msgid "Category name."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1055
-msgid "Category slug."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1064
-msgid "List of tags."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1071
-msgid "Tag ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1076
-msgid "Tag name."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1082
-msgid "Tag slug."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1091
-msgid "List of images."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1098
-msgid "Image ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1103
-msgid "The date the image was created, in the site's timezone."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1109
-msgid "The date the image was created, as GMT."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1115
-msgid "The date the image was last modified, in the site's timezone."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1121
-msgid "The date the image was last modified, as GMT."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1127
-msgid "Image URL."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1133
-msgid "Image name."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1138
-msgid "Image alternative text."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1143
-msgid "Image position. 0 means that the image is featured."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1151
-msgid "List of attributes."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1158
-#: includes/api/class-cocart-products-controller.php:1203
-msgid "Attribute ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1163
-#: includes/api/class-cocart-products-controller.php:1208
-msgid "Attribute name."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1168
-msgid "Attribute position."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1173
-msgid ""
-"Define if the attribute is visible on the \"Additional information\" tab in "
-"the product's page."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1179
-msgid "Define if the attribute can be used as variation."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1185
-msgid "List of available term names of the attribute."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1196
-msgid "Defaults variation attributes."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1213
-msgid "Selected attribute term name."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1221
-msgid "List of variations IDs."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1230
-msgid "List of grouped products ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1238
-msgid "Menu order, used to custom sort products."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1243
-msgid "Meta data."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1250
-msgid "Meta ID."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1256
-msgid "Meta key."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1261
-msgid "Meta value."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1318
-msgid "Limit result set to products with a specific slug."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1323
-msgid "Limit result set to products assigned a specific type."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1330
-msgid "Limit result set to products with specific SKU(s). Use commas to separate."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1336
-msgid "Limit result set to featured products."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1342
-msgid "Limit result set to products assigned a specific category slug."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1348
-msgid "Limit result set to products assigned a specific tag slug."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1354
-msgid ""
-"Limit result set to products with a specific attribute. Use the taxonomy "
-"name/attribute slug."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1360
-msgid ""
-"Limit result set to products with a specific attribute term ID (required an "
-"assigned attribute)."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1368
-msgid "Limit result set to products with a specific tax class."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1377
-msgid "Limit result set to products with specified stock status."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1384
-msgid "Limit result set to products on sale."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1390
-msgid "Limit result set to products based on a minimum price."
-msgstr ""
-
-#: includes/api/class-cocart-products-controller.php:1396
-msgid "Limit result set to products based on a maximum price."
-msgstr ""
-
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:122
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:122
 msgid "The cart item key is what identifies the item in the cart."
 msgstr ""
 
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:291
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:345
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:291
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:345
 #. translators: 1: product name 2: quantity in stock
 msgid ""
 "You cannot add that amount of &quot;%1$s&quot; to the cart because there is "
 "not enough stock (%2$s remaining)."
 msgstr ""
 
-#: includes/api/wc-v2/class-wc-rest-cart-controller.php:341
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:317
+msgid "Warning: This product does not exist!"
+msgstr ""
+
+#: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:341
 msgid ""
 "You cannot add &quot;%s&quot; to the cart because the product is out of "
 "stock."
 msgstr ""
 
-#: includes/class-cocart-install.php:139
+#: includes/class-cocart-init.php:217
+msgid "User has changed! Was %s before and is now %s"
+msgstr ""
+
+#: includes/class-cocart-install.php:144
 msgid "Get started with %3$s here:"
+msgstr ""
+
+#: includes/class-cocart-product-validation.php:40
+#. translators: %1$s: product name, %2$s: product type
+msgid "You cannot add \"%1$s\" to your cart as it is an \"%2$s\" product."
+msgstr ""
+
+#: includes/class-cocart-session.php:94
+msgid "Created a new cart: %s"
+msgstr ""
+
+#: includes/class-cocart-session.php:185
+msgid "Saved cart data for: %s"
+msgstr ""
+
+#: includes/class-cocart-session.php:341
+msgid "Cart key %s was not valid!"
+msgstr ""
+
+#: includes/class-cocart-session.php:344
+msgid "This cart key is not valid!"
+msgstr ""
+
+#: includes/class-cocart-session.php:355
+msgid "Sorry but this cart in session has expired!"
+msgstr ""
+
+#: includes/class-cocart-session.php:408
+msgid ""
+"Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s "
+"or %2$scheckout%3$s."
 msgstr ""
 
 #: includes/admin/class-cocart-wc-admin-system-status.php:69
@@ -985,7 +710,22 @@ msgctxt "label that indicates the version of the plugin"
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:79
+#: includes/admin/class-cocart-wc-admin-system-status.php:77
+msgctxt "label that indicates the database version of the plugin"
+msgid "Database Version"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:86
+msgctxt "label that indicates the install date of the plugin"
+msgid "Install Date"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:94
 msgctxt "label that indicates the number of carts in session"
 msgid "Carts in Session"
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:102
+msgctxt "label that indicates the number of carts expired"
+msgid "Carts Expired"
 msgstr ""
