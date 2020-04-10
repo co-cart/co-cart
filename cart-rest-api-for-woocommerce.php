@@ -167,7 +167,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		} // END define()
 
 		/**
-		 * Includes Cart REST-API for WooCommerce.
+		 * Includes CoCart REST-API.
 		 *
 		 * @access  public
 		 * @since   1.0.0
@@ -177,6 +177,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		public function includes() {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-logger.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-product-validation.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
 		} // END includes()
