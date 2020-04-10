@@ -114,7 +114,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
 			$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
 		} elseif ( has_action( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
-			do_action( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ); // Custom handler.
+			do_action( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart ); // Custom handler.
 		} else {
 			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data );
 		}
