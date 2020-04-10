@@ -228,14 +228,14 @@ class CoCart_API_Controller {
 		if ( ! empty( $cart_item_key ) ) {
 			$cart_item_key = $this->find_product_in_cart( $cart_item_key );
 
-			return $cart_contents[$cart_item_key];
+			return $cart_contents[ $cart_item_key ];
 		}
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
 				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
-				$cart_contents[$item_key]['data'] = $cart_item['data'];
+				$cart_contents[ $item_key ]['data'] = $cart_item['data'];
 			}
 
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );

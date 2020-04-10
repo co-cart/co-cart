@@ -5,7 +5,7 @@
  * Uninstalling CoCart deletes tables and options.
  *
  * @package CoCart\Uninstaller
- * @since 2.1.0
+ * @since   2.1.0
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
