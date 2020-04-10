@@ -47,7 +47,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					'type'        => 'boolean',
 				),
 				'return_cart' => array(
-					'description' => __( 'Returns the whole cart to reduce requests.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
 					'default'     => false,
 					'type'        => 'boolean',
 				)
@@ -86,7 +86,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function remove_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
+		$cart_item_key  = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( wp_unslash( $data['cart_item_key'] ) );
 
 		// Checks to see if the cart is empty before attempting to remove item.
 		if ( WC()->cart->is_empty() ) {
@@ -238,7 +238,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 */
 	public function update_item( $data = array() ) {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
-		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+		$quantity      = ! isset( $data['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $data['quantity'] ) );
 
 		// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 		if ( $quantity === 0 ) {
@@ -273,8 +273,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			if ( WC()->cart->set_quantity( $cart_item_key, $quantity, $data['refresh_totals'] ) ) {
 				$new_data = $this->get_cart_item( $cart_item_key, 'update' );
 
-				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( $new_data['product_id'] );
-				$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( $new_data['variation_id'] );
+				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
+				$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
 
 				$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
