@@ -127,7 +127,7 @@ class CoCart_API_Session {
 		$cart = WC()->cart;
 
 		// Sets the expiration time for the cart.
-		$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', 60 * 60 * 48 ) ); // Default: 48 Hours.
+		$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', DAY_IN_SECONDS * 30 ) ); // Default: 30 Days.
 
 		// Serialize cart data if not already.
 		if ( ! is_serialized( $cart ) ) {
