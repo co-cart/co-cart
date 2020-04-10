@@ -88,6 +88,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 */
 	public function add_to_cart( $data = array() ) {
 		$product_id     = ! isset( $data['product_id'] ) ? 0 : wc_clean( wp_unslash( $data['product_id'] ) );
+		$quantity       = ! isset( $data['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $data['quantity'] ) );
 		$variation_id   = ! isset( $data['variation_id'] ) ? 0 : absint( wp_unslash( $data['variation_id'] ) );
 		$variation      = ! isset( $data['variation'] ) ? array() : $data['variation'];
 		$cart_item_data = ! isset( $data['cart_item_data'] ) ? array() : $data['cart_item_data'];
