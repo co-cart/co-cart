@@ -122,18 +122,20 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		// Return error response if it is an error.
 		if ( is_wp_error( $was_added_to_cart ) ) {
 			return $was_added_to_cart;
+		} else {
+			$response = '';
+
+			// Was it requested to return the whole cart once item added?
+			if ( $data['return_cart'] ) {
+				$response = $this->get_cart_contents( $data );
+			} else if ( is_array( $was_added_to_cart ) ) {
+				$response = $was_added_to_cart;
+			}
+
+			if ( ! empty( $response ) ) {
+				return new WP_REST_Response( $response, 200 );
+			}
 		}
-
-		$response = '';
-
-		// Was it requested to return the whole cart once item added?
-		if ( $data['return_cart'] ) {
-			$response = $this->get_cart_contents( $data );
-		} else if ( is_array( $was_added_to_cart ) ) {
-			$response = $was_added_to_cart;
-		}
-
-		return new WP_REST_Response( $response, 200 );
 	} // END add_to_cart()
 
 	/**
