@@ -115,10 +115,10 @@ if ( ! class_exists( 'CoCart' ) ) {
 			add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
 
 			// Include required files.
-			add_action( 'init', array( $this, 'includes' ) );
+			add_action( 'plugins_loaded', array( $this, 'includes' ) );
 
 			// Initialize session.
-			add_action( 'init', array( $this, 'initialize_session' ) );
+			add_action( 'plugins_loaded', array( $this, 'initialize_session' ), 12 );
 
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
