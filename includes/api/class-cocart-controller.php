@@ -48,13 +48,7 @@ class CoCart_API_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
 			'methods'  => WP_REST_Server::READABLE,
 			'callback' => array( $this, 'get_cart' ),
-			'args'     => array(
-				'thumb' => array(
-					'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				),
-			),
+			'args'     => $this->get_collection_params()
 		) );
  
 		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
@@ -689,48 +683,21 @@ class CoCart_API_Controller {
 	} // END get_cart_item()
 
 	/**
-	 * Get the query params for adding items.
+	 * Get the query params for getting the cart.
 	 *
 	 * @access public
-	 * @since  2.0.x
+	 * @since  2.1.0
 	 * @return array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'product_id' => array(
-				'description'       => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'integer',
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_numeric( $value );
-				}
+			'id' => array(
+				'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'integer',
+				'required'    => true,
 			),
-			'quantity' => array(
-				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
-				'default'           => 1,
-				'type'              => 'integer',
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_numeric( $value );
-				}
-			),
-			'variation_id' => array(
-				'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'integer',
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_numeric( $value );
-				}
-			),
-			'variation' => array(
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_array( $value );
-				}
-			),
-			'cart_item_data' => array(
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_array( $value );
-				}
-			),
-			'refresh_totals' => array(
-				'description' => __( 'Re-calculates the totals once item has been added or the quantity of the item has increased.', 'cart-rest-api-for-woocommerce' ),
+			'thumb' => array(
+				'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => false,
 				'type'        => 'boolean',
 			)

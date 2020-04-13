@@ -36,22 +36,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	public function register_routes() {
 		// Update, Remove or Restore Item - cocart/v1/item (GET, POST, DELETE)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'args' => array(
-				'cart_item_key' => array(
-					'description' => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-				),
-				'refresh_totals' => array(
-					'description' => __( 'Re-calculates the totals once item has been updated.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => true,
-					'type'        => 'boolean',
-				),
-				'return_cart' => array(
-					'description' => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				)
-			),
+			'args' => $this->get_collection_params(),
 			array(
 				'methods'  => WP_REST_Server::READABLE,
 				'callback' => array( $this, 'restore_item' ),
@@ -62,9 +47,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				'args'     => array(
 					'quantity' => array(
 						'default'           => 1,
-						'type'              => 'integer',
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_numeric( $param );
+						'type'              => 'float',
+						'validate_callback' => function( $value, $request, $param ) {
+							return is_numeric( $value );
 						}
 					),
 				),
@@ -344,5 +329,28 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			return new WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 500 ) );
 		}
 	} // END update_item()
+
+	/**
+	 * Get the query params for item.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'cart_item_key' => array(
+				'description' => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+			),
+			'return_cart' => array(
+				'description' => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
+				'default'     => false,
+				'type'        => 'boolean',
+			)
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
