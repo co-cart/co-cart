@@ -285,7 +285,7 @@ class WC_REST_Cart_Controller {
 		$variation_id    = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
 		$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
-		$quantity = absint( $quantity );
+		$quantity = floatval( $quantity );
 
 		if ( ! $current_product->has_enough_stock( $quantity ) ) {
 			return new WP_Error( 'wc_cart_rest_not_enough_in_stock', sprintf( __( 'You cannot add that amount of &quot;%1$s&quot; to the cart because there is not enough stock (%2$s remaining).', 'cart-rest-api-for-woocommerce' ), $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) ), array( 'status' => 500 ) );
@@ -304,7 +304,7 @@ class WC_REST_Cart_Controller {
 	 */
 	public function add_to_cart( $data = array() ) {
 		$product_id     = ! isset( $data['product_id'] ) ? 0 : absint( $data['product_id'] );
-		$quantity       = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+		$quantity       = ! isset( $data['quantity'] ) ? 1 : floatval( $data['quantity'] );
 		$variation_id   = ! isset( $data['variation_id'] ) ? 0 : absint( $data['variation_id'] );
 		$variation      = ! isset( $data['variation'] ) ? array() : $data['variation'];
 		$cart_item_data = ! isset( $data['cart_item_data'] ) ? array() : $data['cart_item_data'];
@@ -436,7 +436,7 @@ class WC_REST_Cart_Controller {
 	 */
 	public function update_item( $data = array() ) {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
-		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+		$quantity      = ! isset( $data['quantity'] ) ? 1 : floatval( $data['quantity'] );
 
 		// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 		if ( $quantity === 0 ) {
