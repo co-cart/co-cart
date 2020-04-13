@@ -26,7 +26,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access protected
 		 * @static
-		 * @since 1.0.0
 		 */
 		protected static $_instance = null;
 
@@ -35,18 +34,16 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access public
 		 * @static
-		 * @since  1.0.0
 		 */
-		public static $version = '2.0.13-rc.2';
+		public static $version = '2.0.13';
 
 		/**
 		 * Required WooCommerce Version
 		 *
 		 * @access public
 		 * @static
-		 * @since  1.0.0
 		 */
-		public static $required_woo = '3.0.0';
+		public static $required_woo = '3.6.0';
 
 		/**
 		 * Main CoCart Instance.
@@ -71,7 +68,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * Cloning is forbidden.
 		 *
 		 * @access public
-		 * @since  1.0.0
 		 * @return void
 		 */
 		public function __clone() {
@@ -82,7 +78,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * Unserializing instances of this class is forbidden.
 		 *
 		 * @access public
-		 * @since  1.0.0
 		 * @return void
 		 */
 		public function __wakeup() {
@@ -124,7 +119,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.6
+		 * @version 2.0.13
 		 */
 		public function setup_constants() {
 			$this->define('COCART_VERSION', self::$version);
@@ -134,7 +129,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_URL_PATH', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 			$this->define('COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
-			$this->define('COCART_WP_VERSION_REQUIRE', '4.4');
+			$this->define('COCART_WP_VERSION_REQUIRE', '5.0');
 
 			$this->define('COCART_STORE_URL', 'https://cocart.xyz/');
 			$this->define('COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/');
@@ -195,7 +190,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *      - WP_LANG_DIR/plugins/cart-rest-api-for-woocommerce-LOCALE.mo
 		 *
 		 * @access public
-		 * @since  1.0.0
 		 * @return void
 		 */
 		public function load_plugin_textdomain() {
@@ -228,7 +222,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			return $request;
 		} // END allow_cocart_requests_wc()
 
-} // END class
+	} // END class
 
 } // END if class exists
 
