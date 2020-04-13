@@ -778,8 +778,6 @@ class CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
-				$response = array();
-
 				// Return response based on product quantity increment.
 				if ( $quantity > $current_data['quantity'] ) {
 					/* translators: 1: product name, 2: new quantity */
