@@ -57,7 +57,7 @@ class CoCart_API_Controller {
 				'quantity' => array(
 					'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
 					'default'           => 1,
-					'type'              => 'integer',
+					'type'              => 'float',
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
 					}
@@ -177,7 +177,7 @@ class CoCart_API_Controller {
 				'args'     => array(
 					'quantity' => array(
 						'default'           => 1,
-						'type'              => 'integer',
+						'type'              => 'float',
 						'validate_callback' => function( $param, $request, $key ) {
 							return is_numeric( $param );
 						}
@@ -519,7 +519,7 @@ class CoCart_API_Controller {
 	 */
 	public function add_to_cart( $data = array() ) {
 		$product_id     = ! isset( $data['product_id'] ) ? 0 : absint( $data['product_id'] );
-		$quantity       = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+		$quantity       = ! isset( $data['quantity'] ) ? 1 : floatval( $data['quantity'] );
 		$variation_id   = ! isset( $data['variation_id'] ) ? 0 : absint( $data['variation_id'] );
 		$variation      = ! isset( $data['variation'] ) ? array() : $data['variation'];
 		$cart_item_data = ! isset( $data['cart_item_data'] ) ? array() : $data['cart_item_data'];
@@ -739,7 +739,7 @@ class CoCart_API_Controller {
 	 */
 	public function update_item( $data = array() ) {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : wc_clean( $data['cart_item_key'] );
-		$quantity      = ! isset( $data['quantity'] ) ? 1 : absint( $data['quantity'] );
+		$quantity      = ! isset( $data['quantity'] ) ? 1 : floatval( $data['quantity'] );
 
 		// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 		if ( $quantity === 0 ) {
