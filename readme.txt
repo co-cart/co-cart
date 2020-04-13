@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 5.4
-Stable tag: 2.0.10
+Stable tag: 2.0.12
 WC requires at least: 3.6.0
 WC tested up to: 4.1.0
 License: GPLv3
@@ -33,7 +33,7 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 
 CoCart provides the basic features to get you started.
 
-* NEW: Guest carts are supported.
+* **NEW**: Guest carts are supported.
 * Add simple and variable products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
@@ -193,7 +193,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 [Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
 
-
 == Changelog ==
 
 = v2.1.0 - ?? April, 2020 =
@@ -227,3 +226,9 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 > Developers please see documentation for more details on the new hooks added.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
+
+== Upgrade Notice ==
+
+= 2.0.12 =
+
+Please temporarily deactivate CoCart and CoCart Pro (if you have it) before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.

@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Display notices in the WordPress admin.
+ * Display notices in the WordPress admin for CoCart.
  *
  * @since    1.2.0
  * @version  2.1.0
