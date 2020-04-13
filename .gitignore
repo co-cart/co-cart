@@ -5,9 +5,13 @@
 /node_modules/
 npm-debug.log
 
-# Various file types to ignore when exporting.
+# OS X metadata
 .DS_Store
+
+# Windows junk
 Thumbs.db
+
+# Various file types to ignore when exporting.
 *.sh
 .gitconfig
 *.zip

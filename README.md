@@ -10,8 +10,8 @@
 **Contributors:** sebd86, cocartforwc  
 **Donate link:** https://opencollective.com/cocart  
 **Tags:** woocommerce, cart, rest, rest-api, JSON  
-**Requires at least:** 4.9  
-**Requires PHP:** 5.6  
+**Requires at least:** 5.0  
+**Requires PHP:** 7.0  
 **Tested up to:** 5.4  
 **WC requires at least:** 3.6.0  
 **WC tested up to:** 4.0.1  
@@ -20,34 +20,34 @@
 
 ## 🔔 Overview
 
-CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for WooCommerce.
-
-With CoCart, running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
+A REST API designed to handle the frontend of your WooCommerce store. Control and manage the shopping cart in any framework of your choosing. Powerful and developer friendly, ready to build your headless store.
 
 ## Why should I use CoCart?
 
-WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the store customers access to the products in order to add them to the shopping cart.
+Well, even though the WooCommerce REST API is created with developers in mind, it’s only designed for controlling the backend of the store.
 
-If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
+Most developers have to fork out further custom development to enable the frontend to meet their client’s specifications and that can be costly. CoCart provides that missing component to bridge 🌉 the gap between your WooCommerce store and the app your building by enabling the features of the frontend at a fraction of the cost.
 
-With the documentation provided, you’ll learn how to enable the cart for your store in no time.
+If you are wanting to build a headless WooCommerce store then CoCart is your solution.
 
 ## Features
 
+* **NEW**: Guest carts are now fully supported.
 * Add simple and variable products to the cart (including simple and variable subscription products).
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
 * Calculate the totals.
-* Get the cart totals.
+* Retrieve the cart totals.
 * View the cart contents.
-* Get the item count.
+* Retrieve the item count.
 * Empty the cart.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
-* **NEW** Supports basic authentication without the need to cookie authenticate.
+* Supports basic authentication without the need to cookie authenticate.
 
 Included with these features are **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers.
 
+* **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tools](https://github.com/co-cart/cocart-tools)** provides tools to help with development testing with CoCart.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 

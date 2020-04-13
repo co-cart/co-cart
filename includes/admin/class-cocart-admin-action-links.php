@@ -55,7 +55,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.0.4
+		 * @version 2.0.11
 		 * @param   array  $metadata An array of the plugin's metadata.
 		 * @param   string $file     Path to the plugin file.
 		 * @param   array  $data     Plugin Information
