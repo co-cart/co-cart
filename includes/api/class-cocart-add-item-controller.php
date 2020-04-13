@@ -38,42 +38,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'methods'  => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'add_to_cart' ),
-			'args'     => array(
-				'product_id' => array(
-					'description' => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
-				),
-				'quantity' => array(
-					'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
-					'default'           => 1,
-					'type'              => 'integer',
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
-					}
-				),
-				'variation_id' => array(
-					'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'integer',
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
-					}
-				),
-				'variation' => array(
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_array( $param );
-					}
-				),
-				'cart_item_data' => array(
-					'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
-					'validate_callback' => function( $param, $request, $key ) {
-						return is_array( $param );
-					}
-				),
-				'return_cart' => array(
-					'description' => __( 'Returns the whole cart once item is added.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				)
-			)
+			'args'     => $this->get_collection_params()
 		) );
 	} // register_routes()
 
@@ -256,5 +221,53 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		return $item_added;
 	} // END add_item_to_cart()
+
+	/**
+	 * Get the query params for adding items.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'product_id' => array(
+				'description' => __( 'Unique identifier for the product ID.', 'cart-rest-api-for-woocommerce' ),
+			),
+			'quantity' => array(
+				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => 1,
+				'type'              => 'float',
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_numeric( $value );
+				}
+			),
+			'variation_id' => array(
+				'description'       => __( 'Unique identifier for the variation ID.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'integer',
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_numeric( $value );
+				}
+			),
+			'variation' => array(
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_array( $value );
+				}
+			),
+			'cart_item_data' => array(
+				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_array( $value );
+				}
+			),
+			'return_cart' => array(
+				'description' => __( 'Returns the whole cart once item is added.', 'cart-rest-api-for-woocommerce' ),
+				'default'     => false,
+				'type'        => 'boolean',
+			)
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
