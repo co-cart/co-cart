@@ -9,7 +9,8 @@
 * NEW: Able to transfer a cart from your headless store to the web.
 * NEW: Added handlers to improve product validation and extended support for other product types.
 * NEW: Can now add items to cart using a products SKU ID.
-* Removed: Parameter to re-calculate totals once item was updated. Now calculates by default if required.
+* NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
+* Removed: Parameter to re-calculate totals once item was updated.
 * Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
 * Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
 * Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.

@@ -129,6 +129,13 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			if ( WC()->cart->remove_cart_item( $cart_item_key ) ) {
 				do_action( 'cocart_item_removed', $current_data );
 
+				/**
+				 * Calculates the cart totals now an item has been removed.
+				 *
+				 * @since 2.1.0
+				 */
+				WC()->cart->calculate_totals();
+
 				// Was it requested to return the whole cart once item removed?
 				if ( $data['return_cart'] ) {
 					$cart_contents = $this->get_cart_contents( $data );
@@ -186,6 +193,13 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				$current_data = $this->get_cart_item( $cart_item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
 				do_action( 'cocart_item_restored', $current_data );
+
+				/**
+				 * Calculates the cart totals now an item has been restored.
+				 *
+				 * @since 2.1.0
+				 */
+				WC()->cart->calculate_totals();
 
 				// Was it requested to return the whole cart once item restored?
 				if ( $data['return_cart'] ) {
@@ -280,6 +294,13 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 				if ( $quantity != $new_data['quantity'] ) {
 					do_action( 'cocart_item_quantity_changed', $cart_item_key, $new_data );
+
+					/**
+					 * Calculates the cart totals if an item has changed it's quantity.
+					 *
+					 * @since 2.1.0
+					 */
+					WC()->cart->calculate_totals();
 				}
 
 				// Was it requested to return the whole cart once item updated?
