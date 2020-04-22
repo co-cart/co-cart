@@ -140,7 +140,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.0.7
+	 * @version 2.1.0
 	 */
 	private function maybe_load_cart() {
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
@@ -152,42 +152,100 @@ class CoCart_Rest_API {
 				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 			}
 
-			if ( null === WC()->session ) {
-				$session_class = 'WC_Session_Handler';
+			// Initialize session.
+			$this->initialize_session();
 
-				// Prefix session class with global namespace if not already namespaced
-				if ( false === strpos( $session_class, '\\' ) ) {
-					$session_class = '\\' . $session_class;
-				}
+			// Load cart from session.
+			add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_from_session' ), 0 );
 
-				WC()->session = new $session_class();
-				WC()->session->init();
-			}
-
-			/**
-			 * For logged in customers, pull data from their account rather than the 
-			 * session which may contain incomplete data.
-			 */
-			if ( is_null( WC()->customer ) ) {
-				$customer_id = strval( get_current_user_id() );
-
-				// If the ID is not ZERO, then the user is logged in.
-				if ( $customer_id > 0 ) {
-					WC()->customer = new WC_Customer( $customer_id ); // Loads from database.
-				} else {
-					WC()->customer = new WC_Customer( $customer_id, true ); // Loads from session.
-				}
-
-				// Customer should be saved during shutdown.
-				add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
-			}
-
-			// Load WooCommerce Cart.
-			if ( null === WC()->cart ) {
-				WC()->cart = new WC_Cart();
-			}
+			// Initialize cart.
+			$this->initialize_cart();
 		}
 	} // END maybe_load_cart()
+
+	/**
+	 * Initialize CoCart session.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 */
+	public function initialize_session() {
+		// Force WooCommerce session to be null to be sure our own handler is set.
+		if ( WC()->session instanceof WC_Session_Handler ) {
+			WC()->session = null;
+		}
+
+		// CoCart session handler class.
+		$session_class = 'CoCart_Session_Handler';
+
+		if ( is_null( WC()->session ) || ! WC()->session instanceof $session_class ) {
+			// Prefix session class with global namespace if not already namespaced
+			if ( false === strpos( $session_class, '\\' ) ) {
+				$session_class = '\\' . $session_class;
+			}
+
+			// Initialize new CoCart session.
+			WC()->session = new $session_class();
+			WC()->session->init();
+		}
+	} // END initialize_session()
+
+	/**
+	 * Initialize CoCart cart.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 */
+	public function initialize_cart() {
+		if ( is_null( WC()->customer ) || ! WC()->customer instanceof WC_Customer ) {
+			$customer_id = strval( get_current_user_id() );
+
+			WC()->customer = new WC_Customer( $customer_id, true );
+
+			// Load WooCommerce Cart.
+			if ( ! isset( WC()->cart ) || '' === WC()->cart || is_null( WC()->cart ) ) {
+				WC()->cart = new WC_Cart();
+			}
+
+			// Customer should be saved during shutdown.
+			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
+		}
+	} // END initialize_cart()
+
+	/**
+	 * Loads the customers cart into session.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 */
+	public function load_cart_from_session() {
+		// Initialize session.
+		$this->initialize_session();
+
+		$customer_id = strval( get_current_user_id() );
+
+		if ( ! $customer_id > 0 ) {
+			$cookie = WC()->session->get_cart_cookie();
+
+			if ( $cookie ) {
+				$customer_id = $cookie[0];
+			}
+		}
+
+		// Get cart for customer.
+		$cart = WC()->session->get_cart( $customer_id );
+
+		// Set cart for customer if not empty.
+		if ( ! empty( $cart ) ) {
+			WC()->session->set( 'cart', maybe_unserialize( $cart[ 'cart' ] ) );
+			WC()->session->set( 'cart_totals', maybe_unserialize( $cart[ 'cart_totals' ] ) );
+			WC()->session->set( 'applied_coupons', maybe_unserialize( $cart[ 'applied_coupons' ] ) );
+			WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart[ 'coupon_discount_totals' ] ) );
+			WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart[ 'coupon_discount_tax_totals' ] ) );
+			WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart[ 'removed_cart_contents' ] ) );
+			WC()->session->set( 'cart_fees', maybe_unserialize( $cart[ 'cart_fees' ] ) );
+		}
+	} // END load_cart_from_session()
 
 	/**
 	 * Include CoCart REST API controllers.
