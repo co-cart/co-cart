@@ -48,13 +48,7 @@ class CoCart_API_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
 			'methods'  => WP_REST_Server::READABLE,
 			'callback' => array( $this, 'get_cart' ),
-			'args'     => array(
-				'thumb' => array(
-					'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				),
-			),
+			'args'     => $this->get_collection_params()
 		) );
  
 		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
@@ -687,5 +681,29 @@ class CoCart_API_Controller {
 
 		return apply_filters( 'cocart_get_cart_item', $item, $condition );
 	} // END get_cart_item()
+
+	/**
+	 * Get the query params for getting the cart.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'id' => array(
+				'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'integer',
+				'required'    => true,
+			),
+			'thumb' => array(
+				'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
+				'default'     => false,
+				'type'        => 'boolean',
+			)
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
