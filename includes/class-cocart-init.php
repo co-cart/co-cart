@@ -161,6 +161,7 @@ class CoCart_Rest_API {
 			// Initialize cart.
 			$this->initialize_cart();
 
+			// Identify if user has switched.
 			if ( $this->has_user_switched() ) {
 				$this->user_switched();
 			}
@@ -257,7 +258,7 @@ class CoCart_Rest_API {
 	} // END initialize_cart()
 
 	/**
-	 * Loads the customers cart into session.
+	 * Loads guest customers cart into session.
 	 *
 	 * @access public
 	 * @since  2.1.0
@@ -268,7 +269,8 @@ class CoCart_Rest_API {
 
 		$customer_id = strval( get_current_user_id() );
 
-		if ( ! $customer_id > 0 ) {
+		// Load cart for guest.
+		if ( is_numeric( $customer_id ) && $customer_id < 1 ) {
 			$cookie = WC()->session->get_cart_cookie();
 
 			if ( $cookie ) {
