@@ -21,81 +21,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CoCart_API_Session {
 
-	private $cookie_name;
-
 	/**
 	 * Setup class.
 	 *
 	 * @access public
 	 */
 	public function init() {
-		$this->cookie_name = 'cocart_cart_key';
-
-		// Generate a new unique key and store it in a cookie if adding the first item.
-		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_generate_unique_key' ), 0 );
-
-		// Update the saved cart data.
-		add_action( 'woocommerce_add_to_cart', array( $this, 'maybe_save_cart_data' ), 99 );
-		add_action( 'woocommerce_cart_item_set_quantity', array( $this, 'maybe_save_cart_data' ), 99 );
-		add_action( 'woocommerce_cart_item_restored', array( $this, 'maybe_save_cart_data' ), 99 );
-		add_action( 'woocommerce_applied_coupon', array( $this, 'maybe_save_cart_data' ), 99 );
-		add_action( 'woocommerce_removed_coupon', array( $this, 'maybe_save_cart_data' ), 99 );
-		add_action( 'woocommerce_cart_calculate_fees', array( $this, 'maybe_save_cart_data' ), 99 );
-		add_action( 'woocommerce_after_calculate_totals', array( $this, 'maybe_save_cart_data' ), 99 );
-
-		// Clears the cart data.
-		add_action( 'woocommerce_cart_item_removed', array( $this, 'maybe_clear_cart' ), 99 );
-		add_action( 'woocommerce_cart_emptied', array( $this, 'maybe_clear_cart' ), 99 );
-
 		// Cleans up carts from the database that have expired.
 		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
 
+		add_filter( 'cocart_merge_cart_content', array( $this, 'merge_quantity' ), 10, 3 );
+
 		// Loads a cart in session if still valid.
-		add_action( 'wp_loaded', array( $this, 'load_cart_action' ), 20 );
+		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ), 10 );
 	} // END __construct()
-
-	/**
-	 * Check if we need to create a unique key for the user in session.
-	 *
-	 * @access public
-	 */
-	public function maybe_generate_unique_key() {
-		$cart_key = WC()->session->get( 'cocart_key' );
-
-		if ( ! isset( $cart_key ) ) {
-			$value = apply_filters( 'cocart_customer_id', $this->generate_customer_id() );
-
-			if ( ! empty( $value ) ) {
-				if ( apply_filters( 'cocart_session_set_cookie', false ) ) {
-				// Set cookie with unique key.
-				wc_setcookie( $this->cookie_name, $value );
-				}
-
-				// Temporarily store the unique id generated in session.
-				WC()->session->set( 'cocart_key', $value );
-			}
-		}
-	} // END maybe_generate_unique_id()
-
-	/**
-	 * Generate a unique ID for guest customers.
-	 *
-	 * Uses Portable PHP password hashing framework to generate a unique cryptographically strong ID.
-	 *
-	 * @return string
-	 */
-	public function generate_customer_id() {
-		$customer_id = '';
-
-		if ( ! is_user_logged_in() ) {
-			require_once ABSPATH . 'wp-includes/class-phpass.php';
-
-			$hasher      = new PasswordHash( 8, false );
-			$customer_id = md5( $hasher->get_random_bytes( 32 ) );
-		}
-
-		return $customer_id;
-	} // END generate_customer_id()
 
 	/**
 	 * Returns true or false if the cart key is saved in the database.
@@ -105,149 +44,15 @@ class CoCart_API_Session {
 	 * @return bool
 	 */
 	public function is_cart_saved( $cart_key ) {
-		$cart_saved = $this->get_cart( $cart_key );
+		$handler = new CoCart_Session_Handler();
+		$cart_saved = $handler->get_cart( $cart_key );
 
 		if ( ! empty( $cart_saved ) ) {
 			return true;
 		}
 
 		return false;
-	} // END maybe_save_cart_data()
-
-	/**
-	 * Save cart data under the cart key provided.
-	 *
-	 * @access public
-	 * @global $wpdb
-	 * @param  string $cart_key
-	 */
-	public function save_cart_data( $cart_key ) {
-		global $wpdb;
-
-		$cart = WC()->cart;
-
-		// Sets the expiration time for the cart.
-		$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', DAY_IN_SECONDS * 30 ) ); // Default: 30 Days.
-
-		// Serialize cart data if not already.
-		if ( ! is_serialized( $cart ) ) {
-			$cart = maybe_serialize( $cart );
-		}
-
-		// If cart is not saved, new data is inserted. If cart does already exist then it will update the data.
-		$wpdb->query(
-			$wpdb->prepare(
-				"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
-				 ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
-				$cart_key,
-				$cart,
-				$cart_expiration
-			)
-		);
-	} // END save_cart_data()
-
-	/**
-	 * If the cart key exists then save the cart data.
-	 *
-	 * @access public
-	 */
-	public function maybe_save_cart_data() {
-		$cart_key = WC()->session->get( 'cocart_key' );
-
-		if ( isset( $cart_key ) ) {
-			$cart_saved = $this->is_cart_saved( $cart_key );
-
-			if ( ! $cart_saved ) {
-				$this->save_cart_data( $cart_key );
-
-				// Now destroy key stored in session as we will check the cookie from now on.
-				WC()->session->set( 'cocart_key', null );
-			}
-		}
-
-		if ( isset( $_COOKIE[ $this->cookie_name ] ) ) {
-			$cart_key = $_COOKIE[ $this->cookie_name ];
-
-			$cart_saved = $this->is_cart_saved( $cart_key );
-
-			if ( $cart_saved ) {
-				$this->save_cart_data( $cart_key );
-			}
-		}
-	} // END maybe_save_cart_data()
-
-	/**
-	 * Checks if the cart has any items before deciding 
-	 * to delete cart data or update it.
-	 *
-	 * @access public
-	 */
-	public function maybe_clear_cart() {
-		$count = WC()->cart->get_cart_contents_count();
-
-		if ( isset( $_COOKIE[ $this->cookie_name ] ) ) {
-			$cart_key = $_COOKIE[ $this->cookie_name ];
-
-			$cart_saved = $this->is_cart_saved( $cart_key );
-
-			if ( $cart_saved ) {
-				if ( $count < 1 ) {
-					$this->delete_cart( $cart_key );
-
-					wc_setcookie( $this->cookie_name, 0, time() - HOUR_IN_SECONDS );
-					unset( $_COOKIE[ $this->cookie_name ] );
-				}
-				else {
-					$this->save_cart_data( $cart_key );
-				}
-			}
-		}
-	} // END maybe_clear_cart()
-
-	/**
-	 * Gets a cart stored in the database.
-	 *
-	 * @access public
-	 * @static
-	 * @global $wpdb
-	 * @param  string $cart_key
-	 * @return array
-	 */
-	public static function get_cart( $cart_key ) {
-		global $wpdb;
-
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
-
-		// If no cart data is found then return false.
-		if ( is_null( $value ) ) {
-			$value = false;
-		}
-
-		// Un-Serialize cart data if not already.
-		if ( is_serialized( $value ) ) {
-			$value = maybe_unserialize( $value );
-		}
-
-		return $value;
-	} // END get_cart()
-
-	/**
-	 * Deletes a cart stored in the database.
-	 *
-	 * @access public
-	 * @global $wpdb
-	 * @param  string $cart_key
-	 */
-	public function delete_cart( $cart_key ) {
-		global $wpdb;
-
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
-
-		// If cart data is found then proceed to delete the cart.
-		if ( ! is_null( $value ) ) {
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) );
-		}
-	} // END delete_cart()
+	} // END is_cart_saved()
 
 	/**
 	 * Cleans up carts from the database that have expired.
@@ -262,17 +67,18 @@ class CoCart_API_Session {
 	} // END cleanup_carts()
 
 	/**
-	 * Clears all carts from the database.
+	 * Looks at both carts for matching products and merges the item quantities.
 	 *
 	 * @access public
-	 * @static
-	 * @global $wpdb
+	 * @param array $new_cart_content - The merged cart content before altering.
+	 * @param array $load_cart - The cart we are loading.
+	 * @param array $cart_in_session - The cart currently in session.
+	 * @todo Look at both carts for matching products and total the quantity.
+	 * @return array $new_cart_content - The merged cart content after altering.
 	 */
-	public static function clear_carts() {
-		global $wpdb;
-
-		$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
-	} // END clear_cart()
+	public function merge_quantity( $new_cart_content, $load_cart, $cart_in_session ) {
+		return $new_cart_content;
+	} // END merge_quantity()
 
 	/**
 	 * Load cart action.
@@ -280,10 +86,6 @@ class CoCart_API_Session {
 	 * Loads a cart in session if still valid and overrides the current cart. 
 	 * Unless specified not to override, the carts will merge the current cart 
 	 * and the loaded cart items together.
-	 *
-	 * @todo 1. Load cart items and update session.
-	 * @todo 2. Apply cart discounts and validate.
-	 * @todo 3. Calculate the cart totals.
 	 *
 	 * @access public
 	 * @static
@@ -316,62 +118,53 @@ class CoCart_API_Session {
 			$redirect = true;
 		}
 
-		// Check if the cart key is not a valid string.
-		if ( is_numeric( $cart_key ) ) {
-			CoCart_Logger::log( sprintf( __( 'Cart key %s was not valid!', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
-
-			if ( $notify_customer ) {
-				wc_add_notice( __( 'This cart key is not valid!', 'cart-rest-api-for-woocommerce' ), 'error' );
-			}
-
-			return;
-		}
-
 		// Check if the cart session exists.
 		if ( ! $this->is_cart_saved( $cart_key ) ) {
 			CoCart_Logger::log( sprintf( __( 'Unable to find cart for: %s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
 
 			if ( $notify_customer ) {
-				wc_add_notice( __( 'Sorry but this cart in session has expired!', 'cart-rest-api-for-woocommerce' ), 'error' );
+				wc_add_notice( __( 'Sorry but this cart has expired!', 'cart-rest-api-for-woocommerce' ), 'error' );
 			}
 
 			return;
 		}
 
 		// Get the cart in the database.
-		$stored_cart = (array) $this->get_cart( $cart_key );
+		$handler = new CoCart_Session_Handler();
+		$stored_cart = $handler->get_cart( $cart_key );
 
-		// Get the cart currently in session.
-		$cart_in_session = isset( WC()->cart ) ? WC()->cart->get_cart() : WC()->session->cart;
+		// Get the cart currently in session if any.
+		$cart_in_session = WC()->session->get( 'cart', null );
 
 		$new_cart = array();
+
+		$new_cart['cart']                       = maybe_unserialize( $stored_cart['cart'] );
+		//print_r( $new_cart['cart'] );
+		$new_cart['applied_coupons']            = maybe_unserialize( $stored_cart['applied_coupons'] );
+		$new_cart['coupon_discount_totals']     = maybe_unserialize( $stored_cart[']coupon_discount_totals'] );
+		$new_cart['coupon_discount_tax_totals'] = maybe_unserialize( $stored_cart['coupon_discount_tax_totals'] );
+		$new_cart['removed_cart_contents']      = maybe_unserialize( $stored_cart['removed_cart_contents'] );
 
 		// Check if we are overriding the cart currently in session via the web.
 		if ( $override_cart ) {
 			// Only clear the cart if it's not already empty.
 			if ( ! WC()->cart->is_empty() ) {
-				WC()->cart->empty_cart( true );
+				WC()->cart->empty_cart( false );
+
+				do_action( 'cocart_load_cart_override', $new_cart, $stored_cart );
 			}
-
-			$new_cart['cart'] = $stored_cart->cart_contents;
-			$new_cart['applied_coupons'] = $stored_cart->applied_coupons;
-			$new_cart['coupon_discount_totals'] = $stored_cart->coupon_discount_totals;
-			$new_cart['coupon_discount_tax_totals'] = $stored_cart->coupon_discount_tax_totals;
-			$new_cart['removed_cart_contents'] = $stored_cart->removed_cart_contents;
-
-			do_action( 'cocart_override_cart_in_session', $new_cart, $stored_cart );
 		} else {
-			$new_cart['cart'] = array_merge( $stored_cart->cart_contents, $cart_in_session );
-			$new_cart['applied_coupons'] = array_merge( $stored_cart->applied_coupons, WC()->cart->get_applied_coupons() );
-			$new_cart['coupon_discount_totals'] = array_merge( $stored_cart->coupon_discount_totals, WC()->cart->get_coupon_discount_totals() );
-			$new_cart['coupon_discount_tax_totals'] = array_merge( $stored_cart->coupon_discount_tax_totals, WC()->cart->get_coupon_discount_tax_totals() );
-			$new_cart['removed_cart_contents'] = array_merge( $stored_cart->removed_cart_contents, WC()->cart->get_removed_cart_contents() );
+			$new_cart_content                       = array_merge( $new_cart['cart'], $cart_in_session );
+			$new_cart['cart']                       = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
+			//print_r( $new_cart['cart'] );
 
-			do_action( 'cocart_load_cart_in_session', $new_cart, $stored_cart, $cart_in_session );
+			$new_cart['applied_coupons']            = array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() );
+			$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
+			$new_cart['coupon_discount_tax_totals'] = array_merge( $new_cart['coupon_discount_tax_totals'], WC()->cart->get_coupon_discount_tax_totals() );
+			$new_cart['removed_cart_contents']      = array_merge( $new_cart['removed_cart_contents'], WC()->cart->get_removed_cart_contents() );
+
+			do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
 		}
-
-		//print_r( $stored_cart['cart_contents'] );
-		//wp_die();
 
 		// Sets the php session data for the loaded cart.
 		WC()->session->set( 'cart', $new_cart['cart'] );
@@ -380,12 +173,11 @@ class CoCart_API_Session {
 		WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
 		WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
 
-		// Recalculate the cart totals.
-		WC()->cart->calculate_totals();
+		do_action( 'cocart_load_cart_before_calculate_totals', $new_cart );
 
 		// If true, notify the customer that there cart has transferred over via the web.
-		if ( $notify_customer ) {
-			wc_add_notice( sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="shop">', '<a href="checkout">', '</a>' ), 'notice' );
+		if ( ! empty( $new_cart ) && $notify_customer ) {
+			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="shop">', '<a href="checkout">', '</a>' ) ), 'notice' );
 		}
 
 		// If true, redirect the customer to the cart safely.

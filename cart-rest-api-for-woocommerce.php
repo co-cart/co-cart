@@ -43,7 +43,8 @@ if ( ! class_exists( 'CoCart' ) ) {
 		/**
 		 * API Session instance.
 		 *
-		 * @var CoCart_API_Session
+		 * @since 2.1.0
+		 * @var   CoCart_API_Session
 		 */
 		public $session = null;
 
@@ -141,6 +142,8 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			$this->define('COCART_WP_VERSION_REQUIRE', '4.9');
 
+			$this->define('COCART_CART_CACHE_GROUP', 'cocart_cart_id');
+
 			$this->define('COCART_STORE_URL', 'https://cocart.xyz/');
 			$this->define('COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/');
 			$this->define('COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce');
@@ -178,6 +181,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-logger.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-product-validation.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-session-handler.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
 		} // END includes()
@@ -204,7 +208,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @return void
 		 */
 		public function initialize_session() {
-			if ( is_null( $this->session ) && $this->is_rest_api_request() && class_exists( 'CoCart_API_Session' ) ) {
+			if ( is_null( $this->session ) && class_exists( 'CoCart_API_Session' ) ) {
 				$this->session = new CoCart_API_Session();
 				$this->session->init();
 			}
