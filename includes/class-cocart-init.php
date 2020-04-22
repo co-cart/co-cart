@@ -213,6 +213,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access public
 	 * @since  2.1.0
+	 * @return object WC()->session
 	 */
 	public function initialize_session() {
 		// Force WooCommerce session to be null to be sure our own handler is set.
@@ -232,6 +233,8 @@ class CoCart_Rest_API {
 			// Initialize new CoCart session.
 			WC()->session = new $session_class();
 			WC()->session->init();
+
+			return WC()->session;
 		}
 	} // END initialize_session()
 
@@ -264,8 +267,8 @@ class CoCart_Rest_API {
 	 * @since  2.1.0
 	 */
 	public function load_cart_from_session() {
-		// Initialize session.
-		$this->initialize_session();
+		// Get session.
+		WC()->session = $this->initialize_session();
 
 		$customer_id = strval( get_current_user_id() );
 
