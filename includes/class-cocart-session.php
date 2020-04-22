@@ -173,8 +173,6 @@ class CoCart_API_Session {
 		WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
 		WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
 
-		do_action( 'cocart_load_cart_before_calculate_totals', $new_cart );
-
 		// If true, notify the customer that there cart has transferred over via the web.
 		if ( ! empty( $new_cart ) && $notify_customer ) {
 			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="shop">', '<a href="checkout">', '</a>' ) ), 'notice' );
