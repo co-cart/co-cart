@@ -160,8 +160,52 @@ class CoCart_Rest_API {
 
 			// Initialize cart.
 			$this->initialize_cart();
+
+			if ( $this->has_user_switched() ) {
+				$this->user_switched();
+			}
 		}
 	} // END maybe_load_cart()
+
+	/**
+	 * If the current customer ID in session does not match,
+	 * then the user has switched.
+	 *
+	 * @access protected
+	 * @since  2.1.0
+	 * @return bool
+	 */
+	protected function has_user_switched() {
+		// Get cart cookie... if any.
+		$cookie = WC()->session->get_cart_cookie();
+
+		// Current user ID. If user is NOT logged in then the customer is a guest.
+		$current_user_id = strval( get_current_user_id() );
+
+		// Does a cookie exist?
+		if ( $cookie ) {
+			$customer_id = $cookie[0];
+
+			// If the user is logged in and does not match ID in cookie then user has switched.
+			if ( $current_user_id !== $customer_id ) {
+				CoCart_Logger::log( sprintf( __( 'User has changed! Was %s before and is now %s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
+
+				return true;
+			}
+		}
+
+		return false;
+	} // END has_user_switched()
+
+	/**
+	 * Allows something to happen if a user has switched.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 */
+	public function user_switched() {
+		do_action( 'cocart_user_switched' );
+	} // END user_switched()
 
 	/**
 	 * Initialize CoCart session.
