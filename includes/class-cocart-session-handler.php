@@ -305,8 +305,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @param int $old_cart_key cart ID before user logs in.
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
-		// Dirty if something changed - prevents saving nothing new.
-		if ( $this->_dirty && $this->has_cart() ) {
+		if ( $this->has_cart() ) {
 			global $wpdb;
 
 			$wpdb->query(
