@@ -125,7 +125,6 @@ class CoCart_Session_Handler extends WC_Session {
 		else {
 			$this->set_cart_expiration();
 			$this->_customer_id = $this->generate_customer_id();
-			$this->_dirty       = false;
 			$this->_data        = $this->get_cart_data();
 		}
 	} // END init_cart_cookie()
@@ -310,15 +309,6 @@ class CoCart_Session_Handler extends WC_Session {
 		if ( $this->_dirty && $this->has_cart() ) {
 			global $wpdb;
 
-			// First time initialization if cart does not exist.
-			/*if ( ! $this->get_cart( $this->_customer_id ) ) {
-				// Insert new cart
-				$this->create_new_cart();
-			} else {
-				// Update cart
-				$this->update_cart( $customer_id );
-			}*/
-
 			$wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
@@ -330,8 +320,6 @@ class CoCart_Session_Handler extends WC_Session {
 			);
 
 			wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, COCART_CART_CACHE_GROUP, $this->_cart_expiration - time() );
-
-			$this->_dirty = false;
 
 			// Customer is now registered so we delete the previous cart as guest to prevent duplication.
 			if ( get_current_user_id() != $old_cart_key && ! is_object( get_user_by( 'id', $old_cart_key ) ) ) {
@@ -362,7 +350,6 @@ class CoCart_Session_Handler extends WC_Session {
 		wc_empty_cart();
 
 		$this->_data        = array();
-		$this->_dirty       = false;
 		$this->_customer_id = $this->generate_customer_id();
 	} // END forget_cart()
 
