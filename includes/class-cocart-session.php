@@ -2,7 +2,7 @@
 /**
  * CoCart REST API session
  *
- * Handles sessions, stores a copy of the cart in the database.
+ * Handles sessions, loads cart for guest customers.
  *
  * @author   Sébastien Dumont
  * @category API
