@@ -101,13 +101,12 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_data            = $this->get_cart_data();
 
 			// If the user logged in, update cart.
-			if ( $current_user_id !== $this->_customer_id ) {
-				// Destroy old cookie
+			if ( is_numeric( $current_user_id ) && $current_user_id > 0 && $current_user_id !== $this->_customer_id ) {
+				// Destroy old cookie.
 				$this->set_customer_cart_cookie( false );
 
-				$guest_cart_id      = $this->_customer_id;
-				$this->_customer_id = $current_user_id;
-				$this->_dirty       = true;
+				// Update customer ID details.
+				$guest_cart_id       = $this->_customer_id;
 
 				// Save cart data under customers ID number and remove old guest cart.
 				$this->save_cart( $guest_cart_id );
