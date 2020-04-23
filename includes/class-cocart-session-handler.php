@@ -203,7 +203,21 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @return bool
 	 */
 	public function has_cart() {
-		return isset( $_COOKIE[ $this->_cookie ] ) || $this->_has_cookie;
+		if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
+			return true;
+		}
+
+		// Current user ID. If value is above zero then user is logged in.
+		$current_user_id = get_current_user_id();
+		if ( $current_user_id > 0 ) {
+			return true;
+		}
+
+		if ( ! empty( $this->_customer_id ) ) {
+			return true;
+		}
+
+		return false;
 	} // END has_cart()
 
 	/**
