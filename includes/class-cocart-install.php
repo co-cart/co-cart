@@ -147,7 +147,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return;
 			}
 
-			// If activated on a Multisite, don't redirect.
+			// If activated on a multi-site, don't redirect.
 			if ( is_multisite() ) {
 				return;
 			}

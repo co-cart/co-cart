@@ -69,6 +69,8 @@ class CoCart_API_Session {
 	/**
 	 * Looks at both carts for matching products and merges the item quantities.
 	 *
+	 * @todo Function needs to be finished.
+	 *
 	 * @access public
 	 * @param array $new_cart_content - The merged cart content before altering.
 	 * @param array $load_cart - The cart we are loading.
