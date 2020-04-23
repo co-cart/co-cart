@@ -205,7 +205,7 @@ class CoCart_API_Controller {
 	 * @return  array  $cart_contents
 	 */
 	public function return_cart_contents( $cart_contents, $data = array(), $cart_item_key = '' ) {
-		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
+		if ( CoCart_Count_Items_Controller::get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
 			 *
@@ -283,28 +283,6 @@ class CoCart_API_Controller {
 		// The cart contents is returned and can be filtered.
 		return apply_filters( 'cocart_return_cart_contents', $cart_contents );
 	} // END return_cart_contents()
-
-	/**
-	 * Get cart contents count.
-	 *
-	 * @access  public
-	 * @static
-	 * @since   1.0.0
-	 * @version 2.0.1
-	 * @param   array $data
-	 * @return  string|WP_REST_Response
-	 */
-	public static function get_cart_contents_count( $data = array() ) {
-		$count = WC()->cart->get_cart_contents_count();
-
-		$return = ! empty( $data['return'] ) ? $data['return'] : '';
-
-		if ( $return != 'numeric' && $count <= 0 ) {
-			return new WP_REST_Response( __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' ), 200 );
-		}
-
-		return $count;
-	} // END get_cart_contents_count()
 
 	/**
 	 * Returns a customers saved cart from the database if one exists.
