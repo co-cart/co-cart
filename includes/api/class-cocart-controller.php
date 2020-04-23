@@ -369,6 +369,36 @@ class CoCart_API_Controller {
 	} // END validate_quantity()
 
 	/**
+	 * Validate variable product.
+	 *
+	 * @access protected
+	 * @since  2.1.0
+	 * @param  int    $product_id     - Contains the id of the product.
+	 * @param  int    $quantity       - Contains the quantity of the item.
+	 * @param  int    $variation_id   - ID of the variation.
+	 * @param  array  $variation      - Attribute values.
+	 * @param  array  $cart_item_data - Extra cart item data we want to pass into the item.
+	 * @param  string $product_type   - The product type.
+	 * @return WP_Error
+	 */
+	protected function validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_data ) {
+		if ( $variation_id == 0 ) {
+			$message = __( 'Can not add a variable product without specifying a variation!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about variable product failing validation.
+			 *
+			 * @param string $message - Message.
+			 */
+			$message = apply_filters( 'cocart_variable_product_failed_validation_message', $message );
+
+			return new WP_Error( 'cocart_variable_product_failed_validation', $message, array( 'status' => 500 ) );
+		}
+	} // END validate_variable_product()
+
+	/**
 	 * Validate product before it is added to the cart, updated or removed.
 	 *
 	 * @access  protected
@@ -391,24 +421,6 @@ class CoCart_API_Controller {
 		if ( 'product_variation' === get_post_type( $product_id ) ) {
 			$variation_id = $product_id;
 			$product_id   = wp_get_post_parent_id( $variation_id );
-		}
-
-		// Validate variable product.
-		if ( $product_type == 'variable' ) {
-			if ( $variation_id == 0 ) {
-				$message = __( 'Can not add a variable product without specifying a variation!', 'cart-rest-api-for-woocommerce' );
-
-				CoCart_Logger::log( $message, 'error' );
-	
-				/**
-				 * Filters message about variable product failing validation.
-				 *
-				 * @param string $message - Message.
-				 */
-				$message = apply_filters( 'cocart_variable_product_failed_validation_message', $message );
-	
-				return new WP_Error( 'cocart_variable_product_failed_validation', $message, array( 'status' => 500 ) );
-			}
 		}
 
 		$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
@@ -434,6 +446,11 @@ class CoCart_API_Controller {
 			$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product_data );
 
 			return new WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 500 ) );
+		}
+
+		// Validate variable product.
+		if ( $product_type === 'variable' || $product_type === 'variation' ) {
+			$this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_data );
 		}
 
 		/**
