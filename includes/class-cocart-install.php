@@ -22,7 +22,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Constructor.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.1.0
 		 */
 		public function __construct() {
 			// Checks version of CoCart and install/update if needed.
@@ -55,6 +57,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since   1.2.0
+		 * @version 2.1.0
 		 */
 		public static function install() {
 			if ( ! is_blog_installed() ) {
@@ -161,6 +165,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access private
 		 * @static
+		 * @since  2.1.0
 		 */
 		private static function create_cron_jobs() {
 			wp_clear_scheduled_hook( 'cocart_cleanup_carts' );
@@ -173,6 +178,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access private
 		 * @static
+		 * @since  2.1.0
 		 * @global $wpdb
 		 */
 		private static function create_tables() {
@@ -202,7 +208,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 					cart_key char(32) NOT NULL,
 					cart_value longtext NOT NULL,
 					cart_expiry BIGINT UNSIGNED NOT NULL,
-					cart_email longtext NOT NULL,
 					PRIMARY KEY (cart_id),
 					UNIQUE KEY cart_key (cart_key)
 				) $collate;";
@@ -218,6 +223,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since  2.1.0
 		 * @global $wpdb
 		 * @return array $tables.
 		 */
@@ -236,6 +242,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since  2.1.0
 		 * @global $wpdb
 		 * @return void
 		 */
@@ -253,6 +260,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * Uninstall tables when MU blog is deleted.
 		 *
 		 * @access public
+		 * @since  2.1.0
 		 * @param  array $tables List of tables that will be deleted by WP.
 		 * @return string[]
 		 */
