@@ -290,7 +290,10 @@ class CoCart_Rest_API {
 					WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart[ 'coupon_discount_totals' ] ) );
 					WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart[ 'coupon_discount_tax_totals' ] ) );
 					WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart[ 'removed_cart_contents' ] ) );
-					WC()->session->set( 'cart_fees', maybe_unserialize( $cart[ 'cart_fees' ] ) );
+
+					if ( ! empty( $cart['cart_fees'] ) ) {
+						WC()->session->set( 'cart_fees', maybe_unserialize( $cart[ 'cart_fees' ] ) );
+					}
 				}
 			}
 		}
