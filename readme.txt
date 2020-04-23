@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 5.4
-Stable tag: 2.0.12
+Stable tag: 2.0.13
 WC requires at least: 3.6.0
 WC tested up to: 4.1.0
 License: GPLv3
