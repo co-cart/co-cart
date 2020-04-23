@@ -71,12 +71,12 @@ class CoCart_API_Session {
 	 * Cleans up carts from the database that have expired.
 	 *
 	 * @access public
+	 * @static
 	 * @global $wpdb
 	 */
-	public function cleanup_carts() {
-		global $wpdb;
-
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}cocart_carts WHERE cart_expiry < %d", time() ) );
+	public static function cleanup_carts() {
+		$handler = new CoCart_Session_Handler();
+		$handler->cleanup_carts();
 	} // END cleanup_carts()
 
 	/**
