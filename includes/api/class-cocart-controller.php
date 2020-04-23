@@ -188,7 +188,7 @@ class CoCart_API_Controller {
 	 * @return array  $cart_contents
 	 */
 	public function get_cart_contents( $data = array(), $cart_item_key = '' ) {
-		$cart_contents = isset( WC()->cart ) ? WC()->cart->get_cart() : WC()->session->cart;
+		$cart_contents = isset( WC()->cart ) ? WC()->cart->get_cart() : array();
 
 		return $this->return_cart_contents( $cart_contents, $data, $cart_item_key );
 	} // END get_cart_contents()
