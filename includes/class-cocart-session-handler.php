@@ -237,10 +237,10 @@ class CoCart_Session_Handler extends WC_Session {
 			require_once ABSPATH . 'wp-includes/class-phpass.php';
 
 			$hasher      = new PasswordHash( 8, false );
-			$customer_id = md5( $hasher->get_random_bytes( 32 ) );
+			$customer_id = apply_filters( 'cocart_customer_id', md5( $hasher->get_random_bytes( 32 ) ), $hasher );
 		}
 
-		return apply_filters( 'cocart_customer_id', $customer_id, $hasher );
+		return $customer_id;
 	} // END generate_customer_id()
 
 	/**
