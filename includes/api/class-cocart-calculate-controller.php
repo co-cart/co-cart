@@ -58,7 +58,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function calculate_totals( $data = array() ) {
-		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
+		if ( CoCart_Count_Items_Controller::get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
 			$message = __( 'No items in cart to calculate totals.', 'cart-rest-api-for-woocommerce' );
 
 			CoCart_Logger::log( $message, 'notice' );
