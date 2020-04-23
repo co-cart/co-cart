@@ -323,6 +323,14 @@ class CoCart_Session_Handler extends WC_Session {
 		if ( $this->has_cart() ) {
 			global $wpdb;
 
+			/** 
+			 * Set cart to expire after 6 hours if cart is empty.
+			 * This helps clear empty carts stored in the database when the cron job is run.
+			 */
+			if ( empty( $this->_data ) ) {
+				$this->_cart_expiration = apply_filters( 'cocart_empty_cart_expiration', HOUR_IN_SECONDS * 6 );
+			}
+
 			$wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
