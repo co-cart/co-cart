@@ -55,6 +55,19 @@ class CoCart_API_Session {
 	} // END is_cart_saved()
 
 	/**
+	 * Clears all carts from the database.
+	 *
+	 * @access public
+	 * @static
+	 * @global $wpdb
+	 */
+	public static function clear_carts() {
+		global $wpdb;
+
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
+	} // END clear_cart()
+
+	/**
 	 * Cleans up carts from the database that have expired.
 	 *
 	 * @access public
