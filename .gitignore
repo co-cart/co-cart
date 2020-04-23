@@ -4,6 +4,9 @@
 /releases/
 /node_modules/
 npm-debug.log
+/includes/api/experiments
+/includes/api/wip
+/includes/api/pro-enhancements
 
 # OS X metadata
 .DS_Store
