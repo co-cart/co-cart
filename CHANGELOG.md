@@ -16,7 +16,7 @@
 * Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
 * Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
 * Dev: Cart expiration can be filtered if the default 30 days is not to your liking.
-* Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
+* Dev: Generated customer ID can be filtered before storing cart in the database and creates a cookie on the customer's device.
 * Dev: Added filter `cocart_add_to_cart_validation` to allow plugin developers to pass their own validation before item is added to the cart.
 * Dev: Added filters to override the product name `cocart_product_name` and product title `cocart_product_title` when getting the cart contents.
 * Dev: Added filter `cocart_item_thumbnail_src` to override the source URL of the product thumbnail when getting the cart contents.
@@ -26,6 +26,7 @@
 * Dev: Added conditional filter for returning a cart item.
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
+* Tested: Compatible with WooCommerce v4.1.x
 
 > Note: Carts that have expired past 30 days are cleared via a cron-job twice daily.
 > This release is a work in progress and requires developer feedback.

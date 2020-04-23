@@ -204,13 +204,14 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * NEW: Able to transfer a cart from your headless store to the web.
 * NEW: Added handlers to improve product validation and extended support for other product types.
 * NEW: Can now add items to cart using a products SKU ID.
-* Removed: Parameter to re-calculate totals once item was updated. Now calculates by default if required.
+* NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
+* Removed: Parameter to re-calculate totals once item was updated.
 * Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
 * Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
 * Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
 * Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
 * Dev: Cart expiration can be filtered if the default 30 days is not to your liking.
-* Dev: Cart key can be filtered before storing cart in the database and creates a cookie on the customer's device.
+* Dev: Generated customer ID can be filtered before storing cart in the database and creates a cookie on the customer's device.
 * Dev: Added filter `cocart_add_to_cart_validation` to allow plugin developers to pass their own validation before item is added to the cart.
 * Dev: Added filters to override the product name `cocart_product_name` and product title `cocart_product_title` when getting the cart contents.
 * Dev: Added filter `cocart_item_thumbnail_src` to override the source URL of the product thumbnail when getting the cart contents.
@@ -220,6 +221,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * Dev: Added conditional filter for returning a cart item.
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
+* Tested: Compatible with WooCommerce v4.1.x
 
 > Note: Carts that have expired past 30 days are cleared via a cron-job twice daily.
 > This release is a work in progress and requires developer feedback.
