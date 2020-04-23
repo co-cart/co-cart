@@ -51,23 +51,12 @@ class CoCart_API_Controller {
 			'args'     => $this->get_collection_params()
 		) );
  
-		// Get Cart of a Customer - cocart/v1/get-cart/1 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\d]+)', array(
+		// Get Customers Cart saved via Persistent Cart - cocart/v1/get-cart/customer/1 (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/customer/(?P<id>[\d]+)', array(
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => array( $this, 'get_cart_customer' ),
 			'permission_callback' => array( $this, 'get_permission_check' ),
-			'args'                => array(
-				'id' => array(
-					'required'    => true,
-					'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'integer',
-				),
-				'thumb' => array(
-					'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				),
-			),
+			'args'     => $this->get_collection_params()
 		) );
 
 		// Get Cart Saved - cocart/v1/get-cart/saved (GET)
@@ -385,9 +374,9 @@ class CoCart_API_Controller {
 	 * @access  protected
 	 * @since   1.0.0
 	 * @version 2.1.0
-	 * @param   int    $product_id     - Contains the id of the product.
+	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
-	 * @param   int    $variation_id   - ID of the variation.
+	 * @param   int    $variation_id   - Contains the ID of the variation.
 	 * @param   array  $variation      - Attribute values.
 	 * @param   array  $cart_item_data - Extra cart item data we want to pass into the item.
 	 * @param   string $product_type   - The product type.
@@ -670,9 +659,8 @@ class CoCart_API_Controller {
 	public function get_collection_params() {
 		$params = array(
 			'id' => array(
-				'description' => __( 'Unique identifier for the customer.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'integer',
-				'required'    => true,
+				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
 			),
 			'thumb' => array(
 				'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
