@@ -495,7 +495,12 @@ class CoCart_API_Controller {
 
 		// Force quantity to 1 if sold individually and check for existing item in cart.
 		if ( $product_data->is_sold_individually() ) {
-			$quantity = 1;
+			/**
+			 * Quantity for sold individual products can be filtered.
+			 *
+			 * @since 2.0.13
+			 */
+			$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1 );
 
 			$cart_contents = $this->get_cart();
 

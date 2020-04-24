@@ -76,7 +76,7 @@
       border: none !important;
       height: auto;
       width: 1em;
-      margin: 0 .07em !important;
+      margin: 0 0.07em !important;
       vertical-align: -0.1em !important;
       background: none !important;
       padding: 0 !important;
@@ -133,7 +133,7 @@
     width: 64px; }
 
 .update-message p.cocart_plugin_upgrade_notice::before {
-  content: "\f534"; }
+  content: '\f534'; }
 
 body.cocart .notice,
 body.cocart .updated,

@@ -80,7 +80,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * Cloning is forbidden.
 		 *
 		 * @access public
-		 * @since  1.0.0
 		 * @return void
 		 */
 		public function __clone() {
@@ -91,7 +90,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * Unserializing instances of this class is forbidden.
 		 *
 		 * @access public
-		 * @since  1.0.0
 		 * @return void
 		 */
 		public function __wakeup() {
@@ -103,7 +101,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.0.5
+		 * @version 2.0.13
 		 */
 		public function __construct() {
 			// Setup Constants.
@@ -123,6 +121,12 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
+			// Removes WooCommerce filter that validates the quantity value to be an integer.
+			remove_filter( 'woocommerce_stock_amount', 'intval' );
+
+			// Validates the quantity value to be a float.
+			add_filter( 'woocommerce_stock_amount', 'floatval' );
 		} // END __construct()
 
 		/**
@@ -140,7 +144,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_URL_PATH', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 			$this->define('COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
-			$this->define('COCART_WP_VERSION_REQUIRE', '4.9');
+			$this->define('COCART_WP_VERSION_REQUIRE', '5.0');
 
 			$this->define('COCART_CART_CACHE_GROUP', 'cocart_cart_id');
 
@@ -152,7 +156,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_TRANSLATION_URL', 'https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/');
 
 			$this->define('COCART_NEXT_VERSION', '2.1.0');
-			$this->define('COCART_NEXT_VERSION_DETAILS', 'https://cocart.xyz/cocart-v2-1-0-beta-5/');
+			$this->define('COCART_NEXT_VERSION_DETAILS', 'https://cocart.xyz/cocart-v2-1-0-rc-1/');
 		} // END setup_constants()
 
 		/**
@@ -221,7 +225,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *      - WP_LANG_DIR/plugins/cart-rest-api-for-woocommerce-LOCALE.mo
 		 *
 		 * @access public
-		 * @since  1.0.0
 		 * @return void
 		 */
 		public function load_plugin_textdomain() {

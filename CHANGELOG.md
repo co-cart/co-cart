@@ -32,6 +32,14 @@
 > This release is a work in progress and requires developer feedback.
 > Developers please see documentation for more details on the new hooks added.
 
+## v2.0.13 - 13th April, 2020
+
+* Filtered: `woocommerce_stock_amount` to validate as a float value.
+* Changed: Quantity value type from _integer_ to _float_ to allow quantity to be used for weighing fruit for example when adding or updating a product.
+* Dev: Added filter for sold individual products quantity to be overridden. - `cocart_add_to_cart_sold_individually_quantity`
+
+> This is a community release by @metemaddar
+
 ## v2.0.12 - 27th March, 2020
 
 * Tested: Compatible with WordPress 5.4
