@@ -144,30 +144,6 @@ class CoCart_API_Controller {
 	} // END get_cart_customer()
 
 	/**
-	 * Get cart saved in database.
-	 *
-	 * @access public
-	 * @since  2.1.0
-	 * @param  array  $data
-	 * @return array|WP_Error
-	 */
-	public function get_cart_saved( $data = array() ) {
-		if ( empty( $data['id'] ) ) {
-			return new WP_Error( 'cocart_session_id_missing', __( 'Cart Session ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
-		}
-
-		// Get saved cart in session.
-		$saved_cart = $this->get_saved_cart_in_session( $data, 'cart_contents' );
-
-		// If no error returned then return cart contents.
-		if ( ! is_wp_error( $saved_cart ) ) {
-			return $this->return_cart_contents( $saved_cart, $data, '' );
-		}
-
-		return array();
-	} // END get_cart_saved()
-
-	/**
 	 * Gets the cart contents.
 	 *
 	 * @access public
