@@ -158,8 +158,8 @@ class CoCart_API_Controller {
 	 * @param   string $cart_item_key
 	 * @return  array  $cart_contents
 	 */
-	public function return_cart_contents( $cart_contents, $data = array(), $cart_item_key = '' ) {
-		if ( CoCart_Count_Items_Controller::get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
+	public function return_cart_contents( $cart_contents = array(), $data = array(), $cart_item_key = '' ) {
+		if ( CoCart_Count_Items_Controller::get_cart_contents_count( $cart_contents, array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
 			 *
