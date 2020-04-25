@@ -51,6 +51,13 @@ class CoCart_API_Controller {
 			'args'     => $this->get_collection_params()
 		) );
 
+		// Get Cart in Session - cocart/v1/get-cart/1654654321 (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\w]+)', array(
+			'methods'  => WP_REST_Server::READABLE,
+			'callback' => array( $this, 'get_cart_in_session' ),
+			'args'     => $this->get_collection_params()
+		) );
+
 		// Get Customers Cart saved via Persistent Cart - cocart/v1/get-cart/customer/1 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/customer/(?P<id>[\d]+)', array(
 			'methods'             => WP_REST_Server::READABLE,
