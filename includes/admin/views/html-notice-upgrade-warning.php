@@ -3,7 +3,7 @@
  * Admin View: Upgrade Warning Notice.
  *
  * @since    1.2.3
- * @version  2.0.11
+ * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="cocart-action">
 			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" target="_blank">%2$s</a>', esc_url( 'https://cocart.xyz/contact/' ), esc_html__( 'Sign up to Test', 'cart-rest-api-for-woocommerce' ) ); ?>
-			<a href="<?php echo esc_url( add_query_arg( 'hide_cocart_upgrade_notice', 'true' ) ); ?>" class="no-thanks"><?php echo esc_html__( 'Ask me again in 2 weeks', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<span class="no-thanks"><a href="<?php echo esc_url( add_query_arg( 'hide_cocart_upgrade_notice', 'true' ) ); ?>" aria-label="<?php echo esc_html__( 'Hide this notice and ask me again in 2 weeks', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Ask me again in 2 weeks', 'cart-rest-api-for-woocommerce' ); ?></a> / <a href="<?php echo esc_url( add_query_arg( 'hide_forever_cocart_upgrade_notice', 'true' ) ); ?>" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Don\'t ask me again', 'cart-rest-api-for-woocommerce' ); ?></a></span>
 		</div>
 	</div>
 </div>

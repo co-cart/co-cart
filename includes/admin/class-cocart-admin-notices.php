@@ -122,9 +122,21 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$user_hidden_notice = true;
 			}
 
+			// If the user is allowed to install plugins and requested to dismiss upgrade notice forever.
+			if ( ! empty( $_GET['hide_forever_cocart_upgrade_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
+				set_transient( 'cocart_upgrade_notice_hidden', 'hidden' );
+				$user_hidden_notice = true;
+			}
+
 			// If the user is allowed to install plugins and requested to dismiss beta notice then hide it for 1 week.
 			if ( ! empty( $_GET['hide_cocart_beta_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
 				set_transient( 'cocart_beta_notice_hidden', 'hidden', apply_filters( 'cocart_beta_notice_expiration', WEEK_IN_SECONDS ) );
+				$user_hidden_notice = true;
+			}
+
+			// If the user is allowed to install plugins and requested to dismiss beta notice forever.
+			if ( ! empty( $_GET['hide_forever_cocart_beta_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
+				set_transient( 'cocart_beta_notice_hidden', 'hidden' );
 				$user_hidden_notice = true;
 			}
 
