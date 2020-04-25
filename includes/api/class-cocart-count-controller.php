@@ -53,20 +53,13 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 * @static
 	 * @since   1.0.0
 	 * @version 2.1.0
+	 * @param   array $cart_contents
 	 * @param   array $data
 	 * @return  string|WP_REST_Response
 	 */
-	public static function get_cart_contents_count( $data = array() ) {
-		$id = ! empty( $data['id'] ) ? $data['id'] : '';
-
-		// If no id provided then count items in the current session.
-		if ( empty( $id ) ) {
-			$count = WC()->cart->get_cart_contents_count();
-		}
-		// Count items from a specific cart in session.
-		else {
-			$count = $this->get_cart_in_session( $data, 'cart_contents' );
-		}
+	public static function get_cart_contents_count( $cart_contents = array(), $data = array() ) {
+		// Counts all items from the quantity variable.
+		$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
 
 		$return = ! empty( $data['return'] ) ? $data['return'] : '';
 
