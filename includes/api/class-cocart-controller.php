@@ -50,31 +50,13 @@ class CoCart_API_Controller {
 			'callback' => array( $this, 'get_cart' ),
 			'args'     => $this->get_collection_params()
 		) );
- 
+
 		// Get Customers Cart saved via Persistent Cart - cocart/v1/get-cart/customer/1 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/customer/(?P<id>[\d]+)', array(
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => array( $this, 'get_cart_customer' ),
 			'permission_callback' => array( $this, 'get_permission_check' ),
 			'args'     => $this->get_collection_params()
-		) );
-
-		// Get Cart Saved - cocart/v1/get-cart/saved (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/saved', array(
-			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => array( $this, 'get_cart_saved' ),
-			'args'                => array(
-				'id' => array(
-					'required'    => true,
-					'description' => __( 'An alphanumeric identifier for the cart in session.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-				),
-				'thumb' => array(
-					'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				),
-			),
 		) );
 	} // register_routes()
 
@@ -279,28 +261,28 @@ class CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  2.1.0
-	 * @param  array  $data       The cart key is a required variable.
-	 * @param  string $return     Returns specified data. Default is `cart_contents`.
-	 * @return array  $saved_cart Returns the cart data from the database.
+	 * @param  array  $data   The cart key is a required variable.
+	 * @param  string $return Returns specified data. Default is `cart_contents`.
+	 * @return array  $cart   Returns the cart data from the database.
 	 */
-	public function get_saved_cart_in_session( $data = array(), $return = 'cart_contents' ) {
+	public function get_cart_in_session( $data = array(), $return = 'cart_contents' ) {
 		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
 
-		$saved_cart = CoCart_API_Session::get_cart( $cart_key );
+		if ( empty( $cart_key ) ) {
+			return new WP_Error( 'cocart_cart_id_missing', __( 'Cart ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+		}
+
+		// Get the cart in the database.
+		$handler = new CoCart_Session_Handler();
+		$cart = $handler->get_cart( $cart_key );
 
 		// If no cart is saved with the ID specified return error.
-		if ( empty( $saved_cart ) ) {
-			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in Session is not valid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+		if ( empty( $cart ) ) {
+			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
-		// Return specified data from cart.
-		if ( isset( $saved_cart->$return ) ) {
-			$saved_cart = $saved_cart->$return;
-		}
-
-		return $saved_cart;
-	} // END get_saved_cart_in_session()
-
+		return maybe_unserialize( $cart[ 'cart' ] );
+	} // END get_cart_in_session()
 
 	/**
 	 * Validate the product id.
