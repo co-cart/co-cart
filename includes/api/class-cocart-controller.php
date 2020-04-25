@@ -156,9 +156,10 @@ class CoCart_API_Controller {
 	 * @param   array  $cart_contents
 	 * @param   array  $data
 	 * @param   string $cart_item_key
+	 * @param   bool   $from_session
 	 * @return  array  $cart_contents
 	 */
-	public function return_cart_contents( $cart_contents = array(), $data = array(), $cart_item_key = '' ) {
+	public function return_cart_contents( $cart_contents = array(), $data = array(), $cart_item_key = '', $from_session = false ) {
 		if ( CoCart_Count_Items_Controller::get_cart_contents_count( $cart_contents, array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
@@ -234,8 +235,17 @@ class CoCart_API_Controller {
 			}
 		}
 
-		// The cart contents is returned and can be filtered.
-		return apply_filters( 'cocart_return_cart_contents', $cart_contents );
+		/**
+		 * Return cart content from session if set.
+		 *
+		 * @since 2.1.0
+		 * @param $cart_contents
+		 */
+		if ( $from_session ) {
+			return apply_filters( 'cocart_return_cart_session_contents', $cart_contents );
+		} else {
+			return apply_filters( 'cocart_return_cart_contents', $cart_contents );
+		}
 	} // END return_cart_contents()
 
 	/**
@@ -288,7 +298,7 @@ class CoCart_API_Controller {
 			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
-		return maybe_unserialize( $cart[ 'cart' ] );
+		return $this->return_cart_contents( maybe_unserialize( $cart['cart'] ), $data, '', true );
 	} // END get_cart_in_session()
 
 	/**
