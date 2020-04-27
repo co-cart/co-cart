@@ -222,7 +222,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * Dev: Added hook `cocart_user_switched` to allow something to happen if a user has switched.
 * Dev: Added hook `cocart_load_cart` to manipulate the merged cart before it set in session.
 * Dev: Added hook `cocart_load_cart_override` to manipulate the overriding cart before it set in session.
-* Dev: Added hook `cocart_item_added_updated_in_cart` for when an item was added again but updated in cart.`
+* Dev: Added hook `cocart_item_added_updated_in_cart` for when an item was added again but updated in cart.
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
 * Tested: Compatible with WooCommerce v4.1.x
