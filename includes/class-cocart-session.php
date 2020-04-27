@@ -188,7 +188,7 @@ class CoCart_API_Session {
 
 		// If true, notify the customer that there cart has transferred over via the web.
 		if ( ! empty( $new_cart ) && $notify_customer ) {
-			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="shop">', '<a href="checkout">', '</a>' ) ), 'notice' );
+			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( "shop" ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 		}
 
 		// If true, redirect the customer to the cart safely.
