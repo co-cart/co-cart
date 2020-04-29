@@ -90,6 +90,14 @@ class CoCart_Session_Handler extends WC_Session {
 
 		// Current user ID. If user is NOT logged in then the customer is a guest.
 		$current_user_id = strval( get_current_user_id() );
+		
+		// No cookie, then check if we requested to load a specific cart.
+		if ( isset( $_REQUEST['id'] ) ) {
+			$cart_id = $_REQUEST['id'];
+
+			// Set customer ID in session.
+			$this->_customer_id = $cart_id;
+		}
 
 		// Does a cookie exist?
 		if ( $cookie ) {
@@ -98,6 +106,10 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_cart_expiration = $cookie[1];
 			$this->_cart_expiring   = $cookie[2];
 			$this->_has_cookie      = true;
+		}
+
+		// If cart retrieved then update cart.
+		if ( $cookie || $this->_customer_id ) {
 			$this->_data            = $this->get_cart_data();
 
 			// If the user logged in, update cart.
