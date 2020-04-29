@@ -72,7 +72,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @access public
 	 */
 	public function init() {
-		$this->init_cart_cookie();
+		$this->init_cart();
 
 		add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
@@ -80,11 +80,11 @@ class CoCart_Session_Handler extends WC_Session {
 	} // END init()
 
 	/**
-	 * Setup cookie and customer ID.
+	 * Setup cart.
 	 *
 	 * @access public
 	 */
-	public function init_cart_cookie() {
+	public function init_cart() {
 		// Get cart cookie... if any.
 		$cookie = $this->get_cart_cookie();
 
@@ -128,7 +128,19 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_customer_id = $this->generate_customer_id();
 			$this->_data        = $this->get_cart_data();
 		}
-	} // END init_cart_cookie()
+	} // END init_cart()
+
+	/**
+	 * Is Cookie support enabled?
+	 *
+	 * Determines if a cookie should manage the cart for guest customers.
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function is_cookie_supported() {
+		return apply_filters( 'cocart_cookie_supported', true );
+	} // END is_cookie_supported()
 
 	/**
 	 * Sets the cart cookie on-demand.
@@ -139,6 +151,10 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @param  bool $set Should the cart cookie be set.
 	 */
 	public function set_customer_cart_cookie( $set = true ) {
+		if ( ! $this->is_cookie_supported() ) {
+			return;
+		}
+
 		if ( $set ) {
 			$to_hash           = $this->_customer_id . '|' . $this->_cart_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
