@@ -126,7 +126,7 @@ class CoCart_API_Controller {
 
 		// If a saved cart exists then replace the carts content.
 		if ( ! empty( $saved_cart ) ) {
-			return $this->return_cart_contents( $saved_cart, $data, '' );
+			return $this->return_cart_contents( $data, $saved_cart, '' );
 		}
 
 		return $this->get_cart_contents( $data, '' );
@@ -144,7 +144,7 @@ class CoCart_API_Controller {
 	public function get_cart_contents( $data = array(), $cart_item_key = '' ) {
 		$cart_contents = isset( WC()->cart ) ? WC()->cart->get_cart() : array();
 
-		return $this->return_cart_contents( $cart_contents, $data, $cart_item_key );
+		return $this->return_cart_contents( $data, $cart_contents, $cart_item_key );
 	} // END get_cart_contents()
 
 	/**
@@ -153,14 +153,14 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 2.1.0
-	 * @param   array  $cart_contents
 	 * @param   array  $data
+	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
 	 * @param   bool   $from_session
 	 * @return  array  $cart_contents
 	 */
-	public function return_cart_contents( $cart_contents = array(), $data = array(), $cart_item_key = '', $from_session = false ) {
-		if ( CoCart_Count_Items_Controller::get_cart_contents_count( $cart_contents, array( 'return' => 'numeric' ) ) <= 0 || empty( $cart_contents ) ) {
+	public function return_cart_contents( $data = array(), $cart_contents = array(), $cart_item_key = '', $from_session = false ) {
+		if ( CoCart_Count_Items_Controller::get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
 			 *
@@ -298,7 +298,7 @@ class CoCart_API_Controller {
 			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
 
-		return $this->return_cart_contents( maybe_unserialize( $cart['cart'] ), $data, '', true );
+		return $this->return_cart_contents( $data, maybe_unserialize( $cart['cart'] ), '', true );
 	} // END get_cart_in_session()
 
 	/**
