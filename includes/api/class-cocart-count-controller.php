@@ -53,13 +53,17 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 * @static
 	 * @since   1.0.0
 	 * @version 2.1.0
-	 * @param   array $cart_contents
 	 * @param   array $data
+	 * @param   array $cart_contents
 	 * @return  string|WP_REST_Response
 	 */
-	public static function get_cart_contents_count( $cart_contents = array(), $data = array() ) {
-		// Counts all items from the quantity variable.
-		$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
+	public static function get_cart_contents_count( $data = array(), $cart_contents = array() ) {
+		if ( empty( $cart_contents ) ) {
+			$count = WC()->cart->get_cart_contents_count();
+		} else {
+			// Counts all items from the quantity variable.
+			$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
+		}
 
 		$return = ! empty( $data['return'] ) ? $data['return'] : '';
 
