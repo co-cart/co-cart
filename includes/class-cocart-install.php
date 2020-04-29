@@ -205,7 +205,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			$tables = 
 				"CREATE TABLE {$wpdb->prefix}cocart_carts (
 					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-					cart_key char(32) NOT NULL,
+					cart_key char(42) NOT NULL,
 					cart_value longtext NOT NULL,
 					cart_expiry BIGINT UNSIGNED NOT NULL,
 					PRIMARY KEY (cart_id),
