@@ -20,7 +20,7 @@
 	},
 	"requires": "5.0",
 	"requires_php": "7.0",
-	"tested_up_to": "5.4",
+	"tested_up_to": "5.4.1",
 	"wc_requires": "3.6.0",
 	"wc_tested_up_to": "4.1.0",
 	"license": "GPL-3.0",
