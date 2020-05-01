@@ -197,10 +197,10 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 = v2.1.0 - ?? April, 2020 =
 
-* NEW: Added support for guest carts.
-* NEW: Cart data is stored in a new database table.
-* NEW: Added plugin details to WooCommerce System Status.
-* NEW: Added `uninstall.php` file to delete tables and options.
+* NEW: Added support for guest customers.
+* NEW: Carts in session are stored in a new database table.
+* NEW: Added plugin details to **WooCommerce System Status**.
+* NEW: Added `uninstall.php` file to delete table and options.
 * NEW: Able to transfer a cart from your headless store to the web.
 * NEW: Added handlers to improve product validation and extended support for other product types.
 * NEW: Can now add items to cart using a products SKU ID.
