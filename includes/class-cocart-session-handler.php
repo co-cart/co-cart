@@ -110,7 +110,7 @@ class CoCart_Session_Handler extends WC_Session {
 
 		// If cart retrieved then update cart.
 		if ( $cookie || $this->_customer_id ) {
-			$this->_data            = $this->get_cart_data();
+			$this->_data = $this->get_cart_data();
 
 			// If the user logged in, update cart.
 			if ( is_numeric( $current_user_id ) && $current_user_id > 0 && $current_user_id !== $this->_customer_id ) {
