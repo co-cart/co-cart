@@ -129,7 +129,7 @@ class CoCart_Session_Handler extends WC_Session {
 			}
 
 			// Update cart if its close to expiring.
-			if ( time() > $this->_cart_expiring ) {
+			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
 				$this->set_cart_expiration();
 				$this->update_cart_timestamp( $this->_customer_id, $this->_cart_expiration );
 			}
