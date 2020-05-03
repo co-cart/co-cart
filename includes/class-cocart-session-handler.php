@@ -108,6 +108,15 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_customer_id = $cart_id;
 		}
 
+		// Override cookie check to force load the authenticated users cart if switched without logging out first.
+		$override_cookie_check = apply_filters( 'cocart_override_cookie_check', false );
+
+		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
+			if ( $override_cookie_check || ! $cookie ) {
+				$this->_customer_id = $current_user_id;
+			}
+		}
+
 		// If cart retrieved then update cart.
 		if ( $cookie || $this->_customer_id ) {
 			$this->_data = $this->get_cart_data();
