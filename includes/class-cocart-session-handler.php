@@ -270,7 +270,6 @@ class CoCart_Session_Handler extends WC_Session {
 		$customer_id = '';
 
 		$current_user_id = strval( get_current_user_id() );
-
 		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
 			$customer_id = $current_user_id;
 		}
