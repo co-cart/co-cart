@@ -6,7 +6,7 @@ Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
 Requires at least: 5.0
 Requires PHP: 7.0
-Tested up to: 5.4
+Tested up to: 5.4.1
 Stable tag: 2.0.13
 WC requires at least: 3.6.0
 WC tested up to: 4.1.0
@@ -195,7 +195,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
-= v2.1.0 - ?? April, 2020 =
+= v2.1.0 - 8th May, 2020 =
 
 * NEW: Added support for guest customers.
 * NEW: Carts in session are stored in a new database table.
