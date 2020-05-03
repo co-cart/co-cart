@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.1.0 - ?? April, 2020
+## v2.1.0 - 8th May, 2020
 
 * NEW: Added support for guest customers.
 * NEW: Carts in session are stored in a new database table.
@@ -10,6 +10,7 @@
 * NEW: Added handlers to improve product validation and extended support for other product types.
 * NEW: Can now add items to cart using a products SKU ID.
 * NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
+* NEW: Added option to logout customer.
 * Removed: Parameter to re-calculate totals once item was updated.
 * Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
 * Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
@@ -30,6 +31,7 @@
 * Dev: Added hook `cocart_item_added_updated_in_cart` for when an item was added again but updated in cart.
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
+* Dev: Added filter to override cookie check for authenticated users.
 * Tested: Compatible with WooCommerce v4.1.x
 
 > Note: Carts that have expired past 30 days are cleared via a cron-job twice daily.

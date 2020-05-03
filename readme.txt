@@ -34,6 +34,7 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 CoCart provides the basic features to get you started.
 
 * **NEW**: Guest carts are supported.
+* **NEW**: Logout customer.
 * Add simple and variable products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
@@ -205,6 +206,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * NEW: Added handlers to improve product validation and extended support for other product types.
 * NEW: Can now add items to cart using a products SKU ID.
 * NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
+* NEW: Added option to logout customer.
 * Removed: Parameter to re-calculate totals once item was updated.
 * Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
 * Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
@@ -225,6 +227,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * Dev: Added hook `cocart_item_added_updated_in_cart` for when an item was added again but updated in cart.
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
+* Dev: Added filter to override cookie check for authenticated users.
 * Tested: Compatible with WooCommerce v4.1.x
 
 > Note: Carts that have expired past 30 days are cleared via a cron-job twice daily.
