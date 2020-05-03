@@ -320,6 +320,7 @@ class CoCart_Rest_API {
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-calculate-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-count-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-logout-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php' );
 	} // rest_api_includes()
 
@@ -342,6 +343,7 @@ class CoCart_Rest_API {
 			'CoCart_Calculate_Controller',
 			'CoCart_Count_Items_Controller',
 			'CoCart_Item_Controller',
+			'CoCart_Logout_Controller',
 			'CoCart_Totals_Controller'
 		);
 
