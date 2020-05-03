@@ -236,8 +236,8 @@ class CoCart_Session_Handler extends WC_Session {
 		}
 
 		// Current user ID. If value is above zero then user is logged in.
-		$current_user_id = get_current_user_id();
-		if ( $current_user_id > 0 ) {
+		$current_user_id = strval( get_current_user_id() );
+		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
 			return true;
 		}
 
