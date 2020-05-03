@@ -33,6 +33,7 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 ## Features
 
 * **NEW**: Guest carts are now fully supported.
+* **NEW**: Logout customer.
 * Add simple and variable products to the cart (including simple and variable subscription products).
 * Update items in the cart.
 * Remove items from the cart.
