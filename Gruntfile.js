@@ -228,7 +228,6 @@ module.exports = function(grunt) {
 			readme: {
 				src: [
 					'readme.txt',
-					'README.md'
 				],
 				overwrite: true,
 				replacements: [
@@ -257,7 +256,6 @@ module.exports = function(grunt) {
 			stable: {
 				src: [
 					'readme.txt',
-					'README.md'
 				],
 				overwrite: true,
 				replacements: [
