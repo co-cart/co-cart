@@ -111,7 +111,6 @@ module.exports = function(grunt) {
 					domainPath: 'languages',                                  // Where to save the POT file.
 					exclude: [
 						'releases',
-						'woo-dependencies/.*',
 						'node_modules'
 					],
 					mainFile: '<%= pkg.name %>.php', // Main project file.
@@ -229,7 +228,6 @@ module.exports = function(grunt) {
 			readme: {
 				src: [
 					'readme.txt',
-					'README.md'
 				],
 				overwrite: true,
 				replacements: [
@@ -242,10 +240,6 @@ module.exports = function(grunt) {
 						to: 'Requires PHP:$1$2<%= pkg.requires_php %>$3'
 					},
 					{
-						from: /Stable tag:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
-						to: 'Stable tag:$1$2<%= pkg.version %>$3'
-					},
-					{
 						from: /Tested up to:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
 						to: 'Tested up to:$1$2<%= pkg.tested_up_to %>$3'
 					},
@@ -256,6 +250,18 @@ module.exports = function(grunt) {
 					{
 						from: /WC tested up to:(\*\*|)(\s*?)[a-zA-Z0-9.-]+(\s*?)$/mi,
 						to: 'WC tested up to:$1$2<%= pkg.wc_tested_up_to %>$3'
+					},
+				]
+			},
+			stable: {
+				src: [
+					'readme.txt',
+				],
+				overwrite: true,
+				replacements: [
+					{
+						from: /Stable tag:(\*\*|)(\s*?)[0-9.-]+(\s*?)$/mi,
+						to: 'Stable tag:$1$2<%= pkg.version %>$3'
 					},
 				]
 			}
@@ -276,10 +282,14 @@ module.exports = function(grunt) {
 							'!.htaccess',
 							'!assets/scss/**',
 							'!assets/**/*.scss',
+							'!includes/api/experiments/**',
+							'!includes/api/pro-enhancements/**',
+							'!includes/api/wip/**',
 							'!<%= pkg.name %>-git/**',
 							'!<%= pkg.name %>-svn/**',
 							'!node_modules/**',
 							'!releases/**',
+							'!unit-tests/**',
 							'readme.txt'
 						],
 						dest: 'build/',
@@ -316,7 +326,7 @@ module.exports = function(grunt) {
 	// Set the default grunt command to run test cases.
 	grunt.registerTask( 'default', [ 'test' ] );
 
-	// Checks for developer dependence updates.
+	// Checks for developer dependencies updates.
 	grunt.registerTask( 'check', [ 'devUpdate' ] );
 
 	// Checks for errors.
@@ -326,7 +336,10 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'build', [ 'sass', 'postcss', 'cssmin', 'update-pot' ]);
 
 	// Update version of plugin.
-	grunt.registerTask( 'version', [ 'replace' ] );
+	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme' ] );
+
+	// Update stable version of plugin.
+	grunt.registerTask( 'stable', [ 'replace:stable' ] );
 
 	/**
 	 * Run i18n related tasks.

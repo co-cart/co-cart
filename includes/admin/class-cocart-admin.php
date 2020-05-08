@@ -3,7 +3,7 @@
  * CoCart - Admin.
  *
  * @since    1.2.0
- * @version  2.0.12
+ * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -37,13 +37,14 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.12
+		 * @version 2.1.0
 		 */
 		public function includes() {
 			include( dirname( __FILE__ ) . '/class-cocart-admin-action-links.php' );         // Action Links
 			include( dirname( __FILE__ ) . '/class-cocart-admin-assets.php' );               // Admin Assets
 			include( dirname( __FILE__ ) . '/class-cocart-admin-plugin-screen-update.php' ); // Plugin Screen Update
 			include( dirname( __FILE__ ) . '/class-cocart-admin-notices.php' );              // Plugin Notices
+			include( dirname( __FILE__ ) . '/class-cocart-wc-admin-system-status.php' );     // WooCommerce System Status
 		} // END includes()
 
 		/**
@@ -109,6 +110,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @return array
 		 */
 		public static function is_cocart_pro_installed() {
 			$active_plugins = (array) get_option( 'active_plugins', array() );
@@ -155,6 +157,23 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			return false;
 		} // END is_cocart_beta()
+
+		/**
+		 * Checks if the current user has the capabilities to install a plugin.
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.1.0
+		 * @return bool
+		 */
+		public static function user_has_capabilities() {
+			if ( current_user_can( apply_filters( 'cocart_install_capability', 'install_plugins' ) ) ) {
+				return true;
+			}
+
+			// If the current user can not install plugins then return nothing!
+			return false;
+		} // END user_has_capabilities()
 
 		/**
 		 * Seconds to words.

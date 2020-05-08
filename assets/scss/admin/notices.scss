@@ -5,15 +5,18 @@
 	}
 
 	&.cocart-notice {
-		a.no-thanks {
+		.no-thanks {
 			display: block;
 			margin-top: 10px;
-			color: #72777c;
-			text-decoration: none;
-		}
 
-		a.no-thanks:hover {
-			color: #444;
+			a {
+				color: #72777c;
+				text-decoration: none;
+			}
+
+			a:hover {
+				color: #444;
+			}
 		}
 
 		p {

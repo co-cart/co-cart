@@ -1,4 +1,42 @@
-# Changelog for CoCart
+# Changelog for CoCart Lite
+
+## v2.1.0 - 8th May, 2020
+
+* NEW: Added support for guest customers.
+* NEW: Carts in session are stored in a new database table.
+* NEW: Added plugin details to **WooCommerce System Status**.
+* NEW: Added `uninstall.php` file to delete table and options.
+* NEW: Able to transfer a cart from your headless store to the web.
+* NEW: Added handlers to improve product validation and extended support for other product types.
+* NEW: Can now add items to cart using a products SKU ID.
+* NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
+* NEW: Added option to logout customer.
+* Removed: Parameter to re-calculate totals once item was updated.
+* Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
+* Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
+* Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
+* Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
+* Dev: Cart expiration can be filtered if the default 30 days is not to your liking.
+* Dev: Generated customer ID can be filtered before storing cart in the database and creates a cookie on the customer's device.
+* Dev: Added filter `cocart_add_to_cart_validation` to allow plugin developers to pass their own validation before item is added to the cart.
+* Dev: Added filters to override the product name `cocart_product_name` and product title `cocart_product_title` when getting the cart contents.
+* Dev: Added filter `cocart_item_thumbnail_src` to override the source URL of the product thumbnail when getting the cart contents.
+* Dev: Added filter `cocart_add_to_cart_quantity` to override the quantity when adding an item.
+* Dev: Added filter `cocart_add_cart_item_data` so other plugins can pass cart item data when adding an item.
+* Dev: Added filters so the returned response messages can be changed.
+* Dev: Added conditional filter for returning a cart item.
+* Dev: Added hook `cocart_user_switched` to allow something to happen if a user has switched.
+* Dev: Added hook `cocart_load_cart` to manipulate the merged cart before it set in session.
+* Dev: Added hook `cocart_load_cart_override` to manipulate the overriding cart before it set in session.
+* Dev: Added hook `cocart_item_added_updated_in_cart` for when an item was added again but updated in cart.
+* Dev: Added a new class that handles logging errors.
+* Dev: Added filters to admin notices to extend the length of time they hide.
+* Dev: Added filter to override cookie check for authenticated users.
+* Tested: Compatible with WooCommerce v4.1.x
+
+> Note: Carts that have expired past 30 days are cleared via a cron-job twice daily.
+> This release is a work in progress and requires developer feedback.
+> Developers please see documentation for more details on the new hooks added.
 
 ## v2.0.13 - 13th April, 2020
 

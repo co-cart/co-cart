@@ -86,14 +86,14 @@
   border-color: #b27de3;
   padding: 20px; }
 
-.notice.cocart-notice a.no-thanks {
+.notice.cocart-notice .no-thanks {
   display: block;
-  margin-top: 10px;
-  color: #72777c;
-  text-decoration: none; }
-
-.notice.cocart-notice a.no-thanks:hover {
-  color: #444; }
+  margin-top: 10px; }
+  .notice.cocart-notice .no-thanks a {
+    color: #72777c;
+    text-decoration: none; }
+  .notice.cocart-notice .no-thanks a:hover {
+    color: #444; }
 
 .notice.cocart-notice p {
   padding: 0;

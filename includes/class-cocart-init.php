@@ -2,13 +2,13 @@
 /**
  * CoCart REST API
  *
- * Handles cart endpoints requests for WC-API.
+ * Handles cart endpoints requests for WC-API and CoCart.
  *
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/API
  * @since    1.0.0
- * @version  2.0.7
+ * @version  2.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -126,7 +126,7 @@ class CoCart_Rest_API {
 		}
 
 		// Include REST API Controllers.
-		add_action( 'wp_loaded', array( $this, 'rest_api_includes' ), 5 );
+		add_action( 'rest_api_init', array( $this, 'rest_api_includes' ), 5 );
 
 		// Register CoCart REST API routes.
 		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 10 );
@@ -140,7 +140,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.0.7
+	 * @version 2.1.0
 	 */
 	private function maybe_load_cart() {
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
@@ -152,58 +152,176 @@ class CoCart_Rest_API {
 				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 			}
 
-			if ( null === WC()->session ) {
-				$session_class = 'WC_Session_Handler';
+			// Initialize session.
+			$this->initialize_session();
 
-				// Prefix session class with global namespace if not already namespaced
-				if ( false === strpos( $session_class, '\\' ) ) {
-					$session_class = '\\' . $session_class;
-				}
+			// Load cart from session.
+			add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_from_session' ), 0 );
 
-				WC()->session = new $session_class();
-				WC()->session->init();
-			}
+			// Initialize cart.
+			$this->initialize_cart();
 
-			/**
-			 * For logged in customers, pull data from their account rather than the 
-			 * session which may contain incomplete data.
-			 */
-			if ( is_null( WC()->customer ) ) {
-				$customer_id = strval( get_current_user_id() );
-
-				// If the ID is not ZERO, then the user is logged in.
-				if ( $customer_id > 0 ) {
-					WC()->customer = new WC_Customer( $customer_id ); // Loads from database.
-				} else {
-					WC()->customer = new WC_Customer( $customer_id, true ); // Loads from session.
-				}
-
-				// Customer should be saved during shutdown.
-				add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
-			}
-
-			// Load Cart.
-			if ( null === WC()->cart ) {
-				WC()->cart = new WC_Cart();
+			// Identify if user has switched.
+			if ( $this->has_user_switched() ) {
+				$this->user_switched();
 			}
 		}
 	} // END maybe_load_cart()
+
+	/**
+	 * If the current customer ID in session does not match,
+	 * then the user has switched.
+	 *
+	 * @access protected
+	 * @since  2.1.0
+	 * @return bool
+	 */
+	protected function has_user_switched() {
+		// Get cart cookie... if any.
+		$cookie = WC()->session->get_cart_cookie();
+
+		// Current user ID. If user is NOT logged in then the customer is a guest.
+		$current_user_id = strval( get_current_user_id() );
+
+		// Does a cookie exist?
+		if ( $cookie ) {
+			$customer_id = $cookie[0];
+
+			// If the user is logged in and does not match ID in cookie then user has switched.
+			if ( $current_user_id !== $customer_id ) {
+				CoCart_Logger::log( sprintf( __( 'User has changed! Was %s before and is now %s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
+
+				return true;
+			}
+		}
+
+		return false;
+	} // END has_user_switched()
+
+	/**
+	 * Allows something to happen if a user has switched.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 */
+	public function user_switched() {
+		do_action( 'cocart_user_switched' );
+	} // END user_switched()
+
+	/**
+	 * Initialize CoCart session.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 * @return object WC()->session
+	 */
+	public function initialize_session() {
+		// Force WooCommerce session to be null to be sure our own handler is set.
+		if ( WC()->session instanceof WC_Session_Handler ) {
+			WC()->session = null;
+		}
+
+		// CoCart session handler class.
+		$session_class = 'CoCart_Session_Handler';
+
+		if ( is_null( WC()->session ) || ! WC()->session instanceof $session_class ) {
+			// Prefix session class with global namespace if not already namespaced
+			if ( false === strpos( $session_class, '\\' ) ) {
+				$session_class = '\\' . $session_class;
+			}
+
+			// Initialize new CoCart session.
+			WC()->session = new $session_class();
+			WC()->session->init();
+
+			return WC()->session;
+		}
+	} // END initialize_session()
+
+	/**
+	 * Initialize CoCart cart.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 */
+	public function initialize_cart() {
+		if ( is_null( WC()->customer ) || ! WC()->customer instanceof WC_Customer ) {
+			$customer_id = strval( get_current_user_id() );
+
+			WC()->customer = new WC_Customer( $customer_id, true );
+
+			// Load WooCommerce Cart.
+			if ( ! isset( WC()->cart ) || '' === WC()->cart || is_null( WC()->cart ) ) {
+				WC()->cart = new WC_Cart();
+			}
+
+			// Customer should be saved during shutdown.
+			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
+		}
+	} // END initialize_cart()
+
+	/**
+	 * Loads guest customers cart into session.
+	 *
+	 * @access public
+	 * @since  2.1.0
+	 */
+	public function load_cart_from_session() {
+		// Get session.
+		WC()->session = $this->initialize_session();
+
+		$customer_id = strval( get_current_user_id() );
+
+		// Load cart for guest.
+		if ( is_numeric( $customer_id ) && $customer_id < 1 ) {
+			$cookie = WC()->session->get_cart_cookie();
+
+			// If cookie exists then return customer ID from it.
+			if ( $cookie ) {
+				$customer_id = $cookie[0];
+			}
+
+			// Get cart for customer.
+			$cart = WC()->session->get_cart( $customer_id );
+
+			// Set cart for customer if not empty.
+			if ( ! empty( $cart ) ) {
+				WC()->session->set( 'cart', maybe_unserialize( $cart[ 'cart' ] ) );
+				WC()->session->set( 'cart_totals', maybe_unserialize( $cart[ 'cart_totals' ] ) );
+				WC()->session->set( 'applied_coupons', maybe_unserialize( $cart[ 'applied_coupons' ] ) );
+				WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart[ 'coupon_discount_totals' ] ) );
+				WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart[ 'coupon_discount_tax_totals' ] ) );
+				WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart[ 'removed_cart_contents' ] ) );
+
+				if ( ! empty( $cart['cart_fees'] ) ) {
+					WC()->session->set( 'cart_fees', maybe_unserialize( $cart[ 'cart_fees' ] ) );
+				}
+			}
+		}
+	} // END load_cart_from_session()
 
 	/**
 	 * Include CoCart REST API controllers.
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.0
 	 */
 	public function rest_api_includes() {
 		$this->maybe_load_cart();
 
-		// WC Cart REST API v2 controller.
-		include_once( dirname( __FILE__ ) . '/api/wc-v2/class-wc-rest-cart-controller.php' );
+		// Legacy - WC Cart REST API v2 controller.
+		include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
 
-		// CoCart REST API controller.
+		// CoCart REST API controllers.
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-add-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-clear-cart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-calculate-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-count-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-logout-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php' );
 	} // rest_api_includes()
 
 	/**
@@ -211,7 +329,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.0
 	 */
 	public function register_cart_routes() {
 		$controllers = array(
@@ -219,7 +337,14 @@ class CoCart_Rest_API {
 			'WC_REST_Cart_Controller',
 
 			// CoCart REST API v1 controller.
-			'CoCart_API_Controller'
+			'CoCart_API_Controller',
+			'CoCart_Add_Item_Controller',
+			'CoCart_Clear_Cart_Controller',
+			'CoCart_Calculate_Controller',
+			'CoCart_Count_Items_Controller',
+			'CoCart_Item_Controller',
+			'CoCart_Logout_Controller',
+			'CoCart_Totals_Controller'
 		);
 
 		foreach ( $controllers as $controller ) {

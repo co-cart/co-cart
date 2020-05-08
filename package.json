@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.0.13",
+	"version": "2.1.0",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -13,19 +13,19 @@
 	"main": "Gruntfile.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/co-cart/co-cart"
+		"url": "https://github.com/co-cart/co-cart.git"
 	},
 	"bugs": {
 		"url": "https://github.com/co-cart/co-cart/issues"
 	},
 	"requires": "5.0",
 	"requires_php": "7.0",
-	"tested_up_to": "5.4",
+	"tested_up_to": "5.4.1",
 	"wc_requires": "3.6.0",
-	"wc_tested_up_to": "4.0.1",
+	"wc_tested_up_to": "4.1.0",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2020, Sébastien Dumont",
-	"description": "CoCart enables the shopping cart via the REST API for WooCommerce.",
+	"description": "CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.",
 	"tags": "",
 	"keywords": [
 		"woocommerce",
