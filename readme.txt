@@ -23,9 +23,9 @@ With [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_
 
 = Why should I use CoCart? =
 
-WooCommerce REST API is created with developers in mind, so it can integrate with virtually any service and while it does allow developers to easily create and modify. It only allows them to scale a store so much to meet a client’s specifications without further custom development that will enable the stores customers access to the products in order to add them to the shopping cart.
+The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. Not the API your needing for your customers who only see the frontend.
 
-If you are wanting to build a headless WooCommerce store then CoCart is your missing solution.
+If you are wanting to build a headless WooCommerce store then CoCart is your solution.
 
 With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how to enable the cart for your store in no time.
 
@@ -33,7 +33,7 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 
 CoCart provides the basic features to get you started.
 
-* **NEW**: Guest carts are supported.
+* **NEW**: Cart support for guest customers.
 * **NEW**: Logout customer.
 * Add simple and variable products to the cart.
 * Update items in the cart.
@@ -66,8 +66,8 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 > - Retrieve and Set Fees<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
-> - **NEW** Retrieve Checkout Fields (In Development)<br />
-> - **NEW** Create Order (In Development)<br />
+> - **Coming Soon** Retrieve Checkout Fields (In Development)<br />
+> - **Coming Soon** Create Order (In Development)<br />
 >
 > [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
@@ -142,13 +142,19 @@ Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the ful
 
 You will first need WooCommerce v3.6 or higher installed with the REST API enabled. Then install CoCart and follow the documentation. That’s it!
 
+= Why should I use CoCart? =
+
+The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. Not the API your needing for your customers who only see the frontend.
+
+If you are wanting to build a headless WooCommerce store then CoCart is your solution.
+
 = Who should use CoCart? =
 
 CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom frontend shopping experience completely using the REST API, then you need to use CoCart.
 
 = Do I need to have coding skills to use CoCart? =
 
-As this plugin is built for developers you will need to have some coding knowledge to use it. [Checkout the documentation](https://docs.cocart.xyz) to get some understanding.
+As this plugin is built for developers, you will need to have some coding knowledge to use it. [Checkout the documentation](https://docs.cocart.xyz) to get some understanding.
 
 = Where can I find documentation for CoCart? =
 
@@ -156,17 +162,11 @@ The documentation for CoCart can be [found here](https://docs.cocart.xyz/).
 
 = Can I change the layout format/add/change details to the responses? =
 
-You certainly can. Filters are available to do just that (so long as you are using version 2.0+). [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided.
+You certainly can. Filters are available to do just that. [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided. [View the documentation](https://docs.cocart.xyz/) for more.
 
 = Does it work with any of the official WooCommerce libraries? =
 
-Only if you request your customers to be logged in first. This is because all the official libraries require authentication which the cart does not require.
-
-= Can I view any customers cart? =
-
-Yes but only those with administrator capabilities can and if persistent cart was left enabled. - [See documentation](https://docs.cocart.xyz/#get-customers-cart-contents) for more information.
-
-Are you a Mobile app developer? I'm currently working on support for storing cart data to make it easier to access specific carts created and your feedback is needed. [Read this article for more details.](https://cocart.xyz/cocart-v2-1-0-beta-2/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+Only if you request your customers to be logged in. This is because all the official libraries require authentication which the cart does not require.
 
 = Where can I report bugs or contribute to the project? =
 
@@ -178,7 +178,7 @@ Yes! CoCart is deployed with full translation and localization support via the �
 
 = Where can I ask for help? =
 
-If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
+If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) or [join the CoCart Community on Slack](https://cocart.xyz/community/) where you will find like minded developers who help each other out.
 
 == Screenshots ==
 
