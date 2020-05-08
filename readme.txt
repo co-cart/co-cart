@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 5.4.1
-Stable tag: 2.0.13
+Stable tag: 2.1.0
 WC requires at least: 3.6.0
 WC tested up to: 4.1.0
 License: GPLv3
@@ -238,6 +238,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-= 2.0.13 =
+= 2.1.0 =
 
-Please temporarily deactivate CoCart and CoCart Pro (if you have it) before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.
+Woohoo! Support for guest customers is here! See changelog for full details before updating!
