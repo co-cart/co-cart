@@ -119,7 +119,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.3
-		 * @version 2.0.12
+		 * @version 2.1.0
 		 * @param   string $file        Plugin basename.
 		 * @param   array  $plugin_data Plugin information.
 		 * @return  false|void
@@ -163,7 +163,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 				$notice_type = 'notice-warning';
 
 				// Only show the plugin notice if this version of CoCart is not a beta or is lower than the version mentioned in the notice.
-				if ( CoCart_Admin::is_cocart_beta() || version_compare( COCART_VERSION, $version_mentioned, '>' ) ) {
+				if ( CoCart_Admin::is_cocart_beta() || version_compare( COCART_VERSION, COCART_NEXT_VERSION, '<=' ) ) {
 					return;
 				}
 
@@ -173,7 +173,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 				printf(
 					__( 'In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to support guest customers. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Sign up to Test</a>.', 'cart-rest-api-for-woocommerce' ),
 					$plugin_name,
-					$version_mentioned,
+					COCART_NEXT_VERSION,
 					esc_url( 'https://cocart.xyz/contact/' )
 				);
 
