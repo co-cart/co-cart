@@ -185,7 +185,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			global $wpdb;
 
 			$wpdb->hide_errors();
-	
+
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 			$collate = '';
@@ -193,14 +193,14 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			if ( $wpdb->has_cap( 'collation' ) ) {
 				$collate = $wpdb->get_charset_collate();
 			}
-	
-			/*
+
+			/**
 			 * Indexes have a maximum size of 767 bytes. Historically, don't need to be concerned about that.
 			 * As of WP 4.2, however, they moved to utf8mb4, which uses 4 bytes per character. This means that an index which
 			 * used to have room for floor(767/3) = 255 characters, now only has room for floor(767/4) = 191 characters.
 			 */
 			$max_index_length = 191;
-	
+
 			// Queries
 			$tables = 
 				"CREATE TABLE {$wpdb->prefix}cocart_carts (
