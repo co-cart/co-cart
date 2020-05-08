@@ -153,9 +153,6 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 			$plugin_name   = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
 
-			$version_mentioned = COCART_NEXT_VERSION;
-			//$details_url       = esc_url( COCART_NEXT_VERSION_DETAILS );
-
 			if ( is_network_admin() || ! is_multisite() ) {
 				if ( is_network_admin() ) {
 					$active_class = is_plugin_active_for_network( $file ) ? ' active' : '';

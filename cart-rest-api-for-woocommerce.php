@@ -156,7 +156,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_TRANSLATION_URL', 'https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/');
 
 			$this->define('COCART_NEXT_VERSION', '2.1.0');
-			$this->define('COCART_NEXT_VERSION_DETAILS', 'https://cocart.xyz/cocart-v2-1-0-rc-1/');
 		} // END setup_constants()
 
 		/**
