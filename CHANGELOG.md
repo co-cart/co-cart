@@ -34,10 +34,6 @@
 * Dev: Added filter to override cookie check for authenticated users.
 * Tested: Compatible with WooCommerce v4.1.x
 
-> Note: Carts that have expired past 30 days are cleared via a cron-job twice daily.
-> This release is a work in progress and requires developer feedback.
-> Developers please see documentation for more details on the new hooks added.
-
 ## v2.0.13 - 13th April, 2020
 
 * Filtered: `woocommerce_stock_amount` to validate as a float value.

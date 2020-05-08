@@ -230,10 +230,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * Dev: Added filter to override cookie check for authenticated users.
 * Tested: Compatible with WooCommerce v4.1.x
 
-> Note: Carts that have expired past 30 days are cleared via a cron-job twice daily.
-> This release is a work in progress and requires developer feedback.
-> Developers please see documentation for more details on the new hooks added.
-
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
