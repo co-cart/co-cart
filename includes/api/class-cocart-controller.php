@@ -114,7 +114,6 @@ class CoCart_API_Controller {
 	 * @since   2.0.0
 	 * @version 2.1.0
 	 * @param   array  $data
-	 * @param   string $cart_item_key
 	 * @return  array|WP_Error
 	 */
 	public function get_cart_customer( $data = array() ) {
@@ -348,12 +347,12 @@ class CoCart_API_Controller {
 	 *
 	 * @access protected
 	 * @since  2.1.0
-	 * @param  int    $product_id     - Contains the id of the product.
-	 * @param  int    $quantity       - Contains the quantity of the item.
-	 * @param  int    $variation_id   - ID of the variation.
-	 * @param  array  $variation      - Attribute values.
-	 * @param  array  $cart_item_data - Extra cart item data we want to pass into the item.
-	 * @param  string $product_type   - The product type.
+	 * @param  int        $product_id     - Contains the id of the product.
+	 * @param  int        $quantity       - Contains the quantity of the item.
+	 * @param  int        $variation_id   - ID of the variation.
+	 * @param  array      $variation      - Attribute values.
+	 * @param  array      $cart_item_data - Extra cart item data we want to pass into the item.
+	 * @param  WC_Product $product_data   - The product data.
 	 * @return WP_Error
 	 */
 	protected function validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_data ) {
