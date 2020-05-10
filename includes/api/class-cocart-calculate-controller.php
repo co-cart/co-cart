@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    2.1.0
+ * @version  2.1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -53,7 +54,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.1.1
 	 * @param   array $data
 	 * @return  WP_REST_Response
 	 */
@@ -62,7 +63,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 
 		// Was it requested to return all totals once calculated?
 		if ( $data['return'] ) {
-			return $this->get_totals( $data );
+			return CoCart_Totals_Controller::get_totals( $data );
 		}
 
 		$message = __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' );
