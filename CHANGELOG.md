@@ -1,5 +1,12 @@
 # Changelog for CoCart Lite
 
+## v2.1.1 - 10th May, 2020
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Critical uncaught error when returning the totals once calculated.
+* Fixed: Critical uncaught error when uninstalling to drop the database table.
+
 ## v2.1.0 - 8th May, 2020
 
 * NEW: Added support for guest customers.
