@@ -6,6 +6,7 @@
  *
  * @package CoCart\Uninstaller
  * @since   2.1.0
+ * @version 2.1.1
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
@@ -13,6 +14,8 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 global $wpdb, $wp_version;
 
 // Drop Tables.
+require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' );
+
 CoCart_Install::drop_tables();
 
 // Delete options.
