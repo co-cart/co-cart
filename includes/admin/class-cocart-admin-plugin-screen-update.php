@@ -163,7 +163,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 				$notice_type = 'notice-warning';
 
 				// Only show the plugin notice if this version of CoCart is not a beta or is lower than the version mentioned in the notice.
-				if ( CoCart_Admin::is_cocart_beta() || version_compare( COCART_VERSION, COCART_NEXT_VERSION, '<=' ) ) {
+				if ( CoCart_Admin::is_cocart_beta() || version_compare( COCART_NEXT_VERSION, COCART_VERSION, '<=' ) ) {
 					return;
 				}
 
