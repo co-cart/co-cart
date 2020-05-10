@@ -52,12 +52,13 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	 * Returns all calculated totals.
 	 *
 	 * @access  public
+	 * @static
 	 * @since   1.0.0
 	 * @version 2.1.1
 	 * @param   array $data
 	 * @return  WP_REST_Response
 	 */
-	public function get_totals( $data = array() ) {
+	public static function get_totals( $data = array() ) {
 		$totals = WC()->cart->get_totals();
 
 		$pre_formatted = ! empty( $data['html'] ) ? $data['html'] : false;
