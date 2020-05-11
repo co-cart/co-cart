@@ -113,16 +113,26 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Counts how many carts are currently in session.
 		 *
 		 * @access public
+		 * @param  string - Session table to count.
 		 * @global $wpdb
 		 * @return int - Number of carts in session.
 		 */
-		public function carts_in_session() {
+		public function carts_in_session( $session = '' ) {
 			global $wpdb;
 
-			$results = $wpdb->get_results( "
+			if ( empty( $session ) ) {
+				$results = $wpdb->get_results( "
+					SELECT COUNT(cart_id) as count 
 				SELECT COUNT(cart_id) as count 
-				FROM {$wpdb->prefix}cocart_carts
-			", ARRAY_A );
+					SELECT COUNT(cart_id) as count 
+					FROM {$wpdb->prefix}cocart_carts
+				", ARRAY_A );
+			} else {
+				$results = $wpdb->get_results( "
+				SELECT COUNT(session_id) as count 
+				FROM {$wpdb->prefix}woocommerce_sessions
+				", ARRAY_A );
+			}
 
 			return $results[0]['count'];
 		} // END carts_in_session()
