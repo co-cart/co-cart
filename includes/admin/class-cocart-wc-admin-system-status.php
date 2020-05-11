@@ -5,6 +5,7 @@
  * Adds additional related information to the WooCommerce System Status.
  *
  * @since    2.1.0
+ * @version  2.1.2
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/System Status
@@ -123,8 +124,6 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			if ( empty( $session ) ) {
 				$results = $wpdb->get_results( "
 					SELECT COUNT(cart_id) as count 
-				SELECT COUNT(cart_id) as count 
-					SELECT COUNT(cart_id) as count 
 					FROM {$wpdb->prefix}cocart_carts
 				", ARRAY_A );
 			} else {
@@ -159,9 +158,11 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		/**
 		 * Adds debug buttons under the tools section of WooCommerce System Status.
 		 *
-		 * @access public
-		 * @param  array $tools - All tools before adding ours.
-		 * @return array $tools - All tools after adding ours.
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 2.1.2
+		 * @param   array $tools - All tools before adding ours.
+		 * @return  array $tools - All tools after adding ours.
 		 */
 		public function debug_button( $tools ) {
 			$tools['cocart_clear_carts'] = array(
@@ -170,10 +171,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'desc'   => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-					sprintf( 
-						esc_html__( 'This will clear all carts stored in the database for %s including registered customers if enabled.', 'cart-rest-api-for-woocommerce' ),
-						'<strong>' . esc_html__( 'guest customers', 'cart-rest-api-for-woocommerce' ) . '</strong>'
-					)
+					esc_html__( 'This will clear all carts in session handled by CoCart and saved carts.', 'cart-rest-api-for-woocommerce' )
 				),
 				'callback' => array( $this, 'debug_clear_carts' ),
 			);
@@ -192,18 +190,33 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'callback' => array( $this, 'debug_clear_expired_carts' ),
 			);
 
+			$carts_to_sync = $this->carts_in_session( 'woocommerce' );
+
+			$tools['cocart_sync_carts'] = array(
+				'name'   => esc_html__( 'Synchronize carts', 'cart-rest-api-for-woocommerce' ),
+				'button' => sprintf( esc_html__( 'Synchronize (%d) cart/s', 'cart-rest-api-for-woocommerce' ), $carts_to_sync ),
+				'desc'   => sprintf(
+					'<strong class="red">%1$s</strong> %2$s',
+					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'This will copy any existing carts from WooCommerce\'s session table to CoCart\'s session table in the database. If cart already exists for a customer then it will not sync for that customer.', 'cart-rest-api-for-woocommerce' )
+				),
+				'callback' => array( $this, 'synchronize_carts' ),
+			);
+
 			return $tools;
 		} // END debug_button
 
 		/**
 		 * Runs the debug callback for clearing all carts.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 2.1.2
 		 */
 		public function debug_clear_carts() {
-			CoCart_API_Session::clear_carts();
+			$results = CoCart_API_Session::clear_carts();
 
-			echo '<div class="updated inline"><p>' . esc_html__( 'All carts in session have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			echo '<div class="updated inline"><p>' . sprintf( esc_html__( 'All active carts have been cleared and %s saved carts.', 'cart-rest-api-for-woocommerce' ), absint( $results ) ) . '</p></div>';
 		} // END debug_clear_carts()
 
 		/**
@@ -216,6 +229,25 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			echo '<div class="updated inline"><p>' . esc_html__( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		} // END debug_clear_expired_carts()
+
+		/**
+		 * Synchronizes the carts from one session table to the other.
+		 * Any cart that already exists for the customer will not sync.
+		 *
+		 * @access public
+		 * @since  2.1.2
+		 */
+		public function synchronize_carts() {
+			global $wpdb;
+
+			$wpdb->query(
+				"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`)
+				SELECT t1.session_key, t1.session_value, t1.session_expiry
+				FROM {$wpdb->prefix}woocommerce_sessions t1
+				WHERE NOT EXISTS(SELECT cart_key FROM {$wpdb->prefix}cocart_carts t2 WHERE t2.cart_key = t1.session_key) ");
+
+			echo '<div class="updated inline"><p>' . esc_html__( 'Carts are now synchronized.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+		} // END resync_carts()
 
 	} // END class
 
