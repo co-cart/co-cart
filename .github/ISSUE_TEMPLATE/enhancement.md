@@ -1,8 +1,8 @@
 ---
 name: "✨ Enhancement"
-about: If you have an idea to improve an existing feature or need something for development please let me know or better yet, submit a pull request.
-title: ""
-labels: ""
+about: Suggest an idea to improve an existing feature
+title: "ISBAT ..."
+labels: "priority:low, enhancement"
 assignees: ""
 ---
 
