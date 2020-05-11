@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
+ * @version  2.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
