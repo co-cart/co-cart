@@ -353,7 +353,9 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Save cart data and delete previous cart data.
 	 *
-	 * @param int $old_cart_key cart ID before user logs in.
+	 * @access public
+	 * @param  int $old_cart_key cart ID before user logs in.
+	 * @global $wpdb
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
 		if ( $this->has_cart() ) {

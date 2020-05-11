@@ -30,6 +30,7 @@ class CoCart_API_Session {
 		// Cleans up carts from the database that have expired.
 		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
 
+		// Merges cart content when loaded to the web.
 		add_filter( 'cocart_merge_cart_content', array( $this, 'merge_quantity' ), 10, 3 );
 
 		// Loads a cart in session if still valid.
