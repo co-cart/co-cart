@@ -58,14 +58,27 @@ class CoCart_API_Session {
 	/**
 	 * Clears all carts from the database.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @global $wpdb
+	 * @since   2.1.0
+	 * @version 2.1.2
+	 * @global  $wpdb
+	 * @return  int $results The number of saved carts.
 	 */
 	public static function clear_carts() {
 		global $wpdb;
 
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
+
+		/**
+		 * Clear saved carts.
+		 *
+		 * @since 2.1.2
+		 */
+		$results = absint( $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key='_woocommerce_persistent_cart_" . get_current_blog_id() . "';" ) );
+		wp_cache_flush();
+
+		return $results;
 	} // END clear_cart()
 
 	/**
