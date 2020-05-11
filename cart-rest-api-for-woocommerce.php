@@ -127,6 +127,9 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			// Validates the quantity value to be a float.
 			add_filter( 'woocommerce_stock_amount', 'floatval' );
+
+			// Overrides the session handler used for the web.
+			add_filter( 'woocommerce_session_handler', array( $this, 'cocart_session_handler' ), 99 );
 		} // END __construct()
 
 		/**
@@ -273,6 +276,17 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			return $is_rest_api_request;
 		} // END is_rest_api_request()
+
+		/**
+		 * Returns CoCart session handler class name.
+		 *
+		 * @access public
+		 * @since  2.1.2
+		 * @return string
+		 */
+		public function cocart_session_handler() {
+			return 'CoCart_Session_Handler';
+		} // END cocart_session_handler()
 
 	} // END class
 
