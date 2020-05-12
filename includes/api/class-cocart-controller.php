@@ -654,7 +654,7 @@ class CoCart_API_Controller {
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'id' => array(
+			'cart_key' => array(
 				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 			),
