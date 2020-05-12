@@ -1,5 +1,12 @@
 # Changelog for CoCart Lite
 
+## v2.1.2 - ?? May, 2020
+
+* NEW: Carts are now in sync across the web version of your store and your headless store.
+* Dev: Added debug tool under **WooCommerce System Status** to synchronize carts over to CoCart's session table in the database.
+
+> This update replaces WooCommerce core session handler with CoCart's. 100% compatible.
+
 ## v2.1.1 - 10th May, 2020
 
 **🔥 This is a HOTFIX!**
