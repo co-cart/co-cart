@@ -648,13 +648,14 @@ class CoCart_API_Controller {
 	/**
 	 * Get the query params for getting the cart.
 	 *
-	 * @access public
-	 * @since  2.1.0
-	 * @return array $params
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.1.2
+	 * @return  array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'id' => array(
+			'cart_key' => array(
 				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 			),
