@@ -82,7 +82,9 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Setup cart.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.1.2
 	 */
 	public function init_cart() {
 		// Get cart cookie... if any.
