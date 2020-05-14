@@ -119,14 +119,10 @@ if ( ! class_exists( 'CoCart' ) ) {
 			// Initialize session.
 			add_action( 'plugins_loaded', array( $this, 'initialize_session' ), 12 );
 
+			add_action( 'woocommerce_loaded', array( $this, 'woocommerce' ) );
+
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-
-			// Removes WooCommerce filter that validates the quantity value to be an integer.
-			remove_filter( 'woocommerce_stock_amount', 'intval' );
-
-			// Validates the quantity value to be a float.
-			add_filter( 'woocommerce_stock_amount', 'floatval' );
 
 			// Overrides the session handler used for the web.
 			add_filter( 'woocommerce_session_handler', array( $this, 'cocart_session_handler' ), 99 );
@@ -191,6 +187,17 @@ if ( ! class_exists( 'CoCart' ) ) {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
 		} // END includes()
+
+		/**
+		 * Include WooCommerce tweaks.
+		 *
+		 * @access public
+		 * @since  2.1.2
+		 * @return void
+		 */
+		public function woocommerce() {
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-woocommerce.php' );
+		} // END woocommerce()
 
 		/**
 		 * Include admin classes to handle all back-end functions.
