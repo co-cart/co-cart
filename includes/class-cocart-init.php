@@ -263,12 +263,17 @@ class CoCart_Rest_API {
 	/**
 	 * Loads guest customers cart into session.
 	 *
-	 * @access public
-	 * @since  2.1.0
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.1.2
 	 */
 	public function load_cart_from_session() {
 		// Get session.
 		WC()->session = $this->initialize_session();
+
+		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
+			return;
+		}
 
 		$customer_id = strval( get_current_user_id() );
 
