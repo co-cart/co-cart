@@ -125,7 +125,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 			// Overrides the session handler used for the web.
-			add_filter( 'woocommerce_session_handler', array( $this, 'cocart_session_handler' ), 99 );
+			add_filter( 'woocommerce_session_handler', array( $this, 'cocart_session_handler' ) );
 		} // END __construct()
 
 		/**
