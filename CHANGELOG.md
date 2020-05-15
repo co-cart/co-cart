@@ -2,8 +2,8 @@
 
 ## v2.1.2 - ?? May, 2020
 
-* NEW: Carts are now in sync across the web version of your store and your headless store.
-* Changed: Parameter used to set cart key. Previously `id` now `cart_key`. `id` used as fallback if still used.
+* NEW: Carts are now in sync across the web store and your headless store.
+* Changed: Parameter used to set cart key. Previously `id` now `cart_key`. The `id` used as fallback if still used.
 * Tweaked: Clear carts debug tool now clears saved carts as well.
 * Dev: Added debug tool under **WooCommerce System Status** to synchronize carts over to CoCart's session table in the database.
 
