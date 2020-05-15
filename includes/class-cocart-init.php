@@ -216,16 +216,11 @@ class CoCart_Rest_API {
 	 * @return object WC()->session
 	 */
 	public function initialize_session() {
-		// Force WooCommerce session to be null to be sure our own handler is set.
-		if ( WC()->session instanceof WC_Session_Handler ) {
-			WC()->session = null;
-		}
-
 		// CoCart session handler class.
 		$session_class = 'CoCart_Session_Handler';
 
 		if ( is_null( WC()->session ) || ! WC()->session instanceof $session_class ) {
-			// Prefix session class with global namespace if not already namespaced
+			// Prefix session class with global namespace if not already namespaced.
 			if ( false === strpos( $session_class, '\\' ) ) {
 				$session_class = '\\' . $session_class;
 			}
@@ -233,8 +228,6 @@ class CoCart_Rest_API {
 			// Initialize new CoCart session.
 			WC()->session = new $session_class();
 			WC()->session->init();
-
-			return WC()->session;
 		}
 	} // END initialize_session()
 
@@ -268,9 +261,6 @@ class CoCart_Rest_API {
 	 * @version 2.1.2
 	 */
 	public function load_cart_from_session() {
-		// Get session.
-		WC()->session = $this->initialize_session();
-
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
 			return;
 		}
