@@ -170,7 +170,7 @@ class CoCart_API_Session {
 
 		$new_cart['cart']                       = maybe_unserialize( $stored_cart['cart'] );
 		$new_cart['applied_coupons']            = maybe_unserialize( $stored_cart['applied_coupons'] );
-		$new_cart['coupon_discount_totals']     = maybe_unserialize( $stored_cart[']coupon_discount_totals'] );
+		$new_cart['coupon_discount_totals']     = maybe_unserialize( $stored_cart['coupon_discount_totals'] );
 		$new_cart['coupon_discount_tax_totals'] = maybe_unserialize( $stored_cart['coupon_discount_tax_totals'] );
 		$new_cart['removed_cart_contents']      = maybe_unserialize( $stored_cart['removed_cart_contents'] );
 
