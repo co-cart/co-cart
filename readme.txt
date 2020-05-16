@@ -17,8 +17,6 @@ A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 == Description ==
 
-<div class="plugin-notice notice notice-warning notice-alt"><p>⚠️ <strong>Warning:</strong>  Stable version reverted to 2.0.13 due to unforeseen issues in version 2.1. If you would like to help test, come [join the community](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).</p></div>
-
 CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for [WooCommerce](https://wordpress.org/plugins/woocommerce/).
 
 With [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart), running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
