@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 5.4.1
-Stable tag: 2.1.1
+Stable tag: 2.0.13
 WC requires at least: 3.6.0
 WC tested up to: 4.2.0
 License: GPLv3
@@ -16,6 +16,8 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 == Description ==
+
+<div class="plugin-notice notice notice-warning notice-alt"><p>⚠️ <strong>Warning:</strong>  Stable version reverted to 2.0.13 due to unforeseen issues in version 2.1. If you would like to help test, come [join the community](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).</p></div>
 
 CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for [WooCommerce](https://wordpress.org/plugins/woocommerce/).
 
