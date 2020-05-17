@@ -46,14 +46,23 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.1.2
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function clear_cart() {
-		WC()->cart->empty_cart( true ); // Clears the cart deletes persistent cart permanently.
-		//WC()->session->set('cart', array()); // Empty the session cart data.
+		$cart_empty = false;
 
-		if ( WC()->cart->is_empty() ) {
+		if ( $this->get_cart_instance()->is_empty() ) {
+			$cart_empty = true;
+		} else {
+			$this->get_cart_instance()->empty_cart( true ); // Clears the cart deletes persistent cart permanently.
+		}
+
+		if ( $this->get_cart_instance()->is_empty() ) {
+			$cart_empty = true;
+		}
+
+		if ( $cart_empty ) {
 			do_action( 'cocart_cart_cleared' );
 
 			$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
