@@ -345,39 +345,186 @@ class CoCart_API_Controller {
 	/**
 	 * Validate variable product.
 	 *
-	 * @access protected
-	 * @since  2.1.0
-	 * @param  int        $product_id     - Contains the id of the product.
-	 * @param  int        $quantity       - Contains the quantity of the item.
-	 * @param  int        $variation_id   - ID of the variation.
-	 * @param  array      $variation      - Attribute values.
-	 * @param  array      $cart_item_data - Extra cart item data we want to pass into the item.
-	 * @param  WC_Product $product_data   - The product data.
-	 * @return WP_Error
+	 * @access  protected
+	 * @since   2.1.0
+	 * @version 2.1.2
+	 * @param   int        $product_id     - Contains the id of the product.
+	 * @param   int        $quantity       - Contains the quantity of the item.
+	 * @param   int        $variation_id   - ID of the variation.
+	 * @param   array      $variation      - Attribute values.
+	 * @param   array      $cart_item_data - Extra cart item data we want to pass into the item.
+	 * @param   WC_Product $product        - The product data.
+	 * @return  array|WP_Error
 	 */
-	protected function validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_data ) {
-		if ( $variation_id == 0 ) {
-			$message = __( 'Can not add a variable product without specifying a variation!', 'cart-rest-api-for-woocommerce' );
+	protected function validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product ) {
+		// Flatten data and format posted values.
+		$variable_product_attributes = $this->get_variable_product_attributes( $product );
+		$variation                   = $this->sanitize_variation_data( wp_list_pluck( $variation, 'value', 'attribute' ), $variable_product_attributes );
+
+		// If we have a parent product and no variation ID, find the variation ID.
+		if ( $product->is_type( 'variable' ) && $variation_id == 0 ) {
+			$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
+		}
+
+		// Now we have a variation ID, get the valid set of attributes for this variation. They will have an attribute_ prefix since they are from meta.
+		$expected_attributes = wc_get_product_variation_attributes( $variation_id );
+		$missing_attributes  = [];
+
+		foreach ( $variable_product_attributes as $attribute ) {
+			if ( ! $attribute['is_variation'] ) {
+				continue;
+			}
+
+			$prefixed_attribute_name = 'attribute_' . sanitize_title( $attribute['name'] );
+			$expected_value          = isset( $expected_attributes[ $prefixed_attribute_name ] ) ? $expected_attributes[ $prefixed_attribute_name ] : '';
+			$attribute_label         = wc_attribute_label( $attribute['name'] );
+
+			if ( isset( $variation[ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
+				$given_value = $variation[ wc_variation_attribute_name( $attribute['name'] ) ];
+
+				if ( $expected_value === $given_value ) {
+					continue;
+				}
+
+				// If valid values are empty, this is an 'any' variation so get all possible values.
+				if ( '' === $expected_value && in_array( $given_value, $attribute->get_slugs(), true ) ) {
+					continue;
+				}
+
+				/* translators: %1$s: Attribute name, %2$s: Allowed values. */
+				$message = sprintf( __( 'Invalid value posted for %1$s. Allowed values: %2$s', 'cart-rest-api-for-woocommerce' ), $attribute_label, implode( ', ', $attribute->get_slugs() ) );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about invalid variation data.
+				 *
+				 * @param string $message         - Message.
+				 * @param string $attribute_label - Attribute Label.
+				 * @param array  $attribute       - Allowed values.
+				 */
+				$message = apply_filters( 'cocart_invalid_variation_data_message', $message, $attribute_label, $attribute->get_slugs() );
+
+				return WP_Error( 'cocart_invalid_variation_data', $message, 400 );
+			}
+
+			// If no attribute was posted, only error if the variation has an 'any' attribute which requires a value.
+			if ( '' === $expected_value ) {
+				$missing_attributes[] = $attribute_label;
+			}
+		}
+
+		if ( ! empty( $missing_attributes ) ) {
+			/* translators: %s: Attribute name. */
+			$message = __( 'Missing variation data for variable product.', 'cart-rest-api-for-woocommerce' ) . ' ' . sprintf( _n( '%s is a required field.', '%s are required fields.', count( $missing_attributes ), 'cart-rest-api-for-woocommerce' ), wc_format_list_of_items( $missing_attributes ) );
 
 			CoCart_Logger::log( $message, 'error' );
 
 			/**
-			 * Filters message about variable product failing validation.
+			 * Filters message about missing variation data.
 			 *
-			 * @param string $message - Message.
+			 * @param string $message            - Message.
+			 * @param string $missing_attributes - Number of missing attributes.
+			 * @param array  $missing_attributes - List of missing attributes.
 			 */
-			$message = apply_filters( 'cocart_variable_product_failed_validation_message', $message );
+			$message = apply_filters( 'cocart_missing_variation_data_message', $message, count( $missing_attributes ), wc_format_list_of_items( $missing_attributes ) );
 
-			return new WP_Error( 'cocart_variable_product_failed_validation', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_missing_variation_data', $message, 400 );
 		}
+
+		return $variation;
 	} // END validate_variable_product()
+
+	/**
+	 * Try to match variation data to a variation ID and return the ID.
+	 *
+	 * @access protected
+	 * @since  2.1.2
+	 * @param  array       $variation    Submitted attributes.
+	 * @param  WC_Product  $product      Product being added to the cart.
+	 * @return int         $variation_id Matching variation ID.
+	 */
+	protected function get_variation_id_from_variation_data( $variation, $product ) {
+		$data_store   = \WC_Data_Store::load( 'product' );
+		$variation_id = $data_store->find_matching_product_variation( $product, $variation );
+
+		if ( empty( $variation_id ) ) {
+			$message = __( 'No matching variation found.', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			return new WP_Error( 'cocart_no_variation_found', $message, 400 );
+		}
+
+		return $variation_id;
+	} // END get_variation_id_from_variation_data()
+
+	/**
+	 * Get product attributes from the variable product (which may be the parent if the product object is a variation).
+	 *
+	 * @access protected
+	 * @since  2.1.2
+	 * @param  WC_Product $product Product being added to the cart.
+	 * @return array
+	 */
+	protected function get_variable_product_attributes( $product ) {
+		if ( $product->is_type( 'variation' ) ) {
+			$product = wc_get_product( $product->get_parent_id() );
+		}
+
+		if ( ! $product || 'trash' === $product->get_status() ) {
+			$message = __( 'This product cannot be added to the cart.', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			return new WP_Error( 'cocart_cart_invalid_parent_product', $message, 403 );
+		}
+
+		return $product->get_attributes();
+	} // END get_variable_product_attributes()
+
+	/**
+	 * Format and sanitize variation data posted to the API.
+	 *
+	 * Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
+	 *
+	 * @access protected
+	 * @since  2.1.2
+	 * @param  array $variation_data Key value pairs of attributes and values.
+	 * @param  array $variable_product_attributes Product attributes we're expecting.
+	 * @return array
+	 */
+	protected function sanitize_variation_data( $variation_data, $variable_product_attributes ) {
+		$return = array();
+
+		foreach ( $variable_product_attributes as $attribute ) {
+			if ( ! $attribute['is_variation'] ) {
+				continue;
+			}
+
+			$attribute_label = wc_attribute_label( $attribute['name'] );
+
+			// Attribute labels e.g. Size.
+			if ( isset( $variation_data[ $attribute_label ] ) ) {
+				$return[ wc_variation_attribute_name( $attribute['name'] ) ] = $attribute['is_taxonomy'] ? sanitize_title( $variation_data[ $attribute_label ] ) : html_entity_decode( wc_clean( $variation_data[ $attribute_label ] ), ENT_QUOTES, get_bloginfo( 'charset' ) );
+				continue;
+			}
+
+			// Attribute slugs e.g. pa_size.
+			if ( isset( $variation_data[ $attribute['name'] ] ) ) {
+				$return[ wc_variation_attribute_name( $attribute['name'] ) ] = $attribute['is_taxonomy'] ? sanitize_title( $variation_data[ $attribute['name'] ] ) : html_entity_decode( wc_clean( $variation_data[ $attribute['name'] ] ), ENT_QUOTES, get_bloginfo( 'charset' ) );
+			}
+		}
+
+		return $return;
+	} // END sanitize_variation_data()
 
 	/**
 	 * Validate product before it is added to the cart, updated or removed.
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.1.2
 	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
 	 * @param   int    $variation_id   - Contains the ID of the variation.
@@ -392,16 +539,21 @@ class CoCart_API_Controller {
 		$this->validate_quantity( $quantity );
 
 		// Ensure we don't add a variation to the cart directly by variation ID.
-		if ( 'product_variation' === get_post_type( $product_id ) ) {
+		/*if ( 'product_variation' === get_post_type( $product_id ) ) {
 			$variation_id = $product_id;
 			$product_id   = wp_get_post_parent_id( $variation_id );
-		}
+		}*/
 
-		$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
+		$product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
 		// Look up the product type if not passed.
 		if ( empty( $product_type ) ) {
-			$product_type = $product_data->get_type();
+			$product_type = $product->get_type();
+		}
+
+		if ( $product->is_type( 'variation' ) ) {
+			$product_id   = $product->get_parent_id();
+			$variation_id = $product->get_id();
 		}
 
 		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_type );
@@ -424,7 +576,11 @@ class CoCart_API_Controller {
 
 		// Validate variable product.
 		if ( $product_type === 'variable' || $product_type === 'variation' ) {
-			$this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_data );
+			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product );
+
+			if ( is_wp_error( $variation ) ) {
+				return $variation;
+			}
 		}
 
 		/**
