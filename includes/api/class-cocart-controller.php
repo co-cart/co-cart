@@ -551,6 +551,15 @@ class CoCart_API_Controller {
 			$variation_id = $product->get_id();
 		}
 
+		// Validate variable product.
+		if ( $product_type === 'variable' || $product_type === 'variation' ) {
+			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product );
+
+			if ( is_wp_error( $variation ) ) {
+				return $variation;
+			}
+		}
+
 		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_type );
 
 		if ( ! $passed_validation ) {
@@ -567,15 +576,6 @@ class CoCart_API_Controller {
 			$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
 
 			return new WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 500 ) );
-		}
-
-		// Validate variable product.
-		if ( $product_type === 'variable' || $product_type === 'variation' ) {
-			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product );
-
-			if ( is_wp_error( $variation ) ) {
-				return $variation;
-			}
 		}
 
 		/**
