@@ -134,14 +134,15 @@ class CoCart_API_Controller {
 	/**
 	 * Gets the cart contents.
 	 *
-	 * @access public
-	 * @since  2.0.0
-	 * @param  array  $data
-	 * @param  string $cart_item_key
-	 * @return array  $cart_contents
+	 * @access  public
+	 * @since   2.0.0
+	 * @version 2.1.2
+	 * @param   array  $data
+	 * @param   string $cart_item_key
+	 * @return  array  $cart_contents
 	 */
 	public function get_cart_contents( $data = array(), $cart_item_key = '' ) {
-		$cart_contents = isset( WC()->cart ) ? WC()->cart->get_cart() : array();
+		$cart_contents = isset( WC()->cart ) ? array_filter( WC()->cart->get_cart() ) : array();
 
 		return $this->return_cart_contents( $data, $cart_contents, $cart_item_key );
 	} // END get_cart_contents()
