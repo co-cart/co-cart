@@ -177,6 +177,10 @@ class CoCart_Rest_API {
 	 * @return bool
 	 */
 	protected function has_user_switched() {
+		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
+			return;
+		}
+
 		// Get cart cookie... if any.
 		$cookie = WC()->session->get_cart_cookie();
 
@@ -225,7 +229,7 @@ class CoCart_Rest_API {
 				$session_class = '\\' . $session_class;
 			}
 
-			// Initialize new CoCart session.
+			// Initialize new session.
 			WC()->session = new $session_class();
 			WC()->session->init();
 		}
