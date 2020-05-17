@@ -247,10 +247,13 @@ class CoCart_Rest_API {
 
 			WC()->customer = new WC_Customer( $customer_id, true );
 
-			// Load WooCommerce Cart.
-			if ( ! isset( WC()->cart ) || '' === WC()->cart || is_null( WC()->cart ) ) {
-				WC()->cart = new WC_Cart();
-			}
+			// Customer should be saved during shutdown.
+			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
+		}
+
+		if ( is_null( WC()->cart ) || ! WC()->cart instanceof WC_Cart ) {
+			WC()->cart = new WC_Cart();
+		}
 
 			// Customer should be saved during shutdown.
 			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );

@@ -539,12 +539,6 @@ class CoCart_API_Controller {
 
 		$this->validate_quantity( $quantity );
 
-		// Ensure we don't add a variation to the cart directly by variation ID.
-		/*if ( 'product_variation' === get_post_type( $product_id ) ) {
-			$variation_id = $product_id;
-			$product_id   = wp_get_post_parent_id( $variation_id );
-		}*/
-
 		$product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
 		// Look up the product type if not passed.
