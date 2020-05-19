@@ -1,8 +1,6 @@
 <?php
 /**
- * CoCart REST API session
- *
- * Handles sessions, loads cart for guest customers.
+ * Handles loading cart from session.
  *
  * @author   Sébastien Dumont
  * @category API
@@ -27,7 +25,7 @@ class CoCart_API_Session {
 	 *
 	 * @access public
 	 */
-	public function init() {
+	public function __construct() {
 		// Cleans up carts from the database that have expired.
 		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
 
@@ -46,7 +44,7 @@ class CoCart_API_Session {
 	 * @return bool
 	 */
 	public function is_cart_saved( $cart_key ) {
-		$handler = new CoCart_Session_Handler();
+		$handler    = new CoCart_Session_Handler();
 		$cart_saved = $handler->get_cart( $cart_key );
 
 		if ( ! empty( $cart_saved ) ) {
@@ -97,13 +95,10 @@ class CoCart_API_Session {
 	/**
 	 * Looks at both carts for matching products and merges the item quantities.
 	 *
-	 * @todo Function needs to be finished.
-	 *
 	 * @access public
-	 * @param array $new_cart_content - The merged cart content before altering.
-	 * @param array $load_cart - The cart we are loading.
-	 * @param array $cart_in_session - The cart currently in session.
-	 * @todo Look at both carts for matching products and total the quantity.
+	 * @param  array $new_cart_content - The merged cart content before altering.
+	 * @param  array $load_cart        - The cart we are loading.
+	 * @param  array $cart_in_session  - The cart currently in session.
 	 * @return array $new_cart_content - The merged cart content after altering.
 	 */
 	public function merge_quantity( $new_cart_content, $load_cart, $cart_in_session ) {
@@ -160,7 +155,7 @@ class CoCart_API_Session {
 		}
 
 		// Get the cart in the database.
-		$handler = new CoCart_Session_Handler();
+		$handler     = new CoCart_Session_Handler();
 		$stored_cart = $handler->get_cart( $cart_key );
 
 		// Get the cart currently in session if any.
@@ -214,3 +209,5 @@ class CoCart_API_Session {
 	} // END load_cart_action()
 
 } // END class
+
+return new CoCart_API_Session();

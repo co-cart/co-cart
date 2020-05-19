@@ -41,14 +41,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		public static $required_woo = '3.6.0';
 
 		/**
-		 * API Session instance.
-		 *
-		 * @since 2.1.0
-		 * @var   CoCart_API_Session
-		 */
-		public $session = null;
-
-		/**
 		 * @var CoCart - the single instance of the class.
 		 *
 		 * @access protected
@@ -116,9 +108,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			// Include required files.
 			add_action( 'plugins_loaded', array( $this, 'includes' ) );
 
-			// Initialize session.
-			add_action( 'plugins_loaded', array( $this, 'initialize_session' ), 12 );
-
+			// Includes WooCommerce tweaks.
 			add_action( 'woocommerce_loaded', array( $this, 'woocommerce' ) );
 
 			// Load translation files.
@@ -212,20 +202,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 				require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' ); // Install CoCart.
 			}
 		} // END admin_includes()
-
-		/**
-		 * Initialize CoCart API Session, if requesting the API.
-		 *
-		 * @access public
-		 * @since  2.1.0
-		 * @return void
-		 */
-		public function initialize_session() {
-			if ( is_null( $this->session ) && class_exists( 'CoCart_API_Session' ) ) {
-				$this->session = new CoCart_API_Session();
-				$this->session->init();
-			}
-		} // END initialize_session()
 
 		/**
 		 * Load the plugin translations if any ready.
