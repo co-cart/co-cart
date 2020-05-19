@@ -54,14 +54,18 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 2.1.1
+	 * @version 2.1.2
 	 * @param   array $data
 	 * @return  WP_REST_Response
 	 */
 	public static function get_totals( $data = array() ) {
-		$totals = WC()->cart->get_totals();
+		if ( ! empty( WC()->cart->totals ) ) {
+			$totals = WC()->cart->get_totals();
+		} else {
+			$totals = WC()->session->get( 'cart_totals' );
+		}
 
-		$pre_formatted = ! empty( $data['html'] ) ? $data['html'] : false;
+		$pre_formatted = isset( $data['html'] ) ? $data['html'] : false;
 
 		if ( $pre_formatted ) {
 			$new_totals = array();
