@@ -253,8 +253,7 @@ class CoCart_Rest_API {
 
 		if ( is_null( WC()->cart ) || ! WC()->cart instanceof WC_Cart ) {
 			WC()->cart = new WC_Cart();
-		}
-
+		
 			// Customer should be saved during shutdown.
 			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
 		}
