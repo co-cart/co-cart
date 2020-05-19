@@ -116,6 +116,9 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			// Overrides the session handler used for the web.
 			add_filter( 'woocommerce_session_handler', array( $this, 'cocart_session_handler' ) );
+
+			// Loads cart from session.
+			add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_from_session' ), 0 );
 		} // END __construct()
 
 		/**
@@ -280,6 +283,56 @@ if ( ! class_exists( 'CoCart' ) ) {
 			return $handler;
 		} // END cocart_session_handler()
 
+		/**
+		 * Loads guest or specific carts into session.
+		 *
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 2.1.2
+		 */
+		public function load_cart_from_session() {
+			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
+				return;
+			}
+	
+			$customer_id = strval( get_current_user_id() );
+	
+			// Load cart for guest or specific cart.
+			if ( is_numeric( $customer_id ) && $customer_id < 1 ) {
+				$cookie = WC()->session->get_cart_cookie();
+	
+				// If cookie exists then return customer ID from it.
+				if ( $cookie ) {
+					$customer_id = $cookie[0];
+				}
+
+				// Check if we requested to load a specific cart.
+				if ( isset( $_REQUEST['cart_key'] ) || isset( $_REQUEST['id'] ) ) {
+					$cart_id = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $_REQUEST['id'];
+
+					// Set customer ID in session.
+					$customer_id = $cart_id;
+				}
+
+				// Get cart for customer.
+				$cart = WC()->session->get_cart( $customer_id );
+
+				// Set cart for customer if not empty.
+				if ( ! empty( $cart ) ) {
+					WC()->session->set( 'cart', maybe_unserialize( $cart[ 'cart' ] ) );
+					WC()->session->set( 'cart_totals', maybe_unserialize( $cart[ 'cart_totals' ] ) );
+					WC()->session->set( 'applied_coupons', maybe_unserialize( $cart[ 'applied_coupons' ] ) );
+					WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart[ 'coupon_discount_totals' ] ) );
+					WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart[ 'coupon_discount_tax_totals' ] ) );
+					WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart[ 'removed_cart_contents' ] ) );
+
+					if ( ! empty( $cart['cart_fees'] ) ) {
+						WC()->session->set( 'cart_fees', maybe_unserialize( $cart[ 'cart_fees' ] ) );
+					}
+				}
+			}
+		} // END load_cart_from_session()
+	
 	} // END class
 
 } // END if class exists
