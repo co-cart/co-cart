@@ -102,7 +102,7 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_has_cookie      = true;
 		}
 
-		// No cookie, then check if we requested to load a specific cart.
+		// Check if we requested to load a specific cart.
 		if ( isset( $_REQUEST['cart_key'] ) || isset( $_REQUEST['id'] ) ) {
 			$cart_id = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $_REQUEST['id'];
 
