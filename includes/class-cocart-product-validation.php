@@ -3,6 +3,7 @@
  * Handles product validation.
  *
  * @since    2.1.0
+ * @version  2.1.2
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart/Classes/Product Validation
@@ -27,6 +28,9 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 			// Prevent certain product types from being added to the cart.
 			add_filter( 'cocart_add_to_cart_handler_external', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
 			add_filter( 'cocart_add_to_cart_handler_grouped', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
+
+			// Prevent password products being added to the cart.
+			add_filter( 'cocart_add_to_cart_validation', array( $this, 'protected_product_add_to_cart' ), 10, 2 );
 
 			// Correct product name for missing variation details.
 			add_filter( 'cocart_product_name', array( $this, 'validate_variation_product_name' ), 0, 3 );
@@ -76,6 +80,24 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 
 			return $product_name;
 		} // END validate_variation_product_name()
+
+		/**
+		 * Prevent password protected products being added to the cart.
+		 *
+		 * @access public
+		 * @since  2.1.2
+		 * @param  bool $passed     Validation.
+		 * @param  int  $product_id Product ID.
+		 * @return bool
+		 */
+		public function protected_product_add_to_cart( $passed, $product_id ) {
+			if ( post_password_required( $product_id ) ) {
+				$passed = false;
+
+				CoCart_Logger::log( __( 'This product is protected and cannot be purchased.', 'cart-rest-api-for-woocommerce' ), 'error' );
+			}
+			return $passed;
+		} // END protected_product_add_to_cart()
 
 	} // END class.
 
