@@ -199,6 +199,8 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 = v2.1.2 - ?? May, 2020 =
 
 * NEW: Carts are now in sync across the web store and your headless store.
+* NEW: Variable products are now validated and can find variation ID from attributes if not already set.
+* NEW: Prevent password protected products from being added to the cart.
 * Changed: Parameter used to set cart key. Previously `id` now `cart_key`. The `id` used as fallback if still used.
 * Tweaked: Clear carts debug tool now clears saved carts as well.
 * Dev: Added debug tool under **WooCommerce System Status** to synchronize carts over to CoCart's session table in the database.
