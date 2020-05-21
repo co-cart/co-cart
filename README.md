@@ -1,4 +1,4 @@
-<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v2.1.1&label=&color=9a6fc4&style=flat-square"></a></h1>
+<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v2.1.2&label=&color=9a6fc4&style=flat-square"></a></h1>
 
 <p align="center"><a href="https://cocart.xyz" target="_blank">CoCart</a> is a REST API for <a href="https://woocommerce.com" target="_blank">WooCommerce</a>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart and allows developers to build a headless store in any framework of their choosing.</p>
 
@@ -44,6 +44,7 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 * **NEW**: Support for guest customers.
 * **NEW**: Logout customer.
 * Add simple and variable products to the cart.
+* View the cart contents.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
@@ -54,7 +55,6 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 
 * Calculate the totals.
 * Retrieve the cart totals.
-* View the cart contents.
 * Retrieve the item count.
 * Empty the cart.
 
@@ -72,8 +72,8 @@ This plugin is just the tip of the iceberg. CoCart Pro completes it with the fol
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
-* **NEW** Retrieve Checkout Fields (In Development)
-* **NEW** Create Order (In Development)
+* **Coming Soon** Retrieve Checkout Fields (In Development)
+* **Coming Soon** Create Order (In Development)
 
 [Buy CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)
 
