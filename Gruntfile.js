@@ -110,6 +110,9 @@ module.exports = function(grunt) {
 					cwd: '',
 					domainPath: 'languages',                                  // Where to save the POT file.
 					exclude: [
+						'includes/api/experiments',
+						'includes/api/pro-enhancements',
+						'includes/api/wip',
 						'releases',
 						'node_modules'
 					],
