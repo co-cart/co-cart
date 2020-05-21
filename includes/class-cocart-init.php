@@ -37,7 +37,7 @@ class CoCart_Rest_API {
 		// Handle cocart endpoint requests.
 		add_action( 'parse_request', array( $this, 'handle_api_requests' ), 0 );
 
-		// Prevent CoCart from being cached with WP REST API Cache (https://wordpress.org/plugins/wp-rest-api-cache/)
+		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/)
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
 		// CoCart REST API.
