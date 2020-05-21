@@ -198,26 +198,9 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 = v2.1.2 - ?? May, 2020 =
 
-* NEW: Carts are now in sync across the web store and your headless store.
-* NEW: Variable products are now validated and can find variation ID from attributes if not already set.
-* NEW: Prevent password protected products from being added to the cart.
-* Changed: Parameter used to set cart key. Previously `id` now `cart_key`. The `id` used as fallback if still used.
-* Tweaked: Clear carts debug tool now clears saved carts as well.
-* Dev: Added debug tool under **WooCommerce System Status** to synchronize carts over to CoCart's session table in the database.
-
-> This update replaces WooCommerce core session handler with CoCart's. 100% compatible.
-
-= v2.1.1 - 10th May, 2020 =
-
-**🔥 This is a HOTFIX!**
-
-* Fixed: Critical uncaught error when returning the totals once calculated.
-* Fixed: Critical uncaught error when uninstalling to drop the database table.
-
-= v2.1.0 - 8th May, 2020 =
-
 * NEW: Added support for guest customers.
 * NEW: Carts in session are stored in a new database table.
+* NEW: Carts are in sync across the web store and your headless store.
 * NEW: Added plugin details to **WooCommerce System Status**.
 * NEW: Added `uninstall.php` file to delete table and options.
 * NEW: Able to transfer a cart from your headless store to the web.
@@ -225,11 +208,16 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * NEW: Can now add items to cart using a products SKU ID.
 * NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
 * NEW: Added option to logout customer.
+* NEW: Variable products are now validated and can find variation ID from attributes if not already set.
+* NEW: Prevent password protected products from being added to the cart.
+* Changed: Parameter used to set cart key. Previously `id` now `cart_key`. The `id` used as fallback if still used.
 * Removed: Parameter to re-calculate totals once item was updated.
+* Tweaked: Clear carts debug tool now clears saved carts as well.
 * Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
 * Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
 * Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
-* Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
+* Dev: Clear all carts stored in session via the Tools section of **WooCommerce System Status**.
+* Dev: Synchronize carts over to CoCart's session table in the database via the Tools section of **WooCommerce System Status**.
 * Dev: Cart expiration can be filtered if the default 30 days is not to your liking.
 * Dev: Generated customer ID can be filtered before storing cart in the database and creates a cookie on the customer's device.
 * Dev: Added filter `cocart_add_to_cart_validation` to allow plugin developers to pass their own validation before item is added to the cart.
@@ -246,12 +234,14 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
 * Dev: Added filter to override cookie check for authenticated users.
-* Tested: Compatible with WooCommerce v4.1.x
+* Tested: Compatible with WooCommerce v4.2.x
+
+> This update replaces WooCommerce core session handler with CoCart's. 100% compatible.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 2.1.0 =
+= 2.1.2 =
 
 Woohoo! Support for guest customers is here! See changelog for full details before updating!
