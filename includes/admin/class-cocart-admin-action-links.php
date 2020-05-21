@@ -1,11 +1,9 @@
 <?php
 /**
- * CoCart - Admin Action Links.
- *
- * Adds links to CoCart on the plugins page.
+ * Adds links for CoCart on the plugins page.
  *
  * @since    1.2.0
- * @version  2.0.0
+ * @version  2.0.11
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -57,7 +55,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.0.1
+		 * @version 2.0.11
 		 * @param   array  $metadata An array of the plugin's metadata.
 		 * @param   string $file     Path to the plugin file.
 		 * @param   array  $data     Plugin Information
@@ -65,8 +63,6 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 */
 		public function plugin_row_meta( $metadata, $file, $data ) {
 			if ( $file == plugin_basename( COCART_FILE ) ) {
-				$install_date = get_site_option( 'cocart_install_date', time() );
-
 				$metadata[ 1 ] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data[ 'AuthorURI' ] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data[ 'Author' ] . '</a>' );
 
 				$campaign_args = array(
@@ -78,18 +74,16 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 				$row_meta = array(
 					'docs' => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'View %s documentation', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'translate' => '<a href="' . esc_url( COCART_TRANSLATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'community' => '<a href="' . esc_url( COCART_SUPPORT_URL ) . '" aria-label="' . esc_attr__( 'Get support from the community', 'cart-rest-api-for-woocommerce' ). '" target="_blank">' . esc_attr__( 'Community Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'review' => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				// Checks if CoCart Pro has been installed.
 				if ( ! CoCart_Admin::is_cocart_pro_installed() ) {
-					$store_url = add_query_arg( $campaign_args, COCART_STORE_URL . 'pricing-lite/' );
+					$store_url = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
 
-					// If it has been a week or more since activating the plugin then offer to upgrade.
-					if ( ( intval( time() - $install_date ) ) > WEEK_IN_SECONDS ) {
-						$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), esc_html__( 'CoCart Pro', 'cart-rest-api-for-woocommerce' ) ) . '" target="_blank" style="color: #39b54a; font-weight: 700;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );
-					}
+					$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ) . '" target="_blank" style="color: #c00; font-weight: 700;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );
 				}
 
 				$metadata = array_merge( $metadata, $row_meta );

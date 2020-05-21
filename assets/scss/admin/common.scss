@@ -5,7 +5,7 @@
 		box-shadow: 0 2px 30px $shadow;
 		-webkit-box-shadow: 0 2px 30px $shadow;
 		color: $black;
-		margin: 20px auto 80px;
+		margin: 20px auto 40px;
 		max-width: 692px;
 		text-align: left;
 		width: calc(100% - 20px);
@@ -14,7 +14,7 @@
 			padding: 40px;
 
 			.logo {
-				background-color: $alnp;
+				background-color: $cocart;
 				margin: -40px -40px 30px;
 				text-align: center;
 			}
@@ -51,6 +51,65 @@
 				height: 60px;
 				padding: 0 20px;
 			}
+
+			a.button.button-medium,
+			button.button-medium {
+				font-size: 18px;
+				font-weight: 600;
+				line-height: 36px;
+				height: 40px;
+			}
+
+			a.button.upgrade {
+				background-color: $cocart;
+				border-color: $cocart;
+				color: $white;
+			}
+			a.button.upgrade:hover,
+			a.button.upgrade:focus {
+				background-color: $cocart_hovered;
+				border-color: $cocart_hovered;
+			}
+
+			p.price-tag {
+				font-size: 69px;
+				color: $cocart;
+				line-height: 66px;
+				font-weight: 700;
+				margin: 20px auto;
+				text-align: center;
+
+				sub {
+					margin-top: 18px;
+					display: inline-block;
+					font-size: 30px;
+					line-height: 8px;
+					vertical-align: top;
+					margin-right: 2px;
+				}
+
+				sup {
+					display: inline-block;
+					font-size: 18px;
+					line-height: 16px;
+					vertical-align: bottom;
+					margin-left: 2px;
+				}
+			}
+
+			img.emoji {
+				display: inline !important;
+				border: none !important;
+				height: auto;
+				width: 1em;
+				margin: 0 0.07em !important;
+				vertical-align: -0.1em !important;
+				background: none !important;
+				padding: 0 !important;
+				-webkit-box-shadow: none !important;
+				box-shadow: none !important;
+			}
+
 		}
 	}
 }

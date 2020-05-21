@@ -1,4 +1,126 @@
-# Changelog for CoCart
+# Changelog for CoCart Lite
+
+## v2.1.2 - ?? May, 2020
+
+* NEW: Carts are now in sync across the web store and your headless store.
+* NEW: Variable products are now validated and can find variation ID from attributes if not already set.
+* NEW: Prevent password protected products from being added to the cart.
+* Changed: Parameter used to set cart key. Previously `id` now `cart_key`. The `id` used as fallback if still used.
+* Tweaked: Clear carts debug tool now clears saved carts as well.
+* Dev: Added debug tool under **WooCommerce System Status** to synchronize carts over to CoCart's session table in the database.
+
+> This update replaces WooCommerce core session handler with CoCart's. 100% compatible.
+
+## v2.1.1 - 10th May, 2020
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Critical uncaught error when returning the totals once calculated.
+* Fixed: Critical uncaught error when uninstalling to drop the database table.
+
+## v2.1.0 - 8th May, 2020
+
+* NEW: Added support for guest customers.
+* NEW: Carts in session are stored in a new database table.
+* NEW: Added plugin details to **WooCommerce System Status**.
+* NEW: Added `uninstall.php` file to delete table and options.
+* NEW: Able to transfer a cart from your headless store to the web.
+* NEW: Added handlers to improve product validation and extended support for other product types.
+* NEW: Can now add items to cart using a products SKU ID.
+* NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
+* NEW: Added option to logout customer.
+* Removed: Parameter to re-calculate totals once item was updated.
+* Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
+* Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
+* Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
+* Dev: Clear all carts stored in session via the Tools section of WooCommerce System Status.
+* Dev: Cart expiration can be filtered if the default 30 days is not to your liking.
+* Dev: Generated customer ID can be filtered before storing cart in the database and creates a cookie on the customer's device.
+* Dev: Added filter `cocart_add_to_cart_validation` to allow plugin developers to pass their own validation before item is added to the cart.
+* Dev: Added filters to override the product name `cocart_product_name` and product title `cocart_product_title` when getting the cart contents.
+* Dev: Added filter `cocart_item_thumbnail_src` to override the source URL of the product thumbnail when getting the cart contents.
+* Dev: Added filter `cocart_add_to_cart_quantity` to override the quantity when adding an item.
+* Dev: Added filter `cocart_add_cart_item_data` so other plugins can pass cart item data when adding an item.
+* Dev: Added filters so the returned response messages can be changed.
+* Dev: Added conditional filter for returning a cart item.
+* Dev: Added hook `cocart_user_switched` to allow something to happen if a user has switched.
+* Dev: Added hook `cocart_load_cart` to manipulate the merged cart before it set in session.
+* Dev: Added hook `cocart_load_cart_override` to manipulate the overriding cart before it set in session.
+* Dev: Added hook `cocart_item_added_updated_in_cart` for when an item was added again but updated in cart.
+* Dev: Added a new class that handles logging errors.
+* Dev: Added filters to admin notices to extend the length of time they hide.
+* Dev: Added filter to override cookie check for authenticated users.
+* Tested: Compatible with WooCommerce v4.1.x
+
+## v2.0.13 - 13th April, 2020
+
+* Filtered: `woocommerce_stock_amount` to validate as a float value.
+* Changed: Quantity value type from _integer_ to _float_ to allow quantity to be used for weighing fruit for example when adding or updating a product.
+* Dev: Added filter for sold individual products quantity to be overridden. - `cocart_add_to_cart_sold_individually_quantity`
+
+> This is a community release by @metemaddar
+
+## v2.0.12 - 27th March, 2020
+
+* Tested: Compatible with WordPress 5.4
+* Added: Upgrade notice message on plugins upgrade screen.
+
+## v2.0.11 - 25th March, 2020
+
+* Removed: `cocart_docs_url` filter for changing documentation link.
+* Tested: Compatible with WooCommerce v4.0.x
+* Updated: Getting Started page and removed `cocart_getting_started_doc_url` filter for the documentation button.
+* Updated: Plugin action link for upgrading to CoCart Pro.
+* Updated: Upgrade notices.
+
+> Please temporarily deactivate CoCart and CoCart Pro if you have it before updating WooCommerce to version 4.0+ as there is an activation order issue I am still working on fixing. Once you have upgraded WooCommerce simply reactivate CoCart.
+
+## v2.0.10 - 22nd March, 2020
+
+* Tweaked: Refresh totals parameter is now set to `true` by default when item is updated.
+
+## v2.0.9 - 19th March, 2020
+
+* Corrected: Passed parameter to get specific customers cart.
+* Tweaked: Validation of returning persistent cart.
+
+## v2.0.8 - 6th March, 2020
+
+* Dev: Added filter `cocart_return_empty_cart` to empty cart response so developers can use it as they see fit.
+
+## v2.0.7 - 5th March, 2020
+
+* Disabled: Cookie authentication REST check, only if site is secure when authenticating the basic method.
+* Removed: Filter for session class handler as we need it to be untouched.
+* Tested: Compatible with WooCommerce v3.9.x
+* Tweaked: Use `get_current_user_id()` instead of `is_user_logged_in()` to check if user is logged in.
+
+> The cookie check is only disabled when making a request with CoCart.
+
+## v2.0.6 - 1st October, 2019
+
+* Added: Link to translate CoCart on the plugin row.
+* Tweaked: Upgrade admin notice for next release.
+* Tweaked: URL to latest beta news under the plugin row.
+
+## v2.0.5 - 14th September, 2019
+
+* Added: Support for WooCommerce's authentication method.
+
+## v2.0.4 - 26th August, 2019
+
+* Added: More FAQ's to readme.txt file for the WordPress plugin directory.
+* Changed: Title of the plugin in readme.txt file to improve SEO Results.
+* Changed: Minimum WooCommerce version required and supported is v3.6.
+* Tweaked: Upgrade link now shows always once plugin is installed, not after 1 week.
+* Tweaked: Upgrade link colour changed from green to red to stand out more.
+
+## v2.0.3 - 19th August, 2019
+
+* Added: A notice under the plugin row providing information on future versions coming that require your feedback.
+* Tested: Compatible with WooCommerce v3.7
+* Tweaked: Admin body class for CoCart page.
+* Updated: Documentation URL has changed to <https://docs.cocart.xyz>
 
 ## v2.0.2 - 19th July, 2019
 

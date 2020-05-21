@@ -3,6 +3,7 @@
  * Admin View: Required WooCommerce Notice.
  *
  * @since    2.0.0
+ * @version  2.0.11
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Views
@@ -17,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="<?php echo esc_attr__( 'CoCart a WooCommerce API extension', 'cart-rest-api-for-woocommerce' ); ?>" />
+			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="CoCart Logo" />
 		</div>
 
 		<div class="cocart-notice-content">

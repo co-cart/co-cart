@@ -1,8 +1,9 @@
 <?php
 /**
- * CoCart - Admin Assets.
+ * Manages CoCart dashboard assets.
  *
  * @since    1.2.0
+ * @version  2.0.3
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
@@ -47,18 +48,20 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		} // END admin_styles()
 
 		/**
-		 * Adds admin body classe for CoCart getting started page.
+		 * Adds admin body class for CoCart page.
 		 *
-		 * @access public
-		 * @param  string $classes
-		 * @return string $classes
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.0.3
+		 * @param   string $classes
+		 * @return  string $classes
 		 */
 		public function admin_body_class( $classes ) {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
 
-			if ( $screen_id == 'toplevel_page_cocart-getting-started' ) {
-				$classes = ' cocart-getting-started ';
+			if ( $screen_id == 'toplevel_page_cocart' ) {
+				$classes = ' cocart ';
 			}
 
 			return $classes;

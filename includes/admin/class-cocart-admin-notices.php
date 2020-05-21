@@ -1,9 +1,9 @@
 <?php
 /**
- * CoCart - Display notices in the WordPress admin.
+ * Display notices in the WordPress admin for CoCart.
  *
  * @since    1.2.0
- * @version  2.0.0
+ * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
@@ -36,7 +36,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
 
-			// Check WordPress enviroment.
+			// Check WordPress environment.
 			add_action( 'admin_init', array( $this, 'check_wp' ), 12 );
 
 			// Check WooCommerce dependency.
@@ -45,22 +45,24 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			// Don't bug the user if they don't want to see any notices.
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
 
-			// Display other admin notices when required. All are dismissable.
+			// Display other admin notices when required. All are dismissible.
 			add_action( 'admin_print_styles', array( $this, 'add_notices' ), 0 );
 		} // END __construct()
 
 		/**
 		 * Checks that the WordPress version meets the plugin requirement.
 		 *
-		 * @access public
-		 * @global string $wp_version
-		 * @return bool
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.1.0
+		 * @global  string $wp_version
+		 * @return  bool
 		 */
 		public function check_wp() {
 			global $wp_version;
 
 			// If the current user can not install plugins then return nothing!
-			if ( ! current_user_can( 'install_plugins' ) ) {
+			if ( ! CoCart_Admin::user_has_capabilities() ) {
 				return false;
 			}
 
@@ -80,7 +82,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 */
 		public function check_woocommerce_dependency() {
 			// If the current user can not install plugins then return nothing!
-			if ( ! current_user_can( 'install_plugins' ) ) {
+			if ( ! CoCart_Admin::user_has_capabilities() ) {
 				return false;
 			}
 
@@ -99,7 +101,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Don't bug the user if they don't want to see any notices.
 		 *
 		 * @access  public
-		 * @version 1.2.3
+		 * @since   1.2.0
+		 * @version 2.1.0
 		 * @global  $current_user
 		 */
 		public function dont_bug_me() {
@@ -108,20 +111,32 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			$user_hidden_notice = false;
 
 			// If the user is allowed to install plugins and requested to hide the review notice then hide it for that user.
-			if ( ! empty( $_GET['hide_cocart_review_notice'] ) && current_user_can( 'install_plugins' ) ) {
+			if ( ! empty( $_GET['hide_cocart_review_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
 				add_user_meta( $current_user->ID, 'cocart_hide_review_notice', '1', true );
 				$user_hidden_notice = true;
 			}
 
 			// If the user is allowed to install plugins and requested to dismiss upgrade notice then hide it 2 weeks.
-			if ( ! empty( $_GET['hide_cocart_upgrade_notice'] ) && current_user_can( 'install_plugins' ) ) {
-				set_transient( 'cocart_upgrade_notice_hidden', 'hidden', WEEK_IN_SECONDS * 2 );
+			if ( ! empty( $_GET['hide_cocart_upgrade_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
+				set_transient( 'cocart_upgrade_notice_hidden', 'hidden', apply_filters( 'cocart_upgrade_notice_expiration', WEEK_IN_SECONDS * 2 ) );
 				$user_hidden_notice = true;
 			}
 
-			// If the user is allowed to install plugins and requested to dimiss beta notice then hide it for 1 week.
-			if ( ! empty( $_GET['hide_cocart_beta_notice'] ) && current_user_can( 'install_plugins' ) ) {
-				set_transient( 'cocart_beta_notice_hidden', 'hidden', WEEK_IN_SECONDS );
+			// If the user is allowed to install plugins and requested to dismiss upgrade notice forever.
+			if ( ! empty( $_GET['hide_forever_cocart_upgrade_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
+				set_transient( 'cocart_upgrade_notice_hidden', 'hidden' );
+				$user_hidden_notice = true;
+			}
+
+			// If the user is allowed to install plugins and requested to dismiss beta notice then hide it for 1 week.
+			if ( ! empty( $_GET['hide_cocart_beta_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
+				set_transient( 'cocart_beta_notice_hidden', 'hidden', apply_filters( 'cocart_beta_notice_expiration', WEEK_IN_SECONDS ) );
+				$user_hidden_notice = true;
+			}
+
+			// If the user is allowed to install plugins and requested to dismiss beta notice forever.
+			if ( ! empty( $_GET['hide_forever_cocart_beta_notice'] ) && CoCart_Admin::user_has_capabilities() ) {
+				set_transient( 'cocart_beta_notice_hidden', 'hidden' );
 				$user_hidden_notice = true;
 			}
 
@@ -142,7 +157,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * 
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.0
+		 * @version 2.1.0
 		 * @global  $current_user
 		 * @return  void|bool
 		 */
@@ -150,7 +165,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			global $current_user;
 
 			// If the current user can not install plugins then return nothing!
-			if ( ! current_user_can( 'install_plugins' ) ) {
+			if ( ! CoCart_Admin::user_has_capabilities() ) {
 				return false;
 			}
 
@@ -167,8 +182,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			// Check if we need to display the review plugin notice.
 			if ( empty( $hide_review_notice ) ) {
-				// If it has been a week or more since activating the plugin then display the review notice.
-				if ( ( intval( time() - self::$install_date ) ) > WEEK_IN_SECONDS ) {
+				// If it has been 2 weeks or more since activating the plugin then display the review notice.
+				if ( ( intval( time() - self::$install_date ) ) > WEEK_IN_SECONDS * 2 ) {
 					add_action( 'admin_notices', array( $this, 'plugin_review_notice' ) );
 				}
 			}
@@ -179,7 +194,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			// Upgrade warning notice that will disappear once the new release is installed.
-			$upgrade_version = '2.0.0';
+			$upgrade_version = COCART_NEXT_VERSION;
 
 			if ( ! CoCart_Admin::is_cocart_beta() && version_compare( COCART_VERSION, $upgrade_version, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );

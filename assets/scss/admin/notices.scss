@@ -1,18 +1,22 @@
 .notice {
 	&.cocart-notice {
+		border-color: $cocart;
 		padding: 20px;
 	}
 
 	&.cocart-notice {
-		a.no-thanks {
+		.no-thanks {
 			display: block;
 			margin-top: 10px;
-			color: #72777c;
-			text-decoration: none;
-		}
 
-		a.no-thanks:hover {
-			color: #444;
+			a {
+				color: #72777c;
+				text-decoration: none;
+			}
+
+			a:hover {
+				color: #444;
+			}
 		}
 
 		p {
@@ -65,8 +69,13 @@
 	}
 }
 
-body.cocart-getting-started .notice,
-body.cocart-getting-started .error {
+.update-message p.cocart_plugin_upgrade_notice::before {
+	content: '\f534';
+}
+
+body.cocart .notice,
+body.cocart .updated,
+body.cocart .error {
 	display: none;
 }
 

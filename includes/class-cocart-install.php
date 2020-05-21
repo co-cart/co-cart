@@ -3,7 +3,7 @@
  * CoCart - Installation related functions and actions.
  *
  * @since    1.2.0
- * @version  2.0.2
+ * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart/Classes/Install
@@ -22,7 +22,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Constructor.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.1.0
 		 */
 		public function __construct() {
 			// Checks version of CoCart and install/update if needed.
@@ -30,6 +32,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			// Redirect to Getting Started page once activated.
 			add_action( 'activated_plugin', array( $this, 'redirect_getting_started') );
+
+			// Drop tables when MU blog is deleted.
+			add_filter( 'wpmu_drop_tables', array( $this, 'wpmu_drop_tables' ) );
 		} // END __construct()
 
 		/**
@@ -52,6 +57,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since   1.2.0
+		 * @version 2.1.0
 		 */
 		public static function install() {
 			if ( ! is_blog_installed() ) {
@@ -68,6 +75,12 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			if ( ! defined( 'COCART_INSTALLING' ) ) {
 				define( 'COCART_INSTALLING', true );
 			}
+
+			// Creates cron jobs.
+			self::create_cron_jobs();
+
+			// Install database tables.
+			self::create_tables();
 
 			// Set activation date.
 			self::set_install_date();
@@ -106,12 +119,17 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.0.2
+		 * @version 2.1.0
 		 * @param   string $plugin The activate plugin name.
 		 */
 		public static function redirect_getting_started( $plugin ) {
-			// Prevent redirect if plugin name does not match.
-			if ( $plugin !== plugin_basename( COCART_FILE ) ) {
+			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
+			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
+				return;
+			}
+
+			// If CoCart has already been installed before then don't redirect.
+			if ( ! empty( get_option( 'cocart_version' ) ) || ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
 				return;
 			}
 
@@ -133,7 +151,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return;
 			}
 
-			// If activated on a Multisite, don't redirect.
+			// If activated on a multi-site, don't redirect.
 			if ( is_multisite() ) {
 				return;
 			}
@@ -141,6 +159,108 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			wp_safe_redirect( $getting_started );
 			exit;
 		} // END redirect_getting_started()
+
+		/**
+		 * Create cron jobs (clear them first).
+		 *
+		 * @access private
+		 * @static
+		 * @since  2.1.0
+		 */
+		private static function create_cron_jobs() {
+			wp_clear_scheduled_hook( 'cocart_cleanup_carts' );
+
+			wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'cocart_cleanup_carts' );
+		} // END create_cron_jobs()
+
+		/**
+		 * Creates database tables which the plugin needs to function.
+		 *
+		 * @access private
+		 * @static
+		 * @since  2.1.0
+		 * @global $wpdb
+		 */
+		private static function create_tables() {
+			global $wpdb;
+
+			$wpdb->hide_errors();
+
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+			$collate = '';
+
+			if ( $wpdb->has_cap( 'collation' ) ) {
+				$collate = $wpdb->get_charset_collate();
+			}
+
+			// Queries
+			$tables = 
+				"CREATE TABLE {$wpdb->prefix}cocart_carts (
+					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+					cart_key char(42) NOT NULL,
+					cart_value longtext NOT NULL,
+					cart_expiry BIGINT UNSIGNED NOT NULL,
+					PRIMARY KEY (cart_id),
+					UNIQUE KEY cart_key (cart_key)
+				) $collate;";
+
+			// Execute
+			dbDelta( $tables );
+		} // END create_tables()
+
+		/**
+		 * Return a list of CoCart tables. Used to make sure all CoCart tables 
+		 * are dropped when uninstalling the plugin in a single site 
+		 * or multi site environment.
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.1.0
+		 * @global $wpdb
+		 * @return array $tables.
+		 */
+		public static function get_tables() {
+			global $wpdb;
+
+			$tables = array(
+				"{$wpdb->prefix}cocart_carts",
+			);
+
+			return $tables;
+		} // END get_tables()
+
+		/**
+		 * Drop CoCart tables.
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.1.0
+		 * @global $wpdb
+		 * @return void
+		 */
+		public static function drop_tables() {
+			global $wpdb;
+
+			$tables = self::get_tables();
+
+			foreach ( $tables as $table ) {
+				$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+			}
+		} // END drop_tables()
+
+		/**
+		 * Uninstall tables when MU blog is deleted.
+		 *
+		 * @access public
+		 * @since  2.1.0
+		 * @param  array $tables List of tables that will be deleted by WP.
+		 * @return string[]
+		 */
+		public static function wpmu_drop_tables( $tables ) {
+			return array_merge( $tables, self::get_tables() );
+		} // END wpmu_drop_tables()
+
 	} // END class.
 
 } // END if class exists.

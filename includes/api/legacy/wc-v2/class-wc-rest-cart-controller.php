@@ -277,7 +277,7 @@ class WC_REST_Cart_Controller {
 	 * @access protected
 	 * @since  1.0.6
 	 * @param  array  $current_data
-	 * @param  string $quantity
+	 * @param  integer $quantity
 	 * @return bool|WP_Error
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {

@@ -4,10 +4,17 @@
 /releases/
 /node_modules/
 npm-debug.log
+/includes/api/experiments
+/includes/api/wip
+/includes/api/pro-enhancements
+
+# OS X metadata
+.DS_Store
+
+# Windows junk
+Thumbs.db
 
 # Various file types to ignore when exporting.
-.DS_Store
-Thumbs.db
 *.sh
 .gitconfig
 *.zip
