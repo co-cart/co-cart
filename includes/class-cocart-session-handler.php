@@ -10,6 +10,7 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
+ * @version  2.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -69,14 +70,28 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Init hooks and cart data.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.1.2
 	 */
 	public function init() {
-		$this->init_cart();
+		// Current user ID. If user is NOT logged in then the customer is a guest.
+		$current_user_id = strval( get_current_user_id() );
+
+		$this->init_cart( $current_user_id );
 
 		add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
 		add_action( 'wp_logout', array( $this, 'destroy_cart' ) );
+
+		/**
+		 * When a user is logged out, ensure they have a unique nonce by using the customer/cart ID.
+		 *
+		 * @since 2.1.2
+		 */
+		if ( is_numeric( $current_user_id ) && $current_user_id < 1 ) {
+			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
+		}
 	} // END init()
 
 	/**
@@ -85,13 +100,11 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 2.1.2
+	 * @param   int $current_user_id
 	 */
-	public function init_cart() {
+	public function init_cart( $current_user_id ) {
 		// Get cart cookie... if any.
-		$cookie = $this->get_cart_cookie();
-
-		// Current user ID. If user is NOT logged in then the customer is a guest.
-		$current_user_id = strval( get_current_user_id() );
+		$cookie = $this->get_session_cookie();
 
 		// Does a cookie exist?
 		if ( $cookie ) {
@@ -303,7 +316,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @access public
 	 * @return bool|array
 	 */
-	public function get_cart_cookie() {
+	public function get_session_cookie() {
 		$cookie_value = isset( $_COOKIE[ $this->_cookie ] ) ? wp_unslash( $_COOKIE[ $this->_cookie ] ) : false;
 
 		if ( empty( $cookie_value ) || ! is_string( $cookie_value ) ) {
@@ -330,7 +343,7 @@ class CoCart_Session_Handler extends WC_Session {
 		}
 
 		return array( $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
-	} // END get_cart_cookie()
+	} // END get_session_cookie()
 
 	/**
 	 * Get cart data.
@@ -416,12 +429,24 @@ class CoCart_Session_Handler extends WC_Session {
 	} // END forget_cart()
 
 	/**
+	 * When a user is logged out, ensure they have a unique nonce by using the customer/cart ID.
+	 *
+	 * @access public
+	 * @since  2.1.2
+	 * @param  int $uid User ID.
+	 * @return string
+	 */
+	public function nonce_user_logged_out( $uid ) {
+		return $this->has_cart() && $this->_customer_id ? $this->_customer_id : $uid;
+	}
+
+	/**
 	 * Cleanup cart data from the database and clear caches.
 	 *
 	 * @access public
 	 * @global $wpdb
 	 */
-	public function cleanup_carts() {
+	public function cleanup_sessions() {
 		global $wpdb;
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $this->_table WHERE cart_expiry < %d", time() ) );
@@ -430,7 +455,7 @@ class CoCart_Session_Handler extends WC_Session {
 		if ( class_exists( 'WC_Cache_Helper' ) ) {
 			WC_Cache_Helper::invalidate_cache_group( COCART_CART_CACHE_GROUP );
 		}
-	} // END cleanup_carts()
+	} // END cleanup_sessions()
 
 	/**
 	 * Returns the cart.

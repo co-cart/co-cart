@@ -85,11 +85,10 @@ class CoCart_API_Session {
 	 *
 	 * @access public
 	 * @static
-	 * @global $wpdb
 	 */
 	public static function cleanup_carts() {
 		$handler = new CoCart_Session_Handler();
-		$handler->cleanup_carts();
+		$handler->cleanup_sessions();
 	} // END cleanup_carts()
 
 	/**

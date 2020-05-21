@@ -788,14 +788,15 @@ class CoCart_API_Controller {
 	 * Look's up an item in the cart and returns it's data 
 	 * based on the condition it is being returned for.
 	 *
-	 * @access public
-	 * @since  2.1.0
-	 * @param  string $item_key
-	 * @param  string $condition - Default is 'add', other conditions are: container, update, remove, restore
-	 * @return array  $item
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.1.2
+	 * @param   string $cart_item_key - The item we are looking up in the cart.
+	 * @param   string $condition     - Default is 'add', other conditions are: container, update, remove, restore
+	 * @return  array  $item
 	 */
-	public function get_cart_item( $item_key, $condition = 'add' ) {
-		$item = WC()->cart->get_cart_item( $item_key );
+	public function get_cart_item( $cart_item_key, $condition = 'add' ) {
+		$item = WC()->cart->get_cart_item( $cart_item_key );
 
 		return apply_filters( 'cocart_get_cart_item', $item, $condition );
 	} // END get_cart_item()

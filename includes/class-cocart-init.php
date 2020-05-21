@@ -171,7 +171,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access protected
 	 * @since  2.1.0
-	 * @return bool
+	 * @return null|boolean
 	 */
 	protected function has_user_switched() {
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
@@ -179,7 +179,7 @@ class CoCart_Rest_API {
 		}
 
 		// Get cart cookie... if any.
-		$cookie = WC()->session->get_cart_cookie();
+		$cookie = WC()->session->get_session_cookie();
 
 		// Current user ID. If user is NOT logged in then the customer is a guest.
 		$current_user_id = strval( get_current_user_id() );

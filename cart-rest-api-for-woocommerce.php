@@ -5,7 +5,7 @@
  * Description: CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     2.1.2-rc.2
+ * Version:     2.1.2-rc.3
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
@@ -28,7 +28,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '2.1.2-rc.2';
+		public static $version = '2.1.2-rc.3';
 
 		/**
 		 * Required WooCommerce Version
@@ -299,7 +299,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 	
 			// Load cart for guest or specific cart.
 			if ( is_numeric( $customer_id ) && $customer_id < 1 ) {
-				$cookie = WC()->session->get_cart_cookie();
+				$cookie = WC()->session->get_session_cookie();
 	
 				// If cookie exists then return customer ID from it.
 				if ( $cookie ) {
