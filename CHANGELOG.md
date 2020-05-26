@@ -25,6 +25,7 @@
 * Dev: Cart expiration can be filtered if the default 30 days is not to your liking.
 * Dev: Generated customer ID can be filtered before storing cart in the database and creates a cookie on the customer's device.
 * Dev: Added filter `cocart_add_to_cart_validation` to allow plugin developers to pass their own validation before item is added to the cart.
+* Dev: Added filter `cocart_update_cart_validation` to allow plugin developers to pass their own validation before item is updated in the cart.
 * Dev: Added filters to override the product name `cocart_product_name` and product title `cocart_product_title` when getting the cart contents.
 * Dev: Added filter `cocart_item_thumbnail_src` to override the source URL of the product thumbnail when getting the cart contents.
 * Dev: Added filter `cocart_add_to_cart_quantity` to override the quantity when adding an item.
