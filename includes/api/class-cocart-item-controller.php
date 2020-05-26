@@ -269,23 +269,69 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
-			if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
-				$new_data = $this->get_cart_item( $cart_item_key, 'update' );
+			/**
+			 * Update cart validation.
+			 *
+			 * @since 2.1.0
+			 * @param bool
+			 * @param string $cart_item_key - Item key.
+			 * @param array  $current_data  - Product data of the item in cart.
+			 * @param float  $quantity      - The requested quantity to change to.
+			 */
+			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $cart_item_key, $current_data['data'], $quantity );
 
-				$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
-				$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
+			// is_sold_individually.
+			if ( $current_data['data']->is_sold_individually() && $quantity > 1 ) {
+				/* Translators: %s Product name. */
+				$message = sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $current_data['data']->get_name() );
 
-				$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
+				CoCart_Logger::log( $message, 'error' );
 
-				if ( $quantity != $new_data['quantity'] ) {
-					do_action( 'cocart_item_quantity_changed', $cart_item_key, $new_data );
+				/**
+				 * Filters message about product not being allowed to increase quantity.
+				 *
+				 * @param string     $message      - Message.
+				 * @param WC_Product $current_data - Product data.
+				 */
+				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $current_data['data'] );
 
+				return new WP_Error( 'cocart_can_not_increase_quantity', $message, array( 'status' => 403 ) );
+			}
+
+			// Only update cart item quantity if passed validation.
+			if ( $passed_validation ) {
+				if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
+					$new_data = $this->get_cart_item( $cart_item_key, 'update' );
+
+					$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
+					$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
+
+					$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
+
+					if ( $quantity != $new_data['quantity'] ) {
+						do_action( 'cocart_item_quantity_changed', $cart_item_key, $new_data );
+
+						/**
+						 * Calculates the cart totals if an item has changed it's quantity.
+						 *
+						 * @since 2.1.0
+						 */
+						WC()->cart->calculate_totals();
+					}
+				} else {
+					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
+	
+					CoCart_Logger::log( $message, 'error' );
+	
 					/**
-					 * Calculates the cart totals if an item has changed it's quantity.
+					 * Filters message about can not update item.
 					 *
 					 * @since 2.1.0
+					 * @param string $message Message.
 					 */
-					WC()->cart->calculate_totals();
+					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
+	
+					return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 500 ) );
 				}
 
 				// Was it requested to return the whole cart once item updated?
@@ -319,20 +365,6 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				}
 
 				return new WP_REST_Response( apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data ), 200 );
-			} else {
-				$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
-
-				CoCart_Logger::log( $message, 'error' );
-
-				/**
-				 * Filters message about can not update item.
-				 *
-				 * @since 2.1.0
-				 * @param string $message Message.
-				 */
-				$message = apply_filters( 'cocart_can_not_update_item_message', $message );
-
-				return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 500 ) );
 			}
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
