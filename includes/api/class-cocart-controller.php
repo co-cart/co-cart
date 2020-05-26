@@ -203,6 +203,8 @@ class CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
 
+				WC()->cart->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
+
 				wc_add_notice( $message, 'error' );
 			} else {
 				// Adds the product name and title as new variables.
