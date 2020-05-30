@@ -564,6 +564,16 @@ class CoCart_API_Controller {
 
 		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_type );
 
+		/**
+		 * If validation returned an error display error response.
+		 *
+		 * @param $passed_validation
+		 */
+		if ( is_wp_error( $passed_validation ) ) {
+			return $passed_validation;
+		}
+
+		// If validation returned false.
 		if ( ! $passed_validation ) {
 			$message = __( 'Product did not pass validation!', 'cart-rest-api-for-woocommerce' );
 
