@@ -280,6 +280,14 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 */
 			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $cart_item_key, $current_data, $quantity );
 
+			/**
+			 * If validation returned an error return error response.
+			 *
+			 * @param $passed_validation
+			 */
+			if ( is_wp_error( $passed_validation ) ) {
+				return $passed_validation;
+			}
 
 			// is_sold_individually.
 			if ( $current_data['data']->is_sold_individually() && $quantity > 1 ) {
