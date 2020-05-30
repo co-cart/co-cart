@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    2.1.0
+ * @version  2.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,14 +32,19 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.1.2
 	 */
 	public function register_routes() {
 		// Add Item - cocart/v1/add-item (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'  => WP_REST_Server::CREATABLE,
-			'callback' => array( $this, 'add_to_cart' ),
-			'args'     => $this->get_collection_params()
+			array(
+				'methods'  => WP_REST_Server::CREATABLE,
+				'callback' => array( $this, 'add_to_cart' ),
+				'args'     => $this->get_collection_params(),
+			),
+			'schema' => array( $this, 'get_item_schema' ),
 		) );
 	} // register_routes()
 
@@ -221,6 +227,53 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		return $item_added;
 	} // END add_item_to_cart()
+
+	/**
+	 * Get the schema for adding an item, conforming to JSON Schema.
+	 *
+	 * @access public
+	 * @since  2.1.2
+	 * @return array
+	 */
+	public function get_item_schema() {
+		$schema         = array(
+			'schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
+			'type'       => 'object',
+			'properties' => array(
+				'product_id'      => array(
+					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+				),
+				'quantity'        => array(
+					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => 1,
+					'type'        => 'float',
+				),
+				'variation_id'    => array(
+					'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+				),
+				'variation'       => array(
+					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'array',
+				),
+				'cart_item_data'  => array(
+					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'array',
+				),
+				'return_cart'     => array(
+					'description' => __( 'Returns the cart.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
+				)
+			)
+		);
+
+		$schema['properties'] = apply_filters( 'cocart_add_item_schema', $schema['properties'] );
+
+		return $schema;
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for adding items.
