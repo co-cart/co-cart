@@ -278,7 +278,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 * @param array  $current_data  - Product data of the item in cart.
 			 * @param float  $quantity      - The requested quantity to change to.
 			 */
-			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $cart_item_key, $current_data['data'], $quantity );
+			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $cart_item_key, $current_data, $quantity );
+
 
 			// is_sold_individually.
 			if ( $current_data['data']->is_sold_individually() && $quantity > 1 ) {
