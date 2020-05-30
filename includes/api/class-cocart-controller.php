@@ -565,7 +565,7 @@ class CoCart_API_Controller {
 		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_type );
 
 		/**
-		 * If validation returned an error display error response.
+		 * If validation returned an error return error response.
 		 *
 		 * @param $passed_validation
 		 */
@@ -623,7 +623,7 @@ class CoCart_API_Controller {
 		}
 
 		// Load cart item data - may be added by other plugins.
-		$cart_item_data = (array) apply_filters( 'cocart_add_cart_item_data', $cart_item_data, $product_id, $variation_id, $quantity );
+		$cart_item_data = (array) apply_filters( 'cocart_add_cart_item_data', $cart_item_data, $product_id, $variation_id, $quantity, $product_type );
 
 		// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
 		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
