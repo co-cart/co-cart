@@ -14,6 +14,7 @@
 * NEW: Added option to logout customer.
 * NEW: Variable products are now validated and can find variation ID from attributes if not already set.
 * NEW: Prevent password protected products from being added to the cart.
+* NEW: Prevent CoCart from being cached with [WP REST API Cache plugin](https://wordpress.org/plugins/wp-rest-api-cache/).
 * Changed: Parameter used to set cart key. Previously `id` now `cart_key`. The `id` used as fallback if still used.
 * Removed: Parameter to re-calculate totals once item was updated.
 * Tweaked: Clear carts debug tool now clears saved carts as well.

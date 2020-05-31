@@ -25,7 +25,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.1.2
 	 */
 	public function __construct() {
 		// Add query vars.
@@ -114,7 +114,7 @@ class CoCart_Rest_API {
 	 * Prevents CoCart from being cached.
 	 *
 	 * @access private
-	 * @since  2.x.x
+	 * @since  2.1.2
 	 * @param  bool   $skip
 	 * @param  string $request_uri
 	 * @return bool   $skip
