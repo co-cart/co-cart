@@ -543,6 +543,28 @@ class CoCart_API_Controller {
 
 		$product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
+		// Check if the product exists before continuing.
+		if ( ! $product || 'trash' === $product->get_status() ) {
+			if ( $product ) {
+				/* translators: %s: Product Name. */
+				$message = sprintf( __( 'Product "%s" no longer exists!', 'cart-rest-api-for-woocommerce' ), $product->get_name() );
+			} else {
+				$message = __( 'This product does not exist!', 'cart-rest-api-for-woocommerce' );
+			}
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about product does not exist.
+			 *
+			 * @param string     $message - Message.
+			 * @param WC_Product $product - Product data.
+			 */
+			$message = apply_filters( 'cocart_product_does_not_exist_message', $message, $product );
+
+			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
+		}
+
 		// Look up the product type if not passed.
 		if ( empty( $product_type ) ) {
 			$product_type = $product->get_type();
@@ -600,27 +622,6 @@ class CoCart_API_Controller {
 		 * @param array $cart_item_data - The cart item data.
 		 */
 		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $cart_item_data );
-
-		if ( $quantity <= 0 || ! $product || 'trash' === $product->get_status() ) {
-			if ( $product ) {
-				/* translators: %s: Product Name. */
-				$message = sprintf( __( 'Product "%s" either does not exist or something is preventing it from being added!', 'cart-rest-api-for-woocommerce' ), $product->get_name() );
-			} else {
-				$message = __( 'This product does not exist!', 'cart-rest-api-for-woocommerce' );
-			}
-
-			CoCart_Logger::log( $message, 'error' );
-
-			/**
-			 * Filters message about product does not exist.
-			 *
-			 * @param string     $message - Message.
-			 * @param WC_Product $product - Product data.
-			 */
-			$message = apply_filters( 'cocart_product_does_not_exist_message', $message, $product );
-
-			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 500 ) );
-		}
 
 		// Load cart item data - may be added by other plugins.
 		$cart_item_data = (array) apply_filters( 'cocart_add_cart_item_data', $cart_item_data, $product_id, $variation_id, $quantity, $product_type );
