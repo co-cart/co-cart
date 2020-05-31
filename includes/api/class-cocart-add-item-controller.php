@@ -76,7 +76,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
 		}
 
 		// Add to cart handlers
@@ -161,10 +161,11 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Adds the item to the cart once passed validation.
 	 *
-	 * @access public
-	 * @since  2.1.0
-	 * @param  array $product_to_add - Passes details of the item ready to add to the cart.
-	 * @return array $item_added - Returns details of the added item in the cart.
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.1.2
+	 * @param   array $product_to_add - Passes details of the item ready to add to the cart.
+	 * @return  array $item_added - Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( $product_to_add = array() ) {
 		$product_id     = $product_to_add['product_id'];
@@ -221,7 +222,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
 
-				return new WP_Error( 'cocart_cannot_add_to_cart', $message, array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_cannot_add_to_cart', $message, array( 'status' => 403 ) );
 			}
 		}
 

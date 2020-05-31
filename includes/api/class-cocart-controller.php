@@ -124,7 +124,7 @@ class CoCart_API_Controller {
 	 */
 	public function get_cart_customer( $data = array() ) {
 		if ( empty( $data['id'] ) ) {
-			return new WP_Error( 'cocart_customer_missing', __( 'Customer ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_customer_missing', __( 'Customer ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		$saved_cart = $this->get_saved_cart( $data );
@@ -294,7 +294,7 @@ class CoCart_API_Controller {
 		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
 
 		if ( empty( $cart_key ) ) {
-			return new WP_Error( 'cocart_cart_id_missing', __( 'Cart ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cart_id_missing', __( 'Cart ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		// Get the cart in the database.
@@ -329,7 +329,7 @@ class CoCart_API_Controller {
 		}
 
 		if ( empty( $product_id ) ) {
-			return new WP_Error( 'cocart_product_id_required', __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_product_id_required', __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! is_numeric( $product_id ) ) {
@@ -665,7 +665,7 @@ class CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_can_not_add_another_message', $message, $product );
 
-				return new WP_Error( 'cocart_product_sold_individually', $message, array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_product_sold_individually', $message, array( 'status' => 403 ) );
 			}
 		}
 
@@ -683,7 +683,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
 
-			return new WP_Error( 'cocart_cannot_be_purchased', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cannot_be_purchased', $message, array( 'status' => 403 ) );
 		}
 
 		// Stock check - only check if we're managing stock and backorders are not allowed.
@@ -701,7 +701,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_product_is_out_of_stock_message', $message, $product );
 
-			return new WP_Error( 'cocart_product_out_of_stock', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_product_out_of_stock', $message, array( 'status' => 404 ) );
 		}
 
 		if ( ! $product->has_enough_stock( $quantity ) ) {
@@ -710,7 +710,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
 		}
 
 		// Stock check - this time accounting for whats already in-cart.
@@ -727,7 +727,7 @@ class CoCart_API_Controller {
 
 				CoCart_Logger::log( $message, 'error' );
 
-				return new WP_Error( 'cocart_not_enough_stock_remaining', $message, array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_not_enough_stock_remaining', $message, array( 'status' => 403 ) );
 			}
 		}
 
@@ -740,7 +740,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $error_msg, 'error' );
 
-			return new WP_Error( 'cocart_not_ok_to_add_item', $error_msg, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_not_ok_to_add_item', $error_msg, array( 'status' => 403 ) );
 		}
 
 		// Returns all valid data.
@@ -797,7 +797,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
 		}
 
 		return true;
