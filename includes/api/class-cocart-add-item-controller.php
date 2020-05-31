@@ -42,9 +42,9 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			array(
 				'methods'  => WP_REST_Server::CREATABLE,
 				'callback' => array( $this, 'add_to_cart' ),
-				'args'     => $this->get_collection_params(),
+				'args'     => $this->get_collection_params()
 			),
-			'schema' => array( $this, 'get_item_schema' ),
+			'schema' => array( $this, 'get_item_schema' )
 		) );
 	} // register_routes()
 
@@ -237,7 +237,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 */
 	public function get_item_schema() {
 		$schema         = array(
-			'schema'    => 'http://json-schema.org/draft-04/schema#',
+			'schema'     => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(

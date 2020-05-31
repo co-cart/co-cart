@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    2.0.0
- * @version  2.1.0
+ * @version  2.1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -41,21 +41,27 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 2.1.0
+	 * @version 2.1.2
 	 */
 	public function register_routes() {
 		// Get Cart - cocart/v1/get-cart (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_cart' ),
-			'args'     => $this->get_collection_params()
+			array(
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_cart' ),
+				'args'     => $this->get_collection_params()
+			),
+			'schema' => array( $this, 'get_item_schema' )
 		) );
 
 		// Get Cart in Session - cocart/v1/get-cart/1654654321 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\w]+)', array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_cart_in_session' ),
-			'args'     => $this->get_collection_params()
+			array(
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_cart_in_session' ),
+				'args'     => $this->get_collection_params()
+			),
+			'schema' => array( $this, 'get_item_schema' )
 		) );
 
 		// Get Customers Cart saved via Persistent Cart - cocart/v1/get-cart/customer/1 (GET)
@@ -813,6 +819,140 @@ class CoCart_API_Controller {
 
 		return apply_filters( 'cocart_get_cart_item', $item, $condition );
 	} // END get_cart_item()
+
+	/**
+	 * Get the schema for returning the cart, conforming to JSON Schema.
+	 *
+	 * @access public
+	 * @since  2.1.2
+	 * @return array
+	 */
+	public function get_item_schema() {
+		$schema         = array(
+			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'CoCart - ' . __( 'Cart', 'cart-rest-api-for-woocommerce' ),
+			'type'       => 'object',
+			'properties' => array(
+				'items'   => array(
+					'description' => __( 'List of cart items.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'properties'  => array(
+						'key'             => array(
+							'description' => __( 'Unique identifier for the item within the cart.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'product_id'      => array(
+							'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'integer',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'variation_id' => array(
+							'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'integer',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'variation'       => array(
+							'description' => __( 'Chosen attributes (for variations).', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'array',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+							'items'       => array(
+								'type'       => 'object',
+								'properties' => array(
+									'attribute' => array(
+										'description' => __( 'Variation attribute slug.', 'cart-rest-api-for-woocommerce' ),
+										'type'        => 'string',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+									'value'     => array(
+										'description' => __( 'Variation attribute value.', 'cart-rest-api-for-woocommerce' ),
+										'type'        => 'string',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+								),
+							),
+						),
+						'quantity'        => array(
+							'description' => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'float',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'line_tax_data'   => array(
+							'description' => '',
+							'type'        => 'array',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+							'items'       => array(
+								'type'    => 'object',
+								'properties' => array(
+									'subtotal' => array(
+										'description' => __( 'Line subtotal tax data.', 'cart-rest-api-for-woocommerce' ),
+										'type'        => 'integer',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+									'total' => array(
+										'description' => __( 'Line total tax data.', 'cart-rest-api-for-woocommerce' ),
+										'type'        => 'integer',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+								)
+							)
+						),
+						'line_subtotal' => array(
+							'description' => __( 'Line subtotal (the price of the product before coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'integer',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'line_subtotal_tax' => array(
+							'description' => __( 'Line subtotal tax.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'integer',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'line_total' => array(
+							'description' => __( 'Line total (the price of the product after coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'integer',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'line_tax' => array(
+							'description' => __( 'Line total tax.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'integer',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'product_name'    => array(
+							'description' => __( 'Product name.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => ( 'view' ),
+							'readonly'    => true,
+						),
+						'product_price'   => array(
+							'description' => __( 'Current product price.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+					),
+					'readonly'          => true,
+				),
+			)
+		);
+
+		$schema['properties'] = apply_filters( 'cocart_cart_schema', $schema['properties'] );
+
+		return $schema;
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for getting the cart.
