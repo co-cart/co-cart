@@ -113,16 +113,16 @@ class CoCart_Rest_API {
 	/**
 	 * Prevents CoCart from being cached.
 	 *
-	 * @access private
+	 * @access public
 	 * @since  2.1.2
 	 * @param  bool   $skip
 	 * @param  string $request_uri
 	 * @return bool   $skip
 	 */
-	private function prevent_cache( $skip, $request_uri ) {
+	public function prevent_cache( $skip, $request_uri ) {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
 
-		if ( ! $skip && false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ) {
+		if ( strpos( $request_uri, $rest_prefix . 'cocart/' ) !== false ) {
 			return true;
 		}
 	
