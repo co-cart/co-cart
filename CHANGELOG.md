@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.1.2 - ?? May, 2020
+## v2.1.2 (a.k.a the real version 2.1) - 4th June, 2020
 
 * NEW: Added support for guest customers.
 * NEW: Carts in session are stored in a new database table.
@@ -42,7 +42,7 @@
 * Dev: Added filter to override cookie check for authenticated users.
 * Tested: Compatible with WooCommerce v4.2.x
 
-> This update replaces WooCommerce core session handler with CoCart's. 100% compatible.
+> This update replaces WooCommerce core session handler with CoCart's. 100% backwards compatible.
 
 ## v2.1.1 - 10th May, 2020
 
