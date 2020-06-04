@@ -195,6 +195,14 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				return __( 'a year', 'cart-rest-api-for-woocommerce' );
 			}
 
+			// Get the months.
+			$months = ( intval( $seconds ) / MONTH_IN_SECONDS ) % 52;
+			if ( $months > 1 ) {
+				return sprintf( __( '%s months', 'cart-rest-api-for-woocommerce' ), $months );
+			} elseif ( $months > 0 ) {
+				return __( '1 month', 'cart-rest-api-for-woocommerce' );
+			}
+
 			// Get the weeks.
 			$weeks = ( intval( $seconds ) / WEEK_IN_SECONDS ) % 52;
 			if ( $weeks > 1 ) {
