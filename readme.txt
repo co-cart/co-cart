@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 5.4.1
-Stable tag: 2.0.13
+Stable tag: 2.1.2
 WC requires at least: 3.6.0
 WC tested up to: 4.2.0
 License: GPLv3
@@ -17,7 +17,11 @@ A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 == Description ==
 
-CoCart is a flexible, open-source solution to enabling the shopping cart via the REST API for [WooCommerce](https://wordpress.org/plugins/woocommerce/).
+Build headless stores, **without building an API**
+
+CoCart handles the shopping cart in any modern framework of your choosing. No local storing required. Powerful and developer friendly ready to build your headless store.
+
+Built for [WooCommerce](https://wordpress.org/plugins/woocommerce/).
 
 With [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart), running your WooCommerce store completely via the REST API is now possible. Control and manage the shopping cart with ease. Powerful options, clear responses and developer ready for any filtering required to your needs.
 
@@ -33,7 +37,7 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 
 CoCart provides the basic features to get you started.
 
-* **NEW**: Cart support for guest customers.
+* **NEW**: Support for guest customers.
 * **NEW**: Logout customer.
 * Add simple and variable products to the cart.
 * Update items in the cart.
@@ -44,13 +48,12 @@ CoCart provides the basic features to get you started.
 * View the cart contents.
 * Retrieve the item count.
 * Empty the cart.
-* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 * Supports basic authentication without the need to cookie authenticate.
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
 Included with these features are **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers.
 
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
-* **[CoCart Tools](https://github.com/co-cart/cocart-tools)** provides tools to help with development testing with CoCart.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 
 > ### CoCart Pro
@@ -67,7 +70,12 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
 > - **Coming Soon** Retrieve Checkout Fields (In Development)<br />
+> - **Coming Soon** Set Cart (In Development)<br />
 > - **Coming Soon** Create Order (In Development)<br />
+> - **Coming Soon** Return Customers Orders (In Development)<br />
+> - **Coming Soon** Return Customers Subscriptions (In Development)<br />
+> - **Coming Soon** Return Customers Downloads (In Development)<br />
+> - **Coming Soon** Get and Update Customers Profile (In Development)<br />
 >
 > [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
@@ -82,9 +90,10 @@ CoCart Pro also supports:
 
 We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** that extend CoCart to enhance your development and your customers shopping experience.
 
-* **[CoCart - Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
-* **[CoCart Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides a public version of WooCommerce REST API for accessing products, categories, tags, attributes and even reviews without the need to authenticate.
-* **[CoCart Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. - **REQUIRES COCART PRODUCTS**
+* **[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
+* **[Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides a public version of WooCommerce REST API for accessing products, categories, tags, attributes and even reviews without the need to authenticate.
+* **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning all your advanced custom fields for products. - **REQUIRES COCART PRODUCTS**
+* **[Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. 
 * and more add-ons in development.
 
 ### Join our growing community
@@ -196,7 +205,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
-= v2.1.2 - ?? May, 2020 =
+= v2.1.2 - 4th June, 2020 =
 
 * NEW: Added support for guest customers.
 * NEW: Carts in session are stored in a new database table.
@@ -238,7 +247,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * Dev: Added filter to override cookie check for authenticated users.
 * Tested: Compatible with WooCommerce v4.2.x
 
-> This update replaces WooCommerce core session handler with CoCart's. 100% compatible.
+> This update replaces WooCommerce core session handler with CoCart's. 100% backwards compatible.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 

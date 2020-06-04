@@ -48,8 +48,8 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
-* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
 * Supports basic authentication without the need to cookie authenticate.
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
 
 ### Other Features
 
@@ -73,7 +73,12 @@ This plugin is just the tip of the iceberg. CoCart Pro completes it with the fol
 * Calculate Shipping Fees
 * Calculate Totals and Fees
 * **Coming Soon** Retrieve Checkout Fields (In Development)
+* **Coming Soon** Set Cart (In Development)
 * **Coming Soon** Create Order (In Development)
+* **Coming Soon** Return Customers Orders (In Development)
+* **Coming Soon** Return Customers Subscriptions (In Development)
+* **Coming Soon** Return Customers Downloads (In Development)
+* **Coming Soon** Get and Update Customers Profile (In Development)
 
 [Buy CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)
 
@@ -83,10 +88,9 @@ We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=gh&utm_source=gi
 
 * **[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. One response for all. - **FREE**
 * **[Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides a public version of WooCommerce REST API for accessing products, categories, tags, attributes and even reviews without the need to authenticate.
+* **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning all your advanced custom fields for products. - **REQUIRES COCART PRODUCTS**
 * **[Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. - **REQUIRES COCART PRODUCTS**
 * and more add-ons in development.
-
-> More add-ons are in development.
 
 ## Download
 
