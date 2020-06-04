@@ -1,5 +1,24 @@
 # Changelog for CoCart Lite
 
+## v3.0.0 - ?? ??, 2020
+
+* NEW: API routes.
+* * Cart           - wp-json/cocart/v2/cart
+* * Cart Item      - wp-json/cocart/v2/cart/item
+* * Cart Items     - wp-json/cocart/v2/cart/items
+* * Count Items    - wp-json/cocart/v2/cart/items/count
+* * Add Item       - wp-json/cocart/v2/cart/add-item
+* * Update Item    - wp-json/cocart/v2/cart/update-item
+* * Remove Item    - wp-json/cocart/v2/cart/remove-item
+* * Calculate Cart - wp-json/cocart/v2/cart/calculate
+* * Clear Cart     - wp-json/cocart/v2/cart/clear
+* * Logout         - wp-json/cocart/v2/cart/logout
+* * Cart Totals    - wp-json/cocart/v2/cart/totals
+* NEW: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* Dev: New filters.
+* * `cocart_item_price`
+* * `cocart_item_subtotal`
+
 ## v2.1.2 (a.k.a the real version 2.1) - 4th June, 2020
 
 * NEW: Added support for guest customers.

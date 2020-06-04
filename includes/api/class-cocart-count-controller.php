@@ -2,12 +2,12 @@
 /**
  * CoCart - Count Items controller
  *
- * Handles the request to count the items in the cart with /count-items endpoint.
+ * Handles the request to count the items in the cart with /cart/items/count endpoint.
  *
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/API
- * @since    2.1.0
+ * @since    3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,14 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart/API
  */
-class CoCart_Count_Items_Controller extends CoCart_API_Controller {
+class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 
 	/**
 	 * Route base.
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'count-items';
+	protected $rest_base = 'cart/items/count';
 
 	/**
 	 * Register routes.
@@ -34,7 +34,7 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Count Items in Cart - cocart/v1/count-items (GET)
+		// Count Items in Cart - cocart/v2/cart/items/count (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'methods'  => WP_REST_Server::READABLE,
 			'callback' => array( $this, 'get_cart_contents_count' ),
@@ -45,45 +45,5 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 			),
 		) );
 	} // register_routes()
-
-	/**
-	 * Get cart contents count.
-	 *
-	 * @access  public
-	 * @static
-	 * @since   1.0.0
-	 * @version 2.1.0
-	 * @param   array $data
-	 * @param   array $cart_contents
-	 * @return  string|WP_REST_Response
-	 */
-	public static function get_cart_contents_count( $data = array(), $cart_contents = array() ) {
-		if ( empty( $cart_contents ) ) {
-			$count = WC()->cart->get_cart_contents_count();
-		} else {
-			// Counts all items from the quantity variable.
-			$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
-		}
-
-		$return = ! empty( $data['return'] ) ? $data['return'] : '';
-
-		if ( $return != 'numeric' && $count <= 0 ) {
-			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
-
-			CoCart_Logger::log( $message, 'notice' );
-
-			/**
-			 * Filters message about no items in the cart.
-			 *
-			 * @since 2.1.0
-			 * @param string $message Message.
-			 */
-			$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
-
-			return new WP_REST_Response( $message, 200 );
-		}
-
-		return $count;
-	} // END get_cart_contents_count()
 
 } // END class

@@ -2,13 +2,12 @@
 /**
  * CoCart - Calculate controller
  *
- * Handles the request to calculate the cart with /calculate endpoint.
+ * Handles the request to calculate the cart with /cart/calculate endpoint.
  *
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/API
- * @since    2.1.0
- * @version  2.1.1
+ * @since    3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,14 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart/API
  */
-class CoCart_Calculate_Controller extends CoCart_API_Controller {
+class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 
 	/**
 	 * Route base.
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'calculate';
+	protected $rest_base = 'cart/calculate';
 
 	/**
 	 * Register routes.
@@ -35,7 +34,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Calculate Cart Total - cocart/v1/calculate (POST)
+		// Calculate Cart Total - cocart/v2/cart/calculate (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'methods'  => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'calculate_totals' ),
@@ -48,37 +47,5 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 			)
 		) );
 	} // register_routes()
-
-	/**
-	 * Calculate Cart Totals.
-	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 2.1.1
-	 * @param   array $data
-	 * @return  WP_REST_Response
-	 */
-	public function calculate_totals( $data = array() ) {
-		WC()->cart->calculate_totals();
-
-		// Was it requested to return all totals once calculated?
-		if ( $data['return'] ) {
-			return CoCart_Totals_Controller::get_totals( $data );
-		}
-
-		$message = __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' );
-
-		CoCart_Logger::log( $message, 'notice' );
-
-		/**
-		 * Filters message about cart totals have been calculated.
-		 *
-		 * @since 2.1.0
-		 * @param string $message Message.
-		 */
-		$message = apply_filters( 'cocart_totals_calculated_message', $message );
-
-		return new WP_REST_Response( $message, 200 );
-	} // END calculate_totals()
 
 } // END class

@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart/API
+ * @package  CoCart/API/v1
  * @since    2.1.0
  */
 

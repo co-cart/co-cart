@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    1.0.0
- * @version  2.1.2
+ * @version  3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -280,7 +280,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 3.0.0
 	 */
 	public function rest_api_includes() {
 		$this->maybe_load_cart();
@@ -288,13 +288,25 @@ class CoCart_Rest_API {
 		// Legacy - WC Cart REST API v2 controller.
 		include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
 
-		// CoCart REST API controllers.
+		// CoCart REST API v1 controllers.
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-add-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-clear-cart-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-calculate-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-count-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-logout-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-totals-controller.php' );
+
+		// CoCart REST API v2 controllers.
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-add-item-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-clear-cart-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-calculate-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-count-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-update-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-remove-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-restore-item-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-logout-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php' );
 	} // rest_api_includes()
@@ -304,14 +316,14 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 3.0.0
 	 */
 	public function register_cart_routes() {
 		$controllers = array(
 			// WC Cart REST API v2 controller.
 			'WC_REST_Cart_Controller',
 
-			// CoCart REST API v1 controller.
+			// CoCart REST API v1 controllers.
 			'CoCart_API_Controller',
 			'CoCart_Add_Item_Controller',
 			'CoCart_Clear_Cart_Controller',
@@ -319,7 +331,19 @@ class CoCart_Rest_API {
 			'CoCart_Count_Items_Controller',
 			'CoCart_Item_Controller',
 			'CoCart_Logout_Controller',
-			'CoCart_Totals_Controller'
+			'CoCart_Totals_Controller',
+
+			// CoCart REST API v2 controllers.
+			'CoCart_API_v2_Controller',
+			'CoCart_Add_Item_v2_Controller',
+			'CoCart_Clear_Cart_v2_Controller',
+			'CoCart_Calculate_v2_Controller',
+			'CoCart_Count_Items_v2_Controller',
+			'CoCart_Update_Item_v2_Controller',
+			'CoCart_Remove_Item_v2_Controller',
+			'CoCart_Restore_Item_v2_Controller',
+			'CoCart_Logout_v2_Controller',
+			'CoCart_Totals_v2_Controller'
 		);
 
 		foreach ( $controllers as $controller ) {
