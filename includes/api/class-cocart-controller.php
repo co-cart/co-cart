@@ -63,6 +63,17 @@ class CoCart_API_V2_Controller extends CoCart_API_Controller {
 	} // register_routes()
 
 	/**
+	 * Gets the cart instance so we only call it once in the API.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return WC_Cart
+	 */
+	public function get_cart_instance() {
+		return WC()->cart;
+	} // END get_cart_instance()
+
+	/**
 	 * Return cart contents.
 	 *
 	 * @access  public
