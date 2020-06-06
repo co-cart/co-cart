@@ -97,8 +97,6 @@ class CoCart_API_V2_Controller extends CoCart_API_Controller {
 			return $empty_cart;
 		}
 
-		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
-
 		// Find the cart item key in the existing cart.
 		if ( ! empty( $cart_item_key ) ) {
 			$cart_item_key = $this->find_product_in_cart( $cart_item_key );
@@ -106,6 +104,9 @@ class CoCart_API_V2_Controller extends CoCart_API_Controller {
 			return $cart_contents[ $cart_item_key ];
 		}
 
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
+
+		/**
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
