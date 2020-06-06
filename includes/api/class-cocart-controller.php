@@ -79,13 +79,13 @@ class CoCart_API_V2_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 3.0.0
-	 * @param   array  $data
+	 * @param   array  $request
 	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
 	 * @param   bool   $from_session
 	 * @return  array  $cart_contents
 	 */
-	public function return_cart_contents( $data = array(), $cart_contents = array(), $cart_item_key = '', $from_session = false ) {
+	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = '', $from_session = false ) {
 		if ( CoCart_Count_Items_Controller::get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
@@ -102,6 +102,15 @@ class CoCart_API_V2_Controller extends CoCart_API_Controller {
 			$cart_item_key = $this->find_product_in_cart( $cart_item_key );
 
 			return $cart_contents[ $cart_item_key ];
+		}
+
+		/**
+		 * Return the default cart data if set to true.
+		 *
+		 * @since 3.0.0
+		 */
+		if ( $request['default'] ) {
+			return $cart_contents;
 		}
 
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
@@ -316,14 +325,24 @@ class CoCart_API_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 3.0.0
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
 			'cart_key' => array(
-				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'string',
+				'description'       => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+			),
+			'thumb'    => array(
+				'description'       => __( 'Returns the thumbnail of the featured product image URL for each item in cart.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => false,
+				'type'              => 'boolean',
+			),
+			'default'  => array(
+				'description'       => __( 'Return the default cart data if set to true.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => false,
+				'type'              => 'boolean',
 			),
 			'thumb' => array(
 				'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
