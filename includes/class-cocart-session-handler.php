@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
- * @version  2.1.2
+ * @version  2.1.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -254,7 +254,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @access public
 	 * @return bool
 	 */
-	public function has_cart() {
+	public function has_session() {
 		if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
 			return true;
 		}
@@ -270,7 +270,7 @@ class CoCart_Session_Handler extends WC_Session {
 		}
 
 		return false;
-	} // END has_cart()
+	} // END has_session()
 
 	/**
 	 * Set cart expiration.
@@ -352,7 +352,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @return array
 	 */
 	public function get_cart_data() {
-		return $this->has_cart() ? (array) $this->get_cart( $this->_customer_id, array() ) : array();
+		return $this->has_session() ? (array) $this->get_cart( $this->_customer_id, array() ) : array();
 	} // END get_cart_data()
 
 	/**
@@ -373,7 +373,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @global $wpdb
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
-		if ( $this->has_cart() ) {
+		if ( $this->has_session() ) {
 			global $wpdb;
 
 			/** 
@@ -437,7 +437,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @return string
 	 */
 	public function nonce_user_logged_out( $uid ) {
-		return $this->has_cart() && $this->_customer_id ? $this->_customer_id : $uid;
+		return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
 	}
 
 	/**
