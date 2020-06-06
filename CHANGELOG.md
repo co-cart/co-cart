@@ -1,8 +1,9 @@
 # Changelog for CoCart Lite
 
-## v2.1.3 - ?? June, 2020
+## v2.1.3 - 6th June, 2020
 
-* Tweaked: CoCart logger now check if `WC_Logger` class exists, corrected `cocart_logging` filter and passed `$type` and `$plugin` variables.
+* Changed: Renamed `has_cart` function to `has_session` to prevent issues with other plugins that call `WC()->session->has_session()`.
+* Tweaked: CoCart logger now checks if `WC_Logger` class exists, corrected `cocart_logging` filter and passed `$type` and `$plugin` variables.
 
 ## v2.1.2 (a.k.a the real version 2.1) - 4th June, 2020
 
