@@ -7,7 +7,7 @@
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart/API
- * @since    2.0.0
+ * @since    3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart REST API/API
  */
-class CoCart_API_V2_Controller extends CoCart_API_Controller {
+class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -115,7 +115,6 @@ class CoCart_API_V2_Controller extends CoCart_API_Controller {
 
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
-		/**
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {

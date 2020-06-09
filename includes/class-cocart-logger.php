@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart/Logger
  * @since    2.1.0
+ * @version  2.1.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,23 +29,28 @@ class CoCart_Logger {
 	 *
 	 * @access public
 	 * @static
-	 * @param string $message - The message of the log.
-	 * @param string $type    - The type of log to record.
-	 * @param string $plugin  - The CoCart plugin being logged.
+	 * @since   2.1.0
+	 * @version 2.1.3
+	 * @param   string $message - The message of the log.
+	 * @param   string $type    - The type of log to record.
+	 * @param   string $plugin  - The CoCart plugin being logged.
 	 */
 	public static function log( $message, $type, $plugin = 'cocart-lite' ) {
-		if ( apply_filters( 'cocart_logging', false ) ) {
+		if ( ! class_exists( 'WC_Logger' ) ) {
+			return;
+		}
 
+		if ( apply_filters( 'cocart_logging', true, $type, $plugin ) ) {
 			if ( empty( self::$logger ) ) {
 				self::$logger = wc_get_logger();
 			}
 
-			$context = array( 'source' => apply_filters( 'cocart_log_source', 'cocart-lite' ) );
-
 			if ( $plugin == 'cocart-lite' ) {
 				$log_entry = "\n" . '====CoCart Lite Version: ' . COCART_VERSION . '====' . "\n";
+				$context = array( 'source' => 'cocart-lite' );
 			} else if ( $plugin == 'cocart-pro' ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
+				$context = array( 'source' => 'cocart-pro' );
 			}
 
 			$log_time = date_i18n( get_option( 'date_format' ) . ' g:ia', current_time( 'timestamp' ) );
