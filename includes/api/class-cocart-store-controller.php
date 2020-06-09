@@ -115,6 +115,8 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 			'add-item'     =>  $prefix . 'cart/add-item',
 			'clear'        =>  $prefix . 'cart/clear',
 			'calculate'    =>  $prefix . 'cart/calculate',
+			'item'         =>  $prefix . 'cart/item',
+			'items'        =>  $prefix . 'cart/items',
 			'count-items'  =>  $prefix . 'cart/items/count',
 			'update-item'  =>  $prefix . 'cart/update-item',
 			'remove-item'  =>  $prefix . 'cart/remove-item',
