@@ -22,6 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 
 	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v2';
+
+	/**
 	 * Route base.
 	 *
 	 * @var string

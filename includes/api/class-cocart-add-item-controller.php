@@ -15,11 +15,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Add Item controller class.
+ * CoCart REST API Add Item v2 controller class.
  *
  * @package CoCart/API
  */
 class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
+
+	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v2';
 
 	/**
 	 * Route base.
