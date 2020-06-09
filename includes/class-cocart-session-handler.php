@@ -438,7 +438,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 */
 	public function nonce_user_logged_out( $uid ) {
 		return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
-	}
+	} // END nonce_user_logged_out()
 
 	/**
 	 * Cleanup cart data from the database and clear caches.
