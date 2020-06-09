@@ -16,6 +16,9 @@
 * * Cart Totals    - wp-json/cocart/v2/cart/totals
 * NEW: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * Dev: New filters.
+* * `cocart_store_index`
+* * `cocart_store_address`
+* * `cocart_routes`
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
