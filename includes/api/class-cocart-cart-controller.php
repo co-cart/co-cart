@@ -51,7 +51,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'schema' => array( $this, 'get_item_schema' )
 		) );
 
-		// Get Cart in Session - cocart/v1/cart/1654654321 (GET)
+		// Get Cart in Session - cocart/v2/cart/1654654321 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\w]+)', array(
 			array(
 				'methods'  => WP_REST_Server::READABLE,
@@ -70,8 +70,65 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return WC_Cart
 	 */
 	public function get_cart_instance() {
-		return WC()->cart;
+		$cart = WC()->cart;
+
+		if ( ! $cart || ! $cart instanceof \WC_Cart ) {
+			throw new RouteException( 'cocart_cart_error', __( 'Unable to retrieve cart.', 'cart-rest-api-for-woocommerce' ), 500 );
+		}
+
+		return $cart;
 	} // END get_cart_instance()
+
+
+	/**
+	 * Return a cart item from the woo core cart class.
+	 *
+	 * @param string $item_id Cart item id.
+	 * @return array
+	 */
+	public function get_cart_item( $item_id ) {
+		return isset( WC()->cart->cart_contents[ $item_id ] ) ? WC()->cart->cart_contents[ $item_id ] : array();
+	} // EMD get_cart_item()
+
+	/**
+	 * Returns all cart items.
+	 *
+	 * @param callable $callback Optional callback to apply to the array filter.
+	 * @return array
+	 */
+	public function get_cart_items( $callback = null ) {
+		return $callback ? array_filter( WC()->cart->get_cart(), $callback ) : array_filter( WC()->cart->get_cart() );
+	} // END get_cart_items()
+
+	/**
+	 * Get cart.
+	 *
+	 * @access public
+	 * @param  array  $request
+	 * @param  string $cart_item_key
+	 * @return array|WP_REST_Response
+	 */
+	public function get_cart( $request = array(), $cart_item_key = '' ) {
+		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+
+		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
+
+		// Return cart contents raw if requested.
+		if ( $show_raw ) {
+			return $cart_contents;
+		}
+
+		/**
+		 * Deprecated action hook `cocart_get_cart`.
+		 *
+		 * @reason Better filtering for cart contents later on.
+		 */
+		wc_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
+
+		$cart_contents = $this->return_cart_contents( $request, $cart_contents, $cart_item_key );
+
+		return new WP_REST_Response( $cart_contents, 200 );
+	} // END get_cart()
 
 	/**
 	 * Return cart contents.
@@ -83,16 +140,17 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
 	 * @param   bool   $from_session
-	 * @return  array  $cart_contents
+	 * @return  array  $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = '', $from_session = false ) {
+
 		if ( CoCart_Count_Items_Controller::get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
 			 *
-			 * @since 2.0.8
+			 * @param $empty_cart
 			 */
-			$empty_cart = apply_filters( 'cocart_return_empty_cart', array() );
+			$empty_cart = apply_filters( 'cocart_empty_cart', $cart_contents );
 
 			return $empty_cart;
 		}
@@ -115,11 +173,53 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
+		$cart = array(
+			'cart_hash'      => $this->get_cart_instance()->get_cart_hash(),
+			'cart_key'       => $this->get_cart_key( $request ),
+			'currency'       => $this->get_store_currency(),
+			'items'          => array(),
+			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
+			'items_weight'   => wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
+			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
+			'coupons'        => array(),
+			'totals' => array(
+				'total_items'        => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
+				'total_item_tax'     => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
+				'total_fees'         => $this->prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
+				'total_fees_tax'     => $this->prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() ),
+				'total_discount'     => $this->prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() ),
+				'total_discount_tax' => $this->prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
+				'total_shipping'     => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
+				'total_shipping_tax' => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
+				'total_price'        => $this->prepare_money_response( $this->get_cart_instance()->get_total( 'view' ), wc_get_price_decimals() ),
+				'total_tax'          => $this->prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
+				'tax_lines'          => $this->get_tax_lines( $this->get_cart_instance() )
+			),
+			'fees'            => $this->get_fees( $this->get_cart_instance() ),
+		);
+
+		// Returns each coupon applied and coupon total applied if store has coupons enabled.
+		$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
+
+		if ( ! empty( $coupons ) ) {
+			foreach ( $coupons as $code => $coupon ) {
+				$cart['coupons'][ $code ] = array(
+					'coupon'      => esc_attr( sanitize_title( $coupon ) ),
+					'label'       => esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ),
+					'saving'      => $this->coupon_html( $coupon, false ),
+					'saving_html' => $this->coupon_html( $coupon )
+				);
+			}
+		}
+
+		$weight_unit = get_option( 'woocommerce_weight_unit' );
+
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
 				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
-				$cart_contents[ $item_key ]['data'] = $cart_item['data'];
+				$cart['items'][ $item_key ]['data'] = $cart_item['data'];
 			}
 
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
@@ -138,18 +238,41 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
 
-				$this->get_cart_instance->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
+				$this->get_cart_instance()->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
 
 				wc_add_notice( $message, 'error' );
 			} else {
-				// Adds the product name and title as new variables.
-				$cart_contents[ $item_key ]['product_name']  = apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key );
-				$cart_contents[ $item_key ]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
+				$cart['items'][ $item_key ] = array(
+					'id'         => $_product->get_id(),
+					'name'       => apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key ),
+					'title'      => apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key ),
+					'price'      => wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ),
+					'quantity'   => $cart_item['quantity'],
+					'meta' => array(
+						'sku'                   => $_product->get_sku(),
+						'dimensions'            => array(),
+						'min_purchase_quantity' => $_product->get_min_purchase_quantity(),
+						'max_purchase_quantity' => $_product->get_max_purchase_quantity(),
+						'weight'                => wc_get_weight( $_product->get_weight(), $weight_unit )
+					),
+					'cart_item_data'            => $cart_item['cart_item_data']
+				);
 
-				// Add product price as a new variable.
-				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
+				// Item dimensions.
+				$dimensions = $_product->get_dimensions( false );
+				if ( ! empty( $dimensions ) ) {
+					$cart['items'][ $item_key ]['meta']['dimensions'] = array(
+						'length' => $dimensions['length'],
+						'width'  => $dimensions['width'],
+						'height' => $dimensions['height'],
+						'unit'   => get_option( 'woocommerce_dimension_unit' )
+					);
+				}
 
-				// If main product thumbnail is requested then add it to each item in cart.
+				// Variation data.
+				$cart['items'][ $item_key ]['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
+
+				// If thumbnail is requested then add it to each item in cart.
 				if ( $show_thumb ) {
 					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
 
@@ -163,27 +286,251 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 					 */
 					$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
 
-					// Add main product image as a new variable.
-					$cart_contents[ $item_key ]['product_image'] = esc_url( $thumbnail_src );
+					// Add main featured image.
+					$cart['items'][ $item_key ]['featured_image'] = esc_url( $thumbnail_src );
 				}
 
 				// This filter allows additional data to be returned for a specific item in cart.
-				$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents, $item_key, $cart_item, $_product );
+				$cart['items'] = apply_filters( 'cocart_cart_items', $cart['items'], $item_key, $cart_item, $_product );
 			}
 		}
 
 		/**
-		 * Return cart content from session if set.
+		 * Return cart items from session if set.
 		 *
-		 * @since 2.1.0
-		 * @param $cart_contents
+		 * @since   2.1.0
+		 * @version 3.0.0
+		 * @param   $cart['items']
 		 */
 		if ( $from_session ) {
-			return apply_filters( 'cocart_return_cart_session_contents', $cart_contents );
+			$cart['items'] = apply_filters( 'cocart_cart_session', $cart['items'] );
 		} else {
-			return apply_filters( 'cocart_return_cart_contents', $cart_contents );
+			$cart['items'] = apply_filters( 'cocart_cart', $cart['items'] );
 		}
+
+		return $cart;
 	} // END return_cart_contents()
+
+	/**
+	 * Prepares a list of store currency data to return in responses.
+	 *
+	 * @access protected
+	 * @return array
+	 */
+	protected function get_store_currency() {
+		$position = get_option( 'woocommerce_currency_pos' );
+		$symbol   = html_entity_decode( get_woocommerce_currency_symbol() );
+		$prefix   = '';
+		$suffix   = '';
+
+		switch ( $position ) {
+			case 'left_space':
+				$prefix = $symbol . ' ';
+				break;
+			case 'left':
+				$prefix = $symbol;
+				break;
+			case 'right_space':
+				$suffix = ' ' . $symbol;
+				break;
+			case 'right':
+				$suffix = $symbol;
+				break;
+		}
+
+		return array(
+			'currency_code'               => get_woocommerce_currency(),
+			'currency_symbol'             => $symbol,
+			'currency_minor_unit'         => wc_get_price_decimals(),
+			'currency_decimal_separator'  => wc_get_price_decimal_separator(),
+			'currency_thousand_separator' => wc_get_price_thousand_separator(),
+			'currency_prefix'             => $prefix,
+			'currency_suffix'             => $suffix,
+		);
+	} // END get_store_currency()
+
+	/**
+	 * Returns the cart key.
+	 *
+	 * @access public
+	 * @param  $request
+	 * @return string
+	 */
+	public function get_cart_key( $request ) {
+		if ( ! class_exists( 'CoCart_Session_Handler' ) || ! WC()->session instanceof CoCart_Session_Handler ) {
+			return;
+		}
+
+		// Current user ID.
+		$current_user_id = strval( get_current_user_id() );
+
+		// Get cart cookie... if any.
+		$cookie = WC()->session->get_session_cookie();
+
+		// Does a cookie exist?
+		if ( $cookie ) {
+			$cart_key = $cookie[0];
+		}
+
+		// Check if we requested to load a specific cart.
+		if ( isset( $request['cart_key'] ) ) {
+			$cart_key = $request['cart_key'];
+		}
+
+		// Override cookie check to force load the authenticated users cart if switched without logging out first.
+		$override_cookie_check = apply_filters( 'cocart_override_cookie_check', false );
+
+		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
+			if ( $override_cookie_check || ! $cookie ) {
+				$cart_key = $current_user_id;
+			}
+		}
+
+		return $cart_key;
+	} // END get_cart_key()
+
+	/**
+	 * Get tax lines from the cart and format to match schema.
+	 *
+	 * @access protected
+	 * @param  WC_Cart $cart Cart class instance.
+	 * @return array
+	 */
+	protected function get_tax_lines( $cart ) {
+		$cart_tax_totals = $cart->get_tax_totals();
+		$tax_lines       = [];
+
+		foreach ( $cart_tax_totals as $cart_tax_total ) {
+			$tax_lines[] = array(
+				'name'  => $cart_tax_total->label,
+				'price' => $this->prepare_money_response( $cart_tax_total->amount, wc_get_price_decimals() ),
+			);
+		}
+
+		return $tax_lines;
+	} // END get_tax_lines()
+
+	/**
+	 * Convert monetary values from WooCommerce to string based integers, using
+	 * the smallest unit of a currency.
+	 *
+	 * @access protected
+	 * @param  string|float $amount Monetary amount with decimals.
+	 * @param  int          $decimals Number of decimals the amount is formatted with.
+	 * @param  int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
+	 * @return string      The new amount.
+	 */
+	protected function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+		return (string) intval(
+			round(
+				wc_format_decimal( $amount ) * ( 10 ** $decimals ),
+				0,
+				absint( $rounding_mode )
+			)
+		);
+	} // END prepare_money_response()
+
+	/**
+	 * Format variation data, for example convert slugs such as attribute_pa_size to Size.
+	 *
+	 * @access protected
+	 * @param  array      $variation_data Array of data from the cart.
+	 * @param  WC_Product $product Product data.
+	 * @return array
+	 */
+	protected function format_variation_data( $variation_data, $product ) {
+		$return = array();
+
+		if ( empty( $variation_data ) ) {
+			return $return;
+		}
+
+		foreach ( $variation_data as $key => $value ) {
+			$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $key ) ) );
+
+			if ( taxonomy_exists( $taxonomy ) ) {
+				// If this is a term slug, get the term's nice name.
+				$term = get_term_by( 'slug', $value, $taxonomy );
+				if ( ! is_wp_error( $term ) && $term && $term->name ) {
+					$value = $term->name;
+				}
+				$label = wc_attribute_label( $taxonomy );
+			} else {
+				// If this is a custom option slug, get the options name.
+				$value = apply_filters( 'cocart_variation_option_name', $value, null, $taxonomy, $product );
+				$label = wc_attribute_label( str_replace( 'attribute_', '', $name ), $product );
+			}
+
+			$return[ $label ] = $value;
+		}
+
+		return $return;
+	} // END format_variation_data()
+
+	public function get_fees( $cart ) {
+		$cart_fees = $cart->get_fees();
+
+		$fees = array();
+
+		if ( ! empty( $cart_fees ) ) {
+			foreach ( $cart_fees as $key => $fee ) {
+				$fees[ $key ] = array(
+					'name' => esc_html( $fee->name ),
+					'fee'  => html_entity_decode( strip_tags( $this->fee_html( $cart, $fee ) ) )
+				);
+			}
+		}
+
+		return $fees;
+	} // END get_fees()
+
+	/**
+	 * Get coupon in HTML.
+	 *
+	 * @access public
+	 * @param  string|WC_Coupon $coupon Coupon data or code.
+	 * @param  bool             $formatted Formats the saving amount.
+	 * @return string           The coupon in HTML.
+	 */
+	public function coupon_html( $coupon, $formatted = true ) {
+		if ( is_string( $coupon ) ) {
+			$coupon = new WC_Coupon( $coupon );
+		}
+
+		$discount_amount_html = '';
+
+		$amount = $this->get_cart_instance()->get_coupon_discount_amount( $coupon->get_code(), $this->get_cart_instance()->display_cart_ex_tax );
+
+		if ( $formatted ) {
+			$savings = wc_price( $amount );
+		}
+		else {
+			$savings = wc_format_decimal( $amount, wc_get_price_decimals() );
+		}
+
+		$discount_amount_html = '-' . html_entity_decode( strip_tags( $savings ) );
+
+		if ( $coupon->get_free_shipping() && empty( $amount ) ) {
+			$discount_amount_html = __( 'Free shipping coupon', 'cocart-get-cart-enhanced' );
+		}
+
+		$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
+
+		return $discount_amount_html;
+	} // END coupon_html()
+
+	/**
+	 * Get the fee value.
+	 * 
+	 * @access public
+	 * @param object $cart
+	 * @param object $fee Fee data.
+	 */
+	public function fee_html( $cart, $fee ) {
+		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
+
+		return apply_filters( 'cocart_cart_totals_fee_html', $cart_totals_fee_html, $fee );
+	}
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
