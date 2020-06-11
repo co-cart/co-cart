@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
- * @version  2.1.3
+ * @version  2.1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -72,13 +72,13 @@ class CoCart_Session_Handler extends WC_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.1.4
 	 */
 	public function init() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
 		$current_user_id = strval( get_current_user_id() );
 
-		$this->init_cart( $current_user_id );
+		$this->init_session_cookie( $current_user_id );
 
 		add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
@@ -99,10 +99,10 @@ class CoCart_Session_Handler extends WC_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.1.4
 	 * @param   int $current_user_id
 	 */
-	public function init_cart( $current_user_id ) {
+	public function init_session_cookie( $current_user_id ) {
 		// Get cart cookie... if any.
 		$cookie = $this->get_session_cookie();
 
@@ -164,7 +164,7 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_customer_id = $this->generate_customer_id();
 			$this->_data        = $this->get_cart_data();
 		}
-	} // END init_cart()
+	} // END init_session_cookie()
 
 	/**
 	 * Is Cookie support enabled?

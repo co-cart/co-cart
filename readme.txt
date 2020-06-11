@@ -6,8 +6,8 @@ Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
 Requires at least: 5.2
 Requires PHP: 7.0
-Tested up to: 5.4.1
-Stable tag: 2.1.3
+Tested up to: 5.4.2
+Stable tag: 2.1.4
 WC requires at least: 3.6.0
 WC tested up to: 4.2.0
 License: GPLv3
@@ -81,10 +81,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 
 ### Extensions supported
 
-CoCart Pro also supports:
-
-* **[WooCommerce Subscriptions](https://woocommerce.com/products/woocommerce-subscriptions/)**
-* and more extension support in development.
+[View list of the WooCommerce extensions](https://cocart.xyz/woocommerce-extensions/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) that support CoCart or are supported in [CoCart Pro](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 #### Add-ons to further enhance your cart.
 
