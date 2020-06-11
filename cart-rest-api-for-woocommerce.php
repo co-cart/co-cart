@@ -169,7 +169,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.1.0
+		 * @version 3.0.0
 		 * @return  void
 		 */
 		public function includes() {
@@ -178,7 +178,8 @@ if ( ! class_exists( 'CoCart' ) ) {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-product-validation.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session-handler.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
-			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-rest-api.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-server.php' );
 		} // END includes()
 
 		/**
