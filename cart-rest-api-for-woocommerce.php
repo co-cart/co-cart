@@ -247,19 +247,22 @@ if ( ! class_exists( 'CoCart' ) ) {
 		} // END allow_cocart_requests_wc()
 
 		/**
-		 * Returns true if we are making a REST API request.
+		 * Returns true if we are making a REST API request for CoCart.
 		 *
-		 * @access public
-		 * @since  2.1.0
-		 * @return bool
+		 * @access  public
+		 * @static
+		 * @since   2.1.0
+		 * @version 3.0.0
+		 * @return  bool
 		 */
-		public function is_rest_api_request() {
+		public static function is_rest_api_request() {
 			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 				return false;
 			}
 
 			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-			$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) );
+
+			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
 
 			return $is_rest_api_request;
 		} // END is_rest_api_request()
