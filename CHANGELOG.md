@@ -1,5 +1,9 @@
 # Changelog for CoCart Lite
 
+## v2.1.4 - 11th June, 2020
+
+* 🔥 Fix: Call to undefined method `init_session_cookie()` in session handler causing checkout on the frontend to fail. 🤦‍♂
+
 ## v2.1.3 - 6th June, 2020
 
 * Changed: Renamed `has_cart` function to `has_session` to prevent issues with other plugins that call `WC()->session->has_session()`.
