@@ -81,7 +81,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 
 ### Extensions supported
 
-[View list of the WooCommerce extensions](https://cocart.xyz/woocommerce-extensions/) that support CoCart or are supported in [CoCart Pro](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+[View list of the WooCommerce extensions](https://cocart.xyz/woocommerce-extensions/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) that support CoCart or are supported in [CoCart Pro](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 #### Add-ons to further enhance your cart.
 
