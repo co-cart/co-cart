@@ -1,5 +1,9 @@
 # Changelog for CoCart Lite
 
+## v2.1.5 - 12th June, 2020
+
+* 🔥 Fix: Filtered `nonce_user_logged_out` returned value for frontend that was causing users logged out to fail verification. 🤦‍♂
+
 ## v2.1.4 - 11th June, 2020
 
 * 🔥 Fix: Call to undefined method `init_session_cookie()` in session handler causing checkout on the frontend to fail. 🤦‍♂

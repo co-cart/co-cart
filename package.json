@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.1.4",
+	"version": "2.1.5",
 	"private": false,
 	"contributors": [
 		"sebd86",

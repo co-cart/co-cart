@@ -72,7 +72,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.4
+	 * @version 2.1.5
 	 */
 	public function init() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
@@ -87,9 +87,10 @@ class CoCart_Session_Handler extends WC_Session {
 		/**
 		 * When a user is logged out, ensure they have a unique nonce by using the customer/cart ID.
 		 *
-		 * @since 2.1.2
+		 * @since   2.1.2
+		 * @version 2.1.5
 		 */
-		if ( is_numeric( $current_user_id ) && $current_user_id < 1 ) {
+		if ( CoCart::is_rest_api_request() && is_numeric( $current_user_id ) && $current_user_id < 1 ) {
 			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
 		}
 	} // END init()

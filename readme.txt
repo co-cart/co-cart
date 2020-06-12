@@ -7,7 +7,7 @@ Donate link: https://opencollective.com/cocart
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 5.4.2
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 WC requires at least: 3.6.0
 WC tested up to: 4.2.0
 License: GPLv3
@@ -201,6 +201,10 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 [Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
 
 == Changelog ==
+
+= v2.1.5 - 12th June, 2020 =
+
+* 🔥 Fix: Filtered `nonce_user_logged_out` returned value for frontend that was causing users logged out to fail verification. 🤦‍♂
 
 = v2.1.4 - 11th June, 2020 =
 
