@@ -414,7 +414,7 @@ class CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_invalid_variation_data_message', $message, $attribute_label, $attribute->get_slugs() );
 
-				return WP_Error( 'cocart_invalid_variation_data', $message, 400 );
+				return new WP_Error( 'cocart_invalid_variation_data', $message, 400 );
 			}
 
 			// If no attribute was posted, only error if the variation has an 'any' attribute which requires a value.
