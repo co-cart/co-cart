@@ -356,7 +356,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.1.6
 	 * @param   int        $product_id     - Contains the id of the product.
 	 * @param   int        $quantity       - Contains the quantity of the item.
 	 * @param   int        $variation_id   - ID of the variation.
@@ -368,7 +368,7 @@ class CoCart_API_Controller {
 	protected function validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product ) {
 		// Flatten data and format posted values.
 		$variable_product_attributes = $this->get_variable_product_attributes( $product );
-		$variation                   = $this->sanitize_variation_data( wp_list_pluck( $variation, 'value', 'attribute' ), $variable_product_attributes );
+		//$variation                   = $this->sanitize_variation_data( wp_list_pluck( $variation, 'value', 'attribute' ), $variable_product_attributes );
 
 		// If we have a parent product and no variation ID, find the variation ID.
 		if ( $product->is_type( 'variable' ) && $variation_id == 0 ) {
