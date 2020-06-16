@@ -1,5 +1,9 @@
 # Changelog for CoCart Lite
 
+## v2.1.7 - 16th June, 2020
+
+* 🔥 Fix: Too few arguments to function `init_session_cookie()`, 0 passed.
+
 ## v2.1.6 - 13th June, 2020
 
 * Fixed: Return of error response for invalid variation data.

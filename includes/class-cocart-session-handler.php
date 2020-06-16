@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
- * @version  2.1.4
+ * @version  2.1.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -100,10 +100,10 @@ class CoCart_Session_Handler extends WC_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.4
+	 * @version 2.1.7
 	 * @param   int $current_user_id
 	 */
-	public function init_session_cookie( $current_user_id ) {
+	public function init_session_cookie( $current_user_id = 0 ) {
 		// Get cart cookie... if any.
 		$cookie = $this->get_session_cookie();
 
