@@ -22,6 +22,19 @@
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.1.7 - 16th June, 2020
+
+* 🔥 Fix: Too few arguments to function `init_session_cookie()`, 0 passed.
+
+## v2.1.6 - 13th June, 2020
+
+* Fixed: Return of error response for invalid variation data.
+* Disabled: Use of `sanitize_variation_data` function. Used for wrong purpose.
+
+## v2.1.5 - 12th June, 2020
+
+* 🔥 Fix: Filtered `nonce_user_logged_out` returned value for frontend that was causing users logged out to fail verification. 🤦‍♂
+
 ## v2.1.4 - 11th June, 2020
 
 * 🔥 Fix: Call to undefined method `init_session_cookie()` in session handler causing checkout on the frontend to fail. 🤦‍♂

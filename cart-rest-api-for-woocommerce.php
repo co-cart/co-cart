@@ -252,7 +252,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
-		 * @version 3.0.0
+		 * @version 2.1.5
 		 * @return  bool
 		 */
 		public static function is_rest_api_request() {
@@ -270,17 +270,18 @@ if ( ! class_exists( 'CoCart' ) ) {
 		/**
 		 * Returns CoCart session handler class name.
 		 *
-		 * @access public
-		 * @since  2.1.2
-		 * @param  string WooCommerce Session Handler
-		 * @return string
+		 * @access  public
+		 * @since   2.1.2
+		 * @version 2.1.5
+		 * @param   string WooCommerce Session Handler
+		 * @return  string
 		 */
 		public function cocart_session_handler( $handler ) {
 			if ( ! class_exists('WC_Session') ) {
 				return $handler;
 			}
 
-			if ( ! is_admin() || ! defined( 'DOING_AJAX' ) || ! defined( 'DOING_CRON' ) || ! CoCart::is_rest_api_request() ) {
+			if ( ! is_admin() || ! defined( 'DOING_AJAX' ) || ! defined( 'DOING_CRON' ) || ! $this->is_rest_api_request() ) {
 				$handler = 'CoCart_Session_Handler';
 			}
 
