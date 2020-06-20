@@ -5,12 +5,12 @@
  * Description: CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     2.1.7
+ * Version:     2.2.0
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
  * WC requires at least: 3.6.0
- * WC tested up to: 4.2.0
+ * WC tested up to: 4.3.0
  *
  * Copyright: © 2020 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
@@ -28,7 +28,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '2.1.7';
+		public static $version = '2.2.0';
 
 		/**
 		 * Required WooCommerce Version
@@ -246,12 +246,12 @@ if ( ! class_exists( 'CoCart' ) ) {
 		} // END allow_cocart_requests_wc()
 
 		/**
-		 * Returns true if we are making a REST API request.
+		 * Returns true if we are making a REST API request for CoCart.
 		 *
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
-		 * @version 2.1.5
+		 * @version 2.2.0
 		 * @return  bool
 		 */
 		public static function is_rest_api_request() {
@@ -260,7 +260,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			}
 
 			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-			$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) );
+			$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix . 'cocart/' ) );
 
 			return $is_rest_api_request;
 		} // END is_rest_api_request()

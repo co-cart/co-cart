@@ -1,5 +1,14 @@
 # Changelog for CoCart Lite
 
+## v2.2.0 - 20th June, 2020
+
+* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_allow_all_cors` filter set to true to enable.
+* NEW: Returned response after adding an item now returns product name, title and price just like the cart.
+* Tweaked: Improved validation for a variable product to return the product name correctly if variation attributes are missing.
+* Tweaked: Made sure that we check if we are making a request for CoCart API only.
+* Tweaked: CoCart logger will only log if `WP_DEBUG` is also set true.
+* Dev: New filters added for returning additional item data once added to cart.
+
 ## v2.1.7 - 16th June, 2020
 
 * 🔥 Fix: Too few arguments to function `init_session_cookie()`, 0 passed.

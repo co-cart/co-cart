@@ -4,12 +4,12 @@ Plugin URI: https://cocart.xyz
 Contributors: sebd86, cocartforwc
 Tags: woocommerce, cart, rest, rest-api, JSON
 Donate link: https://opencollective.com/cocart
-Requires at least: 5.0
-Requires PHP: 7.0
+Requires at least: 5.2
+Requires PHP: 7.2
 Tested up to: 5.4.2
-Stable tag: 2.1.7
+Stable tag: 2.2.0
 WC requires at least: 3.6.0
-WC tested up to: 4.2.0
+WC tested up to: 4.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -37,17 +37,17 @@ With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how 
 
 CoCart provides the basic features to get you started.
 
-* **NEW**: Support for guest customers.
-* **NEW**: Logout customer.
 * Add simple and variable products to the cart.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
 * Calculate the totals. 
 * Retrieve the cart totals.
-* View the cart contents.
+* View the carts contents.
 * Retrieve the item count.
 * Empty the cart.
+* Logout customer.
+* Supports guest customers.
 * Supports basic authentication without the need to cookie authenticate.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
 
@@ -69,12 +69,13 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 > - Retrieve and Set Fees<br />
 > - Calculate Shipping Fees<br />
 > - Calculate Totals and Fees<br />
-> - **Coming Soon** Retrieve Checkout Fields (In Development)<br />
-> - **Coming Soon** Set Cart (In Development)<br />
+> - **Coming Soon** Retrieve Checkout Fields (Auditing)<br />
+> - **Coming Soon** Set Cart Customer (In Development)<br />
 > - **Coming Soon** Create Order (In Development)<br />
 > - **Coming Soon** Return Customers Orders (In Development)<br />
 > - **Coming Soon** Return Customers Subscriptions (In Development)<br />
-> - **Coming Soon** Return Customers Downloads (In Development)<br />
+> - **Coming Soon** Return Customers Downloads (Auditing)<br />
+> - **Coming Soon** Return Customers Payment Methods (Auditing)<br />
 > - **Coming Soon** Get and Update Customers Profile (In Development)<br />
 >
 > [Buy CoCart Pro Now](https://cocart.xyz/pricing/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
@@ -202,6 +203,15 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
+= v2.2.0 - 20th June, 2020 =
+
+* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_allow_all_cors` filter set to true to enable.
+* NEW: Returned response after adding an item now returns product name, title and price just like the cart.
+* Tweaked: Improved validation for a variable product to return the product name correctly if variation attributes are missing.
+* Tweaked: Made sure that we check if we are making a request for CoCart API only.
+* Tweaked: CoCart logger will only log if `WP_DEBUG` is also set true.
+* Dev: New filters added for returning additional item data once added to cart.
+
 = v2.1.7 - 16th June, 2020 =
 
 * 🔥 Fix: Too few arguments to function `init_session_cookie()`, 0 passed.
@@ -272,6 +282,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-= 2.1.2 =
+= 2.2.0 =
 
-Woohoo! Support for guest customers is here! See changelog for full details before updating!
+* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_allow_all_cors` filter set to true to enable.

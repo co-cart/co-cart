@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/Logger
  * @since    2.1.0
- * @version  2.1.3
+ * @version  2.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -30,7 +30,7 @@ class CoCart_Logger {
 	 * @access public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.1.3
+	 * @version 2.2.0
 	 * @param   string $message - The message of the log.
 	 * @param   string $type    - The type of log to record.
 	 * @param   string $plugin  - The CoCart plugin being logged.
@@ -40,7 +40,7 @@ class CoCart_Logger {
 			return;
 		}
 
-		if ( apply_filters( 'cocart_logging', true, $type, $plugin ) ) {
+		if ( apply_filters( 'cocart_logging', true, $type, $plugin ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			if ( empty( self::$logger ) ) {
 				self::$logger = wc_get_logger();
 			}
