@@ -42,7 +42,7 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 ## Key Features
 
 * Add simple and variable products to the cart.
-* View the cart contents.
+* View the carts contents.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
@@ -72,12 +72,13 @@ This plugin is just the tip of the iceberg. CoCart Pro completes it with the fol
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
-* **Coming Soon** Retrieve Checkout Fields (In Development)
-* **Coming Soon** Set Cart (In Development)
+* **Coming Soon** Retrieve Checkout Fields (Auditing)
+* **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)
 * **Coming Soon** Return Customers Orders (In Development)
 * **Coming Soon** Return Customers Subscriptions (In Development)
-* **Coming Soon** Return Customers Downloads (In Development)
+* **Coming Soon** Return Customers Downloads (Auditing)
+* **Coming Soon** Return Customers Payment Methods (Auditing)
 * **Coming Soon** Get and Update Customers Profile (In Development)
 
 [Buy CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)

@@ -10,7 +10,7 @@
  * Domain Path: /languages/
  *
  * WC requires at least: 3.6.0
- * WC tested up to: 4.2.0
+ * WC tested up to: 4.3.0
  *
  * Copyright: © 2020 Sébastien Dumont, (mailme@sebastiendumont.com)
  *
@@ -252,7 +252,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
-		 * @version 2.1.5
+		 * @version 2.2.0
 		 * @return  bool
 		 */
 		public static function is_rest_api_request() {
@@ -261,8 +261,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			}
 
 			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-
-			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
+			$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix . 'cocart/' ) );
 
 			return $is_rest_api_request;
 		} // END is_rest_api_request()

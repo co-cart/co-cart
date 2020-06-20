@@ -3,7 +3,7 @@
  * Handles product validation.
  *
  * @since    2.1.0
- * @version  2.1.2
+ * @version  2.2.0
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart/Classes/Product Validation
@@ -32,8 +32,9 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 			// Prevent password products being added to the cart.
 			add_filter( 'cocart_add_to_cart_validation', array( $this, 'protected_product_add_to_cart' ), 10, 2 );
 
-			// Correct product name for missing variation details.
+			// Correct product name for missing variation attributes.
 			add_filter( 'cocart_product_name', array( $this, 'validate_variation_product_name' ), 0, 3 );
+			add_filter( 'cocart_item_added_product_name', array( $this, 'validate_variation_product_name' ), 0, 3 );
 		}
 
 		/**
@@ -65,15 +66,20 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 *
 		 * If variation details are missing then return the product title instead.
 		 *
-		 * @access public
-		 * @param  string $product_name - Product name before change.
-		 * @param  object $_product     - Product data.
-		 * @param  array  $cart_item    - Item details of the product in cart.
-		 * @return string $product_name - Product name after change.
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 2.2.0
+		 * @param   string $product_name - Product name before change.
+		 * @param   object $_product     - Product data.
+		 * @param   array  $cart_item    - Item details of the product in cart.
+		 * @return  string $product_name - Product name after change.
 		 */
 		public function validate_variation_product_name( $product_name, $_product, $cart_item ) {
-			if ( $_product->get_type() == 'variation' ) {
-				if ( empty( $cart_item['variation'] ) ) {
+			if ( $_product->is_type( 'variation' ) ) {
+				$product = wc_get_product( $_product->get_parent_id() );
+				$default_attributes = $product->get_default_attributes();
+
+				if ( empty( $cart_item['variation'] ) && empty( $default_attributes ) ) {
 					return $_product->get_title();
 				}
 			}
