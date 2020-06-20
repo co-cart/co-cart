@@ -152,6 +152,9 @@ class CoCart_Rest_API {
 
 		// Register CoCart REST API routes.
 		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 10 );
+
+		// Allow all cross origin requests.
+		add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
 	} // cart_rest_api_init()
 
 	/**
@@ -165,7 +168,7 @@ class CoCart_Rest_API {
 	 * @version 2.1.2
 	 */
 	private function maybe_load_cart() {
-		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() ) {
+		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && CoCart::is_rest_api_request() ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
 
@@ -327,6 +330,46 @@ class CoCart_Rest_API {
 			$this->$controller->register_routes();
 		}
 	} // END register_cart_routes()
+
+	/**
+	 * Allow all cross origin header requests.
+	 * 
+	 * Disabled by default. Requires `cocart_allow_all_cors` filter set to true to enable.
+	 *
+	 * @access public
+	 * @since  2.1.x
+	 */
+	public function allow_all_cors() {
+		if ( apply_filters( 'cocart_disable_all_cors', true ) ) {
+			return;
+		}
+
+		// Remove the default filter.
+		remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
+
+		// Add cors headers.
+		add_filter( 'rest_pre_serve_request', array( $this, 'cors_headers' ), 0, 4 );
+	} // END allow_all_cors()
+
+	/**
+	 * Cross Origin headers.
+	 *
+	 * @access public
+	 * @since  2.1.x
+	 * @param  bool             $served  Whether the request has already been served. Default false.
+	 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param  WP_REST_Request  $request Request used to generate the response.
+	 * @param  WP_REST_Server   $server  Server instance.
+	 * @return bool
+	 */
+	public function cors_headers( $served, $result, $request, $server ) {
+		header( 'Access-Control-Allow-Origin: *' );
+		header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
+		header( 'Access-Control-Allow-Credentials: true' );
+		header( 'Access-Control-Allow-Headers: X-Requested-With' );
+
+		return $served;
+	} // END cors_headers()
 
 } // END class
 
