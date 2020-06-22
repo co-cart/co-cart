@@ -2,7 +2,7 @@
 
 ## v2.2.0 - 22nd June, 2020
 
-* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_allow_all_cors` filter set to true to enable.
+* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_disable_all_cors` filter set to false to enable.
 * NEW: Returned response after adding an item now returns product name, title and price just like the cart.
 * Tweaked: Improved validation for a variable product to return the product name correctly if variation attributes are missing.
 * Tweaked: Made sure that we check if we are making a request for CoCart API only.
