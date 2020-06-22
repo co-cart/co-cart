@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.2.0 - 20th June, 2020
+## v2.2.0 - 22nd June, 2020
 
 * NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_allow_all_cors` filter set to true to enable.
 * NEW: Returned response after adding an item now returns product name, title and price just like the cart.
