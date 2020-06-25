@@ -160,9 +160,6 @@ class CoCart_API_Session {
 		// Get the cart currently in session if any.
 		$cart_in_session = WC()->session->get( 'cart', null );
 
-		// Get the cart currently in session if any.
-		$cart_in_session = WC()->session->get( 'cart', null );
-
 		$new_cart = array();
 
 		$new_cart['cart']                       = maybe_unserialize( $stored_cart['cart'] );
