@@ -142,20 +142,20 @@ class CoCart_API_Session {
 			$redirect = true;
 		}
 
-		// Check if the cart session exists.
-		if ( ! $this->is_cart_saved( $cart_key ) ) {
-			CoCart_Logger::log( sprintf( __( 'Unable to find cart for: %s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
-
-			if ( $notify_customer ) {
-				wc_add_notice( __( 'Sorry but this cart has expired!', 'cart-rest-api-for-woocommerce' ), 'error' );
-			}
-
-			return;
-		}
-
 		// Get the cart in the database.
 		$handler     = new CoCart_Session_Handler();
 		$stored_cart = $handler->get_cart( $cart_key );
+			  if ( empty( $stored_cart ) ) {
+				  CoCart_Logger::log( sprintf( __( 'Unable to find cart for:
+		%s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
+
+				  if ( $notify_customer ) {
+					  wc_add_notice( __( 'Sorry but this cart has expired!',
+		'cart-rest-api-for-woocommerce' ), 'error' );
+				  }
+
+				  return;
+			  }
 
 		// Get the cart currently in session if any.
 		$cart_in_session = WC()->session->get( 'cart', null );
