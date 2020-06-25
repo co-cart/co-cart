@@ -203,6 +203,12 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
+= v2.2.1 - 26th June, 2020 =
+
+* Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/co-cart/co-cart/pull/125)
+
+> This is a community release by [@yordivd](https://github.com/yordivd)
+
 = v2.2.0 - 22nd June, 2020 =
 
 * NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_disable_all_cors` filter set to false to enable.
@@ -211,72 +217,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 * Tweaked: Made sure that we check if we are making a request for CoCart API only.
 * Tweaked: CoCart logger will only log if `WP_DEBUG` is also set true.
 * Dev: New filters added for returning additional item data once added to cart.
-
-= v2.1.7 - 16th June, 2020 =
-
-* 🔥 Fix: Too few arguments to function `init_session_cookie()`, 0 passed.
-
-= v2.1.6 - 13th June, 2020 =
-
-* Fixed: Return of error response for invalid variation data.
-* Disabled: Use of `sanitize_variation_data` function. Used for wrong purpose.
-
-= v2.1.5 - 12th June, 2020 =
-
-* 🔥 Fix: Filtered `nonce_user_logged_out` returned value for frontend that was causing users logged out to fail verification. 🤦‍♂
-
-= v2.1.4 - 11th June, 2020 =
-
-* 🔥 Fix: Call to undefined method `init_session_cookie()` in session handler causing checkout on the frontend to fail. 🤦‍♂
-
-= v2.1.3 - 6th June, 2020 =
-
-* Changed: Renamed `has_cart` function to `has_session` to prevent issues with other plugins that call `WC()->session->has_session()`.
-* Tweaked: CoCart logger now checks if `WC_Logger` class exists, corrected `cocart_logging` filter and passed `$type` and `$plugin` variables.
-
-= v2.1.2 - 4th June, 2020 =
-
-* NEW: Added support for guest customers.
-* NEW: Carts in session are stored in a new database table.
-* NEW: Carts are in sync across the web store and your headless store.
-* NEW: Added plugin details to **WooCommerce System Status**.
-* NEW: Added `uninstall.php` file to delete table and options.
-* NEW: Able to transfer a cart from your headless store to the web.
-* NEW: Added handlers to improve product validation and extended support for other product types.
-* NEW: Can now add items to cart using a products SKU ID.
-* NEW: When an item is updated, removed or restored... the cart totals are re-calculated.
-* NEW: Added option to logout customer.
-* NEW: Variable products are now validated and can find variation ID from attributes if not already set.
-* NEW: Prevent password protected products from being added to the cart.
-* NEW: Prevent CoCart from being cached with [WP REST API Cache plugin](https://wordpress.org/plugins/wp-rest-api-cache/).
-* Changed: Parameter used to set cart key. Previously `id` now `cart_key`. The `id` used as fallback if still used.
-* Removed: Parameter to re-calculate totals once item was updated.
-* Tweaked: Clear carts debug tool now clears saved carts as well.
-* Tweaked: Products that are no longer purchasable and are already in the cart are removed from the cart.
-* Tweaked: Stop redirect to getting started page if plugin was activated and was already installed before.
-* Tweaked: Prevent redirect to getting started page if multiple plugins activated at once.
-* Dev: Clear all carts stored in session via the Tools section of **WooCommerce System Status**.
-* Dev: Synchronize carts over to CoCart's session table in the database via the Tools section of **WooCommerce System Status**.
-* Dev: Cart expiration can be filtered if the default 30 days is not to your liking.
-* Dev: Generated customer ID can be filtered before storing cart in the database and creates a cookie on the customer's device.
-* Dev: Added filter `cocart_add_to_cart_validation` to allow plugin developers to pass their own validation before item is added to the cart.
-* Dev: Added filter `cocart_update_cart_validation` to allow plugin developers to pass their own validation before item is updated in the cart.
-* Dev: Added filters to override the product name `cocart_product_name` and product title `cocart_product_title` when getting the cart contents.
-* Dev: Added filter `cocart_item_thumbnail_src` to override the source URL of the product thumbnail when getting the cart contents.
-* Dev: Added filter `cocart_add_to_cart_quantity` to override the quantity when adding an item.
-* Dev: Added filter `cocart_add_cart_item_data` so other plugins can pass cart item data when adding an item.
-* Dev: Added filters so the returned response messages can be changed.
-* Dev: Added conditional filter for returning a cart item.
-* Dev: Added hook `cocart_user_switched` to allow something to happen if a user has switched.
-* Dev: Added hook `cocart_load_cart` to manipulate the merged cart before it set in session.
-* Dev: Added hook `cocart_load_cart_override` to manipulate the overriding cart before it set in session.
-* Dev: Added hook `cocart_item_added_updated_in_cart` for when an item was added again but updated in cart.
-* Dev: Added a new class that handles logging errors.
-* Dev: Added filters to admin notices to extend the length of time they hide.
-* Dev: Added filter to override cookie check for authenticated users.
-* Tested: Compatible with WooCommerce v4.2.x
-
-> This update replaces WooCommerce core session handler with CoCart's. 100% backwards compatible.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 

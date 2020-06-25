@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v2.2.1 - 26th June, 2020
+
+* Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/co-cart/co-cart/pull/125)
+
+> This is a community release by [@yordivd](https://github.com/yordivd)
+
 ## v2.2.0 - 22nd June, 2020
 
 * NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_disable_all_cors` filter set to false to enable.
