@@ -4,10 +4,10 @@
 
 <p align="center">
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.0+-+5.4&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.2+-+5.4&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+7.3&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+7.4&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
 	</a>
 </p>
 
@@ -57,6 +57,7 @@ If you are wanting to build a headless WooCommerce store then CoCart is your sol
 * Retrieve the cart totals.
 * Retrieve the item count.
 * Empty the cart.
+* Load cart from session.
 
 ## CoCart Pro
 
