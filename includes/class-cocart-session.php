@@ -149,12 +149,10 @@ class CoCart_API_Session {
 		$stored_cart = $handler->get_cart( $cart_key );
 
 		if ( empty( $stored_cart ) ) {
-			CoCart_Logger::log( sprintf( __( 'Unable to find cart for:
-	%s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
+			CoCart_Logger::log( sprintf( __( 'Unable to find cart for: %s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
 
 			if ( $notify_customer ) {
-				wc_add_notice( __( 'Sorry but this cart has expired!',
-	'cart-rest-api-for-woocommerce' ), 'error' );
+				wc_add_notice( __( 'Sorry but this cart has expired!', 'cart-rest-api-for-woocommerce' ), 'error' );
 			}
 
 			return;
