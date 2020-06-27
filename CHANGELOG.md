@@ -2,7 +2,7 @@
 
 ## v3.0.0 - ?? ??, 2020
 
-* NEW: API routes.
+* **NEW**: API routes.
 * * Cart           - wp-json/cocart/v2/cart
 * * Cart Item      - wp-json/cocart/v2/cart/item
 * * Cart Items     - wp-json/cocart/v2/cart/items
@@ -14,7 +14,8 @@
 * * Clear Cart     - wp-json/cocart/v2/cart/clear
 * * Logout         - wp-json/cocart/v2/cart/logout
 * * Cart Totals    - wp-json/cocart/v2/cart/totals
-* NEW: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* * Store API      - wp-json/cocart/v2/store
+* **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * Dev: New filters.
 * * `cocart_store_index`
 * * `cocart_store_address`
@@ -22,9 +23,15 @@
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
-## v2.2.0 - 20th June, 2020
+## v2.2.1 - 26th June, 2020
 
-* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_allow_all_cors` filter set to true to enable.
+* Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/co-cart/co-cart/pull/125)
+
+> This is a community release by [@yordivd](https://github.com/yordivd)
+
+## v2.2.0 - 22nd June, 2020
+
+* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_disable_all_cors` filter set to false to enable.
 * NEW: Returned response after adding an item now returns product name, title and price just like the cart.
 * Tweaked: Improved validation for a variable product to return the product name correctly if variation attributes are missing.
 * Tweaked: Made sure that we check if we are making a request for CoCart API only.
