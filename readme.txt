@@ -2,8 +2,8 @@
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
 Contributors: sebd86, cocartforwc
-Tags: woocommerce, cart, rest, rest-api, JSON
-Donate link: https://opencollective.com/cocart
+Tags: woocommerce, cart, rest, rest-api, JSON, session
+Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.2
 Tested up to: 5.4.2
@@ -17,7 +17,7 @@ A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 == Description ==
 
-## CoCart: The #1 REST API that handles the frontend of [WooCommerce](https://wordpress.org/plugins/woocommerce/).
+### CoCart: The #1 REST API that handles the frontend of WooCommerce.
 
 [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) handles the shopping cart in any modern framework of your choosing. No local storing required. Powerful and developer friendly ready to build your headless store, **without building an API**.
 
