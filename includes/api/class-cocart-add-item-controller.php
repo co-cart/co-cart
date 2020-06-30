@@ -104,7 +104,15 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			}
 
 			if ( ! empty( $response ) ) {
-				return new WP_REST_Response( $response, 200 );
+				$payload = $response;
+
+				$cart_key_in_body = !empty($data['cart_key_in_body']) ? $data['cart_key_in_body'] : null;
+				if($cart_key_in_body) {
+					$cookie = WC()->session->get_session_cookie();
+					$payload['cart_key'] = $cookie;
+				}
+
+				return new WP_REST_Response( $payload, 200 );
 			}
 		}
 	} // END add_to_cart()
@@ -323,6 +331,11 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_numeric( $value );
 				}
+			),
+			'cart_key_in_body' => array(
+				'description' => __('Returns the WC session cookie value in the payload body as a complement to the session cookie', 'cart-rest-api-for-woocommerce'),
+				'type' => 'boolean',
+				'default' => false
 			),
 			'variation_id' => array(
 				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
