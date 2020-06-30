@@ -174,6 +174,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 */
 		public function includes() {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-data-exception.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-logger.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-product-validation.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session-handler.php' );
