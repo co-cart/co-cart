@@ -109,7 +109,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				$cart_key_in_body = !empty($data['cart_key_in_body']) ? $data['cart_key_in_body'] : null;
 				if($cart_key_in_body) {
 					$cookie = WC()->session->get_session_cookie();
-					$payload['cart_key'] = $cookie;
+					$payload['cart_key'] = $cookie[3]; // Represents the cart hash
 				}
 
 				return new WP_REST_Response( $payload, 200 );
