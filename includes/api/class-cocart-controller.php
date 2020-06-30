@@ -110,7 +110,15 @@ class CoCart_API_Controller {
 			return $cart_contents;
 		}
 
-		return new WP_REST_Response( $cart_contents, 200 );
+		$payload = $cart_contents;
+
+		$cart_key_in_body = !empty($data['cart_key_in_body']) ? $data['cart_key_in_body'] : null;
+		if($cart_key_in_body) {
+			$cookie = WC()->session->get_session_cookie();
+			$payload['cart_key'] = $cookie;
+		}
+
+		return new WP_REST_Response( $payload, 200 );
 	} // END get_cart()
 
 	/**
@@ -776,9 +784,9 @@ class CoCart_API_Controller {
 	} // END find_product_in_cart()
 
 	/**
-	 * Checks if the product in the cart has enough stock 
+	 * Checks if the product in the cart has enough stock
 	 * before updating the quantity.
-	 * 
+	 *
 	 * @access  protected
 	 * @since   1.0.6
 	 * @version 2.1.2
@@ -804,7 +812,7 @@ class CoCart_API_Controller {
 	} // END has_enough_stock()
 
 	/**
-	 * Look's up an item in the cart and returns it's data 
+	 * Look's up an item in the cart and returns it's data
 	 * based on the condition it is being returned for.
 	 *
 	 * @access  public
@@ -967,6 +975,11 @@ class CoCart_API_Controller {
 			'cart_key' => array(
 				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
+			),
+			'cart_key_in_body' => array(
+				'description' => __('Returns the WC session cookie value in the payload body as a complement to the session cookie', 'cart-rest-api-for-woocommerce'),
+				'type' => 'boolean',
+				'default' => false
 			),
 			'thumb' => array(
 				'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
