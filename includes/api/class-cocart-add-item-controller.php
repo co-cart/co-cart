@@ -52,4 +52,246 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		) );
 	} // register_routes()
 
+	/**
+	 * Add to Cart.
+	 *
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @param   WP_REST_Request $request Full details about the request.
+	 * @return  WP_REST_Response
+	 */
+	public function add_to_cart( $request = array() ) {
+		$product_id     = ! isset( $request['product_id'] ) ? 0 : wc_clean( wp_unslash( $request['product_id'] ) );
+		$quantity       = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
+		$variation_id   = ! isset( $request['variation_id'] ) ? 0 : absint( wp_unslash( $request['variation_id'] ) );
+		$variation      = ! isset( $request['variation'] ) ? array() : $request['variation'];
+		$cart_item_data = ! isset( $request['cart_item_data'] ) ? array() : $request['cart_item_data'];
+
+		$controller = new CoCart_Cart_V2_Controller();
+
+		// Filters additional requested data.
+		$request = $controller->filter_request_data( $request );
+
+		// Validate product ID before continuing.
+		$controller->validate_product_id( $product_id );
+
+		// The product we are attempting to add to the cart.
+		$adding_to_cart = wc_get_product( $product_id );
+		$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
+
+		// Add to cart handlers
+		$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
+
+		if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
+			$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $request );
+		} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
+			$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+		} else {
+			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data, $request );
+		}
+
+		// Was it requested to return the whole cart once item added?
+		if ( isset( $request['return_cart'] ) && is_bool( $request['return_cart'] ) && $request['return_cart'] ) {
+			$response = $controller->get_cart_contents( $request );
+		} else {
+			$response = $was_added_to_cart;
+		}
+
+		return new WP_REST_Response( $response, 200 );
+	} // END add_to_cart()
+
+	/**
+	 * Handle adding simple products to the cart.
+	 *
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @param   int|string      $product_id     - Contains the id of the product to add to the cart.
+	 * @param   int|float       $quantity       - Contains the quantity of the item to add to the cart.
+	 * @param   array           $cart_item_data - Contains extra cart item data we want to pass into the item.
+	 * @param   WP_REST_Request $request        - Full details about the request.
+	 * @return  bool            success or not
+	 */
+	public function add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data, $request ) {
+		$controller = new CoCart_Cart_V2_Controller();
+
+		$product_to_add = $controller->validate_product( $product_id, $quantity, 0, array(), $cart_item_data, 'simple', $request );
+
+		// If validation failed then return the error response.
+		/*if ( is_wp_error( $product_to_add ) ) {
+			return $product_to_add;
+		}*/
+
+		// Add item to cart once validation is passed.
+		$item_added = $this->add_item_to_cart( $product_to_add );
+
+		return $item_added;
+	} // END add_to_cart_handler_simple()
+
+	/**
+	 * Handle adding variable products to the cart.
+	 *
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @param   int|string      $product_id     - Contains the id of the product to add to the cart.
+	 * @param   int|float       $quantity       - Contains the quantity of the item to add to the cart.
+	 * @param   int|string      $variation_id   - Contains the id of the product to add to the cart.
+	 * @param   array           $cart_item_data - Contains extra cart item data we want to pass into the item.
+	 * @param   WP_REST_Request $request        - Full details about the request.
+	 * @return  bool            success or not
+	 */
+	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $request ) {
+		$controller = new CoCart_Cart_V2_Controller();
+
+		$product_to_add = $controller->validate_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, 'variable', $request );
+
+		// If validation failed then return the error response.
+		/*if ( is_wp_error( $product_to_add ) ) {
+			return $product_to_add;
+		}*/
+
+		// Add item to cart once validation is passed.
+		$item_added = $this->add_item_to_cart( $product_to_add );
+
+		return $item_added;
+	} // END add_to_cart_handler_variable()
+
+	/**
+	 * Adds the item to the cart once passed validation.
+	 *
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @param   array           $product_to_add - Passes details of the item ready to add to the cart.
+	 * @param   WP_REST_Request $request        - Full details about the request.
+	 * @return  array          $item_added      - Returns details of the added item in the cart.
+	 */
+	public function add_item_to_cart( $product_to_add = array() ) {
+		$product_id     = $product_to_add['product_id'];
+		$quantity       = $product_to_add['quantity'];
+		$variation_id   = $product_to_add['variation_id'];
+		$variation      = $product_to_add['variation'];
+		$cart_item_data = $product_to_add['cart_item_data'];
+		$cart_item_key  = $product_to_add['cart_item_key'];
+		$product_data   = $product_to_add['product_data'];
+		$request        = $product_to_add['request'];
+
+		$controller = new CoCart_Cart_V2_Controller();
+
+		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
+		if ( ! empty( $cart_item_key ) ) {
+			$cart_contents = $controller->get_cart( array( 'raw' => true ) );
+
+			$new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
+
+			WC()->cart->set_quantity( $cart_item_key, $new_quantity );
+
+			$item_added = $controller->get_cart_item( $cart_item_key, 'add' );
+
+			/**
+			 * Action hook will trigger if item was added again but updated in cart.
+			 *
+			 * @since   2.1.0
+			 * @version 3.0.0
+			 * @param   string $cart_item_key
+			 * @param   array  $item_added
+			 * @param   int    $new_quantity
+			 * @param   array  $request
+			 */
+			do_action( 'cocart_item_added_updated_in_cart', $cart_item_key, $item_added, $new_quantity, $request );
+		} else {
+			// Add item to cart.
+			$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
+
+			// Return response to added item to cart or return error.
+			if ( $item_key ) {
+				// Re-calculate cart totals once item has been added.
+				WC()->cart->calculate_totals();
+
+				// Return item details.
+				$item_added = $controller->get_cart_item( $item_key, 'add' );
+
+				/**
+				 * 
+				 * @since   2.
+				 * @version 3.0.0
+				 * @param   $item_key
+				 * @param   $item_added
+				 * @param   $request
+				 */
+				do_action( 'cocart_item_added_to_cart', $item_key, $item_added, $request );
+			} else {
+				/* translators: %s: product name */
+				$message = sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about product cannot be added to cart.
+				 *
+				 * @param string     $message Message.
+				 * @param WC_Product $product_data Product data.
+				 */
+				$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
+
+				throw new CoCart_Data_Exception( 'cocart_cannot_add_to_cart', $message, 403 );
+			}
+		}
+
+		return $item_added;
+	} // END add_item_to_cart()
+
+	/**
+	 * Get the query params for adding items.
+	 *
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @return  array $params
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'product_id' => array(
+				'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'default'     => 0
+			),
+			'quantity' => array(
+				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => 1,
+				'type'              => 'float',
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_numeric( $value );
+				}
+			),
+			'variation_id' => array(
+				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'integer',
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_numeric( $value );
+				}
+			),
+			'variation' => array(
+				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_array( $value );
+				}
+			),
+			'cart_item_data' => array(
+				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
+				'validate_callback' => function( $value, $request, $param ) {
+					return is_array( $value );
+				}
+			),
+			'return_cart' => array(
+				'description' => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
+				'default'     => false,
+				'type'        => 'boolean',
+			)
+		);
+
+		return $params;
+	} // END get_collection_params()
+
 } // END class
