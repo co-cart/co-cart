@@ -33,6 +33,8 @@
 
 <br>
 
+> ⚠️⚠️⚠️This branch is not for production use. It is **STILL IN DEVELOPMENT** and the new API is very likely to change. **DO NOT USE!** ⚠️⚠️⚠️
+
 ## CoCart: The #1 REST API that handles the frontend of [WooCommerce](https://wordpress.org/plugins/woocommerce/).
 
 [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) handles the shopping cart in any modern framework of your choosing. No local storing required. Powerful and developer friendly ready to build your headless store, **without building an API**.
