@@ -33,13 +33,11 @@
 		"JSON"
 	],
 	"require": {
-		"php": ">=7.0",
-		"composer/installers": "1.7.0",
-		"woocommerce/woocommerce": ">=3.6.0"
+		"php": ">=7.2"
 	},
-	"extra": {
-		"installer-paths": {
-			"packages/woocommerce": ["woocommerce/woocommerce"]
+	"config": {
+		"platform": {
+			"php": "7.2"
 		}
 	}
 }
