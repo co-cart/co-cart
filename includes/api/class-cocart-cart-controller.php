@@ -225,7 +225,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
 				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
-				$cart['items'][ $item_key ]['data'] = $cart_item['data'];
+				$cart['items'][ $item_key ]['data'] = $cart_item['data']; // Internal use only!
 			}
 
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
