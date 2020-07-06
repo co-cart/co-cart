@@ -5,6 +5,7 @@
 	"type": "wordpress-plugin",
 	"license": "GPL-3.0-or-later",
 	"prefer-stable": true,
+	"minimum-stability": "dev",
 	"authors": [
 		{
 			"name": "Sébastien Dumont",
@@ -35,8 +36,15 @@
 	"require": {
 		"php": ">=7.0",
 		"automattic/jetpack-autoloader": "^1.7.0",
+		"automattic/jetpack-constants": "^1.1",
 		"composer/installers": "1.7.0",
 		"woocommerce/woocommerce": ">=3.6.0"
+	},
+	"config": {
+		"platform": {
+			"php": "7.1"
+		},
+		"sort-packages": true
 	},
 	"extra": {
 		"installer-paths": {
