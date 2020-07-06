@@ -255,6 +255,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 					'price'      => wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ),
 					'quantity'   => $cart_item['quantity'],
 					'meta' => array(
+						'product_type'          => $_product->get_type(),
 						'sku'                   => $_product->get_sku(),
 						'dimensions'            => array(),
 						'min_purchase_quantity' => $_product->get_min_purchase_quantity(),
