@@ -245,7 +245,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.2
-		 * @version 2.1.5
+		 * @version 2.3.0
 		 * @param   string WooCommerce Session Handler
 		 * @return  string
 		 */
@@ -254,7 +254,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 				return $handler;
 			}
 
-			if ( ! is_admin() || ! defined( 'DOING_AJAX' ) || ! defined( 'DOING_CRON' ) || ! $this->is_rest_api_request() ) {
+			if ( ! is_admin() || ! defined( 'DOING_AJAX' ) || ! defined( 'DOING_CRON' ) || ! CoCart_Helpers::is_rest_api_request() ) {
 				$handler = 'CoCart_Session_Handler';
 			}
 
