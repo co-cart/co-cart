@@ -2,11 +2,11 @@
 /**
  * CoCart - Admin.
  *
- * @since    1.2.0
- * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
+ * @since    1.2.0
+ * @version  2.1.0
  * @license  GPL-2.0+
  */
 
@@ -106,23 +106,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		} // END getting_started_content()
 
 		/**
-		 * Checks if CoCart Pro is installed.
-		 *
-		 * @access public
-		 * @static
-		 * @return array
-		 */
-		public static function is_cocart_pro_installed() {
-			$active_plugins = (array) get_option( 'active_plugins', array() );
-
-			if ( is_multisite() ) {
-				$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
-			}
-	
-			return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
-		} // END is_cocart_pro_installed()
-
-		/**
 		 * These are the only screens CoCart will focus 
 		 * on displaying notices or enqueue scripts/styles.
 		 *
@@ -139,24 +122,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				'toplevel_page_cocart'
 			);
 		} // END cocart_get_admin_screens()
-
-		/**
-		 * Returns true if CoCart is a beta/pre-release.
-		 *
-		 * @access public
-		 * @static
-		 * @return boolean
-		 */
-		public static function is_cocart_beta() {
-			if ( 
-				strpos( COCART_VERSION, 'beta' ) ||
-				strpos( COCART_VERSION, 'rc' )
-			) {
-				return true;
-			}
-
-			return false;
-		} // END is_cocart_beta()
 
 		/**
 		 * Checks if the current user has the capabilities to install a plugin.

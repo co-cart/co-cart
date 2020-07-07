@@ -8,7 +8,8 @@
  * @category API
  * @package  CoCart/API
  * @since    1.0.0
- * @version  2.2.0
+ * @version  2.3.0
+ * @license  GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -165,10 +166,10 @@ class CoCart_Rest_API {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.2.0
+	 * @version 2.3.0
 	 */
 	private function maybe_load_cart() {
-		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && CoCart::is_rest_api_request() ) {
+		if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_rest_api_request() ) {
 			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
 			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
 
@@ -336,8 +337,9 @@ class CoCart_Rest_API {
 	 * 
 	 * Disabled by default. Requires `cocart_allow_all_cors` filter set to true to enable.
 	 *
-	 * @access public
-	 * @since  2.2.0
+	 * @access  public
+	 * @since   2.2.0
+	 * @version 2.3.0
 	 */
 	public function allow_all_cors() {
 		// If not enabled via filter then return.
@@ -346,7 +348,7 @@ class CoCart_Rest_API {
 		}
 
 		// If the REST API request was not for CoCart then return.
-		if ( ! CoCart::is_rest_api_request() ) {
+		if ( ! CoCart_Helpers::is_rest_api_request() ) {
 			return;
 		}
 

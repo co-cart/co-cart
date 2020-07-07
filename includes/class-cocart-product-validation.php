@@ -2,11 +2,11 @@
 /**
  * Handles product validation.
  *
- * @since    2.1.0
- * @version  2.2.0
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart/Classes/Product Validation
+ * @since    2.1.0
+ * @version  2.2.0
  * @license  GPL-2.0+
  */
 

@@ -2,11 +2,11 @@
 /**
  * Display notices in the WordPress admin for CoCart.
  *
- * @since    1.2.0
- * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Notices
+ * @since    1.2.0
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -54,7 +54,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.1.0
+		 * @version 2.3.0
 		 * @global  string $wp_version
 		 * @return  bool
 		 */
@@ -66,7 +66,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				return false;
 			}
 
-			if ( ! version_compare( $wp_version, COCART_WP_VERSION_REQUIRE, '>=' ) ) {
+			if ( ! version_compare( $wp_version, CoCart::$required_wp, '>=' ) ) {
 				add_action( 'admin_notices', array( $this, 'requirement_wp_notice' ) );
 				return false;
 			}
@@ -157,7 +157,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * 
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.1.0
+		 * @version 2.3.0
 		 * @global  $current_user
 		 * @return  void|bool
 		 */
@@ -188,15 +188,15 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				}
 			}
 
-			// Is this version of CoCart a beta/pre-release?
-			if ( CoCart_Admin::is_cocart_beta() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
+			// Is this version of CoCart a pre-release?
+			if ( CoCart_Helpers::is_cocart_pre_release() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
 			}
 
 			// Upgrade warning notice that will disappear once the new release is installed.
 			$upgrade_version = COCART_NEXT_VERSION;
 
-			if ( ! CoCart_Admin::is_cocart_beta() && version_compare( COCART_VERSION, $upgrade_version, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
+			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( COCART_VERSION, $upgrade_version, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
 			}
 		} // END add_notices()

@@ -1,5 +1,12 @@
 # Changelog for CoCart Lite
 
+## v2.3.0 - ?? ??, 2020
+
+* Added: Preparations for CoCart v3.0
+* Bumped: WooCommerce minimum requirement to v4.0
+* Tweaked: Code base.
+* Tested: Compatible with WooCommerce v4.3
+
 ## v2.2.1 - 26th June, 2020
 
 * Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/co-cart/co-cart/pull/125)

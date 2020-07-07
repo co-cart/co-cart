@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.2.1\n"
+"Project-Id-Version: CoCart 2.3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-06-26 01:40:18+00:00\n"
+"POT-Creation-Date: 2020-07-07 18:01:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,11 +24,11 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: cart-rest-api-for-woocommerce.php:78
+#: cart-rest-api-for-woocommerce.php:87
 msgid "Cloning this object is forbidden."
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:88
+#: cart-rest-api-for-woocommerce.php:97
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
@@ -90,73 +90,74 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-screen-update.php:174
+#: includes/admin/class-cocart-admin-plugin-screen-update.php:175
 #. translators: 1: plugin name, 2: version mentioned, 3: details URL
 msgid ""
-"In preparation for <strong>%1$s v%2$s</strong>, support for storing cart "
-"data will be introduced to support guest customers. I am in need of testers "
-"and your feedback. <a href=\"%3$s\" target=\"_blank\">Sign up to Test</a>."
+"Because of the great feedback %1$s users have provided, <strong>%1$s "
+"v%2$s</strong> will be introducing a new and improved API in the future. I "
+"am in need of testers and your feedback. <a href=\"%3$s\" "
+"target=\"_blank\">Sign Up to Test</a>."
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:193
+#: includes/admin/class-cocart-admin.php:158
 #. translators: Number of years
 msgid "%s years"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:195
+#: includes/admin/class-cocart-admin.php:160
 msgid "a year"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:201
+#: includes/admin/class-cocart-admin.php:166
 msgid "%s months"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:203
+#: includes/admin/class-cocart-admin.php:168
 msgid "1 month"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:210
+#: includes/admin/class-cocart-admin.php:175
 #. translators: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:212
+#: includes/admin/class-cocart-admin.php:177
 msgid "a week"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:219
+#: includes/admin/class-cocart-admin.php:184
 #. translators: Number of days
 msgid "%s days"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:221
+#: includes/admin/class-cocart-admin.php:186
 msgid "a day"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:228
+#: includes/admin/class-cocart-admin.php:193
 #. translators: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:230
+#: includes/admin/class-cocart-admin.php:195
 msgid "an hour"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:237
+#: includes/admin/class-cocart-admin.php:202
 #. translators: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:239
+#: includes/admin/class-cocart-admin.php:204
 msgid "a minute"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:246
+#: includes/admin/class-cocart-admin.php:211
 #. translators: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:248
+#: includes/admin/class-cocart-admin.php:213
 msgid "a second"
 msgstr ""
 
@@ -444,55 +445,62 @@ msgid ""
 "WordPress setup."
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:25
-msgid "Thanks for trying out this beta/pre-release of CoCart!"
+#: includes/admin/views/html-notice-trying-beta.php:28
+msgid "Thank you for trying out beta release v%s of CoCart!"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:26
+#: includes/admin/views/html-notice-trying-beta.php:32
+msgid "Thank you for trying out release candidate v%s of CoCart!"
+msgstr ""
+
+#: includes/admin/views/html-notice-trying-beta.php:36
 msgid ""
 "If you have any questions or any feedback at all, please let me know. Any "
-"little bit you're willing to share helps."
+"little bit you're willing to share helps the development of CoCart."
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:30
+#: includes/admin/views/html-notice-trying-beta.php:40
 msgid "Give Feedback for %2$s"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:30
+#: includes/admin/views/html-notice-trying-beta.php:40
 msgid "Give Feedback"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:31
+#: includes/admin/views/html-notice-trying-beta.php:41
 msgid "Hide this notice and ask me again for feedback in 7 days"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:31
+#: includes/admin/views/html-notice-trying-beta.php:41
 msgid "Ask me again in 7 days"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:31
+#: includes/admin/views/html-notice-trying-beta.php:41
 #: includes/admin/views/html-notice-upgrade-warning.php:31
 msgid "Hide this notice forever."
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:31
+#: includes/admin/views/html-notice-trying-beta.php:41
 #: includes/admin/views/html-notice-upgrade-warning.php:31
 msgid "Don't ask me again"
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:25
-msgid "Upgrade Warning!"
+msgid "Thank you for getting me this far!"
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:26
 msgid ""
-"Version %1$s%4$s%2$s of %3$s is coming soon and will provide support for "
-"guest customers among new filters for developers. I am in need of testers "
-"and your feedback."
+"Version %1$s%5$s%2$s of %3$s will be coming in the future and will provide "
+"a %1$sNEW and improved REST API%2$s plus %1$sNEW filters for "
+"developers%2$s. As this is a free plugin, %6$sdonations%8$s or a "
+"%7$spurchase of %4$s %8$s helps maintenance and support of these new "
+"improvements. If you like using %3$s and are able to contribute in either "
+"way, it would be greatly appreciated. 🙂"
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:30
-msgid "Sign up to Test"
+msgid "Sign Up to Test"
 msgstr ""
 
 #: includes/admin/views/html-notice-upgrade-warning.php:31
@@ -893,7 +901,7 @@ msgstr ""
 msgid "No items in cart to calculate totals."
 msgstr ""
 
-#: includes/class-cocart-init.php:218
+#: includes/class-cocart-init.php:219
 msgid "User has changed! Was %s before and is now %s"
 msgstr ""
 
@@ -910,15 +918,15 @@ msgstr ""
 msgid "This product is protected and cannot be purchased."
 msgstr ""
 
-#: includes/class-cocart-session.php:152
+#: includes/class-cocart-session.php:153
 msgid "Unable to find cart for: %s"
 msgstr ""
 
-#: includes/class-cocart-session.php:155
+#: includes/class-cocart-session.php:156
 msgid "Sorry but this cart has expired!"
 msgstr ""
 
-#: includes/class-cocart-session.php:201
+#: includes/class-cocart-session.php:202
 msgid ""
 "Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s "
 "or %2$scheckout%3$s."

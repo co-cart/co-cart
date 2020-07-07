@@ -82,6 +82,9 @@
       padding: 0 !important;
       box-shadow: none !important; }
 
+.notice.inline.notice-cocart {
+  border-color: #b27de3; }
+
 .notice.cocart-notice {
   border-color: #b27de3;
   padding: 20px; }

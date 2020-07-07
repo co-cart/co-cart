@@ -2,11 +2,11 @@
 /**
  * Manages CoCart dashboard assets.
  *
- * @since    1.2.0
- * @version  2.0.3
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
+ * @since    1.2.0
+ * @version  2.0.3
  * @license  GPL-2.0+
  */
 

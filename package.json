@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.2.1",
+	"version": "2.3.0",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -21,7 +21,7 @@
 	"requires": "5.2",
 	"requires_php": "7.2",
 	"tested_up_to": "5.4.2",
-	"wc_requires": "3.6.0",
+	"wc_requires": "4.0.0",
 	"wc_tested_up_to": "4.3.0",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2020, Sébastien Dumont",

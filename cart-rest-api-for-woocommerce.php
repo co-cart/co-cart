@@ -5,11 +5,11 @@
  * Description: CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     2.2.1
+ * Version:     2.3.0
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  *
- * WC requires at least: 3.6.0
+ * WC requires at least: 4.0.0
  * WC tested up to: 4.3.0
  *
  * Copyright: © 2020 Sébastien Dumont, (mailme@sebastiendumont.com)
@@ -28,7 +28,16 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @static
 		 * @since  1.0.0
 		 */
-		public static $version = '2.2.1';
+		public static $version = '2.3.0';
+
+		/**
+		 * Required WordPress Version
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.3.0
+		 */
+		public static $required_wp = '5.2';
 
 		/**
 		 * Required WooCommerce Version
@@ -38,7 +47,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 * @since   1.0.0
 		 * @version 2.1.0
 		 */
-		public static $required_woo = '3.6.0';
+		public static $required_woo = '4.0.0';
 
 		/**
 		 * @var CoCart - the single instance of the class.
@@ -126,7 +135,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.1.0
+		 * @version 2.3.0
 		 */
 		public function setup_constants() {
 			$this->define('COCART_VERSION', self::$version);
@@ -135,8 +144,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			$this->define('COCART_URL_PATH', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 			$this->define('COCART_FILE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-
-			$this->define('COCART_WP_VERSION_REQUIRE', '5.0');
 
 			$this->define('COCART_CART_CACHE_GROUP', 'cocart_cart_id');
 
@@ -147,7 +154,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			$this->define('COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz');
 			$this->define('COCART_TRANSLATION_URL', 'https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/');
 
-			$this->define('COCART_NEXT_VERSION', '2.1.0');
+			$this->define('COCART_NEXT_VERSION', '3.0.0');
 		} // END setup_constants()
 
 		/**
@@ -169,11 +176,12 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.1.0
+		 * @version 2.3.0
 		 * @return  void
 		 */
 		public function includes() {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-autoloader.php' );
+			include_once( COCART_FILE_PATH . '/includes/class-cocart-helpers.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-logger.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-product-validation.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session-handler.php' );
@@ -207,19 +215,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 		} // END admin_includes()
 
 		/**
-		 * Load the plugin translations if any ready.
-		 *
-		 * Translations should be added in the WordPress language directory:
-		 *      - WP_LANG_DIR/plugins/cart-rest-api-for-woocommerce-LOCALE.mo
-		 *
-		 * @access public
-		 * @return void
-		 */
-		public function load_plugin_textdomain() {
-			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-		} // END load_plugin_textdomain()
-
-		/**
 		 * Force WooCommerce to accept CoCart API requests when authenticating.
 		 *
 		 * @access public
@@ -244,26 +239,6 @@ if ( ! class_exists( 'CoCart' ) ) {
 
 			return $request;
 		} // END allow_cocart_requests_wc()
-
-		/**
-		 * Returns true if we are making a REST API request for CoCart.
-		 *
-		 * @access  public
-		 * @static
-		 * @since   2.1.0
-		 * @version 2.2.0
-		 * @return  bool
-		 */
-		public static function is_rest_api_request() {
-			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
-				return false;
-			}
-
-			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-			$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix . 'cocart/' ) );
-
-			return $is_rest_api_request;
-		} // END is_rest_api_request()
 
 		/**
 		 * Returns CoCart session handler class name.
@@ -297,9 +272,9 @@ if ( ! class_exists( 'CoCart' ) ) {
 			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
 				return;
 			}
-	
+
 			$customer_id = strval( get_current_user_id() );
-	
+
 			// Load cart for guest or specific cart.
 			if ( is_numeric( $customer_id ) && $customer_id < 1 ) {
 				$cookie = WC()->session->get_session_cookie();
@@ -335,7 +310,20 @@ if ( ! class_exists( 'CoCart' ) ) {
 				}
 			}
 		} // END load_cart_from_session()
-	
+
+		/**
+		 * Load the plugin translations if any ready.
+		 *
+		 * Translations should be added in the WordPress language directory:
+		 *      - WP_LANG_DIR/plugins/cart-rest-api-for-woocommerce-LOCALE.mo
+		 *
+		 * @access public
+		 * @return void
+		 */
+		public function load_plugin_textdomain() {
+			load_plugin_textdomain( 'cart-rest-api-for-woocommerce', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		} // END load_plugin_textdomain()
+
 	} // END class
 
 } // END if class exists

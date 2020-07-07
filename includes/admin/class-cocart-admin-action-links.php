@@ -2,11 +2,11 @@
 /**
  * Adds links for CoCart on the plugins page.
  *
- * @since    1.2.0
- * @version  2.0.11
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
+ * @since    1.2.0
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -55,7 +55,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.0.11
+		 * @version 2.3.0
 		 * @param   array  $metadata An array of the plugin's metadata.
 		 * @param   string $file     Path to the plugin file.
 		 * @param   array  $data     Plugin Information
@@ -80,7 +80,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				);
 
 				// Checks if CoCart Pro has been installed.
-				if ( ! CoCart_Admin::is_cocart_pro_installed() ) {
+				if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
 					$store_url = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
 
 					$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ) . '" target="_blank" style="color: #c00; font-weight: 700;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );

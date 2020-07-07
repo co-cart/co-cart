@@ -2,11 +2,11 @@
 /**
  * Admin View: Plugin Review Notice.
  *
- * @since    1.2.0
- * @version  2.0.11
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Views
+ * @since    1.2.0
+ * @version  2.0.11
  * @license  GPL-2.0+
  */
 
