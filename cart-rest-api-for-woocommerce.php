@@ -117,6 +117,9 @@ if ( ! class_exists( 'CoCart' ) ) {
 			// Includes WooCommerce tweaks.
 			add_action( 'woocommerce_loaded', array( $this, 'woocommerce' ) );
 
+			// Includes setup for CoCart, notices and admin pages.
+			add_action( 'init', array( $this, 'admin_includes' ) );
+
 			// Load translation files.
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
@@ -186,7 +189,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
 
 			// Include admin classes to handle all back-end functions.
-			$this->admin_includes();
+			//$this->admin_includes();
 		} // END includes()
 
 		/**
