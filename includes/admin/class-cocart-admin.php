@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart/Admin
  * @since    1.2.0
- * @version  2.1.0
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -48,24 +48,27 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		} // END includes()
 
 		/**
-		 * Add CoCart to the menu.
+		 * Add CoCart to the menu and register WooCommerce admin bar.
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.0.1
+		 * @version 2.3.0
 		 */
 		public function admin_menu() {
 			$section = isset( $_GET['section'] ) ? trim( $_GET['section'] ) : 'getting-started';
 
 			switch( $section ) {
 				case 'getting-started':
-					$title = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
+					$title      = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
+					$breadcrumb = esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' );
 					break;
 				default:
-					$title = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
+					$title      = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
+					$breadcrumb = apply_filters( 'cocart_page_wc_bar_breadcrumb_' . strtolower( str_replace( '-', '_', $section ) ), '' );
 					break;
 			}
 
+			// Add CoCart page.
 			add_menu_page(
 				$title,
 				'CoCart',
@@ -74,6 +77,24 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				array( $this, 'cocart_page' ),
 				'dashicons-cart'
 			);
+
+			// Register WooCommerce Admin Bar.
+			if ( CoCart_Helpers::is_wc_version_gte( '4.0' ) && function_exists( 'wc_admin_connect_page' ) ) {
+				wc_admin_connect_page(
+					array(
+						'id'        => 'cocart-getting-started',
+						'screen_id' => 'toplevel_page_cocart',
+						'title'     => array(
+							esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ),
+							$breadcrumb,
+						),
+						'path'      => add_query_arg( array(
+							'page'    => 'cocart',
+							'section' => $section
+						), 'admin.php' ),
+					)
+				);
+			}
 		} // END admin_menu()
 
 		/**
