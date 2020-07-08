@@ -102,14 +102,11 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.1.2
+		 * @version 2.3.0
 		 */
 		public function __construct() {
 			// Setup Constants.
 			$this->setup_constants();
-
-			// Include admin classes to handle all back-end functions.
-			$this->admin_includes();
 
 			// Force WooCommerce to accept CoCart requests when authenticating.
 			add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
@@ -187,6 +184,9 @@ if ( ! class_exists( 'CoCart' ) ) {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session-handler.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
+
+			// Include admin classes to handle all back-end functions.
+			$this->admin_includes();
 		} // END includes()
 
 		/**

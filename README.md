@@ -43,6 +43,10 @@ The question is why not! WooCommerce's REST API is only created for controlling 
 
 If you are wanting to build a headless WooCommerce store for your customers then CoCart is your solution.
 
+## Looking for documentation?
+
+Head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz)
+
 ## Key Features
 
 * Add simple and variable products to the cart.
@@ -114,7 +118,7 @@ CoCart is full of **[filters](https://docs.cocart.xyz/#filters)** and **[action 
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 
-## Support
+## Need Support?
 
 CoCart is released freely and openly. Feedback or ideas and approaches to solving limitations in CoCart is greatly appreciated.
 
@@ -126,13 +130,33 @@ If you are in need of support, please [purchase CoCart Pro](https://cocart.xyz/p
 
 If you think you have found a bug in the plugin, please [open a new issue](https://github.com/co-cart/co-cart/issues/new) and I will do my best to help you out.
 
-## Sponsor CoCart
+## Support CoCart
 
 If you or your company use CoCart or appreciate the work I’m doing in open source, please consider donating via one of the links available on right hand side under "**Sponsor this project**" or [purchasing CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) where you not just get the full cart experience but also support me directly so I can continue maintaining CoCart and keep evolving the project.
 
 Please also consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
 
 Thank you for your support! 🙌
+
+## Testimonials
+
+What can I say this thing has it all. It is the “Missing WooCommerce REST API plugin” without it I was managing users cart myself in weird and wonderful but hacky ways. NOT GOOD and so vulnerable. Then I stumbled upon CoCart and with the help of Seb I got it working how I needed it and he has been supporting me with even the smallest of queries. Really appreciate your work and continued support Seb.
+
+**[Joel Pierre](https://github.com/joelpierre)** – JPPdesigns Web design & Development ⭐️⭐️⭐️⭐️⭐️
+
+***
+
+This plugin was critical to achieve my project of building a headless / decoupled WooCommerce store. I wanted to provide my clients with a CMS to manage their store, but wanted to build the front-end in React. I was able to fetch content over the WooCommerce REST API, but otherwise would not have been able to fetch the cart, and add & remove items if not for this plugin.
+
+Thank you very much Sébastien for sharing this extension, you’ve saved me a lot of time.
+
+**Allan Pooley** – Little and Big ⭐️⭐️⭐️⭐️⭐️
+
+***
+
+Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription.</p>
+
+**MightyGroup** – Rikard Kling ⭐️⭐️⭐️⭐️⭐️
 
 ---
 

@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart/Admin/Views
  * @since    1.2.0
- * @version  2.0.11
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $current_user = wp_get_current_user();
 
-$time = CoCart_Admin::cocart_seconds_to_words( time() - $install_date );
+$time = CoCart_Helpers::cocart_seconds_to_words( time() - $install_date );
 ?>
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
