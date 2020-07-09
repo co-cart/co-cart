@@ -31,7 +31,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Constructor
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.3.0
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
@@ -46,7 +48,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
 
 			// Display other admin notices when required. All are dismissible.
-			add_action( 'admin_print_styles', array( $this, 'add_notices' ), 0 );
+			add_action( 'admin_print_styles', array( $this, 'add_review_notice' ), 0 );
+			add_action( 'admin_print_styles', array( $this, 'add_pre_release_notice' ), 0 );
+			add_action( 'admin_print_styles', array( $this, 'add_upgrade_warning_notice' ), 0 );
 		} // END __construct()
 
 		/**
@@ -150,19 +154,16 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END dont_bug_me()
 
 		/**
-		 * Displays admin notices for the following:
-		 *
-		 * 1. Plugin review, shown after 7 days or more from the time the plugin was installed.
-		 * 2. Testing a beta/pre-release version of the plugin.
-		 * 3. Upgrade warning for a future release coming.
+		 * Displays plugin review notice.
 		 * 
-		 * @access  public
-		 * @since   1.2.0
-		 * @version 2.3.0
-		 * @global  $current_user
-		 * @return  void|bool
+		 * Shown after 2 weeks or more from the time the plugin was installed.
+		 * 
+		 * @access public
+		 * @since  2.3.0
+		 * @global $current_user
+		 * @return void|bool
 		 */
-		public function add_notices() {
+		public function add_review_notice() {
 			global $current_user;
 
 			// If the current user can not install plugins then return nothing!
@@ -170,11 +171,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				return false;
 			}
 
-			$screen    = get_current_screen();
-			$screen_id = $screen ? $screen->id : '';
-
-			// Notices should only show on the main dashboard and on the plugins screen.
-			if ( ! in_array( $screen_id, CoCart_Helpers::cocart_get_admin_screens() ) ) {
+			// Notice should only show on a CoCart page.
+			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
 				return false;
 			}
 
@@ -188,10 +186,54 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 					add_action( 'admin_notices', array( $this, 'plugin_review_notice' ) );
 				}
 			}
+		} // END add_review_notice()
+
+		/**
+		 * Displays notice if user is testing pre-release version of the plugin.
+		 * 
+		 * @access public
+		 * @since  2.3.0
+		 * @global $current_user
+		 * @return void|bool
+		 */
+		public function add_pre_release_notice() {
+			global $current_user;
+
+			// If the current user can not install plugins then return nothing!
+			if ( ! CoCart_Helpers::user_has_capabilities() ) {
+				return false;
+			}
+
+			// Notice should only show on a CoCart page.
+			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
+				return false;
+			}
 
 			// Is this version of CoCart a pre-release?
 			if ( CoCart_Helpers::is_cocart_pre_release() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
+			}
+		} // END add_pre_release_notice()
+
+		/**
+		 * Displays notice with an upgrade warning when a future release is coming.
+		 *
+		 * @access public
+		 * @since  2.3.0
+		 * @global $current_user
+		 * @return void|bool
+		 */
+		public function add_upgrade_warning_notice() {
+			global $current_user;
+
+			// If the current user can not install plugins then return nothing!
+			if ( ! CoCart_Helpers::user_has_capabilities() ) {
+				return false;
+			}
+
+			// Notice should only show on a CoCart page.
+			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
+				return false;
 			}
 
 			// Upgrade warning notice will disappear once the new release is installed.
@@ -207,7 +249,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
 				set_transient( 'cocart_next_version', COCART_NEXT_VERSION );
 			}
-		} // END add_notices()
+		} // END add_upgrade_warning_notice()
 
 		/**
 		 * Shows an upgrade warning notice if the installed version is less

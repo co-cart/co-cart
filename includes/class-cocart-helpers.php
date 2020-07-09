@@ -247,6 +247,25 @@ class CoCart_Helpers {
 	} // END cocart_get_admin_screens()
 
 	/**
+	 * Returns true|false if the user is on a CoCart page.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.3.0
+	 * @return bool
+	 */
+	public static function is_cocart_admin_page() {
+		$screen    = get_current_screen();
+		$screen_id = $screen ? $screen->id : '';
+
+		if ( ! in_array( $screen_id, self::cocart_get_admin_screens() ) ) {
+			return false;
+		}
+
+		return true;
+	} // END is_cocart_admin_page()
+
+	/**
 	 * Checks if the current user has the capabilities to install a plugin.
 	 *
 	 * @access public
