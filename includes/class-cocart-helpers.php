@@ -58,7 +58,7 @@ class CoCart_Helpers {
 	 */
 	private static function get_wc_version() {
 		return defined( 'WC_VERSION' ) && WC_VERSION ? WC_VERSION : null;
-	}
+	} // END get_wc_version()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is 3.6 or greater.
@@ -68,7 +68,7 @@ class CoCart_Helpers {
 	 */
 	public static function is_wc_version_gte_3_6() {
 		return self::is_wc_version_gte( '3.6' );
-	}
+	} // END is_wc_version_gte()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is 4.0 or greater.
@@ -78,7 +78,7 @@ class CoCart_Helpers {
 	 */
 	public static function is_wc_version_gte_4_0() {
 		return self::is_wc_version_gte( '4.0' );
-	}
+	} // END is_wc_version_gte()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
@@ -92,7 +92,7 @@ class CoCart_Helpers {
 			self::$is_wc_version_gte[ $version ] = self::get_wc_version() && version_compare( self::get_wc_version(), $version, '>=' );
 		}
 		return self::$is_wc_version_gte[ $version ];
-	}
+	} // END is_wc_version_gte()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is greater than $version.
@@ -107,10 +107,25 @@ class CoCart_Helpers {
 		}
 
 		return self::$is_wc_version_gt[ $version ];
-	}
+	} // END is_wc_version_gt()
 
 	/**
-	 * Returns true if the installed version of WordPress is greater than or equal to $version.
+	 * Returns true if the WooCommerce version does not meet CoCart requirements.
+	 *
+	 * @access public
+	 * @static
+	 * @return boolean
+	 */
+	public static function is_not_wc_version_required() {
+		if ( version_compare( self::get_wc_version(), CoCart::$required_woo, '<' ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_note_wc_version_required()
+
+	/**
+	 * Returns true if the installed version of WordPress is greater than $version.
 	 *
 	 * @access public
 	 * @param  string  $version
@@ -120,11 +135,11 @@ class CoCart_Helpers {
 		if ( ! isset( self::$is_wp_version_gt[ $version ] ) ) {
 			global $wp_version;
 
-			self::$is_wp_version_gt[ $version ] = $wp_version && version_compare( WC_PB()->plugin_version( true, $wp_version ), $version, '>' );
+			self::$is_wp_version_gt[ $version ] = $wp_version && version_compare( $wp_version, $version, '>' );
 		}
 
 		return self::$is_wp_version_gt[ $version ];
-	}
+	} // END is_wp_version_gt()
 
 	/**
 	 * Returns true if the installed version of WordPress is greater than or equal to $version.
@@ -137,7 +152,7 @@ class CoCart_Helpers {
 		if ( ! isset( self::$is_wp_version_gte[ $version ] ) ) {
 			global $wp_version;
 
-			self::$is_wp_version_gte[ $version ] = $wp_version && version_compare( WC_PB()->plugin_version( true, $wp_version ), $version, '>=' );
+			self::$is_wp_version_gte[ $version ] = $wp_version && version_compare( $wp_version, $version, '>=' );
 		}
 
 		return self::$is_wp_version_gte[ $version ];
@@ -148,12 +163,13 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
+	 * @param  string $version
 	 * @return boolean
 	 */
-	public static function is_cocart_pre_release() {
+	public static function is_cocart_pre_release( $version ) {
 		if ( 
-			strpos( COCART_VERSION, 'beta' ) ||
-			strpos( COCART_VERSION, 'rc' )
+			strpos( $version, 'beta' ) ||
+			strpos( $version, 'rc' )
 		) {
 			return true;
 		}
@@ -166,10 +182,11 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
+	 * @param  string $version
 	 * @return boolean
 	 */
-	public static function is_cocart_beta() {
-		if ( strpos( COCART_VERSION, 'beta' ) ) {
+	public static function is_cocart_beta( $version ) {
+		if ( strpos( $version, 'beta' ) ) {
 			return true;
 		}
 
@@ -183,8 +200,8 @@ class CoCart_Helpers {
 	 * @static
 	 * @return boolean
 	 */
-	public static function is_cocart_rc() {
-		if ( strpos( COCART_VERSION, 'rc' ) ) {
+	public static function is_cocart_rc( $version ) {
+		if ( strpos( $version, 'rc' ) ) {
 			return true;
 		}
 
@@ -364,7 +381,11 @@ class CoCart_Helpers {
 	 * @param  int  $seconds - Time in seconds to check.
 	 * @return bool Whether or not WooCommerce admin has been active for $seconds.
 	 */
-	public static function cocart_active_for( $seconds ) {
+	public static function cocart_active_for( $seconds = '' ) {
+		if ( empty( $seconds ) ) {
+			return true;
+		}
+
 		// Getting install timestamp.
 		$cocart_installed = get_option( 'cocart_install_date', false );
 
