@@ -22,10 +22,10 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		/**
 		 * Constructor
 		 *
-		 * @access  public
+		 * @access public
 		 */
 		public function __construct() {
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ), 10 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 
 			// Adds admin body classes.
 			add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );

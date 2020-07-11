@@ -24,11 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="cocart-notice-content">
 			<h3>
 			<?php
-			if ( CoCart_Helpers::is_cocart_beta() ) {
+			if ( CoCart_Helpers::is_cocart_beta( COCART_VERSION ) ) {
 				echo sprintf( esc_html__( 'Thank you for trying out beta release v%s of CoCart!', 'cart-rest-api-for-woocommerce' ), str_replace( '-beta', '', COCART_VERSION ) );
 			}
 
-			if ( CoCart_Helpers::is_cocart_rc() ) {
+			if ( CoCart_Helpers::is_cocart_rc( COCART_VERSION ) ) {
 				echo sprintf( esc_html__( 'Thank you for trying out release candidate v%s of CoCart!', 'cart-rest-api-for-woocommerce' ), str_replace( '-rc', '', COCART_VERSION ) );
 			}
 			?>

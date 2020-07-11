@@ -164,7 +164,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 				$notice_type = 'notice-cocart';
 
 				// Only show the plugin notice if this version of CoCart is not a pre-release or is lower than the version mentioned in the notice.
-				if ( CoCart_Helpers::is_cocart_pre_release() || version_compare( COCART_NEXT_VERSION, COCART_VERSION, '<=' ) ) {
+				if ( CoCart_Helpers::is_cocart_pre_release( COCART_VERSION ) || version_compare( COCART_NEXT_VERSION, COCART_VERSION, '<=' ) ) {
 					return;
 				}
 
