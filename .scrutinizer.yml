@@ -2,8 +2,9 @@ tools:
   php_code_sniffer:
     config:
       standard: WordPress
+  sensiolabs_security_checker: true
   external_code_coverage:
-    timeout: 2500
+    timeout: 600
 checks:
   php:
     avoid_closing_tag: false
@@ -22,4 +23,5 @@ checks:
     verify_property_names: false
 filter:
   excluded_paths:
+    - includes/api/legacy/
     - languages/
