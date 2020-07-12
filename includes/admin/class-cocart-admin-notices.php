@@ -59,18 +59,15 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @access  public
 		 * @since   1.2.0
 		 * @version 2.3.0
-		 * @global  string $wp_version
 		 * @return  bool
 		 */
 		public function check_wp() {
-			global $wp_version;
-
 			// If the current user can not install plugins then return nothing!
 			if ( ! CoCart_Helpers::user_has_capabilities() ) {
 				return false;
 			}
 
-			if ( ! version_compare( $wp_version, CoCart::$required_wp, '>=' ) ) {
+			if ( ! CoCart_Helpers::is_wp_version_gte( CoCart::$required_wp ) ) {
 				add_action( 'admin_notices', array( $this, 'requirement_wp_notice' ) );
 				return false;
 			}

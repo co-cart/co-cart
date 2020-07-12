@@ -159,14 +159,26 @@ class CoCart_Helpers {
 	} // END is_wp_version_gte()
 
 	/**
+	 * Helper method to get the version of the currently installed CoCart.
+	 *
+	 * @access private
+	 * @static
+	 * @return string
+	 */
+	public static function get_cocart_version() {
+		return defined( 'COCART_VERSION' ) && COCART_VERSION ? COCART_VERSION : null;
+	} // END get_cocart_version()
+
+	/**
 	 * Returns true if CoCart is a pre-release.
 	 *
 	 * @access public
 	 * @static
-	 * @param  string $version
 	 * @return boolean
 	 */
-	public static function is_cocart_pre_release( $version ) {
+	public static function is_cocart_pre_release() {
+		$version = self::get_cocart_version();
+
 		if ( 
 			strpos( $version, 'beta' ) ||
 			strpos( $version, 'rc' )
@@ -182,10 +194,11 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
-	 * @param  string $version
 	 * @return boolean
 	 */
-	public static function is_cocart_beta( $version ) {
+	public static function is_cocart_beta() {
+		$version = self::get_cocart_version();
+
 		if ( strpos( $version, 'beta' ) ) {
 			return true;
 		}
@@ -200,7 +213,9 @@ class CoCart_Helpers {
 	 * @static
 	 * @return boolean
 	 */
-	public static function is_cocart_rc( $version ) {
+	public static function is_cocart_rc() {
+		$version = self::get_cocart_version();
+
 		if ( strpos( $version, 'rc' ) ) {
 			return true;
 		}

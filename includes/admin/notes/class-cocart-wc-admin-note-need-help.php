@@ -1,8 +1,8 @@
 <?php
 /**
- * CoCart - WooCommerce Admin: Upgrade to CoCart Pro.
+ * CoCart - WooCommerce Admin: Need Help?
  *
- * Adds a note to ask the client if they are ready to upgrade to CoCart Pro.
+ * Adds a note to ask the client if they need help with CoCart.
  *
  * @author   Sébastien Dumont
  * @category Admin
@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
+class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 
-	const NOTE_NAME = 'cocart-wc-admin-upgrade-pro';
+	const NOTE_NAME = 'cocart-wc-admin-need-help';
 
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 * @return void
 	 */
 	public function __construct() {
-		self::add_note( self::NOTE_NAME, 30 * DAY_IN_SECONDS );
+		self::add_note( self::NOTE_NAME, 8 * DAY_IN_SECONDS );
 	}
 
 	/**
@@ -48,12 +48,6 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 			return;
 		}
 
-		// Prevent note being created if CoCart Pro is installed.
-		if ( CoCart_Helpers::is_cocart_pro_installed() ) {
-			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( $note_name );
-			return;
-		}
-
 		// Otherwise, create new note.
 		self::create_new_note( $args );
 	} // END add_note()
@@ -67,15 +61,15 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 */
 	public static function get_note_args() {
 		$args = array(
-			'title'        => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),
-			'content'      => sprintf( __( 'Upgrade to %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
+			'title'        => __( 'Need help with CoCart?', 'cart-rest-api-for-woocommerce' ),
+			'content'      => __( 'You can ask a question on the support forum, discuss with other CoCart developers in the Slack community or get priority support.', 'cart-rest-api-for-woocommerce' ),
 			'name'         => self::NOTE_NAME,
 			'check_plugin' => false,
 			'actions'      => array(
 				array(
-					'name'    => 'cocart-pro-learn-more',
-					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'     => 'https://cocart.xyz/pro/?utm_source=inbox',
+					'name'  => 'cocart-learn-more-support',
+					'label' => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
+					'url'   => 'https://cocart.xyz/support/?utm_source=inbox',
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED,
 					'primary' => true
 				)
@@ -87,4 +81,4 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 
 } // END class
 
-return new CoCart_WC_Admin_Upgrade_Pro_Note();
+return new CoCart_WC_Admin_Need_Help_Note();

@@ -1,8 +1,8 @@
 <?php
 /**
- * CoCart - WooCommerce Admin: Upgrade to CoCart Pro.
+ * CoCart - WooCommerce Admin: 6 things you can do CoCart Products API.
  *
- * Adds a note to ask the client if they are ready to upgrade to CoCart Pro.
+ * Adds a note for the client giving a helping hand with accessing products via API.
  *
  * @author   Sébastien Dumont
  * @category Admin
@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
+class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 
-	const NOTE_NAME = 'cocart-wc-admin-upgrade-pro';
+	const NOTE_NAME = 'cocart-wc-admin-do-with-products';
 
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 * @return void
 	 */
 	public function __construct() {
-		self::add_note( self::NOTE_NAME, 30 * DAY_IN_SECONDS );
+		self::add_note( self::NOTE_NAME );
 	}
 
 	/**
@@ -48,9 +48,20 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 			return;
 		}
 
-		// Prevent note being created if CoCart Pro is installed.
-		if ( CoCart_Helpers::is_cocart_pro_installed() ) {
-			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( $note_name );
+		// Don't add note if there are products.
+		$query    = new \WC_Product_Query(
+			array(
+				'limit'    => 1,
+				'paginate' => true,
+				'return'   => 'ids',
+				'status'   => array( 'publish' ),
+			)
+		);
+
+		$products = $query->get_products();
+		$count    = $products->total;
+
+		if ( 0 !== $count ) {
 			return;
 		}
 
@@ -67,15 +78,15 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 */
 	public static function get_note_args() {
 		$args = array(
-			'title'        => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),
-			'content'      => sprintf( __( 'Upgrade to %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
+			'title'        => sprintf( __( '6 things you can do %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
+			'content'      => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
 			'name'         => self::NOTE_NAME,
 			'check_plugin' => false,
 			'actions'      => array(
 				array(
-					'name'    => 'cocart-pro-learn-more',
-					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'     => 'https://cocart.xyz/pro/?utm_source=inbox',
+					'name'  => 'cocart-learn-more-products',
+					'label' => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
+					'url'   => 'https://cocart.xyz/6-things-you-can-do-with-cocart-products/?utm_source=inbox',
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED,
 					'primary' => true
 				)
@@ -87,4 +98,4 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 
 } // END class
 
-return new CoCart_WC_Admin_Upgrade_Pro_Note();
+return new CoCart_WC_Admin_Do_With_Products_Note();

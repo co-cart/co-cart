@@ -37,13 +37,15 @@ $pro_url    = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
 
 			<h1><?php printf( __( 'Welcome to %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></h1>
 
-			<p><?php printf( __( 'Thank you for choosing %s - the one and only REST API for WooCommerce in the market that handles the cart.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+			<p><?php printf( __( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ); ?>
 
-			<p><?php printf( __( '%s makes it easy to control and manage the shopping cart in any framework of your choosing. No local storing required. Powerful and developer friendly ready to build your headless store, without building an API.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+			<p><?php printf( __( '%s saves you time and money to develop a REST API. No local storing and zero configuration required. Powerful and developer friendly for any modern framework of your choosing ready to build your headless store.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+
+			<p><?php printf( __( 'Now that you have %s installed, your ready to start developing.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
 
 			<?php
 			// Display warning notice if WooCommerce is not installed or the minimum required version.
-			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+			if ( ! defined( 'WC_VERSION' ) || CoCart_Helpers::is_not_wc_version_required() ) {
 				echo '<p><strong>' . sprintf( __( 'It appears you either do not have %1$s installed or have the minimum required version to be compatible with %2$s. Please install or update your %1$s setup.', 'cart-rest-api-for-woocommerce' ), 'WooCommerce', 'CoCart' ) . '</strong></p>';
 			}
 			?>
