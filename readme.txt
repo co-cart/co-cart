@@ -83,7 +83,7 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 
 ### Priority support
 
-I aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that I do prioritize support. Communication is handled privately via direct messaging in [Slack](https://app.slack.com/client/TD85PLSMA/) is available to people who bought [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) or paid for the [14 day priority support](https://cocart.xyz/product/14-day-priority-support/).
+I aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that I do prioritize support. Communication is handled privately via direct messaging in [Slack](https://app.slack.com/client/TD85PLSMA/) and is available to people who bought [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) or paid for the [14 day priority support](https://cocart.xyz/product/14-day-priority-support/).
 
 #### Add-ons to further enhance your cart.
 
@@ -206,25 +206,19 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
-= v2.2.1 - 26th June, 2020 =
+= v2.3.0 - ?? July, 2020 =
 
-* Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/co-cart/co-cart/pull/125)
-
-> This is a community release by [@yordivd](https://github.com/yordivd)
-
-= v2.2.0 - 22nd June, 2020 =
-
-* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_disable_all_cors` filter set to false to enable.
-* NEW: Returned response after adding an item now returns product name, title and price just like the cart.
-* Tweaked: Improved validation for a variable product to return the product name correctly if variation attributes are missing.
-* Tweaked: Made sure that we check if we are making a request for CoCart API only.
-* Tweaked: CoCart logger will only log if `WP_DEBUG` is also set true.
-* Dev: New filters added for returning additional item data once added to cart.
+* **NEW**: Connected with WooCommerce Admin.
+* **NEW**: Notes are provided for help, feedback and guides.
+* Added: Preparations for CoCart v3.0
+* Bumped: WooCommerce minimum requirement to v4.0
+* Tested: Compatible with WooCommerce v4.3
+* Tweaked: Code base for the backend.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 2.2.0 =
+= 2.3.0 =
 
-* NEW: Support for allowing all cross origin header requests to pass. Requires `cocart_disable_all_cors` filter set to false to enable.
+* Tested: Compatible with WooCommerce v4.3
