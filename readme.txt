@@ -52,30 +52,30 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 
-> ### CoCart Pro
-> CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
->
-> - **Priority** Support for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
-> - Add and Remove Coupons to Cart<br />
-> - Retrieve Applied Coupons<br />
-> - Retrieve Coupon Discount Total<br />
-> - Retrieve Cart Total Weight<br />
-> - Retrieve Cross Sells<br />
-> - Retrieve and Set Payment Method<br />
-> - Retrieve and Set Shipping Methods<br />
-> - Retrieve and Set Fees<br />
-> - Calculate Shipping Fees<br />
-> - Calculate Totals and Fees<br />
-> - **Coming Soon** Retrieve Checkout Fields (Auditing)<br />
-> - **Coming Soon** Set Cart Customer (In Development)<br />
-> - **Coming Soon** Create Order (In Development)<br />
-> - **Coming Soon** Return Customers Orders (Auditing)<br />
-> - **Coming Soon** Return Customers Subscriptions (Auditing)<br />
-> - **Coming Soon** Return Customers Downloads (Auditing)<br />
-> - **Coming Soon** Return Customers Payment Methods (Auditing)<br />
-> - **Coming Soon** Get and Update Customers Profile (In Development)<br />
->
-> [Buy CoCart Pro Now](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+### CoCart Pro
+CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
+
+* **Priority** Support for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
+* Add and Remove Coupons to Cart
+* Retrieve Applied Coupons
+* Retrieve Coupon Discount Total
+* Retrieve Cart Total Weight
+* Retrieve Cross Sells
+* Retrieve and Set Payment Method
+* Retrieve and Set Shipping Methods
+* Retrieve and Set Fees
+* Calculate Shipping Fees
+* Calculate Totals and Fees
+* **Coming Soon** Retrieve Checkout Fields (Auditing)
+* **Coming Soon** Set Cart Customer (In Development)
+* **Coming Soon** Create Order (In Development)
+* **Coming Soon** Return Customers Orders (Auditing)
+* **Coming Soon** Return Customers Subscriptions (Auditing)
+* **Coming Soon** Return Customers Downloads (Auditing)
+* **Coming Soon** Return Customers Payment Methods (Auditing)
+* **Coming Soon** Get and Update Customers Profile (In Development)
+
+[Buy CoCart Pro Now](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 ### Extensions supported
 
