@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart 2.3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-07-12 16:06:32+00:00\n"
+"POT-Creation-Date: 2020-07-14 14:41:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,11 +24,11 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: cart-rest-api-for-woocommerce.php:87
+#: cart-rest-api-for-woocommerce.php:89
 msgid "Cloning this object is forbidden."
 msgstr ""
 
-#: cart-rest-api-for-woocommerce.php:97
+#: cart-rest-api-for-woocommerce.php:99
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
@@ -198,67 +198,67 @@ msgstr ""
 msgid "Carts are now synchronized."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:81
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:79
 msgid "6 things you can do %s"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:82
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:80
 msgid ""
 "Fetching your products via the REST API should be easy with no "
 "authentication issues. Learn more about the six things you can do with %1$s "
 "to help your development with %2$s."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:88
-#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:71
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:77
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:86
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:69
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:75
 msgid "Learn more"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:64
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:62
 msgid "Help improve CoCart"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:65
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:63
 msgid ""
 "I'd love your input to shape the future of the CoCart REST API together.  "
 "Feel free to share any feedback, ideas or suggestions that you have."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:71
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:69
 msgid "Share feedback"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:64
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:62
 msgid "Need help with CoCart?"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:65
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:63
 msgid ""
 "You can ask a question on the support forum, discuss with other CoCart "
 "developers in the Slack community or get priority support."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:64
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:62
 msgid "Thank you for install %s!"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:65
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:63
 msgid ""
 "Now you are ready to start developing your headless store. Visit the "
 "documentation site for examples, action hooks and filters and more."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:71
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:69
 #: includes/admin/views/html-getting-started.php:54
 msgid "View Documentation"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:70
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:68
 msgid "Ready to take your headless store to the next level?"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:71
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:69
 msgid ""
 "Upgrade to %s and unlock more cart features and supported WooCommerce "
 "extensions."
