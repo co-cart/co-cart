@@ -211,6 +211,14 @@ module.exports = function(grunt) {
 						to: "Description: <%= pkg.description %>"
 					},
 					{
+						from: /Requires at least:.*$/m,
+						to: "Requires at least: <%= pkg.requires %>"
+					},
+					{
+						from: /Requires PHP:.*$/m,
+						to: "Requires PHP: <%= pkg.requires_php %>"
+					},
+					{
 						from: /WC requires at least:.*$/m,
 						to: "WC requires at least: <%= pkg.wc_requires %>"
 					},
