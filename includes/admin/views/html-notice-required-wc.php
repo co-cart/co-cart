@@ -2,11 +2,11 @@
 /**
  * Admin View: Required WooCommerce Notice.
  *
- * @since    2.0.0
- * @version  2.0.11
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Views
+ * @since    2.0.0
+ * @version  2.0.11
  * @license  GPL-2.0+
  */
 

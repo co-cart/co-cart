@@ -7,6 +7,7 @@
  * @package  CoCart/Session
  * @since    2.1.0
  * @version  2.2.1
+ * @license  GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

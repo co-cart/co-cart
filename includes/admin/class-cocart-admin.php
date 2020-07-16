@@ -2,11 +2,11 @@
 /**
  * CoCart - Admin.
  *
- * @since    1.2.0
- * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
+ * @since    1.2.0
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -25,8 +25,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			// Include classes.
-			self::includes();
+			add_action( 'admin_init', array( $this, 'includes' ) );
 
 			// Add admin page.
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
@@ -37,35 +36,39 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.1.0
+		 * @version 2.3.0
 		 */
 		public function includes() {
-			include( dirname( __FILE__ ) . '/class-cocart-admin-action-links.php' );         // Action Links
-			include( dirname( __FILE__ ) . '/class-cocart-admin-assets.php' );               // Admin Assets
-			include( dirname( __FILE__ ) . '/class-cocart-admin-plugin-screen-update.php' ); // Plugin Screen Update
-			include( dirname( __FILE__ ) . '/class-cocart-admin-notices.php' );              // Plugin Notices
-			include( dirname( __FILE__ ) . '/class-cocart-wc-admin-system-status.php' );     // WooCommerce System Status
+			include_once( dirname( __FILE__ ) . '/class-cocart-admin-action-links.php' );         // Action Links
+			include_once( dirname( __FILE__ ) . '/class-cocart-admin-assets.php' );               // Admin Assets
+			include_once( dirname( __FILE__ ) . '/class-cocart-admin-plugin-screen-update.php' ); // Plugin Screen Update
+			include_once( dirname( __FILE__ ) . '/class-cocart-admin-notices.php' );              // Plugin Notices
+			include_once( dirname( __FILE__ ) . '/class-cocart-wc-admin-notices.php' );           // WooCommerce Admin Notices
+			include_once( dirname( __FILE__ ) . '/class-cocart-wc-admin-system-status.php' );     // WooCommerce System Status
 		} // END includes()
 
 		/**
-		 * Add CoCart to the menu.
+		 * Add CoCart to the menu and register WooCommerce admin bar.
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.0.1
+		 * @version 2.3.0
 		 */
 		public function admin_menu() {
 			$section = isset( $_GET['section'] ) ? trim( $_GET['section'] ) : 'getting-started';
 
 			switch( $section ) {
 				case 'getting-started':
-					$title = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
+					$title      = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
+					$breadcrumb = esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' );
 					break;
 				default:
-					$title = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
+					$title      = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
+					$breadcrumb = apply_filters( 'cocart_page_wc_bar_breadcrumb_' . strtolower( str_replace( '-', '_', $section ) ), '' );
 					break;
 			}
 
+			// Add CoCart page.
 			add_menu_page(
 				$title,
 				'CoCart',
@@ -74,6 +77,24 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				array( $this, 'cocart_page' ),
 				'dashicons-cart'
 			);
+
+			// Register WooCommerce Admin Bar.
+			if ( CoCart_Helpers::is_wc_version_gte( '4.0' ) && function_exists( 'wc_admin_connect_page' ) ) {
+				wc_admin_connect_page(
+					array(
+						'id'        => 'cocart-getting-started',
+						'screen_id' => 'toplevel_page_cocart',
+						'title'     => array(
+							esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ),
+							$breadcrumb,
+						),
+						'path'      => add_query_arg( array(
+							'page'    => 'cocart',
+							'section' => $section
+						), 'admin.php' ),
+					)
+				);
+			}
 		} // END admin_menu()
 
 		/**
@@ -104,150 +125,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		public function getting_started_content() {
 			include_once( dirname( __FILE__ ) . '/views/html-getting-started.php' );
 		} // END getting_started_content()
-
-		/**
-		 * Checks if CoCart Pro is installed.
-		 *
-		 * @access public
-		 * @static
-		 * @return array
-		 */
-		public static function is_cocart_pro_installed() {
-			$active_plugins = (array) get_option( 'active_plugins', array() );
-
-			if ( is_multisite() ) {
-				$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
-			}
-	
-			return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
-		} // END is_cocart_pro_installed()
-
-		/**
-		 * These are the only screens CoCart will focus 
-		 * on displaying notices or enqueue scripts/styles.
-		 *
-		 * @access  public
-		 * @static
-		 * @since   2.0.0
-		 * @version 2.0.1
-		 * @return  array
-		 */
-		public static function cocart_get_admin_screens() {
-			return array(
-				'dashboard',
-				'plugins',
-				'toplevel_page_cocart'
-			);
-		} // END cocart_get_admin_screens()
-
-		/**
-		 * Returns true if CoCart is a beta/pre-release.
-		 *
-		 * @access public
-		 * @static
-		 * @return boolean
-		 */
-		public static function is_cocart_beta() {
-			if ( 
-				strpos( COCART_VERSION, 'beta' ) ||
-				strpos( COCART_VERSION, 'rc' )
-			) {
-				return true;
-			}
-
-			return false;
-		} // END is_cocart_beta()
-
-		/**
-		 * Checks if the current user has the capabilities to install a plugin.
-		 *
-		 * @access public
-		 * @static
-		 * @since  2.1.0
-		 * @return bool
-		 */
-		public static function user_has_capabilities() {
-			if ( current_user_can( apply_filters( 'cocart_install_capability', 'install_plugins' ) ) ) {
-				return true;
-			}
-
-			// If the current user can not install plugins then return nothing!
-			return false;
-		} // END user_has_capabilities()
-
-		/**
-		 * Seconds to words.
-		 *
-		 * Forked from: https://github.com/thatplugincompany/login-designer/blob/master/includes/admin/class-login-designer-feedback.php
-		 *
-		 * @access public
-		 * @static
-		 * @param  string $seconds Seconds in time.
-		 * @return string
-		 */
-		public static function cocart_seconds_to_words( $seconds ) {
-			// Get the years.
-			$years = ( intval( $seconds ) / YEAR_IN_SECONDS ) % 100;
-			if ( $years > 1 ) {
-				/* translators: Number of years */
-				return sprintf( __( '%s years', 'cart-rest-api-for-woocommerce' ), $years );
-			} elseif ( $years > 0 ) {
-				return __( 'a year', 'cart-rest-api-for-woocommerce' );
-			}
-
-			// Get the months.
-			$months = ( intval( $seconds ) / MONTH_IN_SECONDS ) % 52;
-			if ( $months > 1 ) {
-				return sprintf( __( '%s months', 'cart-rest-api-for-woocommerce' ), $months );
-			} elseif ( $months > 0 ) {
-				return __( '1 month', 'cart-rest-api-for-woocommerce' );
-			}
-
-			// Get the weeks.
-			$weeks = ( intval( $seconds ) / WEEK_IN_SECONDS ) % 52;
-			if ( $weeks > 1 ) {
-				/* translators: Number of weeks */
-				return sprintf( __( '%s weeks', 'cart-rest-api-for-woocommerce' ), $weeks );
-			} elseif ( $weeks > 0 ) {
-				return __( 'a week', 'cart-rest-api-for-woocommerce' );
-			}
-
-			// Get the days.
-			$days = ( intval( $seconds ) / DAY_IN_SECONDS ) % 7;
-			if ( $days > 1 ) {
-				/* translators: Number of days */
-				return sprintf( __( '%s days', 'cart-rest-api-for-woocommerce' ), $days );
-			} elseif ( $days > 0 ) {
-				return __( 'a day', 'cart-rest-api-for-woocommerce' );
-			}
-
-			// Get the hours.
-			$hours = ( intval( $seconds ) / HOUR_IN_SECONDS ) % 24;
-			if ( $hours > 1 ) {
-				/* translators: Number of hours */
-				return sprintf( __( '%s hours', 'cart-rest-api-for-woocommerce' ), $hours );
-			} elseif ( $hours > 0 ) {
-				return __( 'an hour', 'cart-rest-api-for-woocommerce' );
-			}
-
-			// Get the minutes.
-			$minutes = ( intval( $seconds ) / MINUTE_IN_SECONDS ) % 60;
-			if ( $minutes > 1 ) {
-				/* translators: Number of minutes */
-				return sprintf( __( '%s minutes', 'cart-rest-api-for-woocommerce' ), $minutes );
-			} elseif ( $minutes > 0 ) {
-				return __( 'a minute', 'cart-rest-api-for-woocommerce' );
-			}
-
-			// Get the seconds.
-			$seconds = intval( $seconds ) % 60;
-			if ( $seconds > 1 ) {
-				/* translators: Number of seconds */
-				return sprintf( __( '%s seconds', 'cart-rest-api-for-woocommerce' ), $seconds );
-			} elseif ( $seconds > 0 ) {
-				return __( 'a second', 'cart-rest-api-for-woocommerce' );
-			}
-		} // END cocart_seconds_to_words()
 
 	} // END class
 

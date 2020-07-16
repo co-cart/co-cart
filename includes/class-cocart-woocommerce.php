@@ -2,10 +2,10 @@
 /**
  * Handles tweaks made to WooCommerce to support CoCart.
  *
- * @since    2.1.2
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart/Classes/WooCommerce
+ * @since    2.1.2
  * @license  GPL-2.0+
  */
 

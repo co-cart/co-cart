@@ -2,11 +2,11 @@
 /**
  * Admin View: Getting Started.
  *
- * @since    1.2.0
- * @version  2.0.11
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Views
+ * @since    1.2.0
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -14,26 +14,38 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$campaign_args = array(
+	'utm_medium'   => 'co-cart-lite',
+	'utm_source'   => 'WordPress',
+	'utm_campaign' => 'liteplugin',
+	'utm_content'  => 'getting-started'
+);
+$store_url  = add_query_arg( $campaign_args, COCART_STORE_URL );
+$addons_url = add_query_arg( $campaign_args, COCART_STORE_URL . 'add-ons/' );
+$pro_url    = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
 ?>
 <div class="wrap cocart getting-started">
 
 	<div class="container">
 		<div class="content">
 			<div class="logo">
-				<a href="<?php echo COCART_STORE_URL; ?>" target="_blank">
+				<a href="<?php echo $store_url; ?>" target="_blank">
 					<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="CoCart Logo" />
 				</a>
 			</div>
 
 			<h1><?php printf( __( 'Welcome to %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></h1>
 
-			<p><?php printf( __( 'Thank you for choosing %s - the one and only REST API for WooCommerce in the market that handles the cart.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+			<p><?php printf( __( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ); ?>
 
-			<p><?php printf( __( '%s makes it easy to control and manage the shopping cart in any framework of your choosing. Powerful and developer friendly, ready to build your headless store the way you want.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+			<p><?php printf( __( '%s saves you time and money to develop a REST API. No local storing and zero configuration required. Powerful and developer friendly for any modern framework of your choosing ready to build your headless store.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+
+			<p><?php printf( __( 'Now that you have %s installed, your ready to start developing.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
 
 			<?php
 			// Display warning notice if WooCommerce is not installed or the minimum required version.
-			if ( ! defined( 'WC_VERSION' ) || version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+			if ( ! defined( 'WC_VERSION' ) || CoCart_Helpers::is_not_wc_version_required() ) {
 				echo '<p><strong>' . sprintf( __( 'It appears you either do not have %1$s installed or have the minimum required version to be compatible with %2$s. Please install or update your %1$s setup.', 'cart-rest-api-for-woocommerce' ), 'WooCommerce', 'CoCart' ) . '</strong></p>';
 			}
 			?>
@@ -46,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php
 	// Display extra content if CoCart Pro is NOT installed.
-	if ( ! CoCart_Admin::is_cocart_pro_installed() ) {
+	if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
 	?>
 		<div class="container">
 			<div class="content">
@@ -87,7 +99,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<p><?php printf( __( 'There are many add-ons also available to extend %s to enhance your development and your customers shopping experience.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
 
 				<p style="text-align: center;">
-					<?php printf( '<a class="button button-secondary button-medium" href="%1$s" target="_blank">%2$s</a>', esc_url( 'https://cocart.xyz/add-ons/?utm_source=WordPress&utm_medium=link&utm_campaign=liteplugin&utm_content=getting-started' ), esc_html__( 'See all Add-ons', 'cart-rest-api-for-woocommerce' ) ); ?>
+					<?php printf( '<a class="button button-secondary button-medium" href="%1$s" target="_blank">%2$s</a>', esc_url( $addons_url ), esc_html__( 'See all Add-ons', 'cart-rest-api-for-woocommerce' ) ); ?>
 				</p>
 
 				<p class="price-tag"><sub>$</sub>159<sup>/yr</sup></p>
@@ -95,7 +107,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<p><?php printf( __( 'Upgrade to %s and get plugin updates and support per year up to 10 websites. Access to all pro add-ons plus all future pro add-ons.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ); ?></p>
 
 				<p style="text-align: center;">
-					<?php printf( '<a class="button upgrade button-medium" href="%1$s" target="_blank">%2$s</a>', esc_url( 'https://cocart.xyz/pro/?utm_source=WordPress&utm_medium=link&utm_campaign=liteplugin&utm_content=getting-started' ), esc_html__( 'Upgrade Now', 'cart-rest-api-for-woocommerce' ) ); ?>
+					<?php printf( '<a class="button upgrade button-medium" href="%1$s" target="_blank">%2$s</a>', esc_url( $pro_url ), esc_html__( 'Upgrade Now', 'cart-rest-api-for-woocommerce' ) ); ?>
 				</p>
 			</div>
 		</div>
@@ -104,11 +116,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="content">
 				<h2 style="text-align: center;"><?php _e( 'Testimonials', 'cart-rest-api-for-woocommerce' ); ?></h2>
 
+				<p>What can I say this thing has it all. It is the “Missing WooCommerce REST API plugin” without it I was managing users cart myself in weird and wonderful but hacky ways. NOT GOOD and so vulnerable. Then I stumbled upon CoCart and with the help of Seb I got it working how I needed it and he has been supporting me with even the smallest of queries. Really appreciate your work and continued support Seb.</p>
+
+				<strong>Joel Pierre</strong> – JPPdesigns Web design & Development <img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
+				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
+				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
+				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
+				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
+
 				<p>This plugin was critical to achieve my project of building a headless / decoupled WooCommerce store. I wanted to provide my clients with a CMS to manage their store, but wanted to build the front-end in React. I was able to fetch content over the WooCommerce REST API, but otherwise would not have been able to fetch the cart, and add & remove items if not for this plugin.</p>
 
 				<p>Thank you very much Sébastien for sharing this extension, you’ve saved me a lot of time.</p>
 
-				<strong>Allan Pooley</strong> - <img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
+				<strong>Allan Pooley</strong> – Little and Big <img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
 				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
 				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
 				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
@@ -116,7 +136,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p>Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription.</p>
 
-				<strong>MightyGroup</strong> - <img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
+				<strong>MightyGroup</strong> – Rikard Kling <img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
 				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
 				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">
 				<img draggable="false" class="emoji" alt="⭐" src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-lazy-src="https://s.w.org/images/core/emoji/12.0.0-1/svg/2b50.svg" data-was-processed="true">

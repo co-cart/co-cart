@@ -1,14 +1,14 @@
 <?php
 /**
- * CoCart - System Status.
+ * CoCart - WooCommerce System Status.
  *
  * Adds additional related information to the WooCommerce System Status.
  *
- * @since    2.1.0
- * @version  2.1.2
  * @author   Sébastien Dumont
  * @category Admin
- * @package  CoCart/Admin/System Status
+ * @package  CoCart/Admin/WooCommerce System Status
+ * @since    2.1.0
+ * @version  2.1.2
  * @license  GPL-2.0+
  */
 

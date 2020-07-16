@@ -23,6 +23,19 @@
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.3.0 - 14th July, 2020
+
+This release brings an improved code base for the backend and connects with WooCommerce's Admin bar. New notes exclusively for CoCart have been created that are triggered for when the client needs them. This release also makes preparations for CoCart v3.0 and tested with WooCommerce v4.3
+
+* **NEW**: Connected with WooCommerce Admin.
+* **NEW**: Notes are provided for help, feedback and guides.
+* Added: Preparations for CoCart v3.0
+* Added: Plugin requirements to main plugin file header.
+* Bumped: WooCommerce minimum requirement to v4.0
+* De-bumped: PHP minimum requirement to v7.0 to match WooCommerce's current requirement.
+* Tested: Compatible with WooCommerce v4.3
+* Improved: Code base for the backend.
+
 ## v2.2.1 - 26th June, 2020
 
 * Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/co-cart/co-cart/pull/125)

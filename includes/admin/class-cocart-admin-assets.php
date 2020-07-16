@@ -2,11 +2,11 @@
 /**
  * Manages CoCart dashboard assets.
  *
- * @since    1.2.0
- * @version  2.0.3
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
+ * @since    1.2.0
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -22,17 +22,17 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		/**
 		 * Constructor
 		 *
-		 * @access  public
+		 * @access public
 		 */
 		public function __construct() {
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ), 10 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 
 			// Adds admin body classes.
 			add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 		} // END __construct()
 
 		/**
-		 * Registers and enqueues Stylesheets.
+		 * Registers and enqueue Stylesheets.
 		 *
 		 * @access public
 		 */
@@ -41,7 +41,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			$screen_id = $screen ? $screen->id : '';
 			$suffix    = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
-			if ( in_array( $screen_id, CoCart_Admin::cocart_get_admin_screens() ) ) {
+			if ( in_array( $screen_id, CoCart_Helpers::cocart_get_admin_screens() ) ) {
 				wp_register_style( COCART_SLUG . '_admin', COCART_URL_PATH . '/assets/css/admin/cocart' . $suffix . '.css' );
 				wp_enqueue_style( COCART_SLUG . '_admin' );
 			}

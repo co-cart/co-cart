@@ -2,10 +2,11 @@
 /**
  * Manages CoCart plugin update notices.
  *
- * @since    2.0.12
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin
+ * @since    2.0.12
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -119,7 +120,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.3
-		 * @version 2.1.0
+		 * @version 2.3.0
 		 * @param   string $file        Plugin basename.
 		 * @param   array  $plugin_data Plugin information.
 		 * @return  false|void
@@ -160,18 +161,18 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 					$active_class = is_plugin_active( $file ) ? ' active' : '';
 				}
 
-				$notice_type = 'notice-warning';
+				$notice_type = 'notice-cocart';
 
-				// Only show the plugin notice if this version of CoCart is not a beta or is lower than the version mentioned in the notice.
-				if ( CoCart_Admin::is_cocart_beta() || version_compare( COCART_NEXT_VERSION, COCART_VERSION, '<=' ) ) {
+				// Only show the plugin notice if this version of CoCart is not a pre-release or is lower than the version mentioned in the notice.
+				if ( CoCart_Helpers::is_cocart_pre_release() || version_compare( COCART_NEXT_VERSION, COCART_VERSION, '<=' ) ) {
 					return;
 				}
 
-				echo '<tr class="plugin-update-tr' . $active_class . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . $notice_type . ' notice-alt"><p>';
+				echo '<tr class="plugin-update-tr' . $active_class . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . $notice_type . '"><p>';
 
 				/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
 				printf(
-					__( 'In preparation for <strong>%1$s v%2$s</strong>, support for storing cart data will be introduced to support guest customers. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Sign up to Test</a>.', 'cart-rest-api-for-woocommerce' ),
+					__( 'Because of the great feedback %1$s users have provided, <strong>%1$s v%2$s</strong> will be introducing a new and improved API in the future. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Sign Up to Test</a>.', 'cart-rest-api-for-woocommerce' ),
 					$plugin_name,
 					COCART_NEXT_VERSION,
 					esc_url( 'https://cocart.xyz/contact/' )

@@ -211,6 +211,14 @@ module.exports = function(grunt) {
 						to: "Description: <%= pkg.description %>"
 					},
 					{
+						from: /Requires at least:.*$/m,
+						to: "Requires at least: <%= pkg.requires %>"
+					},
+					{
+						from: /Requires PHP:.*$/m,
+						to: "Requires PHP: <%= pkg.requires_php %>"
+					},
+					{
 						from: /WC requires at least:.*$/m,
 						to: "WC requires at least: <%= pkg.wc_requires %>"
 					},
@@ -225,6 +233,14 @@ module.exports = function(grunt) {
 					{
 						from: /public static \$version = \'.*.'/m,
 						to: "public static $version = '<%= pkg.version %>'"
+					},
+					{
+						from: /public static \$required_wp = \'.*.'/m,
+						to: "public static $required_wp = '<%= pkg.requires %>'"
+					},
+					{
+						from: /public static \$required_woo = \'.*.'/m,
+						to: "public static $required_woo = '<%= pkg.wc_requires %>'"
 					}
 				]
 			},

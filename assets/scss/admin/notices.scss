@@ -1,4 +1,9 @@
 .notice {
+
+	&.inline.notice-cocart {
+		border-color: $cocart;
+	}
+
 	&.cocart-notice {
 		border-color: $cocart;
 		padding: 20px;

@@ -1,29 +1,43 @@
 {
-    "name": "co-cart/co-cart",
-    "description": "A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.",
-    "homepage": "https://github.com/co-cart/co-cart",
-    "type": "wordpress-plugin",
-    "license": "GPL-2.0-or-later",
-    "prefer-stable": true,
-    "authors": [
-        {
-            "name": "Sébastien Dumont",
-            "email": "mailme@sebastiendumont.com",
-            "homepage": "https://sebastiendumont.com",
-            "role": "Developer"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/co-cart/co-cart/issues"
-    },
-    "keywords": [
-      "wordpress",
-      "plugin",
-      "woocommerce",
-      "api",
-      "cart"
-    ],
-    "require": {
-        "composer/installers": "~1.2"
-    }
+	"name": "co-cart/co-cart",
+	"description": "CoCart is a REST API for WooCommerce. It focuses on the front-end of the store to manage the shopping cart allowing developers to build a headless store.",
+	"homepage": "https://cocart.xyz",
+	"type": "wordpress-plugin",
+	"license": "GPL-3.0-or-later",
+	"prefer-stable": true,
+	"authors": [
+		{
+			"name": "Sébastien Dumont",
+			"email": "mailme@sebastiendumont.com",
+			"homepage": "https://sebastiendumont.com",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/co-cart/co-cart/issues"
+	},
+	"keywords": [
+		"wordpress",
+		"wordpress-development",
+		"feature-plugin",
+		"plugin",
+		"woocommerce",
+		"woocommerce-api",
+		"woocommerce-extension",
+		"woocommerce-plugin",
+		"e-commerce",
+		"api",
+		"cart",
+		"rest",
+		"rest-api",
+		"JSON"
+	],
+	"require": {
+		"php": ">=7.2"
+	},
+	"config": {
+		"platform": {
+			"php": "7.2"
+		}
+	}
 }

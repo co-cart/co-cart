@@ -2,11 +2,11 @@
 /**
  * Admin View: Trying Beta Notice.
  *
- * @since    1.2.0
- * @version  2.1.0
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart/Admin/Views
+ * @since    1.2.0
+ * @version  2.3.0
  * @license  GPL-2.0+
  */
 
@@ -22,8 +22,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-notice-content">
-			<h3><?php echo esc_html__( 'Thanks for trying out this beta/pre-release of CoCart!', 'cart-rest-api-for-woocommerce' ); ?></h3>
-			<p><?php echo esc_html__( 'If you have any questions or any feedback at all, please let me know. Any little bit you\'re willing to share helps.', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<h3>
+			<?php
+			if ( CoCart_Helpers::is_cocart_beta( COCART_VERSION ) ) {
+				echo sprintf( esc_html__( 'Thank you for trying out beta release v%s of CoCart!', 'cart-rest-api-for-woocommerce' ), str_replace( '-beta', '', COCART_VERSION ) );
+			}
+
+			if ( CoCart_Helpers::is_cocart_rc( COCART_VERSION ) ) {
+				echo sprintf( esc_html__( 'Thank you for trying out release candidate v%s of CoCart!', 'cart-rest-api-for-woocommerce' ), str_replace( '-rc', '', COCART_VERSION ) );
+			}
+			?>
+			</h3>
+			<p><?php echo esc_html__( 'If you have any questions or any feedback at all, please let me know. Any little bit you\'re willing to share helps the development of CoCart.', 'cart-rest-api-for-woocommerce' ); ?></p>
 		</div>
 
 		<div class="cocart-action">

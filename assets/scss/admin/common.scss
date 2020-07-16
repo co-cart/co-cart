@@ -1,4 +1,33 @@
+.wrap.cocart {
+	margin-top: 6em;
+}
+
 .cocart {
+
+	#wpcontent,
+	#wpbody-content {
+		overflow-x: inherit !important;
+	}
+
+	#wpcontent,
+	#wpbody-content {
+		padding: 0;
+		overflow-x: hidden !important;
+		min-height: calc(100vh - 32px);
+	}
+
+	.woocommerce-layout__header-breadcrumbs {
+		margin :0;
+	}
+
+	.woocommerce-layout__header-breadcrumbs span:first-child {
+		display: none;
+	}
+
+	.woocommerce-layout__header-breadcrumbs span:nth-child( 2 )::before {
+		content: none;
+	}
+
 	.container {
 		background-color: $white;
 		border: 1px solid $lightgrey;
