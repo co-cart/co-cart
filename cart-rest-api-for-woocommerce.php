@@ -33,6 +33,15 @@ if ( ! class_exists( 'CoCart' ) ) {
 		public static $version = '3.0.0-beta.1';
 
 		/**
+		 * Required WordPress Version
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.3.0
+		 */
+		public static $required_wp = '5.2';
+
+		/**
 		 * Required WooCommerce Version
 		 *
 		 * @access  public
