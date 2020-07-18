@@ -206,6 +206,12 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
+= v2.3.1 - 18th July, 2020 =
+
+* Corrected: Thank you note.
+* Fixed: Installation/Update of CoCart.
+* Fixed: Return of system status data.
+
 = v2.3.0 - 14th July, 2020 =
 
 This release brings an improved code base for the backend and connects with WooCommerce's Admin bar. New notes exclusively for CoCart have been created that are triggered for when the client needs them. This release also makes preparations for CoCart v3.0 and tested with WooCommerce v4.3
@@ -223,6 +229,6 @@ This release brings an improved code base for the backend and connects with WooC
 
 == Upgrade Notice ==
 
-= 2.3.0 =
+= 2.3.1 =
 
-* Tested: Compatible with WooCommerce v4.3
+* Fixed: Installation/Update of CoCart.
