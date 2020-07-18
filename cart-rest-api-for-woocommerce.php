@@ -178,7 +178,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.0.0
-		 * @version 2.3.0
+		 * @version 2.3.1
 		 * @return  void
 		 */
 		public function includes() {
@@ -189,9 +189,7 @@ if ( ! class_exists( 'CoCart' ) ) {
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session-handler.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-session.php' );
 			include_once( COCART_FILE_PATH . '/includes/class-cocart-init.php' );
-
-			// Include admin classes to handle all back-end functions.
-			//$this->admin_includes();
+			require_once( COCART_FILE_PATH . '/includes/class-cocart-install.php' );
 		} // END includes()
 
 		/**
@@ -208,14 +206,14 @@ if ( ! class_exists( 'CoCart' ) ) {
 		/**
 		 * Include admin classes to handle all back-end functions.
 		 *
-		 * @access public
-		 * @since  1.2.2
-		 * @return void
+		 * @access  public
+		 * @since   1.2.2
+		 * @version 2.3.1
+		 * @return  void
 		 */
 		public function admin_includes() {
 			if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-				include_once( dirname( __FILE__ ) . '/includes/admin/class-cocart-admin.php' );
-				require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' ); // Install CoCart.
+				include_once( COCART_FILE_PATH . '/includes/admin/class-cocart-admin.php' );
 			}
 		} // END admin_includes()
 
