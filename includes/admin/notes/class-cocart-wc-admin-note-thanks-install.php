@@ -8,6 +8,7 @@
  * @category Admin
  * @package  CoCart/Admin/WooCommerce Admin/Notes
  * @since    2.3.0
+ * @version  2.3.1
  * @license  GPL-2.0+
  */
 
@@ -59,7 +60,7 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	 */
 	public static function get_note_args() {
 		$args = array(
-			'title'        => sprintf( __( 'Thank you for install %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+			'title'        => sprintf( __( 'Thank you for installing %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
 			'content'      => __( 'Now you are ready to start developing your headless store. Visit the documentation site for examples, action hooks and filters and more.', 'cart-rest-api-for-woocommerce' ),
 			'name'         => self::NOTE_NAME,
 			'check_plugin' => false,

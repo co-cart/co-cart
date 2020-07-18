@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart/Admin/WooCommerce System Status
  * @since    2.1.0
- * @version  2.1.2
+ * @version  2.3.1
  * @license  GPL-2.0+
  */
 
@@ -60,10 +60,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		/**
 		 * Gets the system status data to return.
 		 *
-		 * @access private
+		 * @access public
 		 * @return array $data
 		 */
-		private function get_system_status_data() {
+		public function get_system_status_data() {
 			$data = array();
 
 			$data['cocart_version'] = array(
