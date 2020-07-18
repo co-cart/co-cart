@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.3.0\n"
+"Project-Id-Version: CoCart 2.3.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-07-14 14:41:40+00:00\n"
+"POT-Creation-Date: 2020-07-18 13:05:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -239,17 +239,17 @@ msgid ""
 "developers in the Slack community or get priority support."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:62
-msgid "Thank you for install %s!"
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:63
+msgid "Thank you for installing %s!"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:63
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:64
 msgid ""
 "Now you are ready to start developing your headless store. Visit the "
 "documentation site for examples, action hooks and filters and more."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:69
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:70
 #: includes/admin/views/html-getting-started.php:54
 msgid "View Documentation"
 msgstr ""
