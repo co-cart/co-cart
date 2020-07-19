@@ -18,6 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 
+	/**
+	 * Name of the note for use in the database.
+	 */
 	const NOTE_NAME = 'cocart-wc-admin-need-help';
 
 	/**
@@ -59,16 +62,15 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 	 */
 	public static function get_note_args() {
 		$args = array(
-			'title'        => __( 'Need help with CoCart?', 'cart-rest-api-for-woocommerce' ),
-			'content'      => __( 'You can ask a question on the support forum, discuss with other CoCart developers in the Slack community or get priority support.', 'cart-rest-api-for-woocommerce' ),
-			'name'         => self::NOTE_NAME,
-			'check_plugin' => false,
-			'actions'      => array(
+			'title'   => __( 'Need help with CoCart?', 'cart-rest-api-for-woocommerce' ),
+			'content' => __( 'You can ask a question on the support forum, discuss with other CoCart developers in the Slack community or get priority support.', 'cart-rest-api-for-woocommerce' ),
+			'name'    => self::NOTE_NAME,
+			'actions' => array(
 				array(
-					'name'  => 'cocart-learn-more-support',
-					'label' => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'   => 'https://cocart.xyz/support/?utm_source=inbox',
-					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED,
+					'name'    => 'cocart-learn-more-support',
+					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
+					'url'     => 'https://cocart.xyz/support/?utm_source=inbox',
+					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
 					'primary' => true
 				)
 			)
