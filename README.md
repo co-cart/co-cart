@@ -1,4 +1,4 @@
-<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v2.3.1&label=&color=9a6fc4&style=flat-square"></a></h1>
+<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v2.4.0&label=&color=9a6fc4&style=flat-square"></a></h1>
 
 <p align="center"><a href="https://cocart.xyz" target="_blank">CoCart</a> is a REST API for <a href="https://woocommerce.com" target="_blank">WooCommerce</a>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart and allows developers to build a headless store in any framework of their choosing.</p>
 
@@ -82,6 +82,7 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
+* **Coming Soon** Register Customers (Auditing)
 * **Coming Soon** Retrieve Checkout Fields (Auditing)
 * **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)
