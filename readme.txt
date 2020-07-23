@@ -7,7 +7,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.3.1
+Stable tag: 2.4.0
 WC requires at least: 4.0.0
 WC tested up to: 4.3.1
 License: GPLv3
@@ -206,6 +206,17 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
+= v2.4.0 - 23rd July, 2020 =
+
+The code base was improved to prevent errors should WooCommerce not be activated while CoCart still is.
+
+* **NEW**: Added another note to remind users that they can activate CoCart Pro if installed but not activated.
+* Fixed: Fatal error for `WC_Session` class if WooCommerce is disabled but CoCart was not.
+* Improved: Newly added notes for WooCommerce Admin inbox.
+* Tweaked: WooCommerce System Tools to hide options to clear WooCommerce sessions and synchronizes carts if table is empty.
+* Tested: Compatible with WooCommerce v4.3.1
+* Tested: Compatible with WordPress v5.5
+
 = v2.3.1 - 18th July, 2020 =
 
 * Corrected: Thank you note.
@@ -229,6 +240,6 @@ This release brings an improved code base for the backend and connects with WooC
 
 == Upgrade Notice ==
 
-= 2.3.1 =
+= 2.4.0 =
 
-* Fixed: Installation/Update of CoCart.
+* Fixed: Fatal error for `WC_Session` class if WooCommerce was disabled but CoCart was not.

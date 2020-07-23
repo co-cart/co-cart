@@ -1,5 +1,16 @@
 # Changelog for CoCart Lite
 
+## v2.4.0 - 23rd July, 2020
+
+The code base was improved to prevent errors should WooCommerce not be activated while CoCart still is.
+
+* **NEW**: Added another note to remind users that they can activate CoCart Pro if installed but not activated.
+* Fixed: Fatal error for `WC_Session` class if WooCommerce is disabled but CoCart was not.
+* Improved: Newly added notes for WooCommerce Admin inbox.
+* Tweaked: WooCommerce System Tools to hide options to clear WooCommerce sessions and synchronizes carts if table is empty.
+* Tested: Compatible with WooCommerce v4.3.1
+* Tested: Compatible with WordPress v5.5
+
 ## v2.3.1 - 18th July, 2020
 
 * Corrected: Thank you note.
