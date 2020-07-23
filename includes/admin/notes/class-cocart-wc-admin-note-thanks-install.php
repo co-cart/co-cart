@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart/Admin/WooCommerce Admin/Notes
  * @since    2.3.0
- * @version  2.3.1
+ * @version  2.4.0
  * @license  GPL-2.0+
  */
 
@@ -34,11 +34,13 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Add note.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @param $note_name  Note name.
-	 * @param $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param $source     Source of the note.
+	 * @since   2.3.0
+	 * @version 2.4.0
+	 * @param   $note_name  Note name.
+	 * @param   $seconds    How many seconds since CoCart was installed before the notice is shown.
+	 * @param   $source     Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -47,6 +49,14 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 
 		// If no arguments return then we cant create a note.
 		if ( is_array( $args ) && empty( $args ) ) {
+			return;
+		}
+
+		$data_store = \WC_Data_Store::load( 'admin-note' );
+
+		// We already have this note? Then don't create it again.
+		$note_ids = $data_store->get_notes_with_name( self::NOTE_NAME );
+		if ( ! empty( $note_ids ) ) {
 			return;
 		}
 
