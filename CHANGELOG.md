@@ -1,5 +1,13 @@
 # Changelog for CoCart Lite
 
+## v2.5.0 - 10th August, 2020
+
+This minor release adds support for the recent changes made to the REST API in the coming WordPress 5.5 to allow CoCart to still work as it is a public REST API.
+
+No changes have been made to the API it self. Just made sure that each route has the correct permission call back applied.
+
+If you are still using the legacy API and have updated to WordPress 5.5, then you will no longer be able to use it as it will no longer register.
+
 ## v2.4.0 - 23rd July, 2020
 
 The code base was improved to prevent errors should WooCommerce not be activated while CoCart still is.

@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    1.0.0
- * @version  2.3.0
+ * @version  2.5.0
  * @license  GPL-2.0+
  */
 
@@ -284,13 +284,15 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.5.0
 	 */
 	public function rest_api_includes() {
 		$this->maybe_load_cart();
 
-		// Legacy - WC Cart REST API v2 controller.
-		include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
+		if ( CoCart_Helpers::is_wp_version_lt( '5.5' ) ) {
+			// Legacy - WC Cart REST API v2 controller.
+			include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
+		}
 
 		// CoCart REST API controllers.
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
@@ -308,7 +310,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.5.0
 	 */
 	public function register_cart_routes() {
 		$controllers = array(
@@ -327,8 +329,10 @@ class CoCart_Rest_API {
 		);
 
 		foreach ( $controllers as $controller ) {
-			$this->$controller = new $controller();
-			$this->$controller->register_routes();
+			if ( class_exists( $controller ) ) {
+				$this->$controller = new $controller();
+				$this->$controller->register_routes();
+			}
 		}
 	} // END register_cart_routes()
 

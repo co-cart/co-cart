@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/API
  * @since    2.1.0
- * @version  2.1.1
+ * @version  2.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,14 +32,17 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 2.5.0
 	 */
 	public function register_routes() {
 		// Calculate Cart Total - cocart/v1/calculate (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'  => WP_REST_Server::CREATABLE,
-			'callback' => array( $this, 'calculate_totals' ),
-			'args'     => array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => array( $this, 'calculate_totals' ),
+			'permission_callback' => '__return_true',
+			'args'                => array(
 				'return' => array(
 					'default'     => false,
 					'description' => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
