@@ -289,7 +289,8 @@ class CoCart_Rest_API {
 	public function rest_api_includes() {
 		$this->maybe_load_cart();
 
-		if ( CoCart_Helpers::is_wp_version_lt( '5.5' ) ) {
+		// Only include Legacy REST API if WordPress is v5.4.2 or lower.
+		if ( CoCart_Helpers::is_wp_version_lt( '5.4.2' ) ) {
 			// Legacy - WC Cart REST API v2 controller.
 			include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
 		}
