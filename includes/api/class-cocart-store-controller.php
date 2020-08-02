@@ -61,9 +61,11 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	public function get_store( $request ) {
 		// General store data.
 		$available = array(
-			'name'            => get_option( 'blogname' ),
+			'version'         => trailingslashit( home_url() . '/' .rest_get_url_prefix() . '/cocart/v2/' ),
+			'title'           => get_option( 'blogname' ),
 			'description'     => get_option( 'blogdescription' ),
 			'home_url'        => home_url(),
+			'language'        => get_bloginfo( 'language' ),
 			'gmt_offset'      => get_option( 'gmt_offset' ),
 			'timezone_string' => get_option( 'timezone_string' ),
 			'store_address'   => $this->get_store_address(),
@@ -122,8 +124,8 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 			'update-item'  =>  $prefix . 'cart/update-item',
 			'remove-item'  =>  $prefix . 'cart/remove-item',
 			'restore-item' =>  $prefix . 'cart/restore-item',
-			'logout'       =>  $prefix . 'cart/logout',
 			'totals'       =>  $prefix . 'cart/totals',
+			'logout'       =>  $prefix . 'logout'
 		) );
 	} // END get_routes()
 
