@@ -6,7 +6,7 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
- * @version  2.2.1
+ * @version  2.4.0
  * @license  GPL-2.0+
  */
 
@@ -84,12 +84,16 @@ class CoCart_API_Session {
 	/**
 	 * Cleans up carts from the database that have expired.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
+	 * @since   2.1.0
+	 * @version 2.4.0
 	 */
 	public static function cleanup_carts() {
-		$handler = new CoCart_Session_Handler();
-		$handler->cleanup_sessions();
+		if ( class_exists( 'CoCart_Session_Handler' ) ) {
+			$handler = new CoCart_Session_Handler();
+			$handler->cleanup_sessions();
+		}
 	} // END cleanup_carts()
 
 	/**

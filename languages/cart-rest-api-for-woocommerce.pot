@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.3.0\n"
+"Project-Id-Version: CoCart 2.4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-07-14 14:41:40+00:00\n"
+"POT-Creation-Date: 2020-07-23 14:05:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -147,7 +147,7 @@ msgstr ""
 
 #: includes/admin/class-cocart-wc-admin-system-status.php:173
 #: includes/admin/class-cocart-wc-admin-system-status.php:184
-#: includes/admin/class-cocart-wc-admin-system-status.php:200
+#: includes/admin/class-cocart-wc-admin-system-status.php:202
 msgid "Note:"
 msgstr ""
 
@@ -171,94 +171,109 @@ msgstr ""
 msgid "only"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:196
+#: includes/admin/class-cocart-wc-admin-system-status.php:198
 msgid "Synchronize carts"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:197
+#: includes/admin/class-cocart-wc-admin-system-status.php:199
 msgid "Synchronize (%d) cart/s"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:201
+#: includes/admin/class-cocart-wc-admin-system-status.php:203
 msgid ""
 "This will copy any existing carts from WooCommerce's session table to "
 "CoCart's session table in the database. If cart already exists for a "
 "customer then it will not sync for that customer."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:219
+#: includes/admin/class-cocart-wc-admin-system-status.php:225
 msgid "All active carts have been cleared and %s saved carts."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:230
+#: includes/admin/class-cocart-wc-admin-system-status.php:236
 msgid "All expired carts have now been cleared from the database."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:249
+#: includes/admin/class-cocart-wc-admin-system-status.php:255
 msgid "Carts are now synchronized."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:79
+#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:106
+msgid "%s is not Activated!"
+msgstr ""
+
+#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:107
+msgid ""
+"You have %1$s installed but it's not activated yet. Activate %1$s to unlock "
+"the full cart experience and support for WooCommerce extensions like "
+"subscriptions now."
+msgstr ""
+
+#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:112
+msgid "Activate %s"
+msgstr ""
+
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:82
 msgid "6 things you can do %s"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:80
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:83
 msgid ""
 "Fetching your products via the REST API should be easy with no "
 "authentication issues. Learn more about the six things you can do with %1$s "
 "to help your development with %2$s."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:86
-#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:69
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:75
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:89
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:71
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:77
 msgid "Learn more"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:62
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:65
 msgid "Help improve CoCart"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:63
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:66
 msgid ""
 "I'd love your input to shape the future of the CoCart REST API together.  "
 "Feel free to share any feedback, ideas or suggestions that you have."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:69
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:71
 msgid "Share feedback"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:62
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:65
 msgid "Need help with CoCart?"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:63
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:66
 msgid ""
 "You can ask a question on the support forum, discuss with other CoCart "
 "developers in the Slack community or get priority support."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:62
-msgid "Thank you for install %s!"
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:76
+msgid "Thank you for installing %s!"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:63
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:77
 msgid ""
 "Now you are ready to start developing your headless store. Visit the "
 "documentation site for examples, action hooks and filters and more."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:69
+#: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:82
 #: includes/admin/views/html-getting-started.php:54
 msgid "View Documentation"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:68
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:71
 msgid "Ready to take your headless store to the next level?"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:69
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:72
 msgid ""
 "Upgrade to %s and unlock more cart features and supported WooCommerce "
 "extensions."
@@ -992,15 +1007,15 @@ msgstr ""
 msgid "This product is protected and cannot be purchased."
 msgstr ""
 
-#: includes/class-cocart-session.php:153
+#: includes/class-cocart-session.php:157
 msgid "Unable to find cart for: %s"
 msgstr ""
 
-#: includes/class-cocart-session.php:156
+#: includes/class-cocart-session.php:160
 msgid "Sorry but this cart has expired!"
 msgstr ""
 
-#: includes/class-cocart-session.php:202
+#: includes/class-cocart-session.php:206
 msgid ""
 "Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s "
 "or %2$scheckout%3$s."

@@ -18,6 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 
+	/**
+	 * Name of the note for use in the database.
+	 */
 	const NOTE_NAME = 'cocart-wc-admin-do-with-products';
 
 	/**
@@ -76,16 +79,16 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 */
 	public static function get_note_args() {
 		$args = array(
-			'title'        => sprintf( __( '6 things you can do %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
-			'content'      => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
-			'name'         => self::NOTE_NAME,
-			'check_plugin' => false,
-			'actions'      => array(
+			'title'   => sprintf( __( '6 things you can do %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
+			'content' => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
+			'type'    => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING,
+			'name'    => self::NOTE_NAME,
+			'actions' => array(
 				array(
-					'name'  => 'cocart-learn-more-products',
-					'label' => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'   => 'https://cocart.xyz/6-things-you-can-do-with-cocart-products/?utm_source=inbox',
-					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED,
+					'name'    => 'cocart-learn-more-products',
+					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
+					'url'     => 'https://cocart.xyz/6-things-you-can-do-with-cocart-products/?utm_source=inbox',
+					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
 					'primary' => true
 				)
 			)

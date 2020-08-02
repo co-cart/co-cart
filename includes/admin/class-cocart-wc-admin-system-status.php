@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart/Admin/WooCommerce System Status
  * @since    2.1.0
- * @version  2.1.2
+ * @version  2.4.0
  * @license  GPL-2.0+
  */
 
@@ -60,10 +60,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		/**
 		 * Gets the system status data to return.
 		 *
-		 * @access private
+		 * @access public
 		 * @return array $data
 		 */
-		private function get_system_status_data() {
+		public function get_system_status_data() {
 			$data = array();
 
 			$data['cocart_version'] = array(
@@ -160,7 +160,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.0
-		 * @version 2.1.2
+		 * @version 2.4.0
 		 * @param   array $tools - All tools before adding ours.
 		 * @return  array $tools - All tools after adding ours.
 		 */
@@ -192,16 +192,22 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			$carts_to_sync = $this->carts_in_session( 'woocommerce' );
 
-			$tools['cocart_sync_carts'] = array(
-				'name'   => esc_html__( 'Synchronize carts', 'cart-rest-api-for-woocommerce' ),
-				'button' => sprintf( esc_html__( 'Synchronize (%d) cart/s', 'cart-rest-api-for-woocommerce' ), $carts_to_sync ),
-				'desc'   => sprintf(
-					'<strong class="red">%1$s</strong> %2$s',
-					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-					esc_html__( 'This will copy any existing carts from WooCommerce\'s session table to CoCart\'s session table in the database. If cart already exists for a customer then it will not sync for that customer.', 'cart-rest-api-for-woocommerce' )
-				),
-				'callback' => array( $this, 'synchronize_carts' ),
-			);
+			// Only show synchronize carts option if required.
+			if ( $carts_to_sync > 0 ) {
+				$tools['cocart_sync_carts'] = array(
+					'name'   => esc_html__( 'Synchronize carts', 'cart-rest-api-for-woocommerce' ),
+					'button' => sprintf( esc_html__( 'Synchronize (%d) cart/s', 'cart-rest-api-for-woocommerce' ), $carts_to_sync ),
+					'desc'   => sprintf(
+						'<strong class="red">%1$s</strong> %2$s',
+						esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+						esc_html__( 'This will copy any existing carts from WooCommerce\'s session table to CoCart\'s session table in the database. If cart already exists for a customer then it will not sync for that customer.', 'cart-rest-api-for-woocommerce' )
+					),
+					'callback' => array( $this, 'synchronize_carts' ),
+				);
+			} else {
+				// Remove option to clear WooCommerce's session table if empty.
+				unset( $tools['clear_sessions'] );
+			}
 
 			return $tools;
 		} // END debug_button

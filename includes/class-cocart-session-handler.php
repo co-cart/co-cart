@@ -10,12 +10,17 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
- * @version  2.3.0
+ * @version  2.4.0
  * @license  GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+// Checks that WooCommerce session class exists first.
+if ( ! class_exists('WC_Session') ) {
+	return;
 }
 
 /**

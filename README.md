@@ -4,7 +4,10 @@
 
 <p align="center">
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.2+-+5.4&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.2+-+5.5&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+	</a>
+	<a href="https://woocommerce.com/" target="_blank">
+		<img src="https://img.shields.io/static/v1?label=&message=4.0.0+-+4.3.1&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+7.4&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -84,6 +87,7 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
+* **Coming Soon** Register Customers (Auditing)
 * **Coming Soon** Retrieve Checkout Fields (Auditing)
 * **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)

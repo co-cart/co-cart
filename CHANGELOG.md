@@ -23,6 +23,23 @@
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.4.0 - 23rd July, 2020
+
+The code base was improved to prevent errors should WooCommerce not be activated while CoCart still is.
+
+* **NEW**: Added another note to remind users that they can activate CoCart Pro if installed but not activated.
+* Fixed: Fatal error for `WC_Session` class if WooCommerce is disabled but CoCart was not.
+* Improved: Newly added notes for WooCommerce Admin inbox.
+* Tweaked: WooCommerce System Tools to hide options to clear WooCommerce sessions and synchronizes carts if table is empty.
+* Tested: Compatible with WooCommerce v4.3.1
+* Tested: Compatible with WordPress v5.5
+
+## v2.3.1 - 18th July, 2020
+
+* Corrected: Thank you note.
+* Fixed: Installation/Update of CoCart.
+* Fixed: Return of system status data.
+
 ## v2.3.0 - 14th July, 2020
 
 This release brings an improved code base for the backend and connects with WooCommerce's Admin bar. New notes exclusively for CoCart have been created that are triggered for when the client needs them. This release also makes preparations for CoCart v3.0 and tested with WooCommerce v4.3

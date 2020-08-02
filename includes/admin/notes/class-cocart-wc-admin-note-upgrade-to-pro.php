@@ -18,6 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 
+	/**
+	 * Name of the note for use in the database.
+	 */
 	const NOTE_NAME = 'cocart-wc-admin-upgrade-pro';
 
 	/**
@@ -65,16 +68,15 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 */
 	public static function get_note_args() {
 		$args = array(
-			'title'        => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),
-			'content'      => sprintf( __( 'Upgrade to %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
-			'name'         => self::NOTE_NAME,
-			'check_plugin' => false,
-			'actions'      => array(
+			'title'   => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),
+			'content' => sprintf( __( 'Upgrade to %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
+			'name'    => self::NOTE_NAME,
+			'actions' => array(
 				array(
 					'name'    => 'cocart-pro-learn-more',
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://cocart.xyz/pro/?utm_source=inbox',
-					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED,
+					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
 					'primary' => true
 				)
 			)

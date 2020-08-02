@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart/Admin/Notices
  * @since    1.2.0
- * @version  2.3.0
+ * @version  2.4.0
  * @license  GPL-2.0+
  */
 
@@ -33,7 +33,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.3.0
+		 * @version 2.4.0
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
@@ -42,7 +42,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			add_action( 'admin_init', array( $this, 'check_wp' ), 12 );
 
 			// Check WooCommerce dependency.
-			add_action( 'plugins_loaded', array( $this, 'check_woocommerce_dependency' ) );
+			add_action( 'admin_init', array( $this, 'check_woocommerce_dependency' ), 12 );
 
 			// Don't bug the user if they don't want to see any notices.
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );

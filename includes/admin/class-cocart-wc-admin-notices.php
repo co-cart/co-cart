@@ -8,6 +8,7 @@
  * @category Admin
  * @package  CoCart/Admin/WooCommerce Admin
  * @since    2.3.0
+ * @version  2.4.0
  * @license  GPL-2.0+
  */
 
@@ -32,9 +33,22 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		/**
 		 * Include the notes to create.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   2.3.0
+		 * @version 2.4.0
 		 */
 		public function include_notes() {
+			// Don't include notes if WC Admin does not exist.
+			if ( ! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ) {
+				return;
+			}
+
+			// Don't include notes if WC v4.0 or greater is not installed.
+			if ( ! CoCart_Helpers::is_wc_version_gte( '4.0' ) ) {
+				return;
+			}
+
+			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-activate-pro.php' );
 			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-do-with-products.php' );
 			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-help-improve.php' );
 			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-need-help.php' );
@@ -45,21 +59,15 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		/**
 		 * Add note.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @param  $note_name  Note name.
-		 * @param  $seconds    How many seconds since CoCart was installed before the notice is shown.
-		 * @param  $source     Source of the note.
+		 * @since   2.3.0
+		 * @version 2.4.0
+		 * @param   $note_name  Note name.
+		 * @param   $seconds    How many seconds since CoCart was installed before the notice is shown.
+		 * @param   $source     Source of the note.
 		 */
 		public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
-			if ( ! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ) {
-				return;
-			}
-
-			if ( ! CoCart_Helpers::is_wc_version_gte( '4.0' ) ) {
-				return;
-			}
-
 			// Don't show the note if CoCart has not been active long enough.
 			if ( ! CoCart_Helpers::cocart_active_for( $seconds ) ) {
 				return;
