@@ -43,9 +43,10 @@ class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
 	public function register_routes() {
 		// Get Cart Totals - cocart/v2/cart/totals (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_totals' ),
-			'args'     => array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => array( $this, 'get_totals' ),
+			'permission_callback' => '__return_true',
+			'args'                => array(
 				'html' => array(
 					'description' => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
 					'default' => false,

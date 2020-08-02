@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart/API/v1
  * @since    2.1.0
+ * @version  2.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,20 +32,24 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.5.0
 	 */
 	public function register_routes() {
 		// Update, Remove or Restore Item - cocart/v1/item (GET, POST, DELETE)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'args' => $this->get_collection_params(),
 			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'restore_item' ),
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'restore_item' ),
+				'permission_callback' => '__return_true',
 			),
 			array(
-				'methods'  => WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'update_item' ),
-				'args'     => array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'update_item' ),
+				'permission_callback' => '__return_true',
+				'args'                => array(
 					'quantity' => array(
 						'default'           => 1,
 						'type'              => 'float',
@@ -55,8 +60,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				),
 			),
 			array(
-				'methods'  => WP_REST_Server::DELETABLE,
-				'callback' => array( $this, 'remove_item' ),
+				'methods'             => WP_REST_Server::DELETABLE,
+				'callback'            => array( $this, 'remove_item' ),
+				'permission_callback' => '__return_true',
 			),
 		) );
 	} // register_routes()

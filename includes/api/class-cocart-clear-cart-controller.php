@@ -43,8 +43,9 @@ class CoCart_Clear_Cart_v2_Controller extends CoCart_Clear_Cart_Controller {
 	public function register_routes() {
 		// Clear Cart - cocart/v2/cart/clear (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'  => WP_REST_Server::CREATABLE,
-			'callback' => array( $this, 'clear_cart' ),
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => array( $this, 'clear_cart' ),
+			'permission_callback' => '__return_true',
 		) );
 	} // register_routes()
 

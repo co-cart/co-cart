@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart/API/v1
  * @since    2.0.0
- * @version  2.1.2
+ * @version  2.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -41,15 +41,16 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 2.1.2
+	 * @version 2.5.0
 	 */
 	public function register_routes() {
 		// Get Cart - cocart/v1/get-cart (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
 			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'get_cart' ),
-				'args'     => $this->get_collection_params()
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );
@@ -57,9 +58,10 @@ class CoCart_API_Controller {
 		// Get Cart in Session - cocart/v1/get-cart/1654654321 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\w]+)', array(
 			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'get_cart_in_session' ),
-				'args'     => $this->get_collection_params()
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart_in_session' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );
@@ -69,7 +71,7 @@ class CoCart_API_Controller {
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => array( $this, 'get_cart_customer' ),
 			'permission_callback' => array( $this, 'get_permission_check' ),
-			'args'     => $this->get_collection_params()
+			'args'                => $this->get_collection_params()
 		) );
 	} // register_routes()
 

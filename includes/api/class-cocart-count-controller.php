@@ -43,9 +43,10 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 	public function register_routes() {
 		// Count Items in Cart - cocart/v2/cart/items/count (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_cart_contents_count' ),
-			'args'     => array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => array( $this, 'get_cart_contents_count' ),
+			'permission_callback' => '__return_true',
+			'args'                => array(
 				'return' => array(
 					'default' => 'numeric'
 				),

@@ -44,9 +44,10 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		// Add Item - cocart/v2/cart/add-item (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
-				'methods'  => WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'add_to_cart' ),
-				'args'     => $this->get_collection_params()
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'add_to_cart' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );

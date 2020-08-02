@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart/Helpers
  * @since    2.3.0
+ * @version  2.5.0
  * @license  GPL-2.0+
  */
 
@@ -49,6 +50,14 @@ class CoCart_Helpers {
 	 * @var array
 	 */
 	private static $is_wp_version_gte = array();
+
+	/**
+	 * Cache 'lt' comparison results for WP version.
+	 *
+	 * @since 2.5.0
+	 * @var array
+	 */
+	private static $is_wp_version_lt = array();
 
 	/**
 	 * Helper method to get the version of the currently installed WooCommerce.
@@ -157,6 +166,24 @@ class CoCart_Helpers {
 
 		return self::$is_wp_version_gte[ $version ];
 	} // END is_wp_version_gte()
+
+	/**
+	 * Returns true if the installed version of WordPress is less than $version.
+	 *
+	 * @access public
+	 * @since  2.5.0
+	 * @param  string  $version
+	 * @return boolean
+	 */
+	public static function is_wp_version_lt( $version ) {
+		if ( ! isset( self::$is_wp_version_lt[ $version ] ) ) {
+			global $wp_version;
+
+			self::$is_wp_version_lt[ $version ] = $wp_version && version_compare( $wp_version, $version, '<' );
+		}
+
+		return self::$is_wp_version_lt[ $version ];
+	} // END is_wp_version_lt()
 
 	/**
 	 * Helper method to get the version of the currently installed CoCart.
