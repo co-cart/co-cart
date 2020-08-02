@@ -300,50 +300,6 @@ class CoCart_Server {
 	} // rest_api_includes()
 
 	/**
-	 * Register CoCart REST API routes.
-	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 2.5.0
-	 */
-	/*public function register_cart_routes() {
-		$controllers = array(
-			// WC Cart REST API v2 controller.
-			'WC_REST_Cart_Controller',
-
-			// CoCart REST API v1 controllers.
-			'CoCart_API_Controller',
-			'CoCart_Add_Item_Controller',
-			'CoCart_Clear_Cart_Controller',
-			'CoCart_Calculate_Controller',
-			'CoCart_Count_Items_Controller',
-			'CoCart_Item_Controller',
-			'CoCart_Logout_Controller',
-			'CoCart_Totals_Controller',
-
-			// CoCart REST API v2 controllers.
-			'CoCart_Store_V2_Controller',
-			'CoCart_Cart_V2_Controller',
-			'CoCart_Add_Item_v2_Controller',
-			'CoCart_Clear_Cart_v2_Controller',
-			'CoCart_Calculate_v2_Controller',
-			'CoCart_Count_Items_v2_Controller',
-			'CoCart_Update_Item_v2_Controller',
-			'CoCart_Remove_Item_v2_Controller',
-			'CoCart_Restore_Item_v2_Controller',
-			'CoCart_Logout_v2_Controller',
-			'CoCart_Totals_v2_Controller'
-		);
-
-		foreach ( $controllers as $controller ) {
-			if ( class_exists( $controller ) ) {
-				$this->$controller = new $controller();
-				$this->$controller->register_routes();
-			}
-		}
-	} // END register_cart_routes()*/
-
-	/**
 	 * Allow all cross origin header requests.
 	 * 
 	 * Disabled by default. Requires `cocart_allow_all_cors` filter set to true to enable.
