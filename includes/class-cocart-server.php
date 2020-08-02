@@ -44,6 +44,9 @@ class CoCart_Server {
 
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
+
+		// Allow all cross origin requests.
+		add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
 	} // END __construct()
 
 	/**
