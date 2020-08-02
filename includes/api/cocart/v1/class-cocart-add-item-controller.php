@@ -8,7 +8,8 @@
  * @category API
  * @package  CoCart/API/v1
  * @since    2.1.0
- * @version  2.1.2
+ * @version  2.5.0
+ * @license  GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,15 +35,16 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.5.0
 	 */
 	public function register_routes() {
 		// Add Item - cocart/v1/add-item (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
-				'methods'  => WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'add_to_cart' ),
-				'args'     => $this->get_collection_params()
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'add_to_cart' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );
@@ -163,7 +165,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.2.0
 	 * @param   array $product_to_add - Passes details of the item ready to add to the cart.
 	 * @return  array $item_added - Returns details of the added item in the cart.
 	 */
@@ -182,9 +184,11 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 			$new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
 
+			// Set new quantity for item.
 			WC()->cart->set_quantity( $cart_item_key, $new_quantity );
 
-			$item_added = $this->get_cart_item( $cart_item_key, 'add' );
+			// Return item details.
+			$item_added = $this->return_additional_item_data( $this->get_cart_item( $cart_item_key, 'add' ), $cart_item_key );
 
 			/**
 			 * Action hook will trigger if item was added again but updated in cart.
@@ -205,7 +209,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				WC()->cart->calculate_totals();
 
 				// Return item details.
-				$item_added = $this->get_cart_item( $item_key, 'add' );
+				$item_added = $this->return_additional_item_data( $this->get_cart_item( $item_key, 'add' ), $item_key );
 
 				do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
 			} else {
@@ -228,6 +232,31 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		return $item_added;
 	} // END add_item_to_cart()
+
+	/**
+	 * Applies additional item data to return.
+	 *
+	 * @access public
+	 * @since  2.2.0
+	 * @param  array $item_added
+	 * @param  string $item_key
+	 * @return array $item_added
+	*/
+	public function return_additional_item_data( $item_added, $item_key = '' ) {
+		$_product = $item_added['data'];
+
+		// Adds the product name and title.
+		$item_added['product_name']  = apply_filters( 'cocart_item_added_product_name', $_product->get_name(), $_product, $item_key );
+		$item_added['product_title'] = apply_filters( 'cocart_item_added_product_title', $_product->get_title(), $_product, $item_key );
+
+		// Add product price.
+		$item_added['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
+
+		// This filter allows additional data to be returned.
+		$item_added = apply_filters( 'cocart_item_added', $item_added, $item_key );
+
+		return $item_added;
+	} // END return_additional_item_data()
 
 	/**
 	 * Get the schema for adding an item, conforming to JSON Schema.
