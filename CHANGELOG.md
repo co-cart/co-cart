@@ -1,6 +1,10 @@
 # Changelog for CoCart Lite
 
-## v3.0.0 - ?? ??, 2020
+## v3.0.0 - ?? November, 2020 (Date Subject to Change)
+
+This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information.
+
+Updating to the new API is easy. All parameters are the same. Simply follow the [upgrade guide](#) and your good to go.
 
 * **NEW**: API routes.
 * * Cart           - wp-json/cocart/v2/cart
