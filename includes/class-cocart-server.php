@@ -54,8 +54,10 @@ class CoCart_Server {
 	public function register_rest_routes() {
 		foreach ( $this->get_rest_namespaces() as $namespace => $controllers ) {
 			foreach ( $controllers as $controller_name => $controller_class ) {
-				$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
-				$this->controllers[ $namespace ][ $controller_name ]->register_routes();
+				if ( class_exists( $controller_class ) ) {
+					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
+					$this->controllers[ $namespace ][ $controller_name ]->register_routes();
+				}
 			}
 		}
 	}
