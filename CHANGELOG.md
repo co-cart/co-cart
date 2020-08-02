@@ -12,8 +12,8 @@
 * * Remove Item    - wp-json/cocart/v2/cart/remove-item
 * * Calculate Cart - wp-json/cocart/v2/cart/calculate
 * * Clear Cart     - wp-json/cocart/v2/cart/clear
-* * Logout         - wp-json/cocart/v2/cart/logout
 * * Cart Totals    - wp-json/cocart/v2/cart/totals
+* * Logout         - wp-json/cocart/v2/logout
 * * Store API      - wp-json/cocart/v2/store
 * **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * Dev: New filters.

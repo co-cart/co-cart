@@ -34,7 +34,7 @@ class CoCart_Logout_v2_Controller extends CoCart_Logout_Controller {
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'cart/logout';
+	protected $rest_base = 'logout';
 
 	/**
 	 * Register routes.
@@ -42,7 +42,7 @@ class CoCart_Logout_v2_Controller extends CoCart_Logout_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Logout user - cocart/v2/cart/logout (POST)
+		// Logout user - cocart/v2/logout (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'methods'             => WP_REST_Server::CREATABLE,
 			'callback'            => array( $this, 'logout' ),
