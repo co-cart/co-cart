@@ -255,6 +255,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 					'title'      => apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key ),
 					'price'      => wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ),
 					'quantity'   => $cart_item['quantity'],
+					'slug'       => $_product->get_slug(),
 					'meta' => array(
 						'product_type'          => $_product->get_type(),
 						'sku'                   => $_product->get_sku(),
