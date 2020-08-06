@@ -262,7 +262,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 					'title'      => apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key ),
 					'price'      => wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ),
 					'quantity'   => $cart_item['quantity'],
-					'slug'       => $_product->get_slug(),
+					'slug'       => $this->get_product_slug( $_product ),
 					'meta' => array(
 						'product_type'          => $_product->get_type(),
 						'sku'                   => $_product->get_sku(),
@@ -829,6 +829,27 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	public function filter_request_data( $request ) {
 		return apply_filters( 'cocart_filter_request_data', $request );
 	} // END filter_request_data()
+
+	/**
+	 * Get the main product slug even if the product type is a variation.
+	 *
+	 * @access public
+	 * @param  WC_Product $object
+	 * @return string
+	 */
+	public function get_product_slug( $object ) {
+		$product_type = $object->get_type();
+
+		if ( 'variable' === $product_type || 'variation' === $product_type ) {
+			$product = wc_get_product( $object->get_parent_id() );
+
+			$product_slug = $product->get_slug();
+		} else {
+			$product_slug = $object->get_slug();
+		}
+
+		return $product_slug;
+	} // END get_product_slug()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
