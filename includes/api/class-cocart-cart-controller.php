@@ -117,6 +117,13 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	public function get_cart( $request = array(), $cart_item_key = '' ) {
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
+		/**
+		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
+		 *
+		 * @since 3.0.0
+		 */
+		do_action( 'cocart_before_get_cart', $cart_contents, $request );
+
 		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
 
 		// Return cart contents raw if requested.
