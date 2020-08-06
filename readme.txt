@@ -193,8 +193,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 == Screenshots ==
 
 1. Empty Cart
-2. Viewing the carts content without product thumbnail.
-3. Viewing the carts content with product thumbnail.
+2. Cart with Item
 
 == Contributors & Developers ==
 

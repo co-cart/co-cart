@@ -32,7 +32,7 @@
 
 <br>
 
-<p align="center"><img src="https://cocart.xyz/wp-content/uploads/2019/09/Logo-1024x534.jpg.webp" alt="CoCart" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/master/.github/Logo-1024x534.png.webp" alt="CoCart" /></p>
 
 <br>
 
