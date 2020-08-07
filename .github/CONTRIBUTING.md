@@ -1,39 +1,51 @@
-# Contribute to CoCart
+# Contributing to CoCart Lite ✨
 
-Community made patches, localisations, bug reports and contributions are always welcome!
+CoCart Lite helps power many headless stores across the internet, and your help making it even more awesome will be greatly appreciated :)
 
-When contributing please ensure you follow the guidelines below so that I can keep on top of things.
+There are many ways to contribute to the project!
 
-__Please Note:__ GitHub is for bug reports and contributions only - if you require support, see the [support section](https://github.com/co-cart/co-cart#-support) for details.
+- [Translating strings into your language](#translating-cocart).
+- Answering questions on the various CoCart communities like the [WP.org support forums](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
+- Testing open [issues](https://github.com/co-cart/co-cart/issues) or [pull requests](https://github.com/co-cart/co-cart/pulls) and sharing your findings in a comment.
+- Testing CoCart beta versions and release candidates. Those are announced in the [CoCart development blog](https://cocart.xyz/news/).
+- Submitting fixes, improvements, and enhancements.
 
-## Getting Started
+If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) CoCart Lite, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
 
-* __Do not report potential security vulnerabilities here. Email them privately to me at [mailme at sebastiendumont dot com](mailto:mailme@sebastiendumont.com)__
-* Before submitting a ticket, please be sure to replicate the behaviour with no other plugins active except what is required and on a base theme like Storefront.
-* Submit a ticket for your issue, assuming one does not already exist.
-  * Raise it on the [Issue Tracker](https://github.com/co-cart/co-cart/issues)
-  * Clearly describe the issue including steps to reproduce the bug.
-  * Make sure you fill in the earliest version that you know has the issue as well as the version of WordPress and WooCommerce you're using.
+I use the `good first issue` label to mark issues that are suitable for new contributors. You can find all the issues with this label [here](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22).
 
-## Making Changes
+CoCart Lite is licensed under the GPLv3+, and all contributions to the project will be released under the same license. You maintain copyright over any contribution you make, and by submitting a pull request, you are agreeing to release that contribution under the GPLv3+ license.
 
-* Fork the repository on GitHub.
-* Make the changes to your forked repository.
-  * Ensure you stick to the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards)
-  * Ensure you use LF line endings - no crazy windows line endings. :)
-* When committing, reference your issue (if present) and include a note about the fix.
-* Push the changes to your fork and submit a pull request on the **master branch** of the CoCart repository. Existing maintenance branches will be maintained by me.
+If you have questions about the process to contribute code or want to discuss details of your contribution, you can contact CoCart core developers on the #core channel in the [CoCart community Slack](https://cocart.xyz/community/).
 
-## Code Documentation
+## Getting started
 
-* Ensure that every endpoint is documented well and follows the standards set by WordPress.
-* Finally, please use tabs and not spaces. The tab indent size should be 4.
+- [How to set up WooCommerce development environment](https://github.com/woocommerce/woocommerce/wiki/How-to-set-up-WooCommerce-development-environment)
+- [String localization guidelines](#string-localization-guidelines)
 
-At this point you're waiting on me to merge your pull request. I'll review all pull requests, and make suggestions and changes if necessary.
+## Coding Guidelines and Development 🛠
 
-Thanks for contributing to CoCart!
+- Ensure you stick to the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/)
+- Ensure you use LF line endings in your code editor. Use [EditorConfig](http://editorconfig.org/) if your editor supports it so that indentation, line endings and other settings are auto configured.
+- When committing, reference your issue number (#1234) and include a note about the fix.
+- Ensure that your code supports the minimum supported versions of PHP and WordPress; this is shown at the top of the `readme.txt` file.
+- Push the changes to your fork and submit a pull request on the master branch of the CoCart Lite repository.
+- Make sure to write good and detailed commit messages (see [this post](https://chris.beams.io/posts/git-commit/) for more on this) and follow all the applicable sections of the pull request template.
+- Please avoid modifying the changelog directly or updating the .pot files. These will be updated by the CoCart team.
 
-### Additional Resources
+## Translating CoCart
 
-* [General GitHub Documentation](https://help.github.com/)
-* [GitHub Pull Request documentation](https://help.github.com/send-pull-requests/)
+CoCart can be translated in two areas. For CoCart Lite it is recommended to translate via the [project on translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce/). You can join the localization team of your language and help by translating CoCart Lite there. [Find more about using joining a language team and using GlotPress](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/).
+
+The alternative is to translate CoCart Lite on [translate.cocart.xyz](https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/)
+
+If CoCart Lite is already 100% translated for your language, join the team anyway! I regularly update the language files, and new strings that need translation will likely be added soon.
+
+## String localization guidelines
+
+ 1. Use `cart-rest-api-for-woocommerce` textdomain in all strings.
+ 2. When using dynamic strings in printf/sprintf, if you are replacing > 1 string use numbered args. e.g. `Test %s string %s.` would be `Test %1$s string %2$s.`
+ 3. Use sentence case. e.g. `Some Thing` should be `Some thing`.
+ 4. Avoid HTML. If needed, insert the HTML using sprintf.
+
+For more information, see WP core document [i18n for WordPress Developers](https://codex.wordpress.org/I18n_for_WordPress_Developers).

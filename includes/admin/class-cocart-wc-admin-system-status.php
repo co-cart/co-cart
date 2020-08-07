@@ -35,9 +35,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Renders the CoCart information in the WC status page.
 		 *
 		 * @access public
-		 * @static
 		 */
-		public static function render_system_status_items() {
+		public function render_system_status_items() {
 			$data = $this->get_system_status_data();
 
 			$system_status_sections = apply_filters( 'cocart_system_status_sections', array(
