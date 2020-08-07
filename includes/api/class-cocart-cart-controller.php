@@ -534,7 +534,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$discount_amount_html = '-' . html_entity_decode( strip_tags( $savings ) );
 
 		if ( $coupon->get_free_shipping() && empty( $amount ) ) {
-			$discount_amount_html = __( 'Free shipping coupon', 'cocart-get-cart-enhanced' );
+			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
 		}
 
 		$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
