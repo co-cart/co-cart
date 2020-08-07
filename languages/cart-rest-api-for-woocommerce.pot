@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart 2.4.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-07-23 14:05:19+00:00\n"
+"POT-Creation-Date: 2020-08-07 15:58:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -107,94 +107,94 @@ msgid ""
 "target=\"_blank\">Sign Up to Test</a>."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:46
+#: includes/admin/class-cocart-wc-admin-system-status.php:45
 msgid "This section shows any information about %s."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:71
+#: includes/admin/class-cocart-wc-admin-system-status.php:70
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:79
+#: includes/admin/class-cocart-wc-admin-system-status.php:78
 msgid "Database Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:81
+#: includes/admin/class-cocart-wc-admin-system-status.php:80
 msgid ""
 "The version of %s reported by the database. This should be the same as the "
 "version of the plugin."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:88
+#: includes/admin/class-cocart-wc-admin-system-status.php:87
 msgid "Install Date"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:96
+#: includes/admin/class-cocart-wc-admin-system-status.php:95
 msgid "Carts in Session"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:104
+#: includes/admin/class-cocart-wc-admin-system-status.php:103
 msgid "Carts Expired"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:169
+#: includes/admin/class-cocart-wc-admin-system-status.php:168
 msgid "Clear cart sessions"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:170
+#: includes/admin/class-cocart-wc-admin-system-status.php:169
 msgid "Clear all"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:173
-#: includes/admin/class-cocart-wc-admin-system-status.php:184
-#: includes/admin/class-cocart-wc-admin-system-status.php:202
+#: includes/admin/class-cocart-wc-admin-system-status.php:172
+#: includes/admin/class-cocart-wc-admin-system-status.php:183
+#: includes/admin/class-cocart-wc-admin-system-status.php:201
 msgid "Note:"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:174
+#: includes/admin/class-cocart-wc-admin-system-status.php:173
 msgid "This will clear all carts in session handled by CoCart and saved carts."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:180
+#: includes/admin/class-cocart-wc-admin-system-status.php:179
 msgid "Clear expired carts"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:181
+#: includes/admin/class-cocart-wc-admin-system-status.php:180
 msgid "Clear expired"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:186
+#: includes/admin/class-cocart-wc-admin-system-status.php:185
 msgid "This will clear all expired carts %s stored in the database."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:187
+#: includes/admin/class-cocart-wc-admin-system-status.php:186
 msgid "only"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:198
+#: includes/admin/class-cocart-wc-admin-system-status.php:197
 msgid "Synchronize carts"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:199
+#: includes/admin/class-cocart-wc-admin-system-status.php:198
 msgid "Synchronize (%d) cart/s"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:203
+#: includes/admin/class-cocart-wc-admin-system-status.php:202
 msgid ""
 "This will copy any existing carts from WooCommerce's session table to "
 "CoCart's session table in the database. If cart already exists for a "
 "customer then it will not sync for that customer."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:225
+#: includes/admin/class-cocart-wc-admin-system-status.php:224
 msgid "All active carts have been cleared and %s saved carts."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:236
+#: includes/admin/class-cocart-wc-admin-system-status.php:235
 msgid "All expired carts have now been cleared from the database."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:255
+#: includes/admin/class-cocart-wc-admin-system-status.php:254
 msgid "Carts are now synchronized."
 msgstr ""
 
@@ -473,11 +473,11 @@ msgid ""
 msgstr ""
 
 #: includes/admin/views/html-notice-trying-beta.php:28
-msgid "Thank you for trying out beta release v%s of CoCart!"
+msgid "Thank you for trying out a beta release v%s of CoCart!"
 msgstr ""
 
 #: includes/admin/views/html-notice-trying-beta.php:32
-msgid "Thank you for trying out release candidate v%s of CoCart!"
+msgid "Thank you for trying out a release candidate v%s of CoCart!"
 msgstr ""
 
 #: includes/admin/views/html-notice-trying-beta.php:36
@@ -1021,27 +1021,27 @@ msgid ""
 "or %2$scheckout%3$s."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:70
+#: includes/admin/class-cocart-wc-admin-system-status.php:69
 msgctxt "label that indicates the version of the plugin"
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:78
+#: includes/admin/class-cocart-wc-admin-system-status.php:77
 msgctxt "label that indicates the database version of the plugin"
 msgid "Database Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:87
+#: includes/admin/class-cocart-wc-admin-system-status.php:86
 msgctxt "label that indicates the install date of the plugin"
 msgid "Install Date"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:95
+#: includes/admin/class-cocart-wc-admin-system-status.php:94
 msgctxt "label that indicates the number of carts in session"
 msgid "Carts in Session"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:103
+#: includes/admin/class-cocart-wc-admin-system-status.php:102
 msgctxt "label that indicates the number of carts expired"
 msgid "Carts Expired"
 msgstr ""
