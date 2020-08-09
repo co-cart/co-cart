@@ -7,7 +7,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.4.0
+Stable tag: 2.5.0
 WC requires at least: 4.0.0
 WC tested up to: 4.3.1
 License: GPLv3
@@ -51,6 +51,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
+* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart from the GitHub repo.
 
 ### CoCart Pro
 CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
@@ -205,40 +206,18 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
-= v2.4.0 - 23rd July, 2020 =
+= v2.5.0 - 10th August, 2020 =
 
-The code base was improved to prevent errors should WooCommerce not be activated while CoCart still is.
+This minor release adds support for the recent changes made to the REST API in the coming WordPress 5.5 to allow CoCart to still work as it is a public REST API.
 
-* **NEW**: Added another note to remind users that they can activate CoCart Pro if installed but not activated.
-* Fixed: Fatal error for `WC_Session` class if WooCommerce is disabled but CoCart was not.
-* Improved: Newly added notes for WooCommerce Admin inbox.
-* Tweaked: WooCommerce System Tools to hide options to clear WooCommerce sessions and synchronizes carts if table is empty.
-* Tested: Compatible with WooCommerce v4.3.1
-* Tested: Compatible with WordPress v5.5
+No changes have been made to the API it self. Just made sure that each route has the correct permission call back applied.
 
-= v2.3.1 - 18th July, 2020 =
-
-* Corrected: Thank you note.
-* Fixed: Installation/Update of CoCart.
-* Fixed: Return of system status data.
-
-= v2.3.0 - 14th July, 2020 =
-
-This release brings an improved code base for the backend and connects with WooCommerce's Admin bar. New notes exclusively for CoCart have been created that are triggered for when the client needs them. This release also makes preparations for CoCart v3.0 and tested with WooCommerce v4.3
-
-* **NEW**: Connected with WooCommerce Admin.
-* **NEW**: Notes are provided for help, feedback and guides.
-* Added: Preparations for CoCart v3.0
-* Added: Plugin requirements to main plugin file header.
-* Bumped: WooCommerce minimum requirement to v4.0
-* De-bumped: PHP minimum requirement to v7.0 to match WooCommerce's current requirement.
-* Tested: Compatible with WooCommerce v4.3
-* Improved: Code base for the backend.
+If you are still using the legacy API and have updated to WordPress 5.5, then you will no longer be able to use it as it will no longer register.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 2.4.0 =
+= 2.5.0 =
 
-* Fixed: Fatal error for `WC_Session` class if WooCommerce was disabled but CoCart was not.
+* Update ready for WordPress 5.5
