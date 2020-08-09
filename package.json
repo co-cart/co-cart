@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.4.0",
+	"version": "2.5.0",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -22,7 +22,7 @@
 	"requires_php": "7.0",
 	"tested_up_to": "5.5",
 	"wc_requires": "4.0.0",
-	"wc_tested_up_to": "4.3.1",
+	"wc_tested_up_to": "4.4.0",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2020, Sébastien Dumont",
 	"description": "CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.",

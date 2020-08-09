@@ -8,6 +8,8 @@
  * @category API
  * @package  CoCart/API
  * @since    2.1.0
+ * @version  2.5.0
+ * @license  GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,14 +33,17 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.5.0
 	 */
 	public function register_routes() {
 		// Get Cart Totals - cocart/v1/totals (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_totals' ),
-			'args'     => array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => array( $this, 'get_totals' ),
+			'permission_callback' => '__return_true',
+			'args'                => array(
 				'html' => array(
 					'description' => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
 					'default' => false,

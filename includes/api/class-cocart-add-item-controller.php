@@ -8,7 +8,8 @@
  * @category API
  * @package  CoCart/API
  * @since    2.1.0
- * @version  2.2.0
+ * @version  2.5.0
+ * @license  GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,15 +35,16 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.5.0
 	 */
 	public function register_routes() {
 		// Add Item - cocart/v1/add-item (POST)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
-				'methods'  => WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'add_to_cart' ),
-				'args'     => $this->get_collection_params()
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'add_to_cart' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );
