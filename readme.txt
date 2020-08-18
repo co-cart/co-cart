@@ -1,15 +1,15 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
-Contributors: sebd86, cocartforwc
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.4.0
+Stable tag: 2.5.1
 WC requires at least: 4.0.0
-WC tested up to: 4.3.1
+WC tested up to: 4.4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -51,6 +51,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
+* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart from the GitHub repo.
 
 ### CoCart Pro
 CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):

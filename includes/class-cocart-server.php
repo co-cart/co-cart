@@ -329,16 +329,17 @@ class CoCart_Server {
 	/**
 	 * Cross Origin headers.
 	 *
-	 * @access public
-	 * @since  2.2.0
-	 * @param  bool             $served  Whether the request has already been served. Default false.
-	 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-	 * @param  WP_REST_Request  $request Request used to generate the response.
-	 * @param  WP_REST_Server   $server  Server instance.
-	 * @return bool
+	 * @access  public
+	 * @since   2.2.0
+	 * @version 2.5.1
+	 * @param   bool             $served  Whether the request has already been served. Default false.
+	 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param   WP_REST_Request  $request Request used to generate the response.
+	 * @param   WP_REST_Server   $server  Server instance.
+	 * @return  bool
 	 */
 	public function cors_headers( $served, $result, $request, $server ) {
-		header( 'Access-Control-Allow-Origin: *' );
+		header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $_SERVER['HTTP_ORIGIN'] ) );
 		header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
 		header( 'Access-Control-Allow-Credentials: true' );
 		header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );

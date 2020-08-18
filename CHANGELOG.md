@@ -27,6 +27,14 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.5.1 - 18th August, 2020
+
+* Fixed: **'Access-Control-Allow-Origin'** header response when it request's credentials with a wildcard `(*)` value.
+* Dev: Added filter `cocart_allow_origin` to set the origin header for added layer of security when you go into production.
+* Tested: Compatible with WooCommerce v4.4.0
+
+> This is a community release by [@mattdabell](https://github.com/mattdabell)
+
 ## v2.5.0 - 10th August, 2020
 
 This minor release adds support for the recent changes made to the REST API in the coming WordPress 5.5 to allow CoCart to still work as it is a public REST API.
@@ -193,7 +201,7 @@ This release brings an improved code base for the backend and connects with WooC
 * Changed: Quantity value type from _integer_ to _float_ to allow quantity to be used for weighing fruit for example when adding or updating a product.
 * Dev: Added filter for sold individual products quantity to be overridden. - `cocart_add_to_cart_sold_individually_quantity`
 
-> This is a community release by @metemaddar
+> This is a community release by [@metemaddar](https://github.com/metemaddar)
 
 ## v2.0.12 - 27th March, 2020
 
