@@ -3,19 +3,6 @@
 	"description": "CoCart is a REST API for WooCommerce. It focuses on the front-end of the store to manage the shopping cart allowing developers to build a headless store.",
 	"homepage": "https://cocart.xyz",
 	"type": "wordpress-plugin",
-	"license": "GPL-3.0-or-later",
-	"prefer-stable": true,
-	"authors": [
-		{
-			"name": "Sébastien Dumont",
-			"email": "mailme@sebastiendumont.com",
-			"homepage": "https://sebastiendumont.com",
-			"role": "Developer"
-		}
-	],
-	"support": {
-		"issues": "https://github.com/co-cart/co-cart/issues"
-	},
 	"keywords": [
 		"wordpress",
 		"wordpress-development",
@@ -32,12 +19,21 @@
 		"rest-api",
 		"JSON"
 	],
-	"require": {
-		"php": ">=7.2"
-	},
-	"config": {
-		"platform": {
-			"php": "7.2"
+	"license": "GPL-3.0-or-later",
+	"prefer-stable": true,
+	"minimum-stability": "dev",
+	"authors": [
+		{
+			"name": "Sébastien Dumont",
+			"email": "mailme@sebastiendumont.com",
+			"homepage": "https://sebastiendumont.com",
+			"role": "Developer"
 		}
+	],
+	"support": {
+		"issues": "https://github.com/co-cart/co-cart/issues"
+	},
+	"require": {
+		"composer/installers": "1.7.0"
 	}
 }

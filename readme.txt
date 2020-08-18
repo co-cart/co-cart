@@ -1,13 +1,13 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
-Contributors: sebd86, cocartforwc
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.5.0
+Stable tag: 2.5.1
 WC requires at least: 4.0.0
 WC tested up to: 4.4.0
 License: GPLv3
@@ -206,6 +206,14 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
+= v2.5.1 - 18th August, 2020 =
+
+* Fixed: **'Access-Control-Allow-Origin'** header response when it request's credentials with a wildcard `(*)` value.
+* Dev: Added filter `cocart_allow_origin` to set the origin header for added layer of security when you go into production.
+* Tested: Compatible with WooCommerce v4.4.0
+
+> This is a community release by [@mattdabell](https://github.com/mattdabell)
+
 = v2.5.0 - 10th August, 2020 =
 
 This minor release adds support for the recent changes made to the REST API in the coming WordPress 5.5 to allow CoCart to still work as it is a public REST API.
@@ -218,6 +226,6 @@ If you are still using the legacy API and have updated to WordPress 5.5, then yo
 
 == Upgrade Notice ==
 
-= 2.5.0 =
+= 2.5.1 =
 
-* Update ready for WordPress 5.5
+* Compatible with WooCommerce 4.4

@@ -1,11 +1,15 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "2.5.0",
+	"version": "2.5.1",
 	"private": false,
 	"contributors": [
 		"sebd86",
-		"cocartforwc"
+		"cocartforwc",
+		"ajayghaghretiya",
+		"skunkbad",
+		"sefid-par",
+		"mattdabell"
 	],
 	"author": "Sébastien Dumont",
 	"author_uri": "https://sebastiendumont.com",
