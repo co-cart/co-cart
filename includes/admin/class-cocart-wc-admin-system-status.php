@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart/Admin/WooCommerce System Status
  * @since    2.1.0
- * @version  2.4.0
+ * @version  2.6.0
  * @license  GPL-2.0+
  */
 
@@ -59,8 +59,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		/**
 		 * Gets the system status data to return.
 		 *
-		 * @access public
-		 * @return array $data
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 2.6.0
+		 * @return  array $data
 		 */
 		public function get_system_status_data() {
 			$data = array();
@@ -93,7 +95,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_carts_in_session'] = array(
 				'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
-				'note'      => $this->carts_in_session(),
+				'note'      => self::carts_in_session(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -101,7 +103,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_carts_expired'] = array(
 				'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
-				'note'      => $this->count_carts_expired(),
+				'note'      => self::count_carts_expired(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);

@@ -203,7 +203,10 @@ module.exports = function(grunt) {
 		// Bump version numbers (replace with version in package.json)
 		replace: {
 			php: {
-				src: [ '<%= pkg.name %>.php' ],
+				src: [
+					'<%= pkg.name %>.php',
+					'includes/class-cocart.php'
+				],
 				overwrite: true,
 				replacements: [
 					{
