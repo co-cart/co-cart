@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category Admin
- * @package  CoCart/Admin
+ * @package  CoCart\Admin
  * @since    2.0.12
  * @version  2.3.0
  * @license  GPL-2.0+

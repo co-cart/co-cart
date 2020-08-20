@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category Admin
- * @package  CoCart/Admin/WooCommerce System Status
+ * @package  CoCart\Admin\WooCommerce System Status
  * @since    2.1.0
  * @version  2.6.0
  * @license  GPL-2.0+

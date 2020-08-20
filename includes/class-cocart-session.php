@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart/Session
+ * @package  CoCart\Session
  * @since    2.1.0
  * @version  2.4.0
  * @license  GPL-2.0+

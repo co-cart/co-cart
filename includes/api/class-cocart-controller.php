@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart/API
+ * @package  CoCart\API
  * @since    2.0.0
  * @version  2.5.0
  * @license  GPL-2.0+

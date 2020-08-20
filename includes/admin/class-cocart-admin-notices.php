@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category Admin
- * @package  CoCart/Admin/Notices
+ * @package  CoCart\Admin\Notices
  * @since    1.2.0
  * @version  2.4.0
  * @license  GPL-2.0+

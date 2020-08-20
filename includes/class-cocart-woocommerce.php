@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart/Classes/WooCommerce
+ * @package  CoCart\Classes\WooCommerce
  * @since    2.1.2
  * @version  2.6.0
  * @license  GPL-2.0+

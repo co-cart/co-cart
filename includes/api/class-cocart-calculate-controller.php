@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart/API
+ * @package  CoCart\API
  * @since    2.1.0
  * @version  2.5.0
  * @license  GPL-2.0+
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Calculate controller class.
  *
- * @package CoCart/API
+ * @package CoCart\API
  */
 class CoCart_Calculate_Controller extends CoCart_API_Controller {
 
