@@ -119,7 +119,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @global $wpdb
 		 * @return int - Number of carts in session.
 		 */
-		public function carts_in_session( $session = '' ) {
+		public static function carts_in_session( $session = '' ) {
 			global $wpdb;
 
 			if ( empty( $session ) ) {
@@ -144,7 +144,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @global $wpdb
 		 * @return int - Number of carts expired.
 		 */
-		public function count_carts_expired() {
+		public static function count_carts_expired() {
 			global $wpdb;
 
 			$results = $wpdb->get_results( $wpdb->prepare( "
@@ -191,7 +191,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'callback' => array( $this, 'debug_clear_expired_carts' ),
 			);
 
-			$carts_to_sync = $this->carts_in_session( 'woocommerce' );
+			$carts_to_sync = self::carts_in_session( 'woocommerce' );
 
 			// Only show synchronize carts option if required.
 			if ( $carts_to_sync > 0 ) {
