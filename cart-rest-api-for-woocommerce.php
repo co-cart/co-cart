@@ -26,7 +26,6 @@ if ( ! defined( 'COCART_FILE' ) ) {
 // Include the main CoCart class.
 if ( ! class_exists( 'CoCart', false ) ) {
 	include_once( untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php' );
-
 }
 
 /**
