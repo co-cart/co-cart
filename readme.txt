@@ -226,6 +226,6 @@ If you are still using the legacy API and have updated to WordPress 5.5, then yo
 
 == Upgrade Notice ==
 
-= 2.5.1 =
+= 2.6.0 =
 
-* Compatible with WooCommerce 4.4
+* This plugin update improves optimization for future releases of WooCommerce and CoCart Pro.
