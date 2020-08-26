@@ -35,10 +35,10 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			add_filter( 'woocommerce_session_handler', array( $this, 'cocart_session_handler' ) );
 
 			// Force WooCommerce to accept CoCart requests when authenticating.
-			add_filter( 'woocommerce_rest_is_request_to_rest_api', array( __CLASS__, 'allow_cocart_requests_wc' ) );
+			add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
 
 			// Loads cart from session.
-			add_action( 'woocommerce_load_cart_from_session', array( __CLASS__, 'load_cart_from_session' ), 0 );
+			add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_from_session' ), 0 );
 		}
 
 		/**

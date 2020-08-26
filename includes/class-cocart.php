@@ -144,8 +144,8 @@ final class CoCart {
 	 * @return  void
 	 */
 	public static function woocommerce() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-woocommerce.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-woocommerce.php';
 	} // END woocommerce()
 
 	/**
