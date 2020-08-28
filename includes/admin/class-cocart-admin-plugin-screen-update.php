@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    2.0.12
- * @version  2.3.0
+ * @version  2.6.0
  * @license  GPL-2.0+
  */
 
@@ -120,7 +120,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.3
-		 * @version 2.3.0
+		 * @version 2.6.0
 		 * @param   string $file        Plugin basename.
 		 * @param   array  $plugin_data Plugin information.
 		 * @return  false|void
@@ -164,7 +164,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 				$notice_type = 'notice-cocart';
 
 				// Only show the plugin notice if this version of CoCart is not a pre-release or is lower than the version mentioned in the notice.
-				if ( CoCart_Helpers::is_cocart_pre_release() || version_compare( COCART_NEXT_VERSION, COCART_VERSION, '<=' ) ) {
+				if ( CoCart_Helpers::is_cocart_pre_release() || version_compare( COCART_NEXT_VERSION, strstr( COCART_VERSION, '-', true ), '<=' ) ) {
 					return;
 				}
 

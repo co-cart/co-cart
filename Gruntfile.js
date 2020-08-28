@@ -244,6 +244,10 @@ module.exports = function(grunt) {
 					{
 						from: /public static \$required_woo = \'.*.'/m,
 						to: "public static $required_woo = '<%= pkg.wc_requires %>'"
+					},
+					{
+						from: /public static \$required_php = \'.*.'/m,
+						to: "public static $required_php = '<%= pkg.requires_php %>'"
 					}
 				]
 			},

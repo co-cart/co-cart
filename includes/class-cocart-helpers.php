@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.5.0
+ * @version  2.6.0
  * @license  GPL-2.0+
  */
 
@@ -437,6 +437,51 @@ class CoCart_Helpers {
 
 		return ( ( time() - $cocart_installed ) >= $seconds );
 	} // END cocart_active_for()
+
+	/**
+	 * Get current admin page URL.
+	 *
+	 * Returns an empty string if it cannot generate a URL.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.6.0
+	 * @return string
+	 */
+	public static function cocart_get_current_admin_url() {
+		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$uri = preg_replace( '|^.*/wp-admin/|i', '', $uri );
+
+		if ( ! $uri ) {
+			return '';
+		}
+
+		return remove_query_arg( array( 'hide_cocart_review_notice', 'hide_cocart_beta_notice', 'hide_forever_cocart_beta_notice', 'hide_cocart_upgrade_notice', 'hide_forever_cocart_upgrade_notice' ), admin_url( $uri ) );
+	} // END cocart_get_current_admin_url()
+
+	/**
+	 * Determines if the server environment is compatible with this plugin.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.6.0
+	 * @return bool
+	 */
+	public static function is_environment_compatible() {
+		return version_compare( PHP_VERSION, CoCart::$required_php, '>=' );
+	} // END is_environment_compatible()
+
+	/**
+	 * Gets the message for display when the environment is incompatible with this plugin.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.6.0
+	 * @return string
+	 */
+	public static function get_environment_message() {
+		return sprintf( __( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'cart-rest-api-for-woocommerce' ), CoCart::required_php, PHP_VERSION );
+	} // END get_environment_message()
 
 } // END class
 

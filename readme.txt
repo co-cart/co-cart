@@ -206,21 +206,9 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
-= v2.5.1 - 18th August, 2020 =
+= v2.6.0 - ?? September, 2020 =
 
-* Fixed: **'Access-Control-Allow-Origin'** header response when it request's credentials with a wildcard `(*)` value.
-* Dev: Added filter `cocart_allow_origin` to set the origin header for added layer of security when you go into production.
-* Tested: Compatible with WooCommerce v4.4.0
-
-> This is a community release by [@mattdabell](https://github.com/mattdabell)
-
-= v2.5.0 - 10th August, 2020 =
-
-This minor release adds support for the recent changes made to the REST API in the coming WordPress 5.5 to allow CoCart to still work as it is a public REST API.
-
-No changes have been made to the API it self. Just made sure that each route has the correct permission call back applied.
-
-If you are still using the legacy API and have updated to WordPress 5.5, then you will no longer be able to use it as it will no longer register.
+CHANGELOG GOES HERE
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
