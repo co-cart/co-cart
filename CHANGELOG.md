@@ -10,6 +10,8 @@
 * Improved: Handling of admin menu by moving to it's own class.
 * Tweaked: Admin notices to not redirect only to the plugins page once notice is dismissed. Will redirect to the current admin page.
 * Dev: Introduced the ability to white label the plugin. Meaning hide **CoCart** from the backend. (Admin menu, plugin links, plugin notices including WC admin inbox notices and WC system status information). All you have to do is set a constant `COCART_WHITE_LABEL` to true in user's `wp-config.php` file.
+* Dev: New filter `cocart_authenticate` to override the determined user ID when authenticating. **NOTE** This will only be active if not already authenticated.
+* Tested: Compatible with WooCommerce v4.5.0
 
 ## v2.5.1 - 18th August, 2020
 

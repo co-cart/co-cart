@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.6.0-beta.2\n"
+"Project-Id-Version: CoCart 2.6.0-beta.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-08-28 17:55:40+00:00\n"
+"POT-Creation-Date: 2020-08-30 17:11:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -924,75 +924,75 @@ msgstr ""
 msgid "No items in cart to calculate totals."
 msgstr ""
 
-#: includes/class-cocart-helpers.php:359
+#: includes/class-cocart-helpers.php:428
 #. translators: Number of years
 msgid "%s years"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:361
+#: includes/class-cocart-helpers.php:430
 msgid "a year"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:367
+#: includes/class-cocart-helpers.php:436
 msgid "%s months"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:369
+#: includes/class-cocart-helpers.php:438
 msgid "1 month"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:376
+#: includes/class-cocart-helpers.php:445
 #. translators: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:378
+#: includes/class-cocart-helpers.php:447
 msgid "a week"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:385
+#: includes/class-cocart-helpers.php:454
 #. translators: Number of days
 msgid "%s days"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:387
+#: includes/class-cocart-helpers.php:456
 msgid "a day"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:394
+#: includes/class-cocart-helpers.php:463
 #. translators: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:396
+#: includes/class-cocart-helpers.php:465
 msgid "an hour"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:403
+#: includes/class-cocart-helpers.php:472
 #. translators: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:405
+#: includes/class-cocart-helpers.php:474
 msgid "a minute"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:412
+#: includes/class-cocart-helpers.php:481
 #. translators: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:414
+#: includes/class-cocart-helpers.php:483
 msgid "a second"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:483
+#: includes/class-cocart-helpers.php:552
 msgid ""
 "The minimum PHP version required for this plugin is %1$s. You are running "
 "%2$s."
 msgstr ""
 
-#: includes/class-cocart-init.php:219
+#: includes/class-cocart-init.php:216
 msgid "User has changed! Was %s before and is now %s"
 msgstr ""
 

@@ -24,18 +24,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_Helpers {
 
 	/**
-	 * Cache 'gte' comparison results.
+	 * Cache 'gte' comparison results for WooCommerce version.
 	 *
 	 * @var array
 	 */
 	private static $is_wc_version_gte = array();
 
 	/**
-	 * Cache 'gt' comparison results.
+	 * Cache 'gt' comparison results for WooCommerce version.
 	 *
 	 * @var array
 	 */
 	private static $is_wc_version_gt = array();
+
+	/**
+	 * Cache 'lte' comparison results for WooCommerce version.
+	 *
+	 * @since 2.6.0
+	 * @var   array
+	 */
+	private static $is_wc_version_lte = array();
+
+	/**
+	 * Cache 'lt' comparison results for WooCommerce version.
+	 *
+	 * @since 2.6.0
+	 * @var   array
+	 */
+	private static $is_wc_version_lt = array();
 
 	/**
 	 * Cache 'gt' comparison results for WP version.
@@ -55,7 +71,7 @@ class CoCart_Helpers {
 	 * Cache 'lt' comparison results for WP version.
 	 *
 	 * @since 2.5.0
-	 * @var array
+	 * @var   array
 	 */
 	private static $is_wp_version_lt = array();
 
@@ -77,7 +93,7 @@ class CoCart_Helpers {
 	 */
 	public static function is_wc_version_gte_3_6() {
 		return self::is_wc_version_gte( '3.6' );
-	} // END is_wc_version_gte()
+	} // END is_wc_version_gte_3_6()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is 4.0 or greater.
@@ -87,14 +103,36 @@ class CoCart_Helpers {
 	 */
 	public static function is_wc_version_gte_4_0() {
 		return self::is_wc_version_gte( '4.0' );
-	} // END is_wc_version_gte()
+	} // END is_wc_version_gte_4_0()
+
+	/**
+	 * Returns true if the installed version of WooCommerce is 4.5 or greater.
+	 *
+	 * @access public
+	 * @since  2.6.0
+	 * @return boolean
+	 */
+	public static function is_wc_version_gte_4_5() {
+		return self::is_wc_version_gte( '4.5' );
+	} // END is_wc_version_gte_4_5()
+
+	/**
+	 * Returns true if the installed version of WooCommerce is lower than 4.5.
+	 *
+	 * @access public
+	 * @since  2.6.0
+	 * @return boolean
+	 */
+	public static function is_wc_version_lt_4_5() {
+		return self::is_wc_version_lt( '4.5' );
+	} // END is_wc_version_lt_4_5()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
 	 *
 	 * @access public
 	 * @param  string  $version the version to compare
-	 * @return boolean true if the installed version of WooCommerce is > $version
+	 * @return boolean true if the installed version of WooCommerce is >= $version
 	 */
 	public static function is_wc_version_gte( $version ) {
 		if ( ! isset( self::$is_wc_version_gte[ $version ] ) ) {
@@ -117,6 +155,37 @@ class CoCart_Helpers {
 
 		return self::$is_wc_version_gt[ $version ];
 	} // END is_wc_version_gt()
+
+	/**
+	 * Returns true if the installed version of WooCommerce is lower than or equal to $version.
+	 *
+	 * @access public
+	 * @since  2.6.0
+	 * @param  string  $version the version to compare
+	 * @return boolean true if the installed version of WooCommerce is <= $version
+	 */
+	public static function is_wc_version_lte( $version ) {
+		if ( ! isset( self::$is_wc_version_lte[ $version ] ) ) {
+			self::$is_wc_version_lte[ $version ] = self::get_wc_version() && version_compare( self::get_wc_version(), $version, '<=' );
+		}
+		return self::$is_wc_version_lte[ $version ];
+	} // END is_wc_version_lte()
+
+	/**
+	 * Returns true if the installed version of WooCommerce is less than $version.
+	 *
+	 * @access public
+	 * @since  2.6.0
+	 * @param  string  $version the version to compare
+	 * @return boolean true if the installed version of WooCommerce is < $version
+	 */
+	public static function is_wc_version_lt( $version ) {
+		if ( ! isset( self::$is_wc_version_lt[ $version ] ) ) {
+			self::$is_wc_version_lt[ $version ] = self::get_wc_version() && version_compare( self::get_wc_version(), $version, '<' );
+		}
+
+		return self::$is_wc_version_lt[ $version ];
+	} // END is_wc_version_lt()
 
 	/**
 	 * Returns true if the WooCommerce version does not meet CoCart requirements.

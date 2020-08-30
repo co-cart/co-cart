@@ -25,7 +25,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.6.0-beta.2';
+	public static $version = '2.6.0-beta.3';
 
 	/**
 	 * Required WordPress Version
@@ -178,6 +178,7 @@ final class CoCart {
 	 * @since  2.6.0
 	 */
 	public static function load_rest_api() {
+		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-init.php';
 	} // END load_rest_api()
 

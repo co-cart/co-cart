@@ -2,13 +2,13 @@
 /**
  * CoCart REST API
  *
- * Handles cart endpoints requests for WC-API and CoCart.
+ * Handles cart endpoints requests for CoCart.
  *
  * @author   Sébastien Dumont
  * @category API
  * @package  CoCart\API
  * @since    1.0.0
- * @version  2.5.1
+ * @version  2.6.0
  * @license  GPL-2.0+
  */
 
@@ -135,7 +135,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  private
 	 * @since   1.0.0
-	 * @version 2.2.0
+	 * @version 2.6.0
 	 */
 	private function cocart_rest_api_init() {
 		// REST API was included starting WordPress 4.4.
@@ -148,41 +148,38 @@ class CoCart_Rest_API {
 			return;
 		}
 
-		// Include REST API Controllers. - ONLY works if hooked to `wp_loaded` !!!
-		add_action( 'wp_loaded', array( $this, 'rest_api_includes' ), 5 );
+		$this->maybe_load_cart();
+		$this->rest_api_includes();
 
 		// Register CoCart REST API routes.
-		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 10 );
-
-		// Allow all cross origin requests.
-		add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
+		add_action( 'rest_api_init', array( $this, 'register_cart_routes' ), 11 );
 	} // cart_rest_api_init()
 
 	/**
 	 * Loads the cart, session and notices should it be required.
 	 * 
-	 * Note: Only needed should the site be running WooCommerce 3.6 
-	 * or higher as they are not included during a REST request.
-	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.3.0
+	 * @version 2.6.0
 	 */
 	private function maybe_load_cart() {
-		if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_rest_api_request() ) {
-			require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
-			require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
+		if ( CoCart_Helpers::is_rest_api_request() ) {
+			// WooCommerce is greater than v3.6 or less than v4.5
+			if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_wc_version_lt_4_5() ) {
+				require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
+				require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
 
-			// Disable cookie authentication REST check and only if site is secure.
-			if ( is_ssl() ) {
-				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
+				// Initialize session.
+				$this->initialize_session();
+
+				// Initialize cart.
+				$this->initialize_cart();
 			}
 
-			// Initialize session.
-			$this->initialize_session();
-
-			// Initialize cart.
-			$this->initialize_cart();
+			// WooCommerce is greater than v4.5 or equal.
+			if ( CoCart_Helpers::is_wc_version_gte_4_5() ) {
+				wc_load_cart();
+			}
 
 			// Identify if user has switched.
 			if ( $this->has_user_switched() ) {
@@ -287,8 +284,6 @@ class CoCart_Rest_API {
 	 * @version 2.5.0
 	 */
 	public function rest_api_includes() {
-		$this->maybe_load_cart();
-
 		// Only include Legacy REST API if WordPress is v5.4.2 or lower.
 		if ( CoCart_Helpers::is_wp_version_lt( '5.4.2' ) ) {
 			// Legacy - WC Cart REST API v2 controller.
@@ -336,54 +331,6 @@ class CoCart_Rest_API {
 			}
 		}
 	} // END register_cart_routes()
-
-	/**
-	 * Allow all cross origin header requests.
-	 * 
-	 * Disabled by default. Requires `cocart_allow_all_cors` filter set to true to enable.
-	 *
-	 * @access  public
-	 * @since   2.2.0
-	 * @version 2.3.0
-	 */
-	public function allow_all_cors() {
-		// If not enabled via filter then return.
-		if ( apply_filters( 'cocart_disable_all_cors', true ) ) {
-			return;
-		}
-
-		// If the REST API request was not for CoCart then return.
-		if ( ! CoCart_Helpers::is_rest_api_request() ) {
-			return;
-		}
-
-		// Remove the default cors server headers.
-		remove_filter( 'rest_pre_serve_request', 'rest_send_cors_headers' );
-
-		// Adds new cors server headers.
-		add_filter( 'rest_pre_serve_request', array( $this, 'cors_headers' ), 0, 4 );
-	} // END allow_all_cors()
-
-	/**
-	 * Cross Origin headers.
-	 *
-	 * @access  public
-	 * @since   2.2.0
-	 * @version 2.5.1
-	 * @param   bool             $served  Whether the request has already been served. Default false.
-	 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-	 * @param   WP_REST_Request  $request Request used to generate the response.
-	 * @param   WP_REST_Server   $server  Server instance.
-	 * @return  bool
-	 */
-	public function cors_headers( $served, $result, $request, $server ) {
-		header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $_SERVER['HTTP_ORIGIN'] ) );
-		header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
-		header( 'Access-Control-Allow-Credentials: true' );
-		header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );
-
-		return $served;
-	} // END cors_headers()
 
 } // END class
 

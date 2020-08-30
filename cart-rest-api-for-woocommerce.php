@@ -5,13 +5,13 @@
  * Description: CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     2.6.0-beta.2
+ * Version:     2.6.0-beta.3
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.2
  * Requires PHP: 7.0
  * WC requires at least: 4.0.0
- * WC tested up to: 4.4.1
+ * WC tested up to: 4.5.0
  *
  * @package CoCart
  */
