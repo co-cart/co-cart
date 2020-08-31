@@ -56,7 +56,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 ### CoCart Pro
 CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 
-* **Priority** Support for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
+* **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
 * Add and Remove Coupons to Cart
 * Retrieve Applied Coupons
 * Retrieve Coupon Discount Total
@@ -67,11 +67,13 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
-* **Coming Soon** Retrieve Checkout Fields (Auditing)
+* **Coming Soon** Remove All Coupons from Cart
+* **Coming Soon** Register Customers
+* **Coming Soon** Retrieve Checkout Fields
 * **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)
-* **Coming Soon** Return Customers Orders (Auditing)
-* **Coming Soon** Return Customers Subscriptions (Auditing)
+* **Coming Soon** Return Customers Orders
+* **Coming Soon** Return Customers Subscriptions
 * **Coming Soon** Return Customers Downloads (Auditing)
 * **Coming Soon** Return Customers Payment Methods (Auditing)
 * **Coming Soon** Get and Update Customers Profile (In Development)
@@ -208,7 +210,16 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 = v2.6.0 - ?? September, 2020 =
 
-CHANGELOG GOES HERE
+* **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
+* **NEW**: Site environment is now checked before plugin activates.
+* **NEW**: Plugin will not activate if CoCart Pro _v1.1.0_ or above is installed.
+* Enhanced: Plugin to be better optimized for future releases of WooCommerce and to allow it to be packaged with CoCart Pro so user's will not require CoCart Lite if Pro is installed.
+* Improved: `uninstall.php` file and now will only clear plugin data and remove the database table if `COCART_REMOVE_ALL_DATA` constant is set to true in user's `wp-config.php`. This is to prevent data loss when deleting the plugin from the backend and to ensure only the site owner can perform this action.
+* Improved: Handling of admin menu by moving to it's own class.
+* Tweaked: Admin notices to not redirect only to the plugins page once notice is dismissed. Will redirect to the current admin page.
+* Dev: Introduced the ability to white label the plugin. Meaning hide **CoCart** from the backend. (Admin menu, plugin links, plugin notices including WC admin inbox notices and WC system status information). All you have to do is set a constant `COCART_WHITE_LABEL` to true in user's `wp-config.php` file.
+* Dev: New filter `cocart_authenticate` to override the determined user ID when authenticating. **NOTE** This will only be active if not already authenticated.
+* Tested: Compatible with WooCommerce v4.5.0
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
