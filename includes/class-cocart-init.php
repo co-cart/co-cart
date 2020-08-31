@@ -178,7 +178,9 @@ class CoCart_Rest_API {
 
 			// WooCommerce is greater than v4.5 or equal.
 			if ( CoCart_Helpers::is_wc_version_gte_4_5() ) {
-				wc_load_cart();
+				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart') ) {
+					wc_load_cart();
+				}
 			}
 
 			// Identify if user has switched.
