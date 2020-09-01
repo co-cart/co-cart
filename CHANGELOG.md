@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.6.0 - ?? September, 2020
+## v2.6.0 - 8th September, 2020
 
 * **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
 * **NEW**: Site environment is now checked before plugin activates.

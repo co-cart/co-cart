@@ -208,7 +208,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
-= v2.6.0 - ?? September, 2020 =
+= v2.6.0 - 8th September, 2020 =
 
 * **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
 * **NEW**: Site environment is now checked before plugin activates.
@@ -227,4 +227,4 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 = 2.6.0 =
 
-* This plugin update improves optimization for future releases of WooCommerce and CoCart Pro.
+* Improves plugin optimization for WooCommerce 4.5 and future releases of WooCommerce and CoCart Pro.
