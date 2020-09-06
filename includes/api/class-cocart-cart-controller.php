@@ -45,9 +45,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Get Cart - cocart/v2/cart (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'get_cart' ),
-				'args'     => $this->get_collection_params()
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );
@@ -55,9 +56,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Get Cart in Session - cocart/v2/cart/1654654321 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\w]+)', array(
 			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'get_cart_in_session' ),
-				'args'     => $this->get_collection_params()
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart_in_session' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );

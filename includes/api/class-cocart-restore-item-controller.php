@@ -46,8 +46,9 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'args' => $this->get_collection_params(),
 			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'restore_item' ),
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'restore_item' ),
+				'permission_callback' => '__return_true',
 			),
 		) );
 	} // register_routes()

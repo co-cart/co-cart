@@ -46,9 +46,10 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_Controller {
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			'args' => $this->get_collection_params(),
 			array(
-				'methods'  => WP_REST_Server::CREATABLE,
-				'callback' => array( $this, 'update_item' ),
-				'args'     => array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'update_item' ),
+				'permission_callback' => '__return_true',
+				'args'                => array(
 					'quantity' => array(
 						'default'           => 1,
 						'type'              => 'float',

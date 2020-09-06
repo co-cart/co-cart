@@ -44,8 +44,9 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	public function register_routes() {
 		// Get Cart - cocart/v2 (GET)
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_store' ),
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => array( $this, 'get_store' ),
+			'permission_callback' => '__return_true'
 		) );
 	} // register_routes()
 
