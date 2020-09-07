@@ -9,7 +9,7 @@ Requires PHP: 7.0
 Tested up to: 5.5
 Stable tag: 2.5.1
 WC requires at least: 4.0.0
-WC tested up to: 4.4.0
+WC tested up to: 4.5.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -56,7 +56,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 ### CoCart Pro
 CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 
-* **Priority** Support for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
+* **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
 * Add and Remove Coupons to Cart
 * Retrieve Applied Coupons
 * Retrieve Coupon Discount Total
@@ -67,11 +67,13 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
-* **Coming Soon** Retrieve Checkout Fields (Auditing)
+* **Coming Soon** Remove All Coupons from Cart
+* **Coming Soon** Register Customers
+* **Coming Soon** Retrieve Checkout Fields
 * **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)
-* **Coming Soon** Return Customers Orders (Auditing)
-* **Coming Soon** Return Customers Subscriptions (Auditing)
+* **Coming Soon** Return Customers Orders
+* **Coming Soon** Return Customers Subscriptions
 * **Coming Soon** Return Customers Downloads (Auditing)
 * **Coming Soon** Return Customers Payment Methods (Auditing)
 * **Coming Soon** Get and Update Customers Profile (In Development)

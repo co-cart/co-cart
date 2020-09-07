@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart/API/v2
+ * @package  CoCart\API\v2
  * @since    3.0.0
  * @license  GPL-2.0+
  */
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API Add Item v2 controller class.
  *
- * @package CoCart/API
+ * @package CoCart\API
  */
 class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 

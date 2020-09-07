@@ -7,7 +7,7 @@
 		<img src="https://img.shields.io/static/v1?label=&message=5.2+-+5.5&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.0.0+-+4.4.0&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=4.0.0+-+4.5.0&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+7.4&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -78,7 +78,6 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 
 * **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) users.
 * Add and Remove Coupons to/from Cart
-* Remove All Coupons from Cart
 * Retrieve Applied Coupons
 * Retrieve Coupon Discount Total
 * Retrieve Cart Total Weight
@@ -88,12 +87,13 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
-* **Coming Soon** Register Customers (Auditing)
-* **Coming Soon** Retrieve Checkout Fields (Auditing)
+* **Coming Soon** Remove All Coupons from Cart
+* **Coming Soon** Register Customers
+* **Coming Soon** Retrieve Checkout Fields
 * **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)
-* **Coming Soon** Return Customers Orders (Auditing)
-* **Coming Soon** Return Customers Subscriptions (Auditing)
+* **Coming Soon** Return Customers Orders
+* **Coming Soon** Return Customers Subscriptions
 * **Coming Soon** Return Customers Downloads (Auditing)
 * **Coming Soon** Return Customers Payment Methods (Auditing)
 * **Coming Soon** Get and Update Customers Profile (In Development)

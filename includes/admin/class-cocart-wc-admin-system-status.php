@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category Admin
- * @package  CoCart/Admin/WooCommerce System Status
+ * @package  CoCart\Admin\WooCommerce System Status
  * @since    2.1.0
  * @version  3.0.0
  * @license  GPL-2.0+
@@ -98,7 +98,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_carts_in_session'] = array(
 				'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
-				'note'      => $this->carts_in_session(),
+				'note'      => self::carts_in_session(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -106,7 +106,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_carts_expired'] = array(
 				'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
-				'note'      => $this->count_carts_expired(),
+				'note'      => self::count_carts_expired(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -146,7 +146,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @global $wpdb
 		 * @return int - Number of carts in session.
 		 */
-		public function carts_in_session( $session = '' ) {
+		public static function carts_in_session( $session = '' ) {
 			global $wpdb;
 
 			if ( empty( $session ) ) {
@@ -171,7 +171,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @global $wpdb
 		 * @return int - Number of carts expired.
 		 */
-		public function count_carts_expired() {
+		public static function count_carts_expired() {
 			global $wpdb;
 
 			$results = $wpdb->get_results( $wpdb->prepare( "
@@ -275,7 +275,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'callback' => array( $this, 'debug_clear_expired_carts' ),
 			);
 
-			$carts_to_sync = $this->carts_in_session( 'woocommerce' );
+			$carts_to_sync = self::carts_in_session( 'woocommerce' );
 
 			// Only show synchronize carts option if required.
 			if ( $carts_to_sync > 0 ) {

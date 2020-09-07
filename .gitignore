@@ -1,18 +1,26 @@
-# Folders and Grunt
-/assets/scss/
-/build/
-/releases/
+# Editors
+.vscode
+
+# Grunt
 /node_modules/
 npm-debug.log
-/includes/api/experiments
-/includes/api/wip
-/includes/api/pro-enhancements
 
 # OS X metadata
 .DS_Store
 
 # Windows junk
 Thumbs.db
+
+# Composer
+/vendor/
+
+# Languages
+/languages/*
+!/languages/README.md
+
+# Build & Releases
+/build/
+/releases/
 
 # Various file types to ignore when exporting.
 *.sh

@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category Admin
- * @package  CoCart/Admin/WooCommerce Admin/Notes
+ * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.4.0
  * @license  GPL-2.0+
  */

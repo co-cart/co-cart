@@ -4,11 +4,11 @@
  *
  * Forked from WC_Session_Handler, changed default variables, 
  * database table used, filters and made adjustments to accommodate 
- * support for guest customers as well as registered customers.
+ * support for guest customers as well as registered customers via the REST API.
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart/Session
+ * @package  CoCart\Session
  * @since    2.1.0
  * @version  3.0.0
  * @license  GPL-2.0+
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Checks that WooCommerce session class exists first.
-if ( ! class_exists('WC_Session') ) {
+if ( ! class_exists( 'WC_Session' ) ) {
 	return;
 }
 
@@ -236,6 +236,17 @@ class CoCart_Session_Handler extends WC_Session {
 			}
 		}
 	} // END set_customer_cart_cookie()
+
+	/**
+	 * Backwards compatibility function for setting cart cookie.
+	 *
+	 * @access public
+	 * @param  bool $set Should the cart cookie be set.
+	 * @since  2.6.0
+	 */
+	public function set_customer_session_cookie( $set = true ) {
+		$this->set_customer_cart_cookie( $set );
+	} // END set_customer_session_cookie()
 
 	/**
 	 * Returns the cookie name.
@@ -562,7 +573,7 @@ class CoCart_Session_Handler extends WC_Session {
 
 		$wpdb->update( $this->_table,
 			array(
-				'cart_value' => maybe_serialize( $this->_data ),
+				'cart_value'  => maybe_serialize( $this->_data ),
 				'cart_expiry' => $this->_cart_expiration
 			),
 			array( 'cart_key' => $customer_id ),

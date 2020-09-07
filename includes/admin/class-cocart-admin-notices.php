@@ -4,9 +4,9 @@
  *
  * @author   Sébastien Dumont
  * @category Admin
- * @package  CoCart/Admin/Notices
+ * @package  CoCart\Admin\Notices
  * @since    1.2.0
- * @version  2.4.0
+ * @version  2.6.0
  * @license  GPL-2.0+
  */
 
@@ -33,10 +33,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.4.0
+		 * @version 2.6.0
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
+
+			// Check PHP environment.
+			add_action( 'admin_init', array( $this, 'check_php' ), 12 );
 
 			// Check WordPress environment.
 			add_action( 'admin_init', array( $this, 'check_wp' ), 12 );
@@ -54,6 +57,23 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END __construct()
 
 		/**
+		 * Checks the environment on loading WordPress, just in case the environment changes after activation.
+		 *
+		 * @access public
+		 * @since  2.6.0
+		 * @return bool
+		 */
+		public function check_php() {
+			if ( ! CoCart_Helpers::is_environment_compatible() && is_plugin_active( plugin_basename( COCART_FILE ) ) ) {
+				CoCart::deactivate_plugin();
+				add_action( 'admin_notices', array( $this, 'requirement_php_notice' ) );
+				return false;
+			}
+
+			return true;
+		} // END check_php()
+
+		/**
 		 * Checks that the WordPress version meets the plugin requirement.
 		 *
 		 * @access  public
@@ -68,6 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			if ( ! CoCart_Helpers::is_wp_version_gte( CoCart::$required_wp ) ) {
+				CoCart::deactivate_plugin();
 				add_action( 'admin_notices', array( $this, 'requirement_wp_notice' ) );
 				return false;
 			}
@@ -89,6 +110,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			if ( ! defined( 'WC_VERSION' ) ) {
+				CoCart::deactivate_plugin();
 				add_action( 'admin_notices', array( $this, 'woocommerce_not_installed' ) );
 				return false;
 			}
@@ -104,7 +126,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.3.0
+		 * @version 2.6.0
 		 * @global  $current_user
 		 */
 		public function dont_bug_me() {
@@ -144,8 +166,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			// Did user hide a notice?
 			if ( $user_hidden_notice ) {
-				// Redirect to the plugins page.
-				wp_safe_redirect( admin_url( 'plugins.php' ) );
+				// Redirects back to current admin URL.
+				wp_safe_redirect( CoCart_Helpers::cocart_get_current_admin_url() );
 				exit;
 			}
 		} // END dont_bug_me()
@@ -242,7 +264,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				delete_transient( 'cocart_upgrade_notice_hidden' );
 			}
 
-			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( COCART_VERSION, COCART_NEXT_VERSION, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
+			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( strstr( COCART_VERSION, '-', true ), COCART_NEXT_VERSION, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
 				set_transient( 'cocart_next_version', COCART_NEXT_VERSION );
 			}
@@ -252,63 +274,85 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Shows an upgrade warning notice if the installed version is less
 		 * than the new release coming soon.
 		 *
-		 * @access public
-		 * @since  1.2.3
+		 * @access  public
+		 * @since   1.2.3
+		 * @version 2.6.0
 		 */
 		public function upgrade_warning() {
-			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-upgrade-warning.php' );
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-upgrade-warning.php';
 		} // END upgrade_warning()
+
+		/**
+		 * Show the PHP requirement notice.
+		 *
+		 * @access public
+		 * @since  2.6.0
+		 */
+		public function requirement_php_notice() {
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-requirement-php.php';
+		} // END requirement_php_notice()
 
 		/**
 		 * Show the WordPress requirement notice.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.6.0
+		 * @return  void
 		 */
 		public function requirement_wp_notice() {
-			include( COCART_FILE_PATH . '/includes/admin/views/html-notice-requirement-wp.php' );
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-requirement-wp.php';
 		} // END requirement_wp_notice()
 
 		/**
 		 * WooCommerce is Not Installed or Activated Notice.
 		 *
-		 * @access public
-		 * @since  2.0.0
-		 * @return void
+		 * @access  public
+		 * @since   2.0.0
+		 * @version 2.6.0
+		 * @return  void
 		 */
 		public function woocommerce_not_installed() {
-			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-wc-not-installed.php' );
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-wc-not-installed.php';
 		} // END woocommerce_not_installed()
 
 		/**
 		 * Display a warning message if minimum version of WooCommerce check fails and
 		 * provide an update button if the user has admin capabilities to update plugins.
 		 *
-		 * @access public
-		 * @since  2.0.0
-		 * @return void
+		 * @access  public
+		 * @since   2.0.0
+		 * @version 2.6.0
+		 * @return  void
 		 */
 		public function required_wc_version_failed() {
-			include_once( COCART_FILE_PATH . '/includes/admin/views/html-notice-required-wc.php' );
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-required-wc.php';
 		} // END required_wc_version_failed()
 
 		/**
 		 * Show the beta notice.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.6.0
+		 * @return  void
 		 */
 		public function beta_notice() {
-			include( COCART_FILE_PATH . '/includes/admin/views/html-notice-trying-beta.php' );
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-trying-beta.php';
 		} // END beta_notice()
 
 		/**
 		 * Show the plugin review notice.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 2.6.0
+		 * @return  void
 		 */
 		public function plugin_review_notice() {
 			$install_date = self::$install_date;
 
-			include( COCART_FILE_PATH . '/includes/admin/views/html-notice-please-review.php' );
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-please-review.php';
 		} // END plugin_review_notice()
 
 	} // END class.
