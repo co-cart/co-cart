@@ -39,13 +39,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-action">
-<<<<<<< HEAD
 			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" aria-label="' . esc_html__( 'Give Feedback for %2$s', 'cart-rest-api-for-woocommerce' ) . '" target="_blank">%3$s</a>', esc_url( COCART_STORE_URL . 'feedback/?wpf674_3=CoCart v' . COCART_VERSION ), 'CoCart', esc_html__( 'Give Feedback', 'cart-rest-api-for-woocommerce' ) ); ?>
-			<span class="no-thanks"><a href="<?php echo esc_url( add_query_arg( 'hide_cocart_beta_notice', 'true' ) ); ?>" aria-label="<?php echo esc_html__( 'Hide this notice and ask me again for feedback in 7 days', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Ask me again in 7 days', 'cart-rest-api-for-woocommerce' ); ?></a> / <a href="<?php echo esc_url( add_query_arg( 'hide_forever_cocart_beta_notice', 'true' ) ); ?>" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Don\'t ask me again', 'cart-rest-api-for-woocommerce' ); ?></a></span>
-=======
-			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" aria-label="' . esc_html__( 'Give Feedback for %2$s', 'cart-rest-api-for-woocommerce' ) . '" target="_blank">%3$s</a>', esc_url( COCART_STORE_URL . 'feedback/' ), 'CoCart', esc_html__( 'Give Feedback', 'cart-rest-api-for-woocommerce' ) ); ?>
 			<span class="no-thanks"><a href="<?php echo esc_url( add_query_arg( 'hide_cocart_beta_notice', 'true', CoCart_Helpers::cocart_get_current_admin_url() ) ); ?>" aria-label="<?php echo esc_html__( 'Hide this notice and ask me again for feedback in 7 days', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Ask me again in 7 days', 'cart-rest-api-for-woocommerce' ); ?></a> / <a href="<?php echo esc_url( add_query_arg( 'hide_forever_cocart_beta_notice', 'true', CoCart_Helpers::cocart_get_current_admin_url() ) ); ?>" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Don\'t ask me again', 'cart-rest-api-for-woocommerce' ); ?></a></span>
->>>>>>> master
 		</div>
 	</div>
 </div>
