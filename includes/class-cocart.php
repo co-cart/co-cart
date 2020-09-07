@@ -173,13 +173,15 @@ final class CoCart {
 	/**
 	 * Load REST API.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @since  2.6.0
+	 * @since   2.6.0
+	 * @version 3.0.0
 	 */
 	public static function load_rest_api() {
 		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-init.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-rest-api.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-server.php';
 	} // END load_rest_api()
 
 	/**
