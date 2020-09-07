@@ -39,8 +39,8 @@ class CoCart_Server {
 			return;
 		}
 
-		// Include REST API Controllers. - ONLY works if hooked to `wp_loaded` !!!
-		add_action( 'wp_loaded', array( $this, 'rest_api_includes' ), 5 );
+		$this->maybe_load_cart();
+		$this->rest_api_includes();
 
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
