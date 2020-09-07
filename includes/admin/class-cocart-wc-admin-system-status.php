@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart/Admin/WooCommerce System Status
  * @since    2.1.0
- * @version  2.4.0
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -23,12 +23,15 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		/**
 		 * Constructor
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 3.0.0
 		 */
 		public function __construct() {
 			add_filter( 'woocommerce_system_status_report', array( $this, 'render_system_status_items' ) );
 
 			add_filter( 'woocommerce_debug_tools', array( $this, 'debug_button' ) );
+			add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_update_database' ), 10, 2 );
 		} // END __construct()
 
 		/**
@@ -59,8 +62,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		/**
 		 * Gets the system status data to return.
 		 *
-		 * @access public
-		 * @return array $data
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 3.0.0
+		 * @return  array $data
 		 */
 		public function get_system_status_data() {
 			$data = array();
@@ -76,8 +81,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_db_version'] = array(
 				'name'      => _x( 'Database Version', 'label that indicates the database version of the plugin', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Database Version', 'cart-rest-api-for-woocommerce' ),
-				'note'      => get_option( 'cocart_version', null ),
-				'tip'       => sprintf( esc_html__( 'The version of %s reported by the database. This should be the same as the version of the plugin.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+				'note'      => get_option( 'cocart_db_version', null ),
+				'tip'       => sprintf( esc_html__( 'The version of %1$s that the database is formatted for. This should be the same as your %1$s version. Unless you have %2$s, then it should be the version of %1$s packaged.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'CoCart Pro' ),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -102,6 +107,30 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
 				'note'      => $this->count_carts_expired(),
+				'mark'      => '',
+				'mark_icon' => '',
+			);
+
+			$data['cocart_carts_source_headless'] = array(
+				'name'      => _x( 'Carts Source (by CoCart)', 'label that indicates the number of carts created via CoCart API', 'cart-rest-api-for-woocommerce' ),
+				'label'     => esc_html__( 'Carts Source (by CoCart)', 'cart-rest-api-for-woocommerce' ),
+				'note'      => $this->carts_source_headless(),
+				'mark'      => '',
+				'mark_icon' => '',
+			);
+
+			$data['cocart_carts_source_web'] = array(
+				'name'      => _x( 'Carts Source (by Web)', 'label that indicates the number of carts created via the web', 'cart-rest-api-for-woocommerce' ),
+				'label'     => esc_html__( 'Carts Source (by Web)', 'cart-rest-api-for-woocommerce' ),
+				'note'      => $this->carts_source_web(),
+				'mark'      => '',
+				'mark_icon' => '',
+			);
+
+			$data['cocart_carts_source_other'] = array(
+				'name'      => _x( 'Carts Source (by Other)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ),
+				'label'     => esc_html__( 'Carts Source (by Other)', 'cart-rest-api-for-woocommerce' ),
+				'note'      => $this->carts_source_other(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -155,11 +184,68 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		} // END count_carts_expired()
 
 		/**
+		 * Counts how many carts were created via the web.
+		 *
+		 * @access public
+		 * @global $wpdb
+		 * @return int - Number of carts created via the web.
+		 */
+		public function carts_source_web() {
+			global $wpdb;
+
+			$results = $wpdb->get_results( $wpdb->prepare( "
+				SELECT COUNT(cart_id) as count
+				FROM {$wpdb->prefix}cocart_carts 
+				WHERE cart_source='woocommerce'"
+			), ARRAY_A );
+
+			return $results[0]['count'];
+		} // END carts_source_web()
+
+		/**
+		 * Counts how many carts were created via CoCart API.
+		 *
+		 * @access public
+		 * @global $wpdb
+		 * @return int - Number of carts created via CoCart API.
+		 */
+		public function carts_source_headless() {
+			global $wpdb;
+
+			$results = $wpdb->get_results( $wpdb->prepare( "
+				SELECT COUNT(cart_id) as count
+				FROM {$wpdb->prefix}cocart_carts 
+				WHERE cart_source='cocart-rest-api'"
+			), ARRAY_A );
+
+			return $results[0]['count'];
+		} // END carts_source_web()
+
+		/**
+		 * Counts how many carts were the source is other or unknown.
+		 *
+		 * @access public
+		 * @global $wpdb
+		 * @return int - Number of carts created via other or unknown.
+		 */
+		public function carts_source_other() {
+			global $wpdb;
+
+			$results = $wpdb->get_results( $wpdb->prepare( "
+				SELECT COUNT(cart_id) as count
+				FROM {$wpdb->prefix}cocart_carts 
+				WHERE cart_source!='cocart-rest-api' AND cart_source!='woocommerce'"
+			), ARRAY_A );
+
+			return $results[0]['count'];
+		} // END carts_source_other()
+
+		/**
 		 * Adds debug buttons under the tools section of WooCommerce System Status.
 		 *
 		 * @access  public
 		 * @since   2.1.0
-		 * @version 2.4.0
+		 * @version 3.0.0
 		 * @param   array $tools - All tools before adding ours.
 		 * @return  array $tools - All tools after adding ours.
 		 */
@@ -208,6 +294,17 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				unset( $tools['clear_sessions'] );
 			}
 
+			$tools['cocart_update_db'] = array(
+				'name'   => esc_html__( 'Update CoCart Database', 'cart-rest-api-for-woocommerce' ),
+				'button' => esc_html__( 'Update Database', 'cart-rest-api-for-woocommerce' ),
+				'desc'   => sprintf(
+					'<strong class="red">%1$s</strong> %2$s',
+					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'This will update CoCart\'s session table in the database. This is only needed to be done if you prefer to update manually or the automatic update failed.', 'cart-rest-api-for-woocommerce' )
+				),
+				//'callback' => array( $this, 'update_database' ),
+			);
+
 			return $tools;
 		} // END debug_button
 
@@ -253,6 +350,26 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			echo '<div class="updated inline"><p>' . esc_html__( 'Carts are now synchronized.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		} // END resync_carts()
+
+		/**
+		 * Maybe updates the database.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @param  array $tool - The system tool that is being run.
+		 * @return string
+		 */
+		public function maybe_update_database( $tool ) {
+			if ( 'cocart_update_db' === $tool['id'] && $tool['success'] ) {
+				$blog_id = get_current_blog_id();
+
+				// Used to fire an action added in WP_Background_Process::_construct() that calls WP_Background_Process::handle_cron_healthcheck().
+				// This method will make sure the database updates are executed even if cron is disabled. Nothing will happen if the updates are already running.
+				do_action( 'wp_' . $blog_id . '_cocart_updater_cron' );
+
+				return esc_html__( 'Database upgrade routine has been scheduled to run in the background.', 'cart-rest-api-for-woocommerce' );
+			}
+		} // END maybe_update_database()
 
 	} // END class
 

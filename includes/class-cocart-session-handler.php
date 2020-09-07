@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart/Session
  * @since    2.1.0
- * @version  2.4.0
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -48,6 +48,14 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @var string cart expiration timestamp
 	 */
 	protected $_cart_expiration;
+
+	/**
+	 * Stores cart source.
+	 *
+	 * @since 3.0.0
+	 * @var   string cart source
+	 */
+	protected $_cart_source;
 
 	/**
 	 * True when the cookie exists.
@@ -98,6 +106,18 @@ class CoCart_Session_Handler extends WC_Session {
 		 */
 		if ( CoCart_Helpers::is_rest_api_request() && is_numeric( $current_user_id ) && $current_user_id < 1 ) {
 			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
+		}
+
+		/**
+		 * Identifies the source of the cart if it was created 
+		 * via CoCart REST API or via the frontend a.k.a "WooCommerce".
+		 *
+		 * @since 3.0.0
+		 */
+		if ( CoCart_Helpers::is_rest_api_request() ) {
+			$this->_cart_source = 'cocart-rest-api';
+		} else {
+			$this->_cart_source = 'woocommerce';
 		}
 	} // END init()
 
@@ -375,9 +395,11 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Save cart data and delete previous cart data.
 	 *
-	 * @access public
-	 * @param  int $old_cart_key cart ID before user logs in.
-	 * @global $wpdb
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @param   int $old_cart_key cart ID before user logs in.
+	 * @global  $wpdb
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
 		if ( $this->has_session() ) {
@@ -391,13 +413,22 @@ class CoCart_Session_Handler extends WC_Session {
 				$this->_cart_expiration = apply_filters( 'cocart_empty_cart_expiration', HOUR_IN_SECONDS * 6 );
 			}
 
+			/**
+			 * Filter source of cart.
+			 *
+			 * @since 3.0.0
+			 * @param string $cart_source
+			 */
+			$cart_source = apply_filters( 'cocart_cart_source', $cart_source );
+
 			$wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
- 					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
+					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`, `cart_source`) VALUES (%s, %s, %d, %s)
+ 					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`), `cart_source` = VALUES(`cart_source`)",
 					$this->_customer_id,
 					maybe_serialize( $this->_data ),
-					$this->_cart_expiration
+					$this->_cart_expiration,
+					$this->_cart_source
 				)
 			);
 
@@ -498,8 +529,10 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Create a new cart.
 	 *
-	 * @access public
-	 * @global $wpdb
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @global  $wpdb
 	 */
 	public function create_new_cart() {
 		global $wpdb;
@@ -509,9 +542,10 @@ class CoCart_Session_Handler extends WC_Session {
 				array(
 					'cart_key'    => $this->_customer_id,
 					'cart_value'  => maybe_serialize( $this->_data ),
-					'cart_expiry' => $this->_cart_expiration
+					'cart_expiry' => $this->_cart_expiration,
+					'cart_source' => $this->_cart_source
 				),
-				array( '%s', '%s', '%d' )
+				array( '%s', '%s', '%d', '%s' )
 			);
 		}
 	} // END create_new_cart()
