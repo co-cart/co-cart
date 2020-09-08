@@ -6,6 +6,7 @@
 * **NEW**: Site environment is now checked before plugin activates.
 * **NEW**: Plugin will not activate if CoCart Pro _v1.1.0_ or above is installed.
 * Enhanced: Plugin to be better optimized for future releases of WooCommerce and to allow it to be packaged with CoCart Pro so user's will not require CoCart Lite if Pro is installed.
+* Fixed: Return product data if missing once item is added to cart to prevent undefined index.
 * Improved: `uninstall.php` file and now will only clear plugin data and remove the database table if `COCART_REMOVE_ALL_DATA` constant is set to true in user's `wp-config.php`. This is to prevent data loss when deleting the plugin from the backend and to ensure only the site owner can perform this action.
 * Improved: Handling of admin menu by moving to it's own class.
 * Tweaked: Admin notices to not redirect only to the plugins page once notice is dismissed. Will redirect to the current admin page.
