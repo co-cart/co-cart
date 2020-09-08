@@ -332,22 +332,22 @@ This release brings an improved code base for the backend and connects with WooC
 
 ## v1.0.7 - 28th January, 2019
 
-* Tweaked: Clear cart now clears cart in session if the user is logged in. - Thanks to @elron for the patch.
+* Tweaked: Clear cart now clears cart in session if the user is logged in. - Thanks to [@elron](https://github.com/elron) for the patch.
 
 ## v1.0.6 - 12th November, 2018
 
-* Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
+* Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by [@joshuaiz](https://github.com/joshuaiz)
 * Improved: Updating items by adding a check to see if there is enough stock. Thanks to @DennisMatise
 
 ## v1.0.5 - 11th October, 2018
 
 * Fixed: Variation and cart item data validation callback. - Issue #40 Thanks to @DennisMatise
-* Fixed: A fatal error that caused errors not to return properly. - Issue #35 Thanks to @skunkbad
+* Fixed: A fatal error that caused errors not to return properly. - Issue #35 Thanks to [@skunkbad](https://github.com/skunkbad)
 * Changed: Name of the plugin is now CoCart. The plugin slug will remain the same.
 
 ## v1.0.4 - 5th July, 2018
 
-* Fixed: Return response for numeric thanks to @campusboy87
+* Fixed: Return response for numeric thanks to [@campusboy87](https://github.com/campusboy87)
 * Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30
 
 ## v1.0.3 - 22nd April, 2018
