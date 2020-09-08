@@ -1,13 +1,13 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
 Author URI: https://sebastiendumont.com
 Plugin URI: https://cocart.xyz
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.5.1
+Stable tag: 2.6.0
 WC requires at least: 4.0.0
 WC tested up to: 4.5.0
 License: GPLv3
