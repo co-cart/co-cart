@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.6.0\n"
+"Project-Id-Version: CoCart 2.6.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-09-08 10:44:39+00:00\n"
+"POT-Creation-Date: 2020-09-09 13:38:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -88,6 +88,10 @@ msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:95
 msgid "Upgrade to Pro"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-plugin-screen-update.php:55
+msgid "%s Upgrade Notice"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-plugin-screen-update.php:175

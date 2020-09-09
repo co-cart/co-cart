@@ -208,6 +208,11 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Changelog ==
 
+= v2.6.1 - 9th September, 2020 =
+
+* Enhanced: Plugin upgrade notice on the plugin page.
+* Removed: Unused CSS.
+
 = v2.6.0 - 8th September, 2020 =
 
 * **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
@@ -226,6 +231,6 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Upgrade Notice ==
 
-= 2.6.0 =
+= 2.6 =
 
-* Improves plugin optimization for WooCommerce 4.5 and future releases of WooCommerce and CoCart Pro.
+Improves plugin optimization for WooCommerce 4.5 and future releases of WooCommerce and CoCart Pro.

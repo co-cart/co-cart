@@ -1,5 +1,10 @@
 # Changelog for CoCart Lite
 
+## v2.6.1 - 9th September, 2020
+
+* Enhanced: Plugin upgrade notice on the plugin page.
+* Removed: Unused CSS.
+
 ## v2.6.0 - 8th September, 2020
 
 * **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
