@@ -7,9 +7,9 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.6.1
+Stable tag: 2.6.2
 WC requires at least: 4.0.0
-WC tested up to: 4.5.0
+WC tested up to: 4.5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -207,6 +207,13 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 [Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
 
 == Changelog ==
+
+= v2.6.2 - 16th September, 2020 =
+
+> 📢 This minor releases corrects some of the API error response codes misused. 👍
+
+* Tweaked: Check for package version of CoCart instead of the version of CoCart Pro so users can install higher versions of the core of CoCart when CoCart Pro is active. This allows users to test pre-releases or newer versions when they become available. 😄
+* Tested: Compatible with WooCommerce v4.5.2
 
 = v2.6.1 - 9th September, 2020 =
 
