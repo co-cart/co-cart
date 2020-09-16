@@ -2,7 +2,7 @@
 
 ## v2.6.2 - 16th September, 2020
 
-> 📢 This minor releases corrects some of the API error response codes misused. 👍
+> 📢 This minor release corrects some of the API error response codes misused. 👍
 
 * Tweaked: Check for package version of CoCart instead of the version of CoCart Pro so users can install higher versions of the core of CoCart when CoCart Pro is active. This allows users to test pre-releases or newer versions when they become available. 😄
 * Tested: Compatible with WooCommerce v4.5.2
