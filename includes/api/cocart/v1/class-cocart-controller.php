@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.0.0
- * @version  2.5.0
+ * @version  2.6.2
  * @license  GPL-2.0+
  */
 
@@ -79,13 +79,14 @@ class CoCart_API_Controller {
 	/**
 	 * Check if a given request can read the cart.
 	 *
-	 * @access public
-	 * @since  2.0.0
-	 * @return bool|WP_Error
+	 * @access  public
+	 * @since   2.0.0
+	 * @version 2.6.2
+	 * @return  bool|WP_Error
 	 */
 	public function get_permission_check() {
 		if ( ! current_user_can( 'administrator' ) ) {
-			return new WP_Error( 'cocart_cannot_read_cart', __( 'Cannot read cart!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cannot_read_cart', __( 'Cannot read cart!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) );
 		}
 
 		return true;
@@ -287,11 +288,12 @@ class CoCart_API_Controller {
 	/**
 	 * Returns a saved cart in session if one exists.
 	 *
-	 * @access public
-	 * @since  2.1.0
-	 * @param  array  $data   The cart key is a required variable.
-	 * @param  string $return Returns specified data. Default is `cart_contents`.
-	 * @return array  $cart   Returns the cart data from the database.
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.6.2
+	 * @param   array  $data   The cart key is a required variable.
+	 * @param   string $return Returns specified data. Default is `cart_contents`.
+	 * @return  array  $cart   Returns the cart data from the database.
 	 */
 	public function get_cart_in_session( $data = array(), $return = 'cart_contents' ) {
 		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
@@ -306,7 +308,7 @@ class CoCart_API_Controller {
 
 		// If no cart is saved with the ID specified return error.
 		if ( empty( $cart ) ) {
-			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		return $this->return_cart_contents( $data, maybe_unserialize( $cart['cart'] ), '', true );
@@ -317,7 +319,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.6.2
 	 * @param   int|string $product_id
 	 * @return  int|WP_Error
 	 */
@@ -336,21 +338,22 @@ class CoCart_API_Controller {
 		}
 
 		if ( ! is_numeric( $product_id ) ) {
-			return new WP_Error( 'cocart_product_id_not_numeric', __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_product_id_not_numeric', __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 405 ) );
 		}
 	} // END validate_product_id()
 
 	/**
 	 * Validate the product quantity.
 	 *
-	 * @access protected
-	 * @since  1.0.0
-	 * @param  int $quantity
-	 * @return WP_Error
+	 * @access  protected
+	 * @since   1.0.0
+	 * @version 2.6.2
+	 * @param   int $quantity
+	 * @return  WP_Error
 	 */
 	protected function validate_quantity( $quantity ) {
 		if ( ! is_numeric( $quantity ) ) {
-			return new WP_Error( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 405 ) );
 		}
 	} // END validate_quantity()
 
@@ -536,7 +539,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 2.1.2
+	 * @version 2.6.2
 	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
 	 * @param   int    $variation_id   - Contains the ID of the variation.
@@ -618,7 +621,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
 
-			return new WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 404 ) );
 		}
 
 		/**

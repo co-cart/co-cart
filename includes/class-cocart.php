@@ -5,6 +5,7 @@
  * @author   Sébastien Dumont
  * @category Package
  * @since    2.6.0
+ * @version  2.6.2
  * @license  GPL-2.0+
  */
 
@@ -139,9 +140,10 @@ final class CoCart {
 	/**
 	 * Checks the server environment and other factors and deactivates the plugin if necessary.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @since  2.6.0
+	 * @since   2.6.0
+	 * @version 2.6.2
 	 */
 	public static function activation_check() {
 		if ( ! CoCart_Helpers::is_environment_compatible() ) {
@@ -149,7 +151,7 @@ final class CoCart {
 			wp_die( sprintf( __( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart_Helpers::get_environment_message() ) );
 		}
 
-		if ( CoCart_Helpers::is_cocart_pro_installed() && defined( 'COCART_PRO' ) && version_compare( COCART_PRO, '1.1.0', '>=' ) ) {
+		if ( CoCart_Helpers::is_cocart_pro_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {
 			self::deactivate_plugin();
 			wp_die( sprintf( __( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart Lite', 'CoCart Pro' ) );
 		}

@@ -51,7 +51,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.6.2
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function clear_cart() {
@@ -86,7 +86,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_clear_cart_failed_message', $message );
 
-			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 404 ) );
 		}
 	} // END clear_cart()
 

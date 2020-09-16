@@ -27,6 +27,18 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.6.2 - 16th September, 2020
+
+> 📢 This minor releases corrects some of the API error response codes misused. 👍
+
+* Tweaked: Check for package version of CoCart instead of the version of CoCart Pro so users can install higher versions of the core of CoCart when CoCart Pro is active. This allows users to test pre-releases or newer versions when they become available. 😄
+* Tested: Compatible with WooCommerce v4.5.2
+
+## v2.6.1 - 9th September, 2020
+
+* Enhanced: Plugin upgrade notice on the plugin page.
+* Removed: Unused CSS.
+
 ## v2.6.0 - 8th September, 2020
 
 * **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.

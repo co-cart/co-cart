@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.1.0
- * @version  2.5.0
+ * @version  2.6.2
  * @license  GPL-2.0+
  */
 
@@ -73,7 +73,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.6.2
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -149,7 +149,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_can_not_remove_item_message', $message );
 
-				return new WP_Error( 'cocart_can_not_remove_item', $message, array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_can_not_remove_item', $message, array( 'status' => 403 ) );
 			}
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
@@ -173,7 +173,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.6.2
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -214,7 +214,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_can_not_restore_item_message', $message );
 
-				return new WP_Error( 'cocart_can_not_restore_item', $message, array( 'status' => 500 ) );
+				return new WP_Error( 'cocart_can_not_restore_item', $message, array( 'status' => 403 ) );
 			}
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
@@ -279,11 +279,12 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Update cart validation.
 			 *
-			 * @since 2.1.0
-			 * @param bool
-			 * @param string $cart_item_key - Item key.
-			 * @param array  $current_data  - Product data of the item in cart.
-			 * @param float  $quantity      - The requested quantity to change to.
+			 * @since   2.1.0
+			 * @version 2.6.2
+			 * @param   bool
+			 * @param   string $cart_item_key - Item key.
+			 * @param   array  $current_data  - Product data of the item in cart.
+			 * @param   float  $quantity      - The requested quantity to change to.
 			 */
 			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $cart_item_key, $current_data, $quantity );
 
@@ -347,7 +348,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
 	
-					return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 500 ) );
+					return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 403 ) );
 				}
 
 				// Was it requested to return the whole cart once item updated?

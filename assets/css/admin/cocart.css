@@ -106,6 +106,14 @@
 
 .notice.inline.notice-cocart {
   border-color: #b27de3; }
+  .notice.inline.notice-cocart p.cart::before {
+    color: #b27de3;
+    content: "\f174";
+    display: inline-block;
+    font: normal 20px/1 'dashicons';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align: top; }
 
 .notice.cocart-notice {
   border-color: #b27de3;
@@ -156,9 +164,6 @@
   .notice .cocart-notice-icon img {
     font-size: 0;
     width: 64px; }
-
-.update-message p.cocart_plugin_upgrade_notice::before {
-  content: '\f534'; }
 
 body.cocart .notice,
 body.cocart .updated,

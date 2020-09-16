@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Notices
  * @since    1.2.0
- * @version  2.6.0
+ * @version  2.6.2
  * @license  GPL-2.0+
  */
 
@@ -59,11 +59,17 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Checks the environment on loading WordPress, just in case the environment changes after activation.
 		 *
-		 * @access public
-		 * @since  2.6.0
-		 * @return bool
+		 * @access  public
+		 * @since   2.6.0
+		 * @version 2.6.2
+		 * @return  bool
 		 */
 		public function check_php() {
+			// If the current user can not install plugins then return nothing!
+			if ( ! CoCart_Helpers::user_has_capabilities() ) {
+				return false;
+			}
+
 			if ( ! CoCart_Helpers::is_environment_compatible() && is_plugin_active( plugin_basename( COCART_FILE ) ) ) {
 				CoCart::deactivate_plugin();
 				add_action( 'admin_notices', array( $this, 'requirement_php_notice' ) );
