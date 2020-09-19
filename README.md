@@ -48,7 +48,7 @@ If you are wanting to build a headless WooCommerce store for your customers then
 
 ## Looking for documentation?
 
-Head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz)
+Head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)
 
 ## Key Features
 
@@ -118,7 +118,7 @@ They work with the FREE version of CoCart already, and these add-ons of course c
 
 ## Developers
 
-CoCart is full of **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers to use as they please. It's your store so tinker how you please.
+CoCart is full of **[filters](https://docs.cocart.xyz/#filters?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** and **[action hooks](https://docs.cocart.xyz/#hooks?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** for developers to use as they please. It's your store so tinker how you please.
 
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
