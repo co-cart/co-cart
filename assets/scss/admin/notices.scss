@@ -2,6 +2,16 @@
 
 	&.inline.notice-cocart {
 		border-color: $cocart;
+
+		p.cart::before {
+			color: $cocart;
+			content: "\f174";
+			display: inline-block;
+			font: normal 20px/1 'dashicons';
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			vertical-align: top;
+		}
 	}
 
 	&.cocart-notice {
@@ -72,10 +82,6 @@
 			width: 64px;
 		}
 	}
-}
-
-.update-message p.cocart_plugin_upgrade_notice::before {
-	content: '\f534';
 }
 
 body.cocart .notice,

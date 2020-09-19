@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.5.0
+ * @version  2.6.0
  * @license  GPL-2.0+
  */
 
@@ -236,13 +236,23 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Applies additional item data to return.
 	 *
-	 * @access public
-	 * @since  2.2.0
-	 * @param  array $item_added
-	 * @param  string $item_key
-	 * @return array $item_added
+	 * @access  public
+	 * @since   2.2.0
+	 * @version 2.6.0
+	 * @param   array  $item_added
+	 * @param   string $item_key
+	 * @return  array  $item_added
 	*/
 	public function return_additional_item_data( $item_added, $item_key = '' ) {
+		/**
+		 * If product data is missing then get product data.
+		 *
+		 * @since 2.6.0
+		 */
+		if ( ! isset( $item_added['data'] ) ) {
+			$item_added['data'] = wc_get_product( $item_added['variation_id'] ? $item_added['variation_id'] : $item_added['product_id'] );
+		}
+
 		$_product = $item_added['data'];
 
 		// Adds the product name and title.

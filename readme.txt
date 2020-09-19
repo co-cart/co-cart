@@ -1,13 +1,13 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.5.1
+Stable tag: 2.6.2
 WC requires at least: 4.0.0
-WC tested up to: 4.4.1
+WC tested up to: 4.5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -54,7 +54,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 ### CoCart Pro
 CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 
-* **Priority** Support for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
+* **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
 * Add and Remove Coupons to Cart
 * Retrieve Applied Coupons
 * Retrieve Coupon Discount Total
@@ -65,11 +65,13 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 * Retrieve and Set Fees
 * Calculate Shipping Fees
 * Calculate Totals and Fees
-* **Coming Soon** Retrieve Checkout Fields (Auditing)
+* **Coming Soon** Remove All Coupons from Cart
+* **Coming Soon** Register Customers
+* **Coming Soon** Retrieve Checkout Fields
 * **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)
-* **Coming Soon** Return Customers Orders (Auditing)
-* **Coming Soon** Return Customers Subscriptions (Auditing)
+* **Coming Soon** Return Customers Orders
+* **Coming Soon** Return Customers Subscriptions
 * **Coming Soon** Return Customers Downloads (Auditing)
 * **Coming Soon** Return Customers Payment Methods (Auditing)
 * **Coming Soon** Get and Update Customers Profile (In Development)
@@ -208,26 +210,36 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-= v2.5.1 - 18th August, 2020 =
+= v2.6.2 - 16th September, 2020 =
 
-* Fixed: **'Access-Control-Allow-Origin'** header response when it request's credentials with a wildcard `(*)` value.
-* Dev: Added filter `cocart_allow_origin` to set the origin header for added layer of security when you go into production.
-* Tested: Compatible with WooCommerce v4.4.0
+> 📢 This minor release corrects some of the API error response codes misused. 👍
 
-> This is a community release by [@mattdabell](https://github.com/mattdabell)
+* Tweaked: Check for package version of CoCart instead of the version of CoCart Pro so users can install higher versions of the core of CoCart when CoCart Pro is active. This allows users to test pre-releases or newer versions when they become available. 😄
+* Tested: Compatible with WooCommerce v4.5.2
 
-= v2.5.0 - 10th August, 2020 =
+= v2.6.1 - 9th September, 2020 =
 
-This minor release adds support for the recent changes made to the REST API in the coming WordPress 5.5 to allow CoCart to still work as it is a public REST API.
+* Enhanced: Plugin upgrade notice on the plugin page.
+* Removed: Unused CSS.
 
-No changes have been made to the API it self. Just made sure that each route has the correct permission call back applied.
+= v2.6.0 - 8th September, 2020 =
 
-If you are still using the legacy API and have updated to WordPress 5.5, then you will no longer be able to use it as it will no longer register.
+* **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
+* **NEW**: Site environment is now checked before plugin activates.
+* **NEW**: Plugin will not activate if CoCart Pro _v1.1.0_ or above is installed.
+* Enhanced: Plugin to be better optimized for future releases of WooCommerce and to allow it to be packaged with CoCart Pro so user's will not require CoCart Lite if Pro is installed.
+* Fixed: Return product data if missing once item is added to cart to prevent undefined index.
+* Improved: `uninstall.php` file and now will only clear plugin data and remove the database table if `COCART_REMOVE_ALL_DATA` constant is set to true in user's `wp-config.php`. This is to prevent data loss when deleting the plugin from the backend and to ensure only the site owner can perform this action.
+* Improved: Handling of admin menu by moving to it's own class.
+* Tweaked: Admin notices to not redirect only to the plugins page once notice is dismissed. Will redirect to the current admin page.
+* Dev: Introduced the ability to white label the plugin. Meaning hide **CoCart** from the backend. (Admin menu, plugin links, plugin notices including WC admin inbox notices and WC system status information). All you have to do is set a constant `COCART_WHITE_LABEL` to true in user's `wp-config.php` file.
+* Dev: New filter `cocart_authenticate` to override the determined user ID when authenticating. **NOTE** This will only be active if not already authenticated.
+* Tested: Compatible with WooCommerce v4.5.0
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 2.6.0 =
+= 2.6 =
 
-* This plugin update improves optimization for future releases of WooCommerce and CoCart Pro.
+Improves plugin optimization for WooCommerce 4.5 and future releases of WooCommerce and CoCart Pro.

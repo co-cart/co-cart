@@ -1,12 +1,30 @@
 # Changelog for CoCart Lite
 
-## v2.6.0 - ?? September, 2020
+## v2.6.2 - 16th September, 2020
 
+> 📢 This minor release corrects some of the API error response codes misused. 👍
+
+* Tweaked: Check for package version of CoCart instead of the version of CoCart Pro so users can install higher versions of the core of CoCart when CoCart Pro is active. This allows users to test pre-releases or newer versions when they become available. 😄
+* Tested: Compatible with WooCommerce v4.5.2
+
+## v2.6.1 - 9th September, 2020
+
+* Enhanced: Plugin upgrade notice on the plugin page.
+* Removed: Unused CSS.
+
+## v2.6.0 - 8th September, 2020
+
+* **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
+* **NEW**: Site environment is now checked before plugin activates.
+* **NEW**: Plugin will not activate if CoCart Pro _v1.1.0_ or above is installed.
 * Enhanced: Plugin to be better optimized for future releases of WooCommerce and to allow it to be packaged with CoCart Pro so user's will not require CoCart Lite if Pro is installed.
+* Fixed: Return product data if missing once item is added to cart to prevent undefined index.
 * Improved: `uninstall.php` file and now will only clear plugin data and remove the database table if `COCART_REMOVE_ALL_DATA` constant is set to true in user's `wp-config.php`. This is to prevent data loss when deleting the plugin from the backend and to ensure only the site owner can perform this action.
 * Improved: Handling of admin menu by moving to it's own class.
-* **NEW**: Dev: Introduced the ability to white label the plugin. Meaning hide **CoCart** from the backend. (Admin menu, plugin links, plugin notices including WC admin inbox notices and WC system status information). All you have to do is set a constant `COCART_WHITE_LABEL` to true in user's `wp-config.php` file.
-* Added: Backwards compatibility for when `set_customer_session_cookie()` function is called.
+* Tweaked: Admin notices to not redirect only to the plugins page once notice is dismissed. Will redirect to the current admin page.
+* Dev: Introduced the ability to white label the plugin. Meaning hide **CoCart** from the backend. (Admin menu, plugin links, plugin notices including WC admin inbox notices and WC system status information). All you have to do is set a constant `COCART_WHITE_LABEL` to true in user's `wp-config.php` file.
+* Dev: New filter `cocart_authenticate` to override the determined user ID when authenticating. **NOTE** This will only be active if not already authenticated.
+* Tested: Compatible with WooCommerce v4.5.0
 
 ## v2.5.1 - 18th August, 2020
 
@@ -326,22 +344,22 @@ This release brings an improved code base for the backend and connects with WooC
 
 ## v1.0.7 - 28th January, 2019
 
-* Tweaked: Clear cart now clears cart in session if the user is logged in. - Thanks to @elron for the patch.
+* Tweaked: Clear cart now clears cart in session if the user is logged in. - Thanks to [@elron](https://github.com/elron) for the patch.
 
 ## v1.0.6 - 12th November, 2018
 
-* Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by @joshuaiz
+* Changed: If the cart is empty, the response returns an empty array. - Issue #33 Feedback provided by [@joshuaiz](https://github.com/joshuaiz)
 * Improved: Updating items by adding a check to see if there is enough stock. Thanks to @DennisMatise
 
 ## v1.0.5 - 11th October, 2018
 
 * Fixed: Variation and cart item data validation callback. - Issue #40 Thanks to @DennisMatise
-* Fixed: A fatal error that caused errors not to return properly. - Issue #35 Thanks to @skunkbad
+* Fixed: A fatal error that caused errors not to return properly. - Issue #35 Thanks to [@skunkbad](https://github.com/skunkbad)
 * Changed: Name of the plugin is now CoCart. The plugin slug will remain the same.
 
 ## v1.0.4 - 5th July, 2018
 
-* Fixed: Return response for numeric thanks to @campusboy87
+* Fixed: Return response for numeric thanks to [@campusboy87](https://github.com/campusboy87)
 * Fixed: Fatal error for adding and updating items when validating the callback `is_numeric`. - Issue #30
 
 ## v1.0.3 - 22nd April, 2018

@@ -5,6 +5,7 @@
  * @author   Sébastien Dumont
  * @category Package
  * @since    2.6.0
+ * @version  2.6.2
  * @license  GPL-2.0+
  */
 
@@ -25,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.6.0-beta.2';
+	public static $version = '2.6.2';
 
 	/**
 	 * Required WordPress Version
@@ -47,6 +48,15 @@ final class CoCart {
 	public static $required_woo = '4.0.0';
 
 	/**
+	 * Required PHP Version
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.6.0
+	 */
+	public static $required_php = '7.0';
+
+	/**
 	 * Initiate CoCart.
 	 *
 	 * @access public
@@ -55,6 +65,9 @@ final class CoCart {
 	public static function init() {
 		self::setup_constants();
 		self::includes();
+
+		// Environment checking when activating.
+		register_activation_hook( COCART_FILE, array( __CLASS__, 'activation_check' ) );
 
 		// Setup WooCommerce.
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
@@ -125,6 +138,41 @@ final class CoCart {
 	} // END includes()
 
 	/**
+	 * Checks the server environment and other factors and deactivates the plugin if necessary.
+	 *
+	 * @access  public
+	 * @static
+	 * @since   2.6.0
+	 * @version 2.6.2
+	 */
+	public static function activation_check() {
+		if ( ! CoCart_Helpers::is_environment_compatible() ) {
+			self::deactivate_plugin();
+			wp_die( sprintf( __( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart_Helpers::get_environment_message() ) );
+		}
+
+		if ( CoCart_Helpers::is_cocart_pro_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {
+			self::deactivate_plugin();
+			wp_die( sprintf( __( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart Lite', 'CoCart Pro' ) );
+		}
+	} // END activation_check()
+
+	/**
+	 * Deactivates the plugin if the environment is not ready.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.6.0
+	 */
+	public static function deactivate_plugin() {
+		deactivate_plugins( plugin_basename( COCART_FILE ) );
+
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	} // END deactivate_plugin()
+
+	/**
 	 * Load REST API.
 	 *
 	 * @access public
@@ -132,6 +180,7 @@ final class CoCart {
 	 * @since  2.6.0
 	 */
 	public static function load_rest_api() {
+		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-init.php';
 	} // END load_rest_api()
 
