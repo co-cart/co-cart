@@ -99,6 +99,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				'type'    => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL,
 				'source'  => 'cocart',
 				'icon'    => 'plugins',
+				'layout'  => 'plain',
 				'image'   => '',
 				'actions' => array()
 			);
