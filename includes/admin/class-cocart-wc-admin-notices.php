@@ -136,6 +136,10 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 			$note->set_content_data( (object) array() );
 			$note->set_type( $args['type'] );
 
+			if ( method_exists( $note, 'set_layout' ) ) {
+				$note->set_layout( $args[ 'layout' ] );
+			}
+
 			if ( ! method_exists( $note, 'set_image' ) ) {
 				$note->set_icon( $args[ 'icon' ] );
 			}
