@@ -83,6 +83,10 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 * @return object
 		 */
 		public static function create_new_note( $args = array() ) {
+			if ( ! class_exists( 'WC_Data_Store' ) ) {
+				return;
+			}
+
 			if ( ! is_array( $args ) ) {
 				return;
 			}
