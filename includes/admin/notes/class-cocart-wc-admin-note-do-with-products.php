@@ -62,7 +62,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		$products = $query->get_products();
 		$count    = $products->total;
 
-		if ( 0 !== $count ) {
+		if ( $count <= 0 ) {
 			return;
 		}
 
