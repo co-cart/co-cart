@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin
  * @since    2.3.0
- * @version  2.4.0
+ * @version  2.6.3
  * @license  GPL-2.0+
  */
 
@@ -35,7 +35,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.3.0
-		 * @version 2.4.0
+		 * @version 2.6.3
 		 */
 		public function include_notes() {
 			// Don't include notes if WC v4.0 or greater is not installed.
@@ -77,10 +77,12 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		/**
 		 * Create a new note.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @param  array  The arguments of the note to use to create the note.
-		 * @return object
+		 * @param   array  The arguments of the note to use to create the note.
+		 * @since   2.3.0
+		 * @version 2.6.3
+		 * @return  object
 		 */
 		public static function create_new_note( $args = array() ) {
 			if ( ! class_exists( 'WC_Data_Store' ) ) {
