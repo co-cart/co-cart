@@ -46,7 +46,8 @@
 		"cart",
 		"rest",
 		"rest-api",
-		"JSON"
+		"JSON",
+		"wp-cli"
 	],
 	"scripts": {
 		"test": "grunt",

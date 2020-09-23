@@ -135,6 +135,10 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
 		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			include_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
+		}
 	} // END includes()
 
 	/**
