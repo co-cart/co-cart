@@ -27,9 +27,14 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.6.3 - 23rd September, 2020
+
+* Fixed: WooCommerce admin note for `6 things you can do with CoCart Products` not showing.
+* Improved: Checking of admin note requirements before creating any notes.
+
 ## v2.6.2 - 16th September, 2020
 
-> 📢 This minor releases corrects some of the API error response codes misused. 👍
+> 📢 This minor release corrects some of the API error response codes misused. 👍
 
 * Tweaked: Check for package version of CoCart instead of the version of CoCart Pro so users can install higher versions of the core of CoCart when CoCart Pro is active. This allows users to test pre-releases or newer versions when they become available. 😄
 * Tested: Compatible with WooCommerce v4.5.2

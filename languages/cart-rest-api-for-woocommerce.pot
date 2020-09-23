@@ -242,18 +242,18 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:82
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:83
 msgid "6 things you can do %s"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:83
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:84
 msgid ""
 "Fetching your products via the REST API should be easy with no "
 "authentication issues. Learn more about the six things you can do with %1$s "
 "to help your development with %2$s."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:89
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:92
 #: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:71
 #: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:77
 msgid "Learn more"

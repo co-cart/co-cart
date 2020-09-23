@@ -1,13 +1,11 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
-Author URI: https://sebastiendumont.com
-Plugin URI: https://cocart.xyz
 Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.6.2
+Stable tag: 2.6.3
 WC requires at least: 4.0.0
 WC tested up to: 4.5.2
 License: GPLv3
@@ -27,7 +25,7 @@ The question is why not! WooCommerce's REST API is only created for controlling 
 
 If you are wanting to build a headless WooCommerce store for your customers then CoCart is your solution.
 
-With [the documentation](https://docs.cocart.xyz/) provided, you’ll learn how to enable the ability to add products to the cart and manage it in no time.
+With [the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) provided, you’ll learn how to enable the ability to add products to the cart and manage it in no time.
 
 ## Features
 
@@ -45,7 +43,7 @@ CoCart Lite provides the basic features to get you started.
 * Logout customer.
 * Supports guest customers.
 * Supports basic authentication without the need to cookie authenticate.
-* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/).
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 Included with these features are **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers.
 
@@ -116,14 +114,14 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 
 ### More information
 
-* The [CoCart plugin](https://cocart.xyz/?utm_source=wordpressorg&utm_medium=wp.org&utm_campaign=readme) official website.
+* The [CoCart plugin](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) official website.
 * The CoCart [Documentation](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
 * Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cart_co), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
 
 #### Credits
 
-This plugin is created by [Sébastien Dumont](https://sebastiendumont.com).
+This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 == Installation ==
 
@@ -167,31 +165,35 @@ CoCart is perfect for store owners and developers. If you want to create an e-co
 
 = Do I need to have coding skills to use CoCart? =
 
-As this plugin is built for developers, you will need to have some coding knowledge to use it. [Checkout the documentation](https://docs.cocart.xyz) to get some understanding.
+As this plugin is built for developers, you will need to have some coding knowledge to use it. [Checkout the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) to get some understanding.
 
 = Where can I find documentation for CoCart? =
 
-The documentation for CoCart can be [found here](https://docs.cocart.xyz/).
+You can find the documentation for CoCart on the [CoCart REST API Docs](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 = Can I change the layout format/add/change details to the responses? =
 
-You certainly can. Filters are available to do just that. [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided. [View the documentation](https://docs.cocart.xyz/) for more.
+You certainly can. Filters are available to do just that. [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided. [View the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) for more.
 
-= Does it work with any of the official WooCommerce libraries? =
+= Where can I report bugs? =
 
-Only if you request your customers to be logged in. This is because all the official libraries require authentication which the cart does not require.
+Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the support forum – be sure to search the forums to confirm that the error has not already been reported.
 
-= Where can I report bugs or contribute to the project? =
+= CoCart is awesome! Can I contribute? =
 
-Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues).
+Yes, you can! Join in on our [GitHub repository](https://github.com/co-cart/co-cart) and follow the [development blog](https://cocart.xyz/news/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) to stay up-to-date with everything happening in the project.
 
 = Is CoCart translatable? =
 
 Yes! CoCart is deployed with full translation and localization support via the ‘cart-rest-api-for-woocommerce’ text-domain.
 
-= Where can I ask for help? =
+= Where can I get help or talk other users about CoCart core? =
 
-If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) or [join the CoCart Community on Slack](https://cocart.xyz/community/) where you will find like minded developers who help each other out. If you are in need of priority support, it will be provided by either purchasing [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) or the [14 day priority support](https://cocart.xyz/product/14-day-priority-support/).
+If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) or [join the CoCart Community on Slack](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) where you will find like minded developers who help each other out. If you are in need of priority support, it will be provided by either purchasing [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) or the [14 day priority support](https://cocart.xyz/product/14-day-priority-support/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+
+= My question is not listed here. Where can I find more answers? =
+
+Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) for more.
 
 == Screenshots ==
 
@@ -200,7 +202,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 == Contributors & Developers ==
 
-"CoCart Lite" has **not** yet been translated. You can [translate "CoCart Lite" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
+"CoCart Lite" has **not** yet been translated in other languages. You can [translate "CoCart Lite" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
 
 **INTERESTED IN DEVELOPMENT?**
 
