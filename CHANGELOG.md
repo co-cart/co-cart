@@ -1,5 +1,10 @@
 # Changelog for CoCart Lite
 
+## v2.6.3 - 23rd September, 2020
+
+* Fixed: WooCommerce admin note for `6 things you can do with CoCart Products` not showing.
+* Improved: Checking of admin note requirements before creating any notes.
+
 ## v2.6.2 - 16th September, 2020
 
 > 📢 This minor release corrects some of the API error response codes misused. 👍
