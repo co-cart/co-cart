@@ -1,6 +1,6 @@
 ---
 name: "✨ Enhancement"
-about: Suggest an idea to improve an existing feature
+about: "Suggest an idea to improve an existing feature"
 title: "ISBAT ..."
 labels: "priority:low, enhancement"
 assignees: ""

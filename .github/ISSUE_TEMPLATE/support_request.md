@@ -1,9 +1,9 @@
 ---
-name: "\U00002753 Support Request"
+name: "❓ Support Request"
 about: "I have a question about how to use CoCart"
-title: ''
-labels: 'i: state:unsupported'
-assignees: ''
+title: ""
+labels: "state:unsupported"
+assignees: ""
 ---
 
 GitHub issues are meant for enhancement requests and specific, reproducible bugs, not for general support questions. For support options, please review [https://cocart.xyz/support/](https://cocart.xyz/support/).
