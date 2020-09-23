@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.6.2\n"
+"Project-Id-Version: CoCart 2.6.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-09-16 17:30:32+00:00\n"
+"POT-Creation-Date: 2020-09-23 16:11:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -209,18 +209,18 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:82
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:83
 msgid "6 things you can do %s"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:83
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:84
 msgid ""
 "Fetching your products via the REST API should be easy with no "
 "authentication issues. Learn more about the six things you can do with %1$s "
 "to help your development with %2$s."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:89
+#: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:92
 #: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:71
 #: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:77
 msgid "Learn more"
