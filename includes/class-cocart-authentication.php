@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\Classes\Authentication
+ * @package  CoCart\Authentication
  * @since    2.6.0
  * @license  GPL-2.0+
  */

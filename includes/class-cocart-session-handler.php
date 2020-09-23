@@ -8,7 +8,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\Session
+ * @package  CoCart\Session Handler
  * @since    2.1.0
  * @version  2.6.0
  * @license  GPL-2.0+

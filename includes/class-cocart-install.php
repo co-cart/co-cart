@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\Classes\Install
+ * @package  CoCart\Install
  * @since    1.2.0
  * @version  2.1.0
  * @license  GPL-2.0+
