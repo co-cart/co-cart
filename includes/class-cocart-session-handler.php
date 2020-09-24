@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart\Session Handler
  * @since    2.1.0
- * @version  2.6.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -325,6 +325,17 @@ class CoCart_Session_Handler extends WC_Session {
 
 		return $customer_id;
 	} // END generate_customer_id()
+
+	/**
+	 * Gets the customers ID also known as the cart key.
+	 *
+	 * @access public
+	 * @since  2.7.0
+	 * @return string
+	 */
+	public function get_customer_id() {
+		return $this->_customer_id;
+	} // END get_customer_id()
 
 	/**
 	 * Get the cart cookie, if set. Otherwise return false.

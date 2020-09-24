@@ -1,5 +1,10 @@
 # Changelog for CoCart Lite
 
+## v2.7.0 - 7th October, 2020
+
+* **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
+* Tested: Compatible with WooCommerce v4.6.0
+
 ## v2.6.3 - 23rd September, 2020
 
 * Fixed: WooCommerce admin note for `6 things you can do with CoCart Products` not showing.
