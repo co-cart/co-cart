@@ -1,4 +1,4 @@
-<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v2.6.3&label=&color=9a6fc4&style=flat-square"></a></h1>
+<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v2.7.0&label=&color=9a6fc4&style=flat-square"></a></h1>
 
 <p align="center"><a href="https://cocart.xyz" target="_blank">CoCart</a> is a REST API for <a href="https://woocommerce.com" target="_blank">WooCommerce</a>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart and allows developers to build a headless store in any framework of their choosing.</p>
 
@@ -11,6 +11,9 @@
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+7.4&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
+	</a>
+	<a href="https://scrutinizer-ci.com/g/co-cart/co-cart/" target="_blank">
+		<img src="https://scrutinizer-ci.com/g/co-cart/co-cart/badges/quality-score.png?b=master" alt="Quality Score" />
 	</a>
 </p>
 

@@ -1,5 +1,5 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
@@ -213,6 +213,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 = v2.7.0 - 7th October, 2020 =
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
+* Fixed: Undefined class constant `E_WC_ADMIN_NOTE_MARKETING` for those who are using WooCommerce lower than version `4.3.0`. Thanks to [@dmchale](https://github.com/dmchale)
 * Tested: Compatible with WooCommerce v4.6.0
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
@@ -221,4 +222,4 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 = 2.7 =
 
-Access the cart key via the headers. Look for `X-CoCart-API`
+You can now access the cart key via the headers. Look for `X-CoCart-API`
