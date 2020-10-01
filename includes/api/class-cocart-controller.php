@@ -290,12 +290,11 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.6.2
-	 * @param   array  $data   The cart key is a required variable.
-	 * @param   string $return Returns specified data. Default is `cart_contents`.
-	 * @return  array  $cart   Returns the cart data from the database.
+	 * @version 2.7.0
+	 * @param   array $data   The cart key is a required variable.
+	 * @return  array $cart   Returns the cart data from the database.
 	 */
-	public function get_cart_in_session( $data = array(), $return = 'cart_contents' ) {
+	public function get_cart_in_session( $data = array() ) {
 		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
 
 		if ( empty( $cart_key ) ) {
