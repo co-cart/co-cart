@@ -6,7 +6,7 @@
  * @category API
  * @package  CoCart\Session
  * @since    2.1.0
- * @version  2.4.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -29,9 +29,6 @@ class CoCart_API_Session {
 	public function __construct() {
 		// Cleans up carts from the database that have expired.
 		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
-
-		// Merges cart content when loaded to the web.
-		add_filter( 'cocart_merge_cart_content', array( $this, 'merge_quantity' ), 10, 3 );
 
 		// Loads a cart in session if still valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ), 10 );
@@ -95,19 +92,6 @@ class CoCart_API_Session {
 			$handler->cleanup_sessions();
 		}
 	} // END cleanup_carts()
-
-	/**
-	 * Looks at both carts for matching products and merges the item quantities.
-	 *
-	 * @access public
-	 * @param  array $new_cart_content - The merged cart content before altering.
-	 * @param  array $load_cart        - The cart we are loading.
-	 * @param  array $cart_in_session  - The cart currently in session.
-	 * @return array $new_cart_content - The merged cart content after altering.
-	 */
-	public function merge_quantity( $new_cart_content, $load_cart, $cart_in_session ) {
-		return $new_cart_content;
-	} // END merge_quantity()
 
 	/**
 	 * Load cart action.
