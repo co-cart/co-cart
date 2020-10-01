@@ -362,16 +362,13 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   2.1.0
-	 * @version 2.1.6
-	 * @param   int        $product_id     - Contains the id of the product.
-	 * @param   int        $quantity       - Contains the quantity of the item.
+	 * @version 2.7.0
 	 * @param   int        $variation_id   - ID of the variation.
 	 * @param   array      $variation      - Attribute values.
-	 * @param   array      $cart_item_data - Extra cart item data we want to pass into the item.
 	 * @param   WC_Product $product        - The product data.
 	 * @return  array|WP_Error
 	 */
-	protected function validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product ) {
+	protected function validate_variable_product( $variation_id, $variation, $product ) {
 		// Flatten data and format posted values.
 		$variable_product_attributes = $this->get_variable_product_attributes( $product );
 		//$variation                   = $this->sanitize_variation_data( wp_list_pluck( $variation, 'value', 'attribute' ), $variable_product_attributes );
@@ -539,7 +536,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 2.6.2
+	 * @version 2.7.0
 	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
 	 * @param   int    $variation_id   - Contains the ID of the variation.
@@ -589,7 +586,7 @@ class CoCart_API_Controller {
 
 		// Validate variable product.
 		if ( $product_type === 'variable' || $product_type === 'variation' ) {
-			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product );
+			$variation = $this->validate_variable_product( $variation_id, $variation, $product );
 
 			if ( is_wp_error( $variation ) ) {
 				return $variation;
