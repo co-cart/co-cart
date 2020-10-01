@@ -49,7 +49,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access public
 		 * @since  2.7.0
-		 * @param  [type] $result
+		 * @param  \WP_Error|mixed $result
 		 * @return bool
 		 */
 		public function cocart_key_header( $result ) {

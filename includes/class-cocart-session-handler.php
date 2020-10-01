@@ -31,35 +31,40 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Cookie name used for the cart.
 	 *
-	 * @var string cookie name
+	 * @access protected
+	 * @var    string cookie name
 	 */
 	protected $_cookie;
 
 	/**
 	 * Stores cart expiry.
 	 *
-	 * @var string cart due to expire timestamp
+	 * @access protected
+	 * @var    string cart due to expire timestamp
 	 */
 	protected $_cart_expiring;
 
 	/**
 	 * Stores cart due to expire timestamp.
 	 *
-	 * @var string cart expiration timestamp
+	 * @access protected
+	 * @var    string cart expiration timestamp
 	 */
 	protected $_cart_expiration;
 
 	/**
 	 * True when the cookie exists.
 	 *
-	 * @var bool Based on whether a cookie exists.
+	 * @access protected
+	 * @var    bool Based on whether a cookie exists.
 	 */
 	protected $_has_cookie = false;
 
 	/**
 	 * Table name for cart data.
 	 *
-	 * @var string Custom cart table name
+	 * @access protected
+	 * @var    string Custom cart table name
 	 */
 	protected $_table;
 
@@ -325,17 +330,6 @@ class CoCart_Session_Handler extends WC_Session {
 
 		return $customer_id;
 	} // END generate_customer_id()
-
-	/**
-	 * Gets the customers ID also known as the cart key.
-	 *
-	 * @access public
-	 * @since  2.7.0
-	 * @return string
-	 */
-	public function get_customer_id() {
-		return $this->_customer_id;
-	} // END get_customer_id()
 
 	/**
 	 * Get the cart cookie, if set. Otherwise return false.
