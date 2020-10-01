@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.0.0
- * @version  2.6.2
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -371,7 +371,6 @@ class CoCart_API_Controller {
 	protected function validate_variable_product( $variation_id, $variation, $product ) {
 		// Flatten data and format posted values.
 		$variable_product_attributes = $this->get_variable_product_attributes( $product );
-		//$variation                   = $this->sanitize_variation_data( wp_list_pluck( $variation, 'value', 'attribute' ), $variable_product_attributes );
 
 		// If we have a parent product and no variation ID, find the variation ID.
 		if ( $product->is_type( 'variable' ) && $variation_id == 0 ) {
@@ -494,42 +493,6 @@ class CoCart_API_Controller {
 
 		return $product->get_attributes();
 	} // END get_variable_product_attributes()
-
-	/**
-	 * Format and sanitize variation data posted to the API.
-	 *
-	 * Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
-	 *
-	 * @access protected
-	 * @since  2.1.2
-	 * @param  array $variation_data Key value pairs of attributes and values.
-	 * @param  array $variable_product_attributes Product attributes we're expecting.
-	 * @return array
-	 */
-	protected function sanitize_variation_data( $variation_data, $variable_product_attributes ) {
-		$return = array();
-
-		foreach ( $variable_product_attributes as $attribute ) {
-			if ( ! $attribute['is_variation'] ) {
-				continue;
-			}
-
-			$attribute_label = wc_attribute_label( $attribute['name'] );
-
-			// Attribute labels e.g. Size.
-			if ( isset( $variation_data[ $attribute_label ] ) ) {
-				$return[ wc_variation_attribute_name( $attribute['name'] ) ] = $attribute['is_taxonomy'] ? sanitize_title( $variation_data[ $attribute_label ] ) : html_entity_decode( wc_clean( $variation_data[ $attribute_label ] ), ENT_QUOTES, get_bloginfo( 'charset' ) );
-				continue;
-			}
-
-			// Attribute slugs e.g. pa_size.
-			if ( isset( $variation_data[ $attribute['name'] ] ) ) {
-				$return[ wc_variation_attribute_name( $attribute['name'] ) ] = $attribute['is_taxonomy'] ? sanitize_title( $variation_data[ $attribute['name'] ] ) : html_entity_decode( wc_clean( $variation_data[ $attribute['name'] ] ), ENT_QUOTES, get_bloginfo( 'charset' ) );
-			}
-		}
-
-		return $return;
-	} // END sanitize_variation_data()
 
 	/**
 	 * Validate product before it is added to the cart, updated or removed.
