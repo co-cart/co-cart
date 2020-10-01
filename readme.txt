@@ -213,6 +213,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 = v2.7.0 - 7th October, 2020 =
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
+* Enhanced: Variable validation by removing parameters not used.
 * Fixed: Undefined class constant `E_WC_ADMIN_NOTE_MARKETING` for those who are using WooCommerce lower than version `4.3.0`. Thanks to [@dmchale](https://github.com/dmchale)
 * Tested: Compatible with WooCommerce v4.6.0
 
