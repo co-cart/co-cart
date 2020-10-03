@@ -34,6 +34,24 @@
 		"issues": "https://github.com/co-cart/co-cart/issues"
 	},
 	"require": {
-		"composer/installers": "1.7.0"
+		"composer/installers": "1.7.0",
+		"woocommerce/woocommerce-sniffs": "0.0.9"
+	},
+	"scripts": {
+		"phpcs": [
+			"phpcs . -s -p -n"
+		],
+		"phpcs-pre-commit": [
+			"phpcs . -s -p -n"
+		],
+		"phpcbf": [
+			"phpcbf . -p"
+		]
+	},
+	"extra": {
+		"scripts-description": {
+			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+		}
 	}
 }

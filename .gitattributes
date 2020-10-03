@@ -4,4 +4,5 @@ CHANGELOG.md export-ignore
 Gruntfile.js export-ignore
 package.json export-ignore
 package-lock.json export-ignore
+phpcs.xml export-ignore
 README.md export-ignore
