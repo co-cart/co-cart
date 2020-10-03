@@ -39,7 +39,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		public function admin_styles() {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
-			$suffix    = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+			$suffix    = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			if ( in_array( $screen_id, CoCart_Helpers::cocart_get_admin_screens() ) ) {
 				wp_register_style( COCART_SLUG . '_admin', COCART_URL_PATH . '/assets/css/admin/cocart' . $suffix . '.css' );

@@ -26,7 +26,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 */
 		public function __construct() {
 			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
-			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta'), 10, 3 );
+			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
 		} // END __construct()
 
 		/**
@@ -41,7 +41,13 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		public function plugin_action_links( $links ) {
 			if ( current_user_can( 'manage_options' ) ) {
 				$action_links = array(
-					'getting-started' => '<a href="' . add_query_arg( array( 'page' => 'cocart', 'section' => 'getting-started' ), admin_url( 'admin.php' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'getting-started' => '<a href="' . add_query_arg(
+						array(
+							'page'    => 'cocart',
+							'section' => 'getting-started',
+						),
+						admin_url( 'admin.php' )
+					) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				return array_merge( $action_links, $links );
@@ -63,7 +69,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 */
 		public function plugin_row_meta( $metadata, $file, $data ) {
 			if ( $file == plugin_basename( COCART_FILE ) ) {
-				$metadata[ 1 ] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data[ 'AuthorURI' ] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data[ 'Author' ] . '</a>' );
+				$metadata[1] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data['AuthorURI'] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data['Author'] . '</a>' );
 
 				$campaign_args = array(
 					'utm_medium'   => 'co-cart-lite',
@@ -82,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
 					$donate = array(
 						'donate'   => '<a href="' . esc_url( 'https://www.buymeacoffee.com/sebastien' ) . '" aria-label="' . sprintf( esc_attr__( 'Make a donation for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #399141; font-weight: 600;">' . esc_attr__( 'Donate', 'cart-rest-api-for-woocommerce' ) . '</a>',
-						'priority' => '<a href="' . esc_url( 'https://cocart.xyz/product/14-day-priority-support/' ) . '" aria-label="' . sprintf( esc_attr__( 'Order priority support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Priority Support', 'cart-rest-api-for-woocommerce' ) . '</a>'
+						'priority' => '<a href="' . esc_url( 'https://cocart.xyz/product/14-day-priority-support/' ) . '" aria-label="' . sprintf( esc_attr__( 'Order priority support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Priority Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					);
 
 					$row_meta = array_merge( $donate, $row_meta );

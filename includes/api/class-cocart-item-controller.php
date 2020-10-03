@@ -337,9 +337,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					}
 				} else {
 					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
-	
+
 					CoCart_Logger::log( $message, 'error' );
-	
+
 					/**
 					 * Filters message about can not update item.
 					 *
@@ -347,7 +347,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					 * @param string $message Message.
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
-	
+
 					return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 403 ) );
 				}
 
@@ -365,19 +365,19 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					/* translators: 1: product name, 2: new quantity */
 					$response = array(
 						'message'  => sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
-						'quantity' => $new_data['quantity']
+						'quantity' => $new_data['quantity'],
 					);
-				} else if ( $quantity < $current_data['quantity'] ) {
+				} elseif ( $quantity < $current_data['quantity'] ) {
 					/* translators: 1: product name, 2: new quantity */
 					$response = array(
 						'message'  => sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
-						'quantity' => $new_data['quantity']
+						'quantity' => $new_data['quantity'],
 					);
 				} else {
 					/* translators: %s: product name */
 					$response = array(
 						'message'  => sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ),
-						'quantity' => $quantity
+						'quantity' => $quantity,
 					);
 				}
 
@@ -413,11 +413,11 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				'description' => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 			),
-			'return_cart' => array(
+			'return_cart'   => array(
 				'description' => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => false,
 				'type'        => 'boolean',
-			)
+			),
 		);
 
 		return $params;

@@ -119,9 +119,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				CoCart::deactivate_plugin();
 				add_action( 'admin_notices', array( $this, 'woocommerce_not_installed' ) );
 				return false;
-			}
-
-			else if ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+			} elseif ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
 				add_action( 'admin_notices', array( $this, 'required_wc_version_failed' ) );
 				return false;
 			}
@@ -180,9 +178,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 		/**
 		 * Displays plugin review notice.
-		 * 
+		 *
 		 * Shown after 2 weeks or more from the time the plugin was installed.
-		 * 
+		 *
 		 * @access public
 		 * @since  2.3.0
 		 * @global $current_user
@@ -215,7 +213,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 		/**
 		 * Displays notice if user is testing pre-release version of the plugin.
-		 * 
+		 *
 		 * @access public
 		 * @since  2.3.0
 		 * @global $current_user

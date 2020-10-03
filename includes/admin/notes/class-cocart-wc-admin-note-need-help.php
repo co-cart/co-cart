@@ -71,9 +71,9 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://cocart.xyz/support/?utm_source=inbox',
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
-					'primary' => true
-				)
-			)
+					'primary' => true,
+				),
+			),
 		);
 
 		return $args;

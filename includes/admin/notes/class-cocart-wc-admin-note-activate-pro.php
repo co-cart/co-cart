@@ -112,9 +112,9 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 					'label'   => sprintf( __( 'Activate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
 					'url'     => add_query_arg( array( 'action' => 'activate-cocart-pro' ), admin_url( 'plugins.php' ) ),
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED,
-					'primary' => true
-				)
-			)
+					'primary' => true,
+				),
+			),
 		);
 
 		return $args;
@@ -130,7 +130,14 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 			return;
 		}
 
-		$admin_url = add_query_arg( array( 'action' => 'activate', 'plugin' => self::PLUGIN_FILE, 'plugin_status' => 'active' ), admin_url( 'plugins.php' ) );
+		$admin_url = add_query_arg(
+			array(
+				'action'        => 'activate',
+				'plugin'        => self::PLUGIN_FILE,
+				'plugin_status' => 'active',
+			),
+			admin_url( 'plugins.php' )
+		);
 
 		$activate_url = add_query_arg( '_wpnonce', wp_create_nonce( 'activate-plugin_' . self::PLUGIN_FILE ), $admin_url );
 

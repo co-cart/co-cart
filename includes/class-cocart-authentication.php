@@ -101,7 +101,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 		/**
 		 * Allow all cross origin header requests.
-		 * 
+		 *
 		 * Disabled by default. Requires `cocart_allow_all_cors` filter set to true to enable.
 		 *
 		 * @access  public

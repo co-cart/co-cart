@@ -101,7 +101,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			// Was it requested to return the whole cart once item added?
 			if ( $data['return_cart'] ) {
 				$response = $this->get_cart_contents( $data );
-			} else if ( is_array( $was_added_to_cart ) ) {
+			} elseif ( is_array( $was_added_to_cart ) ) {
 				$response = $was_added_to_cart;
 			}
 
@@ -182,7 +182,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		if ( ! empty( $cart_item_key ) ) {
 			$cart_contents = $this->get_cart( array( 'raw' => true ) );
 
-			$new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
+			$new_quantity = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
 
 			// Set new quantity for item.
 			WC()->cart->set_quantity( $cart_item_key, $new_quantity );
@@ -242,7 +242,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * @param   array  $item_added
 	 * @param   string $item_key
 	 * @return  array  $item_added
-	*/
+	 */
 	public function return_additional_item_data( $item_added, $item_key = '' ) {
 		/**
 		 * If product data is missing then get product data.
@@ -276,38 +276,38 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * @return array
 	 */
 	public function get_item_schema() {
-		$schema         = array(
+		$schema = array(
 			'schema'     => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(
-				'product_id'      => array(
+				'product_id'     => array(
 					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 				),
-				'quantity'        => array(
+				'quantity'       => array(
 					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
 					'default'     => 1,
 					'type'        => 'float',
 				),
-				'variation_id'    => array(
+				'variation_id'   => array(
 					'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 				),
-				'variation'       => array(
+				'variation'      => array(
 					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'array',
 				),
-				'cart_item_data'  => array(
+				'cart_item_data' => array(
 					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'array',
 				),
-				'return_cart'     => array(
+				'return_cart'    => array(
 					'description' => __( 'Returns the cart.', 'cart-rest-api-for-woocommerce' ),
 					'default'     => false,
 					'type'        => 'boolean',
-				)
-			)
+				),
+			),
 		);
 
 		$schema['properties'] = apply_filters( 'cocart_add_item_schema', $schema['properties'] );
@@ -325,41 +325,41 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'product_id' => array(
+			'product_id'     => array(
 				'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
 			),
-			'quantity' => array(
+			'quantity'       => array(
 				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
 				'default'           => 1,
 				'type'              => 'float',
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_numeric( $value );
-				}
+				},
 			),
-			'variation_id' => array(
+			'variation_id'   => array(
 				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'integer',
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_numeric( $value );
-				}
+				},
 			),
-			'variation' => array(
+			'variation'      => array(
 				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_array( $value );
-				}
+				},
 			),
 			'cart_item_data' => array(
 				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_array( $value );
-				}
+				},
 			),
-			'return_cart' => array(
+			'return_cart'    => array(
 				'description' => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => false,
 				'type'        => 'boolean',
-			)
+			),
 		);
 
 		return $params;

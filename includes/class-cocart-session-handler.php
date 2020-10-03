@@ -2,8 +2,8 @@
 /**
  * Handle data for the customers cart.
  *
- * Forked from WC_Session_Handler, changed default variables, 
- * database table used, filters and made adjustments to accommodate 
+ * Forked from WC_Session_Handler, changed default variables,
+ * database table used, filters and made adjustments to accommodate
  * support for guest customers as well as registered customers via the REST API.
  *
  * @author   Sébastien Dumont
@@ -399,7 +399,7 @@ class CoCart_Session_Handler extends WC_Session {
 		if ( $this->has_session() ) {
 			global $wpdb;
 
-			/** 
+			/**
 			 * Set cart to expire after 6 hours if cart is empty.
 			 * This helps clear empty carts stored in the database when the cron job is run.
 			 */
@@ -521,7 +521,8 @@ class CoCart_Session_Handler extends WC_Session {
 		global $wpdb;
 
 		if ( ! empty( $this->_data ) && ! is_numeric( $this->_customer_id ) ) {
-			$wpdb->insert( $this->_table,
+			$wpdb->insert(
+				$this->_table,
 				array(
 					'cart_key'    => $this->_customer_id,
 					'cart_value'  => maybe_serialize( $this->_data ),
@@ -542,7 +543,8 @@ class CoCart_Session_Handler extends WC_Session {
 	public function update_cart( $customer_id ) {
 		global $wpdb;
 
-		$wpdb->update( $this->_table,
+		$wpdb->update(
+			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
 				'cart_expiry' => $this->_cart_expiration

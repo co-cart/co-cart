@@ -111,7 +111,7 @@ final class CoCart {
 	 *
 	 * @access private
 	 * @since  1.2.0
-	 * @param  string $name
+	 * @param  string      $name
 	 * @param  string|bool $value
 	 */
 	private static function define( $name, $value ) {

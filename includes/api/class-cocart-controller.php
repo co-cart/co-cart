@@ -123,7 +123,7 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 2.1.0
-	 * @param   array  $data
+	 * @param   array $data
 	 * @return  array|WP_Error
 	 */
 	public function get_cart_customer( $data = array() ) {
@@ -193,7 +193,7 @@ class CoCart_API_Controller {
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+				$cart_item['data']                  = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
 				$cart_contents[ $item_key ]['data'] = $cart_item['data'];
 			}
 
@@ -303,7 +303,7 @@ class CoCart_API_Controller {
 
 		// Get the cart in the database.
 		$handler = new CoCart_Session_Handler();
-		$cart = $handler->get_cart( $cart_key );
+		$cart    = $handler->get_cart( $cart_key );
 
 		// If no cart is saved with the ID specified return error.
 		if ( empty( $cart ) ) {
@@ -450,9 +450,9 @@ class CoCart_API_Controller {
 	 *
 	 * @access protected
 	 * @since  2.1.2
-	 * @param  array       $variation    Submitted attributes.
-	 * @param  WC_Product  $product      Product being added to the cart.
-	 * @return int         $variation_id Matching variation ID.
+	 * @param  array      $variation    Submitted attributes.
+	 * @param  WC_Product $product      Product being added to the cart.
+	 * @return int        $variation_id Matching variation ID.
 	 */
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
 		$data_store   = \WC_Data_Store::load( 'product' );
@@ -741,9 +741,9 @@ class CoCart_API_Controller {
 	} // END find_product_in_cart()
 
 	/**
-	 * Checks if the product in the cart has enough stock 
+	 * Checks if the product in the cart has enough stock
 	 * before updating the quantity.
-	 * 
+	 *
 	 * @access  protected
 	 * @since   1.0.6
 	 * @version 2.1.2
@@ -769,7 +769,7 @@ class CoCart_API_Controller {
 	} // END has_enough_stock()
 
 	/**
-	 * Look's up an item in the cart and returns it's data 
+	 * Look's up an item in the cart and returns it's data
 	 * based on the condition it is being returned for.
 	 *
 	 * @access  public
@@ -793,34 +793,34 @@ class CoCart_API_Controller {
 	 * @return array
 	 */
 	public function get_item_schema() {
-		$schema         = array(
+		$schema = array(
 			'schema'     => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'CoCart - ' . __( 'Cart', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(
-				'items'   => array(
+				'items' => array(
 					'description' => __( 'List of cart items.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'properties'  => array(
-						'key'             => array(
+						'key'               => array(
 							'description' => __( 'Unique identifier for the item within the cart.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'product_id'      => array(
+						'product_id'        => array(
 							'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'variation_id' => array(
+						'variation_id'      => array(
 							'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'variation'       => array(
+						'variation'         => array(
 							'description' => __( 'Chosen attributes (for variations).', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'array',
 							'context'     => array( 'view' ),
@@ -843,19 +843,19 @@ class CoCart_API_Controller {
 								),
 							),
 						),
-						'quantity'        => array(
+						'quantity'          => array(
 							'description' => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'line_tax_data'   => array(
+						'line_tax_data'     => array(
 							'description' => '',
 							'type'        => 'array',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 							'items'       => array(
-								'type'    => 'object',
+								'type'       => 'object',
 								'properties' => array(
 									'subtotal' => array(
 										'description' => __( 'Line subtotal tax data.', 'cart-rest-api-for-woocommerce' ),
@@ -863,16 +863,16 @@ class CoCart_API_Controller {
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
-									'total' => array(
+									'total'    => array(
 										'description' => __( 'Line total tax data.', 'cart-rest-api-for-woocommerce' ),
 										'type'        => 'integer',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
-								)
-							)
+								),
+							),
 						),
-						'line_subtotal' => array(
+						'line_subtotal'     => array(
 							'description' => __( 'Line subtotal (the price of the product before coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
@@ -884,34 +884,34 @@ class CoCart_API_Controller {
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'line_total' => array(
+						'line_total'        => array(
 							'description' => __( 'Line total (the price of the product after coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'line_tax' => array(
+						'line_tax'          => array(
 							'description' => __( 'Line total tax.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'product_name'    => array(
+						'product_name'      => array(
 							'description' => __( 'Product name.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => ( 'view' ),
 							'readonly'    => true,
 						),
-						'product_price'   => array(
+						'product_price'     => array(
 							'description' => __( 'Current product price.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 					),
-					'readonly'          => true,
+					'readonly'    => true,
 				),
-			)
+			),
 		);
 
 		$schema['properties'] = apply_filters( 'cocart_cart_schema', $schema['properties'] );
@@ -933,11 +933,11 @@ class CoCart_API_Controller {
 				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 			),
-			'thumb' => array(
+			'thumb'    => array(
 				'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => false,
 				'type'        => 'boolean',
-			)
+			),
 		);
 
 		return $params;

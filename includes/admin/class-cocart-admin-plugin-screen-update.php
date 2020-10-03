@@ -51,9 +51,9 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 			$this->upgrade_notice = $this->get_upgrade_notice( $response->new_version );
 
 			if ( ! empty( $this->upgrade_notice ) ) {
-				echo '</p></div><div class="notice inline notice-cocart">'.
-				'<p class="cart"><strong>' . sprintf( esc_html__( '%s Upgrade Notice', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '</strong></p>'.
-				'<p>' . wp_kses_post( $this->upgrade_notice ) . '</p>'.
+				echo '</p></div><div class="notice inline notice-cocart">' .
+				'<p class="cart"><strong>' . sprintf( esc_html__( '%s Upgrade Notice', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '</strong></p>' .
+				'<p>' . wp_kses_post( $this->upgrade_notice ) . '</p>' .
 				'</div>';
 			}
 		} // END in_plugin_update_message()
@@ -93,7 +93,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 * @version 2.6.1
 		 * @param   string $content        CoCart readme file content.
 		 * @param   string $new_version    CoCart new version.
-		 * @return  string $upgrade_notice 
+		 * @return  string $upgrade_notice
 		 */
 		private function parse_update_notice( $content, $new_version ) {
 			$version_parts     = explode( '.', $new_version );

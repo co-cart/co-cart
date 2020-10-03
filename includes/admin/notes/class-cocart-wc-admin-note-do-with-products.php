@@ -51,7 +51,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		}
 
 		// Don't add note if there are products.
-		$query    = new \WC_Product_Query(
+		$query = new \WC_Product_Query(
 			array(
 				'limit'    => 1,
 				'paginate' => true,
@@ -82,7 +82,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		$args = array(
 			'title'   => sprintf( __( '6 things you can do %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
 			'content' => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
-			'type'    => ( version_compare( WC_VERSION, '4.3.0', ">=" ) ) ? Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL,
+			'type'    => ( version_compare( WC_VERSION, '4.3.0', '>=' ) ) ? Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL,
 			'layout'  => 'thumbnail',
 			'image'   => 'https://cocart.xyz/wp-content/uploads/2020/03/rwmibqmoxry-128x214.jpg',
 			'name'    => self::NOTE_NAME,
@@ -92,9 +92,9 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://cocart.xyz/6-things-you-can-do-with-cocart-products/?utm_source=inbox',
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
-					'primary' => true
-				)
-			)
+					'primary' => true,
+				),
+			),
 		);
 
 		return $args;

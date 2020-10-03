@@ -38,7 +38,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		public function admin_menu() {
 			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( $_GET['section'] );
 
-			switch( $section ) {
+			switch ( $section ) {
 				case 'getting-started':
 					$title      = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
 					$breadcrumb = esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' );
@@ -69,10 +69,13 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 							esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ),
 							$breadcrumb,
 						),
-						'path'      => add_query_arg( array(
-							'page'    => 'cocart',
-							'section' => $section
-						), 'admin.php' ),
+						'path'      => add_query_arg(
+							array(
+								'page'    => 'cocart',
+								'section' => $section,
+							),
+							'admin.php'
+						),
 					)
 				);
 			}
@@ -89,7 +92,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		public static function cocart_page() {
 			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( $_GET['section'] );
 
-			switch( $section ) {
+			switch ( $section ) {
 				case 'getting-started':
 					self::getting_started_content();
 					break;
@@ -109,7 +112,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @version 2.6.0
 		 */
 		public static function getting_started_content() {
-			include_once( dirname( __FILE__ ) . '/views/html-getting-started.php' );
+			include_once dirname( __FILE__ ) . '/views/html-getting-started.php';
 		} // END getting_started_content()
 
 	} // END class

@@ -126,7 +126,7 @@ class CoCart_Rest_API {
 		if ( strpos( $request_uri, $rest_prefix . 'cocart/' ) !== false ) {
 			return true;
 		}
-	
+
 		return $skip;
 	} // END prevent_cache()
 
@@ -157,7 +157,7 @@ class CoCart_Rest_API {
 
 	/**
 	 * Loads the cart, session and notices should it be required.
-	 * 
+	 *
 	 * @access  private
 	 * @since   2.0.0
 	 * @version 2.6.0
@@ -166,8 +166,8 @@ class CoCart_Rest_API {
 		if ( CoCart_Helpers::is_rest_api_request() ) {
 			// WooCommerce is greater than v3.6 or less than v4.5
 			if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_wc_version_lt_4_5() ) {
-				require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
-				require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
+				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+				require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
 
 				// Initialize session.
 				$this->initialize_session();
@@ -178,7 +178,7 @@ class CoCart_Rest_API {
 
 			// WooCommerce is greater than v4.5 or equal.
 			if ( CoCart_Helpers::is_wc_version_gte_4_5() ) {
-				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart') ) {
+				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart' ) ) {
 					wc_load_cart();
 				}
 			}
@@ -215,7 +215,7 @@ class CoCart_Rest_API {
 
 			// If the user is logged in and does not match ID in cookie then user has switched.
 			if ( $current_user_id !== $customer_id ) {
-				CoCart_Logger::log( sprintf( __( 'User has changed! Was %s before and is now %s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
+				CoCart_Logger::log( sprintf( __( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
 
 				return true;
 			}
@@ -289,18 +289,18 @@ class CoCart_Rest_API {
 		// Only include Legacy REST API if WordPress is v5.4.2 or lower.
 		if ( CoCart_Helpers::is_wp_version_lt( '5.4.2' ) ) {
 			// Legacy - WC Cart REST API v2 controller.
-			include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
+			include_once dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php';
 		}
 
 		// CoCart REST API controllers.
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-add-item-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-clear-cart-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-calculate-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-count-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-item-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-logout-controller.php' );
-		include_once( dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php' );
+		include_once dirname( __FILE__ ) . '/api/class-cocart-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-add-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-clear-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-calculate-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-count-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-logout-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php';
 	} // rest_api_includes()
 
 	/**
@@ -323,7 +323,7 @@ class CoCart_Rest_API {
 			'CoCart_Count_Items_Controller',
 			'CoCart_Item_Controller',
 			'CoCart_Logout_Controller',
-			'CoCart_Totals_Controller'
+			'CoCart_Totals_Controller',
 		);
 
 		foreach ( $controllers as $controller ) {

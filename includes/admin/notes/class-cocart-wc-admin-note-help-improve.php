@@ -67,12 +67,12 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
-					'name'  => 'cocart-share-feedback',
-					'label' => __( 'Share feedback', 'cart-rest-api-for-woocommerce' ),
-					'url'   => 'https://github.com/co-cart/co-cart/issues/new?assignees=&labels=priority%3Alow%2C+enhancement&template=enhancement.md&title=ISBAT+...',
-					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
-				)
-			)
+					'name'   => 'cocart-share-feedback',
+					'label'  => __( 'Share feedback', 'cart-rest-api-for-woocommerce' ),
+					'url'    => 'https://github.com/co-cart/co-cart/issues/new?assignees=&labels=priority%3Alow%2C+enhancement&template=enhancement.md&title=ISBAT+...',
+					'status' => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
+				),
+			),
 		);
 
 		return $args;

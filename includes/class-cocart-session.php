@@ -96,8 +96,8 @@ class CoCart_API_Session {
 	/**
 	 * Load cart action.
 	 *
-	 * Loads a cart in session if still valid and overrides the current cart. 
-	 * Unless specified not to override, the carts will merge the current cart 
+	 * Loads a cart in session if still valid and overrides the current cart.
+	 * Unless specified not to override, the carts will merge the current cart
 	 * and the loaded cart items together.
 	 *
 	 * @access  public
@@ -169,7 +169,6 @@ class CoCart_API_Session {
 		} else {
 			$new_cart_content                       = array_merge( $new_cart['cart'], $cart_in_session );
 			$new_cart['cart']                       = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
-
 			$new_cart['applied_coupons']            = array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() );
 			$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
 			$new_cart['coupon_discount_tax_totals'] = array_merge( $new_cart['coupon_discount_tax_totals'], WC()->cart->get_coupon_discount_tax_totals() );
@@ -187,7 +186,7 @@ class CoCart_API_Session {
 
 		// If true, notify the customer that there cart has transferred over via the web.
 		if ( ! empty( $new_cart ) && $notify_customer ) {
-			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( "shop" ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
+			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 		}
 
 		// If true, redirect the customer to the cart safely.

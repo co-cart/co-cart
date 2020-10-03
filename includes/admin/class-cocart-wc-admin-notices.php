@@ -48,12 +48,12 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				return;
 			}
 
-			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-activate-pro.php' );
-			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-do-with-products.php' );
-			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-help-improve.php' );
-			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-need-help.php' );
-			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-thanks-install.php' );
-			include_once( dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-upgrade-to-pro.php' );
+			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-activate-pro.php';
+			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-do-with-products.php';
+			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-help-improve.php';
+			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-need-help.php';
+			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-thanks-install.php';
+			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-upgrade-to-pro.php';
 		} // END include_notes()
 
 		/**
@@ -103,29 +103,29 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				'icon'    => 'plugins',
 				'layout'  => 'plain',
 				'image'   => '',
-				'actions' => array()
+				'actions' => array(),
 			);
 
-			foreach( $args['actions'] as $key => $action ) {
-				$default_args['actions'][$key] = array(
+			foreach ( $args['actions'] as $key => $action ) {
+				$default_args['actions'][ $key ] = array(
 					'name'    => 'cocart-' . $key,
 					'label'   => '',
 					'url'     => '',
 					'status'  => '',
-					'primary' => ''
+					'primary' => '',
 				);
 			}
 
 			// Parse incoming $args into an array and merge it with $default_args
 			$args = wp_parse_args( $args, $default_args );
 
-			if ( empty( $args[ 'name' ] ) || empty( $args[ 'title' ] ) || empty( $args[ 'content' ] ) || empty( $args[ 'type' ] ) ) {
+			if ( empty( $args['name'] ) || empty( $args['title'] ) || empty( $args['content'] ) || empty( $args['type'] ) ) {
 				return;
 			}
 
 			// First, see if we've already created this note so we don't do it again.
 			$data_store = \WC_Data_Store::load( 'admin-note' );
-			$note_ids = $data_store->get_notes_with_name( $args[ 'name' ] );
+			$note_ids   = $data_store->get_notes_with_name( $args['name'] );
 			if ( ! empty( $note_ids ) ) {
 				return;
 			}
@@ -139,22 +139,24 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 			$note->set_type( $args['type'] );
 
 			if ( method_exists( $note, 'set_layout' ) ) {
-				$note->set_layout( $args[ 'layout' ] );
+				$note->set_layout( $args['layout'] );
 			}
 
 			if ( ! method_exists( $note, 'set_image' ) ) {
-				$note->set_icon( $args[ 'icon' ] );
+				$note->set_icon( $args['icon'] );
 			}
 
 			if ( method_exists( $note, 'set_image' ) ) {
-				$note->set_image( $args[ 'image' ] );
+				$note->set_image( $args['image'] );
 			}
 
-			if ( isset( $args['source'] ) ) $note->set_source( $args['source'] );
+			if ( isset( $args['source'] ) ) {
+				$note->set_source( $args['source'] );
+			}
 
 			// Create each action button for the note.
-			foreach( $args['actions'] as $key => $action ) {
-				$note->add_action( $action['name'], $action['label'], empty( $action[ 'url' ] ) ? false : $action[ 'url' ], empty( $action[ 'status' ] ) ? Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED : $action[ 'status' ], empty( $action[ 'primary' ] ) ? false : $action[ 'primary' ] );
+			foreach ( $args['actions'] as $key => $action ) {
+				$note->add_action( $action['name'], $action['label'], empty( $action['url'] ) ? false : $action['url'], empty( $action['status'] ) ? Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED : $action['status'], empty( $action['primary'] ) ? false : $action['primary'] );
 			}
 
 			// Save note.

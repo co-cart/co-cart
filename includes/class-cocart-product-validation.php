@@ -76,7 +76,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 */
 		public function validate_variation_product_name( $product_name, $_product, $cart_item ) {
 			if ( $_product->is_type( 'variation' ) ) {
-				$product = wc_get_product( $_product->get_parent_id() );
+				$product            = wc_get_product( $_product->get_parent_id() );
 				$default_attributes = $product->get_default_attributes();
 
 				if ( empty( $cart_item['variation'] ) && empty( $default_attributes ) ) {

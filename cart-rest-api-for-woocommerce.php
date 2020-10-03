@@ -24,7 +24,7 @@ if ( ! defined( 'COCART_FILE' ) ) {
 
 // Include the main CoCart class.
 if ( ! class_exists( 'CoCart', false ) ) {
-	include_once( untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php' );
+	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php';
 }
 
 /**
@@ -49,6 +49,6 @@ if ( ! function_exists( 'CoCart' ) ) {
 		! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL &&
 		is_admin() || ( defined( 'WP_CLI' ) && WP_CLI )
 	) {
-		include_once( untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-admin.php' );
+		include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-admin.php';
 	}
 }

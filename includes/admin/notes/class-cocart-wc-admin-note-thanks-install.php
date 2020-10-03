@@ -82,9 +82,9 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 					'label'   => __( 'View Documentation', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://docs.cocart.xyz/?utm_source=inbox',
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
-					'primary' => true
-				)
-			)
+					'primary' => true,
+				),
+			),
 		);
 
 		return $args;

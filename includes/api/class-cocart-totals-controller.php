@@ -78,18 +78,17 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 			$ignore_convert = array(
 				'shipping_taxes',
 				'cart_contents_taxes',
-				'fee_taxes'
+				'fee_taxes',
 			);
 
-			foreach( $totals as $type => $sum ) {
+			foreach ( $totals as $type => $sum ) {
 				if ( in_array( $type, $ignore_convert ) ) {
-					$new_totals[$type] = $sum;
+					$new_totals[ $type ] = $sum;
 				} else {
 					if ( is_string( $sum ) ) {
-						$new_totals[$type] = html_entity_decode( strip_tags( wc_price( $sum ) ) );
-					}
-					else {
-						$new_totals[$type] = html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
+						$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( $sum ) ) );
+					} else {
+						$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
 					}
 				}
 			}
