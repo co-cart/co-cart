@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.6.2
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -238,7 +238,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.7.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -277,11 +277,12 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			$stock = $this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
 			/**
-			 * If has enough stock returned an error return error response.
+			 * Return error if stock is not enough.
 			 *
+			 * @since 2.7.0
 			 * @param $stock
 			 */
-			if ( is_wp_error($stock) ) {
+			if ( is_wp_error( $stock ) ) {
 				return $stock;
 			}
 			
