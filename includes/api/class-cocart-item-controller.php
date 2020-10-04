@@ -78,7 +78,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function remove_item( $data = array() ) {
-		$cart_item_key  = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
 
 		// Checks to see if the cart is empty before attempting to remove item.
 		if ( WC()->cart->is_empty() ) {
