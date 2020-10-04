@@ -274,8 +274,17 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				return new WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
 			}
 
-			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+			$stock = $this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
+			/**
+			 * If has enough stock returned an error return error response.
+			 *
+			 * @param $stock
+			 */
+			if ( is_wp_error($stock) ) {
+				return $stock;
+			}
+			
 			/**
 			 * Update cart validation.
 			 *
