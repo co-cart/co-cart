@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  2.6.3
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -80,7 +80,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 */
 	public static function get_note_args() {
 		$args = array(
-			'title'   => sprintf( __( '6 things you can do %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
+			'title'   => sprintf( __( '6 things you can do with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
 			'content' => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
 			'type'    => ( version_compare( WC_VERSION, '4.3.0', '>=' ) ) ? Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL,
 			'layout'  => 'thumbnail',
