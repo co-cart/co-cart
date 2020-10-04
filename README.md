@@ -7,7 +7,7 @@
 		<img src="https://img.shields.io/static/v1?label=&message=5.2+-+5.5&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.0.0+-+4.5.0&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=4.0.0+-+4.6.0&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+7.4&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -77,7 +77,8 @@ Head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=gi
 
 CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart):
 
-* **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) users.
+* **Plugin Updates** for 1 year.
+* **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) users via Slack.
 * Add and Remove Coupons to/from Cart
 * Retrieve Applied Coupons
 * Retrieve Coupon Discount Total
@@ -163,7 +164,7 @@ Thank you very much Sébastien for sharing this extension, you’ve saved me a l
 
 ***
 
-Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription.</p>
+Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription.
 
 **MightyGroup** – Rikard Kling ⭐️⭐️⭐️⭐️⭐️
 
