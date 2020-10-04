@@ -378,7 +378,7 @@ class CoCart_API_Controller {
 
 		// Now we have a variation ID, get the valid set of attributes for this variation. They will have an attribute_ prefix since they are from meta.
 		$expected_attributes = wc_get_product_variation_attributes( $variation_id );
-		$missing_attributes  = [];
+		$missing_attributes  = array();
 
 		foreach ( $variable_product_attributes as $attribute ) {
 			if ( ! $attribute['is_variation'] ) {
@@ -924,19 +924,21 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.7.0
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
 			'cart_key' => array(
-				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'string',
+				'description'       => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'thumb'    => array(
-				'description' => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => false,
-				'type'        => 'boolean',
+				'description'       => __( 'Returns the URL of the product image thumbnail.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => false,
+				'type'              => 'boolean',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);
 
