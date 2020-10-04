@@ -21,11 +21,23 @@ A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
 
 = Why should I use CoCart? =
 
-The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. Not the API your needing for your customers who only see the frontend.
+The question is why not! WooCommerce's REST API is only created for store managers to control the backend of your store. So it's not the API you need to allow your customers to shop.
 
-If you are wanting to build a headless WooCommerce store for your customers then CoCart is your solution.
+If you are wanting to build a headless WooCommerce store then CoCart is your solution.
 
-With [the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) provided, you’ll learn how to enable the ability to add products to the cart and manage it in no time.
+With [the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) provided, you’ll learn how to enable the ability to add products to a cart and allow your customers to manage it in no time.
+
+## Testimonials - Developers love it
+
+CoCart, in my opinion, is the best frontend REST API for WooCommerce. Don’t just take my word for it though:
+
+Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
+
+This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
+
+Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
+
+This plugin works great out of the box for adding products to the Woo cart via API. The code is solid and functionality is as expected, thanks Sebastien! [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
 
 ## Features
 
@@ -54,7 +66,8 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 ### CoCart Pro
 CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) completes it with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 
-* **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users.
+* **Plugin Updates** for 1 year.
+* **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users via Slack.
 * Add and Remove Coupons to Cart
 * Retrieve Applied Coupons
 * Retrieve Coupon Discount Total
@@ -106,7 +119,7 @@ A Slack community for developers, WordPress agencies and shop owners building th
 
 ### Built with developers in mind
 
-Extensible, adaptable, and open source — CoCart is created with developers in mind. If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on the GitHub repository](https://github.com/co-cart/co-cart) and join the party.
+Extensible, adaptable, and open source — CoCart is created with developers in mind. If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on the GitHub repository](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md) and join the party.
 
 ### Bug reports
 
@@ -181,7 +194,7 @@ Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart
 
 = CoCart is awesome! Can I contribute? =
 
-Yes, you can! Join in on our [GitHub repository](https://github.com/co-cart/co-cart) and follow the [development blog](https://cocart.xyz/news/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) to stay up-to-date with everything happening in the project.
+Yes, you can! Join in on our [GitHub repository](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md) and follow the [development blog](https://cocart.xyz/news/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) to stay up-to-date with everything happening in the project.
 
 = Is CoCart translatable? =
 
@@ -190,6 +203,10 @@ Yes! CoCart is deployed with full translation and localization support via the �
 = Where can I get help or talk other users about CoCart core? =
 
 If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) or [join the CoCart Community on Slack](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) where you will find like minded developers who help each other out. If you are in need of priority support, it will be provided by either purchasing [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) or the [14 day priority support](https://cocart.xyz/product/14-day-priority-support/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+
+= Where can I find out about the pricing of CoCart Pro? =
+
+Find out all relevant [pricing information over on the official site.](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
 = My question is not listed here. Where can I find more answers? =
 
@@ -210,11 +227,12 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-= v2.7.0 - 7th October, 2020 =
+= v2.7.0 - 14th October, 2020 =
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
 * Enhanced: Variable validation by removing parameters not used.
 * Fixed: Undefined class constant `E_WC_ADMIN_NOTE_MARKETING` for those who are using WooCommerce lower than version `4.3.0`. Thanks to [@dmchale](https://github.com/dmchale)
+* Fixed: If stock not available when updating item, return error. Thanks to [@pauld8](https://github.com/pauld8)
 * Tested: Compatible with WooCommerce v4.6.0
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
