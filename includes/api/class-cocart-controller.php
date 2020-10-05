@@ -103,6 +103,8 @@ class CoCart_API_Controller {
 	 * @return  array|WP_REST_Response
 	 */
 	public function get_cart( $data = array(), $cart_item_key = '' ) {
+		do_action( 'woocommerce_check_cart_items' );
+		
 		$cart_contents = $this->get_cart_contents( $data, $cart_item_key );
 
 		do_action( 'cocart_get_cart', $cart_contents );
