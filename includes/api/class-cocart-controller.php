@@ -946,6 +946,7 @@ class CoCart_API_Controller {
 			'cart_key' => array(
 				'description'       => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'thumb'    => array(

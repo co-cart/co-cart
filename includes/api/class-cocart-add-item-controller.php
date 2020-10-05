@@ -288,7 +288,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			'properties' => array(
 				'product_id'     => array(
 					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'integer',
+					'type'        => 'string',
 				),
 				'quantity'       => array(
 					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
@@ -331,7 +331,10 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	public function get_collection_params() {
 		$params = array(
 			'product_id'     => array(
-				'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'       => array(
 				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
@@ -344,26 +347,24 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			'variation_id'   => array(
 				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'integer',
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_numeric( $value );
-				},
+				'sanitize_callback' => 'absint',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'variation'      => array(
 				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_array( $value );
-				},
+				'type'              => 'array',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'cart_item_data' => array(
 				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_array( $value );
-				},
+				'type'              => 'array',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_cart'    => array(
-				'description' => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => false,
-				'type'        => 'boolean',
+				'description'       => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => false,
+				'type'              => 'boolean',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);
 

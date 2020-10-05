@@ -413,20 +413,24 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access public
-	 * @since  2.1.0
-	 * @return array $params
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.7.0
+	 * @return  array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
 			'cart_item_key' => array(
-				'description' => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'string',
+				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_cart'   => array(
-				'description' => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => false,
-				'type'        => 'boolean',
+				'description'       => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => false,
+				'type'              => 'boolean',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);
 
