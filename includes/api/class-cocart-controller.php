@@ -331,7 +331,7 @@ class CoCart_API_Controller {
 				$product_id = $product_id_by_sku;
 			}
 
-			// Force product ID to be int
+			// Force product ID to be integer.
 			$product_id = (int) $product_id;
 		}
 
@@ -517,7 +517,12 @@ class CoCart_API_Controller {
 	 * @return  array|WP_Error
 	 */
 	protected function validate_product( $product_id = null, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array(), $product_type = '' ) {
-		$this->validate_product_id( $product_id );
+		$product_id = $this->validate_product_id( $product_id );
+
+		// Return failed product ID validation if any.
+		if ( is_wp_error( $product_id ) ) {
+			return $product_id;
+		}
 
 		$this->validate_quantity( $quantity );
 
