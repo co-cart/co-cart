@@ -314,31 +314,40 @@ class CoCart_API_Controller {
 	} // END get_cart_in_session()
 
 	/**
-	 * Validate the product id.
+	 * Validate the product ID or SKU ID.
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 2.6.2
+	 * @version 2.7.0
 	 * @param   int|string $product_id
 	 * @return  int|WP_Error
 	 */
 	protected function validate_product_id( $product_id ) {
 		// If the product ID was used by a SKU ID, then look up the product ID and return it.
-		if ( is_string( $product_id ) ) {
-			$product_id_by_sku = wc_get_product_id_by_sku( $product_id );
+		if ( ! is_numeric( $product_id ) ) {
+			$product_id_by_sku = (int) wc_get_product_id_by_sku( $product_id );
 
 			if ( $product_id_by_sku > 0 ) {
-				return $product_id_by_sku;
+				$product_id = $product_id_by_sku;
 			}
+
+			// Force product ID to be int
+			$product_id = (int) $product_id;
 		}
 
 		if ( empty( $product_id ) ) {
-			return new WP_Error( 'cocart_product_id_required', __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			$message = __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' );
+			CoCart_Logger::log( $message, 'error' );
+			return new WP_Error( 'cocart_product_id_required', $message, array( 'status' => 404 ) );
 		}
 
 		if ( ! is_numeric( $product_id ) ) {
-			return new WP_Error( 'cocart_product_id_not_numeric', __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 405 ) );
+			$message = __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' );
+			CoCart_Logger::log( $message, 'error' );
+			return new WP_Error( 'cocart_product_id_not_numeric', $message, array( 'status' => 405 ) );
 		}
+
+		return $product_id;
 	} // END validate_product_id()
 
 	/**

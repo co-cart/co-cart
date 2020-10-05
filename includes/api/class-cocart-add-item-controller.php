@@ -55,7 +55,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.7.0
 	 * @param   array $data - Passed parameters.
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -66,8 +66,13 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		$variation      = ! isset( $data['variation'] ) ? array() : $data['variation'];
 		$cart_item_data = ! isset( $data['cart_item_data'] ) ? array() : $data['cart_item_data'];
 
-		// Validate product ID before continuing.
-		$this->validate_product_id( $product_id );
+		// Validate product ID before continuing and return correct product ID if different.
+		$product_id = $this->validate_product_id( $product_id );
+
+		// Return failed product ID validation if any.
+		if ( is_wp_error( $product_id ) ) {
+			return $product_id;
+		}
 
 		// The product we are attempting to add to the cart.
 		$adding_to_cart = wc_get_product( $product_id );
