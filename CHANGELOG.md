@@ -4,6 +4,7 @@
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
 * Enhanced: Variable validation by removing parameters not used.
+* Enhanced: REST API parameters sanitized and validated.
 * Fixed: Undefined class constant `E_WC_ADMIN_NOTE_MARKETING` for those who are using WooCommerce lower than version `4.3.0`. Thanks to [@dmchale](https://github.com/dmchale)
 * Fixed: If stock not available when updating item, return error. Thanks to [@pauld8](https://github.com/pauld8)
 * Fixed: Product ID validation should the ID not be present. Also returns correct product ID should SKU ID be used instead.
