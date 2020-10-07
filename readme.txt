@@ -236,6 +236,9 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 * Fixed: If stock not available when updating item, return error. Thanks to [@pauld8](https://github.com/pauld8)
 * Fixed: Product ID validation should the ID not be present. Also returns correct product ID should SKU ID be used instead.
 * Tested: Compatible with WooCommerce v4.6.0
+* Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
+
+> New response has been applied to all API routes excluding the following: `logout`, `count-items`, `totals`.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
