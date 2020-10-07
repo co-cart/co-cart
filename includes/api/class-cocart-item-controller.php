@@ -73,7 +73,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.6.2
+	 * @version 2.7.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -135,7 +135,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
-				return new WP_REST_Response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), 200 );
+				return $this->get_response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $this->rest_base );
 			} else {
 				$message = __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' );
 
@@ -173,7 +173,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.6.2
+	 * @version 2.7.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -200,7 +200,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
-				return new WP_REST_Response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), 200 );
+				return $this->get_response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $this->rest_base );
 			} else {
 				$message = __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' );
 
@@ -391,7 +391,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					);
 				}
 
-				return new WP_REST_Response( apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data ), 200 );
+				$response = apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data );
+
+				return $this->get_response( $response, $this->rest_base );
 			}
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
