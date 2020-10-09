@@ -430,7 +430,7 @@ class CoCart_Session_Handler extends WC_Session {
 			 * @since 3.0.0
 			 * @param string $cart_source
 			 */
-			$cart_source = apply_filters( 'cocart_cart_source', $cart_source );
+			$cart_source = apply_filters( 'cocart_cart_source', $this->_cart_source );
 
 			$wpdb->query(
 				$wpdb->prepare(
@@ -439,7 +439,7 @@ class CoCart_Session_Handler extends WC_Session {
 					$this->_customer_id,
 					maybe_serialize( $this->_data ),
 					$this->_cart_expiration,
-					$this->_cart_source
+					$cart_source
 				)
 			);
 
