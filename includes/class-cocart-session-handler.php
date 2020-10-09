@@ -538,26 +538,43 @@ class CoCart_Session_Handler extends WC_Session {
 	} // END get_cart()
 
 	/**
-	 * Create a new cart.
+	 * Create a blank new cart and returns cart key if successful.
 	 *
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
 	 * @global  $wpdb
+	 * @return  $result
 	 */
-	public function create_new_cart() {
+	public function create_new_cart( $cart_key = '', $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
 		global $wpdb;
 
-		if ( ! empty( $this->_data ) && ! is_numeric( $this->_customer_id ) ) {
-			$wpdb->insert( $this->_table,
-				array(
-					'cart_key'    => $this->_customer_id,
-					'cart_value'  => maybe_serialize( $this->_data ),
-					'cart_expiry' => $this->_cart_expiration,
-					'cart_source' => $this->_cart_source
-				),
-				array( '%s', '%s', '%d', '%s' )
-			);
+		if ( empty( $cart_key ) ) {
+			$cart_key = self::generate_customer_id();
+		}
+
+		if ( empty( $cart_expiration ) ) {
+			$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 29 ) );
+		}
+
+		if ( empty( $cart_source ) ) {
+			$cart_source = apply_filters( 'cocart_cart_source', $this->_cart_source );
+		}
+
+		$result = $wpdb->insert(
+			$this->_table,
+			array(
+				'cart_key'    => $cart_key,
+				'cart_value'  => maybe_serialize( $cart_value ),
+				'cart_expiry' => $cart_expiration,
+				'cart_source' => $cart_source
+			),
+			array( '%s', '%s', '%d', '%s' )
+		);
+
+		// Returns the cart key if cart successfully created.
+		if ( $result ) {
+			return $cart_key;
 		}
 	} // END create_new_cart()
 
