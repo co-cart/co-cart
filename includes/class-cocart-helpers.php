@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.6.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -324,7 +324,7 @@ class CoCart_Helpers {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.2.0
+	 * @version 2.7.0
 	 * @return  bool
 	 */
 	public static function is_rest_api_request() {
@@ -335,7 +335,7 @@ class CoCart_Helpers {
 		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
 		$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix . 'cocart/' ) );
 
-		return $is_rest_api_request;
+		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()
 
 	/**
