@@ -244,4 +244,4 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 = 2.7 =
 
-You can now access the cart key via the headers. Look for `X-CoCart-API`
+WARNING: Make sure the `product_id` parameter is a string not integer for when adding a product to the cart. Please make sure a string value is passed. Not changing this before updating CoCart Lite to v2.7 will result in an error when adding a product to the cart.
