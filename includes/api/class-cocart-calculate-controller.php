@@ -45,6 +45,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 			'permission_callback' => '__return_true',
 			'args'                => array(
 				'return' => array(
+					'required'          => false,
 					'default'           => false,
 					'description'       => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
 					'type'              => 'boolean',

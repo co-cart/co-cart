@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.6.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -276,6 +276,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  2.1.2
+	 * @since  2.7.0
 	 * @return array
 	 */
 	public function get_item_schema() {
@@ -285,29 +286,35 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'product_id'     => array(
+					'required'    => true,
 					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
 				'quantity'       => array(
-					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
+					'required'    => true,
 					'default'     => 1,
+					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'float',
 				),
 				'variation_id'   => array(
+					'required'    => false,
 					'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 				),
 				'variation'      => array(
+					'required'    => false,
 					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'array',
 				),
 				'cart_item_data' => array(
+					'required'    => false,
 					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'array',
 				),
 				'return_cart'    => array(
-					'description' => __( 'Returns the cart.', 'cart-rest-api-for-woocommerce' ),
+					'required'    => false,
 					'default'     => false,
+					'description' => __( 'Returns the cart.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 				),
 			),
@@ -323,7 +330,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.2
+	 * @version 2.7.0
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
@@ -335,32 +342,37 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'       => array(
-				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+				'required'          => true,
 				'default'           => 1,
+				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'float',
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_numeric( $value );
 				},
 			),
 			'variation_id'   => array(
+				'required'          => false,
 				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'integer',
 				'sanitize_callback' => 'absint',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'variation'      => array(
+				'required'          => false,
 				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'array',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'cart_item_data' => array(
+				'required'          => false,
 				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'array',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_cart'    => array(
-				'description'       => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
+				'required'          => false,
 				'default'           => false,
+				'description'       => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
