@@ -800,6 +800,42 @@ class CoCart_API_Controller {
 	} // END get_cart_item()
 
 	/**
+	 * Returns either the default response of the 
+	 * API requested or a filtered response.
+	 *
+	 * @access public
+	 * @since  2.7.0
+	 * @param  mixed  $response - The original response of the API requested.
+	 * @param  string $rest_base - The API requested.
+	 * @return WP_REST_Response  - The original or filtered response.
+	 */
+	public function get_response( $response, $rest_base = '' ) {
+		if ( empty( $rest_base ) ) {
+			$rest_base = 'cart';
+		}
+
+		$rest_base = str_replace( '-', '_', $rest_base );
+
+		/**
+		 * If the response is empty then either something seriously has gone wrong 
+		 * or the response was already filtered earlier and returned nothing.
+		 */
+		if ( empty( $response ) ) {
+			$response = sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $this->namespace, $rest_base ) ) );
+			CoCart_Logger::log( $response, 'error' );
+		}
+
+		// Set as true by default until store is ready to go to production.
+		$default_response = apply_filters( 'cocart_return_default_response', true );
+
+		if ( ! $default_response ) {
+			$response = apply_filters( 'cocart_' . $rest_base . '_response', $response );
+		}
+
+		return new WP_REST_Response( $response, 200 );
+	}
+
+	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
 	 *
 	 * @access public

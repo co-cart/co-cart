@@ -110,9 +110,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				$response = $was_added_to_cart;
 			}
 
-			if ( ! empty( $response ) ) {
-				return new WP_REST_Response( $response, 200 );
-			}
+			return $this->get_response( $response, $this->rest_base );
 		}
 	} // END add_to_cart()
 
