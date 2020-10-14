@@ -298,7 +298,7 @@ class CoCart_API_Controller {
 		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
 
 		if ( empty( $cart_key ) ) {
-			return new WP_Error( 'cocart_cart_id_missing', __( 'Cart ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			return new WP_Error( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		// Get the cart in the database.
