@@ -172,25 +172,8 @@ Thanks for doing such a great work with this! Works exactly as expected and CoCa
 
 ## Contributors
 
-### Code Contributors
-
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists thanks to all the people who contribute. [[Contribute](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md)].
 <a href="https://github.com/co-cart/co-cart/graphs/contributors"><img src="https://opencollective.com/cocart/contributors.svg?width=890&button=false" /></a>
-
-### Financial Contributors
-
-Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/cocart/contribute)]
-
-#### Individuals
-
-<a href="https://opencollective.com/cocart"><img src="https://opencollective.com/cocart/individuals.svg?width=890"></a>
-
-#### Organizations
-
-Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/cocart/contribute)]
-
-<a href="https://opencollective.com/cocart/organization/0/website"><img src="https://opencollective.com/cocart/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/cocart/organization/1/website"><img src="https://opencollective.com/cocart/organization/1/avatar.svg"></a>
 
 ## License
 
