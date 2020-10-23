@@ -162,7 +162,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 2.1.0
+	 * @version 2.7.1
 	 * @param   array  $data
 	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
@@ -224,9 +224,24 @@ class CoCart_API_Controller {
 				// Add product price as a new variable.
 				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
 
-				// If main product thumbnail is requested then add it to each item in cart.
+				// If product thumbnail is requested then add it to each item in cart.
 				if ( $show_thumb ) {
-					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
+					/**
+					 * Gets the product featured image ID.
+					 * If featured image does not exist then use first gallery image instead.
+					 * @since 2.7.1
+					 */
+					$product_thumbnail_id = $_product->get_image_id();
+
+					if ( ! $product_thumbnail_id ) {
+						$gallery_image_ids = $_product->get_gallery_image_ids();
+
+						if ( ! empty( $gallery_image_ids ) ) {
+							$product_thumbnail_id = array_shift( $gallery_image_ids );
+						}
+					}
+
+					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $product_thumbnail_id, $cart_item, $item_key );
 
 					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
 
