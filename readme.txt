@@ -242,6 +242,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 * Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
 
 > New response has been applied to all API routes excluding the following: `logout`, `count-items`, `totals`.
+> Plugin name has been renamed from "CoCart" to "CoCart Lite".
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
