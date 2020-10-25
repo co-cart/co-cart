@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.0
- * @version  2.3.0
+ * @version  2.7.1
  * @license  GPL-2.0+
  */
 
@@ -21,9 +21,9 @@ $campaign_args = array(
 	'utm_campaign' => 'liteplugin',
 	'utm_content'  => 'getting-started',
 );
-$store_url     = add_query_arg( $campaign_args, COCART_STORE_URL );
-$addons_url    = add_query_arg( $campaign_args, COCART_STORE_URL . 'add-ons/' );
-$pro_url       = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
+$store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
+$addons_url    = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'add-ons/' ) );
+$pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' ) );
 ?>
 <div class="wrap cocart getting-started">
 
@@ -92,7 +92,7 @@ $pro_url       = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
 				<p><?php _e( 'If you are shipping a lot of heavy items, knowing how much a customers cart weighs is a no brainier.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 				<h3><?php _e( 'Subscriptions', 'cart-rest-api-for-woocommerce' ); ?></h3>
-				<p><?php printf( __( 'Integration with the official <a href="%s" target="_blank">WooCommerce Subscriptions</a> extension – see subscription details for any subscription product added to cart. Also extends support for Shipping Methods.', 'cart-rest-api-for-woocommerce' ), 'https://woocommerce.com/products/woocommerce-subscriptions/' ); ?></p>
+				<p><?php printf( __( 'Integration with the official <a href="%s" target="_blank">WooCommerce Subscriptions</a> extension – see subscription details for any subscription product added to cart. Also extends support for Shipping Methods.', 'cart-rest-api-for-woocommerce' ), esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' ) ); ?></p>
 
 				<hr>
 
