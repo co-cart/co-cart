@@ -561,13 +561,40 @@ class CoCart_Helpers {
 	 * @return array The shortlink data.
 	 */
 	protected static function collect_additional_shortlink_data() {
+		$memory = WP_MEMORY_LIMIT;
+
+		if ( function_exists( 'wc_let_to_num' ) ) {
+			$memory = wc_let_to_num( $memory );
+		}
+
+		if ( function_exists( 'memory_get_usage' ) ) {
+			$system_memory = @ini_get( 'memory_limit' );
+
+			if ( function_exists( 'wc_let_to_num' ) ) {
+				$system_memory = wc_let_to_num( $system_memory );
+			}
+
+			$memory = max( $memory, $system_memory );
+		}
+
+		// WordPress 5.5+ environment type specification.
+		// 'production' is the default in WP, thus using it as a default here, too.
+		$environment_type = 'production';
+		if ( function_exists( 'wp_get_environment_type' ) ) {
+			$environment_type = wp_get_environment_type();
+		}
+
 		return array(
-			'php_version'    => self::get_php_version(),
-			'wp_version'     => self::get_wordpress_version(),
-			'wc_version'     => self::get_wc_version(),
-			'cocart_version' => self::get_cocart_version(),
-			'days_active'    => self::get_days_active(),
-			'user_language'  => self::get_user_language(),
+			'php_version'      => self::get_php_version(),
+			'wp_version'       => self::get_wordpress_version(),
+			'wc_version'       => self::get_wc_version(),
+			'cocart_version'   => self::get_cocart_version(),
+			'days_active'      => self::get_days_active(),
+			'debug_mode'       => ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No',
+			'memory_limit'     => size_format( $memory ),
+			'user_language'    => self::get_user_language(),
+			'multisite'        => is_multisite() ? 'Yes' : 'No',
+			'environment_type' => $environment_type
 		);
 	} // END collect_additional_shortlink_data()
 

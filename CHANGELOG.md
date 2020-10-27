@@ -9,7 +9,7 @@
 * Dev: Info log for user switch no longer records if a user ID is not set.
 * Dev: New filter `cocart_is_cart_data_valid` let's you validate the cart data before a cart is saved in session.
 
-> Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active and user language.
+> Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active, debug mode, memory limit, user language, multisite and environment type.
 
 ## v2.7.0 - 26th October, 2020
 

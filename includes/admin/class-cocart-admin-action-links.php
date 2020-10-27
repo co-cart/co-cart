@@ -88,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
 					$donate = array(
 						'donate'   => '<a href="' . esc_url( 'https://www.buymeacoffee.com/sebastien' ) . '" aria-label="' . sprintf( esc_attr__( 'Make a donation for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #399141; font-weight: 600;">' . esc_attr__( 'Donate', 'cart-rest-api-for-woocommerce' ) . '</a>',
-						'priority' => '<a href="' . esc_url( 'https://cocart.xyz/product/14-day-priority-support/' ) . '" aria-label="' . sprintf( esc_attr__( 'Order priority support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Priority Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+						'priority' => '<a href="' . CoCart_Helpers::build_shortlink( esc_url( 'https://cocart.xyz/product/14-day-priority-support/' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Order priority support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Priority Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					);
 
 					$row_meta = array_merge( $donate, $row_meta );
