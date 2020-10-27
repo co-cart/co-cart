@@ -7,7 +7,7 @@ Requires PHP: 7.0
 Tested up to: 5.5
 Stable tag: 2.7.0
 WC requires at least: 4.0.0
-WC tested up to: 4.6.0
+WC tested up to: 4.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -229,7 +229,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-= v2.7.0 - 14th October, 2020 =
+= v2.7.0 - 27th October, 2020 =
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
 * Enhanced: Variable validation by removing parameters not used.

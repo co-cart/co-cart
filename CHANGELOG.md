@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.7.0 - 14th October, 2020
+## v2.7.0 - 27th October, 2020
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
 * Enhanced: Variable validation by removing parameters not used.
