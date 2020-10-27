@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Notices
  * @since    1.2.0
- * @version  2.6.2
+ * @version  2.7.1
  * @license  GPL-2.0+
  */
 
@@ -184,7 +184,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @access public
 		 * @since  2.3.0
 		 * @global $current_user
-		 * @return void|bool
+		 * @return false|null
 		 */
 		public function add_review_notice() {
 			global $current_user;
@@ -217,7 +217,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @access public
 		 * @since  2.3.0
 		 * @global $current_user
-		 * @return void|bool
+		 * @return false|null
 		 */
 		public function add_pre_release_notice() {
 			global $current_user;
@@ -244,7 +244,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @access public
 		 * @since  2.3.0
 		 * @global $current_user
-		 * @return void|bool
+		 * @return false|null
 		 */
 		public function add_upgrade_warning_notice() {
 			global $current_user;
