@@ -215,7 +215,7 @@ class CoCart_Rest_API {
 			$customer_id = $cookie[0];
 
 			// If the user is logged in and does not match ID in cookie then user has switched.
-			if ( $current_user_id !== $customer_id && $current_user_id !== 0 ) {
+			if ( $current_user_id !== $customer_id && $current_user_id != 0 ) {
 				CoCart_Logger::log( sprintf( __( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
 
 				return true;
