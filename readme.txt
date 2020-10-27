@@ -7,7 +7,7 @@ Requires PHP: 7.0
 Tested up to: 5.5
 Stable tag: 2.7.0
 WC requires at least: 4.0.0
-WC tested up to: 4.6.0
+WC tested up to: 4.6.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -120,6 +120,8 @@ A Slack community for developers, WordPress agencies and shop owners building th
 ### Built with developers in mind
 
 Extensible, adaptable, and open source — CoCart is created with developers in mind. If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on the GitHub repository](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md) and join the party.
+
+Check out [open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen) and join the [#core channel](https://cocart.slack.com/messages/C014C4581NE) on Slack. If you don’t have a Slack account yet, you can sign up at [https://cocart.xyz/community/](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 ### Bug reports
 
@@ -238,7 +240,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 > Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active and user language.
 
-= v2.7.0 - 26th October, 2020 =
+= v2.7.0 - 27th October, 2020 =
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
 * Enhanced: Variable validation by removing parameters not used.
@@ -251,6 +253,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 * Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
 
 > New response has been applied to all API routes excluding the following: `logout`, `count-items`, `totals`.
+> Plugin name has been renamed from "CoCart" to "CoCart Lite".
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 

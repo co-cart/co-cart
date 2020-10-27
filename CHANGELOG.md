@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.7.1 - 27th October, 2020
+## v2.7.1 - 28th October, 2020
 
 * Changed: Default expiration length for a cart to expire. Previously 30 days, now only 7 days.
 * Improved: Saving carts for guest customers in the database no longer duplicates. Only 1 cart per customer. 😄
@@ -11,7 +11,7 @@
 
 > Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active, debug mode, memory limit, user language, multisite and environment type.
 
-## v2.7.0 - 26th October, 2020
+## v2.7.0 - 27th October, 2020
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
 * Enhanced: Variable validation by removing parameters not used.
@@ -24,6 +24,7 @@
 * Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
 
 > New response has been applied to all API routes excluding the following: `logout`, `count-items`, `totals`.
+> Plugin name has been renamed from "CoCart" to "CoCart Lite".
 
 ## v2.6.3 - 23rd September, 2020
 

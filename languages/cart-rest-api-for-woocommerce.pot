@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart 2.7.0\n"
+"Project-Id-Version: CoCart Lite 2.7.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-10-14 12:59:57+00:00\n"
+"POT-Creation-Date: 2020-10-27 17:08:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -88,6 +88,11 @@ msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:101
 msgid "Upgrade to Pro"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-menus.php:69
+#: includes/class-cocart-install.php:151
+msgid "CoCart"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-plugin-screen-update.php:55
@@ -572,59 +577,59 @@ msgstr ""
 msgid "You cannot add \"%s\" to your cart."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:284
+#: includes/api/class-cocart-add-item-controller.php:285
 msgid "Add Item"
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:288
-#: includes/api/class-cocart-add-item-controller.php:332
+#: includes/api/class-cocart-add-item-controller.php:290
+#: includes/api/class-cocart-add-item-controller.php:339
 #: includes/api/class-cocart-controller.php:862
 msgid "Unique identifier for the product."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:292
+#: includes/api/class-cocart-add-item-controller.php:296
 msgid "Quantity amount."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:297
-#: includes/api/class-cocart-add-item-controller.php:346
+#: includes/api/class-cocart-add-item-controller.php:301
+#: includes/api/class-cocart-add-item-controller.php:355
 #: includes/api/class-cocart-controller.php:868
 msgid "Unique identifier for the variation."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:301
+#: includes/api/class-cocart-add-item-controller.php:306
 msgid "Variation attributes that identity the variation of the item."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:305
+#: includes/api/class-cocart-add-item-controller.php:311
 msgid "Additional item data to make the item unique."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:309
+#: includes/api/class-cocart-add-item-controller.php:317
 msgid "Returns the cart."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:338
+#: includes/api/class-cocart-add-item-controller.php:347
 msgid "The quantity amount of the item to add to cart."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:352
+#: includes/api/class-cocart-add-item-controller.php:362
 msgid "The variation attributes that identity the variation of the item."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:357
+#: includes/api/class-cocart-add-item-controller.php:368
 msgid "Additional item data passed to make item unique."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:362
+#: includes/api/class-cocart-add-item-controller.php:375
 msgid "Returns the cart once item is added."
 msgstr ""
 
-#: includes/api/class-cocart-calculate-controller.php:49
+#: includes/api/class-cocart-calculate-controller.php:50
 msgid "Returns the cart totals once calculated."
 msgstr ""
 
-#: includes/api/class-cocart-calculate-controller.php:74
+#: includes/api/class-cocart-calculate-controller.php:75
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:496
 msgid "Cart totals have been calculated."
 msgstr ""
@@ -903,7 +908,7 @@ msgstr ""
 msgid "Returns the whole cart to reduce API requests."
 msgstr ""
 
-#: includes/api/class-cocart-totals-controller.php:48
+#: includes/api/class-cocart-totals-controller.php:50
 msgid "Returns the totals pre-formatted."
 msgstr ""
 
@@ -1009,12 +1014,12 @@ msgstr ""
 msgid "Get started with %3$s here:"
 msgstr ""
 
-#: includes/class-cocart-product-validation.php:49
+#: includes/class-cocart-product-validation.php:51
 #. translators: %1$s: product name, %2$s: product type
 msgid "You cannot add \"%1$s\" to your cart as it is an \"%2$s\" product."
 msgstr ""
 
-#: includes/class-cocart-product-validation.php:103
+#: includes/class-cocart-product-validation.php:105
 msgid "This product is protected and cannot be purchased."
 msgstr ""
 
