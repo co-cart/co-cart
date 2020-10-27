@@ -301,8 +301,8 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @access public
 	 */
 	public function set_cart_expiration() {
-		$this->_cart_expiring   = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 29 ) ); // 29 Days.
-		$this->_cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', DAY_IN_SECONDS * 30 ) ); // 30 Days.
+		$this->_cart_expiring   = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 6 ) ); // 6 Days.
+		$this->_cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', DAY_IN_SECONDS * 7 ) ); // 7 Days.
 	} // END set_cart_expiration()
 
 	/**
