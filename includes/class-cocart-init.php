@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    1.0.0
- * @version  2.6.0
+ * @version  2.7.1
  * @license  GPL-2.0+
  */
 
@@ -194,9 +194,10 @@ class CoCart_Rest_API {
 	 * If the current customer ID in session does not match,
 	 * then the user has switched.
 	 *
-	 * @access protected
-	 * @since  2.1.0
-	 * @return null|boolean
+	 * @access  protected
+	 * @since   2.1.0
+	 * @version 2.7.1
+	 * @return  null|boolean
 	 */
 	protected function has_user_switched() {
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
@@ -214,7 +215,7 @@ class CoCart_Rest_API {
 			$customer_id = $cookie[0];
 
 			// If the user is logged in and does not match ID in cookie then user has switched.
-			if ( $current_user_id !== $customer_id ) {
+			if ( $current_user_id !== $customer_id && $current_user_id !== 0 ) {
 				CoCart_Logger::log( sprintf( __( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
 
 				return true;

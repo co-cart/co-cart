@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart\Session Handler
  * @since    2.1.0
- * @version  2.7.0
+ * @version  2.7.1
  * @license  GPL-2.0+
  */
 
@@ -391,22 +391,42 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Save cart data and delete previous cart data.
 	 *
-	 * @access public
-	 * @param  int $old_cart_key cart ID before user logs in.
-	 * @global $wpdb
+	 * @access  public
+	 * @param   int $old_cart_key cart ID before user logs in.
+	 * @global  $wpdb
+	 * @since   2.1.0
+	 * @version 2.7.1
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
 		if ( $this->has_session() ) {
 			global $wpdb;
 
 			/**
-			 * Set cart to expire after 6 hours if cart is empty.
-			 * This helps clear empty carts stored in the database when the cron job is run.
+			 * Checks if cart is empty on booting server or in cache.
+			 * Deprecated filter: `cocart_empty_cart_expiration` as it is no longer needed.
 			 */
-			if ( empty( $this->_data ) ) {
-				$this->_cart_expiration = apply_filters( 'cocart_empty_cart_expiration', HOUR_IN_SECONDS * 6 );
+			if ( empty( $this->_data ) || is_null( $this->_data ) ) {
+				if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
+					$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
+					_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.0', null, $message );
+					CoCart_Logger::log( $message, 'debug' );
+				}
+
+				return true;
 			}
 
+			/**
+			 * Checks if data is still validated to create a cart or update a cart in session.
+			 *
+			 * @since 2.7.1
+			 */
+			$this->_data = $this->is_cart_data_valid( $this->_data );
+
+			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
+				return true;
+			}
+
+			// Save or update cart data.
 			$wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
@@ -483,11 +503,13 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Returns the cart.
 	 *
-	 * @access public
-	 * @param  string $customer_id Customer ID.
-	 * @param  mixed  $default Default cart value.
-	 * @global $wpdb
-	 * @return string|array
+	 * @access  public
+	 * @param   string $customer_id Customer ID.
+	 * @param   mixed  $default Default cart value.
+	 * @global  $wpdb
+	 * @since   2.1.0
+	 * @version 2.7.1
+	 * @return  string|array
 	 */
 	public function get_cart( $customer_id, $default = false ) {
 		global $wpdb;
@@ -584,5 +606,26 @@ class CoCart_Session_Handler extends WC_Session {
 
 		$wpdb->update( $this->_table, array( 'cart_expiry' => $timestamp ), array( 'cart_key' => $customer_id ), array( '%d' ) );
 	} // END update_cart_timestamp()
+
+	/**
+	 * Checks if data is still validated to create a cart or update a cart in session.
+	 *
+	 * @access protected
+	 * @since  2.7.1
+	 * @param  array $data The cart data to validate.
+	 * @return array $data Returns the original cart data or a boolean value.
+	 */
+	protected function is_cart_data_valid( $data ) {
+		if ( ! empty( $data ) ) {
+			// If the items value is empty then the cart data is not valid.
+			if ( isset( $data['items'] ) && empty( $data['items'] ) ) {
+				$data = false;
+			}
+		}
+
+		$data = apply_filters( 'cocart_is_cart_data_valid', $data );
+
+		return $data;
+	} // END is_cart_data_valid()
 
 } // END class

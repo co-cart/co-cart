@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.7.0
+ * @version  2.7.1
  * @license  GPL-2.0+
  */
 
@@ -544,12 +544,130 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
-	 * @since  2.6.0
-	 * @return string
+	 * @since   2.6.0
+	 * @version 2.7.1
+	 * @return  string
 	 */
 	public static function get_environment_message() {
-		return sprintf( __( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'cart-rest-api-for-woocommerce' ), CoCart::required_php, PHP_VERSION );
+		return sprintf( __( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'cart-rest-api-for-woocommerce' ), CoCart::required_php, self::get_php_version() );
 	} // END get_environment_message()
+
+	/**
+	 * Collects the additional data necessary for the shortlink.
+	 *
+	 * @access protected
+	 * @static
+	 * @since  2.7.1
+	 * @return array The shortlink data.
+	 */
+	protected static function collect_additional_shortlink_data() {
+		$memory = WP_MEMORY_LIMIT;
+
+		if ( function_exists( 'wc_let_to_num' ) ) {
+			$memory = wc_let_to_num( $memory );
+		}
+
+		if ( function_exists( 'memory_get_usage' ) ) {
+			$system_memory = @ini_get( 'memory_limit' );
+
+			if ( function_exists( 'wc_let_to_num' ) ) {
+				$system_memory = wc_let_to_num( $system_memory );
+			}
+
+			$memory = max( $memory, $system_memory );
+		}
+
+		// WordPress 5.5+ environment type specification.
+		// 'production' is the default in WP, thus using it as a default here, too.
+		$environment_type = 'production';
+		if ( function_exists( 'wp_get_environment_type' ) ) {
+			$environment_type = wp_get_environment_type();
+		}
+
+		return array(
+			'php_version'      => self::get_php_version(),
+			'wp_version'       => self::get_wordpress_version(),
+			'wc_version'       => self::get_wc_version(),
+			'cocart_version'   => self::get_cocart_version(),
+			'days_active'      => self::get_days_active(),
+			'debug_mode'       => ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No',
+			'memory_limit'     => size_format( $memory ),
+			'user_language'    => self::get_user_language(),
+			'multisite'        => is_multisite() ? 'Yes' : 'No',
+			'environment_type' => $environment_type
+		);
+	} // END collect_additional_shortlink_data()
+
+	/**
+	 * Builds a URL to use in the plugin as shortlink.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.7.1
+	 * @param  string $url The URL to build upon.
+	 * @return string The final URL.
+	 */
+	public static function build_shortlink( $url ) {
+		return add_query_arg( self::collect_additional_shortlink_data(), $url );
+	} // END build_shortlink()
+
+	/**
+	 * Gets the current site's PHP version, without the extra info.
+	 *
+	 * @access private
+	 * @static
+	 * @since  2.7.1
+	 * @return string The PHP version.
+	 */
+	private static function get_php_version() {
+		$version = explode( '.', PHP_VERSION );
+
+		return (int) $version[0] . '.' . (int) $version[1];
+	} // END get_php_version()
+
+	/**
+	 * Gets the current site's WordPress version.
+	 *
+	 * @access protected
+	 * @static
+	 * @since  2.7.1
+	 * @return string The wp_version.
+	 */
+	protected static function get_wordpress_version() {
+		return $GLOBALS['wp_version'];
+	} // END get_wordpress_version()
+
+	/**
+	 * Gets the number of days the plugin has been active.
+	 *
+	 * @access private
+	 * @static
+	 * @since  2.7.1
+	 * @return int The number of days the plugin is active.
+	 */
+	private static function get_days_active() {
+		$date_activated = get_site_option( 'cocart_install_date', time() );
+		$datediff       = ( time() - $date_activated );
+		$days           = (int) round( $datediff / DAY_IN_SECONDS );
+
+		return $days;
+	} // END get_days_active()
+
+	/**
+	 * Gets the user's language.
+	 *
+	 * @access private
+	 * @static
+	 * @since  2.7.1
+	 * @return string The user's language.
+	 */
+	private static function get_user_language() {
+		if ( function_exists( 'get_user_locale' ) ) {
+			return get_user_locale();
+		}
+
+		return false;
+	} // END get_user_language()
 
 } // END class
 
