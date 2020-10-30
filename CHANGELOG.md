@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.7.1 - 28th October, 2020
+## v2.7.2 - ?? ??, 2020
 
 * Changed: Default expiration length for a cart to expire. Previously 30 days, now only 7 days.
 * Improved: Saving carts for guest customers in the database no longer duplicates. Only 1 cart per customer. 😄
@@ -10,6 +10,12 @@
 * Dev: New filter `cocart_is_cart_data_valid` let's you validate the cart data before a cart is saved in session.
 
 > Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active, debug mode, memory limit, user language, multisite and environment type.
+
+## v2.7.1 - 30th October, 2020
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Incorrect validation for `variation` and `cart_item_data` fields when adding a product to the cart.
 
 ## v2.7.0 - 27th October, 2020
 

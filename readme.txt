@@ -4,8 +4,8 @@ Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.2
 Requires PHP: 7.0
-Tested up to: 5.5
-Stable tag: 2.7.0
+Tested up to: 5.5.2
+Stable tag: 2.7.1
 WC requires at least: 4.0.0
 WC tested up to: 4.6.1
 License: GPLv3
@@ -229,7 +229,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-= v2.7.1 - 27th October, 2020 =
+= v2.7.2 - ?? ??, 2020 =
 
 * Changed: Default expiration length for a cart to expire. Previously 30 days, now only 7 days.
 * Improved: Saving carts for guest customers in the database no longer duplicates. Only 1 cart per customer. 😄
@@ -239,6 +239,12 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 * Dev: New filter `cocart_is_cart_data_valid` let's you validate the cart data before a cart is saved in session.
 
 > Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active and user language.
+
+= v2.7.1 - 30th October, 2020 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Incorrect validation for `variation` and `cart_item_data` fields when adding a product to the cart.
 
 = v2.7.0 - 27th October, 2020 =
 
