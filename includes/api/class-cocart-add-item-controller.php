@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.7.0
+ * @version  2.7.1
  * @license  GPL-2.0+
  */
 
@@ -276,7 +276,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  2.1.2
-	 * @since  2.7.0
+	 * @since  2.7.1
 	 * @return array
 	 */
 	public function get_item_schema() {
@@ -304,12 +304,12 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				'variation'      => array(
 					'required'    => false,
 					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'array',
+					'type'        => 'object',
 				),
 				'cart_item_data' => array(
 					'required'    => false,
 					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'array',
+					'type'        => 'object',
 				),
 				'return_cart'    => array(
 					'required'    => false,
@@ -330,7 +330,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.7.0
+	 * @version 2.7.1
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
@@ -360,13 +360,13 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			'variation'      => array(
 				'required'          => false,
 				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'array',
+				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'cart_item_data' => array(
 				'required'          => false,
 				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'array',
+				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_cart'    => array(
