@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v2.7.1 - 30th October, 2020
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Incorrect validation for `variation` and `cart_item_data` fields when adding a product to the cart.
+
 ## v2.7.0 - 27th October, 2020
 
 * **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
