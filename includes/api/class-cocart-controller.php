@@ -162,7 +162,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 2.7.1
+	 * @version 2.7.2
 	 * @param   array  $data
 	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
