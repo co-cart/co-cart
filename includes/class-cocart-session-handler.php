@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart\Session Handler
  * @since    2.1.0
- * @version  2.7.1
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -256,15 +256,17 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Set a cookie - wrapper for setcookie using WP constants.
 	 *
-	 * @access public
-	 * @param  string  $name     Name of the cookie being set.
-	 * @param  string  $value    Value of the cookie.
-	 * @param  integer $expire   Expiry of the cookie.
-	 * @param  bool    $secure   Whether the cookie should be served only over https.
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.7.2
+	 * @param   string  $name     Name of the cookie being set.
+	 * @param   string  $value    Value of the cookie.
+	 * @param   integer $expire   Expiry of the cookie.
+	 * @param   bool    $secure   Whether the cookie should be served only over https.
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false ) {
 		if ( ! headers_sent() ) {
-			setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, false );
+			setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'cocart_cookie_httponly', false, $name, $value, $expire, $secure ) );
 		} elseif ( defined( 'WP_DEBUG' ) ) {
 			headers_sent( $file, $line );
 			trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE ); // @codingStandardsIgnoreLine

@@ -1,13 +1,15 @@
 # Changelog for CoCart Lite
 
-## v2.7.2 - ?? ??, 2020
+## v2.7.2 - ?? November, 2020
 
 * Changed: Default expiration length for a cart to expire. Previously 30 days, now only 7 days.
+* Enhanced: Use first gallery image for thumbnail if featured image is not set.
 * Improved: Saving carts for guest customers in the database no longer duplicates. Only 1 cart per customer. 😄
 * Improved: WooCommerce System Status to show how many carts are going to expire soon and out of how many in session.
 * Dev: Deprecated filter `cocart_empty_cart_expiration`. Not needed any more.
 * Dev: Info log for user switch no longer records if a user ID is not set.
 * Dev: New filter `cocart_is_cart_data_valid` let's you validate the cart data before a cart is saved in session.
+* Dev: New filter `cocart_cookie_httponly` on the httponly param on `cocart_setcookie()` with all the function parameters passed through.
 
 > Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active, debug mode, memory limit, user language, multisite and environment type.
 
