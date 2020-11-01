@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  2.4.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -74,7 +74,7 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	public static function get_note_args() {
 		$args = array(
 			'title'   => sprintf( __( 'Thank you for installing %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
-			'content' => __( 'Now you are ready to start developing your headless store. Visit the documentation site for examples, action hooks and filters and more.', 'cart-rest-api-for-woocommerce' ),
+			'content' => __( 'Now you are ready to start developing your headless store. Visit the documentation site to learn how to access the API, view examples and find many action hooks and filters and more.', 'cart-rest-api-for-woocommerce' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
@@ -82,9 +82,9 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 					'label'   => __( 'View Documentation', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://docs.cocart.xyz/?utm_source=inbox',
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
-					'primary' => true
-				)
-			)
+					'primary' => true,
+				),
+			),
 		);
 
 		return $args;

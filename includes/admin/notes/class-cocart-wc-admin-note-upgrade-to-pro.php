@@ -77,9 +77,9 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://cocart.xyz/pro/?utm_source=inbox',
 					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
-					'primary' => true
-				)
-			)
+					'primary' => true,
+				),
+			),
 		);
 
 		return $args;

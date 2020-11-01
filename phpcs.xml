@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards">
+	<description>CoCart Code Standards</description>
+
+	<file>.</file>
+
+	<!-- Exclude paths -->
+	<exclude-pattern>assets/*</exclude-pattern>
+	<exclude-pattern>includes/api/legacy/</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/tests/</exclude-pattern>
+
+	<!-- Show progress, show the error codes for each message (source). -->
+	<arg value="ps" />
+
+	<!-- Strip the filepaths in reports down to the relevant bit. -->
+	<arg name="basepath" value="./" />
+
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8" />
+
+	<!-- Configs -->
+	<config name="minimum_supported_wp_version" value="5.2" />
+	<config name="testVersion" value="7.0-" />
+
+	<!-- Rules -->
+	<rule ref="WooCommerce-Core">
+		<exclude name="Core.Commenting.CommentTags.AuthorTag" />
+		<exclude name="WordPress.PHP.DontExtract" />
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="cart-rest-api-for-woocommerce" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>languages/</exclude-pattern>
+	</rule>
+
+	<rule ref="PHPCompatibility">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+</ruleset>

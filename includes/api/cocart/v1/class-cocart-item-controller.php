@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.1.0
- * @version  2.6.2
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -73,12 +73,12 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.6.2
+	 * @version 2.7.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function remove_item( $data = array() ) {
-		$cart_item_key  = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
+		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
 
 		// Checks to see if the cart is empty before attempting to remove item.
 		if ( WC()->cart->is_empty() ) {
@@ -135,7 +135,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
-				return new WP_REST_Response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), 200 );
+				return $this->get_response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $this->rest_base );
 			} else {
 				$message = __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' );
 
@@ -173,7 +173,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.6.2
+	 * @version 2.7.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -200,7 +200,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
-				return new WP_REST_Response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), 200 );
+				return $this->get_response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $this->rest_base );
 			} else {
 				$message = __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' );
 
@@ -238,7 +238,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.0
+	 * @version 2.7.0
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -274,8 +274,18 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				return new WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
 			}
 
-			$this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+			$stock = $this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
+			/**
+			 * Return error if stock is not enough.
+			 *
+			 * @since 2.7.0
+			 * @param $stock
+			 */
+			if ( is_wp_error( $stock ) ) {
+				return $stock;
+			}
+			
 			/**
 			 * Update cart validation.
 			 *
@@ -337,9 +347,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					}
 				} else {
 					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
-	
+
 					CoCart_Logger::log( $message, 'error' );
-	
+
 					/**
 					 * Filters message about can not update item.
 					 *
@@ -347,7 +357,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					 * @param string $message Message.
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
-	
+
 					return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 403 ) );
 				}
 
@@ -365,23 +375,25 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					/* translators: 1: product name, 2: new quantity */
 					$response = array(
 						'message'  => sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
-						'quantity' => $new_data['quantity']
+						'quantity' => $new_data['quantity'],
 					);
-				} else if ( $quantity < $current_data['quantity'] ) {
+				} elseif ( $quantity < $current_data['quantity'] ) {
 					/* translators: 1: product name, 2: new quantity */
 					$response = array(
 						'message'  => sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
-						'quantity' => $new_data['quantity']
+						'quantity' => $new_data['quantity'],
 					);
 				} else {
 					/* translators: %s: product name */
 					$response = array(
 						'message'  => sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ),
-						'quantity' => $quantity
+						'quantity' => $quantity,
 					);
 				}
 
-				return new WP_REST_Response( apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data ), 200 );
+				$response = apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data );
+
+				return $this->get_response( $response, $this->rest_base );
 			}
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
@@ -403,21 +415,25 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access public
-	 * @since  2.1.0
-	 * @return array $params
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.7.0
+	 * @return  array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
 			'cart_item_key' => array(
-				'description' => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'string',
+				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'return_cart' => array(
-				'description' => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => false,
-				'type'        => 'boolean',
-			)
+			'return_cart'   => array(
+				'description'       => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => false,
+				'type'              => 'boolean',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
 		);
 
 		return $params;

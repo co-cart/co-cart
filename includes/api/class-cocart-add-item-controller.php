@@ -75,8 +75,13 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		// Filters additional requested data.
 		$request = $controller->filter_request_data( $request );
 
-		// Validate product ID before continuing.
-		$controller->validate_product_id( $product_id );
+		// Validate product ID before continuing and return correct product ID if different.
+		$product_id = $this->validate_product_id( $product_id );
+
+		// Return failed product ID validation if any.
+		if ( is_wp_error( $product_id ) ) {
+			return $product_id;
+		}
 
 		// The product we are attempting to add to the cart.
 		$adding_to_cart = wc_get_product( $product_id );
@@ -100,7 +105,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			$response = $was_added_to_cart;
 		}
 
-		return new WP_REST_Response( $response, 200 );
+		return $this->get_response( $response, $this->rest_base );
 	} // END add_to_cart()
 
 	/**
@@ -186,7 +191,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		if ( ! empty( $cart_item_key ) ) {
 			$cart_contents = $controller->get_cart( array( 'raw' => true ) );
 
-			$new_quantity  = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
+			$new_quantity = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
 
 			WC()->cart->set_quantity( $cart_item_key, $new_quantity );
 
@@ -250,41 +255,44 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 2.7.1
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'product_id' => array(
-				'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => 0
+			'product_id'     => array(
+				'description'       => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'quantity' => array(
-				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+			'quantity'       => array(
+				'required'          => true,
 				'default'           => 1,
+				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'float',
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_numeric( $value );
-				}
+				},
 			),
-			'variation_id' => array(
+			'variation_id'   => array(
+				'required'          => false,
 				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'integer',
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_numeric( $value );
-				}
+				'sanitize_callback' => 'absint',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'variation' => array(
+			'variation'      => array(
+				'required'          => false,
 				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_array( $value );
-				}
+				'type'              => 'object',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'cart_item_data' => array(
+				'required'          => false,
 				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_array( $value );
-				}
+				'type'              => 'object',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_cart' => array(
 				'description' => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),

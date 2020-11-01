@@ -2,13 +2,13 @@
 /**
  * Handle data for the customers cart.
  *
- * Forked from WC_Session_Handler, changed default variables, 
- * database table used, filters and made adjustments to accommodate 
+ * Forked from WC_Session_Handler, changed default variables,
+ * database table used, filters and made adjustments to accommodate
  * support for guest customers as well as registered customers via the REST API.
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\Session
+ * @package  CoCart\Session Handler
  * @since    2.1.0
  * @version  3.0.0
  * @license  GPL-2.0+
@@ -31,21 +31,24 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Cookie name used for the cart.
 	 *
-	 * @var string cookie name
+	 * @access protected
+	 * @var    string cookie name
 	 */
 	protected $_cookie;
 
 	/**
 	 * Stores cart expiry.
 	 *
-	 * @var string cart due to expire timestamp
+	 * @access protected
+	 * @var    string cart due to expire timestamp
 	 */
 	protected $_cart_expiring;
 
 	/**
 	 * Stores cart due to expire timestamp.
 	 *
-	 * @var string cart expiration timestamp
+	 * @access protected
+	 * @var    string cart expiration timestamp
 	 */
 	protected $_cart_expiration;
 
@@ -60,14 +63,16 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * True when the cookie exists.
 	 *
-	 * @var bool Based on whether a cookie exists.
+	 * @access protected
+	 * @var    bool Based on whether a cookie exists.
 	 */
 	protected $_has_cookie = false;
 
 	/**
 	 * Table name for cart data.
 	 *
-	 * @var string Custom cart table name
+	 * @access protected
+	 * @var    string Custom cart table name
 	 */
 	protected $_table;
 
@@ -416,7 +421,7 @@ class CoCart_Session_Handler extends WC_Session {
 		if ( $this->has_session() ) {
 			global $wpdb;
 
-			/** 
+			/**
 			 * Set cart to expire after 6 hours if cart is empty.
 			 * This helps clear empty carts stored in the database when the cron job is run.
 			 */
@@ -588,7 +593,8 @@ class CoCart_Session_Handler extends WC_Session {
 	public function update_cart( $customer_id ) {
 		global $wpdb;
 
-		$wpdb->update( $this->_table,
+		$wpdb->update(
+			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
 				'cart_expiry' => $this->_cart_expiration

@@ -48,10 +48,10 @@ class CoCart_Logger {
 
 			if ( $plugin == 'cocart-lite' ) {
 				$log_entry = "\n" . '====CoCart Lite Version: ' . COCART_VERSION . '====' . "\n";
-				$context = array( 'source' => 'cocart-lite' );
-			} else if ( $plugin == 'cocart-pro' ) {
+				$context   = array( 'source' => 'cocart-lite' );
+			} elseif ( $plugin == 'cocart-pro' ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
-				$context = array( 'source' => 'cocart-pro' );
+				$context   = array( 'source' => 'cocart-pro' );
 			}
 
 			$log_time = date_i18n( get_option( 'date_format' ) . ' g:ia', current_time( 'timestamp' ) );
@@ -59,7 +59,7 @@ class CoCart_Logger {
 			$log_entry .= '====Start Log ' . $log_time . '====' . "\n" . $message . "\n";
 			$log_entry .= '====End Log====' . "\n\n";
 
-			switch( $type ) {
+			switch ( $type ) {
 				// Interesting events.
 				case 'info':
 					self::$logger->info( $message, $context );

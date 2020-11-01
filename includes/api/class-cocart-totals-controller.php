@@ -49,9 +49,11 @@ class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
 			'permission_callback' => '__return_true',
 			'args'                => array(
 				'html' => array(
-					'description' => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
-					'default' => false,
-					'type'    => 'boolean',
+					'required'          => false,
+					'default'           => false,
+					'description'       => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'boolean',
+					'validate_callback' => 'rest_validate_request_arg',
 				),
 			),
 		) );

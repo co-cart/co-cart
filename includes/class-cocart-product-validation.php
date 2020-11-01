@@ -4,9 +4,9 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\Classes\Product Validation
+ * @package  CoCart\Product Validation
  * @since    2.1.0
- * @version  2.2.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -40,9 +40,11 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		/**
 		 * Error response for product types that are not allowed to be added to the cart.
 		 *
-		 * @access public
-		 * @param  WC_Product $product_data
-		 * @return WP_Error
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 2.7.0
+		 * @param   WC_Product $product_data
+		 * @return  WP_Error
 		 */
 		public function product_not_allowed_to_add( $product_data ) {
 			/* translators: %1$s: product name, %2$s: product type */
@@ -58,7 +60,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 			 */
 			$message = apply_filters( 'cocart_cannot_add_product_type_to_cart_message', $message, $product_data );
 
-			return new WP_Error( 'cocart_cannot_add_product_type_to_cart', $message, array( 'status' => 500 ) );
+			return new WP_Error( 'cocart_cannot_add_product_type_to_cart', $message, array( 'status' => 403 ) );
 		} // END product_not_allowed_to_add()
 
 		/**
@@ -76,7 +78,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 */
 		public function validate_variation_product_name( $product_name, $_product, $cart_item ) {
 			if ( $_product->is_type( 'variation' ) ) {
-				$product = wc_get_product( $_product->get_parent_id() );
+				$product            = wc_get_product( $_product->get_parent_id() );
 				$default_attributes = $product->get_default_attributes();
 
 				if ( empty( $cart_item['variation'] ) && empty( $default_attributes ) ) {

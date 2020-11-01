@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\Classes\WooCommerce
+ * @package  CoCart\WooCommerce
  * @since    2.1.2
  * @version  2.6.0
  * @license  GPL-2.0+
@@ -108,7 +108,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			// Load cart for guest or specific cart.
 			if ( is_numeric( $customer_id ) && $customer_id < 1 ) {
 				$cookie = WC()->session->get_session_cookie();
-	
+
 				// If cookie exists then return customer ID from it.
 				if ( $cookie ) {
 					$customer_id = $cookie[0];
@@ -127,15 +127,15 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 				// Set cart for customer if not empty.
 				if ( ! empty( $cart ) ) {
-					WC()->session->set( 'cart', maybe_unserialize( $cart[ 'cart' ] ) );
-					WC()->session->set( 'cart_totals', maybe_unserialize( $cart[ 'cart_totals' ] ) );
-					WC()->session->set( 'applied_coupons', maybe_unserialize( $cart[ 'applied_coupons' ] ) );
-					WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart[ 'coupon_discount_totals' ] ) );
-					WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart[ 'coupon_discount_tax_totals' ] ) );
-					WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart[ 'removed_cart_contents' ] ) );
+					WC()->session->set( 'cart', maybe_unserialize( $cart['cart'] ) );
+					WC()->session->set( 'cart_totals', maybe_unserialize( $cart['cart_totals'] ) );
+					WC()->session->set( 'applied_coupons', maybe_unserialize( $cart['applied_coupons'] ) );
+					WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart['coupon_discount_totals'] ) );
+					WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart['coupon_discount_tax_totals'] ) );
+					WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart['removed_cart_contents'] ) );
 
 					if ( ! empty( $cart['cart_fees'] ) ) {
-						WC()->session->set( 'cart_fees', maybe_unserialize( $cart[ 'cart_fees' ] ) );
+						WC()->session->set( 'cart_fees', maybe_unserialize( $cart['cart_fees'] ) );
 					}
 				}
 			}

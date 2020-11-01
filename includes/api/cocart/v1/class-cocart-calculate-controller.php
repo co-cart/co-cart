@@ -35,7 +35,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.5.0
+	 * @version 2.7.0
 	 */
 	public function register_routes() {
 		// Calculate Cart Total - cocart/v1/calculate (POST)
@@ -45,9 +45,11 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 			'permission_callback' => '__return_true',
 			'args'                => array(
 				'return' => array(
-					'default'     => false,
-					'description' => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'boolean',
+					'required'          => false,
+					'default'           => false,
+					'description'       => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'boolean',
+					'validate_callback' => 'rest_validate_request_arg',
 				)
 			)
 		) );
@@ -58,7 +60,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.1.1
+	 * @version 2.7.0
 	 * @param   array $data
 	 * @return  WP_REST_Response
 	 */
@@ -82,7 +84,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 		 */
 		$message = apply_filters( 'cocart_totals_calculated_message', $message );
 
-		return new WP_REST_Response( $message, 200 );
+		return $this->get_response( $message, $this->rest_base );
 	} // END calculate_totals()
 
 } // END class

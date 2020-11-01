@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.1.0
- * @version  2.5.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -35,7 +35,7 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @version 2.7.0
 	 */
 	public function register_routes() {
 		// Get Cart Totals - cocart/v1/totals (GET)
@@ -45,9 +45,11 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 			'permission_callback' => '__return_true',
 			'args'                => array(
 				'html' => array(
-					'description' => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
-					'default' => false,
-					'type'    => 'boolean',
+					'required'          => false,
+					'default'           => false,
+					'description'       => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'boolean',
+					'validate_callback' => 'rest_validate_request_arg',
 				),
 			),
 		) );
@@ -78,18 +80,17 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 			$ignore_convert = array(
 				'shipping_taxes',
 				'cart_contents_taxes',
-				'fee_taxes'
+				'fee_taxes',
 			);
 
-			foreach( $totals as $type => $sum ) {
+			foreach ( $totals as $type => $sum ) {
 				if ( in_array( $type, $ignore_convert ) ) {
-					$new_totals[$type] = $sum;
+					$new_totals[ $type ] = $sum;
 				} else {
 					if ( is_string( $sum ) ) {
-						$new_totals[$type] = html_entity_decode( strip_tags( wc_price( $sum ) ) );
-					}
-					else {
-						$new_totals[$type] = html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
+						$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( $sum ) ) );
+					} else {
+						$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
 					}
 				}
 			}

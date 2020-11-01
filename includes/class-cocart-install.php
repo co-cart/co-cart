@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\Classes\Install
+ * @package  CoCart\Install
  * @since    1.2.0
  * @version  3.0.0
  * @license  GPL-2.0+
@@ -44,7 +44,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			add_action( 'init', array( $this, 'manual_database_update' ), 20 );
 
 			// Redirect to Getting Started page once activated.
-			add_action( 'activated_plugin', array( $this, 'redirect_getting_started') );
+			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ) );
 
 			// Drop tables when MU blog is deleted.
 			add_filter( 'wpmu_drop_tables', array( $this, 'wpmu_drop_tables' ) );
@@ -326,10 +326,13 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return;
 			}
 
-			$getting_started = add_query_arg( array( 
-				'page'    => 'cocart', 
-				'section' => 'getting-started'
-			), admin_url( 'admin.php' ) );
+			$getting_started = add_query_arg(
+				array(
+					'page'    => 'cocart',
+					'section' => 'getting-started',
+				),
+				admin_url( 'admin.php' )
+			);
 
 			/**
 			 * Should CoCart be installed via WP-CLI,
@@ -388,7 +391,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			}
 
 			// Queries
-			$tables = 
+			$tables =
 				"CREATE TABLE {$wpdb->prefix}cocart_carts (
 					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 					cart_key char(42) NOT NULL,
@@ -404,8 +407,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		} // END create_tables()
 
 		/**
-		 * Return a list of CoCart tables. Used to make sure all CoCart tables 
-		 * are dropped when uninstalling the plugin in a single site 
+		 * Return a list of CoCart tables. Used to make sure all CoCart tables
+		 * are dropped when uninstalling the plugin in a single site
 		 * or multi site environment.
 		 *
 		 * @access public

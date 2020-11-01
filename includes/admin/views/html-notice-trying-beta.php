@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.0
- * @version  3.0.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -26,11 +26,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			echo sprintf( esc_html__( 'Thank you for trying out v%s', 'cart-rest-api-for-woocommerce' ), strstr( COCART_VERSION, '-', true ) );
 
-			if ( CoCart_Helpers::is_cocart_beta( COCART_VERSION ) ) {
+			if ( CoCart_Helpers::is_cocart_beta() ) {
 				echo sprintf( esc_html__( ', a beta release of %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
 			}
 
-			if ( CoCart_Helpers::is_cocart_rc( COCART_VERSION ) ) {
+			if ( CoCart_Helpers::is_cocart_rc() ) {
 				echo sprintf( esc_html__( ', a release candidate of %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
 			}
 			?>

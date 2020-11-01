@@ -6,7 +6,7 @@
  * @category API
  * @package  CoCart\Session
  * @since    2.1.0
- * @version  2.4.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -29,9 +29,6 @@ class CoCart_API_Session {
 	public function __construct() {
 		// Cleans up carts from the database that have expired.
 		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
-
-		// Merges cart content when loaded to the web.
-		add_filter( 'cocart_merge_cart_content', array( $this, 'merge_quantity' ), 10, 3 );
 
 		// Loads a cart in session if still valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ), 10 );
@@ -97,23 +94,10 @@ class CoCart_API_Session {
 	} // END cleanup_carts()
 
 	/**
-	 * Looks at both carts for matching products and merges the item quantities.
-	 *
-	 * @access public
-	 * @param  array $new_cart_content - The merged cart content before altering.
-	 * @param  array $load_cart        - The cart we are loading.
-	 * @param  array $cart_in_session  - The cart currently in session.
-	 * @return array $new_cart_content - The merged cart content after altering.
-	 */
-	public function merge_quantity( $new_cart_content, $load_cart, $cart_in_session ) {
-		return $new_cart_content;
-	} // END merge_quantity()
-
-	/**
 	 * Load cart action.
 	 *
-	 * Loads a cart in session if still valid and overrides the current cart. 
-	 * Unless specified not to override, the carts will merge the current cart 
+	 * Loads a cart in session if still valid and overrides the current cart.
+	 * Unless specified not to override, the carts will merge the current cart
 	 * and the loaded cart items together.
 	 *
 	 * @access  public
@@ -185,7 +169,6 @@ class CoCart_API_Session {
 		} else {
 			$new_cart_content                       = array_merge( $new_cart['cart'], $cart_in_session );
 			$new_cart['cart']                       = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
-
 			$new_cart['applied_coupons']            = array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() );
 			$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
 			$new_cart['coupon_discount_tax_totals'] = array_merge( $new_cart['coupon_discount_tax_totals'], WC()->cart->get_coupon_discount_tax_totals() );
@@ -203,7 +186,7 @@ class CoCart_API_Session {
 
 		// If true, notify the customer that there cart has transferred over via the web.
 		if ( ! empty( $new_cart ) && $notify_customer ) {
-			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( "shop" ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
+			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 		}
 
 		// If true, redirect the customer to the cart safely.

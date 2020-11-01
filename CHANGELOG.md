@@ -27,6 +27,27 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.7.1 - 30th October, 2020
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Incorrect validation for `variation` and `cart_item_data` fields when adding a product to the cart.
+
+## v2.7.0 - 27th October, 2020
+
+* **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
+* Enhanced: Variable validation by removing parameters not used.
+* Enhanced: REST API parameters sanitized and validated.
+* Fixed: Undefined class constant `E_WC_ADMIN_NOTE_MARKETING` for those who are using WooCommerce lower than version `4.3.0`. Thanks to [@dmchale](https://github.com/dmchale)
+* Fixed: If stock not available when updating item, return error. Thanks to [@pauld8](https://github.com/pauld8)
+* Fixed: Product ID validation should the ID not be present. Also returns correct product ID should SKU ID be used instead.
+* Tested: Compatible with WooCommerce v4.6.0
+* Dev: New filter `cocart_is_rest_api_request` to allow developers run their own API check-up.
+* Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
+
+> New response has been applied to all API routes excluding the following: `logout`, `count-items`, `totals`.
+> Plugin name has been renamed from "CoCart" to "CoCart Lite".
+
 ## v2.6.3 - 23rd September, 2020
 
 * Fixed: WooCommerce admin note for `6 things you can do with CoCart Products` not showing.

@@ -27,7 +27,8 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 	</tr>
 	</thead>
 	<tbody>
-	<?php foreach ( $debug_data as $section => $data ) {
+	<?php
+	foreach ( $debug_data as $section => $data ) {
 		// Use mark key if available, otherwise default back to the success key.
 		if ( isset( $data['mark'] ) ) {
 			$mark = $data['mark'];
@@ -47,7 +48,7 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 		}
 		?>
 		<tr>
-			<td data-export-label="<?php echo esc_attr( $data['label'] ) ?>"><?php echo esc_html( $data['name'] ) ?>:</td>
+			<td data-export-label="<?php echo esc_attr( $data['label'] ); ?>"><?php echo esc_html( $data['name'] ); ?>:</td>
 			<td class="help">
 				<?php
 				if ( isset( $data['tip'] ) ) {
@@ -79,16 +80,20 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 				if ( isset( $data['note'] ) ) {
 					if ( empty( $mark ) ) {
 						echo wp_kses_post( $data['note'] );
-					} else { ?>
-						<mark class="<?php echo esc_html( $mark ) ?>"><?php
-						if ( $mark_icon ) {
-							echo '<span class="dashicons dashicons-' . esc_attr( $mark_icon ) . '"></span> ';
-						}
-						echo wp_kses_post( $data['note'] );?>
-						</mark><?php
+					} else {
+						?>
+						<mark class="<?php echo esc_html( $mark ); ?>">
+							<?php
+							if ( $mark_icon ) {
+								echo '<span class="dashicons dashicons-' . esc_attr( $mark_icon ) . '"></span> ';
+							}
+							echo wp_kses_post( $data['note'] );
+							?>
+						</mark>
+						<?php
 					}
 				}
-			?>
+				?>
 			</td>
 		</tr>
 	<?php } ?>

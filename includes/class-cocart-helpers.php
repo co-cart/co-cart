@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.6.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -131,7 +131,7 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
 	 *
 	 * @access public
-	 * @param  string  $version the version to compare
+	 * @param  string $version the version to compare
 	 * @return boolean true if the installed version of WooCommerce is >= $version
 	 */
 	public static function is_wc_version_gte( $version ) {
@@ -145,7 +145,7 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is greater than $version.
 	 *
 	 * @access public
-	 * @param  string  $version the version to compare
+	 * @param  string $version the version to compare
 	 * @return boolean true if the installed version of WooCommerce is > $version
 	 */
 	public static function is_wc_version_gt( $version ) {
@@ -161,7 +161,7 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @since  2.6.0
-	 * @param  string  $version the version to compare
+	 * @param  string $version the version to compare
 	 * @return boolean true if the installed version of WooCommerce is <= $version
 	 */
 	public static function is_wc_version_lte( $version ) {
@@ -176,7 +176,7 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @since  2.6.0
-	 * @param  string  $version the version to compare
+	 * @param  string $version the version to compare
 	 * @return boolean true if the installed version of WooCommerce is < $version
 	 */
 	public static function is_wc_version_lt( $version ) {
@@ -206,7 +206,7 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WordPress is greater than $version.
 	 *
 	 * @access public
-	 * @param  string  $version
+	 * @param  string $version
 	 * @return boolean
 	 */
 	public static function is_wp_version_gt( $version ) {
@@ -223,7 +223,7 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WordPress is greater than or equal to $version.
 	 *
 	 * @access public
-	 * @param  string  $version
+	 * @param  string $version
 	 * @return boolean
 	 */
 	public static function is_wp_version_gte( $version ) {
@@ -241,7 +241,7 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @since  2.5.0
-	 * @param  string  $version
+	 * @param  string $version
 	 * @return boolean
 	 */
 	public static function is_wp_version_lt( $version ) {
@@ -275,8 +275,7 @@ class CoCart_Helpers {
 	public static function is_cocart_pre_release() {
 		$version = self::get_cocart_version();
 
-		if ( 
-			strpos( $version, 'beta' ) ||
+		if ( strpos( $version, 'beta' ) ||
 			strpos( $version, 'rc' )
 		) {
 			return true;
@@ -325,7 +324,7 @@ class CoCart_Helpers {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.2.0
+	 * @version 2.7.0
 	 * @return  bool
 	 */
 	public static function is_rest_api_request() {
@@ -336,7 +335,7 @@ class CoCart_Helpers {
 		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
 		$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix . 'cocart/' ) );
 
-		return $is_rest_api_request;
+		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()
 
 	/**
@@ -357,7 +356,7 @@ class CoCart_Helpers {
 	} // END is_cocart_pro_installed()
 
 	/**
-	 * These are the only screens CoCart will focus 
+	 * These are the only screens CoCart will focus
 	 * on displaying notices or enqueue scripts/styles.
 	 *
 	 * @access  public
@@ -370,7 +369,7 @@ class CoCart_Helpers {
 		return array(
 			'dashboard',
 			'plugins',
-			'toplevel_page_cocart'
+			'toplevel_page_cocart',
 		);
 	} // END cocart_get_admin_screens()
 
@@ -489,7 +488,7 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
-	 * @param  int  $seconds - Time in seconds to check.
+	 * @param  int $seconds - Time in seconds to check.
 	 * @return bool Whether or not WooCommerce admin has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {

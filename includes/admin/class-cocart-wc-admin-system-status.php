@@ -42,20 +42,23 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function render_system_status_items() {
 			$data = $this->get_system_status_data();
 
-			$system_status_sections = apply_filters( 'cocart_system_status_sections', array(
+			$system_status_sections = apply_filters(
+				'cocart_system_status_sections',
 				array(
-					'title'   => 'CoCart',
-					'tooltip' => sprintf( esc_html__( 'This section shows any information about %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
-					'data'    => apply_filters( 'cocart_system_status_data', $data ),
-				),
-			) );
+					array(
+						'title'   => 'CoCart',
+						'tooltip' => sprintf( esc_html__( 'This section shows any information about %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+						'data'    => apply_filters( 'cocart_system_status_data', $data ),
+					),
+				)
+			);
 
 			foreach ( $system_status_sections as $section ) {
 				$section_title   = $section['title'];
 				$section_tooltip = $section['tooltip'];
 				$debug_data      = $section['data'];
 
-				include( dirname( __FILE__ ) . '/views/html-wc-system-status.php' );
+				include dirname( __FILE__ ) . '/views/html-wc-system-status.php';
 			}
 		} // END render_system_status_items()
 
@@ -150,15 +153,21 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			if ( empty( $session ) ) {
-				$results = $wpdb->get_results( "
+				$results = $wpdb->get_results(
+					"
 					SELECT COUNT(cart_id) as count 
 					FROM {$wpdb->prefix}cocart_carts
-				", ARRAY_A );
+				",
+					ARRAY_A
+				);
 			} else {
-				$results = $wpdb->get_results( "
+				$results = $wpdb->get_results(
+					"
 				SELECT COUNT(session_id) as count 
 				FROM {$wpdb->prefix}woocommerce_sessions
-				", ARRAY_A );
+				",
+					ARRAY_A
+				);
 			}
 
 			return $results[0]['count'];
@@ -174,11 +183,16 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public static function count_carts_expired() {
 			global $wpdb;
 
-			$results = $wpdb->get_results( $wpdb->prepare( "
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"
 				SELECT COUNT(cart_id) as count
 				FROM {$wpdb->prefix}cocart_carts 
-				WHERE cart_expiry < %d", time()
-			), ARRAY_A );
+				WHERE cart_expiry < %d",
+					time()
+				),
+				ARRAY_A
+			);
 
 			return $results[0]['count'];
 		} // END count_carts_expired()
@@ -251,9 +265,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public function debug_button( $tools ) {
 			$tools['cocart_clear_carts'] = array(
-				'name'   => esc_html__( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
-				'button' => esc_html__( 'Clear all', 'cart-rest-api-for-woocommerce' ),
-				'desc'   => sprintf(
+				'name'     => esc_html__( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
+				'button'   => esc_html__( 'Clear all', 'cart-rest-api-for-woocommerce' ),
+				'desc'     => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					esc_html__( 'This will clear all carts in session handled by CoCart and saved carts.', 'cart-rest-api-for-woocommerce' )
@@ -262,9 +276,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			);
 
 			$tools['cocart_cleanup_carts'] = array(
-				'name'   => esc_html__( 'Clear expired carts', 'cart-rest-api-for-woocommerce' ),
-				'button' => esc_html__( 'Clear expired', 'cart-rest-api-for-woocommerce' ),
-				'desc'   => sprintf(
+				'name'     => esc_html__( 'Clear expired carts', 'cart-rest-api-for-woocommerce' ),
+				'button'   => esc_html__( 'Clear expired', 'cart-rest-api-for-woocommerce' ),
+				'desc'     => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					sprintf(
@@ -280,9 +294,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			// Only show synchronize carts option if required.
 			if ( $carts_to_sync > 0 ) {
 				$tools['cocart_sync_carts'] = array(
-					'name'   => esc_html__( 'Synchronize carts', 'cart-rest-api-for-woocommerce' ),
-					'button' => sprintf( esc_html__( 'Synchronize (%d) cart/s', 'cart-rest-api-for-woocommerce' ), $carts_to_sync ),
-					'desc'   => sprintf(
+					'name'     => esc_html__( 'Synchronize carts', 'cart-rest-api-for-woocommerce' ),
+					'button'   => sprintf( esc_html__( 'Synchronize (%d) cart/s', 'cart-rest-api-for-woocommerce' ), $carts_to_sync ),
+					'desc'     => sprintf(
 						'<strong class="red">%1$s</strong> %2$s',
 						esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 						esc_html__( 'This will copy any existing carts from WooCommerce\'s session table to CoCart\'s session table in the database. If cart already exists for a customer then it will not sync for that customer.', 'cart-rest-api-for-woocommerce' )
@@ -346,7 +360,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`)
 				SELECT t1.session_key, t1.session_value, t1.session_expiry
 				FROM {$wpdb->prefix}woocommerce_sessions t1
-				WHERE NOT EXISTS(SELECT cart_key FROM {$wpdb->prefix}cocart_carts t2 WHERE t2.cart_key = t1.session_key) ");
+				WHERE NOT EXISTS(SELECT cart_key FROM {$wpdb->prefix}cocart_carts t2 WHERE t2.cart_key = t1.session_key) "
+			);
 
 			echo '<div class="updated inline"><p>' . esc_html__( 'Carts are now synchronized.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
 		} // END resync_carts()

@@ -19,11 +19,11 @@ $campaign_args = array(
 	'utm_medium'   => 'co-cart-lite',
 	'utm_source'   => 'WordPress',
 	'utm_campaign' => 'liteplugin',
-	'utm_content'  => 'getting-started'
+	'utm_content'  => 'getting-started',
 );
-$store_url  = add_query_arg( $campaign_args, COCART_STORE_URL );
-$addons_url = add_query_arg( $campaign_args, COCART_STORE_URL . 'add-ons/' );
-$pro_url    = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
+$store_url     = add_query_arg( $campaign_args, COCART_STORE_URL );
+$addons_url    = add_query_arg( $campaign_args, COCART_STORE_URL . 'add-ons/' );
+$pro_url       = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
 ?>
 <div class="wrap cocart getting-started">
 
@@ -59,7 +59,7 @@ $pro_url    = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
 	<?php
 	// Display extra content if CoCart Pro is NOT installed.
 	if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
-	?>
+		?>
 		<div class="container">
 			<div class="content">
 				<h2 style="text-align: center;"><?php printf( __( 'More features in %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ); ?></h2>

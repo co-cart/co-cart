@@ -18,13 +18,13 @@ global $wpdb, $wp_version;
 wp_clear_scheduled_hook( 'cocart_cleanup_carts' );
 
 /**
- * Only remove ALL plugin data and database table if COCART_REMOVE_ALL_DATA constant is 
- * set to true in user's wp-config.php. This is to prevent data loss when deleting the 
+ * Only remove ALL plugin data and database table if COCART_REMOVE_ALL_DATA constant is
+ * set to true in user's wp-config.php. This is to prevent data loss when deleting the
  * plugin from the backend and to ensure only the site owner can perform this action.
  */
 if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 	// Drop Tables.
-	require_once( dirname( __FILE__ ) . '/includes/class-cocart-install.php' );
+	require_once dirname( __FILE__ ) . '/includes/class-cocart-install.php';
 	CoCart_Install::drop_tables();
 
 	// Delete options.

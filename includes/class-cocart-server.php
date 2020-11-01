@@ -134,7 +134,7 @@ class CoCart_Server {
 
 	/**
 	 * Loads the cart, session and notices should it be required.
-	 * 
+	 *
 	 * @access  private
 	 * @since   2.0.0
 	 * @version 2.6.0
@@ -143,8 +143,8 @@ class CoCart_Server {
 		if ( CoCart_Helpers::is_rest_api_request() ) {
 			// WooCommerce is greater than v3.6 or less than v4.5
 			if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_wc_version_lt_4_5() ) {
-				require_once( WC_ABSPATH . 'includes/wc-cart-functions.php' );
-				require_once( WC_ABSPATH . 'includes/wc-notice-functions.php' );
+				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+				require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
 
 				// Initialize session.
 				$this->initialize_session();
@@ -155,7 +155,7 @@ class CoCart_Server {
 
 			// WooCommerce is greater than v4.5 or equal.
 			if ( CoCart_Helpers::is_wc_version_gte_4_5() ) {
-				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart') ) {
+				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart' ) ) {
 					wc_load_cart();
 				}
 			}
@@ -171,9 +171,10 @@ class CoCart_Server {
 	 * If the current customer ID in session does not match,
 	 * then the user has switched.
 	 *
-	 * @access protected
-	 * @since  2.1.0
-	 * @return null|boolean
+	 * @access  protected
+	 * @since   2.1.0
+	 * @version 2.7.1
+	 * @return  null|boolean
 	 */
 	protected function has_user_switched() {
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
@@ -191,7 +192,7 @@ class CoCart_Server {
 			$customer_id = $cookie[0];
 
 			// If the user is logged in and does not match ID in cookie then user has switched.
-			if ( $current_user_id !== $customer_id ) {
+			if ( $current_user_id !== $customer_id && $current_user_id != 0 ) {
 				/* translators: %1$s is previous ID, %2$s is current ID. */
 				CoCart_Logger::log( sprintf( __( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
 
@@ -267,7 +268,7 @@ class CoCart_Server {
 		// Only include Legacy REST API if WordPress is v5.4.2 or lower.
 		if ( CoCart_Helpers::is_wp_version_lt( '5.4.2' ) ) {
 			// Legacy - WC Cart REST API v2 controller.
-			include_once( dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php' );
+			include_once dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php';
 		}
 
 		// CoCart REST API v1 controllers.
