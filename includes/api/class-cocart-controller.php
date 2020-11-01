@@ -229,7 +229,7 @@ class CoCart_API_Controller {
 					/**
 					 * Gets the product featured image ID.
 					 * If featured image does not exist then use first gallery image instead.
-					 * @since 2.7.1
+					 * @since 2.7.2
 					 */
 					$product_thumbnail_id = $_product->get_image_id();
 
@@ -241,8 +241,7 @@ class CoCart_API_Controller {
 						}
 					}
 
-					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $product_thumbnail_id, $cart_item, $item_key );
-
+					$thumbnail_id  = apply_filters( 'cocart_item_thumbnail', $product_thumbnail_id, $cart_item, $item_key );
 					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
 
 					/**
