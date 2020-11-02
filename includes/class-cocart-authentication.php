@@ -85,6 +85,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * Authenticate user.
 		 *
 		 * @access public
+		 * @since  2.6.0
 		 * @param  int|false $user_id User ID if one has been determined, false otherwise.
 		 * @return int|false
 		 */
