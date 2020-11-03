@@ -64,10 +64,10 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function add_to_cart( $request = array() ) {
-		$product_id     = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-		$quantity       = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
-		$variation      = ! isset( $request['variation'] ) ? array() : $request['variation'];
-		$cart_item_data = ! isset( $request['cart_item_data'] ) ? array() : $request['cart_item_data'];
+		$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
+		$quantity   = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
+		$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
+		$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
 
 		$controller = new CoCart_Cart_V2_Controller();
 
@@ -90,11 +90,11 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 		if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
-			$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $cart_item_data, $request );
+			$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
 		} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
 			$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 		} else {
-			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data, $request );
+			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
 		}
 
 		// Was it requested to return the whole cart once item added?
@@ -113,16 +113,16 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   int|string      $product_id     - Contains the id of the product to add to the cart.
-	 * @param   int|float       $quantity       - Contains the quantity of the item to add to the cart.
-	 * @param   array           $cart_item_data - Contains extra cart item data we want to pass into the item.
-	 * @param   WP_REST_Request $request        - Full details about the request.
+	 * @param   int|string      $product_id - Contains the id of the product to add to the cart.
+	 * @param   int|float       $quantity   - Contains the quantity of the item to add to the cart.
+	 * @param   array           $item_data  - Contains extra cart item data we want to pass into the item.
+	 * @param   WP_REST_Request $request    - Full details about the request.
 	 * @return  bool            success or not
 	 */
-	public function add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data, $request ) {
+	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$product_to_add = $controller->validate_product( $product_id, $quantity, 0, array(), $cart_item_data, 'simple', $request );
+		$product_to_add = $controller->validate_product( $product_id, $quantity, 0, array(), $item_data, 'simple', $request );
 
 		// If validation failed then return the error response.
 		/*if ( is_wp_error( $product_to_add ) ) {
@@ -141,17 +141,17 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   int|string      $product_id     - Contains the id of the product to add to the cart.
-	 * @param   int|float       $quantity       - Contains the quantity of the item to add to the cart.
-	 * @param   array           $variation      - Contains the selected attributes of a variation.
-	 * @param   array           $cart_item_data - Contains extra cart item data we want to pass into the item.
-	 * @param   WP_REST_Request $request        - Full details about the request.
+	 * @param   int|string      $product_id - Contains the id of the product to add to the cart.
+	 * @param   int|float       $quantity   - Contains the quantity of the item to add to the cart.
+	 * @param   array           $variation  - Contains the selected attributes of a variation.
+	 * @param   array           $item_data  - Contains extra cart item data we want to pass into the item.
+	 * @param   WP_REST_Request $request    - Full details about the request.
 	 * @return  bool            success or not
 	 */
-	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated = null, $variation, $cart_item_data, $request ) {
+	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated = null, $variation, $item_data, $request ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$product_to_add = $controller->validate_product( $product_id, $quantity, $deprecated, $variation, $cart_item_data, 'variable', $request );
+		$product_to_add = $controller->validate_product( $product_id, $quantity, $deprecated, $variation, $item_data, 'variable', $request );
 
 		// If validation failed then return the error response.
 		/*if ( is_wp_error( $product_to_add ) ) {
@@ -179,37 +179,37 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		$quantity       = $product_to_add['quantity'];
 		$variation_id   = $product_to_add['variation_id'];
 		$variation      = $product_to_add['variation'];
-		$cart_item_data = $product_to_add['cart_item_data'];
-		$cart_item_key  = $product_to_add['cart_item_key'];
+		$item_data      = $product_to_add['item_data'];
+		$item_key       = $product_to_add['item_key'];
 		$product_data   = $product_to_add['product_data'];
 		$request        = $product_to_add['request'];
 
 		$controller = new CoCart_Cart_V2_Controller();
 
-		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
-		if ( ! empty( $cart_item_key ) ) {
+		// If item_key is set, then the item is already in the cart so just update the quantity.
+		if ( ! empty( $item_key ) ) {
 			$cart_contents = $controller->get_cart( array( 'raw' => true ) );
 
-			$new_quantity = $quantity + $cart_contents[ $cart_item_key ]['quantity'];
+			$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
 
-			WC()->cart->set_quantity( $cart_item_key, $new_quantity );
+			WC()->cart->set_quantity( $item_key, $new_quantity );
 
-			$item_added = $controller->get_cart_item( $cart_item_key, 'add' );
+			$item_added = $controller->get_cart_item( $item_key, 'add' );
 
 			/**
 			 * Action hook will trigger if item was added again but updated in cart.
 			 *
 			 * @since   2.1.0
 			 * @version 3.0.0
-			 * @param   string $cart_item_key
+			 * @param   string $item_key
 			 * @param   array  $item_added
 			 * @param   int    $new_quantity
 			 * @param   array  $request
 			 */
-			do_action( 'cocart_item_added_updated_in_cart', $cart_item_key, $item_added, $new_quantity, $request );
+			do_action( 'cocart_item_added_updated_in_cart', $item_key, $item_added, $new_quantity, $request );
 		} else {
 			// Add item to cart.
-			$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $cart_item_data );
+			$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
 
 			// Return response to added item to cart or return error.
 			if ( $item_key ) {
@@ -280,7 +280,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'cart_item_data' => array(
+			'item_data' => array(
 				'required'          => false,
 				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'object',

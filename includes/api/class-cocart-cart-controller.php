@@ -720,6 +720,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
 	 * @param   array  $variation      - Contains the selected attributes.
+	 * @param   array  $item_data      - Extra cart item data we want to pass into the item.
 	 * @param   string $product_type   - The product type.
 	 * @return  array|WP_Error
 	 */
@@ -745,14 +746,14 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		// Validate variable/variation product.
 		if ( $product_type === 'variable' || $product_type === 'variation' ) {
-			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product );
+			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $item_data, $product );
 
 			if ( is_wp_error( $variation ) ) {
 				return $variation;
 			}
 		}
 
-		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $cart_item_data, $product_type, $request );
+		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $item_data, $product_type, $request );
 
 		/**
 		 * If validation returned an error return error response.
@@ -812,6 +813,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'quantity'       => $quantity,
 			'variation_id'   => $variation_id,
 			'variation'      => $variation,
+			'item_data'      => $item_data,
 			'item_key'       => $item_key,
 			'product_data'   => $product,
 			'request'        => $request
@@ -989,11 +991,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	public function get_collection_params() {
 		$params = array(
 			'cart_key' => array(
-				'description' => __( 'Unique identifier for the cart/customer.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Unique identifier for the cart or customer.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 			),
 			'thumb'    => array(
-				'description' => __( 'Returns the thumbnail of the featured product image URL for each item in cart.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Returns the URL of the featured product image for each item in cart.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => true,
 				'type'        => 'boolean',
 			),
