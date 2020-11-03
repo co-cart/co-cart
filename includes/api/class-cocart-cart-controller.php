@@ -113,10 +113,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @param  array  $request
-	 * @param  string $cart_item_key
+	 * @param  string $item_key
 	 * @return array|WP_REST_Response
 	 */
-	public function get_cart( $request = array(), $cart_item_key = '' ) {
+	public function get_cart( $request = array(), $item_key = '' ) {
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
@@ -140,7 +140,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 */
 		wc_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
 
-		$cart_contents = $this->return_cart_contents( $request, $cart_contents, $cart_item_key );
+		$cart_contents = $this->return_cart_contents( $request, $cart_contents, $item_key );
 
 		return new WP_REST_Response( $cart_contents, 200 );
 	} // END get_cart()
@@ -153,11 +153,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @version 3.0.0
 	 * @param   array  $request
 	 * @param   array  $cart_contents
-	 * @param   string $cart_item_key
+	 * @param   string $item_key
 	 * @param   bool   $from_session
 	 * @return  array  $cart
 	 */
-	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = '', $from_session = false ) {
+	public function return_cart_contents( $request = array(), $cart_contents = array(), $item_key = '', $from_session = false ) {
 		$controller = new CoCart_Count_Items_v2_Controller();
 
 		if ( $controller->get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
@@ -172,10 +172,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		// Find the cart item key in the existing cart.
-		if ( ! empty( $cart_item_key ) ) {
-			$cart_item_key = $this->find_product_in_cart( $cart_item_key );
+		if ( ! empty( $item_key ) ) {
+			$item_key = $this->find_product_in_cart( $item_key );
 
-			return $cart_contents[ $cart_item_key ];
+			return $cart_contents[ $item_key ];
 		}
 
 		/**
@@ -610,7 +610,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			$cart_contents = $this->get_cart();
 
-			$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $cart_item_key && $cart_contents[ $cart_item_key ]['quantity'] > 0, $product_id, $variation_id, $cart_item_data, $cart_id );
+			$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $item_key && $cart_contents[ $item_key ]['quantity'] > 0, $product_id, $variation_id, $item_data, $cart_id );
 
 			if ( $found_in_cart ) {
 				/* translators: %s: Product Name */
@@ -789,9 +789,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 * @param int   $product_id     - The product ID.
 		 * @param int   $variation_id   - The variation ID.
 		 * @param array $variation      - The variation data.
-		 * @param array $cart_item_data - The cart item data.
+		 * @param array $item_data      - The cart item data.
 		 */
-		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $cart_item_data );
+		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
 
 		// Validates the item quantity.
 		$quantity = $this->validate_item_quantity( $product, $quantity );
@@ -800,13 +800,13 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$this->validate_add_to_cart( $product, $quantity );
 
 		// Add cart item data - may be added by other plugins.
-		$cart_item_data = (array) apply_filters( 'cocart_add_cart_item_data', $cart_item_data, $product_id, $variation_id, $quantity, $product_type, $request );
+		$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
 
 		// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
-		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
 
 		// Find the cart item key in the existing cart.
-		$cart_item_key = $this->find_product_in_cart( $cart_id );
+		$item_key = $this->find_product_in_cart( $cart_id );
 
 		// Returns all valid data.
 		return array(
@@ -814,8 +814,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'quantity'       => $quantity,
 			'variation_id'   => $variation_id,
 			'variation'      => $variation,
-			'cart_item_data' => $cart_item_data,
-			'cart_item_key'  => $cart_item_key,
+			'item_key'       => $item_key,
 			'product_data'   => $product,
 			'request'        => $request
 		);
@@ -870,7 +869,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 					'description' => __( 'List of cart items.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'properties'  => array(
-						'key'             => array(
+						'item_key'             => array(
 							'description' => __( 'Unique identifier for the item within the cart.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
