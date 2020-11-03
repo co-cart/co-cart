@@ -719,19 +719,17 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @version 3.0.0
 	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
-	 * @param   int    $variation_id   - Contains the ID of the variation.
-	 * @param   array  $variation      - Attribute values.
-	 * @param   array  $cart_item_data - Extra cart item data we want to pass into the item.
+	 * @param   array  $variation      - Contains the selected attributes.
 	 * @param   string $product_type   - The product type.
 	 * @return  array|WP_Error
 	 */
-	protected function validate_product( $product_id = null, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array(), $product_type = '', $request = array() ) {
+	protected function validate_product( $product_id = null, $quantity = 1, $deprecated = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
 		// Validate request for product ID and quantity.
 		self::validate_product_id( $product_id );
 		$this->validate_quantity( $quantity );
 
 		// Get product and validate product for the cart.
-		$product = wc_get_product( $variation_id ? $variation_id : $product_id );
+		$product = wc_get_product( $product_id );
 		$product = $this->validate_product_for_cart( $product );
 
 		// Look up the product type if not passed.
@@ -841,7 +839,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	public function get_product_slug( $object ) {
 		$product_type = $object->get_type();
 
-		if ( 'variable' === $product_type || 'variation' === $product_type ) {
+		if ( 'variation' === $product_type ) {
 			$product = wc_get_product( $object->get_parent_id() );
 
 			$product_slug = $product->get_slug();
@@ -876,13 +874,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 							'readonly'    => true,
 						),
 						'product_id'      => array(
-							'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'variation_id' => array(
-							'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
 							'readonly'    => true,

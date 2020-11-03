@@ -64,9 +64,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function add_to_cart( $request = array() ) {
-		$product_id     = ! isset( $request['product_id'] ) ? 0 : wc_clean( wp_unslash( $request['product_id'] ) );
+		$product_id     = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 		$quantity       = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
-		$variation_id   = ! isset( $request['variation_id'] ) ? 0 : absint( wp_unslash( $request['variation_id'] ) );
 		$variation      = ! isset( $request['variation'] ) ? array() : $request['variation'];
 		$cart_item_data = ! isset( $request['cart_item_data'] ) ? array() : $request['cart_item_data'];
 
@@ -91,7 +90,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 		if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
-			$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $request );
+			$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $cart_item_data, $request );
 		} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
 			$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 		} else {
@@ -144,15 +143,15 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @version 3.0.0
 	 * @param   int|string      $product_id     - Contains the id of the product to add to the cart.
 	 * @param   int|float       $quantity       - Contains the quantity of the item to add to the cart.
-	 * @param   int|string      $variation_id   - Contains the id of the product to add to the cart.
+	 * @param   array           $variation      - Contains the selected attributes of a variation.
 	 * @param   array           $cart_item_data - Contains extra cart item data we want to pass into the item.
 	 * @param   WP_REST_Request $request        - Full details about the request.
 	 * @return  bool            success or not
 	 */
-	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $cart_item_data, $request ) {
+	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated = null, $variation, $cart_item_data, $request ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$product_to_add = $controller->validate_product( $product_id, $quantity, $variation_id, $variation, $cart_item_data, 'variable', $request );
+		$product_to_add = $controller->validate_product( $product_id, $quantity, $deprecated, $variation, $cart_item_data, 'variable', $request );
 
 		// If validation failed then return the error response.
 		/*if ( is_wp_error( $product_to_add ) ) {
@@ -173,7 +172,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @version 3.0.0
 	 * @param   array           $product_to_add - Passes details of the item ready to add to the cart.
 	 * @param   WP_REST_Request $request        - Full details about the request.
-	 * @return  array          $item_added      - Returns details of the added item in the cart.
+	 * @return  array           $item_added      - Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( $product_to_add = array() ) {
 		$product_id     = $product_to_add['product_id'];
@@ -261,7 +260,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	public function get_collection_params() {
 		$params = array(
 			'product_id'     => array(
-				'description'       => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
@@ -269,18 +268,11 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			'quantity'       => array(
 				'required'          => true,
 				'default'           => 1,
-				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'float',
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_numeric( $value );
 				},
-			),
-			'variation_id'   => array(
-				'required'          => false,
-				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'integer',
-				'sanitize_callback' => 'absint',
-				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'variation'      => array(
 				'required'          => false,
