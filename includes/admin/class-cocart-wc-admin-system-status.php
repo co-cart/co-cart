@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce System Status
  * @since    2.1.0
- * @version  2.7.1
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -64,7 +64,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.0
-		 * @version 2.7.1
+		 * @version 2.7.2
 		 * @return  array $data
 		 */
 		public function get_system_status_data() {
@@ -160,7 +160,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Counts how many carts are going to expire within the next 6 hours.
 		 *
 		 * @access public
-		 * @since  2.7.1
+		 * @since  2.7.2
 		 * @global $wpdb
 		 * @return int - Number of carts expiring.
 		 */

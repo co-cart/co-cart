@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Notices
  * @since    1.2.0
- * @version  2.7.1
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 

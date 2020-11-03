@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    1.2.0
- * @version  2.7.1
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -61,7 +61,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.7.1
+		 * @version 2.7.2
 		 * @param   array  $metadata An array of the plugin's metadata.
 		 * @param   string $file     Path to the plugin file.
 		 * @param   array  $data     Plugin Information

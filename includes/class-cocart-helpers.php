@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.7.1
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -545,7 +545,7 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since   2.6.0
-	 * @version 2.7.1
+	 * @version 2.7.2
 	 * @return  string
 	 */
 	public static function get_environment_message() {
@@ -557,7 +557,7 @@ class CoCart_Helpers {
 	 *
 	 * @access protected
 	 * @static
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @return array The shortlink data.
 	 */
 	protected static function collect_additional_shortlink_data() {
@@ -603,7 +603,7 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @param  string $url The URL to build upon.
 	 * @return string The final URL.
 	 */
@@ -616,7 +616,7 @@ class CoCart_Helpers {
 	 *
 	 * @access private
 	 * @static
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @return string The PHP version.
 	 */
 	private static function get_php_version() {
@@ -630,7 +630,7 @@ class CoCart_Helpers {
 	 *
 	 * @access protected
 	 * @static
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @return string The wp_version.
 	 */
 	protected static function get_wordpress_version() {
@@ -642,7 +642,7 @@ class CoCart_Helpers {
 	 *
 	 * @access private
 	 * @static
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @return int The number of days the plugin is active.
 	 */
 	private static function get_days_active() {
@@ -658,7 +658,7 @@ class CoCart_Helpers {
 	 *
 	 * @access private
 	 * @static
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @return string The user's language.
 	 */
 	private static function get_user_language() {

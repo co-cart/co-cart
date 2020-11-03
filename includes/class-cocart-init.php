@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    1.0.0
- * @version  2.7.1
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -196,7 +196,7 @@ class CoCart_Rest_API {
 	 *
 	 * @access  protected
 	 * @since   2.1.0
-	 * @version 2.7.1
+	 * @version 2.7.2
 	 * @return  null|boolean
 	 */
 	protected function has_user_switched() {

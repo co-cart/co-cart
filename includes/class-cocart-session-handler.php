@@ -402,7 +402,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @param   int $old_cart_key cart ID before user logs in.
 	 * @global  $wpdb
 	 * @since   2.1.0
-	 * @version 2.7.1
+	 * @version 2.7.2
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
 		if ( $this->has_session() ) {
@@ -425,7 +425,7 @@ class CoCart_Session_Handler extends WC_Session {
 			/**
 			 * Checks if data is still validated to create a cart or update a cart in session.
 			 *
-			 * @since 2.7.1
+			 * @since 2.7.2
 			 */
 			$this->_data = $this->is_cart_data_valid( $this->_data );
 
@@ -510,13 +510,11 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Returns the cart.
 	 *
-	 * @access  public
-	 * @param   string $customer_id Customer ID.
-	 * @param   mixed  $default Default cart value.
-	 * @global  $wpdb
-	 * @since   2.1.0
-	 * @version 2.7.1
-	 * @return  string|array
+	 * @access public
+	 * @param  string $customer_id Customer ID.
+	 * @param  mixed  $default Default cart value.
+	 * @global $wpdb
+	 * @return string|array
 	 */
 	public function get_cart( $customer_id, $default = false ) {
 		global $wpdb;
@@ -618,7 +616,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * Checks if data is still validated to create a cart or update a cart in session.
 	 *
 	 * @access protected
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @param  array $data The cart data to validate.
 	 * @return array $data Returns the original cart data or a boolean value.
 	 */

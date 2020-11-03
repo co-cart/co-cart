@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.7.1
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -276,7 +276,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  2.1.2
-	 * @since  2.7.1
+	 * @since  2.7.2
 	 * @return array
 	 */
 	public function get_item_schema() {
@@ -330,7 +330,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.7.1
+	 * @version 2.7.2
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
