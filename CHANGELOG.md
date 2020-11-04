@@ -5,6 +5,8 @@
 * Changed: Default expiration length for a cart to expire. Previously _30_ days, now only _7_ days.
 * Enhanced: Use first gallery image for thumbnail if featured image is not set.
 * Enhanced: Added back the use of _httponly_ when setting `cocart_setcookie` for the frontend. Defaults: true for frontend, false via REST API.
+* Enhanced: Prevents variations that are not purchasable from passing validation when added to the cart should the variation ID not be set.
+* Improved: Variation ID now returns in cart response based on variation attributes if not set.
 * Improved: Saving carts for guest customers in the database no longer creates additional empty carts. Only 1 cart per customer. 😄🎉
 * Improved: WooCommerce System Status to show how many carts are going to expire soon and out of how many in session. ✅
 * Dev: Deprecated filter `cocart_empty_cart_expiration`. Not needed any more.

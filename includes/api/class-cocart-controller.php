@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.0.0
- * @version  2.7.0
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -521,7 +521,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 2.7.0
+	 * @version 2.7.2
 	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
 	 * @param   int    $variation_id   - Contains the ID of the variation.
@@ -580,6 +580,11 @@ class CoCart_API_Controller {
 
 			if ( is_wp_error( $variation ) ) {
 				return $variation;
+			}
+
+			// If variation validated, get variation ID to secure it if not already set.
+			if ( $variation_id == 0 ) {
+				$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
 			}
 		}
 

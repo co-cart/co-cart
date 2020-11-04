@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Product Validation
  * @since    2.1.0
- * @version  2.7.0
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -22,7 +22,9 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		/**
 		 * Constructor.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   2.1.0
+		 * @version 2.7.2
 		 */
 		public function __construct() {
 			// Prevent certain product types from being added to the cart.
@@ -31,6 +33,9 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 
 			// Prevent password products being added to the cart.
 			add_filter( 'cocart_add_to_cart_validation', array( $this, 'protected_product_add_to_cart' ), 10, 2 );
+
+			// Prevents variations that are not purchasable from being added to the cart. @since 2.7.2
+			add_filter( 'cocart_add_to_cart_validation', array( $this, 'variation_not_purchasable' ), 10, 5 );
 
 			// Correct product name for missing variation attributes.
 			add_filter( 'cocart_product_name', array( $this, 'validate_variation_product_name' ), 0, 3 );
@@ -92,20 +97,53 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		/**
 		 * Prevent password protected products being added to the cart.
 		 *
-		 * @access public
-		 * @since  2.1.2
-		 * @param  bool $passed     Validation.
-		 * @param  int  $product_id Product ID.
-		 * @return bool
+		 * @access  public
+		 * @since   2.1.2
+		 * @version 2.7.2
+		 * @param   bool $passed     Result before validating.
+		 * @param   int  $product_id Product ID.
+		 * @return  bool $passed     Result after validating.
 		 */
 		public function protected_product_add_to_cart( $passed, $product_id ) {
 			if ( post_password_required( $product_id ) ) {
 				$passed = false;
 
-				CoCart_Logger::log( __( 'This product is protected and cannot be purchased.', 'cart-rest-api-for-woocommerce' ), 'error' );
+				$product = wc_get_product( $product_id );
+
+				CoCart_Logger::log( sprintf( __( 'Product "%s" is protected and cannot be purchased.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
 			}
 			return $passed;
 		} // END protected_product_add_to_cart()
+
+		/**
+		 * Prevents variations that are not purchasable from being added to the cart.
+		 *
+		 * @access public
+		 * @since  2.7.2
+		 * @param  bool  $passed       Result before validating.
+		 * @param  int   $product_id   Product ID.
+		 * @param  int   $quantity     Quantity of item.
+		 * @param  int   $variation_id Variation ID
+		 * @param  array $variation    Attributes of the variation
+		 * @return bool  $passed       Result after validating.
+		 */
+		public function variation_not_purchasable( $passed, $product_id, $quantity, $variation_id, $variation ) {
+			$product = wc_get_product( $product_id );
+
+			if ( ! empty( $variation ) ) {
+				$data_store   = \WC_Data_Store::load( 'product' );
+				$variation_id = $data_store->find_matching_product_variation( $product, $variation );
+				$product      = wc_get_product( $variation_id );
+
+				if ( $variation_id > 0 && ! $product->is_purchasable() ) {
+					$passed = false;
+
+					CoCart_Logger::log( sprintf( __( 'Variation for "%s" is not purchasable.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
+				}
+			}
+
+			return $passed;
+		} // END variation_not_purchasable()
 
 	} // END class.
 
