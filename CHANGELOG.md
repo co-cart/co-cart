@@ -12,7 +12,7 @@
 * Dev: Deprecated filter `cocart_empty_cart_expiration`. Not needed any more.
 * Dev: Info log for user switch no longer records if a user ID is not set.
 * Dev: New filter `cocart_is_cart_data_valid` let's you validate the cart data before a cart is saved in session.
-* Dev: New filter `cocart_set_cookie_options` allows you to filter the cookie flags, which enables setting of _samesite_. 🏁
+* Dev: New filter `cocart_set_cookie_options` allows you to filter the cookie flags, which enables setting of _samesite_. 🏁 - Only for those who use **PHP 7.3** or above.
 * Dev: New filter `cocart_cookie_httponly` on the _httponly_ param on `cocart_setcookie()` with all the function parameters passed through.
 
 > Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active, debug mode, memory limit, user language, multisite and environment type.
