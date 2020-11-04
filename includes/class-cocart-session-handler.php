@@ -553,7 +553,7 @@ class CoCart_Session_Handler extends WC_Session {
 				array(
 					'cart_key'    => $this->_customer_id,
 					'cart_value'  => maybe_serialize( $this->_data ),
-					'cart_expiry' => $this->_cart_expiration
+					'cart_expiry' => $this->_cart_expiration,
 				),
 				array( '%s', '%s', '%d' )
 			);
@@ -574,7 +574,7 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
-				'cart_expiry' => $this->_cart_expiration
+				'cart_expiry' => $this->_cart_expiration,
 			),
 			array( 'cart_key' => $customer_id ),
 			array( '%d' )

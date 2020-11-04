@@ -229,6 +229,7 @@ class CoCart_API_Controller {
 					/**
 					 * Gets the product featured image ID.
 					 * If featured image does not exist then use first gallery image instead.
+					 *
 					 * @since 2.7.2
 					 */
 					$product_thumbnail_id = $_product->get_image_id();
@@ -749,7 +750,7 @@ class CoCart_API_Controller {
 			'variation'      => $variation,
 			'cart_item_data' => $cart_item_data,
 			'cart_item_key'  => $cart_item_key,
-			'product_data'   => $product
+			'product_data'   => $product,
 		);
 	} // END validate_product()
 
@@ -819,7 +820,7 @@ class CoCart_API_Controller {
 	} // END get_cart_item()
 
 	/**
-	 * Returns either the default response of the 
+	 * Returns either the default response of the
 	 * API requested or a filtered response.
 	 *
 	 * @access public
@@ -836,7 +837,7 @@ class CoCart_API_Controller {
 		$rest_base = str_replace( '-', '_', $rest_base );
 
 		/**
-		 * If the response is empty then either something seriously has gone wrong 
+		 * If the response is empty then either something seriously has gone wrong
 		 * or the response was already filtered earlier and returned nothing.
 		 */
 		if ( empty( $response ) ) {

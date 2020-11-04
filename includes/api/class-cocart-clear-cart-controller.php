@@ -72,7 +72,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_cart_cleared_message', $message );
 
-			return $this->get_response(  $message, $this->rest_base );
+			return $this->get_response( $message, $this->rest_base );
 		} else {
 			$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
 

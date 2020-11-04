@@ -594,7 +594,7 @@ class CoCart_Helpers {
 			'memory_limit'     => size_format( $memory ),
 			'user_language'    => self::get_user_language(),
 			'multisite'        => is_multisite() ? 'Yes' : 'No',
-			'environment_type' => $environment_type
+			'environment_type' => $environment_type,
 		);
 	} // END collect_additional_shortlink_data()
 
