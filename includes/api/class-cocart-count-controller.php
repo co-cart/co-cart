@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.5.0
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -35,7 +35,7 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @version 2.7.2
 	 */
 	public function register_routes() {
 		// Count Items in Cart - cocart/v1/count-items (GET)
@@ -45,24 +45,24 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 			'permission_callback' => '__return_true',
 			'args'                => array(
 				'return' => array(
-					'default' => 'numeric'
+					'default' => 'numeric',
+					'type'    => 'string'
 				),
 			),
 		) );
 	} // register_routes()
 
 	/**
-	 * Get cart contents count.
+	 * Count items.
 	 *
-	 * @access  public
+	 * @access public
 	 * @static
-	 * @since   1.0.0
-	 * @version 2.1.0
-	 * @param   array $data
-	 * @param   array $cart_contents
-	 * @return  string|WP_REST_Response
+	 * @since  2.7.2
+	 * @param  array $data
+	 * @param  array $cart_contents
+	 * @return string|WP_REST_Response
 	 */
-	public static function get_cart_contents_count( $data = array(), $cart_contents = array() ) {
+	public static function count_items( $data = array(), $cart_contents = array() ) {
 		if ( empty( $cart_contents ) ) {
 			$count = WC()->cart->get_cart_contents_count();
 		} else {
@@ -70,7 +70,23 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 			$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
 		}
 
+		return $count;
+	}
+
+	/**
+	 * Get cart contents count.
+	 *
+	 * @access  public
+	 * @static
+	 * @since   1.0.0
+	 * @version 2.7.2
+	 * @param   array $data
+	 * @param   array $cart_contents
+	 * @return  string|WP_REST_Response
+	 */
+	public static function get_cart_contents_count( $data = array(), $cart_contents = array() ) {
 		$return = ! empty( $data['return'] ) ? $data['return'] : '';
+		$count  = self::count_items( $data, $cart_contents );
 
 		if ( $return != 'numeric' && $count <= 0 ) {
 			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
