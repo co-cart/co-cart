@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Logger
  * @since    2.1.0
- * @version  2.2.0
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -31,7 +31,7 @@ class CoCart_Logger {
 	 * @access public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.2.0
+	 * @version 2.7.2
 	 * @param   string $message - The message of the log.
 	 * @param   string $type    - The type of log to record.
 	 * @param   string $plugin  - The CoCart plugin being logged.
@@ -62,36 +62,36 @@ class CoCart_Logger {
 			switch ( $type ) {
 				// Interesting events.
 				case 'info':
-					self::$logger->info( $message, $context );
+					self::$logger->info( $log_entry, $context );
 					break;
 				// Normal but significant events.
 				case 'notice':
-					self::$logger->notice( $message, $context );
+					self::$logger->notice( $log_entry, $context );
 					break;
 				// Exceptional occurrences that are not errors.
 				case 'warning':
-					self::$logger->warning( $message, $context );
+					self::$logger->warning( $log_entry, $context );
 					break;
 				// Runtime errors that do not require immediate.
 				case 'error':
-					self::$logger->error( $message, $context );
+					self::$logger->error( $log_entry, $context );
 					break;
 				// Critical conditions.
 				case 'critical':
-					self::$logger->critical( $message, $context );
+					self::$logger->critical( $log_entry, $context );
 					break;
 				// Action must be taken immediately.
 				case 'alert':
-					self::$logger->alert( $message, $context );
+					self::$logger->alert( $log_entry, $context );
 					break;
 				// System is unusable.
 				case 'emergency':
-					self::$logger->emergency( $message, $context );
+					self::$logger->emergency( $log_entry, $context );
 					break;
 				// Detailed debug information.
 				case 'debug':
 				default:
-					self::$logger->debug( $message, $context );
+					self::$logger->debug( $log_entry, $context );
 					break;
 			}
 		}

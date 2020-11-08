@@ -6,6 +6,7 @@
 * Enhanced: Use first gallery image for thumbnail if featured image is not set.
 * Enhanced: Added back the use of _httponly_ when setting `cocart_setcookie` for the frontend. Defaults: true for frontend, false via REST API.
 * Enhanced: Prevents variations that are not purchasable from passing validation when added to the cart should the variation ID not be set.
+* Fixed: Logger was not passing the full log entry just the message.
 * Improved: Variation ID now returns in cart response based on variation attributes if not set.
 * Improved: Saving carts for guest customers in the database no longer creates additional empty carts. Only 1 cart per customer. 😄🎉
 * Improved: WooCommerce System Status to show how many carts are going to expire soon and out of how many in session. ✅
