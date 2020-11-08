@@ -106,10 +106,20 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'mark_icon' => '',
 			);
 
+			$data['cocart_carts_expiring_soon'] = array(
+				'name'      => _x( 'Carts Expiring Soon', 'label that indicates the number of carts expiring soon', 'cart-rest-api-for-woocommerce' ),
+				'label'     => esc_html__( 'Carts Expiring Soon', 'cart-rest-api-for-woocommerce' ),
+				'note'      => sprintf( esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ), self::count_carts_expiring(), self::carts_in_session() ),
+				'tip'       => esc_html__( 'Carts that only have less than 6 hours left before they have expired.', 'cart-rest-api-for-woocommerce' ),
+				'mark'      => '',
+				'mark_icon' => '',
+			);
+
 			$data['cocart_carts_expired'] = array(
 				'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
-				'note'      => self::count_carts_expired(),
+				'note'      => sprintf( esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ), self::count_carts_expired(), self::carts_in_session() ),
+				'tip'       => esc_html__( 'Any expired carts that get updated before being cleared will become an active cart again.', 'cart-rest-api-for-woocommerce' ),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -117,7 +127,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_carts_source_headless'] = array(
 				'name'      => _x( 'Carts Source (by CoCart)', 'label that indicates the number of carts created via CoCart API', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Source (by CoCart)', 'cart-rest-api-for-woocommerce' ),
-				'note'      => $this->carts_source_headless(),
+				'note'      => self::carts_source_headless(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -125,7 +135,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_carts_source_web'] = array(
 				'name'      => _x( 'Carts Source (by Web)', 'label that indicates the number of carts created via the web', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Source (by Web)', 'cart-rest-api-for-woocommerce' ),
-				'note'      => $this->carts_source_web(),
+				'note'      => self::carts_source_web(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -133,7 +143,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_carts_source_other'] = array(
 				'name'      => _x( 'Carts Source (by Other)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Source (by Other)', 'cart-rest-api-for-woocommerce' ),
-				'note'      => $this->carts_source_other(),
+				'note'      => self::carts_source_other(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -172,6 +182,32 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			return $results[0]['count'];
 		} // END carts_in_session()
+
+		/**
+		 * Counts how many carts are going to expire within the next 6 hours.
+		 *
+		 * @access public
+		 * @since  2.7.2
+		 * @global $wpdb
+		 * @return int - Number of carts expiring.
+		 */
+		public static function count_carts_expiring() {
+			global $wpdb;
+
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"
+				SELECT COUNT(cart_id) as count
+				FROM {$wpdb->prefix}cocart_carts 
+				WHERE cart_expiry BETWEEN %d AND %d",
+					time(),
+					( HOUR_IN_SECONDS * 6 ) + time()
+				),
+				ARRAY_A
+			);
+
+			return $results[0]['count'];
+		} // END count_carts_expiring()
 
 		/**
 		 * Counts how many carts have expired.

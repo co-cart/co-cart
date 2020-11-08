@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.0.0
- * @version  2.7.0
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -162,7 +162,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 2.1.0
+	 * @version 2.7.2
 	 * @param   array  $data
 	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
@@ -224,10 +224,25 @@ class CoCart_API_Controller {
 				// Add product price as a new variable.
 				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
 
-				// If main product thumbnail is requested then add it to each item in cart.
+				// If product thumbnail is requested then add it to each item in cart.
 				if ( $show_thumb ) {
-					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
+					/**
+					 * Gets the product featured image ID.
+					 * If featured image does not exist then use first gallery image instead.
+					 *
+					 * @since 2.7.2
+					 */
+					$product_thumbnail_id = $_product->get_image_id();
 
+					if ( ! $product_thumbnail_id ) {
+						$gallery_image_ids = $_product->get_gallery_image_ids();
+
+						if ( ! empty( $gallery_image_ids ) ) {
+							$product_thumbnail_id = array_shift( $gallery_image_ids );
+						}
+					}
+
+					$thumbnail_id  = apply_filters( 'cocart_item_thumbnail', $product_thumbnail_id, $cart_item, $item_key );
 					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
 
 					/**
@@ -507,7 +522,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 2.7.0
+	 * @version 2.7.2
 	 * @param   int    $product_id     - Contains the ID of the product.
 	 * @param   int    $quantity       - Contains the quantity of the item.
 	 * @param   int    $variation_id   - Contains the ID of the variation.
@@ -566,6 +581,11 @@ class CoCart_API_Controller {
 
 			if ( is_wp_error( $variation ) ) {
 				return $variation;
+			}
+
+			// If variation validated, get variation ID to secure it if not already set.
+			if ( $variation_id == 0 ) {
+				$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
 			}
 		}
 
@@ -730,7 +750,7 @@ class CoCart_API_Controller {
 			'variation'      => $variation,
 			'cart_item_data' => $cart_item_data,
 			'cart_item_key'  => $cart_item_key,
-			'product_data'   => $product
+			'product_data'   => $product,
 		);
 	} // END validate_product()
 
@@ -800,7 +820,7 @@ class CoCart_API_Controller {
 	} // END get_cart_item()
 
 	/**
-	 * Returns either the default response of the 
+	 * Returns either the default response of the
 	 * API requested or a filtered response.
 	 *
 	 * @access public
@@ -817,7 +837,7 @@ class CoCart_API_Controller {
 		$rest_base = str_replace( '-', '_', $rest_base );
 
 		/**
-		 * If the response is empty then either something seriously has gone wrong 
+		 * If the response is empty then either something seriously has gone wrong
 		 * or the response was already filtered earlier and returned nothing.
 		 */
 		if ( empty( $response ) ) {

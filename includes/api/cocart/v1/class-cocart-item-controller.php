@@ -285,7 +285,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			if ( is_wp_error( $stock ) ) {
 				return $stock;
 			}
-			
+
 			/**
 			 * Update cart validation.
 			 *

@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    1.2.0
- * @version  2.3.0
+ * @version  2.7.2
  * @license  GPL-2.0+
  */
 
@@ -61,7 +61,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.3.0
+		 * @version 2.7.2
 		 * @param   array  $metadata An array of the plugin's metadata.
 		 * @param   string $file     Path to the plugin file.
 		 * @param   array  $data     Plugin Information
@@ -88,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
 					$donate = array(
 						'donate'   => '<a href="' . esc_url( 'https://www.buymeacoffee.com/sebastien' ) . '" aria-label="' . sprintf( esc_attr__( 'Make a donation for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #399141; font-weight: 600;">' . esc_attr__( 'Donate', 'cart-rest-api-for-woocommerce' ) . '</a>',
-						'priority' => '<a href="' . esc_url( 'https://cocart.xyz/product/14-day-priority-support/' ) . '" aria-label="' . sprintf( esc_attr__( 'Order priority support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Priority Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
+						'priority' => '<a href="' . CoCart_Helpers::build_shortlink( esc_url( 'https://cocart.xyz/product/14-day-priority-support/' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Order priority support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Priority Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					);
 
 					$row_meta = array_merge( $donate, $row_meta );
@@ -96,7 +96,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 				// Only show upgrade option if CoCart Pro is not installed.
 				if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
-					$store_url = add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' );
+					$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' ) );
 
 					$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ) . '" target="_blank" style="color: #c00; font-weight: 600;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );
 				}

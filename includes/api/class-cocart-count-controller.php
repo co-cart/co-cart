@@ -49,7 +49,8 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 			'permission_callback' => '__return_true',
 			'args'                => array(
 				'return' => array(
-					'default' => 'numeric'
+					'default' => 'numeric',
+					'type'    => 'string'
 				),
 			),
 		) );

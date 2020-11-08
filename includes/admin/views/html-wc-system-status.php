@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart\Admin\Views
- * @since    2.1.0
+ * @since    2.7.2
  * @license  GPL-2.0+
  */
 
@@ -47,55 +47,63 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 			$mark_icon = 'no-alt';
 		}
 		?>
-		<tr>
-			<td data-export-label="<?php echo esc_attr( $data['label'] ); ?>"><?php echo esc_html( $data['name'] ); ?>:</td>
-			<td class="help">
-				<?php
-				if ( isset( $data['tip'] ) ) {
-					echo wc_help_tip( $data['tip'] );
-				}
-				?>
-			</td>
-			<td>
-				<?php
-				if ( isset( $data['data'] ) ) {
-
-					if ( empty( $data['data'] ) ) {
-						echo '&ndash;';
-						continue;
+		<?php if ( isset( $data['type'] ) && $data['type'] == 'titles' ) { ?>
+			<tr>
+				<?php foreach ( $data['columns'] as $column ) { ?>
+					<td style="border-bottom: 1px solid #ccd0d4; border-top: 1px solid #ccd0d4;" colspan="2" data-export-label="<?php echo $column; ?>"><strong><?php echo $column; ?></strong></td>
+				<?php } ?>
+			</tr>
+		<?php } else { ?>
+			<tr>
+				<td data-export-label="<?php echo esc_attr( $data['label'] ); ?>"><?php echo esc_html( $data['name'] ); ?>:</td>
+				<td class="help">
+					<?php
+					if ( isset( $data['tip'] ) ) {
+						echo wc_help_tip( $data['tip'] );
 					}
+					?>
+				</td>
+				<td>
+					<?php
+					if ( isset( $data['data'] ) ) {
 
-					$row_number = count( $data['data'] );
-
-					foreach ( $data['data'] as $row ) {
-						echo wp_kses_post( $row );
-
-						if ( 1 != $row_number ) {
-							echo ', ';
+						if ( empty( $data['data'] ) ) {
+							echo '&ndash;';
+							continue;
 						}
-						echo '<br />';
-						$row_number--;
-					}
-				}
-				if ( isset( $data['note'] ) ) {
-					if ( empty( $mark ) ) {
-						echo wp_kses_post( $data['note'] );
-					} else {
-						?>
-						<mark class="<?php echo esc_html( $mark ); ?>">
-							<?php
-							if ( $mark_icon ) {
-								echo '<span class="dashicons dashicons-' . esc_attr( $mark_icon ) . '"></span> ';
+
+						$row_number = count( $data['data'] );
+
+						foreach ( $data['data'] as $row ) {
+							echo wp_kses_post( $row );
+
+							if ( 1 != $row_number ) {
+								echo ', ';
 							}
-							echo wp_kses_post( $data['note'] );
-							?>
-						</mark>
-						<?php
+							echo '<br />';
+							$row_number--;
+						}
 					}
-				}
-				?>
-			</td>
-		</tr>
+					if ( isset( $data['note'] ) ) {
+						if ( empty( $mark ) ) {
+							echo wp_kses_post( $data['note'] );
+						} else {
+							?>
+							<mark class="<?php echo esc_html( $mark ); ?>">
+								<?php
+								if ( $mark_icon ) {
+									echo '<span class="dashicons dashicons-' . esc_attr( $mark_icon ) . '"></span> ';
+								}
+								echo wp_kses_post( $data['note'] );
+								?>
+							</mark>
+							<?php
+						}
+					}
+					?>
+				</td>
+			</tr>
+		<?php } ?>
 	<?php } ?>
 	</tbody>
 </table>

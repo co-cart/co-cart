@@ -173,7 +173,7 @@ class CoCart_Server {
 	 *
 	 * @access  protected
 	 * @since   2.1.0
-	 * @version 2.7.1
+	 * @version 2.7.2
 	 * @return  null|boolean
 	 */
 	protected function has_user_switched() {

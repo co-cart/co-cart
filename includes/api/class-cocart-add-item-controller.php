@@ -254,7 +254,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.7.1
+	 * @version 2.7.2
 	 * @return  array $params
 	 */
 	public function get_collection_params() {

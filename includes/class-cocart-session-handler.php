@@ -231,12 +231,12 @@ class CoCart_Session_Handler extends WC_Session {
 
 			// If no cookie exists then create a new.
 			if ( ! isset( $_COOKIE[ $this->_cookie ] ) || $_COOKIE[ $this->_cookie ] !== $cookie_value ) {
-				$this->cocart_setcookie( $this->_cookie, $cookie_value, $this->_cart_expiration, $this->use_secure_cookie() );
+				$this->cocart_setcookie( $this->_cookie, $cookie_value, $this->_cart_expiration, $this->use_secure_cookie(), $this->use_httponly() );
 			}
 		} else {
 			// If cookies exists, destroy it.
 			if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
-				$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie() );
+				$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
 				unset( $_COOKIE[ $this->_cookie ] );
 			}
 		}
@@ -276,15 +276,22 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Set a cookie - wrapper for setcookie using WP constants.
 	 *
-	 * @access public
-	 * @param  string  $name     Name of the cookie being set.
-	 * @param  string  $value    Value of the cookie.
-	 * @param  integer $expire   Expiry of the cookie.
-	 * @param  bool    $secure   Whether the cookie should be served only over https.
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.7.2
+	 * @param   string  $name     Name of the cookie being set.
+	 * @param   string  $value    Value of the cookie.
+	 * @param   integer $expire   Expiry of the cookie.
+	 * @param   bool    $secure   Whether the cookie should be served only over https.
+	 * @param   bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 */
-	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false ) {
+	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
 		if ( ! headers_sent() ) {
-			setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, false );
+			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
+				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) ), $name, $value ) );
+			} else {
+				setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) );
+			}
 		} elseif ( defined( 'WP_DEBUG' ) ) {
 			headers_sent( $file, $line );
 			trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE ); // @codingStandardsIgnoreLine
@@ -321,8 +328,8 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @access public
 	 */
 	public function set_cart_expiration() {
-		$this->_cart_expiring   = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 29 ) ); // 29 Days.
-		$this->_cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', DAY_IN_SECONDS * 30 ) ); // 30 Days.
+		$this->_cart_expiring   = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 6 ) ); // 6 Days.
+		$this->_cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiration', DAY_IN_SECONDS * 7 ) ); // 7 Days.
 	} // END set_cart_expiration()
 
 	/**
@@ -422,11 +429,25 @@ class CoCart_Session_Handler extends WC_Session {
 			global $wpdb;
 
 			/**
-			 * Set cart to expire after 6 hours if cart is empty.
-			 * This helps clear empty carts stored in the database when the cron job is run.
+			 * Deprecated filter: `cocart_empty_cart_expiration` as it is no longer needed.
+			 *
+			 * @since 2.7.2
 			 */
-			if ( empty( $this->_data ) ) {
-				$this->_cart_expiration = apply_filters( 'cocart_empty_cart_expiration', HOUR_IN_SECONDS * 6 );
+			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
+				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
+				_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
+				CoCart_Logger::log( $message, 'debug' );
+			}
+
+			/**
+			 * Checks if data is still validated to create a cart or update a cart in session.
+			 *
+			 * @since 2.7.2
+			 */
+			$this->_data = $this->is_cart_data_valid( $this->_data );
+
+			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
+				return true;
 			}
 
 			/**
@@ -437,6 +458,7 @@ class CoCart_Session_Handler extends WC_Session {
 			 */
 			$cart_source = apply_filters( 'cocart_cart_source', $this->_cart_source );
 
+			// Save or update cart data.
 			$wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`, `cart_source`) VALUES (%s, %s, %d, %s)
@@ -473,7 +495,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @access public
 	 */
 	public function forget_cart() {
-		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie() );
+		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
 
 		// Empty cart.
 		wc_empty_cart();
@@ -559,7 +581,7 @@ class CoCart_Session_Handler extends WC_Session {
 		}
 
 		if ( empty( $cart_expiration ) ) {
-			$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 29 ) );
+			$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 7 ) );
 		}
 
 		if ( empty( $cart_source ) ) {
@@ -597,7 +619,7 @@ class CoCart_Session_Handler extends WC_Session {
 			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
-				'cart_expiry' => $this->_cart_expiration
+				'cart_expiry' => $this->_cart_expiration,
 			),
 			array( 'cart_key' => $customer_id ),
 			array( '%d' )
@@ -634,5 +656,44 @@ class CoCart_Session_Handler extends WC_Session {
 
 		$wpdb->update( $this->_table, array( 'cart_expiry' => $timestamp ), array( 'cart_key' => $customer_id ), array( '%d' ) );
 	} // END update_cart_timestamp()
+
+	/**
+	 * Checks if data is still validated to create a cart or update a cart in session.
+	 *
+	 * @access protected
+	 * @since  2.7.2
+	 * @param  array $data The cart data to validate.
+	 * @return array $data Returns the original cart data or a boolean value.
+	 */
+	protected function is_cart_data_valid( $data ) {
+		if ( ! empty( $data ) ) {
+			// If the cart value is empty then the cart data is not valid.
+			if ( isset( $data['cart'] ) && empty( maybe_unserialize( $data['cart'] ) ) ) {
+				$data = false;
+			}
+		}
+
+		$data = apply_filters( 'cocart_is_cart_data_valid', $data );
+
+		return $data;
+	} // END is_cart_data_valid()
+
+	/**
+	 * Whether the cookie is only accessible over HTTP.
+	 * Returns true by default for the frontend and false by default via the REST API.
+	 *
+	 * @access protected
+	 * @since  2.7.2
+	 * @return boolean
+	 */
+	protected function use_httponly() {
+		$httponly = true;
+
+		if ( CoCart_Helpers::is_rest_api_request() ) {
+			$httponly = false;
+		}
+
+		return $httponly;
+	} // END use_httponly()
 
 } // END class
