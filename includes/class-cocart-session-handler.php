@@ -409,17 +409,14 @@ class CoCart_Session_Handler extends WC_Session {
 			global $wpdb;
 
 			/**
-			 * Checks if cart is empty on booting server or in cache.
 			 * Deprecated filter: `cocart_empty_cart_expiration` as it is no longer needed.
+			 *
+			 * @since 2.7.2
 			 */
-			if ( empty( $this->_data ) || is_null( $this->_data ) ) {
-				if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
-					$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
-					_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.0', null, $message );
-					CoCart_Logger::log( $message, 'debug' );
-				}
-
-				return true;
+			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
+				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
+				_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
+				CoCart_Logger::log( $message, 'debug' );
 			}
 
 			/**
