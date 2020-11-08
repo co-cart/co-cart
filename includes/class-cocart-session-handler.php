@@ -619,8 +619,8 @@ class CoCart_Session_Handler extends WC_Session {
 	 */
 	protected function is_cart_data_valid( $data ) {
 		if ( ! empty( $data ) ) {
-			// If the items value is empty then the cart data is not valid.
-			if ( isset( $data['items'] ) && empty( $data['items'] ) ) {
+			// If the cart value is empty then the cart data is not valid.
+			if ( isset( $data['cart'] ) && empty( maybe_unserialize( $data['cart'] ) ) ) {
 				$data = false;
 			}
 		}
