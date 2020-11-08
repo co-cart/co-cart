@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v2.7.2 - ?? November, 2020
+## v2.7.2 - 08th November, 2020
 
 * Changed: Default expiration length for a cart to expire. Previously _30_ days, now only _7_ days.
 * Enhanced: Use first gallery image for thumbnail if featured image is not set.
@@ -16,7 +16,7 @@
 * Dev: New filter `cocart_set_cookie_options` allows you to filter the cookie flags, which enables setting of _samesite_. 🏁 - Only for those who use **PHP 7.3** or above.
 * Dev: New filter `cocart_cookie_httponly` on the _httponly_ param on `cocart_setcookie()` with all the function parameters passed through.
 
-> Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now provide the basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days active, debug mode, memory limit, user language, multisite and environment type.
+> Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now contain basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days plugin active, debug mode, memory limit, user language, multisite and environment type.
 
 ## v2.7.1 - 30th October, 2020
 
