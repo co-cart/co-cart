@@ -201,7 +201,7 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Is Cookie support enabled?
 	 *
-	 * Determines if a cookie should manage the cart for guest customers.
+	 * Determines if a cookie should manage the cart for customers.
 	 *
 	 * @access public
 	 * @return bool
@@ -278,7 +278,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.7.2
+	 * @version 2.7.3
 	 * @param   string  $name     Name of the cookie being set.
 	 * @param   string  $value    Value of the cookie.
 	 * @param   integer $expire   Expiry of the cookie.
@@ -288,7 +288,7 @@ class CoCart_Session_Handler extends WC_Session {
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
 		if ( ! headers_sent() ) {
 			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
-				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) ), $name, $value ) );
+				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', 'domain' => COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) ), $name, $value ) );
 			} else {
 				setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) );
 			}
@@ -442,9 +442,10 @@ class CoCart_Session_Handler extends WC_Session {
 			/**
 			 * Checks if data is still validated to create a cart or update a cart in session.
 			 *
-			 * @since 2.7.2
+			 * @since   2.7.2
+			 * @version 2.7.3
 			 */
-			$this->_data = $this->is_cart_data_valid( $this->_data );
+			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_customer_id );
 
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
 				return true;
@@ -660,13 +661,15 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Checks if data is still validated to create a cart or update a cart in session.
 	 *
-	 * @access protected
-	 * @since  2.7.2
-	 * @param  array $data The cart data to validate.
-	 * @return array $data Returns the original cart data or a boolean value.
+	 * @access  protected
+	 * @since   2.7.2
+	 * @version 2.7.3
+	 * @param   array  $data        The cart data to validate.
+	 * @param   string $customer_id The customer ID or cart key.
+	 * @return  array  $data        Returns the original cart data or a boolean value.
 	 */
-	protected function is_cart_data_valid( $data ) {
-		if ( ! empty( $data ) ) {
+	protected function is_cart_data_valid( $data, $customer_id ) {
+		if ( ! empty( $data ) && empty( $this->get_cart( $customer_id ) ) ) {
 			// If the cart value is empty then the cart data is not valid.
 			if ( isset( $data['cart'] ) && empty( maybe_unserialize( $data['cart'] ) ) ) {
 				$data = false;
