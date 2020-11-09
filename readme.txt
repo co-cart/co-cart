@@ -229,6 +229,13 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
+= v2.7.3 - 8th November, 2020 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Warning of missing domain key from `setcookie()` options. Thanks to [@pauld8](https://github.com/pauld8)
+* Fixed: Carts already in session still updates even if the cart is now empty.
+
 = v2.7.2 - 8th November, 2020 =
 
 * Changed: Default expiration length for a cart to expire. Previously _30_ days, now only _7_ days.

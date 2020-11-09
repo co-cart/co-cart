@@ -1,6 +1,13 @@
 # Changelog for CoCart Lite
 
-## v2.7.2 - 08th November, 2020
+## v2.7.3 - 8th November, 2020
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Warning of missing domain key from `setcookie()` options. Thanks to [@pauld8](https://github.com/pauld8)
+* Fixed: Carts already in session still updates even if the cart is now empty.
+
+## v2.7.2 - 8th November, 2020
 
 * Changed: Default expiration length for a cart to expire. Previously _30_ days, now only _7_ days.
 * Enhanced: Use first gallery image for thumbnail if featured image is not set.
