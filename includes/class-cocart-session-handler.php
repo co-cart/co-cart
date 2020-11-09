@@ -268,7 +268,7 @@ class CoCart_Session_Handler extends WC_Session {
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
 		if ( ! headers_sent() ) {
 			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
-				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) ), $name, $value ) );
+				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', 'domain' => COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) ), $name, $value ) );
 			} else {
 				setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) );
 			}
