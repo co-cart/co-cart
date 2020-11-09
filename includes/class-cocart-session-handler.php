@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart\Session Handler
  * @since    2.1.0
- * @version  2.7.2
+ * @version  2.7.3
  * @license  GPL-2.0+
  */
 
@@ -181,7 +181,7 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Is Cookie support enabled?
 	 *
-	 * Determines if a cookie should manage the cart for guest customers.
+	 * Determines if a cookie should manage the cart for customers.
 	 *
 	 * @access public
 	 * @return bool
@@ -258,7 +258,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.7.2
+	 * @version 2.7.3
 	 * @param   string  $name     Name of the cookie being set.
 	 * @param   string  $value    Value of the cookie.
 	 * @param   integer $expire   Expiry of the cookie.
@@ -402,7 +402,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 * @param   int $old_cart_key cart ID before user logs in.
 	 * @global  $wpdb
 	 * @since   2.1.0
-	 * @version 2.7.2
+	 * @version 2.7.3
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
 		if ( $this->has_session() ) {
@@ -422,9 +422,10 @@ class CoCart_Session_Handler extends WC_Session {
 			/**
 			 * Checks if data is still validated to create a cart or update a cart in session.
 			 *
-			 * @since 2.7.2
+			 * @since   2.7.2
+			 * @version 2.7.3
 			 */
-			$this->_data = $this->is_cart_data_valid( $this->_data );
+			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_customer_id );
 
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
 				return true;
@@ -612,13 +613,15 @@ class CoCart_Session_Handler extends WC_Session {
 	/**
 	 * Checks if data is still validated to create a cart or update a cart in session.
 	 *
-	 * @access protected
-	 * @since  2.7.2
-	 * @param  array $data The cart data to validate.
-	 * @return array $data Returns the original cart data or a boolean value.
+	 * @access  protected
+	 * @since   2.7.2
+	 * @version 2.7.3
+	 * @param   array  $data        The cart data to validate.
+	 * @param   string $customer_id The customer ID or cart key.
+	 * @return  array  $data        Returns the original cart data or a boolean value.
 	 */
-	protected function is_cart_data_valid( $data ) {
-		if ( ! empty( $data ) ) {
+	protected function is_cart_data_valid( $data, $customer_id ) {
+		if ( ! empty( $data ) && empty( $this->get_cart( $customer_id ) ) ) {
 			// If the cart value is empty then the cart data is not valid.
 			if ( isset( $data['cart'] ) && empty( maybe_unserialize( $data['cart'] ) ) ) {
 				$data = false;
