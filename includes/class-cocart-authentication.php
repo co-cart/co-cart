@@ -144,7 +144,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
 			header( 'Access-Control-Allow-Credentials: true' );
 			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );
-
+			header('Access-Control-Expose-Headers: X-CoCart-API'); 
 			return $served;
 		} // END cors_headers()
 
