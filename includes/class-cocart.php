@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.7.3';
+	public static $version = '2.7.4';
 
 	/**
 	 * Required WordPress Version
@@ -45,7 +45,7 @@ final class CoCart {
 	 * @since   1.0.0
 	 * @version 2.1.0
 	 */
-	public static $required_woo = '4.0.0';
+	public static $required_woo = '4.0';
 
 	/**
 	 * Required PHP Version
