@@ -85,7 +85,7 @@
 		"stylelint-order": "0.8.1"
 	},
 	"dependencies": {
-		"stylelint": "~9.10.1"
+		"stylelint": "~13.8.0"
 	},
 	"engines": {
 		"node": ">=10.15.0",
