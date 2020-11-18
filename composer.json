@@ -35,7 +35,7 @@
 	},
 	"require": {
 		"composer/installers": "1.7.0",
-		"woocommerce/woocommerce-sniffs": "0.0.9"
+		"woocommerce/woocommerce-sniffs": "0.1.0"
 	},
 	"scripts": {
 		"phpcs": [
