@@ -80,7 +80,7 @@
 		"load-grunt-tasks": "4.0.0",
 		"node-sass": "4.14.1",
 		"prettier-stylelint": "0.4.2",
-		"stylelint-config-prettier": "3.3.0",
+		"stylelint-config-prettier": "8.0.2",
 		"stylelint-config-wordpress": "13.1.0",
 		"stylelint-order": "0.8.1"
 	},
