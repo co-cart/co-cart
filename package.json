@@ -74,7 +74,7 @@
 		"grunt-postcss": "0.9.0",
 		"grunt-potomo": "3.5.0",
 		"grunt-sass": "3.1.0",
-		"grunt-stylelint": "0.10.1",
+		"grunt-stylelint": "0.15.0",
 		"grunt-text-replace": "0.4.0",
 		"grunt-wp-i18n": "1.0.3",
 		"load-grunt-tasks": "4.0.0",
