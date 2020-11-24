@@ -52,6 +52,9 @@ matrix:
 before_install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
+  # Ensure the correct composer version is installed.
+  - composer self-update 1.9.0
+
   # Unless we need XDebug, disable it for improved performance.
   - phpenv config-rm xdebug.ini || return 0
 
