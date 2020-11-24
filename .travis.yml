@@ -3,76 +3,76 @@ version: ~> 1.0
 language: php
 
 services:
-	- mysql
+  - mysql
 
 cache:
-	directories:
-		- $HOME/.composer/cache
+  directories:
+  - $HOME/.composer/cache
 
 # Test main supported versions of PHP against latest WP.
 php:
-	- 7.3
-	- 7.4
-	- nightly
+  - 7.3
+  - 7.4
+  - nightly
 
 # Test against the latest version of WordPress and one version back.
 env:
-	- WP_VERSION=latest WP_MULTISITE=0
-	- WP_VERSION=5.4 WP_MULTISITE=0
+  - WP_VERSION=latest WP_MULTISITE=0
+  - WP_VERSION=5.4 WP_MULTISITE=0
 
 # Customize the build matrix.
 matrix:
-	fast_finish: true
-	include:
-		- name: "WP Nightly + PHP 7.4"
-			php: 7.4
-			env: WP_VERSION=nightly WP_MULTISITE=0
-		- name: "WP 5.5 + PHP 7.3"
-			php: 7.3
-			env: WP_VERSION=5.5 WP_MULTISITE=0
-		- name: "WP 5.4 + 7.3"
-			php: 7.3
-			env: WP_VERSION=5.4 WP_MULTISITE=0
-		- name: "WP 5.3 + PHP 7.3"
-			php: 7.3
-			env: WP_VERSION=5.3 WP_MULTISITE=0
-		- name: "Latest WP + PHP 7.4"
-			php: 7.4
-			env: WP_VERSION=latest WP_MULTISITE=0
+  fast_finish: true
+  include:
+    - name: "WP Nightly + PHP 7.4"
+      php: 7.4
+      env: WP_VERSION=nightly WP_MULTISITE=0
+    - name: "WP 5.5 + PHP 7.3"
+      php: 7.3
+      env: WP_VERSION=5.5 WP_MULTISITE=0
+    - name: "WP 5.4 + 7.3"
+      php: 7.3
+      env: WP_VERSION=5.4 WP_MULTISITE=0
+    - name: "WP 5.3 + PHP 7.3"
+      php: 7.3
+      env: WP_VERSION=5.3 WP_MULTISITE=0
+    - name: "Latest WP + PHP 7.4"
+      php: 7.4
+      env: WP_VERSION=latest WP_MULTISITE=0
 
-		# Nightly versions of PHP and WordPress.
-		- name: "Bleeding edge"
-			php: nightly
-			env: WP_VERSION=trunk WP_MULTISITE=0
+    # Nightly versions of PHP and WordPress.
+    - name: "Bleeding edge"
+      php: nightly
+      env: WP_VERSION=trunk WP_MULTISITE=0
 
-		# Jobs that are permitted to fail without breaking the build.
-		allow_failures:
-			- name: Bleeding edge
+  # Jobs that are permitted to fail without breaking the build.
+  allow_failures:
+    - name: Bleeding edge
 
 before_install:
-	- export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-	# Unless we need XDebug, disable it for improved performance.
-	- phpenv config-rm xdebug.ini || return 0
+  # Unless we need XDebug, disable it for improved performance.
+  - phpenv config-rm xdebug.ini || return 0
 
 install:
-	# Install our Composer dependencies.
-	- composer install --prefer-dist --no-interaction
+  # Install our Composer dependencies.
+  - composer install --prefer-dist --no-interaction
 
-	# Install the WordPress core test suite.
-	- bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+  # Install the WordPress core test suite.
+  - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 
 script:
-	- |
-		# Execute the test suite.
-		./vendor/bin/phpunit
+  - |
+    # Execute the test suite.
+    ./vendor/bin/phpunit
 
 # Specifies that Travis should create builds for master and release branches and also tags.
 branches:
-	only:
-		- master
-		- /^\d+\.\d+(\.\d+)?(-\S*)?$/
-		- /^release\//
+  only:
+    - master
+    - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^release\//
 
 # Git clone depth
 # By default Travis CI clones repositories to a depth of 50 commits. Using a depth of 1 makes this step a bit faster.
