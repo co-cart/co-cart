@@ -1,0 +1,20 @@
+engines:
+  phpcodesniffer:
+    enabled: true
+    config:
+      standard: "WordPress"
+  eslint:
+    enabled: false
+  scss-lint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+ratings:
+  paths:
+   - "includes/*"
+exclude_paths:
+- "languages/"
+- "includes/api/legacy/"
