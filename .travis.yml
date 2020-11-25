@@ -1,5 +1,9 @@
 version: ~> 1.0
 
+os: linux
+
+dist: xenial
+
 language: php
 
 services:
