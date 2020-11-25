@@ -17,33 +17,37 @@ php:
 
 # Test against the latest version of WordPress and one version back.
 env:
-  - WP_VERSION=latest WP_MULTISITE=0
-  - WP_VERSION=5.4 WP_MULTISITE=0
+  - WP_VERSION=latest WP_MULTISITE=0 WC_VERSION=latest
+  - WP_VERSION=5.4 WP_MULTISITE=0 WC_VERSION=4.3
 
 # Customize the build matrix.
 matrix:
   fast_finish: true
   include:
-    - name: "WP Nightly + PHP 7.4"
+    - name: "WP Nightly + WC Latest + PHP 7.4"
       php: 7.4
-      env: WP_VERSION=nightly WP_MULTISITE=0
-    - name: "WP 5.5 + PHP 7.3"
+      env: WP_VERSION=nightly WP_MULTISITE=0 WC_VERSION=latest
+
+    - name: "WP 5.5 + WC 4.3 + PHP 7.3"
       php: 7.3
-      env: WP_VERSION=5.5 WP_MULTISITE=0
-    - name: "WP 5.4 + 7.3"
+      env: WP_VERSION=5.5 WP_MULTISITE=0 WC_VERSION=4.3
+
+    - name: "WP 5.4 + WC 4.3 + PHP 7.3"
       php: 7.3
-      env: WP_VERSION=5.4 WP_MULTISITE=0
-    - name: "WP 5.3 + PHP 7.3"
+      env: WP_VERSION=5.4 WP_MULTISITE=0 WC_VERSION=4.3
+
+    - name: "WP 5.3 + WC 4.3 + PHP 7.3"
       php: 7.3
-      env: WP_VERSION=5.3 WP_MULTISITE=0
-    - name: "Latest WP + PHP 7.4"
+      env: WP_VERSION=5.3 WP_MULTISITE=0 WC_VERSION=4.3
+
+    - name: "Latest WP + Latest WC + PHP 7.4"
       php: 7.4
-      env: WP_VERSION=latest WP_MULTISITE=0
+      env: WP_VERSION=latest WP_MULTISITE=0 WC_VERSION=latest
 
     # Nightly versions of PHP and WordPress.
     - name: "Bleeding edge"
       php: nightly
-      env: WP_VERSION=trunk WP_MULTISITE=0
+      env: WP_VERSION=trunk WP_MULTISITE=0 WC_VERSION=latest
 
   # Jobs that are permitted to fail without breaking the build.
   allow_failures:
