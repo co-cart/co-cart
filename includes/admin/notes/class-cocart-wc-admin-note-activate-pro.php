@@ -81,7 +81,7 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 
 				$note_id = array_pop( $note_ids );
 
-				// Are we are on WooCommerce 4.8 or greater.
+				// Are we on WooCommerce 4.8 or greater.
 				if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
 					$note = Automattic\WooCommerce\Admin\Notes\Notes::get_note( $note_id );
 
