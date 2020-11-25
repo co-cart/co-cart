@@ -105,6 +105,8 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 
 [Buy CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)
 
+>  Last big sale in a while. CoCart Pro and it's add-ons are 30% OFF. It's also 30% OFF recurring payments too on any tier. Use "**BIGSALE2020**" at checkout. Hurry. Sale ends **5th December 2020**.
+
 ## Add-ons
 
 We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)** that extend CoCart to enhance your development and your customers shopping experience.
