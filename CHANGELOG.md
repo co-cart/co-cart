@@ -1,5 +1,17 @@
 # Changelog for CoCart Lite
 
+## v2.8.0 - ?? ??, 2020
+
+* Enhanced: Load chosen shipping method when loading cart from session for the web.
+* Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
+
+### Minimum requirement changes
+
+* WordPress now needs to be v5.3 minimum.
+* WooCommerce now needs to be v4.3 minimum.
+
+> Support for CoCart Lite will not be provided for sites running any lower than these minimum requirements.
+
 ## v2.7.4 - 18th November, 2020
 
 * Enhanced: 🤯 **Access-Control-Expose-Headers** to allow `X-COCART-API` to be exposed allowing frameworks like **React** to fetch them.
