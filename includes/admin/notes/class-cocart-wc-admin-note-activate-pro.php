@@ -8,6 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.4.0
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -79,7 +80,12 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 			if ( ! empty( $note_ids ) ) {
 
 				$note_id = array_pop( $note_ids );
-				$note    = Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::get_note( $note_id );
+
+				if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
+					$note = Automattic\WooCommerce\Admin\Notes\Notes::get_note( $note_id );
+				} else {
+					$note = Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::get_note( $note_id );
+				}
 
 				if ( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED !== $note->get_status() ) {
 					$note->set_status( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED );

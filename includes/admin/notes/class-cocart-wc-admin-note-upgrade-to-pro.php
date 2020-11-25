@@ -8,6 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -51,7 +52,12 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 
 		// Prevent note being created if CoCart Pro is installed.
 		if ( CoCart_Helpers::is_cocart_pro_installed() ) {
-			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( $note_name );
+			if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
+				Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( $note_name );
+			} else {
+				Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( $note_name );
+			}
+
 			return;
 		}
 

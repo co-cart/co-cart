@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.7.2
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -126,6 +126,17 @@ class CoCart_Helpers {
 	public static function is_wc_version_lt_4_5() {
 		return self::is_wc_version_lt( '4.5' );
 	} // END is_wc_version_lt_4_5()
+
+	/**
+	 * Returns true if the installed version of WooCommerce is 4.8 or greater.
+	 *
+	 * @access public
+	 * @since  2.8.0
+	 * @return boolean
+	 */
+	public static function is_wc_version_gte_4_8() {
+		return self::is_wc_version_gte( '4.8' );
+	} // END is_wc_version_gte_4_5()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
