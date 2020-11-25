@@ -12,6 +12,7 @@ services:
 cache:
   directories:
   - $HOME/.composer/cache
+  - node_modules
 
 # Test main supported versions of PHP against latest WP.
 php:
