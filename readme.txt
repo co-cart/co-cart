@@ -2,12 +2,12 @@
 Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
-Requires at least: 5.2
+Requires at least: 5.3
 Requires PHP: 7.0
 Tested up to: 5.5
 Stable tag: 2.7.4
-WC requires at least: 4.0
-WC tested up to: 4.7
+WC requires at least: 4.3
+WC tested up to: 4.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -142,7 +142,9 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-Visit the [WooCommerce server requirements documentation](https://docs.woocommerce.com/document/server-requirements/) for a detailed list of server requirements.
+* WordPress v5.3
+* WooCommerce v4.3
+* PHP v7.0
 
 = Automatic installation =
 
@@ -229,63 +231,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-= v2.7.4 - 18th November, 2020 =
+= v2.8.0 - ?? ??, 2020 =
 
-* Enhanced: 🤯 **Access-Control-Expose-Headers** to allow `X-COCART-API` to be exposed allowing frameworks like **React** to fetch them.
-* Tested: ✔️ Compatible with WooCommerce v4.7
-
-> This is a community release by [@saulable](https://github.com/saulable)
-
-= v2.7.3 - 8th November, 2020 =
-
-**🔥 This is a HOTFIX!**
-
-* Fixed: Warning of missing domain key from `setcookie()` options. Thanks to [@pauld8](https://github.com/pauld8)
-* Fixed: Carts already in session still updates even if the cart is now empty.
-
-= v2.7.2 - 8th November, 2020 =
-
-* Changed: Default expiration length for a cart to expire. Previously _30_ days, now only _7_ days.
-* Enhanced: Use first gallery image for thumbnail if featured image is not set.
-* Enhanced: Added back the use of _httponly_ when setting `cocart_setcookie` for the frontend. Defaults: true for frontend, false via REST API.
-* Enhanced: Prevents variations that are not purchasable from passing validation when added to the cart should the variation ID not be set.
-* Fixed: Logger was not passing the full log entry just the message.
-* Improved: Variation ID now returns in cart response based on variation attributes if not set.
-* Improved: Saving carts for guest customers in the database no longer creates additional empty carts. Only 1 cart per customer. 😄🎉
-* Improved: WooCommerce System Status to show how many carts are going to expire soon and out of how many in session. ✅
-* Dev: Deprecated filter `cocart_empty_cart_expiration`. Not needed any more.
-* Dev: Info log for user switch no longer records if a user ID is not set.
-* Dev: New filter `cocart_is_cart_data_valid` let's you validate the cart data before a cart is saved in session.
-* Dev: New filter `cocart_set_cookie_options` allows you to filter the cookie flags, which enables setting of _samesite_. 🏁 - Only for those who use **PHP 7.3** or above.
-* Dev: New filter `cocart_cookie_httponly` on the _httponly_ param on `cocart_setcookie()` with all the function parameters passed through.
-
-> Certain links that take you to "cocart.xyz" or "docs.cocart.xyz" now contain basic site info. This includes the following: PHP Version, WordPress Version, WooCommerce Version, CoCart Version, Days plugin active, debug mode, memory limit, user language, multisite and environment type.
-
-= v2.7.1 - 30th October, 2020 =
-
-**🔥 This is a HOTFIX!**
-
-* Fixed: Incorrect validation for `variation` and `cart_item_data` fields when adding a product to the cart.
-
-= v2.7.0 - 27th October, 2020 =
-
-* **NEW** - Added the cart key via the headers. Look for `X-CoCart-API`
-* Enhanced: Variable validation by removing parameters not used.
-* Enhanced: REST API parameters sanitized and validated.
-* Fixed: Undefined class constant `E_WC_ADMIN_NOTE_MARKETING` for those who are using WooCommerce lower than version `4.3.0`. Thanks to [@dmchale](https://github.com/dmchale)
-* Fixed: If stock not available when updating item, return error. Thanks to [@pauld8](https://github.com/pauld8)
-* Fixed: Product ID validation should the ID not be present. Also returns correct product ID should SKU ID be used instead.
-* Tested: Compatible with WooCommerce v4.6.0
-* Dev: New filter `cocart_is_rest_api_request` to allow developers run their own API check-up.
-* Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
-
-> New response has been applied to all API routes excluding the following: `logout`, `count-items`, `totals`.
-> Plugin name has been renamed from "CoCart" to "CoCart Lite".
+> @TODO Copy changelog here
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 2.7.0 =
+= 2.8.0 =
 
-WARNING: Make sure the `product_id` parameter is a string not integer for when adding a product to the cart. Please make sure a string value is passed. Not changing this before updating CoCart Lite to v2.7 will result in an error when adding a product to the cart.
+Minimum plugin requirements have been bumped up. Please see changelog for more. 💜
