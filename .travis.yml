@@ -78,8 +78,11 @@ script:
 branches:
   only:
     - master
+    - /^release\/*/
+    - /^hotfix\/\d+\.\d+(\.\d+)?(-\S*)?$/
+    - /^feature\/*/
+    # Also build tags like 1.1.1
     - /^\d+\.\d+(\.\d+)?(-\S*)?$/
-    - /^release\//
 
 # Git clone depth
 # By default Travis CI clones repositories to a depth of 50 commits. Using a depth of 1 makes this step a bit faster.
