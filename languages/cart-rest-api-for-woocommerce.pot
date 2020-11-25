@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart Lite 2.7.4\n"
+"Project-Id-Version: CoCart Lite 2.8.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-11-18 03:40:58+00:00\n"
+"POT-Creation-Date: 2020-11-25 18:33:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -218,18 +218,18 @@ msgstr ""
 msgid "Carts are now synchronized."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:106
+#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:112
 msgid "%s is not Activated!"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:107
+#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:113
 msgid ""
 "You have %1$s installed but it's not activated yet. Activate %1$s to unlock "
 "the full cart experience and support for WooCommerce extensions like "
 "subscriptions now."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:112
+#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:118
 msgid "Activate %s"
 msgstr ""
 
@@ -246,7 +246,7 @@ msgstr ""
 
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:92
 #: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:71
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:77
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:83
 msgid "Learn more"
 msgstr ""
 
@@ -290,11 +290,11 @@ msgstr ""
 msgid "View Documentation"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:71
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:77
 msgid "Ready to take your headless store to the next level?"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:72
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:78
 msgid ""
 "Upgrade to %s and unlock more cart features and supported WooCommerce "
 "extensions."
@@ -957,69 +957,69 @@ msgstr ""
 msgid "No items in cart to calculate totals."
 msgstr ""
 
-#: includes/class-cocart-helpers.php:427
+#: includes/class-cocart-helpers.php:438
 #. translators: Number of years
 msgid "%s years"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:429
+#: includes/class-cocart-helpers.php:440
 msgid "a year"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:435
+#: includes/class-cocart-helpers.php:446
 msgid "%s months"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:437
+#: includes/class-cocart-helpers.php:448
 msgid "1 month"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:444
+#: includes/class-cocart-helpers.php:455
 #. translators: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:446
+#: includes/class-cocart-helpers.php:457
 msgid "a week"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:453
+#: includes/class-cocart-helpers.php:464
 #. translators: Number of days
 msgid "%s days"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:455
+#: includes/class-cocart-helpers.php:466
 msgid "a day"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:462
+#: includes/class-cocart-helpers.php:473
 #. translators: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:464
+#: includes/class-cocart-helpers.php:475
 msgid "an hour"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:471
+#: includes/class-cocart-helpers.php:482
 #. translators: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:473
+#: includes/class-cocart-helpers.php:484
 msgid "a minute"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:480
+#: includes/class-cocart-helpers.php:491
 #. translators: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:482
+#: includes/class-cocart-helpers.php:493
 msgid "a second"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:552
+#: includes/class-cocart-helpers.php:563
 msgid ""
 "The minimum PHP version required for this plugin is %1$s. You are running "
 "%2$s."
