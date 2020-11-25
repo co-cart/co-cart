@@ -81,15 +81,21 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 
 				$note_id = array_pop( $note_ids );
 
+				// Are we are on WooCommerce 4.8 or greater.
 				if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
 					$note = Automattic\WooCommerce\Admin\Notes\Notes::get_note( $note_id );
+
+					if ( Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED !== $note->get_status() ) {
+						$note->set_status( Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED );
+						$note->save();
+					}
 				} else {
 					$note = Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::get_note( $note_id );
-				}
 
-				if ( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED !== $note->get_status() ) {
-					$note->set_status( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED );
-					$note->save();
+					if ( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED !== $note->get_status() ) {
+						$note->set_status( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED );
+						$note->save();
+					}
 				}
 			}
 
@@ -108,6 +114,8 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 	 * @return array
 	 */
 	public static function get_note_args() {
+		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED;
+
 		$args = array(
 			'title'   => sprintf( __( '%s is not Activated!', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
 			'content' => sprintf( __( 'You have %1$s installed but it\'s not activated yet. Activate %1$s to unlock the full cart experience and support for WooCommerce extensions like subscriptions now.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
@@ -117,7 +125,7 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 					'name'    => 'activate-cocart-pro',
 					'label'   => sprintf( __( 'Activate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
 					'url'     => add_query_arg( array( 'action' => 'activate-cocart-pro' ), admin_url( 'plugins.php' ) ),
-					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED,
+					'status'  => $status,
 					'primary' => true,
 				),
 			),
