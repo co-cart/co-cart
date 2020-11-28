@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin
  * @since    2.3.0
- * @version  2.6.3
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -35,7 +35,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.3.0
-		 * @version 2.6.3
+		 * @version 2.8.0
 		 */
 		public function include_notes() {
 			// Don't include notes if WC v4.0 or greater is not installed.
@@ -44,7 +44,12 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 			}
 
 			// Don't include notes if WC Admin does not exist.
-			if ( ! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) || ! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Note' ) ) {
+			if (
+				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) || 
+				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Note' ) || 
+				! class_exists( 'Automattic\WooCommerce\Admin\Notes\Notes' ) || 
+				! class_exists( 'Automattic\WooCommerce\Admin\Notes\Note' )
+			) {
 				return;
 			}
 
@@ -81,7 +86,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 * @static
 		 * @param   array  The arguments of the note to use to create the note.
 		 * @since   2.3.0
-		 * @version 2.6.3
+		 * @version 2.8.0
 		 * @return  object
 		 */
 		public static function create_new_note( $args = array() ) {
@@ -93,12 +98,15 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				return;
 			}
 
+			// Type of note.
+			$type = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_INFORMATIONAL : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL;
+
 			// Default arguments.
 			$default_args = array(
 				'name'    => '',
 				'title'   => '',
 				'content' => '',
-				'type'    => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL,
+				'type'    => $type,
 				'source'  => 'cocart',
 				'icon'    => 'plugins',
 				'layout'  => 'plain',
@@ -130,7 +138,12 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				return;
 			}
 
-			$note = new Automattic\WooCommerce\Admin\Notes\WC_Admin_Note();
+			// Are we are on WooCommerce 4.8 or greater.
+			if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
+				$note = new Automattic\WooCommerce\Admin\Notes\Note();
+			} else {
+				$note = new Automattic\WooCommerce\Admin\Notes\WC_Admin_Note();
+			}
 
 			$note->set_name( $args['name'] );
 			$note->set_title( $args['title'] );

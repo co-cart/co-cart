@@ -8,6 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -61,16 +62,18 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 	 * @return array
 	 */
 	public static function get_note_args() {
+		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+
 		$args = array(
 			'title'   => __( 'Help improve CoCart', 'cart-rest-api-for-woocommerce' ),
-			'content' => __( 'I\'d love your input to shape the future of the CoCart REST API together.  Feel free to share any feedback, ideas or suggestions that you have.', 'cart-rest-api-for-woocommerce' ),
+			'content' => __( 'I\'d love your input to shape the future of the CoCart REST API together. Feel free to share any feedback, ideas or suggestions that you have.', 'cart-rest-api-for-woocommerce' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
 					'name'   => 'cocart-share-feedback',
 					'label'  => __( 'Share feedback', 'cart-rest-api-for-woocommerce' ),
 					'url'    => 'https://github.com/co-cart/co-cart/issues/new?assignees=&labels=priority%3Alow%2C+enhancement&template=enhancement.md&title=ISBAT+...',
-					'status' => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
+					'status' => $status,
 				),
 			),
 		);

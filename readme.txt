@@ -2,12 +2,12 @@
 Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
-Requires at least: 5.2
+Requires at least: 5.3
 Requires PHP: 7.0
-Tested up to: 5.5.3
-Stable tag: 2.7.3
-WC requires at least: 4.0.0
-WC tested up to: 4.6.2
+Tested up to: 5.5
+Stable tag: 2.7.4
+WC requires at least: 4.3
+WC tested up to: 4.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -142,7 +142,9 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-Visit the [WooCommerce server requirements documentation](https://docs.woocommerce.com/document/server-requirements/) for a detailed list of server requirements.
+* WordPress v5.3
+* WooCommerce v4.3
+* PHP v7.0
 
 = Automatic installation =
 

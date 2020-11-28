@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  2.7.0
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -79,10 +79,13 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 * @return array
 	 */
 	public static function get_note_args() {
+		$type   = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING;
+		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+
 		$args = array(
 			'title'   => sprintf( __( '6 things you can do with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
 			'content' => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
-			'type'    => ( version_compare( WC_VERSION, '4.3.0', '>=' ) ) ? Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL,
+			'type'    => $type,
 			'layout'  => 'thumbnail',
 			'image'   => 'https://cocart.xyz/wp-content/uploads/2020/03/rwmibqmoxry-128x214.jpg',
 			'name'    => self::NOTE_NAME,
@@ -91,7 +94,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 					'name'    => 'cocart-learn-more-products',
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://cocart.xyz/6-things-you-can-do-with-cocart-products/?utm_source=inbox',
-					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
+					'status'  => $status,
 					'primary' => true,
 				),
 			),

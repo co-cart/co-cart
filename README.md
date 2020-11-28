@@ -4,10 +4,10 @@
 
 <p align="center">
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.2+-+5.5&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.3+-+5.5&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.0+-+4.6&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+4.7&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+7.4&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -16,7 +16,7 @@
 		<img src="https://poser.pugx.org/co-cart/co-cart/v/stable" alt="Latest Stable Version">
 	</a>
 	<a href="https://scrutinizer-ci.com/g/co-cart/co-cart/" target="_blank">
-		<img src="https://scrutinizer-ci.com/g/co-cart/co-cart/badges/quality-score.png?b=master" alt="Quality Score" />
+		<img src="https://scrutinizer-ci.com/g/co-cart/co-cart/badges/quality-score.png?b=master" alt="Quality Score on Master branch" />
 	</a>
 </p>
 
@@ -106,6 +106,8 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 * **Coming Soon** Get and Update Customers Profile (In Development)
 
 [Buy CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)
+
+>  Last big sale in a while. CoCart Pro and it's add-ons are 30% OFF. It's also 30% OFF recurring payments too on any tier. Use "**BIGSALE2020**" at checkout. Hurry. Sale ends **5th December 2020**.
 
 ## Add-ons
 

@@ -8,10 +8,10 @@
  * Version:     3.0.0-beta.1
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
- * Requires at least: 5.2
+ * Requires at least: 5.3
  * Requires PHP: 7.0
- * WC requires at least: 4.0.0
- * WC tested up to: 4.6.2
+ * WC requires at least: 4.3
+ * WC tested up to: 4.8
  *
  * @package CoCart
  */

@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\WooCommerce
  * @since    2.1.2
- * @version  2.6.0
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -96,7 +96,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
-		 * @version 2.6.0
+		 * @version 2.8.0
 		 */
 		public static function load_cart_from_session() {
 			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
@@ -133,6 +133,10 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 					WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart['coupon_discount_totals'] ) );
 					WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart['coupon_discount_tax_totals'] ) );
 					WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart['removed_cart_contents'] ) );
+
+					if ( ! empty( $cart['chosen_shipping_methods'] ) ) {
+						WC()->session->set( 'chosen_shipping_methods', maybe_unserialize( $cart['chosen_shipping_methods'] ) );
+					}
 
 					if ( ! empty( $cart['cart_fees'] ) ) {
 						WC()->session->set( 'cart_fees', maybe_unserialize( $cart['cart_fees'] ) );

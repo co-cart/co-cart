@@ -8,6 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
+ * @version  2.8.0
  * @license  GPL-2.0+
  */
 
@@ -51,7 +52,12 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 
 		// Prevent note being created if CoCart Pro is installed.
 		if ( CoCart_Helpers::is_cocart_pro_installed() ) {
-			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( $note_name );
+			if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
+				Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( $note_name );
+			} else {
+				Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( $note_name );
+			}
+
 			return;
 		}
 
@@ -67,6 +73,8 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 * @return array
 	 */
 	public static function get_note_args() {
+		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+
 		$args = array(
 			'title'   => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),
 			'content' => sprintf( __( 'Upgrade to %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
@@ -76,7 +84,7 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 					'name'    => 'cocart-pro-learn-more',
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
 					'url'     => 'https://cocart.xyz/pro/?utm_source=inbox',
-					'status'  => Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED,
+					'status'  => $status,
 					'primary' => true,
 				),
 			),

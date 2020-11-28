@@ -27,6 +27,25 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.8.0 - ?? ??, 2020
+
+* Enhanced: Load chosen shipping method when loading cart from session for the web.
+* Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
+
+### Minimum requirement changes
+
+* WordPress now needs to be v5.3 minimum.
+* WooCommerce now needs to be v4.3 minimum.
+
+> Support for CoCart Lite will not be provided for sites running any lower than these minimum requirements.
+
+## v2.7.4 - 18th November, 2020
+
+* Enhanced: 🤯 **Access-Control-Expose-Headers** to allow `X-COCART-API` to be exposed allowing frameworks like **React** to fetch them.
+* Tested: ✔️ Compatible with WooCommerce v4.7
+
+> This is a community release by [@saulable](https://github.com/saulable)
+
 ## v2.7.3 - 8th November, 2020
 
 **🔥 This is a HOTFIX!**
@@ -66,7 +85,7 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * Fixed: Undefined class constant `E_WC_ADMIN_NOTE_MARKETING` for those who are using WooCommerce lower than version `4.3.0`. Thanks to [@dmchale](https://github.com/dmchale)
 * Fixed: If stock not available when updating item, return error. Thanks to [@pauld8](https://github.com/pauld8)
 * Fixed: Product ID validation should the ID not be present. Also returns correct product ID should SKU ID be used instead.
-* Tested: Compatible with WooCommerce v4.6.0
+* Tested: Compatible with WooCommerce v4.6
 * Dev: New filter `cocart_is_rest_api_request` to allow developers run their own API check-up.
 * Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
 
@@ -102,13 +121,13 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * Tweaked: Admin notices to not redirect only to the plugins page once notice is dismissed. Will redirect to the current admin page.
 * Dev: Introduced the ability to white label the plugin. Meaning hide **CoCart** from the backend. (Admin menu, plugin links, plugin notices including WC admin inbox notices and WC system status information). All you have to do is set a constant `COCART_WHITE_LABEL` to true in user's `wp-config.php` file.
 * Dev: New filter `cocart_authenticate` to override the determined user ID when authenticating. **NOTE** This will only be active if not already authenticated.
-* Tested: Compatible with WooCommerce v4.5.0
+* Tested: Compatible with WooCommerce v4.5
 
 ## v2.5.1 - 18th August, 2020
 
 * Fixed: **'Access-Control-Allow-Origin'** header response when it request's credentials with a wildcard `(*)` value.
 * Dev: Added filter `cocart_allow_origin` to set the origin header for added layer of security when you go into production.
-* Tested: Compatible with WooCommerce v4.4.0
+* Tested: Compatible with WooCommerce v4.4
 
 > This is a community release by [@mattdabell](https://github.com/mattdabell)
 
@@ -227,7 +246,7 @@ This release brings an improved code base for the backend and connects with WooC
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
 * Dev: Added filter to override cookie check for authenticated users.
-* Tested: Compatible with WooCommerce v4.2.x
+* Tested: Compatible with WooCommerce v4.2
 
 > This update replaces WooCommerce core session handler with CoCart's. 100% backwards compatible.
 
@@ -270,7 +289,7 @@ This release brings an improved code base for the backend and connects with WooC
 * Dev: Added a new class that handles logging errors.
 * Dev: Added filters to admin notices to extend the length of time they hide.
 * Dev: Added filter to override cookie check for authenticated users.
-* Tested: Compatible with WooCommerce v4.1.x
+* Tested: Compatible with WooCommerce v4.1
 
 ## v2.0.13 - 13th April, 2020
 
