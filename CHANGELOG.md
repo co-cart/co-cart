@@ -1,9 +1,10 @@
 # Changelog for CoCart Lite
 
-## v2.8.0 - ?? ??, 2020
+## v2.8.0 - 9th December, 2020
 
-* Enhanced: Load chosen shipping method when loading cart from session for the web.
+* Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.
 * Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
+* Tested: ✔️ Compatible with WordPress v5.6
 
 ### Minimum requirement changes
 

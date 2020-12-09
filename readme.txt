@@ -231,9 +231,11 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-= v2.8.0 - ?? ??, 2020 =
+= v2.8.0 - 9th December, 2020 =
 
-> @TODO Copy changelog here
+* Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.
+* Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
+* Tested: ✔️ Compatible with WordPress v5.6
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
