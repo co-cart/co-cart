@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v2.8.1 - 10th December, 2020
+
+* Added: Support for Pantheon.io so it no longer caches for guest customers.
+
+> This release introduces support for third party starting with web host.
+
 ## v2.8.0 - 9th December, 2020
 
 * Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.

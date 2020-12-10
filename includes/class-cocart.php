@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.8.0';
+	public static $version = '2.8.1';
 
 	/**
 	 * Required WordPress Version
@@ -65,6 +65,7 @@ final class CoCart {
 	public static function init() {
 		self::setup_constants();
 		self::includes();
+		self::include_third_party();
 
 		// Environment checking when activating.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'activation_check' ) );
@@ -136,6 +137,17 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
 		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
 	} // END includes()
+
+	/**
+	 * Include third party support.
+	 *
+	 * @access public
+	 * @static
+	 * @since  2.8.1
+	 */
+	public static function include_third_party() {
+		include_once COCART_ABSPATH . 'includes/third-party/class-third-party.php';
+	} // END include_third_party()
 
 	/**
 	 * Checks the server environment and other factors and deactivates the plugin if necessary.
