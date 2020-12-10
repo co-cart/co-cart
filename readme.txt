@@ -233,7 +233,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 = v2.8.1 - 10th December, 2020 =
 
-* Added: Support for Pantheon.io so it no longer caches for guest customers.
+* Added: Support for Pantheon.io so it no longer caches for guest customers on the frontend and prevent the cart from appearing empty.
 
 > This release introduces support for third party starting with web host.
 
