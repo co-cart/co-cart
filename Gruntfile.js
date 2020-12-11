@@ -305,12 +305,13 @@ module.exports = function(grunt) {
 							src: [
 								'**',
 								'!.*',
-								'!**/*.{gif,jpg,jpeg,js,json,log,md,png,scss,sh,txt,xml,zip}',
+								'!**/*.{gif,jpg,jpeg,js,json,log,lock,md,png,scss,sh,txt,xml,zip}',
 								'!.*/**',
 								'!.DS_Store',
 								'!.htaccess',
 								'!assets/scss/**',
 								'!assets/**/*.scss',
+								'!bin/**',
 								'!includes/api/experiments/**',
 								'!includes/api/pro-enhancements/**',
 								'!includes/api/wip/**',
@@ -318,6 +319,8 @@ module.exports = function(grunt) {
 								'!<%= pkg.name %>-svn/**',
 								'!node_modules/**',
 								'!releases/**',
+								'!tests/**',
+								'!vendor/**',
 								'!unit-tests/**',
 								'readme.txt'
 							],
