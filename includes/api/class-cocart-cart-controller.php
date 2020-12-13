@@ -530,7 +530,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$savings = wc_price( $amount );
 		}
 		else {
-			$savings = wc_format_decimal( $amount, wc_get_price_decimals() );
+			$savings = $this->prepare_money_response( $amount, wc_get_price_decimals() );
 		}
 
 		$discount_amount_html = '-' . html_entity_decode( strip_tags( $savings ) );
