@@ -148,11 +148,9 @@ class CoCart_Session_Handler extends WC_Session {
 		}
 
 		// Check if we requested to load a specific cart.
-		if ( isset( $_REQUEST['cart_key'] ) || isset( $_REQUEST['id'] ) ) {
-			$cart_id = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $_REQUEST['id'];
-
-			// Set customer ID in session.
-			$this->_customer_id = $cart_id;
+		if ( isset( $_REQUEST['cart_key'] ) ) {
+			// Set requested cart key as customer ID in session.
+			$this->_customer_id = $_REQUEST['cart_key'];
 		}
 
 		// Override cookie check to force load the authenticated users cart if switched without logging out first.
