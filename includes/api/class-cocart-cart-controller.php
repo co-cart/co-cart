@@ -265,12 +265,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 					'title'      => apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key ),
 					'price'      => wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ),
 					'quantity'   => $cart_item['quantity'],
-					'tax_data'   => $cart_contents[ $item_key ]['line_tax_data'],
+					'tax_data'   => $cart_item['line_tax_data'],
 					'totals'     => array(
-						'subtotal' => $cart_contents[ $item_key ]['line_subtotal'],
-						'subtotal_tax' => $cart_contents[ $item_key ]['line_subtotal_tax'],
-						'total' => $cart_contents[ $item_key ]['line_total'],
-						'tax' => $cart_contents[ $item_key ]['line_tax']
+						'subtotal' => $cart_item['line_subtotal'],
+						'subtotal_tax' => $cart_item['line_subtotal_tax'],
+						'total' => $cart_item['line_total'],
+						'tax' => $cart_item['line_tax']
 					),
 					'slug'       => $this->get_product_slug( $_product ),
 					'meta' => array(
@@ -285,22 +285,22 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				);
 
 				// Remove all elements of the item except any additional item data.
-				unset( $cart_contents[ $item_key ]['key'] );
-				unset( $cart_contents[ $item_key ]['product_id'] );
-				unset( $cart_contents[ $item_key ]['variation_id'] );
-				unset( $cart_contents[ $item_key ]['variation'] );
-				unset( $cart_contents[ $item_key ]['quantity'] );
-				unset( $cart_contents[ $item_key ]['data'] );
-				unset( $cart_contents[ $item_key ]['data_hash'] );
-				unset( $cart_contents[ $item_key ]['line_tax_data'] );
-				unset( $cart_contents[ $item_key ]['line_subtotal'] );
-				unset( $cart_contents[ $item_key ]['line_subtotal_tax'] );
-				unset( $cart_contents[ $item_key ]['line_total'] );
-				unset( $cart_contents[ $item_key ]['line_tax'] );
+				unset( $cart_item['key'] );
+				unset( $cart_item['product_id'] );
+				unset( $cart_item['variation_id'] );
+				unset( $cart_item['variation'] );
+				unset( $cart_item['quantity'] );
+				unset( $cart_item['data'] );
+				unset( $cart_item['data_hash'] );
+				unset( $cart_item['line_tax_data'] );
+				unset( $cart_item['line_subtotal'] );
+				unset( $cart_item['line_subtotal_tax'] );
+				unset( $cart_item['line_total'] );
+				unset( $cart_item['line_tax'] );
 
 				// Collect all cart item data if any thing left.
-				if ( ! empty( $cart_contents[ $item_key ] ) ) {
-					$cart['items'][ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_contents[ $item_key ], $item_key, $cart_item );
+				if ( ! empty( $cart_item ) ) {
+					$cart['items'][ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
 				}
 
 				// Item dimensions.
