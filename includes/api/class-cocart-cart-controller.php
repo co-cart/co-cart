@@ -315,6 +315,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				}
 
 				// Variation data.
+				if ( ! isset( $cart_item['variation'] ) ) { $cart_item['variation'] = array(); }
 				$cart['items'][ $item_key ]['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
 
 				// If thumbnail is requested then add it to each item in cart.
