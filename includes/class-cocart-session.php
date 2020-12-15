@@ -6,7 +6,7 @@
  * @category API
  * @package  CoCart\Session
  * @since    2.1.0
- * @version  2.7.0
+ * @version  2.8.2
  * @license  GPL-2.0+
  */
 
@@ -103,7 +103,7 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.2.1
+	 * @version 2.8.2
 	 */
 	public static function load_cart_action() {
 		// If we did not request to load a cart then just return.
@@ -158,6 +158,14 @@ class CoCart_API_Session {
 		$new_cart['coupon_discount_tax_totals'] = maybe_unserialize( $stored_cart['coupon_discount_tax_totals'] );
 		$new_cart['removed_cart_contents']      = maybe_unserialize( $stored_cart['removed_cart_contents'] );
 
+		if ( ! empty( $stored_cart['chosen_shipping_methods'] ) ) {
+			$new_cart['chosen_shipping_methods'] = maybe_unserialize( $stored_cart['chosen_shipping_methods'] );
+		}
+
+		if ( ! empty( $stored_cart['cart_fees'] ) ) {
+			$new_cart['cart_fees'] = maybe_unserialize( $stored_cart['cart_fees'] );
+		}
+
 		// Check if we are overriding the cart currently in session via the web.
 		if ( $override_cart ) {
 			// Only clear the cart if it's not already empty.
@@ -183,6 +191,14 @@ class CoCart_API_Session {
 		WC()->session->set( 'coupon_discount_totals', $new_cart['coupon_discount_totals'] );
 		WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
 		WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
+
+		if ( ! empty( $new_cart['chosen_shipping_methods'] ) ) {
+			WC()->session->set( 'chosen_shipping_methods', $new_cart['chosen_shipping_methods'] );
+		}
+
+		if ( ! empty( $new_cart['cart_fees'] ) ) {
+			WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
+		}
 
 		// If true, notify the customer that there cart has transferred over via the web.
 		if ( ! empty( $new_cart ) && $notify_customer ) {

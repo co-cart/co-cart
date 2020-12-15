@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart Lite 2.8.0\n"
+"Project-Id-Version: CoCart Lite 2.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-11-25 19:49:26+00:00\n"
+"POT-Creation-Date: 2020-12-15 22:40:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1058,17 +1058,17 @@ msgstr ""
 msgid "Sorry but this cart has expired!"
 msgstr ""
 
-#: includes/class-cocart-session.php:189
+#: includes/class-cocart-session.php:199
 msgid ""
 "Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s "
 "or %2$scheckout%3$s."
 msgstr ""
 
-#: includes/class-cocart.php:151
+#: includes/class-cocart.php:163
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:156
+#: includes/class-cocart.php:168
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 

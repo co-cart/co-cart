@@ -231,6 +231,11 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
+= v2.8.2 - 16th December, 2020 =
+
+* Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.
+* Enhanced: 📦 Load cart fees when loading cart from session for the web.
+
 = v2.8.1 - 10th December, 2020 =
 
 * Added: Support for Pantheon.io so it no longer caches for guest customers on the frontend and prevent the cart from appearing empty.
@@ -239,7 +244,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 = v2.8.0 - 9th December, 2020 =
 
-* Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.
+* Enhanced: 📦 Load chosen shipping method when loading cart from session.
 * Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
 * Tested: ✔️ Compatible with WordPress v5.6
 
