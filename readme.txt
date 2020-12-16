@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.3
 Requires PHP: 7.0
 Tested up to: 5.5
-Stable tag: 2.8.1
+Stable tag: 2.8.2
 WC requires at least: 4.3
 WC tested up to: 4.8
 License: GPLv3
@@ -233,8 +233,10 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 = v2.8.2 - 16th December, 2020 =
 
-* Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.
-* Enhanced: 📦 Load cart fees when loading cart from session for the web.
+* Enhanced: 📦 Load chosen shipping method when loading cart from session via the web.
+* Enhanced: 📦 Load cart fees when loading cart from session via the web.
+* Dev: **NEW** filter `cocart_load_cart_query_name` to allow developers add more white labelling when loading the cart via the web.
+* Improved: `uninstall.php` to delete WooCommerce Admin notes when uninstalling for those who are using WooCommerce v4.8 or greater.
 
 = v2.8.1 - 10th December, 2020 =
 
