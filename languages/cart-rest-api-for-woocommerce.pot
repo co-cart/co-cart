@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 2.8.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-12-15 22:40:20+00:00\n"
+"POT-Creation-Date: 2020-12-16 19:30:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1050,15 +1050,15 @@ msgstr ""
 msgid "This filter \"%s\" is no longer required and has been deprecated."
 msgstr ""
 
-#: includes/class-cocart-session.php:141
+#: includes/class-cocart-session.php:149
 msgid "Unable to find cart for: %s"
 msgstr ""
 
-#: includes/class-cocart-session.php:144
+#: includes/class-cocart-session.php:152
 msgid "Sorry but this cart has expired!"
 msgstr ""
 
-#: includes/class-cocart-session.php:199
+#: includes/class-cocart-session.php:213
 msgid ""
 "Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s "
 "or %2$scheckout%3$s."
