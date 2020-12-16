@@ -106,12 +106,20 @@ class CoCart_API_Session {
 	 * @version 2.8.2
 	 */
 	public static function load_cart_action() {
+		/**
+		 * Filter to allow developers add more white labelling when loading the cart via web.
+		 *
+		 * @since 2.8.2
+		 * @param string
+		 */
+		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
+
 		// If we did not request to load a cart then just return.
-		if ( ! isset( $_REQUEST['cocart-load-cart'] ) ) {
+		if ( ! isset( $_REQUEST[$load_cart] ) ) {
 			return;
 		}
 
-		$cart_key        = trim( wp_unslash( $_REQUEST['cocart-load-cart'] ) );
+		$cart_key        = trim( wp_unslash( $_REQUEST[$load_cart] ) );
 		$override_cart   = true;  // Override the cart by default.
 		$notify_customer = false; // Don't notify the customer by default.
 		$redirect        = false; // Don't safely redirect the customer to the cart after loading by default.

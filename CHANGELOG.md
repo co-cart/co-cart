@@ -2,8 +2,9 @@
 
 ## v2.8.2 - 16th December, 2020
 
-* Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.
-* Enhanced: 📦 Load cart fees when loading cart from session for the web.
+* Enhanced: 📦 Load chosen shipping method when loading cart from session via the web.
+* Enhanced: 📦 Load cart fees when loading cart from session via the web.
+* Dev: **NEW** filter `cocart_load_cart_query_name` to allow developers add more white labelling when loading the cart via the web.
 
 ## v2.8.1 - 10th December, 2020
 
