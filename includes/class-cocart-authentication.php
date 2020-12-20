@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Authentication
  * @since    2.6.0
- * @version  2.8.2
+ * @version  2.8.3
  * @license  GPL-2.0+
  */
 
@@ -132,7 +132,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.2.0
-		 * @version 2.8.2
+		 * @version 2.8.3
 		 * @param   bool             $served  Whether the request has already been served. Default false.
 		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param   WP_REST_Request  $request Request used to generate the response.
