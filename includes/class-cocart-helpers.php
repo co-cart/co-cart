@@ -500,10 +500,12 @@ class CoCart_Helpers {
 	/**
 	 * Check how long CoCart has been active for.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   2.3.0
+	 * @version 2.8.3
 	 * @static
-	 * @param  int $seconds - Time in seconds to check.
-	 * @return bool Whether or not WooCommerce admin has been active for $seconds.
+	 * @param   int  $seconds - Time in seconds to check.
+	 * @return  bool Whether or not WooCommerce admin has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {
 		if ( empty( $seconds ) ) {
@@ -511,7 +513,7 @@ class CoCart_Helpers {
 		}
 
 		// Getting install timestamp.
-		$cocart_installed = get_option( 'cocart_install_date', false );
+		$cocart_installed = get_site_option( 'cocart_install_date', false );
 
 		if ( false === $cocart_installed ) {
 			return false;
