@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Uninstaller
  * @since   2.1.0
- * @version 2.6.0
+ * @version 2.8.2
  * @license GPL-2.0+
  */
 
@@ -33,14 +33,29 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 	// Delete usermeta.
 	$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE 'cocart\_%';" );
 
+	require_once dirname( __FILE__ ) . '/includes/class-cocart-helpers.php';
+
 	// Delete WooCommerce Admin Notes
-	if ( class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ) {
-		Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-activate-pro' );
-		Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-do-with-products' );
-		Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-help-improve' );
-		Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-need-help' );
-		Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-thanks-install' );
-		Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-upgrade-pro' );
+	if (
+		class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ||
+		class_exists( 'Automattic\WooCommerce\Admin\Notes\Notes' )
+	) {
+
+		if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
+			Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-activate-pro' );
+			Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-do-with-products' );
+			Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-help-improve' );
+			Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-need-help' );
+			Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-thanks-install' );
+			Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-upgrade-pro' );
+		} else {
+			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-activate-pro' );
+			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-do-with-products' );
+			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-help-improve' );
+			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-need-help' );
+			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-thanks-install' );
+			Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::delete_notes_with_name( 'cocart-wc-admin-upgrade-pro' );
+		}
 	}
 
 	// Clear any cached data that has been removed.

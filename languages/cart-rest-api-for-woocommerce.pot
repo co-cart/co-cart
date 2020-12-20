@@ -1146,25 +1146,25 @@ msgstr ""
 msgid "This filter \"%s\" is no longer required and has been deprecated."
 msgstr ""
 
-#: includes/class-cocart-session.php:141
+#: includes/class-cocart-session.php:149
 msgid "Unable to find cart for: %s"
 msgstr ""
 
-#: includes/class-cocart-session.php:144
+#: includes/class-cocart-session.php:152
 msgid "Sorry but this cart has expired!"
 msgstr ""
 
-#: includes/class-cocart-session.php:189
+#: includes/class-cocart-session.php:213
 msgid ""
 "Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s "
 "or %2$scheckout%3$s."
 msgstr ""
 
-#: includes/class-cocart.php:151
+#: includes/class-cocart.php:163
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:156
+#: includes/class-cocart.php:168
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 

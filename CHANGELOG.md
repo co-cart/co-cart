@@ -27,6 +27,13 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
 
+## v2.8.2 - 16th December, 2020
+
+* Enhanced: 📦 Load chosen shipping method when loading cart from session via the web.
+* Enhanced: 📦 Load cart fees when loading cart from session via the web.
+* Dev: **NEW** filter `cocart_load_cart_query_name` to allow developers add more white labelling when loading the cart via the web.
+* Improved: `uninstall.php` to delete WooCommerce Admin notes when uninstalling for those who are using WooCommerce v4.8 or greater.
+
 ## v2.8.1 - 10th December, 2020
 
 * Added: Support for Pantheon.io so it no longer caches for guest customers on the frontend and prevent the cart from appearing empty.
@@ -35,7 +42,7 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 
 ## v2.8.0 - 9th December, 2020
 
-* Enhanced: 📦 Load chosen shipping method when loading cart from session for the web.
+* Enhanced: 📦 Load chosen shipping method when loading cart from session.
 * Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
 * Tested: ✔️ Compatible with WordPress v5.6
 
