@@ -44,7 +44,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			add_action( 'init', array( $this, 'manual_database_update' ), 20 );
 
 			// Redirect to Getting Started page once activated.
-			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ) );
+			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ), 10, 2 );
 
 			// Drop tables when MU blog is deleted.
 			add_filter( 'wpmu_drop_tables', array( $this, 'wpmu_drop_tables' ) );
@@ -59,7 +59,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function check_version() {
-			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_site_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 				self::install();
 				do_action( 'cocart_updated' );
 			}
@@ -236,11 +236,13 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Update plugin version to current.
 		 *
-		 * @access private
+		 * @access  private
+		 * @since   1.2.0
+		 * @version 2.8.3
 		 * @static
 		 */
 		private static function update_version() {
-			update_option( 'cocart_version', COCART_VERSION );
+			update_site_option( 'cocart_version', COCART_VERSION );
 		} // END update_version()
 
 		/**
@@ -312,18 +314,26 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.1.0
-		 * @param   string $plugin The activate plugin name.
+		 * @version 2.8.3
+		 * @param   string $plugin             Activate plugin file.
+		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network 
+		 *                                     or just the current site. Multisite only.
 		 */
-		public static function redirect_getting_started( $plugin ) {
+		public static function redirect_getting_started( $plugin, $network_activation ) {
 			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
 			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
 				return;
 			}
 
 			// If CoCart has already been installed before then don't redirect.
-			if ( ! empty( get_option( 'cocart_version' ) ) || ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
+			if ( ! empty( get_site_option( 'cocart_version' ) ) && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
 				return;
+			}
+
+			$page = admin_url( 'admin.php' );
+
+			if ( $network_activation ) {
+				$page = network_admin_url( 'admin.php' );
 			}
 
 			$getting_started = add_query_arg(
@@ -331,7 +341,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 					'page'    => 'cocart',
 					'section' => 'getting-started',
 				),
-				admin_url( 'admin.php' )
+				$page
 			);
 
 			/**
@@ -344,11 +354,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 						'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ) . '%n'
 					)
 				);
-				return;
-			}
-
-			// If activated on a multi-site, don't redirect.
-			if ( is_multisite() ) {
 				return;
 			}
 

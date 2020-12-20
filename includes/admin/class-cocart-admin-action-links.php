@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    1.2.0
- * @version  2.7.2
+ * @version  2.8.3
  * @license  GPL-2.0+
  */
 
@@ -22,10 +22,13 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		/**
 		 * Constructor
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   2.0.0
+		 * @version 2.8.3
 		 */
 		public function __construct() {
 			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
+			add_filter( 'network_admin_plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
 		} // END __construct()
 
@@ -34,11 +37,17 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.0.1
+		 * @version 2.8.3
 		 * @param   array $links An array of plugin links.
 		 * @return  array $links
 		 */
 		public function plugin_action_links( $links ) {
+			$page = admin_url( 'admin.php' );
+
+			if ( is_multisite() ) {
+				$page = network_admin_url( 'admin.php' );
+			}
+
 			if ( current_user_can( 'manage_options' ) ) {
 				$action_links = array(
 					'getting-started' => '<a href="' . add_query_arg(
@@ -46,7 +55,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 							'page'    => 'cocart',
 							'section' => 'getting-started',
 						),
-						admin_url( 'admin.php' )
+						$page
 					) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 

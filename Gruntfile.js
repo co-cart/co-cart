@@ -309,6 +309,7 @@ module.exports = function(grunt) {
 								'!.*/**',
 								'!.DS_Store',
 								'!.htaccess',
+								'assets/images/**',
 								'!assets/scss/**',
 								'!assets/**/*.scss',
 								'!bin/**',

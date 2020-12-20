@@ -439,7 +439,7 @@ class CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_invalid_variation_data_message', $message, $attribute_label, $attribute->get_slugs() );
 
-				return new WP_Error( 'cocart_invalid_variation_data', $message, 400 );
+				return new WP_Error( 'cocart_invalid_variation_data', $message, array( 'status' => 400 ) );
 			}
 
 			// If no attribute was posted, only error if the variation has an 'any' attribute which requires a value.
@@ -463,7 +463,7 @@ class CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_missing_variation_data_message', $message, count( $missing_attributes ), wc_format_list_of_items( $missing_attributes ) );
 
-			return new WP_Error( 'cocart_missing_variation_data', $message, 400 );
+			return new WP_Error( 'cocart_missing_variation_data', $message, array( 'status' => 400 ) );
 		}
 
 		return $variation;
@@ -487,7 +487,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_no_variation_found', $message, 400 );
+			return new WP_Error( 'cocart_no_variation_found', $message, array( 'status' => 400 ) );
 		}
 
 		return $variation_id;
@@ -511,7 +511,7 @@ class CoCart_API_Controller {
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_cart_invalid_parent_product', $message, 403 );
+			return new WP_Error( 'cocart_cart_invalid_parent_product', $message, array( 'status' => 403 ) );
 		}
 
 		return $product->get_attributes();

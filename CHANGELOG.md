@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.0.0 - ?? November, 2020 (Date Subject to Change)
+## v3.0.0 - ?? ??, 2020 (Date Subject to Change)
 
 This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information.
 
@@ -26,6 +26,14 @@ Updating to the new API is easy. All parameters are the same. Simply follow the 
 * * `cocart_routes`
 * * `cocart_item_price`
 * * `cocart_item_subtotal`
+
+## v2.8.3 - 20th December, 2020
+
+* Enhanced: CoCart now welcomes users when the plugin is activated on a multi-site network.
+* Fixed: Headers already sent when filtering `rest_pre_serve_request`. Appears to only cause issues when you have `WP_DEBUG` enabled locally.
+* Fixed: A few errors were not returning the status error in the correct format.
+
+> Last update for CoCart Lite v2 ❄️
 
 ## v2.8.2 - 16th December, 2020
 

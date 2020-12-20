@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    1.2.0
- * @version  2.3.0
+ * @version  2.8.3
  * @license  GPL-2.0+
  */
 
@@ -25,6 +25,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
+			// Registers and enqueue Stylesheets.
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 
 			// Adds admin body classes.
@@ -52,7 +53,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.0.3
+		 * @version 2.8.3
 		 * @param   string $classes
 		 * @return  string $classes
 		 */
@@ -60,7 +61,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
 
-			if ( $screen_id == 'toplevel_page_cocart' ) {
+			if ( $screen_id == 'toplevel_page_cocart' || $screen_id == 'toplevel_page_cocart-network' ) {
 				$classes = ' cocart ';
 			}
 

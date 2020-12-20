@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Authentication
  * @since    2.6.0
- * @version  2.7.4
+ * @version  2.8.3
  * @license  GPL-2.0+
  */
 
@@ -132,7 +132,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.2.0
-		 * @version 2.7.4
+		 * @version 2.8.3
 		 * @param   bool             $served  Whether the request has already been served. Default false.
 		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param   WP_REST_Request  $request Request used to generate the response.
@@ -140,11 +140,20 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return  bool
 		 */
 		public function cors_headers( $served, $result, $request, $server ) {
-			header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $_SERVER['HTTP_ORIGIN'] ) );
-			header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
-			header( 'Access-Control-Allow-Credentials: true' );
-			header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );
-			header( 'Access-Control-Expose-Headers: X-CoCart-API' );
+			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
+				$origin = get_http_origin();
+
+				// Requests from file:// and data: URLs send "Origin: null".
+				if ( 'null' !== $origin ) {
+					$origin = esc_url_raw( $origin );
+				}
+
+				header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );
+				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
+				header( 'Access-Control-Allow-Credentials: true' );
+				header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );
+				header( 'Access-Control-Expose-Headers: X-CoCart-API' );
+			}
 
 			return $served;
 		} // END cors_headers()
