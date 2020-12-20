@@ -358,6 +358,377 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END return_cart_contents()
 
 	/**
+	 * Returns a saved cart in session if one exists.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @param   array $data The cart key is a required variable.
+	 * @return  array $cart Returns the cart data from the database.
+	 */
+	public function get_cart_in_session( $data = array() ) {
+		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
+
+		if ( empty( $cart_key ) ) {
+			throw new CoCart_Data_Exception( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
+		}
+
+		// Get the cart in the database.
+		$handler = new CoCart_Session_Handler();
+		$cart    = $handler->get_cart( $cart_key );
+
+		// If no cart is saved with the ID specified return error.
+		if ( empty( $cart ) ) {
+			throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
+		}
+
+		return $this->return_cart_contents( $data, maybe_unserialize( $cart['cart'] ), '', true );
+	} // END get_cart_in_session()
+
+	/**
+	 * Validate the product ID or SKU ID.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  protected
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @param   int|string $product_id
+	 * @return  int $product_id
+	 */
+	protected function validate_product_id( $product_id ) {
+		// If the product ID was used by a SKU ID, then look up the product ID and return it.
+		if ( ! is_numeric( $product_id ) ) {
+			$product_id_by_sku = (int) wc_get_product_id_by_sku( $product_id );
+
+			if ( $product_id_by_sku > 0 ) {
+				$product_id = $product_id_by_sku;
+			}
+
+			// Force product ID to be integer.
+			$product_id = (int) $product_id;
+		}
+
+		if ( empty( $product_id ) ) {
+			$message = __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			throw new CoCart_Data_Exception( 'cocart_product_id_required', $message, 404 );
+		}
+
+		if ( ! is_numeric( $product_id ) ) {
+			$message = __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			throw new CoCart_Data_Exception( 'cocart_product_id_not_numeric', $message, 405 );
+		}
+
+		return $product_id;
+	} // END validate_product_id()
+
+	/**
+	 * Validate the product quantity.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  protected
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @param   int $quantity
+	 */
+	protected function validate_quantity( $quantity ) {
+		if ( ! is_numeric( $quantity ) ) {
+			throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric!', 'cart-rest-api-for-woocommerce' ), 405 );
+		}
+	} // END validate_quantity()
+
+	/**
+	 * Validate variable product.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  protected
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @param   int        $variation_id   - ID of the variation.
+	 * @param   array      $variation      - Attribute values.
+	 * @param   WC_Product $product        - The product data.
+	 * @return  array
+	 */
+	protected function validate_variable_product( $variation_id, $variation, $product ) {
+		// Flatten data and format posted values.
+		$variable_product_attributes = $this->get_variable_product_attributes( $product );
+
+		// If we have a parent product and no variation ID, find the variation ID.
+		if ( $product->is_type( 'variable' ) && $variation_id == 0 ) {
+			$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
+		}
+
+		// Now we have a variation ID, get the valid set of attributes for this variation. They will have an attribute_ prefix since they are from meta.
+		$expected_attributes = wc_get_product_variation_attributes( $variation_id );
+		$missing_attributes  = array();
+
+		foreach ( $variable_product_attributes as $attribute ) {
+			if ( ! $attribute['is_variation'] ) {
+				continue;
+			}
+
+			$prefixed_attribute_name = 'attribute_' . sanitize_title( $attribute['name'] );
+			$expected_value          = isset( $expected_attributes[ $prefixed_attribute_name ] ) ? $expected_attributes[ $prefixed_attribute_name ] : '';
+			$attribute_label         = wc_attribute_label( $attribute['name'] );
+
+			if ( isset( $variation[ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
+				$given_value = $variation[ wc_variation_attribute_name( $attribute['name'] ) ];
+
+				if ( $expected_value === $given_value ) {
+					continue;
+				}
+
+				// If valid values are empty, this is an 'any' variation so get all possible values.
+				if ( '' === $expected_value && in_array( $given_value, $attribute->get_slugs(), true ) ) {
+					continue;
+				}
+
+				/* translators: %1$s: Attribute name, %2$s: Allowed values. */
+				$message = sprintf( __( 'Invalid value posted for %1$s. Allowed values: %2$s', 'cart-rest-api-for-woocommerce' ), $attribute_label, implode( ', ', $attribute->get_slugs() ) );
+
+				CoCart_Logger::log( $message, 'error' );
+
+				/**
+				 * Filters message about invalid variation data.
+				 *
+				 * @param string $message         - Message.
+				 * @param string $attribute_label - Attribute Label.
+				 * @param array  $attribute       - Allowed values.
+				 */
+				$message = apply_filters( 'cocart_invalid_variation_data_message', $message, $attribute_label, $attribute->get_slugs() );
+
+				throw new CoCart_Data_Exception( 'cocart_invalid_variation_data', $message, 400 );
+			}
+
+			// If no attribute was posted, only error if the variation has an 'any' attribute which requires a value.
+			if ( '' === $expected_value ) {
+				$missing_attributes[] = $attribute_label;
+			}
+		}
+
+		if ( ! empty( $missing_attributes ) ) {
+			/* translators: %s: Attribute name. */
+			$message = __( 'Missing variation data for variable product.', 'cart-rest-api-for-woocommerce' ) . ' ' . sprintf( _n( '%s is a required field.', '%s are required fields.', count( $missing_attributes ), 'cart-rest-api-for-woocommerce' ), wc_format_list_of_items( $missing_attributes ) );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about missing variation data.
+			 *
+			 * @param string $message            - Message.
+			 * @param string $missing_attributes - Number of missing attributes.
+			 * @param array  $missing_attributes - List of missing attributes.
+			 */
+			$message = apply_filters( 'cocart_missing_variation_data_message', $message, count( $missing_attributes ), wc_format_list_of_items( $missing_attributes ) );
+
+			throw new CoCart_Data_Exception( 'cocart_missing_variation_data', $message, 400 );
+		}
+
+		return $variation;
+	} // END validate_variable_product()
+
+	/**
+	 * Try to match variation data to a variation ID and return the ID.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  protected
+	 * @since   2.1.2
+	 * @version 3.0.0
+	 * @param   array      $variation    Submitted attributes.
+	 * @param   WC_Product $product      Product being added to the cart.
+	 * @return  int        $variation_id Matching variation ID.
+	 */
+	protected function get_variation_id_from_variation_data( $variation, $product ) {
+		$data_store   = \WC_Data_Store::load( 'product' );
+		$variation_id = $data_store->find_matching_product_variation( $product, $variation );
+
+		if ( empty( $variation_id ) ) {
+			$message = __( 'No matching variation found.', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			throw new CoCart_Data_Exception( 'cocart_no_variation_found', $message, 400 );
+		}
+
+		return $variation_id;
+	} // END get_variation_id_from_variation_data()
+
+	/**
+	 * Get product attributes from the variable product (which may be the parent if the product object is a variation).
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  protected
+	 * @since   2.1.2
+	 * @version 3.0.0
+	 * @param   WC_Product $product Product being added to the cart.
+	 * @return  array
+	 */
+	protected function get_variable_product_attributes( $product ) {
+		if ( $product->is_type( 'variation' ) ) {
+			$product = wc_get_product( $product->get_parent_id() );
+		}
+
+		if ( ! $product || 'trash' === $product->get_status() ) {
+			$message = __( 'This product cannot be added to the cart.', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			throw new CoCart_Data_Exception( 'cocart_cart_invalid_parent_product', $message, 403 );
+		}
+
+		return $product->get_attributes();
+	} // END get_variable_product_attributes()
+
+	/**
+	 * Validate product before it is added to the cart, updated or removed.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  protected
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @param   int    $product_id     - Contains the ID of the product.
+	 * @param   int    $quantity       - Contains the quantity of the item.
+	 * @param   array  $variation      - Contains the selected attributes.
+	 * @param   array  $item_data      - Extra cart item data we want to pass into the item.
+	 * @param   string $product_type   - The product type.
+	 * @return  array
+	 */
+	protected function validate_product( $product_id = null, $quantity = 1, $deprecated = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
+		// Validate request for product ID and quantity.
+		self::validate_product_id( $product_id );
+		self::validate_quantity( $quantity );
+
+		// Get product and validate product for the cart.
+		$product = wc_get_product( $product_id );
+		$product = $this->validate_product_for_cart( $product );
+
+		// Look up the product type if not passed.
+		if ( empty( $product_type ) ) {
+			$product_type = $product->get_type();
+		}
+
+		// Set correct product ID's if product type is a variation.
+		if ( $product->is_type( 'variation' ) ) {
+			$product_id   = $product->get_parent_id();
+			$variation_id = $product->get_id();
+		}
+
+		// Validate variable/variation product.
+		if ( $product_type === 'variable' || $product_type === 'variation' ) {
+			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $item_data, $product );
+		}
+
+		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $item_data, $product_type, $request );
+
+		/**
+		 * If validation returned an error return error response.
+		 *
+		 * @param $passed_validation
+		 */
+		if ( is_wp_error( $passed_validation ) ) {
+			return $passed_validation;
+		}
+
+		// If validation returned false.
+		if ( ! $passed_validation ) {
+			$message = __( 'Product did not pass validation!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			/**
+			 * Filters message about product failing validation.
+			 *
+			 * @param string     $message - Message.
+			 * @param WC_Product $product - Product data.
+			 */
+			$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
+
+			throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 500 );
+		}
+
+		/**
+		 * Filters the quantity for specified products.
+		 *
+		 * @param int   $quantity       - The original quantity of the item.
+		 * @param int   $product_id     - The product ID.
+		 * @param int   $variation_id   - The variation ID.
+		 * @param array $variation      - The variation data.
+		 * @param array $item_data      - The cart item data.
+		 */
+		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
+
+		// Validates the item quantity.
+		$quantity = $this->validate_item_quantity( $product, $quantity );
+
+		// Validates the item before adding to cart.
+		$this->validate_add_to_cart( $product, $quantity );
+
+		// Add cart item data - may be added by other plugins.
+		$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
+
+		// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
+		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
+
+		// Find the cart item key in the existing cart.
+		$item_key = $this->find_product_in_cart( $cart_id );
+
+		// Returns all valid data.
+		return array(
+			'product_id'     => $product_id,
+			'quantity'       => $quantity,
+			'variation_id'   => $variation_id,
+			'variation'      => $variation,
+			'item_data'      => $item_data,
+			'item_key'       => $item_key,
+			'product_data'   => $product,
+			'request'        => $request
+		);
+	} // END validate_product()
+
+	/**
+	 * Checks if the product in the cart has enough stock
+	 * before updating the quantity.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  protected
+	 * @since   1.0.6
+	 * @version 3.0.0
+	 * @param   array   $current_data
+	 * @param   integer $quantity
+	 * @return  bool
+	 */
+	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
+		$product_id      = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
+		$variation_id    = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
+		$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
+
+		if ( ! $current_product->has_enough_stock( $quantity ) ) {
+			/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
+			$message = sprintf( __( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ), $quantity, $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) );
+
+			CoCart_Logger::log( $message, 'error' );
+
+			throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
+		}
+
+		return true;
+	} // END has_enough_stock()
+
+	/**
 	 * Prepares a list of store currency data to return in responses.
 	 *
 	 * @access protected
@@ -594,8 +965,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WC_Product       Passes the product object if valid.
-	 * @return WC_Product|Error Returns a product object if purchasable.
+	 * @param  WC_Product Passes the product object if valid.
+	 * @return WC_Product Returns a product object if purchasable.
 	 */
 	public function validate_product_for_cart( $product ) {
 		// Check if the product exists before continuing.
@@ -621,7 +992,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Validates item quantity and checks if sold individually.
 	 *
-	 * @throws RouteException Exception if invalid data is detected.
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
 	 * @param  WC_Product $product Product object associated with the cart item.
@@ -667,7 +1038,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Validates item and check for errors before added to cart.
 	 *
-	 * @throws RouteException Exception if invalid data is detected.
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  public
 	 * @since   2.1.0
@@ -741,115 +1112,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		_deprecated_hook( 'cocart_ok_to_add_response', '3.0.0', null, 'This filter is no longer used in the API.' );
 		_deprecated_hook( 'cocart_ok_to_add', '3.0.0', null, 'This filter is no longer used in the API.' );
 	} // END validate_add_to_cart()
-
-	/**
-	 * Validate product before it is added to the cart, updated or removed.
-	 *
-	 * @access  protected
-	 * @since   1.0.0
-	 * @version 3.0.0
-	 * @param   int    $product_id     - Contains the ID of the product.
-	 * @param   int    $quantity       - Contains the quantity of the item.
-	 * @param   array  $variation      - Contains the selected attributes.
-	 * @param   array  $item_data      - Extra cart item data we want to pass into the item.
-	 * @param   string $product_type   - The product type.
-	 * @return  array|WP_Error
-	 */
-	protected function validate_product( $product_id = null, $quantity = 1, $deprecated = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
-		// Validate request for product ID and quantity.
-		self::validate_product_id( $product_id );
-		$this->validate_quantity( $quantity );
-
-		// Get product and validate product for the cart.
-		$product = wc_get_product( $product_id );
-		$product = $this->validate_product_for_cart( $product );
-
-		// Look up the product type if not passed.
-		if ( empty( $product_type ) ) {
-			$product_type = $product->get_type();
-		}
-
-		// Set correct product ID's if product type is a variation.
-		if ( $product->is_type( 'variation' ) ) {
-			$product_id   = $product->get_parent_id();
-			$variation_id = $product->get_id();
-		}
-
-		// Validate variable/variation product.
-		if ( $product_type === 'variable' || $product_type === 'variation' ) {
-			$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $item_data, $product );
-
-			if ( is_wp_error( $variation ) ) {
-				return $variation;
-			}
-		}
-
-		$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $item_data, $product_type, $request );
-
-		/**
-		 * If validation returned an error return error response.
-		 *
-		 * @param $passed_validation
-		 */
-		if ( is_wp_error( $passed_validation ) ) {
-			return $passed_validation;
-		}
-
-		// If validation returned false.
-		if ( ! $passed_validation ) {
-			$message = __( 'Product did not pass validation!', 'cart-rest-api-for-woocommerce' );
-
-			CoCart_Logger::log( $message, 'error' );
-
-			/**
-			 * Filters message about product failing validation.
-			 *
-			 * @param string     $message - Message.
-			 * @param WC_Product $product - Product data.
-			 */
-			$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
-
-			throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 500 );
-		}
-
-		/**
-		 * Filters the quantity for specified products.
-		 *
-		 * @param int   $quantity       - The original quantity of the item.
-		 * @param int   $product_id     - The product ID.
-		 * @param int   $variation_id   - The variation ID.
-		 * @param array $variation      - The variation data.
-		 * @param array $item_data      - The cart item data.
-		 */
-		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
-
-		// Validates the item quantity.
-		$quantity = $this->validate_item_quantity( $product, $quantity );
-
-		// Validates the item before adding to cart.
-		$this->validate_add_to_cart( $product, $quantity );
-
-		// Add cart item data - may be added by other plugins.
-		$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
-
-		// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
-		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
-
-		// Find the cart item key in the existing cart.
-		$item_key = $this->find_product_in_cart( $cart_id );
-
-		// Returns all valid data.
-		return array(
-			'product_id'     => $product_id,
-			'quantity'       => $quantity,
-			'variation_id'   => $variation_id,
-			'variation'      => $variation,
-			'item_data'      => $item_data,
-			'item_key'       => $item_key,
-			'product_data'   => $product,
-			'request'        => $request
-		);
-	} // END validate_product()
 
 	/**
 	 * Filters additional requested data.
