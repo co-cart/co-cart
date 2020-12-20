@@ -231,6 +231,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
+= v2.8.3 - 20th December, 2020 =
+
+* Enhanced: CoCart now welcomes users when the plugin is activated on a multi-site network.
+* Fixed: Headers already sent when filtering `rest_pre_serve_request`. Appears to only cause issues when you have `WP_DEBUG` enabled locally.
+* Fixed: A few errors were not returning the status error in the correct format.
+
+> Last update for CoCart Lite v2 ❄️
+
 = v2.8.2 - 16th December, 2020 =
 
 * Enhanced: 📦 Load chosen shipping method when loading cart from session via the web.
