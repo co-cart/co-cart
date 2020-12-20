@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Notices
  * @since    1.2.0
- * @version  2.7.2
+ * @version  2.8.3
  * @license  GPL-2.0+
  */
 
@@ -61,7 +61,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.6.0
-		 * @version 2.6.2
+		 * @version 2.8.3
 		 * @return  bool
 		 */
 		public function check_php() {
@@ -73,6 +73,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( ! CoCart_Helpers::is_environment_compatible() && is_plugin_active( plugin_basename( COCART_FILE ) ) ) {
 				CoCart::deactivate_plugin();
 				add_action( 'admin_notices', array( $this, 'requirement_php_notice' ) );
+				add_action( 'network_admin_notices', array( $this, 'requirement_php_notice' ) );
 				return false;
 			}
 
@@ -84,7 +85,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.3.0
+		 * @version 2.8.3
 		 * @return  bool
 		 */
 		public function check_wp() {
@@ -96,6 +97,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( ! CoCart_Helpers::is_wp_version_gte( CoCart::$required_wp ) ) {
 				CoCart::deactivate_plugin();
 				add_action( 'admin_notices', array( $this, 'requirement_wp_notice' ) );
+				add_action( 'network_admin_notices', array( $this, 'requirement_wp_notice' ) );
 				return false;
 			}
 
@@ -107,7 +109,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.3.0
+		 * @version 2.8.3
 		 */
 		public function check_woocommerce_dependency() {
 			// If the current user can not install plugins then return nothing!
@@ -118,9 +120,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( ! defined( 'WC_VERSION' ) ) {
 				CoCart::deactivate_plugin();
 				add_action( 'admin_notices', array( $this, 'woocommerce_not_installed' ) );
+				add_action( 'network_admin_notices', array( $this, 'woocommerce_not_installed' ) );
 				return false;
 			} elseif ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
 				add_action( 'admin_notices', array( $this, 'required_wc_version_failed' ) );
+				add_action( 'network_admin_notices', array( $this, 'required_wc_version_failed' ) );
 				return false;
 			}
 		} // END check_woocommerce_dependency()
@@ -181,10 +185,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * Shown after 2 weeks or more from the time the plugin was installed.
 		 *
-		 * @access public
-		 * @since  2.3.0
-		 * @global $current_user
-		 * @return false|null
+		 * @access  public
+		 * @since   2.3.0
+		 * @version 2.8.3
+		 * @global  $current_user
+		 * @return  false|null
 		 */
 		public function add_review_notice() {
 			global $current_user;
@@ -207,6 +212,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				// If it has been 2 weeks or more since activating the plugin then display the review notice.
 				if ( ( intval( time() - self::$install_date ) ) > WEEK_IN_SECONDS * 2 ) {
 					add_action( 'admin_notices', array( $this, 'plugin_review_notice' ) );
+					add_action( 'network_admin_notices', array( $this, 'plugin_review_notice' ) );
 				}
 			}
 		} // END add_review_notice()
@@ -214,10 +220,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Displays notice if user is testing pre-release version of the plugin.
 		 *
-		 * @access public
-		 * @since  2.3.0
-		 * @global $current_user
-		 * @return false|null
+		 * @access  public
+		 * @since   2.3.0
+		 * @version 2.8.3
+		 * @global  $current_user
+		 * @return  false|null
 		 */
 		public function add_pre_release_notice() {
 			global $current_user;
@@ -235,16 +242,18 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			// Is this version of CoCart a pre-release?
 			if ( CoCart_Helpers::is_cocart_pre_release() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
+				add_action( 'network_admin_notices', array( $this, 'beta_notice' ) );
 			}
 		} // END add_pre_release_notice()
 
 		/**
 		 * Displays notice with an upgrade warning when a future release is coming.
 		 *
-		 * @access public
-		 * @since  2.3.0
-		 * @global $current_user
-		 * @return false|null
+		 * @access  public
+		 * @since   2.3.0
+		 * @version 2.8.3
+		 * @global  $current_user
+		 * @return  false|null
 		 */
 		public function add_upgrade_warning_notice() {
 			global $current_user;
@@ -270,6 +279,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( strstr( COCART_VERSION, '-', true ), COCART_NEXT_VERSION, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
 				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
+				add_action( 'network_admin_notices', array( $this, 'upgrade_warning' ) );
 				set_transient( 'cocart_next_version', COCART_NEXT_VERSION );
 			}
 		} // END add_upgrade_warning_notice()

@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Install
  * @since    1.2.0
- * @version  2.1.0
+ * @version  2.8.3
  * @license  GPL-2.0+
  */
 
@@ -119,7 +119,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.1.0
+		 * @version 2.8.3
 		 * @param   string $plugin The activate plugin name.
 		 */
 		public static function redirect_getting_started( $plugin ) {
@@ -133,12 +133,18 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return;
 			}
 
+			$page = admin_url( 'admin.php' );
+
+			if ( is_multisite() ) {
+				$page = network_admin_url( 'admin.php' );
+			}
+
 			$getting_started = add_query_arg(
 				array(
 					'page'    => 'cocart',
 					'section' => 'getting-started',
 				),
-				admin_url( 'admin.php' )
+				$page
 			);
 
 			/**
@@ -151,11 +157,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 						'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ) . '%n'
 					)
 				);
-				return;
-			}
-
-			// If activated on a multi-site, don't redirect.
-			if ( is_multisite() ) {
 				return;
 			}
 

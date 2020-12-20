@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.8.0
+ * @version  2.8.3
  * @license  GPL-2.0+
  */
 
@@ -373,14 +373,17 @@ class CoCart_Helpers {
 	 * @access  public
 	 * @static
 	 * @since   2.0.0
-	 * @version 2.0.1
+	 * @version 2.8.3
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
 		return array(
 			'dashboard',
+			'dashboard-network',
 			'plugins',
+			'plugins-network',
 			'toplevel_page_cocart',
+			'toplevel_page_cocart-network',
 		);
 	} // END cocart_get_admin_screens()
 
