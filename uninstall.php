@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Uninstaller
  * @since   2.1.0
- * @version 2.8.2
+ * @version 2.8.3
  * @license GPL-2.0+
  */
 
@@ -32,6 +32,11 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 
 	// Delete usermeta.
 	$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE 'cocart\_%';" );
+
+	// Delete sitemeta. Multi-site only!
+	if ( is_multisite() ) {
+		$wpdb->query( "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE 'cocart\_%';" );
+	}
 
 	require_once dirname( __FILE__ ) . '/includes/class-cocart-helpers.php';
 
