@@ -142,7 +142,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents, $item_key );
 
-		return new WP_REST_Response( $cart_contents, 200 );
+		return $this->get_response( $cart_contents, $this->rest_base );
 	} // END get_cart()
 
 	/**
