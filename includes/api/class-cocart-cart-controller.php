@@ -171,6 +171,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			return $empty_cart;
 		}
 
+		// Calculate totals to be sure they are correct before returning cart contents.
+		$this->get_cart_instance()->calculate_totals();
+
 		// Find the cart item key in the existing cart.
 		if ( ! empty( $item_key ) ) {
 			$item_key = $this->find_product_in_cart( $item_key );
@@ -198,6 +201,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'items_weight'   => wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
+			'shipping'       => $this->get_shipping_details(),
 			'coupons'        => array(),
 			'totals' => array(
 				'total_items'        => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
@@ -1195,6 +1199,78 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $cross_sells;
 	} // END get_cross_sells()
+
+	/**
+	 * Returns shipping details.
+	 *
+	 * @access public
+	 * @return array.
+	 */
+	public function get_shipping_details() {
+		// Get shipping packages.
+		$packages = WC()->shipping->get_packages();
+
+		$details = array(
+			'total_packages'          => count( (array) $packages ),
+			'show_package_details'    => count( (array) $packages ) > 1,
+			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
+			'packages'                => array()
+		);
+
+		$package_key = 1;
+
+		foreach ( $packages as $i => $package ) {
+			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
+			$product_names = array();
+
+			if ( count( (array) $packages ) > 1 ) {
+				foreach ( $package['contents'] as $item_id => $values ) {
+					$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
+				}
+
+				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
+			}
+
+			$rates = array();
+
+			if ( $i === 0 ) {
+				$package_key = 'default'; // Identifies the default package.
+			}
+
+			$details['packages'][$package_key] = array(
+				/* translators: %d: shipping package number */
+				'package_name'          => apply_filters( 'cocart_shipping_package_name', ( ( $i + 1 ) > 1 ) ? sprintf( _x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ), ( $i + 1 ) ) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' ), $i, $package ),
+				'rates'                 => $package['rates'],
+				'package_details'       => implode( ', ', $product_names ),
+				'index'                 => $i, // Shipping package number
+				'chosen_method'         => $chosen_method,
+				'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
+			);
+
+			// Check that there are rates available for the package.
+			if ( count( (array) $package['rates'] ) > 0 ) {
+				// Return each rate.
+				foreach ( $package['rates'] as $key => $method ) {
+					$rates[$key] = array(
+						'key'           => $key,
+						'method_id'     => $method->get_method_id(),
+						'instance_id'   => $method->instance_id,
+						'label'         => $method->get_label(),
+						'cost'          => $method->cost,
+						'html'          => html_entity_decode( strip_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
+						'taxes'         => $method->taxes,
+						'chosen_method' => ($chosen_method === $key)
+					);
+				}
+			}
+
+			$details['packages'][$package_key]['rates'] = $rates;
+
+			$package_key++; // Update package key for next inline if any.
+		}
+
+		return $details;
+	} // END get_shipping_details()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
