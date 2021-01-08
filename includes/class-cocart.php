@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Package
  * @since    2.6.0
- * @version  2.6.2
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -65,6 +65,7 @@ final class CoCart {
 	public static function init() {
 		self::setup_constants();
 		self::includes();
+		self::include_extension_compatibility();
 		self::include_third_party();
 
 		// Environment checking when activating.
@@ -137,6 +138,17 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
 		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
 	} // END includes()
+
+	/**
+	 * Include extension compatibility.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.0
+	 */
+	public static function include_extension_compatibility() {
+		include_once COCART_ABSPATH . 'includes/compatibility/class-cocart-compatibility.php';
+	} // END include_extension_compatibility()
 
 	/**
 	 * Include third party support.
