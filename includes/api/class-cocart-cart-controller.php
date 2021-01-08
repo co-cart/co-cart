@@ -341,6 +341,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 		}
 
+		$cart['cross_sells']   = $this->get_cross_sells();
+
 		/**
 		 * Return cart items from session if set.
 		 *
@@ -1144,6 +1146,55 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $product_slug;
 	} // END get_product_slug()
+
+	/**
+	 * Returns cross sells based on the items in the cart.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function get_cross_sells() {
+		// Get visible cross sells then sort them at random.
+		$get_cross_sells = array_filter( array_map( 'wc_get_product', $this->get_cart_instance()->get_cross_sells() ), 'wc_products_array_filter_visible' );
+
+		// Handle orderby and limit results.
+		$orderby         = apply_filters( 'cocart_cross_sells_orderby', 'rand' );
+		$order           = apply_filters( 'cocart_cross_sells_order', 'desc' );
+		$get_cross_sells = wc_products_array_orderby( $get_cross_sells, $orderby, $order );
+		$limit           = apply_filters( 'cocart_cross_sells_total', 3 );
+		$get_cross_sells = $limit > 0 ? array_slice( $get_cross_sells, 0, $limit ) : $get_cross_sells;
+
+		$cross_sells = array();
+
+		foreach( $get_cross_sells as $cross_sell ) {
+			$id = $cross_sell->get_id();
+
+			$thumbnail_id  = apply_filters( 'cocart_cross_sell_item_thumbnail', $cross_sell->get_image_id() );
+			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_cross_sell_item_thumbnail_size', 'woocommerce_thumbnail' ) );
+			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0] );
+
+			$cross_sells[] = array(
+				'id'             => $id,
+				'name'           => $cross_sell->get_name(),
+				'title'          => $cross_sell->get_title(),
+				'slug'           => $this->get_product_slug( $cross_sell ),
+				'price'          => $cross_sell->get_price(),
+				'regular_price'  => $cross_sell->get_regular_price(),
+				'sale_price'     => $cross_sell->get_sale_price(),
+				'image'          => esc_url( $thumbnail_src ),
+				'average_rating' => $cross_sell->get_average_rating() > 0 ? sprintf(
+					/* translators: %s: average rating */
+					esc_html__( 'Rated %s out of 5', 'cart-rest-api-for-woocommerce' ), esc_html( $cross_sell->get_average_rating() )
+				) : '',
+				'on_sale'        => $cross_sell->is_on_sale() ? true : false,
+				'type'           => $cross_sell->get_type()
+			);
+		}
+
+		$cross_sells = apply_filters( 'cocart_cross_sells', $cross_sells );
+
+		return $cross_sells;
+	} // END get_cross_sells()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
