@@ -5,13 +5,13 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.3
 Requires PHP: 7.0
 Tested up to: 5.6
-Stable tag: 2.8.3
+Stable tag: 2.8.4
 WC requires at least: 4.3
 WC tested up to: 4.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A REST API that handles the frontend of WooCommerce that’s Easy and Powerful.
+A REST API designed to handle the frontend of WooCommerce via your headless store.
 
 == Description ==
 
@@ -168,7 +168,7 @@ Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the ful
 
 = How do I start using CoCart? =
 
-You will first need WooCommerce v3.6 or higher installed with the REST API enabled. Then install CoCart and follow the documentation. That’s it!
+You will first need WooCommerce v4.3 or higher installed with the REST API enabled. Then install CoCart and follow the documentation. That’s it!
 
 = Why should I use CoCart? =
 
@@ -191,6 +191,38 @@ You can find the documentation for CoCart on the [CoCart REST API Docs](https://
 = Can I change the layout format/add/change details to the responses? =
 
 You certainly can. Filters are available to do just that. [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided. [View the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) for more.
+
+=  Is it compatible with WooCommerce Shipping and Tax plugin? =
+
+Not at this time. WooCommerce Shipping and Tax ignore any REST API from allowing the ability to calculate the taxes from TaxJar. Code has been contributed to the plugin that will allow third-party plugins enable this ability and awaiting feedback.
+
+= Why CoCart and not WooCommerce Store API? =
+
+WooCommerce Store API is not yet complete and stable in order to publish the first release of their API for public use. It is also limited for developers to use on many levels such as the body type the API can be requested in and support for guest customers which CoCart does have.
+
+Their API is designed mainly to focus on their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) they have developed while CoCart is designed to focus on supporting many frameworks and languages outside of WordPress to allow your store to be headless.
+
+CoCart is also backed by a community to make the REST API better for all developers.
+
+= Do you have a JavaScript Library? =
+
+Yes we do. You can [find it here](https://www.npmjs.com/package/@cocart/cocart-rest-api). It's very similar to WooCommerce's JavaScript Library. The only difference is that it's much up to date and doesn't require authentication so guest customers can be supported. It supports CommonJS (CJS) and ECMAScript Modules (ESM). Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
+
+= Can I install/update CoCart via Composer? =
+
+Yes. The best method would be to install/update CoCart from the GitHub repository but you can also do so via [https://wpackagist.org/](https://wpackagist.org/search?q=cart-rest-api-for-woocommerce&type=plugin)
+
+= Does CoCart work for multi-site network? =
+
+Yes. Just install CoCart and activate it via the network and all sites will have CoCart enabled.
+
+= Can I enable white labelling for CoCart? =
+
+Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://docs.cocart.xyz/?php#wp-config-php-white-labelling).
+
+= Does CoCart work with the Dokan plugin? =
+
+Yes. The only feature you wont be able to use are coupons if you have [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart). This is because Dokan disables the use of coupons in WooCommerce. All other features are compatible.
 
 = Where can I report bugs? =
 

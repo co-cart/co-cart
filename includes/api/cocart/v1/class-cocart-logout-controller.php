@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.1.0
- * @version  2.5.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 
@@ -49,11 +49,12 @@ class CoCart_Logout_Controller extends CoCart_API_Controller {
 	/**
 	 * Logout user.
 	 *
-	 * @access public
-	 * @param  array $data
-	 * @return WP_REST_Response
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.5.0
+	 * @return  WP_REST_Response
 	 */
-	public function logout( $data = array() ) {
+	public function logout() {
 		wp_logout();
 
 		return new WP_REST_Response( true, 200 );

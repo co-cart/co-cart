@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.1.0
- * @version  2.5.0
+ * @version  2.7.0
  * @license  GPL-2.0+
  */
 

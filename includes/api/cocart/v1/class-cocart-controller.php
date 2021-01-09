@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.0.0
- * @version  2.7.2
+ * @version  2.8.4
  * @license  GPL-2.0+
  */
 
@@ -97,7 +97,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.0.0
+	 * @version 2.8.4
 	 * @param   array  $data
 	 * @param   string $cart_item_key
 	 * @return  array|WP_REST_Response
@@ -114,7 +114,7 @@ class CoCart_API_Controller {
 			return $cart_contents;
 		}
 
-		return new WP_REST_Response( $cart_contents, 200 );
+		return $this->get_response( $cart_contents, $this->rest_base );
 	} // END get_cart()
 
 	/**
@@ -823,11 +823,12 @@ class CoCart_API_Controller {
 	 * Returns either the default response of the
 	 * API requested or a filtered response.
 	 *
-	 * @access public
-	 * @since  2.7.0
-	 * @param  mixed  $response - The original response of the API requested.
-	 * @param  string $rest_base - The API requested.
-	 * @return WP_REST_Response  - The original or filtered response.
+	 * @access  public
+	 * @since   2.7.0
+	 * @version 2.8.4
+	 * @param   mixed  $response  - The original response of the API requested.
+	 * @param   string $rest_base - The API requested.
+	 * @return  WP_REST_Response  - The original or filtered response.
 	 */
 	public function get_response( $response, $rest_base = '' ) {
 		if ( empty( $rest_base ) ) {
@@ -840,7 +841,7 @@ class CoCart_API_Controller {
 		 * If the response is empty then either something seriously has gone wrong
 		 * or the response was already filtered earlier and returned nothing.
 		 */
-		if ( empty( $response ) ) {
+		if ( $rest_base !== 'cart' && empty( $response ) ) {
 			$response = sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $this->namespace, $rest_base ) ) );
 			CoCart_Logger::log( $response, 'error' );
 		}

@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Sébastien Dumont
+# Copyright (c) 2021 Sébastien Dumont
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""

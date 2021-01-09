@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.1.0
- * @version  2.7.0
+ * @version  2.8.4
  * @license  GPL-2.0+
  */
 
@@ -238,7 +238,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.7.0
+	 * @version 2.8.4
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */
@@ -335,7 +335,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 					$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
-					if ( $quantity != $new_data['quantity'] ) {
+					if ( $quantity != $current_data['quantity'] ) {
 						do_action( 'cocart_item_quantity_changed', $cart_item_key, $new_data );
 
 						/**

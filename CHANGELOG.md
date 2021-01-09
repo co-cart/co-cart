@@ -32,6 +32,11 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
 
+## v2.8.4 - 9th January, 2021
+
+* Corrected: Action hook `cocart_item_quantity_changed` not being called after updating a cart item's quantity. Thanks to [@pauld8](https://github.com/pauld8)
+* Enhanced: Cart now returns with filterable `WP_REST_Response` function instead.
+
 ## v2.8.3 - 20th December, 2020
 
 * Enhanced: CoCart now welcomes users when the plugin is activated on a multi-site network.

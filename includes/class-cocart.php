@@ -158,7 +158,7 @@ final class CoCart {
 	 * @since  2.8.1
 	 */
 	public static function include_third_party() {
-		include_once COCART_ABSPATH . 'includes/third-party/class-third-party.php';
+		include_once COCART_ABSPATH . 'includes/third-party/class-cocart-third-party.php';
 	} // END include_third_party()
 
 	/**
