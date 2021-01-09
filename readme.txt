@@ -263,6 +263,11 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
+= v2.8.4 - 9th January, 2021 =
+
+* Corrected: Action hook `cocart_item_quantity_changed` not being called after updating a cart item's quantity. Thanks to [@pauld8](https://github.com/pauld8)
+* Enhanced: Cart now returns with filterable `WP_REST_Response` function instead.
+
 = v2.8.3 - 20th December, 2020 =
 
 * Enhanced: CoCart now welcomes users when the plugin is activated on a multi-site network.
