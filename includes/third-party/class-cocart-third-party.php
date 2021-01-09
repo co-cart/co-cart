@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles support for Pantheon host.
+ * Handles support for Third Party.
  *
  * @author   Sébastien Dumont
  * @category Classes
@@ -34,7 +34,7 @@ if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 		 * @return string
 		 */
 		public function include_hosts() {
-			include_once COCART_ABSPATH . 'includes/third-party/hosting/pantheon/class-host-pantheon.php'; // Pantheon.io
+			include_once COCART_ABSPATH . 'includes/third-party/hosting/pantheon/class-cocart-host-pantheon.php'; // Pantheon.io
 		}
 
 	} // END class.
