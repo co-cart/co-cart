@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.7.0
+ * @version  2.8.4
  * @license  GPL-2.0+
  */
 
@@ -238,7 +238,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.7.0
+	 * @version 2.8.4
 	 * @param   array $data
 	 * @return  WP_Error|WP_REST_Response
 	 */

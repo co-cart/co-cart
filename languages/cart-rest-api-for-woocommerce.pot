@@ -1,14 +1,14 @@
-# Copyright (c) 2020 Sébastien Dumont
+# Copyright (c) 2021 Sébastien Dumont
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart Lite 2.8.3\n"
+"Project-Id-Version: CoCart Lite 2.8.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2020-12-20 18:49:34+00:00\n"
+"POT-Creation-Date: 2021-01-09 12:39:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Sébastien Dumont <mailme@sebastiendumont.com>\n"
 "Language: en_US\n"
@@ -602,7 +602,7 @@ msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:290
 #: includes/api/class-cocart-add-item-controller.php:339
-#: includes/api/class-cocart-controller.php:882
+#: includes/api/class-cocart-controller.php:883
 msgid "Unique identifier for the product."
 msgstr ""
 
@@ -612,7 +612,7 @@ msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:301
 #: includes/api/class-cocart-add-item-controller.php:355
-#: includes/api/class-cocart-controller.php:888
+#: includes/api/class-cocart-controller.php:889
 msgid "Unique identifier for the variation."
 msgstr ""
 
@@ -772,79 +772,79 @@ msgstr ""
 msgid "This item can not be added to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:844
+#: includes/api/class-cocart-controller.php:845
 msgid "Request returned nothing for \"%s\"! Please seek assistance."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:868
+#: includes/api/class-cocart-controller.php:869
 msgid "Cart"
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:872
+#: includes/api/class-cocart-controller.php:873
 msgid "List of cart items."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:876
+#: includes/api/class-cocart-controller.php:877
 msgid "Unique identifier for the item within the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:894
+#: includes/api/class-cocart-controller.php:895
 msgid "Chosen attributes (for variations)."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:902
+#: includes/api/class-cocart-controller.php:903
 msgid "Variation attribute slug."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:908
+#: includes/api/class-cocart-controller.php:909
 msgid "Variation attribute value."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:917
+#: includes/api/class-cocart-controller.php:918
 msgid "Quantity of this item in the cart."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:931
+#: includes/api/class-cocart-controller.php:932
 msgid "Line subtotal tax data."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:937
+#: includes/api/class-cocart-controller.php:938
 msgid "Line total tax data."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:946
+#: includes/api/class-cocart-controller.php:947
 msgid ""
 "Line subtotal (the price of the product before coupon discounts have been "
 "applied)."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:952
+#: includes/api/class-cocart-controller.php:953
 msgid "Line subtotal tax."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:958
+#: includes/api/class-cocart-controller.php:959
 msgid ""
 "Line total (the price of the product after coupon discounts have been "
 "applied)."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:964
+#: includes/api/class-cocart-controller.php:965
 msgid "Line total tax."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:970
+#: includes/api/class-cocart-controller.php:971
 msgid "Product name."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:976
+#: includes/api/class-cocart-controller.php:977
 msgid "Current product price."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:1003
+#: includes/api/class-cocart-controller.php:1004
 msgid "Unique identifier for the cart/customer."
 msgstr ""
 
-#: includes/api/class-cocart-controller.php:1009
+#: includes/api/class-cocart-controller.php:1010
 msgid "Returns the URL of the product image thumbnail."
 msgstr ""
 
