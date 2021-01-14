@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Menus
  * @since    2.0.0
- * @version  2.8.3
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -24,11 +24,10 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 */
 		public function __construct() {
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-			add_action( 'network_admin_menu', array( $this, 'admin_menu' ) );
+			add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', array( $this, 'admin_menu' ) );
 		} // END __construct()
 
 		/**
