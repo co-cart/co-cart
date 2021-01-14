@@ -68,7 +68,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
-			self::$notices = get_option( 'cocart_admin_notices', array() );
+			self::$notices = get_site_option( 'cocart_admin_notices', array() );
 
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 
@@ -88,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since  3.0.0
 		 */
 		public function store_notices() {
-			update_option( 'cocart_admin_notices', self::get_notices() );
+			update_site_option( 'cocart_admin_notices', self::get_notices() );
 		} // END store_notices()
 
 		/**
@@ -211,7 +211,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( ! empty( $notices ) ) {
 				foreach ( $notices as $notice ) {
 					if ( empty( self::$core_notices[ $notice ] ) ) {
-						$notice_html = get_option( 'cocart_admin_notice_' . $notice );
+						$notice_html = get_site_option( 'cocart_admin_notice_' . $notice );
 
 						if ( $notice_html ) {
 							include dirname( __FILE__ ) . '/views/html-notice-custom.php';
