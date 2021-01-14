@@ -198,6 +198,50 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		} // END install()
 
 		/**
+		 * Check if all the base tables are present.
+		 *
+		 * @access public
+		 * @static
+		 * @since 3.0.0
+		 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
+		 * @param bool $execute       Whether to execute get_schema queries as well.
+		 * @return array List of querues.
+		 */
+		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+			if ( $execute ) {
+				self::create_tables();
+			}
+
+			$queries        = dbDelta( self::get_schema(), false );
+			$missing_tables = array();
+
+			foreach ( $queries as $table_name => $result ) {
+				if ( "Created table $table_name" === $result ) {
+					$missing_tables[] = $table_name;
+				}
+			}
+
+			if ( 0 < count( $missing_tables ) ) {
+				if ( $modify_notice ) {
+					//WC_Admin_Notices::add_notice( 'base_tables_missing' );
+				}
+
+				update_option( 'cocart_schema_missing_tables', $missing_tables );
+			} else {
+				if ( $modify_notice ) {
+					//WC_Admin_Notices::remove_notice( 'base_tables_missing' );
+				}
+
+				update_option( 'cocart_schema_version', COCART_DB_VERSION );
+				delete_option( 'cocart_schema_missing_tables' );
+			}
+
+			return $missing_tables;
+		} // END verify_base_tables()
+
+		/**
 		 * Is a Database update needed?
 		 *
 		 * @access public
@@ -265,7 +309,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @since  3.0.0
 		 */
 		private static function update() {
-			$current_db_version = get_option( 'cocart_version' );
+			$current_db_version = get_option( 'cocart_db_version' );
 			$loop               = 0;
 
 			foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
@@ -294,8 +338,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @param  string|null $version New WooCommerce DB version or null.
 		 */
 		public static function update_db_version( $version = null ) {
-			delete_option( 'cocart_db_version' );
-			add_option( 'cocart_db_version', is_null( $version ) ? COCART_VERSION : $version );
+			delete_site_option( 'cocart_db_version' );
+			add_site_option( 'cocart_db_version', is_null( $version ) ? COCART_DB_VERSION : $version );
 		} // END update_db_version()
 
 		/**
@@ -376,11 +420,16 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 		/**
 		 * Creates database tables which the plugin needs to function.
+		 * WARNING: If you are modifying this method, make sure that its safe to call regardless of the state of database.
+		 *
+		 * This is called from `install` method and is executed in-sync when CoCart is installed or updated.
+		 * This can also be called optionally from `verify_base_tables`.
 		 *
 		 * @access private
 		 * @static
-		 * @since  2.1.0
-		 * @global $wpdb
+		 * @since   2.1.0
+		 * @version 3.0.0
+		 * @global  $wpdb
 		 */
 		private static function create_tables() {
 			global $wpdb;
@@ -389,13 +438,27 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
+			dbDelta( self::get_schema() );
+		} // END create_tables()
+
+		/**
+		 * Get Table schema.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 * @global $wpdb
+		 * @return string
+		 */
+		private static function get_schema() {
+			global $wpdb;
+
 			$collate = '';
 
 			if ( $wpdb->has_cap( 'collation' ) ) {
 				$collate = $wpdb->get_charset_collate();
 			}
 
-			// Queries
 			$tables =
 				"CREATE TABLE {$wpdb->prefix}cocart_carts (
 					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -407,9 +470,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 					UNIQUE KEY cart_key (cart_key)
 				) $collate;";
 
-			// Execute
-			dbDelta( $tables );
-		} // END create_tables()
+			return $tables;
+		} // END get_schema()
 
 		/**
 		 * Return a list of CoCart tables. Used to make sure all CoCart tables
