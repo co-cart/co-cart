@@ -2,11 +2,13 @@
 /**
  * Display notices in the WordPress admin for CoCart.
  *
+ * Forked the notice system from: https://github.com/woocommerce/woocommerce/blob/master/includes/admin/class-wc-admin-notices.php
+ *
  * @author   Sébastien Dumont
  * @category Admin
  * @package  CoCart\Admin\Notices
  * @since    1.2.0
- * @version  2.8.3
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -29,122 +31,228 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public static $install_date;
 
 		/**
+		 * Stores notices.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 * @var    array
+		 */
+		private static $notices = array();
+
+		/**
+		 * Array of notices - name => callback.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 * @var    array
+		 */
+		private static $core_notices = array(
+			//'update'              => 'update_notice',
+			'check_php'           => 'check_php_notice',
+			'check_wp'            => 'check_wp_notice',
+			'check_wc'            => 'check_woocommerce_notice',
+			'plugin_review'       => 'plugin_review_notice',
+			'check_beta'          => 'check_beta_notice',
+			'upgrade_warning'     => 'upgrade_warning_notice',
+			'base_tables_missing' => 'base_tables_missing_notice',
+		);
+
+		/**
 		 * Constructor
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.6.0
+		 * @version 3.0.0
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
+			self::$notices = get_option( 'cocart_admin_notices', array() );
 
-			// Check PHP environment.
-			add_action( 'admin_init', array( $this, 'check_php' ), 12 );
-
-			// Check WordPress environment.
-			add_action( 'admin_init', array( $this, 'check_wp' ), 12 );
-
-			// Check WooCommerce dependency.
-			add_action( 'admin_init', array( $this, 'check_woocommerce_dependency' ), 12 );
+			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 
 			// Don't bug the user if they don't want to see any notices.
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
 
-			// Display other admin notices when required. All are dismissible.
-			add_action( 'admin_print_styles', array( $this, 'add_review_notice' ), 0 );
-			add_action( 'admin_print_styles', array( $this, 'add_pre_release_notice' ), 0 );
-			add_action( 'admin_print_styles', array( $this, 'add_upgrade_warning_notice' ), 0 );
+			// If the current user has capabilities then add notices.
+			if ( CoCart_Helpers::user_has_capabilities() ) {
+				add_action( 'admin_print_styles', array( $this, 'add_notices' ) );
+			}
 		} // END __construct()
 
 		/**
-		 * Checks the environment on loading WordPress, just in case the environment changes after activation.
+		 * Store notices to DB.
 		 *
-		 * @access  public
-		 * @since   2.6.0
-		 * @version 2.8.3
-		 * @return  bool
+		 * @access public
+		 * @since  3.0.0
 		 */
-		public function check_php() {
-			// If the current user can not install plugins then return nothing!
-			if ( ! CoCart_Helpers::user_has_capabilities() ) {
-				return false;
-			}
-
-			if ( ! CoCart_Helpers::is_environment_compatible() && is_plugin_active( plugin_basename( COCART_FILE ) ) ) {
-				CoCart::deactivate_plugin();
-				add_action( 'admin_notices', array( $this, 'requirement_php_notice' ) );
-				add_action( 'network_admin_notices', array( $this, 'requirement_php_notice' ) );
-				return false;
-			}
-
-			return true;
-		} // END check_php()
+		public function store_notices() {
+			update_option( 'cocart_admin_notices', self::get_notices() );
+		} // END store_notices()
 
 		/**
-		 * Checks that the WordPress version meets the plugin requirement.
+		 * Get notices
 		 *
-		 * @access  public
-		 * @since   1.2.0
-		 * @version 2.8.3
-		 * @return  bool
+		 * @access public
+		 * @since  3.0.0
+		 * @return array
 		 */
-		public function check_wp() {
-			// If the current user can not install plugins then return nothing!
-			if ( ! CoCart_Helpers::user_has_capabilities() ) {
-				return false;
-			}
-
-			if ( ! CoCart_Helpers::is_wp_version_gte( CoCart::$required_wp ) ) {
-				CoCart::deactivate_plugin();
-				add_action( 'admin_notices', array( $this, 'requirement_wp_notice' ) );
-				add_action( 'network_admin_notices', array( $this, 'requirement_wp_notice' ) );
-				return false;
-			}
-
-			return true;
-		} // END check_wp()
+		public function get_notices() {
+			return self::$notices;
+		} // END get_notices()
 
 		/**
-		 * Check WooCommerce Dependency.
+		 * Remove all notices.
 		 *
-		 * @access  public
-		 * @since   2.0.0
-		 * @version 2.8.3
+		 * @access public
+		 * @since  3.0.0
 		 */
-		public function check_woocommerce_dependency() {
-			// If the current user can not install plugins then return nothing!
-			if ( ! CoCart_Helpers::user_has_capabilities() ) {
-				return false;
+		public function remove_all_notices() {
+			self::$notices = array();
+		} // END remove_all_notices()
+
+		/**
+		 * Reset notices for when new version of CoCart is installed.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 */
+		public function reset_admin_notices() {
+			self::add_notice( 'check_php_notice' );
+			self::add_notice( 'check_wp_notice' );
+			self::add_notice( 'check_woocommerce_notice' );
+		}
+
+		/**
+		 * Show a notice.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @param  string $name Notice name.
+		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
+		 */
+		public function add_notice( $name, $force_save = false ) {
+			self::$notices = array_unique( array_merge( self::get_notices(), array( $name ) ) );
+
+			if ( $force_save ) {
+				// Adding early save to prevent more race conditions with notices.
+				self::store_notices();
+			}
+		} // END add_notice()
+
+		/**
+		 * Remove a notice from being displayed.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @param  string $name Notice name.
+		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
+		 */
+		public function remove_notice( $name, $force_save = false ) {
+			self::$notices = array_diff( self::get_notices(), array( $name ) );
+
+			delete_option( 'cocart_admin_notice_' . $name );
+
+			if ( $force_save ) {
+				// Adding early save to prevent more conditions with notices.
+				self::store_notices();
+			}
+		} // END remove_notice()
+
+		/**
+		 * See if a notice is being shown.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @param  string $name Notice name.
+		 * @return boolean
+		 */
+		public function has_notice( $name ) {
+			return in_array( $name, self::get_notices(), true );
+		} // END has_notice()
+
+		/**
+		 * Add notices.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 */
+		public function add_notices() {
+			$notices = self::get_notices();
+
+			if ( empty( $notices ) ) {
+				return;
 			}
 
-			if ( ! defined( 'WC_VERSION' ) ) {
-				CoCart::deactivate_plugin();
-				add_action( 'admin_notices', array( $this, 'woocommerce_not_installed' ) );
-				add_action( 'network_admin_notices', array( $this, 'woocommerce_not_installed' ) );
-				return false;
-			} elseif ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
-				add_action( 'admin_notices', array( $this, 'required_wc_version_failed' ) );
-				add_action( 'network_admin_notices', array( $this, 'required_wc_version_failed' ) );
-				return false;
+			// Notice should only show on a CoCart page.
+			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
+				return;
 			}
-		} // END check_woocommerce_dependency()
+
+			foreach ( $notices as $notice ) {
+				if ( ! empty( self::$core_notices[ $notice ] ) && apply_filters( 'cocart_show_admin_notice', true, $notice ) ) {
+					add_action( is_multisite() ? 'network_admin_notices' : 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
+				} else {
+					add_action( is_multisite() ? 'network_admin_notices' : 'admin_notices', array( $this, 'output_custom_notices' ) );
+				}
+			}
+		} // END add_notices()
+
+		/**
+		 * Output any stored custom notices.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 */
+		public function output_custom_notices() {
+			$notices = self::get_notices();
+
+			if ( ! empty( $notices ) ) {
+				foreach ( $notices as $notice ) {
+					if ( empty( self::$core_notices[ $notice ] ) ) {
+						$notice_html = get_option( 'cocart_admin_notice_' . $notice );
+
+						if ( $notice_html ) {
+							include dirname( __FILE__ ) . '/views/html-notice-custom.php';
+						}
+					}
+				}
+			}
+		} // END output_custom_notices()
+
+		/**
+		 * Notice about base tables missing.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 */
+		public function base_tables_missing_notice() {
+			$notice_dismissed = apply_filters(
+				'cocart_hide_base_tables_missing_nag',
+				get_user_meta( get_current_user_id(), 'dismissed_base_tables_missing_notice', true )
+			);
+
+			if ( $notice_dismissed ) {
+				self::remove_notice( 'base_tables_missing' );
+			}
+
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-base-table-missing.php';
+		} // END base_tables_missing_notice()
 
 		/**
 		 * Don't bug the user if they don't want to see any notices.
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.6.0
-		 * @global  $current_user
+		 * @version 3.0.0
 		 */
 		public function dont_bug_me() {
-			global $current_user;
-
 			$user_hidden_notice = false;
 
 			// If the user is allowed to install plugins and requested to hide the review notice then hide it for that user.
 			if ( ! empty( $_GET['hide_cocart_review_notice'] ) && CoCart_Helpers::user_has_capabilities() ) {
-				add_user_meta( $current_user->ID, 'cocart_hide_review_notice', '1', true );
+				add_user_meta( get_current_user_id(), 'cocart_hide_review_notice', '1', true );
 				$user_hidden_notice = true;
 			}
 
@@ -181,93 +289,15 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END dont_bug_me()
 
 		/**
-		 * Displays plugin review notice.
-		 *
-		 * Shown after 2 weeks or more from the time the plugin was installed.
-		 *
-		 * @access  public
-		 * @since   2.3.0
-		 * @version 2.8.3
-		 * @global  $current_user
-		 * @return  false|null
-		 */
-		public function add_review_notice() {
-			global $current_user;
-
-			// If the current user can not install plugins then return nothing!
-			if ( ! CoCart_Helpers::user_has_capabilities() ) {
-				return false;
-			}
-
-			// Notice should only show on a CoCart page.
-			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
-				return false;
-			}
-
-			// Is admin review notice hidden?
-			$hide_review_notice = get_user_meta( $current_user->ID, 'cocart_hide_review_notice', true );
-
-			// Check if we need to display the review plugin notice.
-			if ( empty( $hide_review_notice ) ) {
-				// If it has been 2 weeks or more since activating the plugin then display the review notice.
-				if ( ( intval( time() - self::$install_date ) ) > WEEK_IN_SECONDS * 2 ) {
-					add_action( 'admin_notices', array( $this, 'plugin_review_notice' ) );
-					add_action( 'network_admin_notices', array( $this, 'plugin_review_notice' ) );
-				}
-			}
-		} // END add_review_notice()
-
-		/**
-		 * Displays notice if user is testing pre-release version of the plugin.
+		 * Shows an upgrade warning notice if the installed version is less
+		 * than the new release coming soon.
 		 *
 		 * @access  public
-		 * @since   2.3.0
-		 * @version 2.8.3
-		 * @global  $current_user
-		 * @return  false|null
+		 * @since   1.2.3
+		 * @version 3.0.0
+		 * @return  void
 		 */
-		public function add_pre_release_notice() {
-			global $current_user;
-
-			// If the current user can not install plugins then return nothing!
-			if ( ! CoCart_Helpers::user_has_capabilities() ) {
-				return false;
-			}
-
-			// Notice should only show on a CoCart page.
-			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
-				return false;
-			}
-
-			// Is this version of CoCart a pre-release?
-			if ( CoCart_Helpers::is_cocart_pre_release() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
-				add_action( 'admin_notices', array( $this, 'beta_notice' ) );
-				add_action( 'network_admin_notices', array( $this, 'beta_notice' ) );
-			}
-		} // END add_pre_release_notice()
-
-		/**
-		 * Displays notice with an upgrade warning when a future release is coming.
-		 *
-		 * @access  public
-		 * @since   2.3.0
-		 * @version 2.8.3
-		 * @global  $current_user
-		 * @return  false|null
-		 */
-		public function add_upgrade_warning_notice() {
-			global $current_user;
-
-			// If the current user can not install plugins then return nothing!
-			if ( ! CoCart_Helpers::user_has_capabilities() ) {
-				return false;
-			}
-
-			// Notice should only show on a CoCart page.
-			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
-				return false;
-			}
-
+		public function upgrade_warning_notice() {
 			// Upgrade warning notice will disappear once the new release is installed.
 			$upgrade_notice = get_transient( 'cocart_upgrade_notice_hidden' );
 			$next_version   = get_transient( 'cocart_next_version' );
@@ -278,95 +308,108 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( strstr( COCART_VERSION, '-', true ), COCART_NEXT_VERSION, '<' ) && empty( get_transient( 'cocart_upgrade_notice_hidden' ) ) ) {
-				add_action( 'admin_notices', array( $this, 'upgrade_warning' ) );
-				add_action( 'network_admin_notices', array( $this, 'upgrade_warning' ) );
+				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-upgrade-warning.php';
 				set_transient( 'cocart_next_version', COCART_NEXT_VERSION );
 			}
-		} // END add_upgrade_warning_notice()
+
+		} // END upgrade_warning_notice()
 
 		/**
-		 * Shows an upgrade warning notice if the installed version is less
-		 * than the new release coming soon.
+		 * Checks the environment on loading WordPress, just in case the environment changes after activation.
+		 *
+		 * Shows the PHP requirement notice if minimum requirement does not meet.
 		 *
 		 * @access  public
-		 * @since   1.2.3
-		 * @version 2.6.0
+		 * @since   2.6.0
+		 * @version 3.0.0
+		 * @return  void
 		 */
-		public function upgrade_warning() {
-			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-upgrade-warning.php';
-		} // END upgrade_warning()
+		public function check_php_notice() {
+			if ( ! CoCart_Helpers::is_environment_compatible() && is_plugin_active( plugin_basename( COCART_FILE ) ) ) {
+				CoCart::deactivate_plugin();
+
+				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-requirement-php.php';
+			}
+		} // END check_php_notice()
 
 		/**
-		 * Show the PHP requirement notice.
+		 * Checks that the WordPress version meets the plugin requirement before deciding 
+		 * to deactivate the plugin and show the WordPress requirement notice if it doesn't meet.
+		 *
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 3.0.0
+		 * @return  void
+		 */
+		public function check_wp_notice() {
+			if ( ! CoCart_Helpers::is_wp_version_gte( CoCart::$required_wp ) ) {
+				CoCart::deactivate_plugin();
+				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-requirement-wp.php';
+			}
+		} // END check_wp_notice()
+
+		/**
+		 * Check WooCommerce Dependency.
 		 *
 		 * @access public
-		 * @since  2.6.0
+		 * @since  3.0.0
+		 * @return void
 		 */
-		public function requirement_php_notice() {
-			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-requirement-php.php';
-		} // END requirement_php_notice()
+		public function check_woocommerce_notice() {
+			if ( ! defined( 'WC_VERSION' ) ) {
+				// Deactivate plugin.
+				CoCart::deactivate_plugin();
+
+				// WooCommerce is Not Installed or Activated Notice.
+				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-wc-not-installed.php';
+			}
+			/**
+			 * Displays a warning message if minimum version of WooCommerce check fails and
+			 * provides an update button if the user has admin capabilities to update the plugin.
+			 */
+			elseif ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-required-wc.php';
+			}
+		} // END check_woocommerce_notice()
 
 		/**
-		 * Show the WordPress requirement notice.
+		 * Displays notice if user is testing pre-release version of the plugin.
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.6.0
+		 * @version 3.0.0
 		 * @return  void
 		 */
-		public function requirement_wp_notice() {
-			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-requirement-wp.php';
-		} // END requirement_wp_notice()
+		public function check_beta_notice() {
+			// Is this version of CoCart a pre-release?
+			if ( CoCart_Helpers::is_cocart_pre_release() && empty( get_transient( 'cocart_beta_notice_hidden' ) ) ) {
+				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-trying-beta.php';
+			}
+		} // END check_beta_notice()
 
 		/**
-		 * WooCommerce is Not Installed or Activated Notice.
+		 * Displays plugin review notice.
 		 *
-		 * @access  public
-		 * @since   2.0.0
-		 * @version 2.6.0
-		 * @return  void
-		 */
-		public function woocommerce_not_installed() {
-			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-wc-not-installed.php';
-		} // END woocommerce_not_installed()
-
-		/**
-		 * Display a warning message if minimum version of WooCommerce check fails and
-		 * provide an update button if the user has admin capabilities to update plugins.
-		 *
-		 * @access  public
-		 * @since   2.0.0
-		 * @version 2.6.0
-		 * @return  void
-		 */
-		public function required_wc_version_failed() {
-			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-required-wc.php';
-		} // END required_wc_version_failed()
-
-		/**
-		 * Show the beta notice.
+		 * Shown after 2 weeks or more from the time the plugin was installed.
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.6.0
-		 * @return  void
-		 */
-		public function beta_notice() {
-			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-trying-beta.php';
-		} // END beta_notice()
-
-		/**
-		 * Show the plugin review notice.
-		 *
-		 * @access  public
-		 * @since   1.2.0
-		 * @version 2.6.0
+		 * @version 3.0.0
 		 * @return  void
 		 */
 		public function plugin_review_notice() {
 			$install_date = self::$install_date;
 
-			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-please-review.php';
+			// Is admin review notice hidden?
+			$hide_review_notice = get_user_meta( get_current_user_id(), 'cocart_hide_review_notice', true );
+
+			// Check if we need to display the review plugin notice.
+			if ( empty( $hide_review_notice ) ) {
+				// If it has been 2 weeks or more since activating the plugin then display the review notice.
+				if ( ( intval( time() - $install_date ) ) > WEEK_IN_SECONDS * 2 ) {
+					include_once COCART_ABSPATH . 'includes/admin/views/html-notice-please-review.php';
+				}
+			}
 		} // END plugin_review_notice()
 
 	} // END class.
