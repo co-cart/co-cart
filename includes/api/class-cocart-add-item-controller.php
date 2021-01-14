@@ -172,7 +172,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @version 3.0.0
 	 * @param   array           $product_to_add - Passes details of the item ready to add to the cart.
 	 * @param   WP_REST_Request $request        - Full details about the request.
-	 * @return  array           $item_added      - Returns details of the added item in the cart.
+	 * @return  array           $item_added     - Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( $product_to_add = array() ) {
 		$product_id     = $product_to_add['product_id'];
@@ -192,7 +192,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 			$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
 
-			WC()->cart->set_quantity( $item_key, $new_quantity );
+			$controller->get_cart_instance()->set_quantity( $item_key, $new_quantity );
 
 			$item_added = $controller->get_cart_item( $item_key, 'add' );
 
@@ -209,19 +209,20 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			do_action( 'cocart_item_added_updated_in_cart', $item_key, $item_added, $new_quantity, $request );
 		} else {
 			// Add item to cart.
-			$item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
+			$item_key = $controller->get_cart_instance()->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
 
 			// Return response to added item to cart or return error.
 			if ( $item_key ) {
 				// Re-calculate cart totals once item has been added.
-				WC()->cart->calculate_totals();
+				$controller->get_cart_instance()->calculate_totals();
 
 				// Return item details.
 				$item_added = $controller->get_cart_item( $item_key, 'add' );
 
 				/**
-				 * 
-				 * @since   2.
+				 * Action hook will trigger if the item was added.
+				 *
+				 * @since   2.1.0
 				 * @version 3.0.0
 				 * @param   $item_key
 				 * @param   $item_added
