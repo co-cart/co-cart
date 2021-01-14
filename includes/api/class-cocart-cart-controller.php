@@ -68,6 +68,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Gets the cart instance so we only call it once in the API.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 * @since  3.0.0
 	 * @return WC_Cart
