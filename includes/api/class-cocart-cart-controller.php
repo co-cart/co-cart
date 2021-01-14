@@ -265,28 +265,35 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$cart['items'][ $item_key ] = array(
 					'item_key'   => $item_key,
 					'id'         => $_product->get_id(),
-					'name'       => apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key ),
-					'title'      => apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key ),
-					'price'      => wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ),
-					'quantity'   => $cart_item['quantity'],
+					'name'       => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
+					'title'      => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
+					'price'      => apply_filters( 'cocart_cart_item_price', wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+					'quantity'   => array(
+						'value' => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
+						'min_purchase' => $_product->get_min_purchase_quantity(),
+						'max_purchase' => $_product->get_max_purchase_quantity(),
+					),
 					'tax_data'   => $cart_item['line_tax_data'],
 					'totals'     => array(
-						'subtotal' => $cart_item['line_subtotal'],
+						'subtotal' => apply_filters( 'cocart_cart_item_subtotal', $cart_item['line_subtotal'], $cart_item, $item_key ),
 						'subtotal_tax' => $cart_item['line_subtotal_tax'],
 						'total' => $cart_item['line_total'],
 						'tax' => $cart_item['line_tax']
 					),
 					'slug'       => $this->get_product_slug( $_product ),
 					'meta' => array(
-						'product_type'          => $_product->get_type(),
-						'sku'                   => $_product->get_sku(),
-						'dimensions'            => array(),
-						'min_purchase_quantity' => $_product->get_min_purchase_quantity(),
-						'max_purchase_quantity' => $_product->get_max_purchase_quantity(),
-						'weight'                => wc_get_weight( $_product->get_weight() * $cart_item['quantity'], $weight_unit )
+						'product_type' => $_product->get_type(),
+						'sku'          => $_product->get_sku(),
+						'dimensions'   => array(),
+						'weight'       => wc_get_weight( $_product->get_weight() * $cart_item['quantity'], $weight_unit )
 					),
-					'cart_item_data'            => array()
+					'cart_item_data'   => array()
 				);
+
+				// Backorder notification.
+				if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
+					$cart['items'][ $item_key ]['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'woocommerce' ), $_product->get_id() ) );
+				}
 
 				// Remove all elements of the item except any additional item data.
 				unset( $cart_item['key'] );

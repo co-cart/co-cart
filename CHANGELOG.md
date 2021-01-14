@@ -26,8 +26,11 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * `cocart_store_index`
 * * `cocart_store_address`
 * * `cocart_routes`
-* * `cocart_item_price`
-* * `cocart_item_subtotal`
+* * `cocart_cart_item_name`
+* * `cocart_cart_item_title`
+* * `cocart_cart_item_price`
+* * `cocart_cart_item_quantity`
+* * `cocart_cart_item_subtotal`
 
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
