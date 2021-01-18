@@ -234,6 +234,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 		}
 
+		$cart['items']         = $this->get_items( $cart_contents, $show_thumb );
 		$weight_unit = get_option( 'woocommerce_weight_unit' );
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
@@ -1159,6 +1160,170 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $product_slug;
 	} // END get_product_slug()
+
+	/**
+	 * Get a single item from the cart and present the data required.
+	 *
+	 * @access protected
+	 * @param  WC_Product $_product - The product data of the item in the cart.
+	 * @param  array      $cart_item - The item in the cart containing the default cart item data.
+	 * @param  string     $item_key - The item key generated based on the details of the item.
+	 * @param  boolean    $removed_item - Determines if the item in the cart is removed.
+	 * @return array      $item - Full details of the item in the cart and it's purchase limits.
+	 */
+	protected function get_item( $_product, $cart_item, $item_key, $removed_item = false ) {
+		$item = array(
+			'item_key'   => $item_key,
+			'id'         => $_product->get_id(),
+			'name'       => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
+			'title'      => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
+			'price'      => apply_filters( 'cocart_cart_item_price', wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'quantity'   => array(
+				'value' => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
+				'min_purchase' => $_product->get_min_purchase_quantity(),
+				'max_purchase' => $_product->get_max_purchase_quantity(),
+			),
+			'tax_data'   => $cart_item['line_tax_data'],
+			'totals'     => array(
+				'subtotal' => apply_filters( 'cocart_cart_item_subtotal', $cart_item['line_subtotal'], $cart_item, $item_key ),
+				'subtotal_tax' => $cart_item['line_subtotal_tax'],
+				'total' => $cart_item['line_total'],
+				'tax' => $cart_item['line_tax']
+			),
+			'slug'       => $this->get_product_slug( $_product ),
+			'meta' => array(
+				'product_type' => $_product->get_type(),
+				'sku'          => $_product->get_sku(),
+				'dimensions'   => array(),
+				'weight'       => wc_get_weight( $_product->get_weight() * $cart_item['quantity'], $weight_unit )
+			),
+			'cart_item_data'   => array()
+		);
+
+		// Item dimensions.
+		$dimensions = $_product->get_dimensions( false );
+		if ( ! empty( $dimensions ) ) {
+			$item['meta']['dimensions'] = array(
+				'length' => $dimensions['length'],
+				'width'  => $dimensions['width'],
+				'height' => $dimensions['height'],
+				'unit'   => get_option( 'woocommerce_dimension_unit' )
+			);
+		}
+
+		// Variation data.
+		if ( ! isset( $cart_item['variation'] ) ) { $cart_item['variation'] = array(); }
+		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
+
+		// If thumbnail is requested then add it to each item in cart.
+		if ( $show_thumb ) {
+			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key, $removed_item );
+
+			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
+
+			/**
+			 * Filters the source of the product thumbnail.
+			 *
+			 * @since   2.1.0
+			 * @version 3.0.0
+			 * @param   string $thumbnail_src URL of the product thumbnail.
+			 */
+			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key, $removed_item );
+
+			// Add main featured image.
+			$item['featured_image'] = esc_url( $thumbnail_src );
+		}
+
+		return $item;
+	} // END get_item()
+
+	/**
+	 * Gets the cart items.
+	 *
+	 * @access public
+	 * @param  array   $cart_contents - The cart contents passed.
+	 * @param  boolean $show_thumb - Determines if requested to return the item featured thumbnail.
+	 * @return array   $items - Returns all items in the cart.
+	 */
+	public function get_items( $cart_contents = array(), $show_thumb = true ) {
+		$items = array();
+
+		$weight_unit = get_option( 'woocommerce_weight_unit' );
+
+		foreach ( $cart_contents as $item_key => $cart_item ) {
+			// If product data is missing then get product data and apply.
+			if ( ! isset( $cart_item['data'] ) ) {
+				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+				$items[ $item_key ]['data'] = $cart_item['data']; // Internal use only!
+			}
+
+			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
+
+			// If product is no longer purchasable then don't return it and notify customer.
+			if ( ! $_product->is_purchasable() ) {
+				/* translators: %s: product name */
+				$message = sprintf( __( '%s has been removed from your cart because it can no longer be purchased. Please contact us if you need assistance.', 'cart-rest-api-for-woocommerce' ), $_product->get_name() );
+
+				/**
+				 * Filter message about item removed from the cart.
+				 *
+				 * @since 2.1.0
+				 * @param string     $message Message.
+				 * @param WC_Product $_product Product data.
+				 */
+				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
+
+				$this->get_cart_instance()->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
+
+				wc_add_notice( $message, 'error' );
+			} else {
+				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key );
+
+				// Backorder notification.
+				if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
+					$items[ $item_key ]['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'woocommerce' ), $_product->get_id() ) );
+				}
+
+				// Prepares the remaining cart item data.
+				$cart_item = $this->prepare_item( $cart_item );
+
+				// Collect all cart item data if any thing is left.
+				if ( ! empty( $cart_item ) ) {
+					$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
+				}
+
+				// This filter allows additional data to be returned for a specific item in cart.
+				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
+			}
+		}
+
+		return $items;
+	} // END get_items()
+
+
+	/**
+	 * Removes all internal elements of an item that is not needed.
+	 *
+	 * @access private
+	 * @param  array $cart_item - Before cart item data is modified.
+	 * @return array $cart_item - Modified cart item data returned.
+	 */
+	private function prepare_item( $cart_item ) {
+		unset( $cart_item['key'] );
+		unset( $cart_item['product_id'] );
+		unset( $cart_item['variation_id'] );
+		unset( $cart_item['variation'] );
+		unset( $cart_item['quantity'] );
+		unset( $cart_item['data'] );
+		unset( $cart_item['data_hash'] );
+		unset( $cart_item['line_tax_data'] );
+		unset( $cart_item['line_subtotal'] );
+		unset( $cart_item['line_subtotal_tax'] );
+		unset( $cart_item['line_total'] );
+		unset( $cart_item['line_tax'] );
+
+		return $cart_item;
+	}
 
 	/**
 	 * Returns cross sells based on the items in the cart.
