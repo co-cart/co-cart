@@ -354,6 +354,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		$cart['cross_sells']   = $this->get_cross_sells();
+		$cart['notices']       = $this->maybe_return_notices();
 
 		/**
 		 * Return cart items from session if set.
@@ -1279,6 +1280,49 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $details;
 	} // END get_shipping_details()
+
+	/**
+	 * Return notices in cart if any.
+	 *
+	 * @access protected
+	 * @return array $notices.
+	 */
+	protected function maybe_return_notices() {
+		$notice_count = 0;
+		$all_notices  = WC()->session->get( 'wc_notices', array() );
+
+		foreach ( $all_notices as $notices ) {
+			$notice_count += count( $notices );
+		}
+
+		$notices = $notice_count > 0 ? $this->print_notices() : array();
+
+		return $notices;
+	} // END maybe_return_notices()
+
+	/**
+	 * Returns messages and errors which are stored in the session, then clears them.
+	 *
+	 * @access protected
+	 * @return array
+	 */
+	protected function print_notices() {
+		$all_notices  = WC()->session->get( 'wc_notices', array() );
+		$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
+		$notices      = array();
+
+		foreach ( $notice_types as $notice_type ) {
+			if ( wc_notice_count( $notice_type ) > 0 ) {
+				foreach ( $all_notices[ $notice_type ] as $key => $notice ) {
+					$notices[ $notice_type ][$key] = wc_kses_notice( $notice['notice'] );
+				}
+			}
+		}
+
+		wc_clear_notices();
+
+		return $notices;
+	} // END print_notices()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
