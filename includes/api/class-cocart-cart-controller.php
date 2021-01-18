@@ -53,8 +53,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'schema' => array( $this, 'get_item_schema' )
 		) );
 
-		// Get Cart in Session - cocart/v2/cart/1654654321 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\w]+)', array(
+		// Get Cart in Session - cocart/v2/cart/session/ec2b1f30a304ed513d2975b7b9f222f6 (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/session/(?P<cart_key>[\w]+)', array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_cart_in_session' ),
@@ -320,11 +320,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   array $data The cart key is a required variable.
-	 * @return  array $cart Returns the cart data from the database.
+	 * @param   array $request The cart key is a required variable.
+	 * @return  array $cart    Returns the cart data from the database.
 	 */
-	public function get_cart_in_session( $data = array() ) {
-		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
+	public function get_cart_in_session( $request = array() ) {
+		$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : '';
 
 		if ( empty( $cart_key ) ) {
 			throw new CoCart_Data_Exception( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
@@ -339,7 +339,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
 		}
 
-		return $this->return_cart_contents( $data, maybe_unserialize( $cart['cart'] ), '', true );
+		return $this->return_cart_contents( $request, maybe_unserialize( $cart['cart'] ), '', true );
 	} // END get_cart_in_session()
 
 	/**
