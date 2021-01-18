@@ -255,44 +255,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 		}
 
-				// Item dimensions.
-				$dimensions = $_product->get_dimensions( false );
-				if ( ! empty( $dimensions ) ) {
-					$cart['items'][ $item_key ]['meta']['dimensions'] = array(
-						'length' => $dimensions['length'],
-						'width'  => $dimensions['width'],
-						'height' => $dimensions['height'],
-						'unit'   => get_option( 'woocommerce_dimension_unit' )
-					);
-				}
-
-				// Variation data.
-				if ( ! isset( $cart_item['variation'] ) ) { $cart_item['variation'] = array(); }
-				$cart['items'][ $item_key ]['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
-
-				// If thumbnail is requested then add it to each item in cart.
-				if ( $show_thumb ) {
-					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key );
-
-					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
-
-					/**
-					 * Filters the source of the product thumbnail.
-					 *
-					 * @since 2.1.0
-					 * @param string $thumbnail_src URL of the product thumbnail.
-					 */
-					$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
-
-					// Add main featured image.
-					$cart['items'][ $item_key ]['featured_image'] = esc_url( $thumbnail_src );
-				}
-
-				// This filter allows additional data to be returned for a specific item in cart.
-				$cart['items'] = apply_filters( 'cocart_cart_items', $cart['items'], $item_key, $cart_item, $_product );
-			}
-		}
-
+		$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
 		$cart['cross_sells']   = $this->get_cross_sells();
 		$cart['notices']       = $this->maybe_return_notices();
 
@@ -1239,6 +1202,41 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		return $items;
 	} // END get_items()
 
+	/**
+	 * Gets the cart removed items.
+	 *
+	 * @access public
+	 * @param  array   $cart_contents - The removed cart contents passed.
+	 * @param  boolean $show_thumb - Determines if requested to return the item featured thumbnail.
+	 * @return array   $items - Returns all removed items in the cart.
+	 */
+	public function get_removed_items( $removed_items = array(), $show_thumb = true ) {
+		$items = array();
+
+		foreach ( $removed_items as $item_key => $cart_item ) {
+			// If product data is missing then get product data and apply.
+			if ( ! isset( $cart_item['data'] ) ) {
+				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+			}
+
+			$_product = $cart_item['data'];
+
+			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, true );
+
+			// Move the quantity value to it's parent.
+			$items[ $item_key ]['quantity'] = $items[ $item_key ]['quantity']['value'];
+
+			// Prepares the remaining cart item data.
+			$cart_item = $this->prepare_item( $cart_item );
+
+			// Collect all cart item data if any thing is left.
+			if ( ! empty( $cart_item ) ) {
+				$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
+			}
+		}
+
+		return $items;
+	} // END get_removed_items()
 
 	/**
 	 * Removes all internal elements of an item that is not needed.
