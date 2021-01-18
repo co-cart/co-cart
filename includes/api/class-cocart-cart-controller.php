@@ -775,10 +775,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$cart_tax_totals = $cart->get_tax_totals();
 		$tax_lines       = [];
 
-		foreach ( $cart_tax_totals as $cart_tax_total ) {
-			$tax_lines[] = array(
-				'name'  => $cart_tax_total->label,
-				'price' => $this->prepare_money_response( $cart_tax_total->amount, wc_get_price_decimals() ),
+		foreach ( $cart_tax_totals as $code => $tax ) {
+			$tax_lines[$code] = array(
+				'name'  => $tax->label,
+				'price' => $this->prepare_money_response( $tax->amount, wc_get_price_decimals() ),
 			);
 		}
 
