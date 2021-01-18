@@ -201,6 +201,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
 			'items_weight'   => wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'coupons'        => array(),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
 			'shipping'       => $this->get_shipping_details(),
