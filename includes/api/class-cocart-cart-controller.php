@@ -204,6 +204,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
 			'shipping'       => $this->get_shipping_details(),
+			'fees'           => $this->get_fees( $this->get_cart_instance() ),
+			'totals'         => array(
 				'subtotal'        => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
 				'subtotal_tax'     => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
 				'fee_total'         => $this->prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
@@ -215,7 +217,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'total'        => $this->prepare_money_response( $this->get_cart_instance()->get_total( 'view' ), wc_get_price_decimals() ),
 				'total_tax'          => $this->prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
 			),
-			'fees'            => $this->get_fees( $this->get_cart_instance() ),
 		);
 
 		// Returns each coupon applied and coupon total applied if store has coupons enabled.
