@@ -255,6 +255,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 		}
 
+		$cart['items']         = $this->get_items( $cart_contents, $show_thumb );
 		$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
 		$cart['cross_sells']   = $this->get_cross_sells();
 		$cart['notices']       = $this->maybe_return_notices();
