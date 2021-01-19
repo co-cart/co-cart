@@ -128,7 +128,7 @@ final class CoCart {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.6.0
+	 * @version 3.0.0
 	 * @return  void
 	 */
 	public static function includes() {
