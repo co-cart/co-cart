@@ -68,9 +68,10 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Perform a manual database update when triggered by WooCommerce System Tools.
 		 *
-		 * @since 3.0.0
+		 * @access public
+		 * @since  3.0.0
 		 */
-		public static function manual_database_update() {
+		public function manual_database_update() {
 			$blog_id = get_current_blog_id();
 
 			add_action( 'wp_' . $blog_id . '_cocart_updater_cron', array( $this, 'run_manual_database_update' ) );
