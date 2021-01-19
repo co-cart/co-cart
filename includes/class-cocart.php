@@ -135,6 +135,7 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-autoloader.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-response.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
 		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
