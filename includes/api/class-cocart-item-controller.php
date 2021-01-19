@@ -77,7 +77,7 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 			$item = esc_html__( 'No item in the cart.', 'cart-rest-api-for-woocommerce' );
 		}
 
-		return $controller->get_response( $item, $this->rest_base );
+		return CoCart_Response::get_response( $item, $this->namespace, $this->rest_base );
 	} // END view_item()
 
 	/**
