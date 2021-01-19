@@ -103,7 +103,7 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.8.2
+	 * @version 3.0.0
 	 */
 	public static function load_cart_action() {
 		/**
@@ -193,6 +193,22 @@ class CoCart_API_Session {
 			do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
 		}
 
+		// Current user ID. If user is NOT logged in then the customer is a guest.
+		$current_user_id = strval( get_current_user_id() );
+
+		// If the current user is not set then hack start of session.
+		if ( $current_user_id !== 0 ) {
+			// Prevent these actions from happening just encase.
+			remove_action( 'woocommerce_set_cart_cookies', array( $handler, 'set_customer_cart_cookie' ), 20 );
+			remove_action( 'shutdown', array( $handler, 'save_cart' ), 20 );
+
+			// Destroy old cookie.
+			$handler->set_customer_cart_cookie( false );
+
+			// Override customer ID with the loaded cart key.
+			$handler->_customer_id = $cart_key;
+		}
+
 		// Sets the php session data for the loaded cart.
 		WC()->session->set( 'cart', $new_cart['cart'] );
 		WC()->session->set( 'applied_coupons', $new_cart['applied_coupons'] );
@@ -208,7 +224,23 @@ class CoCart_API_Session {
 			WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
 		}
 
-		// If true, notify the customer that there cart has transferred over via the web.
+		// If the current user is not set then hack end of session.
+		if ( $current_user_id !== 0 ) {
+			// Overrides the cart we loaded, destroys current cart in session.
+			$handler->save_cart( $cart_key );
+
+			// Save new cookie.
+			$handler->set_customer_cart_cookie( true );
+
+			// Set cart expiration.
+			$handler->set_cart_expiration();
+			$handler->update_cart_timestamp( $handler->_customer_id, $handler->_cart_expiration );
+
+			//add_action( 'woocommerce_set_cart_cookies', array( $handler, 'set_customer_cart_cookie' ), 20 );
+			//add_action( 'shutdown', array( $handler, 'save_cart' ), 20 );
+		}
+
+		// If true, notify the customer that their cart has transferred over via the web.
 		if ( ! empty( $new_cart ) && $notify_customer ) {
 			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 		}
