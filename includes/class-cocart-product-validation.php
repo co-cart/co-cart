@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Product Validation
  * @since    2.1.0
- * @version  2.7.2
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.0
-		 * @version 2.7.0
+		 * @version 3.0.0
 		 * @param   WC_Product $product_data
 		 * @return  WP_Error
 		 */
@@ -65,7 +65,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 			 */
 			$message = apply_filters( 'cocart_cannot_add_product_type_to_cart_message', $message, $product_data );
 
-			return new WP_Error( 'cocart_cannot_add_product_type_to_cart', $message, array( 'status' => 403 ) );
+			return CoCart_Response::get_error_response( 'cocart_cannot_add_product_type_to_cart', $message, 403 );
 		} // END product_not_allowed_to_add()
 
 		/**
