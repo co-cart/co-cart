@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category CLI
  * @package  CoCart\CLI
- * @since    2.7.0
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 
@@ -36,7 +36,7 @@ class CoCart_CLI_Version_Command {
 
 		$wpdb->hide_errors();
 
-		$current_version = get_option( 'cocart_version' );
+		$current_version = get_site_option( 'cocart_version' );
 
 		/* translators: 2: Version of CoCart */
 		WP_CLI::log(
@@ -58,7 +58,7 @@ class CoCart_CLI_Version_Command {
 
 		$wpdb->hide_errors();
 
-		$db_version = get_option( 'cocart_db_version' );
+		$db_version = get_site_option( 'cocart_db_version' );
 
 		/* translators: 2: Database Version of CoCart */
 		WP_CLI::log(

@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category CLI
  * @package  CoCart\CLI
- * @since    2.7.0
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 

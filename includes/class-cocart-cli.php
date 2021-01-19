@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart\CLI
- * @since    2.7.0
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 
@@ -37,7 +37,7 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 		 * @access private
 		 */
 		private function includes() {
-			//require_once COCART_ABSPATH . 'includes/cli/class-cocart-cli-update-command.php';
+			require_once COCART_ABSPATH . 'includes/cli/class-cocart-cli-update-command.php';
 			require_once COCART_ABSPATH . 'includes/cli/class-cocart-cli-version-command.php';
 		}
 
@@ -47,6 +47,7 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 		 * @access private
 		 */
 		private function hooks() {
+			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Version_Command::register_commands' );
 			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Update_Command::register_commands' );
 		}
 
