@@ -5,7 +5,7 @@
  * Extends exception to provide additional data.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Classes
+ * @package CoCart\Data Exception
  * @since   3.0.0
  */
 
@@ -46,6 +46,8 @@ class CoCart_Data_Exception extends Exception {
 	public function __construct( $error_code, $message, $http_status_code = 400, $additional_data = array() ) {
 		$this->error_code      = $error_code;
 		$this->additional_data = array_filter( (array) $additional_data );
+
+		CoCart_Logger::log( $message, 'error' );
 
 		parent::__construct( $message, $http_status_code );
 	}
