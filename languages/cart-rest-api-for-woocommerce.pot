@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart Lite 2.8.4\n"
+"Project-Id-Version: CoCart Lite 2.9.0-RC.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-01-09 12:39:18+00:00\n"
+"POT-Creation-Date: 2021-01-21 19:07:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -108,113 +108,118 @@ msgid ""
 "target=\"_blank\">Sign Up to Test</a>."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:47
+#: includes/admin/class-cocart-wc-admin-system-status.php:55
 msgid "This section shows any information about %s."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:75
+#: includes/admin/class-cocart-wc-admin-system-status.php:83
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:83
+#: includes/admin/class-cocart-wc-admin-system-status.php:91
 msgid "Database Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:85
+#: includes/admin/class-cocart-wc-admin-system-status.php:93
 msgid ""
 "The version of %s reported by the database. This should be the same as the "
 "version of the plugin."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:92
+#: includes/admin/class-cocart-wc-admin-system-status.php:100
 msgid "Install Date"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:100
+#: includes/admin/class-cocart-wc-admin-system-status.php:108
 msgid "Carts in Session"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:108
+#: includes/admin/class-cocart-wc-admin-system-status.php:116
 msgid "Carts Expiring Soon"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:109
-#: includes/admin/class-cocart-wc-admin-system-status.php:118
+#: includes/admin/class-cocart-wc-admin-system-status.php:117
+#: includes/admin/class-cocart-wc-admin-system-status.php:126
 msgid "%1$d out of %2$d in session."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:110
+#: includes/admin/class-cocart-wc-admin-system-status.php:118
 msgid "Carts that only have less than 6 hours left before they have expired."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:117
+#: includes/admin/class-cocart-wc-admin-system-status.php:125
 msgid "Carts Expired"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:119
+#: includes/admin/class-cocart-wc-admin-system-status.php:127
 msgid ""
 "Any expired carts that get updated before being cleared will become an "
 "active cart again."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:220
+#: includes/admin/class-cocart-wc-admin-system-status.php:228
 msgid "Clear cart sessions"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:221
+#: includes/admin/class-cocart-wc-admin-system-status.php:229
 msgid "Clear all"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:224
-#: includes/admin/class-cocart-wc-admin-system-status.php:235
-#: includes/admin/class-cocart-wc-admin-system-status.php:253
+#: includes/admin/class-cocart-wc-admin-system-status.php:232
+#: includes/admin/class-cocart-wc-admin-system-status.php:243
+#: includes/admin/class-cocart-wc-admin-system-status.php:261
+#: includes/admin/class-cocart-wc-admin-system-status.php:289
 msgid "Note:"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:225
-msgid "This will clear all carts in session handled by CoCart and saved carts."
+#: includes/admin/class-cocart-wc-admin-system-status.php:233
+msgid "This tool will clear all carts in session handled by CoCart and saved carts."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:231
+#: includes/admin/class-cocart-wc-admin-system-status.php:239
 msgid "Clear expired carts"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:232
+#: includes/admin/class-cocart-wc-admin-system-status.php:240
 msgid "Clear expired"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:237
-msgid "This will clear all expired carts %s stored in the database."
+#: includes/admin/class-cocart-wc-admin-system-status.php:245
+msgid "This tool will clear all expired carts %s stored in the database."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:238
+#: includes/admin/class-cocart-wc-admin-system-status.php:246
 msgid "only"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:249
+#: includes/admin/class-cocart-wc-admin-system-status.php:257
 msgid "Synchronize carts"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:250
+#: includes/admin/class-cocart-wc-admin-system-status.php:258
 msgid "Synchronize (%d) cart/s"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:254
+#: includes/admin/class-cocart-wc-admin-system-status.php:262
 msgid ""
 "This will copy any existing carts from WooCommerce's session table to "
 "CoCart's session table in the database. If cart already exists for a "
 "customer then it will not sync for that customer."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:276
+#: includes/admin/class-cocart-wc-admin-system-status.php:290
+msgid "This tool will clear all carts in session and saved carts."
+msgstr ""
+
+#: includes/admin/class-cocart-wc-admin-system-status.php:306
 msgid "All active carts have been cleared and %s saved carts."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:287
+#: includes/admin/class-cocart-wc-admin-system-status.php:317
 msgid "All expired carts have now been cleared from the database."
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:307
+#: includes/admin/class-cocart-wc-admin-system-status.php:337
 msgid "Carts are now synchronized."
 msgstr ""
 
@@ -1064,40 +1069,40 @@ msgid ""
 "or %2$scheckout%3$s."
 msgstr ""
 
-#: includes/class-cocart.php:163
+#: includes/class-cocart.php:166
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:168
+#: includes/class-cocart.php:171
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:74
+#: includes/admin/class-cocart-wc-admin-system-status.php:82
 msgctxt "label that indicates the version of the plugin"
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:82
+#: includes/admin/class-cocart-wc-admin-system-status.php:90
 msgctxt "label that indicates the database version of the plugin"
 msgid "Database Version"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:91
+#: includes/admin/class-cocart-wc-admin-system-status.php:99
 msgctxt "label that indicates the install date of the plugin"
 msgid "Install Date"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:99
+#: includes/admin/class-cocart-wc-admin-system-status.php:107
 msgctxt "label that indicates the number of carts in session"
 msgid "Carts in Session"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:107
+#: includes/admin/class-cocart-wc-admin-system-status.php:115
 msgctxt "label that indicates the number of carts expiring soon"
 msgid "Carts Expiring Soon"
 msgstr ""
 
-#: includes/admin/class-cocart-wc-admin-system-status.php:116
+#: includes/admin/class-cocart-wc-admin-system-status.php:124
 msgctxt "label that indicates the number of carts expired"
 msgid "Carts Expired"
 msgstr ""

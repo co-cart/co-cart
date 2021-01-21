@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Package
  * @since    2.6.0
- * @version  2.6.2
+ * @version  2.9.0
  * @license  GPL-2.0+
  */
 
@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.8.4';
+	public static $version = '2.9.0-RC.1';
 
 	/**
 	 * Required WordPress Version
@@ -69,6 +69,9 @@ final class CoCart {
 
 		// Environment checking when activating.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'activation_check' ) );
+
+		// Setup CoCart Session Handler.
+		add_action( 'woocommerce_init', array( __CLASS__, 'session_handler' ) );
 
 		// Setup WooCommerce.
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
@@ -197,15 +200,25 @@ final class CoCart {
 	} // END load_rest_api()
 
 	/**
-	 * Include WooCommerce tweaks and new session handler.
+	 * Includes CoCart session handler.
+	 *
+	 * @access public
+	 * @since  2.9.0
+	 * @return void
+	 */
+	public static function session_handler() {
+		include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
+	} // END session_handler()
+
+	/**
+	 * Includes WooCommerce tweaks.
 	 *
 	 * @access  public
 	 * @since   2.1.2
-	 * @version 2.6.0
+	 * @version 2.9.0
 	 * @return  void
 	 */
 	public static function woocommerce() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-woocommerce.php';
 	} // END woocommerce()
 

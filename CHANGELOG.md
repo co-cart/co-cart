@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v2.9.0 - ?? ??, 2021
+
+* Tweaked: The loading of the session handler to load during `woocommerce_init` instead of `woocommerce_loaded` for better initialization.
+* Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
+* Tested: ✔️ Compatible with WooCommerce v4.9
+
 ## v2.8.4 - 9th January, 2021
 
 * Corrected: Action hook `cocart_item_quantity_changed` not being called after updating a cart item's quantity. Thanks to [@pauld8](https://github.com/pauld8)

@@ -7,7 +7,7 @@ Requires PHP: 7.0
 Tested up to: 5.6
 Stable tag: 2.8.4
 WC requires at least: 4.3
-WC tested up to: 4.8
+WC tested up to: 4.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -263,42 +263,16 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-= v2.8.4 - 9th January, 2021 =
+= v2.9.0 - ?? ??, 2021 =
 
-* Corrected: Action hook `cocart_item_quantity_changed` not being called after updating a cart item's quantity. Thanks to [@pauld8](https://github.com/pauld8)
-* Enhanced: Cart now returns with filterable `WP_REST_Response` function instead.
-
-= v2.8.3 - 20th December, 2020 =
-
-* Enhanced: CoCart now welcomes users when the plugin is activated on a multi-site network.
-* Fixed: Headers already sent when filtering `rest_pre_serve_request`. Appears to only cause issues when you have `WP_DEBUG` enabled locally.
-* Fixed: A few errors were not returning the status error in the correct format.
-
-> Last update for CoCart Lite v2 ❄️
-
-= v2.8.2 - 16th December, 2020 =
-
-* Enhanced: 📦 Load chosen shipping method when loading cart from session via the web.
-* Enhanced: 📦 Load cart fees when loading cart from session via the web.
-* Dev: **NEW** filter `cocart_load_cart_query_name` to allow developers add more white labelling when loading the cart via the web.
-* Improved: `uninstall.php` to delete WooCommerce Admin notes when uninstalling for those who are using WooCommerce v4.8 or greater.
-
-= v2.8.1 - 10th December, 2020 =
-
-* Added: Support for Pantheon.io so it no longer caches for guest customers on the frontend and prevent the cart from appearing empty.
-
-> This release introduces support for third party starting with web host.
-
-= v2.8.0 - 9th December, 2020 =
-
-* Enhanced: 📦 Load chosen shipping method when loading cart from session.
-* Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
-* Tested: ✔️ Compatible with WordPress v5.6
+* Tweaked: The loading of the session handler to load during `woocommerce_init` instead of `woocommerce_loaded` for better initialization.
+* Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
+* Tested: ✔️ Compatible with WooCommerce v4.9
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 2.8.0 =
+= 2.9.0 =
 
-Minimum plugin requirements have been bumped up. Please see changelog for more. 💜
+* Tweaked: The loading of the session handler to load during `woocommerce_init` instead of `woocommerce_loaded` for better initialization.
