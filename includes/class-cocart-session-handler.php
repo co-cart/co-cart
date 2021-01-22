@@ -10,7 +10,7 @@
  * @category API
  * @package  CoCart\Session Handler
  * @since    2.1.0
- * @version  2.7.3
+ * @version  2.9.0
  * @license  GPL-2.0+
  */
 
@@ -111,7 +111,7 @@ class CoCart_Session_Handler extends WC_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.7
+	 * @version 2.9.0
 	 * @param   int $current_user_id
 	 */
 	public function init_session_cookie( $current_user_id = 0 ) {
@@ -128,8 +128,8 @@ class CoCart_Session_Handler extends WC_Session {
 		}
 
 		// Check if we requested to load a specific cart.
-		if ( isset( $_REQUEST['cart_key'] ) || isset( $_REQUEST['id'] ) ) {
-			$cart_id = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $_REQUEST['id'];
+		if ( isset( $_REQUEST['cart_key'] ) ) {
+			$cart_id = $_REQUEST['cart_key'];
 
 			// Set customer ID in session.
 			$this->_customer_id = $cart_id;

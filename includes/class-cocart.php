@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.9.0-RC.1';
+	public static $version = '2.9.0-RC.2';
 
 	/**
 	 * Required WordPress Version
@@ -71,7 +71,7 @@ final class CoCart {
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'activation_check' ) );
 
 		// Setup CoCart Session Handler.
-		add_action( 'woocommerce_init', array( __CLASS__, 'session_handler' ) );
+		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
 
 		// Setup WooCommerce.
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
@@ -200,14 +200,21 @@ final class CoCart {
 	} // END load_rest_api()
 
 	/**
-	 * Includes CoCart session handler.
+	 * Filters the session handler to replace with our own.
 	 *
-	 * @access public
-	 * @since  2.9.0
-	 * @return void
+	 * @access  public
+	 * @since   2.1.2
+	 * @version 2.9.0
+	 * @param   string WooCommerce Session Handler
+	 * @return  string CoCart Session Handler
 	 */
-	public static function session_handler() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
+	public static function session_handler( $handler ) {
+		if ( class_exists( 'WC_Session' ) ) {
+			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
+			$handler = 'CoCart_Session_Handler';
+		}
+
+		return $handler;
 	} // END session_handler()
 
 	/**

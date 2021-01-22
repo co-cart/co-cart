@@ -2,7 +2,7 @@
 
 ## v2.9.0 - ?? ??, 2021
 
-* Tweaked: The loading of the session handler to load during `woocommerce_init` instead of `woocommerce_loaded` for better initialization.
+* Improved: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Tested: ✔️ Compatible with WooCommerce v4.9
 
