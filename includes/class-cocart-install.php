@@ -178,6 +178,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				define( 'COCART_INSTALLING', true );
 			}
 
+			// Remove all admin notices.
+			self::remove_admin_notices();
+
 			// Install database tables.
 			self::create_tables();
 			self::verify_base_tables();
@@ -242,6 +245,17 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			return $missing_tables;
 		} // END verify_base_tables()
+
+		/**
+		 * Reset any notices added to admin.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 */
+		private static function remove_admin_notices() {
+			CoCart_Admin_Notices::remove_all_notices();
+		}
 
 		/**
 		 * Is a Database update needed?
