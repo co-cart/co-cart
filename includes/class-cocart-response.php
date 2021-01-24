@@ -29,7 +29,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @param  string $rest_base - The rest base of the API requested.
 		 * @return WP_REST_Response  - The returned response.
 		 */
-		public function get_response( $response, $namespace = '', $rest_base = '' ) {
+		public static function get_response( $response, $namespace = '', $rest_base = '' ) {
 			if ( empty( $rest_base ) ) {
 				$rest_base = 'cart';
 			}
@@ -54,13 +54,13 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 				return new WP_REST_Response( $response, 200 );
 			} catch( \CoCart_Data_Exception $e ) {
-				$response = $this->get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+				$response = self::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			} catch ( \Exception $e ) {
-				$response = $this->get_error_response( 'cocart_unknown_server_error', $e->getMessage(), 500 );
+				$response = self::get_error_response( 'cocart_unknown_server_error', $e->getMessage(), 500 );
 			}
 
 			if ( is_wp_error( $response ) ) {
-				$response = $this->error_to_response( $response );
+				$response = self::error_to_response( $response );
 			}
 
 			return $response;
@@ -70,10 +70,11 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * Converts an error to a response object. Based on \WP_REST_Server.
 		 *
 		 * @access public
+		 * @static
 		 * @param  WP_Error $error WP_Error instance.
 		 * @return WP_REST_Response List of associative arrays with code and message keys.
 		 */
-		public function error_to_response( $error ) {
+		public static function error_to_response( $error ) {
 			$error_data = $error->get_error_data();
 			$status     = isset( $error_data, $error_data['status'] ) ? $error_data['status'] : 500;
 			$errors     = [];
@@ -101,13 +102,14 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * Get route response when something went wrong.
 		 *
 		 * @access public
+		 * @static
 		 * @param  string $error_code String based error code.
 		 * @param  string $error_message User facing error message.
 		 * @param  int    $http_status_code HTTP status. Defaults to 500.
 		 * @param  array  $additional_data  Extra data (key value pairs) to expose in the error response.
 		 * @return \WP_Error WP Error object.
 		 */
-		public function get_error_response( $error_code, $error_message, $http_status_code = 500, $additional_data = [] ) {
+		public static function get_error_response( $error_code, $error_message, $http_status_code = 500, $additional_data = [] ) {
 			return new \WP_Error( $error_code, $error_message, array_merge( $additional_data, [ 'status' => $http_status_code ] ) );
 		}
 
