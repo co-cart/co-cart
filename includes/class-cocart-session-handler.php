@@ -460,10 +460,11 @@ class CoCart_Session_Handler extends WC_Session {
 			// Save or update cart data.
 			$wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`, `cart_source`) VALUES (%s, %s, %d, %s)
+					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_created`, `cart_expiry`, `cart_source`) VALUES (%s, %s, %d, %d, %s)
  					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`), `cart_source` = VALUES(`cart_source`)",
 					$this->_customer_id,
 					maybe_serialize( $this->_data ),
+					time(),
 					$this->_cart_expiration,
 					$cart_source
 				)
@@ -590,12 +591,13 @@ class CoCart_Session_Handler extends WC_Session {
 		$result = $wpdb->insert(
 			$this->_table,
 			array(
-				'cart_key'    => $cart_key,
-				'cart_value'  => maybe_serialize( $cart_value ),
-				'cart_expiry' => $cart_expiration,
-				'cart_source' => $cart_source
+				'cart_key'     => $cart_key,
+				'cart_value'   => maybe_serialize( $cart_value ),
+				'cart_created' => time(),
+				'cart_expiry'  => $cart_expiration,
+				'cart_source'  => $cart_source
 			),
-			array( '%s', '%s', '%d', '%s' )
+			array( '%s', '%s', '%d', '%d', '%s' )
 		);
 
 		// Returns the cart key if cart successfully created.
