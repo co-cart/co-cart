@@ -373,31 +373,37 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.0
-		 * @version 2.1.2
+		 * @version 3.0.0
+		 * @return  string
 		 */
 		public function debug_clear_carts() {
 			$results = CoCart_API_Session::clear_carts();
 
-			echo '<div class="updated inline"><p>' . sprintf( esc_html__( 'All active carts have been cleared and %s saved carts.', 'cart-rest-api-for-woocommerce' ), absint( $results ) ) . '</p></div>';
+			return sprintf( esc_html__( 'All active carts have been cleared and %s saved carts.', 'cart-rest-api-for-woocommerce' ), absint( $results ) );
 		} // END debug_clear_carts()
 
 		/**
 		 * Runs the debug callback for clearing expired carts ONLY.
 		 *
-		 * @access public
+		 * @access  public
+		 * @version 3.0.0
+		 * @return  string
 		 */
 		public function debug_clear_expired_carts() {
 			CoCart_API_Session::cleanup_carts();
 
-			echo '<div class="updated inline"><p>' . esc_html__( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			return esc_html__( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' );
 		} // END debug_clear_expired_carts()
 
 		/**
 		 * Synchronizes the carts from one session table to the other.
 		 * Any cart that already exists for the customer will not sync.
 		 *
-		 * @access public
-		 * @since  2.1.2
+		 * @access  public
+		 * @since   2.1.2
+		 * @version 3.0.0
+		 * @global  object $wpdb
+		 * @return  string
 		 */
 		public function synchronize_carts() {
 			global $wpdb;
@@ -409,7 +415,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				WHERE NOT EXISTS(SELECT cart_key FROM {$wpdb->prefix}cocart_carts t2 WHERE t2.cart_key = t1.session_key) "
 			);
 
-			echo '<div class="updated inline"><p>' . esc_html__( 'Carts are now synchronized.', 'cart-rest-api-for-woocommerce' ) . '</p></div>';
+			return esc_html__( 'Carts are now synchronized.', 'cart-rest-api-for-woocommerce' );
 		} // END resync_carts()
 
 		/**
