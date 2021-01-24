@@ -266,7 +266,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @return boolean
 		 */
 		public static function needs_db_update() {
-			$current_db_version = get_option( 'cocart_db_version', null );
+			$current_db_version = get_site_option( 'cocart_db_version', null );
 			$updates            = self::get_db_update_callbacks();
 			$update_versions    = array_keys( $updates );
 			usort( $update_versions, 'version_compare' );
