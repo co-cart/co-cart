@@ -258,6 +258,20 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		}
 
 		/**
+		 * Is this a brand new CoCart install?
+		 *
+		 * A brand new install has no version yet. Also treat empty installs as 'new'.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @return boolean
+		 */
+		public static function is_new_install() {
+			return is_null( get_site_option( 'cocart_version', null ) );
+		}
+
+		/**
 		 * Is a Database update needed?
 		 *
 		 * @access public
@@ -374,7 +388,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 * @param   string $plugin             Activate plugin file.
 		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network 
 		 *                                     or just the current site. Multisite only.
@@ -386,7 +400,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			}
 
 			// If CoCart has already been installed before then don't redirect.
-			if ( ! empty( get_site_option( 'cocart_version' ) ) && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
+			if ( ! self::is_new_install() && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
 				return;
 			}
 
