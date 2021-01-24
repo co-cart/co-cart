@@ -180,6 +180,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			// Install database tables.
 			self::create_tables();
+			self::verify_base_tables();
 
 			// Creates cron jobs.
 			self::create_cron_jobs();
@@ -204,8 +205,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access public
 		 * @static
 		 * @since 3.0.0
-		 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
-		 * @param bool $execute       Whether to execute get_schema queries as well.
+		 * @param bool   $modify_notice Whether to modify notice based on if all tables are present.
+		 * @param bool   $execute       Whether to execute get_schema queries as well.
 		 * @return array List of querues.
 		 */
 		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
