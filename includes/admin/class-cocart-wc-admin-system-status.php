@@ -31,6 +31,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			add_filter( 'woocommerce_system_status_report', array( $this, 'render_system_status_items' ) );
 
 			add_filter( 'woocommerce_debug_tools', array( $this, 'debug_button' ) );
+
+			// Add tools to REST System Status tool.
+			add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_verify_database' ), 10, 2 );
 			add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_update_database' ), 10, 2 );
 		} // END __construct()
 
@@ -440,15 +443,19 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		} // END maybe_update_database()
 
 		/**
-		 * Verify the database.
+		 * Maybe verify the database.
 		 *
 		 * @access public
 		 * @since  3.0.0
 		 * @param  array $tool - The system tool that is being run.
 		 * @return string
 		 */
-		public function verify_database( $tool ) {
+		public function maybe_verify_database( $tool ) {
 			if ( 'cocart_verify_db_tables' === $tool['id'] && $tool['success'] ) {
+				self::verify_database();
+			}
+		} // END maybe_verify_database()
+
 		/**
 		 * Verify the database.
 		 *
