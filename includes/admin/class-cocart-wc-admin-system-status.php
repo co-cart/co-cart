@@ -363,6 +363,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					esc_html__( 'Verify if all CoCart\'s base database tables are present.', 'cart-rest-api-for-woocommerce' )
 				),
+				'callback' => array( $this, 'verify_database' ),
 			);
 
 			return $tools;
@@ -448,16 +449,25 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public function verify_database( $tool ) {
 			if ( 'cocart_verify_db_tables' === $tool['id'] && $tool['success'] ) {
-				// Try to manually create table again.
-				$missing_tables = CoCart_Install::verify_base_tables( true, true );
+		/**
+		 * Verify the database.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @return string
+		 */
+		public function verify_database() {
+			// Try to manually create table again.
+			$missing_tables = CoCart_Install::verify_base_tables( true, true );
 
-				if ( 0 === count( $missing_tables ) ) {
-					$message = esc_html__( 'Database verified successfully.', 'cart-rest-api-for-woocommerce' );
-				} else {
-					$message = esc_html__( 'Verifying database: ', 'cart-rest-api-for-woocommerce' );
-					return implode( ', ', $missing_tables );
-				}
+			if ( 0 === count( $missing_tables ) ) {
+				$message = esc_html__( 'Database verified successfully.', 'cart-rest-api-for-woocommerce' );
+			} else {
+				$message = esc_html__( 'Verifying database: ', 'cart-rest-api-for-woocommerce' );
+				$message = implode( ', ', $missing_tables );
 			}
+
+			return $message;
 		} // END verify_database()
 
 	} // END class
