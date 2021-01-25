@@ -140,10 +140,10 @@ class CoCart_Server {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 2.6.0
+	 * @version 3.0.0
 	 */
 	private function maybe_load_cart() {
-		if ( CoCart_Helpers::is_rest_api_request() ) {
+		if ( CoCart_Authentication::is_rest_api_request() ) {
 			// WooCommerce is greater than v3.6 or less than v4.5
 			if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_wc_version_lt_4_5() ) {
 				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';

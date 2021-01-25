@@ -109,7 +109,7 @@ class CoCart_Session_Handler extends WC_Session {
 		 * @since   2.1.2
 		 * @version 2.3.0
 		 */
-		if ( CoCart_Helpers::is_rest_api_request() && is_numeric( $current_user_id ) && $current_user_id < 1 ) {
+		if ( CoCart_Authentication::is_rest_api_request() && is_numeric( $current_user_id ) && $current_user_id < 1 ) {
 			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
 		}
 
@@ -119,7 +119,7 @@ class CoCart_Session_Handler extends WC_Session {
 		 *
 		 * @since 3.0.0
 		 */
-		if ( CoCart_Helpers::is_rest_api_request() ) {
+		if ( CoCart_Authentication::is_rest_api_request() ) {
 			$this->_cart_source = 'cocart-rest-api';
 		} else {
 			$this->_cart_source = 'woocommerce';
@@ -692,7 +692,7 @@ class CoCart_Session_Handler extends WC_Session {
 	protected function use_httponly() {
 		$httponly = true;
 
-		if ( CoCart_Helpers::is_rest_api_request() ) {
+		if ( CoCart_Authentication::is_rest_api_request() ) {
 			$httponly = false;
 		}
 

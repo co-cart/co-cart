@@ -27,7 +27,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @version 2.7.0
 		 */
 		public function __construct() {
-			if ( CoCart_Helpers::is_rest_api_request() ) {
+			// Check that we are only authenticating for our API.
+			if ( $this->is_rest_api_request() ) {
 				// Sends the cart key to the header.
 				add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 0, 1 );
 
@@ -45,8 +46,26 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		}
 
 		/**
-		 * Sends the cart key to the header.
+		 * Returns true if we are making a REST API request for CoCart.
 		 *
+		 * @access  public
+		 * @static
+		 * @since   2.1.0
+		 * @version 3.0.0
+		 * @return  bool
+		 */
+		public static function is_rest_api_request() {
+			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+				return false;
+			}
+
+			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
+			$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
+
+			return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
+		} // END is_rest_api_request()
+
 		 * @access public
 		 * @since  2.7.0
 		 * @param  \WP_Error|mixed $result

@@ -330,26 +330,6 @@ class CoCart_Helpers {
 	} // END is_cocart_rc()
 
 	/**
-	 * Returns true if we are making a REST API request for CoCart.
-	 *
-	 * @access  public
-	 * @static
-	 * @since   2.1.0
-	 * @version 2.7.0
-	 * @return  bool
-	 */
-	public static function is_rest_api_request() {
-		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
-			return false;
-		}
-
-		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-		$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix . 'cocart/' ) );
-
-		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
-	} // END is_rest_api_request()
-
-	/**
 	 * Checks if CoCart Pro is installed.
 	 *
 	 * @access public
