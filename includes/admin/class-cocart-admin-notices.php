@@ -70,13 +70,18 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
 			self::$notices = get_site_option( 'cocart_admin_notices', array() );
 
+			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 
 			// Don't bug the user if they don't want to see any notices.
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
 
+			if ( ! CoCart_Install::is_new_install() ) {
+				add_action( 'shutdown', array( $this, 'store_notices' ) );
+			}
+
 			// If the current user has capabilities then add notices.
-			if ( CoCart_Helpers::user_has_capabilities() ) {
+			if ( current_user_can( 'manage_woocommerce' ) ) {
 				add_action( 'admin_print_styles', array( $this, 'add_notices' ) );
 			}
 		} // END __construct()
@@ -85,9 +90,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Store notices to DB.
 		 *
 		 * @access public
+		 * @static
 		 * @since  3.0.0
 		 */
-		public function store_notices() {
+		public static function store_notices() {
 			update_site_option( 'cocart_admin_notices', self::get_notices() );
 		} // END store_notices()
 
@@ -95,10 +101,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Get notices
 		 *
 		 * @access public
+		 * @static
 		 * @since  3.0.0
 		 * @return array
 		 */
-		public function get_notices() {
+		public static function get_notices() {
 			return self::$notices;
 		} // END get_notices()
 
@@ -106,9 +113,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Remove all notices.
 		 *
 		 * @access public
+		 * @static
 		 * @since  3.0.0
 		 */
-		public function remove_all_notices() {
+		public static function remove_all_notices() {
 			self::$notices = array();
 		} // END remove_all_notices()
 
@@ -119,20 +127,22 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since  3.0.0
 		 */
 		public function reset_admin_notices() {
-			self::add_notice( 'check_php_notice' );
-			self::add_notice( 'check_wp_notice' );
-			self::add_notice( 'check_woocommerce_notice' );
-		}
+			self::add_notice( 'upgrade_warning' );
+			self::add_notice( 'check_php' );
+			self::add_notice( 'check_wp' );
+			self::add_notice( 'check_wc' );
+		} // END reset_admin_notices()
 
 		/**
 		 * Show a notice.
 		 *
 		 * @access public
+		 * @static
 		 * @since  3.0.0
 		 * @param  string $name Notice name.
 		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 		 */
-		public function add_notice( $name, $force_save = false ) {
+		public static function add_notice( $name, $force_save = false ) {
 			self::$notices = array_unique( array_merge( self::get_notices(), array( $name ) ) );
 
 			if ( $force_save ) {
@@ -145,11 +155,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Remove a notice from being displayed.
 		 *
 		 * @access public
+		 * @static
 		 * @since  3.0.0
 		 * @param  string $name Notice name.
 		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 		 */
-		public function remove_notice( $name, $force_save = false ) {
+		public static function remove_notice( $name, $force_save = false ) {
 			self::$notices = array_diff( self::get_notices(), array( $name ) );
 
 			delete_option( 'cocart_admin_notice_' . $name );
@@ -185,7 +196,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				return;
 			}
 
-			// Notice should only show on a CoCart page.
+			// Notice should only show on specific pages.
 			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
 				return;
 			}
@@ -198,6 +209,19 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				}
 			}
 		} // END add_notices()
+
+		/**
+		 * Add a custom notice.
+		 *
+		 * @access public
+		 * @static
+		 * @param string $name        Notice name.
+		 * @param string $notice_html Notice HTML.
+		 */
+		public function add_custom_notice( $name, $notice_html ) {
+			self::add_notice( $name );
+			update_option( 'cocart_admin_notice_' . $name, wp_kses_post( $notice_html ) );
+		} // END add_custom_notice()
 
 		/**
 		 * Output any stored custom notices.
