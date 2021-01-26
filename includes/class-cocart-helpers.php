@@ -353,7 +353,7 @@ class CoCart_Helpers {
 	 * @access  public
 	 * @static
 	 * @since   2.0.0
-	 * @version 2.8.3
+	 * @version 3.0.0
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
@@ -362,6 +362,7 @@ class CoCart_Helpers {
 			'dashboard-network',
 			'plugins',
 			'plugins-network',
+			'woocommerce_page_wc-status',
 			'toplevel_page_cocart',
 			'toplevel_page_cocart-network',
 		);
