@@ -1,0 +1,56 @@
+<?php
+/**
+ * Admin View: Notice - Base table missing.
+ *
+ * @author   Sébastien Dumont
+ * @category Admin
+ * @package  CoCart\Admin\Views
+ * @since    3.0.0
+ * @license  GPL-2.0+
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
+<div class="notice notice-info cocart-notice">
+	<div class="cocart-notice-inner">
+		<div class="cocart-notice-icon">
+			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="CoCart Logo" />
+		</div>
+
+		<div class="cocart-notice-content">
+			<p><strong><?php esc_html_e( 'Database table missing', 'cart-rest-api-for-woocommerce' ); ?></strong></p>
+
+			<p>
+				<?php
+				$verify_db_tool_available = array_key_exists( 'cocart_verify_db_tables', WC_Admin_Status::get_tools() );
+				$missing_tables           = get_option( 'cocart_schema_missing_tables' );
+				if ( $verify_db_tool_available ) {
+					echo wp_kses_post(
+						sprintf(
+						/* translators: %1%s: Missing table (separated by ",") %2$s: Link to check again */
+							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: %1$s. <a href="%2$s">Check again.</a>', 'cart-rest-api-for-woocommerce' ),
+							esc_html( implode( ', ', $missing_tables ) ),
+							wp_nonce_url( admin_url( 'admin.php?page=wc-status&tab=tools&action=cocart_verify_db_tables' ), 'debug_action' )
+						)
+					);
+				} else {
+					echo wp_kses_post(
+						sprintf(
+						/* translators: %1%s: Missing table (separated by ",") */
+							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: %1$s.', 'cart-rest-api-for-woocommerce' ),
+							esc_html( implode( ', ', $missing_tables ) )
+						)
+					);
+				}
+				?>
+			</p>
+		</div>
+
+		<div class="cocart-action">
+			<a class="button button-primary cocart-button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'base_tables_missing' ), 'cocart_hide_notices_nonce', '_wc_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'cart-rest-api-for-woocommerce' ); ?></a>
+		</div>
+	</div>
+</div>
