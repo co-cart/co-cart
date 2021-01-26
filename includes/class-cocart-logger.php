@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\Logger
+ * @package  CoCart\Classes
  * @since    2.1.0
  * @version  3.0.0
  * @license  GPL-2.0+

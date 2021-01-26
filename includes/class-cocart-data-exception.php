@@ -5,7 +5,7 @@
  * Extends exception to provide additional data.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Data Exception
+ * @package CoCart\Classes
  * @since   3.0.0
  */
 
