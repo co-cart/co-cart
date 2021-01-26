@@ -59,8 +59,10 @@ final class CoCart {
 	/**
 	 * Initiate CoCart.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
+	 * @since   1.0.0
+	 * @version 3.0.0
 	 */
 	public static function init() {
 		self::setup_constants();
@@ -71,8 +73,9 @@ final class CoCart {
 		// Environment checking when activating.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'activation_check' ) );
 
-		// Setup WooCommerce.
+		// Setup WooCommerce and CoCart.
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
+		add_action( 'woocommerce_loaded', array( __CLASS__, 'setup_cocart' ) );
 
 		// Load translation files.
 		add_action( 'init', array( __CLASS__, 'load_plugin_textdomain' ), 0 );
@@ -138,12 +141,26 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-response.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
-		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
 		}
 	} // END includes()
+
+	/**
+	 * Setup CoCart.
+	 *
+	 * Called using the "woocommerce_loaded" hook to allow the use of 
+	 * WooCommerce constants.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return void
+	 */
+	public static function setup_cocart() {
+		include_once COCART_ABSPATH . 'includes/class-cocart-background-updater.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
+	} // END setup_cocart()
 
 	/**
 	 * Include extension compatibility.

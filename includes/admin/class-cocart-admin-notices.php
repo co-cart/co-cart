@@ -49,7 +49,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @var    array
 		 */
 		private static $core_notices = array(
-			//'update'              => 'update_notice',
+			'update'              => 'update_notice',
 			'check_php'           => 'check_php_notice',
 			'check_wp'            => 'check_wp_notice',
 			'check_wc'            => 'check_woocommerce_notice',
@@ -313,6 +313,29 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 		} // END upgrade_warning_notice()
+
+		/**
+		 * If we need to update the database, include a message with the DB update button.
+		 *
+		 * @access public
+		 * @static
+		 */
+		public static function update_notice() {
+			$screen    = get_current_screen();
+			$screen_id = $screen ? $screen->id : '';
+
+			if ( CoCart_Install::needs_db_update() ) {
+				$next_scheduled_date = WC()->queue()->get_next( 'cocart_run_update_callback', null, 'cocart-db-updates' );
+
+				if ( $next_scheduled_date || ! empty( $_GET['do_update_cocart'] ) ) { // WPCS: input var ok, CSRF ok.
+					include dirname( __FILE__ ) . '/views/html-notice-updating.php';
+				} else {
+					include dirname( __FILE__ ) . '/views/html-notice-update.php';
+				}
+			} else {
+				include dirname( __FILE__ ) . '/views/html-notice-updated.php';
+			}
+		} // END update_notice()
 
 		/**
 		 * Checks the environment on loading WordPress, just in case the environment changes after activation.
