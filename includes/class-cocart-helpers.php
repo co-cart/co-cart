@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Classes
  * @since    2.3.0
- * @version  2.8.3
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -542,11 +542,11 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since   2.6.0
-	 * @version 2.7.2
+	 * @version 3.0.0
 	 * @return  string
 	 */
 	public static function get_environment_message() {
-		return sprintf( __( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'cart-rest-api-for-woocommerce' ), CoCart::$required_php, self::get_php_version() );
+		return sprintf( __( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart::$required_php, self::get_php_version() );
 	} // END get_environment_message()
 
 	/**
