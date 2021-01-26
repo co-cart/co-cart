@@ -101,7 +101,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
-		 * @version 2.8.0
+		 * @version 3.0.0
 		 */
 		public static function load_cart_from_session() {
 			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
@@ -120,8 +120,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				}
 
 				// Check if we requested to load a specific cart.
-				if ( isset( $_REQUEST['cart_key'] ) || isset( $_REQUEST['id'] ) ) {
-					$cart_id = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $_REQUEST['id'];
+				if ( isset( $_REQUEST['cart_key'] ) ) {
+					$cart_id = $_REQUEST['cart_key'];
 
 					// Set customer ID in session.
 					$customer_id = $cart_id;
