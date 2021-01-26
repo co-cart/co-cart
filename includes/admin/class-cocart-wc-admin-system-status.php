@@ -168,19 +168,15 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			if ( empty( $session ) ) {
-				$results = $wpdb->get_results(
-					"
+				$results = $wpdb->get_results( "
 					SELECT COUNT(cart_id) as count 
-					FROM {$wpdb->prefix}cocart_carts
-				",
+					FROM {$wpdb->prefix}cocart_carts",
 					ARRAY_A
 				);
 			} else {
-				$results = $wpdb->get_results(
-					"
-				SELECT COUNT(session_id) as count 
-				FROM {$wpdb->prefix}woocommerce_sessions
-				",
+				$results = $wpdb->get_results( "
+					SELECT COUNT(session_id) as count 
+					FROM {$wpdb->prefix}woocommerce_sessions",
 					ARRAY_A
 				);
 			}
@@ -200,11 +196,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					"
-				SELECT COUNT(cart_id) as count
-				FROM {$wpdb->prefix}cocart_carts 
-				WHERE cart_expiry BETWEEN %d AND %d",
+				$wpdb->prepare( "
+					SELECT COUNT(cart_id) as count
+					FROM {$wpdb->prefix}cocart_carts 
+					WHERE cart_expiry BETWEEN %d AND %d",
 					time(),
 					( HOUR_IN_SECONDS * 6 ) + time()
 				),
@@ -225,11 +220,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					"
-				SELECT COUNT(cart_id) as count
-				FROM {$wpdb->prefix}cocart_carts 
-				WHERE cart_expiry < %d",
+				$wpdb->prepare( "
+					SELECT COUNT(cart_id) as count
+					FROM {$wpdb->prefix}cocart_carts 
+					WHERE cart_expiry < %d",
 					time()
 				),
 				ARRAY_A
@@ -248,11 +242,15 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function carts_source_web() {
 			global $wpdb;
 
-			$results = $wpdb->get_results( $wpdb->prepare( "
-				SELECT COUNT(cart_id) as count
-				FROM {$wpdb->prefix}cocart_carts 
-				WHERE cart_source='woocommerce'"
-			), ARRAY_A );
+			$results = $wpdb->get_results(
+				$wpdb->prepare( "
+					SELECT COUNT(cart_id) as count
+					FROM {$wpdb->prefix}cocart_carts 
+					WHERE cart_source=%s",
+					'woocommerce'
+				),
+				ARRAY_A
+			);
 
 			return $results[0]['count'];
 		} // END carts_source_web()
@@ -267,11 +265,15 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function carts_source_headless() {
 			global $wpdb;
 
-			$results = $wpdb->get_results( $wpdb->prepare( "
-				SELECT COUNT(cart_id) as count
-				FROM {$wpdb->prefix}cocart_carts 
-				WHERE cart_source='cocart-rest-api'"
-			), ARRAY_A );
+			$results = $wpdb->get_results(
+				$wpdb->prepare( "
+					SELECT COUNT(cart_id) as count
+					FROM {$wpdb->prefix}cocart_carts 
+					WHERE cart_source=%s",
+					'cocart-rest-api'
+				),
+				ARRAY_A
+			);
 
 			return $results[0]['count'];
 		} // END carts_source_web()
@@ -286,11 +288,16 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function carts_source_other() {
 			global $wpdb;
 
-			$results = $wpdb->get_results( $wpdb->prepare( "
-				SELECT COUNT(cart_id) as count
-				FROM {$wpdb->prefix}cocart_carts 
-				WHERE cart_source!='cocart-rest-api' AND cart_source!='woocommerce'"
-			), ARRAY_A );
+			$results = $wpdb->get_results(
+				$wpdb->prepare( "
+					SELECT COUNT(cart_id) as count
+					FROM {$wpdb->prefix}cocart_carts 
+					WHERE cart_source!=%s AND cart_source!=%s",
+					'cocart-rest-api',
+					'woocommerce'
+				),
+				ARRAY_A
+			);
 
 			return $results[0]['count'];
 		} // END carts_source_other()
