@@ -192,9 +192,15 @@ You can find the documentation for CoCart on the [CoCart REST API Docs](https://
 
 You certainly can. Filters are available to do just that. [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided. [View the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) for more.
 
-=  Is it compatible with WooCommerce Shipping and Tax plugin? =
+=  Is "WooCommerce Shipping and Tax" plugin supported? =
 
-Not at this time. WooCommerce Shipping and Tax ignore any REST API from allowing the ability to calculate the taxes from TaxJar. Code has been contributed to the plugin that will allow third-party plugins enable this ability and awaiting feedback.
+Not at this time. "WooCommerce Shipping and Tax" ignore any REST API from allowing the ability to calculate the taxes from TaxJar. Code has been contributed to the plugin that will allow third-party plugins enable this ability and awaiting feedback.
+
+However, TaxJar for WooCommerce plugin is supported.
+
+= Is "TaxJar for WooCommerce" plugin supported? =
+
+If you have "TaxJar for WooCommerce" v3.2.5 or above and CoCart v2.9 or above installed... then yes, it is supported.
 
 = Why CoCart and not WooCommerce Store API? =
 
