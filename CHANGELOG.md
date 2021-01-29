@@ -1,7 +1,10 @@
 # Changelog for CoCart Lite
 
-## v2.9.0 - ?? ??, 2021
+## v2.9.0 - 1st February, 2021
 
+* 📦 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have v3.2.5 or above.
+* Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
+* Improved: Session data now handled by new abstract to enhance control over it.
 * Improved: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Tested: ✔️ Compatible with WooCommerce v4.9

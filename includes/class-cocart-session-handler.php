@@ -5,6 +5,7 @@
  * Forked from WC_Session_Handler, changed default variables,
  * database table used, filters and made adjustments to accommodate
  * support for guest customers as well as registered customers via the REST API.
+ * @link https://github.com/woocommerce/woocommerce/blob/master/includes/class-wc-session-handler.php
  *
  * @author   Sébastien Dumont
  * @category API
@@ -18,15 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Checks that WooCommerce session class exists first.
-if ( ! class_exists( 'WC_Session' ) ) {
+// Checks that CoCart session abstract exists first.
+if ( ! class_exists( 'CoCart_Session' ) ) {
 	return;
 }
 
 /**
  * Session handler class.
  */
-class CoCart_Session_Handler extends WC_Session {
+class CoCart_Session_Handler extends CoCart_Session {
 
 	/**
 	 * Cookie name used for the cart.
@@ -386,12 +387,15 @@ class CoCart_Session_Handler extends WC_Session {
 	} // END get_cart_data()
 
 	/**
-	 * Gets a cache prefix. This is used in cart names so the entire cache can be invalidated with 1 function call.
+	 * Gets a cache prefix. This is used in cart names so the entire 
+	 * cache can be invalidated with 1 function call.
 	 *
-	 * @access private
-	 * @return string
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 2.9.0
+	 * @return  string
 	 */
-	private function get_cache_prefix() {
+	public function get_cache_prefix() {
 		return WC_Cache_Helper::get_cache_prefix( COCART_CART_CACHE_GROUP );
 	} // END get_cache_prefix()
 

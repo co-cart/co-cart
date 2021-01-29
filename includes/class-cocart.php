@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.9.0-RC.2';
+	public static $version = '2.9.0-rc.3';
 
 	/**
 	 * Required WordPress Version
@@ -129,11 +129,17 @@ final class CoCart {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.6.0
+	 * @version 2.9.0
 	 * @return  void
 	 */
 	public static function includes() {
+		// Abstracts.
+		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
+
+		// Class autoloader.
 		include_once COCART_ABSPATH . 'includes/class-cocart-autoloader.php';
+
+		// Core classes.
 		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';

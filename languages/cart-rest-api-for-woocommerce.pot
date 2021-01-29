@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart Lite 2.9.0-RC.2\n"
+"Project-Id-Version: CoCart Lite 2.9.0-rc.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-01-22 16:42:22+00:00\n"
+"POT-Creation-Date: 2021-01-29 00:55:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1051,7 +1051,7 @@ msgstr ""
 msgid "Variation for \"%s\" is not purchasable."
 msgstr ""
 
-#: includes/class-cocart-session-handler.php:417
+#: includes/class-cocart-session-handler.php:421
 msgid "This filter \"%s\" is no longer required and has been deprecated."
 msgstr ""
 
@@ -1069,11 +1069,11 @@ msgid ""
 "or %2$scheckout%3$s."
 msgstr ""
 
-#: includes/class-cocart.php:166
+#: includes/class-cocart.php:172
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:171
+#: includes/class-cocart.php:177
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 
