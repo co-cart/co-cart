@@ -38,8 +38,10 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 		 */
 		public function maybe_calculate_tax( $should_calculate ) {
 			if ( CoCart_Helpers::is_rest_api_request() ) {
-				return true;
+				$should_calculate = true;
 			}
+
+			return $should_calculate;
 		}
 
 	} // END class.
