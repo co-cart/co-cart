@@ -253,13 +253,15 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					$show_addon = true;
 					break;
 				}
+
 			} // END foreach add-on
 
-			// Inject result if we are to show them.
+			// Inject single search result from list of suggestions to the bottom of the results.
 			if ( $show_addon ) {
-				array_unshift( $result->plugins, $inject_data );
+				array_push( $result->plugins, $inject_data );
 			}
 
+			// Return search results.
 			return $result;
 		} // END inject_cocart_suggestion()
 
