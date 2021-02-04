@@ -427,6 +427,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				array_push( $result->plugins, $inject_data );
 			} // END foreach add-on
 
+			// Remove CoCart core from list.
+			unset( $result->plugins[0] );
+
 			// Return search results.
 			return $result;
 		} // END cocart_plugins()
