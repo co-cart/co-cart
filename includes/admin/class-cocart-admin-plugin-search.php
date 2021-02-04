@@ -171,6 +171,16 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		} // END get_third_party_list()
 
 		/**
+		 * Returns both CoCart addons and supported extensions.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		public function get_suggestions() {
+			return array_merge( self::get_third_party_list(), self::get_addons_list() );
+		} // END get_suggestions()
+
+		/**
 		 * Filter plugin fetching API results to inject CoCart add-ons.
 		 *
 		 * @access public
@@ -198,7 +208,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				return $result;
 			}
 
-			$suggestions = array_merge( self::get_addons_list(), self::get_third_party_list() );
+			$suggestions = self::get_suggestions();
 
 			// Get each add-on and see if we should suggest it to the user.
 			foreach( $suggestions as $slug => $data ) {
