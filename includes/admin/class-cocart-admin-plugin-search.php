@@ -80,7 +80,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			$per_page = 30;
 
 			$args = array(
-				'page'     => isset( $GET['paged'] ) ? max(0, intval( $_GET['paged'] -1 ) * $per_page) : 0,
+				'page'     => isset( $_GET['paged'] ) ? max(0, intval( $_GET['paged'] -1 ) * $per_page) : 0,
 				'per_page' => $per_page,
 				'author'   => 'cocartforwc',
 				'installed_plugins' => array_keys( $installed_plugins ),
