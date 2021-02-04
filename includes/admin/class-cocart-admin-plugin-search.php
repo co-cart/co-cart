@@ -38,7 +38,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				// Filters below inject plugin suggestion.
 				add_action( 'admin_enqueue_scripts', array( $this, 'load_plugins_search_script' ) );
 				add_filter( 'plugins_api_result', array( $this, 'inject_cocart_suggestion' ), 10, 3 );
-				add_filter( 'plugin_install_action_links', array( $this, 'inset_related_links' ), 10, 2 );
+				add_filter( 'plugin_install_action_links', array( $this, 'insert_related_links' ), 10, 2 );
 
 				// Filters below are for CoCarts own plugin section.
 				add_filter( 'plugins_api_result', array( $this, 'cocart_plugins' ), 10, 3 );
@@ -455,14 +455,52 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * Put some more appropriate links on our custom result cards.
 		 *
 		 * @access public
-		 * @param array $links Related links.
-		 * @param array $plugin Plugin result information.
+		 * @param  array $links Related links.
+		 * @param  array $plugin Plugin result information.
+		 * @return array $links Returns our related links or falls back to default.
 		 */
-		public function inset_related_links( $links, $plugin ) {
-			if ( 'cocart-plugin-search' !== $plugin['slug'] ) {
+		public function insert_related_links( $links, $plugin ) {
+			if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'cocart' ) {
+				$links = self::get_related_links( $plugin );
+			} else if ( 'cocart-plugin-search' == $plugin['slug'] ) {
+				$links = self::get_suggestion_links( $plugin);
+			} else {
 				return $links;
 			}
 
+			// Add link pointing to a relevant doc page in cocart.xyz only if the Get Started button isn't displayed.
+			if ( ! empty( $plugin['learn_more'] ) ) {
+				$links['cocart_learn_more'] = '<a
+					class="cocart-plugin-search__learn-more"
+					href="' . esc_url( $plugin['learn_more'] ) . '"
+					target="_blank"
+					data-addon="' . esc_attr( $plugin['plugin'] ) . '"
+					data-track="learn_more"
+					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . '</a>';
+			}
+
+			return $links;
+		} // END insert_related_links()
+
+		/**
+		 * Returns related links for each CoCart plugin.
+		 *
+		 * @access public
+		 * @param  array $plugin Plugin details
+		 * @return array $links
+		 */
+		public function get_related_links( $plugin ) {
+			return $links = array();
+		}
+
+		/**
+		 * Returns related links for suggested plugin.
+		 *
+		 * @access public
+		 * @param  array $plugin Plugin details
+		 * @return array $links
+		 */
+		public function get_suggestion_links( $plugin ) {
 			$links = array();
 
 			/*$links['cocart_get_started'] = '<a
@@ -479,19 +517,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				data-addon="' . esc_attr( $plugin['plugin'] ) . '"
 				>' . esc_html__( 'Purchase', 'cart-rest-api-for-woocommerce' ) . '</a>';
 
-			// Add link pointing to a relevant doc page in cocart.xyz only if the Get Started button isn't displayed.
-			if ( ! empty( $plugin['learn_more'] ) ) {
-				$links['cocart_learn_more'] = '<a
-					class="cocart-plugin-search__learn-more"
-					href="' . esc_url( $plugin['learn_more'] ) . '"
-					target="_blank"
-					data-addon="' . esc_attr( $plugin['plugin'] ) . '"
-					data-track="learn_more"
-					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . '</a>';
-			}
-
 			return $links;
-		} // END inset_related_links()
+		} // END get_suggestion_links()
 
 	} // END class
 
