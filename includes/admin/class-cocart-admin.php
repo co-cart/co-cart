@@ -39,6 +39,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Action Links
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';               // Admin Assets
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Screen Update
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php'; // Plugin Search
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';                // Admin Menus
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';              // Plugin Notices
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';           // WooCommerce Admin Notices
