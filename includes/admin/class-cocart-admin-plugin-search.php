@@ -286,8 +286,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * Gets data to inject results.
 		 *
 		 * @access public
-		 * @param [type] $inject
-		 * @param [type] $data
+		 * @param  array $inject Plugin information from WordPress.org
+		 * @param  array $data Plugin information from CoCart
 		 * @return array Plugin results to inject.
 		 */
 		public function get_inject_data( $inject, $data ) {
