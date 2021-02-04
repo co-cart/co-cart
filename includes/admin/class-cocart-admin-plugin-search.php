@@ -279,7 +279,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return void
 		 */
 		public function get_suggestions() {
-			return array_merge( self::get_third_party_list(), self::get_addons_list() );
+			return array_merge( self::get_addons_list(), self::get_third_party_list() );
 		} // END get_suggestions()
 
 		/**
