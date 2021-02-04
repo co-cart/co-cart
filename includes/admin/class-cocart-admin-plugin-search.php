@@ -283,6 +283,43 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		} // END get_suggestions()
 
 		/**
+		 * Gets data to inject results.
+		 *
+		 * @access public
+		 * @param [type] $inject
+		 * @param [type] $data
+		 * @return array Plugin results to inject.
+		 */
+		public function get_inject_data( $inject, $data ) {
+			return array(
+				'name'              => empty( $data['third_party'] ) ? sprintf( esc_html__( '%1$s Add-on', 'cart-rest-api-for-woocommerce' ), $data['name'] ) : $data['name'],
+				'slug'              => empty( $data['third_party'] ) ? 'cocart-' . $data['plugin'] : $data['plugin'],
+				'plugin'            => $data['plugin'],
+				'version'           => '',
+				'author'            => ! empty( $data['author'] ) ? esc_html( $data['author'] ) : 'CoCart',
+				'author_profile'    => 'https://cocart.xyz',
+				'requires'          => $inject['requires'],
+				'tested'            => $inject['tested'],
+				'requires_php'      => $inject['requires_php'],
+				'rating'            => $inject['rating'],
+				'num_ratings'       => $inject['num_ratings'],
+				'active_installs'   => $inject['active_installs'],
+				'last_updated'      => $inject['last_updated'],
+				'short_description' => $data['short_description'],
+				'download_link'     => '',
+				'icons'             => $inject['icons'],
+				'logo'              => array(
+					'1x'  => esc_url( $data['logo'] ),
+					'2x'  => esc_url( $data['logo'] ),
+					'svg' => esc_url( $data['logo'] ),
+				),
+				'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ): esc_url( 'https://cocart.xyz/pro/#pricing' ),
+				'learn_more'        => esc_url( $data['learn_more'] ),
+				'third_party'       => $data['third_party']
+			);
+		} // END get_inject_data()
+
+		/**
 		 * Filter plugin fetching API results to inject CoCart add-ons.
 		 *
 		 * @access public
@@ -316,32 +353,11 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			foreach( $suggestions as $slug => $data ) {
 				$show_addon = false;
 
-				$inject_data = array(
-					'name'              => ! isset( $data['third_party'] ) ? sprintf( esc_html__( '%1$s Add-on', 'cart-rest-api-for-woocommerce' ), $data['name'] ) : $data['name'],
-					'slug'              => 'cocart-plugin-search',
-					'plugin'            => $data['plugin'],
-					'version'           => '',
-					'author'            => ! empty( $data['author'] ) ? esc_html( $data['author'] ) : 'CoCart',
-					'author_profile'    => 'https://cocart.xyz',
-					'requires'          => $inject['requires'],
-					'tested'            => $inject['tested'],
-					'requires_php'      => $inject['requires_php'],
-					'rating'            => $inject['rating'],
-					'num_ratings'       => $inject['num_ratings'],
-					'active_installs'   => $inject['active_installs'],
-					'last_updated'      => $inject['last_updated'],
-					'short_description' => $data['short_description'],
-					'download_link'     => '',
-					'icons'             => $inject['icons'],
-					'logo'              => array(
-						'1x'  => esc_url( $data['logo'] ),
-						'2x'  => esc_url( $data['logo'] ),
-						'svg' => esc_url( $data['logo'] ),
-					),
-					'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ): esc_url( 'https://cocart.xyz/pro/#pricing' ),
-					'learn_more'        => esc_url( $data['learn_more'] ),
-					'third_party'       => $data['third_party']
-				);
+				// Get prepared data to inject the results.
+				$inject_data = self::get_inject_data( $inject, $data );
+
+				// Override plugin slug to identify suggestion.
+				$inject_data['slug'] = 'cocart-plugin-search';
 
 				// Override card title and icon.
 				$inject_data['name'] = '<h3>' . $inject_data['name'] . '</h3><strong>by ' . $inject_data['author'] . '</strong>';
@@ -394,32 +410,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 			// Get each add-on and see if we should suggest it to the user.
 			foreach( $suggestions as $slug => $data ) {
-				$inject_data = array(
-					'name'              => empty( $data['third_party'] ) ? sprintf( esc_html__( '%1$s Add-on', 'cart-rest-api-for-woocommerce' ), $data['name'] ) : $data['name'],
-					'slug'              => empty( $data['third_party'] ) ? 'cocart-' . $data['plugin'] : $data['plugin'],
-					'plugin'            => $data['plugin'],
-					'version'           => '',
-					'author'            => ! empty( $data['author'] ) ? esc_html( $data['author'] ) : 'CoCart',
-					'author_profile'    => 'https://cocart.xyz',
-					'requires'          => $inject['requires'],
-					'tested'            => $inject['tested'],
-					'requires_php'      => $inject['requires_php'],
-					'rating'            => $inject['rating'],
-					'num_ratings'       => $inject['num_ratings'],
-					'active_installs'   => $inject['active_installs'],
-					'last_updated'      => $inject['last_updated'],
-					'short_description' => $data['short_description'],
-					'download_link'     => '',
-					'icons'             => $inject['icons'],
-					'logo'              => array(
-						'1x'  => esc_url( $data['logo'] ),
-						'2x'  => esc_url( $data['logo'] ),
-						'svg' => esc_url( $data['logo'] ),
-					),
-					'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ): esc_url( 'https://cocart.xyz/pro/#pricing' ),
-					'learn_more'        => esc_url( $data['learn_more'] ),
-					'third_party'       => $data['third_party']
-				);
+				// Get prepared data to inject the results.
+				$inject_data = self::get_inject_data( $inject, $data );
 
 				// Override card icon.
 				$inject_data['icons'] = $inject_data['logo'];
