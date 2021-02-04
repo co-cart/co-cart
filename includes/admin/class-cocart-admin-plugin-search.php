@@ -424,7 +424,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				// Override card icon.
 				$inject_data['icons'] = $inject_data['logo'];
 
-				array_unshift( $result->plugins, $inject_data );
+				array_push( $result->plugins, $inject_data );
 			} // END foreach add-on
 
 			// Return search results.
