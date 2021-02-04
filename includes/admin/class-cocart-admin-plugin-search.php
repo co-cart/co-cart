@@ -486,6 +486,139 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return array $links Related links after change.
 		 */
 		public function get_related_links( $links, $plugin ) {
+			$plugins_allowedtags = array(
+				'a'       => array(
+					'href'   => array(),
+					'title'  => array(),
+					'target' => array(),
+				),
+				'abbr'    => array( 'title' => array() ),
+				'acronym' => array( 'title' => array() ),
+				'code'    => array(),
+				'pre'     => array(),
+				'em'      => array(),
+				'strong'  => array(),
+				'ul'      => array(),
+				'ol'      => array(),
+				'li'      => array(),
+				'p'       => array(),
+				'br'      => array(),
+			);
+	
+			foreach( self::get_suggestions() as $key => $cocart_plugin ) {
+				if ( $key == $plugin['slug'] ) {
+					$links = array(); // Reset links if plugin is not from WP.org
+
+					$title          = wp_kses( $plugin['name'], $plugins_allowedtags );
+					$version        = wp_kses( $plugin['version'], $plugins_allowedtags );
+					$name           = strip_tags( $title . ' ' . $version );
+					$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
+					$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
+					$compatible_php = is_php_version_compatible( $requires_php );
+					$compatible_wp  = is_wp_version_compatible( $requires_wp );
+					$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( get_bloginfo( 'version' ), $plugin['tested'], '<=' ) );
+
+					if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
+						$status = install_plugin_install_status( $plugin );
+
+						switch ( $status['status'] ) {
+							case 'install':
+								if ( $status['url'] ) {
+									if ( $compatible_php && $compatible_wp ) {
+										$links['purchase'] = sprintf(
+											'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
+											esc_attr( $plugin['slug'] ),
+											esc_url( $plugin['purchase'] ),
+											/* translators: %s: Plugin name and version. */
+											esc_attr( sprintf( _x( 'Purchase %s now', 'plugin' ), $name ) ),
+											esc_attr( $name ),
+											__( 'Purchase Now' )
+										);
+									} else {
+										$links['not-compatible'] = sprintf(
+											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
+											_x( 'Not Compatible', 'plugin' )
+										);
+									}
+								}
+
+								break;
+
+							case 'update_available':
+								if ( $status['url'] ) {
+									if ( $compatible_php && $compatible_wp ) {
+										$links['update-now'] = sprintf(
+											'<a class="update-now button aria-button-if-js" data-plugin="%s" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
+											esc_attr( $status['file'] ),
+											esc_attr( $plugin['slug'] ),
+											esc_url( $status['url'] ),
+											/* translators: %s: Plugin name and version. */
+											esc_attr( sprintf( _x( 'Update %s now', 'plugin' ), $name ) ),
+											esc_attr( $name ),
+											__( 'Update Now' )
+										);
+									} else {
+										$links['cannot-update'] = sprintf(
+											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
+											_x( 'Cannot Update', 'plugin' )
+										);
+									}
+								}
+
+								break;
+
+							case 'latest_installed':
+							case 'newer_installed':
+								if ( is_plugin_active( $status['file'] ) ) {
+									$links['active'] = sprintf(
+										'<button type="button" class="cocart-plugin-primary button button-disabled" disabled="disabled">%s</button>',
+										_x( 'Installed & Active', 'plugin' )
+									);
+								} elseif ( current_user_can( 'activate_plugin', $status['file'] ) ) {
+									$button_text = __( 'Activate' );
+									/* translators: %s: Plugin name. */
+									$button_label = _x( 'Activate %s', 'plugin' );
+									$activate_url = add_query_arg(
+										array(
+											'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
+											'action'   => 'activate',
+											'plugin'   => $status['file'],
+										),
+										network_admin_url( 'plugins.php' )
+									);
+
+									if ( is_network_admin() ) {
+										$button_text = __( 'Network Activate' );
+										/* translators: %s: Plugin name. */
+										$button_label = _x( 'Network Activate %s', 'plugin' );
+										$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
+									}
+
+									$links['activate'] = sprintf(
+										'<a href="%1$s" class="button activate-now" aria-label="%2$s">%3$s</a>',
+										esc_url( $activate_url ),
+										esc_attr( sprintf( $button_label, $plugin['name'] ) ),
+										$button_text
+									);
+								} else {
+									$links['installed'] = sprintf(
+										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
+										_x( 'Installed', 'plugin' )
+									);
+								}
+
+								break;
+
+						} // END switch
+
+					} // END if user can install or update plugins.
+
+				} // END if plugin matches.
+
+			} // END foreach cocart plugin.
+
+			return $links;
+		} // END get_related_links()
 
 		/**
 		 * Returns related links for suggested plugin.
