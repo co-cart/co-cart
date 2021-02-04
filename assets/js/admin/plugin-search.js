@@ -9,20 +9,29 @@ var CoCartPS = {};
 ( function ( $ ) {
 	CoCartPS = {
 		$pluginFilter: $( '#plugin-filter' ),
+		$addOns: $( 'body.cocart-plugin-install #plugin-filter' ),
 
 		/**
 		 * Get parent search hint element.
 		 * @returns {Element | null}
 		 */
-		getCard: function () {
+		getSuggestion: function () {
 			return document.querySelector( '.plugin-card-cocart-plugin-search' );
+		},
+
+		/**
+		 * Get plugin result element.
+		 * @returns {Element | null}
+		 */
+		getCard: function () {
+			return document.querySelectorAll( 'body.cocart-plugin-install .plugin-card:not(.plugin-card-cocart-plugin-search)' );
 		},
 
 		/**
 		 * Update title of the card to be presentable.
 		 */
 		updateCardTitle: function () {
-			var hint = CoCartPS.getCard();
+			var hint = CoCartPS.getSuggestion();
 
 			if ( 'object' === typeof hint && null !== hint ) {
 				var title = hint.querySelector( '.column-name h3' );
@@ -34,15 +43,24 @@ var CoCartPS = {};
 		},
 
 		/**
-		 * Unlinks the title of the cart to remove link to plugin information that wont exist.
+		 * Unlinks the title of the card to remove link to plugin information that wont exist.
 		 */
 		unlinkCardTitle: function () {
-			var hint = CoCartPS.getCard();
+			var hint = CoCartPS.getSuggestion();
+			var card = CoCartPS.getCard();
 
 			if ( 'object' === typeof hint && null !== hint ) {
 				var title = hint.querySelector( '.column-name h3 a' );
 
 				title.outerHTML = $(title).replaceWith( $(title).html() );
+			}
+
+			if ( 'object' === typeof card && null !== card ) {
+				card.forEach( function( element, index ) {
+					var title = element.querySelector( '.column-name h3 a' );
+
+					title.outerHTML = $(title).replaceWith( $(title).html() );
+				} )
 			}
 		},
 
@@ -50,7 +68,7 @@ var CoCartPS = {};
 		 * Move action links below description.
 		 */
 		moveActionLinks: function () {
-			var hint = CoCartPS.getCard();
+			var hint = CoCartPS.getSuggestion();
 			if ( 'object' === typeof hint && null !== hint ) {
 				var descriptionContainer = hint.querySelector( '.column-description' );
 
@@ -70,7 +88,7 @@ var CoCartPS = {};
 		 * Replace bottom row of the card to insert text.
 		 */
 		replaceCardBottom: function () {
-			var hint = CoCartPS.getCard();
+			var hint = CoCartPS.getSuggestion();
 			if ( 'object' === typeof hint && null !== hint ) {
 				hint.querySelector( '.plugin-card-bottom' ).outerHTML =
 					'<div class="cocart-plugin-search__bottom">' +
