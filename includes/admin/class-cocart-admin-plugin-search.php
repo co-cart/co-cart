@@ -456,7 +456,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function insert_related_links( $links, $plugin ) {
 			if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'cocart' ) {
-				$links = self::get_related_links( $plugin );
+				$links = self::get_related_links( $links, $plugin );
 			} else if ( 'cocart-plugin-search' == $plugin['slug'] ) {
 				$links = self::get_suggestion_links( $plugin);
 			} else {
@@ -481,12 +481,11 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * Returns related links for each CoCart plugin.
 		 *
 		 * @access public
+		 * @param  array $links Related links before change.
 		 * @param  array $plugin Plugin details
-		 * @return array $links
+		 * @return array $links Related links after change.
 		 */
-		public function get_related_links( $plugin ) {
-			return $links = array();
-		}
+		public function get_related_links( $links, $plugin ) {
 
 		/**
 		 * Returns related links for suggested plugin.
