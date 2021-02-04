@@ -378,7 +378,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function cocart_plugins( $result, $action, $args ) {
 			// If we are not browsing just CoCart then return results.
-			if ( 'cocartforwc' !== $args->author ) {
+			if ( ! isset( $args->author ) || 'cocartforwc' !== $args->author ) {
 				return $result;
 			}
 
