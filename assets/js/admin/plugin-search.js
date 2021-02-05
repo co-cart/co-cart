@@ -69,6 +69,7 @@ var CoCartPS = {};
 		 */
 		moveActionLinks: function () {
 			var hint = CoCartPS.getSuggestion();
+
 			if ( 'object' === typeof hint && null !== hint ) {
 				var descriptionContainer = hint.querySelector( '.column-description' );
 
@@ -89,6 +90,8 @@ var CoCartPS = {};
 		 */
 		replaceCardBottom: function () {
 			var hint = CoCartPS.getSuggestion();
+			var card = CoCartPS.getCard();
+
 			if ( 'object' === typeof hint && null !== hint ) {
 				hint.querySelector( '.plugin-card-bottom' ).outerHTML =
 					'<div class="cocart-plugin-search__bottom">' +
@@ -102,6 +105,25 @@ var CoCartPS = {};
 					'</p>' +
 					'</div>';
 			}
+
+			if ( 'object' === typeof card && null !== card ) {
+				card.forEach( function( element, index ) {
+					var review = element.querySelector( '.column-rating' );
+					var downloads = element.querySelector( '.column-downloaded' );
+
+					review.remove();
+					downloads.remove();
+				} )
+			}
+		},
+
+		/**
+		 * Removes the core plugin from results.
+		 */
+		hideCoreCard: function ( ) {
+			var core = document.querySelector( 'body.cocart-plugin-install .plugin-card.plugin-card-cart-rest-api-for-woocommerce' );
+
+			core.remove();
 		},
 
 		/**
@@ -118,6 +140,7 @@ var CoCartPS = {};
 					CoCartPS.updateCardTitle();
 					CoCartPS.moveActionLinks();
 					CoCartPS.replaceCardBottom();
+					CoCartPS.hideCoreCard();
 				}
 			} );
 		},
@@ -141,6 +164,9 @@ var CoCartPS = {};
 
 			// Replace PSH bottom row on page load
 			CoCartPS.replaceCardBottom();
+
+			// Hide core card.
+			CoCartPS.hideCoreCard();
 
 			// Listen for changes in plugin search results
 			var resultsObserver = new MutationObserver( CoCartPS.replaceOnNewResults );

@@ -1,3 +1,7 @@
+body.cocart-plugin-install .plugin-card {
+    border: 1px solid #b17de2;
+}
+
 .plugin-card.plugin-card-cocart-plugin-search {
     border: 2px solid #b17de2;
 }
@@ -29,6 +33,7 @@
 	white-space: nowrap;
 }
 
+body.cocart-plugin-install .plugin-card .plugin-action-buttons .cocart-plugin-primary,
 .plugin-card-cocart-plugin-search .plugin-action-buttons .cocart-plugin-search__primary {
 	background: #b17de2;
 	border-color: #9b50e3;
@@ -36,6 +41,7 @@
 	box-shadow: 0 1px 0 #d8c3e2;
 }
 
+body.cocart-plugin-install .plugin-card .plugin-action-buttons .cocart-plugin-primary:hover,
 .plugin-card-cocart-plugin-search .plugin-action-buttons .cocart-plugin-search__primary:hover {
 	background:#9b50e3;
 	border-color: #422479;
