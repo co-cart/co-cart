@@ -48,7 +48,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_cart_in_session' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
@@ -59,12 +59,27 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_cart_items_in_session' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				'args'                => $this->get_collection_params()
 			),
 			'schema' => array( $this, 'get_item_schema' )
 		) );
 	} // register_routes()
+
+	/**
+	 * Check whether a given request has permission to read site data.
+	 *
+	 * @access public
+	 * @param  WP_REST_Request $request Full details about the request.
+	 * @return WP_Error|boolean
+	 */
+	public function get_items_permissions_check( $request ) {
+		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
+			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cart-rest-api-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		return true;
+	} // END get_items_permissions_check()
 
 	/**
 	 * Returns a saved cart in session if one exists.
