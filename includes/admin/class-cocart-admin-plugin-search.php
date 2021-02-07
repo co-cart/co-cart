@@ -44,6 +44,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				add_filter( 'plugins_api_result', array( $this, 'cocart_plugins' ), 10, 3 );
 				add_filter( 'install_plugins_tabs', array( $this, 'plugins_tab' ) );
 				add_filter( 'install_plugins_table_api_args_cocart', array( $this, 'plugin_list_args' ) );
+				remove_action( 'install_plugins_cocart', 'display_plugins_table' ); // Unhook display table before loading our dashboard.
 				add_action( 'install_plugins_cocart', array( $this, 'cocart_plugin_dashboard' ) );
 			}
 		}
