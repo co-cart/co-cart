@@ -40,6 +40,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';           // Admin Assets
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';            // Admin Menus
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';          // Plugin Notices
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';    // Plugin Search
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';       // WooCommerce Admin Notices
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-install.php';   // Plugin Install
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php'; // WooCommerce System Status
@@ -62,9 +63,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				case 'plugins':
 					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Plugin Action Links
 					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Update
-					break;
-				case 'plugin-install':
-					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';        // Plugin Search
 					break;
 			}
 		} // END conditional_includes()
