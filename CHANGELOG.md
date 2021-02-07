@@ -19,8 +19,12 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * Cart Totals    - wp-json/cocart/v2/cart/totals
 * * Logout         - wp-json/cocart/v2/logout
 * * Store API      - wp-json/cocart/v2/store
+* * Session        - wp-json/cocart/v2/session (IN DEV)
+* * Session Items  - wp-json/cocart/v2/session/{session-id}/items (IN DEV)
 * **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
-* Compatible: WooCommerce Advanced Shipping Packages extension.
+* Supports: WooCommerce Advanced Shipping Packages extension.
+* Supports: WooCommerce Free Gift Coupons extension.
+
 
 * Dev: New filters.
 * * `cocart_store_index`
