@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    1.2.0
- * @version  2.8.3
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -53,7 +53,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 * @param   string $classes
 		 * @return  string $classes
 		 */
@@ -61,8 +61,16 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
 
+			// Add body class for CoCart page.
 			if ( $screen_id == 'toplevel_page_cocart' || $screen_id == 'toplevel_page_cocart-network' ) {
 				$classes = ' cocart ';
+			}
+
+			// Add special body class for plugin install page.
+			if ( $screen_id == 'plugin-install' || $screen_id == 'plugin-install-network' ) {
+				if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'cocart' ) {
+					$classes = ' cocart-plugin-install ';
+				}
 			}
 
 			return $classes;
