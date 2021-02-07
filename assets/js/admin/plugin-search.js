@@ -127,6 +127,17 @@ var CoCartPS = {};
 		},
 
 		/**
+		 * Resets the plugin results.
+		 */
+		reset: function() {
+			var body = document.querySelector( 'body' );
+
+			if ( $(body).hasClass( 'cocart-plugin-install' ) ) {
+				$(body).removeClass( 'cocart-plugin-install' );
+			}
+		},
+
+		/**
 		 * Check if plugin card list nodes changed. If there's a CoCart PSH card, replace the title and the bottom row.
 		 * @param {array} mutationsList
 		 */
@@ -136,11 +147,11 @@ var CoCartPS = {};
 					'childList' === mutation.type &&
 					1 === document.querySelectorAll( '.plugin-card-cocart-plugin-search' ).length
 				) {
+					CoCartPS.reset();
 					CoCartPS.unlinkCardTitle();
 					CoCartPS.updateCardTitle();
 					CoCartPS.moveActionLinks();
 					CoCartPS.replaceCardBottom();
-					CoCartPS.hideCoreCard();
 				}
 			} );
 		},
