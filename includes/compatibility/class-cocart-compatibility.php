@@ -34,6 +34,7 @@ if ( ! class_exists( 'CoCart_Compatibility' ) ) {
 		 */
 		public function include_compatibility() {
 			include_once COCART_ABSPATH . 'includes/compatibility/modules/class-cocart-advanced-shipping-packages.php'; // Advanced Shipping Packages
+			include_once COCART_ABSPATH . 'includes/compatibility/modules/class-cocart-free-gift-coupons.php'; // Free Gift Coupons
 		}
 
 	} // END class.
