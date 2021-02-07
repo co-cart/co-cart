@@ -66,10 +66,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 		} // END is_rest_api_request()
 
-		 * @access public
-		 * @since  2.7.0
-		 * @param  \WP_Error|mixed $result
-		 * @return bool
+		/**
+		 * Sends the cart key to the header.
+		 *
+		 * @access  public
+		 * @since   2.7.0
+		 * @version 3.0.0
+		 * @param   \WP_Error|mixed $result
+		 * @return  bool
 		 */
 		public function cocart_key_header( $result ) {
 			if ( ! empty( $result ) ) {
