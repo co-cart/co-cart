@@ -63,7 +63,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Plugin Action Links
 					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Update
 					break;
-				case 'plugin-install'
+				case 'plugin-install':
 					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';        // Plugin Search
 					break;
 			}
