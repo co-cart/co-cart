@@ -86,7 +86,7 @@ var CoCartPS = {};
 		},
 
 		/**
-		 * Replace bottom row of the card to insert text.
+		 * Replace bottom row of the card.
 		 */
 		replaceCardBottom: function () {
 			var hint = CoCartPS.getSuggestion();
@@ -108,14 +108,21 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
+					var bottomCard  = element.querySelector( '.plugin-card-bottom' )
 					var review      = element.querySelector( '.column-rating' );
 					var downloads   = element.querySelector( '.column-downloaded' );
 					var lastUpdated = element.querySelector( '.column-updated' );
+					var require     = element.querySelector( '.plugin-requirement' );
 
+					// Remove elements.
 					review.remove();
 					downloads.remove();
 					lastUpdated.remove();
 
+					// Move plugin requimrent if it exists.
+					if ( $(require).length > 0 ) {
+						bottomCard.append(require);
+					}
 				} )
 			}
 		},
