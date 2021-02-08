@@ -146,7 +146,9 @@ var CoCartPS = {};
 		hideCoreCard: function ( ) {
 			var core = document.querySelector( 'body.cocart-plugin-install .plugin-card.plugin-card-cart-rest-api-for-woocommerce' );
 
-			core.remove();
+			if ( $(core).length > 0 ) {
+				core.remove();
+			}
 		},
 
 		/**
