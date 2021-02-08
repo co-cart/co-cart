@@ -32,13 +32,26 @@ var CoCartPS = {};
 		 */
 		updateCardTitle: function () {
 			var hint = CoCartPS.getSuggestion();
+			var card = CoCartPS.getCard();
 
 			if ( 'object' === typeof hint && null !== hint ) {
-				var title = hint.querySelector( '.column-name h3' );
+				var title  = hint.querySelector( '.column-name h3' );
 				var author = hint.querySelector( '.column-name h3 strong' );
 
 				$(title).after( '<strong>' + $(author).text() + '</strong>' );
 				$(author).remove();
+			}
+
+			if ( 'object' === typeof card && null !== card ) {
+				card.forEach( function( element, index ) {
+					var title  = element.querySelector( '.column-name h3' );
+					var author = element.querySelector( 'p.authors' );
+
+					if ( $(author).length > 0 ) {
+						$(title).after( '<strong>' + $(author).text() + '</strong>' );
+					}
+					$(author).remove();
+				} )
 			}
 		},
 
@@ -75,7 +88,7 @@ var CoCartPS = {};
 
 				// Keep only the first paragraph. The second is the plugin author.
 				var descriptionText = descriptionContainer.querySelector( 'p:first-child' );
-				var actionLinks = hint.querySelector( '.action-links' );
+				var actionLinks     = hint.querySelector( '.action-links' );
 
 				// Change the contents of the description, to keep the description text and the action links.
 				descriptionContainer.innerHTML = descriptionText.outerHTML + actionLinks.outerHTML;
