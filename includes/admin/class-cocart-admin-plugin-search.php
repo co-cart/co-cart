@@ -132,6 +132,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function cocart_plugin_dashboard() {
 			?>
+			<div class="cocart-plugin-install-dashboard">
 			<p>
 				<?php
 				printf(
@@ -147,6 +148,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				<?php print( __( 'Some of these plugins require a 3rd party plugin or extension to support it’s features. See plugin requirement at the bottom of each plugin card.', 'cart-rest-api-for-woocommerce' ) ); ?>
 			</p>
 
+			</div>
 			<?php
 			do_action( 'cocart_before_display_plugins_table' );
 

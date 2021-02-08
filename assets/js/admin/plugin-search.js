@@ -141,9 +141,14 @@ var CoCartPS = {};
 		 */
 		reset: function() {
 			var body = document.querySelector( 'body' );
+			var dashboard = document.querySelector( '.cocart-plugin-install-dashboard' )
 
 			if ( $(body).hasClass( 'cocart-plugin-install' ) ) {
 				$(body).removeClass( 'cocart-plugin-install' );
+			}
+
+			if ( $(dashboard).length > 0 ) {
+				$(dashboard).remove();
 			}
 		},
 
