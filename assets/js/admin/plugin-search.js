@@ -108,11 +108,14 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					var review = element.querySelector( '.column-rating' );
-					var downloads = element.querySelector( '.column-downloaded' );
+					var review      = element.querySelector( '.column-rating' );
+					var downloads   = element.querySelector( '.column-downloaded' );
+					var lastUpdated = element.querySelector( '.column-updated' );
 
 					review.remove();
 					downloads.remove();
+					lastUpdated.remove();
+
 				} )
 			}
 		},
