@@ -136,7 +136,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				<?php
 				printf(
 					/* translators: %1$s: https://cocart.xyz/add-ons/, %2$s: https://cocart.xyz/woocommerce-extensions/ */
-					__( 'These plugins extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz' ),
+					__( 'These plugins extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ),
 					esc_url( 'https://cocart.xyz/add-ons/' ),
 					esc_url( 'https://cocart.xyz/woocommerce-extensions/' )
 				);
@@ -245,7 +245,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'search_terms'      => 'advanced, acf, fields, custom fields, meta, repeater',
 					'short_description' => esc_html__( 'Returns all custom meta data saved for all products using Advanced Custom Fields.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
-					'requirement'       => sprintf( esc_html__( '%s Products' ), 'CoCart' ),
+					'requirement'       => sprintf( esc_html__( '%s Products', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
 					'info'              => array(
 						'requires'      => '5.2',
 						'tested'        => '5.6',
@@ -262,7 +262,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'search_terms'      => 'yoast, seo, xml sitemap, content analysis, readability, schema',
 					'short_description' => esc_html__( 'Returns all Yoast SEO data for all products, product categories and tags.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
-					'requirement'       => sprintf( esc_html__( '%s Products' ), 'CoCart' ),
+					'requirement'       => sprintf( esc_html__( '%s Products', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
 					'info'              => array(
 						'requires'      => '5.2',
 						'tested'        => '5.6',
@@ -599,15 +599,15 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 											esc_attr( $plugin['slug'] ),
 											esc_url( $plugin['purchase'] ),
 											/* translators: %s: Plugin name and version. */
-											esc_attr( sprintf( _x( 'Purchase %s now', 'plugin' ), $name ) ),
+												esc_attr( sprintf( __( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
 											esc_attr( $name ),
-											__( 'Purchase Now' )
+												__( 'Purchase Now', 'cart-rest-api-for-woocommerce' )
 										);
 										}
 									} else {
 										$links['not-compatible'] = sprintf(
 											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											_x( 'Not Compatible', 'plugin' )
+											__( 'Not Compatible', 'cart-rest-api-for-woocommerce' )
 										);
 									}
 								}
@@ -623,14 +623,14 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 											esc_attr( $plugin['slug'] ),
 											esc_url( $status['url'] ),
 											/* translators: %s: Plugin name and version. */
-											esc_attr( sprintf( _x( 'Update %s now', 'plugin' ), $name ) ),
+											esc_attr( sprintf( __( 'Update %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
 											esc_attr( $name ),
-											__( 'Update Now' )
+											__( 'Update Now', 'cart-rest-api-for-woocommerce' )
 										);
 									} else {
 										$links['cannot-update'] = sprintf(
 											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											_x( 'Cannot Update', 'plugin' )
+											__( 'Cannot Update', 'cart-rest-api-for-woocommerce' )
 										);
 									}
 								}
@@ -642,13 +642,13 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 								if ( is_plugin_active( $status['file'] ) ) {
 									$links['active'] = sprintf(
 										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-										_x( 'Installed & Active', 'plugin' )
+										__( 'Installed & Active', 'cart-rest-api-for-woocommerce' )
 									);
 								} elseif ( current_user_can( 'activate_plugin', $status['file'] ) ) {
 									if ( $compatible_php && $compatible_wp ) {
-										$button_text = __( 'Activate' );
+										$button_text = __( 'Activate', 'cart-rest-api-for-woocommerce' );
 										/* translators: %s: Plugin name. */
-										$button_label = _x( 'Activate %s', 'plugin' );
+										$button_label = __( 'Activate %s', 'cart-rest-api-for-woocommerce' );
 										$activate_url = add_query_arg(
 											array(
 												'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
@@ -659,9 +659,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 										);
 
 										if ( is_network_admin() ) {
-											$button_text = __( 'Network Activate' );
+											$button_text = __( 'Network Activate', 'cart-rest-api-for-woocommerce' );
 											/* translators: %s: Plugin name. */
-											$button_label = _x( 'Network Activate %s', 'plugin' );
+											$button_label = __( 'Network Activate %s', 'cart-rest-api-for-woocommerce' );
 											$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
 										}
 
@@ -674,13 +674,13 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 									} else {
 										$links['not-compatible'] = sprintf(
 											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-											_x( 'Not Compatible', 'plugin' )
+											__( 'Not Compatible', 'cart-rest-api-for-woocommerce' )
 										);
 									}
 								} else {
 									$links['installed'] = sprintf(
 										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-										_x( 'Installed', 'plugin' )
+										__( 'Installed', 'cart-rest-api-for-woocommerce' )
 									);
 								}
 
