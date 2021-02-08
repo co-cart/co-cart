@@ -584,10 +584,10 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . '</a>';
 			}
 
-			// Add plugin requirement.
 			foreach( self::get_suggestions() as $key => $cocart_plugin ) {
+				// Add plugin requirement.
 				if ( $key == $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
-					$links['requirement'] = '<div class="plugin-requirement">' . sprintf( esc_html__( '%1$sPlugin Requires: %2$s%3$s', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>', esc_html__( $plugin['requirement'] ) ) . '</div>';
+					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf( esc_html__( '%1$sPlugin %4$s: %2$s%3$s', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>', esc_html( $plugin['requirement'] ), $plugin['plugin_does'] ) . '</div>';
 				}
 			}
 
@@ -662,7 +662,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 										);
 										}
 									} else {
-										$links['not-compatible'] = sprintf(
+										$links['cocart-not-compatible'] = sprintf(
 											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
 											__( 'Not Compatible', 'cart-rest-api-for-woocommerce' )
 										);
@@ -674,7 +674,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 							case 'update_available':
 								if ( $status['url'] ) {
 									if ( $compatible_php && $compatible_wp ) {
-										$links['update-now'] = sprintf(
+										$links['cocart-update-now'] = sprintf(
 											'<a class="update-now button aria-button-if-js" data-plugin="%s" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
 											esc_attr( $status['file'] ),
 											esc_attr( $plugin['slug'] ),
@@ -685,7 +685,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 											__( 'Update Now', 'cart-rest-api-for-woocommerce' )
 										);
 									} else {
-										$links['cannot-update'] = sprintf(
+										$links['cocart-cannot-update'] = sprintf(
 											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
 											__( 'Cannot Update', 'cart-rest-api-for-woocommerce' )
 										);
@@ -697,7 +697,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 							case 'latest_installed':
 							case 'newer_installed':
 								if ( is_plugin_active( $status['file'] ) ) {
-									$links['active'] = sprintf(
+									$links['cocart-active'] = sprintf(
 										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
 										__( 'Installed & Active', 'cart-rest-api-for-woocommerce' )
 									);
@@ -729,13 +729,13 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 											$button_text
 										);
 									} else {
-										$links['not-compatible'] = sprintf(
+										$links['cocart-not-compatible'] = sprintf(
 											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
 											__( 'Not Compatible', 'cart-rest-api-for-woocommerce' )
 										);
 									}
 								} else {
-									$links['installed'] = sprintf(
+									$links['cocart-installed'] = sprintf(
 										'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
 										__( 'Installed', 'cart-rest-api-for-woocommerce' )
 									);
