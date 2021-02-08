@@ -295,7 +295,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'requires_php'  => '7.2',
 						'last_updated'  => '',
 					),
-					'purchase'          => esc_url( 'https://woocommerce.com/products/name-your-price/' ),
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/name-your-price/' ),
 					'third_party'       => true,
 				)
@@ -343,9 +342,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'2x'  => esc_url( $data['logo'] ),
 					'svg' => esc_url( $data['logo'] ),
 				),
-				'requirement'       => $data['requirement'],
-				'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ): esc_url( 'https://cocart.xyz/pro/#pricing' ),
-				'learn_more'        => esc_url( $data['learn_more'] ),
+				'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ): '',
 				'third_party'       => $data['third_party']
 			);
 		} // END get_inject_data()
@@ -594,7 +591,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 							case 'install':
 								if ( $status['url'] ) {
 									if ( $compatible_php && $compatible_wp ) {
-										$links['purchase'] = sprintf(
+										if ( ! empty( $plugin['purchase'] ) ) {
 											'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
 											esc_attr( $plugin['slug'] ),
 											esc_url( $plugin['purchase'] ),
@@ -603,6 +600,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 											esc_attr( $name ),
 											__( 'Purchase Now' )
 										);
+										}
 									} else {
 										$links['not-compatible'] = sprintf(
 											'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
