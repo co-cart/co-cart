@@ -29,7 +29,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		} // END __construct()
 
 		/**
-		 * Add actions and filters only if this is the plugin installation screen and it's the first page.
+		 * Add actions and filters only if this is the plugin installation screen.
 		 *
 		 * @param object $screen WP Screen object.
 		 */
