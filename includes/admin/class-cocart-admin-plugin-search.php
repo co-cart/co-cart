@@ -372,8 +372,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 *
 		 * @access public
 		 * @param  array $inject Plugin information from WordPress.org
-		 * @param  array $data Plugin information from CoCart
-		 * @return array Plugin results to inject.
+		 * @param  array $data   Plugin information from CoCart
+		 * @return array         Plugin results to inject.
 		 */
 		public function get_inject_data( $inject, $data ) {
 			return array(
@@ -383,13 +383,13 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				'version'           => '',
 				'author'            => ! empty( $data['author'] ) ? esc_html( $data['author'] ) : 'CoCart',
 				'author_profile'    => 'https://cocart.xyz',
-				'requires'          => isset( $data['info'] ) ? $data['info']['requires'] : $inject['requires'],
-				'tested'            => isset( $data['info'] ) ? $data['info']['tested'] : $inject['tested'],
-				'requires_php'      => isset( $data['info'] ) ? $data['info']['requires_php'] : $inject['requires_php'],
+				'requires'          => ! empty( $data['info'] ) ? $data['info']['requires'] : $inject['requires'],
+				'tested'            => ! empty( $data['info'] ) ? $data['info']['tested'] : $inject['tested'],
+				'requires_php'      => ! empty( $data['info'] ) ? $data['info']['requires_php'] : $inject['requires_php'],
 				'rating'            => $inject['rating'],
 				'num_ratings'       => $inject['num_ratings'],
 				'active_installs'   => $inject['active_installs'],
-				'last_updated'      => $inject['last_updated'],
+				'last_updated'      => ! empty( $data['last_updated'] ) ? $data['last_updated'] : $inject['last_updated'],
 				'short_description' => $data['short_description'],
 				'download_link'     => '',
 				'icons'             => isset( $inject['icons'] ) ? $inject['icons'] : $data['logo'],
@@ -398,7 +398,10 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'2x'  => esc_url( $data['logo'] ),
 					'svg' => esc_url( $data['logo'] ),
 				),
+				'requirement'       => ! empty( $data['requirement'] ) ? $data['requirement'] : '',
+				'plugin_does'       => ! empty( $data['plugin_does'] ) ? $data['plugin_does'] : esc_html__( 'Requires', 'cart-rest-api-for-woocommerce' ),
 				'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ): '',
+				'learn_more'        => ! empty( $data['learn_more'] ) ? esc_url( $data['learn_more'] ) : '',
 				'third_party'       => $data['third_party']
 			);
 		} // END get_inject_data()
