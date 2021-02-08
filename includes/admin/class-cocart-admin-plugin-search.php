@@ -575,8 +575,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 			// Add link pointing to a relevant doc page in CoCart.xyz.
 			if ( ! empty( $plugin['learn_more'] ) ) {
-				$links['learn-more'] = '<a
-					class="cocart-plugin-search__learn-more"
+				$links['cocart-learn-more'] = '<a
+					class="cocart-plugin-search__learn-more button"
 					href="' . esc_url( $plugin['learn_more'] ) . '"
 					target="_blank"
 					data-addon="' . esc_attr( $plugin['plugin'] ) . '"
@@ -651,6 +651,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 								if ( $status['url'] ) {
 									if ( $compatible_php && $compatible_wp ) {
 										if ( ! empty( $plugin['purchase'] ) ) {
+											$links['cocart-purchase'] = sprintf(
 											'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
 											esc_attr( $plugin['slug'] ),
 											esc_url( $plugin['purchase'] ),
@@ -721,8 +722,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 											$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
 										}
 
-										$links['activate'] = sprintf(
-											'<a href="%1$s" class="button activate-now" aria-label="%2$s">%3$s</a>',
+										$links['cocart-activate'] = sprintf(
+											'<a href="%1$s" class="button activate-now button-primary" aria-label="%2$s">%3$s</a>',
 											esc_url( $activate_url ),
 											esc_attr( sprintf( $button_label, $plugin['name'] ) ),
 											$button_text
