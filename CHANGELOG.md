@@ -22,6 +22,9 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * Session        - wp-json/cocart/v2/session (IN DEV)
 * * Session Items  - wp-json/cocart/v2/session/{session-id}/items (IN DEV)
 * **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
+ * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
+ * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
 * Supports: WooCommerce Advanced Shipping Packages extension.
 * Supports: WooCommerce Free Gift Coupons extension.
 
