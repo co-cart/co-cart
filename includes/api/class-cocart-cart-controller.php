@@ -84,7 +84,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return  array  $item      - Returns details of the item in the cart if it exists.
 	 */
 	public function get_cart_item( $item_id, $condition = 'add' ) {
-		$item = isset( WC()->cart->cart_contents[ $item_id ] ) ? WC()->cart->cart_contents[ $item_id ] : array();
+		$item = isset( $this->get_cart_instance()->cart_contents[ $item_id ] ) ? $this->get_cart_instance()->cart_contents[ $item_id ] : array();
 
 		return apply_filters( 'cocart_get_cart_item', $item, $condition );
 	} // EMD get_cart_item()
@@ -92,11 +92,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns all cart items.
 	 *
-	 * @param callable $callback Optional callback to apply to the array filter.
+	 * @access public
+	 * @param  callable $callback Optional callback to apply to the array filter.
 	 * @return array
 	 */
 	public function get_cart_items( $callback = null ) {
-		return $callback ? array_filter( WC()->cart->get_cart(), $callback ) : array_filter( WC()->cart->get_cart() );
+		return $callback ? array_filter( $this->get_cart_instance()->get_cart(), $callback ) : array_filter( $this->get_cart_instance()->get_cart() );
 	} // END get_cart_items()
 
 	/**
