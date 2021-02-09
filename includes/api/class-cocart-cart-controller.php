@@ -134,7 +134,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents, $item_key );
 
-		return $this->get_response( $cart_contents, $this->rest_base );
+		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
 	} // END get_cart()
 
 	/**
