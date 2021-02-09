@@ -263,6 +263,8 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
+If you like CoCart, please take a moment to [provide a testimonial](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
 = v3.0.0 - ?? ??, 2020 =
 
 * NEW API
