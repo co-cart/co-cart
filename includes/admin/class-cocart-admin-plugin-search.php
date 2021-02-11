@@ -175,7 +175,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'cart-rest-api-for-woocommerce' ), 'CoCart'
 					),
 					'supportText' => esc_html__( 'Learn more about these suggestions.', 'cart-rest-api-for-woocommerce' ),
-					'supportLink' => 'https://cocart.xyz/plugin-search/',
+					'supportLink' => 'https://cocart.xyz/plugin-suggestions/',
 				)
 			);
 
@@ -583,7 +583,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					target="_blank"
 					data-addon="' . esc_attr( $plugin['plugin'] ) . '"
 					data-track="learn_more"
-					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . '</a>';
+					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . ' <span class="dashicons dashicons-external"></span></a>';
 			}
 
 			foreach( self::get_suggestions() as $key => $cocart_plugin ) {
