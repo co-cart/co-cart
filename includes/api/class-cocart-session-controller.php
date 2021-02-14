@@ -75,7 +75,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
-			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cart-rest-api-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
