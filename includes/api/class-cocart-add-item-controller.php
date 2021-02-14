@@ -77,11 +77,6 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		// Validate product ID before continuing and return correct product ID if different.
 		$product_id = $this->validate_product_id( $product_id );
 
-		// Return failed product ID validation if any.
-		if ( is_wp_error( $product_id ) ) {
-			return $product_id;
-		}
-
 		// The product we are attempting to add to the cart.
 		$adding_to_cart = wc_get_product( $product_id );
 		$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
@@ -97,14 +92,14 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
 		}
 
-		// Was it requested to return the whole cart once item added?
-		if ( isset( $request['return_cart'] ) && is_bool( $request['return_cart'] ) && $request['return_cart'] ) {
-			$response = $controller->get_cart_contents( $request );
+		// Was it requested to return the item details after being added?
+		if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
+			$response = $controller->get_item( $was_added_to_cart );
 		} else {
-			$response = $was_added_to_cart;
+			$response = $controller->get_cart_contents( $request );
 		}
 
-		return $this->get_response( $response, $this->rest_base );
+		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 	} // END add_to_cart()
 
 	/**
@@ -167,6 +162,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	/**
 	 * Adds the item to the cart once passed validation.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
@@ -184,89 +181,141 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		$product_data   = $product_to_add['product_data'];
 		$request        = $product_to_add['request'];
 
-		$controller = new CoCart_Cart_V2_Controller();
+		try {
+			$controller = new CoCart_Cart_V2_Controller();
 
-		// If item_key is set, then the item is already in the cart so just update the quantity.
-		if ( ! empty( $item_key ) ) {
-			$cart_contents = $controller->get_cart( array( 'raw' => true ) );
+			// If item_key is set, then the item is already in the cart so just update the quantity.
+			if ( ! empty( $item_key ) ) {
+				$cart_contents = $controller->get_cart( array( 'raw' => true ) );
 
-			$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
+				$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
 
-			$controller->get_cart_instance()->set_quantity( $item_key, $new_quantity );
+				$controller->get_cart_instance()->set_quantity( $item_key, $new_quantity );
 
-			$item_added = $controller->get_cart_item( $item_key, 'add' );
-
-			/**
-			 * Action hook will trigger if item was added again but updated in cart.
-			 *
-			 * @since   2.1.0
-			 * @version 3.0.0
-			 * @param   string $item_key
-			 * @param   array  $item_added
-			 * @param   int    $new_quantity
-			 * @param   array  $request
-			 */
-			do_action( 'cocart_item_added_updated_in_cart', $item_key, $item_added, $new_quantity, $request );
-		} else {
-			// Add item to cart.
-			$item_key = $controller->get_cart_instance()->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
-
-			// Return response to added item to cart or return error.
-			if ( $item_key ) {
-				// Re-calculate cart totals once item has been added.
-				$controller->get_cart_instance()->calculate_totals();
-
-				// Return item details.
 				$item_added = $controller->get_cart_item( $item_key, 'add' );
 
 				/**
-				 * Action hook will trigger if the item was added.
+				 * Action hook will trigger if item was added again but updated in cart.
 				 *
 				 * @since   2.1.0
 				 * @version 3.0.0
-				 * @param   $item_key
-				 * @param   $item_added
-				 * @param   $request
+				 * @param   string $item_key
+				 * @param   array  $item_added
+				 * @param   int    $new_quantity
+				 * @param   array  $request
 				 */
-				do_action( 'cocart_item_added_to_cart', $item_key, $item_added, $request );
+				do_action( 'cocart_item_added_updated_in_cart', $item_key, $item_added, $new_quantity, $request );
 			} else {
-				/* translators: %s: product name */
-				$message = sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
+				// Add item to cart.
+				$item_key = $controller->get_cart_instance()->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
 
-				CoCart_Logger::log( $message, 'error' );
+				// Return response to added item to cart or return error.
+				if ( $item_key ) {
+					// Re-calculate cart totals once item has been added.
+					$controller->get_cart_instance()->calculate_totals();
 
-				/**
-				 * Filters message about product cannot be added to cart.
-				 *
-				 * @param string     $message Message.
-				 * @param WC_Product $product_data Product data.
-				 */
-				$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
+					// Return item details.
+					$item_added = $controller->get_cart_item( $item_key, 'add' );
 
-				throw new CoCart_Data_Exception( 'cocart_cannot_add_to_cart', $message, 403 );
+					/**
+					 * Action hook will trigger if the item was added.
+					 *
+					 * @since   2.1.0
+					 * @version 3.0.0
+					 * @param   $item_key
+					 * @param   $item_added
+					 * @param   $request
+					 */
+					do_action( 'cocart_item_added_to_cart', $item_key, $item_added, $request );
+				} else {
+					/* translators: %s: product name */
+					$message = sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
+
+					/**
+					 * Filters message about product cannot be added to cart.
+					 *
+					 * @param string     $message Message.
+					 * @param WC_Product $product_data Product data.
+					 */
+					$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
+
+					throw new CoCart_Data_Exception( 'cocart_cannot_add_to_cart', $message, 403 );
+				}
 			}
-		}
 
-		return $item_added;
+			return $item_added;
+		} catch( CoCart_Data_Exception $e) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
 	} // END add_item_to_cart()
+
+	/**
+	 * Get the schema for adding an item, conforming to JSON Schema.
+	 *
+	 * @access  public
+	 * @since   2.1.2
+	 * @version 3.0.0
+	 * @return  array
+	 */
+	public function get_item_schema() {
+		$schema = array(
+			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
+			'type'       => 'object',
+			'properties' => array(
+				'id' => array(
+					'required'    => true,
+					'description' => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+				),
+				'quantity' => array(
+					'required'    => true,
+					'default'     => 1,
+					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'float',
+				),
+				'variation' => array(
+					'required'    => false,
+					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+				),
+				'item_data' => array(
+					'required'    => false,
+					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+				),
+				'return_item' => array(
+					'required'    => false,
+					'default'     => false,
+					'description' => __( 'Returns the item details once added.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'boolean',
+				),
+			),
+		);
+
+		$schema['properties'] = apply_filters( 'cocart_add_item_schema', $schema['properties'], $this->rest_base );
+
+		return $schema;
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for adding items.
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.7.2
+	 * @version 3.0.0
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'product_id'     => array(
+			'id' => array(
+				'required'          => true,
 				'description'       => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'quantity'       => array(
+			'quantity' => array(
 				'required'          => true,
 				'default'           => 1,
 				'description'       => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
@@ -275,7 +324,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					return is_numeric( $value );
 				},
 			),
-			'variation'      => array(
+			'variation' => array(
 				'required'          => false,
 				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'object',
@@ -287,8 +336,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'return_cart' => array(
-				'description' => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
+			'return_item' => array(
+				'description' => __( 'Returns the item details once added.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => false,
 				'type'        => 'boolean',
 			)
