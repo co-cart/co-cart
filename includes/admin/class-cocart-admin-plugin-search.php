@@ -20,6 +20,21 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 	class CoCart_Plugin_Search {
 
 		/**
+		 * Singleton constructor.
+		 *
+		 * @return CoCart_Plugin_Search
+		 */
+		public static function init() {
+			static $instance = null;
+
+			if ( ! $instance ) {
+				$instance = new CoCart_Plugin_Search();
+			}
+
+			return $instance;
+		}
+
+		/**
 		 * Constructor.
 		 *
 		 * @access public
@@ -759,4 +774,17 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 } // END if class exists
 
-return new CoCart_Plugin_Search();
+/**
+ * If "cocart_show_plugin_search" filter is set to false, 
+ * the plugin search suggestions will not show on the plugin install page.
+ */
+if ( 
+	is_admin() && 
+	is_cocart_ps_active()
+) {
+	CoCart_Plugin_Search::init();
+}
+
+function is_cocart_ps_active() {
+	return apply_filters( 'cocart_show_plugin_search', true );
+}
