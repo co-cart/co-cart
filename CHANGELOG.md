@@ -21,6 +21,8 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
 * * Logout               - `wp-json/cocart/v2/logout`
 * * Store API [GET]      - `wp-json/cocart/v2/store`
+* * Session [GET]        - `wp-json/cocart/v2/session/{session_id}`
+* * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
 * * Sessions [GET]        - `wp-json/cocart/v2/sessions`
 * **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.

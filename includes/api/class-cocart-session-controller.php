@@ -54,8 +54,8 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			'schema' => array( $this, 'get_item_schema' )
 		) );
 
-		// Get Cart Items in Session - cocart/v2/session/items/ec2b1f30a304ed513d2975b7b9f222f6 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/items/(?P<cart_key>[\w]+)', array(
+		// Get Cart Items in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6/items (GET)
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<cart_key>[\w]+)/items', array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_cart_items_in_session' ),
@@ -89,13 +89,14 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   array $request   The cart key is a required variable.
-	 * @return  WP_REST_Response Returns the cart data from the database.
+	 * @param   WP_REST_Request  $request Full details about the request.
+	 * @return  WP_REST_Response          Returns the cart data from the database.
 	 */
 	public function get_cart_in_session( $request = array() ) {
 		$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : '';
 
 		try {
+			// The cart key is a required variable.
 			if ( empty( $cart_key ) ) {
 				throw new CoCart_Data_Exception( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
@@ -121,14 +122,15 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  array $request The cart key is a required variable.
-	 * @return WP_REST_Response 
+	 * @param  WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response         Returns the cart items from the session.
 	 */
 	public function get_cart_items_in_session( $request = array() ) {
 		$cart_key   = ! empty( $request['cart_key'] ) ? $request['cart_key'] : '';
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		try {
+			// The cart key is a required variable.
 			if ( empty( $cart_key ) ) {
 				throw new CoCart_Data_Exception( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
