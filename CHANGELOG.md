@@ -7,21 +7,20 @@ This release brings a new API providing more than before. Thanks to the feedback
 Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](#) and your good to go.
 
 * **NEW**: API routes.
-* * Cart           - wp-json/cocart/v2/cart
-* * Cart Item      - wp-json/cocart/v2/cart/item/{item_key}
-* * Cart Items     - wp-json/cocart/v2/cart/items
-* * Count Items    - wp-json/cocart/v2/cart/items/count
-* * Add Item       - wp-json/cocart/v2/cart/add-item
-* * Add Items      - wp-json/cocart/v2/cart/add-items
-* * Update Item    - wp-json/cocart/v2/cart/update-item
-* * Remove Item    - wp-json/cocart/v2/cart/remove-item
-* * Calculate Cart - wp-json/cocart/v2/cart/calculate
-* * Clear Cart     - wp-json/cocart/v2/cart/clear
-* * Cart Totals    - wp-json/cocart/v2/cart/totals
-* * Logout         - wp-json/cocart/v2/logout
-* * Store API      - wp-json/cocart/v2/store
-* * Session        - wp-json/cocart/v2/session (IN DEV)
-* * Session Items  - wp-json/cocart/v2/session/{session-id}/items (IN DEV)
+* * Cart [GET]           - `wp-json/cocart/v2/cart`
+* * Cart [DELETE]        - `wp-json/cocart/v2/cart/{cart_key}`
+* * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Cart Items [GET]     - `wp-json/cocart/v2/cart/items`
+* * Count Items [GET]    - `wp-json/cocart/v2/cart/items/count`
+* * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
+* * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
+* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/update-item`
+* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/remove-item`
+* * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
+* * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
+* * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
+* * Logout               - `wp-json/cocart/v2/logout`
+* * Store API [GET]      - `wp-json/cocart/v2/store`
 * **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
