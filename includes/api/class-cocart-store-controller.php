@@ -117,6 +117,7 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 		return apply_filters( 'cocart_routes', array(
 			'cart'         =>  $prefix . 'cart',
 			'add-item'     =>  $prefix . 'cart/add-item',
+			'add-items'    =>  $prefix . 'cart/add-items',
 			'clear'        =>  $prefix . 'cart/clear',
 			'calculate'    =>  $prefix . 'cart/calculate',
 			'item'         =>  $prefix . 'cart/item',

@@ -121,6 +121,7 @@ class CoCart_Server {
 			'CoCart_Store_V2_Controller',
 			'CoCart_Cart_V2_Controller',
 			'CoCart_Add_Item_v2_Controller',
+			'CoCart_Add_Items_v2_Controller',
 			'CoCart_Item_v2_Controller',
 			'CoCart_Items_v2_Controller',
 			'CoCart_Clear_Cart_v2_Controller',
@@ -288,6 +289,7 @@ class CoCart_Server {
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-store-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-cart-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-add-item-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-cocart-add-items-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-item-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-items-controller.php' );
 		include_once( dirname( __FILE__ ) . '/api/class-cocart-clear-cart-controller.php' );
