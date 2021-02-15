@@ -4,14 +4,15 @@
 
 This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information.
 
-Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have been removed for the better. Simply follow the [upgrade guide](#) and your good to go.
+Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](#) and your good to go.
 
 * **NEW**: API routes.
 * * Cart           - wp-json/cocart/v2/cart
-* * Cart Item      - wp-json/cocart/v2/cart/item
+* * Cart Item      - wp-json/cocart/v2/cart/item/{item_key}
 * * Cart Items     - wp-json/cocart/v2/cart/items
 * * Count Items    - wp-json/cocart/v2/cart/items/count
 * * Add Item       - wp-json/cocart/v2/cart/add-item
+* * Add Items      - wp-json/cocart/v2/cart/add-items
 * * Update Item    - wp-json/cocart/v2/cart/update-item
 * * Remove Item    - wp-json/cocart/v2/cart/remove-item
 * * Calculate Cart - wp-json/cocart/v2/cart/calculate
@@ -41,6 +42,7 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
+* Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
 
 ## v2.8.4 - 9th January, 2021
 
