@@ -505,6 +505,17 @@ class CoCart_Session_Handler extends WC_Session {
 	} // END forget_cart()
 
 	/**
+	 * Backwards compatibility for other plugins to 
+	 * forget cart data without destroying it.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 */
+	public function forget_session() {
+		$this->forget_cart();
+	} // END forget_session()
+
+	/**
 	 * When a user is logged out, ensure they have a unique nonce by using the customer/cart ID.
 	 *
 	 * @access public
