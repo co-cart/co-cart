@@ -24,13 +24,13 @@
 	"bugs": {
 		"url": "https://github.com/co-cart/co-cart/issues"
 	},
-	"requires": "5.3",
+	"requires": "5.4",
 	"requires_php": "7.0",
 	"tested_up_to": "5.6",
 	"wc_requires": "4.3",
-	"wc_tested_up_to": "4.9",
+	"wc_tested_up_to": "5.0",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2020, Sébastien Dumont",
+	"copyright": "Copyright (c) 2021, Sébastien Dumont",
 	"description": "CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.",
 	"tags": "",
 	"keywords": [
