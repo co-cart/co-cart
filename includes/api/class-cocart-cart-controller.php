@@ -1040,11 +1040,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get a single item from the cart and present the data required.
 	 *
 	 * @access public
-	 * @param  WC_Product $_product - The product data of the item in the cart.
-	 * @param  array      $cart_item - The item in the cart containing the default cart item data.
-	 * @param  string     $item_key - The item key generated based on the details of the item.
+	 * @param  WC_Product $_product     - The product data of the item in the cart.
+	 * @param  array      $cart_item    - The item in the cart containing the default cart item data.
+	 * @param  string     $item_key     - The item key generated based on the details of the item.
 	 * @param  boolean    $removed_item - Determines if the item in the cart is removed.
-	 * @return array      $item - Full details of the item in the cart and it's purchase limits.
+	 * @return array      $item         - Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $removed_item = false ) {
 		$item = array(

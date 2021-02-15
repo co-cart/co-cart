@@ -108,8 +108,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   int|string      $product_id - Contains the id of the product to add to the cart.
-	 * @param   int|float       $quantity   - Contains the quantity of the item to add to the cart.
+	 * @param   string          $product_id - Contains the id of the product to add to the cart.
+	 * @param   float           $quantity   - Contains the quantity of the item to add to the cart.
 	 * @param   array           $item_data  - Contains extra cart item data we want to pass into the item.
 	 * @param   WP_REST_Request $request    - Full details about the request.
 	 * @return  bool            success or not
@@ -136,8 +136,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   int|string      $product_id - Contains the id of the product to add to the cart.
-	 * @param   int|float       $quantity   - Contains the quantity of the item to add to the cart.
+	 * @param   string          $product_id - Contains the id of the product to add to the cart.
+	 * @param   float           $quantity   - Contains the quantity of the item to add to the cart.
 	 * @param   array           $variation  - Contains the selected attributes of a variation.
 	 * @param   array           $item_data  - Contains extra cart item data we want to pass into the item.
 	 * @param   WP_REST_Request $request    - Full details about the request.

@@ -274,10 +274,10 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Get the schema for adding an item, conforming to JSON Schema.
 	 *
-	 * @access public
-	 * @since  2.1.2
-	 * @since  2.7.2
-	 * @return array
+	 * @access  public
+	 * @since   2.1.2
+	 * @version 2.7.2
+	 * @return  array
 	 */
 	public function get_item_schema() {
 		$schema = array(
