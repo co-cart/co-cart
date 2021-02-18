@@ -30,9 +30,14 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
  * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
-* 📦 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have v3.2.5 or above.
-* Supports: WooCommerce Advanced Shipping Packages extension.
-* Supports: WooCommerce Free Gift Coupons extension.
+* 🧾 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have **v3.2.5** or above.
+* 🚢 **NEW**: Support for WooCommerce Advanced Shipping Packages extension.
+* 🎁 **NEW**: Support for WooCommerce Free Gift Coupons extension.
+* Tweaked: Session data now handled by new abstract to gain more control over it.
+* Tweaked: Cart key now returns in the cart response the first time round. 🥳
+* Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
+* Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
+* Tested: ✔️ Compatible with WooCommerce v5.1
 
 * Dev: New filters.
 * * `cocart_store_index`
