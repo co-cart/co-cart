@@ -405,12 +405,15 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END get_cart_data()
 
 	/**
-	 * Gets a cache prefix. This is used in cart names so the entire cache can be invalidated with 1 function call.
+	 * Gets a cache prefix. This is used in cart names so the entire 
+	 * cache can be invalidated with 1 function call.
 	 *
-	 * @access private
-	 * @return string
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
+	 * @return  string
 	 */
-	private function get_cache_prefix() {
+	public function get_cache_prefix() {
 		return WC_Cache_Helper::get_cache_prefix( COCART_CART_CACHE_GROUP );
 	} // END get_cache_prefix()
 
