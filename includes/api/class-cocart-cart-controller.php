@@ -717,8 +717,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Current user ID.
 		$current_user_id = strval( get_current_user_id() );
 
-		// Return message if the cart key did not return in time.
-		$cart_key = __( 'Cart key will be available on the next API request.', 'cart-rest-api-for-woocommerce' );
+		// Customer ID used as the cart key by default.
+		$cart_key = WC()->session->get_customer_id();
 
 		// Get cart cookie... if any.
 		$cookie = WC()->session->get_session_cookie();
@@ -729,9 +729,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		// Check if we requested to load a specific cart.
-		if ( isset( $request['cart_key'] ) ) {
-			$cart_key = $request['cart_key'];
-		}
+		$cart_key = isset( $request['cart_key'] ) ? $request['cart_key'] : $cart_key;
 
 		return $cart_key;
 	} // END get_cart_key()

@@ -18,15 +18,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Checks that WooCommerce session class exists first.
-if ( ! class_exists( 'WC_Session' ) ) {
+// Checks that CoCart session abstract exists first.
+if ( ! class_exists( 'CoCart_Session' ) ) {
 	return;
 }
 
 /**
  * Session handler class.
  */
-class CoCart_Session_Handler extends WC_Session {
+class CoCart_Session_Handler extends CoCart_Session {
 
 	/**
 	 * Cookie name used for the cart.
