@@ -842,6 +842,7 @@ class CoCart_API_Controller {
 		 * or the response was already filtered earlier and returned nothing.
 		 */
 		if ( $rest_base !== 'cart' && empty( $response ) ) {
+			/* translators: %s: api route */
 			$response = sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $this->namespace, $rest_base ) ) );
 			CoCart_Logger::log( $response, 'error' );
 		}

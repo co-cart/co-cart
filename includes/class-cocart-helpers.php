@@ -418,7 +418,7 @@ class CoCart_Helpers {
 		// Get the years.
 		$years = ( intval( $seconds ) / YEAR_IN_SECONDS ) % 100;
 		if ( $years > 1 ) {
-			/* translators: Number of years */
+			/* translators: %s: Number of years */
 			return sprintf( __( '%s years', 'cart-rest-api-for-woocommerce' ), $years );
 		} elseif ( $years > 0 ) {
 			return __( 'a year', 'cart-rest-api-for-woocommerce' );
@@ -427,6 +427,7 @@ class CoCart_Helpers {
 		// Get the months.
 		$months = ( intval( $seconds ) / MONTH_IN_SECONDS ) % 52;
 		if ( $months > 1 ) {
+			/* translators: %s: Number of months */
 			return sprintf( __( '%s months', 'cart-rest-api-for-woocommerce' ), $months );
 		} elseif ( $months > 0 ) {
 			return __( '1 month', 'cart-rest-api-for-woocommerce' );
@@ -435,7 +436,7 @@ class CoCart_Helpers {
 		// Get the weeks.
 		$weeks = ( intval( $seconds ) / WEEK_IN_SECONDS ) % 52;
 		if ( $weeks > 1 ) {
-			/* translators: Number of weeks */
+			/* translators: %s: Number of weeks */
 			return sprintf( __( '%s weeks', 'cart-rest-api-for-woocommerce' ), $weeks );
 		} elseif ( $weeks > 0 ) {
 			return __( 'a week', 'cart-rest-api-for-woocommerce' );
@@ -444,7 +445,7 @@ class CoCart_Helpers {
 		// Get the days.
 		$days = ( intval( $seconds ) / DAY_IN_SECONDS ) % 7;
 		if ( $days > 1 ) {
-			/* translators: Number of days */
+			/* translators: %s: Number of days */
 			return sprintf( __( '%s days', 'cart-rest-api-for-woocommerce' ), $days );
 		} elseif ( $days > 0 ) {
 			return __( 'a day', 'cart-rest-api-for-woocommerce' );
@@ -453,7 +454,7 @@ class CoCart_Helpers {
 		// Get the hours.
 		$hours = ( intval( $seconds ) / HOUR_IN_SECONDS ) % 24;
 		if ( $hours > 1 ) {
-			/* translators: Number of hours */
+			/* translators: %s: Number of hours */
 			return sprintf( __( '%s hours', 'cart-rest-api-for-woocommerce' ), $hours );
 		} elseif ( $hours > 0 ) {
 			return __( 'an hour', 'cart-rest-api-for-woocommerce' );
@@ -462,7 +463,7 @@ class CoCart_Helpers {
 		// Get the minutes.
 		$minutes = ( intval( $seconds ) / MINUTE_IN_SECONDS ) % 60;
 		if ( $minutes > 1 ) {
-			/* translators: Number of minutes */
+			/* translators: %s: Number of minutes */
 			return sprintf( __( '%s minutes', 'cart-rest-api-for-woocommerce' ), $minutes );
 		} elseif ( $minutes > 0 ) {
 			return __( 'a minute', 'cart-rest-api-for-woocommerce' );
@@ -471,7 +472,7 @@ class CoCart_Helpers {
 		// Get the seconds.
 		$seconds = intval( $seconds ) % 60;
 		if ( $seconds > 1 ) {
-			/* translators: Number of seconds */
+			/* translators: %s: Number of seconds */
 			return sprintf( __( '%s seconds', 'cart-rest-api-for-woocommerce' ), $seconds );
 		} elseif ( $seconds > 0 ) {
 			return __( 'a second', 'cart-rest-api-for-woocommerce' );
@@ -546,6 +547,7 @@ class CoCart_Helpers {
 	 * @return  string
 	 */
 	public static function get_environment_message() {
+		/* translators: 1: CoCart, 2: Required PHP version */
 		return sprintf( __( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart::$required_php, self::get_php_version() );
 	} // END get_environment_message()
 

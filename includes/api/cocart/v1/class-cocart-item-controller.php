@@ -309,7 +309,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			// Return error if product is_sold_individually.
 			if ( $current_data['data']->is_sold_individually() && $quantity > 1 ) {
-				/* Translators: %s Product name. */
+				/* translators: %s Product name. */
 				$message = sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $current_data['data']->get_name() );
 
 				CoCart_Logger::log( $message, 'error' );
