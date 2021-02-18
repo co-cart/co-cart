@@ -63,7 +63,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 */
 	public function add_items_to_cart( $request = array() ) {
 		$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-		$items      = isset( $request['quantity'] ) && is_array(  $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
+		$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
 		$controller = new CoCart_Cart_V2_Controller();
 
@@ -83,7 +83,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 		if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
 			$was_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 		} else {
-			$was_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $quantity, $request );
+			$was_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
 		}
 
 		// Was it requested to return the items details after being added?
@@ -107,15 +107,13 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 * @param  string          $product_id - Contains the id of the container product to add to the cart.
-	 * @param  array           $quantity   - Contains the quantity of the items to add to the cart.
+	 * @param  array           $items      - Contains the quantity of the items to add to the cart.
 	 * @param  WP_REST_Request $request    - Full details about the request.
 	 * @return bool            success or not
 	 */
-	public function add_to_cart_handler_grouped( $product_id, $quantity, $request ) {
+	public function add_to_cart_handler_grouped( $product_id, $items, $request ) {
 		try {
 			$controller = new CoCart_Cart_V2_Controller();
-
-			$items = $quantity;
 
 			if ( ! empty( $items ) ) {
 				$quantity_set = false;
