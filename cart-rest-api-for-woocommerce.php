@@ -31,7 +31,7 @@ if ( ! class_exists( 'CoCart', false ) ) {
  * Returns the main instance of CoCart and only runs if it does not already exists.
  *
  * @since   2.1.0
- * @version 2.6.0
+ * @version 3.0.0
  * @return CoCart
  */
 if ( ! function_exists( 'CoCart' ) ) {
@@ -50,5 +50,7 @@ if ( ! function_exists( 'CoCart' ) ) {
 		is_admin() || ( defined( 'WP_CLI' ) && WP_CLI )
 	) {
 		include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-admin.php';
+	} else {
+		include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-wc-admin-system-status.php';
 	}
 }

@@ -28,8 +28,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @version 3.0.0
 		 */
 		public function __construct() {
-			// Provide CoCart details to System Status Report.
-			add_filter( 'woocommerce_system_status_report', array( $this, 'render_system_status_items' ) );
+			if ( ! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL ) {
+				add_filter( 'woocommerce_system_status_report', array( $this, 'render_system_status_items' ) );
+			}
 
 			// Add debug buttons to System Status.
 			add_filter( 'woocommerce_debug_tools', array( $this, 'debug_button' ) );
@@ -37,6 +38,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			// Add tools to REST System Status tool.
 			add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_verify_database' ), 10, 2 );
 			add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_update_database' ), 10, 2 );
+
+			if ( defined( 'COCART_WHITE_LABEL' ) && false !== COCART_WHITE_LABEL ) {
+				add_filter( 'woocommerce_debug_tools', array( $this, 'cocart_tools' ) );
+			}
 		} // END __construct()
 
 		/**
@@ -318,7 +323,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'desc'     => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-					esc_html__( 'This will clear all carts in session handled by CoCart and saved carts.', 'cart-rest-api-for-woocommerce' )
+					esc_html__( 'This tool will clear all carts in session handled by CoCart and saved carts.', 'cart-rest-api-for-woocommerce' )
 				),
 				'callback' => array( $this, 'debug_clear_carts' ),
 			);
@@ -330,7 +335,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					sprintf(
-						esc_html__( 'This will clear all expired carts %s stored in the database.', 'cart-rest-api-for-woocommerce' ),
+						esc_html__( 'This tool will clear all expired carts %s stored in the database.', 'cart-rest-api-for-woocommerce' ),
 						'<strong>' . esc_html__( 'only', 'cart-rest-api-for-woocommerce' ) . '</strong>'
 					)
 				),
@@ -380,6 +385,28 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			return $tools;
 		} // END debug_button
+
+		/**
+		 * Modifies the debug buttons under the tools section of 
+		 * WooCommerce System Status should white labelling is enabled.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @param  array $tools - All tools before.
+		 * @return array $tools - All tools after modifications.
+		 */
+		public function cocart_tools( $tools ) {
+			unset( $tools['clear_sessions'] );
+			unset( $tools['cocart_sync_carts'] );
+
+			$tools['cocart_clear_carts']['desc'] = sprintf(
+				'<strong class="red">%1$s</strong> %2$s',
+				esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'This tool will clear all carts in session and saved carts.', 'cart-rest-api-for-woocommerce' )
+			);
+
+			return $tools;
+		} // END cocart_tools()
 
 		/**
 		 * Runs the debug callback for clearing all carts.
