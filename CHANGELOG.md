@@ -49,6 +49,7 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * `cocart_cart_item_quantity`
 * * `cocart_cart_item_subtotal`
 
+* Dev: New: `cocart_filter_request_data` filter for filtering additional requested data when adding an item\s.
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
 * Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
