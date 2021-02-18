@@ -2,7 +2,7 @@
 
 ## v3.0.0 - ?? ??, 2021 (Date Subject to Change)
 
-This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information.
+This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information and administrator API for viewing carts in session.
 
 Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](#) and your good to go.
 
@@ -16,6 +16,7 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
 * * Update Item [UPDATE] - `wp-json/cocart/v2/cart/update-item`
 * * Remove Item [DELETE] - `wp-json/cocart/v2/cart/remove-item`
+* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/restore-item`
 * * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
 * * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
 * * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
@@ -25,6 +26,7 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
 * * Sessions [GET]        - `wp-json/cocart/v2/sessions`
 * **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See documentation]() for more information.
 * **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
  * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
@@ -45,6 +47,11 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
 * Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
+* Dev: New `cocart_api_permission_check_get` filter allows you to block use of any API route that uses the **GET** method.
+* Dev: New `cocart_api_permission_check_post` filter allows you to block use of any API route that uses the **POST** method.
+* Dev: New `cocart_api_permission_check_put` filter allows you to block use of any API route that uses the **PUT** method.
+* Dev: New `cocart_api_permission_check_delete` filter allows you to block use of any API route that uses the **DELETE** method.
+* Dev: New `cocart_api_permission_check_options` filter allows you to block use of any API route that uses the **OPTION** method.
 
 ## v2.8.4 - 9th January, 2021
 
