@@ -122,7 +122,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @param   WP_REST_Request $request    - Full details about the request.
 	 * @return  bool            success or not
 	 */
-	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request ) {
+	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request = array() ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
 		$product_to_add = $controller->validate_product( $product_id, $quantity, 0, array(), $item_data, 'simple', $request );
@@ -146,7 +146,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @param   WP_REST_Request $request    - Full details about the request.
 	 * @return  bool            success or not
 	 */
-	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated = null, $variation, $item_data, $request ) {
+	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated = null, $variation, $item_data, $request = array() ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
 		$product_to_add = $controller->validate_product( $product_id, $quantity, $deprecated, $variation, $item_data, 'variable', $request );
