@@ -132,16 +132,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.2.0
-		 * @version 2.3.0
+		 * @version 3.0.0
 		 */
 		public function allow_all_cors() {
 			// If not enabled via filter then return.
 			if ( apply_filters( 'cocart_disable_all_cors', true ) ) {
-				return;
-			}
-
-			// If the REST API request was not for CoCart then return.
-			if ( ! CoCart_Helpers::is_rest_api_request() ) {
 				return;
 			}
 
