@@ -33,9 +33,6 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			// Validates the quantity value to be a float.
 			add_filter( 'woocommerce_stock_amount', 'floatval' );
 
-			// Overrides the session handler used for the web.
-			add_filter( 'woocommerce_session_handler', array( $this, 'cocart_session_handler' ) );
-
 			// Force WooCommerce to accept CoCart requests when authenticating.
 			add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
 
@@ -45,27 +42,6 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			// Delete user data.
 			add_action( 'delete_user', array( $this, 'delete_user_data' ) );
 		}
-
-		/**
-		 * Returns CoCart session handler class name.
-		 *
-		 * @access  public
-		 * @since   2.1.2
-		 * @version 2.6.0
-		 * @param   string WooCommerce Session Handler
-		 * @return  string
-		 */
-		public static function cocart_session_handler( $handler ) {
-			if ( ! class_exists( 'WC_Session' ) ) {
-				return $handler;
-			}
-
-			if ( ! defined( 'DOING_AJAX' ) || ! defined( 'DOING_CRON' ) || ! CoCart_Authentication::is_rest_api_request() ) {
-				$handler = 'CoCart_Session_Handler';
-			}
-
-			return $handler;
-		} // END cocart_session_handler()
 
 		/**
 		 * Force WooCommerce to accept CoCart API requests when authenticating.
