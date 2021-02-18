@@ -733,15 +733,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$cart_key = $request['cart_key'];
 		}
 
-		// Override cookie check to force load the authenticated users cart if switched without logging out first.
-		$override_cookie_check = apply_filters( 'cocart_override_cookie_check', false );
-
-		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
-			if ( $override_cookie_check || ! $cookie ) {
-				$cart_key = $current_user_id;
-			}
-		}
-
 		return $cart_key;
 	} // END get_cart_key()
 
