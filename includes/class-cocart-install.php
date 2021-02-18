@@ -27,7 +27,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		private static $db_updates = array(
 			'3.0.0' => array(
 				'cocart_update_300_db_structure',
-				'cocart_update_300_db_version'
+				'cocart_update_300_db_version',
 			),
 		);
 
@@ -208,8 +208,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access public
 		 * @static
 		 * @since 3.0.0
-		 * @param bool   $modify_notice Whether to modify notice based on if all tables are present.
-		 * @param bool   $execute       Whether to execute get_schema queries as well.
+		 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
+		 * @param bool $execute       Whether to execute get_schema queries as well.
 		 * @return array List of querues.
 		 */
 		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
@@ -390,7 +390,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @since   1.2.0
 		 * @version 3.0.0
 		 * @param   string $plugin             Activate plugin file.
-		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network 
+		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network
 		 *                                     or just the current site. Multisite only.
 		 */
 		public static function redirect_getting_started( $plugin, $network_activation ) {

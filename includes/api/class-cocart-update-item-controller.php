@@ -44,14 +44,18 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 */
 	public function register_routes() {
 		// Update Item - cocart/v2/cart/update-item (POST)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'args' => $this->get_collection_params(),
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'update_item' ),
-				'permission_callback' => '__return_true',
-			),
-		) );
+				'args' => $this->get_collection_params(),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'update_item' ),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -68,7 +72,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	public function update_item( $request = array() ) {
 		try {
 			$item_key = ! isset( $request['item_key'] ) ? 0 : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
-			$quantity      = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
+			$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
 
 			if ( 0 === $item_key || $item_key < 0 ) {
 				$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
@@ -216,7 +220,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			}
-		} catch( CoCart_Data_Exception $e) {
+		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END update_item()
@@ -229,20 +233,20 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'item_key' => array(
+			'item_key'      => array(
 				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'quantity' => array(
+			'quantity'      => array(
 				'default'           => 1,
 				'type'              => 'float',
 				'validate_callback' => function( $value, $request, $param ) {
 					return is_numeric( $value );
-				}
+				},
 			),
-			'return_status'   => array(
+			'return_status' => array(
 				'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cart-rest-api-for-woocommerce' ),
 				'default'           => false,
 				'type'              => 'boolean',

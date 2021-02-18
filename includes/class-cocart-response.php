@@ -53,7 +53,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 				}
 
 				return new WP_REST_Response( $response, 200 );
-			} catch( \CoCart_Data_Exception $e ) {
+			} catch ( \CoCart_Data_Exception $e ) {
 				$response = self::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			} catch ( \Exception $e ) {
 				$response = self::get_error_response( 'cocart_unknown_server_error', $e->getMessage(), 500 );
@@ -77,7 +77,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		public static function error_to_response( $error ) {
 			$error_data = $error->get_error_data();
 			$status     = isset( $error_data, $error_data['status'] ) ? $error_data['status'] : 500;
-			$errors     = [];
+			$errors     = array();
 
 			foreach ( (array) $error->errors as $code => $messages ) {
 				foreach ( (array) $messages as $message ) {
@@ -109,8 +109,8 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @param  array  $additional_data  Extra data (key value pairs) to expose in the error response.
 		 * @return \WP_Error WP Error object.
 		 */
-		public static function get_error_response( $error_code, $error_message, $http_status_code = 500, $additional_data = [] ) {
-			return new \WP_Error( $error_code, $error_message, array_merge( $additional_data, [ 'status' => $http_status_code ] ) );
+		public static function get_error_response( $error_code, $error_message, $http_status_code = 500, $additional_data = array() ) {
+			return new \WP_Error( $error_code, $error_message, array_merge( $additional_data, array( 'status' => $http_status_code ) ) );
 		}
 
 	} // END class

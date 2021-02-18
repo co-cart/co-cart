@@ -51,7 +51,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 			try {
 				if ( ! empty( $values['free_gift'] ) ) {
 					// Has an initial FGC quantity.
-					if ( ! empty ( $values['fgc_quantity'] ) && $quantity !== $values['fgc_quantity'] ) {
+					if ( ! empty( $values['fgc_quantity'] ) && $quantity !== $values['fgc_quantity'] ) {
 						/* Translators: %s Product title. */
 						$error_message = sprintf( __( 'You are not allowed to modify the quantity of your %s gift.', 'cart-rest-api-for-woocommerce' ), $values['data']->get_name() );
 
@@ -62,7 +62,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 				}
 
 				return $passed_validation;
-			} catch( CoCart_Data_Exception $e) {
+			} catch ( CoCart_Data_Exception $e ) {
 				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
 		} // END update_cart_validation()

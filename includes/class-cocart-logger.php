@@ -53,8 +53,8 @@ class CoCart_Logger {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-pro' );
 			} else {
-				$log_entry = "\n" . sprintf( esc_html__( '====%s Version: %s====', 'cart-rest-api-for-woocommerce' ), apply_filters( 'cocart_log_entry_name', '', $plugin ), apply_filters( 'cocart_log_entry_version', '', $plugin ) ) . "\n";
-				$context   = array( 'source' => apply_filters( 'cocart_log_entry_source', '') );
+				$log_entry = "\n" . sprintf( esc_html__( '====%1$s Version: %2$s====', 'cart-rest-api-for-woocommerce' ), apply_filters( 'cocart_log_entry_name', '', $plugin ), apply_filters( 'cocart_log_entry_version', '', $plugin ) ) . "\n";
+				$context   = array( 'source' => apply_filters( 'cocart_log_entry_source', '' ) );
 			}
 
 			$log_time = date_i18n( get_option( 'date_format' ) . ' g:ia', current_time( 'timestamp' ) );

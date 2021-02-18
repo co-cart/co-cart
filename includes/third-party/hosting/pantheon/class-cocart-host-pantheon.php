@@ -30,7 +30,7 @@ if ( ! class_exists( 'CoCart_Host_Pantheon' ) ) {
 		}
 
 		/**
-		 * Returns a new cookie name so CoCart does not get 
+		 * Returns a new cookie name so CoCart does not get
 		 * cached for guest customers on the frontend.
 		 *
 		 * @access public

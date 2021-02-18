@@ -77,7 +77,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 				$message = apply_filters( 'cocart_cannot_add_product_type_to_cart_message', $message, $product_data );
 
 				throw new CoCart_Data_Exception( 'cocart_cannot_add_product_type_to_cart', $message, 403 );
-			} catch( CoCart_Data_Exception $e) {
+			} catch ( CoCart_Data_Exception $e ) {
 				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
 		} // END product_not_allowed_to_add()

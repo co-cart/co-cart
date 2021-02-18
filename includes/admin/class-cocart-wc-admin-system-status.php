@@ -174,13 +174,15 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			if ( empty( $session ) ) {
-				$results = $wpdb->get_results( "
+				$results = $wpdb->get_results(
+					"
 					SELECT COUNT(cart_id) as count 
 					FROM {$wpdb->prefix}cocart_carts",
 					ARRAY_A
 				);
 			} else {
-				$results = $wpdb->get_results( "
+				$results = $wpdb->get_results(
+					"
 					SELECT COUNT(session_id) as count 
 					FROM {$wpdb->prefix}woocommerce_sessions",
 					ARRAY_A
@@ -202,7 +204,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			$results = $wpdb->get_results(
-				$wpdb->prepare( "
+				$wpdb->prepare(
+					"
 					SELECT COUNT(cart_id) as count
 					FROM {$wpdb->prefix}cocart_carts 
 					WHERE cart_expiry BETWEEN %d AND %d",
@@ -226,7 +229,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			$results = $wpdb->get_results(
-				$wpdb->prepare( "
+				$wpdb->prepare(
+					"
 					SELECT COUNT(cart_id) as count
 					FROM {$wpdb->prefix}cocart_carts 
 					WHERE cart_expiry < %d",
@@ -249,7 +253,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			$results = $wpdb->get_results(
-				$wpdb->prepare( "
+				$wpdb->prepare(
+					"
 					SELECT COUNT(cart_id) as count
 					FROM {$wpdb->prefix}cocart_carts 
 					WHERE cart_source=%s",
@@ -272,7 +277,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			$results = $wpdb->get_results(
-				$wpdb->prepare( "
+				$wpdb->prepare(
+					"
 					SELECT COUNT(cart_id) as count
 					FROM {$wpdb->prefix}cocart_carts 
 					WHERE cart_source=%s",
@@ -295,7 +301,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			global $wpdb;
 
 			$results = $wpdb->get_results(
-				$wpdb->prepare( "
+				$wpdb->prepare(
+					"
 					SELECT COUNT(cart_id) as count
 					FROM {$wpdb->prefix}cocart_carts 
 					WHERE cart_source!=%s AND cart_source!=%s",
@@ -374,9 +381,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			);
 
 			$tools['cocart_verify_db_tables'] = array(
-				'name'   => esc_html__( 'Verify CoCart base database tables', 'cart-rest-api-for-woocommerce' ),
-				'button' => esc_html__( 'Verify database', 'cart-rest-api-for-woocommerce' ),
-				'desc'   => sprintf(
+				'name'     => esc_html__( 'Verify CoCart base database tables', 'cart-rest-api-for-woocommerce' ),
+				'button'   => esc_html__( 'Verify database', 'cart-rest-api-for-woocommerce' ),
+				'desc'     => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					esc_html__( 'Verify if all CoCart\'s base database tables are present.', 'cart-rest-api-for-woocommerce' )
@@ -388,7 +395,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		} // END debug_button
 
 		/**
-		 * Modifies the debug buttons under the tools section of 
+		 * Modifies the debug buttons under the tools section of
 		 * WooCommerce System Status should white labelling is enabled.
 		 *
 		 * @access public

@@ -43,14 +43,18 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 	 */
 	public function register_routes() {
 		// Remove Item - cocart/v2/remove-item (DELETE)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'args' => $this->get_collection_params(),
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::DELETABLE,
-				'callback'            => array( $this, 'remove_item' ),
-				'permission_callback' => '__return_true',
-			),
-		) );
+				'args' => $this->get_collection_params(),
+				array(
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => array( $this, 'remove_item' ),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -61,13 +65,13 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'item_key' => array(
+			'item_key'    => array(
 				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'return_cart'   => array(
+			'return_cart' => array(
 				'description'       => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
 				'default'           => false,
 				'type'              => 'boolean',

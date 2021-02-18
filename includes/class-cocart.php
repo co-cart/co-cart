@@ -159,7 +159,7 @@ final class CoCart {
 	/**
 	 * Setup CoCart.
 	 *
-	 * Called using the "woocommerce_loaded" hook to allow the use of 
+	 * Called using the "woocommerce_loaded" hook to allow the use of
 	 * WooCommerce constants.
 	 *
 	 * @access public

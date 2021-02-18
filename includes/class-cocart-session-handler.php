@@ -5,6 +5,7 @@
  * Forked from WC_Session_Handler, changed default variables,
  * database table used, filters and made adjustments to accommodate
  * support for guest customers as well as registered customers via the REST API.
+ *
  * @link https://github.com/woocommerce/woocommerce/blob/master/includes/class-wc-session-handler.php
  *
  * @author   Sébastien Dumont
@@ -115,7 +116,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		}
 
 		/**
-		 * Identifies the source of the cart if it was created 
+		 * Identifies the source of the cart if it was created
 		 * via CoCart REST API or via the frontend a.k.a "WooCommerce".
 		 *
 		 * @since 3.0.0
@@ -405,7 +406,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END get_cart_data()
 
 	/**
-	 * Gets a cache prefix. This is used in cart names so the entire 
+	 * Gets a cache prefix. This is used in cart names so the entire
 	 * cache can be invalidated with 1 function call.
 	 *
 	 * @access  public
@@ -509,7 +510,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END forget_cart()
 
 	/**
-	 * Backwards compatibility for other plugins to 
+	 * Backwards compatibility for other plugins to
 	 * forget cart data without destroying it.
 	 *
 	 * @access public
@@ -610,7 +611,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 				'cart_value'   => maybe_serialize( $cart_value ),
 				'cart_created' => time(),
 				'cart_expiry'  => $cart_expiration,
-				'cart_source'  => $cart_source
+				'cart_source'  => $cart_source,
 			),
 			array( '%s', '%s', '%d', '%d', '%s' )
 		);

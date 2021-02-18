@@ -68,7 +68,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
-			self::$notices = get_site_option( 'cocart_admin_notices', array() );
+			self::$notices      = get_site_option( 'cocart_admin_notices', array() );
 
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
@@ -380,7 +380,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END check_php_notice()
 
 		/**
-		 * Checks that the WordPress version meets the plugin requirement before deciding 
+		 * Checks that the WordPress version meets the plugin requirement before deciding
 		 * to deactivate the plugin and show the WordPress requirement notice if it doesn't meet.
 		 *
 		 * @access  public

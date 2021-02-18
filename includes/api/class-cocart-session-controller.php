@@ -44,26 +44,34 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 */
 	public function register_routes() {
 		// Get Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<cart_key>[\w]+)', array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<cart_key>[\w]+)',
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_cart_in_session' ),
-				'permission_callback' => array( $this, 'get_items_permissions_check' ),
-				'args'                => $this->get_collection_params()
-			),
-			'schema' => array( $this, 'get_item_schema' )
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_cart_in_session' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
+			)
+		);
 
 		// Get Cart Items in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6/items (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<cart_key>[\w]+)/items', array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<cart_key>[\w]+)/items',
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_cart_items_in_session' ),
-				'permission_callback' => array( $this, 'get_items_permissions_check' ),
-				'args'                => $this->get_collection_params()
-			),
-			'schema' => array( $this, 'get_item_schema' )
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_cart_items_in_session' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -89,7 +97,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   WP_REST_Request  $request Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response          Returns the cart data from the database.
 	 */
 	public function get_cart_in_session( $request = array() ) {
@@ -111,7 +119,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			}
 
 			return CoCart_Response::get_response( $this->return_cart_contents( $request, maybe_unserialize( $cart['cart'] ), '', true ), $this->namespace, $this->rest_base );
-		} catch( \CoCart_Data_Exception $e ) {
+		} catch ( \CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_cart_in_session()
@@ -145,7 +153,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			}
 
 			return CoCart_Response::get_response( $this->get_items( maybe_unserialize( $cart['cart'] ), $show_thumb ), $this->namespace, $this->rest_base );
-		} catch( CoCart_Data_Exception $e) {
+		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_cart_items_in_session()

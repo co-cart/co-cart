@@ -30,7 +30,7 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 		}
 
 		/**
-		 * Returns true to allow TaxJar to calculate totals 
+		 * Returns true to allow TaxJar to calculate totals
 		 * when CoCart API is requested.
 		 *
 		 * @access public

@@ -122,7 +122,7 @@ class CoCart_Rest_API {
 		if ( strpos( $request_uri, $rest_prefix . 'cocart/' ) !== false ) {
 			return true;
 		}
-	
+
 		return $skip;
 	} // END prevent_cache()
 

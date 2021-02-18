@@ -43,13 +43,17 @@ class CoCart_Items_v2_Controller extends CoCart_Item_Controller {
 	 */
 	public function register_routes() {
 		// Get Items - cocart/v2/cart/items (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'view_items' ),
-				'permission_callback' => '__return_true',
-			),
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'view_items' ),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
 	} // register_routes()
 
 	/**

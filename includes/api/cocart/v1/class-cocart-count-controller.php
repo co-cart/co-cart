@@ -39,17 +39,21 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 */
 	public function register_routes() {
 		// Count Items in Cart - cocart/v1/count-items (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => array( $this, 'get_cart_contents_count' ),
-			'permission_callback' => '__return_true',
-			'args'                => array(
-				'return' => array(
-					'default' => 'numeric',
-					'type'    => 'string'
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart_contents_count' ),
+				'permission_callback' => '__return_true',
+				'args'                => array(
+					'return' => array(
+						'default' => 'numeric',
+						'type'    => 'string',
+					),
 				),
-			),
-		) );
+			)
+		);
 	} // register_routes()
 
 	/**

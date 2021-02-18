@@ -44,14 +44,18 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 */
 	public function register_routes() {
 		// Restore Item - cocart/v2/restore-item (PUT)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'args' => $this->get_collection_params(),
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'restore_item' ),
-				'permission_callback' => '__return_true',
-			),
-		) );
+				'args' => $this->get_collection_params(),
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'restore_item' ),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -119,7 +123,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 
 				throw new CoCart_Data_Exception( 'cocart_can_not_restore_item', $message, 403 );
 			}
-		} catch( CoCart_Data_Exception $e) {
+		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END restore_item()
@@ -132,14 +136,14 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'item_key' => array(
+			'item_key'    => array(
 				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'return_item'   => array(
-				'description' => __( 'Returns the item details once restored.', 'cart-rest-api-for-woocommerce' ),
+			'return_item' => array(
+				'description'       => __( 'Returns the item details once restored.', 'cart-rest-api-for-woocommerce' ),
 				'default'           => false,
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',

@@ -43,15 +43,19 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 */
 	public function register_routes() {
 		// Add Item - cocart/v2/cart/add-item (POST)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'add_to_cart' ),
-				'permission_callback' => '__return_true',
-				'args'                => $this->get_collection_params()
-			),
-			'schema' => array( $this, 'get_item_schema' )
-		) );
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'add_to_cart' ),
+					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -105,7 +109,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			}
 
 			return $was_added_to_cart;
-		} catch( CoCart_Data_Exception $e) {
+		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END add_to_cart()
@@ -170,14 +174,14 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  array           $item_added     - Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( $product_to_add = array() ) {
-		$product_id     = $product_to_add['product_id'];
-		$quantity       = $product_to_add['quantity'];
-		$variation_id   = $product_to_add['variation_id'];
-		$variation      = $product_to_add['variation'];
-		$item_data      = $product_to_add['item_data'];
-		$item_key       = $product_to_add['item_key'];
-		$product_data   = $product_to_add['product_data'];
-		$request        = $product_to_add['request'];
+		$product_id   = $product_to_add['product_id'];
+		$quantity     = $product_to_add['quantity'];
+		$variation_id = $product_to_add['variation_id'];
+		$variation    = $product_to_add['variation'];
+		$item_data    = $product_to_add['item_data'];
+		$item_key     = $product_to_add['item_key'];
+		$product_data = $product_to_add['product_data'];
+		$request      = $product_to_add['request'];
 
 		try {
 			$controller = new CoCart_Cart_V2_Controller();
@@ -242,7 +246,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			}
 
 			return $item_added;
-		} catch( CoCart_Data_Exception $e) {
+		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END add_item_to_cart()
@@ -261,23 +265,23 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(
-				'id' => array(
+				'id'          => array(
 					'required'    => true,
 					'description' => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
-				'quantity' => array(
+				'quantity'    => array(
 					'required'    => true,
 					'default'     => 1,
 					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'float',
 				),
-				'variation' => array(
+				'variation'   => array(
 					'required'    => false,
 					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 				),
-				'item_data' => array(
+				'item_data'   => array(
 					'required'    => false,
 					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
@@ -306,14 +310,14 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 */
 	public function get_collection_params() {
 		$params = array(
-			'id' => array(
+			'id'          => array(
 				'required'          => true,
 				'description'       => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'quantity' => array(
+			'quantity'    => array(
 				'required'          => true,
 				'default'           => 1,
 				'description'       => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
@@ -322,13 +326,13 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					return is_numeric( $value );
 				},
 			),
-			'variation' => array(
+			'variation'   => array(
 				'required'          => false,
 				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'item_data' => array(
+			'item_data'   => array(
 				'required'          => false,
 				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'object',
@@ -338,7 +342,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				'description' => __( 'Returns the item details once added.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => false,
 				'type'        => 'boolean',
-			)
+			),
 		);
 
 		return $params;

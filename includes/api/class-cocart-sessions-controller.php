@@ -44,14 +44,18 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 	 */
 	public function register_routes() {
 		// Get Sessions - cocart/v2/sessions (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_carts_in_session' ),
-				'permission_callback' => array( $this, 'get_items_permissions_check' ),
-			),
-			//'schema' => array( $this, 'get_item_schema' )
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_carts_in_session' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+			 // 'schema' => array( $this, 'get_item_schema' )
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -81,7 +85,8 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 		try {
 			global $wpdb;
 
-			$results = $wpdb->get_results( "
+			$results = $wpdb->get_results(
+				"
 				SELECT * 
 				FROM {$wpdb->prefix}cocart_carts",
 				ARRAY_A
@@ -93,11 +98,11 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 
 			$sessions = array();
 
-			foreach( $results as $key => $cart ) {
+			foreach ( $results as $key => $cart ) {
 				$cart_value = maybe_unserialize( $cart['cart_value'] );
 				$customer   = maybe_unserialize( $cart_value['customer'] );
 
-				$email = ! empty( $customer['email'] ) ? $customer['email'] : '';
+				$email      = ! empty( $customer['email'] ) ? $customer['email'] : '';
 				$first_name = ! empty( $customer['first_name'] ) ? $customer['first_name'] : '';
 				$last_name  = ! empty( $customer['last_name'] ) ? $customer['last_name'] : '';
 
@@ -114,18 +119,18 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 				}
 
 				$sessions[] = array(
-					'cart_id' => $cart['cart_id'],
-					'cart_key' => $cart['cart_key'],
-					'customers_name' => $name,
+					'cart_id'         => $cart['cart_id'],
+					'cart_key'        => $cart['cart_key'],
+					'customers_name'  => $name,
 					'customers_email' => $email,
-					'cart_created' => date('m/d/Y H:i:s', $cart['cart_created'] ),
-					'cart_expiry' => date('m/d/Y H:i:s', $cart['cart_expiry'] ),
-					'cart_source' => $cart_source
+					'cart_created'    => date( 'm/d/Y H:i:s', $cart['cart_created'] ),
+					'cart_expiry'     => date( 'm/d/Y H:i:s', $cart['cart_expiry'] ),
+					'cart_source'     => $cart_source,
 				);
 			}
 
 			return CoCart_Response::get_response( $sessions, $this->namespace, $this->rest_base );
-		} catch( \CoCart_Data_Exception $e ) {
+		} catch ( \CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_carts_in_session()

@@ -39,33 +39,37 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 */
 	public function register_routes() {
 		// Update, Remove or Restore Item - cocart/v1/item (GET, POST, DELETE)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'args' => $this->get_collection_params(),
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'restore_item' ),
-				'permission_callback' => '__return_true',
-			),
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'update_item' ),
-				'permission_callback' => '__return_true',
-				'args'                => array(
-					'quantity' => array(
-						'default'           => 1,
-						'type'              => 'float',
-						'validate_callback' => function( $value, $request, $param ) {
-							return is_numeric( $value );
-						}
+				'args' => $this->get_collection_params(),
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'restore_item' ),
+					'permission_callback' => '__return_true',
+				),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'update_item' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(
+						'quantity' => array(
+							'default'           => 1,
+							'type'              => 'float',
+							'validate_callback' => function( $value, $request, $param ) {
+								return is_numeric( $value );
+							},
+						),
 					),
 				),
-			),
-			array(
-				'methods'             => WP_REST_Server::DELETABLE,
-				'callback'            => array( $this, 'remove_item' ),
-				'permission_callback' => '__return_true',
-			),
-		) );
+				array(
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => array( $this, 'remove_item' ),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
 	} // register_routes()
 
 	/**

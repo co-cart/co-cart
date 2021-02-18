@@ -43,14 +43,18 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 	 */
 	public function register_routes() {
 		// Get Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<item_key>[\w]+)', array(
-			'args' => $this->get_collection_params(),
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'view_item' ),
-				'permission_callback' => '__return_true',
-			),
-		) );
+				'args' => $this->get_collection_params(),
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'view_item' ),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -70,7 +74,7 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 
 		$item = $controller->get_items( $cart_contents );
 
-		$item = $item[$item_key];
+		$item = $item[ $item_key ];
 
 		// Return message should the cart be empty.
 		if ( empty( $cart_contents ) ) {

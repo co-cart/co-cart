@@ -3,6 +3,7 @@
  * Handle data for the current customers session.
  *
  * Forked from WC_Session and added a few tweaks to support our features.
+ *
  * @link https://github.com/woocommerce/woocommerce/blob/master/includes/abstracts/abstract-wc-session.php
  *
  * @author   Sébastien Dumont
