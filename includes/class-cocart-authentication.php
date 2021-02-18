@@ -115,9 +115,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			}
 
 			// Check if we requested to load a specific cart.
-			if ( isset( $_REQUEST['cart_key'] ) ) {
 				$cart_key = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $cart_key;
-			}
 
 			// Send cart key in the header if it's not empty or ZERO.
 			if ( ! empty( $cart_key ) && $cart_key !== '0' ) {
