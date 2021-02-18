@@ -46,6 +46,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			// Allow all cross origin requests.
 			add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
 		}
+		}
 
 		/**
 		 * Returns true if we are making a REST API request for CoCart.
