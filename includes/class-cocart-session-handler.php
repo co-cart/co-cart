@@ -5,6 +5,7 @@
  * Forked from WC_Session_Handler, changed default variables,
  * database table used, filters and made adjustments to accommodate
  * support for guest customers as well as registered customers via the REST API.
+ * @link https://github.com/woocommerce/woocommerce/blob/master/includes/class-wc-session-handler.php
  *
  * @author   Sébastien Dumont
  * @category API

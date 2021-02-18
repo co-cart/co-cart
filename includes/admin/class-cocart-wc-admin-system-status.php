@@ -28,6 +28,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @version 3.0.0
 		 */
 		public function __construct() {
+			// Provide CoCart details to System Status Report.
 			if ( ! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL ) {
 				add_filter( 'woocommerce_system_status_report', array( $this, 'render_system_status_items' ) );
 			}
