@@ -38,8 +38,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				}
 			}
 
-			// Authenticate user.
-			add_filter( 'determine_current_user', array( $this, 'authenticate' ), 20 );
+				// Check API permissions.
+				add_filter( 'rest_pre_dispatch', array( $this, 'check_api_permissions' ), 10, 3 );
 
 			// Allow all cross origin requests.
 			add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
@@ -180,6 +180,68 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return $served;
 		} // END cors_headers()
+
+		/**
+		 * Check for permission to access API.
+		 *
+		* @throws CoCart_Data_Exception Exception if invalid data is detected.
+		*
+		 * @access public
+		 * @since  3.0.0
+		 * @param  mixed           $result  Response to replace the requested version with.
+		 * @param  WP_REST_Server  $server  Server instance.
+		 * @param  WP_REST_Request $request Request used to generate the response.
+		 * @return mixed
+		 */
+		public function check_api_permissions( $result, $server, $request ) {
+			$method       = $request->get_method();
+			$path         = $request->get_route();
+			$prefix       = 'cocart/';
+
+			/**
+			 * Should the developer choose to restrict any of CoCart's API routes for any method.
+			 * They can set the requested API and method to enforce authentication by not allowing it permission to the public.
+			 */
+			$api_not_allowed = apply_filters( 'cocart_api_permission_check_' . strtolower( $method ), array() );
+
+			try {
+				// If the user ID is zero then user is not authenticated.
+				if ( 0 === $this->user_id || $this->user_id < 0 ) {
+					switch( $method ) {
+						case 'GET':
+							foreach( $api_not_allowed as $route ) {
+								if ( preg_match('!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
+									/* translators: 1: permission method, 2: api route */
+									throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ), 'READ', $path ), 401 );
+								}
+							}
+							break;
+						case 'POST':
+						case 'PUT':
+						case 'PATCH':
+						case 'DELETE':
+							foreach( $api_not_allowed as $route ) {
+								if ( preg_match('!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
+									/* translators: 1: permission method, 2: api route */
+									throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ), 'WRITE', $path ), 401 );
+								}
+							}
+							break;
+						case 'OPTIONS':
+							return true;
+
+						default:
+							/* translators: %s: api route */
+							throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Unknown request method for %s.', 'cart-rest-api-for-woocommerce' ), $path ), 401 );
+					}
+				}
+
+				// Return previous result if nothing has changed.
+				return $result;
+			} catch( CoCart_Data_Exception $e) {
+				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			}
+		} // END check_permissions()
 
 	} // END class.
 
