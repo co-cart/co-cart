@@ -30,9 +30,9 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
  * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
+* 📦 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have v3.2.5 or above.
 * Supports: WooCommerce Advanced Shipping Packages extension.
 * Supports: WooCommerce Free Gift Coupons extension.
-
 
 * Dev: New filters.
 * * `cocart_store_index`
