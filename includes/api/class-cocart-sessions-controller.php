@@ -107,6 +107,12 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 					$name = '';
 				}
 
+				$cart_source = $cart['cart_source'];
+
+				if ( $cart_source == 'cocart-rest-api' ) {
+					$cart_source = 'CoCart';
+				}
+
 				$sessions[] = array(
 					'cart_id' => $cart['cart_id'],
 					'cart_key' => $cart['cart_key'],
@@ -114,7 +120,7 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 					'customers_email' => $email,
 					'cart_created' => date('m/d/Y H:i:s', $cart['cart_created'] ),
 					'cart_expiry' => date('m/d/Y H:i:s', $cart['cart_expiry'] ),
-					'cart_source' => $cart['cart_source'] = 'cocart-rest-api' ? 'CoCart' : $cart['cart_source'],
+					'cart_source' => $cart_source
 				);
 			}
 
