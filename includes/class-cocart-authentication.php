@@ -4,9 +4,9 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\Authentication
+ * @package  CoCart\Classes
  * @since    2.6.0
- * @version  2.8.3
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -24,11 +24,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.6.0
-		 * @version 2.7.0
+		 * @version 3.0.0
 		 */
 		public function __construct() {
 			// Check that we are only authenticating for our API.
 			if ( $this->is_rest_api_request() ) {
+				// Authenticate user.
+				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 20 );
+
 				// Sends the cart key to the header.
 				add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 0, 1 );
 
@@ -36,7 +39,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				if ( is_ssl() ) {
 					remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 				}
-			}
 
 				// Check API permissions.
 				add_filter( 'rest_pre_dispatch', array( $this, 'check_api_permissions' ), 10, 3 );
@@ -65,6 +67,26 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 		} // END is_rest_api_request()
+
+		/**
+		 * Authenticate user.
+		 *
+		 * @access  public
+		 * @since   2.6.0
+		 * @version 3.0.0
+		 * @param   int|false $user_id User ID if one has been determined, false otherwise.
+		 * @return  int|false
+		 */
+		public function authenticate( $user_id ) {
+			// Do not authenticate twice.
+			if ( ! empty( $user_id ) ) {
+				return $user_id;
+			}
+
+			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl() );
+
+			return $user_id;
+		} // END authenticate()
 
 		/**
 		 * Sends the cart key to the header.
@@ -103,25 +125,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return true;
 		} // END cocart_key_header()
-
-		/**
-		 * Authenticate user.
-		 *
-		 * @access public
-		 * @since  2.6.0
-		 * @param  int|false $user_id User ID if one has been determined, false otherwise.
-		 * @return int|false
-		 */
-		public function authenticate( $user_id ) {
-			// Do not authenticate twice and check if is a request to our endpoint in the WP REST API.
-			if ( ! empty( $user_id ) || ! CoCart_Helpers::is_rest_api_request() ) {
-				return $user_id;
-			}
-
-			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl() );
-
-			return $user_id;
-		} // END authenticate()
 
 		/**
 		 * Allow all cross origin header requests.
