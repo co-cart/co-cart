@@ -64,42 +64,50 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function add_to_cart( $request = array() ) {
-		$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-		$quantity   = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
-		$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
-		$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
+		try {
+			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
+			$quantity   = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
+			$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
+			$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
 
-		$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_Cart_V2_Controller();
 
-		// Filters additional requested data.
-		$request = $controller->filter_request_data( $request );
+			// Filters additional requested data.
+			$request = $controller->filter_request_data( $request );
 
-		// Validate product ID before continuing and return correct product ID if different.
-		$product_id = $this->validate_product_id( $product_id );
+			// Validate product ID before continuing and return correct product ID if different.
+			$product_id = $this->validate_product_id( $product_id );
 
-		// The product we are attempting to add to the cart.
-		$adding_to_cart = wc_get_product( $product_id );
-		$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
+			// The product we are attempting to add to the cart.
+			$adding_to_cart = wc_get_product( $product_id );
+			$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
 
-		// Add to cart handlers
-		$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
+			// Add to cart handlers
+			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
-		if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
-			$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
-		} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
-			$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
-		} else {
-			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
+			if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
+				$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
+			} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
+				$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+			} else {
+				$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
+			}
+
+			if ( ! is_wp_error( $was_added_to_cart ) ) {
+				// Was it requested to return the item details after being added?
+				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
+					$response = $controller->get_item( $was_added_to_cart );
+				} else {
+					$response = $controller->get_cart_contents( $request );
+				}
+
+				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			}
+
+			return $was_added_to_cart;
+		} catch( CoCart_Data_Exception $e) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
-
-		// Was it requested to return the item details after being added?
-		if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
-			$response = $controller->get_item( $was_added_to_cart );
-		} else {
-			$response = $controller->get_cart_contents( $request );
-		}
-
-		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 	} // END add_to_cart()
 
 	/**
