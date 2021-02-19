@@ -26,8 +26,8 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
 * * Sessions [GET]        - `wp-json/cocart/v2/sessions`
 * **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
-* **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See documentation]() for more information.
-* **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
+* 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See documentation]() for more information.
+* 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
  * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
 * 🧾 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have **v3.2.5** or above.
@@ -39,20 +39,25 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Tested: ✔️ Compatible with WooCommerce v5.1
 
-* Dev: New filters.
-* * `cocart_store_index`
-* * `cocart_store_address`
-* * `cocart_routes`
-* * `cocart_cart_item_name`
-* * `cocart_cart_item_title`
-* * `cocart_cart_item_price`
-* * `cocart_cart_item_quantity`
-* * `cocart_cart_item_subtotal`
+### For developers
 
-* Dev: New: `cocart_filter_request_data` filter for filtering additional requested data when adding an item\s.
+* Dev: ☄️ New shared functions that can be used to develop your own extension to CoCart or support CoCart. - [Read article for details]().
+
+* Dev: New `cocart_store_index` filter for filtering the API store index data.
+* Dev: New `cocart_store_address` filter for filtering the store address.
+* Dev: New `cocart_routes` filter for filtering the CoCart routes returned.
+* Dev: New `cocart_cart_item_name` filter matches `woocommerce_cart_item_name`.
+* Dev: New `cocart_cart_item_title` filter matches `woocommerce_cart_item_title`.
+* Dev: New `cocart_cart_item_price` filter matches `woocommerce_cart_item_price`.
+* Dev: New `cocart_cart_item_quantity` filter matches `woocommerce_cart_item_quantity`.
+* Dev: New `cocart_cart_item_subtotal` filter matches `woocommerce_cart_item_subtotal`.
+* Dev: New `cocart_filter_request_data` filter for filtering additional requested data when adding an item\s.
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
 * Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
+
+> The following filters are for checking if a user has permission to use a route assigned to the method.
+
 * Dev: New `cocart_api_permission_check_get` filter allows you to block use of any API route that uses the **GET** method.
 * Dev: New `cocart_api_permission_check_post` filter allows you to block use of any API route that uses the **POST** method.
 * Dev: New `cocart_api_permission_check_put` filter allows you to block use of any API route that uses the **PUT** method.

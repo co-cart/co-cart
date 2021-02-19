@@ -188,6 +188,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			// Creates cron jobs.
 			self::create_cron_jobs();
 
+			// Create files.
+			self::create_files();
+
 			// Set activation date.
 			self::set_install_date();
 
@@ -555,6 +558,47 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		public static function wpmu_drop_tables( $tables ) {
 			return array_merge( $tables, self::get_tables() );
 		} // END wpmu_drop_tables()
+
+		/**
+		 * Create files/directories.
+		 *
+		 * @access private
+		 * @static
+		 * @since 3.0.0
+		 */
+		private static function create_files() {
+			// Bypass if filesystem is read-only and/or non-standard upload system is used.
+			if ( apply_filters( 'cocart_install_skip_create_files', false ) ) {
+				return;
+			}
+
+			// Install files and folders for uploading files and prevent hotlinking.
+			$upload_dir = wp_get_upload_dir();
+
+			$files = array(
+				array(
+					'base'    => $upload_dir['basedir'] . '/cocart_uploads',
+					'file'    => 'index.html',
+					'content' => '',
+				),
+				array(
+					'base'    => $upload_dir['basedir'] . '/cocart_uploads',
+					'file'    => '.htaccess',
+					'content' => 'deny from all',
+				),
+			);
+
+			foreach ( $files as $file ) {
+				if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
+					$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'wb' );
+
+					if ( $file_handle ) {
+						fwrite( $file_handle, $file['content'] );
+						fclose( $file_handle );
+					}
+				}
+			}
+		} // create_files()
 
 	} // END class.
 
