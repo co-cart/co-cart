@@ -24,8 +24,8 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * * Store API [GET]      - `wp-json/cocart/v2/store`
 * * Session [GET]        - `wp-json/cocart/v2/session/{session_id}`
 * * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
-* * Sessions [GET]        - `wp-json/cocart/v2/sessions`
-* **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* * Sessions [GET]       - `wp-json/cocart/v2/sessions`
+* 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See documentation]() for more information.
 * 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
@@ -46,15 +46,18 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * Dev: New `cocart_store_index` filter for filtering the API store index data.
 * Dev: New `cocart_store_address` filter for filtering the store address.
 * Dev: New `cocart_routes` filter for filtering the CoCart routes returned.
-* Dev: New `cocart_cart_item_name` filter matches `woocommerce_cart_item_name`.
-* Dev: New `cocart_cart_item_title` filter matches `woocommerce_cart_item_title`.
-* Dev: New `cocart_cart_item_price` filter matches `woocommerce_cart_item_price`.
-* Dev: New `cocart_cart_item_quantity` filter matches `woocommerce_cart_item_quantity`.
-* Dev: New `cocart_cart_item_subtotal` filter matches `woocommerce_cart_item_subtotal`.
-* Dev: New `cocart_filter_request_data` filter for filtering additional requested data when adding an item\s.
+* Dev: New `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
 * Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
+
+> The following filters match filters used in WooCommerce templates for manipulating what is displayed in the cart. Parameters are equally the same so returning the same results is easy.
+
+* Dev: New `cocart_cart_item_name` filter matches `woocommerce_cart_item_name`.
+* Dev: New `cocart_cart_item_title` filter allows you to change the product title. The title normaly returns the same as the product name but variable products return the title differently.
+* Dev: New `cocart_cart_item_price` filter matches `woocommerce_cart_item_price`.
+* Dev: New `cocart_cart_item_quantity` filter matches `woocommerce_cart_item_quantity`.
+* Dev: New `cocart_cart_item_subtotal` filter matches `woocommerce_cart_item_subtotal`.
 
 > The following filters are for checking if a user has permission to use a route assigned to the method.
 
@@ -63,6 +66,11 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * Dev: New `cocart_api_permission_check_put` filter allows you to block use of any API route that uses the **PUT** method.
 * Dev: New `cocart_api_permission_check_delete` filter allows you to block use of any API route that uses the **DELETE** method.
 * Dev: New `cocart_api_permission_check_options` filter allows you to block use of any API route that uses the **OPTION** method.
+
+### In progress
+
+* **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
+* Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
 
 ## v2.8.4 - 9th January, 2021
 
