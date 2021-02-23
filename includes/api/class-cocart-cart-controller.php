@@ -379,9 +379,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 */
 	protected function validate_quantity( $quantity ) {
 		try {
-			if ( ! is_numeric( $quantity ) ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric!', 'cart-rest-api-for-woocommerce' ), 405 );
+			if ( ! is_numeric( $quantity ) || ! is_float( $quantity ) ) {
+				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
 			}
+
+			return wc_stock_amount( $quantity );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

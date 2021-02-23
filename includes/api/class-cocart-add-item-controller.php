@@ -70,7 +70,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	public function add_to_cart( $request = array() ) {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-			$quantity   = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
+			$quantity   = ! isset( $request['quantity'] ) ? 1 : wp_unslash( $request['quantity'] );
 			$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
 			$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
 
@@ -84,6 +84,13 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 			if ( is_wp_error( $product_id ) ) {
 				return $product_id;
+			}
+
+			// Validate quantity before continuing and return formatted.
+			$quantity = $controller->validate_quantity( $quantity );
+
+			if ( is_wp_error( $quantity ) ) {
+				return $quantity;
 			}
 
 			// The product we are attempting to add to the cart.
@@ -276,9 +283,9 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				),
 				'quantity'    => array(
 					'required'    => true,
-					'default'     => 1,
+					'default'     => "1",
 					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'float',
+					'type'        => 'string',
 				),
 				'variation'   => array(
 					'required'    => false,
@@ -323,12 +330,10 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			),
 			'quantity'    => array(
 				'required'          => true,
-				'default'           => 1,
+				'default'           => "1",
 				'description'       => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'float',
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_numeric( $value );
-				},
+				'type'              => 'string',
+				'validate_callback' => $this->rest_validate_quantity_arg( $value, $request, $param ),
 			),
 			'variation'   => array(
 				'required'          => false,
@@ -351,5 +356,20 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 		return $params;
 	} // END get_collection_params()
+
+	/**
+	 * Validates the quantity argument.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return bool
+	 */
+	public function rest_validate_quantity_arg( $value, $request, $param ) {
+		if ( is_numeric( $value ) || is_float( $value ) ) {
+			return true;
+		}
+
+		return false;
+	} // END rest_validate_quantity_arg()
 
 } // END class
