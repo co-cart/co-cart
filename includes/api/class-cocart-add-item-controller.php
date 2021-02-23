@@ -80,7 +80,11 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			$request = $controller->filter_request_data( $request );
 
 			// Validate product ID before continuing and return correct product ID if different.
-			$product_id = $this->validate_product_id( $product_id );
+			$product_id = $controller->validate_product_id( $product_id );
+
+			if ( is_wp_error( $product_id ) ) {
+				return $product_id;
+			}
 
 			// The product we are attempting to add to the cart.
 			$adding_to_cart = wc_get_product( $product_id );

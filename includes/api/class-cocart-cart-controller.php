@@ -335,10 +335,14 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		try {
 			// If the product ID was used by a SKU ID, then look up the product ID and return it.
 			if ( ! is_numeric( $product_id ) ) {
-				$product_id_by_sku = (int) wc_get_product_id_by_sku( $product_id );
+				$product_id_by_sku = wc_get_product_id_by_sku( $product_id );
 
-				if ( $product_id_by_sku > 0 ) {
+				if ( ! empty( $product_id_by_sku ) && $product_id_by_sku > 0 ) {
 					$product_id = $product_id_by_sku;
+				} else {
+					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
+
+					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 500 );
 				}
 
 				// Force product ID to be integer.
