@@ -622,7 +622,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
 
 			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
-			$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
+			$cart_id = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
 
 			// Find the cart item key in the existing cart.
 			$item_key = $this->find_product_in_cart( $cart_id );
@@ -1026,7 +1026,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Stock check - this time accounting for whats already in-cart.
 			if ( $product->managing_stock() ) {
-				$products_qty_in_cart = WC()->cart->get_cart_item_quantities();
+				$products_qty_in_cart = $this->get_cart_instance()->get_cart_item_quantities();
 
 				if ( isset( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
 					/* translators: 1: Quantity in Stock, 2: Quantity in Cart */
