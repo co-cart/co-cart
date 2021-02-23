@@ -546,19 +546,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  protected
 	 * @since   1.0.0
 	 * @version 3.0.0
-	 * @param   int    $product_id   - Contains the ID of the product.
-	 * @param   int    $quantity     - Contains the quantity of the item.
-	 * @param   array  $variation    - Contains the selected attributes.
-	 * @param   array  $item_data    - Extra cart item data we want to pass into the item.
-	 * @param   string $product_type - The product type.
+	 * @param   int       $product_id   - Contains the ID of the product.
+	 * @param   int|float $quantity     - Contains the quantity of the item.
+	 * @param   array     $variation    - Contains the selected attributes.
+	 * @param   array     $item_data    - Extra cart item data we want to pass into the item.
+	 * @param   string    $product_type - The product type.
 	 * @return  array
 	 */
 	protected function validate_product( $product_id = null, $quantity = 1, $deprecated = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
 		try {
-			// Validate request for product ID and quantity.
-			self::validate_product_id( $product_id );
-			self::validate_quantity( $quantity );
-
 			// Get product and validate product for the cart.
 			$product = wc_get_product( $product_id );
 			$product = $this->validate_product_for_cart( $product );
@@ -1281,7 +1277,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		unset( $cart_item['line_tax'] );
 
 		return $cart_item;
-	}
+	} // END prepare_item()
 
 	/**
 	 * Returns cross sells based on the items in the cart.
