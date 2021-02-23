@@ -180,9 +180,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   array           $product_to_add - Passes details of the item ready to add to the cart.
-	 * @param   WP_REST_Request $request        - Full details about the request.
-	 * @return  array           $item_added     - Returns details of the added item in the cart.
+	 * @param   array $product_to_add - Passes details of the item ready to add to the cart.
+	 * @return  array $item_added     - Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( $product_to_add = array() ) {
 		$product_id   = $product_to_add['product_id'];
@@ -219,8 +218,19 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				 */
 				do_action( 'cocart_item_added_updated_in_cart', $item_key, $item_added, $new_quantity, $request );
 			} else {
-				// Add item to cart.
-				$item_key = $controller->get_cart_instance()->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
+				/**
+				 * Add item to cart without WC product validation.
+				 *
+				 * @since 3.0.0
+				 * @param bool
+				 * @param $product_data Contains the product data of the product to add to cart.
+				 * @param $product_id   Contains the id of the product to add to the cart.
+				 */
+				if ( apply_filters( 'cocart_skip_woocommerce_item_validation', false, $product_data, $product_id ) ) {
+					$item_key = $controller->add_cart_item( $product_id, $quantity, $variation_id, $variation, $item_data );
+				} else {
+					$item_key = $controller->get_cart_instance()->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
+				}
 
 				// Return response to added item to cart or return error.
 				if ( $item_key ) {
@@ -247,7 +257,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					/**
 					 * Filters message about product cannot be added to cart.
 					 *
-					 * @param string     $message Message.
+					 * @param string     $message      Message.
 					 * @param WC_Product $product_data Product data.
 					 */
 					$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );

@@ -1445,6 +1445,53 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END print_notices()
 
 	/**
+	 * Adds item to cart internally rather than WC.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @param  int         $product_id     Contains the id of the product to add to the cart.
+	 * @param  int         $quantity       Contains the quantity of the item to add.
+	 * @param  int         $variation_id   ID of the variation being added to the cart.
+	 * @param  array       $variation      Attribute values.
+	 * @param  array       $cart_item_data Extra cart item data we want to pass into the item.
+	 * @return string|bool $item_key
+	 */
+	public function add_cart_item( $product_id = 0, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array() ) {
+		try {
+			// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
+			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+
+			// Add item after merging with $cart_item_data - hook to allow plugins to modify cart item.
+			$this->get_cart_instance()->cart_contents[ $item_key ] = apply_filters(
+				'cocart_add_cart_item',
+				array_merge(
+					$cart_item_data,
+					array(
+						'key'          => $item_key,
+						'product_id'   => $product_id,
+						'variation_id' => $variation_id,
+						'variation'    => $variation,
+						'quantity'     => $quantity,
+						'data'         => $product_data,
+						'data_hash'    => wc_get_cart_item_data_hash( $product_data ),
+					)
+				),
+				$item_key
+			);
+
+			$this->get_cart_instance()->cart_contents = apply_filters( 'cocart_cart_contents_changed', $this->get_cart_instance()->cart_contents );
+
+			do_action( 'cocart_add_to_cart', $item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data );
+
+			return $item_key;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
+	} // END add_cart_item()
+
+	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
 	 *
 	 * @access public

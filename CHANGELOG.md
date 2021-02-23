@@ -62,9 +62,21 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Dev: New `cocart_cross_sells_order` filter for filtering the order in which cross sells return.
 * Dev: New `cocart_cross_sells_total` filter for filtering the total amount of cross sells to return.
 
+> The following affect adding simple or variable products to the cart should a WooCommerce extension validate products by form post only.
+
+> By setting this filter `cocart_skip_woocommerce_item_validation` to true, products will be added to the cart without fault as we have already passed validation within CoCart.
+
+* #### Filters
+* * Dev: New `cocart_skip_woocommerce_item_validation` filter allows you to add the item to the cart without validating the item again using WooCommerce internal functions. - [Read article for details]().
+* * Dev: New `cocart_add_cart_item` filter matches `woocommerce_add_cart_item` filter.
+* * Dev: New `cocart_cart_contents_changed` filter matches `woocommerce_cart_contents_changed` filter.
+
+* #### Action Hooks
+* * Dev: New `cocart_add_to_cart` action hook matches `woocommerce_add_to_cart` action hook.
+
 > The following filters affect adding bundled/grouped products to the cart.
 
-* Dev: New `cocart_add_items_to_cart_handler` filters the product type to use the correct add to cart handler for bundled/grouped products.
+* Dev: New `cocart_add_items_to_cart_handler` filter allows you to set the product type so the correct add to cart handler for bundled/grouped products is used.
 * Dev: New `cocart_add_items_to_cart_handler_{product-type}` filter allows you to introduce your own add to cart handler for bundled/grouped products.
 
 > The following filters match filters used in WooCommerce templates for manipulating what is displayed in the cart. Parameters are equally the same so returning the same results is easy.
