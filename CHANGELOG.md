@@ -6,6 +6,10 @@ This release brings a new API providing more than before. Thanks to the feedback
 
 Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](#) and your good to go.
 
+Error validation has also be improved so even the smallest of errors caused by the developer can get a clear explination as to what went wrong.
+
+> Quantity argument had to be changed back to a string format for WordPress to validate the value without causing an error if you have debug mode enabled. Validation for the quantity argument is checked after so it can still be a int or float value but it must be sent as a string. If an invalid value is passed, new error validation will warn you.
+
 * **NEW**: API routes.
 * * Cart [GET]           - `wp-json/cocart/v2/cart`
 * * Cart [DELETE]        - `wp-json/cocart/v2/cart/{cart_key}`
@@ -43,13 +47,25 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 
 * Dev: ☄️ New shared functions that can be used to develop your own extension to CoCart or support CoCart. - [Read article for details]().
 
+* Dev: New `cocart_cart_source` filter for filtering the source of the cart created. Default is `cocart-rest-api` if created via **CoCart** else `woocommerce` if created via **WooCommerce**.
 * Dev: New `cocart_store_index` filter for filtering the API store index data.
 * Dev: New `cocart_store_address` filter for filtering the store address.
 * Dev: New `cocart_routes` filter for filtering the CoCart routes returned.
 * Dev: New `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
+* Dev: New `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
 * Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: New `cocart_shipping_package_name` filter for renaming the package name.
-* Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
+
+> The following filters are for returning cross sells in the cart.
+
+* Dev: New `cocart_cross_sells_orderby` filter for filtering the orderby in which cross sells return.
+* Dev: New `cocart_cross_sells_order` filter for filtering the order in which cross sells return.
+* Dev: New `cocart_cross_sells_total` filter for filtering the total amount of cross sells to return.
+
+> The following filters affect adding bundled/grouped products to the cart.
+
+* Dev: New `cocart_add_items_to_cart_handler` filters the product type to use the correct add to cart handler for bundled/grouped products.
+* Dev: New `cocart_add_items_to_cart_handler_{product-type}` filter allows you to introduce your own add to cart handler for bundled/grouped products.
 
 > The following filters match filters used in WooCommerce templates for manipulating what is displayed in the cart. Parameters are equally the same so returning the same results is easy.
 
@@ -66,6 +82,15 @@ Updating to the new API is easy. Most parameters are the same. Some defaults hav
 * Dev: New `cocart_api_permission_check_put` filter allows you to block use of any API route that uses the **PUT** method.
 * Dev: New `cocart_api_permission_check_delete` filter allows you to block use of any API route that uses the **DELETE** method.
 * Dev: New `cocart_api_permission_check_options` filter allows you to block use of any API route that uses the **OPTION** method.
+
+> The following filters affect how CoCart operates.
+
+* Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
+* Dev: New `cocart_enable_auto_update_db` filter allows you to have the database automatically update when CoCart provides an update.
+* Dev: New `cocart_disable_load_cart` filter allows you to disable "Load Cart from Session" feature.
+* Dev: New `cocart_rest_api_get_rest_namespaces` filter allows you to decide which namespaces load.
+* Dev: New `cocart_upload_dir` filter allows you to change where files are uploaded using CoCart.
+* Dev: New `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
 
 ### In progress
 
