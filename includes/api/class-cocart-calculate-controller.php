@@ -43,20 +43,57 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 */
 	public function register_routes() {
 		// Calculate Cart Total - cocart/v2/cart/calculate (POST)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'             => WP_REST_Server::CREATABLE,
-			'callback'            => array( $this, 'calculate_totals' ),
-			'permission_callback' => '__return_true',
-			'args'                => array(
-				'return' => array(
-					'required'          => false,
-					'default'           => false,
-					'description'       => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'boolean',
-					'validate_callback' => 'rest_validate_request_arg',
-				)
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'calculate_totals' ),
+				'permission_callback' => '__return_true',
+				'args'                => array(
+					'return_totals'   => array(
+						'required'          => false,
+						'default'           => false,
+						'description'       => __( 'Returns the cart totals once calculated if requested.', 'cart-rest-api-for-woocommerce' ),
+						'type'              => 'boolean',
+						'validate_callback' => 'rest_validate_request_arg',
+					),
+				),
 			)
-		) );
+		);
 	} // register_routes()
+
+	/**
+	 * Calculate Cart Totals.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access  public
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @return  WP_REST_Response
+	 */
+	public function calculate_totals( $request = array() ) {
+		try {
+			$controller = new CoCart_Cart_V2_Controller();
+
+			$controller->get_cart_instance()->calculate_totals();
+
+			// Was it requested to return all totals once calculated?
+			if ( isset( $request['return_totals'] ) && is_bool( $request['return_totals'] ) && $request['return_totals'] ) {
+				$response = CoCart_Totals_Controller::get_totals( $request );
+			}
+
+			cocart_deprecated_filter( 'cocart_totals_calculated_message', array(), "3.0.0", null, null );
+
+			// Get cart contents.
+			$response = $controller->get_cart_contents( $request );
+
+			return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
+	} // END calculate_totals()
 
 } // END class
