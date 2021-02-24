@@ -42,6 +42,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			// Checks version of CoCart and install/update if needed.
 			add_action( 'init', array( $this, 'check_version' ), 5 );
 			add_action( 'init', array( $this, 'manual_database_update' ), 20 );
+			add_action( 'admin_init', array( $this, 'install_actions' ) );
 
 			// Redirect to Getting Started page once activated.
 			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ), 10, 2 );

@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.0
- * @version  2.3.0
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -32,7 +32,7 @@ $time = CoCart_Helpers::cocart_seconds_to_words( time() - $install_date );
 
 		<div class="cocart-action">
 			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" aria-label="' . esc_html__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '" target="_blank">%2$s</a>', esc_url( COCART_REVIEW_URL . '?rate=5#new-post' ), esc_html__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) ); ?>
-			<a href="<?php echo esc_url( add_query_arg( 'hide_cocart_review_notice', 'true', CoCart_Helpers::cocart_get_current_admin_url() ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide Review Notice', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'No thank you / I already have', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'No thank you / I already have', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>
 </div>

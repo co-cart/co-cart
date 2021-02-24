@@ -14,10 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Automattic\Jetpack\Constants;
-
 $pending_actions_url = admin_url( 'admin.php?page=wc-status&tab=action-scheduler&s=cocart_run_update&status=pending' );
-$cron_disabled       = Constants::is_true( 'DISABLE_WP_CRON' );
+$cron_disabled       = defined( DISABLE_WP_CRON ) ? DISABLE_WP_CRON : '';
 $cron_cta            = $cron_disabled ? __( 'You can manually run queued updates here.', 'cart-rest-api-for-woocommerce' ) : __( 'View progress &rarr;', 'cart-rest-api-for-woocommerce' );
 ?>
 <div class="notice notice-info cocart-notice">
