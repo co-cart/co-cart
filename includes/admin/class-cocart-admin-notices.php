@@ -72,6 +72,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
+			add_action( 'wp_loaded', array( $this, 'hide_notices' ) );
 
 			// Don't bug the user if they don't want to see any notices.
 			add_action( 'admin_init', array( $this, 'dont_bug_me' ), 15 );
@@ -182,6 +183,32 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function has_notice( $name ) {
 			return in_array( $name, self::get_notices(), true );
 		} // END has_notice()
+
+		/**
+		 * Hide a notice if the GET variable is set.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 */
+		public function hide_notices() {
+			if ( isset( $_GET['cocart-hide-notice'] ) && isset( $_GET['_cocart_notice_nonce'] ) ) {
+				if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_GET['_cocart_notice_nonce'] ) ), 'cocart_hide_notices_nonce' ) ) {
+					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'cart-rest-api-for-woocommerce' ) );
+				}
+
+				if ( ! CoCart_Helpers::user_has_capabilities() ) {
+					wp_die( esc_html__( 'You don&#8217;t have permission to do this.', 'cart-rest-api-for-woocommerce' ) );
+				}
+
+				$hide_notice = sanitize_text_field( wp_unslash( $_GET['cocart-hide-notice'] ) );
+
+				self::remove_notice( $hide_notice );
+
+				update_user_meta( get_current_user_id(), 'dismissed_' . $hide_notice . '_notice', true );
+
+				do_action( 'cocart_hide_' . $hide_notice . '_notice' );
+			}
+		} // END hide_notices()
 
 		/**
 		 * Add notices.
