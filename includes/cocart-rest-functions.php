@@ -17,6 +17,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Wrapper for deprecated filter so we can apply some extra logic.
+ *
+ * @since 3.0.0
+ * @param string $filter      The filter that was used.
+ * @param array  $args        Array of additional function arguments to be passed to apply_filters().
+ * @param string $version     The version of WordPress that deprecated the filter.
+ * @param string $replacement The filter that should have been used.
+ * @param string $message     A message regarding the change.
+ */
+function cocart_deprecated_filter( $filter, $args = array(), $version, $replacement = null, $message = null ) {
+	if ( is_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message );
+
+		$message    = empty( $message ) ? '' : ' ' . $message;
+		$log_string = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $filter, $version );
+		$log_string .= $replacement ? sprintf( esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ), $replacement ) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
+
+		CoCart_Logger::log( $log_string . $message, 'debug' );
+	} else {
+		return apply_filters_deprecated( $filter, $args, $version, $replacement, $message );
+	}
+} // END cocart_deprecated_filter()
+
+/**
  * Parses and formats a date for ISO8601/RFC3339.
  *
  * Requires WP 4.4 or later.
