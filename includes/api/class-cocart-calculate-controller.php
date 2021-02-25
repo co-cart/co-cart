@@ -51,7 +51,7 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 				'callback'            => array( $this, 'calculate_totals' ),
 				'permission_callback' => '__return_true',
 				'args'                => array(
-					'return_totals'   => array(
+					'return_totals' => array(
 						'required'          => false,
 						'default'           => false,
 						'description'       => __( 'Returns the cart totals once calculated if requested.', 'cart-rest-api-for-woocommerce' ),
@@ -85,7 +85,7 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 				$response = CoCart_Totals_Controller::get_totals( $request );
 			}
 
-			cocart_deprecated_filter( 'cocart_totals_calculated_message', array(), "3.0.0", null, null );
+			cocart_deprecated_filter( 'cocart_totals_calculated_message', array(), '3.0.0', null, null );
 
 			// Get cart contents.
 			$response = $controller->get_cart_contents( $request );

@@ -151,6 +151,10 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
 
+		// REST API functions.
+		include_once COCART_ABSPATH . 'includes/cocart-rest-functions.php';
+
+		// WP-CLI
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
 		}

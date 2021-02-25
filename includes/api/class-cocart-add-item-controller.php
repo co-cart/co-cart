@@ -293,7 +293,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				),
 				'quantity'    => array(
 					'required'    => true,
-					'default'     => "1",
+					'default'     => '1',
 					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
@@ -340,7 +340,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			),
 			'quantity'    => array(
 				'required'          => true,
-				'default'           => "1",
+				'default'           => '1',
 				'description'       => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'validate_callback' => $this->rest_validate_quantity_arg( $value, $request, $param ),

@@ -81,7 +81,7 @@ class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
 
 			$controller = new CoCart_Cart_V2_Controller();
 
-			$totals = array();
+			$totals            = array();
 			$totals_calculated = false;
 
 			if ( ! empty( $controller->get_cart_instance()->totals ) ) {
