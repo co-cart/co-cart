@@ -50,14 +50,85 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_cart_contents_count' ),
 				'permission_callback' => '__return_true',
-				'args'                => array(
-					'return' => array(
-						'default' => 'numeric',
-						'type'    => 'string',
-					),
-				),
+				'args'                => $this->get_collection_params(),
 			)
 		);
 	} // register_routes()
+
+	/**
+	 * Get cart contents count.
+	 *
+	 * @access  public
+	 * @static
+	 * @since   1.0.0
+	 * @version 3.0.0
+	 * @param   WP_REST_Request $request       - Full details about the request.
+	 * @param   array           $cart_contents - Cart contents to count items.
+	 * @return  WP_REST_Response
+	 */
+	public static function get_cart_contents_count( $request = array(), $cart_contents = array() ) {
+		$return        = ! empty( $request['return'] ) ? $request['return'] : '';
+		$removed_items = isset( $request['removed_items'] ) ? $request['removed_items'] : false;
+
+		$controller = new CoCart_Cart_V2_Controller();
+
+		if ( empty( $cart_contents ) ) {
+			// Return count for removed items in cart.
+			if ( isset( $request['removed_items'] ) && is_bool( $request['removed_items'] ) && $request['removed_items'] ) {
+				$count = $controller->get_cart_instance()->get_removed_cart_contents();
+			}
+			// Return count for items in cart.
+			else {
+				$count = $controller->get_cart_instance()->get_cart_contents_count();
+			}
+		} else {
+			// Counts all items from the quantity variable.
+			$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
+		}
+
+		if ( $return != 'numeric' && $count <= 0 ) {
+			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
+
+			CoCart_Logger::log( $message, 'notice' );
+
+			/**
+			 * Filters message about no items in the cart.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
+
+			return new WP_REST_Response( $message, 200 );
+		}
+
+		return CoCart_Response::get_response( $count, $this->namespace, $this->rest_base );
+	} // END get_cart_contents_count()
+
+	/**
+	 * Get the query params for counting items.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'return'        => array(
+				'required'          => false,
+				'default'           => 'numeric',
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'removed_items' => array(
+				'required' => false,
+				'default'  => false,
+				'type'     => 'boolean',
+			),
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
