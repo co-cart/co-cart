@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API class.
  */
-class CoCart_Server {
+class CoCart_REST_API {
 
 	/**
 	 * Setup class.
@@ -49,7 +49,7 @@ class CoCart_Server {
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
 		// Sends the cart key to the header.
-		add_filter( 'rest_pre_serve_request', array( $this, 'cocart_key_header' ), 20, 1 );
+		add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 20, 1 );
 	} // END __construct()
 
 	/**
@@ -348,7 +348,7 @@ class CoCart_Server {
 
 		// Check that the CoCart session handler has loaded.
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
-			return;
+			return $result;
 		}
 
 		// Customer ID used as the cart key by default.
@@ -382,4 +382,4 @@ class CoCart_Server {
 
 } // END class
 
-return new CoCart_Server();
+return new CoCart_REST_API();

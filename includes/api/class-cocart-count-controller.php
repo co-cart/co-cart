@@ -102,7 +102,7 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 			return new WP_REST_Response( $message, 200 );
 		}
 
-		return CoCart_Response::get_response( $count, $this->namespace, $this->rest_base );
+		return $count;
 	} // END get_cart_contents_count()
 
 	/**
