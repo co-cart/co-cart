@@ -32,10 +32,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				// Authenticate user.
 				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 20 );
 
-				// Sends the cart key to the header.
-				add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 0, 1 );
-
-				// Disable cookie authentication REST check and only if site is secure.
+				// Disable cookie authentication REST check.
 				if ( is_ssl() ) {
 					remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 				}
@@ -45,7 +42,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 				// Allow all cross origin requests.
 				add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
-
 			}
 		}
 
@@ -89,42 +85,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return $user_id;
 		} // END authenticate()
-
-		/**
-		 * Sends the cart key to the header.
-		 *
-		 * @access  public
-		 * @since   2.7.0
-		 * @version 3.0.0
-		 * @param   \WP_Error|mixed $result
-		 * @return  bool
-		 */
-		public function cocart_key_header( $result ) {
-			if ( ! empty( $result ) ) {
-				return $result;
-			}
-
-			// Customer ID used as the cart key by default.
-			$cart_key = WC()->session->get_customer_id();
-
-			// Get cart cookie... if any.
-			$cookie = WC()->session->get_session_cookie();
-
-			// If a cookie exist, override cart key.
-			if ( $cookie ) {
-				$cart_key = $cookie[0];
-			}
-
-			// Check if we requested to load a specific cart.
-			$cart_key = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $cart_key;
-
-			// Send cart key in the header if it's not empty or ZERO.
-			if ( ! empty( $cart_key ) && $cart_key !== '0' ) {
-				rest_get_server()->send_header( 'X-CoCart-API', $cart_key );
-			}
-
-			return true;
-		} // END cocart_key_header()
 
 		/**
 		 * Allow all cross origin header requests.

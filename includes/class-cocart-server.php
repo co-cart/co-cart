@@ -44,6 +44,12 @@ class CoCart_Server {
 
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
+
+		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/)
+		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
+
+		// Sends the cart key to the header.
+		add_filter( 'rest_pre_serve_request', array( $this, 'cocart_key_header' ), 20, 1 );
 	} // END __construct()
 
 	/**
@@ -306,6 +312,73 @@ class CoCart_Server {
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // rest_api_includes()
+
+	/**
+	 * Prevents CoCart from being cached.
+	 *
+	 * @access public
+	 * @since  2.1.2
+	 * @param  bool   $skip
+	 * @param  string $request_uri
+	 * @return bool   $skip
+	 */
+	public function prevent_cache( $skip, $request_uri ) {
+		$rest_prefix = trailingslashit( rest_get_url_prefix() );
+
+		if ( strpos( $request_uri, $rest_prefix . 'cocart/' ) !== false ) {
+			return true;
+		}
+
+		return $skip;
+	} // END prevent_cache()
+
+	/**
+	 * Sends the cart key to the header if a cart exists.
+	 *
+	 * @access  public
+	 * @since   2.7.0
+	 * @version 3.0.0
+	 * @param   \WP_Error|mixed $result
+	 * @return  bool
+	 */
+	public function cocart_key_header( $result ) {
+		if ( ! empty( $result ) ) {
+			return $result;
+		}
+
+		// Check that the CoCart session handler has loaded.
+		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
+			return;
+		}
+
+		// Customer ID used as the cart key by default.
+		$cart_key = WC()->session->get_customer_id();
+
+		// Get cart cookie... if any.
+		$cookie = WC()->session->get_session_cookie();
+
+		// If a cookie exist, override cart key.
+		if ( $cookie ) {
+			$cart_key = $cookie[0];
+		}
+
+		// Check if we requested to load a specific cart.
+		$cart_key = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $cart_key;
+
+		// Send cart key in the header if it's not empty or ZERO.
+		if ( ! empty( $cart_key ) && $cart_key !== '0' ) {
+
+			// Check that a cart exists before sending the header.
+			$cart = WC()->session->get_cart( $cart_key );
+
+			// If cart exists, send header.
+			if ( ! empty( $cart ) ) {
+				rest_get_server()->send_header( 'X-CoCart-API', $cart_key );
+			}
+		}
+
+		return true;
+	} // END cocart_key_header()
 
 } // END class
 

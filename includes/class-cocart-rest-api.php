@@ -36,9 +36,6 @@ class CoCart_Rest_API {
 
 		// Handle cocart endpoint requests.
 		add_action( 'parse_request', array( $this, 'handle_api_requests' ), 0 );
-
-		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/)
-		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 	} // END __construct()
 
 	/**
@@ -106,25 +103,6 @@ class CoCart_Rest_API {
 			die( '-1' );
 		}
 	} // END handle_api_requests()
-
-	/**
-	 * Prevents CoCart from being cached.
-	 *
-	 * @access public
-	 * @since  2.1.2
-	 * @param  bool   $skip
-	 * @param  string $request_uri
-	 * @return bool   $skip
-	 */
-	public function prevent_cache( $skip, $request_uri ) {
-		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-
-		if ( strpos( $request_uri, $rest_prefix . 'cocart/' ) !== false ) {
-			return true;
-		}
-
-		return $skip;
-	} // END prevent_cache()
 
 } // END class
 
