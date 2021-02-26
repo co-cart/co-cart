@@ -1086,10 +1086,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param  WC_Product $_product     - The product data of the item in the cart.
 	 * @param  array      $cart_item    - The item in the cart containing the default cart item data.
 	 * @param  string     $item_key     - The item key generated based on the details of the item.
+	 * @param  boolean    $show_thumb   - Determines if requested to return the item featured thumbnail.
 	 * @param  boolean    $removed_item - Determines if the item in the cart is removed.
 	 * @return array      $item         - Full details of the item in the cart and it's purchase limits.
 	 */
-	public function get_item( $_product, $cart_item = array(), $item_key = '', $removed_item = false ) {
+	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb, $removed_item = false ) {
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
@@ -1196,7 +1197,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 				wc_add_notice( $message, 'error' );
 			} else {
-				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key );
+				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
 
 				// Backorder notification.
 				if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
@@ -1238,7 +1239,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			$_product = $cart_item['data'];
 
-			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, true );
+			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb, true );
 
 			// Move the quantity value to it's parent.
 			$items[ $item_key ]['quantity'] = $items[ $item_key ]['quantity']['value'];
