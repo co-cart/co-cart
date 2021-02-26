@@ -76,7 +76,7 @@ final class CoCart {
 		// Setup CoCart Session Handler.
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
 
-		// Setup WooCommerce.
+		// Setup WooCommerce and CoCart.
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'setup_cocart' ) );
 
@@ -145,6 +145,7 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-autoloader.php';
 
 		// Core classes.
+		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-response.php';
@@ -241,8 +242,6 @@ final class CoCart {
 	 * @version 3.0.0
 	 */
 	public static function load_rest_api() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-rest-api.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-server.php';
 	} // END load_rest_api()
 

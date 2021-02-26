@@ -1,8 +1,8 @@
 <?php
 /**
- * CoCart REST API
+ * CoCart API
  *
- * Handles cart endpoints requests for CoCart.
+ * Handles CoCart endpoint requests for CoCart API.
  *
  * @author   Sébastien Dumont
  * @category API
@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API class.
+ * CoCart API class.
  */
-class CoCart_Rest_API {
+class CoCart_API {
 
 	/**
 	 * Setup class.
@@ -106,4 +106,4 @@ class CoCart_Rest_API {
 
 } // END class
 
-return new CoCart_Rest_API();
+return new CoCart_API();
