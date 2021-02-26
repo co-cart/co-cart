@@ -30,6 +30,7 @@ Error validation has also be improved so even the smallest of errors caused by t
 * * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
 * * Sessions [GET]       - `wp-json/cocart/v2/sessions`
 * 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
 * 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See documentation]() for more information.
 * 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
