@@ -197,11 +197,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 3.0.0
-	 * @param   array  $request
-	 * @param   array  $cart_contents
-	 * @param   string $item_key
-	 * @param   bool   $from_session
-	 * @return  array  $cart
+	 * @param   array   $request
+	 * @param   array   $cart_contents
+	 * @param   string  $item_key
+	 * @param   boolean $from_session
+	 * @return  array   $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $item_key = '', $from_session = false ) {
 		$controller = new CoCart_Count_Items_v2_Controller();
@@ -852,7 +852,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @param  string|WC_Coupon $coupon    Coupon data or code.
-	 * @param  bool             $formatted Formats the saving amount.
+	 * @param  boolean          $formatted Formats the saving amount.
 	 * @return string           The coupon in HTML.
 	 */
 	public function coupon_html( $coupon, $formatted = true ) {
@@ -1457,7 +1457,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param  int   $variation_id   ID of the variation being added to the cart.
 	 * @param  array $variation      Attribute values.
 	 * @param  array $cart_item_data Extra cart item data we want to pass into the item.
-	 * @return string|bool $item_key
+	 * @return string|boolean $item_key
 	 */
 	public function add_cart_item( $product_id = 0, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array() ) {
 		try {

@@ -30,8 +30,8 @@ function cocart_deprecated_filter( $filter, $args = array(), $version, $replacem
 	if ( is_ajax() || CoCart_Authentication::is_rest_api_request() ) {
 		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message );
 
-		$message    = empty( $message ) ? '' : ' ' . $message;
-		$log_string = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $filter, $version );
+		$message     = empty( $message ) ? '' : ' ' . $message;
+		$log_string  = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $filter, $version );
 		$log_string .= $replacement ? sprintf( esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ), $replacement ) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );
@@ -47,7 +47,7 @@ function cocart_deprecated_filter( $filter, $args = array(), $version, $replacem
  * See https://developer.wordpress.org/reference/functions/mysql_to_rfc3339/
  *
  * @param  string|null|CoCart_DateTime $date Date.
- * @param  bool                    $utc  Send false to get local/offset time.
+ * @param  bool                        $utc  Send false to get local/offset time.
  * @return string|null ISO8601/RFC3339 formatted datetime.
  */
 function cocart_prepare_date_response( $date, $utc = true ) {
@@ -95,7 +95,7 @@ function cocart_allowed_image_mime_types() {
 function cocart_upload_dir( $pathdata ) {
 	if ( empty( $pathdata['subdir'] ) ) {
 		$pathdata['path']   = $pathdata['path'] . '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
-		$pathdata['url']    = $pathdata['url']. '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
+		$pathdata['url']    = $pathdata['url'] . '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
 		$pathdata['subdir'] = '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
 	} else {
 		$subdir             = '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
@@ -116,10 +116,10 @@ function cocart_upload_dir( $pathdata ) {
 function cocart_upload_file( $file ) {
 	// wp_handle_upload function is part of wp-admin.
 	if ( ! function_exists( 'wp_handle_upload' ) ) {
-		include_once( ABSPATH . 'wp-admin/includes/file.php' );
+		include_once ABSPATH . 'wp-admin/includes/file.php';
 	}
 
-	include_once( ABSPATH . 'wp-admin/includes/media.php' );
+	include_once ABSPATH . 'wp-admin/includes/media.php';
 
 	add_filter( 'upload_dir', 'cocart_upload_dir' );
 

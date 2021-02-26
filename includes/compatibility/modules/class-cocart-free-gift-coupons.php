@@ -14,6 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! class_exists( 'WC_Free_Gift_Coupons' ) ) {
+	return;
+}
+
 if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 
 	class CoCart_FGC_Compatibility {
