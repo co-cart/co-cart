@@ -75,7 +75,7 @@ class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @return  WP_REST_Response
 	 */
-	public function get_totals( $request = array() ) {
+	public static function get_totals( $request = array() ) {
 		try {
 			$pre_formatted = isset( $request['html'] ) ? $request['html'] : false;
 
