@@ -367,14 +367,7 @@ class CoCart_REST_API {
 
 		// Send cart key in the header if it's not empty or ZERO.
 		if ( ! empty( $cart_key ) && $cart_key !== '0' ) {
-
-			// Check that a cart exists before sending the header.
-			$cart = WC()->session->get_cart( $cart_key );
-
-			// If cart exists, send header.
-			if ( ! empty( $cart ) ) {
-				rest_get_server()->send_header( 'X-CoCart-API', $cart_key );
-			}
+			rest_get_server()->send_header( 'X-CoCart-API', $cart_key );
 		}
 
 		return true;
