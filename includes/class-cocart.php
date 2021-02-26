@@ -243,7 +243,7 @@ final class CoCart {
 	 * @version 3.0.0
 	 */
 	public static function load_rest_api() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-server.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-rest-api.php';
 	} // END load_rest_api()
 
 	/**
