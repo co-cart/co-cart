@@ -26,7 +26,17 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '3.0.0-beta.1';
+	public static $version = '3.0.0-beta.2';
+
+	/**
+	 * CoCart Database Schema version.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.0 started with version string 3.0.0
+	 * @var    string
+	 */
+	public static $db_version = '3.0.0';
 
 	/**
 	 * Required WordPress Version
@@ -101,7 +111,7 @@ final class CoCart {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
 		self::define( 'COCART_PLUGIN_BASENAME', plugin_basename( COCART_FILE ) );
 		self::define( 'COCART_VERSION', self::$version );
-		self::define( 'COCART_DB_VERSION', '3.0.0' );
+		self::define( 'COCART_DB_VERSION', self::$db_version );
 		self::define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_URL_PATH', untrailingslashit( plugins_url( '/', COCART_FILE ) ) );
 		self::define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( COCART_FILE ) ) );
