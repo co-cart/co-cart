@@ -242,6 +242,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'cart_hash'      => $this->get_cart_instance()->get_cart_hash(),
 			'cart_key'       => $this->get_cart_key( $request ),
 			'currency'       => $this->get_store_currency(),
+			'customer'       => array(
+				'billing_address'  => $this->get_customer( 'billing' ),
+				'shipping_address' => $this->get_customer( 'shipping' ),
+			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
 			'items_weight'   => wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
@@ -1491,6 +1495,41 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END add_cart_item()
+
+	/**
+	 * Returns the customers details.
+	 *
+	 * @access protected
+	 * @since  3.0.0
+	 * @param  string The customer fields to return.
+	 * @return array  Returns the customer details based on the field requested.
+	 */
+	protected function get_customer( $fields = 'billing' ) {
+		$customer = $this->get_cart_instance()->get_customer();
+
+		/**
+		 * We get the checkout fields so we return the fields the store uses during checkout.
+		 * This is so we ONLY return the customers information for those fields used.
+		 * These fields could be changed either via filter, another plugin or 
+		 * based on the conditions of the customers location or cart contents.
+		 */
+		$checkout_fields = WC()->checkout->get_checkout_fields( $fields );
+
+		$results = array();
+
+		/**
+		 * We go through each field and check that we can return it's data as set by default.
+		 * If we can't get the data we rely on getting customer data via a filter for that field.
+		 * Any fields that can not return information will be empty.
+		 */
+		foreach ( $checkout_fields as $key => $value ) {
+			$field_name = 'get_' . $key; // Name of the default field function. e.g. "get_billing_first_name"
+
+			$results[ $key ] = method_exists( $customer, $field_name ) ? $customer->$field_name() : apply_filters( 'cocart_get_customer_' . $key, '' );
+		}
+
+		return $results;
+	} // END get_customer()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
