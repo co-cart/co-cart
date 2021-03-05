@@ -155,6 +155,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'name'      => _x( 'Carts Source (by Other)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts Source (by Other)', 'cart-rest-api-for-woocommerce' ),
 				'note'      => self::carts_source_other(),
+				'tip'       => sprintf( esc_html__( 'These carts were created other than %1$s or %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
