@@ -341,7 +341,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			try {
 				// If no user is logged in then just return.
-				if ( ! $this->user ) {
+				if ( ! is_user_logged_in() ) {
 					switch ( $method ) {
 						case 'GET':
 							foreach ( $api_not_allowed as $route ) {
