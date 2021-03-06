@@ -14,6 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Should WP-CLI not exist, just return to prevent the plugin from crashing.
+if ( ! class_exists( 'WP_CLI' ) ) {
+	return;
+}
+
 if ( ! class_exists( 'CoCart_CLI' ) ) {
 
 	/**
