@@ -43,6 +43,8 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Tested: ✔️ Compatible with WooCommerce v5.1
+* Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
+* Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
 
 ### For developers
 
