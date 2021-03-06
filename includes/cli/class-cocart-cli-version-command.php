@@ -19,9 +19,8 @@ class CoCart_CLI_Version_Command {
 	/**
 	 * Registers the version commands.
 	 */
-	public function __construct() {
-		WP_CLI::add_command( 'cocart version', array( 'CoCart_CLI_Version_Command', 'version' ) );
-		WP_CLI::add_command( 'cocart db-version', array( 'CoCart_CLI_Version_Command', 'db_version' ) );
+		WP_CLI::add_command( 'cocart version', array( $this, 'version' ) );
+		WP_CLI::add_command( 'cocart db-version', array( $this, 'db_version' ) );
 	}
 
 	/**

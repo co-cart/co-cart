@@ -23,7 +23,7 @@ class CoCart_CLI_Update_Command {
 	 * @static
 	 */
 	public static function register_commands() {
-		WP_CLI::add_command( 'cocart update', array( 'CoCart_CLI_Update_Command', 'update' ) );
+		WP_CLI::add_command( 'cocart update', array( $this, 'update' ) );
 	}
 
 	/**
