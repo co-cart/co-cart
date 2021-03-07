@@ -110,9 +110,9 @@ class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
 						$new_totals[ $type ] = $total;
 					} else {
 						if ( is_string( $total ) ) {
-							$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( $total ) ) );
+							$new_totals[ $type ] = cocart_price_no_html( $total );
 						} else {
-							$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( strval( $total ) ) ) );
+							$new_totals[ $type ] = cocart_price_no_html( strval( $total ) );
 						}
 					}
 				}
