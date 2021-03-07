@@ -93,7 +93,7 @@ class CoCart_REST_API {
 	 */
 	protected function get_legacy_controller() {
 		return array(
-			'WC_REST_Cart_Controller',
+			'wc-rest-cart' => 'WC_REST_Cart_Controller',
 		);
 	}
 
@@ -105,14 +105,14 @@ class CoCart_REST_API {
 	 */
 	protected function get_v1_controllers() {
 		return array(
-			'CoCart_API_Controller',
-			'CoCart_Add_Item_Controller',
-			'CoCart_Clear_Cart_Controller',
-			'CoCart_Calculate_Controller',
-			'CoCart_Count_Items_Controller',
-			'CoCart_Item_Controller',
-			'CoCart_Logout_Controller',
-			'CoCart_Totals_Controller',
+			'cocart-v1-cart'        => 'CoCart_API_Controller',
+			'cocart-v1-add-item'    => 'CoCart_Add_Item_Controller',
+			'cocart-v1-calculate'   => 'CoCart_Calculate_Controller',
+			'cocart-v1-clear-cart'  => 'CoCart_Clear_Cart_Controller',
+			'cocart-v1-count-items' => 'CoCart_Count_Items_Controller',
+			'cocart-v1-item'        => 'CoCart_Item_Controller',
+			'cocart-v1-logout'      => 'CoCart_Logout_Controller',
+			'cocart-v1-totals'      => 'CoCart_Totals_Controller',
 		);
 	}
 
@@ -124,22 +124,22 @@ class CoCart_REST_API {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'CoCart_Store_V2_Controller',
-			'CoCart_Cart_V2_Controller',
-			'CoCart_Add_Item_v2_Controller',
-			'CoCart_Add_Items_v2_Controller',
-			'CoCart_Item_v2_Controller',
-			'CoCart_Items_v2_Controller',
-			'CoCart_Clear_Cart_v2_Controller',
-			'CoCart_Calculate_v2_Controller',
-			'CoCart_Count_Items_v2_Controller',
-			'CoCart_Update_Item_v2_Controller',
-			'CoCart_Remove_Item_v2_Controller',
-			'CoCart_Restore_Item_v2_Controller',
-			'CoCart_Logout_v2_Controller',
-			'CoCart_Totals_v2_Controller',
-			'CoCart_Session_V2_Controller',
-			'CoCart_Sessions_V2_Controller',
+			'cocart-v2-store'             => 'CoCart_Store_V2_Controller',
+			'cocart-v2-cart'              => 'CoCart_Cart_V2_Controller',
+			'cocart-v2-cart-add-item'     => 'CoCart_Add_Item_v2_Controller',
+			'cocart-v2-cart-add-items'    => 'CoCart_Add_Items_v2_Controller',
+			'cocart-v2-cart-item'         => 'CoCart_Item_v2_Controller',
+			'cocart-v2-cart-items'        => 'CoCart_Items_v2_Controller',
+			'cocart-v2-cart-items-count'  => 'CoCart_Count_Items_v2_Controller',
+			'cocart-v2-cart-update-item'  => 'CoCart_Update_Item_v2_Controller',
+			'cocart-v2-cart-remove-item'  => 'CoCart_Remove_Item_v2_Controller',
+			'cocart-v2-cart-restore-item' => 'CoCart_Restore_Item_v2_Controller',
+			'cocart-v2-cart-calculate'    => 'CoCart_Calculate_v2_Controller',
+			'cocart-v2-cart-clear'        => 'CoCart_Clear_Cart_v2_Controller',
+			'cocart-v2-cart-totals'       => 'CoCart_Totals_v2_Controller',
+			'cocart-v2-logout'            => 'CoCart_Logout_v2_Controller',
+			'cocart-v2-session'           => 'CoCart_Session_V2_Controller',
+			'cocart-v2-sessions'          => 'CoCart_Sessions_V2_Controller',
 		);
 	}
 
