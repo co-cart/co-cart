@@ -70,7 +70,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	public function add_to_cart( $request = array() ) {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-			$quantity   = ! isset( $request['quantity'] ) ? 1 : wp_unslash( $request['quantity'] );
+			$quantity   = ! isset( $request['quantity'] ) ? 1 : wc_clean( wp_unslash( $request['quantity'] ) );
 			$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
 			$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
 
