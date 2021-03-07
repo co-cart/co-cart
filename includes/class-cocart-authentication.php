@@ -216,7 +216,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 				// Check if the username provided was an email address and get the username if true.
 				if ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
-					$user = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
+					$user     = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
 					$username = $user->user_login;
 				}
 			}
@@ -227,7 +227,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 				// Check if the username provided was an email address and get the username if true.
 				if ( is_email( $_REQUEST['username'] ) ) {
-					$user = get_user_by( 'email', $_REQUEST['username'] );
+					$user     = get_user_by( 'email', $_REQUEST['username'] );
 					$username = $user->user_login;
 				}
 			}

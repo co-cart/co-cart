@@ -1510,7 +1510,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		/**
 		 * We get the checkout fields so we return the fields the store uses during checkout.
 		 * This is so we ONLY return the customers information for those fields used.
-		 * These fields could be changed either via filter, another plugin or 
+		 * These fields could be changed either via filter, another plugin or
 		 * based on the conditions of the customers location or cart contents.
 		 */
 		$checkout_fields = WC()->checkout->get_checkout_fields( $fields );

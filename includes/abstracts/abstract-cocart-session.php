@@ -26,7 +26,7 @@ abstract class CoCart_Session {
 	 * Customer ID.
 	 *
 	 * @access protected
-	 * @var   int $_customer_id Customer ID.
+	 * @var    string $_customer_id Customer ID.
 	 */
 	protected $_customer_id;
 
@@ -137,7 +137,7 @@ abstract class CoCart_Session {
 	 * Get customer ID.
 	 *
 	 * @access public
-	 * @return int
+	 * @return string
 	 */
 	public function get_customer_id() {
 		return $this->_customer_id;

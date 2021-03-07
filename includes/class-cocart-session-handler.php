@@ -133,7 +133,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.1.7
+	 * @version 3.0.0
 	 * @param   int $current_user_id
 	 */
 	public function init_session_cookie( $current_user_id = 0 ) {
