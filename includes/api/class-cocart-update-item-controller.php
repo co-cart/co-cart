@@ -2,7 +2,7 @@
 /**
  * CoCart - Update Item controller
  *
- * Handles the request to update items in the cart with /cart/update-item endpoint.
+ * Handles the request to update items in the cart with /cart/item endpoint.
  *
  * @author   Sébastien Dumont
  * @category API
@@ -35,7 +35,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'cart/update-item';
+	protected $rest_base = 'cart/item';
 
 	/**
 	 * Register routes.
@@ -43,10 +43,10 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Update Item - cocart/v2/cart/update-item (POST)
+		// Update Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (POST)
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
+			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',
 			array(
 				'args' => $this->get_collection_params(),
 				array(
