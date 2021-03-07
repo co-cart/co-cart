@@ -11,21 +11,21 @@ Error validation has also be improved so even the smallest of errors caused by t
 > Quantity argument had to be changed back to a string format for WordPress to validate the value without causing an error if you have debug mode enabled. Validation for the quantity argument is checked after so it can still be a int or float value but it must be sent as a string. If an invalid value is passed, new error validation will warn you.
 
 * **NEW**: API routes.
+* * Store API [GET]      - `wp-json/cocart/v2/store`
 * * Cart [GET]           - `wp-json/cocart/v2/cart`
 * * Cart [DELETE]        - `wp-json/cocart/v2/cart/{cart_key}`
+* * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
+* * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
 * * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/{item_key}`
 * * Cart Items [GET]     - `wp-json/cocart/v2/cart/items`
 * * Count Items [GET]    - `wp-json/cocart/v2/cart/items/count`
-* * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
-* * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
-* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/update-item`
-* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/remove-item`
-* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/restore-item`
+* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/{item_key}`
 * * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
 * * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
 * * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
-* * Logout               - `wp-json/cocart/v2/logout`
-* * Store API [GET]      - `wp-json/cocart/v2/store`
+* * Logout [POST]        - `wp-json/cocart/v2/logout`
 * * Session [GET]        - `wp-json/cocart/v2/session/{session_id}`
 * * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
 * * Sessions [GET]       - `wp-json/cocart/v2/sessions`
