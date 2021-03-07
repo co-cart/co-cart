@@ -383,7 +383,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 */
 	protected function validate_quantity( $quantity ) {
 		try {
-			if ( ! is_numeric( $quantity ) || ! is_float( $quantity ) ) {
+			if ( ! is_numeric( $quantity ) ) {
 				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
 			}
 
