@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\Session
+ * @package  CoCart\Classes
  * @since    2.1.0
  * @version  2.8.2
  * @license  GPL-2.0+
@@ -103,7 +103,7 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.9.0
+	 * @version 3.0.0
 	 */
 	public static function load_cart_action() {
 		/**
@@ -115,11 +115,11 @@ class CoCart_API_Session {
 		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
 
 		// If we did not request to load a cart then just return.
-		if ( ! isset( $_REQUEST[$load_cart] ) ) {
+		if ( ! isset( $_REQUEST[ $load_cart ] ) ) {
 			return;
 		}
 
-		$cart_key        = trim( wp_unslash( $_REQUEST[$load_cart] ) );
+		$cart_key        = trim( wp_unslash( $_REQUEST[ $load_cart ] ) );
 		$override_cart   = true;  // Override the cart by default.
 		$notify_customer = false; // Don't notify the customer by default.
 		$redirect        = false; // Don't safely redirect the customer to the cart after loading by default.
@@ -193,6 +193,22 @@ class CoCart_API_Session {
 			do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
 		}
 
+		// Current user ID. If user is NOT logged in then the customer is a guest.
+		$current_user_id = strval( get_current_user_id() );
+
+		// If the current user is not set then hack start of session.
+		if ( $current_user_id !== 0 ) {
+			// Prevent these actions from happening just encase.
+			remove_action( 'woocommerce_set_cart_cookies', array( $handler, 'set_customer_cart_cookie' ), 20 );
+			remove_action( 'shutdown', array( $handler, 'save_cart' ), 20 );
+
+			// Destroy old cookie.
+			$handler->set_customer_cart_cookie( false );
+
+			// Override customer ID with the loaded cart key.
+			$handler->_customer_id = $cart_key;
+		}
+
 		// Sets the php session data for the loaded cart.
 		WC()->session->set( 'cart', $new_cart['cart'] );
 		WC()->session->set( 'applied_coupons', $new_cart['applied_coupons'] );
@@ -208,30 +224,29 @@ class CoCart_API_Session {
 			WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
 		}
 
-		// If true, notify the customer that there cart has transferred over via the web.
+		// If the current user is not set then hack end of session.
+		if ( $current_user_id !== 0 ) {
+			// Overrides the cart we loaded, destroys current cart in session.
+			$handler->save_cart( $cart_key );
+
+			// Save new cookie.
+			$handler->set_customer_cart_cookie( true );
+
+			// Set cart expiration.
+			$handler->set_cart_expiration();
+			$handler->update_cart_timestamp( $handler->_customer_id, $handler->_cart_expiration );
+
+			//add_action( 'woocommerce_set_cart_cookies', array( $handler, 'set_customer_cart_cookie' ), 20 );
+			//add_action( 'shutdown', array( $handler, 'save_cart' ), 20 );
+		}
+
+		// If true, notify the customer that their cart has transferred over via the web.
 		if ( ! empty( $new_cart ) && $notify_customer ) {
 			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 		}
 
-		// If true, redirect the customer to the cart page safely.
+		// If true, redirect the customer to the cart safely.
 		if ( $redirect ) {
-			global $wpdb;
-
-			// Save cart by force as we cant do it during "shutdown".
-			$wpdb->query(
-				$wpdb->prepare(
-					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
- 					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
-					$cart_key,
-					maybe_serialize( WC()->session->get_data() ),
-					time() + intval( DAY_IN_SECONDS * 7 )
-				)
-			);
-
-			// Set data in cache.
-			wp_cache_set( $handler->get_cache_prefix() . $cart_key, WC()->session->get_data(), COCART_CART_CACHE_GROUP, time() );
-
-			// Now redirect.
 			wp_safe_redirect( wc_get_cart_url() );
 			exit;
 		}

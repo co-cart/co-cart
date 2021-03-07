@@ -4,9 +4,9 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\WooCommerce
+ * @package  CoCart\Classes
  * @since    2.1.2
- * @version  2.9.0
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -24,7 +24,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.2
-		 * @version 2.9.0
+		 * @version 3.0.0
 		 */
 		public function __construct() {
 			// Removes WooCommerce filter that validates the quantity value to be an integer.
@@ -38,6 +38,9 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			// Loads cart from session.
 			add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_from_session' ), 0 );
+
+			// Delete user data.
+			add_action( 'delete_user', array( $this, 'delete_user_data' ) );
 		}
 
 		/**
@@ -74,7 +77,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
-		 * @version 2.8.0
+		 * @version 3.0.0
 		 */
 		public static function load_cart_from_session() {
 			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
@@ -93,8 +96,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				}
 
 				// Check if we requested to load a specific cart.
-				if ( isset( $_REQUEST['cart_key'] ) || isset( $_REQUEST['id'] ) ) {
-					$cart_id = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $_REQUEST['id'];
+				if ( isset( $_REQUEST['cart_key'] ) ) {
+					$cart_id = $_REQUEST['cart_key'];
 
 					// Set customer ID in session.
 					$customer_id = $cart_id;
@@ -122,6 +125,25 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				}
 			}
 		} // END load_cart_from_session()
+
+		/**
+		 * When a user is deleted in WordPress, delete corresponding CoCart data.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @param  int $user_id User ID being deleted.
+		 */
+		public function delete_user_data( $user_id ) {
+			global $wpdb;
+
+			// Clean up cart in session.
+			$wpdb->delete(
+				$wpdb->prefix . 'cocart_carts',
+				array(
+					'cart_key' => $user_id,
+				)
+			);
+		} // END delete_user_data()
 
 	} // END class
 

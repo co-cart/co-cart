@@ -6,9 +6,9 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\Helpers
+ * @package  CoCart\Classes
  * @since    2.3.0
- * @version  2.8.3
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -330,26 +330,6 @@ class CoCart_Helpers {
 	} // END is_cocart_rc()
 
 	/**
-	 * Returns true if we are making a REST API request for CoCart.
-	 *
-	 * @access  public
-	 * @static
-	 * @since   2.1.0
-	 * @version 2.7.0
-	 * @return  bool
-	 */
-	public static function is_rest_api_request() {
-		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
-			return false;
-		}
-
-		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-		$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix . 'cocart/' ) );
-
-		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
-	} // END is_rest_api_request()
-
-	/**
 	 * Checks if CoCart Pro is installed.
 	 *
 	 * @access public
@@ -373,7 +353,7 @@ class CoCart_Helpers {
 	 * @access  public
 	 * @static
 	 * @since   2.0.0
-	 * @version 2.8.3
+	 * @version 3.0.0
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
@@ -382,6 +362,7 @@ class CoCart_Helpers {
 			'dashboard-network',
 			'plugins',
 			'plugins-network',
+			'woocommerce_page_wc-status',
 			'toplevel_page_cocart',
 			'toplevel_page_cocart-network',
 		);
@@ -437,7 +418,7 @@ class CoCart_Helpers {
 		// Get the years.
 		$years = ( intval( $seconds ) / YEAR_IN_SECONDS ) % 100;
 		if ( $years > 1 ) {
-			/* translators: Number of years */
+			/* translators: %s: Number of years */
 			return sprintf( __( '%s years', 'cart-rest-api-for-woocommerce' ), $years );
 		} elseif ( $years > 0 ) {
 			return __( 'a year', 'cart-rest-api-for-woocommerce' );
@@ -446,6 +427,7 @@ class CoCart_Helpers {
 		// Get the months.
 		$months = ( intval( $seconds ) / MONTH_IN_SECONDS ) % 52;
 		if ( $months > 1 ) {
+			/* translators: %s: Number of months */
 			return sprintf( __( '%s months', 'cart-rest-api-for-woocommerce' ), $months );
 		} elseif ( $months > 0 ) {
 			return __( '1 month', 'cart-rest-api-for-woocommerce' );
@@ -454,7 +436,7 @@ class CoCart_Helpers {
 		// Get the weeks.
 		$weeks = ( intval( $seconds ) / WEEK_IN_SECONDS ) % 52;
 		if ( $weeks > 1 ) {
-			/* translators: Number of weeks */
+			/* translators: %s: Number of weeks */
 			return sprintf( __( '%s weeks', 'cart-rest-api-for-woocommerce' ), $weeks );
 		} elseif ( $weeks > 0 ) {
 			return __( 'a week', 'cart-rest-api-for-woocommerce' );
@@ -463,7 +445,7 @@ class CoCart_Helpers {
 		// Get the days.
 		$days = ( intval( $seconds ) / DAY_IN_SECONDS ) % 7;
 		if ( $days > 1 ) {
-			/* translators: Number of days */
+			/* translators: %s: Number of days */
 			return sprintf( __( '%s days', 'cart-rest-api-for-woocommerce' ), $days );
 		} elseif ( $days > 0 ) {
 			return __( 'a day', 'cart-rest-api-for-woocommerce' );
@@ -472,7 +454,7 @@ class CoCart_Helpers {
 		// Get the hours.
 		$hours = ( intval( $seconds ) / HOUR_IN_SECONDS ) % 24;
 		if ( $hours > 1 ) {
-			/* translators: Number of hours */
+			/* translators: %s: Number of hours */
 			return sprintf( __( '%s hours', 'cart-rest-api-for-woocommerce' ), $hours );
 		} elseif ( $hours > 0 ) {
 			return __( 'an hour', 'cart-rest-api-for-woocommerce' );
@@ -481,7 +463,7 @@ class CoCart_Helpers {
 		// Get the minutes.
 		$minutes = ( intval( $seconds ) / MINUTE_IN_SECONDS ) % 60;
 		if ( $minutes > 1 ) {
-			/* translators: Number of minutes */
+			/* translators: %s: Number of minutes */
 			return sprintf( __( '%s minutes', 'cart-rest-api-for-woocommerce' ), $minutes );
 		} elseif ( $minutes > 0 ) {
 			return __( 'a minute', 'cart-rest-api-for-woocommerce' );
@@ -490,7 +472,7 @@ class CoCart_Helpers {
 		// Get the seconds.
 		$seconds = intval( $seconds ) % 60;
 		if ( $seconds > 1 ) {
-			/* translators: Number of seconds */
+			/* translators: %s: Number of seconds */
 			return sprintf( __( '%s seconds', 'cart-rest-api-for-woocommerce' ), $seconds );
 		} elseif ( $seconds > 0 ) {
 			return __( 'a second', 'cart-rest-api-for-woocommerce' );
@@ -504,7 +486,7 @@ class CoCart_Helpers {
 	 * @since   2.3.0
 	 * @version 2.8.3
 	 * @static
-	 * @param   int  $seconds - Time in seconds to check.
+	 * @param   int $seconds - Time in seconds to check.
 	 * @return  bool Whether or not WooCommerce admin has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {
@@ -561,11 +543,12 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since   2.6.0
-	 * @version 2.7.2
+	 * @version 3.0.0
 	 * @return  string
 	 */
 	public static function get_environment_message() {
-		return sprintf( __( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'cart-rest-api-for-woocommerce' ), CoCart::required_php, self::get_php_version() );
+		/* translators: 1: CoCart, 2: Required PHP version */
+		return sprintf( __( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart::$required_php, self::get_php_version() );
 	} // END get_environment_message()
 
 	/**

@@ -6,9 +6,9 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\Logger
+ * @package  CoCart\Classes
  * @since    2.1.0
- * @version  2.7.2
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -31,7 +31,7 @@ class CoCart_Logger {
 	 * @access public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.7.2
+	 * @version 3.0.0
 	 * @param   string $message - The message of the log.
 	 * @param   string $type    - The type of log to record.
 	 * @param   string $plugin  - The CoCart plugin being logged.
@@ -52,6 +52,9 @@ class CoCart_Logger {
 			} elseif ( $plugin == 'cocart-pro' ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-pro' );
+			} else {
+				$log_entry = "\n" . sprintf( esc_html__( '====%1$s Version: %2$s====', 'cart-rest-api-for-woocommerce' ), apply_filters( 'cocart_log_entry_name', '', $plugin ), apply_filters( 'cocart_log_entry_version', '', $plugin ) ) . "\n";
+				$context   = array( 'source' => apply_filters( 'cocart_log_entry_source', '' ) );
 			}
 
 			$log_time = date_i18n( get_option( 'date_format' ) . ' g:ia', current_time( 'timestamp' ) );

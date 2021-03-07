@@ -2,13 +2,12 @@
 /**
  * CoCart - Count Items controller
  *
- * Handles the request to count the items in the cart with /count-items endpoint.
+ * Handles the request to count the items in the cart with /cart/items/count endpoint.
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\API
- * @since    2.1.0
- * @version  2.7.2
+ * @package  CoCart\API\v2
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 
@@ -21,57 +20,40 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Count_Items_Controller extends CoCart_API_Controller {
+class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
+
+	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v2';
 
 	/**
 	 * Route base.
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'count-items';
+	protected $rest_base = 'cart/items/count';
 
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.7.2
+	 * @access public
 	 */
 	public function register_routes() {
-		// Count Items in Cart - cocart/v1/count-items (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => array( $this, 'get_cart_contents_count' ),
-			'permission_callback' => '__return_true',
-			'args'                => array(
-				'return' => array(
-					'default' => 'numeric',
-					'type'    => 'string'
-				),
-			),
-		) );
+		// Count Items in Cart - cocart/v2/cart/items/count (GET)
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart_contents_count' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			)
+		);
 	} // register_routes()
-
-	/**
-	 * Count items.
-	 *
-	 * @access public
-	 * @static
-	 * @since  2.7.2
-	 * @param  array $data
-	 * @param  array $cart_contents
-	 * @return string|WP_REST_Response
-	 */
-	public static function count_items( $data = array(), $cart_contents = array() ) {
-		if ( empty( $cart_contents ) ) {
-			$count = WC()->cart->get_cart_contents_count();
-		} else {
-			// Counts all items from the quantity variable.
-			$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
-		}
-
-		return $count;
-	}
 
 	/**
 	 * Get cart contents count.
@@ -79,14 +61,30 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 2.7.2
-	 * @param   array $data
-	 * @param   array $cart_contents
-	 * @return  string|WP_REST_Response
+	 * @version 3.0.0
+	 * @param   WP_REST_Request $request       - Full details about the request.
+	 * @param   array           $cart_contents - Cart contents to count items.
+	 * @return  WP_REST_Response
 	 */
-	public static function get_cart_contents_count( $data = array(), $cart_contents = array() ) {
-		$return = ! empty( $data['return'] ) ? $data['return'] : '';
-		$count  = self::count_items( $data, $cart_contents );
+	public static function get_cart_contents_count( $request = array(), $cart_contents = array() ) {
+		$return        = ! empty( $request['return'] ) ? $request['return'] : '';
+		$removed_items = isset( $request['removed_items'] ) ? $request['removed_items'] : false;
+
+		$controller = new CoCart_Cart_V2_Controller();
+
+		if ( empty( $cart_contents ) ) {
+			// Return count for removed items in cart.
+			if ( isset( $request['removed_items'] ) && is_bool( $request['removed_items'] ) && $request['removed_items'] ) {
+				$count = array_sum( wp_list_pluck( $controller->get_cart_instance()->get_removed_cart_contents(), 'quantity' ) );
+			}
+			// Return count for items in cart.
+			else {
+				$count = $controller->get_cart_instance()->get_cart_contents_count();
+			}
+		} else {
+			// Counts all items from the quantity variable.
+			$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
+		}
 
 		if ( $return != 'numeric' && $count <= 0 ) {
 			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
@@ -106,5 +104,31 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 
 		return $count;
 	} // END get_cart_contents_count()
+
+	/**
+	 * Get the query params for counting items.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'return'        => array(
+				'required'          => false,
+				'default'           => 'numeric',
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'removed_items' => array(
+				'required' => false,
+				'default'  => false,
+				'type'     => 'boolean',
+			),
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class

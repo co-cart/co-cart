@@ -6,7 +6,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\API
+ * @package  CoCart\API\v1
  * @since    2.0.0
  * @version  2.8.4
  * @license  GPL-2.0+
@@ -46,34 +46,46 @@ class CoCart_API_Controller {
 	 */
 	public function register_routes() {
 		// Get Cart - cocart/v1/get-cart (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart', array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/get-cart',
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_cart' ),
-				'permission_callback' => '__return_true',
-				'args'                => $this->get_collection_params()
-			),
-			'schema' => array( $this, 'get_item_schema' )
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_cart' ),
+					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
+			)
+		);
 
 		// Get Cart in Session - cocart/v1/get-cart/1654654321 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/(?P<id>[\w]+)', array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/get-cart/(?P<id>[\w]+)',
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_cart_in_session' ),
-				'permission_callback' => '__return_true',
-				'args'                => $this->get_collection_params()
-			),
-			'schema' => array( $this, 'get_item_schema' )
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_cart_in_session' ),
+					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
+			)
+		);
 
 		// Get Customers Cart saved via Persistent Cart - cocart/v1/get-cart/customer/1 (GET)
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/get-cart/customer/(?P<id>[\d]+)', array(
-			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => array( $this, 'get_cart_customer' ),
-			'permission_callback' => array( $this, 'get_permission_check' ),
-			'args'                => $this->get_collection_params()
-		) );
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/get-cart/customer/(?P<id>[\d]+)',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart_customer' ),
+				'permission_callback' => array( $this, 'get_permission_check' ),
+				'args'                => $this->get_collection_params(),
+			)
+		);
 	} // register_routes()
 
 	/**
@@ -842,6 +854,7 @@ class CoCart_API_Controller {
 		 * or the response was already filtered earlier and returned nothing.
 		 */
 		if ( $rest_base !== 'cart' && empty( $response ) ) {
+			/* translators: %s: api route */
 			$response = sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $this->namespace, $rest_base ) ) );
 			CoCart_Logger::log( $response, 'error' );
 		}

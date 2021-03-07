@@ -1,13 +1,116 @@
 # Changelog for CoCart Lite
 
-## v2.9.0 - 1st February, 2021
+## v3.0.0 - ?? ??, 2021 (Date Subject to Change)
 
-* 📦 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have v3.2.5 or above.
-* Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
-* Improved: Session data now handled by new abstract to enhance control over it.
-* Improved: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
+This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information and administrator API for viewing carts in session.
+
+Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](#) and your good to go.
+
+Error validation has also be improved so even the smallest of errors caused by the developer can get a clear explination as to what went wrong.
+
+> Quantity argument had to be changed back to a string format for WordPress to validate the value without causing an error if you have debug mode enabled. Validation for the quantity argument is checked after so it can still be a int or float value but it must be sent as a string. If an invalid value is passed, new error validation will warn you.
+
+* **NEW**: API routes.
+* * Store API [GET]      - `wp-json/cocart/v2/store`
+* * Cart [GET]           - `wp-json/cocart/v2/cart`
+* * Cart [DELETE]        - `wp-json/cocart/v2/cart/{cart_key}`
+* * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
+* * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
+* * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Cart Items [GET]     - `wp-json/cocart/v2/cart/items`
+* * Count Items [GET]    - `wp-json/cocart/v2/cart/items/count`
+* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
+* * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
+* * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
+* * Logout [POST]        - `wp-json/cocart/v2/logout`
+* * Session [GET]        - `wp-json/cocart/v2/session/{session_id}`
+* * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
+* * Sessions [GET]       - `wp-json/cocart/v2/sessions`
+* 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
+* 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See documentation]() for more information.
+* 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
+ * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
+ * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
+* 🧾 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have **v3.2.5** or above.
+* 🚢 **NEW**: Support for WooCommerce Advanced Shipping Packages extension.
+* 🎁 **NEW**: Support for WooCommerce Free Gift Coupons extension.
+* Tweaked: Session data now handled by new abstract to gain more control over it.
+* Tweaked: Cart key now returns in the cart response the first time round. 🥳
+* Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
-* Tested: ✔️ Compatible with WooCommerce v4.9
+* Tested: ✔️ Compatible with WooCommerce v5.1
+* Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
+* Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
+
+### For developers
+
+* Dev: ☄️ New shared functions that can be used to develop your own extension to CoCart or support CoCart. - [Read article for details]().
+
+* Dev: New `cocart_cart_source` filter for filtering the source of the cart created. Default is `cocart-rest-api` if created via **CoCart** else `woocommerce` if created via **WooCommerce**.
+* Dev: New `cocart_store_index` filter for filtering the API store index data.
+* Dev: New `cocart_store_address` filter for filtering the store address.
+* Dev: New `cocart_routes` filter for filtering the CoCart routes returned.
+* Dev: New `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
+* Dev: New `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
+* Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
+* Dev: New `cocart_shipping_package_name` filter for renaming the package name.
+
+> The following filters are for returning cross sells in the cart.
+
+* Dev: New `cocart_cross_sells_orderby` filter for filtering the orderby in which cross sells return.
+* Dev: New `cocart_cross_sells_order` filter for filtering the order in which cross sells return.
+* Dev: New `cocart_cross_sells_total` filter for filtering the total amount of cross sells to return.
+
+> The following affect adding simple or variable products to the cart should a WooCommerce extension validate products by form post only.
+
+> By setting this filter `cocart_skip_woocommerce_item_validation` to true, products will be added to the cart without fault as we have already passed validation within CoCart.
+
+* #### Filters
+* * Dev: New `cocart_skip_woocommerce_item_validation` filter allows you to add the item to the cart without validating the item again using WooCommerce internal functions. - [Read article for details]().
+* * Dev: New `cocart_add_cart_item` filter matches `woocommerce_add_cart_item` filter.
+* * Dev: New `cocart_cart_contents_changed` filter matches `woocommerce_cart_contents_changed` filter.
+
+* #### Action Hooks
+* * Dev: New `cocart_add_to_cart` action hook matches `woocommerce_add_to_cart` action hook.
+
+> The following filters affect adding bundled/grouped products to the cart.
+
+* Dev: New `cocart_add_items_to_cart_handler` filter allows you to set the product type so the correct add to cart handler for bundled/grouped products is used.
+* Dev: New `cocart_add_items_to_cart_handler_{product-type}` filter allows you to introduce your own add to cart handler for bundled/grouped products.
+
+> The following filters match filters used in WooCommerce templates for manipulating what is displayed in the cart. Parameters are equally the same so returning the same results is easy.
+
+* Dev: New `cocart_cart_item_name` filter matches `woocommerce_cart_item_name`.
+* Dev: New `cocart_cart_item_title` filter allows you to change the product title. The title normaly returns the same as the product name but variable products return the title differently.
+* Dev: New `cocart_cart_item_price` filter matches `woocommerce_cart_item_price`.
+* Dev: New `cocart_cart_item_quantity` filter matches `woocommerce_cart_item_quantity`.
+* Dev: New `cocart_cart_item_subtotal` filter matches `woocommerce_cart_item_subtotal`.
+
+> The following filters are for checking if a user has permission to use a route assigned to the method.
+
+* Dev: New `cocart_api_permission_check_get` filter allows you to block use of any API route that uses the **GET** method.
+* Dev: New `cocart_api_permission_check_post` filter allows you to block use of any API route that uses the **POST** method.
+* Dev: New `cocart_api_permission_check_put` filter allows you to block use of any API route that uses the **PUT** method.
+* Dev: New `cocart_api_permission_check_delete` filter allows you to block use of any API route that uses the **DELETE** method.
+* Dev: New `cocart_api_permission_check_options` filter allows you to block use of any API route that uses the **OPTION** method.
+
+> The following filters affect how CoCart operates.
+
+* Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
+* Dev: New `cocart_enable_auto_update_db` filter allows you to have the database automatically update when CoCart provides an update.
+* Dev: New `cocart_disable_load_cart` filter allows you to disable "Load Cart from Session" feature.
+* Dev: New `cocart_rest_api_get_rest_namespaces` filter allows you to decide which namespaces load.
+* Dev: New `cocart_upload_dir` filter allows you to change where files are uploaded using CoCart.
+* Dev: New `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
+
+### In progress
+
+* **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
+* Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
 
 ## v2.8.4 - 9th January, 2021
 

@@ -3,12 +3,13 @@
  * Handle data for the current customers session.
  *
  * Forked from WC_Session and added a few tweaks to support our features.
+ *
  * @link https://github.com/woocommerce/woocommerce/blob/master/includes/abstracts/abstract-wc-session.php
  *
  * @author   Sébastien Dumont
  * @category Abstracts
  * @package  CoCart\Abstracts
- * @since    2.9.0
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 
@@ -25,7 +26,7 @@ abstract class CoCart_Session {
 	 * Customer ID.
 	 *
 	 * @access protected
-	 * @var   int $_customer_id Customer ID.
+	 * @var    string $_customer_id Customer ID.
 	 */
 	protected $_customer_id;
 
@@ -136,7 +137,7 @@ abstract class CoCart_Session {
 	 * Get customer ID.
 	 *
 	 * @access public
-	 * @return int
+	 * @return string
 	 */
 	public function get_customer_id() {
 		return $this->_customer_id;

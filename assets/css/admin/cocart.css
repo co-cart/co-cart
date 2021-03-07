@@ -108,7 +108,7 @@
   border-color: #b27de3; }
   .notice.inline.notice-cocart p.cart::before {
     color: #b27de3;
-    content: "\f174";
+    content: '\f174';
     display: inline-block;
     font: normal 20px/1 'dashicons';
     -webkit-font-smoothing: antialiased;
@@ -117,7 +117,7 @@
 
 .notice.cocart-notice {
   border-color: #b27de3;
-  padding: 20px; }
+  padding: 20px !important; }
 
 .notice.cocart-notice .no-thanks {
   display: block;

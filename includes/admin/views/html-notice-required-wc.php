@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    2.0.0
- * @version  2.0.11
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -28,9 +28,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php if ( current_user_can( 'update_plugins' ) ) { ?>
 		<div class="cocart-action">
-			<?php $upgrade_url = wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=woocommerce' ), 'upgrade-plugin_woocommerce' ); ?>
-
-			<p><a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?></a></p>
+			<?php
+			$upgrade_url = wp_nonce_url(
+				add_query_arg(
+					array(
+						'action' => 'upgrade-plugin',
+						'plugin' => 'woocommerce',
+					),
+					self_admin_url( 'update.php' )
+				),
+				'upgrade-plugin_woocommerce'
+			);
+			$upgrade_url = wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'check_wc', $upgrade_url ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' );
+			?>
+			<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Update WooCommerce', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo sprintf( esc_html__( 'Update %s', 'cart-rest-api-for-woocommerce' ), 'WooCommerce' ); ?></a>
+			<a class="no-thanks" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'check_wc', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>"><?php _e( 'Dismiss', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 		<?php } ?>
 	</div>

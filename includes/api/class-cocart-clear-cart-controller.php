@@ -2,13 +2,12 @@
 /**
  * CoCart - Clear Cart controller
  *
- * Handles the request to clear the cart with /clear endpoint.
+ * Handles the request to clear the cart with /cart/clear endpoint.
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\API
- * @since    2.1.0
- * @version  2.5.0
+ * @package  CoCart\API\v2
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 
@@ -21,72 +20,87 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
+class CoCart_Clear_Cart_v2_Controller extends CoCart_Clear_Cart_Controller {
+
+	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v2';
 
 	/**
 	 * Route base.
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'clear';
+	protected $rest_base = 'cart/clear';
 
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @access public
 	 */
 	public function register_routes() {
-		// Clear Cart - cocart/v1/clear (POST)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'             => WP_REST_Server::CREATABLE,
-			'callback'            => array( $this, 'clear_cart' ),
-			'permission_callback' => '__return_true',
-		) );
+		// Clear Cart - cocart/v2/cart/clear (POST)
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'clear_cart' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 	} // register_routes()
 
 	/**
-	 * Clear cart.
+	 * Clears the cart.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.7.0
-	 * @return  WP_Error|WP_REST_Response
+	 * @version 3.0.0
+	 * @return  WP_REST_Response
 	 */
 	public function clear_cart() {
-		WC()->cart->empty_cart();
+		try {
+			$controller = new CoCart_Cart_V2_Controller();
 
-		if ( WC()->cart->is_empty() ) {
-			do_action( 'cocart_cart_cleared' );
+			$controller->get_cart_instance()->empty_cart();
 
-			$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
+			if ( $controller->get_cart_instance()->is_empty() ) {
+				do_action( 'cocart_cart_cleared' );
 
-			CoCart_Logger::log( $message, 'notice' );
+				$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
 
-			/**
-			 * Filters message about the cart being cleared.
-			 *
-			 * @since 2.1.0
-			 * @param string $message Message.
-			 */
-			$message = apply_filters( 'cocart_cart_cleared_message', $message );
+				CoCart_Logger::log( $message, 'notice' );
 
-			return $this->get_response( $message, $this->rest_base );
-		} else {
-			$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
+				/**
+				 * Filters message about the cart being cleared.
+				 *
+				 * @since 2.1.0
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_cart_cleared_message', $message );
 
-			CoCart_Logger::log( $message, 'error' );
+				return CoCart_Response::get_response( $message, $this->namespace, $this->rest_base );
+			} else {
+				$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
 
-			/**
-			 * Filters message about the cart failing to clear.
-			 *
-			 * @since 2.1.0
-			 * @param string $message Message.
-			 */
-			$message = apply_filters( 'cocart_clear_cart_failed_message', $message );
+				/**
+				 * Filters message about the cart failing to clear.
+				 *
+				 * @since 2.1.0
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_clear_cart_failed_message', $message );
 
-			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 404 ) );
+				throw new CoCart_Data_Exception( 'cocart_clear_cart_failed', $message, 404 );
+			}
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END clear_cart()
 
