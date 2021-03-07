@@ -1,16 +1,16 @@
-<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v3.0.0-beta.1&label=&color=9a6fc4&style=flat-square"></a></h1>
+<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v3.0.0-beta.2&label=&color=9a6fc4&style=flat-square"></a></h1>
 
 <p align="center"><a href="https://cocart.xyz" target="_blank">CoCart</a> is a REST API for <a href="https://woocommerce.com" target="_blank">WooCommerce</a>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart and allows developers to build a headless store in any framework of their choosing.</p>
 
 <p align="center">
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.4+-+5.6&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.4+-+5.7&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+5.0&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+7.4&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
 	</a>
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
 		<img src="https://poser.pugx.org/co-cart/co-cart/v/stable" alt="Latest Stable Version">
@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-	<a href="#key-features">Key Features</a>
+	<a href="#the-api">The API</a>
 	&nbsp;|&nbsp;
 	<a href="#cocart-pro">CoCart Pro</a>
 	&nbsp;|&nbsp;
@@ -40,43 +40,50 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/master/.github/Logo-1024x534.png.webp" alt="CoCart" /></p>
 
-<br>
-
-> ⚠️⚠️⚠️This branch is not for production use. It is **STILL IN DEVELOPMENT** and the new API is very likely to change. **DO NOT USE!** ⚠️⚠️⚠️
-
 ## CoCart: The #1 REST API that handles the frontend of [WooCommerce](https://wordpress.org/plugins/woocommerce/).
 
-[CoCart](https://cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) handles the shopping cart in any modern framework of your choosing. No local storing required. Powerful and developer friendly ready to build your headless store, **without building an API**.
+[CoCart](https://cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) handles the shopping cart in any modern framework of your choosing. No local storing required. Powerful and developer friendly ready to build your headless store, **without the need to build an API**.
 
-### Why should I use CoCart?
+CoCart gives you a true REST API experience for building a headless store powered by WooCommerce. It's lightweight and adds functionality without the bloat. This is the plugin you've been waiting for, and it will make you rethink about using any other API out there.
 
-The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. Not the API your needing for your customers who only see the frontend.
-
-If you are wanting to build a headless WooCommerce store for your customers then CoCart is your solution.
+Don't take my word for it. Checkout the <a href="#testimonials">testimonials</a> left by others.
 
 ## Looking for documentation?
 
 Head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)
 
-## Key Features
+## The API
 
-* Add simple and variable products to the cart.
-* View the carts contents.
+CoCart Lite provides the basic API needs to get you started.
+
+* Get store information.
+* Add simple, variable and grouped products to the cart.
+* Get customers cart.
+* Get customers cart contents.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
-* Supports guest customers.
-* Supports basic authentication without the need to cookie authenticate.
-* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
-* Logout customer.
-
-### Other Features
-
-* Calculate the totals.
+* Re-calculate the totals.
 * Retrieve the cart totals.
-* Retrieve the item count.
+* Retrieve the number of items in cart or items removed from it.
 * Empty the cart.
-* Load cart from session.
+* Logout the customer.
+
+As an added bonus for administrators or shop managers, CoCart Lite also provides the capabilities to:
+
+* Get Carts in Session.
+* Get details of a cart in session.
+* View items added in a cart in session.
+* Delete a Cart in Session.
+
+## Features
+
+CoCart also provides built in features to:
+
+* Load a cart in session.
+* Supports guest customers.
+* Supports basic authentication including the use of email as username.
+* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
 
 ## CoCart Pro
 
@@ -111,6 +118,7 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 
 We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)** that extend CoCart to enhance your development and your customers shopping experience.
 
+* **[Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin. - **FREE**
 * **[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. One response for all. - **FREE**
 * **[Products](https://cocart.xyz/add-ons/products/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** provides a public and better version of WooCommerce REST API for accessing products, categories, tags, attributes and even reviews without the need to authenticate.
 * **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning all your advanced custom fields for products. - **REQUIRES COCART PRODUCTS**
