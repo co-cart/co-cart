@@ -97,6 +97,11 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			$adding_to_cart = wc_get_product( $product_id );
 			$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
 
+			// Return error response if product cannot be added to cart?
+			if ( is_wp_error( $adding_to_cart ) ) {
+				return $adding_to_cart;
+			}
+
 			// Add to cart handlers
 			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
