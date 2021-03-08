@@ -891,6 +891,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 * @param  object $cart
 	 * @param  object $fee Fee data.
+	 * @return string Returns the fee value.
 	 */
 	public function fee_html( $cart, $fee ) {
 		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
@@ -986,7 +987,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   2.1.0
 	 * @version 3.0.0
 	 * @param   WC_Product $product Product object associated with the cart item.
-	 * @param   array      $request Add to cart request params.
+	 * @param   int|float  $quantity Quantity of product to validate availability.
 	 */
 	public function validate_add_to_cart( $product, $quantity ) {
 		try {
