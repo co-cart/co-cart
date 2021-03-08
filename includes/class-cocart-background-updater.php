@@ -113,7 +113,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 		 *
 		 * @access protected
 		 * @param  string $callback Update callback function.
-		 * @return string|bool
+		 * @return string|false
 		 */
 		protected function task( $callback ) {
 			wc_maybe_define_constant( 'CoCart_UPDATING', true );
