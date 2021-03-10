@@ -409,9 +409,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'desc'   => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-					esc_html__( 'This will update CoCart\'s session table in the database. This is only needed to be done if you prefer to update manually or the automatic update failed.', 'cart-rest-api-for-woocommerce' )
+					esc_html__( 'This will update CoCart\'s session table in the database to the latest version. This is only needed to be done if you prefer to update manually or the automatic update failed. Please ensure you make sufficient backups before proceeding.', 'cart-rest-api-for-woocommerce' )
 				),
-				//'callback' => array( $this, 'update_database' ),
+				'callback' => array( $this, 'update_database' ),
 			);
 
 			$tools['cocart_verify_db_tables'] = array(
@@ -510,15 +510,26 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public function maybe_update_database( $tool ) {
 			if ( 'cocart_update_db' === $tool['id'] && $tool['success'] ) {
-				$blog_id = get_current_blog_id();
-
-				// Used to fire an action added in WP_Background_Process::_construct() that calls WP_Background_Process::handle_cron_healthcheck().
-				// This method will make sure the database updates are executed even if cron is disabled. Nothing will happen if the updates are already running.
-				do_action( 'wp_' . $blog_id . '_cocart_updater_cron' );
-
-				return esc_html__( 'Database upgrade routine has been scheduled to run in the background.', 'cart-rest-api-for-woocommerce' );
+				self::update_database();
 			}
 		} // END maybe_update_database()
+
+		/**
+		 * Updates the database.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @return string
+		 */
+		public function update_database() {
+			$blog_id = get_current_blog_id();
+
+			// Used to fire an action added in WP_Background_Process::_construct() that calls WP_Background_Process::handle_cron_healthcheck().
+			// This method will make sure the database updates are executed even if cron is disabled. Nothing will happen if the updates are already running.
+			do_action( 'wp_' . $blog_id . '_cocart_updater_cron' );
+
+			return esc_html__( 'Database upgrade routine has been scheduled to run in the background.', 'cart-rest-api-for-woocommerce' );
+		} // END update_database()
 
 		/**
 		 * Maybe verify the database.
