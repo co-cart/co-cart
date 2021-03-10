@@ -64,6 +64,31 @@ module.exports = function(grunt) {
 				}
 			},
 
+			// Minify JavaScript
+			uglify: {
+				options: {
+					compress: {
+						global_defs: {
+							"EO_SCRIPT_DEBUG": false
+						},
+						dead_code: true
+					},
+					banner: '/*! <%= pkg.title %> v<%= pkg.version %> <%= grunt.template.today("dddd dS mmmm yyyy HH:MM:ss TT Z") %> */'
+				},
+				build: {
+					files: [{
+						expand: true,
+						cwd: 'assets/js/admin',
+						src: [
+							'*.js',
+							'!*.min.js'
+						],
+						dest: 'assets/js/admin',
+						ext: '.min.js'
+					}]
+				}
+			},
+
 			// Minify CSS
 			cssmin: {
 				options: {
@@ -368,8 +393,8 @@ module.exports = function(grunt) {
 	// Checks for errors.
 	grunt.registerTask( 'test', [ 'stylelint', 'checktextdomain' ] );
 
-	// Build CSS, minify CSS and runs i18n tasks.
-	grunt.registerTask( 'build', [ 'sass', 'postcss', 'cssmin', 'update-pot' ] );
+	// Build CSS, minify CSS, minify JS and runs i18n tasks.
+	grunt.registerTask( 'build', [ 'sass', 'postcss', 'cssmin', 'uglify', 'update-pot' ] );
 
 	// Update version of plugin.
 	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme' ] );
