@@ -244,6 +244,25 @@ class CoCart_API_Session {
 		return true;
 	} // END maybe_load_cart()
 
+	/**
+	 * Get the load cart action query name.
+	 *
+	 * @access protected
+	 * @since  3.0.0
+	 * @return void
+	 */
+	protected function get_action_query() {
+		/**
+		 * Filter to allow developers add more white labelling when loading the cart via web.
+		 *
+		 * @since 2.8.2
+		 * @param string
+		 */
+		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
+
+		return $load_cart;
+	} // END get_action_query()
+
 } // END class
 
 return new CoCart_API_Session();
