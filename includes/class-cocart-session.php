@@ -6,7 +6,7 @@
  * @category API
  * @package  CoCart\Classes
  * @since    2.1.0
- * @version  2.8.2
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -103,120 +103,110 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.8.2
+	 * @version 3.0.0
 	 */
 	public static function load_cart_action() {
-		/**
-		 * Filter to allow developers add more white labelling when loading the cart via web.
-		 *
-		 * @since 2.8.2
-		 * @param string
-		 */
-		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
+		if ( self::maybe_load_cart() ) {
+			$action          = self::get_action_query();
+			$cart_key        = trim( wp_unslash( $_REQUEST[ $action ] ) );
+			$override_cart   = true;  // Override the cart by default.
+			$notify_customer = false; // Don't notify the customer by default.
+			$redirect        = false; // Don't safely redirect the customer to the cart after loading by default.
 
-		// If we did not request to load a cart then just return.
-		if ( ! isset( $_REQUEST[ $load_cart ] ) ) {
-			return;
-		}
+			wc_nocache_headers();
 
-		$cart_key        = trim( wp_unslash( $_REQUEST[ $load_cart ] ) );
-		$override_cart   = true;  // Override the cart by default.
-		$notify_customer = false; // Don't notify the customer by default.
-		$redirect        = false; // Don't safely redirect the customer to the cart after loading by default.
-
-		wc_nocache_headers();
-
-		// Check if we are keeping the cart currently set via the web.
-		if ( ! empty( $_REQUEST['keep-cart'] ) && is_bool( $_REQUEST['keep-cart'] ) !== true ) {
-			$override_cart = false;
-		}
-
-		// Check if we are notifying the customer via the web.
-		if ( ! empty( $_REQUEST['notify'] ) && is_bool( $_REQUEST['notify'] ) !== true ) {
-			$notify_customer = true;
-		}
-
-		// Check if we are safely redirecting the customer to the cart via the web.
-		if ( ! empty( $_REQUEST['redirect'] ) && is_bool( $_REQUEST['redirect'] ) !== true ) {
-			$redirect = true;
-		}
-
-		// Get the cart in the database.
-		$handler     = new CoCart_Session_Handler();
-		$stored_cart = $handler->get_cart( $cart_key );
-
-		if ( empty( $stored_cart ) ) {
-			CoCart_Logger::log( sprintf( __( 'Unable to find cart for: %s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
-
-			if ( $notify_customer ) {
-				wc_add_notice( __( 'Sorry but this cart has expired!', 'cart-rest-api-for-woocommerce' ), 'error' );
+			// Check if we are keeping the cart currently set via the web.
+			if ( ! empty( $_REQUEST['keep-cart'] ) && is_bool( $_REQUEST['keep-cart'] ) !== true ) {
+				$override_cart = false;
 			}
 
-			return;
-		}
-
-		// Get the cart currently in session if any.
-		$cart_in_session = WC()->session->get( 'cart', null );
-
-		$new_cart = array();
-
-		$new_cart['cart']                       = maybe_unserialize( $stored_cart['cart'] );
-		$new_cart['applied_coupons']            = maybe_unserialize( $stored_cart['applied_coupons'] );
-		$new_cart['coupon_discount_totals']     = maybe_unserialize( $stored_cart['coupon_discount_totals'] );
-		$new_cart['coupon_discount_tax_totals'] = maybe_unserialize( $stored_cart['coupon_discount_tax_totals'] );
-		$new_cart['removed_cart_contents']      = maybe_unserialize( $stored_cart['removed_cart_contents'] );
-
-		if ( ! empty( $stored_cart['chosen_shipping_methods'] ) ) {
-			$new_cart['chosen_shipping_methods'] = maybe_unserialize( $stored_cart['chosen_shipping_methods'] );
-		}
-
-		if ( ! empty( $stored_cart['cart_fees'] ) ) {
-			$new_cart['cart_fees'] = maybe_unserialize( $stored_cart['cart_fees'] );
-		}
-
-		// Check if we are overriding the cart currently in session via the web.
-		if ( $override_cart ) {
-			// Only clear the cart if it's not already empty.
-			if ( ! WC()->cart->is_empty() ) {
-				WC()->cart->empty_cart( false );
-
-				do_action( 'cocart_load_cart_override', $new_cart, $stored_cart );
+			// Check if we are notifying the customer via the web.
+			if ( ! empty( $_REQUEST['notify'] ) && is_bool( $_REQUEST['notify'] ) !== true ) {
+				$notify_customer = true;
 			}
-		} else {
-			$new_cart_content                       = array_merge( $new_cart['cart'], $cart_in_session );
-			$new_cart['cart']                       = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
-			$new_cart['applied_coupons']            = array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() );
-			$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
-			$new_cart['coupon_discount_tax_totals'] = array_merge( $new_cart['coupon_discount_tax_totals'], WC()->cart->get_coupon_discount_tax_totals() );
-			$new_cart['removed_cart_contents']      = array_merge( $new_cart['removed_cart_contents'], WC()->cart->get_removed_cart_contents() );
 
-			do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
-		}
+			// Check if we are safely redirecting the customer to the cart via the web.
+			if ( ! empty( $_REQUEST['redirect'] ) && is_bool( $_REQUEST['redirect'] ) !== true ) {
+				$redirect = true;
+			}
 
-		// Sets the php session data for the loaded cart.
-		WC()->session->set( 'cart', $new_cart['cart'] );
-		WC()->session->set( 'applied_coupons', $new_cart['applied_coupons'] );
-		WC()->session->set( 'coupon_discount_totals', $new_cart['coupon_discount_totals'] );
-		WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
-		WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
+			// Get the cart in the database.
+			$handler     = new CoCart_Session_Handler();
+			$stored_cart = $handler->get_cart( $cart_key );
 
-		if ( ! empty( $new_cart['chosen_shipping_methods'] ) ) {
-			WC()->session->set( 'chosen_shipping_methods', $new_cart['chosen_shipping_methods'] );
-		}
+			if ( empty( $stored_cart ) ) {
+				CoCart_Logger::log( sprintf( __( 'Unable to find cart for: %s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
 
-		if ( ! empty( $new_cart['cart_fees'] ) ) {
-			WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
-		}
+				if ( $notify_customer ) {
+					wc_add_notice( __( 'Sorry but this cart has expired!', 'cart-rest-api-for-woocommerce' ), 'error' );
+				}
 
-		// If true, notify the customer that there cart has transferred over via the web.
-		if ( ! empty( $new_cart ) && $notify_customer ) {
-			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
-		}
+				return;
+			}
 
-		// If true, redirect the customer to the cart safely.
-		if ( $redirect ) {
-			wp_safe_redirect( wc_get_cart_url() );
-			exit;
+			// Get the cart currently in session if any.
+			$cart_in_session = WC()->session->get( 'cart', null );
+
+			$new_cart = array();
+
+			$new_cart['cart']                       = maybe_unserialize( $stored_cart['cart'] );
+			$new_cart['applied_coupons']            = maybe_unserialize( $stored_cart['applied_coupons'] );
+			$new_cart['coupon_discount_totals']     = maybe_unserialize( $stored_cart['coupon_discount_totals'] );
+			$new_cart['coupon_discount_tax_totals'] = maybe_unserialize( $stored_cart['coupon_discount_tax_totals'] );
+			$new_cart['removed_cart_contents']      = maybe_unserialize( $stored_cart['removed_cart_contents'] );
+
+			if ( ! empty( $stored_cart['chosen_shipping_methods'] ) ) {
+				$new_cart['chosen_shipping_methods'] = maybe_unserialize( $stored_cart['chosen_shipping_methods'] );
+			}
+
+			if ( ! empty( $stored_cart['cart_fees'] ) ) {
+				$new_cart['cart_fees'] = maybe_unserialize( $stored_cart['cart_fees'] );
+			}
+
+			// Check if we are overriding the cart currently in session via the web.
+			if ( $override_cart ) {
+				// Only clear the cart if it's not already empty.
+				if ( ! WC()->cart->is_empty() ) {
+					WC()->cart->empty_cart( false );
+
+					do_action( 'cocart_load_cart_override', $new_cart, $stored_cart );
+				}
+			} else {
+				$new_cart_content                       = array_merge( $new_cart['cart'], $cart_in_session );
+				$new_cart['cart']                       = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
+				$new_cart['applied_coupons']            = array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() );
+				$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
+				$new_cart['coupon_discount_tax_totals'] = array_merge( $new_cart['coupon_discount_tax_totals'], WC()->cart->get_coupon_discount_tax_totals() );
+				$new_cart['removed_cart_contents']      = array_merge( $new_cart['removed_cart_contents'], WC()->cart->get_removed_cart_contents() );
+
+				do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
+			}
+
+			// Sets the php session data for the loaded cart.
+			WC()->session->set( 'cart', $new_cart['cart'] );
+			WC()->session->set( 'applied_coupons', $new_cart['applied_coupons'] );
+			WC()->session->set( 'coupon_discount_totals', $new_cart['coupon_discount_totals'] );
+			WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
+			WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
+
+			if ( ! empty( $new_cart['chosen_shipping_methods'] ) ) {
+				WC()->session->set( 'chosen_shipping_methods', $new_cart['chosen_shipping_methods'] );
+			}
+
+			if ( ! empty( $new_cart['cart_fees'] ) ) {
+				WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
+			}
+
+			// If true, notify the customer that there cart has transferred over via the web.
+			if ( ! empty( $new_cart ) && $notify_customer ) {
+				wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
+			}
+
+			// If true, redirect the customer to the cart safely.
+			if ( $redirect ) {
+				wp_safe_redirect( wc_get_cart_url() );
+				exit;
+			}
 		}
 	} // END load_cart_action()
 
