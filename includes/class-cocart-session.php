@@ -220,6 +220,30 @@ class CoCart_API_Session {
 		}
 	} // END load_cart_action()
 
+	/**
+	 * Checks if we are loading a cart from session
+	 * and if this feature is not disabled.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return bool
+	 */
+	public function maybe_load_cart() {
+		// Check that "Load Cart from Session" feature is disabled.
+		if ( apply_filters( 'cocart_disable_load_cart', false ) ) {
+			return false;
+		}
+
+		$action = self::get_action_query();
+
+		// If we did not request to load a cart then just return.
+		if ( ! isset( $_REQUEST[ $action ] ) ) {
+			return false;
+		}
+
+		return true;
+	} // END maybe_load_cart()
+
 } // END class
 
 return new CoCart_API_Session();
