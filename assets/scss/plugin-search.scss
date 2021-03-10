@@ -1,0 +1,119 @@
+// Variables
+@import 'variables';
+
+body.cocart-plugin-install {
+	.plugin-card {
+		border: 1px solid $cocart;
+
+		h3 {
+			margin: 0 0 4px 0;
+		}
+
+		.plugin-card-top {
+			min-height: 150px;
+		}
+
+		.name, .desc {
+			margin-right: 120px !important;
+		}
+
+		.plugin-card-bottom {
+			min-height: 36px;
+		
+			.plugin-requirement {
+				float: right;
+				clear: right;
+			}
+		}
+
+		&.plugin-card-cocart-plugin-search {
+			border: 2px solid $cocart;
+		}
+	}
+}
+
+.plugin-card-cocart-plugin-search {
+	h3 {
+		margin: 0 0 4px 0;
+	}
+
+	.column-name,
+	.column-description {
+		margin-right: 20px;
+	}
+
+	.action-links {
+		overflow: auto;
+		position: static;
+	}
+
+	.plugin-action-buttons {
+		margin: 0;
+		width: 100%;
+		text-align: left;
+		white-space: nowrap;
+	}
+}
+
+@media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
+	.plugin-card-cocart-plugin-search .action-links {
+		margin-left: 0;
+	}
+}
+
+.plugin-card {
+
+	.plugin-action-buttons {
+
+		.cocart-plugin-search__learn-more .dashicons, 
+		.cocart-plugin-search__learn-more .dashicons-before::before {
+			font-size: inherit;
+			line-height: inherit;
+		}
+
+		.cocart-plugin-primary {
+			background: $cocart;
+			border-color: #9b50e3;
+			color: $white;
+			box-shadow: 0 1px 0 #d8c3e2;
+		}
+
+		.cocart-plugin-primary:hover {
+			background:#9b50e3;
+			border-color: #422479;
+			color: $white;
+		}
+	}
+}
+
+.plugin-card-cocart-plugin-search .plugin-card-bottom {
+	display: none;
+}
+
+.cocart-plugin-search__bottom {
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	align-content: space-between;
+	clear: both;
+	padding: 12px 20px;
+	background-color: #fafafa;
+	border-top: 1px solid #ddd;
+	overflow: hidden;
+}
+
+.cocart-plugin-search__text {
+	-webkit-box-flex: 1;
+	flex: 1;
+	margin: 0 24px 0 16px;
+}
+
+@media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
+	.plugin-card-cocart-plugin-search .plugin-action-buttons li {
+		display: block;
+	}
+	.plugin-card-cocart-plugin-search .plugin-action-buttons li button {
+		margin-right: 0;
+	}
+}
