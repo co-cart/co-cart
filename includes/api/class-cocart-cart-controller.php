@@ -1095,7 +1095,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param  boolean    $removed_item - Determines if the item in the cart is removed.
 	 * @return array      $item         - Full details of the item in the cart and it's purchase limits.
 	 */
-	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb, $removed_item = false ) {
+	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
