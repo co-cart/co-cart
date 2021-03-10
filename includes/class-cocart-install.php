@@ -4,9 +4,9 @@
  *
  * @author   Sébastien Dumont
  * @category Classes
- * @package  CoCart\Install
+ * @package  CoCart\Classes
  * @since    1.2.0
- * @version  2.8.3
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -20,15 +20,29 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 	class CoCart_Install {
 
 		/**
+		 * DB updates and callbacks that need to be run per version.
+		 *
+		 * @var array
+		 */
+		private static $db_updates = array(
+			'3.0.0' => array(
+				'cocart_update_300_db_structure',
+				'cocart_update_300_db_version',
+			),
+		);
+
+		/**
 		 * Constructor.
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 */
 		public function __construct() {
 			// Checks version of CoCart and install/update if needed.
 			add_action( 'init', array( $this, 'check_version' ), 5 );
+			add_action( 'init', array( $this, 'manual_database_update' ), 20 );
+			add_action( 'admin_init', array( $this, 'install_actions' ) );
 
 			// Redirect to Getting Started page once activated.
 			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ), 10, 2 );
@@ -53,12 +67,101 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		} // END check_version()
 
 		/**
+		 * Perform a manual database update when triggered by WooCommerce System Tools.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 */
+		public function manual_database_update() {
+			$blog_id = get_current_blog_id();
+
+			add_action( 'wp_' . $blog_id . '_cocart_updater_cron', array( $this, 'run_manual_database_update' ) );
+		} // END manual_database_update()
+
+		/**
+		 * Run manual database update.
+		 *
+		 * @access  public
+		 * @static
+		 * @version 3.0.0
+		 */
+		public static function run_manual_database_update() {
+			self::update();
+		} // END run_manual_database_update()
+
+		/**
+		 * Run an update callback when triggered by ActionScheduler.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @param  string $callback Callback name.
+		 */
+		public static function run_update_callback( $callback ) {
+			include_once dirname( __FILE__ ) . '/cocart-update-functions.php';
+
+			if ( is_callable( $callback ) ) {
+				self::run_update_callback_start( $callback );
+				$result = (bool) call_user_func( $callback );
+				self::run_update_callback_end( $callback, $result );
+			}
+		} // END run_update_callback()
+
+		/**
+		 * Triggered when a callback will run.
+		 *
+		 * @access protected
+		 * @static
+		 * @since  3.0.0
+		 * @param  string $callback Callback name.
+		 */
+		protected static function run_update_callback_start( $callback ) {
+			define( 'COCART_UPDATING', true );
+		} // END run_update_callback_start()
+
+		/**
+		 * Triggered when a callback has ran.
+		 *
+		 * @access protected
+		 * @static
+		 * @since  3.0.0
+		 * @param  string $callback Callback name.
+		 * @param  bool   $result Return value from callback. Non-false need to run again.
+		 */
+		protected static function run_update_callback_end( $callback, $result ) {
+			if ( $result ) {
+				WC()->queue()->add(
+					'cocart_run_update_callback',
+					array(
+						'update_callback' => $callback,
+					),
+					'cocart-db-updates'
+				);
+			}
+		} // END run_update_callback_end()
+
+		/**
+		 * Install actions when a update button is clicked within the admin area.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 */
+		public static function install_actions() {
+			if ( ! empty( $_GET['do_update_cocart'] ) ) {
+				check_admin_referer( 'cocart_db_update', 'cocart_db_update_nonce' );
+				self::update();
+				CoCart_Admin_Notices::add_notice( 'update', true );
+			}
+		} // END install_actions()
+
+		/**
 		 * Install CoCart.
 		 *
 		 * @access public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.1.0
+		 * @version 3.0.0
 		 */
 		public static function install() {
 			if ( ! is_blog_installed() ) {
@@ -76,11 +179,18 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				define( 'COCART_INSTALLING', true );
 			}
 
-			// Creates cron jobs.
-			self::create_cron_jobs();
+			// Remove all admin notices.
+			self::remove_admin_notices();
 
 			// Install database tables.
 			self::create_tables();
+			self::verify_base_tables();
+
+			// Creates cron jobs.
+			self::create_cron_jobs();
+
+			// Create files.
+			self::create_files();
 
 			// Set activation date.
 			self::set_install_date();
@@ -88,10 +198,118 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			// Update plugin version.
 			self::update_version();
 
+			// Maybe update database version.
+			self::maybe_update_db_version();
+
 			delete_transient( 'cocart_installing' );
 
 			do_action( 'cocart_installed' );
 		} // END install()
+
+		/**
+		 * Check if all the base tables are present.
+		 *
+		 * @access public
+		 * @static
+		 * @since 3.0.0
+		 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
+		 * @param bool $execute       Whether to execute get_schema queries as well.
+		 * @return array List of querues.
+		 */
+		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+			if ( $execute ) {
+				self::create_tables();
+			}
+
+			$queries        = dbDelta( self::get_schema(), false );
+			$missing_tables = array();
+
+			foreach ( $queries as $table_name => $result ) {
+				if ( "Created table $table_name" === $result ) {
+					$missing_tables[] = $table_name;
+				}
+			}
+
+			if ( 0 < count( $missing_tables ) ) {
+				if ( $modify_notice ) {
+					CoCart_Admin_Notices::add_notice( 'base_tables_missing' );
+				}
+
+				update_option( 'cocart_schema_missing_tables', $missing_tables );
+			} else {
+				if ( $modify_notice ) {
+					CoCart_Admin_Notices::remove_notice( 'base_tables_missing' );
+				}
+
+				update_option( 'cocart_schema_version', COCART_DB_VERSION );
+				delete_option( 'cocart_schema_missing_tables' );
+			}
+
+			return $missing_tables;
+		} // END verify_base_tables()
+
+		/**
+		 * Reset any notices added to admin.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 */
+		private static function remove_admin_notices() {
+			CoCart_Admin_Notices::remove_all_notices();
+		}
+
+		/**
+		 * Is this a brand new CoCart install?
+		 *
+		 * A brand new install has no version yet. Also treat empty installs as 'new'.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @return boolean
+		 */
+		public static function is_new_install() {
+			return is_null( get_site_option( 'cocart_version', null ) );
+		}
+
+		/**
+		 * Is a Database update needed?
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @return boolean
+		 */
+		public static function needs_db_update() {
+			$current_db_version = get_site_option( 'cocart_db_version', null );
+			$updates            = self::get_db_update_callbacks();
+			$update_versions    = array_keys( $updates );
+			usort( $update_versions, 'version_compare' );
+
+			return ! is_null( $current_db_version ) && version_compare( $current_db_version, end( $update_versions ), '<' );
+		} // END needs_db_update()
+
+		/**
+		 * See if we need to show or run database updates during install.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 */
+		private static function maybe_update_db_version() {
+			if ( self::needs_db_update() ) {
+				if ( apply_filters( 'cocart_enable_auto_update_db', false ) ) {
+					self::update();
+				} else {
+					CoCart_Admin_Notices::add_notice( 'update', true );
+				}
+			} else {
+				self::update_db_version();
+			}
+		} // END maybe_update_db_version()
 
 		/**
 		 * Update plugin version to current.
@@ -104,6 +322,59 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		private static function update_version() {
 			update_site_option( 'cocart_version', COCART_VERSION );
 		} // END update_version()
+
+		/**
+		 * Get list of DB update callbacks.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @return array
+		 */
+		public static function get_db_update_callbacks() {
+			return self::$db_updates;
+		} // END get_db_update_callbacks()
+
+		/**
+		 * Push all needed DB updates to the queue for processing.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 */
+		private static function update() {
+			$current_db_version = get_option( 'cocart_db_version' );
+			$loop               = 0;
+
+			foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
+				if ( version_compare( $current_db_version, $version, '<' ) ) {
+					foreach ( $update_callbacks as $update_callback ) {
+						WC()->queue()->schedule_single(
+							time() + $loop,
+							'cocart_run_update_callback',
+							array(
+								'update_callback' => $update_callback,
+							),
+							'cocart-db-updates'
+						);
+						$loop++;
+					}
+				}
+			}
+		} // END update()
+
+		/**
+		 * Update DB version to current.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @param  string|null $version New WooCommerce DB version or null.
+		 */
+		public static function update_db_version( $version = null ) {
+			delete_site_option( 'cocart_db_version' );
+			add_site_option( 'cocart_db_version', is_null( $version ) ? COCART_DB_VERSION : $version );
+		} // END update_db_version()
 
 		/**
 		 * Set the time the plugin was installed.
@@ -121,9 +392,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 * @param   string $plugin             Activate plugin file.
-		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network 
+		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network
 		 *                                     or just the current site. Multisite only.
 		 */
 		public static function redirect_getting_started( $plugin, $network_activation ) {
@@ -133,7 +404,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			}
 
 			// If CoCart has already been installed before then don't redirect.
-			if ( ! empty( get_site_option( 'cocart_version' ) ) && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
+			if ( ! self::is_new_install() && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
 				return;
 			}
 
@@ -183,11 +454,16 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 		/**
 		 * Creates database tables which the plugin needs to function.
+		 * WARNING: If you are modifying this method, make sure that its safe to call regardless of the state of database.
+		 *
+		 * This is called from `install` method and is executed in-sync when CoCart is installed or updated.
+		 * This can also be called optionally from `verify_base_tables`.
 		 *
 		 * @access private
 		 * @static
-		 * @since  2.1.0
-		 * @global $wpdb
+		 * @since   2.1.0
+		 * @version 3.0.0
+		 * @global  $wpdb
 		 */
 		private static function create_tables() {
 			global $wpdb;
@@ -196,26 +472,41 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
+			dbDelta( self::get_schema() );
+		} // END create_tables()
+
+		/**
+		 * Get Table schema.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.0.0
+		 * @global $wpdb
+		 * @return string
+		 */
+		private static function get_schema() {
+			global $wpdb;
+
 			$collate = '';
 
 			if ( $wpdb->has_cap( 'collation' ) ) {
 				$collate = $wpdb->get_charset_collate();
 			}
 
-			// Queries
 			$tables =
 				"CREATE TABLE {$wpdb->prefix}cocart_carts (
 					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 					cart_key char(42) NOT NULL,
 					cart_value longtext NOT NULL,
+					cart_created BIGINT UNSIGNED NOT NULL,
 					cart_expiry BIGINT UNSIGNED NOT NULL,
+					cart_source varchar(200) NOT NULL,
 					PRIMARY KEY (cart_id),
 					UNIQUE KEY cart_key (cart_key)
 				) $collate;";
 
-			// Execute
-			dbDelta( $tables );
-		} // END create_tables()
+			return $tables;
+		} // END get_schema()
 
 		/**
 		 * Return a list of CoCart tables. Used to make sure all CoCart tables
@@ -268,6 +559,47 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		public static function wpmu_drop_tables( $tables ) {
 			return array_merge( $tables, self::get_tables() );
 		} // END wpmu_drop_tables()
+
+		/**
+		 * Create files/directories.
+		 *
+		 * @access private
+		 * @static
+		 * @since 3.0.0
+		 */
+		private static function create_files() {
+			// Bypass if filesystem is read-only and/or non-standard upload system is used.
+			if ( apply_filters( 'cocart_install_skip_create_files', false ) ) {
+				return;
+			}
+
+			// Install files and folders for uploading files and prevent hotlinking.
+			$upload_dir = wp_get_upload_dir();
+
+			$files = array(
+				array(
+					'base'    => $upload_dir['basedir'] . '/cocart_uploads',
+					'file'    => 'index.html',
+					'content' => '',
+				),
+				array(
+					'base'    => $upload_dir['basedir'] . '/cocart_uploads',
+					'file'    => '.htaccess',
+					'content' => 'deny from all',
+				),
+			);
+
+			foreach ( $files as $file ) {
+				if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
+					$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'wb' );
+
+					if ( $file_handle ) {
+						fwrite( $file_handle, $file['content'] );
+						fclose( $file_handle );
+					}
+				}
+			}
+		} // create_files()
 
 	} // END class.
 

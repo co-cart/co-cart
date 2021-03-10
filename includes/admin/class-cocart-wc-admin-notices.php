@@ -45,9 +45,9 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 
 			// Don't include notes if WC Admin does not exist.
 			if (
-				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) || 
-				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Note' ) || 
-				! class_exists( 'Automattic\WooCommerce\Admin\Notes\Notes' ) || 
+				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ||
+				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Note' ) ||
+				! class_exists( 'Automattic\WooCommerce\Admin\Notes\Notes' ) ||
 				! class_exists( 'Automattic\WooCommerce\Admin\Notes\Note' )
 			) {
 				return;

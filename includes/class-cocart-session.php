@@ -4,7 +4,7 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\Session
+ * @package  CoCart\Classes
  * @since    2.1.0
  * @version  2.8.2
  * @license  GPL-2.0+
@@ -115,11 +115,11 @@ class CoCart_API_Session {
 		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
 
 		// If we did not request to load a cart then just return.
-		if ( ! isset( $_REQUEST[$load_cart] ) ) {
+		if ( ! isset( $_REQUEST[ $load_cart ] ) ) {
 			return;
 		}
 
-		$cart_key        = trim( wp_unslash( $_REQUEST[$load_cart] ) );
+		$cart_key        = trim( wp_unslash( $_REQUEST[ $load_cart ] ) );
 		$override_cart   = true;  // Override the cart by default.
 		$notify_customer = false; // Don't notify the customer by default.
 		$redirect        = false; // Don't safely redirect the customer to the cart after loading by default.

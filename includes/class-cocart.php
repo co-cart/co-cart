@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Package
  * @since    2.6.0
- * @version  2.9.0
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -26,7 +26,17 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '2.9.0-rc.3';
+	public static $version = '3.0.0-beta.2';
+
+	/**
+	 * CoCart Database Schema version.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.0 started with version string 3.0.0
+	 * @var    string
+	 */
+	public static $db_version = '3.0.0';
 
 	/**
 	 * Required WordPress Version
@@ -35,7 +45,7 @@ final class CoCart {
 	 * @static
 	 * @since  2.3.0
 	 */
-	public static $required_wp = '5.3';
+	public static $required_wp = '5.4';
 
 	/**
 	 * Required WooCommerce Version
@@ -59,12 +69,15 @@ final class CoCart {
 	/**
 	 * Initiate CoCart.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
+	 * @since   1.0.0
+	 * @version 3.0.0
 	 */
 	public static function init() {
 		self::setup_constants();
 		self::includes();
+		self::include_extension_compatibility();
 		self::include_third_party();
 
 		// Environment checking when activating.
@@ -73,8 +86,9 @@ final class CoCart {
 		// Setup CoCart Session Handler.
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
 
-		// Setup WooCommerce.
+		// Setup WooCommerce and CoCart.
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
+		add_action( 'woocommerce_loaded', array( __CLASS__, 'setup_cocart' ) );
 
 		// Load translation files.
 		add_action( 'init', array( __CLASS__, 'load_plugin_textdomain' ), 0 );
@@ -91,12 +105,13 @@ final class CoCart {
 	 *
 	 * @access  public
 	 * @since   1.2.0
-	 * @version 2.6.0
+	 * @version 3.0.0
 	 */
 	public static function setup_constants() {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
 		self::define( 'COCART_PLUGIN_BASENAME', plugin_basename( COCART_FILE ) );
 		self::define( 'COCART_VERSION', self::$version );
+		self::define( 'COCART_DB_VERSION', self::$db_version );
 		self::define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_URL_PATH', untrailingslashit( plugins_url( '/', COCART_FILE ) ) );
 		self::define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( COCART_FILE ) ) );
@@ -129,23 +144,59 @@ final class CoCart {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.9.0
+	 * @version 3.0.0
 	 * @return  void
 	 */
 	public static function includes() {
-		// Abstracts.
-		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
-
 		// Class autoloader.
 		include_once COCART_ABSPATH . 'includes/class-cocart-autoloader.php';
 
+		// Abstracts.
+		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
+
 		// Core classes.
+		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-response.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
-		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
+
+		// REST API functions.
+		include_once COCART_ABSPATH . 'includes/cocart-rest-functions.php';
+
+		// WP-CLI
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			include_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
+		}
 	} // END includes()
+
+	/**
+	 * Setup CoCart.
+	 *
+	 * Called using the "woocommerce_loaded" hook to allow the use of
+	 * WooCommerce constants.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return void
+	 */
+	public static function setup_cocart() {
+		include_once COCART_ABSPATH . 'includes/class-cocart-background-updater.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
+	} // END setup_cocart()
+
+	/**
+	 * Include extension compatibility.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.0
+	 */
+	public static function include_extension_compatibility() {
+		include_once COCART_ABSPATH . 'includes/compatibility/class-cocart-compatibility.php';
+	} // END include_extension_compatibility()
 
 	/**
 	 * Include third party support.
@@ -196,13 +247,13 @@ final class CoCart {
 	/**
 	 * Load REST API.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @since  2.6.0
+	 * @since   2.6.0
+	 * @version 3.0.0
 	 */
 	public static function load_rest_api() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-init.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-rest-api.php';
 	} // END load_rest_api()
 
 	/**
@@ -210,7 +261,7 @@ final class CoCart {
 	 *
 	 * @access  public
 	 * @since   2.1.2
-	 * @version 2.9.0
+	 * @version 3.0.0
 	 * @param   string WooCommerce Session Handler
 	 * @return  string CoCart Session Handler
 	 */
@@ -228,7 +279,7 @@ final class CoCart {
 	 *
 	 * @access  public
 	 * @since   2.1.2
-	 * @version 2.9.0
+	 * @version 3.0.0
 	 * @return  void
 	 */
 	public static function woocommerce() {

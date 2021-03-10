@@ -6,9 +6,8 @@
  *
  * @author   Sébastien Dumont
  * @category API
- * @package  CoCart\API
- * @since    2.1.0
- * @version  2.7.0
+ * @package  CoCart\API\v2
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 
@@ -17,11 +16,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Logout controller class.
+ * REST API Logout v2 controller class.
  *
  * @package CoCart\API
  */
-class CoCart_Logout_Controller extends CoCart_API_Controller {
+class CoCart_Logout_v2_Controller extends CoCart_Logout_Controller {
+
+	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v2';
 
 	/**
 	 * Route base.
@@ -33,31 +39,19 @@ class CoCart_Logout_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @access public
 	 */
 	public function register_routes() {
-		// Logout user - cocart/v1/logout (POST)
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
-			'methods'             => WP_REST_Server::CREATABLE,
-			'callback'            => array( $this, 'logout' ),
-			'permission_callback' => '__return_true'
-		) );
+		// Logout user - cocart/v2/logout (POST)
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'logout' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 	} // register_routes()
-
-	/**
-	 * Logout user.
-	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.5.0
-	 * @return  WP_REST_Response
-	 */
-	public function logout() {
-		wp_logout();
-
-		return new WP_REST_Response( true, 200 );
-	} // END logout()
 
 } // END class

@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Classes
  * @package  CoCart\Third Party\Plugin
- * @since    2.9.0
+ * @since    3.0.0
  * @license  GPL-2.0+
  */
 
@@ -30,14 +30,14 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 		}
 
 		/**
-		 * Returns true to allow TaxJar to calculate totals 
+		 * Returns true to allow TaxJar to calculate totals
 		 * when CoCart API is requested.
 		 *
 		 * @access public
 		 * @return bool
 		 */
 		public function maybe_calculate_tax( $should_calculate ) {
-			if ( CoCart_Helpers::is_rest_api_request() ) {
+			if ( CoCart_Authentication::is_rest_api_request() ) {
 				$should_calculate = true;
 			}
 
