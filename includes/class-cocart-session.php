@@ -103,7 +103,7 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.9.0
+	 * @version 2.8.2
 	 */
 	public static function load_cart_action() {
 		/**
@@ -213,25 +213,8 @@ class CoCart_API_Session {
 			wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 		}
 
-		// If true, redirect the customer to the cart page safely.
+		// If true, redirect the customer to the cart safely.
 		if ( $redirect ) {
-			global $wpdb;
-
-			// Save cart by force as we cant do it during "shutdown".
-			$wpdb->query(
-				$wpdb->prepare(
-					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`) VALUES (%s, %s, %d)
- 					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`)",
-					$cart_key,
-					maybe_serialize( WC()->session->get_data() ),
-					time() + intval( DAY_IN_SECONDS * 7 )
-				)
-			);
-
-			// Set data in cache.
-			wp_cache_set( $handler->get_cache_prefix() . $cart_key, WC()->session->get_data(), COCART_CART_CACHE_GROUP, time() );
-
-			// Now redirect.
 			wp_safe_redirect( wc_get_cart_url() );
 			exit;
 		}
