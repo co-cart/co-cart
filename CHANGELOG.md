@@ -50,62 +50,62 @@ Error validation has also be improved so even the smallest of errors caused by t
 
 * Dev: ☄️ New shared functions that can be used to develop your own extension to CoCart or support CoCart. - [Read article for details]().
 
-* Dev: New `cocart_cart_source` filter for filtering the source of the cart created. Default is `cocart-rest-api` if created via **CoCart** else `woocommerce` if created via **WooCommerce**.
-* Dev: New `cocart_store_index` filter for filtering the API store index data.
-* Dev: New `cocart_store_address` filter for filtering the store address.
-* Dev: New `cocart_routes` filter for filtering the CoCart routes returned.
-* Dev: New `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
-* Dev: New `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
-* Dev: New `cocart_shipping_package_details_array` filter for filtering package details listed per package.
-* Dev: New `cocart_shipping_package_name` filter for renaming the package name.
+* Dev: Introduced `cocart_cart_source` filter for filtering the source of the cart created. Default is `cocart-rest-api` if created via **CoCart** else `woocommerce` if created via **WooCommerce**.
+* Dev: Introduced `cocart_store_index` filter for filtering the API store index data.
+* Dev: Introduced `cocart_store_address` filter for filtering the store address.
+* Dev: Introduced `cocart_routes` filter for filtering the CoCart routes returned.
+* Dev: Introduced `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
+* Dev: Introduced `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
+* Dev: Introduced `cocart_shipping_package_details_array` filter for filtering package details listed per package.
+* Dev: Introduced `cocart_shipping_package_name` filter for renaming the package name.
 
 > The following filters are for returning cross sells in the cart.
 
-* Dev: New `cocart_cross_sells_orderby` filter for filtering the orderby in which cross sells return.
-* Dev: New `cocart_cross_sells_order` filter for filtering the order in which cross sells return.
-* Dev: New `cocart_cross_sells_total` filter for filtering the total amount of cross sells to return.
+* Dev: Introduced `cocart_cross_sells_orderby` filter for filtering the orderby in which cross sells return.
+* Dev: Introduced `cocart_cross_sells_order` filter for filtering the order in which cross sells return.
+* Dev: Introduced `cocart_cross_sells_total` filter for filtering the total amount of cross sells to return.
 
 > The following affect adding simple or variable products to the cart should a WooCommerce extension validate products by form post only.
 
 > By setting this filter `cocart_skip_woocommerce_item_validation` to true, products will be added to the cart without fault as we have already passed validation within CoCart.
 
 * #### Filters
-* * Dev: New `cocart_skip_woocommerce_item_validation` filter allows you to add the item to the cart without validating the item again using WooCommerce internal functions. - [Read article for details]().
-* * Dev: New `cocart_add_cart_item` filter matches `woocommerce_add_cart_item` filter.
-* * Dev: New `cocart_cart_contents_changed` filter matches `woocommerce_cart_contents_changed` filter.
+* * Dev: Introduced `cocart_skip_woocommerce_item_validation` filter allows you to add the item to the cart without validating the item again using WooCommerce internal functions. - [Read article for details]().
+* * Dev: Introduced `cocart_add_cart_item` filter matches `woocommerce_add_cart_item` filter.
+* * Dev: Introduced `cocart_cart_contents_changed` filter matches `woocommerce_cart_contents_changed` filter.
 
 * #### Action Hooks
-* * Dev: New `cocart_add_to_cart` action hook matches `woocommerce_add_to_cart` action hook.
+* * Dev: Introduced `cocart_add_to_cart` action hook matches `woocommerce_add_to_cart` action hook.
 
 > The following filters affect adding bundled/grouped products to the cart.
 
-* Dev: New `cocart_add_items_to_cart_handler` filter allows you to set the product type so the correct add to cart handler for bundled/grouped products is used.
-* Dev: New `cocart_add_items_to_cart_handler_{product-type}` filter allows you to introduce your own add to cart handler for bundled/grouped products.
+* Dev: Introduced `cocart_add_items_to_cart_handler` filter allows you to set the product type so the correct add to cart handler for bundled/grouped products is used.
+* Dev: Introduced `cocart_add_items_to_cart_handler_{product-type}` filter allows you to introduce your own add to cart handler for bundled/grouped products.
 
 > The following filters match filters used in WooCommerce templates for manipulating what is displayed in the cart. Parameters are equally the same so returning the same results is easy.
 
-* Dev: New `cocart_cart_item_name` filter matches `woocommerce_cart_item_name`.
-* Dev: New `cocart_cart_item_title` filter allows you to change the product title. The title normaly returns the same as the product name but variable products return the title differently.
-* Dev: New `cocart_cart_item_price` filter matches `woocommerce_cart_item_price`.
-* Dev: New `cocart_cart_item_quantity` filter matches `woocommerce_cart_item_quantity`.
-* Dev: New `cocart_cart_item_subtotal` filter matches `woocommerce_cart_item_subtotal`.
+* Dev: Introduced `cocart_cart_item_name` filter matches `woocommerce_cart_item_name`.
+* Dev: Introduced `cocart_cart_item_title` filter allows you to change the product title. The title normaly returns the same as the product name but variable products return the title differently.
+* Dev: Introduced `cocart_cart_item_price` filter matches `woocommerce_cart_item_price`.
+* Dev: Introduced `cocart_cart_item_quantity` filter matches `woocommerce_cart_item_quantity`.
+* Dev: Introduced `cocart_cart_item_subtotal` filter matches `woocommerce_cart_item_subtotal`.
 
 > The following filters are for checking if a user has permission to use a route assigned to the method.
 
-* Dev: New `cocart_api_permission_check_get` filter allows you to block use of any API route that uses the **GET** method.
-* Dev: New `cocart_api_permission_check_post` filter allows you to block use of any API route that uses the **POST** method.
-* Dev: New `cocart_api_permission_check_put` filter allows you to block use of any API route that uses the **PUT** method.
-* Dev: New `cocart_api_permission_check_delete` filter allows you to block use of any API route that uses the **DELETE** method.
-* Dev: New `cocart_api_permission_check_options` filter allows you to block use of any API route that uses the **OPTION** method.
+* Dev: Introduced `cocart_api_permission_check_get` filter allows you to block use of any API route that uses the **GET** method.
+* Dev: Introduced `cocart_api_permission_check_post` filter allows you to block use of any API route that uses the **POST** method.
+* Dev: Introduced `cocart_api_permission_check_put` filter allows you to block use of any API route that uses the **PUT** method.
+* Dev: Introduced `cocart_api_permission_check_delete` filter allows you to block use of any API route that uses the **DELETE** method.
+* Dev: Introduced `cocart_api_permission_check_options` filter allows you to block use of any API route that uses the **OPTION** method.
 
 > The following filters affect how CoCart operates.
 
-* Dev: New `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
-* Dev: New `cocart_enable_auto_update_db` filter allows you to have the database automatically update when CoCart provides an update.
-* Dev: New `cocart_disable_load_cart` filter allows you to disable "Load Cart from Session" feature.
-* Dev: New `cocart_rest_api_get_rest_namespaces` filter allows you to decide which namespaces load.
-* Dev: New `cocart_upload_dir` filter allows you to change where files are uploaded using CoCart.
-* Dev: New `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
+* Dev: Introduced `cocart_show_plugin_search` filter allows you to disable the plugin search suggestions.
+* Dev: Introduced `cocart_enable_auto_update_db` filter allows you to have the database automatically update when CoCart provides an update.
+* Dev: Introduced `cocart_disable_load_cart` filter allows you to disable "Load Cart from Session" feature.
+* Dev: Introduced `cocart_rest_api_get_rest_namespaces` filter allows you to decide which namespaces load.
+* Dev: Introduced `cocart_upload_dir` filter allows you to change where files are uploaded using CoCart.
+* Dev: Introduced `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
 
 ### In progress
 
