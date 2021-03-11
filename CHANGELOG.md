@@ -106,6 +106,7 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Dev: Introduced `cocart_rest_api_get_rest_namespaces` filter allows you to decide which namespaces load.
 * Dev: Introduced `cocart_upload_dir` filter allows you to change where files are uploaded using CoCart.
 * Dev: Introduced `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
+* Dev: Introduced `cocart_wc_navigation` filter to move back CoCart to WordPress admin navigation instead of WooCommerce admin navigation.
 
 ### In progress
 

@@ -88,14 +88,29 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 				);
 			}
 
-			// Adds CoCart page to the new WooCommerce Navigation Menu.
-			if ( class_exists( '\Automattic\WooCommerce\Admin\Features\Navigation\Menu' ) ) {
+			/**
+			 * Moves CoCart menu to the new WooCommerce Navigation Menu if it exists.
+			 *
+			 * @since 3.0.0
+			 */
+			if ( class_exists( '\Automattic\WooCommerce\Admin\Features\Navigation\Menu' ) && apply_filters( 'cocart_wc_navigation', true ) ) {
+				// Add Category
+				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_category(
+					array(
+						'id'     => 'cocart-category',
+						'title'  => 'CoCart',
+						'parent' => 'woocommerce',
+					)
+				);
+
+				// Add Page
 				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_item(
 					array(
 						'id'         => 'cocart',
-						'title'      => 'CoCart',
+						'title'      => esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' ),
 						'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
 						'url'        => 'cocart',
+						'parent'     => 'cocart-category'
 					)
 				);
 			}
