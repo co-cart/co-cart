@@ -113,7 +113,7 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	} // END get_store_address()
 
 	/**
-	 * Returns the list of all CoCart API routes.
+	 * Returns the list of all public CoCart API routes.
 	 *
 	 * @access public
 	 * @return array
@@ -124,19 +124,16 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 		return apply_filters(
 			'cocart_routes',
 			array(
-				'cart'         => $prefix . 'cart',
-				'add-item'     => $prefix . 'cart/add-item',
-				'add-items'    => $prefix . 'cart/add-items',
-				'clear'        => $prefix . 'cart/clear',
-				'calculate'    => $prefix . 'cart/calculate',
-				'item'         => $prefix . 'cart/item',
-				'items'        => $prefix . 'cart/items',
-				'count-items'  => $prefix . 'cart/items/count',
-				'update-item'  => $prefix . 'cart/update-item',
-				'remove-item'  => $prefix . 'cart/remove-item',
-				'restore-item' => $prefix . 'cart/restore-item',
-				'totals'       => $prefix . 'cart/totals',
-				'logout'       => $prefix . 'logout',
+				'cart'              => $prefix . 'cart',
+				'cart-add-item'     => $prefix . 'cart/add-item',
+				'cart-add-items'    => $prefix . 'cart/add-items',
+				'cart-item'         => $prefix . 'cart/item',
+				'cart-items'        => $prefix . 'cart/items',
+				'cart-items-count'  => $prefix . 'cart/items/count',
+				'cart-calculate'    => $prefix . 'cart/calculate',
+				'cart-clear'        => $prefix . 'cart/clear',
+				'cart-totals'       => $prefix . 'cart/totals',
+				'logout'            => $prefix . 'logout',
 			)
 		);
 	} // END get_routes()
