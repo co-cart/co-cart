@@ -24,11 +24,10 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 */
 		public function __construct() {
-			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
-			add_filter( 'network_admin_plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
+			add_filter( is_multisite() ? 'network_admin_plugin_action_links_' . plugin_basename( COCART_FILE ) : 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
 		} // END __construct()
 
