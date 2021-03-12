@@ -241,8 +241,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $name        Notice name.
-		 * @param string $notice_html Notice HTML.
+		 * @since  3.0.0
+		 * @param  string $name        Notice name.
+		 * @param  string $notice_html Notice HTML.
 		 */
 		public function add_custom_notice( $name, $notice_html ) {
 			self::add_notice( $name );
@@ -254,6 +255,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @since  3.0.0
+		 * @return void
 		 */
 		public function output_custom_notices() {
 			$notices = self::get_notices();
@@ -276,6 +278,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @since  3.0.0
+		 * @return void
 		 */
 		public function base_tables_missing_notice() {
 			$notice_dismissed = apply_filters(
@@ -290,6 +293,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-base-table-missing.php';
 		} // END base_tables_missing_notice()
 
+		/**
+		 * Shows a notice asking the user for a review of CoCart.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @return void
+		 */
 		public function timed_notices() {
 			// Was the plugin review notice dismissed?
 			$hide_review_notice = get_user_meta( get_current_user_id(), 'dismissed_cocart_plugin_review_notice', true );
@@ -320,6 +330,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since  3.0.0
 		 */
 		public static function update_notice() {
 			$screen    = get_current_screen();
