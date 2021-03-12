@@ -264,7 +264,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 						$notice_html = get_site_option( 'cocart_admin_notice_' . $notice );
 
 						if ( $notice_html ) {
-							include dirname( __FILE__ ) . '/views/html-notice-custom.php';
+							include COCART_ABSPATH . 'includes/admin/views/html-notice-custom.php';
 						}
 					}
 				}
@@ -329,12 +329,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$next_scheduled_date = WC()->queue()->get_next( 'cocart_run_update_callback', null, 'cocart-db-updates' );
 
 				if ( $next_scheduled_date || ! empty( $_GET['do_update_cocart'] ) ) { // WPCS: input var ok, CSRF ok.
-					include dirname( __FILE__ ) . '/views/html-notice-updating.php';
+					include COCART_ABSPATH . 'includes/admin/views/html-notice-updating.php';
 				} else {
-					include dirname( __FILE__ ) . '/views/html-notice-update.php';
+					include COCART_ABSPATH . 'includes/admin/views/html-notice-update.php';
 				}
 			} else {
-				include dirname( __FILE__ ) . '/views/html-notice-updated.php';
+				include COCART_ABSPATH . 'includes/admin/views/html-notice-updated.php';
 			}
 		} // END update_notice()
 
