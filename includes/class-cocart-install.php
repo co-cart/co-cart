@@ -151,7 +151,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			if ( ! empty( $_GET['do_update_cocart'] ) ) {
 				check_admin_referer( 'cocart_db_update', 'cocart_db_update_nonce' );
 				self::update();
-				CoCart_Admin_Notices::add_notice( 'cocart_update_db', true );
+				CoCart_Admin_Notices::add_notice( 'update_db', true );
 			}
 		} // END install_actions()
 
@@ -234,7 +234,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			if ( 0 < count( $missing_tables ) ) {
 				if ( $modify_notice ) {
-					CoCart_Admin_Notices::add_notice( 'cocart_base_tables_missing' );
+					CoCart_Admin_Notices::add_notice( 'base_tables_missing' );
 				}
 
 				update_option( 'cocart_schema_missing_tables', $missing_tables );
@@ -304,7 +304,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				if ( apply_filters( 'cocart_enable_auto_update_db', false ) ) {
 					self::update();
 				} else {
-					CoCart_Admin_Notices::add_notice( 'cocart_update_db', true );
+					CoCart_Admin_Notices::add_notice( 'update_db', true );
 				}
 			} else {
 				self::update_db_version();

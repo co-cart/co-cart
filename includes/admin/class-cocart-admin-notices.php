@@ -39,14 +39,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @var    array
 		 */
 		private static $core_notices = array(
-			'cocart_update_db'           => 'update_db_notice',
-			'cocart_check_php'           => 'check_php_notice',
-			'cocart_check_wp'            => 'check_wp_notice',
-			'cocart_check_wc'            => 'check_woocommerce_notice',
-			'cocart_plugin_review'       => 'plugin_review_notice',
-			'cocart_check_beta'          => 'check_beta_notice',
-			'cocart_upgrade_warning'     => 'upgrade_warning_notice',
-			'cocart_base_tables_missing' => 'base_tables_missing_notice',
+			'update_db'           => 'update_db_notice',
+			'check_php'           => 'check_php_notice',
+			'check_wp'            => 'check_wp_notice',
+			'check_wc'            => 'check_woocommerce_notice',
+			'plugin_review'       => 'plugin_review_notice',
+			'check_beta'          => 'check_beta_notice',
+			'upgrade_warning'     => 'upgrade_warning_notice',
+			'base_tables_missing' => 'base_tables_missing_notice',
 		);
 
 		/**
@@ -87,11 +87,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since  3.0.0
 		 */
 		public function reset_admin_notices() {
-			self::add_notice( 'cocart_upgrade_warning' );
-			self::add_notice( 'cocart_check_php' );
-			self::add_notice( 'cocart_check_wp' );
-			self::add_notice( 'cocart_check_wc' );
-			self::add_notice( 'cocart_check_beta' );
+			self::add_notice( 'upgrade_warning' );
+			self::add_notice( 'check_php' );
+			self::add_notice( 'check_wp' );
+			self::add_notice( 'check_wc' );
+			self::add_notice( 'check_beta' );
 		} // END reset_admin_notices()
 
 		/**
@@ -127,7 +127,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			// Check if we need to display the review plugin notice.
 			if ( empty( $hide_review_notice ) ) {
-				self::add_notice( 'cocart_plugin_review' );
+				self::add_notice( 'plugin_review' );
 			}
 		} // END timed_notices()
 
