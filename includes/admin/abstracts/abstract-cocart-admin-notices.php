@@ -21,11 +21,11 @@ abstract class CoCart_Notices {
 	/**
 	 * Stores notices.
 	 *
-	 * @access private
+	 * @access public
 	 * @static
 	 * @var    array
 	 */
-	private static $notices = array();
+	public static $notices = array();
 
 	/**
 	 * Constructor
@@ -88,13 +88,18 @@ abstract class CoCart_Notices {
 	 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 	 */
 	public static function remove_notice( $name, $force_save = false ) {
-		self::$notices = array_diff( self::get_notices(), array( $name ) );
+		$notices = self::get_notices();
 
-		delete_option( 'cocart_admin_notice_' . $name );
+		// Check that the notice exists before attempting to remove it.
+		if ( in_array( $name, $notices ) ) {
+			self::$notices = array_diff( $notices, array( $name ) );
 
-		if ( $force_save ) {
-			// Adding early save to prevent more conditions with notices.
-			self::store_notices();
+			delete_option( 'cocart_admin_notice_' . $name );
+
+			if ( $force_save ) {
+				// Adding early save to prevent more conditions with notices.
+				self::store_notices();
+			}
 		}
 	} // END remove_notice()
 
