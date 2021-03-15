@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle data for the current customers session.
+ * Handles admin notices.
  *
  * @author   Sébastien Dumont
  * @category Abstracts
