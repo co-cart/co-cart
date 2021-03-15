@@ -1173,6 +1173,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
 
+			if ( ! $_product || ! $_product->exists() || 'trash' === $_product->get_status() ) {
+				$this->get_cart_instance()->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
+				wc_add_notice( __( 'An item which is no longer available was removed from your cart.', 'cart-rest-api-for-woocommerce' ), 'error' );
+			}
+
 			// If product is no longer purchasable then don't return it and notify customer.
 			if ( ! $_product->is_purchasable() ) {
 				/* translators: %s: product name */
