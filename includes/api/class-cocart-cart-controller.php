@@ -128,16 +128,18 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array|WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $item_key = '' ) {
+		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
 		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
 		 *
 		 * @since 3.0.0
+		 * @param array           $cart_contents Cart contents.
+		 * @param WC_Cart         Cart object.
+		 * @param WP_REST_Request $request       Full details about the request.
 		 */
-		do_action( 'cocart_before_get_cart', $cart_contents, $request );
-
-		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
+		$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
 
 		// Return cart contents raw if requested.
 		if ( $show_raw ) {
