@@ -308,20 +308,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$cart['cross_sells']   = $this->get_cross_sells();
 		$cart['notices']       = $this->maybe_return_notices();
 
-		/**
-		 * Return cart items from session if set.
-		 *
-		 * @since   2.1.0
-		 * @version 3.0.0
-		 * @param   $cart['items']
-		 */
-		if ( $from_session ) {
-			$cart['items'] = apply_filters( 'cocart_cart_session', $cart['items'] );
-		} else {
-			$cart['items'] = apply_filters( 'cocart_cart', $cart['items'] );
-		}
-
-		return $cart;
+		return apply_filters( 'cocart_cart', $cart, $from_session );
 	} // END return_cart_contents()
 
 	/**
