@@ -38,18 +38,19 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @since   1.2.0
 		 * @version 3.0.0
 		 */
-		public function __construct() {
+		public function init() {
 			// Checks version of CoCart and install/update if needed.
-			add_action( 'init', array( $this, 'check_version' ), 5 );
-			add_action( 'init', array( $this, 'manual_database_update' ), 20 );
-			add_action( 'admin_init', array( $this, 'install_actions' ) );
+			add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
+			add_action( 'init', array( __CLASS__, 'manual_database_update' ), 20 );
+			add_action( 'cocart_run_update_callback', array( __CLASS__, 'run_update_callback' ) );
+			add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
 
 			// Redirect to Getting Started page once activated.
-			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ), 10, 2 );
+			add_action( 'activated_plugin', array( __CLASS__, 'redirect_getting_started' ), 10, 2 );
 
 			// Drop tables when MU blog is deleted.
-			add_filter( 'wpmu_drop_tables', array( $this, 'wpmu_drop_tables' ) );
-		} // END __construct()
+			add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
+		} // END init()
 
 		/**
 		 * Check plugin version and run the updater if necessary.
@@ -70,12 +71,13 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * Perform a manual database update when triggered by WooCommerce System Tools.
 		 *
 		 * @access public
+		 * @static
 		 * @since  3.0.0
 		 */
-		public function manual_database_update() {
+		public static function manual_database_update() {
 			$blog_id = get_current_blog_id();
 
-			add_action( 'wp_' . $blog_id . '_cocart_updater_cron', array( $this, 'run_manual_database_update' ) );
+			add_action( 'wp_' . $blog_id . '_cocart_updater_cron', array( __CLASS__, 'run_manual_database_update' ) );
 		} // END manual_database_update()
 
 		/**
@@ -605,4 +607,4 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 } // END if class exists.
 
-return new CoCart_Install();
+CoCart_Install::init();
