@@ -61,7 +61,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function check_version() {
-			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_site_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 				self::install();
 				do_action( 'cocart_updated' );
 			}
@@ -239,13 +239,13 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 					CoCart_Admin_Notices::add_notice( 'base_tables_missing' );
 				}
 
-				update_site_option( 'cocart_schema_missing_tables', $missing_tables );
+				update_option( 'cocart_schema_missing_tables', $missing_tables );
 			} else {
 				if ( $modify_notice ) {
 					CoCart_Admin_Notices::remove_notice( 'base_tables_missing' );
 				}
 
-				delete_site_option( 'cocart_schema_missing_tables' );
+				delete_option( 'cocart_schema_missing_tables' );
 			}
 
 			return $missing_tables;
@@ -273,7 +273,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @return boolean
 		 */
 		public static function is_new_install() {
-			return is_null( get_site_option( 'cocart_version', null ) );
+			return is_null( get_option( 'cocart_version', null ) );
 		}
 
 		/**
@@ -285,7 +285,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @return boolean
 		 */
 		public static function needs_db_update() {
-			$current_db_version = get_site_option( 'cocart_db_version', null );
+			$current_db_version = get_option( 'cocart_db_version', null );
 			$updates            = self::get_db_update_callbacks();
 			$update_versions    = array_keys( $updates );
 			usort( $update_versions, 'version_compare' );
@@ -321,7 +321,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		private static function update_version() {
-			update_site_option( 'cocart_version', COCART_VERSION );
+			update_option( 'cocart_version', COCART_VERSION );
 		} // END update_version()
 
 		/**
@@ -344,7 +344,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @since  3.0.0
 		 */
 		private static function update() {
-			$current_db_version = get_site_option( 'cocart_db_version' );
+			$current_db_version = get_option( 'cocart_db_version' );
 			$loop               = 0;
 
 			foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
@@ -373,8 +373,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @param  string|null $version New WooCommerce DB version or null.
 		 */
 		public static function update_db_version( $version = null ) {
-			delete_site_option( 'cocart_db_version' );
-			add_site_option( 'cocart_db_version', is_null( $version ) ? COCART_DB_VERSION : $version );
+			delete_option( 'cocart_db_version' );
+			add_option( 'cocart_db_version', is_null( $version ) ? COCART_DB_VERSION : $version );
 		} // END update_db_version()
 
 		/**
@@ -384,7 +384,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function set_install_date() {
-			add_site_option( 'cocart_install_date', time() );
+			add_option( 'cocart_install_date', time() );
 		} // END set_install_date()
 
 		/**
@@ -483,23 +483,18 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		private static function get_schema() {
 			global $wpdb;
 
-			$collate = '';
+			$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
 
-			if ( $wpdb->has_cap( 'collation' ) ) {
-				$collate = $wpdb->get_charset_collate();
-			}
-
-			$tables =
-				"CREATE TABLE {$wpdb->prefix}cocart_carts (
-					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-					cart_key char(42) NOT NULL,
-					cart_value longtext NOT NULL,
-					cart_created BIGINT UNSIGNED NOT NULL,
-					cart_expiry BIGINT UNSIGNED NOT NULL,
-					cart_source varchar(200) NOT NULL,
-					PRIMARY KEY  (cart_id),
-					UNIQUE KEY cart_key (cart_key)
-				) $collate;";
+			$tables = "CREATE TABLE {$wpdb->prefix}cocart_carts (
+ cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+ cart_key char(42) NOT NULL,
+ cart_value longtext NOT NULL,
+ cart_created BIGINT UNSIGNED NOT NULL,
+ cart_expiry BIGINT UNSIGNED NOT NULL,
+ cart_source varchar(200) NOT NULL,
+ PRIMARY KEY  (cart_id),
+ UNIQUE KEY cart_key (cart_key)
+) $collate;";
 
 			return $tables;
 		} // END get_schema()
