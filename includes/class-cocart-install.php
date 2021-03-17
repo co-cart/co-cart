@@ -38,7 +38,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @since   1.2.0
 		 * @version 3.0.0
 		 */
-		public function init() {
+		public static function init() {
 			// Checks version of CoCart and install/update if needed.
 			add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 			add_action( 'init', array( __CLASS__, 'manual_database_update' ), 20 );
