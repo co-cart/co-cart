@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
-
 		<div class="cocart-notice-content">
 			<h3><?php esc_html_e( 'Database updated', 'cart-rest-api-for-woocommerce' ); ?></h3>
 			<p><?php echo sprintf( esc_html__( '%s database update complete. Thank you for updating to the latest version!', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
