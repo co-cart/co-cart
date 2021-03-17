@@ -17,6 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! class_exists( 'CoCart_Notices' ) ) {
+	return;
+}
+
 if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 	class CoCart_Admin_Notices extends CoCart_Notices {
@@ -31,25 +35,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public static $install_date;
 
 		/**
-		 * Array of notices - name => callback.
-		 *
-		 * @access private
-		 * @static
-		 * @since  3.0.0
-		 * @var    array
-		 */
-		private static $core_notices = array(
-			'update_db'           => 'update_db_notice',
-			'check_php'           => 'check_php_notice',
-			'check_wp'            => 'check_wp_notice',
-			'check_wc'            => 'check_woocommerce_notice',
-			'plugin_review'       => 'plugin_review_notice',
-			'check_beta'          => 'check_beta_notice',
-			'upgrade_warning'     => 'upgrade_warning_notice',
-			'base_tables_missing' => 'base_tables_missing_notice',
-		);
-
-		/**
 		 * Constructor
 		 *
 		 * @access  public
@@ -58,27 +43,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
-			self::$notices      = get_site_option( 'cocart_admin_notices', array() );
 
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 			add_action( 'init', array( $this, 'timed_notices' ) );
-
-			if ( ! CoCart_Install::is_new_install() ) {
-				add_action( 'shutdown', array( $this, 'store_notices' ) );
-			}
+			self::add_custom_notice( 'test', 'This is a custom notice!' );
 		} // END __construct()
-
-		/**
-		 * Store notices to DB.
-		 *
-		 * @access public
-		 * @static
-		 * @since  3.0.0
-		 */
-		public static function store_notices() {
-			update_site_option( 'cocart_admin_notices', self::get_notices() );
-		} // END store_notices()
 
 		/**
 		 * Reset notices for when new version of CoCart is installed.
