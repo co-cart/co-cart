@@ -37,10 +37,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @version 3.0.0
 		 */
 		public function includes() {
-			// Abstracts.
-			include_once COCART_ABSPATH . 'includes/admin/abstracts/abstract-cocart-admin-notices.php';
-
-			// Classes.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';           // Admin Assets
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';            // Admin Menus
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';          // Plugin Notices
