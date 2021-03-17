@@ -41,7 +41,7 @@ class CoCart_CLI_Update_Command {
 		include_once COCART_ABSPATH . 'includes/class-cocart-install.php';
 		include_once COCART_ABSPATH . 'includes/cocart-update-functions.php';
 
-		$current_db_version = get_option( 'cocart_db_version' );
+		$current_db_version = get_site_option( 'cocart_db_version' );
 		$update_count       = 0;
 		$callbacks          = CoCart_Install::get_db_update_callbacks();
 		$callbacks_to_run   = array();
@@ -59,7 +59,7 @@ class CoCart_CLI_Update_Command {
 			CoCart_Install::update_db_version();
 
 			/* translators: %s Database version number */
-			WP_CLI::success( sprintf( __( 'No updates required. Database version is %s', 'cart-rest-api-for-woocommerce' ), get_option( 'cocart_db_version' ) ) );
+			WP_CLI::success( sprintf( __( 'No updates required. Database version is %s', 'cart-rest-api-for-woocommerce' ), get_site_option( 'cocart_db_version' ) ) );
 			return;
 		}
 
@@ -81,7 +81,7 @@ class CoCart_CLI_Update_Command {
 		$progress->finish();
 
 		/* translators: 1: Number of database updates performed 2: Database version number */
-		WP_CLI::success( sprintf( __( '%1$d update functions completed. Database version is %2$s', 'cart-rest-api-for-woocommerce' ), absint( $update_count ), get_option( 'cocart_db_version' ) ) );
+		WP_CLI::success( sprintf( __( '%1$d update functions completed. Database version is %2$s', 'cart-rest-api-for-woocommerce' ), absint( $update_count ), get_site_option( 'cocart_db_version' ) ) );
 	} // END update()
 
 } // END class
