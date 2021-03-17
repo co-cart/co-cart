@@ -509,10 +509,11 @@ class CoCart_Helpers {
 	 *
 	 * Returns an empty string if it cannot generate a URL.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @since  2.6.0
-	 * @return string
+	 * @since   2.6.0
+	 * @version 3.0.0
+	 * @return  string
 	 */
 	public static function cocart_get_current_admin_url() {
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
@@ -522,7 +523,7 @@ class CoCart_Helpers {
 			return '';
 		}
 
-		return remove_query_arg( array( 'hide_cocart_review_notice', 'hide_cocart_beta_notice', 'hide_forever_cocart_beta_notice', 'hide_cocart_upgrade_notice', 'hide_forever_cocart_upgrade_notice' ), admin_url( $uri ) );
+		return remove_query_arg( array( 'cocart-hide-notice', '_cocart_notice_nonce' ), admin_url( $uri ) );
 	} // END cocart_get_current_admin_url()
 
 	/**
