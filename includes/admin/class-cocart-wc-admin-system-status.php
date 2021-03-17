@@ -560,7 +560,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				$message = esc_html__( 'Database verified successfully.', 'cart-rest-api-for-woocommerce' );
 			} else {
 				$message = esc_html__( 'Verifying database: ', 'cart-rest-api-for-woocommerce' );
-				$message = implode( ', ', $missing_tables );
+				$message .= implode( ', ', $missing_tables );
 			}
 
 			return $message;
