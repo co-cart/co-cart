@@ -406,9 +406,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			}
 
 			// If CoCart has already been installed before then don't redirect.
-			if ( ! self::is_new_install() && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
+			/*if ( ! self::is_new_install() && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
 				return;
-			}
+			}*/
 
 			$page = admin_url( 'admin.php' );
 
