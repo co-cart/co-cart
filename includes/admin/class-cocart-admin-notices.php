@@ -35,6 +35,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since  3.0.0
 		 * @var    array
 		 */
 		public static $notices = array();
@@ -67,22 +68,56 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 */
 		public function __construct() {
 			self::$install_date = get_site_option( 'cocart_install_date', time() );
-			self::$notices = get_site_option( 'cocart_admin_notices', array() );
+			self::$notices      = get_site_option( 'cocart_admin_notices', array() );
 
-			add_action( 'wp_loaded', array( $this, 'hide_notices' ) );
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
+			add_action( 'wp_loaded', array( $this, 'hide_notices' ) );
 			add_action( 'init', array( $this, 'timed_notices' ) );
+	
+			if ( ! CoCart_Install::is_new_install() ) {
+				add_action( 'shutdown', array( $this, 'store_notices' ) );
+			}
 
 			// If the current user has capabilities then add notices.
 			if ( CoCart_Helpers::user_has_capabilities() ) {
 				add_action( 'admin_print_styles', array( $this, 'add_notices' ) );
 			}
-	
-			if ( ! CoCart_Install::is_new_install() ) {
-				add_action( 'shutdown', array( $this, 'store_notices' ) );
-			}
 		} // END __construct()
+
+		/**
+		 * Store notices to DB.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 */
+		public static function store_notices() {
+			update_site_option( 'cocart_admin_notices', self::get_notices() );
+		} // END store_notices()
+
+		/**
+		 * Get notices
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @return array
+		 */
+		public static function get_notices() {
+			return self::$notices;
+		} // END get_notices()
+
+		/**
+		 * Remove all notices.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 */
+		public static function remove_all_notices() {
+			self::$notices = array();
+		} // END remove_all_notices()
 
 		/**
 		 * Reset notices for when new version of CoCart is installed.
@@ -99,31 +134,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END reset_admin_notices()
 
 		/**
-		 * Get notices
-		 *
-		 * @access public
-		 * @static
-		 * @return array
-		 */
-		public static function get_notices() {
-			return self::$notices;
-		} // END get_notices()
-
-		/**
-		 * Remove all notices.
-		 *
-		 * @access public
-		 * @static
-		 */
-		public static function remove_all_notices() {
-			self::$notices = array();
-		} // END remove_all_notices()
-
-		/**
 		 * Show a notice.
 		 *
 		 * @access public
 		 * @static
+		 * @since  3.0.0
 		 * @param  string $name Notice name.
 		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 		 */
@@ -141,6 +156,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since  3.0.0
 		 * @param  string $name Notice name.
 		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 		 */
@@ -161,20 +177,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END remove_notice()
 
 		/**
-		 * Store notices to DB.
-		 *
-		 * @access public
-		 * @static
-		 * @since  3.0.0
-		 */
-		public static function store_notices() {
-			update_site_option( 'cocart_admin_notices', self::get_notices() );
-		} // END store_notices()
-
-		/**
 		 * See if a notice is being shown.
 		 *
 		 * @access public
+		 * @since  3.0.0
 		 * @param  string $name Notice name.
 		 * @return boolean
 		 */
@@ -186,6 +192,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Hide a notice if the GET variable is set.
 		 *
 		 * @access public
+		 * @since  3.0.0
 		 */
 		public function hide_notices() {
 			if ( isset( $_GET['cocart-hide-notice'] ) && isset( $_GET['_cocart_notice_nonce'] ) ) {
@@ -214,6 +221,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Add notices.
 		 *
 		 * @access public
+		 * @since  3.0.0
 		 */
 		public function add_notices() {
 			$notices = self::get_notices();
@@ -241,6 +249,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since  3.0.0
 		 * @param  string $name        Notice name.
 		 * @param  string $notice_html Notice HTML.
 		 */
@@ -253,6 +262,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Output any stored custom notices.
 		 *
 		 * @access public
+		 * @since  3.0.0
 		 * @return void
 		 */
 		public function output_custom_notices() {
