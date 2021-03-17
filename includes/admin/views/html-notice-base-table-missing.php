@@ -21,8 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-notice-content">
-			<p><strong><?php esc_html_e( 'Database table missing', 'cart-rest-api-for-woocommerce' ); ?></strong></p>
-
+			<h3><?php esc_html_e( 'Database table missing', 'cart-rest-api-for-woocommerce' ); ?></h3>
 			<p>
 				<?php
 				$verify_db_tool_available = array_key_exists( 'cocart_verify_db_tables', WC_Admin_Status::get_tools() );
