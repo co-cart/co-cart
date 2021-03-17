@@ -173,6 +173,19 @@ final class CoCart {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
 		}
+
+		/**
+		 * Load backend features only if COCART_WHITE_LABEL constant is
+		 * NOT set or IS set to false in user's wp-config.php file.
+		 */
+		if (
+			! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL &&
+			is_admin() || ( defined( 'WP_CLI' ) && WP_CLI )
+		) {
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin.php';
+		} else {
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';
+		}
 	} // END includes()
 
 	/**

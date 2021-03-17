@@ -40,17 +40,4 @@ if ( ! function_exists( 'CoCart' ) ) {
 	}
 
 	CoCart();
-
-	/**
-	 * Load backend features only if COCART_WHITE_LABEL constant is
-	 * NOT set or IS set to false in user's wp-config.php file.
-	 */
-	if (
-		! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL &&
-		is_admin() || ( defined( 'WP_CLI' ) && WP_CLI )
-	) {
-		include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-admin.php';
-	} else {
-		include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-wc-admin-system-status.php';
-	}
 }
