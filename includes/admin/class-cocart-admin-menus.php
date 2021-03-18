@@ -22,12 +22,10 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		/**
 		 * Constructor
 		 *
-		 * @access  public
-		 * @since   2.0.0
-		 * @version 3.0.0
+		 * @access public
 		 */
 		public function __construct() {
-			add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		} // END __construct()
 
 		/**
@@ -53,9 +51,9 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 
 			$page = admin_url( 'admin.php' );
 
-			if ( is_multisite() ) {
+			/*if ( is_multisite() ) {
 				$page = network_admin_url( 'admin.php' );
-			}
+			}*/
 
 			// Add CoCart page.
 			add_menu_page(

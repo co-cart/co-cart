@@ -237,9 +237,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			foreach ( $notices as $notice ) {
 				if ( ! empty( self::$core_notices[ $notice ] ) && apply_filters( 'cocart_show_admin_notice', true, $notice ) ) {
-					add_action( is_multisite() ? 'network_admin_notices' : 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
+					add_action( 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
 				} else {
-					add_action( is_multisite() ? 'network_admin_notices' : 'admin_notices', array( $this, 'output_custom_notices' ) );
+					add_action( 'admin_notices', array( $this, 'output_custom_notices' ) );
 				}
 			}
 		} // END add_notices()
