@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p>
 				<?php
 				$verify_db_tool_available = array_key_exists( 'cocart_verify_db_tables', WC_Admin_Status::get_tools() );
-				$missing_tables           = get_site_option( 'cocart_schema_missing_tables' );
+				$missing_tables           = get_option( 'cocart_schema_missing_tables' );
 				if ( $verify_db_tool_available ) {
 					echo wp_kses_post(
 						sprintf(
