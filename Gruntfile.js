@@ -117,7 +117,8 @@ module.exports = function(grunt) {
 							'includes/api/pro-enhancements',
 							'includes/api/wip',
 							'releases',
-							'node_modules'
+							'node_modules',
+							'vendor'
 						],
 						mainFile: '<%= pkg.name %>.php', // Main project file.
 						potComments: 'Copyright (c) {year} Sébastien Dumont\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
@@ -181,7 +182,8 @@ module.exports = function(grunt) {
 					src:  [
 						'*.php',
 						'**/*.php', // Include all files
-						'!node_modules/**' // Exclude node_modules/
+						'!node_modules/**', // Exclude node_modules/
+						'!vendor/**' // Exclude vendor/
 					],
 					expand: true
 				},
