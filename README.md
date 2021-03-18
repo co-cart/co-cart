@@ -84,6 +84,7 @@ CoCart also provides built in features to:
 * Supports guest customers.
 * Supports basic authentication including the use of email as username.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
+* Supports multi-sites.
 
 ## CoCart Pro
 

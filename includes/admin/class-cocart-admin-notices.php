@@ -67,8 +67,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @version 3.0.0
 		 */
 		public function __construct() {
-			self::$install_date = get_site_option( 'cocart_install_date', time() );
-			self::$notices      = get_site_option( 'cocart_admin_notices', array() );
+			self::$install_date = get_option( 'cocart_install_date', time() );
+			self::$notices      = get_option( 'cocart_admin_notices', array() );
 
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
@@ -93,7 +93,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since  3.0.0
 		 */
 		public static function store_notices() {
-			update_site_option( 'cocart_admin_notices', self::get_notices() );
+			update_option( 'cocart_admin_notices', self::get_notices() );
 		} // END store_notices()
 
 		/**
@@ -167,7 +167,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( in_array( $name, $notices ) ) {
 				self::$notices = array_diff( $notices, array( $name ) );
 
-				delete_site_option( 'cocart_admin_notice_' . $name );
+				delete_option( 'cocart_admin_notice_' . $name );
 
 				if ( $force_save ) {
 					// Adding early save to prevent more conditions with notices.
@@ -255,7 +255,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 */
 		public function add_custom_notice( $name, $notice_html ) {
 			self::add_notice( $name );
-			update_site_option( 'cocart_admin_notice_' . $name, wp_kses_post( $notice_html ) );
+			update_option( 'cocart_admin_notice_' . $name, wp_kses_post( $notice_html ) );
 		} // END add_custom_notice()
 
 		/**
@@ -271,7 +271,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( ! empty( $notices ) ) {
 				foreach ( $notices as $notice ) {
 					if ( empty( self::$core_notices[ $notice ] ) ) {
-						$notice_html = get_site_option( 'cocart_admin_notice_' . $notice );
+						$notice_html = get_option( 'cocart_admin_notice_' . $notice );
 
 						if ( $notice_html ) {
 							include COCART_ABSPATH . 'includes/admin/views/html-notice-custom.php';

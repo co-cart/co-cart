@@ -115,6 +115,15 @@ Error validation has also be improved so even the smallest of errors caused by t
 * **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
 * Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
 
+## v2.9.0 - 18th March, 2021
+
+* **NEW**: Now supports multi-sites. 🥳
+* Dev: **NEW** Added database version during install in preparation for updating to CoCart v3.
+* Tested: ✔️ Compatible with WooCommerce v5.1
+* Tested: ✔️ Compatible with WordPress v5.7
+
+> 📢 Important patch in preparation for CoCart v3. If you have large stores and you update CoCart directly to v3 ignoring this patch, then the database upgrade will run automatically in the background without notice. So please update in order.
+
 ## v2.8.4 - 9th January, 2021
 
 * Corrected: Action hook `cocart_item_quantity_changed` not being called after updating a cart item's quantity. Thanks to [@pauld8](https://github.com/pauld8)
