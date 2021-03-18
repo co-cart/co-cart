@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-beta.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-03-17 10:05:28+00:00\n"
+"POT-Creation-Date: 2021-03-18 16:01:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,82 +24,82 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/admin/class-cocart-admin-action-links.php:58
-#: includes/admin/class-cocart-admin-menus.php:45
+#: includes/admin/class-cocart-admin-action-links.php:56
+#: includes/admin/class-cocart-admin-menus.php:43
 msgid "Getting Started with %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:58
+#: includes/admin/class-cocart-admin-action-links.php:56
 msgid "Getting Started"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:78
 msgid "Developed By %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:78
 msgid "View the developers site"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:90
+#: includes/admin/class-cocart-admin-action-links.php:88
 msgid "View %s documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:90
+#: includes/admin/class-cocart-admin-action-links.php:88
 msgid "Documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
+#: includes/admin/class-cocart-admin-action-links.php:89
 msgid "Translate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
+#: includes/admin/class-cocart-admin-action-links.php:89
 msgid "Translate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:92
+#: includes/admin/class-cocart-admin-action-links.php:90
 msgid "Review %s on WordPress.org"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:92
+#: includes/admin/class-cocart-admin-action-links.php:90
 #: includes/admin/views/html-notice-please-review.php:34
 msgid "Leave a Review"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:98
+#: includes/admin/class-cocart-admin-action-links.php:96
 msgid "Make a donation for %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:98
+#: includes/admin/class-cocart-admin-action-links.php:96
 msgid "Donate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:99
+#: includes/admin/class-cocart-admin-action-links.php:97
 msgid "Order priority support for %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:99
+#: includes/admin/class-cocart-admin-action-links.php:97
 msgid "Priority Support"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:109
+#: includes/admin/class-cocart-admin-action-links.php:107
 msgid "Upgrade to %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:109
+#: includes/admin/class-cocart-admin-action-links.php:107
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-menus.php:77
-#: includes/class-cocart-install.php:428
+#: includes/admin/class-cocart-admin-menus.php:75
+#: includes/class-cocart-install.php:429
 msgid "CoCart"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-notices.php:193
+#: includes/admin/class-cocart-admin-notices.php:200
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-notices.php:197
+#: includes/admin/class-cocart-admin-notices.php:204
 msgid "You don&#8217;t have permission to do this."
 msgstr ""
 
@@ -573,9 +573,9 @@ msgstr ""
 
 #: includes/admin/views/html-getting-started.php:42
 msgid ""
-"%s saves you time and money to develop a REST API. No local storing and "
-"zero configuration required. Powerful and developer friendly for any modern "
-"framework of your choosing ready to build your headless store."
+"%s handles the shopping cart in any modern framework of your choosing. No "
+"local storing and zero configuration required. Powerful and developer "
+"friendly ready to build your headless store."
 msgstr ""
 
 #: includes/admin/views/html-getting-started.php:44
@@ -740,7 +740,7 @@ msgstr ""
 #: includes/admin/views/html-notice-base-table-missing.php:52
 #: includes/admin/views/html-notice-custom.php:24
 #: includes/admin/views/html-notice-required-wc.php:45
-#: includes/admin/views/html-notice-updated.php:24
+#: includes/admin/views/html-notice-updated.php:29
 msgid "Dismiss"
 msgstr ""
 
@@ -843,11 +843,11 @@ msgstr ""
 msgid "Learn more about updates"
 msgstr ""
 
-#: includes/admin/views/html-notice-updated.php:20
+#: includes/admin/views/html-notice-updated.php:24
 msgid "Database updated"
 msgstr ""
 
-#: includes/admin/views/html-notice-updated.php:21
+#: includes/admin/views/html-notice-updated.php:25
 msgid "%s database update complete. Thank you for updating to the latest version!"
 msgstr ""
 
@@ -1612,7 +1612,7 @@ msgstr ""
 msgid "The minimum PHP version required for %1$s is %2$s. You are running %3$s."
 msgstr ""
 
-#: includes/class-cocart-install.php:428
+#: includes/class-cocart-install.php:429
 msgid "Get started with %3$s here:"
 msgstr ""
 
