@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Install
  * @since    1.2.0
- * @version  2.8.3
+ * @version  2.9.0
  * @license  GPL-2.0+
  */
 
@@ -46,7 +46,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function check_version() {
-			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_site_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 				self::install();
 				do_action( 'cocart_updated' );
 			}
@@ -58,7 +58,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access public
 		 * @static
 		 * @since   1.2.0
-		 * @version 2.1.0
+		 * @version 2.9.0
 		 */
 		public static function install() {
 			if ( ! is_blog_installed() ) {
@@ -88,6 +88,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			// Update plugin version.
 			self::update_version();
 
+			// Update database version.
+			self::update_db_version();
+
 			delete_transient( 'cocart_installing' );
 
 			do_action( 'cocart_installed' );
@@ -102,8 +105,21 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		private static function update_version() {
-			update_site_option( 'cocart_version', COCART_VERSION );
+			update_option( 'cocart_version', COCART_VERSION );
 		} // END update_version()
+
+		/**
+		 * Update DB version to current.
+		 *
+		 * @access public
+		 * @static
+		 * @since  2.9.0
+		 * @param  string|null $version New CoCart DB version or null.
+		 */
+		public static function update_db_version( $version = null ) {
+			delete_option( 'cocart_db_version' );
+			add_option( 'cocart_db_version', is_null( $version ) ? COCART_VERSION : $version );
+		} // END update_db_version()
 
 		/**
 		 * Set the time the plugin was installed.
@@ -112,7 +128,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function set_install_date() {
-			add_site_option( 'cocart_install_date', time() );
+			add_option( 'cocart_install_date', time() );
 		} // END set_install_date()
 
 		/**
@@ -133,7 +149,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			}
 
 			// If CoCart has already been installed before then don't redirect.
-			if ( ! empty( get_site_option( 'cocart_version' ) ) && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
+			if ( ! empty( get_option( 'cocart_version' ) ) && ! empty( get_option( 'cocart_install_date', time() ) ) ) {
 				return;
 			}
 

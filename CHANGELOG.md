@@ -1,5 +1,14 @@
 # Changelog for CoCart Lite
 
+## v2.9.0 - 18th March, 2021
+
+* **NEW**: Now supports multi-sites. 🥳
+* Dev: **NEW** Added database version during install in prepartion for updating to CoCart v3.
+* Tested: ✔️ Compatible with WooCommerce v5.1
+* Tested: ✔️ Compatible with WordPress v5.7
+
+> 📢 Important patch in prepartion for CoCart v3. If you have large stores and you update CoCart directly to v3 ignoring this patch, then the database upgrade will run automatically in the background without notice. So please update in order.
+
 ## v2.8.4 - 9th January, 2021
 
 * Corrected: Action hook `cocart_item_quantity_changed` not being called after updating a cart item's quantity. Thanks to [@pauld8](https://github.com/pauld8)

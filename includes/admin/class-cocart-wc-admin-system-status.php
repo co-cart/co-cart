@@ -81,7 +81,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_db_version'] = array(
 				'name'      => _x( 'Database Version', 'label that indicates the database version of the plugin', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Database Version', 'cart-rest-api-for-woocommerce' ),
-				'note'      => get_site_option( 'cocart_version', null ),
+				'note'      => get_option( 'cocart_db_version', null ),
 				'tip'       => sprintf( esc_html__( 'The version of %s reported by the database. This should be the same as the version of the plugin.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
 				'mark'      => '',
 				'mark_icon' => '',
@@ -90,7 +90,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_install_date'] = array(
 				'name'      => _x( 'Install Date', 'label that indicates the install date of the plugin', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Install Date', 'cart-rest-api-for-woocommerce' ),
-				'note'      => date( get_option( 'date_format' ), get_site_option( 'cocart_install_date', time() ) ),
+				'note'      => date( get_option( 'date_format' ), get_option( 'cocart_install_date', time() ) ),
 				'mark'      => '',
 				'mark_icon' => '',
 			);

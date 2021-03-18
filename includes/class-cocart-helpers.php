@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Helpers
  * @since    2.3.0
- * @version  2.8.3
+ * @version  2.9.0
  * @license  GPL-2.0+
  */
 
@@ -360,7 +360,7 @@ class CoCart_Helpers {
 		$active_plugins = (array) get_option( 'active_plugins', array() );
 
 		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+			$active_plugins = array_merge( $active_plugins, get_option( 'active_sitewide_plugins', array() ) );
 		}
 
 		return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
@@ -513,7 +513,7 @@ class CoCart_Helpers {
 		}
 
 		// Getting install timestamp.
-		$cocart_installed = get_site_option( 'cocart_install_date', false );
+		$cocart_installed = get_option( 'cocart_install_date', false );
 
 		if ( false === $cocart_installed ) {
 			return false;
@@ -662,7 +662,7 @@ class CoCart_Helpers {
 	 * @return int The number of days the plugin is active.
 	 */
 	private static function get_days_active() {
-		$date_activated = get_site_option( 'cocart_install_date', time() );
+		$date_activated = get_option( 'cocart_install_date', time() );
 		$datediff       = ( time() - $date_activated );
 		$days           = (int) round( $datediff / DAY_IN_SECONDS );
 

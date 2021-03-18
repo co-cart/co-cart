@@ -36,7 +36,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @version 2.6.0
 		 */
 		public function __construct() {
-			self::$install_date = get_site_option( 'cocart_install_date', time() );
+			self::$install_date = get_option( 'cocart_install_date', time() );
 
 			// Check PHP environment.
 			add_action( 'admin_init', array( $this, 'check_php' ), 12 );
