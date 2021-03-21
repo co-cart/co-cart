@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-beta.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-03-18 16:01:31+00:00\n"
+"POT-Creation-Date: 2021-03-21 10:35:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1493,17 +1493,17 @@ msgstr ""
 msgid "No items in cart to calculate totals."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:243
+#: includes/class-cocart-authentication.php:267
 msgid "Authentication is invalid."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:350
-#: includes/class-cocart-authentication.php:361
+#: includes/class-cocart-authentication.php:374
+#: includes/class-cocart-authentication.php:385
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:370
+#: includes/class-cocart-authentication.php:394
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
@@ -1645,7 +1645,7 @@ msgstr ""
 msgid "User has changed! Was %1$s before and is now %2$s"
 msgstr ""
 
-#: includes/class-cocart-session-handler.php:440
+#: includes/class-cocart-session-handler.php:441
 msgid "This filter \"%s\" is no longer required and has been deprecated."
 msgstr ""
 
