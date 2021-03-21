@@ -218,7 +218,7 @@ class CoCart_API_Session {
 	 * @since  3.0.0
 	 * @return bool
 	 */
-	public function maybe_load_cart() {
+	public static function maybe_load_cart() {
 		// Check that "Load Cart from Session" feature is disabled.
 		if ( apply_filters( 'cocart_disable_load_cart', false ) ) {
 			return false;
@@ -241,7 +241,7 @@ class CoCart_API_Session {
 	 * @since  3.0.0
 	 * @return void
 	 */
-	protected function get_action_query() {
+	protected static function get_action_query() {
 		/**
 		 * Filter to allow developers add more white labelling when loading the cart via web.
 		 *
