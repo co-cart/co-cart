@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.3
 Requires PHP: 7.0
 Tested up to: 5.7
-Stable tag: 2.9.0
+Stable tag: 2.9.1
 WC requires at least: 4.3
 WC tested up to: 5.1
 License: GPLv3
@@ -263,6 +263,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 [Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
 
 == Changelog ==
+
+= v2.9.1 - 21st March, 2021 =
+
+* Fixed: Merge guest customers cart with a registered customers cart once authenticated.
+* Dev: Triggers saved cart after authentication and updates user activity.
+* Dev: When cookie is set, it now adds `samesite` attribute to **None**. Introduces new filter `cocart_cookie_samesite` to override default option. - Requires **PHP 7.3** or above.
+
+> Thanks to [Joel](https://github.com/joelpierre) for reporting the issue and help test it.
 
 = v2.9.0 - 18th March, 2021 =
 

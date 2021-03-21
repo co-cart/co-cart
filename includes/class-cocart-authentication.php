@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Authentication
  * @since    2.6.0
- * @version  2.8.3
+ * @version  2.9.1
  * @license  GPL-2.0+
  */
 
@@ -24,12 +24,15 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.6.0
-		 * @version 2.7.0
+		 * @version 2.9.1
 		 */
 		public function __construct() {
 			if ( CoCart_Helpers::is_rest_api_request() ) {
 				// Sends the cart key to the header.
 				add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 0, 1 );
+
+				// Triggers saved cart after login and updates user activity.
+				add_filter( 'rest_authentication_errors', array( $this, 'cocart_user_logged_in' ), 10 );
 
 				// Disable cookie authentication REST check and only if site is secure.
 				if ( is_ssl() ) {
@@ -43,6 +46,25 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			// Allow all cross origin requests.
 			add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
 		}
+
+		/**
+		 * Triggers saved cart after login and updates user activity.
+		 *
+		 * @access public
+		 * @since  2.9.1
+		 * @param  int $user_id User ID if one has been determined.
+		 * @return int $user_id
+		 */
+		public function cocart_user_logged_in( $result ) {
+			global $current_user;
+
+			if ( $current_user->ID > 0 ) {
+				wc_update_user_last_active(  $current_user->ID );
+				update_user_meta(  $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+			}
+
+			return $result;
+		} // END cocart_user_logged_in()
 
 		/**
 		 * Sends the cart key to the header.
