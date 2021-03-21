@@ -64,7 +64,7 @@ final class CoCart {
 	 * @static
 	 * @since  2.6.0
 	 */
-	public static $required_php = '7.0';
+	public static $required_php = '7.3';
 
 	/**
 	 * Initiate CoCart.

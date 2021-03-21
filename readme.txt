@@ -3,7 +3,7 @@ Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdab
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
-Requires PHP: 7.0
+Requires PHP: 7.3
 Tested up to: 5.7
 Stable tag: 2.9.1
 WC requires at least: 4.3

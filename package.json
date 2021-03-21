@@ -25,7 +25,7 @@
 		"url": "https://github.com/co-cart/co-cart/issues"
 	},
 	"requires": "5.4",
-	"requires_php": "7.0",
+	"requires_php": "7.3",
 	"tested_up_to": "5.7",
 	"wc_requires": "4.3",
 	"wc_tested_up_to": "5.1",
