@@ -1,5 +1,5 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
