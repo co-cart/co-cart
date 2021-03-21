@@ -59,6 +59,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				// Authenticate user.
 				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 15 );
 				add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
+
+				// Triggers saved cart after login and updates user activity.
+				add_filter( 'rest_authentication_errors', array( $this, 'cocart_user_logged_in' ), 10 );
+
+				// Check authentication errors.
 				add_filter( 'rest_authentication_errors', array( $this, 'check_authentication_error' ), 15 );
 
 				// Disable cookie authentication REST check.
@@ -73,6 +78,25 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
 			}
 		}
+
+		/**
+		 * Triggers saved cart after login and updates user activity.
+		 *
+		 * @access public
+		 * @since  2.9.1
+		 * @param  int $user_id User ID if one has been determined.
+		 * @return int $user_id
+		 */
+		public function cocart_user_logged_in( $result ) {
+			global $current_user;
+
+			if ( $current_user->ID > 0 ) {
+				wc_update_user_last_active(  $current_user->ID );
+				update_user_meta(  $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+			}
+
+			return $result;
+		} // END cocart_user_logged_in()
 
 		/**
 		 * Returns true if we are making a REST API request for CoCart.

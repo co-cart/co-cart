@@ -115,6 +115,14 @@ Error validation has also be improved so even the smallest of errors caused by t
 * **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
 * Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
 
+## v2.9.1 - 21st March, 2021
+
+* Fixed: Merge guest customers cart with a registered customers cart once authenticated.
+* Dev: Triggers saved cart after authentication and updates user activity.
+* Dev: When cookie is set, it now adds `samesite` attribute to **None**. Introduces new filter `cocart_cookie_samesite` to override default option. - Requires **PHP 7.3** or above.
+
+> Thanks to [Joel](https://github.com/joelpierre) for reporting the merge issue and help test it.
+
 ## v2.9.0 - 18th March, 2021
 
 * **NEW**: Now supports multi-sites. 🥳

@@ -72,7 +72,11 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		} // END allow_cocart_requests_wc()
 
 		/**
-		 * Loads guest or specific carts into session.
+		 * Loads a specific cart into session and merge cart contents 
+		 * with a logged in customer if cart contents exist.
+		 * 
+		 * Triggered when "woocommerce_load_cart_from_session" is called 
+		 * to make sure the cart from session is loaded in time.
 		 *
 		 * @access  public
 		 * @static
@@ -80,48 +84,53 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @version 3.0.0
 		 */
 		public static function load_cart_from_session() {
-			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
+			if ( ! WC()->session instanceof CoCart_Session_Handler && ! CoCart_Authentication::is_rest_api_request() ) {
 				return;
 			}
 
 			$customer_id = strval( get_current_user_id() );
 
-			// Load cart for guest or specific cart.
-			if ( is_numeric( $customer_id ) && $customer_id < 1 ) {
-				$cookie = WC()->session->get_session_cookie();
+			$cookie = WC()->session->get_session_cookie();
 
-				// If cookie exists then return customer ID from it.
-				if ( $cookie ) {
-					$customer_id = $cookie[0];
+			// If cookie exists then return customer ID from it.
+			if ( $cookie ) {
+				$customer_id = $cookie[0];
+			}
+
+			// Check if we requested to load a specific cart.
+			if ( isset( $_REQUEST['cart_key'] ) ) {
+				$cart_id = $_REQUEST['cart_key'];
+
+				// Set customer ID in session.
+				$customer_id = $cart_id;
+			}
+
+			// Get cart for customer.
+			$cart = WC()->session->get_cart( $customer_id );
+
+			$cart_contents = WC()->session->get( 'cart', null );
+
+			// Merge saved cart with current cart.
+			if ( ! empty( $cart_contents ) && strval( get_current_user_id() ) > 0 ) {
+				$saved_cart    = self::get_saved_cart();
+				$cart_contents = array_merge( $saved_cart, $cart_contents );
+			}
+
+			// Set cart for customer if not empty.
+			if ( ! empty( $cart ) ) {
+				WC()->session->set( 'cart', $cart_contents );
+				WC()->session->set( 'cart_totals', maybe_unserialize( $cart['cart_totals'] ) );
+				WC()->session->set( 'applied_coupons', maybe_unserialize( $cart['applied_coupons'] ) );
+				WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart['coupon_discount_totals'] ) );
+				WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart['coupon_discount_tax_totals'] ) );
+				WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart['removed_cart_contents'] ) );
+
+				if ( ! empty( $cart['chosen_shipping_methods'] ) ) {
+					WC()->session->set( 'chosen_shipping_methods', maybe_unserialize( $cart['chosen_shipping_methods'] ) );
 				}
 
-				// Check if we requested to load a specific cart.
-				if ( isset( $_REQUEST['cart_key'] ) ) {
-					$cart_id = $_REQUEST['cart_key'];
-
-					// Set customer ID in session.
-					$customer_id = $cart_id;
-				}
-
-				// Get cart for customer.
-				$cart = WC()->session->get_cart( $customer_id );
-
-				// Set cart for customer if not empty.
-				if ( ! empty( $cart ) ) {
-					WC()->session->set( 'cart', maybe_unserialize( $cart['cart'] ) );
-					WC()->session->set( 'cart_totals', maybe_unserialize( $cart['cart_totals'] ) );
-					WC()->session->set( 'applied_coupons', maybe_unserialize( $cart['applied_coupons'] ) );
-					WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart['coupon_discount_totals'] ) );
-					WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart['coupon_discount_tax_totals'] ) );
-					WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart['removed_cart_contents'] ) );
-
-					if ( ! empty( $cart['chosen_shipping_methods'] ) ) {
-						WC()->session->set( 'chosen_shipping_methods', maybe_unserialize( $cart['chosen_shipping_methods'] ) );
-					}
-
-					if ( ! empty( $cart['cart_fees'] ) ) {
-						WC()->session->set( 'cart_fees', maybe_unserialize( $cart['cart_fees'] ) );
-					}
+				if ( ! empty( $cart['cart_fees'] ) ) {
+					WC()->session->set( 'cart_fees', maybe_unserialize( $cart['cart_fees'] ) );
 				}
 			}
 		} // END load_cart_from_session()
@@ -144,6 +153,28 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				)
 			);
 		} // END delete_user_data()
+
+		/**
+		 * Get the persistent cart from the database.
+		 *
+		 * @access private
+		 * @static
+		 * @since  2.9.1
+		 * @return array
+		 */
+		private static function get_saved_cart() {
+			$saved_cart = array();
+
+			if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
+				$saved_cart_meta = get_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
+
+				if ( isset( $saved_cart_meta['cart'] ) ) {
+					$saved_cart = array_filter( (array) $saved_cart_meta['cart'] );
+				}
+			}
+
+			return $saved_cart;
+		} // END get_saved_cart()
 
 	} // END class
 
