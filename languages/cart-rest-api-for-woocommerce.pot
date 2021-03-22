@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-beta.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-03-21 10:35:44+00:00\n"
+"POT-Creation-Date: 2021-03-22 15:16:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1671,32 +1671,44 @@ msgstr ""
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 
-#: includes/cli/class-cocart-cli-update-command.php:62
+#: includes/cli/class-cocart-cli-update-command.php:30
+msgid "Updates the CoCart database."
+msgstr ""
+
+#: includes/cli/class-cocart-cli-update-command.php:68
 #. translators: %s Database version number
 msgid "No updates required. Database version is %s"
 msgstr ""
 
-#: includes/cli/class-cocart-cli-update-command.php:67
+#: includes/cli/class-cocart-cli-update-command.php:73
 #. translators: 1: Number of database updates 2: List of update callbacks
 msgid "Found %1$d updates (%2$s)"
 msgstr ""
 
-#: includes/cli/class-cocart-cli-update-command.php:69
+#: includes/cli/class-cocart-cli-update-command.php:75
 msgid "Updating database"
 msgstr ""
 
-#: includes/cli/class-cocart-cli-update-command.php:84
+#: includes/cli/class-cocart-cli-update-command.php:90
 #. translators: 1: Number of database updates performed 2: Database version
 #. number
 msgid "%1$d update functions completed. Database version is %2$s"
 msgstr ""
 
-#: includes/cli/class-cocart-cli-version-command.php:44
+#: includes/cli/class-cocart-cli-version-command.php:27
+msgid "Returns the version of CoCart installed."
+msgstr ""
+
+#: includes/cli/class-cocart-cli-version-command.php:35
+msgid "Returns the database version of CoCart installed."
+msgstr ""
+
+#: includes/cli/class-cocart-cli-version-command.php:57
 #. translators: 2: Version of CoCart
 msgid "%1$s Version is %2$s"
 msgstr ""
 
-#: includes/cli/class-cocart-cli-version-command.php:66
+#: includes/cli/class-cocart-cli-version-command.php:79
 #. translators: 2: Database Version of CoCart
 msgid "%1$s Database Version is %2$s"
 msgstr ""
