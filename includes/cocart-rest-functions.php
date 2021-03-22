@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $replacement The filter that should have been used.
  * @param string $message     A message regarding the change.
  */
-function cocart_deprecated_filter( $filter, $args = array(), $version, $replacement = null, $message = null ) {
+function cocart_deprecated_filter( $filter, $args = array(), $version = '', $replacement = null, $message = null ) {
 	if ( is_ajax() || CoCart_Authentication::is_rest_api_request() ) {
 		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message );
 
