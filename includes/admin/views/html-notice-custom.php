@@ -15,6 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div class="notice notice-info cocart-notice">
-	<a class="woocommerce-message-close notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', $notice ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>"><?php _e( 'Dismiss', 'cart-rest-api-for-woocommerce' ); ?></a>
-	<?php echo wp_kses_post( wpautop( $notice_html ) ); ?>
+	<div class="cocart-notice-inner">
+		<div class="cocart-notice-content">
+			<?php echo wp_kses_post( wpautop( $notice_html ) ); ?>
+		</div>
+
+		<div class="cocart-action">
+			<a class="button button-primary cocart-button" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', $notice, CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'cart-rest-api-for-woocommerce' ); ?></a>
+		</div>
+	</div>
 </div>

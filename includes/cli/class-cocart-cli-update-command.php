@@ -23,7 +23,13 @@ class CoCart_CLI_Update_Command {
 	 * @static
 	 */
 	public static function register_commands() {
-		WP_CLI::add_command( 'cocart update', array( $this, 'update' ) );
+		WP_CLI::add_command(
+			'cocart update', // Command
+			array( __CLASS__, 'update' ), // Callback
+			array( // Arguments
+				'shortdesc' => __( 'Updates the CoCart database.', 'cart-rest-api-for-woocommerce' ),
+			)
+		);
 	}
 
 	/**

@@ -5,13 +5,13 @@
  * Description: CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     3.0.0-beta.2
+ * Version:     3.0.0-beta.3
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.4
- * Requires PHP: 7.0
+ * Requires PHP: 7.3
  * WC requires at least: 4.3
- * WC tested up to: 5.0
+ * WC tested up to: 5.1
  *
  * @package CoCart
  */
@@ -40,17 +40,4 @@ if ( ! function_exists( 'CoCart' ) ) {
 	}
 
 	CoCart();
-
-	/**
-	 * Load backend features only if COCART_WHITE_LABEL constant is
-	 * NOT set or IS set to false in user's wp-config.php file.
-	 */
-	if (
-		! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL &&
-		is_admin() || ( defined( 'WP_CLI' ) && WP_CLI )
-	) {
-		include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-admin.php';
-	} else {
-		include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/admin/class-cocart-wc-admin-system-status.php';
-	}
 }

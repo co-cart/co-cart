@@ -33,12 +33,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Stores notices.
 		 *
-		 * @access private
+		 * @access public
 		 * @static
 		 * @since  3.0.0
 		 * @var    array
 		 */
-		private static $notices = array();
+		public static $notices = array();
 
 		/**
 		 * Array of notices - name => callback.
@@ -49,7 +49,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @var    array
 		 */
 		private static $core_notices = array(
-			'update'              => 'update_notice',
+			'update_db'           => 'update_db_notice',
 			'check_php'           => 'check_php_notice',
 			'check_wp'            => 'check_wp_notice',
 			'check_wc'            => 'check_woocommerce_notice',
@@ -67,14 +67,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @version 3.0.0
 		 */
 		public function __construct() {
-			self::$install_date = get_site_option( 'cocart_install_date', time() );
-			self::$notices      = get_site_option( 'cocart_admin_notices', array() );
+			self::$install_date = get_option( 'cocart_install_date', time() );
+			self::$notices      = get_option( 'cocart_admin_notices', array() );
 
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 			add_action( 'wp_loaded', array( $this, 'hide_notices' ) );
 			add_action( 'init', array( $this, 'timed_notices' ) );
-
+	
 			if ( ! CoCart_Install::is_new_install() ) {
 				add_action( 'shutdown', array( $this, 'store_notices' ) );
 			}
@@ -93,7 +93,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since  3.0.0
 		 */
 		public static function store_notices() {
-			update_site_option( 'cocart_admin_notices', self::get_notices() );
+			update_option( 'cocart_admin_notices', self::get_notices() );
 		} // END store_notices()
 
 		/**
@@ -161,13 +161,18 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 		 */
 		public static function remove_notice( $name, $force_save = false ) {
-			self::$notices = array_diff( self::get_notices(), array( $name ) );
+			$notices = self::get_notices();
 
-			delete_option( 'cocart_admin_notice_' . $name );
+			// Check that the notice exists before attempting to remove it.
+			if ( in_array( $name, $notices ) ) {
+				self::$notices = array_diff( $notices, array( $name ) );
 
-			if ( $force_save ) {
-				// Adding early save to prevent more conditions with notices.
-				self::store_notices();
+				delete_option( 'cocart_admin_notice_' . $name );
+
+				if ( $force_save ) {
+					// Adding early save to prevent more conditions with notices.
+					self::store_notices();
+				}
 			}
 		} // END remove_notice()
 
@@ -206,6 +211,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				update_user_meta( get_current_user_id(), 'dismissed_cocart_' . $hide_notice . '_notice', true );
 
 				do_action( 'cocart_hide_' . $hide_notice . '_notice' );
+
+				wp_safe_redirect( remove_query_arg( array( 'cocart-hide-notice', '_cocart_notice_nonce' ), admin_url( 'plugins.php' ) ) );
+				exit;
 			}
 		} // END hide_notices()
 
@@ -229,9 +237,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			foreach ( $notices as $notice ) {
 				if ( ! empty( self::$core_notices[ $notice ] ) && apply_filters( 'cocart_show_admin_notice', true, $notice ) ) {
-					add_action( is_multisite() ? 'network_admin_notices' : 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
+					add_action( 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
 				} else {
-					add_action( is_multisite() ? 'network_admin_notices' : 'admin_notices', array( $this, 'output_custom_notices' ) );
+					add_action( 'admin_notices', array( $this, 'output_custom_notices' ) );
 				}
 			}
 		} // END add_notices()
@@ -241,8 +249,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $name        Notice name.
-		 * @param string $notice_html Notice HTML.
+		 * @since  3.0.0
+		 * @param  string $name        Notice name.
+		 * @param  string $notice_html Notice HTML.
 		 */
 		public function add_custom_notice( $name, $notice_html ) {
 			self::add_notice( $name );
@@ -254,6 +263,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @since  3.0.0
+		 * @return void
 		 */
 		public function output_custom_notices() {
 			$notices = self::get_notices();
@@ -261,10 +271,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( ! empty( $notices ) ) {
 				foreach ( $notices as $notice ) {
 					if ( empty( self::$core_notices[ $notice ] ) ) {
-						$notice_html = get_site_option( 'cocart_admin_notice_' . $notice );
+						$notice_html = get_option( 'cocart_admin_notice_' . $notice );
 
 						if ( $notice_html ) {
-							include dirname( __FILE__ ) . '/views/html-notice-custom.php';
+							include COCART_ABSPATH . 'includes/admin/views/html-notice-custom.php';
 						}
 					}
 				}
@@ -276,6 +286,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @since  3.0.0
+		 * @return void
 		 */
 		public function base_tables_missing_notice() {
 			$notice_dismissed = apply_filters(
@@ -290,6 +301,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-base-table-missing.php';
 		} // END base_tables_missing_notice()
 
+		/**
+		 * Shows a notice asking the user for a review of CoCart.
+		 *
+		 * @access public
+		 * @since  3.0.0
+		 * @return void
+		 */
 		public function timed_notices() {
 			// Was the plugin review notice dismissed?
 			$hide_review_notice = get_user_meta( get_current_user_id(), 'dismissed_cocart_plugin_review_notice', true );
@@ -320,8 +338,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 * @static
+		 * @since  3.0.0
 		 */
-		public static function update_notice() {
+		public static function update_db_notice() {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
 
@@ -329,14 +348,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$next_scheduled_date = WC()->queue()->get_next( 'cocart_run_update_callback', null, 'cocart-db-updates' );
 
 				if ( $next_scheduled_date || ! empty( $_GET['do_update_cocart'] ) ) { // WPCS: input var ok, CSRF ok.
-					include dirname( __FILE__ ) . '/views/html-notice-updating.php';
+					include COCART_ABSPATH . 'includes/admin/views/html-notice-updating.php';
 				} else {
-					include dirname( __FILE__ ) . '/views/html-notice-update.php';
+					include COCART_ABSPATH . 'includes/admin/views/html-notice-update.php';
 				}
 			} else {
-				include dirname( __FILE__ ) . '/views/html-notice-updated.php';
+				include COCART_ABSPATH . 'includes/admin/views/html-notice-updated.php';
 			}
-		} // END update_notice()
+		} // END update_db_notice()
 
 		/**
 		 * Checks the environment on loading WordPress, just in case the environment changes after activation.

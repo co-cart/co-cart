@@ -83,6 +83,8 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 
 			if ( 0 === strpos( $class, 'cocart_admin' ) ) {
 				$path = $this->include_path . 'admin/';
+			} elseif ( 0 === strpos( $class, 'cocart_wc_admin_notes_' ) ) {
+				$path = $this->include_path . 'admin/notes/';
 			}
 
 			if ( empty( $path ) || ! $this->load_file( $path . $file ) ) {

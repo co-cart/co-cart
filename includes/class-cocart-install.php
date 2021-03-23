@@ -38,18 +38,19 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @since   1.2.0
 		 * @version 3.0.0
 		 */
-		public function __construct() {
+		public static function init() {
 			// Checks version of CoCart and install/update if needed.
-			add_action( 'init', array( $this, 'check_version' ), 5 );
-			add_action( 'init', array( $this, 'manual_database_update' ), 20 );
-			add_action( 'admin_init', array( $this, 'install_actions' ) );
+			add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
+			add_action( 'init', array( __CLASS__, 'manual_database_update' ), 20 );
+			add_action( 'cocart_run_update_callback', array( __CLASS__, 'run_update_callback' ) );
+			add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
 
 			// Redirect to Getting Started page once activated.
-			add_action( 'activated_plugin', array( $this, 'redirect_getting_started' ), 10, 2 );
+			add_action( 'activated_plugin', array( __CLASS__, 'redirect_getting_started' ), 10, 2 );
 
 			// Drop tables when MU blog is deleted.
-			add_filter( 'wpmu_drop_tables', array( $this, 'wpmu_drop_tables' ) );
-		} // END __construct()
+			add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
+		} // END init()
 
 		/**
 		 * Check plugin version and run the updater if necessary.
@@ -60,7 +61,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function check_version() {
-			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_site_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 				self::install();
 				do_action( 'cocart_updated' );
 			}
@@ -70,12 +71,13 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * Perform a manual database update when triggered by WooCommerce System Tools.
 		 *
 		 * @access public
+		 * @static
 		 * @since  3.0.0
 		 */
-		public function manual_database_update() {
+		public static function manual_database_update() {
 			$blog_id = get_current_blog_id();
 
-			add_action( 'wp_' . $blog_id . '_cocart_updater_cron', array( $this, 'run_manual_database_update' ) );
+			add_action( 'wp_' . $blog_id . '_cocart_updater_cron', array( __CLASS__, 'run_manual_database_update' ) );
 		} // END manual_database_update()
 
 		/**
@@ -151,7 +153,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			if ( ! empty( $_GET['do_update_cocart'] ) ) {
 				check_admin_referer( 'cocart_db_update', 'cocart_db_update_nonce' );
 				self::update();
-				CoCart_Admin_Notices::add_notice( 'update', true );
+				CoCart_Admin_Notices::add_notice( 'update_db', true );
 			}
 		} // END install_actions()
 
@@ -243,7 +245,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 					CoCart_Admin_Notices::remove_notice( 'base_tables_missing' );
 				}
 
-				update_option( 'cocart_schema_version', COCART_DB_VERSION );
 				delete_option( 'cocart_schema_missing_tables' );
 			}
 
@@ -272,7 +273,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @return boolean
 		 */
 		public static function is_new_install() {
-			return is_null( get_site_option( 'cocart_version', null ) );
+			return is_null( get_option( 'cocart_version', null ) );
 		}
 
 		/**
@@ -284,7 +285,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @return boolean
 		 */
 		public static function needs_db_update() {
-			$current_db_version = get_site_option( 'cocart_db_version', null );
+			$current_db_version = get_option( 'cocart_db_version', null );
 			$updates            = self::get_db_update_callbacks();
 			$update_versions    = array_keys( $updates );
 			usort( $update_versions, 'version_compare' );
@@ -304,7 +305,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				if ( apply_filters( 'cocart_enable_auto_update_db', false ) ) {
 					self::update();
 				} else {
-					CoCart_Admin_Notices::add_notice( 'update', true );
+					CoCart_Admin_Notices::add_notice( 'update_db', true );
 				}
 			} else {
 				self::update_db_version();
@@ -320,7 +321,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		private static function update_version() {
-			update_site_option( 'cocart_version', COCART_VERSION );
+			update_option( 'cocart_version', COCART_VERSION );
 		} // END update_version()
 
 		/**
@@ -366,14 +367,15 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Update DB version to current.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @since  3.0.0
-		 * @param  string|null $version New WooCommerce DB version or null.
+		 * @since   2.9.0
+		 * @version 3.0.0
+		 * @param   string|null $version New WooCommerce DB version or null.
 		 */
 		public static function update_db_version( $version = null ) {
-			delete_site_option( 'cocart_db_version' );
-			add_site_option( 'cocart_db_version', is_null( $version ) ? COCART_DB_VERSION : $version );
+			delete_option( 'cocart_db_version' );
+			add_option( 'cocart_db_version', is_null( $version ) ? COCART_DB_VERSION : $version );
 		} // END update_db_version()
 
 		/**
@@ -383,7 +385,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function set_install_date() {
-			add_site_option( 'cocart_install_date', time() );
+			add_option( 'cocart_install_date', time() );
 		} // END set_install_date()
 
 		/**
@@ -400,11 +402,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		public static function redirect_getting_started( $plugin, $network_activation ) {
 			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
 			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
-				return;
-			}
-
-			// If CoCart has already been installed before then don't redirect.
-			if ( ! self::is_new_install() && ! empty( get_site_option( 'cocart_install_date', time() ) ) ) {
 				return;
 			}
 
@@ -487,23 +484,18 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		private static function get_schema() {
 			global $wpdb;
 
-			$collate = '';
+			$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
 
-			if ( $wpdb->has_cap( 'collation' ) ) {
-				$collate = $wpdb->get_charset_collate();
-			}
-
-			$tables =
-				"CREATE TABLE {$wpdb->prefix}cocart_carts (
-					cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-					cart_key char(42) NOT NULL,
-					cart_value longtext NOT NULL,
-					cart_created BIGINT UNSIGNED NOT NULL,
-					cart_expiry BIGINT UNSIGNED NOT NULL,
-					cart_source varchar(200) NOT NULL,
-					PRIMARY KEY (cart_id),
-					UNIQUE KEY cart_key (cart_key)
-				) $collate;";
+			$tables = "CREATE TABLE {$wpdb->prefix}cocart_carts (
+ cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+ cart_key char(42) NOT NULL,
+ cart_value longtext NOT NULL,
+ cart_created BIGINT UNSIGNED NOT NULL,
+ cart_expiry BIGINT UNSIGNED NOT NULL,
+ cart_source varchar(200) NOT NULL,
+ PRIMARY KEY  (cart_id),
+ UNIQUE KEY cart_key (cart_key)
+) $collate;";
 
 			return $tables;
 		} // END get_schema()
@@ -605,4 +597,4 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 } // END if class exists.
 
-return new CoCart_Install();
+CoCart_Install::init();

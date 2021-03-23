@@ -55,9 +55,11 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Dev: Introduced `cocart_store_address` filter for filtering the store address.
 * Dev: Introduced `cocart_routes` filter for filtering the CoCart routes returned.
 * Dev: Introduced `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
+* Dev: Introduced `cocart_before_get_cart` filter for modifying the cart data in any capcity before the cart response is returned.
 * Dev: Introduced `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
 * Dev: Introduced `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: Introduced `cocart_shipping_package_name` filter for renaming the package name.
+* Dev: Introduced `cocart_cart` filter for modifiying the cart response in any capacity.
 
 > The following filters are for returning cross sells in the cart.
 
@@ -106,11 +108,29 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Dev: Introduced `cocart_rest_api_get_rest_namespaces` filter allows you to decide which namespaces load.
 * Dev: Introduced `cocart_upload_dir` filter allows you to change where files are uploaded using CoCart.
 * Dev: Introduced `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
+* Dev: Introduced `cocart_wc_navigation` filter to move back CoCart to WordPress admin navigation instead of WooCommerce admin navigation.
 
 ### In progress
 
 * **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
 * Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
+
+## v2.9.1 - 21st March, 2021
+
+* Fixed: Merge guest customers cart with a registered customers cart once authenticated.
+* Dev: Triggers saved cart after authentication and updates user activity.
+* Dev: When cookie is set, it now adds `samesite` attribute to **None**. Introduces new filter `cocart_cookie_samesite` to override default option. - Requires **PHP 7.3** or above.
+
+> Thanks to [Joel](https://github.com/joelpierre) for reporting the merge issue and help test it.
+
+## v2.9.0 - 18th March, 2021
+
+* **NEW**: Now supports multi-sites. 🥳
+* Dev: **NEW** Added database version during install in preparation for updating to CoCart v3.
+* Tested: ✔️ Compatible with WooCommerce v5.1
+* Tested: ✔️ Compatible with WordPress v5.7
+
+> 📢 Important patch in preparation for CoCart v3. If you have large stores and you update CoCart directly to v3 ignoring this patch, then the database upgrade will run automatically in the background without notice. So please update in order.
 
 ## v2.8.4 - 9th January, 2021
 

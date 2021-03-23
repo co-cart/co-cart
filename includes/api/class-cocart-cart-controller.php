@@ -128,16 +128,18 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array|WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $item_key = '' ) {
+		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
 		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
 		 *
 		 * @since 3.0.0
+		 * @param array           $cart_contents Cart contents.
+		 * @param WC_Cart         Cart object.
+		 * @param WP_REST_Request $request       Full details about the request.
 		 */
-		do_action( 'cocart_before_get_cart', $cart_contents, $request );
-
-		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
+		$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
 
 		// Return cart contents raw if requested.
 		if ( $show_raw ) {
@@ -308,20 +310,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$cart['cross_sells']   = $this->get_cross_sells();
 		$cart['notices']       = $this->maybe_return_notices();
 
-		/**
-		 * Return cart items from session if set.
-		 *
-		 * @since   2.1.0
-		 * @version 3.0.0
-		 * @param   $cart['items']
-		 */
-		if ( $from_session ) {
-			$cart['items'] = apply_filters( 'cocart_cart_session', $cart['items'] );
-		} else {
-			$cart['items'] = apply_filters( 'cocart_cart', $cart['items'] );
-		}
-
-		return $cart;
+		return apply_filters( 'cocart_cart', $cart, $from_session );
 	} // END return_cart_contents()
 
 	/**
@@ -1183,6 +1172,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
+
+			if ( ! $_product || ! $_product->exists() || 'trash' === $_product->get_status() ) {
+				$this->get_cart_instance()->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
+				wc_add_notice( __( 'An item which is no longer available was removed from your cart.', 'cart-rest-api-for-woocommerce' ), 'error' );
+			}
 
 			// If product is no longer purchasable then don't return it and notify customer.
 			if ( ! $_product->is_purchasable() ) {

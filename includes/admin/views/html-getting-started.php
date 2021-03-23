@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.0
- * @version  2.7.2
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -22,7 +22,7 @@ $campaign_args = array(
 	'utm_content'  => 'getting-started',
 );
 $store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
-$addons_url    = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'add-ons/' ) );
+$addons_url    = admin_url( 'plugin-install.php?tab=cocart' );
 $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' ) );
 ?>
 <div class="wrap cocart getting-started">
@@ -39,7 +39,7 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 
 			<p><?php printf( __( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ); ?>
 
-			<p><?php printf( __( '%s saves you time and money to develop a REST API. No local storing and zero configuration required. Powerful and developer friendly for any modern framework of your choosing ready to build your headless store.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+			<p><?php printf( __( '%s handles the shopping cart in any modern framework of your choosing. No local storing and zero configuration required. Powerful and developer friendly ready to build your headless store.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
 
 			<p><?php printf( __( 'Now that you have %s installed, your ready to start developing.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
 

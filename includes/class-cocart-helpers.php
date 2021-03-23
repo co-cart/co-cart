@@ -340,7 +340,7 @@ class CoCart_Helpers {
 		$active_plugins = (array) get_option( 'active_plugins', array() );
 
 		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+			$active_plugins = array_merge( $active_plugins, get_option( 'active_sitewide_plugins', array() ) );
 		}
 
 		return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
@@ -495,7 +495,7 @@ class CoCart_Helpers {
 		}
 
 		// Getting install timestamp.
-		$cocart_installed = get_site_option( 'cocart_install_date', false );
+		$cocart_installed = get_option( 'cocart_install_date', false );
 
 		if ( false === $cocart_installed ) {
 			return false;
@@ -509,10 +509,11 @@ class CoCart_Helpers {
 	 *
 	 * Returns an empty string if it cannot generate a URL.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @since  2.6.0
-	 * @return string
+	 * @since   2.6.0
+	 * @version 3.0.0
+	 * @return  string
 	 */
 	public static function cocart_get_current_admin_url() {
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
@@ -522,7 +523,7 @@ class CoCart_Helpers {
 			return '';
 		}
 
-		return remove_query_arg( array( 'hide_cocart_review_notice', 'hide_cocart_beta_notice', 'hide_forever_cocart_beta_notice', 'hide_cocart_upgrade_notice', 'hide_forever_cocart_upgrade_notice' ), admin_url( $uri ) );
+		return remove_query_arg( array( 'cocart-hide-notice', '_cocart_notice_nonce' ), admin_url( $uri ) );
 	} // END cocart_get_current_admin_url()
 
 	/**
@@ -645,7 +646,7 @@ class CoCart_Helpers {
 	 * @return int The number of days the plugin is active.
 	 */
 	private static function get_days_active() {
-		$date_activated = get_site_option( 'cocart_install_date', time() );
+		$date_activated = get_option( 'cocart_install_date', time() );
 		$datediff       = ( time() - $date_activated );
 		$days           = (int) round( $datediff / DAY_IN_SECONDS );
 

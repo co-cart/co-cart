@@ -95,7 +95,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_db_version'] = array(
 				'name'      => _x( 'Database Version', 'label that indicates the database version of the plugin', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Database Version', 'cart-rest-api-for-woocommerce' ),
-				'note'      => get_site_option( 'cocart_version', null ),
+				'note'      => get_option( 'cocart_version', null ),
 				'tip'       => sprintf( esc_html__( 'The version of %1$s that the database is formatted for. This should be the same as your %1$s version. Unless you have %2$s, then it should be the version of %1$s packaged.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'CoCart Pro' ),
 				'mark'      => '',
 				'mark_icon' => '',
@@ -104,7 +104,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			$data['cocart_install_date'] = array(
 				'name'      => _x( 'Install Date', 'label that indicates the install date of the plugin', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Install Date', 'cart-rest-api-for-woocommerce' ),
-				'note'      => date( get_option( 'date_format' ), get_site_option( 'cocart_install_date', time() ) ),
+				'note'      => date( get_option( 'date_format' ), get_option( 'cocart_install_date', time() ) ),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
@@ -172,6 +172,26 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		} // END get_system_status_data()
 
 		/**
+		 * Checks if the session table exists before returning results.
+		 * Helps prevents any fatal errors or crashes should debug mode be enabled.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.0.0
+		 * @global $wpdb
+		 * @return boolean Returns true or false if the session table exists.
+		 */
+		public static function maybe_show_results() {
+			global $wpdb;
+
+			if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}cocart_carts';" ) ) {
+				return true;
+			}
+
+			return false;
+		} // END maybe_show_results()
+
+		/**
 		 * Counts how many carts are currently in session.
 		 *
 		 * @access public
@@ -181,6 +201,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public static function carts_in_session( $session = '' ) {
 			global $wpdb;
+
+			if ( ! self::maybe_show_results() ) {
+				return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+			}
 
 			if ( empty( $session ) ) {
 				$results = $wpdb->get_results(
@@ -212,6 +236,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public static function count_carts_expiring() {
 			global $wpdb;
 
+			if ( ! self::maybe_show_results() ) {
+				return 0;
+			}
+
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"
@@ -238,6 +266,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public static function count_carts_active() {
 			global $wpdb;
 
+			if ( ! self::maybe_show_results() ) {
+				return 0;
+			}
+
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"
@@ -261,6 +293,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public static function count_carts_expired() {
 			global $wpdb;
+
+			if ( ! self::maybe_show_results() ) {
+				return 0;
+			}
 
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
@@ -286,6 +322,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function carts_source_web() {
 			global $wpdb;
 
+			if ( ! self::maybe_show_results() ) {
+				return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+			}
+
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"
@@ -310,6 +350,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function carts_source_headless() {
 			global $wpdb;
 
+			if ( ! self::maybe_show_results() ) {
+				return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+			}
+
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"
@@ -333,6 +377,10 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public function carts_source_other() {
 			global $wpdb;
+
+			if ( ! self::maybe_show_results() ) {
+				return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
+			}
 
 			$results = $wpdb->get_results(
 				$wpdb->prepare(
@@ -560,7 +608,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				$message = esc_html__( 'Database verified successfully.', 'cart-rest-api-for-woocommerce' );
 			} else {
 				$message = esc_html__( 'Verifying database: ', 'cart-rest-api-for-woocommerce' );
-				$message = implode( ', ', $missing_tables );
+				$message .= implode( ', ', $missing_tables );
 			}
 
 			return $message;

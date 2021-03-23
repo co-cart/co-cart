@@ -1,13 +1,13 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
-Requires PHP: 7.0
+Requires PHP: 7.3
 Tested up to: 5.7
-Stable tag: 2.8.4
+Stable tag: 2.9.1
 WC requires at least: 4.3
-WC tested up to: 5.0
+WC tested up to: 5.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,7 @@ CoCart also provides built in features to:
 * Support guest customers.
 * Support basic authentication without the need to cookie authenticate.
 * Support [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+* Supports multi-sites.
 
 Included with these features are **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers to customise API responses or change how CoCart operates.
 
@@ -165,9 +166,9 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-* WordPress v5.3
+* WordPress v5.4
 * WooCommerce v4.3
-* PHP v7.0
+* PHP v7.3
 
 = Automatic installation =
 
