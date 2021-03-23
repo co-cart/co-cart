@@ -166,9 +166,9 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-* WordPress v5.3
+* WordPress v5.4
 * WooCommerce v4.3
-* PHP v7.0
+* PHP v7.3
 
 = Automatic installation =
 
