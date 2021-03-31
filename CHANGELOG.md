@@ -116,6 +116,14 @@ Error validation has also be improved so even the smallest of errors caused by t
 * **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
 * Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
 
+## v2.9.2 - 31st March, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: An issue with the `woocommerce_cart_hash` cookie setting to **null**.
+
+> This was due to the last patch "v2.9.1" introducing the `samesite` attribute with the default value to "None". It is now set to "Lax" as the default value.
+
 ## v2.9.1 - 21st March, 2021
 
 * Fixed: Merge guest customers cart with a registered customers cart once authenticated.
