@@ -11,17 +11,19 @@ WC tested up to: 5.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A REST API designed to handle the frontend of WooCommerce via your headless store.
+A RESTful API made for WooCommerce. It focuses on the front-end of the store helping you to manage shopping carts.
 
 == Description ==
 
-### CoCart: The #1 REST API that handles the frontend of WooCommerce.
+### CoCart: The #1 RESTful API that handles the front-end of WooCommerce.
 
-[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) handles the shopping cart in any modern framework of your choosing. No local storing required. Powerful and developer friendly ready to build your headless store, **without the need to build an API**.
+[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) focuses on the front-end of the store helping you to manage shopping carts and allows developers to build a headless store in any framework of their choosing. No local storing required.
 
-CoCart gives you a true REST API experience for building a headless store powered by WooCommerce. It's lightweight and adds functionality without the bloat. This is the plugin you've been waiting for, and it will make you rethink about using any other API out there.
+A powerful RESTful API that offers an integration to build your headless store with ease.
 
-Don't take my word for it. Checkout the testimonials left by others.
+WooCommerce does not nativley come with cart support via the REST API so if you have been struggerling to build a headless store. This is the plugin you've been looking for.
+
+Don't take my word for it. Checkout the testimonials left by startups, freelancers, agencies and many more.
 
 ## Testimonials - Developers love it
 
@@ -34,6 +36,10 @@ This plugin saved me tones of work and it is working amazingly! The plugin autho
 Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
 
 This plugin works great out of the box for adding products to the Woo cart via API. The code is solid and functionality is as expected, thanks Sebastien! [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
+
+#### More testimonials
+
+[See our wall of love](https://cocart.xyz/wall-of-love/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 ## The API
 
