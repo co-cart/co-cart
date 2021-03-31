@@ -250,7 +250,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
-			'items_weight'   => wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'items_weight'   => wc_get_weight( (int)$this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
 			'coupons'        => array(),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
@@ -1108,7 +1108,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => wc_get_weight( $_product->get_weight() * $cart_item['quantity'], $weight_unit ),
+				'weight'       => wc_get_weight( (int)$_product->get_weight() * (int)$cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
 			),
 			'cart_item_data' => array(),
 		);
