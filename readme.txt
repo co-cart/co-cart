@@ -56,7 +56,8 @@ CoCart Lite provides the basic API needs to get you started.
 * Retrieve the cart totals.
 * Retrieve the number of items in cart or items removed from it.
 * Empty the cart.
-* Logout the customer.
+* Login the customer/user.
+* Logout the customer/user.
 
 As an added bonus for administrators or shop managers, CoCart Lite also provides the capabilities to:
 
@@ -71,7 +72,7 @@ CoCart also provides built in features to:
 
 * Load a cart in session.
 * Support guest customers.
-* Support basic authentication without the need to cookie authenticate.
+* Supports basic authentication including the use of email as username.
 * Support [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
 
@@ -82,7 +83,7 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 * **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart from the GitHub repo.
-* **[Carts in Session](https://wordpress.org/plugins/cocart-carts-in-session/)** is an add-on that allows you to view all the carts in session via the WordPress admin.
+* **[Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** is an add-on that allows you to view all the carts in session via the WordPress admin.
 * **[Node.js Library](https://www.npmjs.com/package/@cocart/cocart-rest-api)** provides a JavaScript wrapper supporting CommonJS (CJS) and ECMAScript Modules (ESM).
 
 ### CoCart Pro
