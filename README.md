@@ -184,6 +184,8 @@ Thanks for doing such a great work with this! Works exactly as expected and CoCa
 
 **MightyGroup** – Rikard Kling ⭐️⭐️⭐️⭐️⭐️
 
+[See our wall of love](https://cocart.xyz/wall-of-love/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) for more testimonials.
+
 ---
 
 ## Contributors
