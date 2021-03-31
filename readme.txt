@@ -1,11 +1,11 @@
 === Cart REST API for WooCommerce - CoCart Lite === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns
 Tags: woocommerce, cart, rest, rest-api, JSON, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.3
 Requires PHP: 7.0
 Tested up to: 5.7
-Stable tag: 2.9.1
+Stable tag: 2.9.2
 WC requires at least: 4.3
 WC tested up to: 5.1
 License: GPLv3
@@ -263,6 +263,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 [Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
 
 == Changelog ==
+
+= v2.9.2 - 31st March, 2021 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: An issue with the `woocommerce_cart_hash` cookie setting to **null**.
+
+> This was due to the last patch "v2.9.1" introducing the `samesite` attribute with the default value to "None". It is now set to "Lax" as the default value.
 
 = v2.9.1 - 21st March, 2021 =
 
