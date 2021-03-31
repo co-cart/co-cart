@@ -63,7 +63,8 @@ CoCart Lite provides the basic API needs to get you started.
 * Retrieve the cart totals.
 * Retrieve the number of items in cart or items removed from it.
 * Empty the cart.
-* Logout the customer.
+* Login the customer/user.
+* Logout the customer/user.
 
 As an added bonus for administrators or shop managers, CoCart Lite also provides the capabilities to:
 
