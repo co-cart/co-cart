@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-beta.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-03-31 14:46:36+00:00\n"
+"POT-Creation-Date: 2021-04-02 16:53:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1655,7 +1655,7 @@ msgstr ""
 msgid "User has changed! Was %1$s before and is now %2$s"
 msgstr ""
 
-#: includes/class-cocart-session-handler.php:441
+#: includes/class-cocart-session-handler.php:444
 msgid "This filter \"%s\" is no longer required and has been deprecated."
 msgstr ""
 
