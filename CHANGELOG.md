@@ -2,13 +2,15 @@
 
 ## v3.0.0 - ?? ??, 2021 (Date Subject to Change)
 
-This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information and administrator API for viewing carts in session.
+This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. 
 
-Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](#) and your good to go.
+CoCart has an all-new flow experience for developers with more support.
+
+Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](https://cocart.xyz/upgrading-api-from-v1-to-v2/) and your good to go.
 
 Error validation has also be improved so even the smallest of errors caused by the developer can get a clear explination as to what went wrong.
 
-> Quantity argument had to be changed back to a string format for WordPress to validate the value without causing an error if you have debug mode enabled. Validation for the quantity argument is checked after so it can still be a int or float value but it must be sent as a string. If an invalid value is passed, new error validation will warn you.
+> Quantity argument had to be changed back to a string format for WordPress to validate the value without causing an error if you have debug mode enabled. Validation for the quantity argument is checked after so it can still be a int or float value but it must be sent as a string. If an invalid value is passed, the new error validation will warn you.
 
 * **NEW**: API routes.
 * * Store API [GET]      - `wp-json/cocart/v2/store`
@@ -42,6 +44,7 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Tweaked: Session data now handled by new abstract to gain more control over it.
 * Tweaked: Cart key now returns in the cart response the first time round. 🥳
 * Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
+* Tweaked: Cart session now stores when the cart was created, it's source and hash.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Tested: ✔️ Compatible with WooCommerce v5.1
 * Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
