@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $current_user = wp_get_current_user();
 
-$time = CoCart_Helpers::cocart_seconds_to_words( time() - $install_date );
+$time = CoCart_Helpers::cocart_seconds_to_words( time() - self::$install_date );
 ?>
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
