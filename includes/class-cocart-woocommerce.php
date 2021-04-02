@@ -41,6 +41,9 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			// Delete user data.
 			add_action( 'delete_user', array( $this, 'delete_user_data' ) );
+
+			// Filters in the cart hash to match from session. - JUST IN CASE! 😐
+			add_filter( 'woocommerce_cart_hash', function() { return WC()->session->get_cart_hash(); } );
 		}
 
 		/**

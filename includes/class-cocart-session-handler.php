@@ -93,13 +93,14 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.3.0
+	 * @version 3.0.0
 	 */
 	public function init() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
 		$current_user_id = strval( get_current_user_id() );
 
 		$this->init_session_cookie( $current_user_id );
+		$this->set_cart_hash();
 
 		add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
@@ -146,6 +147,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			$this->_customer_id     = $cookie[0];
 			$this->_cart_expiration = $cookie[1];
 			$this->_cart_expiring   = $cookie[2];
+			$this->_cart_hash       = $cookie[4];
 			$this->_has_cookie      = true;
 		}
 
@@ -226,7 +228,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		if ( $set ) {
 			$to_hash           = $this->_customer_id . '|' . $this->_cart_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
-			$cookie_value      = $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
+			$cookie_value      = $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash . '||' . $this->_cart_hash;
 			$this->_has_cookie = true;
 
 			// If no cookie exists then create a new.
@@ -380,6 +382,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$cart_expiration = $cookie_value[1];
 		$cart_expiring   = $cookie_value[2];
 		$cookie_hash     = $cookie_value[3];
+		$cart_hash       = $cookie_value[4];
 
 		if ( empty( $customer_id ) ) {
 			return false;
@@ -393,7 +396,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			return false;
 		}
 
-		return array( $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
+		return array( $customer_id, $cart_expiration, $cart_expiring, $cookie_hash, $cart_hash );
 	} // END get_session_cookie()
 
 	/**
@@ -463,16 +466,24 @@ class CoCart_Session_Handler extends CoCart_Session {
 			 */
 			$cart_source = apply_filters( 'cocart_cart_source', $this->_cart_source );
 
+			/**
+			 * Set the cart hash.
+			 *
+			 * @since 3.0.0
+			 */
+			$this->set_cart_hash();
+
 			// Save or update cart data.
 			$wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_created`, `cart_expiry`, `cart_source`) VALUES (%s, %s, %d, %d, %s)
- 					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`), `cart_source` = VALUES(`cart_source`)",
+					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_created`, `cart_expiry`, `cart_source`, `cart_hash`) VALUES (%s, %s, %d, %d, %s, %s)
+ 					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`), `cart_source` = VALUES(`cart_source`), `cart_hash` = VALUES(`cart_hash`)",
 					$this->_customer_id,
 					maybe_serialize( $this->_data ),
 					time(),
 					$this->_cart_expiration,
-					$cart_source
+					$cart_source,
+					$this->_cart_hash
 				)
 			);
 
@@ -715,5 +726,30 @@ class CoCart_Session_Handler extends CoCart_Session {
 
 		return $httponly;
 	} // END use_httponly()
+
+	/**
+	 * Set the cart hash based on the carts contents and total.
+	 *
+	 * @access protected
+	 * @since  3.0.0
+	 */
+	protected function set_cart_hash() {
+		$data    = $this->_data;
+		$session = maybe_unserialize( $data );
+		$cart    = maybe_unserialize( $session['cart'] );
+
+		$cart_session = array();
+
+		foreach ( $cart as $key => $values ) {
+			$cart_session[ $key ] = $values;
+			unset( $cart_session[ $key ]['data'] ); // Unset product object.
+		}
+
+		$cart_total = maybe_unserialize( $session['cart_totals'] );
+
+		$hash = $cart_session ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
+
+		$this->_cart_hash = $hash;
+	} // END set_cart_hash()
 
 } // END class

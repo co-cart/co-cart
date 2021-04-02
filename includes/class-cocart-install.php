@@ -493,6 +493,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
  cart_created BIGINT UNSIGNED NOT NULL,
  cart_expiry BIGINT UNSIGNED NOT NULL,
  cart_source varchar(200) NOT NULL,
+ cart_hash varchar(200) NOT NULL,
  PRIMARY KEY  (cart_id),
  UNIQUE KEY cart_key (cart_key)
 ) $collate;";
