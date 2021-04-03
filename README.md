@@ -77,11 +77,13 @@ As an added bonus for administrators or shop managers, CoCart Lite also provides
 
 CoCart also provides built in features to:
 
-* Load a cart in session.
+* Load a cart in session via the web.
 * Supports guest customers.
 * Supports basic authentication including the use of email as username.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
+* Works across multiple domains (so you can have multiple frontends connected to one backend).
+* Allows you to filter CoCart to be white-labelled.
 
 ## CoCart Pro
 
