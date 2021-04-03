@@ -229,6 +229,25 @@ You can find the documentation for CoCart on the [CoCart REST API Docs](https://
 
 You certainly can. Filters are available to do just that. [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided. [View the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) for more.
 
+= Why does CoCart use a custom session handler in the first place? =
+
+If you're familiar with WooCommerce, you may be wondering why using a custom session handler at all instead of the WooCommerce default session handler? A number of reasons but the ones that really matter are.
+
+- The default session handler only supports cookies.
+- The default session handler only saves changes at the end of the request in the `shutdown` hook.
+- The default session handler has no support for concurrent requests.
+- The default session handler does not support guest customers.
+- The default session handler does not store additional data that maybe required to help you.
+- More consistent with modern web.
+
+= Why does CoCart use a custom session table in the database? =
+
+The default WooCommerce session table only stores the basics of a cart in session. CoCart provides additional data that maybe required to help you and other add-ons/extensions developed by CoCart or third-parties.
+
+Such as when the cart was created. This information is only stored in the browser session.
+
+Also the source of the cart it was last saved. For the web it will be `WooCommerce` and for your headlesss store `CoCart`. This lets you know which version of your store your customers are shopping from.
+
 =  Is "WooCommerce Shipping and Tax" plugin supported? =
 
 Not at this time. "WooCommerce Shipping and Tax" ignore any REST API from allowing the ability to calculate the taxes from TaxJar. Code has been contributed to the plugin that will allow third-party plugins enable this ability and awaiting feedback.
