@@ -49,7 +49,11 @@
 		"rest",
 		"rest-api",
 		"JSON",
-		"wp-cli"
+		"wp-cli",
+		"decoupled",
+		"headless",
+		"headless-wordpress",
+		"headless-woocommerce"
 	],
 	"scripts": {
 		"test": "grunt",
