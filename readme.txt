@@ -1,4 +1,4 @@
-=== Cart REST API for WooCommerce - CoCart Lite === 
+=== Build a Headless WooCommerce store with CoCart === 
 Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns
 Tags: woocommerce, cart, rest-api, decoupled, headless, session
 Donate link: https://www.buymeacoffee.com/sebastien
@@ -337,4 +337,4 @@ If you like CoCart, please take a moment to [provide a testimonial](https://word
 
 = 3.0.0 =
 
-NEW API! Backwards compatible with CoCart v1 API. Upgrade with ease. 😄
+NEW API! Backwards compatible with CoCart v1 API. Upgrade with ease. See upgrade guide! 😄
