@@ -6,6 +6,7 @@
  * @category Classes
  * @package  CoCart\Third Party
  * @since    2.8.1
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -45,6 +46,7 @@ if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 		 * @return string
 		 */
 		public function include_plugins() {
+			include_once COCART_ABSPATH . 'includes/third-party/plugin/jwt-auth-by-useful-team/class-cocart-plugin-jwt-auth.php'; // JWT Auth
 			include_once COCART_ABSPATH . 'includes/third-party/plugin/taxjar/class-cocart-plugin-taxjar.php'; // TaxJar
 		}
 
