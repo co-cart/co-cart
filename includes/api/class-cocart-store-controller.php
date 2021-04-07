@@ -124,16 +124,17 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 		return apply_filters(
 			'cocart_routes',
 			array(
-				'cart'              => $prefix . 'cart',
-				'cart-add-item'     => $prefix . 'cart/add-item',
-				'cart-add-items'    => $prefix . 'cart/add-items',
-				'cart-item'         => $prefix . 'cart/item',
-				'cart-items'        => $prefix . 'cart/items',
-				'cart-items-count'  => $prefix . 'cart/items/count',
-				'cart-calculate'    => $prefix . 'cart/calculate',
-				'cart-clear'        => $prefix . 'cart/clear',
-				'cart-totals'       => $prefix . 'cart/totals',
-				'logout'            => $prefix . 'logout',
+				'cart'             => $prefix . 'cart',
+				'cart-add-item'    => $prefix . 'cart/add-item',
+				'cart-add-items'   => $prefix . 'cart/add-items',
+				'cart-item'        => $prefix . 'cart/item',
+				'cart-items'       => $prefix . 'cart/items',
+				'cart-items-count' => $prefix . 'cart/items/count',
+				'cart-calculate'   => $prefix . 'cart/calculate',
+				'cart-clear'       => $prefix . 'cart/clear',
+				'cart-totals'      => $prefix . 'cart/totals',
+				'login'            => $prefix . 'login',
+				'logout'           => $prefix . 'logout',
 			)
 		);
 	} // END get_routes()
