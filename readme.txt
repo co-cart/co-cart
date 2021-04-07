@@ -201,21 +201,21 @@ Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the ful
 
 = How do I start using CoCart? =
 
-You will first need WooCommerce v4.3 or higher installed with the REST API enabled. Then install CoCart and follow the documentation. That’s it!
+You will first need WooCommerce v4.3 or higher installed with the REST API enabled. Then install CoCart and follow the documentation.
 
 = Why should I use CoCart? =
 
-The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. Not the API you need for your customers who only see the frontend.
+The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. It does not nativley provide an API for controlling the frontend.
 
 CoCart handles the your customers cart for you ready to use in any modern framework of your choosing. No local storing required. It's **Powerful** and **Developer** friendly ready to build your headless store the way you want, **without the need to build an API**.
 
-If you are wanting to build a headless store powered by WooCommerce, then CoCart is your solution. But don't take my word for it. Checkout the testimonials left by others.
+If you are wanting to build a headless store powered by WooCommerce, then CoCart is your solution. But don't take my word for it. [Checkout the testimonials left by others](https://cocart.xyz/wall-of-love/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 With [the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) provided, you’ll see how to add products to a cart and allow your customers to manage it in no time at all.
 
 = Who should use CoCart? =
 
-CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom frontend shopping experience completely using the REST API, then you need to use CoCart.
+CoCart is perfect for store owners and developers. If you want to create an e-commerce app for mobile or a custom frontend shopping experience completely using the REST API, then CoCart is for you.
 
 = Do I need to have coding skills to use CoCart? =
 
@@ -248,6 +248,10 @@ Such as when the cart was created. This information is only stored in the browse
 
 Also the source of the cart it was last saved. For the web it will be `WooCommerce` and for your headlesss store `CoCart`. This lets you know which version of your store your customers are shopping from.
 
+= Can I have WordPress running on domain and my headless store on another domain? =
+
+Yes of course. You just need to enable CORS. You can do that easily with [the CORS add-on](https://wordpress.org/plugins/cocart-cors/) or you can [manually enable it via the filters in the documentation](https://docs.cocart.xyz/#filters-api-access-cors-allow-all-cross-origin-headers).
+
 =  Is "WooCommerce Shipping and Tax" plugin supported? =
 
 Not at this time. "WooCommerce Shipping and Tax" ignore any REST API from allowing the ability to calculate the taxes from TaxJar. Code has been contributed to the plugin that will allow third-party plugins enable this ability and awaiting feedback.
@@ -260,11 +264,7 @@ If you have "TaxJar for WooCommerce" v3.2.5 or above and CoCart v3.0 or above in
 
 = Why CoCart and not WooCommerce Store API? =
 
-WooCommerce Store API is not yet complete and stable in order to publish the first release of their API for public use. It is also limited for developers to use on many levels such as the body type the API can be requested in and support for guest customers which CoCart does have.
-
-Their API is designed mainly to focus on their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) they have developed while CoCart is designed to focus on supporting many frameworks and languages outside of WordPress to allow your store to be headless.
-
-CoCart is also backed by a community to make the REST API better for all developers.
+WooCommerce Store API is limited and designed mainly to focus on their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) they have developed in React. CoCart is designed to focus on decoupling WooCommerce so you can use any framework to allow your store to be headless.
 
 = Do you have a JavaScript Library? =
 
