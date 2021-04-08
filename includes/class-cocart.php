@@ -96,7 +96,7 @@ final class CoCart {
 		// Load REST API.
 		add_action( 'init', array( __CLASS__, 'load_rest_api' ) );
 
-		// Init action.
+		// Initialize action.
 		do_action( 'cocart_init' );
 	} // END init()
 
