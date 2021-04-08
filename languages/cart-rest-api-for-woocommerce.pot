@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-beta.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-04-02 16:53:45+00:00\n"
+"POT-Creation-Date: 2021-04-08 15:02:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1251,10 +1251,18 @@ msgstr ""
 msgid "Clearing the cart failed!"
 msgstr ""
 
-#: includes/api/class-cocart-count-controller.php:90
+#: includes/api/class-cocart-count-controller.php:93
 #: includes/api/cocart/v1/class-cocart-count-controller.php:96
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:201
 msgid "There are no items in the cart!"
+msgstr ""
+
+#: includes/api/class-cocart-count-controller.php:121
+msgid "Count Items in Cart"
+msgstr ""
+
+#: includes/api/class-cocart-count-controller.php:127
+msgid "Returns count for removed items from the cart."
 msgstr ""
 
 #: includes/api/class-cocart-item-controller.php:81
@@ -1673,11 +1681,11 @@ msgid ""
 "or %2$scheckout%3$s."
 msgstr ""
 
-#: includes/class-cocart.php:251
+#: includes/class-cocart.php:254
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:256
+#: includes/class-cocart.php:259
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 
