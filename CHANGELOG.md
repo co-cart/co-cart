@@ -25,7 +25,7 @@ Error validation has also be improved so even the smallest of errors caused by t
 * * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/{item_key}`
 * * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/{item_key}`
 * * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
-* * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
+* * Clear Cart [GET]     - `wp-json/cocart/v2/cart/clear`
 * * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
 * * Login [POST]         - `wp-json/cocart/v2/login`
 * * Logout [POST]        - `wp-json/cocart/v2/logout`
