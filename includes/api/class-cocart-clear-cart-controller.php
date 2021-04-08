@@ -58,6 +58,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 		do_action( 'cocart_before_cart_emptied' );
 
 		WC()->session->set( 'cart', array() );
+		WC()->session->set( 'removed_cart_contents', array() );
 		WC()->session->set( 'shipping_methods', array() );
 		WC()->session->set( 'coupon_discount_totals', array() );
 		WC()->session->set( 'coupon_discount_tax_totals', array() );
@@ -87,8 +88,6 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 		 */
 		if ( get_current_user_id() && apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
 			delete_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id() );
-
-			WC()->session->set( 'removed_cart_contents', array() );
 		}
 
 		do_action( 'cocart_cart_emptied' );

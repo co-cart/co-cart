@@ -4,11 +4,6 @@
 
 * Fixed: Cart not clearing when you specify a cart key. Set the cart empty instead of using WooCommerce internal function `WC()->cart->empty()` as it was not consistent.
 * Dev: Introduced two new action hooks before and after clearing the cart. `cocart_before_cart_emptied` and `cocart_cart_emptied`.
-* Dev: Removed cart items is cleared only if the API is requested authorized by the customer and persistent cart is left enabled.
-
-> With this change I was able to actually leave removed items in session. This allows developers to expand their options for the customers to restore any items they may have removed before.
-> 
-> Clearing the cart clears everything in session at least by WooCommerce design. However, they don't actually have a clear cart action on the frontend on the cart page. The only time the function is called is when an order has been made.
 
 ## v2.9.2 - 31st March, 2021
 
