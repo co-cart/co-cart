@@ -114,10 +114,6 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 
 				$cart_source = $cart['cart_source'];
 
-				if ( $cart_source == 'cocart-rest-api' ) {
-					$cart_source = 'CoCart';
-				}
-
 				$sessions[] = array(
 					'cart_id'         => $cart['cart_id'],
 					'cart_key'        => $cart['cart_key'],
