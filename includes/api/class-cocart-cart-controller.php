@@ -110,10 +110,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @param  array  $request
-	 * @param  string $item_key
 	 * @return array|WP_REST_Response
 	 */
-	public function get_cart( $request = array(), $item_key = '' ) {
+	public function get_cart( $request = array(), $deprecated = '' ) {
 		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
@@ -139,7 +138,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 */
 		wc_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
 
-		$cart_contents = $this->return_cart_contents( $request, $cart_contents, $item_key );
+		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
 		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
 	} // END get_cart()
@@ -152,11 +151,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @version 3.0.0
 	 * @param   array   $request
 	 * @param   array   $cart_contents
-	 * @param   string  $item_key
 	 * @param   boolean $from_session
 	 * @return  array   $cart
 	 */
-	public function return_cart_contents( $request = array(), $cart_contents = array(), $item_key = '', $from_session = false ) {
+	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = '', $from_session = false ) {
 		$controller = new CoCart_Count_Items_v2_Controller();
 
 		if ( $controller->get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
@@ -172,13 +170,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
-
-		// Find the cart item key in the existing cart.
-		if ( ! empty( $item_key ) ) {
-			$item_key = $this->find_product_in_cart( $item_key );
-
-			return $cart_contents[ $item_key ];
-		}
 
 		/**
 		 * Return the default cart data if set to true.
