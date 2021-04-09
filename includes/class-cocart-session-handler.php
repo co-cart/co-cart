@@ -123,7 +123,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		 * @since 3.0.0
 		 */
 		if ( CoCart_Authentication::is_rest_api_request() ) {
-			$this->_cart_source = 'cocart-rest-api';
+			$this->_cart_source = 'cocart';
 		} else {
 			$this->_cart_source = 'woocommerce';
 		}
