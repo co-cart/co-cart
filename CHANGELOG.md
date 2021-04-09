@@ -15,7 +15,6 @@ Error validation has also be improved so even the smallest of errors caused by t
 * **NEW**: API routes.
 * * Store API [GET]      - `wp-json/cocart/v2/store`
 * * Cart [GET]           - `wp-json/cocart/v2/cart`
-* * Cart [DELETE]        - `wp-json/cocart/v2/cart/{cart_key}`
 * * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
 * * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
 * * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/{item_key}`
@@ -25,12 +24,13 @@ Error validation has also be improved so even the smallest of errors caused by t
 * * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/{item_key}`
 * * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/{item_key}`
 * * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
-* * Clear Cart [GET]     - `wp-json/cocart/v2/cart/clear`
+* * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
 * * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
 * * Login [POST]         - `wp-json/cocart/v2/login`
 * * Logout [POST]        - `wp-json/cocart/v2/logout`
-* * Session [GET]        - `wp-json/cocart/v2/session/{session_id}`
-* * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
+* * Session [GET]        - `wp-json/cocart/v2/session/<session_id>`
+* * Session [DELETE]     - `wp-json/cocart/v2/session/<session_id>`
+* * Session Items [GET]  - `wp-json/cocart/v2/session/<session_id>/items`
 * * Sessions [GET]       - `wp-json/cocart/v2/sessions`
 * 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
