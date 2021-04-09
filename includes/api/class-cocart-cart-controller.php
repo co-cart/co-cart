@@ -160,7 +160,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 
-		if ( $controller->get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
+		// If the cart is completly empty or not exist then return nothing.
+		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
 			/**
 			 * Filter response for empty cart.
 			 *
