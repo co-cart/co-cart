@@ -44,7 +44,7 @@
 	},
 	"require-dev": {
 		"wp-cli/i18n-command": "2.2.6",
-		"squizlabs/php_codesniffer": "3.5.8"
+		"squizlabs/php_codesniffer": "3.6.0"
 	},
 	"scripts": {
 		"phpcs": [
