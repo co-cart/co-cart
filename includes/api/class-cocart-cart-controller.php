@@ -157,6 +157,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = '', $from_session = false ) {
 		$controller = new CoCart_Count_Items_v2_Controller();
 
+		// Calculate totals to be sure they are correct before returning cart contents.
+		$this->get_cart_instance()->calculate_totals();
+
 		if ( $controller->get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
@@ -167,9 +170,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			return $empty_cart;
 		}
-
-		// Calculate totals to be sure they are correct before returning cart contents.
-		$this->get_cart_instance()->calculate_totals();
 
 		/**
 		 * Return the default cart data if set to true.
