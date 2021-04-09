@@ -57,20 +57,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-
-		// Delete Cart - cocart/v2/cart/ec2b1f30a304ed513d2975b7b9f222f6 (DELETE)
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<cart_key>[\w]+)',
-			array(
-				array(
-					'methods'             => WP_REST_Server::DELETABLE,
-					'callback'            => array( $this, 'delete_cart' ),
-					'permission_callback' => '__return_true',
-				),
-			)
-		);
-
 	} // register_routes()
 
 	/**
@@ -157,41 +143,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
 	} // END get_cart()
-
-	/**
-	 * Deletes the cart. Once a Cart has been deleted it can not be recovered.
-	 *
-	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
-	 *
-	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response
-	 */
-	public function delete_cart( $request = array() ) {
-		try {
-			$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : '';
-
-			if ( empty( $cart_key ) ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
-			}
-
-			$handler = new CoCart_Session_Handler();
-
-			$handler->delete_cart( $cart_key );
-
-			if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
-				delete_user_meta( $cart_key, '_woocommerce_persistent_cart_' . get_current_blog_id() );
-			}
-
-			if ( ! empty( $handler->get_cart( $customer_id ) ) ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_not_deleted', __( 'Cart could not be deleted!', 'cart-rest-api-for-woocommerce' ), 500 );
-			}
-
-			return CoCart_Response::get_response( __( 'Cart successfully deleted!', 'cart-rest-api-for-woocommerce' ), $this->namespace, $this->rest_base );
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
-	} // END delete_cart()
 
 	/**
 	 * Return cart contents.
