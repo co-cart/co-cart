@@ -50,6 +50,7 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Tested: ✔️ Compatible with WooCommerce v5.1
 * Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
 * Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
+* Dev: Forked `get_customer_unique_id()` from WooCommerce session handler for backwards compatibility. Introduced to help with unit tests in WooCommerce since version 5.3. Not needed for CoCart.
 
 ### For developers
 

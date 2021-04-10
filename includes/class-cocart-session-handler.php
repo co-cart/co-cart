@@ -362,6 +362,25 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END generate_customer_id()
 
 	/**
+	 * Get session unique ID for requests if session is initialized or user ID if logged in.
+	 * Introduced to help with unit tests in WooCommerce since version 5.3
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_customer_unique_id() {
+		$customer_id = '';
+
+		if ( $this->has_session() && $this->_customer_id ) {
+			$customer_id = $this->_customer_id;
+		} elseif ( is_user_logged_in() ) {
+			$customer_id = (string) get_current_user_id();
+		}
+
+		return $customer_id;
+	} // END get_customer_unique_id()
+
+	/**
 	 * Get the cart cookie, if set. Otherwise return false.
 	 *
 	 * Cart cookies without a customer ID are invalid.
