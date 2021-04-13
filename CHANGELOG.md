@@ -17,12 +17,12 @@ Error validation has also be improved so even the smallest of errors caused by t
 * * Cart [GET]           - `wp-json/cocart/v2/cart`
 * * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
 * * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
-* * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/<item_key>`
 * * Cart Items [GET]     - `wp-json/cocart/v2/cart/items`
 * * Count Items [GET]    - `wp-json/cocart/v2/cart/items/count`
-* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/item/{item_key}`
-* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/{item_key}`
-* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/item/<item_key>`
+* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/<item_key>`
+* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/<item_key>`
 * * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
 * * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
 * * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
