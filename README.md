@@ -196,7 +196,7 @@ Thanks for doing such a great work with this! Works exactly as expected and CoCa
 
 We have different channels at your disposal where you can find information about the CoCart project, discuss it and get involved:
 
-[![Twitter: cart_co](https://img.shields.io/twitter/follow/cart_co?style=social)](https://twitter.com/cart_co) ![CoCart Github Stars](https://img.shields.io/github/stars/co-cart/co-cart?style=social)
+[![Twitter: cart_co](https://img.shields.io/twitter/follow/cart_co?style=social)](https://twitter.com/cart_co) [![CoCart Github Stars](https://img.shields.io/github/stars/co-cart/co-cart?style=social)](https://github.com/co-cart/co-cart)
 
 <ul>
   <li>📖 <strong>Docs</strong>: this is the place to learn how to build amazing sites with CoCart. <a href="https://docs.cocart.xyz/#getting-started">Get started!</a></li>
