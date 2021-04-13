@@ -147,6 +147,15 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 		$product_to_add = $controller->validate_product( $product_id, $quantity, 0, array(), $item_data, 'simple', $request );
 
+		/**
+		 * If validation failed then return error response.
+		 *
+		 * @param $product_to_add
+		 */
+		if ( is_wp_error( $product_to_add ) ) {
+			return $product_to_add;
+		}
+
 		// Add item to cart once validation is passed.
 		$item_added = $this->add_item_to_cart( $product_to_add );
 
@@ -170,6 +179,15 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		$controller = new CoCart_Cart_V2_Controller();
 
 		$product_to_add = $controller->validate_product( $product_id, $quantity, $deprecated, $variation, $item_data, 'variable', $request );
+
+		/**
+		 * If validation failed then return error response.
+		 *
+		 * @param $product_to_add
+		 */
+		if ( is_wp_error( $product_to_add ) ) {
+			return $product_to_add;
+		}
 
 		// Add item to cart once validation is passed.
 		$item_added = $this->add_item_to_cart( $product_to_add );
