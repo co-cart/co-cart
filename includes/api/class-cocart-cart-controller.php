@@ -515,6 +515,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$variation = $this->validate_variable_product( $variation_id, $variation, $product, $product_id );
 			}
 
+			/**
+			 * If variables are not valid then return error response.
+			 *
+			 * @param $variation
+			 */
+			if ( is_wp_error( $variation ) ) {
+				return $variation;
+			}
+
 			$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $item_data, $product_type, $request );
 
 			/**
