@@ -762,8 +762,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$label = wc_attribute_label( $taxonomy );
 			} else {
 				// If this is a custom option slug, get the options name.
-				$value = apply_filters( 'cocart_variation_option_name', $value, null, $taxonomy, $product );
-				$label = wc_attribute_label( str_replace( 'attribute_', '', $name ), $product );
+				$value = apply_filters( 'cocart_variation_option_name', $value, $product );
+				$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
 			}
 
 			$return[ $label ] = $value;
@@ -1082,7 +1082,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		// Variation data.
 		if ( ! isset( $cart_item['variation'] ) ) {
-			$cart_item['variation'] = array(); }
+			$cart_item['variation'] = array();
+		}
 		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
 
 		// If thumbnail is requested then add it to each item in cart.
