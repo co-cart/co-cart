@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API
  * @since    2.1.0
- * @version  2.5.0
+ * @version  2.9.3
  * @license  GPL-2.0+
  */
 
@@ -35,7 +35,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @version 2.9.3
 	 */
 	public function register_routes() {
 		// Clear Cart - cocart/v1/clear (POST)
@@ -51,13 +51,48 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 2.7.0
+	 * @version 2.9.3
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function clear_cart() {
-		WC()->cart->empty_cart();
+		do_action( 'cocart_before_cart_emptied' );
 
-		if ( WC()->cart->is_empty() ) {
+		WC()->session->set( 'cart', array() );
+		WC()->session->set( 'removed_cart_contents', array() );
+		WC()->session->set( 'shipping_methods', array() );
+		WC()->session->set( 'coupon_discount_totals', array() );
+		WC()->session->set( 'coupon_discount_tax_totals', array() );
+		WC()->session->set( 'applied_coupons', array() );
+		WC()->session->set( 'total', array(
+			'subtotal'            => 0,
+			'subtotal_tax'        => 0,
+			'shipping_total'      => 0,
+			'shipping_tax'        => 0,
+			'shipping_taxes'      => array(),
+			'discount_total'      => 0,
+			'discount_tax'        => 0,
+			'cart_contents_total' => 0,
+			'cart_contents_tax'   => 0,
+			'cart_contents_taxes' => array(),
+			'fee_total'           => 0,
+			'fee_tax'             => 0,
+			'fee_taxes'           => array(),
+			'total'               => 0,
+			'total_tax'           => 0,
+		) );
+		WC()->session->set( 'cart_fees', array() );
+
+		/**
+		 * If the user is authorized and `woocommerce_persistent_cart_enabled` filter is left enabled 
+		 * then we will delete the persistent cart as well.
+		 */
+		if ( get_current_user_id() && apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
+			delete_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id() );
+		}
+
+		do_action( 'cocart_cart_emptied' );
+
+		if ( 0 === count( WC()->cart->get_cart() ) || 0 === count( WC()->session->get( 'cart' ) ) ) {
 			do_action( 'cocart_cart_cleared' );
 
 			$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );

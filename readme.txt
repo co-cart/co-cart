@@ -5,9 +5,9 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.3
 Requires PHP: 7.0
 Tested up to: 5.7
-Stable tag: 2.9.2
+Stable tag: 2.9.3
 WC requires at least: 4.3
-WC tested up to: 5.1
+WC tested up to: 5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -263,6 +263,12 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 [Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
 
 == Changelog ==
+
+= v2.9.3 - 14th April, 2021 =
+
+* Fixed: Cart not clearing when you specify a cart key. Set the cart empty instead of using WooCommerce internal function `WC()->cart->empty()` as it was not consistent.
+* Dev: Introduced two new action hooks before and after clearing the cart. `cocart_before_cart_emptied` and `cocart_cart_emptied`.
+* Tested: ✔️ Compatible with WooCommerce v5.2
 
 = v2.9.2 - 31st March, 2021 =
 

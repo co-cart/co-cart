@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v2.9.3 - 14th April, 2021
+
+* Fixed: Cart not clearing when you specify a cart key. Set the cart empty instead of using WooCommerce internal function `WC()->cart->empty()` as it was not consistent.
+* Dev: Introduced two new action hooks before and after clearing the cart. `cocart_before_cart_emptied` and `cocart_cart_emptied`.
+* Tested: ✔️ Compatible with WooCommerce v5.2
+
 ## v2.9.2 - 31st March, 2021
 
 **🔥 This is a HOTFIX!**
