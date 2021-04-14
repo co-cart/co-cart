@@ -245,7 +245,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'name'              => esc_html__( 'Products', 'cart-rest-api-for-woocommerce' ),
 					'plugin'            => 'products',
 					'search_terms'      => 'products, rest-api, reviews',
-					'short_description' => esc_html__( 'Provides a public version of accessing products, categories, tags, attributes and even reviews without the need to authenticate.', 'cart-rest-api-for-woocommerce' ),
+					'short_description' => esc_html__( 'Provides access to non-sensitive product information, categories, tags, attributes and even reviews from your store without the need to authenticate.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
 					'requirement'       => 'CoCart',
 					'info'              => array(
