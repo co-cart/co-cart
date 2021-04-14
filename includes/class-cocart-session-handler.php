@@ -758,14 +758,16 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$cart_session = array();
 
 		if ( ! empty( $session ) ) {
-			$cart    = maybe_unserialize( $session['cart'] );
+			$cart = maybe_unserialize( $session['cart'] );
 
-			foreach ( $cart as $key => $values ) {
-				$cart_session[ $key ] = $values;
-				unset( $cart_session[ $key ]['data'] ); // Unset product object.
+			if ( ! empty( $cart ) ) {
+				foreach ( $cart as $key => $values ) {
+					$cart_session[ $key ] = $values;
+					unset( $cart_session[ $key ]['data'] ); // Unset product object.
+				}
+
+				$cart_total = maybe_unserialize( $session['cart_totals'] );
 			}
-
-			$cart_total = maybe_unserialize( $session['cart_totals'] );
 		}
 
 		$hash = $cart_session ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
