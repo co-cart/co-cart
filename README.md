@@ -82,7 +82,7 @@ CoCart also provides built in features to:
 * Supports basic authentication including the use of email as username.
 * Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
-* Works across multiple domains (so you can have multiple frontends connected to one backend).
+* Works across multiple domains, CORS ready (so you can have multiple frontends connected to one backend).
 * Allows you to filter CoCart to be white-labelled.
 
 ## CoCart Pro
