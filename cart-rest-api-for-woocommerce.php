@@ -2,7 +2,7 @@
 /*
  * Plugin Name: CoCart Lite
  * Plugin URI:  https://cocart.xyz
- * Description: CoCart is a <strong>REST API for WooCommerce</strong>. It focuses on <strong>the front-end</strong> of the store to manage the shopping cart allowing developers to build a headless store.
+ * Description: A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
  * Version:     3.0.0-beta.4
