@@ -11,7 +11,7 @@ WC tested up to: 5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A RESTful API made for WooCommerce. It focuses on the front-end of the store helping you to manage shopping carts.
+A RESTful API that focuses on the front-end of the store with an integration to build your headless store with ease.
 
 == Description ==
 
