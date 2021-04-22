@@ -775,4 +775,14 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$this->_cart_hash = $hash;
 	} // END set_cart_hash()
 
+	/**
+	 * Get the session table name.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 */
+	public function get_table_name() {
+		return $this->_table;
+	} // END get_table_name()
+
 } // END class
