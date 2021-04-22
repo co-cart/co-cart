@@ -628,6 +628,22 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END get_cart_created()
 
 	/**
+	 * Returns the timestamp the cart expires.
+	 *
+	 * @access public
+	 * @param  string $cart_key The customer ID or cart key.
+	 * @global $wpdb
+	 * @return string
+	 */
+	public function get_cart_expiration( $cart_key ) {
+		global $wpdb;
+
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_expiry FROM $this->_table WHERE cart_key = %s", $cart_key ) );
+
+		return $value;
+	} // END get_cart_expiration()
+
+	/**
 	 * Create a blank new cart and returns cart key if successful.
 	 *
 	 * @access  public
