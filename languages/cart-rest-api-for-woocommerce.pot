@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-beta.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-04-14 19:52:19+00:00\n"
+"POT-Creation-Date: 2021-04-22 02:13:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1234,13 +1234,13 @@ msgid "Keeps removed items in session when clearing the cart."
 msgstr ""
 
 #: includes/api/class-cocart-clear-cart-controller.php:124
-#: includes/api/cocart/v1/class-cocart-clear-cart-controller.php:67
+#: includes/api/cocart/v1/class-cocart-clear-cart-controller.php:102
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:220
 msgid "Cart is cleared."
 msgstr ""
 
 #: includes/api/class-cocart-clear-cart-controller.php:138
-#: includes/api/cocart/v1/class-cocart-clear-cart-controller.php:81
+#: includes/api/cocart/v1/class-cocart-clear-cart-controller.php:116
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:222
 msgid "Clearing the cart failed!"
 msgstr ""
