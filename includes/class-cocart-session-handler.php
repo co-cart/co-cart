@@ -612,6 +612,22 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END get_cart()
 
 	/**
+	 * Returns the timestamp the cart was created.
+	 *
+	 * @access public
+	 * @param  string $cart_key The customer ID or cart key.
+	 * @global $wpdb
+	 * @return string
+	 */
+	public function get_cart_created( $cart_key ) {
+		global $wpdb;
+
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_created FROM $this->_table WHERE cart_key = %s", $cart_key ) );
+
+		return $value;
+	} // END get_cart_created()
+
+	/**
 	 * Create a blank new cart and returns cart key if successful.
 	 *
 	 * @access  public
