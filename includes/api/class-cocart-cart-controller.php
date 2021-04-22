@@ -677,6 +677,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Current user ID.
 		$current_user_id = strval( get_current_user_id() );
 
+		if ( $current_user_id > 0 ) {
+			return $current_user_id;
+		}
+
 		// Customer ID used as the cart key by default.
 		$cart_key = WC()->session->get_customer_id();
 
