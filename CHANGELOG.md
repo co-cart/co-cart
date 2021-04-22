@@ -122,7 +122,6 @@ Error validation has also be improved so even the smallest of errors caused by t
 ### In progress
 
 * **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
-* Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
 
 ## v2.9.3 - 14th April, 2021
 
