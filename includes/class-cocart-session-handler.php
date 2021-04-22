@@ -644,6 +644,22 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END get_cart_expiration()
 
 	/**
+	 * Returns the source of the cart.
+	 *
+	 * @access public
+	 * @param  string $cart_key The customer ID or cart key.
+	 * @global $wpdb
+	 * @return string
+	 */
+	public function get_cart_source( $cart_key ) {
+		global $wpdb;
+
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_source FROM $this->_table WHERE cart_key = %s", $cart_key ) );
+
+		return $value;
+	} // END get_cart_source()
+
+	/**
 	 * Create a blank new cart and returns cart key if successful.
 	 *
 	 * @access  public
