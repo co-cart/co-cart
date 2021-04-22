@@ -49,7 +49,8 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Tweaked: Loading a cart from session is now prevented if the cart key requested matches any registered user.
 * Tweaked: Cart session now stores when the cart was created, it's source and hash.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
-* Tested: ✔️ Compatible with WooCommerce v5.1
+* Deprecated: Redirect to cart after using load cart from session.
+* Tested: ✔️ Compatible with WooCommerce v5.2
 * Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
 * Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
 * Dev: Forked `get_customer_unique_id()` from WooCommerce session handler for backwards compatibility. Introduced to help with unit tests in WooCommerce since version 5.3. Not needed for CoCart.
