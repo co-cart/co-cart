@@ -45,6 +45,8 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Tweaked: Session data now handled by new abstract to gain more control over it.
 * Tweaked: Cart key now returns in the cart response the first time round. 🥳
 * Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
+* Tweaked: Loading a cart from session is now prevented if user is already logged in.
+* Tweaked: Loading a cart from session is now prevented if the cart key requested matches any registered user.
 * Tweaked: Cart session now stores when the cart was created, it's source and hash.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Tested: ✔️ Compatible with WooCommerce v5.1
