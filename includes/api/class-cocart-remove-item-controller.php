@@ -140,7 +140,8 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 
 				// Was it requested to return status once item removed?
 				if ( $request['return_status'] ) {
-					$response = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ) );
+					/* translators: %s: Item name. */
+					$response = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );
 				}
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
