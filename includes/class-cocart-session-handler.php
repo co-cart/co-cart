@@ -816,10 +816,10 @@ class CoCart_Session_Handler extends CoCart_Session {
 	/**
 	 * Set the cart hash based on the carts contents and total.
 	 *
-	 * @access protected
+	 * @access public
 	 * @since  3.0.0
 	 */
-	protected function set_cart_hash() {
+	public function set_cart_hash() {
 		$data    = $this->_data;
 		$session = maybe_unserialize( $data );
 		$cart_session = array();
