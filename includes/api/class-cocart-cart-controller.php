@@ -57,20 +57,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-
-		// Delete Cart - cocart/v2/cart/ec2b1f30a304ed513d2975b7b9f222f6 (DELETE)
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base . '/(?P<cart_key>[\w]+)',
-			array(
-				array(
-					'methods'             => WP_REST_Server::DELETABLE,
-					'callback'            => array( $this, 'delete_cart' ),
-					'permission_callback' => '__return_true',
-				),
-			)
-		);
-
 	} // register_routes()
 
 	/**
@@ -124,10 +110,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @param  array  $request
-	 * @param  string $item_key
 	 * @return array|WP_REST_Response
 	 */
-	public function get_cart( $request = array(), $item_key = '' ) {
+	public function get_cart( $request = array(), $deprecated = '' ) {
 		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
@@ -153,45 +138,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 */
 		wc_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
 
-		$cart_contents = $this->return_cart_contents( $request, $cart_contents, $item_key );
+		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
 		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
 	} // END get_cart()
-
-	/**
-	 * Deletes the cart. Once a Cart has been deleted it can not be recovered.
-	 *
-	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
-	 *
-	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response
-	 */
-	public function delete_cart( $request = array() ) {
-		try {
-			$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : '';
-
-			if ( empty( $cart_key ) ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
-			}
-
-			$handler = new CoCart_Session_Handler();
-
-			$handler->delete_cart( $cart_key );
-
-			if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
-				delete_user_meta( $cart_key, '_woocommerce_persistent_cart_' . get_current_blog_id() );
-			}
-
-			if ( ! empty( $handler->get_cart( $customer_id ) ) ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_not_deleted', __( 'Cart could not be deleted!', 'cart-rest-api-for-woocommerce' ), 500 );
-			}
-
-			return CoCart_Response::get_response( __( 'Cart successfully deleted!', 'cart-rest-api-for-woocommerce' ), $this->namespace, $this->rest_base );
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
-	} // END delete_cart()
 
 	/**
 	 * Return cart contents.
@@ -201,32 +151,26 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @version 3.0.0
 	 * @param   array   $request
 	 * @param   array   $cart_contents
-	 * @param   string  $item_key
 	 * @param   boolean $from_session
 	 * @return  array   $cart
 	 */
-	public function return_cart_contents( $request = array(), $cart_contents = array(), $item_key = '', $from_session = false ) {
+	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = '', $from_session = false ) {
 		$controller = new CoCart_Count_Items_v2_Controller();
-
-		if ( $controller->get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
-			/**
-			 * Filter response for empty cart.
-			 *
-			 * @param $empty_cart
-			 */
-			$empty_cart = apply_filters( 'cocart_empty_cart', $cart_contents );
-
-			return $empty_cart;
-		}
 
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 
-		// Find the cart item key in the existing cart.
-		if ( ! empty( $item_key ) ) {
-			$item_key = $this->find_product_in_cart( $item_key );
+		// If the cart is completly empty or not exist then return nothing.
+		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
+			/**
+			 * Filter response for empty cart.
+			 *
+			 * @since   2.0.8
+			 * @version 3.0.0
+			 */
+			cocart_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
 
-			return $cart_contents[ $item_key ];
+			return apply_filters( 'cocart_empty_cart', array() );
 		}
 
 		/**
@@ -250,7 +194,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
-			'items_weight'   => wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'items_weight'   => wc_get_weight( (int)$this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
 			'coupons'        => array(),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
@@ -393,9 +337,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   int        $variation_id - ID of the variation.
 	 * @param   array      $variation    - Attribute values.
 	 * @param   WC_Product $product      - The product data.
+	 * @param   int        $product_id   - Parent ID of the variation.
 	 * @return  array
 	 */
-	protected function validate_variable_product( $variation_id, $variation, $product ) {
+	protected function validate_variable_product( $variation_id = 0, $variation = array(), $product, $product_id = 0 ) {
 		try {
 			// Flatten data and format posted values.
 			$variable_product_attributes = $this->get_variable_product_attributes( $product );
@@ -557,6 +502,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$product_type = $product->get_type();
 			}
 
+			$variation_id = 0;
+
 			// Set correct product ID's if product type is a variation.
 			if ( $product->is_type( 'variation' ) ) {
 				$product_id   = $product->get_parent_id();
@@ -565,7 +512,16 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Validate variable/variation product.
 			if ( $product_type === 'variable' || $product_type === 'variation' ) {
-				$variation = $this->validate_variable_product( $product_id, $quantity, $variation_id, $variation, $item_data, $product );
+				$variation = $this->validate_variable_product( $variation_id, $variation, $product, $product_id );
+			}
+
+			/**
+			 * If variables are not valid then return error response.
+			 *
+			 * @param $variation
+			 */
+			if ( is_wp_error( $variation ) ) {
+				return $variation;
 			}
 
 			$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $item_data, $product_type, $request );
@@ -721,6 +677,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Current user ID.
 		$current_user_id = strval( get_current_user_id() );
 
+		if ( $current_user_id > 0 ) {
+			return $current_user_id;
+		}
+
 		// Customer ID used as the cart key by default.
 		$cart_key = WC()->session->get_customer_id();
 
@@ -806,8 +766,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$label = wc_attribute_label( $taxonomy );
 			} else {
 				// If this is a custom option slug, get the options name.
-				$value = apply_filters( 'cocart_variation_option_name', $value, null, $taxonomy, $product );
-				$label = wc_attribute_label( str_replace( 'attribute_', '', $name ), $product );
+				$value = apply_filters( 'cocart_variation_option_name', $value, $product );
+				$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
 			}
 
 			$return[ $label ] = $value;
@@ -1108,7 +1068,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => wc_get_weight( $_product->get_weight() * $cart_item['quantity'], $weight_unit ),
+				'weight'       => wc_get_weight( (int)$_product->get_weight() * (int)$cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
 			),
 			'cart_item_data' => array(),
 		);
@@ -1126,7 +1086,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		// Variation data.
 		if ( ! isset( $cart_item['variation'] ) ) {
-			$cart_item['variation'] = array(); }
+			$cart_item['variation'] = array();
+		}
 		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
 
 		// If thumbnail is requested then add it to each item in cart.

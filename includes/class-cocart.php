@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '3.0.0-beta.3';
+	public static $version = '3.0.0-beta.4';
 
 	/**
 	 * CoCart Database Schema version.
@@ -96,7 +96,7 @@ final class CoCart {
 		// Load REST API.
 		add_action( 'init', array( __CLASS__, 'load_rest_api' ) );
 
-		// Init action.
+		// Initialize action.
 		do_action( 'cocart_init' );
 	} // END init()
 
@@ -104,6 +104,7 @@ final class CoCart {
 	 * Setup Constants
 	 *
 	 * @access  public
+	 * @static
 	 * @since   1.2.0
 	 * @version 3.0.0
 	 */
@@ -129,6 +130,7 @@ final class CoCart {
 	 * Define constant if not already set.
 	 *
 	 * @access private
+	 * @static
 	 * @since  1.2.0
 	 * @param  string      $name
 	 * @param  string|bool $value
@@ -143,6 +145,7 @@ final class CoCart {
 	 * Includes required core files.
 	 *
 	 * @access  public
+	 * @static
 	 * @since   1.0.0
 	 * @version 3.0.0
 	 * @return  void
@@ -195,6 +198,7 @@ final class CoCart {
 	 * WooCommerce constants.
 	 *
 	 * @access public
+	 * @static
 	 * @since  3.0.0
 	 * @return void
 	 */
@@ -288,6 +292,7 @@ final class CoCart {
 	 * Filters the session handler to replace with our own.
 	 *
 	 * @access  public
+	 * @static
 	 * @since   2.1.2
 	 * @version 3.0.0
 	 * @param   string WooCommerce Session Handler
@@ -306,6 +311,7 @@ final class CoCart {
 	 * Includes WooCommerce tweaks.
 	 *
 	 * @access  public
+	 * @static
 	 * @since   2.1.2
 	 * @version 3.0.0
 	 * @return  void

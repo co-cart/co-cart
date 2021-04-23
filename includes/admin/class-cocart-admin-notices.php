@@ -212,7 +212,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 				do_action( 'cocart_hide_' . $hide_notice . '_notice' );
 
-				wp_safe_redirect( remove_query_arg( array( 'cocart-hide-notice', '_cocart_notice_nonce' ), admin_url( 'plugins.php' ) ) );
+				wp_safe_redirect( remove_query_arg( array( 'cocart-hide-notice', '_cocart_notice_nonce' ), CoCart_Helpers::cocart_get_current_admin_url() ) );
 				exit;
 			}
 		} // END hide_notices()

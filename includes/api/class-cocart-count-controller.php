@@ -47,10 +47,13 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_cart_contents_count' ),
-				'permission_callback' => '__return_true',
-				'args'                => $this->get_collection_params(),
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_cart_contents_count' ),
+					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	} // register_routes()
@@ -104,6 +107,31 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 
 		return $count;
 	} // END get_cart_contents_count()
+
+	/**
+	 * Get the schema for returning the item count, conforming to JSON Schema.
+	 *
+	 * @access public
+	 * @since  3.0.0
+	 * @return array
+	 */
+	public function get_item_schema() {
+		$schema = array(
+			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'CoCart - ' . __( 'Count Items in Cart', 'cart-rest-api-for-woocommerce' ),
+			'type'       => 'object',
+			'properties' => array(
+				'removed_items' => array(
+					'required'    => false,
+					'default'     => false,
+					'description' => __( 'Returns count for removed items from the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'boolean',
+				),
+			),
+		);
+
+		return $schema;
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for counting items.

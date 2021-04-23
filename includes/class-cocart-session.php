@@ -111,9 +111,35 @@ class CoCart_API_Session {
 			$cart_key        = trim( wp_unslash( $_REQUEST[ $action ] ) );
 			$override_cart   = true;  // Override the cart by default.
 			$notify_customer = false; // Don't notify the customer by default.
-			$redirect        = false; // Don't safely redirect the customer to the cart after loading by default.
+			$user_id         = 0;     // Guest user unless stated later.
 
 			wc_nocache_headers();
+
+			// Check the user is logged in. If true a different cart cannot be loaded so just return.
+			if ( is_user_logged_in() ) {
+				$current_user = wp_get_current_user();
+				$user_id      = $current_user->ID;
+
+				// Compare the user ID with the cart key.
+				if ( $user_id == $cart_key ) {
+					CoCart_Logger::log( sprintf( __( 'Cart key "%s" is already loaded as the user is logged in.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'errro' );
+				} else {
+					CoCart_Logger::log( sprintf( __( 'Customer is already logged in. Cart key "%s" cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
+				}
+				return;
+			}
+			// If user is not logged in, check that the cart key does not belong to a user registered.
+			else {
+				$user = get_user_by( 'id', $cart_key );
+
+				// If the user exists then just return.
+				if ( ! is_null( $user->ID ) ) {
+					CoCart_Logger::log( __( 'Cart key is recognised as a registered user on site. Cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), 'error' );
+					return;
+				}
+			}
+
+			// At this point, the cart should load into session with no issues as we have passed verification.
 
 			// Check if we are keeping the cart currently set via the web.
 			if ( ! empty( $_REQUEST['keep-cart'] ) && is_bool( $_REQUEST['keep-cart'] ) !== true ) {
@@ -123,11 +149,6 @@ class CoCart_API_Session {
 			// Check if we are notifying the customer via the web.
 			if ( ! empty( $_REQUEST['notify'] ) && is_bool( $_REQUEST['notify'] ) !== true ) {
 				$notify_customer = true;
-			}
-
-			// Check if we are safely redirecting the customer to the cart via the web.
-			if ( ! empty( $_REQUEST['redirect'] ) && is_bool( $_REQUEST['redirect'] ) !== true ) {
-				$redirect = true;
 			}
 
 			// Get the cart in the database.
@@ -182,6 +203,12 @@ class CoCart_API_Session {
 				do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
 			}
 
+			// Destroy cart and cookie if user is a guest customer before creating a new one.
+			if ( ! is_user_logged_in() ) {
+				WC()->session->delete_cart( WC()->session->get_customer_id() );
+				WC()->session->destroy_cookie();
+			}
+
 			// Sets the php session data for the loaded cart.
 			WC()->session->set( 'cart', $new_cart['cart'] );
 			WC()->session->set( 'applied_coupons', $new_cart['applied_coupons'] );
@@ -197,15 +224,17 @@ class CoCart_API_Session {
 				WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
 			}
 
+			// Set loaded cart for guest customer.
+			if ( ! is_user_logged_in() ) {
+				WC()->session->set_cart_hash();
+				WC()->session->set_customer_id( $cart_key );
+				WC()->session->set_cart_expiration();
+				WC()->session->set_customer_cart_cookie( true );
+			}
+
 			// If true, notify the customer that there cart has transferred over via the web.
 			if ( ! empty( $new_cart ) && $notify_customer ) {
 				wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
-			}
-
-			// If true, redirect the customer to the cart safely.
-			if ( $redirect ) {
-				wp_safe_redirect( wc_get_cart_url() );
-				exit;
 			}
 		}
 	} // END load_cart_action()

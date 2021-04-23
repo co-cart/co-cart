@@ -30,6 +30,7 @@ function cocart_update_300_db_structure() {
 	if ( is_null( $source_exists ) ) {
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}cocart_carts ADD `cart_created` BIGINT UNSIGNED NOT NULL AFTER `cart_value`" );
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}cocart_carts ADD `cart_source` VARCHAR(200) NOT NULL AFTER `cart_expiry`" );
+		$wpdb->query( "ALTER TABLE {$wpdb->prefix}cocart_carts ADD `cart_hash` VARCHAR(200) NOT NULL AFTER `cart_source`" );
 	}
 }
 

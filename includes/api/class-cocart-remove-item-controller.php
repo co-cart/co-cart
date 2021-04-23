@@ -133,9 +133,14 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 
 				$response = $controller->get_cart_contents( $request );
 
+				$product = wc_get_product( $current_data['product_id'] );
+
+				/* translators: %s: Item name. */
+				$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', $product ? sprintf( _x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ), $current_data );
+
 				// Was it requested to return status once item removed?
 				if ( $request['return_status'] ) {
-					$response = __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' );
+					$response = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ) );
 				}
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );

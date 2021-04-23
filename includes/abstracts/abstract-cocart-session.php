@@ -47,6 +47,14 @@ abstract class CoCart_Session {
 	protected $_dirty = false;
 
 	/**
+	 * Stores cart hash.
+	 *
+	 * @access protected
+	 * @var    string $_cart_hash cart hash
+	 */
+	protected $_cart_hash;
+
+	/**
 	 * Init hooks and session data. Extended by child classes.
 	 *
 	 * @access public
@@ -144,6 +152,16 @@ abstract class CoCart_Session {
 	}
 
 	/**
+	 * Set customer ID.
+	 *
+	 * @access public
+	 * @param  string $customer_id Customer ID.
+	 */
+	public function set_customer_id( $customer_id ) {
+		$this->_customer_id = $customer_id;
+	}
+
+	/**
 	 * Get session data
 	 *
 	 * @access public
@@ -151,6 +169,16 @@ abstract class CoCart_Session {
 	 */
 	public function get_data() {
 		return $this->_data;
+	}
+
+	/**
+	 * Get cart hash
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_cart_hash() {
+		return $this->_cart_hash;
 	}
 
 }

@@ -2,49 +2,59 @@
 
 ## v3.0.0 - ?? ??, 2021 (Date Subject to Change)
 
-This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. It now also provides a new route to provide store information and administrator API for viewing carts in session.
+This release brings a new API providing more than before. Thanks to the feedback from the users, CoCart v3 brings a much better response for the cart with new options for developers to utilize. 
 
-Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](#) and your good to go.
+CoCart has an all-new flow experience for developers with more support.
+
+Updating to the new API is easy. Most parameters are the same. Some defaults have changed while other parameters have changed for the better. Simply follow the [upgrade guide](https://cocart.xyz/upgrading-api-from-v1-to-v2/) and your good to go.
 
 Error validation has also be improved so even the smallest of errors caused by the developer can get a clear explination as to what went wrong.
 
-> Quantity argument had to be changed back to a string format for WordPress to validate the value without causing an error if you have debug mode enabled. Validation for the quantity argument is checked after so it can still be a int or float value but it must be sent as a string. If an invalid value is passed, new error validation will warn you.
+> Quantity argument had to be changed back to a string format for WordPress to validate the value without causing an error if you have debug mode enabled. Validation for the quantity argument is checked after so it can still be a int or float value but it must be sent as a string. If an invalid value is passed, the new error validation will warn you.
 
 * **NEW**: API routes.
 * * Store API [GET]      - `wp-json/cocart/v2/store`
 * * Cart [GET]           - `wp-json/cocart/v2/cart`
-* * Cart [DELETE]        - `wp-json/cocart/v2/cart/{cart_key}`
 * * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
 * * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
-* * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/<item_key>`
 * * Cart Items [GET]     - `wp-json/cocart/v2/cart/items`
 * * Count Items [GET]    - `wp-json/cocart/v2/cart/items/count`
-* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/item/{item_key}`
-* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/{item_key}`
-* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/{item_key}`
+* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/item/<item_key>`
+* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/<item_key>`
+* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/<item_key>`
 * * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
 * * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
 * * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
+* * Login [POST]         - `wp-json/cocart/v2/login`
 * * Logout [POST]        - `wp-json/cocart/v2/logout`
-* * Session [GET]        - `wp-json/cocart/v2/session/{session_id}`
-* * Session Items [GET]  - `wp-json/cocart/v2/session/{session_id}/items`
+* * Session [GET]        - `wp-json/cocart/v2/session/<session_id>`
+* * Session [DELETE]     - `wp-json/cocart/v2/session/<session_id>`
+* * Session Items [GET]  - `wp-json/cocart/v2/session/<session_id>/items`
 * * Sessions [GET]       - `wp-json/cocart/v2/sessions`
 * 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* ⛓️ **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
 * 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
-* 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See documentation]() for more information.
+* 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See article for more information](https://cocart.xyz/force-api-permissions/).
 * 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
  * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
  * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
 * 🧾 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have **v3.2.5** or above.
-* 🚢 **NEW**: Support for WooCommerce Advanced Shipping Packages extension.
-* 🎁 **NEW**: Support for WooCommerce Free Gift Coupons extension.
+* 🚢 **NEW**: Support for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
+* 🎁 **NEW**: Support for [WooCommerce Free Gift Coupons](https://woocommerce.com/products/free-gift-coupons/) extension.
+* 🗝️ **NEW**: Support for [JWT Auth plugin](https://wordpress.org/plugins/jwt-auth/) by Useful Team.
 * Tweaked: Session data now handled by new abstract to gain more control over it.
 * Tweaked: Cart key now returns in the cart response the first time round. 🥳
 * Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
+* Tweaked: Loading a cart from session is now prevented if user is already logged in.
+* Tweaked: Loading a cart from session is now prevented if the cart key requested matches any registered user when accessing the site as guest.
+* Tweaked: Cart session now stores when the cart was created, it's source and hash.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
-* Tested: ✔️ Compatible with WooCommerce v5.1
+* Deprecated: Redirect to cart after using load cart from session.
+* Tested: ✔️ Compatible with WooCommerce v5.2
 * Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
 * Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
+* Dev: Forked `get_customer_unique_id()` from WooCommerce session handler for backwards compatibility. Introduced to help with unit tests in WooCommerce since version 5.3. Not needed for CoCart.
 
 ### For developers
 
@@ -110,10 +120,19 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Dev: Introduced `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
 * Dev: Introduced `cocart_wc_navigation` filter to move back CoCart to WordPress admin navigation instead of WooCommerce admin navigation.
 
-### In progress
+## v2.9.3 - 14th April, 2021
 
-* **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
-* Fixed: Cart data now returns when asking to redirect to cart after using load cart from session. 🥳
+* Fixed: Cart not clearing when you specify a cart key. Set the cart empty instead of using WooCommerce internal function `WC()->cart->empty()` as it was not consistent.
+* Dev: Introduced two new action hooks before and after clearing the cart. `cocart_before_cart_emptied` and `cocart_cart_emptied`.
+* Tested: ✔️ Compatible with WooCommerce v5.2
+
+## v2.9.2 - 31st March, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: An issue with the `woocommerce_cart_hash` cookie setting to **null**.
+
+> This was due to the last patch "v2.9.1" introducing the `samesite` attribute with the default value to "None". It is now set to "Lax" as the default value.
 
 ## v2.9.1 - 21st March, 2021
 

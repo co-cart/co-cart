@@ -38,10 +38,13 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 			try {
 				/**
-				 * If the response is empty then either something seriously has gone wrong
-				 * or the response was already filtered earlier and returned nothing.
+				 * The response can only return empty based on a few things.
+				 *
+				 * 1. Something seriously has gone wrong server side and no response could be provided.
+				 * 2. The response returned nothing because the cart is empty.
+				 * 3. The developer filtered the response incorrectly and returned nothing.
 				 */
-				if ( $rest_base !== 'cart' && empty( $response ) ) {
+				if ( $rest_base !== 'cart' && $rest_base !== 'session' && empty( $response ) ) {
 					throw new CoCart_Data_Exception( 'cocart_response_returned_empty', sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $namespace, $rest_base ) ) ) );
 				}
 
@@ -49,6 +52,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 				$default_response = apply_filters( 'cocart_return_default_response', true );
 
 				if ( ! $default_response ) {
+					// This filter can be used as a final straw for changing the response to what ever needs.
 					$response = apply_filters( 'cocart_' . $rest_base . '_response', $response );
 				}
 

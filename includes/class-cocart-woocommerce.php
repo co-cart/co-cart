@@ -41,6 +41,9 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			// Delete user data.
 			add_action( 'delete_user', array( $this, 'delete_user_data' ) );
+
+			// Filters in the cart hash to match from session. - JUST IN CASE! 😐
+			add_filter( 'woocommerce_cart_hash', function() { return WC()->session->get_cart_hash(); }, 0 );
 		}
 
 		/**
@@ -84,30 +87,49 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @version 3.0.0
 		 */
 		public static function load_cart_from_session() {
-			if ( ! WC()->session instanceof CoCart_Session_Handler && ! CoCart_Authentication::is_rest_api_request() ) {
+			if ( WC()->session instanceof CoCart_Session_Handler && ! CoCart_Authentication::is_rest_api_request() ) {
 				return;
 			}
 
-			$customer_id = strval( get_current_user_id() );
+			$customer_id = 0; // Guest customer unless stated otherwise later.
 
 			$cookie = WC()->session->get_session_cookie();
 
-			// If cookie exists then return customer ID from it.
+			// If cookie exists then return cart key from it.
 			if ( $cookie ) {
-				$customer_id = $cookie[0];
+				$cart_key = $cookie[0];
 			}
 
 			// Check if we requested to load a specific cart.
 			if ( isset( $_REQUEST['cart_key'] ) ) {
-				$cart_id = $_REQUEST['cart_key'];
-
-				// Set customer ID in session.
-				$customer_id = $cart_id;
+				$cart_key = $_REQUEST['cart_key'];
 			}
 
-			// Get cart for customer.
-			$cart = WC()->session->get_cart( $customer_id );
+			// Check if the user is logged in.
+			if ( is_user_logged_in() ) {
+				$customer_id = strval( get_current_user_id() );
 
+				// Compare the customer ID with the cart key. If they match then return error message.
+				if ( $customer_id == $cart_key ) {
+					$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+					wp_send_json_error( $error, 403 );
+					exit;
+				}
+			} else {
+				$user = get_user_by( 'id', $cart_key );
+
+				// If the user exists then return error message.
+				if ( ! is_null( $user->ID ) ) {
+					$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+					wp_send_json_error( $error, 403 );
+					exit;
+				}
+			}
+
+			// Get requested cart.
+			$cart = WC()->session->get_cart( $cart_key );
+
+			// Get current cart contents.
 			$cart_contents = WC()->session->get( 'cart', null );
 
 			// Merge saved cart with current cart.
