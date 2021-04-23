@@ -730,7 +730,8 @@ class CoCart_Session_Handler extends CoCart_Session {
 				'cart_expiry' => $this->_cart_expiration,
 			),
 			array( 'cart_key' => $cart_key ),
-			array( '%d' )
+			array( '%s', '%d' ),
+			array( '%s' )
 		);
 	} // END update_cart()
 
@@ -738,7 +739,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * Delete the cart from the cache and database.
 	 *
 	 * @access public
-	 * @param  string $cart_key The customer ID or cart key.
+	 * @param  string $cart_key The cart key.
 	 * @global $wpdb
 	 */
 	public function delete_cart( $cart_key ) {
@@ -748,21 +749,27 @@ class CoCart_Session_Handler extends CoCart_Session {
 		wp_cache_delete( $this->get_cache_prefix() . $cart_key, COCART_CART_CACHE_GROUP );
 
 		// Delete cart from database.
-		$wpdb->delete( $this->_table, array( 'cart_key' => $cart_key ) );
+		$wpdb->delete( $this->_table, array( 'cart_key' => $cart_key ), array( '%s' ) );
 	} // END delete_cart()
 
 	/**
 	 * Update the cart expiry timestamp.
 	 *
 	 * @access public
-	 * @param  string $cart_key  The customer ID or cart key.
+	 * @param  string $cart_key  The cart key.
 	 * @param  int    $timestamp Timestamp to expire the cookie.
 	 * @global $wpdb
 	 */
 	public function update_cart_timestamp( $cart_key, $timestamp ) {
 		global $wpdb;
 
-		$wpdb->update( $this->_table, array( 'cart_expiry' => $timestamp ), array( 'cart_key' => $cart_key ), array( '%d' ) );
+		$wpdb->update(
+			$this->_table,
+			array( 'cart_expiry' => $timestamp ), 
+			array( 'cart_key' => $cart_key ), 
+			array( '%d' ), 
+			array( '%s' )
+		);
 	} // END update_cart_timestamp()
 
 	/**
@@ -772,7 +779,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @since   2.7.2
 	 * @version 3.0.0
 	 * @param   array  $data     The cart data to validate.
-	 * @param   string $cart_key The customer ID or cart key.
+	 * @param   string $cart_key The cart key.
 	 * @return  array  $data     Returns the original cart data or a boolean value.
 	 */
 	protected function is_cart_data_valid( $data, $cart_key ) {
