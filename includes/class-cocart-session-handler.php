@@ -526,12 +526,24 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END destroy_cart()
 
 	/**
-	 * Forget all cart data without destroying it.
+	 * Destroy cart cookie.
 	 *
 	 * @access public
+	 * @since  3.0.0
+	 */
+	public function destroy_cookie() {
+		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
+	} // END destroy_cookie()
+
+	/**
+	 * Forget all cart data without destroying it.
+	 *
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.0
 	 */
 	public function forget_cart() {
-		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
+		$this->destroy_cookie();
 
 		// Empty cart.
 		wc_empty_cart();
