@@ -91,8 +91,6 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				return;
 			}
 
-			$customer_id = 0; // Guest customer unless stated otherwise later.
-
 			$cookie = WC()->session->get_session_cookie();
 
 			// If cookie exists then return cart key from it.
