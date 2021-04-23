@@ -203,6 +203,12 @@ class CoCart_API_Session {
 				do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
 			}
 
+			// Destroy cart and cookie if user is a guest customer before creating a new one.
+			if ( ! is_user_logged_in() ) {
+				WC()->session->delete_cart( WC()->session->get_customer_id() );
+				WC()->session->destroy_cookie();
+			}
+
 			// Sets the php session data for the loaded cart.
 			WC()->session->set( 'cart', $new_cart['cart'] );
 			WC()->session->set( 'applied_coupons', $new_cart['applied_coupons'] );
@@ -216,6 +222,14 @@ class CoCart_API_Session {
 
 			if ( ! empty( $new_cart['cart_fees'] ) ) {
 				WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
+			}
+
+			// Set loaded cart for guest customer.
+			if ( ! is_user_logged_in() ) {
+				WC()->session->set_cart_hash();
+				WC()->session->set_customer_id( $cart_key );
+				WC()->session->set_cart_expiration();
+				WC()->session->set_customer_cart_cookie( true );
 			}
 
 			// If true, notify the customer that there cart has transferred over via the web.

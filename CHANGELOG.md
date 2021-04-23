@@ -33,6 +33,7 @@ Error validation has also be improved so even the smallest of errors caused by t
 * * Session Items [GET]  - `wp-json/cocart/v2/session/<session_id>/items`
 * * Sessions [GET]       - `wp-json/cocart/v2/sessions`
 * 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* ⛓️ **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
 * 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
 * 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See article for more information](https://cocart.xyz/force-api-permissions/).
 * 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
@@ -46,7 +47,7 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Tweaked: Cart key now returns in the cart response the first time round. 🥳
 * Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
 * Tweaked: Loading a cart from session is now prevented if user is already logged in.
-* Tweaked: Loading a cart from session is now prevented if the cart key requested matches any registered user.
+* Tweaked: Loading a cart from session is now prevented if the cart key requested matches any registered user when accessing the site as guest.
 * Tweaked: Cart session now stores when the cart was created, it's source and hash.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Deprecated: Redirect to cart after using load cart from session.
@@ -118,10 +119,6 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Dev: Introduced `cocart_upload_dir` filter allows you to change where files are uploaded using CoCart.
 * Dev: Introduced `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
 * Dev: Introduced `cocart_wc_navigation` filter to move back CoCart to WordPress admin navigation instead of WooCommerce admin navigation.
-
-### In progress
-
-* **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used. - [Read article for details]().
 
 ## v2.9.3 - 14th April, 2021
 
