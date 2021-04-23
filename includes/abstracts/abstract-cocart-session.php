@@ -152,6 +152,16 @@ abstract class CoCart_Session {
 	}
 
 	/**
+	 * Set customer ID.
+	 *
+	 * @access public
+	 * @param  string $customer_id Customer ID.
+	 */
+	public function set_customer_id( $customer_id ) {
+		$this->_customer_id = $customer_id;
+	}
+
+	/**
 	 * Get session data
 	 *
 	 * @access public
