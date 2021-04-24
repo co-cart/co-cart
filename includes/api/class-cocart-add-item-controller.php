@@ -116,7 +116,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			if ( ! is_wp_error( $was_added_to_cart ) ) {
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
-					$response = $controller->get_item( $was_added_to_cart );
+					$response = $controller->get_item( $was_added_to_cart['data'], $was_added_to_cart, $was_added_to_cart['key'], true );
 				} else {
 					$response = $controller->get_cart_contents( $request );
 				}
