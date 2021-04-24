@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $campaign_args = array(
-	'utm_medium'   => 'co-cart-lite',
+	'utm_medium'   => 'cocart-lite',
 	'utm_source'   => 'WordPress',
 	'utm_campaign' => 'liteplugin',
 	'utm_content'  => 'getting-started',
@@ -39,9 +39,13 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 
 			<p><?php printf( __( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ); ?>
 
-			<p><?php printf( __( '%s handles the shopping cart in any modern framework of your choosing. No local storing and zero configuration required. Powerful and developer friendly ready to build your headless store.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+			<p><?php printf( __( '%s focuses on the front-end of the store helping you to manage shopping carts and allows developers to build a headless store in any framework of their choosing. No local storing required.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
 
-			<p><?php printf( __( 'Now that you have %s installed, your ready to start developing.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+			<p><?php printf( __( 'Now that you have %1$s installed, your ready to start developing. In the documentation you will find the API routes available along with action hooks and filters that allow you to customise %1$s to your needs.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+
+			<p><?php _e( 'There is also a knowledge base section that provides answers to most common questions should you find that you need help. This is best to be looked at first before contacting for support.', 'cart-rest-api-for-woocommerce' ); ?>
+
+			<p><?php printf( __( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
 
 			<?php
 			// Display warning notice if WooCommerce is not installed or the minimum required version.
@@ -51,7 +55,16 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 			?>
 
 			<p style="text-align: center;">
-				<?php printf( '<a class="button button-primary button-large" href="%1$s" target="_blank">%2$s</a>', COCART_DOCUMENTATION_URL, esc_html__( 'View Documentation', 'cart-rest-api-for-woocommerce' ) ); ?>
+				<?php printf( '<a class="button button-primary button-large" href="%1$s" target="_blank">%2$s</a>', COCART_DOCUMENTATION_URL, esc_html__( 'View Documentation', 'cart-rest-api-for-woocommerce' ) ); ?> 
+				<?php printf( '<a class="button button-secondary button-large" href="%1$s" target="_blank">%2$s</a>', CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ), esc_html__( 'Join Community', 'cart-rest-api-for-woocommerce' ) ); ?>
+
+				<hr>
+
+				<p><?php printf( __( 'Want to find compatible plugins or extensions for CoCart. Checkout our plugin suggestions that can help enhance your development and your customers shopping experience.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+
+				<p style="text-align: center;">
+					<?php printf( '<a class="button button-secondary button-medium" href="%1$s">%2$s</a>', esc_url( $addons_url ), esc_html__( 'View Plugin Suggestions', 'cart-rest-api-for-woocommerce' ) ); ?>
+				</p>
 			</p>
 		</div>
 	</div>
@@ -96,15 +109,9 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 
 				<hr>
 
-				<p><?php printf( __( 'There are many add-ons also available to extend %s to enhance your development and your customers shopping experience.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+				<p class="price-tag"><sub>$</sub>99<sup>/yr</sup></p>
 
-				<p style="text-align: center;">
-					<?php printf( '<a class="button button-secondary button-medium" href="%1$s" target="_blank">%2$s</a>', esc_url( $addons_url ), esc_html__( 'See all Add-ons', 'cart-rest-api-for-woocommerce' ) ); ?>
-				</p>
-
-				<p class="price-tag"><sub>$</sub>159<sup>/yr</sup></p>
-
-				<p><?php printf( __( 'Upgrade to %s and get plugin updates and support per year up to 10 websites. Access to all pro add-ons plus all future pro add-ons.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ); ?></p>
+				<p><?php printf( __( 'Upgrade to %s and get plugin updates and support per year for 1 website. You may upgrade your licence at any time, just pay the difference in cost!', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ); ?></p>
 
 				<p style="text-align: center;">
 					<?php printf( '<a class="button upgrade button-medium" href="%1$s" target="_blank">%2$s</a>', esc_url( $pro_url ), esc_html__( 'Upgrade Now', 'cart-rest-api-for-woocommerce' ) ); ?>
