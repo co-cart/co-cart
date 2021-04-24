@@ -107,8 +107,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			if ( is_user_logged_in() ) {
 				$customer_id = strval( get_current_user_id() );
 
-				// Compare the customer ID with the cart key. If they match then return error message.
-				if ( $customer_id == $cart_key ) {
+				// Compare the customer ID with the requested cart key. If they match then return error message.
+				if ( isset( $_REQUEST['cart_key'] ) && $customer_id == $_REQUEST['cart_key'] ) {
 					$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 					wp_send_json_error( $error, 403 );
 					exit;
