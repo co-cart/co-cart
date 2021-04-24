@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  2.8.0
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -57,12 +57,21 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @return array
+	 * @since   2.3.0
+	 * @version 3.0.0
+	 * @return  array
 	 */
 	public static function get_note_args() {
 		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+
+		$campaign_args = array(
+			'utm_medium'   => 'cocart-lite',
+			'utm_source'   => 'WordPress',
+			'utm_campaign' => 'liteplugin',
+			'utm_content'  => 'wc-inbox',
+		);
 
 		$args = array(
 			'title'   => __( 'Need help with CoCart?', 'cart-rest-api-for-woocommerce' ),
@@ -72,7 +81,7 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 				array(
 					'name'    => 'cocart-learn-more-support',
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'     => 'https://cocart.xyz/support/?utm_source=inbox',
+					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'support/' ) ) ),
 					'status'  => $status,
 					'primary' => true,
 				),

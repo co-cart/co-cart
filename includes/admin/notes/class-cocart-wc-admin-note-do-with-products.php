@@ -74,26 +74,35 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @return array
+	 * @since   2.3.0
+	 * @version 3.0.0
+	 * @return  array
 	 */
 	public static function get_note_args() {
 		$type   = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING;
 		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+
+		$campaign_args = array(
+			'utm_medium'   => 'cocart-lite',
+			'utm_source'   => 'WordPress',
+			'utm_campaign' => 'liteplugin',
+			'utm_content'  => 'wc-inbox',
+		);
 
 		$args = array(
 			'title'   => sprintf( __( '6 things you can do with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
 			'content' => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
 			'type'    => $type,
 			'layout'  => 'thumbnail',
-			'image'   => 'https://cocart.xyz/wp-content/uploads/2020/03/rwmibqmoxry-128x214.jpg',
+			'image'   => esc_url( COCART_STORE_URL . 'wp-content/uploads/2020/03/rwmibqmoxry-128x214.jpg' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
 					'name'    => 'cocart-learn-more-products',
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'     => 'https://cocart.xyz/6-things-you-can-do-with-cocart-products/?utm_source=inbox',
+					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . '6-things-you-can-do-with-cocart-products/' ) ) ),
 					'status'  => $status,
 					'primary' => true,
 				),

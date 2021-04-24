@@ -152,8 +152,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					printf(
 						/* translators: %1$s: https://cocart.xyz/add-ons/, %2$s: https://cocart.xyz/woocommerce-extensions/ */
 						__( 'These plugins extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ),
-						esc_url( 'https://cocart.xyz/add-ons/' ),
-						esc_url( 'https://cocart.xyz/woocommerce-extensions/' )
+						esc_url( COCART_STORE_URL . 'add-ons/' ),
+						esc_url( COCART_STORE_URL . 'woocommerce-extensions/' )
 					);
 					?>
 				</p>
@@ -192,7 +192,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'CoCart'
 					),
 					'supportText' => esc_html__( 'Learn more about these suggestions.', 'cart-rest-api-for-woocommerce' ),
-					'supportLink' => 'https://cocart.xyz/plugin-suggestions/',
+					'supportLink' => COCART_STORE_URL . 'plugin-suggestions/',
 				)
 			);
 
@@ -240,6 +240,13 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return array List of add-ons.
 		 */
 		public function get_addons_list() {
+			$campaign_args = array(
+				'utm_medium'   => 'cocart-lite',
+				'utm_source'   => 'WordPress',
+				'utm_campaign' => 'liteplugin',
+				'utm_content'  => 'plugin-suggestions',
+			);
+
 			return array(
 				'cocart-products'  => array(
 					'name'              => esc_html__( 'Products', 'cart-rest-api-for-woocommerce' ),
@@ -254,8 +261,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'requires_php' => '7.2',
 						'last_updated' => '',
 					),
-					'purchase'          => esc_url( 'https://cocart.xyz/pro/#pricing' ),
-					'learn_more'        => esc_url( 'https://cocart.xyz/add-ons/products/' ),
+					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
+					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/products/' ) ) ),
 					'third_party'       => false,
 				),
 				'cocart-acf'       => array(
@@ -271,8 +278,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'requires_php' => '7.2',
 						'last_updated' => '',
 					),
-					'purchase'          => esc_url( 'https://cocart.xyz/pro/#pricing' ),
-					'learn_more'        => esc_url( 'https://cocart.xyz/add-ons/advanced-custom-fields/' ),
+					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
+					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/advanced-custom-fields/' ) ) ),
 					'third_party'       => false,
 				),
 				'cocart-yoast-seo' => array(
@@ -288,8 +295,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'requires_php' => '7.2',
 						'last_updated' => '',
 					),
-					'purchase'          => esc_url( 'https://cocart.xyz/pro/#pricing' ),
-					'learn_more'        => esc_url( 'https://cocart.xyz/add-ons/yoast-seo/' ),
+					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
+					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/yoast-seo/' ) ) ),
 					'third_party'       => false,
 				),
 			);
