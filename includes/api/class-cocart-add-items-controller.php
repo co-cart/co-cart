@@ -66,42 +66,50 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function add_items_to_cart( $request = array() ) {
-		$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-		$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
+		try {
+			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
+			$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
-		$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_Cart_V2_Controller();
 
-		// Filters additional requested data.
-		$request = $controller->filter_request_data( $request );
+			// Filters additional requested data.
+			$request = $controller->filter_request_data( $request );
 
-		// Validate product ID before continuing and return correct product ID if different.
-		$product_id = $this->validate_product_id( $product_id );
+			// Validate product ID before continuing and return correct product ID if different.
+			$product_id = $this->validate_product_id( $product_id );
 
-		// The product we are attempting to add to the cart.
-		$adding_to_cart = wc_get_product( $product_id );
-		$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
+			// The product we are attempting to add to the cart.
+			$adding_to_cart = wc_get_product( $product_id );
+			$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
 
-		// Add to cart handlers
-		$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
+			// Add to cart handlers
+			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
-		if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
-			$was_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
-		} else {
-			$was_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
-		}
-
-		// Was it requested to return the items details after being added?
-		if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
-			$response = array();
-
-			foreach ( $was_added_to_cart as $item ) {
-				$response[] = $controller->get_item( $item );
+			if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
+				$was_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+			} else {
+				$was_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
 			}
-		} else {
-			$response = $controller->get_cart_contents( $request );
-		}
 
-		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			if ( ! is_wp_error( $was_added_to_cart ) ) {
+				// Was it requested to return the items details after being added?
+				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
+					$response = array();
+
+					foreach ( $was_added_to_cart as $id => $item ) {
+						$response[] = $controller->get_item( $item['data'], $item, $item['key'], true );
+					}
+				} else {
+					$response = $controller->get_cart_contents( $request );
+				}
+
+				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			}
+
+			return $was_added_to_cart;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
 	} // END add_items_to_cart()
 
 	/**
