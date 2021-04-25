@@ -171,7 +171,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 				if ( ! $was_added_to_cart && ! $quantity_set ) {
 					throw new CoCart_Data_Exception( 'cocart_grouped_product_failed', __( 'Please choose the quantity of items you wish to add to your cart.', 'cart-rest-api-for-woocommerce' ), 404 );
 				} elseif ( $was_added_to_cart ) {
-					wc_add_to_cart_message( $added_to_cart );
+					cocart_add_to_cart_message( $added_to_cart );
 
 					// Calculate totals now all items in the group has been added to cart.
 					$controller->get_cart_instance()->calculate_totals();
