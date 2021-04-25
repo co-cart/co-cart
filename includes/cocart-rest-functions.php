@@ -331,3 +331,50 @@ function cocart_price_no_html( $price, $args = array() ) {
 	 */
 	return apply_filters( 'cocart_price_no_html', $return, $price, $args, $unformatted_price, $original_price );
 } // END cocart_price_no_html()
+
+
+/**
+ * Add to cart messages.
+ *
+ * Forked wc_add_to_cart_message() function and altered to remove HTML context
+ * for the use of the REST API returning clean notices once products have 
+ * been added to cart.
+ *
+ * @param int|array $products Product ID list or single product ID.
+ * @param bool      $show_qty Should qty's be shown?
+ * @param bool      $return   Return message rather than add it.
+ *
+ * @return mixed
+ */
+function cocart_add_to_cart_message( $products, $show_qty = false, $return = false ) {
+	$titles = array();
+	$count  = 0;
+
+	if ( ! is_array( $products ) ) {
+		$products = array( $products => 1 );
+		$show_qty = false;
+	}
+
+	if ( ! $show_qty ) {
+		$products = array_fill_keys( array_keys( $products ), 1 );
+	}
+
+	foreach ( $products as $product_id => $qty ) {
+		/* translators: %s: product name */
+		$titles[] = apply_filters( 'cocart_add_to_cart_qty_html', ( $qty > 1 ? $qty . ' &times; ' : '' ), $product_id ) . apply_filters( 'cocart_add_to_cart_item_name_in_quotes', sprintf( _x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), strip_tags( get_the_title( $product_id ) ) ), $product_id );
+		$count   += $qty;
+	}
+
+	$titles = array_filter( $titles );
+
+	/* translators: %s: product name */
+	$added_text = sprintf( _n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cart-rest-api-for-woocommerce' ), wc_format_list_of_items( $titles ) );
+
+	$message = apply_filters( 'cocart_add_to_cart_message_html', esc_html( $added_text ), $products, $show_qty );
+
+	if ( $return ) {
+		return $message;
+	} else {
+		wc_add_notice( $message, 'success' );
+	}
+} // END cocart_add_to_cart_message()
