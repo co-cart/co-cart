@@ -166,7 +166,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					wc_add_to_cart_message( $added_to_cart );
 
 					// Calculate totals now all items in the group has been added to cart.
-					WC()->cart->calculate_totals();
+					$controller->get_cart_instance()->calculate_totals();
 
 					return $added_to_cart;
 				}
