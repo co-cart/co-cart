@@ -120,6 +120,12 @@ Error validation has also be improved so even the smallest of errors caused by t
 * Dev: Introduced `cocart_show_admin_notice` filter allows you to disable all CoCart admin notices. - _Please know that doing so will prevent any manual update actions required if disabled, unless you have `cocart_enable_auto_update_db` enabled._
 * Dev: Introduced `cocart_wc_navigation` filter to move back CoCart to WordPress admin navigation instead of WooCommerce admin navigation.
 
+> The following filters match filters used in WooCommerce add to cart success notice once product is added to cart. Parameters are equally the same so returning the same results is easy.
+
+* Dev: Introduced `cocart_add_to_cart_qty_html` filter matches `woocommerce_add_to_cart_qty_html` allows you to change the quantity html returned.
+* Dev: Introduced `cocart_add_to_cart_item_name_in_quotes` filter matches `woocommerce_add_to_cart_item_name_in_quotes` allows you to change the formatting of the item name in quotes.
+* Dev: Introduced `cocart_add_to_cart_message_html` filter matches `wc_add_to_cart_message_html` allows you to change the add to cart message based on the products and quantity.
+
 ## v2.9.3 - 14th April, 2021
 
 * Fixed: Cart not clearing when you specify a cart key. Set the cart empty instead of using WooCommerce internal function `WC()->cart->empty()` as it was not consistent.
