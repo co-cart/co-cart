@@ -119,11 +119,13 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 		try {
 			$controller = new CoCart_Cart_V2_Controller();
 
+			$was_added_to_cart = false;
+			$added_to_cart     = array();
+
 			if ( ! empty( $items ) ) {
 				$quantity_set = false;
 
 				foreach ( $items as $item => $quantity ) {
-
 					$quantity = wc_stock_amount( $quantity );
 
 					if ( $quantity <= 0 ) {
@@ -135,15 +137,24 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					// Product validation
 					$product_to_add = $controller->validate_product( $item, $quantity, 0, array(), array(), 'grouped', $request );
 
+					/**
+					 * If validation failed then return error response.
+					 *
+					 * @param $product_to_add
+					 */
+					if ( is_wp_error( $product_to_add ) ) {
+						return $product_to_add;
+					}
+
 					// Suppress total recalculation until finished.
 					remove_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
 
 					// Add item to cart once validation is passed.
 					$item_added = $this->add_item_to_cart( $product_to_add );
 
-					if ( $passed_validation && false !== $item_added ) {
+					if ( false !== $item_added ) {
 						$was_added_to_cart      = true;
-						$added_to_cart[ $item ] = $quantity;
+						$added_to_cart[ $item ] = $item_added;
 					}
 
 					add_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
