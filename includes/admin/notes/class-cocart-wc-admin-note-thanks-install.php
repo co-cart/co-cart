@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  2.8.0
+ * @version  3.0.0
  * @license  GPL-2.0+
  */
 
@@ -67,12 +67,21 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @return array
+	 * @since   2.3.0
+	 * @version 3.0.0
+	 * @return  array
 	 */
 	public static function get_note_args() {
 		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+
+		$campaign_args = array(
+			'utm_medium'   => 'cocart-lite',
+			'utm_source'   => 'WordPress',
+			'utm_campaign' => 'liteplugin',
+			'utm_content'  => 'wc-inbox',
+		);
 
 		$args = array(
 			'title'   => sprintf( __( 'Thank you for installing %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
@@ -82,7 +91,7 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 				array(
 					'name'    => 'cocart-view-documentation',
 					'label'   => __( 'View Documentation', 'cart-rest-api-for-woocommerce' ),
-					'url'     => 'https://docs.cocart.xyz/?utm_source=inbox',
+					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://docs.cocart.xyz' ) ) ),
 					'status'  => $status,
 					'primary' => true,
 				),

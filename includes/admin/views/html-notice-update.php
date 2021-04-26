@@ -35,7 +35,7 @@ $update_url = wp_nonce_url(
 				echo sprintf( esc_html__( '%s has been updated! To keep things running smoothly, we have to update your database to the newest version.', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
 
 				/* translators: 1: Link to docs 2: Close link. */
-				printf( ' ' . esc_html__( 'The database update process runs in the background and may take a little while, so please be patient. Advanced users can alternatively update via %1$sWP CLI%2$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' .esc_url( 'https://cocart.xyz/upgrading-the-database-using-wp-cli/' ) . '" target="_blank">', '</a>' );
+				printf( ' ' . esc_html__( 'The database update process runs in the background and may take a little while, so please be patient. Advanced users can alternatively update via %1$sWP CLI%2$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' .esc_url( COCART_STORE_URL . 'upgrading-the-database-using-wp-cli/' ) . '" target="_blank">', '</a>' );
 				?>
 			</p>
 		</div>

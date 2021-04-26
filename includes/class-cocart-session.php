@@ -111,7 +111,6 @@ class CoCart_API_Session {
 			$cart_key        = trim( wp_unslash( $_REQUEST[ $action ] ) );
 			$override_cart   = true;  // Override the cart by default.
 			$notify_customer = false; // Don't notify the customer by default.
-			$user_id         = 0;     // Guest user unless stated later.
 
 			wc_nocache_headers();
 

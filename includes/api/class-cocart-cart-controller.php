@@ -155,8 +155,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return  array   $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = '', $from_session = false ) {
-		$controller = new CoCart_Count_Items_v2_Controller();
-
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 

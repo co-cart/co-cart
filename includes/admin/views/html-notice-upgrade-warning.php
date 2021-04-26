@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<?php
 			$campaign_args = array(
-				'utm_medium'   => 'co-cart-lite',
+				'utm_medium'   => 'cocart-lite',
 				'utm_source'   => 'plugins-page',
 				'utm_campaign' => 'plugins-row',
 				'utm_content'  => 'go-pro',
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-action">
-			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" target="_blank">%2$s</a>', esc_url( 'https://cocart.xyz/contact/' ), esc_html__( 'Sign Up to Test', 'cart-rest-api-for-woocommerce' ) ); ?>
+			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" target="_blank">%2$s</a>', esc_url( COCART_STORE_URL . 'contact/' ), esc_html__( 'Sign Up to Test', 'cart-rest-api-for-woocommerce' ) ); ?>
 			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'upgrade_warning', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Don\'t ask me again', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>

@@ -66,42 +66,50 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function add_items_to_cart( $request = array() ) {
-		$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
-		$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
+		try {
+			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
+			$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
-		$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_Cart_V2_Controller();
 
-		// Filters additional requested data.
-		$request = $controller->filter_request_data( $request );
+			// Filters additional requested data.
+			$request = $controller->filter_request_data( $request );
 
-		// Validate product ID before continuing and return correct product ID if different.
-		$product_id = $this->validate_product_id( $product_id );
+			// Validate product ID before continuing and return correct product ID if different.
+			$product_id = $this->validate_product_id( $product_id );
 
-		// The product we are attempting to add to the cart.
-		$adding_to_cart = wc_get_product( $product_id );
-		$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
+			// The product we are attempting to add to the cart.
+			$adding_to_cart = wc_get_product( $product_id );
+			$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
 
-		// Add to cart handlers
-		$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
+			// Add to cart handlers
+			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
-		if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
-			$was_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
-		} else {
-			$was_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
-		}
-
-		// Was it requested to return the items details after being added?
-		if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
-			$response = array();
-
-			foreach ( $was_added_to_cart as $item ) {
-				$response[] = $controller->get_item( $item );
+			if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
+				$was_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+			} else {
+				$was_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
 			}
-		} else {
-			$response = $controller->get_cart_contents( $request );
-		}
 
-		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			if ( ! is_wp_error( $was_added_to_cart ) ) {
+				// Was it requested to return the items details after being added?
+				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
+					$response = array();
+
+					foreach ( $was_added_to_cart as $id => $item ) {
+						$response[] = $controller->get_item( $item['data'], $item, $item['key'], true );
+					}
+				} else {
+					$response = $controller->get_cart_contents( $request );
+				}
+
+				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			}
+
+			return $was_added_to_cart;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
 	} // END add_items_to_cart()
 
 	/**
@@ -119,11 +127,13 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 		try {
 			$controller = new CoCart_Cart_V2_Controller();
 
+			$was_added_to_cart = false;
+			$added_to_cart     = array();
+
 			if ( ! empty( $items ) ) {
 				$quantity_set = false;
 
 				foreach ( $items as $item => $quantity ) {
-
 					$quantity = wc_stock_amount( $quantity );
 
 					if ( $quantity <= 0 ) {
@@ -135,15 +145,24 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					// Product validation
 					$product_to_add = $controller->validate_product( $item, $quantity, 0, array(), array(), 'grouped', $request );
 
+					/**
+					 * If validation failed then return error response.
+					 *
+					 * @param $product_to_add
+					 */
+					if ( is_wp_error( $product_to_add ) ) {
+						return $product_to_add;
+					}
+
 					// Suppress total recalculation until finished.
 					remove_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
 
 					// Add item to cart once validation is passed.
 					$item_added = $this->add_item_to_cart( $product_to_add );
 
-					if ( $passed_validation && false !== $item_added ) {
+					if ( false !== $item_added ) {
 						$was_added_to_cart      = true;
-						$added_to_cart[ $item ] = $quantity;
+						$added_to_cart[ $item ] = $item_added;
 					}
 
 					add_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
@@ -152,10 +171,10 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 				if ( ! $was_added_to_cart && ! $quantity_set ) {
 					throw new CoCart_Data_Exception( 'cocart_grouped_product_failed', __( 'Please choose the quantity of items you wish to add to your cart.', 'cart-rest-api-for-woocommerce' ), 404 );
 				} elseif ( $was_added_to_cart ) {
-					wc_add_to_cart_message( $added_to_cart );
+					cocart_add_to_cart_message( $added_to_cart );
 
 					// Calculate totals now all items in the group has been added to cart.
-					WC()->cart->calculate_totals();
+					$controller->get_cart_instance()->calculate_totals();
 
 					return $added_to_cart;
 				}

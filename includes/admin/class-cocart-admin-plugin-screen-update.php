@@ -175,7 +175,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 					__( 'Because of the great feedback %1$s users have provided, <strong>%1$s v%2$s</strong> will be introducing a new and improved API in the future. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Sign Up to Test</a>.', 'cart-rest-api-for-woocommerce' ),
 					$plugin_name,
 					COCART_NEXT_VERSION,
-					esc_url( 'https://cocart.xyz/contact/' )
+					esc_url( COCART_STORE_URL . 'contact/' )
 				);
 
 				echo '</p></div></td></tr>';

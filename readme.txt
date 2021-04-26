@@ -208,7 +208,7 @@ You will first need WooCommerce v4.3 or higher installed with the REST API enabl
 
 The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. It does not nativley provide an API for controlling the frontend.
 
-CoCart handles the your customers cart for you ready to use in any modern framework of your choosing. No local storing required. It's **Powerful** and **Developer** friendly ready to build your headless store the way you want, **without the need to build an API**.
+CoCart handles your customers cart for you ready to use in any modern framework of your choosing. No local storing required. It's **Powerful** and **Developer** friendly ready to build your headless store the way you want, **without the need to build an API**.
 
 If you are wanting to build a headless store powered by WooCommerce, then CoCart is your solution. But don't take my word for it. [Checkout the testimonials left by others](https://cocart.xyz/wall-of-love/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
@@ -249,7 +249,7 @@ Such as when the cart was created. This information is only stored in the browse
 
 Also the source of the cart it was last saved. For the web it will be `WooCommerce` and for your headlesss store `CoCart`. This lets you know which version of your store your customers are shopping from.
 
-= Can I have WordPress running on domain and my headless store on another domain? =
+= Can I have WordPress running on one domain and my headless store on another domain? =
 
 Yes of course. You just need to enable CORS. You can do that easily with [the CORS add-on](https://wordpress.org/plugins/cocart-cors/) or you can [manually enable it via the filters in the documentation](https://docs.cocart.xyz/#filters-api-access-cors-allow-all-cross-origin-headers).
 
@@ -269,7 +269,7 @@ WooCommerce Store API is limited and designed mainly to focus on their [Gutenber
 
 = Do you have a JavaScript Library? =
 
-Yes we do. You can [find it here](https://www.npmjs.com/package/@cocart/cocart-rest-api). It's very similar to WooCommerce's JavaScript Library. The only difference is that it's much up to date and doesn't require authentication so guest customers can be supported. It supports CommonJS (CJS) and ECMAScript Modules (ESM). Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
+Yes we do. You can [find it here](https://www.npmjs.com/package/@cocart/cocart-rest-api). It doesn't require authentication for guest customers. It supports CommonJS (CJS) and ECMAScript Modules (ESM). Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
 
 = Can I install/update CoCart via Composer? =
 
@@ -281,7 +281,7 @@ Yes. Just install CoCart and activate it via the network and all sites will have
 
 = Can I enable white labelling for CoCart? =
 
-Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://docs.cocart.xyz/?php#wp-config-php-white-labelling).
+Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://docs.cocart.xyz/#wp-config-php-white-labelling).
 
 = Does CoCart work with the Dokan plugin? =
 
@@ -305,7 +305,7 @@ If you get stuck, you can ask for help in the [CoCart support forum](https://wor
 
 = Where can I find out about the pricing of CoCart Pro? =
 
-Find out all relevant [pricing information over on the official site.](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
+Find out all relevant [pricing information over on the official site](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 = My question is not listed here. Where can I find more answers? =
 
