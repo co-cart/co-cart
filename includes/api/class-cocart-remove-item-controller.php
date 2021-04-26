@@ -120,7 +120,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 					$product = wc_get_product( $removed_contents[ $item_key ]['product_id'] );
 
 					/* translators: %s: Item name. */
-					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ), $current_data );
+					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
 
 					/* translators: %s: Item name. */
 					$message = sprintf( __( '%s has already been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_already_removed_title );
