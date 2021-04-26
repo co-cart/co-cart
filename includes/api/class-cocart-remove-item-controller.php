@@ -130,12 +130,11 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 				}
 
 				/**
-				 * Filters message about item not in cart.
+				 * Filters message about item removed from cart.
 				 *
-				 * @since 2.1.0
 				 * @param string $message Message.
 				 */
-				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'remove' );
+				$message = apply_filters( 'cocart_item_removed_message', $message );
 
 				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
