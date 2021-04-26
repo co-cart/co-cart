@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-rc.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-04-25 16:59:43+00:00\n"
+"POT-Creation-Date: 2021-04-26 10:02:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1285,7 +1285,7 @@ msgid "No item in the cart."
 msgstr ""
 
 #: includes/api/class-cocart-item-controller.php:96
-#: includes/api/class-cocart-remove-item-controller.php:175
+#: includes/api/class-cocart-remove-item-controller.php:189
 #: includes/api/class-cocart-restore-item-controller.php:140
 #: includes/api/class-cocart-update-item-controller.php:237
 #: includes/api/cocart/v1/class-cocart-item-controller.php:430
@@ -1323,29 +1323,33 @@ msgstr ""
 msgid "No items in cart."
 msgstr ""
 
-#: includes/api/class-cocart-remove-item-controller.php:111
-#: includes/api/class-cocart-update-item-controller.php:105
-#: includes/api/cocart/v1/class-cocart-item-controller.php:110
-#: includes/api/cocart/v1/class-cocart-item-controller.php:266
-msgid "Item specified does not exist in cart."
-msgstr ""
-
-#: includes/api/class-cocart-remove-item-controller.php:139
+#: includes/api/class-cocart-remove-item-controller.php:112
+#: includes/api/class-cocart-remove-item-controller.php:123
 msgid "Item"
 msgstr ""
 
-#: includes/api/class-cocart-remove-item-controller.php:144
+#: includes/api/class-cocart-remove-item-controller.php:126
+#. translators: %s: Item name.
+msgid "%s has already been removed from cart."
+msgstr ""
+
+#: includes/api/class-cocart-remove-item-controller.php:129
+#. translators: %s: Item name.
+msgid "%s does not exist in cart."
+msgstr ""
+
+#: includes/api/class-cocart-remove-item-controller.php:158
 #. translators: %s: Item name.
 msgid "%s has been removed from cart."
 msgstr ""
 
-#: includes/api/class-cocart-remove-item-controller.php:149
+#: includes/api/class-cocart-remove-item-controller.php:163
 #: includes/api/cocart/v1/class-cocart-item-controller.php:144
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:398
 msgid "Unable to remove item from cart."
 msgstr ""
 
-#: includes/api/class-cocart-remove-item-controller.php:181
+#: includes/api/class-cocart-remove-item-controller.php:195
 msgid "Returns a message after removing item from cart."
 msgstr ""
 
@@ -1397,6 +1401,12 @@ msgstr ""
 
 #: includes/api/class-cocart-totals-controller.php:99
 msgid "This cart either has no items or was not calculated."
+msgstr ""
+
+#: includes/api/class-cocart-update-item-controller.php:105
+#: includes/api/cocart/v1/class-cocart-item-controller.php:110
+#: includes/api/cocart/v1/class-cocart-item-controller.php:266
+msgid "Item specified does not exist in cart."
 msgstr ""
 
 #: includes/api/class-cocart-update-item-controller.php:144
@@ -1680,7 +1690,7 @@ msgstr ""
 #: includes/class-cocart-product-validation.php:65
 #. translators: %1$s: product type, %2$s: api route
 msgid ""
-"You cannot use this route to add a \"%s\" products to the cart. Please use "
+"You cannot use this route to add \"%s\" products to the cart. Please use "
 "%2$s instead."
 msgstr ""
 
@@ -1903,9 +1913,14 @@ msgctxt "shipping packages"
 msgid "Shipping"
 msgstr ""
 
-#: includes/api/class-cocart-remove-item-controller.php:139
-#: includes/cocart-rest-functions.php:364
+#: includes/api/class-cocart-remove-item-controller.php:112
+#: includes/api/class-cocart-remove-item-controller.php:123
 #. translators: %s: Item name.
+msgctxt "Item name in quotes"
+msgid "\"%s\""
+msgstr ""
+
+#: includes/cocart-rest-functions.php:364
 #. translators: %s: product name
 msgctxt "Item name in quotes"
 msgid "&ldquo;%s&rdquo;"

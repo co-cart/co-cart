@@ -106,9 +106,28 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 			// Check item exists in cart before fetching the cart item data to update.
 			$current_data = $controller->get_cart_item( $item_key, 'remove' );
 
+			$product = wc_get_product( $current_data['product_id'] );
+
+			/* translators: %s: Item name. */
+			$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ), $current_data );
+
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+				$removed_contents = $controller->get_cart_instance()->get_removed_cart_contents();
+
+				// Check if the item has already been removed.
+				if ( isset( $removed_contents[ $item_key ] ) ) {
+					$product = wc_get_product( $removed_contents[ $item_key ]['product_id'] );
+
+					/* translators: %s: Item name. */
+					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ), $current_data );
+
+					/* translators: %s: Item name. */
+					$message = sprintf( __( '%s has already been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_already_removed_title );
+				} else {
+					/* translators: %s: Item name. */
+					$message = sprintf( __( '%s does not exist in cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );
+				}
 
 				/**
 				 * Filters message about item not in cart.
@@ -132,11 +151,6 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 				$controller->get_cart_instance()->calculate_totals();
 
 				$response = $controller->get_cart_contents( $request );
-
-				$product = wc_get_product( $current_data['product_id'] );
-
-				/* translators: %s: Item name. */
-				$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', $product ? sprintf( _x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ), $current_data );
 
 				// Was it requested to return status once item removed?
 				if ( $request['return_status'] ) {
