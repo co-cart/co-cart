@@ -89,6 +89,36 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 
 			$controller = new CoCart_Cart_V2_Controller();
 
+			// Check item removed from cart before fetching the cart item data.
+			$current_data = $controller->get_cart_instance()->get_removed_cart_contents();
+
+			// If item does not exist in cart return response.
+			if ( empty( $current_data ) ) {
+				$restored_item = $controller->get_cart_item( $item_key, 'restore' );
+
+				// Check if the item has already been restored.
+				if ( isset( $restored_item ) ) {
+					$product = wc_get_product( $restored_item['product_id'] );
+
+					/* translators: %s: Item name. */
+					$item_already_restored_title = apply_filters( 'cocart_cart_item_already_restored_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+
+					/* translators: %s: Item name. */
+					$message = sprintf( __( '%s has already been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $item_already_restored_title );
+				} else {
+					$message = __( 'Item does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+				}
+
+				/**
+				 * Filters message about item already restored to cart.
+				 *
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_item_restored_message', $message );
+
+				throw new CoCart_Data_Exception( 'cocart_item_restored_to_cart', $message, 404 );
+			}
+
 			if ( $controller->get_cart_instance()->restore_cart_item( $item_key ) ) {
 				$restored_item = $controller->get_cart_item( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
@@ -106,7 +136,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 
 				// Was it requested to return just the restored item?
 				if ( $request['return_item'] ) {
-					$response = $restored_item;
+					$response = $controller->get_item( $restored_item['data'], $restored_item, $restored_item['key'], true );
 				}
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
