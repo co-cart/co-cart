@@ -62,7 +62,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 
 				if ( ! empty( $route ) && ( false === strpos( $route, 'cocart/v2/add-item' ) ) && $product_data->get_type() == 'grouped' ) {
 					/* translators: %1$s: product type, %2$s: api route */
-					$message = sprintf( __( 'You cannot use this route to add a "%s" products to the cart. Please use %2$s instead.', 'cart-rest-api-for-woocommerce' ), $product_data->get_type(), str_replace( 'add-item', 'add-items', $route ) );
+					$message = sprintf( __( 'You cannot use this route to add "%s" products to the cart. Please use %2$s instead.', 'cart-rest-api-for-woocommerce' ), $product_data->get_type(), str_replace( 'add-item', 'add-items', $route ) );
 				} else {
 					/* translators: %1$s: product name, %2$s: product type */
 					$message = sprintf( __( 'You cannot add "%1$s" to your cart as it is an "%2$s" product.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $product_data->get_type() );
