@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Classes
  * @since    1.0.0
- * @version  3.0.0
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -105,14 +105,20 @@ class CoCart_REST_API {
 	 */
 	protected function get_v1_controllers() {
 		return array(
-			'cocart-v1-cart'        => 'CoCart_API_Controller',
-			'cocart-v1-add-item'    => 'CoCart_Add_Item_Controller',
-			'cocart-v1-calculate'   => 'CoCart_Calculate_Controller',
-			'cocart-v1-clear-cart'  => 'CoCart_Clear_Cart_Controller',
-			'cocart-v1-count-items' => 'CoCart_Count_Items_Controller',
-			'cocart-v1-item'        => 'CoCart_Item_Controller',
-			'cocart-v1-logout'      => 'CoCart_Logout_Controller',
-			'cocart-v1-totals'      => 'CoCart_Totals_Controller',
+			'cocart-v1-cart'                => 'CoCart_API_Controller',
+			'cocart-v1-add-item'            => 'CoCart_Add_Item_Controller',
+			'cocart-v1-calculate'           => 'CoCart_Calculate_Controller',
+			'cocart-v1-clear-cart'          => 'CoCart_Clear_Cart_Controller',
+			'cocart-v1-count-items'         => 'CoCart_Count_Items_Controller',
+			'cocart-v1-item'                => 'CoCart_Item_Controller',
+			'cocart-v1-logout'              => 'CoCart_Logout_Controller',
+			'cocart-v1-totals'              => 'CoCart_Totals_Controller',
+			'cocart-v1-product-attributes'  => 'CoCart_Product_Attributes_Controller',
+			'cocart-v1-product-categories'  => 'CoCart_Product_Categories_Controller',
+			'cocart-v1-product-reviews'     => 'CoCart_Product_Reviews_Controller',
+			'cocart-v1-product-tags'        => 'CoCart_Product_Tags_Controller',
+			'cocart-v1-products'            => 'CoCart_Products_Controller',
+			'cocart-v1-product-variations'  => 'CoCart_Product_Variations_Controller',
 		);
 	}
 
@@ -124,23 +130,29 @@ class CoCart_REST_API {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'cocart-v2-store'             => 'CoCart_Store_V2_Controller',
-			'cocart-v2-cart'              => 'CoCart_Cart_V2_Controller',
-			'cocart-v2-cart-add-item'     => 'CoCart_Add_Item_v2_Controller',
-			'cocart-v2-cart-add-items'    => 'CoCart_Add_Items_v2_Controller',
-			'cocart-v2-cart-item'         => 'CoCart_Item_v2_Controller',
-			'cocart-v2-cart-items'        => 'CoCart_Items_v2_Controller',
-			'cocart-v2-cart-items-count'  => 'CoCart_Count_Items_v2_Controller',
-			'cocart-v2-cart-update-item'  => 'CoCart_Update_Item_v2_Controller',
-			'cocart-v2-cart-remove-item'  => 'CoCart_Remove_Item_v2_Controller',
-			'cocart-v2-cart-restore-item' => 'CoCart_Restore_Item_v2_Controller',
-			'cocart-v2-cart-calculate'    => 'CoCart_Calculate_v2_Controller',
-			'cocart-v2-cart-clear'        => 'CoCart_Clear_Cart_v2_Controller',
-			'cocart-v2-cart-totals'       => 'CoCart_Totals_v2_Controller',
-			'cocart-v2-login'             => 'CoCart_Login_v2_Controller',
-			'cocart-v2-logout'            => 'CoCart_Logout_v2_Controller',
-			'cocart-v2-session'           => 'CoCart_Session_V2_Controller',
-			'cocart-v2-sessions'          => 'CoCart_Sessions_V2_Controller',
+			'cocart-v2-store'              => 'CoCart_Store_V2_Controller',
+			'cocart-v2-cart'               => 'CoCart_Cart_V2_Controller',
+			'cocart-v2-cart-add-item'      => 'CoCart_Add_Item_v2_Controller',
+			'cocart-v2-cart-add-items'     => 'CoCart_Add_Items_v2_Controller',
+			'cocart-v2-cart-item'          => 'CoCart_Item_v2_Controller',
+			'cocart-v2-cart-items'         => 'CoCart_Items_v2_Controller',
+			'cocart-v2-cart-items-count'   => 'CoCart_Count_Items_v2_Controller',
+			'cocart-v2-cart-update-item'   => 'CoCart_Update_Item_v2_Controller',
+			'cocart-v2-cart-remove-item'   => 'CoCart_Remove_Item_v2_Controller',
+			'cocart-v2-cart-restore-item'  => 'CoCart_Restore_Item_v2_Controller',
+			'cocart-v2-cart-calculate'     => 'CoCart_Calculate_v2_Controller',
+			'cocart-v2-cart-clear'         => 'CoCart_Clear_Cart_v2_Controller',
+			'cocart-v2-cart-totals'        => 'CoCart_Totals_v2_Controller',
+			'cocart-v2-login'              => 'CoCart_Login_v2_Controller',
+			'cocart-v2-logout'             => 'CoCart_Logout_v2_Controller',
+			'cocart-v2-session'            => 'CoCart_Session_V2_Controller',
+			'cocart-v2-sessions'           => 'CoCart_Sessions_V2_Controller',
+			'cocart-v2-product-attributes' => 'CoCart_Product_Attributes_V2_Controller',
+			'cocart-v2-product-categories' => 'CoCart_Product_Categories_V2_Controller',
+			'cocart-v2-product-reviews'    => 'CoCart_Product_Reviews_V2_Controller',
+			'cocart-v2-product-tags'       => 'CoCart_Product_Tags_V2_Controller',
+			'cocart-v2-products'           => 'CoCart_Products_V2_Controller',
+			'cocart-v2-product-variations' => 'CoCart_Product_Variations_V2_Controller',
 		);
 	}
 
@@ -274,7 +286,7 @@ class CoCart_REST_API {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 */
 	public function rest_api_includes() {
 		// Only include Legacy REST API if WordPress is v5.4.2 or lower.
@@ -292,6 +304,14 @@ class CoCart_REST_API {
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-item-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-logout-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-totals-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-abstract-terms-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-attribute-terms-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-attributes-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-categories-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-reviews-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-tags-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-products-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-variations-controller.php';
 
 		// CoCart REST API v2 controllers.
 		include_once dirname( __FILE__ ) . '/api/class-cocart-store-controller.php';
@@ -311,6 +331,14 @@ class CoCart_REST_API {
 		include_once dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-cocart-session-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-cocart-sessions-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-abstract-terms-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-attribute-terms-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-attributes-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-categories-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-reviews-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-tags-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-products-controller.php';
+		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-variations-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // rest_api_includes()
