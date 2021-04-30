@@ -61,7 +61,7 @@ class CoCart_Login_v2_Controller {
 	 * @return WP_Error|boolean
 	 */
 	public function get_permission_callback() {
-		if ( ! wc_rest_check_user_permissions( 'read' ) ) {
+		if ( strval( get_current_user_id() ) <= 0 ) {
 			return new WP_Error( 'cocart_rest_not_authorized', __( 'Sorry, you are not authorized.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
