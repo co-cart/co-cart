@@ -45,6 +45,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 				 * 3. The developer filtered the response incorrectly and returned nothing.
 				 */
 				if ( $rest_base !== 'cart' && $rest_base !== 'session' && empty( $response ) ) {
+					/* translators: %s: REST API URL */
 					throw new CoCart_Data_Exception( 'cocart_response_returned_empty', sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $namespace, $rest_base ) ) ) );
 				}
 

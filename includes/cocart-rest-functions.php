@@ -31,7 +31,9 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message );
 
 		$message     = empty( $message ) ? '' : ' ' . $message;
+		/* translators: %1$s: filter name, %2$s: version */
 		$log_string  = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $filter, $version );
+		/* translators: %s: filter name */
 		$log_string .= $replacement ? sprintf( esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ), $replacement ) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );

@@ -184,6 +184,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				COCART_SLUG . '-plugin-search',
 				'CoCartPluginSearch',
 				array(
+					/* translators: %s: CoCart */
 					'legend'      => sprintf(
 						esc_html__(
 							'This suggestion was made by %s, the awesome REST API plugin already installed on your site.',
@@ -403,6 +404,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function get_inject_data( $inject, $data ) {
 			return array(
+				/* translators: %1$s: Add-on name */
 				'name'              => empty( $data['third_party'] ) ? sprintf( esc_html__( '%1$s Add-on', 'cart-rest-api-for-woocommerce' ), $data['name'] ) : $data['name'],
 				'slug'              => empty( $data['third_party'] ) ? 'cocart-' . $data['plugin'] : $data['plugin'],
 				'plugin'            => $data['plugin'],
@@ -472,7 +474,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				// Override plugin slug to identify suggestion.
 				$inject_data['slug'] = 'cocart-plugin-search';
 
-				// Override card title and icon.
+				// Override card title and icon. /* translators: %s: Plugin author */
 				$inject_data['name']  = '<h3>' . $inject_data['name'] . '</h3><strong>' . sprintf( esc_html__( 'by %s', 'cart-rest-api-for-woocommerce' ), $inject_data['author'] ) . '</strong>';
 				$inject_data['icons'] = $inject_data['logo'];
 
@@ -613,6 +615,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
 				// Add plugin requirement.
 				if ( $key == $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
+					/* translators: %4$s: plugin does, %3$s: requirement */
 					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf( esc_html__( '%1$sPlugin %4$s: %2$s%3$s', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>', esc_html( $plugin['requirement'] ), $plugin['plugin_does'] ) . '</div>';
 				}
 			}
@@ -681,7 +684,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
 												esc_attr( $plugin['slug'] ),
 												esc_url( $plugin['purchase'] ),
-												/* translators: %s: Plugin name and version. */
+												/* translators: %s: Plugin name */
 												esc_attr( sprintf( __( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
 												esc_attr( $name ),
 												__( 'Purchase Now', 'cart-rest-api-for-woocommerce' )
@@ -705,7 +708,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 											esc_attr( $status['file'] ),
 											esc_attr( $plugin['slug'] ),
 											esc_url( $status['url'] ),
-											/* translators: %s: Plugin name and version. */
+											/* translators: %s: Plugin name */
 											esc_attr( sprintf( __( 'Update %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
 											esc_attr( $name ),
 											__( 'Update Now', 'cart-rest-api-for-woocommerce' )

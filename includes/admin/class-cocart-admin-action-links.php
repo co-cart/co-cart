@@ -49,6 +49,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 							'section' => 'getting-started',
 						),
 						$page
+						/* translators: %s: CoCart */
 					) . '" aria-label="' . sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
@@ -71,6 +72,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 */
 		public function plugin_row_meta( $metadata, $file, $data ) {
 			if ( $file == plugin_basename( COCART_FILE ) ) {
+				/* translators: %s: URL to author */
 				$metadata[1] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data['AuthorURI'] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data['Author'] . '</a>' );
 
 				$campaign_args = array(
@@ -81,6 +83,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				);
 
 				$row_meta = array(
+					/* translators: %s: CoCart */
 					'docs'      => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'View %s documentation', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'translate' => '<a href="' . esc_url( COCART_TRANSLATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'review'    => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
@@ -89,6 +92,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				// Only show donate option if CoCart Pro is not installed.
 				if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
 					$donate = array(
+						/* translators: %s: CoCart */
 						'donate'   => '<a href="' . esc_url( 'https://www.buymeacoffee.com/sebastien' ) . '" aria-label="' . sprintf( esc_attr__( 'Make a donation for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #399141; font-weight: 600;">' . esc_attr__( 'Donate', 'cart-rest-api-for-woocommerce' ) . '</a>',
 						'priority' => '<a href="' . CoCart_Helpers::build_shortlink( esc_url( COCART_STORE_URL . 'product/14-day-priority-support/' ) ) . '" aria-label="' . sprintf( esc_attr__( 'Order priority support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank" style="color: #9b6cc6; font-weight: 600;">' . esc_attr__( 'Priority Support', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					);
@@ -100,6 +104,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
 					$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' ) );
 
+					/* translators: %s: CoCart Pro */
 					$row_meta['upgrade'] = sprintf( '<a href="%1$s" aria-label="' . sprintf( esc_attr__( 'Upgrade to %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ) . '" target="_blank" style="color: #c00; font-weight: 600;">%2$s</a>', esc_url( $store_url ), esc_attr__( 'Upgrade to Pro', 'cart-rest-api-for-woocommerce' ) );
 				}
 

@@ -460,6 +460,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			 * @since 2.7.2
 			 */
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
+				/* translators: %s: filter name */
 				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
 				_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
 				CoCart_Logger::log( $message, 'debug' );

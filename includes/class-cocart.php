@@ -252,11 +252,13 @@ final class CoCart {
 	public static function activation_check() {
 		if ( ! CoCart_Helpers::is_environment_compatible() ) {
 			self::deactivate_plugin();
+			/* translators: %1$s: CoCart, %2$s: Environment message */
 			wp_die( sprintf( __( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart_Helpers::get_environment_message() ) );
 		}
 
 		if ( CoCart_Helpers::is_cocart_pro_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {
 			self::deactivate_plugin();
+			/* translators: %1$s: CoCart Lite, %2$s: CoCart Pro */
 			wp_die( sprintf( __( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart Lite', 'CoCart Pro' ) );
 		}
 	} // END activation_check()
