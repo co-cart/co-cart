@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.0-rc.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-05-01 08:51:12+00:00\n"
+"POT-Creation-Date: 2021-05-01 13:04:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,74 +24,74 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/admin/class-cocart-admin-action-links.php:57
+#: includes/admin/class-cocart-admin-action-links.php:53
 #: includes/admin/class-cocart-admin-menus.php:44
 #. translators: %s: CoCart
 msgid "Getting Started with %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:57
+#: includes/admin/class-cocart-admin-action-links.php:53
 msgid "Getting Started"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:76
 #. translators: %s: URL to author
 msgid "Developed By %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:80
+#: includes/admin/class-cocart-admin-action-links.php:76
 msgid "View the developers site"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
+#: includes/admin/class-cocart-admin-action-links.php:87
 #. translators: %s: CoCart
 msgid "View %s documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:91
+#: includes/admin/class-cocart-admin-action-links.php:87
 msgid "Documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:92
+#: includes/admin/class-cocart-admin-action-links.php:88
 msgid "Translate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:92
+#: includes/admin/class-cocart-admin-action-links.php:88
 msgid "Translate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:93
+#: includes/admin/class-cocart-admin-action-links.php:89
 msgid "Review %s on WordPress.org"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:93
+#: includes/admin/class-cocart-admin-action-links.php:89
 #: includes/admin/views/html-notice-please-review.php:34
 msgid "Leave a Review"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:100
+#: includes/admin/class-cocart-admin-action-links.php:96
 #. translators: %s: CoCart
 msgid "Make a donation for %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:100
+#: includes/admin/class-cocart-admin-action-links.php:96
 msgid "Donate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:101
+#: includes/admin/class-cocart-admin-action-links.php:97
 msgid "Order priority support for %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:101
+#: includes/admin/class-cocart-admin-action-links.php:97
 msgid "Priority Support"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:112
+#: includes/admin/class-cocart-admin-action-links.php:108
 #. translators: %s: CoCart Pro
 msgid "Upgrade to %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:112
+#: includes/admin/class-cocart-admin-action-links.php:108
 msgid "Upgrade to Pro"
 msgstr ""
 
@@ -1706,7 +1706,7 @@ msgstr ""
 msgid "The minimum PHP version required for %1$s is %2$s. You are running %3$s."
 msgstr ""
 
-#: includes/class-cocart-install.php:430
+#: includes/class-cocart-install.php:426
 #. translators: %1$s: message, %2$s: URL, %3$s: CoCart
 msgid "Get started with %3$s here:"
 msgstr ""
@@ -1781,13 +1781,13 @@ msgid ""
 "or %2$scheckout%3$s."
 msgstr ""
 
-#: includes/class-cocart-woocommerce.php:118
+#: includes/class-cocart-woocommerce.php:120
 msgid ""
 "You are already authenticating as the customer. Cannot set cart key as the "
 "user."
 msgstr ""
 
-#: includes/class-cocart-woocommerce.php:127
+#: includes/class-cocart-woocommerce.php:129
 msgid ""
 "Must authenticate customer as the cart key provided is a registered "
 "customer."
