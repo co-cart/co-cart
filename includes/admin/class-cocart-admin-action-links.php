@@ -41,10 +41,6 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		public function plugin_action_links( $links ) {
 			$page = admin_url( 'admin.php' );
 
-			/*if ( is_multisite() ) {
-				$page = network_admin_url( 'admin.php' );
-			}*/
-
 			if ( current_user_can( 'manage_options' ) ) {
 				$action_links = array(
 					'getting-started' => '<a href="' . add_query_arg(

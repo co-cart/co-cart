@@ -407,10 +407,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			$page = admin_url( 'admin.php' );
 
-			if ( $network_activation ) {
-				$page = network_admin_url( 'admin.php' );
-			}
-
 			$getting_started = add_query_arg(
 				array(
 					'page'    => 'cocart',
