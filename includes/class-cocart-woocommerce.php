@@ -42,8 +42,10 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			// Delete user data.
 			add_action( 'delete_user', array( $this, 'delete_user_data' ) );
 
-			// Filters in the cart hash to match from session. - JUST IN CASE! 😐
-			add_filter( 'woocommerce_cart_hash', function() { return WC()->session->get_cart_hash(); }, 0 );
+			// Filters in the cart hash to match from session. Only if WP-GraphQL does not exist or is not requested.
+			if ( ! function_exists( 'is_graphql_http_request' ) || ! is_graphql_http_request() ) {
+				add_filter( 'woocommerce_cart_hash', function() { return WC()->session->get_cart_hash(); }, 0 );
+			}
 		}
 
 		/**
@@ -87,6 +89,12 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @version 3.0.0
 		 */
 		public static function load_cart_from_session() {
+			// Return nothing if WP-GraphQL is requested.
+			if ( function_exists( 'is_graphql_http_request' ) && is_graphql_http_request() ) {
+				return;
+			}
+
+			// Check the CoCart session handler is used but is NOT a CoCart REST API request.
 			if ( WC()->session instanceof CoCart_Session_Handler && ! CoCart_Authentication::is_rest_api_request() ) {
 				return;
 			}
