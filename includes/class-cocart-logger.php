@@ -53,6 +53,7 @@ class CoCart_Logger {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-pro' );
 			} else {
+				/* translators: %1$s: Log entry name, %2$s: log entry version */
 				$log_entry = "\n" . sprintf( esc_html__( '====%1$s Version: %2$s====', 'cart-rest-api-for-woocommerce' ), apply_filters( 'cocart_log_entry_name', '', $plugin ), apply_filters( 'cocart_log_entry_version', '', $plugin ) ) . "\n";
 				$context   = array( 'source' => apply_filters( 'cocart_log_entry_source', '' ) );
 			}

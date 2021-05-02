@@ -52,6 +52,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 
 			if ( ! empty( $this->upgrade_notice ) ) {
 				echo '</p></div><div class="notice inline notice-cocart">' .
+				/* translators: %s: CoCart */
 				'<p class="cart"><strong>' . sprintf( esc_html__( '%s Upgrade Notice', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '</strong></p>' .
 				'<p>' . wp_kses_post( $this->upgrade_notice ) . '</p>' .
 				'</div>';

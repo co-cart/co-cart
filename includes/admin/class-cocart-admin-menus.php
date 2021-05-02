@@ -40,6 +40,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 
 			switch ( $section ) {
 				case 'getting-started':
+					/* translators: %s: CoCart */
 					$title      = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
 					$breadcrumb = esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' );
 					break;

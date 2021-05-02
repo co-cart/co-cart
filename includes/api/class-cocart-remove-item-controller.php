@@ -151,10 +151,16 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 
 				$response = $controller->get_cart_contents( $request );
 
+				/* translators: %s: Item name. */
+				$message = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );
+
+				// Add notice.
+				wc_add_notice( $message );
+
 				// Was it requested to return status once item removed?
 				if ( $request['return_status'] ) {
 					/* translators: %s: Item name. */
-					$response = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );
+					$response = $message;
 				}
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );

@@ -124,6 +124,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 
 				$product = wc_get_product( $product_id );
 
+				/* translators: %s: product name */
 				CoCart_Logger::log( sprintf( __( 'Product "%s" is protected and cannot be purchased.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
 			}
 			return $passed;
@@ -152,6 +153,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 				if ( $variation_id > 0 && ! $product->is_purchasable() ) {
 					$passed = false;
 
+					/* translators: %s: product name */
 					CoCart_Logger::log( sprintf( __( 'Variation for "%s" is not purchasable.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
 				}
 			}

@@ -53,6 +53,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 
 			if ( is_wp_error( $dispatched ) ) {
 				$logger->error(
+					/* translators: %s: dispatch error message */
 					sprintf( __( 'Unable to dispatch CoCart updater: %s', 'cart-rest-api-for-woocommerce' ), $dispatched->get_error_message() ),
 					array( 'source' => 'cocart_db_updates' )
 				);
@@ -125,15 +126,19 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 			$result = false;
 
 			if ( is_callable( $callback ) ) {
+				/* translators: %s: callback function */
 				$logger->info( sprintf( __( 'Running %s callback', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
 				$result = (bool) call_user_func( $callback, $this );
 
 				if ( $result ) {
+					/* translators: %s: callback function */
 					$logger->info( sprintf( __( '%s callback needs to run again', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
 				} else {
+					/* translators: %s: callback function */
 					$logger->info( sprintf( __( 'Finished running %s callback', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
 				}
 			} else {
+				/* translators: %s: callback function */
 				$logger->notice( sprintf( __( 'Could not find %s callback', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
 			}
 
