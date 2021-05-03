@@ -82,12 +82,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Triggers saved cart after login and updates user activity.
 		 *
-		 * @access public
-		 * @since  2.9.1
-		 * @param  int $user_id User ID if one has been determined.
-		 * @return int $user_id
+		 * @access  public
+		 * @since   2.9.1
+		 * @version 3.0.0
+		 * @param   WP_Error|null|bool $error Error data.
+		 * @return  WP_Error|null|bool
 		 */
-		public function cocart_user_logged_in( $result ) {
+		public function cocart_user_logged_in( $error ) {
 			global $current_user;
 
 			if ( $current_user->ID > 0 ) {
@@ -95,7 +96,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				update_user_meta(  $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
 
-			return $result;
+			return $error;
 		} // END cocart_user_logged_in()
 
 		/**
