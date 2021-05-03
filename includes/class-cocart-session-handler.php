@@ -679,7 +679,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @since   2.1.0
 	 * @version 3.0.0
 	 * @global  $wpdb
-	 * @return  $result
+	 * @return  $cart_key
 	 */
 	public function create_new_cart( $cart_key = '', $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
 		global $wpdb;
