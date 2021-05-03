@@ -171,7 +171,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				// Authentication hasn't occurred during `determine_current_user`, so check auth.
 				$user_id = $this->authenticate( false );
 
-				if ( $user_id ) {
+				if ( ! empty( $user_id ) ) {
 					wp_set_current_user( $user_id );
 					return true;
 				}
