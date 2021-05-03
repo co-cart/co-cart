@@ -101,6 +101,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			$cookie = WC()->session->get_session_cookie();
 
+			$cart_key = '';
+
 			// If cookie exists then return cart key from it.
 			if ( $cookie ) {
 				$cart_key = $cookie[0];
