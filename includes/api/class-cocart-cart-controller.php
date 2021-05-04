@@ -811,8 +811,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$coupon = new WC_Coupon( $coupon );
 		}
 
-		$discount_amount_html = '';
-
 		$amount = $this->get_cart_instance()->get_coupon_discount_amount( $coupon->get_code(), $this->get_cart_instance()->display_cart_ex_tax );
 
 		if ( $formatted ) {
