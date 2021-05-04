@@ -60,8 +60,6 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 						$error_message = sprintf( __( 'You are not allowed to modify the quantity of your %s gift.', 'cart-rest-api-for-woocommerce' ), $values['data']->get_name() );
 
 						throw new CoCart_Data_Exception( 'cocart_fgc_update_quantity', $error_message, 404 );
-
-						$passed_validation = false;
 					}
 				}
 
