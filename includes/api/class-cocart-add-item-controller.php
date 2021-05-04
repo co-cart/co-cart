@@ -61,6 +61,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	/**
 	 * Add to Cart.
 	 *
+	 * @throws  CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.0.0
