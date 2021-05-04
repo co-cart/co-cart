@@ -82,12 +82,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Triggers saved cart after login and updates user activity.
 		 *
-		 * @access public
-		 * @since  2.9.1
-		 * @param  int $user_id User ID if one has been determined.
-		 * @return int $user_id
+		 * @access  public
+		 * @since   2.9.1
+		 * @version 3.0.0
+		 * @param   WP_Error|null|bool $error Error data.
+		 * @return  WP_Error|null|bool
 		 */
-		public function cocart_user_logged_in( $result ) {
+		public function cocart_user_logged_in( $error ) {
 			global $current_user;
 
 			if ( $current_user->ID > 0 ) {
@@ -95,7 +96,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				update_user_meta(  $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
 
-			return $result;
+			return $error;
 		} // END cocart_user_logged_in()
 
 		/**
@@ -170,7 +171,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				// Authentication hasn't occurred during `determine_current_user`, so check auth.
 				$user_id = $this->authenticate( false );
 
-				if ( $user_id ) {
+				if ( ! empty( $user_id ) ) {
 					wp_set_current_user( $user_id );
 					return true;
 				}
@@ -314,7 +315,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.2.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 * @param   bool             $served  Whether the request has already been served. Default false.
 		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param   WP_REST_Request  $request Request used to generate the response.
@@ -331,7 +332,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				}
 
 				header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );
-				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
+				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE' );
 				header( 'Access-Control-Allow-Credentials: true' );
 				header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );
 				header( 'Access-Control-Expose-Headers: X-CoCart-API' );

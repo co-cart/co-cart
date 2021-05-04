@@ -101,6 +101,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			$cookie = WC()->session->get_session_cookie();
 
+			$cart_key = '';
+
 			// If cookie exists then return cart key from it.
 			if ( $cookie ) {
 				$cart_key = $cookie[0];
@@ -125,7 +127,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				$user = get_user_by( 'id', $cart_key );
 
 				// If the user exists then return error message.
-				if ( ! is_null( $user->ID ) ) {
+				if ( ! empty( $user ) ) {
 					$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 					wp_send_json_error( $error, 403 );
 					exit;

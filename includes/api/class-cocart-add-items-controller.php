@@ -61,6 +61,8 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	/**
 	 * Add other bundled or grouped products to Cart.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response

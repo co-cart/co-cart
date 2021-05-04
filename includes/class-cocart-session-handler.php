@@ -678,8 +678,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
+	 * @param   string $cart_key        - The cart key passed to create the cart.
+	 * @param   array  $cart_value      - The cart data.
+	 * @param   string $cart_expiration - Timestamp of cart expiration.
+	 * @param   string $cart_source     - Cart source.
 	 * @global  $wpdb
-	 * @return  $result
+	 * @return  $cart_key
 	 */
 	public function create_new_cart( $cart_key = '', $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
 		global $wpdb;
