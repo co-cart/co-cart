@@ -335,10 +335,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   int        $variation_id - ID of the variation.
 	 * @param   array      $variation    - Attribute values.
 	 * @param   WC_Product $product      - The product data.
-	 * @param   int        $product_id   - Parent ID of the variation.
 	 * @return  array
 	 */
-	protected function validate_variable_product( $variation_id = 0, $variation = array(), $product, $product_id = 0 ) {
+	protected function validate_variable_product( $variation_id = 0, $variation = array(), $product ) {
 		try {
 			// Flatten data and format posted values.
 			$variable_product_attributes = $this->get_variable_product_attributes( $product );
@@ -510,7 +509,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Validate variable/variation product.
 			if ( $product_type === 'variable' || $product_type === 'variation' ) {
-				$variation = $this->validate_variable_product( $variation_id, $variation, $product, $product_id );
+				$variation = $this->validate_variable_product( $variation_id, $variation, $product );
 			}
 
 			/**
