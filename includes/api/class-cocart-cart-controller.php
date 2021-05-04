@@ -1121,8 +1121,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	public function get_items( $cart_contents = array(), $show_thumb = true ) {
 		$items = array();
 
-		$weight_unit = get_option( 'woocommerce_weight_unit' );
-
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
