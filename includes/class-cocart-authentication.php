@@ -315,7 +315,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.2.0
-		 * @version 2.8.3
+		 * @version 3.0.0
 		 * @param   bool             $served  Whether the request has already been served. Default false.
 		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param   WP_REST_Request  $request Request used to generate the response.
@@ -332,7 +332,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				}
 
 				header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );
-				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE' );
+				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE' );
 				header( 'Access-Control-Allow-Credentials: true' );
 				header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );
 				header( 'Access-Control-Expose-Headers: X-CoCart-API' );
