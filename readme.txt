@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.7
-Stable tag: 2.9.3
+Stable tag: 3.0.0
 WC requires at least: 4.3
 WC tested up to: 5.3
 License: GPLv3
