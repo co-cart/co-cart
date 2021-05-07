@@ -134,7 +134,7 @@ class CoCart_API_Session {
 				$user = get_user_by( 'id', $cart_key );
 
 				// If the user exists then just return.
-				if ( ! is_null( $user->ID ) ) {
+				if ( ! empty( $user ) ) {
 					CoCart_Logger::log( __( 'Cart key is recognised as a registered user on site. Cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), 'error' );
 					return;
 				}

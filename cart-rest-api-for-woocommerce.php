@@ -5,7 +5,7 @@
  * Description: A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     3.0.0-rc.3
+ * Version:     3.0.0-rc.4
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.4
