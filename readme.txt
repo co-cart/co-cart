@@ -326,11 +326,43 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Changelog ==
 
-If you like CoCart, please take a moment to [provide a testimonial](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.0.0 - ?? ??, 2020 =
+= v3.0.0 - 10th May, 2021 =
 
-* NEW API
+This release brings a new version of the API providing more information than before. Thanks to the feedback from the users, CoCart v3 brings a much better cart response with an all-new flow experience, new options and support for developers to utilize and customise to their needs.
+
+Error validation has also be improved, so even the smallest of errors caused either by the server or an incorrect value used for a paremeter, a developer can get a clear explination as to what went wrong.
+
+Updating to the new API is simple and makes building your headless store easier than before. Most parameters are the same, other parameters have changed for the better including the default values. Simply follow the [upgrade guide](https://cocart.xyz/upgrading-api-from-v1-to-v2/) and your good to go.
+
+### What's New with CoCart v3?
+
+* 🥇 **NEW**: API v2 with new routes to help with the flow.
+* 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* ⛓️ **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used.
+* 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
+* 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See article for more information](https://cocart.xyz/force-api-permissions/).
+* 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
+ * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
+ * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
+* 🧾 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have **v3.2.5** or above.
+* 🚢 **NEW**: Support for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
+* 🎁 **NEW**: Support for [WooCommerce Free Gift Coupons](https://woocommerce.com/products/free-gift-coupons/) extension.
+* 🗝️ **NEW**: Support for [JWT Auth plugin](https://wordpress.org/plugins/jwt-auth/) by Useful Team.
+* 🌗 **NEW**: Compatible with WP-GraphQL WooCommerce add-on.
+* Tweaked: Session data now handled by new abstract to gain more control over it.
+* Tweaked: Cart key now returns in the cart response the first time round. 🥳
+* Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
+* Tweaked: Loading a cart from session is now prevented if a user is already logged in.
+* Tweaked: Loading a cart from session is now prevented if a user is not logged in and the cart key requested matches any registered user.
+* Tweaked: Cart session now stores when the cart was created, it's source and hash.
+* Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
+* Deprecated: Redirect to cart after using load cart from session.
+* Tested: ✔️ Compatible with WooCommerce v5.3
+* Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
+* Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
+* Dev: Forked `get_customer_unique_id()` from WooCommerce session handler for backwards compatibility. Introduced to help with unit tests in WooCommerce since version 5.3. Not needed for CoCart.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 
@@ -338,4 +370,4 @@ If you like CoCart, please take a moment to [provide a testimonial](https://word
 
 = 3.0.0 =
 
-NEW API! Backwards compatible with CoCart v1 API. Upgrade with ease. See upgrade guide! 😄
+CoCart's biggest update ever brings brand-new features, improves on REST API convention, performance, more cart data returned and introduces more support for developers. New flow experience. See changelog for details.
