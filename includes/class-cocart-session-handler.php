@@ -838,7 +838,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 					unset( $cart_session[ $key ]['data'] ); // Unset product object.
 				}
 
-				$cart_total = maybe_unserialize( $session['cart_totals'] );
+				$cart_total = isset( $session['cart_totals'] ) ? maybe_unserialize( $session['cart_totals'] ) : array( 'total' => 0 );
 			}
 		}
 

@@ -66,7 +66,7 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	public function get_store( $request ) {
 		// General store data.
 		$available = array(
-			'version'         => trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' ),
+			'version'         => COCART_VERSION,
 			'title'           => get_option( 'blogname' ),
 			'description'     => get_option( 'blogdescription' ),
 			'home_url'        => home_url(),
