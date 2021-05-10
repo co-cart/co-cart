@@ -1,35 +1,12 @@
 # Changelog for CoCart Lite
 
-## v3.0.0 - 10th May, 2021 (Date Subject to Change)
+## v3.0.0 - 10th May, 2021
 
-This release brings a new version of the API providing more information than before. Thanks to the feedback from the users, CoCart v3 brings a much better cart response with an all-new flow experience, new options and support for developers to utilize and customise to their needs.
-
-Error validation has also be improved, so even the smallest of errors caused either by the server or an incorrect value used for a paremeter, a developer can get a clear explination as to what went wrong.
-
-Updating to the new API is simple and makes building your headless store easier than before. Most parameters are the same, other parameters have changed for the better including the default values. Simply follow the [upgrade guide](https://cocart.xyz/upgrading-api-from-v1-to-v2/) and your good to go.
+[See blog post for release notes](https://cocart.xyz/cocart-v3-release-notes/).
 
 ### What's New with CoCart v3?
 
-* **NEW**: API routes.
-* * Store API [GET]      - `wp-json/cocart/v2/store`
-* * Cart [GET]           - `wp-json/cocart/v2/cart`
-* * Add Item [POST]      - `wp-json/cocart/v2/cart/add-item`
-* * Add Items [POST]     - `wp-json/cocart/v2/cart/add-items`
-* * Cart Item [GET]      - `wp-json/cocart/v2/cart/item/<item_key>`
-* * Cart Items [GET]     - `wp-json/cocart/v2/cart/items`
-* * Count Items [GET]    - `wp-json/cocart/v2/cart/items/count`
-* * Update Item [UPDATE] - `wp-json/cocart/v2/cart/item/<item_key>`
-* * Remove Item [DELETE] - `wp-json/cocart/v2/cart/item/<item_key>`
-* * Restore Item [PUT]   - `wp-json/cocart/v2/cart/item/<item_key>`
-* * Calculate Cart [GET] - `wp-json/cocart/v2/cart/calculate`
-* * Clear Cart [POST]    - `wp-json/cocart/v2/cart/clear`
-* * Cart Totals [GET]    - `wp-json/cocart/v2/cart/totals`
-* * Login [POST]         - `wp-json/cocart/v2/login`
-* * Logout [POST]        - `wp-json/cocart/v2/logout`
-* * Session [GET]        - `wp-json/cocart/v2/session/<session_id>`
-* * Session [DELETE]     - `wp-json/cocart/v2/session/<session_id>`
-* * Session Items [GET]  - `wp-json/cocart/v2/session/<session_id>/items`
-* * Sessions [GET]       - `wp-json/cocart/v2/sessions`
+* 🥇 **NEW**: API v2 with new routes to help with the flow.
 * 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
 * ⛓️ **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used.
 * 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
