@@ -328,7 +328,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @return  void
 		 */
 		public function upgrade_warning_notice() {
-			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( strstr( COCART_VERSION, '-', true ), COCART_NEXT_VERSION, '<' ) ) {
+			$version = strstr( COCART_VERSION, '-', true );
+
+			// If version returns empty then just set as the current plugin version.
+			if ( empty( $version ) ) {
+				$version = COCART_VERSION;
+			}
+
+			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( $version, COCART_NEXT_VERSION, '<' ) ) {
 				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-upgrade-warning.php';
 			}
 		} // END upgrade_warning_notice()
