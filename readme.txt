@@ -364,6 +364,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.0.0 =
+= 3.0 =
 
 CoCart's biggest update ever brings brand-new features, improves on REST API convention, performance, more cart data returned and introduces more support for developers. New flow experience. See changelog for details.
