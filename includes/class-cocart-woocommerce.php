@@ -42,8 +42,10 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			// Delete user data.
 			add_action( 'delete_user', array( $this, 'delete_user_data' ) );
 
-			// Filters in the cart hash to match from session. - JUST IN CASE! 😐
-			add_filter( 'woocommerce_cart_hash', function() { return WC()->session->get_cart_hash(); }, 0 );
+			// Filters in the cart hash to match from session. Only if WP-GraphQL does not exist or is not requested.
+			if ( ! function_exists( 'is_graphql_http_request' ) || ! is_graphql_http_request() ) {
+				add_filter( 'woocommerce_cart_hash', function() { return WC()->session->get_cart_hash(); }, 0 );
+			}
 		}
 
 		/**
@@ -87,11 +89,19 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @version 3.0.0
 		 */
 		public static function load_cart_from_session() {
+			// Return nothing if WP-GraphQL is requested.
+			if ( function_exists( 'is_graphql_http_request' ) && is_graphql_http_request() ) {
+				return;
+			}
+
+			// Check the CoCart session handler is used but is NOT a CoCart REST API request.
 			if ( WC()->session instanceof CoCart_Session_Handler && ! CoCart_Authentication::is_rest_api_request() ) {
 				return;
 			}
 
 			$cookie = WC()->session->get_session_cookie();
+
+			$cart_key = '';
 
 			// If cookie exists then return cart key from it.
 			if ( $cookie ) {
@@ -117,7 +127,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				$user = get_user_by( 'id', $cart_key );
 
 				// If the user exists then return error message.
-				if ( ! is_null( $user->ID ) ) {
+				if ( ! empty( $user ) ) {
 					$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 					wp_send_json_error( $error, 403 );
 					exit;

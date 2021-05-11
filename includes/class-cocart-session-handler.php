@@ -460,6 +460,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			 * @since 2.7.2
 			 */
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
+				/* translators: %s: filter name */
 				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
 				_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
 				CoCart_Logger::log( $message, 'debug' );
@@ -677,8 +678,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
+	 * @param   string $cart_key        - The cart key passed to create the cart.
+	 * @param   array  $cart_value      - The cart data.
+	 * @param   string $cart_expiration - Timestamp of cart expiration.
+	 * @param   string $cart_source     - Cart source.
 	 * @global  $wpdb
-	 * @return  $result
+	 * @return  $cart_key
 	 */
 	public function create_new_cart( $cart_key = '', $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
 		global $wpdb;
@@ -833,7 +838,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 					unset( $cart_session[ $key ]['data'] ); // Unset product object.
 				}
 
-				$cart_total = maybe_unserialize( $session['cart_totals'] );
+				$cart_total = isset( $session['cart_totals'] ) ? maybe_unserialize( $session['cart_totals'] ) : array( 'total' => 0 );
 			}
 		}
 

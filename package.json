@@ -1,7 +1,7 @@
 {
 	"title": "CoCart Lite",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "3.0.0-rc.1",
+	"version": "3.0.0",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -29,7 +29,7 @@
 	"requires_php": "7.3",
 	"tested_up_to": "5.7",
 	"wc_requires": "4.3",
-	"wc_tested_up_to": "5.2",
+	"wc_tested_up_to": "5.3",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2021, Sébastien Dumont",
 	"description": "A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.",
@@ -86,14 +86,14 @@
 		"grunt-text-replace": "0.4.0",
 		"grunt-wp-i18n": "1.0.3",
 		"load-grunt-tasks": "5.1.0",
-		"node-sass": "5.0.0",
+		"node-sass": "6.0.0",
 		"prettier-stylelint": "0.4.2",
 		"stylelint-config-prettier": "8.0.2",
 		"stylelint-config-wordpress": "17.0.0",
 		"stylelint-order": "4.1.0"
 	},
 	"dependencies": {
-		"stylelint": "~13.12.0"
+		"stylelint": "~13.13.0"
 	},
 	"engines": {
 		"node": ">=10.15.0",

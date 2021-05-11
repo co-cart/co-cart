@@ -407,10 +407,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			$page = admin_url( 'admin.php' );
 
-			if ( $network_activation ) {
-				$page = network_admin_url( 'admin.php' );
-			}
-
 			$getting_started = add_query_arg(
 				array(
 					'page'    => 'cocart',
@@ -424,9 +420,10 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			 * display a link to the Getting Started page.
 			 */
 			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				/* translators: %1$s: message, %2$s: URL, %3$s: CoCart */
 				WP_CLI::log(
 					WP_CLI::colorize(
-						'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ) ) . '%n'
+						'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, 'CoCart' ) . '%n'
 					)
 				);
 				return;

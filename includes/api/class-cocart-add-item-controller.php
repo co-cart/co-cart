@@ -61,6 +61,8 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	/**
 	 * Add to Cart.
 	 *
+	 * @throws  CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.0.0
@@ -114,7 +116,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			}
 
 			if ( ! is_wp_error( $was_added_to_cart ) ) {
-				cocart_add_to_cart_message( array( $product_id => $quantity ) );
+				cocart_add_to_cart_message( array( $was_added_to_cart['product_id'] => $was_added_to_cart['quantity'] ) );
 
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {

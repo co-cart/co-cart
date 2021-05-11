@@ -121,8 +121,10 @@ class CoCart_API_Session {
 
 				// Compare the user ID with the cart key.
 				if ( $user_id == $cart_key ) {
+					/* translators: %s: cart key */
 					CoCart_Logger::log( sprintf( __( 'Cart key "%s" is already loaded as the user is logged in.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'errro' );
 				} else {
+					/* translators: %s: cart key */
 					CoCart_Logger::log( sprintf( __( 'Customer is already logged in. Cart key "%s" cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
 				}
 				return;
@@ -132,7 +134,7 @@ class CoCart_API_Session {
 				$user = get_user_by( 'id', $cart_key );
 
 				// If the user exists then just return.
-				if ( ! is_null( $user->ID ) ) {
+				if ( ! empty( $user ) ) {
 					CoCart_Logger::log( __( 'Cart key is recognised as a registered user on site. Cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), 'error' );
 					return;
 				}
@@ -155,6 +157,7 @@ class CoCart_API_Session {
 			$stored_cart = $handler->get_cart( $cart_key );
 
 			if ( empty( $stored_cart ) ) {
+				/* translators: %s: cart key */
 				CoCart_Logger::log( sprintf( __( 'Unable to find cart for: %s', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'info' );
 
 				if ( $notify_customer ) {
