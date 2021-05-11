@@ -126,7 +126,7 @@ We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=gh&utm_source=gi
 
 * **[CoCart - Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin. - **FREE**
 * **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** simply filters the session cookie to allow CoCart to work across multiple domains. - **FREE**
-* **[CoCart - Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
+* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it. - **FREE**
 * **[CoCart Products](https://cocart.xyz/add-ons/products/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** provides access to non-sensitive product information, categories, tags, attributes and even reviews from your store without the need to authenticate.
 * **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning all your advanced custom fields for products. - **REQUIRES COCART PRODUCTS**
 * **[Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. - **REQUIRES COCART PRODUCTS**
@@ -142,7 +142,7 @@ They work with the FREE version of CoCart already, and these add-ons of course c
 
 ## Developers
 
-CoCart is full of **[filters](https://docs.cocart.xyz/#filters?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** and **[action hooks](https://docs.cocart.xyz/#hooks?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** for developers to use as they please. It's your store so tinker how you please.
+CoCart is full of **[filters](https://docs.cocart.xyz/#filters?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** and **[action hooks](https://docs.cocart.xyz/#actions?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** for developers to use as they please. It's your store so tinker how you please.
 
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
