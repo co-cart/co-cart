@@ -7,6 +7,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    3.0.0
+ * @version  3.0.1
  * @license  GPL-2.0+
  */
 
@@ -379,6 +380,40 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'last_updated' => '',
 					),
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/smart-coupons/' ),
+					'third_party'       => true,
+				),
+				'woocommerce-advanced-shipping-packages' => array(
+					'name'              => 'WooCommerce Advanced Shipping Packages',
+					'plugin'            => 'woocommerce-advanced-shipping-packages',
+					'author'            => 'Jeroen Sormani',
+					'search_terms'      => 'shipping, packages, split-packages, multiple shipping',
+					'short_description' => esc_html__( 'Split your order into multiple shipping packages when you need it to, with the products you want to.', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'requirement'       => false,
+					'info'              => array(
+						'requires'     => '4.0',
+						'tested'       => '5.5',
+						'requires_php' => '7.0',
+						'last_updated' => '',
+					),
+					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-advanced-shipping-packages/' ),
+					'third_party'       => true,
+				),
+				'woocommerce-free-gift-coupons' => array(
+					'name'              => 'WooCommerce Free Gift Coupons',
+					'plugin'            => 'woocommerce-free-gift-coupons',
+					'author'            => 'Backcourt Development',
+					'search_terms'      => 'coupon, give away, free items, gift items',
+					'short_description' => esc_html__( 'Give away a free item(s) to any customer with the correct code.', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'requirement'       => false,
+					'info'              => array(
+						'requires'     => '4.0',
+						'tested'       => '5.5',
+						'requires_php' => '7.0',
+						'last_updated' => '',
+					),
+					'learn_more'        => esc_url( 'https://woocommerce.com/products/free-gift-coupons/' ),
 					'third_party'       => true,
 				),
 			);

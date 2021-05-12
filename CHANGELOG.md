@@ -1,5 +1,13 @@
 # Changelog for CoCart Lite
 
+## v3.0.1 - 12th May, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Uncaught error when the cart hash is not generated and saved in session cookie.
+* Fixed: Some validation errors not returning when attempting to add item to cart.
+* Tweaked: When adding an item and fails. Any remaining error notice that WooCommerce normally returns on the frontend is converted to throw an exception.
+
 ## v3.0.0 - 10th May, 2021
 
 [See blog post for release notes](https://cocart.xyz/cocart-v3-release-notes/).

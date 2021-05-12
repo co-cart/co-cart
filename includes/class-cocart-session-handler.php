@@ -12,7 +12,7 @@
  * @category API
  * @package  CoCart\Classes
  * @since    2.1.0
- * @version  3.0.0
+ * @version  3.0.1
  * @license  GPL-2.0+
  */
 
@@ -385,8 +385,10 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * Cart cookies without a customer ID are invalid.
 	 *
-	 * @access public
-	 * @return bool|array
+	 * @access  public
+	 * @since   2.1.0
+	 * @version 3.0.1
+	 * @return  bool|array
 	 */
 	public function get_session_cookie() {
 		$cookie_value = isset( $_COOKIE[ $this->_cookie ] ) ? wp_unslash( $_COOKIE[ $this->_cookie ] ) : false;
@@ -401,7 +403,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$cart_expiration = $cookie_value[1];
 		$cart_expiring   = $cookie_value[2];
 		$cookie_hash     = $cookie_value[3];
-		$cart_hash       = $cookie_value[4];
+		$cart_hash       = isset( $cookie_value[4] ) ? $cookie_value[4] : '';
 
 		if ( empty( $customer_id ) ) {
 			return false;

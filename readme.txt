@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.7
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 WC requires at least: 4.3
 WC tested up to: 5.3
 License: GPLv3
@@ -327,6 +327,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.0.1 - 12th May, 2021 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Uncaught error when the cart hash is not generated and saved in session cookie.
+* Fixed: Some validation errors not returning when attempting to add item to cart.
+* Tweaked: When adding an item and fails. Any remaining error notice that WooCommerce normally returns on the frontend is converted to throw an exception.
 
 = v3.0.0 - 10th May, 2021 =
 

@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
+ * @version  3.0.1
  * @license  GPL-2.0+
  */
 
@@ -480,7 +481,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.0.1
 	 * @param   int       $product_id   - Contains the ID of the product.
 	 * @param   int|float $quantity     - Contains the quantity of the item.
 	 * @param   array     $variation    - Contains the selected attributes.
@@ -561,8 +562,26 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			// Validates the item quantity.
 			$quantity = $this->validate_item_quantity( $product, $quantity );
 
+			/**
+			 * If product validation returned an error return error response.
+			 *
+			 * @param $quantity
+			 */
+			if ( is_wp_error( $quantity ) ) {
+				return $quantity;
+			}
+
 			// Validates the item before adding to cart.
-			$this->validate_add_to_cart( $product, $quantity );
+			$is_valid = $this->validate_add_to_cart( $product, $quantity );
+
+			/**
+			 * If product validation returned an error return error response.
+			 *
+			 * @param $is_valid
+			 */
+			if ( is_wp_error( $is_valid ) ) {
+				return $is_valid;
+			}
 
 			// Add cart item data - may be added by other plugins.
 			$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
@@ -1479,6 +1498,35 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $results;
 	} // END get_customer()
+
+	/**
+	 * Convert queued error notices into an exception.
+	 *
+	 * For example, Payment methods may add error notices during validating fields to prevent checkout.
+	 *
+	 * This method will find the first error message and thrown an exception instead. Discards notices once complete.
+	 *
+	 * @throws CoCart_Data_Exception If an error notice is detected, Exception is thrown.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.1
+	 * @param  string $error_code Error code for the thrown exceptions.
+	 */
+	public static function convert_notices_to_exceptions( $error_code = 'unknown_server_error' ) {
+		if ( 0 === wc_notice_count( 'error' ) ) {
+			return;
+		}
+
+		$error_notices = wc_get_notices( 'error' );
+
+		// Prevent notices from being output later on.
+		wc_clear_notices();
+
+		foreach ( $error_notices as $error_notice ) {
+			throw new CoCart_Data_Exception( $error_code, wp_strip_all_tags( $error_notice['notice'] ), 400 );
+		}
+	} // END convert_notices_to_exceptions()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
