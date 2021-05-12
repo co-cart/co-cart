@@ -18,7 +18,7 @@
 * 🚢 **NEW**: Support for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
 * 🎁 **NEW**: Support for [WooCommerce Free Gift Coupons](https://woocommerce.com/products/free-gift-coupons/) extension.
 * 🗝️ **NEW**: Support for [JWT Auth plugin](https://wordpress.org/plugins/jwt-auth/) by Useful Team.
-* 🌗 **NEW**: Compatible with WP-GraphQL WooCommerce add-on.
+* 🌗 **NEW**: Compatible with [WP-GraphQL WooCommerce](https://github.com/wp-graphql/wp-graphql-woocommerce) add-on.
 * Tweaked: Session data now handled by new abstract to gain more control over it.
 * Tweaked: Cart key now returns in the cart response the first time round. 🥳
 * Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
