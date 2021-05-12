@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.7
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 WC requires at least: 4.3
 WC tested up to: 5.3
 License: GPLv3
@@ -327,6 +327,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.0.2 - 12th May, 2021 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Error when product image is not set. Now fails safely by returning the product placeholder image instead.
+* Fixed: Totals total returned value was returning the currency symbol decoded for certain countries so it looked like the total was an incorrect value.
+* Tweaked: Convert monetary values given before returning.
 
 = v3.0.1 - 12th May, 2021 =
 

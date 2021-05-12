@@ -1,5 +1,13 @@
 # Changelog for CoCart Lite
 
+## v3.0.2 - 12th May, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Error when product image is not set. Now fails safely by returning the product placeholder image instead.
+* Fixed: Totals total returned value was returning the currency symbol decoded for certain countries so it looked like the total was an incorrect value.
+* Tweaked: Convert monetary values given before returning.
+
 ## v3.0.1 - 12th May, 2021
 
 **🔥 This is a HOTFIX!**

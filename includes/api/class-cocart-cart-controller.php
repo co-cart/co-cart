@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
- * @version  3.0.1
+ * @version  3.0.2
  * @license  GPL-2.0+
  */
 
@@ -149,7 +149,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 3.0.0
+	 * @version 3.0.2
 	 * @param   array   $request
 	 * @param   array   $cart_contents
 	 * @param   boolean $from_session
@@ -209,7 +209,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'discount_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
 				'shipping_total' => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
 				'shipping_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
-				'total'          => $this->prepare_money_response( $this->get_cart_instance()->get_total( 'view' ), wc_get_price_decimals() ),
+				'total'          => $this->prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
 				'total_tax'      => $this->prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
 			),
 		);
@@ -739,16 +739,20 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Convert monetary values from WooCommerce to string based integers, using
 	 * the smallest unit of a currency.
 	 *
-	 * @access protected
-	 * @param  string|float $amount        - Monetary amount with decimals.
-	 * @param  int          $decimals      - Number of decimals the amount is formatted with.
-	 * @param  int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
-	 * @return string       The new amount.
+	 * @access  protected
+	 * @since   3.0.0
+	 * @version 3.0.2
+	 * @param   string|float $amount        - Monetary amount with decimals.
+	 * @param   int          $decimals      - Number of decimals the amount is formatted with.
+	 * @param   int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
+	 * @return  string       The new amount.
 	 */
 	protected function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+		$amount = html_entity_decode( strip_tags( $amount ) );
+
 		return (string) intval(
 			round(
-				wc_format_decimal( $amount ) * ( 10 ** $decimals ),
+				( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
 				0,
 				absint( $rounding_mode )
 			)
@@ -808,7 +812,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			foreach ( $cart_fees as $key => $fee ) {
 				$fees[ $key ] = array(
 					'name' => esc_html( $fee->name ),
-					'fee'  => html_entity_decode( strip_tags( $this->fee_html( $cart, $fee ) ) ),
+					'fee'  => $this->prepare_money_response( $this->fee_html( $cart, $fee ), wc_get_price_decimals() ),
 				);
 			}
 		}
@@ -819,10 +823,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get coupon in HTML.
 	 *
-	 * @access public
-	 * @param  string|WC_Coupon $coupon    - Coupon data or code.
-	 * @param  boolean          $formatted - Formats the saving amount.
-	 * @return string                      - The coupon in HTML.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.2
+	 * @param   string|WC_Coupon $coupon    - Coupon data or code.
+	 * @param   boolean          $formatted - Formats the saving amount.
+	 * @return  string                      - The coupon in HTML.
 	 */
 	public function coupon_html( $coupon, $formatted = true ) {
 		if ( is_string( $coupon ) ) {
@@ -837,7 +843,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$savings = $this->prepare_money_response( $amount, wc_get_price_decimals() );
 		}
 
-		$discount_amount_html = '-' . html_entity_decode( strip_tags( $savings ) );
+		$discount_amount_html = '-' . $savings;
 
 		if ( $coupon->get_free_shipping() && empty( $amount ) ) {
 			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
@@ -1050,13 +1056,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get a single item from the cart and present the data required.
 	 *
-	 * @access public
-	 * @param  WC_Product $_product     - The product data of the item in the cart.
-	 * @param  array      $cart_item    - The item in the cart containing the default cart item data.
-	 * @param  string     $item_key     - The item key generated based on the details of the item.
-	 * @param  boolean    $show_thumb   - Determines if requested to return the item featured thumbnail.
-	 * @param  boolean    $removed_item - Determines if the item in the cart is removed.
-	 * @return array      $item         - Full details of the item in the cart and it's purchase limits.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.2
+	 * @param   WC_Product $_product     - The product data of the item in the cart.
+	 * @param   array      $cart_item    - The item in the cart containing the default cart item data.
+	 * @param   string     $item_key     - The item key generated based on the details of the item.
+	 * @param   boolean    $show_thumb   - Determines if requested to return the item featured thumbnail.
+	 * @param   boolean    $removed_item - Determines if the item in the cart is removed.
+	 * @return  array      $item         - Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
 		$item = array(
@@ -1106,9 +1114,13 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
-			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $_product->get_image_id(), $cart_item, $item_key, $removed_item );
+			$thumbnail_id  = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
+
+			$thumbnail_id  = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
 
 			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
+
+			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
 
 			/**
 			 * Filters the source of the product thumbnail.
@@ -1117,7 +1129,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @version 3.0.0
 			 * @param   string $thumbnail_src URL of the product thumbnail.
 			 */
-			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key, $removed_item );
+			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
 
 			// Add main featured image.
 			$item['featured_image'] = esc_url( $thumbnail_src );
