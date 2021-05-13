@@ -159,6 +159,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 
+		// Get cart template.
+		$cart_template = $this->get_cart_template( $request );
+
 		// If the cart is completly empty or not exist then return nothing.
 		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
 			/**
@@ -181,38 +184,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			return $cart_contents;
 		}
 
+		// Other Requested conditions.
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
-
-		$cart = array(
-			'cart_hash'      => $this->get_cart_instance()->get_cart_hash(),
-			'cart_key'       => $this->get_cart_key( $request ),
-			'currency'       => $this->get_store_currency(),
-			'customer'       => array(
-				'billing_address'  => $this->get_customer( 'billing' ),
-				'shipping_address' => $this->get_customer( 'shipping' ),
-			),
-			'items'          => array(),
-			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
-			'items_weight'   => wc_get_weight( (int)$this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
-			'coupons'        => array(),
-			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
-			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
-			'shipping'       => $this->get_shipping_details(),
-			'fees'           => $this->get_fees( $this->get_cart_instance() ),
-			'taxes'          => array(),
-			'totals'         => array(
-				'subtotal'       => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
-				'subtotal_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
-				'fee_total'      => $this->prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
-				'fee_tax'        => $this->prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() ),
-				'discount_total' => $this->prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() ),
-				'discount_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
-				'shipping_total' => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
-				'shipping_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
-				'total'          => $this->prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
-				'total_tax'      => $this->prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
-			),
-		);
 
 		// Returns each coupon applied and coupon total applied if store has coupons enabled.
 		$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
@@ -248,10 +221,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 		}
 
+		// Returns items and removed items.
 		$cart['items']         = $this->get_items( $cart_contents, $show_thumb );
 		$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
-		$cart['cross_sells']   = $this->get_cross_sells();
-		$cart['notices']       = $this->maybe_return_notices();
+
+		// Parse cart data to template.
+		$cart = wp_parse_args( $cart, $cart_template );
 
 		return apply_filters( 'cocart_cart', $cart, $from_session );
 	} // END return_cart_contents()
@@ -1539,6 +1514,53 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			throw new CoCart_Data_Exception( $error_code, wp_strip_all_tags( $error_notice['notice'] ), 400 );
 		}
 	} // END convert_notices_to_exceptions()
+
+	/**
+	 * Get cart template.
+	 *
+	 * Used as a base even if the cart is empty along with 
+	 * customer information should the user be logged in.
+	 *
+	 * @access protected
+	 * @since  3.0.3
+	 * @param  WP_REST_Request $request - Full details about the request.
+	 * @return array - Returns the default cart response.
+	 */
+	protected function get_cart_template( $request = array() ) {
+		return array(
+			'cart_hash'      => $this->get_cart_instance()->get_cart_hash(),
+			'cart_key'       => $this->get_cart_key( $request ),
+			'currency'       => $this->get_store_currency(),
+			'customer'       => array(
+				'billing_address'  => $this->get_customer( 'billing' ),
+				'shipping_address' => $this->get_customer( 'shipping' ),
+			),
+			'items'          => array(),
+			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
+			'items_weight'   => wc_get_weight( (int)$this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'coupons'        => array(),
+			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
+			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
+			'shipping'       => $this->get_shipping_details(),
+			'fees'           => $this->get_fees( $this->get_cart_instance() ),
+			'taxes'          => array(),
+			'totals'         => array(
+				'subtotal'       => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
+				'subtotal_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
+				'fee_total'      => $this->prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
+				'fee_tax'        => $this->prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() ),
+				'discount_total' => $this->prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() ),
+				'discount_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
+				'shipping_total' => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
+				'shipping_tax'   => $this->prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
+				'total'          => $this->prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
+				'total_tax'      => $this->prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
+			),
+			'removed_items' => array(),
+			'cross_sells'   => $this->get_cross_sells(),
+			'notices'       => $this->maybe_return_notices(),
+		);
+	} // END cart_template()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
