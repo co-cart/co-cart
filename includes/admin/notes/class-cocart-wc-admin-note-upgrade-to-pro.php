@@ -51,7 +51,7 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 		}
 
 		// Prevent note being created if CoCart Pro is installed.
-		if ( CoCart_Helpers::is_cocart_pro_installed() ) {
+		if ( CoCart_Helpers::is_cocart_pro_activated() ) {
 			if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
 				Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( $note_name );
 			} else {

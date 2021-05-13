@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\Classes
  * @since    2.3.0
- * @version  3.0.0
+ * @version  3.0.3
  * @license  GPL-2.0+
  */
 
@@ -347,17 +347,33 @@ class CoCart_Helpers {
 	} // END is_cocart_pro_installed()
 
 	/**
+	 * Check if CoCart Pro is activated.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.3
+	 * @return bool
+	 */
+	public static function is_cocart_pro_activated() {
+		if ( class_exists( 'CoCart_Pro' ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_cocart_pro_activated()
+
+	/**
 	 * These are the only screens CoCart will focus
 	 * on displaying notices or enqueue scripts/styles.
 	 *
 	 * @access  public
 	 * @static
 	 * @since   2.0.0
-	 * @version 3.0.0
+	 * @version 3.0.3
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
-		return array(
+		return apply_filters( 'cocart_admin_screens', array(
 			'dashboard',
 			'dashboard-network',
 			'plugins',
@@ -365,7 +381,7 @@ class CoCart_Helpers {
 			'woocommerce_page_wc-status',
 			'toplevel_page_cocart',
 			'toplevel_page_cocart-network',
-		);
+		) );
 	} // END cocart_get_admin_screens()
 
 	/**

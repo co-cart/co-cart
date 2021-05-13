@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.0
- * @version  3.0.0
+ * @version  3.0.3
  * @license  GPL-2.0+
  */
 
@@ -70,8 +70,8 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 	</div>
 
 	<?php
-	// Display extra content if CoCart Pro is NOT installed.
-	if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
+	// Display extra content if CoCart Pro is NOT activated.
+	if ( ! CoCart_Helpers::is_cocart_pro_activated() ) {
 		?>
 		<div class="container">
 			<div class="content">

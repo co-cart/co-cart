@@ -52,10 +52,6 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 
 			$page = admin_url( 'admin.php' );
 
-			/*if ( is_multisite() ) {
-				$page = network_admin_url( 'admin.php' );
-			}*/
-
 			// Add CoCart page.
 			add_menu_page(
 				$title,

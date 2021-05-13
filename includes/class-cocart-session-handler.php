@@ -844,7 +844,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			}
 		}
 
-		$hash = $cart_session ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
+		$hash = ! empty( $cart_session ) ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
 
 		$this->_cart_hash = $hash;
 	} // END set_cart_hash()
