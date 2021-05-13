@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
- * @version  3.0.2
+ * @version  3.0.3
  * @license  GPL-2.0+
  */
 
@@ -110,8 +110,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get cart.
 	 *
 	 * @access public
-	 * @param  array $request
-	 * @return array|WP_REST_Response
+	 * @param  WP_REST_Request $request - Full details about the request.
+	 * @return WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $deprecated = '' ) {
 		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
@@ -149,11 +149,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 3.0.2
-	 * @param   array   $request
-	 * @param   array   $cart_contents
-	 * @param   boolean $from_session
-	 * @return  array   $cart
+	 * @version 3.0.3
+	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   array           $cart_contents
+	 * @param   boolean         $from_session
+	 * @return  array           $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = '', $from_session = false ) {
 		// Calculate totals to be sure they are correct before returning cart contents.
@@ -657,7 +657,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Returns the cart key.
 	 *
 	 * @access public
-	 * @param  $request
+	 * @param  WP_REST_Request $request - Full details about the request.
 	 * @return string
 	 */
 	public function get_cart_key( $request ) {
@@ -1000,7 +1000,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Filters additional requested data.
 	 *
 	 * @access public
-	 * @param  $request
+	 * @param  WP_REST_Request $request - Full details about the request.
 	 * @return $request
 	 */
 	public function filter_request_data( $request ) {
