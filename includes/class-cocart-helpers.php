@@ -421,6 +421,37 @@ class CoCart_Helpers {
 	} // END user_has_capabilities()
 
 	/**
+	 * Is CoCart Plugin Suggestions active?
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.0
+	 */
+	public static function is_cocart_ps_active() {
+		return apply_filters( 'cocart_show_plugin_search', true );
+	} // END is_cocart_ps_active()
+
+	/**
+	 * Returns CoCart Campaign for plugin identification.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.3
+	 */
+	public static function cocart_campaign( $args = array() ) {
+		$defaults = array(
+			'utm_medium'   => 'cocart-lite',
+			'utm_source'   => 'WordPress',
+			'utm_campaign' => 'liteplugin',
+			'utm_content'  => '',
+		);
+
+		$campaign = wp_parse_args( $args, $defaults );
+
+		return $campaign;
+	} // END cocart_campaign()
+
+	/**
 	 * Seconds to words.
 	 *
 	 * Forked from: https://github.com/thatplugincompany/login-designer/blob/master/includes/admin/class-login-designer-feedback.php

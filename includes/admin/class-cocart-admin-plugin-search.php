@@ -242,12 +242,10 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return array List of add-ons.
 		 */
 		public function get_addons_list() {
-			$campaign_args = array(
-				'utm_medium'   => 'cocart-lite',
-				'utm_source'   => 'WordPress',
-				'utm_campaign' => 'liteplugin',
+			$campaign_args = CoCart_Helpers::cocart_campaign( array(
+				'utm_campaign' => 'install-plugin',
 				'utm_content'  => 'plugin-suggestions',
-			);
+			) );
 
 			return array(
 				'cocart-products'  => array(
@@ -823,10 +821,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
  * If "cocart_show_plugin_search" filter is set to false,
  * the plugin search suggestions will not show on the plugin install page.
  */
-if ( is_admin() && is_cocart_ps_active() ) {
+if ( is_admin() && CoCart_Helpers::is_cocart_ps_active() ) {
 	CoCart_Plugin_Search::init();
-}
-
-function is_cocart_ps_active() {
-	return apply_filters( 'cocart_show_plugin_search', true );
 }

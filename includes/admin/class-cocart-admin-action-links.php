@@ -75,18 +75,23 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				/* translators: %s: URL to author */
 				$metadata[1] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data['AuthorURI'] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data['Author'] . '</a>' );
 
-				$campaign_args = array(
-					'utm_medium'   => 'cocart-lite',
-					'utm_source'   => 'plugins-page',
-					'utm_campaign' => 'plugins-row',
-					'utm_content'  => 'go-pro',
-				);
+				if ( ! CoCart_Helpers::is_cocart_pro_activated() ) {
+					$campaign_args = CoCart_Helpers::cocart_campaign( array(
+						'utm_content' => 'go-pro',
+					) );
+				} else {
+					$campaign_args = CoCart_Helpers::cocart_campaign( array(
+						'utm_content' => 'has-pro',
+					) );
+				}
+
+				$campaign_args['utm_campaign'] = 'plugins-row';
 
 				$row_meta = array(
 					/* translators: %s: CoCart */
-					'docs'      => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'View %s documentation', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'translate' => '<a href="' . esc_url( COCART_TRANSLATION_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'review'    => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" aria-label="' . sprintf( esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'docs'      => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_DOCUMENTATION_URL ) ) . '" aria-label="' . sprintf( esc_attr__( 'View %s documentation', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'translate' => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_TRANSLATION_URL ) ) . '" aria-label="' . sprintf( esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
+					'review'    => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_REVIEW_URL ) ) . '" aria-label="' . sprintf( esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);
 
 				// Only show donate option if CoCart Pro is not activated.

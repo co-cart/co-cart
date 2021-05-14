@@ -328,6 +328,11 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.0.3 - 13th May, 2021 =
+
+* Dev: Code tweaks and inline doc improvements.
+* Dev: Added new helper function to detect CoCart Pro is activated.
+
 = v3.0.2 - 12th May, 2021 =
 
 **🔥 This is a HOTFIX!**

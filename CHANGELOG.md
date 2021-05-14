@@ -1,5 +1,10 @@
 # Changelog for CoCart Lite
 
+## v3.0.3 - 13th May, 2021
+
+* Dev: Code tweaks and inline doc improvements.
+* Dev: Added new helper function to detect CoCart Pro is activated.
+
 ## v3.0.2 - 12th May, 2021
 
 **🔥 This is a HOTFIX!**
