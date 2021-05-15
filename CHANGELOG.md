@@ -2,6 +2,7 @@
 
 ## v3.0.3 - 15th May, 2021
 
+* Fixed: Cart hash now returns in cart response after adding first item.
 * Dev: Code tweaks and inline doc improvements.
 * Dev: Added new helper function to detect CoCart Pro is activated.
 

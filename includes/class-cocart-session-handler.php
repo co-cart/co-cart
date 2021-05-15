@@ -12,7 +12,7 @@
  * @category API
  * @package  CoCart\Classes
  * @since    2.1.0
- * @version  3.0.1
+ * @version  3.0.3
  * @license  GPL-2.0+
  */
 
@@ -147,7 +147,6 @@ class CoCart_Session_Handler extends CoCart_Session {
 			$this->_customer_id     = $cookie[0];
 			$this->_cart_expiration = $cookie[1];
 			$this->_cart_expiring   = $cookie[2];
-			$this->_cart_hash       = $cookie[4];
 			$this->_has_cookie      = true;
 		}
 
@@ -228,7 +227,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		if ( $set ) {
 			$to_hash           = $this->_customer_id . '|' . $this->_cart_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
-			$cookie_value      = $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash . '||' . $this->_cart_hash;
+			$cookie_value      = $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
 			$this->_has_cookie = true;
 
 			// If no cookie exists then create a new.
@@ -387,7 +386,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.1
+	 * @version 3.0.3
 	 * @return  bool|array
 	 */
 	public function get_session_cookie() {
@@ -403,7 +402,6 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$cart_expiration = $cookie_value[1];
 		$cart_expiring   = $cookie_value[2];
 		$cookie_hash     = $cookie_value[3];
-		$cart_hash       = isset( $cookie_value[4] ) ? $cookie_value[4] : '';
 
 		if ( empty( $customer_id ) ) {
 			return false;
@@ -417,7 +415,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			return false;
 		}
 
-		return array( $customer_id, $cart_expiration, $cart_expiring, $cookie_hash, $cart_hash );
+		return array( $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
 	} // END get_session_cookie()
 
 	/**
@@ -823,28 +821,16 @@ class CoCart_Session_Handler extends CoCart_Session {
 	/**
 	 * Set the cart hash based on the carts contents and total.
 	 *
-	 * @access public
-	 * @since  3.0.0
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.3
 	 */
 	public function set_cart_hash() {
-		$data    = $this->_data;
-		$session = maybe_unserialize( $data );
-		$cart_session = array();
+		$cart_session = $this->get( 'cart' );
+		$cart_totals  = $this->get( 'cart_totals' );
 
-		if ( ! empty( $session ) ) {
-			$cart = maybe_unserialize( $session['cart'] );
-
-			if ( ! empty( $cart ) ) {
-				foreach ( $cart as $key => $values ) {
-					$cart_session[ $key ] = $values;
-					unset( $cart_session[ $key ]['data'] ); // Unset product object.
-				}
-
-				$cart_total = isset( $session['cart_totals'] ) ? maybe_unserialize( $session['cart_totals'] ) : array( 'total' => 0 );
-			}
-		}
-
-		$hash = ! empty( $cart_session ) ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
+		$cart_total = isset( $cart_totals ) ? maybe_unserialize( $cart_totals ) : array( 'total' => 0 );
+		$hash       = ! empty( $cart_session ) ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
 
 		$this->_cart_hash = $hash;
 	} // END set_cart_hash()
