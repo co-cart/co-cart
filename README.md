@@ -1,4 +1,4 @@
-<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v3.0.2&label=&color=9a6fc4&style=flat-square"></a></h1>
+<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v3.0.3&label=&color=9a6fc4&style=flat-square"></a></h1>
 
 <p align="center"><a href="https://cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart" target="_blank">CoCart</a> is a RESTful API made for <a href="https://woocommerce.com" target="_blank">WooCommerce</a>.</p>
 <p>It focuses on <strong>the front-end</strong> of the store helping you to <strong>manage shopping carts</strong> and allows developers to build a headless store in any framework of their choosing.</p>
