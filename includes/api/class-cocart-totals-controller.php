@@ -20,14 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
+class CoCart_Totals_v2_Controller extends CoCart_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -69,24 +62,28 @@ class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  public
-	 * @static
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.0.4
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @return  WP_REST_Response
 	 */
-	public static function get_totals( $request = array() ) {
+	public function get_totals( $request = array() ) {
 		try {
 			$pre_formatted = isset( $request['html'] ) ? $request['html'] : false;
 
 			$controller = new CoCart_Cart_V2_Controller();
 
-			$totals            = array();
+			$totals            = $controller->get_cart_instance()->get_totals();
 			$totals_calculated = false;
 
-			if ( ! empty( $controller->get_cart_instance()->totals ) ) {
-				$totals            = $controller->get_cart_instance()->get_totals();
+			if ( ! empty( $totals['total'] ) ) {
 				$totals_calculated = true;
+			}
+
+			if ( ! $totals_calculated ) {
+				$message = esc_html__( 'This cart either has no items or was not calculated.', 'cart-rest-api-for-woocommerce' );
+
+				throw new CoCart_Data_Exception( 'cocart_cart_totals_empty', $message, 404 );
 			}
 
 			$ignore_convert = array(
@@ -94,12 +91,6 @@ class CoCart_Totals_v2_Controller extends CoCart_Totals_Controller {
 				'cart_contents_taxes',
 				'fee_taxes',
 			);
-
-			if ( ! $totals_calculated ) {
-				$message = esc_html__( 'This cart either has no items or was not calculated.', 'cart-rest-api-for-woocommerce' );
-
-				throw new CoCart_Data_Exception( 'cocart_cart_totals_empty', $message, 404 );
-			}
 
 			// Was it requested to have the totals preformatted?
 			if ( $pre_formatted ) {

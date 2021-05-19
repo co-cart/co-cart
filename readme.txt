@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.7
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 WC requires at least: 4.3
 WC tested up to: 5.3
 License: GPLv3
@@ -327,6 +327,18 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.0.4 - 19th May, 2021 =
+
+* Fixed: Return error if no matching variation is found.
+* Fixed: Validation of empty totals forcing false error message to return.
+* Fixed: Empty `backorders` and `featured_image` now returns in cart response. Keeps cart response structure consistent.
+* Fixed: Coupon html formmatting returned in cart response.
+* Fixed: Error response when attempting to view a single item that is not in the cart.
+* Tweaked: When items in cart are checked for remaining stock, only the first error notice is returned per item.
+* Tweaked: Updating, Removing or Restoring an item now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all.
+* Tweaked: Localization for validation error messages.
+* Tweaked: `cocart_price_no_html()` function to decode HTML so currency symbol returns correctly.
 
 = v3.0.3 - 15th May, 2021 =
 

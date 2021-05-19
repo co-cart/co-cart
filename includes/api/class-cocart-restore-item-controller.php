@@ -165,7 +165,9 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 * @return array $params
 	 */
 	public function get_collection_params() {
-		$params = array(
+		$controller = new CoCart_Cart_V2_Controller();
+
+		$params = array_merge( $controller->get_collection_params(), array(
 			'item_key'    => array(
 				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
@@ -178,7 +180,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-		);
+		) );
 
 		return $params;
 	} // END get_collection_params()

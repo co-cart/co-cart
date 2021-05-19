@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
- * @version  3.0.3
+ * @version  3.0.4
  * @license  GPL-2.0+
  */
 
@@ -114,7 +114,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $deprecated = '' ) {
-		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
+		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
@@ -323,6 +323,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
 			}
 
+			// Throw exception if no variation is found.
+			if ( is_wp_error( $variation_id ) ) {
+				return $variation_id;
+			}
+
 			// Now we have a variation ID, get the valid set of attributes for this variation. They will have an attribute_ prefix since they are from meta.
 			$expected_attributes = wc_get_product_variation_attributes( $variation_id );
 			$missing_attributes  = array();
@@ -411,7 +416,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			if ( empty( $variation_id ) ) {
 				$message = __( 'No matching variation found.', 'cart-rest-api-for-woocommerce' );
 
-				throw new CoCart_Data_Exception( 'cocart_no_variation_found', $message, 400 );
+				throw new CoCart_Data_Exception( 'cocart_no_variation_found', $message, 404 );
 			}
 
 			return $variation_id;
@@ -604,7 +609,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			if ( ! $current_product->has_enough_stock( $quantity ) ) {
 				/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
-				$message = sprintf( __( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ), $quantity, $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) );
+				$message = sprintf( __( 'You cannot add a quantity of (%1$s) for "%2$s" to the cart because there is not enough stock. - only (%3$s remaining)!', 'cart-rest-api-for-woocommerce' ), $quantity, $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) );
 
 				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
 			}
@@ -800,7 +805,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.2
+	 * @version 3.0.4
 	 * @param   string|WC_Coupon $coupon    - Coupon data or code.
 	 * @param   boolean          $formatted - Formats the saving amount.
 	 * @return  string                      - The coupon in HTML.
@@ -813,7 +818,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$amount = $this->get_cart_instance()->get_coupon_discount_amount( $coupon->get_code(), $this->get_cart_instance()->display_cart_ex_tax );
 
 		if ( $formatted ) {
-			$savings = wc_price( $amount );
+			$savings = html_entity_decode( strip_tags( wc_price( $amount ) ) );
 		} else {
 			$savings = $this->prepare_money_response( $amount, wc_get_price_decimals() );
 		}
@@ -929,7 +934,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.0.4
 	 * @param   WC_Product $product  - Product object associated with the cart item.
 	 * @param   int|float  $quantity - Quantity of product to validate availability.
 	 */
@@ -937,17 +942,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		try {
 			// Product is purchasable check.
 			if ( ! $product->is_purchasable() ) {
-				$message = __( 'Sorry, this product cannot be purchased.', 'cart-rest-api-for-woocommerce' );
-
-				/**
-				 * Filters message about product unable to be purchased.
-				 *
-				 * @param string     $message - Message.
-				 * @param WC_Product $product - Product data.
-				 */
-				$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
-
-				throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 403 );
+				$this->throw_product_not_purchasable( $product );
 			}
 
 			// Stock check - only check if we're managing stock and backorders are not allowed.
@@ -973,16 +968,16 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 403 );
 			}
 
-			// Stock check - this time accounting for whats already in-cart.
-			if ( $product->managing_stock() ) {
-				$products_qty_in_cart = $this->get_cart_instance()->get_cart_item_quantities();
+			if ( $product->managing_stock() && ! $product->backorders_allowed()) {
+				$qty_in_cart   = $this->get_cart_instance()->get_cart_item_quantities();
 
-				if ( isset( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
-					/* translators: 1: Quantity in Stock, 2: Quantity in Cart */
+				if ( isset( $qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
+					/* translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart */
 					$message = sprintf(
-						__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
+						__( 'You cannot add that amount of "%1$s" to the cart &mdash; we have (%2$s remaining). You already have (%3$s) in your cart.', 'cart-rest-api-for-woocommerce' ),
+						$product->get_name(),
 						wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),
-						wc_format_stock_quantity_for_display( $products_qty_in_cart[ $product->get_stock_managed_by_id() ], $product )
+						wc_format_stock_quantity_for_display( $qty_in_cart[ $product->get_stock_managed_by_id() ], $product )
 					);
 
 					throw new CoCart_Data_Exception( 'cocart_not_enough_stock_remaining', $message, 403 );
@@ -1033,7 +1028,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.2
+	 * @version 3.0.4
 	 * @param   WC_Product $_product     - The product data of the item in the cart.
 	 * @param   array      $cart_item    - The item in the cart containing the default cart item data.
 	 * @param   string     $item_key     - The item key generated based on the details of the item.
@@ -1067,7 +1062,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'dimensions'   => array(),
 				'weight'       => wc_get_weight( (int)$_product->get_weight() * (int)$cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
 			),
+			'backorders'     => '',
 			'cart_item_data' => array(),
+			'featured_image' => '',
 		);
 
 		// Item dimensions.
@@ -1561,6 +1558,33 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'notices'       => $this->maybe_return_notices(),
 		);
 	} // END cart_template()
+
+	/**
+	 * Throws exception when an item cannot be added to the cart.
+	 *
+	 * @throws CoCart_Data_Exception If an error notice is detected, Exception is thrown.
+	 *
+	 * @access protected
+	 * @since  3.0.4
+	 * @param  WC_Product $product Product object associated with the cart item.
+	 */
+	protected function throw_product_not_purchasable( $product ) {
+		$message = sprintf(
+			/* translators: %s: product name */
+			__( '"%s" is not available for purchase.', 'cart-rest-api-for-woocommerce' ),
+			$product->get_name()
+		);
+
+		/**
+		 * Filters message about product unable to be purchased.
+		 *
+		 * @param string     $message - Message.
+		 * @param WC_Product $product - Product data.
+		 */
+		$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
+
+		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 403 );
+	} // END throw_product_not_purchasable()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.

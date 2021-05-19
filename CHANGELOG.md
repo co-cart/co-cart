@@ -1,5 +1,17 @@
 # Changelog for CoCart Lite
 
+## v3.0.4 - 19th May, 2021
+
+* Fixed: Return error if no matching variation is found.
+* Fixed: Validation of empty totals forcing false error message to return.
+* Fixed: Empty `backorders` and `featured_image` now returns in cart response. Keeps cart response structure consistent.
+* Fixed: Coupon html formmatting returned in cart response.
+* Fixed: Error response when attempting to view a single item that is not in the cart.
+* Tweaked: When items in cart are checked for remaining stock, only the first error notice is returned per item.
+* Tweaked: Updating, Removing or Restoring an item now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all.
+* Tweaked: Localization for validation error messages.
+* Tweaked: `cocart_price_no_html()` function to decode HTML so currency symbol returns correctly.
+
 ## v3.0.3 - 15th May, 2021
 
 * Fixed: Cart hash now returns in cart response after adding first item.
