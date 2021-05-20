@@ -298,7 +298,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * @param  WP_REST_Request $request Full details about the request.
 		 * @return array Links for the given term.
 		 */
-		protected function prepare_links( $term, $request ) {
+		protected function prepare_links( $term, $request = array() ) {
 			$base = '/' . $this->namespace . '/' . $this->rest_base;
 
 			if ( ! empty( $request['attribute_id'] ) ) {

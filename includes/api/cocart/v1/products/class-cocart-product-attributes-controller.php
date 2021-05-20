@@ -80,8 +80,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 	 */
 	public function get_items( $request ) {
 		$attributes = wc_get_attribute_taxonomies();
-
-		$data = array();
+		$data       = array();
 
 		foreach ( $attributes as $attribute_obj ) {
 			$attribute = $this->prepare_item_for_response( $attribute_obj, $request );
@@ -89,7 +88,13 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 			$data[]    = $attribute;
 		}
 
-		return rest_ensure_response( $data );
+		$response = rest_ensure_response( $data );
+
+		// This API call always returns all product attributes due to retrieval from the object cache.
+		$response->header( 'X-WP-Total', count( $data ) );
+		$response->header( 'X-WP-TotalPages', 1 );
+
+		return $response;
 	}
 
 	/**
@@ -134,7 +139,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $item, $request ) );
+		$response->add_links( $this->prepare_links( $item ) );
 
 		/**
 		 * Filter a attribute item returned from the API.
@@ -146,6 +151,26 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		 * @param WP_REST_Request   $request   Request used to generate the response.
 		 */
 		return apply_filters( 'cocart_prepare_product_attribute', $response, $item, $request );
+	}
+
+	/**
+	 * Prepare links for the request.
+	 *
+	 * @param object $attribute Attribute object.
+	 * @return array Links for the given attribute.
+	 */
+	protected function prepare_links( $attribute, $request = array() ) {
+		$base  = '/' . $this->namespace . '/' . $this->rest_base;
+		$links = array(
+			'self'       => array(
+				'href' => rest_url( trailingslashit( $base ) . $attribute->attribute_id ),
+			),
+			'collection' => array(
+				'href' => rest_url( $base ),
+			),
+		);
+
+		return $links;
 	}
 
 	/**

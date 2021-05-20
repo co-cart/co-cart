@@ -647,7 +647,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			);
 		}
 
-		return $args;
+		return apply_filters('cocart_prepare_objects_query', $args, $request);
 	} // END prepare_objects_query()
 
 	/**

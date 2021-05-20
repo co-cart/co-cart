@@ -49,11 +49,11 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			array(
 				'args'   => array(
 					'product_id' => array(
-						'description' => __( 'Unique identifier for the variable product.', 'cocart-products' ),
+						'description' => __( 'Unique identifier for the product.', 'cocart-products' ),
 						'type'        => 'integer',
 					),
 					'id'         => array(
-						'description' => __( 'Unique identifier for the variation.', 'cocart-products' ),
+						'description' => __( 'Unique identifier for the review.', 'cocart-products' ),
 						'type'        => 'integer',
 					),
 				),
@@ -131,10 +131,15 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$id     = (int) $request['id'];
 		$review = get_comment( $id );
 
+		// If the review does not exist then it's not a review.
+		if ( ! $review ) {
+			return new WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-products' ), array( 'status' => 404 ) );
+		}
+
 		$product = wc_get_product( $review->comment_post_ID );
 
-		// If the review does not exist or the comment is not assigned to a product then it's not a review.
-		if ( ! $review || ! $product ) {
+		// If the comment is not assigned to a product then it's not a review.
+		if ( ! $product ) {
 			return new WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-products' ), array( 'status' => 404 ) );
 		}
 
@@ -391,6 +396,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * @param WP_REST_Request $request          Request used to insert the review.
 		 */
 		$prepared_review = apply_filters( 'cocart_pre_insert_product_review', $prepared_review, $request );
+
 		if ( is_wp_error( $prepared_review ) ) {
 			return $prepared_review;
 		}
