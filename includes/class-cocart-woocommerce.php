@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Classes
  * @since    2.1.2
- * @version  3.0.0
+ * @version  3.0.3
  * @license  GPL-2.0+
  */
 
@@ -24,7 +24,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.2
-		 * @version 3.0.0
+		 * @version 3.0.3
 		 */
 		public function __construct() {
 			// Removes WooCommerce filter that validates the quantity value to be an integer.
@@ -41,11 +41,6 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			// Delete user data.
 			add_action( 'delete_user', array( $this, 'delete_user_data' ) );
-
-			// Filters in the cart hash to match from session. Only if WP-GraphQL does not exist or is not requested.
-			if ( ! function_exists( 'is_graphql_http_request' ) || ! is_graphql_http_request() ) {
-				add_filter( 'woocommerce_cart_hash', function() { return WC()->session->get_cart_hash(); }, 0 );
-			}
 		}
 
 		/**

@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
+ * @version  3.0.1
  * @license  GPL-2.0+
  */
 
@@ -206,7 +207,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.0.1
 	 * @param   array $product_to_add - Passes details of the item ready to add to the cart.
 	 * @return  array $item_added     - Returns details of the added item in the cart.
 	 */
@@ -278,6 +279,13 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					 */
 					do_action( 'cocart_item_added_to_cart', $item_key, $item_added, $request );
 				} else {
+					/**
+					 * If WooCommerce can provide a reason for the error then let that error message return first.
+					 *
+					 * @since 3.0.1
+					 */
+					$controller->convert_notices_to_exceptions( 'cocart_add_to_cart_error' );
+
 					/* translators: %s: product name */
 					$message = sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
 

@@ -1,7 +1,7 @@
 {
 	"title": "CoCart Lite",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "3.0.0",
+	"version": "3.0.4",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -63,7 +63,8 @@
 		"update:version": "grunt version",
 		"update:pot": "grunt update-pot",
 		"update:stable": "grunt stable",
-		"zip:release": "grunt zip"
+		"zip:release": "grunt zip",
+		"packages:update": "npm install -g npm-check-updates & ncu -u & npm update & npm install"
 	},
 	"devDependencies": {
 		"github-contributors-list": "https://github.com/woocommerce/github-contributors-list/tarball/master",
@@ -93,7 +94,7 @@
 		"stylelint-order": "4.1.0"
 	},
 	"dependencies": {
-		"stylelint": "~13.13.0"
+		"stylelint": "~13.13.1"
 	},
 	"engines": {
 		"node": ">=10.15.0",

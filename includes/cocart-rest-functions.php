@@ -247,8 +247,10 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
  * Forked wc_price() function and altered to remove HTML wrappers
  * for the use of the REST API.
  *
- * @param  float $price Raw price.
- * @param  array $args  Arguments to format a price {
+ * @since   3.0.0
+ * @version 3.0.4
+ * @param   float $price Raw price.
+ * @param   array $args  Arguments to format a price {
  *     Array of arguments.
  *     Defaults to empty array.
  *
@@ -265,7 +267,7 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
  *     @type string $price_format       Price format depending on the currency position.
  *                                      Defaults the result of get_woocommerce_price_format().
  * }
- * @return string
+ * @return  string
  */
 function cocart_price_no_html( $price, $args = array() ) {
 	$args = apply_filters(
@@ -321,6 +323,8 @@ function cocart_price_no_html( $price, $args = array() ) {
 	if ( $args['ex_tax_label'] && wc_tax_enabled() ) {
 		$return .= ' ' . WC()->countries->ex_tax_or_vat();
 	}
+
+	$return = html_entity_decode( $return );
 
 	/**
 	 * Filters the string of price markup.

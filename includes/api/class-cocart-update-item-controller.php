@@ -141,7 +141,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 			// Return error if product is_sold_individually.
 			if ( $current_data['data']->is_sold_individually() && $quantity > 1 ) {
 				/* translators: %s Product name. */
-				$message = sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $current_data['data']->get_name() );
+				$message = sprintf( __( 'You can only have 1 "%s" in your cart.', 'cart-rest-api-for-woocommerce' ), $current_data['data']->get_name() );
 
 				/**
 				 * Filters message about product not being allowed to increase quantity.
@@ -232,7 +232,9 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 * @return array $params
 	 */
 	public function get_collection_params() {
-		$params = array(
+		$controller = new CoCart_Cart_V2_Controller();
+
+		$params = array_merge( $controller->get_collection_params(), array(
 			'item_key'      => array(
 				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
@@ -252,7 +254,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 				'type'              => 'boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-		);
+		) );
 
 		return $params;
 	} // END get_collection_params()

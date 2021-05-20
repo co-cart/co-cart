@@ -1,5 +1,39 @@
 # Changelog for CoCart Lite
 
+## v3.0.4 - 19th May, 2021
+
+* Fixed: Return error if no matching variation is found.
+* Fixed: Validation of empty totals forcing false error message to return.
+* Fixed: Empty `backorders` and `featured_image` now returns in cart response. Keeps cart response structure consistent.
+* Fixed: Coupon HTML formatting returned in cart response.
+* Fixed: Error response when attempting to view a single item that is not in the cart.
+* Tweaked: When items in cart are checked for remaining stock, only the first error notice is returned per item.
+* Tweaked: Updating, Removing or Restoring an item now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all.
+* Tweaked: Localization for validation error messages.
+* Tweaked: `cocart_price_no_html()` function to decode HTML so currency symbol returns correctly.
+
+## v3.0.3 - 15th May, 2021
+
+* Fixed: Cart hash now returns in cart response after adding first item.
+* Dev: Code tweaks and inline doc improvements.
+* Dev: Added new helper function to detect CoCart Pro is activated.
+
+## v3.0.2 - 12th May, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Error when product image is not set. Now fails safely by returning the product placeholder image instead.
+* Fixed: Totals total returned value was returning the currency symbol decoded for certain countries so it looked like the total was an incorrect value.
+* Tweaked: Convert monetary values given before returning.
+
+## v3.0.1 - 12th May, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Uncaught error when the cart hash is not generated and saved in session cookie.
+* Fixed: Some validation errors not returning when attempting to add item to cart.
+* Tweaked: When adding an item and fails. Any remaining error notice that WooCommerce normally returns on the frontend is converted to throw an exception.
+
 ## v3.0.0 - 10th May, 2021
 
 [See blog post for release notes](https://cocart.xyz/cocart-v3-release-notes/).
@@ -18,7 +52,7 @@
 * 🚢 **NEW**: Support for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
 * 🎁 **NEW**: Support for [WooCommerce Free Gift Coupons](https://woocommerce.com/products/free-gift-coupons/) extension.
 * 🗝️ **NEW**: Support for [JWT Auth plugin](https://wordpress.org/plugins/jwt-auth/) by Useful Team.
-* 🌗 **NEW**: Compatible with WP-GraphQL WooCommerce add-on.
+* 🌗 **NEW**: Compatible with [WP-GraphQL WooCommerce](https://github.com/wp-graphql/wp-graphql-woocommerce) add-on.
 * Tweaked: Session data now handled by new abstract to gain more control over it.
 * Tweaked: Cart key now returns in the cart response the first time round. 🥳
 * Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.

@@ -7,6 +7,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    3.0.0
+ * @version  3.0.1
  * @license  GPL-2.0+
  */
 
@@ -241,16 +242,14 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return array List of add-ons.
 		 */
 		public function get_addons_list() {
-			$campaign_args = array(
-				'utm_medium'   => 'cocart-lite',
-				'utm_source'   => 'WordPress',
-				'utm_campaign' => 'liteplugin',
+			$campaign_args = CoCart_Helpers::cocart_campaign( array(
+				'utm_campaign' => 'install-plugin',
 				'utm_content'  => 'plugin-suggestions',
-			);
+			) );
 
 			return array(
 				'cocart-products'  => array(
-					'name'              => esc_html__( 'Products', 'cart-rest-api-for-woocommerce' ),
+					'name'              => 'CoCart Products',
 					'plugin'            => 'products',
 					'search_terms'      => 'products, rest-api, reviews',
 					'short_description' => esc_html__( 'Provides access to non-sensitive product information, categories, tags, attributes and even reviews from your store without the need to authenticate.', 'cart-rest-api-for-woocommerce' ),
@@ -267,12 +266,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'third_party'       => false,
 				),
 				'cocart-acf'       => array(
-					'name'              => esc_html__( 'Advanced Custom Fields', 'cart-rest-api-for-woocommerce' ),
+					'name'              => 'Advanced Custom Fields',
 					'plugin'            => 'acf',
 					'search_terms'      => 'advanced, acf, fields, custom fields, meta, repeater',
 					'short_description' => esc_html__( 'Returns all custom meta data saved for all products using Advanced Custom Fields.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
-					'requirement'       => sprintf( esc_html__( '%s Products', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+					'requirement'       => 'CoCart Products',
 					'info'              => array(
 						'requires'     => '5.2',
 						'tested'       => '5.6',
@@ -284,12 +283,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'third_party'       => false,
 				),
 				'cocart-yoast-seo' => array(
-					'name'              => esc_html__( 'Yoast SEO', 'cart-rest-api-for-woocommerce' ),
+					'name'              => 'Yoast SEO',
 					'plugin'            => 'yoast-seo',
 					'search_terms'      => 'yoast, seo, xml sitemap, content analysis, readability, schema',
 					'short_description' => esc_html__( 'Returns all Yoast SEO data for all products, product categories and tags.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
-					'requirement'       => sprintf( esc_html__( '%s Products', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+					'requirement'       => 'CoCart Products',
 					'info'              => array(
 						'requires'     => '5.2',
 						'tested'       => '5.6',
@@ -312,7 +311,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		public function get_third_party_list() {
 			return array(
 				'woocommerce-name-your-price'        => array(
-					'name'              => sprintf( esc_html__( '%s Name Your Price', 'cart-rest-api-for-woocommerce' ), 'WooCommerce' ),
+					'name'              => 'WooCommerce Name Your Price',
 					'plugin'            => 'woocommerce-name-your-price',
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
@@ -329,7 +328,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'third_party'       => true,
 				),
 				'woocommerce-mix-and-match-products' => array(
-					'name'              => sprintf( esc_html__( '%s Mix & Match Products', 'cart-rest-api-for-woocommerce' ), 'WooCommerce' ),
+					'name'              => 'WooCommerce Mix & Match Products',
 					'plugin'            => 'woocommerce-mix-and-match-products',
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
@@ -346,7 +345,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'third_party'       => true,
 				),
 				'woocommerce-subscriptions'          => array(
-					'name'              => sprintf( esc_html__( '%s Subscriptions', 'cart-rest-api-for-woocommerce' ), 'WooCommerce' ),
+					'name'              => 'WooCommerce Subscriptions',
 					'plugin'            => 'woocommerce-subscriptions',
 					'author'            => 'WooCommerce',
 					'search_terms'      => 'subscription, product page feature, recurring payments, enhancements',
@@ -364,7 +363,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'third_party'       => true,
 				),
 				'woocommerce-smart-coupons'          => array(
-					'name'              => sprintf( esc_html__( '%s Smart Coupons', 'cart-rest-api-for-woocommerce' ), 'WooCommerce' ),
+					'name'              => 'WooCommerce Smart Coupons',
 					'plugin'            => 'woocommerce-smart-coupons',
 					'author'            => 'StoreApps',
 					'search_terms'      => 'coupon, credit, store credit, gift, certificate, voucher, discount, gift certificate, gift voucher, customer, self service',
@@ -379,6 +378,40 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'last_updated' => '',
 					),
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/smart-coupons/' ),
+					'third_party'       => true,
+				),
+				'woocommerce-advanced-shipping-packages' => array(
+					'name'              => 'WooCommerce Advanced Shipping Packages',
+					'plugin'            => 'woocommerce-advanced-shipping-packages',
+					'author'            => 'Jeroen Sormani',
+					'search_terms'      => 'shipping, packages, split-packages, multiple shipping',
+					'short_description' => esc_html__( 'Split your order into multiple shipping packages when you need it to, with the products you want to.', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'requirement'       => false,
+					'info'              => array(
+						'requires'     => '4.0',
+						'tested'       => '5.5',
+						'requires_php' => '7.0',
+						'last_updated' => '',
+					),
+					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-advanced-shipping-packages/' ),
+					'third_party'       => true,
+				),
+				'woocommerce-free-gift-coupons' => array(
+					'name'              => 'WooCommerce Free Gift Coupons',
+					'plugin'            => 'woocommerce-free-gift-coupons',
+					'author'            => 'Backcourt Development',
+					'search_terms'      => 'coupon, give away, free items, gift items',
+					'short_description' => esc_html__( 'Give away a free item(s) to any customer with the correct code.', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'requirement'       => false,
+					'info'              => array(
+						'requires'     => '4.0',
+						'tested'       => '5.5',
+						'requires_php' => '7.0',
+						'last_updated' => '',
+					),
+					'learn_more'        => esc_url( 'https://woocommerce.com/products/free-gift-coupons/' ),
 					'third_party'       => true,
 				),
 			);
@@ -788,10 +821,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
  * If "cocart_show_plugin_search" filter is set to false,
  * the plugin search suggestions will not show on the plugin install page.
  */
-if ( is_admin() && is_cocart_ps_active() ) {
+if ( is_admin() && CoCart_Helpers::is_cocart_ps_active() ) {
 	CoCart_Plugin_Search::init();
-}
-
-function is_cocart_ps_active() {
-	return apply_filters( 'cocart_show_plugin_search', true );
 }

@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.0
- * @version  3.0.0
+ * @version  3.0.3
  * @license  GPL-2.0+
  */
 
@@ -15,12 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$campaign_args = array(
-	'utm_medium'   => 'cocart-lite',
-	'utm_source'   => 'WordPress',
-	'utm_campaign' => 'liteplugin',
-	'utm_content'  => 'getting-started',
-);
+$campaign_args = CoCart_Helpers::cocart_campaign( array(
+	'utm_content' => 'getting-started',
+) );
 $store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
 $addons_url    = admin_url( 'plugin-install.php?tab=cocart' );
 $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' ) );
@@ -58,6 +55,7 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 				<?php printf( '<a class="button button-primary button-large" href="%1$s" target="_blank">%2$s</a>', COCART_DOCUMENTATION_URL, esc_html__( 'View Documentation', 'cart-rest-api-for-woocommerce' ) ); ?> 
 				<?php printf( '<a class="button button-secondary button-large" href="%1$s" target="_blank">%2$s</a>', CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ), esc_html__( 'Join Community', 'cart-rest-api-for-woocommerce' ) ); ?>
 
+				<?php if ( CoCart_Helpers::is_cocart_ps_active() ) { ?>
 				<hr>
 
 				<p><?php printf( __( 'Want to find compatible plugins or extensions for CoCart. Checkout our plugin suggestions that can help enhance your development and your customers shopping experience.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
@@ -65,13 +63,14 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 				<p style="text-align: center;">
 					<?php printf( '<a class="button button-secondary button-medium" href="%1$s">%2$s</a>', esc_url( $addons_url ), esc_html__( 'View Plugin Suggestions', 'cart-rest-api-for-woocommerce' ) ); ?>
 				</p>
+				<?php } ?>
 			</p>
 		</div>
 	</div>
 
 	<?php
-	// Display extra content if CoCart Pro is NOT installed.
-	if ( ! CoCart_Helpers::is_cocart_pro_installed() ) {
+	// Display extra content if CoCart Pro is NOT activated.
+	if ( ! CoCart_Helpers::is_cocart_pro_activated() ) {
 		?>
 		<div class="container">
 			<div class="content">
