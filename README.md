@@ -1,4 +1,4 @@
-<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v3.0.4&label=&color=9a6fc4&style=flat-square"></a></h1>
+<h1 align="center">CoCart Lite <a href="https://github.com/co-cart/co-cart/releases/latest/"><img src="https://img.shields.io/static/v1?goVersion=&message=v3.1.0&label=&color=9a6fc4&style=flat-square"></a></h1>
 
 <p align="center"><a href="https://cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart" target="_blank">CoCart</a> is a RESTful API made for <a href="https://woocommerce.com" target="_blank">WooCommerce</a>.</p>
 <p>It focuses on <strong>the front-end</strong> of the store helping you to <strong>manage shopping carts</strong> and allows developers to build a headless store in any framework of their choosing.</p>
@@ -144,9 +144,12 @@ They work with the FREE version of CoCart already, and these add-ons of course c
 
 CoCart is full of **[filters](https://docs.cocart.xyz/#filters?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** and **[action hooks](https://docs.cocart.xyz/#actions?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** for developers to use as they please. It's your store so tinker how you please.
 
+Here are a few other resources you find helpful.
+
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 * **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart from the GitHub repo.
+* **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
 
 ## Need Support?
 
