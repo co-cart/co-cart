@@ -27,6 +27,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		public function __construct() {
 			add_action( 'init', array( $this, 'includes' ) );
 			add_action( 'current_screen', array( $this, 'conditional_includes' ) );
+			add_action( 'admin_init', array( $this, 'admin_redirects' ) );
 		} // END __construct()
 
 		/**
@@ -65,6 +66,35 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 					break;
 			}
 		} // END conditional_includes()
+
+		/**
+		 * Handle redirects to setup/welcome page after install and updates.
+		 *
+		 * For setup wizard, transient must be present, the user must have access rights, and we must ignore the network/bulk plugin updaters.
+		 *
+		 * @access public
+		 * @since  3.1.0
+		 */
+		public function admin_redirects() {
+			// If WooCommerce does not exists then do nothing as we require functions from WooCommerce to function!
+			if ( ! class_exists( 'WooCommerce' ) ) {
+				return;
+			}
+
+			if ( ! empty( $_GET['cocart-install-plugin-redirect'] ) ) {
+				$plugin_slug = wc_clean( wp_unslash( $_GET['cocart-install-plugin-redirect'] ) );
+
+				if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, CoCart_Helpers::get_wporg_cocart_plugins(), true ) ) {
+					$nonce = wp_create_nonce( 'install-plugin_' . $plugin_slug );
+					$url   = self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug . '&_wpnonce=' . $nonce );
+				} else {
+					$url = admin_url( 'plugin-install.php?tab=search&type=term&s=' . $plugin_slug );
+				}
+
+				wp_safe_redirect( $url );
+				exit;
+			}
+		}
 
 	} // END class
 

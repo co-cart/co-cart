@@ -452,6 +452,22 @@ class CoCart_Helpers {
 	} // END cocart_campaign()
 
 	/**
+	 * Returns an array of CoCart add-ons listed on WordPress.org
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.1.0
+	 * @return array
+	 */
+	public static function get_wporg_cocart_plugins() {
+		return array(
+			'cocart-cors',
+			'cocart-get-cart-enhanced',
+			'cocart-carts-in-session'
+		);
+	} // ENF get_wporg_cocart_plugins()
+
+	/**
 	 * Seconds to words.
 	 *
 	 * Forked from: https://github.com/thatplugincompany/login-designer/blob/master/includes/admin/class-login-designer-feedback.php
