@@ -57,6 +57,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			'check_beta'          => 'check_beta_notice',
 			'upgrade_warning'     => 'upgrade_warning_notice',
 			'base_tables_missing' => 'base_tables_missing_notice',
+			'setup_wizard'        => 'setup_wizard_notice',
 		);
 
 		/**
@@ -122,8 +123,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Reset notices for when new version of CoCart is installed.
 		 *
-		 * @access public
-		 * @since  3.0.0
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
 		 */
 		public function reset_admin_notices() {
 			self::add_notice( 'upgrade_warning' );
@@ -131,6 +133,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			self::add_notice( 'check_wp' );
 			self::add_notice( 'check_wc' );
 			self::add_notice( 'check_beta' );
+			self::add_notice( 'setup_wizard' );
 		} // END reset_admin_notices()
 
 		/**
@@ -453,6 +456,19 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-please-review.php';
 			}
 		} // END plugin_review_notice()
+
+		/**
+		 * Displays setup wizard notice.
+		 *
+		 * Shows only for those new to CoCart or setup wizard has not be done.
+		 *
+		 * @access public
+		 * @since  3.1.0
+		 * @return void
+		 */
+		public function setup_wizard_notice() {
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-setup-wizard.php';
+		} // END setup_wizard_notice()
 
 	} // END class.
 
