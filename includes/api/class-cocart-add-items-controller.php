@@ -231,7 +231,9 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return array $params
 	 */
 	public function get_collection_params() {
-		$params = array(
+		$controller = new CoCart_Cart_V2_Controller();
+
+		$params = array_merge( $controller->get_collection_params(), array(
 			'id'           => array(
 				'description'       => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
@@ -249,7 +251,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 				'default'     => false,
 				'type'        => 'boolean',
 			),
-		);
+		) );
 
 		return $params;
 	} // END get_collection_params()

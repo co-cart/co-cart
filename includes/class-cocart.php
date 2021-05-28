@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Package
  * @since    2.6.0
- * @version  3.0.0
+ * @version  3.0.5
  * @license  GPL-2.0+
  */
 
@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '3.0.4';
+	public static $version = '3.0.5';
 
 	/**
 	 * CoCart Database Schema version.

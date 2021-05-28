@@ -6,6 +6,7 @@
  * @category Classes
  * @package  CoCart\Classes
  * @since    3.0.0
+ * @version  3.0.5
  * @license  GPL-2.0+
  */
 
@@ -117,7 +118,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 		 * @return string|false
 		 */
 		protected function task( $callback ) {
-			wc_maybe_define_constant( 'CoCart_UPDATING', true );
+			wc_maybe_define_constant( 'COCART_UPDATING', true );
 
 			$logger = new CoCart_Logger();
 
