@@ -548,7 +548,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			);
 
 			return esc_html__( 'Carts are now synchronized.', 'cart-rest-api-for-woocommerce' );
-		} // END resync_carts()
+		} // END synchronize_carts()
 
 		/**
 		 * Maybe updates the database.

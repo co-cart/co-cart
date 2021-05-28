@@ -8,7 +8,9 @@ assignees: ''
 
 <!-- Hi there! This form is for reporting bugs and issues specific to the CoCart plugin. This is not a support portal. -->
 
-<!-- Please be as descriptive as possible; issues lacking the below details, or for any other reason than to report a bug, may be closed without action. -->
+## Describe the bug
+
+<!-- A clear and concise description of what the bug is. Please be as descriptive as possible. Issues lacking the below details, or for any other reason than to report a bug, may be closed without action. -->
 
 ## Prerequisites
 
@@ -30,9 +32,15 @@ assignees: ''
 
 ## Expected/actual behaviour
 
+<!-- A clear and concise description of what actually happens. -->
+
 When I follow those steps, I see...
 
 I was expecting to see...
+
+## Screenshots
+
+<!-- If applicable, add screenshots to help explain your problem. -->
 
 ## Isolating the problem
 
@@ -53,3 +61,7 @@ I was expecting to see...
 Go to "WooCommerce > System Status then copy and paste the system status report here.
 ```
 </details>
+
+## Additional context
+
+<!--Any additional context or details you think might be helpful.-->
