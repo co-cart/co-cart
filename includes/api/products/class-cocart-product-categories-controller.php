@@ -19,22 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * REST API Product Categories controller class.
  *
  * @package CoCart/API
- * @extends CoCart_REST_Terms_V2_Controller
+ * @extends CoCart_Product_Categories_Controller
  */
-class CoCart_Product_Categories_V2_Controller extends CoCart_REST_Terms_V2_Controller {
+class CoCart_Product_Categories_V2_Controller extends CoCart_Product_Categories_Controller {
 
 	/**
-	 * Route base.
+	 * Endpoint namespace.
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'products/categories';
-
-	/**
-	 * Taxonomy.
-	 *
-	 * @var string
-	 */
-	protected $taxonomy = 'product_cat';
+	protected $namespace = 'cocart/v2';
 
 }

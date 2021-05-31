@@ -19,15 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * REST API Product Attributes controller class.
  *
  * @package CoCart/API
- * @extends CoCart_REST_Terms_V2_Controller
+ * @extends CoCart_Product_Attributes_Controller
  */
-class CoCart_Product_Attributes_V2_Controller extends CoCart_REST_Terms_V2_Controller {
+class CoCart_Product_Attributes_V2_Controller extends CoCart_Product_Attributes_Controller {
 
 	/**
-	 * Route base.
+	 * Endpoint namespace.
 	 *
 	 * @var string
 	 */
-	protected $rest_base = 'products/attributes';
+	protected $namespace = 'cocart/v2';
 
 }
