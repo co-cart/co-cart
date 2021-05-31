@@ -65,7 +65,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public function __construct() {
 			self::$install_date = get_option( 'cocart_install_date', time() );
@@ -74,11 +74,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 			add_action( 'wp_loaded', array( $this, 'hide_notices' ) );
-			add_action( 'init', array( $this, 'timed_notices' ) );
-	
-			if ( ! CoCart_Install::is_new_install() ) {
-				add_action( 'shutdown', array( $this, 'store_notices' ) );
-			}
+			add_action( 'wp_loaded', array( $this, 'timed_notices' ), 11 );
+			add_action( 'wp_loaded', array( $this, 'maybe_show_new_notices' ), 11 );
+
+			add_action( 'shutdown', array( $this, 'store_notices' ) );
 
 			// If the current user has capabilities then add notices.
 			if ( CoCart_Helpers::user_has_capabilities() ) {
@@ -320,6 +319,23 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				self::add_notice( 'plugin_review' );
 			}
 		} // END timed_notices()
+
+		/**
+		 * Shows a notice asking the user to start with the setup wizard.
+		 *
+		 * @access public
+		 * @since  3.1.0
+		 * @return void
+		 */
+		public function maybe_show_new_notices() {
+			// Was the setup wizard notice dismissed?
+			$hide_wizard_notice = get_user_meta( get_current_user_id(), 'dismissed_cocart_setup_wizard_notice', true );
+
+			// Check if we need to display the setup wizard notice.
+			if ( empty( $hide_wizard_notice ) ) {
+				self::add_notice( 'setup_wizard' );
+			}
+		} // END maybe_show_new_notices()
 
 		/**
 		 * Shows an upgrade warning notice if the installed version is less
