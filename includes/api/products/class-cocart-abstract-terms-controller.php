@@ -60,7 +60,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 						'permission_callback' => array( $this, 'get_item_permissions_check' ),
 						'args'                => array(
 							'id'      => array(
-								'description' => __( 'Unique identifier for the resource.', 'cocart-products' ),
+								'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 							),
 							'context' => $this->get_context_param( array( 'default' => 'view' ) ),

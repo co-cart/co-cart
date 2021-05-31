@@ -86,13 +86,13 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'id'          => array(
-					'description' => __( 'Unique identifier for the resource.', 'cocart-products' ),
+					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'name'        => array(
-					'description' => __( 'Tag name.', 'cocart-products' ),
+					'description' => __( 'Tag name.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -100,7 +100,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 					),
 				),
 				'slug'        => array(
-					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cocart-products' ),
+					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -108,7 +108,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 					),
 				),
 				'description' => array(
-					'description' => __( 'HTML description of the resource.', 'cocart-products' ),
+					'description' => __( 'HTML description of the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -116,7 +116,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 					),
 				),
 				'count'       => array(
-					'description' => __( 'Number of published products for the resource.', 'cocart-products' ),
+					'description' => __( 'Number of published products for the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

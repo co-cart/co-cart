@@ -114,13 +114,13 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 			'type'       => 'object',
 			'properties' => array(
 				'id'          => array(
-					'description' => __( 'Unique identifier for the resource.', 'cocart-products' ),
+					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'name'        => array(
-					'description' => __( 'Category name.', 'cocart-products' ),
+					'description' => __( 'Category name.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -128,7 +128,7 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 					),
 				),
 				'slug'        => array(
-					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cocart-products' ),
+					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -136,12 +136,12 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 					),
 				),
 				'parent'      => array(
-					'description' => __( 'The ID for the parent of the resource.', 'cocart-products' ),
+					'description' => __( 'The ID for the parent of the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 				),
 				'description' => array(
-					'description' => __( 'HTML description of the resource.', 'cocart-products' ),
+					'description' => __( 'HTML description of the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -149,71 +149,71 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 					),
 				),
 				'display'     => array(
-					'description' => __( 'Category archive display type.', 'cocart-products' ),
+					'description' => __( 'Category archive display type.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'default',
 					'enum'        => array( 'default', 'products', 'subcategories', 'both' ),
 					'context'     => array( 'view' ),
 				),
 				'image'       => array(
-					'description' => __( 'Image data.', 'cocart-products' ),
+					'description' => __( 'Image data.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'id'                => array(
-							'description' => __( 'Image ID.', 'cocart-products' ),
+							'description' => __( 'Image ID.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
 						),
 						'date_created'      => array(
-							'description' => __( "The date the image was created, in the site's timezone.", 'cocart-products' ),
+							'description' => __( "The date the image was created, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'date_created_gmt'  => array(
-							'description' => __( 'The date the image was created, as GMT.', 'cocart-products' ),
+							'description' => __( 'The date the image was created, as GMT.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'date_modified'     => array(
-							'description' => __( "The date the image was last modified, in the site's timezone.", 'cocart-products' ),
+							'description' => __( "The date the image was last modified, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'date_modified_gmt' => array(
-							'description' => __( 'The date the image was last modified, as GMT.', 'cocart-products' ),
+							'description' => __( 'The date the image was last modified, as GMT.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'src'               => array(
-							'description' => __( 'Image URL.', 'cocart-products' ),
+							'description' => __( 'Image URL.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'format'      => 'uri',
 							'context'     => array( 'view' ),
 						),
 						'name'              => array(
-							'description' => __( 'Image name.', 'cocart-products' ),
+							'description' => __( 'Image name.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'alt'               => array(
-							'description' => __( 'Image alternative text.', 'cocart-products' ),
+							'description' => __( 'Image alternative text.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 					),
 				),
 				'menu_order'  => array(
-					'description' => __( 'Menu order, used to custom sort the resource.', 'cocart-products' ),
+					'description' => __( 'Menu order, used to custom sort the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 				),
 				'count'       => array(
-					'description' => __( 'Number of published products for the resource.', 'cocart-products' ),
+					'description' => __( 'Number of published products for the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

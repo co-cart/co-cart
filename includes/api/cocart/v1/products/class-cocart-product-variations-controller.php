@@ -55,7 +55,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 			array(
 				'args'   => array(
 					'product_id' => array(
-						'description' => __( 'Unique identifier for the variable product.', 'cocart-products' ),
+						'description' => __( 'Unique identifier for the variable product.', 'cart-rest-api-for-woocommerce' ),
 						'type'        => 'integer',
 					),
 				),
@@ -79,11 +79,11 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 					'callback'            => array( $this, 'get_item' ),
 					'args'                => array(
 						'product_id' => array(
-							'description' => __( 'Unique identifier for the variable product.', 'cocart-products' ),
+							'description' => __( 'Unique identifier for the variable product.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 						),
 						'id'         => array(
-							'description' => __( 'Unique identifier for the variation.', 'cocart-products' ),
+							'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 						),
 					),
@@ -244,239 +244,239 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'id'                    => array(
-					'description' => __( 'Unique identifier for the resource.', 'cocart-products' ),
+					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'date_created'          => array(
-					'description' => __( "The date the variation was created, in the site's timezone.", 'cocart-products' ),
+					'description' => __( "The date the variation was created, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'date_modified'         => array(
-					'description' => __( "The date the variation was last modified, in the site's timezone.", 'cocart-products' ),
+					'description' => __( "The date the variation was last modified, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'description'           => array(
-					'description' => __( 'Variation description.', 'cocart-products' ),
+					'description' => __( 'Variation description.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
 				'permalink'             => array(
-					'description' => __( 'Variation URL.', 'cocart-products' ),
+					'description' => __( 'Variation URL.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'format'      => 'uri',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'sku'                   => array(
-					'description' => __( 'Unique identifier.', 'cocart-products' ),
+					'description' => __( 'Unique identifier.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
 				'price'                 => array(
-					'description' => __( 'Current variation price.', 'cocart-products' ),
+					'description' => __( 'Current variation price.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'regular_price'         => array(
-					'description' => __( 'Variation regular price.', 'cocart-products' ),
+					'description' => __( 'Variation regular price.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
 				'sale_price'            => array(
-					'description' => __( 'Variation sale price.', 'cocart-products' ),
+					'description' => __( 'Variation sale price.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
 				'date_on_sale_from'     => array(
-					'description' => __( "Start date of sale price, in the site's timezone.", 'cocart-products' ),
+					'description' => __( "Start date of sale price, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view' ),
 				),
 				'date_on_sale_from_gmt' => array(
-					'description' => __( 'Start date of sale price, as GMT.', 'cocart-products' ),
+					'description' => __( 'Start date of sale price, as GMT.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view' ),
 				),
 				'date_on_sale_to'       => array(
-					'description' => __( "End date of sale price, in the site's timezone.", 'cocart-products' ),
+					'description' => __( "End date of sale price, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view' ),
 				),
 				'date_on_sale_to_gmt'   => array(
-					'description' => __( "End date of sale price, in the site's timezone.", 'cocart-products' ),
+					'description' => __( "End date of sale price, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view' ),
 				),
 				'on_sale'               => array(
-					'description' => __( 'Shows if the variation is on sale.', 'cocart-products' ),
+					'description' => __( 'Shows if the variation is on sale.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'purchasable'           => array(
-					'description' => __( 'Shows if the variation can be bought.', 'cocart-products' ),
+					'description' => __( 'Shows if the variation can be bought.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'virtual'               => array(
-					'description' => __( 'If the variation is virtual.', 'cocart-products' ),
+					'description' => __( 'If the variation is virtual.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'default'     => false,
 					'context'     => array( 'view' ),
 				),
 				'downloadable'          => array(
-					'description' => __( 'If the variation is downloadable.', 'cocart-products' ),
+					'description' => __( 'If the variation is downloadable.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'default'     => false,
 					'context'     => array( 'view' ),
 				),
 				'manage_stock'          => array(
-					'description' => __( 'Stock management at variation level.', 'cocart-products' ),
+					'description' => __( 'Stock management at variation level.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'default'     => false,
 					'context'     => array( 'view' ),
 				),
 				'stock_quantity'        => array(
-					'description' => __( 'Stock quantity.', 'cocart-products' ),
+					'description' => __( 'Stock quantity.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 				),
 				'stock_status'          => array(
-					'description' => __( 'Controls the stock status of the product.', 'cocart-products' ),
+					'description' => __( 'Controls the stock status of the product.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'instock',
 					'enum'        => array_keys( wc_get_product_stock_status_options() ),
 					'context'     => array( 'view' ),
 				),
 				'backorders'            => array(
-					'description' => __( 'If managing stock, this controls if backorders are allowed.', 'cocart-products' ),
+					'description' => __( 'If managing stock, this controls if backorders are allowed.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'no',
 					'enum'        => array( 'no', 'notify', 'yes' ),
 					'context'     => array( 'view' ),
 				),
 				'backorders_allowed'    => array(
-					'description' => __( 'Shows if backorders are allowed.', 'cocart-products' ),
+					'description' => __( 'Shows if backorders are allowed.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'backordered'           => array(
-					'description' => __( 'Shows if the variation is on backordered.', 'cocart-products' ),
+					'description' => __( 'Shows if the variation is on backordered.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'weight'                => array(
 					/* translators: %s: weight unit */
-					'description' => sprintf( __( 'Variation weight (%s).', 'cocart-products' ), $weight_unit ),
+					'description' => sprintf( __( 'Variation weight (%s).', 'cart-rest-api-for-woocommerce' ), $weight_unit ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
 				'dimensions'            => array(
-					'description' => __( 'Variation dimensions.', 'cocart-products' ),
+					'description' => __( 'Variation dimensions.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'length' => array(
 							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Variation length (%s).', 'cocart-products' ), $dimension_unit ),
+							'description' => sprintf( __( 'Variation length (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'width'  => array(
 							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Variation width (%s).', 'cocart-products' ), $dimension_unit ),
+							'description' => sprintf( __( 'Variation width (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'height' => array(
 							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Variation height (%s).', 'cocart-products' ), $dimension_unit ),
+							'description' => sprintf( __( 'Variation height (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 					),
 				),
 				'image'                 => array(
-					'description' => __( 'Variation image data.', 'cocart-products' ),
+					'description' => __( 'Variation image data.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'id'                => array(
-							'description' => __( 'Image ID.', 'cocart-products' ),
+							'description' => __( 'Image ID.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
 							'context'     => array( 'view' ),
 						),
 						'date_created'      => array(
-							'description' => __( "The date the image was created, in the site's timezone.", 'cocart-products' ),
+							'description' => __( "The date the image was created, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'date_created_gmt'  => array(
-							'description' => __( 'The date the image was created, as GMT.', 'cocart-products' ),
+							'description' => __( 'The date the image was created, as GMT.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'date_modified'     => array(
-							'description' => __( "The date the image was last modified, in the site's timezone.", 'cocart-products' ),
+							'description' => __( "The date the image was last modified, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'date_modified_gmt' => array(
-							'description' => __( 'The date the image was last modified, as GMT.', 'cocart-products' ),
+							'description' => __( 'The date the image was last modified, as GMT.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'date-time',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'src'               => array(
-							'description' => __( 'Image URL.', 'cocart-products' ),
+							'description' => __( 'Image URL.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'format'      => 'uri',
 							'context'     => array( 'view' ),
 						),
 						'name'              => array(
-							'description' => __( 'Image name.', 'cocart-products' ),
+							'description' => __( 'Image name.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'alt'               => array(
-							'description' => __( 'Image alternative text.', 'cocart-products' ),
+							'description' => __( 'Image alternative text.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 					),
 				),
 				'attributes'            => array(
-					'description' => __( 'List of attributes.', 'cocart-products' ),
+					'description' => __( 'List of attributes.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'array',
 					'context'     => array( 'view' ),
 					'items'       => array(
 						'type'       => 'object',
 						'properties' => array(
 							'id'     => array(
-								'description' => __( 'Attribute ID.', 'cocart-products' ),
+								'description' => __( 'Attribute ID.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
 							),
 							'name'   => array(
-								'description' => __( 'Attribute name.', 'cocart-products' ),
+								'description' => __( 'Attribute name.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
 							),
 							'option' => array(
-								'description' => __( 'Selected attribute term name.', 'cocart-products' ),
+								'description' => __( 'Selected attribute term name.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
 							),
@@ -484,30 +484,30 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 					),
 				),
 				'menu_order'            => array(
-					'description' => __( 'Menu order, used to custom sort products.', 'cocart-products' ),
+					'description' => __( 'Menu order, used to custom sort products.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 				),
 				'meta_data'             => array(
-					'description' => __( 'Meta data.', 'cocart-products' ),
+					'description' => __( 'Meta data.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'array',
 					'context'     => array( 'view' ),
 					'items'       => array(
 						'type'       => 'object',
 						'properties' => array(
 							'id'    => array(
-								'description' => __( 'Meta ID.', 'cocart-products' ),
+								'description' => __( 'Meta ID.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
 								'readonly'    => true,
 							),
 							'key'   => array(
-								'description' => __( 'Meta key.', 'cocart-products' ),
+								'description' => __( 'Meta key.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
 							),
 							'value' => array(
-								'description' => __( 'Meta value.', 'cocart-products' ),
+								'description' => __( 'Meta value.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'mixed',
 								'context'     => array( 'view' ),
 							),
@@ -612,7 +612,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		);
 
 		$params['stock_status'] = array(
-			'description'       => __( 'Limit result set to products with specified stock status.', 'cocart-products' ),
+			'description'       => __( 'Limit result set to products with specified stock status.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
 			'enum'              => array_keys( wc_get_product_stock_status_options() ),
 			'sanitize_callback' => 'sanitize_text_field',

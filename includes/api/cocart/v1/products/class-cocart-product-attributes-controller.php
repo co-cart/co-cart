@@ -46,7 +46,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'attributes', 'read' ) ) {
-			return new WP_Error( 'cocart_cannot_list_attributes', __( 'Sorry, you cannot list attributes.', 'cocart-products' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'cocart_cannot_list_attributes', __( 'Sorry, you cannot list attributes.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -61,11 +61,11 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 	 */
 	public function get_item_permissions_check( $request ) {
 		if ( ! $this->get_taxonomy( $request ) ) {
-			return new WP_Error( 'cocart_attribute_invalid', __( 'Attribute does not exist.', 'cocart-products' ), array( 'status' => 404 ) );
+			return new WP_Error( 'cocart_attribute_invalid', __( 'Attribute does not exist.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! wc_rest_check_manager_permissions( 'attributes', 'read' ) ) {
-			return new WP_Error( 'cocart_cannot_view_attribute', __( 'Sorry, you cannot view this attribute.', 'cocart-products' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'cocart_cannot_view_attribute', __( 'Sorry, you cannot view this attribute.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -186,13 +186,13 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 			'type'       => 'object',
 			'properties' => array(
 				'id'           => array(
-					'description' => __( 'Unique identifier for the resource.', 'cocart-products' ),
+					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'name'         => array(
-					'description' => __( 'Attribute name.', 'cocart-products' ),
+					'description' => __( 'Attribute name.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -200,7 +200,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 					),
 				),
 				'slug'         => array(
-					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cocart-products' ),
+					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -208,21 +208,21 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 					),
 				),
 				'type'         => array(
-					'description' => __( 'Type of attribute.', 'cocart-products' ),
+					'description' => __( 'Type of attribute.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'select',
 					'enum'        => array_keys( wc_get_attribute_types() ),
 					'context'     => array( 'view' ),
 				),
 				'order_by'     => array(
-					'description' => __( 'Sort order.', 'cocart-products' ),
+					'description' => __( 'Sort order.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'menu_order',
 					'enum'        => array( 'menu_order', 'name', 'name_num', 'id' ),
 					'context'     => array( 'view' ),
 				),
 				'has_archives' => array(
-					'description' => __( 'Attribute has archives?', 'cocart-products' ),
+					'description' => __( 'Attribute has archives?', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'boolean',
 					'default'     => false,
 					'context'     => array( 'view' ),
@@ -289,7 +289,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		);
 
 		if ( is_wp_error( $attribute ) || is_null( $attribute ) ) {
-			return new WP_Error( 'cocart_attribute_invalid', __( 'Attribute does not exist.', 'cocart-products' ), array( 'status' => 404 ) );
+			return new WP_Error( 'cocart_attribute_invalid', __( 'Attribute does not exist.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
 		return $attribute;

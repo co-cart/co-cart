@@ -71,7 +71,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 						'permission_callback' => array( $this, 'get_item_permissions_check' ),
 						'args'                => array(
 							'id'      => array(
-								'description' => __( 'Unique identifier for the resource.', 'cocart-products' ),
+								'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 							),
 							'context' => $this->get_context_param( array( 'default' => 'view' ) ),
@@ -97,7 +97,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			if ( ! $permissions ) {
-				return new WP_Error( 'cocart_cannot_list_resources', __( 'Sorry, you cannot list resources.', 'cocart-products' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'cocart_cannot_list_resources', __( 'Sorry, you cannot list resources.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 
 			return true;
@@ -118,7 +118,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			if ( ! $permissions ) {
-				return new WP_Error( 'cocart_cannot_view_resource', __( 'Sorry, you cannot view this resource.', 'cocart-products' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'cocart_cannot_view_resource', __( 'Sorry, you cannot view this resource.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 
 			return true;
@@ -136,7 +136,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			$taxonomy = $this->get_taxonomy( $request );
 
 			if ( ! $taxonomy || ! taxonomy_exists( $taxonomy ) ) {
-				return new WP_Error( 'cocart_taxonomy_invalid', __( 'Taxonomy does not exist.', 'cocart-products' ), array( 'status' => 404 ) );
+				return new WP_Error( 'cocart_taxonomy_invalid', __( 'Taxonomy does not exist.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 			}
 
 			// Check permissions for a single term.
@@ -146,7 +146,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				$term = get_term( $id, $taxonomy );
 
 				if ( is_wp_error( $term ) || ! $term || $term->taxonomy !== $taxonomy ) {
-					return new WP_Error( 'cocart_term_invalid', __( 'Term does not exist.', 'cocart-products' ), array( 'status' => 404 ) );
+					return new WP_Error( 'cocart_term_invalid', __( 'Term does not exist.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 				}
 
 				return true;
@@ -418,7 +418,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			$params['context']['default'] = 'view';
 
 			$params['exclude'] = array(
-				'description'       => __( 'Ensure result set excludes specific IDs.', 'cocart-products' ),
+				'description'       => __( 'Ensure result set excludes specific IDs.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'array',
 				'items'             => array(
 					'type' => 'integer',
@@ -427,7 +427,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				'sanitize_callback' => 'wp_parse_id_list',
 			);
 			$params['include'] = array(
-				'description'       => __( 'Limit result set to specific ids.', 'cocart-products' ),
+				'description'       => __( 'Limit result set to specific ids.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'array',
 				'items'             => array(
 					'type' => 'integer',
@@ -437,14 +437,14 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			);
 			if ( ! $taxonomy->hierarchical ) {
 				$params['offset'] = array(
-					'description'       => __( 'Offset the result set by a specific number of items.', 'cocart-products' ),
+					'description'       => __( 'Offset the result set by a specific number of items.', 'cart-rest-api-for-woocommerce' ),
 					'type'              => 'integer',
 					'sanitize_callback' => 'absint',
 					'validate_callback' => 'rest_validate_request_arg',
 				);
 			}
 			$params['order']      = array(
-				'description'       => __( 'Order sort attribute ascending or descending.', 'cocart-products' ),
+				'description'       => __( 'Order sort attribute ascending or descending.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_key',
 				'default'           => 'asc',
@@ -455,7 +455,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				'validate_callback' => 'rest_validate_request_arg',
 			);
 			$params['orderby']    = array(
-				'description'       => __( 'Sort collection by resource attribute.', 'cocart-products' ),
+				'description'       => __( 'Sort collection by resource attribute.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_key',
 				'default'           => 'name',
@@ -471,27 +471,27 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				'validate_callback' => 'rest_validate_request_arg',
 			);
 			$params['hide_empty'] = array(
-				'description'       => __( 'Whether to hide resources not assigned to any products.', 'cocart-products' ),
+				'description'       => __( 'Whether to hide resources not assigned to any products.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'boolean',
 				'default'           => false,
 				'validate_callback' => 'rest_validate_request_arg',
 			);
 			if ( $taxonomy->hierarchical ) {
 				$params['parent'] = array(
-					'description'       => __( 'Limit result set to resources assigned to a specific parent.', 'cocart-products' ),
+					'description'       => __( 'Limit result set to resources assigned to a specific parent.', 'cart-rest-api-for-woocommerce' ),
 					'type'              => 'integer',
 					'sanitize_callback' => 'absint',
 					'validate_callback' => 'rest_validate_request_arg',
 				);
 			}
 			$params['product'] = array(
-				'description'       => __( 'Limit result set to resources assigned to a specific product.', 'cocart-products' ),
+				'description'       => __( 'Limit result set to resources assigned to a specific product.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'integer',
 				'default'           => null,
 				'validate_callback' => 'rest_validate_request_arg',
 			);
 			$params['slug']    = array(
-				'description'       => __( 'Limit result set to resources with a specific slug.', 'cocart-products' ),
+				'description'       => __( 'Limit result set to resources with a specific slug.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'validate_callback' => 'rest_validate_request_arg',
 			);
