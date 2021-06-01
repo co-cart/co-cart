@@ -7,7 +7,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    3.0.0
- * @version  3.0.1
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -684,10 +684,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Returns action links.
 		 *
-		 * @access public
-		 * @param  array $links  Related links before change.
-		 * @param  array $plugin Plugin details
-		 * @return array $links  Related links after change.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   array $links  Related links before change.
+		 * @param   array $plugin Plugin details
+		 * @return  array $links  Related links after change.
 		 */
 		public function get_action_links( $links = array(), $plugin ) {
 			$plugins_allowedtags = self::plugins_allowedtags();
@@ -810,7 +812,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				} // END if plugin matches.
 			} // END foreach cocart plugin.
 
-			return $links;
+			return apply_filters( 'cocart_plugin_search_action_links', $links, $plugin );
 		} // END get_action_links()
 
 	} // END class
