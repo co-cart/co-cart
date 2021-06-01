@@ -806,13 +806,15 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 								}
 
 								break;
-
 						} // END switch
+
+						$links = apply_filters( 'cocart_plugin_search_action_links', $links, $status, $plugin, $name );
+
 					} // END if user can install or update plugins.
 				} // END if plugin matches.
 			} // END foreach cocart plugin.
 
-			return apply_filters( 'cocart_plugin_search_action_links', $links, $plugin );
+			return $links;
 		} // END get_action_links()
 
 	} // END class
