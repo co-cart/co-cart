@@ -1,5 +1,14 @@
 # Changelog for CoCart Lite
 
+## v3.1.0 - ?? ??, 2021 (DATE SUBJECT TO CHANGE)
+
+* **NEW**: Setup wizard is now introduced to help identify if the store is new and prepare the environment for headless setup.
+* **NEW**: CoCart Products core API now merged. Additional product support in CoCart Pro only.
+* **NEW**: Can view single products by SKU.
+* Fixed: Redirect to the "Getting Started" page should no longer happen on every activation, only if install is new.
+* Fixed: Plugin review notice dismiss.
+* Dev: Added more compatibility for next update of CoCart Pro.
+
 ## v3.0.5 - 28th May, 2021
 
 * Tweaked: Adding an item now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all when not set.
