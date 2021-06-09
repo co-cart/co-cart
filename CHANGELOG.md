@@ -2,11 +2,11 @@
 
 ## v3.1.0 - ?? ??, 2021 (DATE SUBJECT TO CHANGE)
 
-* **NEW**: Setup wizard is now introduced to help identify if the store is new and prepare the environment for headless setup.
-* **NEW**: CoCart Products core API now merged. Additional product support in CoCart Pro only.
-* **NEW**: Can view single products by SKU.
+* **NEW**: Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
+* **NEW**: CoCart Products core API now merged and new option to view single products by SKU. Additional product support in CoCart Pro only.
+* **NEW**: API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See developer guide](#).
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation, only if install is new.
-* Fixed: Plugin review notice dismiss.
+* Fixed: Plugin review notice dismiss action.
 * Dev: Added more compatibility for next update of CoCart Pro.
 
 ## v3.0.5 - 28th May, 2021

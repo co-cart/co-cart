@@ -143,6 +143,7 @@ class CoCart_REST_API {
 			'cocart-v2-cart-restore-item'       => 'CoCart_Restore_Item_v2_Controller',
 			'cocart-v2-cart-calculate'          => 'CoCart_Calculate_v2_Controller',
 			'cocart-v2-cart-clear'              => 'CoCart_Clear_Cart_v2_Controller',
+			'cocart-v2-cart-update'             => 'CoCart_Update_Cart_v2_Controller',
 			'cocart-v2-cart-totals'             => 'CoCart_Totals_v2_Controller',
 			'cocart-v2-login'                   => 'CoCart_Login_v2_Controller',
 			'cocart-v2-logout'                  => 'CoCart_Logout_v2_Controller',
@@ -333,6 +334,7 @@ class CoCart_REST_API {
 		include_once dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-cocart-session-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-cocart-sessions-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-cocart-update-cart-controller.php';
 		include_once dirname( __FILE__ ) . '/api/products/class-cocart-abstract-terms-controller.php';
 		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-attribute-terms-controller.php';
 		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-attributes-controller.php';

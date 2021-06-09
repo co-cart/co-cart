@@ -147,7 +147,7 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @return  void
 	 */
 	public static function includes() {
@@ -155,11 +155,13 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-autoloader.php';
 
 		// Abstracts.
+		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-extension-callback.php';
 		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-cart-extension.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-install.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
