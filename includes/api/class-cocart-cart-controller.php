@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
- * @version  3.0.4
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -107,15 +107,32 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END get_cart_items()
 
 	/**
-	 * Get cart.
+	 * Returns true if the cart is completly empty.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request - Full details about the request.
-	 * @return WP_REST_Response
+	 * @since  3.1.0
+	 * @return bool
+	 */
+	public function is_completly_empty() {
+		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && $this->get_removed_cart_contents_count() <= 0 ) {
+			return true;
+		}
+
+		return false;
+	} // END is_completly_empty()
+
+	/**
+	 * Get cart.
+	 *
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @return  WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $deprecated = '' ) {
 		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
-		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+		$cart_contents = ! $this->is_completly_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
 		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
@@ -149,7 +166,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 3.0.3
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @param   array           $cart_contents
 	 * @param   boolean         $from_session
@@ -162,8 +179,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Get cart template.
 		$cart_template = $this->get_cart_template( $request );
 
-		// If the cart is completly empty or not exist then return nothing.
-		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
+		// If the cart is empty then return nothing.
+		if ( empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
 			 *
