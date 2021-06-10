@@ -122,6 +122,17 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END is_completly_empty()
 
 	/**
+	 * Get number of removed items in the cart.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 * @return int
+	 */
+	public function get_removed_cart_contents_count() {
+		return array_sum( wp_list_pluck( $controller->get_cart_instance()->get_removed_cart_contents(), 'quantity' ) );
+	} // END get_removed_cart_contents_count()
+
+	/**
 	 * Get cart.
 	 *
 	 * @access  public

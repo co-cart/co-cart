@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -64,7 +65,7 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request       - Full details about the request.
 	 * @param   array           $cart_contents - Cart contents to count items.
 	 * @return  WP_REST_Response
@@ -78,7 +79,7 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 		if ( empty( $cart_contents ) ) {
 			// Return count for removed items in cart.
 			if ( isset( $request['removed_items'] ) && is_bool( $request['removed_items'] ) && $request['removed_items'] ) {
-				$count = array_sum( wp_list_pluck( $controller->get_cart_instance()->get_removed_cart_contents(), 'quantity' ) );
+				$count = $controller->get_removed_cart_contents_count();
 			}
 			// Return count for items in cart.
 			else {
