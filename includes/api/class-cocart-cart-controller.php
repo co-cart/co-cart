@@ -129,7 +129,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return int
 	 */
 	public function get_removed_cart_contents_count() {
-		return array_sum( wp_list_pluck( $controller->get_cart_instance()->get_removed_cart_contents(), 'quantity' ) );
+		return array_sum( wp_list_pluck( $this->get_cart_instance()->get_removed_cart_contents(), 'quantity' ) );
 	} // END get_removed_cart_contents_count()
 
 	/**
