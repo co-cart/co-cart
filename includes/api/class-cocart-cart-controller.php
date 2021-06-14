@@ -1374,6 +1374,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						'html'          => html_entity_decode( strip_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => $method->taxes,
 						'chosen_method' => ( $chosen_method === $key ),
+						'meta_data'  	=> $method->get_meta_data(),
 					);
 				}
 			}
