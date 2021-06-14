@@ -12,7 +12,7 @@
  * @category API
  * @package  CoCart\Classes
  * @since    2.1.0
- * @version  3.0.3
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -782,7 +782,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  protected
 	 * @since   2.7.2
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   array  $data     The cart data to validate.
 	 * @param   string $cart_key The cart key.
 	 * @return  array  $data     Returns the original cart data or a boolean value.
@@ -790,7 +790,10 @@ class CoCart_Session_Handler extends CoCart_Session {
 	protected function is_cart_data_valid( $data, $cart_key ) {
 		if ( ! empty( $data ) && empty( $this->get_cart( $cart_key ) ) ) {
 			// If the cart value is empty then the cart data is not valid.
-			if ( empty( maybe_unserialize( $data['cart'] ) ) ) {
+			if (
+				empty( maybe_unserialize( $data['cart'] ) ) ||
+				! isset( $data['cart'] )
+			) {
 				$data = false;
 			}
 		}
