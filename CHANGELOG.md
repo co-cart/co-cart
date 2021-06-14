@@ -5,6 +5,7 @@
 * **NEW**: Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
 * **NEW**: CoCart Products core API now merged and new option to view single products by SKU. Additional product support in CoCart Pro only.
 * **NEW**: API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See developer guide](#).
+* Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation, only if install is new.
 * Fixed: Plugin review notice dismiss action.
 * Dev: Added more compatibility for next update of CoCart Pro.
