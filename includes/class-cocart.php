@@ -156,7 +156,6 @@ final class CoCart {
 
 		// Abstracts.
 		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-extension-callback.php';
-		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
@@ -298,12 +297,13 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   2.1.2
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   string WooCommerce Session Handler
 	 * @return  string CoCart Session Handler
 	 */
 	public static function session_handler( $handler ) {
 		if ( class_exists( 'WC_Session' ) ) {
+			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 			$handler = 'CoCart_Session_Handler';
 		}
