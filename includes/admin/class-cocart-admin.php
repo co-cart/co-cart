@@ -98,8 +98,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				wp_safe_redirect( $url );
 				exit;
 			}
-		}
-
 		} // END admin_redirects()
 
 		/**
