@@ -430,10 +430,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Gets data to inject results.
 		 *
-		 * @access public
-		 * @param  array $inject Plugin information from WordPress.org
-		 * @param  array $data   Plugin information from CoCart
-		 * @return array         Plugin results to inject.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   array $inject Plugin information from WordPress.org
+		 * @param   array $data   Plugin information from CoCart
+		 * @return  array         Plugin results to inject.
 		 */
 		public function get_inject_data( $inject, $data ) {
 			return array(
@@ -464,6 +466,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ) : '',
 				'learn_more'        => ! empty( $data['learn_more'] ) ? esc_url( $data['learn_more'] ) : '',
 				'third_party'       => $data['third_party'],
+				'wporg'             => isset( $data['wporg'] ) ? true : false,
 			);
 		} // END get_inject_data()
 
@@ -714,6 +717,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 							case 'install':
 								if ( $status['url'] ) {
 									if ( $compatible_php && $compatible_wp ) {
+										$nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
+										$url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
+					
 										if ( ! empty( $plugin['purchase'] ) ) {
 											$links['cocart-purchase'] = sprintf(
 												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
@@ -723,6 +729,18 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 												esc_attr( sprintf( __( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
 												esc_attr( $name ),
 												__( 'Purchase Now', 'cart-rest-api-for-woocommerce' )
+											);
+										}
+
+										if ( ! empty( $plugin['wporg'] ) ) {
+											$links['cocart-install'] = sprintf(
+												'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
+												esc_attr( $plugin['slug'] ),
+												esc_url( $url ),
+												/* translators: %s: Plugin name and version. */
+												esc_attr( sprintf( _x( 'Install %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
+												esc_attr( $name ),
+												__( 'Install Now', 'cart-rest-api-for-woocommerce' )
 											);
 										}
 									} else {
