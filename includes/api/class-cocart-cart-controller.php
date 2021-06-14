@@ -1317,8 +1317,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns shipping details.
 	 *
-	 * @access public
-	 * @return array.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @return  array.
 	 */
 	public function get_shipping_details() {
 		// Get shipping packages.
