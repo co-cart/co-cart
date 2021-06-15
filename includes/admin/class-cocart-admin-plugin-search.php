@@ -384,7 +384,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'name'              => 'WooCommerce Advanced Shipping Packages',
 					'plugin'            => 'woocommerce-advanced-shipping-packages',
 					'author'            => 'Jeroen Sormani',
-					'search_terms'      => 'shipping, packages, split-packages, multiple shipping',
+					'search_terms'      => 'woocommerce shipping, packages, split-packages, multiple shipping',
 					'short_description' => esc_html__( 'Split your order into multiple shipping packages when you need it to, with the products you want to.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
 					'requirement'       => false,
@@ -413,6 +413,24 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					),
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/free-gift-coupons/' ),
 					'third_party'       => true,
+				),
+				'flexible-shipping' => array(
+					'name'              => 'Table Rate for WooCommerce by Flexible Shipping',
+					'plugin'            => 'flexible-shipping',
+					'author'            => 'WP Desk',
+					'search_terms'      => 'woocommerce shipping, conditional shipping, shipping method, table rate, table rate shipping',
+					'short_description' => esc_html__( 'The most flexible Table Rate Shipping WooCommerce plugin. Create almost every shipping scenario you need.', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => 'https://ps.w.org/flexible-shipping/assets/icon-128x128.png?rev=1436359',
+					'requirement'       => false,
+					'info'              => array(
+						'requires'     => '5.2',
+						'tested'       => '5.7.2',
+						'requires_php' => '7.0',
+						'last_updated' => '',
+					),
+					'learn_more'        => esc_url( 'https://flexibleshipping.com' ),
+					'third_party'       => true,
+					'wporg'             => true,
 				),
 			);
 		} // END get_third_party_list()
