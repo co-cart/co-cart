@@ -8,6 +8,7 @@
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation, only if install is new.
 * Fixed: Plugin review notice dismiss action.
+* Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
 * Dev: Added more compatibility for next update of CoCart Pro.
 
 ## v3.0.5 - 28th May, 2021
