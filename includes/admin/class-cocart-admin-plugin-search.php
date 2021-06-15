@@ -756,7 +756,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 												esc_attr( $plugin['slug'] ),
 												esc_url( $url ),
 												/* translators: %s: Plugin name and version. */
-												esc_attr( sprintf( _x( 'Install %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
+												esc_attr( sprintf( __( 'Install %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
 												esc_attr( $name ),
 												__( 'Install Now', 'cart-rest-api-for-woocommerce' )
 											);

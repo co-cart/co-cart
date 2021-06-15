@@ -79,7 +79,7 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 			}
 
 			if ( ! array_key_exists( $namespace, $callback_methods ) ) {
-				throw new CoCart_Data_Exception( 'cocart_update_cart_no_namespace_error', sprintf( __( 'There is no such namespace registered: %1$s.', 'cocart_update_cart_namespace_error' ), $namespace ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_update_cart_no_namespace_error', sprintf( __( 'There is no such namespace registered: %1$s.', 'cart-rest-api-for-woocommerce' ), $namespace ), 404 );
 			}
 
 			if ( ! is_callable( array( $callback_methods[ $namespace ], 'callback' ) ) ) {
