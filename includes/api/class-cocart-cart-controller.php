@@ -1367,6 +1367,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			if ( count( (array) $package['rates'] ) > 0 ) {
 				// Return each rate.
 				foreach ( $package['rates'] as $key => $method ) {
+					$meta_data = $this->clean_meta_data( $method, $type = 'shipping' );
+
 					$rates[ $key ] = array(
 						'key'           => $key,
 						'method_id'     => $method->get_method_id(),
@@ -1376,7 +1378,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						'html'          => html_entity_decode( strip_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => $method->taxes,
 						'chosen_method' => ( $chosen_method === $key ),
-						'meta_data'  	=> $method->get_meta_data(),
+						'meta_data'     => $meta_data,
 					);
 				}
 			}
@@ -1388,6 +1390,27 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $details;
 	} // END get_shipping_details()
+
+	/**
+	 * Cleans up the meta data for API.
+	 *
+	 * @access protected
+	 * @since  3.1.0
+	 * @return array
+	 */
+	protected function clean_meta_data( $method, $type = 'shipping' ) {
+		$meta_data = $method->get_meta_data();
+
+		switch( $type ) {
+			case 'shipping':
+				$meta_data['items'] = html_entity_decode( strip_tags( $meta_data['Items'] ) );
+				unset( $meta_data['Items'] );
+
+				break;
+		}
+
+		return $meta_data;
+	} // END clean_meta_data()
 
 	/**
 	 * Return notices in cart if any.
