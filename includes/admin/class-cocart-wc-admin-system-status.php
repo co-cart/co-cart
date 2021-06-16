@@ -361,7 +361,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 					SELECT COUNT(cart_id) as count
 					FROM {$wpdb->prefix}cocart_carts 
 					WHERE cart_source=%s",
-					'cocart-rest-api'
+					'cocart'
 				),
 				ARRAY_A
 			);
@@ -389,7 +389,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 					SELECT COUNT(cart_id) as count
 					FROM {$wpdb->prefix}cocart_carts 
 					WHERE cart_source!=%s AND cart_source!=%s",
-					'cocart-rest-api',
+					'cocart',
 					'woocommerce'
 				),
 				ARRAY_A

@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Menus
  * @since    2.0.0
- * @version  3.0.0
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -33,7 +33,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public function admin_menu() {
 			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( $_GET['section'] );
@@ -61,6 +61,17 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 				array( $this, 'cocart_page' ),
 				'dashicons-cart'
 			);
+
+			// Add Setup Wizard as sub-menu.
+			if ( apply_filters( 'cocart_enable_setup_wizard', true ) ) {
+				add_submenu_page(
+					'cocart',
+					'',
+					esc_attr__( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
+					apply_filters( 'cocart_screen_capability', 'manage_options' ),
+					admin_url( 'admin.php?page=cocart-setup' ),
+				);
+			}
 
 			// Register WooCommerce Admin Bar.
 			if ( CoCart_Helpers::is_wc_version_gte( '4.0' ) && function_exists( 'wc_admin_connect_page' ) ) {

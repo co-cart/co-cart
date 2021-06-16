@@ -6,7 +6,7 @@
  * @category Classes
  * @package  CoCart\Classes
  * @since    1.2.0
- * @version  3.0.0
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -163,7 +163,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access public
 		 * @static
 		 * @since   1.2.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public static function install() {
 			if ( ! is_blog_installed() ) {
@@ -196,6 +196,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			// Set activation date.
 			self::set_install_date();
+
+			// Maybe see if we need to enable the setup wizard or not.
+			self::maybe_enable_setup_wizard();
 
 			// Update plugin version.
 			self::update_version();
@@ -254,11 +257,13 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Reset any notices added to admin.
 		 *
-		 * @access private
+		 * @access  private
 		 * @static
-		 * @since  3.0.0
+		 * @since   3.0.0
+		 * @version 3.1.0
 		 */
 		private static function remove_admin_notices() {
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';
 			CoCart_Admin_Notices::remove_all_notices();
 		}
 
@@ -292,6 +297,20 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			return ! is_null( $current_db_version ) && version_compare( $current_db_version, end( $update_versions ), '<' );
 		} // END needs_db_update()
+
+		/**
+		 * See if we need the setup wizard or not.
+		 *
+		 * @access private
+		 * @static
+		 * @since  3.1.0
+		 */
+		private static function maybe_enable_setup_wizard() {
+			if ( apply_filters( 'cocart_enable_setup_wizard', true ) && self::is_new_install() ) {
+				CoCart_Admin_Notices::add_notice( 'install', true );
+				set_transient( '_cocart_activation_redirect', 1, 30 );
+			}
+		} // END maybe_enable_setup_wizard()
 
 		/**
 		 * See if we need to show or run database updates during install.
@@ -394,14 +413,23 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 * @param   string $plugin             Activate plugin file.
 		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network
 		 *                                     or just the current site. Multisite only.
 		 */
 		public static function redirect_getting_started( $plugin, $network_activation ) {
 			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
-			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
+			if (
+				$plugin !== plugin_basename( COCART_FILE ) || 
+				$plugin !== plugin_basename( COCART_PRO_FILE ) || 
+				isset( $_GET['activate-multi'] )
+			) {
+				return;
+			}
+
+			// Dont redirect to getting started page if CoCart is not a new install.
+			if ( ! get_transient( '_cocart_activation_redirect' ) ) {
 				return;
 			}
 

@@ -39,7 +39,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public function includes() {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';           // Admin Assets
@@ -48,6 +48,15 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';    // Plugin Search
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';       // WooCommerce Admin Notices
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php'; // WooCommerce System Status
+
+			// Setup Wizard.
+			if ( ! empty( $_GET['page'] ) ) {
+				switch ( $_GET['page'] ) {
+					case 'cocart-setup':
+						include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';
+						break;
+				}
+			}
 		} // END includes()
 
 		/**
@@ -97,6 +106,29 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 				wp_safe_redirect( $url );
 				exit;
+			}
+
+			// Setup wizard redirect.
+			if ( get_transient( '_cocart_activation_redirect' ) && apply_filters( 'cocart_enable_setup_wizard', true ) ) {
+				$do_redirect  = true;
+				$current_page = isset( $_GET['page'] ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : false;
+
+				// On these pages, or during these events, postpone the redirect.
+				if ( wp_doing_ajax() || is_network_admin() || ! current_user_can( 'manage_options' ) ) {
+					$do_redirect = false;
+				}
+
+				// On these pages, or during these events, disable the redirect.
+				if ( 'cocart-setup' === $current_page || ! CoCart_Admin_Notices::has_notice( 'setup_wizard' ) || apply_filters( 'cocart_prevent_automatic_wizard_redirect', false ) || isset( $_GET['activate-multi'] ) ) {
+					delete_transient( '_cocart_activation_redirect' );
+					$do_redirect = false;
+				}
+
+				if ( $do_redirect ) {
+					delete_transient( '_cocart_activation_redirect' );
+					wp_safe_redirect( admin_url( 'admin.php?page=cocart-setup' ) );
+					exit;
+				}
 			}
 		} // END admin_redirects()
 
