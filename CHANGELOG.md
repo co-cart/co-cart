@@ -12,6 +12,7 @@
 * Fixed: Plugin review notice dismiss action.
 * Tweaked: Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
+* Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
 * Dev: Added more compatibility for next update of CoCart Pro.
 
 ## v3.0.5 - 28th May, 2021
