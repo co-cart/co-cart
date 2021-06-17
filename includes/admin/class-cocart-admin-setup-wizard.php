@@ -497,6 +497,20 @@ class CoCart_Admin_Setup_Wizard {
 					</p>
 				</div>
 			</li>
+			<li class="cocart-setup-wizard-next-step-item">
+				<div class="cocart-setup-wizard-next-step-description">
+					<p class="next-step-heading"><?php esc_html_e( 'Need something else?', 'cart-rest-api-for-woocommerce' ); ?></p>
+					<h3 class="next-step-description"><?php esc_html_e( 'Install Plugins', 'cart-rest-api-for-woocommerce' ); ?></h3>
+					<p class="next-step-extra-info"><?php esc_html_e( "Checkout plugin suggestions by CoCart.", 'cart-rest-api-for-woocommerce' ); ?></p>
+				</div>
+				<div class="cocart-setup-wizard-next-step-action">
+					<p class="cocart-setup-wizard-actions step">
+						<a class="button button-large" href="<?php echo admin_url( 'plugin-install.php?tab=cocart' ); ?>" target="_blank">
+							<?php esc_html_e( 'View Plugin Suggestions', 'cart-rest-api-for-woocommerce' ); ?>
+						</a>
+					</p>
+				</div>
+			</li>
 			<li class="cocart-setup-wizard-additional-steps">
 				<div class="cocart-setup-wizard-next-step-description">
 					<p class="next-step-heading"><?php esc_html_e( 'You can also', 'cart-rest-api-for-woocommerce' ); ?></p>
