@@ -187,6 +187,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 
+		/**
+		 * Return the default cart data if set to true.
+		 *
+		 * @since 3.0.0
+		 */
+		if ( ! empty( $request['default'] ) && $request['default'] ) {
+			return $cart_contents;
+		}
+
 		// Get cart template.
 		$cart_template = $this->get_cart_template( $request );
 
@@ -200,16 +209,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			 */
 			cocart_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
 
-			return apply_filters( 'cocart_empty_cart', array() );
-		}
-
-		/**
-		 * Return the default cart data if set to true.
-		 *
-		 * @since 3.0.0
-		 */
-		if ( ! empty( $request['default'] ) && $request['default'] ) {
-			return $cart_contents;
+			return apply_filters( 'cocart_empty_cart', $cart_template );
 		}
 
 		// Other Requested conditions.
