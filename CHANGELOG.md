@@ -7,6 +7,7 @@
 * **NEW**: API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See developer guide](#).
 * **NEW**: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/) added as plugin suggestion.
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
+* **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation, only if install is new.
 * Fixed: Plugin review notice dismiss action.
 * Tweaked: Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.

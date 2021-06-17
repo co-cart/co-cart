@@ -48,6 +48,9 @@ class CoCart_REST_API {
 		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/)
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
+		// Cache Control.
+		add_filter( 'rest_pre_serve_request', array( $this, 'cache_control' ), 0, 4 );
+
 		// Sends the cart key to the header.
 		add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 20, 1 );
 	} // END __construct()
@@ -406,6 +409,29 @@ class CoCart_REST_API {
 
 		return true;
 	} // END cocart_key_header()
+
+	/**
+	 * Helps prevent CoCart from being cached at all and returns results quicker.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 * @param  bool             $served  Whether the request has already been served. Default false.
+	 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param  WP_REST_Request  $request Request used to generate the response.
+	 * @param  WP_REST_Server   $server  Server instance.
+	 * @return bool
+	 */
+	public function cache_control( $served, $result, $request, $server ) {
+		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
+			header('Expires: Thu, 01-Jan-70 00:00:01 GMT');
+			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+			header('Cache-Control: no-store, no-cache, must-revalidate');
+			header('Cache-Control: post-check=0, pre-check=0', false);
+			header('Pragma: no-cache');
+		}
+
+		return $served;
+	} // END cache_control()
 
 } // END class
 
