@@ -307,7 +307,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 */
 		private static function maybe_enable_setup_wizard() {
 			if ( apply_filters( 'cocart_enable_setup_wizard', true ) && self::is_new_install() ) {
-				CoCart_Admin_Notices::add_notice( 'install', true );
+				CoCart_Admin_Notices::add_notice( 'setup_wizard', true );
 				set_transient( '_cocart_activation_redirect', 1, 30 );
 			}
 		} // END maybe_enable_setup_wizard()
