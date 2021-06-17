@@ -59,6 +59,20 @@ CoCart Lite provides the basic API needs to get you started.
 * Login the customer/user.
 * Logout the customer/user.
 
+Also included is the ability to access products, product categories, product tags, product attributes and 
+even reviews without the need to authenticate.
+
+* Return all published products.
+* Return an individual product by product ID / SKU ID.
+* Return an individual variable product and all it’s variations in one request.
+* Return all product categories.
+* Return all product tags.
+* Return all product attributes.
+* Return a product attribute terms.
+* Return all product reviews.
+* Return an individual product review.
+* Create a product review.
+
 As an added bonus for administrators or shop managers, CoCart Lite also provides the capabilities to:
 
 * Get Carts in Session.
@@ -75,6 +89,7 @@ CoCart also provides built in features to:
 * Supports basic authentication including the use of email as username.
 * Support [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
+* Does not cache so responses are fast.
 * Works across multiple domains, CORS ready (so you can have multiple frontends connected to one backend).
 * Allows you to filter CoCart to be white-labelled.
 
@@ -138,9 +153,8 @@ We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=wp.org&utm_sourc
 
 * **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** simply filters the session cookie to allow CoCart to work across multiple domains.
 * **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it.
-* **[CoCart Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides access to non-sensitive product information, categories, tags, attributes and even reviews from your store without the need to authenticate.
-* **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning all your advanced custom fields for products. - **REQUIRES COCART PRODUCTS**
-* **[Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. - **REQUIRES COCART PRODUCTS**
+* **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends the products API by returning all your advanced custom fields for products.
+* **[Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends the products API by returning Yoast SEO data for products, product categories and product tags.
 * and more add-ons in development.
 
 They work with the FREE version of CoCart already, and these add-ons of course come with support too.
