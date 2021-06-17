@@ -458,7 +458,7 @@ class CoCart_Admin_Setup_Wizard {
 		</p>
 
 		<div class="cocart-newsletter">
-			<p><?php esc_html_e( "Get tips, product updates, and inspiration straight to your inbox.", 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( "Get product updates, tutorials and more straight to your inbox.", 'cart-rest-api-for-woocommerce' ); ?></p>
 			<form action="https://xyz.us1.list-manage.com/subscribe/post?u=48ead612ad85b23fe2239c6e3&amp;id=d462357844&amp;SIGNUPPAGE=plugin" method="post" target="_blank" novalidate>
 				<div class="newsletter-form-container">
 					<input
@@ -526,7 +526,7 @@ class CoCart_Admin_Setup_Wizard {
 						<a class="button" href="<?php echo esc_url( 'https://marketplace.visualstudio.com/items?itemName=sebastien-dumont.cocart-vscode' ); ?>" target="_blank">
 							<?php esc_html_e( 'Install CoCart VSCode Extension', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
-						<a class="button" href="<?php echo CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://marketplace.visualstudio.com/items?itemName=sebastien-dumont.cocart-vscode' ) ) ); ?>" target="_blank">
+						<a class="button" href="<?php echo CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ); ?>" target="_blank">
 							<?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
 					</p>
