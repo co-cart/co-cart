@@ -248,23 +248,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			) );
 
 			return array(
-				'cocart-products'  => array(
-					'name'              => 'CoCart Products',
-					'plugin'            => 'products',
-					'search_terms'      => 'products, rest-api, reviews',
-					'short_description' => esc_html__( 'Provides access to non-sensitive product information, categories, tags, attributes and even reviews from your store without the need to authenticate.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
-					'requirement'       => 'CoCart',
-					'info'              => array(
-						'requires'     => '5.2',
-						'tested'       => '5.6',
-						'requires_php' => '7.2',
-						'last_updated' => '',
-					),
-					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
-					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/products/' ) ) ),
-					'third_party'       => false,
-				),
 				'cocart-acf'       => array(
 					'name'              => 'Advanced Custom Fields',
 					'plugin'            => 'acf',
