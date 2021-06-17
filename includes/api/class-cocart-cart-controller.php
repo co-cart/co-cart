@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
+
 /**
  * CoCart REST API v2 controller class.
  *
@@ -962,7 +964,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.4
+	 * @version 3.1.0
 	 * @param   WC_Product $product  - Product object associated with the cart item.
 	 * @param   int|float  $quantity - Quantity of product to validate availability.
 	 */
@@ -991,18 +993,20 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			if ( ! $product->has_enough_stock( $quantity ) ) {
 				/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-				$message = sprintf( __( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock (%3$s remaining).', 'cart-rest-api-for-woocommerce' ), $quantity, $product->get_name(), wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ) );
+				$message = sprintf( __( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock, only (%3$s) remaining.', 'cart-rest-api-for-woocommerce' ), $quantity, $product->get_name(), wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ) );
 
 				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 403 );
 			}
 
+			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
 			if ( $product->managing_stock() && ! $product->backorders_allowed()) {
-				$qty_in_cart   = $this->get_cart_instance()->get_cart_item_quantities();
+				$qty_remaining = $this->get_remaining_stock_for_product( $product );
+				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
 
-				if ( isset( $qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
+				if ( $qty_remaining < $qty_in_cart + $quantity ) {
 					/* translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart */
 					$message = sprintf(
-						__( 'You cannot add that amount of "%1$s" to the cart &mdash; we have (%2$s remaining). You already have (%3$s) in your cart.', 'cart-rest-api-for-woocommerce' ),
+						__( 'You cannot add that amount of "%1$s" to the cart &mdash; we have (%2$s) in stock remaining. You already have (%3$s) in your cart.', 'cart-rest-api-for-woocommerce' ),
 						$product->get_name(),
 						wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),
 						wc_format_stock_quantity_for_display( $qty_in_cart[ $product->get_stock_managed_by_id() ], $product )
@@ -1639,6 +1643,38 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 403 );
 	} // END throw_product_not_purchasable()
+
+	/**
+	 * Gets the quantity of a product across line items.
+	 *
+	 * @access protected
+	 * @since  3.1.0
+	 * @param  WC_Product $product Product object.
+	 * @return int
+	 */
+	protected function get_product_quantity_in_cart( $product ) {
+		$cart               = $this->get_cart_instance();
+		$product_quantities = $cart->get_cart_item_quantities();
+		$product_id         = $product->get_stock_managed_by_id();
+
+		return isset( $product_quantities[ $product_id ] ) ? $product_quantities[ $product_id ] : 0;
+	} // END get_product_quantity_in_cart()
+
+	/**
+	 * Gets remaining stock for a product.
+	 *
+	 * @access protected
+	 * @since  3.1.0
+	 * @param  WC_Product $product Product object.
+	 * @return int
+	 */
+	protected function get_remaining_stock_for_product( $product ) {
+		$reserve_stock = new ReserveStock();
+		$draft_order   = WC()->session->get( 'cocart_draft_order', 0 );
+		$qty_reserved  = $reserve_stock->get_reserved_stock( $product, $draft_order );
+
+		return $product->get_stock_quantity() - $qty_reserved;
+	} // END get_remaining_stock_for_product()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
