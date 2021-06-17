@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-beta.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-06-17 14:07:22+00:00\n"
+"POT-Creation-Date: 2021-06-17 16:10:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1128,7 +1128,7 @@ msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:326
 #: includes/api/class-cocart-add-item-controller.php:373
-#: includes/api/class-cocart-cart-controller.php:1687
+#: includes/api/class-cocart-cart-controller.php:1703
 msgid "Unique identifier for the product or variation ID."
 msgstr ""
 
@@ -1153,7 +1153,7 @@ msgid "Returns the item details once added."
 msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:381
-#: includes/api/class-cocart-cart-controller.php:1716
+#: includes/api/class-cocart-cart-controller.php:1732
 #: includes/api/cocart/v1/class-cocart-controller.php:931
 msgid "Quantity of this item in the cart."
 msgstr ""
@@ -1299,14 +1299,14 @@ msgstr ""
 #. translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock
 msgid ""
 "You cannot add the amount of %1$s for \"%2$s\" to the cart because there is "
-"not enough stock (%3$s remaining)."
+"not enough stock, only (%3$s) remaining."
 msgstr ""
 
 #: includes/api/class-cocart-cart-controller.php:1009
 #. translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart
 msgid ""
-"You cannot add that amount of \"%1$s\" to the cart &mdash; we have (%2$s "
-"remaining). You already have (%3$s) in your cart."
+"You cannot add that amount of \"%1$s\" to the cart &mdash; we have (%2$s) "
+"in stock remaining. You already have (%3$s) in your cart."
 msgstr ""
 
 #: includes/api/class-cocart-cart-controller.php:1167
@@ -1335,91 +1335,91 @@ msgstr ""
 msgid "\"%s\" is not available for purchase."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1673
+#: includes/api/class-cocart-cart-controller.php:1689
 #: includes/api/cocart/v1/class-cocart-controller.php:882
 msgid "Cart"
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1677
+#: includes/api/class-cocart-cart-controller.php:1693
 #: includes/api/cocart/v1/class-cocart-controller.php:886
 msgid "List of cart items."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1681
+#: includes/api/class-cocart-cart-controller.php:1697
 #: includes/api/cocart/v1/class-cocart-controller.php:890
 msgid "Unique identifier for the item within the cart."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1693
+#: includes/api/class-cocart-cart-controller.php:1709
 #: includes/api/cocart/v1/class-cocart-controller.php:908
 msgid "Chosen attributes (for variations)."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1701
+#: includes/api/class-cocart-cart-controller.php:1717
 #: includes/api/cocart/v1/class-cocart-controller.php:916
 msgid "Variation attribute slug."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1707
+#: includes/api/class-cocart-cart-controller.php:1723
 #: includes/api/cocart/v1/class-cocart-controller.php:922
 msgid "Variation attribute value."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1730
+#: includes/api/class-cocart-cart-controller.php:1746
 #: includes/api/cocart/v1/class-cocart-controller.php:945
 msgid "Line subtotal tax data."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1736
+#: includes/api/class-cocart-cart-controller.php:1752
 #: includes/api/cocart/v1/class-cocart-controller.php:951
 msgid "Line total tax data."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1745
+#: includes/api/class-cocart-cart-controller.php:1761
 #: includes/api/cocart/v1/class-cocart-controller.php:960
 msgid ""
 "Line subtotal (the price of the product before coupon discounts have been "
 "applied)."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1751
+#: includes/api/class-cocart-cart-controller.php:1767
 #: includes/api/cocart/v1/class-cocart-controller.php:966
 msgid "Line subtotal tax."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1757
+#: includes/api/class-cocart-cart-controller.php:1773
 #: includes/api/cocart/v1/class-cocart-controller.php:972
 msgid ""
 "Line total (the price of the product after coupon discounts have been "
 "applied)."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1763
+#: includes/api/class-cocart-cart-controller.php:1779
 #: includes/api/cocart/v1/class-cocart-controller.php:978
 msgid "Line total tax."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1769
+#: includes/api/class-cocart-cart-controller.php:1785
 #: includes/api/cocart/v1/class-cocart-controller.php:984
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:1086
 msgid "Product name."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1775
+#: includes/api/class-cocart-cart-controller.php:1791
 #: includes/api/cocart/v1/class-cocart-controller.php:990
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:1169
 msgid "Current product price."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1802
+#: includes/api/class-cocart-cart-controller.php:1818
 msgid "Unique identifier for the cart or customer."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1806
+#: includes/api/class-cocart-cart-controller.php:1822
 msgid "Returns the URL of the featured product image for each item in cart."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1811
+#: includes/api/class-cocart-cart-controller.php:1827
 msgid "Return the default cart data if set to true."
 msgstr ""
 
