@@ -51,14 +51,14 @@ body {
 		color: #666;
 	}
 
+	p:first-of-type {
+		margin-top: 0;
+	}
+
 	p:last-child {
 		margin-bottom: 0;
 	}
 
-	p.store-setup {
-		margin-top: 0;
-	}
-	
 	table {
 		font-size: 1em;
 		line-height: 1.75;

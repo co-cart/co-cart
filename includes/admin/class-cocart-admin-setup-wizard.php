@@ -278,7 +278,7 @@ class CoCart_Admin_Setup_Wizard {
 			<input type="hidden" name="save_step" value="store_setup" />
 			<?php wp_nonce_field( 'cocart-setup' ); ?>
 
-			<p class="store-setup"><?php esc_html_e( 'The following wizard will help you configure CoCart for your headless store.', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'The following wizard will help you configure CoCart for your headless store.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 			<?php if ( ! $sessions_transferred ) { ?>
 			<label for="store_new"><?php esc_html_e( 'Is this a new store?', 'cart-rest-api-for-woocommerce' ); ?></label>
@@ -346,7 +346,7 @@ class CoCart_Admin_Setup_Wizard {
 			<input type="hidden" name="save_step" value="session_setup" />
 			<?php wp_nonce_field( 'cocart-setup' ); ?>
 
-			<p class="store-setup"><?php esc_html_e( 'Your current WooCommerce sessions will be transfered over to CoCart session table. This will run in the background until completed. Once transfered, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'Your current WooCommerce sessions will be transfered over to CoCart session table. This will run in the background until completed. Once transfered, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 			<p class="cocart-setup-wizard-actions step">
 				<button class="button button-primary button-large" value="<?php esc_attr_e( "Transfer Sessions", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Transfer Sessions", 'cart-rest-api-for-woocommerce' ); ?></button>

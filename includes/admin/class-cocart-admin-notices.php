@@ -121,9 +121,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Reset notices for when new version of CoCart is installed.
 		 *
-		 * @access  public
-		 * @since   3.0.0
-		 * @version 3.1.0
+		 * @access public
+		 * @since  3.0.0
 		 */
 		public function reset_admin_notices() {
 			self::add_notice( 'upgrade_warning' );
@@ -179,12 +178,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * See if a notice is being shown.
 		 *
-		 * @access public
-		 * @since  3.0.0
-		 * @param  string $name Notice name.
-		 * @return boolean
+		 * @access  public
+		 * @static
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   string $name Notice name.
+		 * @return  boolean
 		 */
-		public function has_notice( $name ) {
+		public static function has_notice( $name ) {
 			return in_array( $name, self::get_notices(), true );
 		} // END has_notice()
 

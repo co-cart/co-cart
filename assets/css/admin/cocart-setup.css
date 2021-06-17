@@ -38,10 +38,10 @@ body {
     font-size: 1em;
     line-height: 1.75;
     color: #666; }
+  .cocart-setup-wizard-content p:first-of-type {
+    margin-top: 0; }
   .cocart-setup-wizard-content p:last-child {
     margin-bottom: 0; }
-  .cocart-setup-wizard-content p.store-setup {
-    margin-top: 0; }
   .cocart-setup-wizard-content table {
     font-size: 1em;
     line-height: 1.75;
