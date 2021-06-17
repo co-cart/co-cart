@@ -278,6 +278,10 @@ class CoCart_Admin_Setup_Wizard {
 			<input type="hidden" name="save_step" value="store_setup" />
 			<?php wp_nonce_field( 'cocart-setup' ); ?>
 
+			<p><?php printf( __( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ); ?>
+
+			<p><?php printf( __( '%s focuses on the front-end of the store helping you to manage shopping carts and allows developers to build a headless store in any framework of their choosing. No local storing required.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+
 			<p><?php esc_html_e( 'The following wizard will help you configure CoCart for your headless store.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 			<?php if ( ! $sessions_transferred ) { ?>
@@ -442,6 +446,12 @@ class CoCart_Admin_Setup_Wizard {
 		);
 		?>
 		<h1><?php esc_html_e( "You're ready!", 'cart-rest-api-for-woocommerce' ); ?></h1>
+
+		<p><?php printf( __( 'Now that you have %1$s installed, your ready to start developing. In the documentation you will find the API routes available along with action hooks and filters that allow you to customise %1$s to your needs.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+
+		<p><?php _e( 'There is also a knowledge base section that provides answers to most common questions should you find that you need help. This is best to be looked at first before contacting for support.', 'cart-rest-api-for-woocommerce' ); ?>
+
+		<p><?php printf( __( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
 
 		<p class="tweet-share">
 			<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="<?php echo $this->tweets[$tweet]; ?>" data-url="https://cocart.xyz/" data-hashtags="WooCommerce" data-related="WooCommerce" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
