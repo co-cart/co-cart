@@ -36,6 +36,21 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
+		// Get Products - cocart/v2/products (GET)
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_items' ),
+					'args'                => $this->get_collection_params(),
+					'permission_callback' => '__return_true',
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+
 		// Get a single product by ID - cocart/v2/products/32 (GET)
 		// Get a single product by SKU - cocart/v2/products/woo-vneck-tee (GET)
 		register_rest_route(
