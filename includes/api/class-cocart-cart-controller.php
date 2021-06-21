@@ -749,15 +749,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Convert monetary values from WooCommerce to string based integers, using
 	 * the smallest unit of a currency.
 	 *
-	 * @access  protected
+	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.2
+	 * @version 3.1.0
 	 * @param   string|float $amount        - Monetary amount with decimals.
 	 * @param   int          $decimals      - Number of decimals the amount is formatted with.
 	 * @param   int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
 	 * @return  string       The new amount.
 	 */
-	protected function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 		$amount = html_entity_decode( strip_tags( $amount ) );
 
 		return (string) intval(
