@@ -229,6 +229,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					'to'            => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
 					'to_gmt'        => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ) ),
 				),
+				'currency'          => $controller->get_store_currency(),
 			),
 			'conditions'            => array(
 				'virtual'           => $product->is_virtual(),
