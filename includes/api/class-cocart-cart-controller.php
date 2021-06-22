@@ -653,10 +653,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Prepares a list of store currency data to return in responses.
 	 *
-	 * @access protected
-	 * @return array
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @return  array
 	 */
-	protected function get_store_currency() {
+	public function get_store_currency() {
 		$position = get_option( 'woocommerce_currency_pos' );
 		$symbol   = html_entity_decode( get_woocommerce_currency_symbol() );
 		$prefix   = '';
