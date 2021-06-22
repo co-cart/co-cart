@@ -413,18 +413,14 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 3.1.0
+		 * @version 3.0.0
 		 * @param   string $plugin             Activate plugin file.
 		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network
 		 *                                     or just the current site. Multisite only.
 		 */
 		public static function redirect_getting_started( $plugin, $network_activation ) {
 			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
-			if (
-				$plugin !== plugin_basename( COCART_FILE ) || 
-				$plugin !== plugin_basename( COCART_PRO_FILE ) || 
-				isset( $_GET['activate-multi'] )
-			) {
+			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
 				return;
 			}
 
