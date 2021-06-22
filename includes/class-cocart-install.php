@@ -36,7 +36,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public static function init() {
 			// Checks version of CoCart and install/update if needed.
@@ -46,7 +46,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
 
 			// Redirect to Getting Started page once activated.
-			add_action( 'activated_plugin', array( __CLASS__, 'redirect_getting_started' ), 10, 2 );
+			add_action( 'activated_plugin', array( __CLASS__, 'redirect_getting_started' ), 10 );
 
 			// Drop tables when MU blog is deleted.
 			add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
@@ -413,12 +413,10 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 3.0.0
-		 * @param   string $plugin             Activate plugin file.
-		 * @param   bool   $network_activation Whether to enable the plugin for all sites in the network
-		 *                                     or just the current site. Multisite only.
+		 * @version 3.1.0
+		 * @param   string $plugin - Activate plugin file.
 		 */
-		public static function redirect_getting_started( $plugin, $network_activation ) {
+		public static function redirect_getting_started( $plugin ) {
 			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
 			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
 				return;
