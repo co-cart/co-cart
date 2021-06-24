@@ -290,6 +290,38 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END get_product_data()
 
 	/**
+	 * Get variation product data.
+	 *
+	 * @access protected
+	 * @param  WC_Variation_Product $product Product instance.
+	 * @return array
+	 */
+	protected function get_variation_product_data( $product ) {
+		$data = self::get_product_data( $product );
+
+		// Remove fields not required for a variaion.
+		unset( $data['type'] );
+		unset( $data['conditions']['has_options'] );
+		unset( $data['conditions']['reviews_allowed'] );
+		unset( $data['average_rating'] );
+		unset( $data['review_count'] );
+		unset( $data['rating_count'] );
+		unset( $data['rated_out_of'] );
+		unset( $data['reviews'] );
+		unset( $data['default_attributes'] );
+		unset( $data['variations'] );
+		unset( $data['grouped_products'] );
+		unset( $data['related'] );
+		unset( $data['upsells'] );
+		unset( $data['cross_sells'] );
+		unset( $data['external_url'] );
+		unset( $data['button_text'] );
+		unset( $data['add_to_cart'] );
+
+		return $data;
+	} // END get_variation_product_data()
+
+	/**
 	 * Get taxonomy terms.
 	 *
 	 * @access protected
