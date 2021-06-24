@@ -57,6 +57,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			'check_beta'          => 'check_beta_notice',
 			'upgrade_warning'     => 'upgrade_warning_notice',
 			'base_tables_missing' => 'base_tables_missing_notice',
+			'setup_wizard'        => 'setup_wizard_notice',
 		);
 
 		/**
@@ -64,7 +65,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public function __construct() {
 			self::$install_date = get_option( 'cocart_install_date', time() );
@@ -73,11 +74,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			add_action( 'switch_theme', array( $this, 'reset_admin_notices' ) );
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 			add_action( 'wp_loaded', array( $this, 'hide_notices' ) );
-			add_action( 'init', array( $this, 'timed_notices' ) );
-	
-			if ( ! CoCart_Install::is_new_install() ) {
-				add_action( 'shutdown', array( $this, 'store_notices' ) );
-			}
+			add_action( 'wp_loaded', array( $this, 'timed_notices' ), 11 );
+
+			add_action( 'shutdown', array( $this, 'store_notices' ) );
 
 			// If the current user has capabilities then add notices.
 			if ( CoCart_Helpers::user_has_capabilities() ) {
@@ -179,12 +178,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * See if a notice is being shown.
 		 *
-		 * @access public
-		 * @since  3.0.0
-		 * @param  string $name Notice name.
-		 * @return boolean
+		 * @access  public
+		 * @static
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   string $name Notice name.
+		 * @return  boolean
 		 */
-		public function has_notice( $name ) {
+		public static function has_notice( $name ) {
 			return in_array( $name, self::get_notices(), true );
 		} // END has_notice()
 
@@ -453,6 +454,19 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-please-review.php';
 			}
 		} // END plugin_review_notice()
+
+		/**
+		 * Displays setup wizard notice.
+		 *
+		 * Shows only for those new to CoCart or setup wizard has not be done.
+		 *
+		 * @access public
+		 * @since  3.1.0
+		 * @return void
+		 */
+		public function setup_wizard_notice() {
+			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-setup-wizard.php';
+		} // END setup_wizard_notice()
 
 	} // END class.
 

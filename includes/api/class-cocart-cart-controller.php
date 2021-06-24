@@ -8,13 +8,15 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
- * @version  3.0.4
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 
 /**
  * CoCart REST API v2 controller class.
@@ -107,15 +109,43 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END get_cart_items()
 
 	/**
-	 * Get cart.
+	 * Returns true if the cart is completly empty.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request - Full details about the request.
-	 * @return WP_REST_Response
+	 * @since  3.1.0
+	 * @return bool
+	 */
+	public function is_completly_empty() {
+		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && $this->get_removed_cart_contents_count() <= 0 ) {
+			return true;
+		}
+
+		return false;
+	} // END is_completly_empty()
+
+	/**
+	 * Get number of removed items in the cart.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 * @return int
+	 */
+	public function get_removed_cart_contents_count() {
+		return array_sum( wp_list_pluck( $this->get_cart_instance()->get_removed_cart_contents(), 'quantity' ) );
+	} // END get_removed_cart_contents_count()
+
+	/**
+	 * Get cart.
+	 *
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @return  WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $deprecated = '' ) {
 		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
-		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+		$cart_contents = ! $this->is_completly_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
 		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
@@ -149,7 +179,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 3.0.3
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @param   array           $cart_contents
 	 * @param   boolean         $from_session
@@ -159,11 +189,20 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 
+		/**
+		 * Return the default cart data if set to true.
+		 *
+		 * @since 3.0.0
+		 */
+		if ( ! empty( $request['default'] ) && $request['default'] ) {
+			return $cart_contents;
+		}
+
 		// Get cart template.
 		$cart_template = $this->get_cart_template( $request );
 
-		// If the cart is completly empty or not exist then return nothing.
-		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
+		// If the cart is empty then return nothing.
+		if ( empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
 			 *
@@ -172,16 +211,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			 */
 			cocart_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
 
-			return apply_filters( 'cocart_empty_cart', array() );
-		}
-
-		/**
-		 * Return the default cart data if set to true.
-		 *
-		 * @since 3.0.0
-		 */
-		if ( ! empty( $request['default'] ) && $request['default'] ) {
-			return $cart_contents;
+			return apply_filters( 'cocart_empty_cart', $cart_template );
 		}
 
 		// Other Requested conditions.
@@ -623,10 +653,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Prepares a list of store currency data to return in responses.
 	 *
-	 * @access protected
-	 * @return array
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @return  array
 	 */
-	protected function get_store_currency() {
+	public function get_store_currency() {
 		$position = get_option( 'woocommerce_currency_pos' );
 		$symbol   = html_entity_decode( get_woocommerce_currency_symbol() );
 		$prefix   = '';
@@ -719,15 +751,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Convert monetary values from WooCommerce to string based integers, using
 	 * the smallest unit of a currency.
 	 *
-	 * @access  protected
+	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.2
+	 * @version 3.1.0
 	 * @param   string|float $amount        - Monetary amount with decimals.
 	 * @param   int          $decimals      - Number of decimals the amount is formatted with.
 	 * @param   int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
 	 * @return  string       The new amount.
 	 */
-	protected function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 		$amount = html_entity_decode( strip_tags( $amount ) );
 
 		return (string) intval(
@@ -934,7 +966,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.4
+	 * @version 3.1.0
 	 * @param   WC_Product $product  - Product object associated with the cart item.
 	 * @param   int|float  $quantity - Quantity of product to validate availability.
 	 */
@@ -963,18 +995,20 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			if ( ! $product->has_enough_stock( $quantity ) ) {
 				/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-				$message = sprintf( __( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock (%3$s remaining).', 'cart-rest-api-for-woocommerce' ), $quantity, $product->get_name(), wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ) );
+				$message = sprintf( __( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock, only (%3$s) remaining.', 'cart-rest-api-for-woocommerce' ), $quantity, $product->get_name(), wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ) );
 
 				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 403 );
 			}
 
+			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
 			if ( $product->managing_stock() && ! $product->backorders_allowed()) {
-				$qty_in_cart   = $this->get_cart_instance()->get_cart_item_quantities();
+				$qty_remaining = $this->get_remaining_stock_for_product( $product );
+				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
 
-				if ( isset( $qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
+				if ( $qty_remaining < $qty_in_cart + $quantity ) {
 					/* translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart */
 					$message = sprintf(
-						__( 'You cannot add that amount of "%1$s" to the cart &mdash; we have (%2$s remaining). You already have (%3$s) in your cart.', 'cart-rest-api-for-woocommerce' ),
+						__( 'You cannot add that amount of "%1$s" to the cart &mdash; we have (%2$s) in stock remaining. You already have (%3$s) in your cart.', 'cart-rest-api-for-woocommerce' ),
 						$product->get_name(),
 						wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),
 						wc_format_stock_quantity_for_display( $qty_in_cart[ $product->get_stock_managed_by_id() ], $product )
@@ -1289,8 +1323,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns shipping details.
 	 *
-	 * @access public
-	 * @return array.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @return  array.
 	 */
 	public function get_shipping_details() {
 		// Get shipping packages.
@@ -1337,6 +1373,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			if ( count( (array) $package['rates'] ) > 0 ) {
 				// Return each rate.
 				foreach ( $package['rates'] as $key => $method ) {
+					$meta_data = $this->clean_meta_data( $method, $type = 'shipping' );
+
 					$rates[ $key ] = array(
 						'key'           => $key,
 						'method_id'     => $method->get_method_id(),
@@ -1346,7 +1384,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						'html'          => html_entity_decode( strip_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => $method->taxes,
 						'chosen_method' => ( $chosen_method === $key ),
-						'meta_data'  	=> $method->get_meta_data(),
+						'meta_data'     => $meta_data,
 					);
 				}
 			}
@@ -1358,6 +1396,27 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $details;
 	} // END get_shipping_details()
+
+	/**
+	 * Cleans up the meta data for API.
+	 *
+	 * @access protected
+	 * @since  3.1.0
+	 * @return array
+	 */
+	protected function clean_meta_data( $method, $type = 'shipping' ) {
+		$meta_data = $method->get_meta_data();
+
+		switch( $type ) {
+			case 'shipping':
+				$meta_data['items'] = html_entity_decode( strip_tags( $meta_data['Items'] ) );
+				unset( $meta_data['Items'] );
+
+				break;
+		}
+
+		return $meta_data;
+	} // END clean_meta_data()
 
 	/**
 	 * Return notices in cart if any.
@@ -1586,6 +1645,38 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 403 );
 	} // END throw_product_not_purchasable()
+
+	/**
+	 * Gets the quantity of a product across line items.
+	 *
+	 * @access protected
+	 * @since  3.1.0
+	 * @param  WC_Product $product Product object.
+	 * @return int
+	 */
+	protected function get_product_quantity_in_cart( $product ) {
+		$cart               = $this->get_cart_instance();
+		$product_quantities = $cart->get_cart_item_quantities();
+		$product_id         = $product->get_stock_managed_by_id();
+
+		return isset( $product_quantities[ $product_id ] ) ? $product_quantities[ $product_id ] : 0;
+	} // END get_product_quantity_in_cart()
+
+	/**
+	 * Gets remaining stock for a product.
+	 *
+	 * @access protected
+	 * @since  3.1.0
+	 * @param  WC_Product $product Product object.
+	 * @return int
+	 */
+	protected function get_remaining_stock_for_product( $product ) {
+		$reserve_stock = new ReserveStock();
+		$draft_order   = WC()->session->get( 'cocart_draft_order', 0 );
+		$qty_reserved  = $reserve_stock->get_reserved_stock( $product, $draft_order );
+
+		return $product->get_stock_quantity() - $qty_reserved;
+	} // END get_remaining_stock_for_product()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.

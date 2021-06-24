@@ -7,7 +7,7 @@ Requires PHP: 7.3
 Tested up to: 5.7
 Stable tag: 3.0.5
 WC requires at least: 4.3
-WC tested up to: 5.3
+WC tested up to: 5.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -59,6 +59,20 @@ CoCart Lite provides the basic API needs to get you started.
 * Login the customer/user.
 * Logout the customer/user.
 
+Also included is the ability to access products, product categories, product tags, product attributes and 
+even reviews without the need to authenticate.
+
+* Return all published products.
+* Return an individual product by product ID / SKU ID.
+* Return an individual variable product and all it’s variations in one request.
+* Return all product categories.
+* Return all product tags.
+* Return all product attributes.
+* Return a product attribute terms.
+* Return all product reviews.
+* Return an individual product review.
+* Create a product review.
+
 As an added bonus for administrators or shop managers, CoCart Lite also provides the capabilities to:
 
 * Get Carts in Session.
@@ -75,6 +89,7 @@ CoCart also provides built in features to:
 * Supports basic authentication including the use of email as username.
 * Support [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
+* Does not cache so responses are fast.
 * Works across multiple domains, CORS ready (so you can have multiple frontends connected to one backend).
 * Allows you to filter CoCart to be white-labelled.
 
@@ -82,10 +97,11 @@ Included with these features are **[filters](https://docs.cocart.xyz/#filters)**
 
 ## Tools and Libraries
 
+* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart from the GitHub repo.
+* **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
+* **[CoCart Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
-* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart from the GitHub repo.
-* **[Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** is an add-on that allows you to view all the carts in session via the WordPress admin.
 * **[Node.js Library](https://www.npmjs.com/package/@cocart/cocart-rest-api)** provides a JavaScript wrapper supporting CommonJS (CJS) and ECMAScript Modules (ESM).
 
 ### CoCart Pro
@@ -135,12 +151,10 @@ I aim to provide regular support for the CoCart plugin on the WordPress.org foru
 
 We also have **[add-ons](https://cocart.xyz/add-ons/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** that extend CoCart to enhance your development and your customers shopping experience.
 
-* **[CoCart - Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin. - **FREE**
-* **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** simply filters the session cookie to allow CoCart to work across multiple domains. - **FREE**
-* **[CoCart - Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the cart response returned with the cart totals, coupons applied, additional product details and more. - **FREE**
-* **[CoCart Products](https://cocart.xyz/add-ons/products/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** provides access to non-sensitive product information, categories, tags, attributes and even reviews from your store without the need to authenticate.
-* **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning all your advanced custom fields for products. - **REQUIRES COCART PRODUCTS**
-* **[Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends CoCart Products add-on by returning Yoast SEO data for products, product categories and product tags. - **REQUIRES COCART PRODUCTS**
+* **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** simply filters the session cookie to allow CoCart to work across multiple domains.
+* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it.
+* **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends the products API by returning all your advanced custom fields for products.
+* **[Yoast SEO](https://cocart.xyz/add-ons/yoast-seo/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends the products API by returning Yoast SEO data for products, product categories and product tags.
 * and more add-ons in development.
 
 They work with the FREE version of CoCart already, and these add-ons of course come with support too.

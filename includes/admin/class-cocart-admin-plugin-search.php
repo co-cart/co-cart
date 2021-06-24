@@ -7,7 +7,7 @@
  * @category Admin
  * @package  CoCart\Admin
  * @since    3.0.0
- * @version  3.0.1
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -248,23 +248,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			) );
 
 			return array(
-				'cocart-products'  => array(
-					'name'              => 'CoCart Products',
-					'plugin'            => 'products',
-					'search_terms'      => 'products, rest-api, reviews',
-					'short_description' => esc_html__( 'Provides access to non-sensitive product information, categories, tags, attributes and even reviews from your store without the need to authenticate.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
-					'requirement'       => 'CoCart',
-					'info'              => array(
-						'requires'     => '5.2',
-						'tested'       => '5.6',
-						'requires_php' => '7.2',
-						'last_updated' => '',
-					),
-					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
-					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/products/' ) ) ),
-					'third_party'       => false,
-				),
 				'cocart-acf'       => array(
 					'name'              => 'Advanced Custom Fields',
 					'plugin'            => 'acf',
@@ -384,7 +367,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'name'              => 'WooCommerce Advanced Shipping Packages',
 					'plugin'            => 'woocommerce-advanced-shipping-packages',
 					'author'            => 'Jeroen Sormani',
-					'search_terms'      => 'shipping, packages, split-packages, multiple shipping',
+					'search_terms'      => 'woocommerce shipping, packages, split-packages, multiple shipping',
 					'short_description' => esc_html__( 'Split your order into multiple shipping packages when you need it to, with the products you want to.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
 					'requirement'       => false,
@@ -414,6 +397,24 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/free-gift-coupons/' ),
 					'third_party'       => true,
 				),
+				'flexible-shipping' => array(
+					'name'              => 'Table Rate for WooCommerce by Flexible Shipping',
+					'plugin'            => 'flexible-shipping',
+					'author'            => 'WP Desk',
+					'search_terms'      => 'woocommerce shipping, conditional shipping, shipping method, table rate, table rate shipping',
+					'short_description' => esc_html__( 'The most flexible Table Rate Shipping WooCommerce plugin. Create almost every shipping scenario you need.', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => 'https://ps.w.org/flexible-shipping/assets/icon-128x128.png?rev=1436359',
+					'requirement'       => false,
+					'info'              => array(
+						'requires'     => '5.2',
+						'tested'       => '5.7.2',
+						'requires_php' => '7.0',
+						'last_updated' => '',
+					),
+					'learn_more'        => esc_url( 'https://flexibleshipping.com' ),
+					'third_party'       => true,
+					'wporg'             => true,
+				),
 			);
 		} // END get_third_party_list()
 
@@ -430,10 +431,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Gets data to inject results.
 		 *
-		 * @access public
-		 * @param  array $inject Plugin information from WordPress.org
-		 * @param  array $data   Plugin information from CoCart
-		 * @return array         Plugin results to inject.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   array $inject Plugin information from WordPress.org
+		 * @param   array $data   Plugin information from CoCart
+		 * @return  array         Plugin results to inject.
 		 */
 		public function get_inject_data( $inject, $data ) {
 			return array(
@@ -464,6 +467,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ) : '',
 				'learn_more'        => ! empty( $data['learn_more'] ) ? esc_url( $data['learn_more'] ) : '',
 				'third_party'       => $data['third_party'],
+				'wporg'             => isset( $data['wporg'] ) ? true : false,
 			);
 		} // END get_inject_data()
 
@@ -684,10 +688,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Returns action links.
 		 *
-		 * @access public
-		 * @param  array $links  Related links before change.
-		 * @param  array $plugin Plugin details
-		 * @return array $links  Related links after change.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   array $links  Related links before change.
+		 * @param   array $plugin Plugin details
+		 * @return  array $links  Related links after change.
 		 */
 		public function get_action_links( $links = array(), $plugin ) {
 			$plugins_allowedtags = self::plugins_allowedtags();
@@ -712,6 +718,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 							case 'install':
 								if ( $status['url'] ) {
 									if ( $compatible_php && $compatible_wp ) {
+										$nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
+										$url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
+					
 										if ( ! empty( $plugin['purchase'] ) ) {
 											$links['cocart-purchase'] = sprintf(
 												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
@@ -721,6 +730,18 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 												esc_attr( sprintf( __( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
 												esc_attr( $name ),
 												__( 'Purchase Now', 'cart-rest-api-for-woocommerce' )
+											);
+										}
+
+										if ( ! empty( $plugin['wporg'] ) ) {
+											$links['cocart-install'] = sprintf(
+												'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
+												esc_attr( $plugin['slug'] ),
+												esc_url( $url ),
+												/* translators: %s: Plugin name and version. */
+												esc_attr( sprintf( __( 'Install %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
+												esc_attr( $name ),
+												__( 'Install Now', 'cart-rest-api-for-woocommerce' )
 											);
 										}
 									} else {
@@ -804,8 +825,10 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 								}
 
 								break;
-
 						} // END switch
+
+						$links = apply_filters( 'cocart_plugin_search_action_links', $links, $status, $plugin, $name );
+
 					} // END if user can install or update plugins.
 				} // END if plugin matches.
 			} // END foreach cocart plugin.

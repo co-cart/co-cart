@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @category Package
  * @since    2.6.0
- * @version  3.0.5
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -26,7 +26,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 */
-	public static $version = '3.0.5';
+	public static $version = '3.1.0-beta.1';
 
 	/**
 	 * CoCart Database Schema version.
@@ -147,7 +147,7 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @return  void
 	 */
 	public static function includes() {
@@ -155,11 +155,15 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-autoloader.php';
 
 		// Abstracts.
-		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
+		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-extension-callback.php';
+
+		// Background functions.
+		include_once COCART_ABSPATH . 'includes/cocart-background-functions.php';
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-cart-extension.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-install.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
@@ -296,12 +300,13 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   2.1.2
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   string WooCommerce Session Handler
 	 * @return  string CoCart Session Handler
 	 */
 	public static function session_handler( $handler ) {
 		if ( class_exists( 'WC_Session' ) ) {
+			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 			$handler = 'CoCart_Session_Handler';
 		}

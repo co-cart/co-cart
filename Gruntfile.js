@@ -35,8 +35,9 @@ module.exports = function(grunt) {
 				},
 				dist: {
 					files: {
-						'assets/css/admin/cocart.css' : 'assets/scss/admin.scss',
-						'assets/css/admin/plugin-search.css' : 'assets/scss/plugin-search.scss'
+						'assets/css/admin/cocart.css' : 'assets/scss/admin/admin.scss',
+						'assets/css/admin/cocart-setup.css' : 'assets/scss/admin/cocart-setup.scss',
+						'assets/css/admin/plugin-search.css' : 'assets/scss/admin/plugin-search.scss'
 					}
 				}
 			},
