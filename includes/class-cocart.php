@@ -157,6 +157,9 @@ final class CoCart {
 		// Abstracts.
 		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-extension-callback.php';
 
+		// Background functions.
+		include_once COCART_ABSPATH . 'includes/cocart-background-functions.php';
+
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';

@@ -61,6 +61,9 @@ class CoCart_Admin_Setup_Wizard {
 			add_action( 'admin_init', array( $this, 'setup_wizard' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
+
+		// Run transfer sessions in the background when called.
+		add_action( 'cocart_run_transfer_sessions', 'cocart_transfer_sessions' );
 	}
 
 	/**
@@ -360,18 +363,18 @@ class CoCart_Admin_Setup_Wizard {
 	} // END cocart_setup_wizard_sessions()
 
 	/**
-	 * Triggers the background transfer and redirects to the next step.
+	 * Triggers in the background transfering of sessions and redirects to the next step.
 	 *
 	 * @access public
 	 */
 	public function cocart_setup_wizard_sessions_save() {
 		check_admin_referer( 'cocart-setup' );
 
-		// TODO: Add transfer code here! //
-		CoCart_Admin_WC_System_Status::synchronize_carts();
+		// Add transfer sessions to queue.
+		WC()->queue()->schedule_single( time(), 'cocart_run_transfer_sessions', array(), 'cocart-transfer-sessions' );
 
 		// Redirect to next step.
-		wp_safe_redirect( esc_url_raw( $this->get_next_step_link( $next_step ) ) );
+		wp_safe_redirect( esc_url_raw( $this->get_next_step_link() ) );
 		exit;
 	} // END cocart_setup_wizard_sessions_save()
 
