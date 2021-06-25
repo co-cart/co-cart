@@ -1,5 +1,9 @@
 # Changelog for CoCart Lite
 
+## v3.0.6 - 25th June, 2021
+
+* Fixed: Validation of a variation added to cart should the parent ID be used. Thanks to [Brandan King](https://profiles.wordpress.org/inspiredagency/) for reporting the issue.
+
 ## v3.0.5 - 28th May, 2021
 
 * Tweaked: Adding an item now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all when not set.

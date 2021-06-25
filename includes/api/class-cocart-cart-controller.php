@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
- * @version  3.0.4
+ * @version  3.0.6
  * @license  GPL-2.0+
  */
 
@@ -307,26 +307,16 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.0.6
 	 * @param   int        $variation_id - ID of the variation.
 	 * @param   array      $variation    - Attribute values.
 	 * @param   WC_Product $product      - The product data.
 	 * @return  array
 	 */
-	protected function validate_variable_product( $variation_id = 0, $variation = array(), $product ) {
+	protected function validate_variable_product( $variation_id, $variation = array(), $product ) {
 		try {
 			// Flatten data and format posted values.
 			$variable_product_attributes = $this->get_variable_product_attributes( $product );
-
-			// If we have a parent product and no variation ID, find the variation ID.
-			if ( $product->is_type( 'variable' ) && $variation_id == 0 ) {
-				$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
-			}
-
-			// Throw exception if no variation is found.
-			if ( is_wp_error( $variation_id ) ) {
-				return $variation_id;
-			}
 
 			// Now we have a variation ID, get the valid set of attributes for this variation. They will have an attribute_ prefix since they are from meta.
 			$expected_attributes = wc_get_product_variation_attributes( $variation_id );
@@ -461,7 +451,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.1
+	 * @version 3.0.6
 	 * @param   int       $product_id   - Contains the ID of the product.
 	 * @param   int|float $quantity     - Contains the quantity of the item.
 	 * @param   array     $variation    - Contains the selected attributes.
@@ -486,6 +476,16 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			if ( $product->is_type( 'variation' ) ) {
 				$product_id   = $product->get_parent_id();
 				$variation_id = $product->get_id();
+			}
+
+			// If we have a parent product and no variation ID, find the variation ID.
+			if ( $product->is_type( 'variable' ) && $variation_id == 0 ) {
+				$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
+			}
+
+			// Throw exception if no variation is found.
+			if ( is_wp_error( $variation_id ) ) {
+				return $variation_id;
 			}
 
 			// Validate variable/variation product.

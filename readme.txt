@@ -1,13 +1,13 @@
 === Build a Headless WooCommerce store with CoCart === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency
 Tags: woocommerce, cart, rest-api, decoupled, headless, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.7
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 WC requires at least: 4.3
-WC tested up to: 5.3
+WC tested up to: 5.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -328,6 +328,10 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.0.6 - 25th June, 2021 =
+
+* Fixed: Validation of a variation added to cart should the parent ID be used. Thanks to [Brandan King](https://profiles.wordpress.org/inspiredagency/) for reporting the issue.
+
 = v3.0.5 - 28th May, 2021 =
 
 * Tweaked: Adding an item/items now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all when not set.
@@ -402,6 +406,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.0 =
+= 3.0.6 =
 
-CoCart's biggest update ever brings brand-new features, improves on REST API convention, performance, more cart data returned and introduces more support for developers. New flow experience. See changelog for details.
+Fixed: Validation of a variation added to cart should the parent ID be used.
