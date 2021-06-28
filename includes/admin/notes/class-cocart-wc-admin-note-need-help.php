@@ -66,10 +66,12 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 	public static function get_note_args() {
 		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
-		$campaign_args = CoCart_Helpers::cocart_campaign( array(
-			'utm_campaign' => 'wc-admin',
-			'utm_content'  => 'wc-inbox',
-		) );
+		$campaign_args = CoCart_Helpers::cocart_campaign(
+			array(
+				'utm_campaign' => 'wc-admin',
+				'utm_content'  => 'wc-inbox',
+			)
+		);
 
 		$args = array(
 			'title'   => __( 'Need help with CoCart?', 'cart-rest-api-for-woocommerce' ),

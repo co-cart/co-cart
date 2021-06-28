@@ -24,12 +24,18 @@ if ( ! class_exists( 'CoCart_Plugin_JWT_Auth' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			add_filter( 'jwt_auth_whitelist', function( $endpoints ) {
-				return array_merge( $endpoints, array(
-					'/wp-json/cocart/v1/*',
-					'/wp-json/cocart/v2/*',
-				) );
-			} );
+			add_filter(
+				'jwt_auth_whitelist',
+				function( $endpoints ) {
+					return array_merge(
+						$endpoints,
+						array(
+							'/wp-json/cocart/v1/*',
+							'/wp-json/cocart/v2/*',
+						)
+					);
+				}
+			);
 		}
 
 	} // END class.

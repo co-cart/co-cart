@@ -92,8 +92,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			global $current_user;
 
 			if ( $current_user->ID > 0 ) {
-				wc_update_user_last_active(  $current_user->ID );
-				update_user_meta(  $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+				wc_update_user_last_active( $current_user->ID );
+				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
 
 			return $error;

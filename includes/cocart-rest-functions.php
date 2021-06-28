@@ -30,9 +30,9 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 	if ( is_ajax() || CoCart_Authentication::is_rest_api_request() ) {
 		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message );
 
-		$message     = empty( $message ) ? '' : ' ' . $message;
+		$message = empty( $message ) ? '' : ' ' . $message;
 		/* translators: %1$s: filter name, %2$s: version */
-		$log_string  = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $filter, $version );
+		$log_string = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $filter, $version );
 		/* translators: %s: filter name */
 		$log_string .= $replacement ? sprintf( esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ), $replacement ) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
 
@@ -343,7 +343,7 @@ function cocart_price_no_html( $price, $args = array() ) {
  * Add to cart messages.
  *
  * Forked wc_add_to_cart_message() function and altered to remove HTML context
- * for the use of the REST API returning clean notices once products have 
+ * for the use of the REST API returning clean notices once products have
  * been added to cart.
  *
  * @param int|array $products Product ID list or single product ID.

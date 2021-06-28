@@ -80,9 +80,9 @@ if ( ! class_exists( 'CoCart_Cart_Formatting' ) ) {
 		 * @return array $cart_item_data
 		 */
 		public function clean_empty_cart_item_data( $cart_item_data ) {
-			foreach( $cart_item_data as $item => $data ) {
+			foreach ( $cart_item_data as $item => $data ) {
 				if ( empty( $data ) ) {
-					unset( $cart_item_data[$item] );
+					unset( $cart_item_data[ $item ] );
 				}
 			}
 

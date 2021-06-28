@@ -234,27 +234,30 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	public function get_collection_params() {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$params = array_merge( $controller->get_collection_params(), array(
-			'item_key'      => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'quantity'      => array(
-				'default'           => 1,
-				'type'              => 'float',
-				'validate_callback' => function( $value, $request, $param ) {
-					return is_numeric( $value );
-				},
-			),
-			'return_status' => array(
-				'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cart-rest-api-for-woocommerce' ),
-				'default'           => false,
-				'type'              => 'boolean',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-		) );
+		$params = array_merge(
+			$controller->get_collection_params(),
+			array(
+				'item_key'      => array(
+					'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_text_field',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'quantity'      => array(
+					'default'           => 1,
+					'type'              => 'float',
+					'validate_callback' => function( $value, $request, $param ) {
+						return is_numeric( $value );
+					},
+				),
+				'return_status' => array(
+					'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cart-rest-api-for-woocommerce' ),
+					'default'           => false,
+					'type'              => 'boolean',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+			)
+		);
 
 		return $params;
 	} // END get_collection_params()

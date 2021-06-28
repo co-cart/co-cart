@@ -44,7 +44,7 @@ class CoCart_Cart_Extension {
 	 * Registers a callback.
 	 *
 	 * @access public
-	 * @param  string  $callback An instance of the callback class.
+	 * @param  string $callback An instance of the callback class.
 	 * @return boolean True means registered successfully.
 	 */
 	public function register( $callback ) {

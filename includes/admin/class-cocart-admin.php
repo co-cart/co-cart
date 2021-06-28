@@ -134,7 +134,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 		/**
 		 * Install CoCart Plugins.
-		 * 
+		 *
 		 * @access public
 		 * @since  3.1.0
 		 */
@@ -173,7 +173,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			$title = sprintf( __( 'Installing Plugin: %s', 'cart-rest-api-for-woocommerce' ), $api->name . ' ' . $api->version );
 			$nonce = 'install-cocart-plugin_' . $plugin;
 			$url   = 'update.php?action=install-cocart-plugin&plugin=' . urlencode( $plugin );
-			$url   .= '&from=cocart';
+			$url  .= '&from=cocart';
 
 			$type = 'web'; // Install plugin from Web.
 

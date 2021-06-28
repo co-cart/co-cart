@@ -144,7 +144,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return  WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $deprecated = '' ) {
-		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
+		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$cart_contents = ! $this->is_completly_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
@@ -1001,7 +1001,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 
 			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
-			if ( $product->managing_stock() && ! $product->backorders_allowed()) {
+			if ( $product->managing_stock() && ! $product->backorders_allowed() ) {
 				$qty_remaining = $this->get_remaining_stock_for_product( $product );
 				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
 
@@ -1094,7 +1094,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => wc_get_weight( (int)$_product->get_weight() * (int)$cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
+				'weight'       => wc_get_weight( (int) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
@@ -1120,9 +1120,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
-			$thumbnail_id  = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
+			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
 
-			$thumbnail_id  = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
+			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
 
 			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
 
@@ -1407,7 +1407,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	protected function clean_meta_data( $method, $type = 'shipping' ) {
 		$meta_data = $method->get_meta_data();
 
-		switch( $type ) {
+		switch ( $type ) {
 			case 'shipping':
 				$meta_data['items'] = html_entity_decode( strip_tags( $meta_data['Items'] ) );
 				unset( $meta_data['Items'] );
@@ -1575,7 +1575,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get cart template.
 	 *
-	 * Used as a base even if the cart is empty along with 
+	 * Used as a base even if the cart is empty along with
 	 * customer information should the user be logged in.
 	 *
 	 * @access protected
@@ -1594,7 +1594,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
-			'items_weight'   => wc_get_weight( (int)$this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'items_weight'   => wc_get_weight( (int) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
 			'coupons'        => array(),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
@@ -1613,9 +1613,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'total'          => $this->prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
 				'total_tax'      => $this->prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
 			),
-			'removed_items' => array(),
-			'cross_sells'   => $this->get_cross_sells(),
-			'notices'       => $this->maybe_return_notices(),
+			'removed_items'  => array(),
+			'cross_sells'    => $this->get_cross_sells(),
+			'notices'        => $this->maybe_return_notices(),
 		);
 	} // END cart_template()
 

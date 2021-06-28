@@ -15,9 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$campaign_args = CoCart_Helpers::cocart_campaign( array(
-	'utm_content' => 'getting-started',
-) );
+$campaign_args = CoCart_Helpers::cocart_campaign(
+	array(
+		'utm_content' => 'getting-started',
+	)
+);
 $store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
 $addons_url    = admin_url( 'plugin-install.php?tab=cocart' );
 $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL . 'pro/' ) );
