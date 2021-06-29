@@ -26,6 +26,9 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'cocart_page_title_upgrade', function() { return "Upgrade CoCart"; });
+			add_action( 'cocart_page_wc_bar_breadcrumb_upgrade', function() { return "Upgrade CoCart"; });
+			add_action( 'cocart_page_section_upgrade', array( $this, 'upgrade_cocart_content' ) );
 		} // END __construct()
 
 		/**
@@ -70,6 +73,17 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					esc_attr__( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
 					apply_filters( 'cocart_screen_capability', 'manage_options' ),
 					admin_url( 'admin.php?page=cocart-setup' ),
+				);
+			}
+
+			// If CoCart Pro is not active then add sub-menu to upgrade.
+			if ( ! CoCart_Helpers::is_cocart_pro_activated() ) {
+				add_submenu_page(
+					'cocart',
+					'',
+					esc_attr__( 'Upgrade', 'cocart-pro' ),
+					apply_filters( 'cocart_screen_capability', 'manage_options' ),
+					admin_url( 'admin.php?page=cocart&section=upgrade' )
 				);
 			}
 
@@ -155,6 +169,17 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		public static function getting_started_content() {
 			include_once dirname( __FILE__ ) . '/views/html-getting-started.php';
 		} // END getting_started_content()
+
+		/**
+		 * Upgrade CoCart content.
+		 *
+		 * @access public
+		 * @static
+		 * @since  3.1.0
+		 */
+		public static function upgrade_cocart_content() {
+			include_once dirname( __FILE__ ) . '/views/html-upgrade-cocart.php';
+		} // END upgrade_cocart_content()
 
 	} // END class
 
