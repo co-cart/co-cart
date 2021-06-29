@@ -29,6 +29,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 			add_action( 'cocart_page_title_upgrade', function() { return "Upgrade CoCart"; });
 			add_action( 'cocart_page_wc_bar_breadcrumb_upgrade', function() { return "Upgrade CoCart"; });
 			add_action( 'cocart_page_section_upgrade', array( $this, 'upgrade_cocart_content' ) );
+			add_filter( 'parent_file', array( $this, 'highlight_submenu_upgrade' ) );
 		} // END __construct()
 
 		/**
@@ -83,7 +84,8 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					'',
 					esc_attr__( 'Upgrade', 'cocart-pro' ),
 					apply_filters( 'cocart_screen_capability', 'manage_options' ),
-					admin_url( 'admin.php?page=cocart&section=upgrade' )
+					'upgrade-cocart',
+					array( $this, 'redirect_upgrade' ),
 				);
 			}
 
@@ -180,6 +182,37 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		public static function upgrade_cocart_content() {
 			include_once dirname( __FILE__ ) . '/views/html-upgrade-cocart.php';
 		} // END upgrade_cocart_content()
+
+		/**
+		 * Redirects to upgrade section of CoCart Page.
+		 *
+		 * @access public
+		 * @since  3.1.0
+		 */
+		public function redirect_upgrade() {
+			wp_safe_redirect( admin_url( 'admin.php?page=cocart&section=upgrade' ) );
+			exit;
+		} // END redirect_upgrade()
+
+		/**
+		 * Sets the sub-menu active if viewing upgrade section.
+		 *
+		 * @access public
+		 * @since  3.1.0
+		 * @param  $parent_file
+		 * @return mixed
+		 */
+		public function highlight_submenu_upgrade( $parent_file ) {
+			global $plugin_page;
+
+			$section = ! isset( $_GET['section'] ) ? '' : trim( $_GET['section'] );
+
+			if ( 'cocart' === $plugin_page && 'upgrade' === $section ) {
+				$plugin_page = 'upgrade-cocart';
+			}
+
+			return $parent_file;
+		} // END highlight_submenu_upgrade()
 
 	} // END class
 
