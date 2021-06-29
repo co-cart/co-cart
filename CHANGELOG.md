@@ -7,6 +7,7 @@
 * **NEW**: CoCart Products add-on now merged introducing API v2 with a new option to view single products by SKU. Additional product support in CoCart Pro only.
 * **NEW**: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/) added as plugin suggestion.
 * **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
+* **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
