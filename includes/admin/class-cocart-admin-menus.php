@@ -82,7 +82,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 				add_submenu_page(
 					'cocart',
 					'',
-					esc_attr__( 'Upgrade', 'cocart-pro' ),
+					esc_attr__( 'Upgrade', 'cart-rest-api-for-woocommerce' ),
 					apply_filters( 'cocart_screen_capability', 'manage_options' ),
 					'upgrade-cocart',
 					array( $this, 'redirect_upgrade' ),
