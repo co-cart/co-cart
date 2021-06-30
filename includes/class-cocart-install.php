@@ -499,7 +499,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			// If table does not exist, ask user if they have privileges.
 			if ( ! $exists ) {
-				return self::add_create_table_notice( $table_name );
+				self::add_create_table_notice( $table_name );
 			}
 		} // END create_tables()
 
