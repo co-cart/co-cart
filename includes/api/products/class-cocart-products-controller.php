@@ -349,7 +349,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			'add_to_cart'        => array(
 				'text'        => $product->add_to_cart_text(),
 				'description' => $product->add_to_cart_description(),
-				'rest_url'    => $this->add_to_cart_rest_url( $product->get_id(), $type ),
+				'rest_url'    => $this->add_to_cart_rest_url( $product, $type ),
 			),
 			'meta_data'          => $product->get_meta_data(),
 		);
@@ -385,7 +385,6 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		unset( $data['cross_sells'] );
 		unset( $data['external_url'] );
 		unset( $data['button_text'] );
-		unset( $data['add_to_cart'] );
 
 		return $data;
 	} // END get_variation_product_data()
@@ -451,7 +450,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				'add_to_cart' => array(
 					'text'        => $_product->add_to_cart_text(),
 					'description' => $_product->add_to_cart_description(),
-					'rest_url'    => $this->add_to_cart_rest_url( $_product->get_id(), $type ),
+					'rest_url'    => $this->add_to_cart_rest_url( $_product, $type ),
 				),
 				'rest_url'    => $this->product_rest_url( $id ),
 			);
@@ -506,20 +505,26 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns the REST URL for adding product to the cart.
 	 *
 	 * @access public
-	 * @param  int    $id  Product ID.
+	 * @param  WC_Product $product
 	 * @param  string $type Product type.
 	 * @return string
 	 */
-	public function add_to_cart_rest_url( $product_id, $type = 'simple' ) {
+	public function add_to_cart_rest_url( $product, $type ) {
+		$id = $product->get_id();
+
+		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
+
 		switch ( $type ) {
 			case 'simple':
 			case 'subscription':
-				return rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $product_id ) );
+				return $rest_url;
 				break;
 			case 'variation':
+			case 'subscription_variation':
+				return '';
 				break;
 			case 'default':
-				return apply_filter( '', $product_id, $type );
+				return apply_filter( 'cocart_products_add_to_cart_rest_url', '', $product, $type, $id );
 				break;
 		}
 	} // END add_to_cart_rest_url()
