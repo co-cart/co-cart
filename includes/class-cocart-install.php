@@ -562,10 +562,11 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * Add a notice if table creation fails.
 		 *
 		 * @access protected
+		 * @static
 		 * @since  3.1.0
 		 * @param  string $table_name Name of the missing table.
 		 */
-		protected function add_create_table_notice( $table_name ) {
+		protected static function add_create_table_notice( $table_name ) {
 			add_action(
 				'admin_notices',
 				function() use ( $table_name ) {
