@@ -475,7 +475,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			);
 
 			return $tools;
-		} // END debug_button
+		} // END debug_button()
 
 		/**
 		 * Modifies the debug buttons under the tools section of

@@ -214,18 +214,20 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Check if all the base tables are present.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @since 3.0.0
-		 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
-		 * @param bool $execute       Whether to execute get_schema queries as well.
-		 * @return array List of querues.
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   bool $modify_notice Whether to modify notice based on if all tables are present.
+		 * @param   bool $execute       Whether to execute get_schema queries as well.
+		 * @return  array List of querues.
 		 */
 		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 			if ( $execute ) {
 				self::create_tables();
+				self::maybe_update_db_version();
 			}
 
 			$queries        = dbDelta( self::get_schema(), false );
@@ -265,7 +267,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		private static function remove_admin_notices() {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';
 			CoCart_Admin_Notices::remove_all_notices();
-		}
+		} // END remove_admin_notices()
 
 		/**
 		 * Is this a brand new CoCart install?
@@ -279,7 +281,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 */
 		public static function is_new_install() {
 			return is_null( get_option( 'cocart_version', null ) );
-		}
+		} // END is_new_install()
 
 		/**
 		 * Is a Database update needed?
@@ -489,7 +491,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			$table = self::get_schema();
 
-			$exists = $this->maybe_create_table( $table_name, $table );
+			$exists = self::maybe_create_table( $table_name, $table );
 
 			if ( $show_errors ) {
 				$wpdb->show_errors();
@@ -497,7 +499,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			// If table does not exist, ask user if they have privileges.
 			if ( ! $exists ) {
-				return $this->add_create_table_notice( $table_name );
+				return self::add_create_table_notice( $table_name );
 			}
 		} // END create_tables()
 
@@ -544,7 +546,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @param  string $create_sql Create database table SQL.
 		 * @return bool False on error, true if already exists or success.
 		 */
-		protected function maybe_create_table( $table_name, $create_sql ) {
+		protected static function maybe_create_table( $table_name, $create_sql ) {
 			global $wpdb;
 
 			if ( in_array( $table_name, $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ), 0 ), true ) ) {
