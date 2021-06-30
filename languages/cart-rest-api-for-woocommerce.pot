@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-beta.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-06-30 18:47:29+00:00\n"
+"POT-Creation-Date: 2021-06-30 20:12:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -497,20 +497,20 @@ msgstr ""
 msgid "Join Community"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:143
+#: includes/admin/class-cocart-admin.php:148
 msgid "Sorry, you are not allowed to install plugins on this site."
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:168
+#: includes/admin/class-cocart-admin.php:173
 msgid "CoCart Plugin Installation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:173
+#: includes/admin/class-cocart-admin.php:178
 #. translators: %s: Plugin name and version.
 msgid "Installing Plugin: %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin.php:197
+#: includes/admin/class-cocart-admin.php:202
 msgid "Go to %s Plugin Installer"
 msgstr ""
 
@@ -788,26 +788,27 @@ msgid ""
 "customers shopping experience."
 msgstr ""
 
-#: includes/admin/views/html-notice-base-table-missing.php:24
+#: includes/admin/views/html-notice-base-table-missing.php:25
 msgid "Database table missing"
 msgstr ""
 
-#: includes/admin/views/html-notice-base-table-missing.php:33
+#: includes/admin/views/html-notice-base-table-missing.php:34
 #. translators: %1%s: Missing table (separated by ",") %2$s: Link to check
 #. again
 msgid ""
 "One table is required for CoCart to function is missing and will not work "
-"as expected. Missing table: %1$s. <a href=\"%2$s\">Check again.</a>"
+"as expected. Missing table: <code>%1$s</code> <a href=\"%2$s\">Check "
+"again.</a>"
 msgstr ""
 
-#: includes/admin/views/html-notice-base-table-missing.php:42
+#: includes/admin/views/html-notice-base-table-missing.php:43
 #. translators: %1%s: Missing table (separated by ",")
 msgid ""
 "One table is required for CoCart to function is missing and will not work "
-"as expected. Missing table: %1$s."
+"as expected. Missing table: <code>%1$s</code>"
 msgstr ""
 
-#: includes/admin/views/html-notice-base-table-missing.php:52
+#: includes/admin/views/html-notice-base-table-missing.php:53
 #: includes/admin/views/html-notice-custom.php:24
 #: includes/admin/views/html-notice-required-wc.php:45
 #: includes/admin/views/html-notice-updated.php:29
@@ -2805,7 +2806,7 @@ msgstr ""
 msgid "Get started with %3$s here:"
 msgstr ""
 
-#: includes/class-cocart-install.php:575
+#: includes/class-cocart-install.php:574
 #. translators: %2$s table name, %3$s database user, %4$s database name.
 msgid ""
 "%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges "
