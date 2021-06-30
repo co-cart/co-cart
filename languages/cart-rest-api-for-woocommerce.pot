@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-beta.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-06-28 17:33:58+00:00\n"
+"POT-Creation-Date: 2021-06-30 18:47:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,7 +29,7 @@ msgid "A \"callback\" function must be registered when extending class \"%s\""
 msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:53
-#: includes/admin/class-cocart-admin-menus.php:44
+#: includes/admin/class-cocart-admin-menus.php:48
 #. translators: %s: CoCart
 msgid "Getting Started with %s"
 msgstr ""
@@ -99,12 +99,16 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-menus.php:70
+#: includes/admin/class-cocart-admin-menus.php:74
 #: includes/admin/views/html-notice-setup-wizard.php:36
 msgid "Setup Wizard"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-menus.php:83
+#: includes/admin/class-cocart-admin-menus.php:85
+msgid "Upgrade"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-menus.php:99
 msgid "CoCart"
 msgstr ""
 
@@ -770,6 +774,7 @@ msgid "Welcome to %s."
 msgstr ""
 
 #: includes/admin/views/html-getting-started.php:52
+#: includes/admin/views/html-upgrade-cocart.php:40
 msgid ""
 "It appears you either do not have %1$s installed or have the minimum "
 "required version to be compatible with %2$s. Please install or update your "
@@ -781,125 +786,6 @@ msgid ""
 "Want to find compatible plugins or extensions for CoCart. Checkout our "
 "plugin suggestions that can help enhance your development and your "
 "customers shopping experience."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:79
-msgid "More features in %s"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:81
-msgid "Coupons"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:82
-msgid ""
-"Apply coupons, remove coupons, validate coupons should the cart have been "
-"left unattended for some time and get all applied coupons to the cart."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:84
-msgid "Cross Sells"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:85
-msgid ""
-"Return products based on the items in the cart to promote them to your "
-"customer."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:87
-msgid "Customer Details"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:88
-msgid ""
-"Return details of the customer in session. If they are a returning "
-"customer, you are ready to pre-fill your checkout form for them."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:90
-msgid "Fees"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:91
-msgid ""
-"Need to apply an additional fee to the cart? No problem. Add a fee, Get all "
-"fees applied, Remove all fees and calculate fees."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:93
-msgid "Payment Methods"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:94
-msgid ""
-"Return the payment methods available in your store for your customer to "
-"choose from if more than one."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:96
-msgid "Shipping Methods"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:97
-msgid ""
-"Once the shipping is calculated you can fetch the available shipping "
-"methods and set according to the customers selection."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:99
-msgid "Quantities"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:100
-msgid ""
-"Return each item in the cart with the quantity of that item the customer "
-"has added."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:102
-msgid "Removed Items"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:103
-msgid ""
-"Access to items removed from the cart by the customer should you wish to "
-"allow the customer to re-add an item to the cart if they made a mistake."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:105
-msgid "Cart Weight"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:106
-msgid ""
-"If you are shipping a lot of heavy items, knowing how much a customers cart "
-"weighs is a no brainier."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:108
-msgid "Subscriptions"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:109
-msgid ""
-"Integration with the official <a href=\"%s\" target=\"_blank\">WooCommerce "
-"Subscriptions</a> extension – see subscription details for any subscription "
-"product added to cart. Also extends support for Shipping Methods."
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:115
-msgid ""
-"Upgrade to %s and get plugin updates and support per year for 1 website. "
-"You may upgrade your licence at any time, just pay the difference in cost!"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:118
-msgid "Upgrade Now"
-msgstr ""
-
-#: includes/admin/views/html-getting-started.php:125
-msgid "Testimonials"
 msgstr ""
 
 #: includes/admin/views/html-notice-base-table-missing.php:24
@@ -1112,6 +998,125 @@ msgstr ""
 
 #: includes/admin/views/html-notice-wc-not-installed.php:58
 msgid "Turn off the CoCart plugin"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:44
+msgid "More features in %s"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:46
+msgid "Coupons"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:47
+msgid ""
+"Apply coupons, remove coupons, validate coupons should the cart have been "
+"left unattended for some time and get all applied coupons to the cart."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:49
+msgid "Cross Sells"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:50
+msgid ""
+"Return products based on the items in the cart to promote them to your "
+"customer."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:52
+msgid "Customer Details"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:53
+msgid ""
+"Return details of the customer in session. If they are a returning "
+"customer, you are ready to pre-fill your checkout form for them."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:55
+msgid "Fees"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:56
+msgid ""
+"Need to apply an additional fee to the cart? No problem. Add a fee, Get all "
+"fees applied, Remove all fees and calculate fees."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:58
+msgid "Payment Methods"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:59
+msgid ""
+"Return the payment methods available in your store for your customer to "
+"choose from if more than one."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:61
+msgid "Shipping Methods"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:62
+msgid ""
+"Once the shipping is calculated you can fetch the available shipping "
+"methods and set according to the customers selection."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:64
+msgid "Quantities"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:65
+msgid ""
+"Return each item in the cart with the quantity of that item the customer "
+"has added."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:67
+msgid "Removed Items"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:68
+msgid ""
+"Access to items removed from the cart by the customer should you wish to "
+"allow the customer to re-add an item to the cart if they made a mistake."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:70
+msgid "Cart Weight"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:71
+msgid ""
+"If you are shipping a lot of heavy items, knowing how much a customers cart "
+"weighs is a no brainier."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:73
+msgid "Subscriptions"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:74
+msgid ""
+"Integration with the official <a href=\"%s\" target=\"_blank\">WooCommerce "
+"Subscriptions</a> extension – see subscription details for any subscription "
+"product added to cart. Also extends support for Shipping Methods."
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:80
+msgid ""
+"Upgrade to %s and get plugin updates and support per year for 1 website. "
+"You may upgrade your licence at any time, just pay the difference in cost!"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:83
+msgid "Upgrade Now"
+msgstr ""
+
+#: includes/admin/views/html-upgrade-cocart.php:90
+msgid "Testimonials"
 msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:290
@@ -2795,9 +2800,16 @@ msgstr ""
 msgid "The minimum PHP version required for %1$s is %2$s. You are running %3$s."
 msgstr ""
 
-#: includes/class-cocart-install.php:448
+#: includes/class-cocart-install.php:450
 #. translators: %1$s: message, %2$s: URL, %3$s: CoCart
 msgid "Get started with %3$s here:"
+msgstr ""
+
+#: includes/class-cocart-install.php:575
+#. translators: %2$s table name, %3$s database user, %4$s database name.
+msgid ""
+"%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges "
+"on the %4$s database?"
 msgstr ""
 
 #: includes/class-cocart-logger.php:57
