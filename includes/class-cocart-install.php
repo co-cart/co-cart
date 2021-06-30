@@ -567,6 +567,8 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @param  string $table_name Name of the missing table.
 		 */
 		protected static function add_create_table_notice( $table_name ) {
+			set_transient( '_cocart_db_creation_failed', 1, MINUTE_IN_SECONDS * 5 );
+
 			$notice = sprintf(
 				/* translators: %2$s table name, %3$s database user, %4$s database name. */
 				esc_html__( '%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges on the %4$s database?', 'cart-rest-api-for-woocommerce' ),

@@ -108,6 +108,11 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				exit;
 			}
 
+			// Prevent any further admin redirects if CoCart database failed to create.
+			if ( get_transient( '_cocart_db_creation_failed' ) ) {
+				return;
+			}
+
 			// Setup wizard redirect.
 			if ( get_transient( '_cocart_activation_redirect' ) && apply_filters( 'cocart_enable_setup_wizard', true ) ) {
 				$do_redirect  = true;
