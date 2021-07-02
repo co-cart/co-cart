@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-beta.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-07-02 17:21:57+00:00\n"
+"POT-Creation-Date: 2021-07-02 17:37:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -97,6 +97,11 @@ msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:117
 msgid "Upgrade to Pro"
+msgstr ""
+
+#: includes/admin/class-cocart-admin-menus.php:29
+#: includes/admin/class-cocart-admin-menus.php:30
+msgid "Upgrade CoCart"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-menus.php:74

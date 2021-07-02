@@ -26,8 +26,8 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-			add_action( 'cocart_page_title_upgrade', function() { return "Upgrade CoCart"; });
-			add_action( 'cocart_page_wc_bar_breadcrumb_upgrade', function() { return "Upgrade CoCart"; });
+			add_action( 'cocart_page_title_upgrade', function() { return __( 'Upgrade CoCart', 'cart-rest-api-for-woocommerce' ); });
+			add_action( 'cocart_page_wc_bar_breadcrumb_upgrade', function() { return __( 'Upgrade CoCart', 'cart-rest-api-for-woocommerce' ); });
 			add_action( 'cocart_page_section_upgrade', array( $this, 'upgrade_cocart_content' ) );
 			add_filter( 'parent_file', array( $this, 'highlight_submenu_upgrade' ) );
 		} // END __construct()
