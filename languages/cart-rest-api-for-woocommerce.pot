@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-beta.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-06-30 20:12:38+00:00\n"
+"POT-Creation-Date: 2021-07-02 17:21:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -238,7 +238,7 @@ msgstr ""
 #: includes/admin/class-cocart-admin-plugin-search.php:651
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:104
 #: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:83
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:94
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:104
 msgid "Learn more"
 msgstr ""
 
@@ -714,14 +714,14 @@ msgid ""
 msgstr ""
 
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:95
-msgid "6 things you can do with %s"
+msgid "6 things you can do with Products REST API"
 msgstr ""
 
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:96
 msgid ""
-"Fetching your products via the REST API should be easy with no "
-"authentication issues. Learn more about the six things you can do with %1$s "
-"to help your development with %2$s."
+"Fetching your products via the REST API is now easy. Learn more about the "
+"six things you can do with the products API to help your development with "
+"%s."
 msgstr ""
 
 #: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:68
@@ -759,11 +759,11 @@ msgid ""
 "many action hooks and filters and more."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:88
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:98
 msgid "Ready to take your headless store to the next level?"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:89
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:99
 msgid ""
 "Upgrade to %s and unlock more cart features and supported WooCommerce "
 "extensions."
