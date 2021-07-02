@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - WooCommerce Admin: 6 things you can do CoCart Products API.
+ * CoCart - WooCommerce Admin: 6 things you can do with Products REST API.
  *
  * Adds a note for the client giving a helping hand with accessing products via API.
  *
@@ -8,7 +8,7 @@
  * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  2.8.0
+ * @version  3.1.0
  * @license  GPL-2.0+
  */
 
@@ -77,7 +77,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 * @access  public
 	 * @static
 	 * @since   2.3.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @return  array
 	 */
 	public static function get_note_args() {
@@ -92,8 +92,8 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		);
 
 		$args = array(
-			'title'   => sprintf( __( '6 things you can do with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
-			'content' => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
+			'title'   => __( '6 things you can do with Products REST API', 'cart-rest-api-for-woocommerce' ),
+			'content' => sprintf( __( 'Fetching your products via the REST API is now easy. Learn more about the six things you can do with the products API to help your development with %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
 			'type'    => $type,
 			'layout'  => 'thumbnail',
 			'image'   => esc_url( COCART_STORE_URL . 'wp-content/uploads/2020/03/rwmibqmoxry-128x214.jpg' ),
