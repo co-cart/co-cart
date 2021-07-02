@@ -89,7 +89,7 @@
 		"grunt-text-replace": "0.4.0",
 		"grunt-wp-i18n": "1.0.3",
 		"load-grunt-tasks": "5.1.0",
-		"node-sass": "6.0.0",
+		"node-sass": "6.0.1",
 		"prettier-stylelint": "0.4.2",
 		"stylelint-config-prettier": "8.0.2",
 		"stylelint-config-wordpress": "17.0.0",
