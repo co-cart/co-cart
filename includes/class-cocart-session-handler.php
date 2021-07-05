@@ -280,17 +280,36 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 2.9.2
-	 * @param   string  $name     Name of the cookie being set.
-	 * @param   string  $value    Value of the cookie.
-	 * @param   integer $expire   Expiry of the cookie.
-	 * @param   bool    $secure   Whether the cookie should be served only over https.
-	 * @param   bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
+	 * @param   string                                                                           $name     Name of the cookie being set.
+	 * @param   string                                                                           $value    Value of the cookie.
+	 * @param   integer                                                                          $expire   Expiry of the cookie.
+	 * @param   bool                                                                             $secure   Whether the cookie should be served only over https.
+	 * @param   bool                                                                             $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 * @param   string  samesite  Set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
 		if ( ! headers_sent() ) {
 			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
-				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', 'domain' => COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ), 'samesite' => apply_filters( 'cocart_cookie_samesite', 'Lax' ) ), $name, $value ) );
+				setcookie(
+					$name,
+					$value,
+					apply_filters(
+						'cocart_set_cookie_options',
+						array(
+							'expires'  => $expire,
+							'secure'   => $secure,
+							'path'     => COOKIEPATH ? COOKIEPATH : '/',
+							'domain'   => COOKIE_DOMAIN,
+							'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ),
+							'samesite' => apply_filters(
+								'cocart_cookie_samesite',
+								'Lax'
+							),
+						),
+						$name,
+						$value
+					)
+				);
 			} else {
 				setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) );
 			}
@@ -783,9 +802,9 @@ class CoCart_Session_Handler extends CoCart_Session {
 
 		$wpdb->update(
 			$this->_table,
-			array( 'cart_expiry' => $timestamp ), 
-			array( 'cart_key' => $cart_key ), 
-			array( '%d' ), 
+			array( 'cart_expiry' => $timestamp ),
+			array( 'cart_key' => $cart_key ),
+			array( '%d' ),
 			array( '%s' )
 		);
 	} // END update_cart_timestamp()

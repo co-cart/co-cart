@@ -72,10 +72,10 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		} // END allow_cocart_requests_wc()
 
 		/**
-		 * Loads a specific cart into session and merge cart contents 
+		 * Loads a specific cart into session and merge cart contents
 		 * with a logged in customer if cart contents exist.
-		 * 
-		 * Triggered when "woocommerce_load_cart_from_session" is called 
+		 *
+		 * Triggered when "woocommerce_load_cart_from_session" is called
 		 * to make sure the cart from session is loaded in time.
 		 *
 		 * @access  public

@@ -108,6 +108,11 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				exit;
 			}
 
+			// Prevent any further admin redirects if CoCart database failed to create.
+			if ( get_transient( '_cocart_db_creation_failed' ) ) {
+				return;
+			}
+
 			// Setup wizard redirect.
 			if ( get_transient( '_cocart_activation_redirect' ) && apply_filters( 'cocart_enable_setup_wizard', true ) ) {
 				$do_redirect  = true;
@@ -134,7 +139,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 		/**
 		 * Install CoCart Plugins.
-		 * 
+		 *
 		 * @access public
 		 * @since  3.1.0
 		 */
@@ -173,7 +178,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			$title = sprintf( __( 'Installing Plugin: %s', 'cart-rest-api-for-woocommerce' ), $api->name . ' ' . $api->version );
 			$nonce = 'install-cocart-plugin_' . $plugin;
 			$url   = 'update.php?action=install-cocart-plugin&plugin=' . urlencode( $plugin );
-			$url   .= '&from=cocart';
+			$url  .= '&from=cocart';
 
 			$type = 'web'; // Install plugin from Web.
 

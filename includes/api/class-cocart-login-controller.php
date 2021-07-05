@@ -49,7 +49,7 @@ class CoCart_Login_v2_Controller {
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'login' ),
-				'permission_callback' => array( $this, 'get_permission_callback'),
+				'permission_callback' => array( $this, 'get_permission_callback' ),
 			)
 		);
 	} // register_routes()
@@ -81,15 +81,15 @@ class CoCart_Login_v2_Controller {
 
 		$display_user_roles = array();
 
-		foreach( $user_roles as $role ) {
+		foreach ( $user_roles as $role ) {
 			$display_user_roles[] = ucfirst( $role );
 		}
 
 		$response = array(
-			"user_id" => strval( get_current_user_id() ),
-			"display_name" => esc_html( $current_user->display_name ),
-			"role" => implode( ", ", $display_user_roles ),
-			"dev_note" => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", "cart-rest-api-for-woocommerce" )
+			'user_id'      => strval( get_current_user_id() ),
+			'display_name' => esc_html( $current_user->display_name ),
+			'role'         => implode( ', ', $display_user_roles ),
+			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cart-rest-api-for-woocommerce' ),
 		);
 
 		return new WP_REST_Response( $response, 200 );

@@ -81,6 +81,74 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	}
 
 	/**
+	 * Prepare a single product output for response.
+	 *
+	 * @access public
+	 * @param  WC_Data         $object  Object data.
+	 * @param  WP_REST_Request $request Request object.
+	 * @return WP_REST_Response
+	 */
+	public function prepare_object_for_response( $object, $request ) {
+		// Check what product type before returning product data.
+		if ( $object->get_type() !== 'variation' ) {
+			$data = $this->get_product_data( $object );
+		} else {
+			$data = $this->get_variation_product_data( $object );
+		}
+
+		// Add review data to products if requested.
+		if ( $request['show_reviews'] ) {
+			$data['reviews'] = $this->get_reviews( $object );
+		}
+
+		// Add variations to variable products. Returns just IDs by default.
+		if ( $object->is_type( 'variable' ) && $object->has_child() ) {
+			$variation_ids = $object->get_children();
+
+			foreach ( $variation_ids as $variation_id ) {
+				$variation = wc_get_product( $variation_id );
+
+				// Hide out of stock variations if 'Hide out of stock items from the catalog' is checked.
+				if ( ! $variation || ! $variation->exists() || ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) && ! $variation->is_in_stock() ) ) {
+					continue;
+				}
+
+				// Filter 'woocommerce_hide_invisible_variations' to optionally hide invisible variations (disabled variations and variations with empty price).
+				if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) {
+					continue;
+				}
+
+				$data['variations'][ $variation_id ] = array( 'id' => $variation_id );
+
+				// If requested to return variations then fetch them.
+				if ( $request['return_variations'] ) {
+					// $variation_object                         = new WC_Product_Variation( $variation_id );
+					$data['variations'][ $variation_id ] = $this->get_variation_product_data( $variation );
+				}
+			}
+		}
+
+		// Add grouped products data.
+		if ( $object->is_type( 'grouped' ) && $object->has_child() ) {
+			$data['grouped_products'] = $object->get_children();
+		}
+
+		$data     = $this->add_additional_fields_to_object( $data, $request );
+		$data     = $this->filter_response_by_context( $data, 'view' );
+		$response = rest_ensure_response( $data );
+		$response->add_links( $this->prepare_links( $object, $request ) );
+
+		/**
+		 * Filter the data for a response.
+		 *
+		 * @param WP_REST_Response $response The response object.
+		 * @param WC_Data          $object   Object data.
+		 * @param WP_REST_Request  $request  Request object.
+		 */
+		return apply_filters( 'cocart_prepare_product_object', $response, $object, $request );
+	} // END prepare_object_for_response()
+
+	/**
 	 * Get a single item.
 	 *
 	 * @throws  CoCart_Data_Exception Exception if invalid data is detected.
@@ -201,37 +269,37 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		$average      = $product->get_average_rating( 'view' );
 
 		$data = array(
-			'id'                    => $product->get_id(),
-			'parent_id'             => $product->get_parent_id( 'view' ),
-			'name'                  => $product->get_name( 'view' ),
-			'type'                  => $type,
-			'slug'                  => $product->get_slug( 'view' ),
-			'permalink'             => $product->get_permalink(),
-			'sku'                   => $product->get_sku( 'view' ),
-			'description'           => $product->get_description( 'view' ),
-			'short_description'     => $product->get_short_description( 'view' ),
-			'dates'                 => array(
-				'created'           => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
-				'created_gmt'       => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
-				'modified'          => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),
-				'modified_gmt'      => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ) ),
+			'id'                 => $product->get_id(),
+			'parent_id'          => $product->get_parent_id( 'view' ),
+			'name'               => $product->get_name( 'view' ),
+			'type'               => $type,
+			'slug'               => $product->get_slug( 'view' ),
+			'permalink'          => $product->get_permalink(),
+			'sku'                => $product->get_sku( 'view' ),
+			'description'        => $product->get_description( 'view' ),
+			'short_description'  => $product->get_short_description( 'view' ),
+			'dates'              => array(
+				'created'      => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
+				'created_gmt'  => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
+				'modified'     => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),
+				'modified_gmt' => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ) ),
 			),
-			'featured'              => $product->is_featured(),
-			'prices'                => array(
-				'price'             => $controller->prepare_money_response( $product->get_price( 'view' ), wc_get_price_decimals() ),
-				'regular_price'     => $controller->prepare_money_response( $product->get_regular_price( 'view' ), wc_get_price_decimals() ),
-				'sale_price'        => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $product->get_sale_price( 'view' ), wc_get_price_decimals() ) : '',
-				'price_range'       => '',
-				'on_sale'           => $product->is_on_sale( 'view' ),
-				'date_on_sale'      => array(
-					'from'          => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ), false ),
-					'from_gmt'      => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ) ),
-					'to'            => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
-					'to_gmt'        => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ) ),
+			'featured'           => $product->is_featured(),
+			'prices'             => array(
+				'price'         => $controller->prepare_money_response( $product->get_price( 'view' ), wc_get_price_decimals() ),
+				'regular_price' => $controller->prepare_money_response( $product->get_regular_price( 'view' ), wc_get_price_decimals() ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $product->get_sale_price( 'view' ), wc_get_price_decimals() ) : '',
+				'price_range'   => '',
+				'on_sale'       => $product->is_on_sale( 'view' ),
+				'date_on_sale'  => array(
+					'from'     => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ), false ),
+					'from_gmt' => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ) ),
+					'to'       => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
+					'to_gmt'   => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ) ),
 				),
-				'currency'          => $controller->get_store_currency(),
+				'currency'      => $controller->get_store_currency(),
 			),
-			'conditions'            => array(
+			'conditions'         => array(
 				'virtual'           => $product->is_virtual(),
 				'downloadable'      => $product->is_downloadable(),
 				'has_options'       => $product->has_options(),
@@ -241,49 +309,49 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				'reviews_allowed'   => $product->get_reviews_allowed( 'view' ),
 				'shipping_required' => $product->needs_shipping(),
 			),
-			'average_rating'        => $average,
-			'review_count'          => $product->get_review_count( 'view' ),
-			'rating_count'          => $rating_count,
-			'rated_out_of'          => html_entity_decode( strip_tags( wc_get_rating_html( $average, $rating_count ) ) ),
-			'images'                => $this->get_images( $product ),
-			'categories'            => $this->get_taxonomy_terms( $product ),
-			'tags'                  => $this->get_taxonomy_terms( $product, 'tag' ),
-			'attributes'            => $this->get_attributes( $product ),
-			'default_attributes'    => $this->get_default_attributes( $product ),
-			'variations'            => array(),
-			'grouped_products'      => array(),
-			'stock'                 => array(
-				'manage_stock'          => $product->managing_stock(),
-				'stock_quantity'        => $product->get_stock_quantity( 'view' ),
-				'stock_status'          => $product->get_stock_status( 'view' ),
-				'backorders'            => $product->get_backorders( 'view' ),
-				'backorders_allowed'    => $product->backorders_allowed(),
-				'backordered'           => $product->is_on_backorder(),
-				'low_stock_amount'      => $product->get_low_stock_amount( 'view' ),
+			'average_rating'     => $average,
+			'review_count'       => $product->get_review_count( 'view' ),
+			'rating_count'       => $rating_count,
+			'rated_out_of'       => html_entity_decode( strip_tags( wc_get_rating_html( $average, $rating_count ) ) ),
+			'images'             => $this->get_images( $product ),
+			'categories'         => $this->get_taxonomy_terms( $product ),
+			'tags'               => $this->get_taxonomy_terms( $product, 'tag' ),
+			'attributes'         => $this->get_attributes( $product ),
+			'default_attributes' => $this->get_default_attributes( $product ),
+			'variations'         => array(),
+			'grouped_products'   => array(),
+			'stock'              => array(
+				'manage_stock'       => $product->managing_stock(),
+				'stock_quantity'     => $product->get_stock_quantity( 'view' ),
+				'stock_status'       => $product->get_stock_status( 'view' ),
+				'backorders'         => $product->get_backorders( 'view' ),
+				'backorders_allowed' => $product->backorders_allowed(),
+				'backordered'        => $product->is_on_backorder(),
+				'low_stock_amount'   => $product->get_low_stock_amount( 'view' ),
 			),
-			'weight'    => array(
+			'weight'             => array(
 				'value' => $product->get_weight( 'view' ),
 				'unit'  => get_option( 'woocommerce_weight_unit' ),
 			),
-			'dimensions' => array(
+			'dimensions'         => array(
 				'length' => $product->get_length( 'view' ),
 				'width'  => $product->get_width( 'view' ),
 				'height' => $product->get_height( 'view' ),
 				'unit'   => get_option( 'woocommerce_dimension_unit' ),
 			),
-			'reviews'         => array(),
-			'related'         => $this->get_connected_products( $product, 'related' ),
-			'upsells'         => $this->get_connected_products( $product, 'upsells' ),
-			'cross_sells'     => $this->get_connected_products( $product, 'cross_sells' ),
-			'total_sales'     => $product->get_total_sales( 'view' ),
-			'external_url'    => $product->is_type( 'external' ) ? $product->get_product_url( 'view' ) : '',
-			'button_text'     => $product->is_type( 'external' ) ? $product->get_button_text( 'view' ) : '',
-			'add_to_cart'     => array(
+			'reviews'            => array(),
+			'related'            => $this->get_connected_products( $product, 'related' ),
+			'upsells'            => $this->get_connected_products( $product, 'upsells' ),
+			'cross_sells'        => $this->get_connected_products( $product, 'cross_sells' ),
+			'total_sales'        => $product->get_total_sales( 'view' ),
+			'external_url'       => $product->is_type( 'external' ) ? $product->get_product_url( 'view' ) : '',
+			'button_text'        => $product->is_type( 'external' ) ? $product->get_button_text( 'view' ) : '',
+			'add_to_cart'        => array(
 				'text'        => $product->add_to_cart_text(),
 				'description' => $product->add_to_cart_description(),
-				'rest_url'    => $this->add_to_cart_rest_url( $product->get_id(), $type ),
+				'rest_url'    => $this->add_to_cart_rest_url( $product, $type ),
 			),
-			'meta_data'             => $product->get_meta_data(),
+			'meta_data'          => $product->get_meta_data(),
 		);
 
 		return $data;
@@ -301,6 +369,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 		// Remove fields not required for a variaion.
 		unset( $data['type'] );
+		unset( $data['short_description'] );
 		unset( $data['conditions']['has_options'] );
 		unset( $data['conditions']['reviews_allowed'] );
 		unset( $data['average_rating'] );
@@ -316,7 +385,6 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		unset( $data['cross_sells'] );
 		unset( $data['external_url'] );
 		unset( $data['button_text'] );
-		unset( $data['add_to_cart'] );
 
 		return $data;
 	} // END get_variation_product_data()
@@ -348,13 +416,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get minimum details on connected products.
 	 *
 	 * @access public
-	 * @param  WC_Product $product
+	 * @param  WC_Product                      $product
 	 * @param  $type Type of products to return.
 	 */
 	public function get_connected_products( $product, $type ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		switch( $type ) {
+		switch ( $type ) {
 			case 'upsells':
 				$ids = array_map( 'absint', $product->get_upsell_ids( 'view' ) );
 				break;
@@ -369,22 +437,22 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 		$connected_products = array();
 
-		foreach( $ids as $id ) {
+		foreach ( $ids as $id ) {
 			$_product = wc_get_product( $id );
 
 			$type = $_product->get_type();
 
 			$connected_products[] = array(
-				'id'              => $id,
-				'name'            => $_product->get_name( 'view' ),
-				'permalink'       => $_product->get_permalink(),
-				'price'           => $controller->prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
-				'add_to_cart'     => array(
+				'id'          => $id,
+				'name'        => $_product->get_name( 'view' ),
+				'permalink'   => $_product->get_permalink(),
+				'price'       => $controller->prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
+				'add_to_cart' => array(
 					'text'        => $_product->add_to_cart_text(),
 					'description' => $_product->add_to_cart_description(),
-					'rest_url'    => $this->add_to_cart_rest_url( $_product->get_id(), $type ),
+					'rest_url'    => $this->add_to_cart_rest_url( $_product, $type ),
 				),
-				'rest_url'        => $this->product_rest_url( $id ),
+				'rest_url'    => $this->product_rest_url( $id ),
 			);
 		}
 
@@ -401,7 +469,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 */
 	public function product_rest_url( $id, $taxonomy = '' ) {
 		if ( ! empty( $taxonomy ) ) {
-			switch( $taxonomy ) {
+			switch ( $taxonomy ) {
 				case 'cat':
 					$route = '/%s/products/categories/%s';
 					break;
@@ -426,7 +494,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	public function product_rest_urls( $ids = array() ) {
 		$rest_urls = array();
 
-		foreach( $ids as $id ) {
+		foreach ( $ids as $id ) {
 			$rest_urls[] = $this->product_rest_url( $id );
 		}
 
@@ -437,20 +505,26 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns the REST URL for adding product to the cart.
 	 *
 	 * @access public
-	 * @param  int    $id  Product ID.
+	 * @param  WC_Product $product
 	 * @param  string $type Product type.
 	 * @return string
 	 */
-	public function add_to_cart_rest_url( $product_id, $type = 'simple' ) {
-		switch( $type ) {
+	public function add_to_cart_rest_url( $product, $type ) {
+		$id = $product->get_id();
+
+		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
+
+		switch ( $type ) {
 			case 'simple':
 			case 'subscription':
-				return rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $product_id ) );
+				return $rest_url;
 				break;
 			case 'variation':
+			case 'subscription_variation':
+				return '';
 				break;
 			case 'default':
-				return apply_filter( '', $product_id, $type );
+				return apply_filter( 'cocart_products_add_to_cart_rest_url', '', $product, $type, $id );
 				break;
 		}
 	} // END add_to_cart_rest_url()

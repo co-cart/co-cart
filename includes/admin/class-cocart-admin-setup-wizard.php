@@ -47,7 +47,7 @@ class CoCart_Admin_Setup_Wizard {
 		'Someone give me cha ching, I just set up a headless store with @WooCommerce and @cart_co!',
 		'Someone give me high five, I just set up a headless store with @WooCommerce and @cart_co!',
 		'Want to build a fast headless store like me? Checkout @cart_co - Designed for @WooCommerce.',
-		'Build headless stores, without building an API. Checkout @cart_co - Designed for @WooCommerce.'
+		'Build headless stores, without building an API. Checkout @cart_co - Designed for @WooCommerce.',
 	);
 
 	/**
@@ -83,8 +83,8 @@ class CoCart_Admin_Setup_Wizard {
 	 * @access public
 	 */
 	public function enqueue_scripts() {
-		$suffix    = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$version   = COCART_VERSION;
+		$suffix  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$version = COCART_VERSION;
 
 		wp_enqueue_style( 'cocart-setup', COCART_URL_PATH . '/assets/css/admin/cocart-setup.css', array( 'dashicons', 'install' ), $version );
 		wp_style_add_data( 'cocart-setup', 'rtl', 'replace' );
@@ -100,17 +100,17 @@ class CoCart_Admin_Setup_Wizard {
 			return;
 		}
 		$default_steps = array(
-			'store_setup'    => array(
+			'store_setup' => array(
 				'name'    => __( 'Store setup', 'cart-rest-api-for-woocommerce' ),
 				'view'    => array( $this, 'cocart_setup_wizard_store_setup' ),
 				'handler' => array( $this, 'cocart_setup_wizard_store_setup_save' ),
 			),
-			'sessions'       => array(
+			'sessions'    => array(
 				'name'    => __( 'Sessions', 'cart-rest-api-for-woocommerce' ),
 				'view'    => array( $this, 'cocart_setup_wizard_sessions' ),
 				'handler' => array( $this, 'cocart_setup_wizard_sessions_save' ),
 			),
-			'ready'     => array(
+			'ready'       => array(
 				'name'    => __( 'Ready!', 'cart-rest-api-for-woocommerce' ),
 				'view'    => array( $this, 'cocart_setup_wizard_ready' ),
 				'handler' => '',
@@ -118,7 +118,7 @@ class CoCart_Admin_Setup_Wizard {
 		);
 
 		$this->steps = apply_filters( 'cocart_setup_wizard_steps', $default_steps );
-		$this->step  = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) ); 
+		$this->step  = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
 
 		if ( ! empty( $_POST['save_step'] ) && isset( $this->steps[ $this->step ]['handler'] ) ) {
 			call_user_func( $this->steps[ $this->step ]['handler'], $this );
@@ -169,10 +169,12 @@ class CoCart_Admin_Setup_Wizard {
 		// Same as default WP from wp-admin/admin-header.php.
 		$wp_version_class = 'branch-' . str_replace( array( '.', ',' ), '-', floatval( get_bloginfo( 'version' ) ) );
 
-		$campaign_args = CoCart_Helpers::cocart_campaign( array(
-			'utm_content' => 'setup-wizard',
-		) );
-		$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
+		$campaign_args = CoCart_Helpers::cocart_campaign(
+			array(
+				'utm_content' => 'setup-wizard',
+			)
+		);
+		$store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
 
 		set_current_screen();
 		?>
@@ -203,7 +205,8 @@ class CoCart_Admin_Setup_Wizard {
 	public function setup_wizard_footer() {
 		$current_step = $this->step;
 
-			if ( 'store_setup' === $current_step ) : ?>
+		if ( 'store_setup' === $current_step ) :
+			?>
 				<a class="cocart-setup-wizard-footer-links" href="<?php echo esc_url( admin_url() ); ?>"><?php esc_html_e( 'Not right now', 'cart-rest-api-for-woocommerce' ); ?></a>
 			<?php elseif ( 'sessions' === $current_step ) : ?>
 				<a class="cocart-setup-wizard-footer-links" href="<?php echo esc_url( $this->get_next_step_link() ); ?>"><?php esc_html_e( 'Skip this step', 'cart-rest-api-for-woocommerce' ); ?></a>
@@ -342,7 +345,7 @@ class CoCart_Admin_Setup_Wizard {
 	/**
 	 * Sessions step.
 	 *
-	 * For those who are not installing a fresh WooCommerce store, 
+	 * For those who are not installing a fresh WooCommerce store,
 	 * this step will transfer any current sessions.
 	 *
 	 * @access public
@@ -356,7 +359,7 @@ class CoCart_Admin_Setup_Wizard {
 			<p><?php esc_html_e( 'Your current WooCommerce sessions will be transfered over to CoCart session table. This will run in the background until completed. Once transfered, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 			<p class="cocart-setup-wizard-actions step">
-				<button class="button button-primary button-large" value="<?php esc_attr_e( "Transfer Sessions", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Transfer Sessions", 'cart-rest-api-for-woocommerce' ); ?></button>
+				<button class="button button-primary button-large" value="<?php esc_attr_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?></button>
 			</p>
 		</form>
 		<?php
@@ -434,15 +437,17 @@ class CoCart_Admin_Setup_Wizard {
 		// We've made it! Don't prompt the user to run the wizard again.
 		CoCart_Admin_Notices::remove_notice( 'setup_wizard', true );
 
-		$campaign_args = CoCart_Helpers::cocart_campaign( array(
-			'utm_content' => 'setup-wizard',
-		) );
+		$campaign_args = CoCart_Helpers::cocart_campaign(
+			array(
+				'utm_content' => 'setup-wizard',
+			)
+		);
 
 		$tweet = array_rand( $this->tweets );
 
-		$user_email   = $this->get_current_user_email();
-		$docs_url     = 'https://cocart.xyz/getting-started/';
-		$help_text    = sprintf(
+		$user_email = $this->get_current_user_email();
+		$docs_url   = 'https://cocart.xyz/getting-started/';
+		$help_text  = sprintf(
 			/* translators: %1$s: link to docs */
 			__( 'Visit CoCart.xyz to learn more about <a href="%1$s" target="_blank">getting started</a>.', 'cart-rest-api-for-woocommerce' ),
 			$docs_url
@@ -457,11 +462,11 @@ class CoCart_Admin_Setup_Wizard {
 		<p><?php printf( __( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
 
 		<p class="tweet-share">
-			<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="<?php echo $this->tweets[$tweet]; ?>" data-url="https://cocart.xyz/" data-hashtags="WooCommerce" data-related="WooCommerce" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="<?php echo $this->tweets[ $tweet ]; ?>" data-url="https://cocart.xyz/" data-hashtags="WooCommerce" data-related="WooCommerce" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		</p>
 
 		<div class="cocart-newsletter">
-			<p><?php esc_html_e( "Get product updates, tutorials and more straight to your inbox.", 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'Get product updates, tutorials and more straight to your inbox.', 'cart-rest-api-for-woocommerce' ); ?></p>
 			<form action="https://xyz.us1.list-manage.com/subscribe/post?u=48ead612ad85b23fe2239c6e3&amp;id=d462357844&amp;SIGNUPPAGE=plugin" method="post" target="_blank" novalidate>
 				<div class="newsletter-form-container">
 					<input
@@ -504,7 +509,7 @@ class CoCart_Admin_Setup_Wizard {
 				<div class="cocart-setup-wizard-next-step-description">
 					<p class="next-step-heading"><?php esc_html_e( 'Need something else?', 'cart-rest-api-for-woocommerce' ); ?></p>
 					<h3 class="next-step-description"><?php esc_html_e( 'Install Plugins', 'cart-rest-api-for-woocommerce' ); ?></h3>
-					<p class="next-step-extra-info"><?php esc_html_e( "Checkout plugin suggestions by CoCart.", 'cart-rest-api-for-woocommerce' ); ?></p>
+					<p class="next-step-extra-info"><?php esc_html_e( 'Checkout plugin suggestions by CoCart.', 'cart-rest-api-for-woocommerce' ); ?></p>
 				</div>
 				<div class="cocart-setup-wizard-next-step-action">
 					<p class="cocart-setup-wizard-actions step">

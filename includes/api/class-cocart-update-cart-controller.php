@@ -108,7 +108,7 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 
 			$extension_class  = new CoCart_Cart_Extension();
 			$callback_methods = $extension_class->get_all_registered_callbacks();
-	
+
 			$update_cart = $callback_methods[ $namespace ]->callback( $request );
 
 			// Proceed with requested callback.
@@ -139,16 +139,19 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 	public function get_collection_params() {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$params = array_merge( $controller->get_collection_params(), array(
-			'namespace' => array(
-				'description' => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'string',
-			),
-			'data'      => array(
-				'description' => __( 'Additional data to pass.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'object',
-			),
-		) );
+		$params = array_merge(
+			$controller->get_collection_params(),
+			array(
+				'namespace' => array(
+					'description' => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+				),
+				'data'      => array(
+					'description' => __( 'Additional data to pass.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+				),
+			)
+		);
 
 		return $params;
 	} // END get_collection_params()

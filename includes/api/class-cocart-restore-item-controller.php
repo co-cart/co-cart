@@ -167,20 +167,23 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	public function get_collection_params() {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$params = array_merge( $controller->get_collection_params(), array(
-			'item_key'    => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'return_item' => array(
-				'description'       => __( 'Returns the item details once restored.', 'cart-rest-api-for-woocommerce' ),
-				'default'           => false,
-				'type'              => 'boolean',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-		) );
+		$params = array_merge(
+			$controller->get_collection_params(),
+			array(
+				'item_key'    => array(
+					'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_text_field',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'return_item' => array(
+					'description'       => __( 'Returns the item details once restored.', 'cart-rest-api-for-woocommerce' ),
+					'default'           => false,
+					'type'              => 'boolean',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+			)
+		);
 
 		return $params;
 	} // END get_collection_params()

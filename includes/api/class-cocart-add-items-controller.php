@@ -233,25 +233,28 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	public function get_collection_params() {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$params = array_merge( $controller->get_collection_params(), array(
-			'id'           => array(
-				'description'       => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'quantity'     => array(
-				'required'          => true,
-				'description'       => __( 'List of items and quantity in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'object',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'return_items' => array(
-				'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => false,
-				'type'        => 'boolean',
-			),
-		) );
+		$params = array_merge(
+			$controller->get_collection_params(),
+			array(
+				'id'           => array(
+					'description'       => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_text_field',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'quantity'     => array(
+					'required'          => true,
+					'description'       => __( 'List of items and quantity in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'object',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'return_items' => array(
+					'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
+				),
+			)
+		);
 
 		return $params;
 	} // END get_collection_params()

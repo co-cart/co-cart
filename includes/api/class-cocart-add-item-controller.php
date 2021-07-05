@@ -367,39 +367,42 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	public function get_collection_params() {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$params = array_merge( $controller->get_collection_params(), array(
-			'id'          => array(
-				'required'          => true,
-				'description'       => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'quantity'    => array(
-				'required'          => true,
-				'default'           => '1',
-				'description'       => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
-			),
-			'variation'   => array(
-				'required'          => false,
-				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'object',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'item_data'   => array(
-				'required'          => false,
-				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'object',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'return_item' => array(
-				'description' => __( 'Returns the item details once added.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => false,
-				'type'        => 'boolean',
-			),
-		) );
+		$params = array_merge(
+			$controller->get_collection_params(),
+			array(
+				'id'          => array(
+					'required'          => true,
+					'description'       => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_text_field',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'quantity'    => array(
+					'required'          => true,
+					'default'           => '1',
+					'description'       => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+				),
+				'variation'   => array(
+					'required'          => false,
+					'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'object',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'item_data'   => array(
+					'required'          => false,
+					'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'object',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'return_item' => array(
+					'description' => __( 'Returns the item details once added.', 'cart-rest-api-for-woocommerce' ),
+					'default'     => false,
+					'type'        => 'boolean',
+				),
+			)
+		);
 
 		return $params;
 	} // END get_collection_params()

@@ -373,15 +373,18 @@ class CoCart_Helpers {
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
-		return apply_filters( 'cocart_admin_screens', array(
-			'dashboard',
-			'dashboard-network',
-			'plugins',
-			'plugins-network',
-			'woocommerce_page_wc-status',
-			'toplevel_page_cocart',
-			'toplevel_page_cocart-network',
-		) );
+		return apply_filters(
+			'cocart_admin_screens',
+			array(
+				'dashboard',
+				'dashboard-network',
+				'plugins',
+				'plugins-network',
+				'woocommerce_page_wc-status',
+				'toplevel_page_cocart',
+				'toplevel_page_cocart-network',
+			)
+		);
 	} // END cocart_get_admin_screens()
 
 	/**
@@ -463,7 +466,7 @@ class CoCart_Helpers {
 		return array(
 			'cocart-cors',
 			'cocart-get-cart-enhanced',
-			'cocart-carts-in-session'
+			'cocart-carts-in-session',
 		);
 	} // ENF get_wporg_cocart_plugins()
 

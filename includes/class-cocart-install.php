@@ -214,18 +214,20 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Check if all the base tables are present.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
-		 * @since 3.0.0
-		 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
-		 * @param bool $execute       Whether to execute get_schema queries as well.
-		 * @return array List of querues.
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   bool $modify_notice Whether to modify notice based on if all tables are present.
+		 * @param   bool $execute       Whether to execute get_schema queries as well.
+		 * @return  array List of querues.
 		 */
 		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 			if ( $execute ) {
 				self::create_tables();
+				self::maybe_update_db_version();
 			}
 
 			$queries        = dbDelta( self::get_schema(), false );
@@ -265,7 +267,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		private static function remove_admin_notices() {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';
 			CoCart_Admin_Notices::remove_all_notices();
-		}
+		} // END remove_admin_notices()
 
 		/**
 		 * Is this a brand new CoCart install?
@@ -279,7 +281,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 */
 		public static function is_new_install() {
 			return is_null( get_option( 'cocart_version', null ) );
-		}
+		} // END is_new_install()
 
 		/**
 		 * Is a Database update needed?
@@ -478,17 +480,27 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access private
 		 * @static
 		 * @since   2.1.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 * @global  $wpdb
 		 */
 		private static function create_tables() {
 			global $wpdb;
 
-			$wpdb->hide_errors();
+			$show_errors = $wpdb->hide_errors();
+			$table_name  = $wpdb->prefix . 'cocart_carts';
 
-			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			$table = self::get_schema();
 
-			dbDelta( self::get_schema() );
+			$exists = self::maybe_create_table( $table_name, $table );
+
+			if ( $show_errors ) {
+				$wpdb->show_errors();
+			}
+
+			// If table does not exist, ask user if they have privileges.
+			if ( ! $exists ) {
+				self::add_create_table_notice( $table_name );
+			}
 		} // END create_tables()
 
 		/**
@@ -496,16 +508,17 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access private
 		 * @static
-		 * @since  3.0.0
-		 * @global $wpdb
-		 * @return string
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @global  $wpdb
+		 * @return  string
 		 */
 		private static function get_schema() {
 			global $wpdb;
 
 			$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
 
-			$tables = "CREATE TABLE {$wpdb->prefix}cocart_carts (
+			$table = "CREATE TABLE {$wpdb->prefix}cocart_carts (
  cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
  cart_key char(42) NOT NULL,
  cart_value longtext NOT NULL,
@@ -517,8 +530,56 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
  UNIQUE KEY cart_key (cart_key)
 ) $collate;";
 
-			return $tables;
+			return $table;
 		} // END get_schema()
+
+		/**
+		 * Create database table, if it doesn't already exist.
+		 *
+		 * Based on admin/install-helper.php maybe_create_table function.
+		 *
+		 * @source https://developer.wordpress.org/reference/functions/maybe_create_table/
+		 *
+		 * @access protected
+		 * @since  3.1.0
+		 * @param  string $table_name Database table name.
+		 * @param  string $create_sql Create database table SQL.
+		 * @return bool False on error, true if already exists or success.
+		 */
+		protected static function maybe_create_table( $table_name, $create_sql ) {
+			global $wpdb;
+
+			if ( in_array( $table_name, $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ), 0 ), true ) ) {
+				return true;
+			}
+
+			$wpdb->query( $create_sql );
+
+			return in_array( $table_name, $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ), 0 ), true );
+		} // END maybe_create_table()
+
+		/**
+		 * Add a notice if table creation fails.
+		 *
+		 * @access protected
+		 * @static
+		 * @since  3.1.0
+		 * @param  string $table_name Name of the missing table.
+		 */
+		protected static function add_create_table_notice( $table_name ) {
+			set_transient( '_cocart_db_creation_failed', 1, MINUTE_IN_SECONDS * 5 );
+
+			$notice = sprintf(
+				/* translators: %2$s table name, %3$s database user, %4$s database name. */
+				esc_html__( '%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges on the %4$s database?', 'cart-rest-api-for-woocommerce' ),
+				'CoCart',
+				'<code>' . esc_html( $table_name ) . '</code>',
+				'<code>' . esc_html( DB_USER ) . '</code>',
+				'<code>' . esc_html( DB_NAME ) . '</code>'
+			);
+
+			CoCart_Admin_Notices::add_custom_notice( 'db_creation_failed', $notice );
+		} // END add_create_table_notice()
 
 		/**
 		 * Return a list of CoCart tables. Used to make sure all CoCart tables

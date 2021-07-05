@@ -254,7 +254,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @param  string $name        Notice name.
 		 * @param  string $notice_html Notice HTML.
 		 */
-		public function add_custom_notice( $name, $notice_html ) {
+		public static function add_custom_notice( $name, $notice_html ) {
 			self::add_notice( $name );
 			update_option( 'cocart_admin_notice_' . $name, wp_kses_post( $notice_html ) );
 		} // END add_custom_notice()

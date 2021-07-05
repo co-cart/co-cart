@@ -242,10 +242,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return array List of add-ons.
 		 */
 		public function get_addons_list() {
-			$campaign_args = CoCart_Helpers::cocart_campaign( array(
-				'utm_campaign' => 'install-plugin',
-				'utm_content'  => 'plugin-suggestions',
-			) );
+			$campaign_args = CoCart_Helpers::cocart_campaign(
+				array(
+					'utm_campaign' => 'install-plugin',
+					'utm_content'  => 'plugin-suggestions',
+				)
+			);
 
 			return array(
 				'cocart-acf'       => array(
@@ -293,7 +295,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function get_third_party_list() {
 			return array(
-				'woocommerce-name-your-price'        => array(
+				'woocommerce-name-your-price'            => array(
 					'name'              => 'WooCommerce Name Your Price',
 					'plugin'            => 'woocommerce-name-your-price',
 					'author'            => 'Kathy Darling',
@@ -310,7 +312,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/name-your-price/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-mix-and-match-products' => array(
+				'woocommerce-mix-and-match-products'     => array(
 					'name'              => 'WooCommerce Mix & Match Products',
 					'plugin'            => 'woocommerce-mix-and-match-products',
 					'author'            => 'Kathy Darling',
@@ -327,7 +329,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-mix-and-match-products/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-subscriptions'          => array(
+				'woocommerce-subscriptions'              => array(
 					'name'              => 'WooCommerce Subscriptions',
 					'plugin'            => 'woocommerce-subscriptions',
 					'author'            => 'WooCommerce',
@@ -345,7 +347,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-smart-coupons'          => array(
+				'woocommerce-smart-coupons'              => array(
 					'name'              => 'WooCommerce Smart Coupons',
 					'plugin'            => 'woocommerce-smart-coupons',
 					'author'            => 'StoreApps',
@@ -380,7 +382,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-advanced-shipping-packages/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-free-gift-coupons' => array(
+				'woocommerce-free-gift-coupons'          => array(
 					'name'              => 'WooCommerce Free Gift Coupons',
 					'plugin'            => 'woocommerce-free-gift-coupons',
 					'author'            => 'Backcourt Development',
@@ -397,7 +399,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/free-gift-coupons/' ),
 					'third_party'       => true,
 				),
-				'flexible-shipping' => array(
+				'flexible-shipping'                      => array(
 					'name'              => 'Table Rate for WooCommerce by Flexible Shipping',
 					'plugin'            => 'flexible-shipping',
 					'author'            => 'WP Desk',
@@ -720,7 +722,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 									if ( $compatible_php && $compatible_wp ) {
 										$nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
 										$url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
-					
+
 										if ( ! empty( $plugin['purchase'] ) ) {
 											$links['cocart-purchase'] = sprintf(
 												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
