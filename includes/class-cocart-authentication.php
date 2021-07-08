@@ -236,8 +236,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			// Check that we're trying to authenticate via headers.
 			if ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
-				$username = $_SERVER['PHP_AUTH_USER'];
-				$password = $_SERVER['PHP_AUTH_PW'];
+				$username = sanitize_user( $_SERVER['PHP_AUTH_USER'] );
+				$password = trim( sanitize_text_field( $_SERVER['PHP_AUTH_PW'] ) );
 
 				// Check if the username provided was an email address and get the username if true.
 				if ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
@@ -248,7 +248,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			// Fallback to check if the username and password was passed via URL.
 			elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) {
 				$username = sanitize_user( $_REQUEST['username'] );
-				$password = trim( $_REQUEST['password'] );
+				$password = trim( sanitize_text_field( $_REQUEST['password'] ) );
 
 				// Check if the username provided was an email address and get the username if true.
 				if ( is_email( $_REQUEST['username'] ) ) {
