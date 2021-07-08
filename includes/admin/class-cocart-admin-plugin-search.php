@@ -255,7 +255,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'plugin'            => 'acf',
 					'search_terms'      => 'advanced, acf, fields, custom fields, meta, repeater',
 					'short_description' => esc_html__( 'Returns all custom meta data saved for all products using Advanced Custom Fields.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
+					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
 					'requirement'       => 'CoCart Products',
 					'info'              => array(
 						'requires'     => '5.2',
@@ -272,7 +272,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'plugin'            => 'yoast-seo',
 					'search_terms'      => 'yoast, seo, xml sitemap, content analysis, readability, schema',
 					'short_description' => esc_html__( 'Returns all Yoast SEO data for all products, product categories and tags.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
+					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
 					'requirement'       => 'CoCart Products',
 					'info'              => array(
 						'requires'     => '5.2',
@@ -301,7 +301,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Let customers pay what they want with Name Your Price', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://woocommerce.com/wp-content/uploads/2020/07/kia-logo-retina.png',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
 					'info'              => array(
 						'requires'     => '4.4',
@@ -318,7 +318,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Create mix and match products with WooCommerce, for creating cases of customer-selected products.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://woocommerce.com/wp-content/uploads/2020/07/kia-logo-retina.png',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
 					'info'              => array(
 						'requires'     => '4.4',

@@ -30,7 +30,7 @@ $star_svg      = COCART_URL_PATH . '/assets/images/star-filled.svg';
 		<div class="content">
 			<div class="logo">
 				<a href="<?php echo $store_url; ?>" target="_blank">
-					<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="CoCart Logo" />
+					<img src="<?php echo COCART_URL_PATH . '/assets/images/brand/logo.jpg'; ?>" alt="CoCart Logo" />
 				</a>
 			</div>
 
@@ -89,7 +89,7 @@ $star_svg      = COCART_URL_PATH . '/assets/images/star-filled.svg';
 		<div class="content">
 			<h2 style="text-align: center;"><?php _e( 'Testimonials', 'cart-rest-api-for-woocommerce' ); ?></h2>
 
-			<video controls playsinline disablepictureinpicture poster="<?php echo COCART_URL_PATH . '/assets/imagesjames-rowland-testimonial-thumbnail.png'; ?>" style="width: 100%; height: 100%; max-height: 65vh;" preload="auto">
+			<video controls playsinline disablepictureinpicture poster="<?php echo COCART_URL_PATH . '/assets/images/testimonials/james-rowland.png'; ?>" style="width: 100%; height: 100%; max-height: 65vh;" preload="auto">
 				<source src="https://cocart.xyz/wp-content/uploads/2021/06/james-video-testimonial.mp4" type="video/mp4">
 			</video>
 

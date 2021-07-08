@@ -191,7 +191,7 @@ class CoCart_Admin_Setup_Wizard {
 		<body class="cocart-setup-wizard wp-core-ui <?php echo esc_attr( 'cocart-setup-step__' . $this->step ); ?> <?php echo esc_attr( $wp_version_class ); ?>">
 		<h1 class="cocart-logo">
 			<a href="<?php echo $store_url; ?>" target="_blank">
-				<img src="<?php echo COCART_URL_PATH . '/assets/images/header-logo.png'; ?>" alt="CoCart Logo" />
+				<img src="<?php echo COCART_URL_PATH . '/assets/images/brand/header-logo.png'; ?>" alt="CoCart Logo" />
 			</a>
 		</h1>
 		<?php
