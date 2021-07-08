@@ -105,7 +105,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			// Check if we requested to load a specific cart.
 			if ( isset( $_REQUEST['cart_key'] ) ) {
-				$cart_key = $_REQUEST['cart_key'];
+				$cart_key = esc_html( $_REQUEST['cart_key'] );
 			}
 
 			// Check if the user is logged in.

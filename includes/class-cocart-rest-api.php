@@ -400,7 +400,7 @@ class CoCart_REST_API {
 		}
 
 		// Check if we requested to load a specific cart.
-		$cart_key = isset( $_REQUEST['cart_key'] ) ? $_REQUEST['cart_key'] : $cart_key;
+		$cart_key = isset( $_REQUEST['cart_key'] ) ? esc_html( $_REQUEST['cart_key'] ) : $cart_key;
 
 		// Send cart key in the header if it's not empty or ZERO.
 		if ( ! empty( $cart_key ) && $cart_key !== '0' ) {
