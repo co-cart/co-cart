@@ -5,9 +5,9 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.7
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 WC requires at least: 4.3
-WC tested up to: 5.4
+WC tested up to: 5.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -328,6 +328,13 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.0.7 - 8th July, 2021 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Escaping HTML from requested cart key.
+* Fixed: Sanitized username and password with basic authentication.
+
 = v3.0.6 - 25th June, 2021 =
 
 * Fixed: Validation of a variation added to cart should the parent ID be used. Thanks to [Brandan King](https://profiles.wordpress.org/inspiredagency/) for reporting the issue.
@@ -406,6 +413,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.0.6 =
+= 3.0.7 =
 
-Fixed: Validation of a variation added to cart should the parent ID be used.
+Fixed: Escaping HTML from requested cart key and sanitized username and password with basic authentication.

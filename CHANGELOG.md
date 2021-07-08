@@ -1,5 +1,12 @@
 # Changelog for CoCart Lite
 
+## v3.0.7 - 8th July, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Escaping HTML from requested cart key.
+* Fixed: Sanitized username and password with basic authentication.
+
 ## v3.0.6 - 25th June, 2021
 
 * Fixed: Validation of a variation added to cart should the parent ID be used. Thanks to [Brandan King](https://profiles.wordpress.org/inspiredagency/) for reporting the issue.
