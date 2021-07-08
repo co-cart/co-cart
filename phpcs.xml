@@ -6,6 +6,7 @@
 
 	<!-- Exclude paths -->
 	<exclude-pattern>assets/*</exclude-pattern>
+	<exclude-pattern>includes/api/cocart/v1/</exclude-pattern>
 	<exclude-pattern>includes/api/legacy/</exclude-pattern>
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
@@ -21,7 +22,7 @@
 	<arg name="parallel" value="8" />
 
 	<!-- Configs -->
-	<config name="minimum_supported_wp_version" value="5.2" />
+	<config name="minimum_supported_wp_version" value="5.4" />
 	<config name="testVersion" value="7.0-" />
 
 	<!-- Rules -->
