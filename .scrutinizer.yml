@@ -1,10 +1,14 @@
 tools:
+  php_sim: true
+  php_pdepend: true
+  php_analyzer: true
   php_code_sniffer:
     config:
       standard: WordPress
   sensiolabs_security_checker: true
   external_code_coverage:
     timeout: 600
+    runs: 1
 checks:
   php:
     avoid_closing_tag: false
@@ -23,5 +27,7 @@ checks:
     verify_property_names: false
 filter:
   excluded_paths:
+    - includes/api/cocart/v1/
     - includes/api/legacy/
     - languages/
+    - tests/*
