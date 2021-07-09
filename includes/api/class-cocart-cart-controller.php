@@ -934,7 +934,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.4
+	 * @version 3.0.7
 	 * @param   WC_Product $product  - Product object associated with the cart item.
 	 * @param   int|float  $quantity - Quantity of product to validate availability.
 	 */
@@ -984,8 +984,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				}
 			}
 
-			_deprecated_hook( 'cocart_ok_to_add_response', '3.0.0', null, 'This filter is no longer used in the API.' );
-			_deprecated_hook( 'cocart_ok_to_add', '3.0.0', null, 'This filter is no longer used in the API.' );
+			cocart_deprecated_hook( 'cocart_ok_to_add_response', '3.0.0', null, 'This filter is no longer used in the API.' );
+			cocart_deprecated_hook( 'cocart_ok_to_add', '3.0.0', null, 'This filter is no longer used in the API.' );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

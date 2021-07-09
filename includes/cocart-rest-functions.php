@@ -8,6 +8,7 @@
  * @category Functions
  * @package  CoCart\Functions
  * @since    3.0.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -15,6 +16,29 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+/**
+ * Wrapper for deprecated hook so we can apply some extra logic.
+ *
+ * @since 3.0.7
+ * @param string $hook        The hook that was used.
+ * @param string $version     The version of WordPress that deprecated the hook.
+ * @param string $replacement The hook that should have been used.
+ * @param string $message     A message regarding the change.
+ */
+function cocart_deprecated_hook( $hook, $version, $replacement = null, $message = null ) {
+	if ( is_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
+
+		$message    = empty( $message ) ? '' : ' ' . $message;
+		$log_string = "{$hook} is deprecated since version {$version}";
+		$log_string .= $replacement ? "! Use {$replacement} instead." : ' with no alternative available.';
+
+		CoCart_Logger::log( $log_string . $message, 'debug' );
+	} else {
+		_deprecated_hook( $hook, $version, $replacement, $message );
+	}
+} // END cocart_deprecated_hook()
 
 /**
  * Wrapper for deprecated filter so we can apply some extra logic.
