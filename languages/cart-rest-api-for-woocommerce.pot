@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.7\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-07-08 04:04:37+00:00\n"
+"POT-Creation-Date: 2021-07-09 14:24:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1843,41 +1843,41 @@ msgstr ""
 msgid "%1$s Database Version is %2$s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:35
+#: includes/cocart-rest-functions.php:35 includes/cocart-rest-functions.php:61
 #. translators: %1$s: filter name, %2$s: version
 msgid "%1$s is deprecated since version %2$s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:37
+#: includes/cocart-rest-functions.php:37 includes/cocart-rest-functions.php:63
 #. translators: %s: filter name
 msgid "! Use %s instead."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:37
+#: includes/cocart-rest-functions.php:37 includes/cocart-rest-functions.php:63
 msgid " with no alternative available."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:147
+#: includes/cocart-rest-functions.php:173
 #. translators: %s: image URL
 msgid "Invalid URL %s."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:169
+#: includes/cocart-rest-functions.php:195
 #. translators: %s: image URL
 msgid "Error getting remote image %s."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:171
+#: includes/cocart-rest-functions.php:197
 #. translators: %s: error message
 msgid "Error: %s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:194
+#: includes/cocart-rest-functions.php:220
 #. translators: %s: error message
 msgid "Invalid image: %s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:377
+#: includes/cocart-rest-functions.php:403
 #. translators: %s: product name
 msgid "%s has been added to your cart."
 msgid_plural "%s have been added to your cart."
@@ -1958,7 +1958,7 @@ msgctxt "Item name in quotes"
 msgid "\"%s\""
 msgstr ""
 
-#: includes/cocart-rest-functions.php:370
+#: includes/cocart-rest-functions.php:396
 #. translators: %s: product name
 msgctxt "Item name in quotes"
 msgid "&ldquo;%s&rdquo;"

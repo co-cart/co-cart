@@ -31,8 +31,10 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 
 		$message    = empty( $message ) ? '' : ' ' . $message;
-		$log_string = "{$hook} is deprecated since version {$version}";
-		$log_string .= $replacement ? "! Use {$replacement} instead." : ' with no alternative available.';
+		/* translators: %1$s: filter name, %2$s: version */
+		$log_string  = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $hook, $version );
+		/* translators: %s: filter name */
+		$log_string .= $replacement ? sprintf( esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ), $replacement ) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );
 	} else {
