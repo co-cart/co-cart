@@ -328,12 +328,20 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.0.7 - 8th July, 2021 =
+= v3.0.7 - 14th July, 2021 =
 
-**🔥 This is a HOTFIX!**
+**🔒 This is a SECURTIY FIX!**
+
+> This release brings in a number of fixes to secure the plugin and keep up with WordPress code standards. It is highly recommended that you update to this release.
 
 * Fixed: Escaping HTML from requested cart key.
 * Fixed: Sanitized username and password with basic authentication.
+* Fixed: Yoda conditions.
+* Fixed: Localization for translators.
+* Updated: Getting started page with new lowest price to upgrade to CoCart Pro.
+* Dev: Documented parameter comments for functions that were missing.
+* Dev: Change the use of `date()` function to `gmdate()` function instead.
+* Dev: Change the use of `strip_tags()` function to `wp_strip_all_tags()` function instead.
 
 = v3.0.6 - 25th June, 2021 =
 
@@ -415,4 +423,4 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 = 3.0.7 =
 
-Fixed: Escaping HTML from requested cart key and sanitized username and password with basic authentication.
+This release brings in a number of fixes to secure the plugin and keep up with WordPress code standards.
