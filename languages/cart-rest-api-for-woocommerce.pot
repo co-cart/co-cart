@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.0.7\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-07-14 02:52:45+00:00\n"
+"POT-Creation-Date: 2021-07-14 03:44:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -535,7 +535,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:92
-#: includes/admin/views/html-getting-started.php:56
+#: includes/admin/views/html-getting-started.php:55
 msgid "View Documentation"
 msgstr ""
 
@@ -549,181 +549,181 @@ msgid ""
 "extensions."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:36
+#: includes/admin/views/html-getting-started.php:35
 msgid "Welcome to %s."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:38
+#: includes/admin/views/html-getting-started.php:37
 msgid ""
 "Thank you for choosing %1$s - the #1 REST API that handles the frontend of "
 "%2$s."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:40
+#: includes/admin/views/html-getting-started.php:39
 msgid ""
 "%s focuses on the front-end of the store helping you to manage shopping "
 "carts and allows developers to build a headless store in any framework of "
 "their choosing. No local storing required."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:42
+#: includes/admin/views/html-getting-started.php:41
 msgid ""
 "Now that you have %1$s installed, your ready to start developing. In the "
 "documentation you will find the API routes available along with action "
 "hooks and filters that allow you to customise %1$s to your needs."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:44
+#: includes/admin/views/html-getting-started.php:43
 msgid ""
 "There is also a knowledge base section that provides answers to most common "
 "questions should you find that you need help. This is best to be looked at "
 "first before contacting for support."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:46
+#: includes/admin/views/html-getting-started.php:45
 msgid ""
 "If you do need support or simply want to talk to other developers about "
 "taking your WooCommerce store headless, come join the %s community."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:51
+#: includes/admin/views/html-getting-started.php:50
 msgid ""
 "It appears you either do not have %1$s installed or have the minimum "
 "required version to be compatible with %2$s. Please install or update your "
 "%1$s setup."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:57
+#: includes/admin/views/html-getting-started.php:56
 msgid "Join Community"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:62
+#: includes/admin/views/html-getting-started.php:61
 msgid ""
 "Want to find compatible plugins or extensions for CoCart. Checkout our "
 "plugin suggestions that can help enhance your development and your "
 "customers shopping experience."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:65
+#: includes/admin/views/html-getting-started.php:64
 msgid "View Plugin Suggestions"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:78
+#: includes/admin/views/html-getting-started.php:77
 msgid "More features in %s"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:80
+#: includes/admin/views/html-getting-started.php:79
 msgid "Coupons"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:81
+#: includes/admin/views/html-getting-started.php:80
 msgid ""
 "Apply coupons, remove coupons, validate coupons should the cart have been "
 "left unattended for some time and get all applied coupons to the cart."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:83
+#: includes/admin/views/html-getting-started.php:82
 msgid "Cross Sells"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:84
+#: includes/admin/views/html-getting-started.php:83
 msgid ""
 "Return products based on the items in the cart to promote them to your "
 "customer."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:86
+#: includes/admin/views/html-getting-started.php:85
 msgid "Customer Details"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:87
+#: includes/admin/views/html-getting-started.php:86
 msgid ""
 "Return details of the customer in session. If they are a returning "
 "customer, you are ready to pre-fill your checkout form for them."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:89
+#: includes/admin/views/html-getting-started.php:88
 msgid "Fees"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:90
+#: includes/admin/views/html-getting-started.php:89
 msgid ""
 "Need to apply an additional fee to the cart? No problem. Add a fee, Get all "
 "fees applied, Remove all fees and calculate fees."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:92
+#: includes/admin/views/html-getting-started.php:91
 msgid "Payment Methods"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:93
+#: includes/admin/views/html-getting-started.php:92
 msgid ""
 "Return the payment methods available in your store for your customer to "
 "choose from if more than one."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:95
+#: includes/admin/views/html-getting-started.php:94
 msgid "Shipping Methods"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:96
+#: includes/admin/views/html-getting-started.php:95
 msgid ""
 "Once the shipping is calculated you can fetch the available shipping "
 "methods and set according to the customers selection."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:98
+#: includes/admin/views/html-getting-started.php:97
 msgid "Quantities"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:99
+#: includes/admin/views/html-getting-started.php:98
 msgid ""
 "Return each item in the cart with the quantity of that item the customer "
 "has added."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:101
+#: includes/admin/views/html-getting-started.php:100
 msgid "Removed Items"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:102
+#: includes/admin/views/html-getting-started.php:101
 msgid ""
 "Access to items removed from the cart by the customer should you wish to "
 "allow the customer to re-add an item to the cart if they made a mistake."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:104
+#: includes/admin/views/html-getting-started.php:103
 msgid "Cart Weight"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:105
+#: includes/admin/views/html-getting-started.php:104
 msgid ""
 "If you are shipping a lot of heavy items, knowing how much a customers cart "
 "weighs is a no brainier."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:107
+#: includes/admin/views/html-getting-started.php:106
 msgid "Subscriptions"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:108
+#: includes/admin/views/html-getting-started.php:107
 msgid ""
 "Integration with the official <a href=\"%s\" target=\"_blank\">WooCommerce "
 "Subscriptions</a> extension – see subscription details for any subscription "
 "product added to cart. Also extends support for Shipping Methods."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:114
+#: includes/admin/views/html-getting-started.php:113
 msgid ""
 "Upgrade to %s and get plugin updates and support per year for 1 website. "
 "You may upgrade your licence at any time, just pay the difference in cost!"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:117
+#: includes/admin/views/html-getting-started.php:116
 msgid "Upgrade Now"
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:124
+#: includes/admin/views/html-getting-started.php:123
 msgid "Testimonials"
 msgstr ""
 
@@ -748,7 +748,6 @@ msgstr ""
 
 #: includes/admin/views/html-notice-base-table-missing.php:52
 #: includes/admin/views/html-notice-custom.php:23
-#: includes/admin/views/html-notice-required-wc.php:44
 #: includes/admin/views/html-notice-updated.php:37
 msgid "Dismiss"
 msgstr ""
@@ -766,7 +765,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/views/html-notice-please-review.php:50
-#: includes/admin/views/html-notice-trying-beta.php:42
+#: includes/admin/views/html-notice-trying-beta.php:61
 #: includes/admin/views/html-notice-upgrade-warning.php:56
 msgid "Hide this notice forever."
 msgstr ""
@@ -779,51 +778,54 @@ msgstr ""
 msgid "Update Required!"
 msgstr ""
 
-#: includes/admin/views/html-notice-required-wc.php:25
+#: includes/admin/views/html-notice-required-wc.php:29
+#. translators: 1: CoCart, 2: WooCommerce, 3: Required WooCommerce version
 msgid "%1$s requires at least %2$s v%3$s or higher."
 msgstr ""
 
-#: includes/admin/views/html-notice-required-wc.php:43
+#: includes/admin/views/html-notice-required-wc.php:53
 msgid "Update WooCommerce"
 msgstr ""
 
-#: includes/admin/views/html-notice-required-wc.php:43
-msgid "Update %s"
-msgstr ""
-
-#: includes/admin/views/html-notice-requirement-wp.php:18
+#: includes/admin/views/html-notice-requirement-wp.php:22
+#. translators: 1: <strong>, 2: </strong>, 3: CoCart, 4: Required WordPress
+#. version number
 msgid ""
 "Sorry, %1$s%3$s%2$s requires WordPress %4$s or higher. Please upgrade your "
 "WordPress setup."
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:26
+#: includes/admin/views/html-notice-trying-beta.php:28
+#. translators: 1: CoCart
 msgid "Thank you for trying out v%s"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:29
+#: includes/admin/views/html-notice-trying-beta.php:35
+#. translators: 1: CoCart
 msgid ", a beta release of %s!"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:33
+#: includes/admin/views/html-notice-trying-beta.php:43
+#. translators: 1: CoCart
 msgid ", a release candidate of %s!"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:37
+#: includes/admin/views/html-notice-trying-beta.php:49
 msgid ""
 "If you have any questions or any feedback at all, please let me know. Any "
 "little bit you're willing to share helps the development of CoCart."
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:41
+#: includes/admin/views/html-notice-trying-beta.php:55
+#. translators: 1: Feedback URL, 2: CoCart, 3: Button Text
 msgid "Give Feedback for %2$s"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:41
+#: includes/admin/views/html-notice-trying-beta.php:58
 msgid "Give Feedback"
 msgstr ""
 
-#: includes/admin/views/html-notice-trying-beta.php:42
+#: includes/admin/views/html-notice-trying-beta.php:61
 #: includes/admin/views/html-notice-upgrade-warning.php:56
 msgid "Don't ask me again"
 msgstr ""
