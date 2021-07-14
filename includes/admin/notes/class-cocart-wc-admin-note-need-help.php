@@ -7,7 +7,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  3.0.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -35,9 +35,9 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access public
 	 * @static
-	 * @param $note_name  Note name.
-	 * @param $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param $source     Source of the note.
+	 * @param string $note_name  Note name.
+	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source     Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );

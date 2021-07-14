@@ -35,6 +35,9 @@ if ( ! class_exists( 'CoCart', false ) ) {
  * @return CoCart
  */
 if ( ! function_exists( 'CoCart' ) ) {
+	/**
+	 * Initialize CoCart.
+	 */
 	function CoCart() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 		return CoCart::init();
 	}

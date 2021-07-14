@@ -7,7 +7,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  2.8.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -35,9 +35,9 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access public
 	 * @static
-	 * @param $note_name  Note name.
-	 * @param $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param $source     Source of the note.
+	 * @param string $note_name  Note name.
+	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source     Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -91,8 +91,17 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		);
 
 		$args = array(
-			'title'   => sprintf( __( '6 things you can do with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),
-			'content' => sprintf( __( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart Products', 'CoCart' ),
+			'title'   => sprintf(
+				/* translators: %s: CoCart Products */
+				__( '6 things you can do with %s', 'cart-rest-api-for-woocommerce' ),
+				'CoCart Products'
+			),
+			'content' => sprintf(
+				/* translators: 1: %s: CoCart Products, 2: CoCart */
+				__( 'Fetching your products via the REST API should be easy with no authentication issues. Learn more about the six things you can do with %1$s to help your development with %2$s.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart Products',
+				'CoCart'
+			),
 			'type'    => $type,
 			'layout'  => 'thumbnail',
 			'image'   => esc_url( COCART_STORE_URL . 'wp-content/uploads/2020/03/rwmibqmoxry-128x214.jpg' ),

@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			__( 'Sorry, %1$s%3$s%2$s requires WordPress %4$s or higher. Please upgrade your WordPress setup.', 'cart-rest-api-for-woocommerce' ),
 			'<strong>',
 			'</strong>',
-			'CoCart',
+			esc_attr( 'CoCart' ),
 			CoCart::$required_wp
 		);
 		?>

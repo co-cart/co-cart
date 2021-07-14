@@ -7,7 +7,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.4.0
- * @version  2.8.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -46,9 +46,9 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access public
 	 * @static
-	 * @param $note_name  Note name.
-	 * @param $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param $source     Source of the note.
+	 * @param string $note_name  Note name.
+	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source     Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -108,21 +108,35 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @return array
+	 * @since   2.4.0
+	 * @version 3.0.7
+	 * @return  array
 	 */
 	public static function get_note_args() {
 		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED;
 
 		$args = array(
-			'title'   => sprintf( __( '%s is not Activated!', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
-			'content' => sprintf( __( 'You have %1$s installed but it\'s not activated yet. Activate %1$s to unlock the full cart experience and support for WooCommerce extensions like subscriptions now.', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
+			'title'   => sprintf(
+				/* translators: %s: CoCart Pro */
+				__( '%s is not Activated!', 'cart-rest-api-for-woocommerce' ),
+				'CoCart Pro'
+			),
+			'content' => sprintf(
+				/* translators: %s: CoCart Pro */
+				__( 'You have %1$s installed but it\'s not activated yet. Activate %1$s to unlock the full cart experience and support for WooCommerce extensions like subscriptions now.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart Pro'
+			),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
 					'name'    => 'activate-cocart-pro',
-					'label'   => sprintf( __( 'Activate %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ),
+					'label'   => sprintf(
+						/* translators: %s: CoCart Pro */
+						__( 'Activate %s', 'cart-rest-api-for-woocommerce' ),
+						'CoCart Pro'
+					),
 					'url'     => add_query_arg( array( 'action' => 'activate-cocart-pro' ), admin_url( 'plugins.php' ) ),
 					'status'  => $status,
 					'primary' => true,
@@ -139,7 +153,7 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 	 * @access public
 	 */
 	public function activate_plugin() {
-		if ( ! isset( $_GET['action'] ) || 'activate-cocart-pro' !== $_GET['action'] ) {
+		if ( ! isset( $_GET['action'] ) || 'activate-cocart-pro' !== $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 

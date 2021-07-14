@@ -11,7 +11,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Classes
  * @since    2.1.0
- * @version  3.0.3
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -152,7 +152,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		// Check if we requested to load a specific cart.
 		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			// Set requested cart key as customer ID in session.
-			$this->_customer_id = (string) trim( esc_html( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$this->_customer_id = (string) trim( esc_html( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		// Override cookie check to force load the authenticated users cart if switched without logging out first.

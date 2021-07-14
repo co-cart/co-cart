@@ -11,6 +11,7 @@
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/tests/</exclude-pattern>
+	<exclude-pattern>Gruntfile.js</exclude-pattern>
 
 	<!-- Show progress, show the error codes for each message (source). -->
 	<arg value="ps" />
@@ -49,6 +50,14 @@
 	</rule>
 
 	<rule ref="WordPress.PHP.StrictInArray.MissingTrueStrict">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="WordPress.PHP.PregQuoteDelimiter.Missing">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.ValidHookName.UseUnderscores">
 		<severity>0</severity>
 	</rule>
 

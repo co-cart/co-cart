@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Admin\Menus
  * @since    2.0.0
- * @version  3.0.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -35,13 +35,13 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @version 3.0.0
 		 */
 		public function admin_menu() {
-			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( $_GET['section'] );
+			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			switch ( $section ) {
 				case 'getting-started':
 					/* translators: %s: CoCart */
 					$title      = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
-					$breadcrumb = esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' );
+					$breadcrumb = esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' );
 					break;
 				default:
 					$title      = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
@@ -88,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 			 * @since 3.0.0
 			 */
 			if ( class_exists( '\Automattic\WooCommerce\Admin\Features\Navigation\Menu' ) && apply_filters( 'cocart_wc_navigation', true ) ) {
-				// Add Category
+				// Add Category.
 				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_category(
 					array(
 						'id'     => 'cocart-category',
@@ -97,11 +97,11 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					)
 				);
 
-				// Add Page
+				// Add Page.
 				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_item(
 					array(
 						'id'         => 'cocart',
-						'title'      => esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' ),
+						'title'      => esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ),
 						'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
 						'url'        => 'cocart',
 						'parent'     => 'cocart-category',
@@ -119,7 +119,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @version 2.6.0
 		 */
 		public static function cocart_page() {
-			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( $_GET['section'] );
+			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			switch ( $section ) {
 				case 'getting-started':
