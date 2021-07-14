@@ -17,9 +17,6 @@
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
 		<img src="https://poser.pugx.org/co-cart/co-cart/v/stable" alt="Latest Stable Version">
 	</a>
-	<a href="https://scrutinizer-ci.com/g/co-cart/co-cart/" target="_blank">
-		<img src="https://scrutinizer-ci.com/g/co-cart/co-cart/badges/quality-score.png?b=master" alt="Quality Score on Master branch" />
-	</a>
 </p>
 
 <p align="center">
