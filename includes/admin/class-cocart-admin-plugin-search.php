@@ -317,7 +317,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Let customers pay what they want with Name Your Price', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://woocommerce.com/wp-content/uploads/2020/07/kia-logo-retina.png',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
 					'info'              => array(
 						'requires'     => '4.4',
@@ -334,7 +334,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Create mix and match products with WooCommerce, for creating cases of customer-selected products.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://woocommerce.com/wp-content/uploads/2020/07/kia-logo-retina.png',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
 					'info'              => array(
 						'requires'     => '4.4',
