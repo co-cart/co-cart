@@ -6,7 +6,7 @@
  * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.0
- * @version  3.0.3
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -108,7 +108,7 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 
 				<hr>
 
-				<p class="price-tag"><sub>$</sub>99<sup>/yr</sup></p>
+				<p class="price-tag"><sub>$</sub>69<sup>/yr</sup></p>
 
 				<p><?php printf( __( 'Upgrade to %s and get plugin updates and support per year for 1 website. You may upgrade your licence at any time, just pay the difference in cost!', 'cart-rest-api-for-woocommerce' ), 'CoCart Pro' ); ?></p>
 
