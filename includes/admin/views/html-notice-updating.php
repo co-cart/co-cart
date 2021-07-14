@@ -23,7 +23,7 @@ $cron_cta            = $cron_disabled ? __( 'You can manually run queued updates
 		<strong>
 			<?php
 			echo sprintf(
-				/* translators: 1: CoCart */
+				/* translators: %s: CoCart */
 				esc_html__( '%s database update', 'cart-rest-api-for-woocommerce' ),
 				'CoCart'
 			);
@@ -31,7 +31,7 @@ $cron_cta            = $cron_disabled ? __( 'You can manually run queued updates
 		</strong><br>
 		<?php
 		echo sprintf(
-			/* translators: 1: CoCart */
+			/* translators: %s: CoCart */
 			esc_html__( '%s is updating the database in the background. The database update process may take a little while, so please be patient.', 'cart-rest-api-for-woocommerce' ),
 			'CoCart'
 		);

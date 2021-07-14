@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p>
 				<?php
 				echo sprintf(
-					/* translators: 1: CoCart */
+					/* translators: %s: CoCart */
 					esc_html__( '%s database update complete. Thank you for updating to the latest version!', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'
 				);
