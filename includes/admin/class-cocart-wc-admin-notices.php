@@ -5,10 +5,9 @@
  * Adds relevant information to help developers with CoCart via the WooCommerce Inbox.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin
  * @since    2.3.0
- * @version  2.8.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -68,9 +67,9 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 * @static
 		 * @since   2.3.0
 		 * @version 2.4.0
-		 * @param   $note_name  Note name.
-		 * @param   $seconds    How many seconds since CoCart was installed before the notice is shown.
-		 * @param   $source     Source of the note.
+		 * @param   string $note_name  Note name.
+		 * @param   string $seconds    How many seconds since CoCart was installed before the notice is shown.
+		 * @param   string $source     Source of the note.
 		 */
 		public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 			// Don't show the note if CoCart has not been active long enough.
@@ -84,7 +83,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 *
 		 * @access  public
 		 * @static
-		 * @param   array  The arguments of the note to use to create the note.
+		 * @param   array $args - The arguments of the note to use to create the note.
 		 * @since   2.3.0
 		 * @version 2.8.0
 		 * @return  object
@@ -124,7 +123,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				);
 			}
 
-			// Parse incoming $args into an array and merge it with $default_args
+			// Parse incoming $args into an array and merge it with $default_args.
 			$args = wp_parse_args( $args, $default_args );
 
 			if ( empty( $args['name'] ) || empty( $args['title'] ) || empty( $args['content'] ) || empty( $args['type'] ) ) {

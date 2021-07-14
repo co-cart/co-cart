@@ -5,7 +5,6 @@
  * Responsible for loading the REST API and all REST API namespaces.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\Classes
  * @since    1.0.0
  * @version  3.1.0
@@ -45,7 +44,7 @@ class CoCart_REST_API {
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
 
-		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/)
+		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
 		// Cache Control.
@@ -171,7 +170,7 @@ class CoCart_REST_API {
 	 */
 	private function maybe_load_cart() {
 		if ( CoCart_Authentication::is_rest_api_request() ) {
-			// WooCommerce is greater than v3.6 or less than v4.5
+			// WooCommerce is greater than v3.6 or less than v4.5.
 			if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_wc_version_lt_4_5() ) {
 				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
 				require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
@@ -222,7 +221,7 @@ class CoCart_REST_API {
 			$customer_id = $cookie[0];
 
 			// If the user is logged in and does not match ID in cookie then user has switched.
-			if ( $current_user_id !== $customer_id && $current_user_id != 0 ) {
+			if ( $customer_id !== $current_user_id && 0 !== $current_user_id ) {
 				/* translators: %1$s is previous ID, %2$s is current ID. */
 				CoCart_Logger::log( sprintf( __( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
 
@@ -248,7 +247,6 @@ class CoCart_REST_API {
 	 *
 	 * @access public
 	 * @since  2.1.0
-	 * @return object WC()->session
 	 */
 	public function initialize_session() {
 		// CoCart session handler class.
@@ -355,9 +353,9 @@ class CoCart_REST_API {
 	 *
 	 * @access public
 	 * @since  2.1.2
-	 * @param  bool   $skip
-	 * @param  string $request_uri
-	 * @return bool   $skip
+	 * @param  bool   $skip ( default: WP_DEBUG ).
+	 * @param  string $request_uri Requested REST API.
+	 * @return bool   $skip Results to WP_DEBUG or true if CoCart requested.
 	 */
 	public function prevent_cache( $skip, $request_uri ) {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
@@ -375,8 +373,9 @@ class CoCart_REST_API {
 	 * @access  public
 	 * @since   2.7.0
 	 * @version 3.0.0
-	 * @param   \WP_Error|mixed $result
-	 * @return  bool
+	 * @param   WP_Error|null|true $result WP_Error if authentication error, null if authentication
+	 *                                      method wasn't used, true if authentication succeeded.
+	 * @return  WP_Error|true $result WP_Error if authentication error, true if authentication succeeded.
 	 */
 	public function cocart_key_header( $result ) {
 		if ( ! empty( $result ) ) {
@@ -400,10 +399,10 @@ class CoCart_REST_API {
 		}
 
 		// Check if we requested to load a specific cart.
-		$cart_key = isset( $_REQUEST['cart_key'] ) ? esc_html( $_REQUEST['cart_key'] ) : $cart_key;
+		$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( esc_html( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// Send cart key in the header if it's not empty or ZERO.
-		if ( ! empty( $cart_key ) && $cart_key !== '0' ) {
+		if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
 			rest_get_server()->send_header( 'X-CoCart-API', $cart_key );
 		}
 

@@ -5,7 +5,6 @@
  * Functions for updating data, used by the background updater.
  *
  * @author   Sébastien Dumont
- * @category Functions
  * @package  CoCart\Functions
  * @since    3.0.0
  * @license  GPL-2.0+

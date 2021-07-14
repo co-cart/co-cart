@@ -5,9 +5,9 @@
  * Returns store details and all routes.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -42,7 +42,7 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Cart - cocart/v2 (GET)
+		// Get Cart - cocart/v2 (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -60,7 +60,7 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	 * This endpoint describes the general store details.
 	 *
 	 * @access public
-	 * @param  array $request
+	 * @param  WP_REST_Request $request - Full details about the request.
 	 * @return WP_REST_Response The API root index data.
 	 */
 	public function get_store( $request ) {

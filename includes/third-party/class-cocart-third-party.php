@@ -3,7 +3,6 @@
  * Handles support for Third Party.
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Third Party
  * @since    2.8.1
  * @version  3.0.0
@@ -17,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 
+	/**
+	 * Third Party Support.
+	 */
 	class CoCart_Third_Party {
 
 		/**
@@ -33,21 +35,19 @@ if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 		 * Load support for third-party hosts.
 		 *
 		 * @access public
-		 * @return string
 		 */
 		public function include_hosts() {
-			include_once COCART_ABSPATH . 'includes/third-party/hosting/pantheon/class-cocart-host-pantheon.php'; // Pantheon.io
+			include_once COCART_ABSPATH . 'includes/third-party/hosting/pantheon/class-cocart-host-pantheon.php'; // Pantheon.io.
 		}
 
 		/**
 		 * Load support for third-party plugins.
 		 *
 		 * @access public
-		 * @return string
 		 */
 		public function include_plugins() {
-			include_once COCART_ABSPATH . 'includes/third-party/plugin/jwt-auth-by-useful-team/class-cocart-plugin-jwt-auth.php'; // JWT Auth
-			include_once COCART_ABSPATH . 'includes/third-party/plugin/taxjar/class-cocart-plugin-taxjar.php'; // TaxJar
+			include_once COCART_ABSPATH . 'includes/third-party/plugin/jwt-auth-by-useful-team/class-cocart-plugin-jwt-auth.php'; // JWT Auth.
+			include_once COCART_ABSPATH . 'includes/third-party/plugin/taxjar/class-cocart-plugin-taxjar.php'; // TaxJar.
 		}
 
 	} // END class.

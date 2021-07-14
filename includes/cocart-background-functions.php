@@ -5,7 +5,6 @@
  * Functions for running in the background.
  *
  * @author   Sébastien Dumont
- * @category Functions
  * @package  CoCart\Functions
  * @since    3.1.0
  * @license  GPL-2.0+

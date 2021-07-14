@@ -5,7 +5,6 @@
  * Handles requests to the /products/ endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\Products\v2
  * @since    3.1.0
  * @license  GPL-2.0+
@@ -36,7 +35,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Products - cocart/v2/products (GET)
+		// Get Products - cocart/v2/products (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -51,8 +50,8 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			)
 		);
 
-		// Get a single product by ID - cocart/v2/products/32 (GET)
-		// Get a single product by SKU - cocart/v2/products/woo-vneck-tee (GET)
+		// Get a single product by ID - cocart/v2/products/32 (GET).
+		// Get a single product by SKU - cocart/v2/products/woo-vneck-tee (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<id>[\w-]+)',
@@ -312,7 +311,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			'average_rating'     => $average,
 			'review_count'       => $product->get_review_count( 'view' ),
 			'rating_count'       => $rating_count,
-			'rated_out_of'       => html_entity_decode( strip_tags( wc_get_rating_html( $average, $rating_count ) ) ),
+			'rated_out_of'       => html_entity_decode( wp_strip_all_tags( wc_get_rating_html( $average, $rating_count ) ) ),
 			'images'             => $this->get_images( $product ),
 			'categories'         => $this->get_taxonomy_terms( $product ),
 			'tags'               => $this->get_taxonomy_terms( $product, 'tag' ),

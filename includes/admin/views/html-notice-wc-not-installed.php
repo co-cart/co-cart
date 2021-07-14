@@ -3,10 +3,9 @@
  * Admin View: WooCommerce not installed or activated notice.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\Views
  * @since    2.0.0
- * @version  2.0.11
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -18,11 +17,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="notice notice-warning cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo COCART_URL_PATH . '/assets/images/brand/logo.jpg'; ?>" alt="CoCart Logo" />
+			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/logo.jpg' ); ?>" alt="CoCart Logo" />
 		</div>
 
 		<div class="cocart-notice-content">
-			<h3><?php echo sprintf( __( '%1$s requires %2$s to be installed and activated.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ); ?></h3>
+			<h3>
+				<?php
+				echo sprintf(
+					/* translators: 1: CoCart, 2: WooCommerce */
+					esc_html__( '%1$s requires %2$s to be installed and activated.', 'cart-rest-api-for-woocommerce' ),
+					'CoCart',
+					'WooCommerce'
+				);
+				?>
+			</h3>
 
 			<p>
 			<?php

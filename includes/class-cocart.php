@@ -3,7 +3,7 @@
  * CoCart core setup.
  *
  * @author   Sébastien Dumont
- * @category Package
+ * @package  CoCart
  * @since    2.6.0
  * @version  3.1.0
  * @license  GPL-2.0+
@@ -25,6 +25,7 @@ final class CoCart {
 	 *
 	 * @access public
 	 * @static
+	 * @var string
 	 */
 	public static $version = '3.1.0-rc.1';
 
@@ -44,6 +45,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 * @since  2.3.0
+	 * @var string
 	 */
 	public static $required_wp = '5.4';
 
@@ -54,6 +56,7 @@ final class CoCart {
 	 * @static
 	 * @since   1.0.0
 	 * @version 2.1.0
+	 * @var string
 	 */
 	public static $required_woo = '4.3';
 
@@ -63,6 +66,7 @@ final class CoCart {
 	 * @access public
 	 * @static
 	 * @since  2.6.0
+	 * @var string
 	 */
 	public static $required_php = '7.3';
 
@@ -132,8 +136,8 @@ final class CoCart {
 	 * @access private
 	 * @static
 	 * @since  1.2.0
-	 * @param  string      $name
-	 * @param  string|bool $value
+	 * @param  string      $name Name of constant.
+	 * @param  string|bool $value Value of constant.
 	 */
 	private static function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
@@ -176,7 +180,7 @@ final class CoCart {
 		// REST API functions.
 		include_once COCART_ABSPATH . 'includes/cocart-rest-functions.php';
 
-		// WP-CLI
+		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
 		}
@@ -257,13 +261,13 @@ final class CoCart {
 		if ( ! CoCart_Helpers::is_environment_compatible() ) {
 			self::deactivate_plugin();
 			/* translators: %1$s: CoCart, %2$s: Environment message */
-			wp_die( sprintf( __( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart_Helpers::get_environment_message() ) );
+			wp_die( sprintf( esc_html__( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart_Helpers::get_environment_message() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		if ( CoCart_Helpers::is_cocart_pro_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {
 			self::deactivate_plugin();
 			/* translators: %1$s: CoCart Lite, %2$s: CoCart Pro */
-			wp_die( sprintf( __( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart Lite', 'CoCart Pro' ) );
+			wp_die( sprintf( esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart Lite', 'CoCart Pro' ) );
 		}
 	} // END activation_check()
 
@@ -277,8 +281,8 @@ final class CoCart {
 	public static function deactivate_plugin() {
 		deactivate_plugins( plugin_basename( COCART_FILE ) );
 
-		if ( isset( $_GET['activate'] ) ) {
-			unset( $_GET['activate'] );
+		if ( isset( $_GET['activate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			unset( $_GET['activate'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 	} // END deactivate_plugin()
 
@@ -301,8 +305,8 @@ final class CoCart {
 	 * @static
 	 * @since   2.1.2
 	 * @version 3.1.0
-	 * @param   string WooCommerce Session Handler
-	 * @return  string CoCart Session Handler
+	 * @param   string $handler WooCommerce Session Handler.
+	 * @return  string $handler CoCart Session Handler.
 	 */
 	public static function session_handler( $handler ) {
 		if ( class_exists( 'WC_Session' ) ) {

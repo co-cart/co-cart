@@ -3,7 +3,6 @@
  * Admin View: Upgrade CoCart.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\Views
  * @since    3.1.0
  * @license  GPL-2.0+

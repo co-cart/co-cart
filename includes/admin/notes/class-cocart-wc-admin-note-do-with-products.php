@@ -5,7 +5,6 @@
  * Adds a note for the client giving a helping hand with accessing products via API.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
  * @version  3.1.0
@@ -36,9 +35,9 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access public
 	 * @static
-	 * @param $note_name  Note name.
-	 * @param $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param $source     Source of the note.
+	 * @param string $note_name  Note name.
+	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source     Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -93,7 +92,11 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 
 		$args = array(
 			'title'   => __( '6 things you can do with Products REST API', 'cart-rest-api-for-woocommerce' ),
-			'content' => sprintf( __( 'Fetching your products via the REST API is now easy. Learn more about the six things you can do with the products API to help your development with %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+			'content' => sprintf(
+				/* translators: %s: CoCart */
+				__( 'Fetching your products via the REST API is now easy. Learn more about the six things you can do with the products API to help your development with %s.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			),
 			'type'    => $type,
 			'layout'  => 'thumbnail',
 			'image'   => esc_url( COCART_STORE_URL . 'wp-content/uploads/2020/03/rwmibqmoxry-128x214.jpg' ),

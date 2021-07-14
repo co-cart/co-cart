@@ -3,7 +3,6 @@
  * Handles cart response formatting.
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Classes
  * @since    3.0.0
  * @license  GPL-2.0+
@@ -76,8 +75,8 @@ if ( ! class_exists( 'CoCart_Cart_Formatting' ) ) {
 		 * Remove any empty cart item data objects.
 		 *
 		 * @access public
-		 * @param  array $cart_item_data
-		 * @return array $cart_item_data
+		 * @param  array $cart_item_data Cart item data before.
+		 * @return array $cart_item_data Cart item data after.
 		 */
 		public function clean_empty_cart_item_data( $cart_item_data ) {
 			foreach ( $cart_item_data as $item => $data ) {

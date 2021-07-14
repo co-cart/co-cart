@@ -5,7 +5,6 @@
  * Handles the request to add items to the cart with /cart/add-item endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
  * @version  3.0.1
@@ -43,7 +42,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Add Item - cocart/v2/cart/add-item (POST)
+		// Add Item - cocart/v2/cart/add-item (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -105,7 +104,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				return $adding_to_cart;
 			}
 
-			// Add to cart handlers
+			// Add to cart handlers.
 			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 			if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
@@ -175,6 +174,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @version 3.0.0
 	 * @param   string          $product_id - Contains the id of the product to add to the cart.
 	 * @param   float           $quantity   - Contains the quantity of the item to add to the cart.
+	 * @param   null            $deprecated - Used to pass the variation id of the product to add to the cart.
 	 * @param   array           $variation  - Contains the selected attributes of a variation.
 	 * @param   array           $item_data  - Contains extra cart item data we want to pass into the item.
 	 * @param   WP_REST_Request $request    - Full details about the request.
@@ -412,6 +412,9 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 * @since  3.0.0
+	 * @param int|float       $value   - Number of quantity to validate.
+	 * @param WP_REST_Request $request - Full details about the request.
+	 * @param string          $param   - Argument parameters.
 	 * @return bool
 	 */
 	public function rest_validate_quantity_arg( $value, $request, $param ) {

@@ -3,7 +3,6 @@
  * Handles REST API authentication.
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Classes
  * @since    2.6.0
  * @version  3.0.0
@@ -115,7 +114,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
 			$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
+			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 			return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 		} // END is_rest_api_request()
@@ -227,33 +226,33 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * attacks, so the request can be authenticated by simply looking up the user
 		 * associated with the given username and password provided that it is valid.
 		 *
-		 * @access private
-		 * @since  3.0.0
-		 * @return int|bool
+		 * @access  private
+		 * @since   3.0.0
+		 * @version 3.0.7
+		 * @return  int|bool
 		 */
 		private function perform_basic_authentication() {
 			$this->auth_method = 'basic_auth';
 
 			// Check that we're trying to authenticate via headers.
 			if ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
-				$username = $_SERVER['PHP_AUTH_USER'];
-				$password = $_SERVER['PHP_AUTH_PW'];
+				$username = trim( sanitize_user( $_SERVER['PHP_AUTH_USER'] ) );
+				$password = trim( sanitize_text_field( $_SERVER['PHP_AUTH_PW'] ) );
 
 				// Check if the username provided was an email address and get the username if true.
 				if ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
 					$user     = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
 					$username = $user->user_login;
 				}
-			}
-			// Fallback to check if the username and password was passed via URL.
-			elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) {
-				$username = sanitize_user( $_REQUEST['username'] );
-				$password = trim( $_REQUEST['password'] );
+			} elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				// Fallback to check if the username and password was passed via URL.
+				$username = trim( sanitize_user( $_REQUEST['username'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$password = trim( sanitize_text_field( $_REQUEST['password'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				// Check if the username provided was an email address and get the username if true.
-				if ( is_email( $_REQUEST['username'] ) ) {
-					$user     = get_user_by( 'email', $_REQUEST['username'] );
-					$username = $user->user_login;
+				if ( is_email( $_REQUEST['username'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					$user     = get_user_by( 'email', $_REQUEST['username'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					$username = $user->user_login; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				}
 			}
 
@@ -276,12 +275,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Checks the WordPress environment to see if we are running CoCart locally.
 		 *
-		 * @access protected
-		 * @since  3.0.0
-		 * @return bool
+		 * @access  protected
+		 * @since   3.0.0
+		 * @version 3.0.7
+		 * @return  bool
 		 */
 		protected function is_wp_environment_local() {
-			if ( wp_get_environment_type() == 'local' || wp_get_environment_type() == 'development' ) {
+			if ( 'local' === wp_get_environment_type() || 'development' === wp_get_environment_type() ) {
 				return true;
 			}
 

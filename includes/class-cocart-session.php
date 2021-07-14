@@ -3,7 +3,6 @@
  * Handles loading cart from session.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\Classes
  * @since    2.1.0
  * @version  3.0.0
@@ -38,7 +37,7 @@ class CoCart_API_Session {
 	 * Returns true or false if the cart key is saved in the database.
 	 *
 	 * @access public
-	 * @param  string $cart_key
+	 * @param  string $cart_key Requested cart key.
 	 * @return bool
 	 */
 	public function is_cart_saved( $cart_key ) {
@@ -72,7 +71,7 @@ class CoCart_API_Session {
 		 *
 		 * @since 2.1.2
 		 */
-		$results = absint( $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key='_woocommerce_persistent_cart_" . get_current_blog_id() . "';" ) );
+		$results = absint( $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key='_woocommerce_persistent_cart_" . get_current_blog_id() . "';" ) );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		wp_cache_flush();
 
 		return $results;
@@ -108,7 +107,7 @@ class CoCart_API_Session {
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
 			$action          = self::get_action_query();
-			$cart_key        = trim( wp_unslash( $_REQUEST[ $action ] ) );
+			$cart_key        = isset( $_REQUEST[ $action ] ) ? trim( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$override_cart   = true;  // Override the cart by default.
 			$notify_customer = false; // Don't notify the customer by default.
 
@@ -120,7 +119,7 @@ class CoCart_API_Session {
 				$user_id      = $current_user->ID;
 
 				// Compare the user ID with the cart key.
-				if ( $user_id == $cart_key ) {
+				if ( $user_id === $cart_key ) {
 					/* translators: %s: cart key */
 					CoCart_Logger::log( sprintf( __( 'Cart key "%s" is already loaded as the user is logged in.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'errro' );
 				} else {
@@ -128,9 +127,8 @@ class CoCart_API_Session {
 					CoCart_Logger::log( sprintf( __( 'Customer is already logged in. Cart key "%s" cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
 				}
 				return;
-			}
-			// If user is not logged in, check that the cart key does not belong to a user registered.
-			else {
+			} else {
+				// If user is not logged in, check that the cart key does not belong to a user registered.
 				$user = get_user_by( 'id', $cart_key );
 
 				// If the user exists then just return.
@@ -143,12 +141,12 @@ class CoCart_API_Session {
 			// At this point, the cart should load into session with no issues as we have passed verification.
 
 			// Check if we are keeping the cart currently set via the web.
-			if ( ! empty( $_REQUEST['keep-cart'] ) && is_bool( $_REQUEST['keep-cart'] ) !== true ) {
+			if ( ! empty( $_REQUEST['keep-cart'] ) && is_bool( $_REQUEST['keep-cart'] ) !== true ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$override_cart = false;
 			}
 
 			// Check if we are notifying the customer via the web.
-			if ( ! empty( $_REQUEST['notify'] ) && is_bool( $_REQUEST['notify'] ) !== true ) {
+			if ( ! empty( $_REQUEST['notify'] ) && is_bool( $_REQUEST['notify'] ) !== true ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$notify_customer = true;
 			}
 
@@ -236,6 +234,7 @@ class CoCart_API_Session {
 
 			// If true, notify the customer that there cart has transferred over via the web.
 			if ( ! empty( $new_cart ) && $notify_customer ) {
+				/* translators: %1$s: Start of link to Shop archive. %2$s: Start of link to checkout page. %3$s: Closing link tag. */
 				wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 			}
 		}
@@ -258,7 +257,7 @@ class CoCart_API_Session {
 		$action = self::get_action_query();
 
 		// If we did not request to load a cart then just return.
-		if ( ! isset( $_REQUEST[ $action ] ) ) {
+		if ( ! isset( $_REQUEST[ $action ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return false;
 		}
 
@@ -270,7 +269,7 @@ class CoCart_API_Session {
 	 *
 	 * @access protected
 	 * @since  3.0.0
-	 * @return void
+	 * @return string
 	 */
 	protected static function get_action_query() {
 		/**

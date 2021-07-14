@@ -9,16 +9,13 @@
 		<img src="https://img.shields.io/static/v1?label=&message=5.4+-+5.7&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+5.4&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+5.5&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
 	</a>
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
 		<img src="https://poser.pugx.org/co-cart/co-cart/v/stable" alt="Latest Stable Version">
-	</a>
-	<a href="https://scrutinizer-ci.com/g/co-cart/co-cart/" target="_blank">
-		<img src="https://scrutinizer-ci.com/g/co-cart/co-cart/badges/quality-score.png?b=master" alt="Quality Score on Master branch" />
 	</a>
 </p>
 

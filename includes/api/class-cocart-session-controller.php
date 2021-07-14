@@ -5,7 +5,6 @@
  * Returns specified details from a specific session.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
  * @license  GPL-2.0+
@@ -43,7 +42,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (GET)
+		// Get Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<cart_key>[\w]+)',
@@ -58,7 +57,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			)
 		);
 
-		// Delete Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (DELETE)
+		// Delete Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (DELETE).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<cart_key>[\w]+)',
@@ -71,7 +70,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			)
 		);
 
-		// Get Cart Items in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6/items (GET)
+		// Get Cart Items in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6/items (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<cart_key>[\w]+)/items',

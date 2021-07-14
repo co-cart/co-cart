@@ -5,9 +5,9 @@
  * Returns a list of carts in session.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -43,7 +43,7 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Sessions - cocart/v2/sessions (GET)
+		// Get Sessions - cocart/v2/sessions (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -53,7 +53,7 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 					'callback'            => array( $this, 'get_carts_in_session' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
-			 // 'schema' => array( $this, 'get_item_schema' )
+			// 'schema' => array( $this, 'get_item_schema' )
 			)
 		);
 	} // register_routes()
@@ -77,9 +77,10 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access public
-	 * @since  3.0.0
-	 * @return WP_REST_Response Returns the carts in session from the database.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.7
+	 * @return  WP_REST_Response Returns the carts in session from the database.
 	 */
 	public function get_carts_in_session() {
 		try {
@@ -119,8 +120,8 @@ class CoCart_Sessions_V2_Controller extends CoCart_Cart_V2_Controller {
 					'cart_key'        => $cart['cart_key'],
 					'customers_name'  => $name,
 					'customers_email' => $email,
-					'cart_created'    => date( 'm/d/Y H:i:s', $cart['cart_created'] ),
-					'cart_expiry'     => date( 'm/d/Y H:i:s', $cart['cart_expiry'] ),
+					'cart_created'    => gmdate( 'm/d/Y H:i:s', $cart['cart_created'] ),
+					'cart_expiry'     => gmdate( 'm/d/Y H:i:s', $cart['cart_expiry'] ),
 					'cart_source'     => $cart_source,
 					'link'            => rest_url( sprintf( '/%s/%s', $this->namespace, 'session/' . $cart['cart_key'] ) ),
 				);

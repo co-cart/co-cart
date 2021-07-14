@@ -5,7 +5,6 @@
  * Handles the request to clear the cart with /cart/clear endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
  * @license  GPL-2.0+
@@ -42,7 +41,7 @@ class CoCart_Clear_Cart_v2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Clear Cart - cocart/v2/cart/clear (POST)
+		// Clear Cart - cocart/v2/cart/clear (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,

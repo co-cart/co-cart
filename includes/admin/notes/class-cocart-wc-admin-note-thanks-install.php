@@ -5,10 +5,9 @@
  * Adds a note for the client thanking them for installing the plugin.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
- * @version  3.0.0
+ * @version  3.0.7
  * @license  GPL-2.0+
  */
 
@@ -34,13 +33,11 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Add note.
 	 *
-	 * @access  public
+	 * @access public
 	 * @static
-	 * @since   2.3.0
-	 * @version 2.4.0
-	 * @param   $note_name  Note name.
-	 * @param   $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param   $source     Source of the note.
+	 * @param string $note_name  Note name.
+	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source     Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -70,7 +67,7 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	 * @access  public
 	 * @static
 	 * @since   2.3.0
-	 * @version 3.0.0
+	 * @version 3.0.7
 	 * @return  array
 	 */
 	public static function get_note_args() {
@@ -84,7 +81,11 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 		);
 
 		$args = array(
-			'title'   => sprintf( __( 'Thank you for installing %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+			'title'   => sprintf(
+				/* translators: %s: CoCart */
+				esc_attr__( 'Thank you for installing %s!', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			),
 			'content' => __( 'Now you are ready to start developing your headless store. Visit the documentation site to learn how to access the API, view examples and find many action hooks and filters and more.', 'cart-rest-api-for-woocommerce' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(

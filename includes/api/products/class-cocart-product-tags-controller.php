@@ -5,7 +5,6 @@
  * Handles requests to the products/tags endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\Products\v2
  * @since    3.1.0
  * @license  GPL-2.0+

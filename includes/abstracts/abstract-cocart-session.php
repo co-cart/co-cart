@@ -5,7 +5,6 @@
  * Extends WC_Session and added a few tweaks to support our features.
  *
  * @author   Sébastien Dumont
- * @category Abstracts
  * @package  CoCart\Abstracts
  * @since    3.0.0
  * @version  3.1.0

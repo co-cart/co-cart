@@ -5,7 +5,6 @@
  * Allows developers to extend CoCart by allowing to update the cart via custom callback.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\Classes
  * @since    3.1.0
  * @license  GPL-2.0+

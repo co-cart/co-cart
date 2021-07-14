@@ -3,7 +3,6 @@
  * CoCart - Installation related functions and actions.
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Classes
  * @since    1.2.0
  * @version  3.1.0
@@ -420,7 +419,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 */
 		public static function redirect_getting_started( $plugin ) {
 			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
-			if ( $plugin !== plugin_basename( COCART_FILE ) || isset( $_GET['activate-multi'] ) ) {
+			if ( plugin_basename( COCART_FILE ) !== $plugin || isset( $_GET['activate-multi'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				return;
 			}
 
@@ -444,9 +443,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			 * display a link to the Getting Started page.
 			 */
 			if ( defined( 'WP_CLI' ) && WP_CLI ) {
-				/* translators: %1$s: message, %2$s: URL, %3$s: CoCart */
 				WP_CLI::log(
 					WP_CLI::colorize(
+						/* translators: %1$s: message, %2$s: URL, %3$s: CoCart */
 						'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, 'CoCart' ) . '%n'
 					)
 				);
@@ -617,7 +616,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			$tables = self::get_tables();
 
 			foreach ( $tables as $table ) {
-				$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+				$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			}
 		} // END drop_tables()
 
@@ -664,11 +663,11 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 
 			foreach ( $files as $file ) {
 				if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-					$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'wb' );
+					$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'wb' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
 
 					if ( $file_handle ) {
-						fwrite( $file_handle, $file['content'] );
-						fclose( $file_handle );
+						fwrite( $file_handle, $file['content'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
+						fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 					}
 				}
 			}
