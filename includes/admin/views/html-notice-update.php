@@ -23,7 +23,7 @@ $update_url = wp_nonce_url(
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/logo.jpg' ); ?>" alt="CoCart Logo" />
+			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/logo.jpg' ); ?>" alt="CoCart Logo" />
 		</div>
 
 		<div class="cocart-notice-content">
