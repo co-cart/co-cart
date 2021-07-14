@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-rc.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-07-14 21:24:14+00:00\n"
+"POT-Creation-Date: 2021-07-14 22:22:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -348,14 +348,16 @@ msgid "Skip this step"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:286
-#: includes/admin/views/html-getting-started.php:38
+#: includes/admin/views/html-getting-started.php:50
+#. translators: 1: CoCart, 2: WooCommerce
 msgid ""
 "Thank you for choosing %1$s - the #1 REST API that handles the frontend of "
 "%2$s."
 msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:288
-#: includes/admin/views/html-getting-started.php:40
+#: includes/admin/views/html-getting-started.php:61
+#. translators: 1: CoCart
 msgid ""
 "%s focuses on the front-end of the store helping you to manage shopping "
 "carts and allows developers to build a headless store in any framework of "
@@ -419,7 +421,8 @@ msgid "You're ready!"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:457
-#: includes/admin/views/html-getting-started.php:42
+#: includes/admin/views/html-getting-started.php:71
+#. translators: 1: CoCart
 msgid ""
 "Now that you have %1$s installed, your ready to start developing. In the "
 "documentation you will find the API routes available along with action "
@@ -427,7 +430,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:459
-#: includes/admin/views/html-getting-started.php:44
+#: includes/admin/views/html-getting-started.php:79
 msgid ""
 "There is also a knowledge base section that provides answers to most common "
 "questions should you find that you need help. This is best to be looked at "
@@ -435,7 +438,8 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:461
-#: includes/admin/views/html-getting-started.php:46
+#: includes/admin/views/html-getting-started.php:87
+#. translators: %s: CoCart
 msgid ""
 "If you do need support or simply want to talk to other developers about "
 "taking your WooCommerce store headless, come join the %s community."
@@ -468,7 +472,7 @@ msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:502
 #: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:94
-#: includes/admin/views/html-getting-started.php:56
+#: includes/admin/views/html-getting-started.php:106
 msgid "View Documentation"
 msgstr ""
 
@@ -485,7 +489,7 @@ msgid "Checkout plugin suggestions by CoCart."
 msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:516
-#: includes/admin/views/html-getting-started.php:65
+#: includes/admin/views/html-getting-started.php:116
 msgid "View Plugin Suggestions"
 msgstr ""
 
@@ -506,7 +510,7 @@ msgid "Install CoCart VSCode Extension"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-setup-wizard.php:537
-#: includes/admin/views/html-getting-started.php:57
+#: includes/admin/views/html-getting-started.php:107
 msgid "Join Community"
 msgstr ""
 
@@ -794,19 +798,21 @@ msgid ""
 "extensions."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:36
+#: includes/admin/views/html-getting-started.php:40
+#. translators: 1: CoCart
 msgid "Welcome to %s."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:51
+#: includes/admin/views/html-getting-started.php:98
 #: includes/admin/views/html-upgrade-cocart.php:39
+#. translators: 1: WooCommerce, 2: CoCart
 msgid ""
 "It appears you either do not have %1$s installed or have the minimum "
 "required version to be compatible with %2$s. Please install or update your "
 "%1$s setup."
 msgstr ""
 
-#: includes/admin/views/html-getting-started.php:62
+#: includes/admin/views/html-getting-started.php:113
 msgid ""
 "Want to find compatible plugins or extensions for CoCart. Checkout our "
 "plugin suggestions that can help enhance your development and your "
