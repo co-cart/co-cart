@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			echo sprintf(
 				/* translators: %s: CoCart */
 				esc_html__( 'Thank you for trying out v%s', 'cart-rest-api-for-woocommerce' ),
-				esc_attr( strstr( COCART_VERSION ), '-', true )
+				esc_attr( strstr( COCART_VERSION, '-', true ) )
 			);
 
 			if ( CoCart_Helpers::is_cocart_beta() ) {
