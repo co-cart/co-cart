@@ -4,7 +4,6 @@
  * enter terms that match CoCart add-ons or view all add-ons.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin
  * @since    3.0.0
  * @version  3.0.1
@@ -242,10 +241,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return array List of add-ons.
 		 */
 		public function get_addons_list() {
-			$campaign_args = CoCart_Helpers::cocart_campaign( array(
-				'utm_campaign' => 'install-plugin',
-				'utm_content'  => 'plugin-suggestions',
-			) );
+			$campaign_args = CoCart_Helpers::cocart_campaign(
+				array(
+					'utm_campaign' => 'install-plugin',
+					'utm_content'  => 'plugin-suggestions',
+				)
+			);
 
 			return array(
 				'cocart-products'  => array(
@@ -310,7 +311,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function get_third_party_list() {
 			return array(
-				'woocommerce-name-your-price'        => array(
+				'woocommerce-name-your-price'            => array(
 					'name'              => 'WooCommerce Name Your Price',
 					'plugin'            => 'woocommerce-name-your-price',
 					'author'            => 'Kathy Darling',
@@ -327,7 +328,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/name-your-price/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-mix-and-match-products' => array(
+				'woocommerce-mix-and-match-products'     => array(
 					'name'              => 'WooCommerce Mix & Match Products',
 					'plugin'            => 'woocommerce-mix-and-match-products',
 					'author'            => 'Kathy Darling',
@@ -344,7 +345,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-mix-and-match-products/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-subscriptions'          => array(
+				'woocommerce-subscriptions'              => array(
 					'name'              => 'WooCommerce Subscriptions',
 					'plugin'            => 'woocommerce-subscriptions',
 					'author'            => 'WooCommerce',
@@ -362,7 +363,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-smart-coupons'          => array(
+				'woocommerce-smart-coupons'              => array(
 					'name'              => 'WooCommerce Smart Coupons',
 					'plugin'            => 'woocommerce-smart-coupons',
 					'author'            => 'StoreApps',
@@ -397,7 +398,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-advanced-shipping-packages/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-free-gift-coupons' => array(
+				'woocommerce-free-gift-coupons'          => array(
 					'name'              => 'WooCommerce Free Gift Coupons',
 					'plugin'            => 'woocommerce-free-gift-coupons',
 					'author'            => 'Backcourt Development',
@@ -698,7 +699,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 					$title          = wp_kses( $plugin['name'], $plugins_allowedtags );
 					$version        = wp_kses( $plugin['version'], $plugins_allowedtags );
-					$name           = strip_tags( $title . ' ' . $version );
+					$name           = wp_strip_all_tags( $title . ' ' . $version );
 					$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
 					$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
 					$compatible_php = is_php_version_compatible( $requires_php );

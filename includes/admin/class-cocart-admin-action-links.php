@@ -3,7 +3,6 @@
  * Adds links for CoCart on the plugins page.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin
  * @since    1.2.0
  * @version  2.8.3
@@ -76,13 +75,17 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				$metadata[1] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data['AuthorURI'] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data['Author'] . '</a>' );
 
 				if ( ! CoCart_Helpers::is_cocart_pro_activated() ) {
-					$campaign_args = CoCart_Helpers::cocart_campaign( array(
-						'utm_content' => 'go-pro',
-					) );
+					$campaign_args = CoCart_Helpers::cocart_campaign(
+						array(
+							'utm_content' => 'go-pro',
+						)
+					);
 				} else {
-					$campaign_args = CoCart_Helpers::cocart_campaign( array(
-						'utm_content' => 'has-pro',
-					) );
+					$campaign_args = CoCart_Helpers::cocart_campaign(
+						array(
+							'utm_content' => 'has-pro',
+						)
+					);
 				}
 
 				$campaign_args['utm_campaign'] = 'plugins-row';

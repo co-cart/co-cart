@@ -5,7 +5,6 @@
  * Adds a note to ask the client if they are ready to upgrade to CoCart Pro.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
  * @version  2.8.0
@@ -77,10 +76,12 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	public static function get_note_args() {
 		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
-		$campaign_args = CoCart_Helpers::cocart_campaign( array(
-			'utm_campaign' => 'wc-admin',
-			'utm_content'  => 'wc-inbox',
-		) );
+		$campaign_args = CoCart_Helpers::cocart_campaign(
+			array(
+				'utm_campaign' => 'wc-admin',
+				'utm_content'  => 'wc-inbox',
+			)
+		);
 
 		$args = array(
 			'title'   => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),

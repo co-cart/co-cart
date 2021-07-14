@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name: CoCart Lite
  * Plugin URI:  https://cocart.xyz
  * Description: A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.
@@ -31,11 +31,11 @@ if ( ! class_exists( 'CoCart', false ) ) {
  * Returns the main instance of CoCart and only runs if it does not already exists.
  *
  * @since   2.1.0
- * @version 3.0.0
+ * @version 3.0.7
  * @return CoCart
  */
 if ( ! function_exists( 'CoCart' ) ) {
-	function CoCart() {
+	function CoCart() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 		return CoCart::init();
 	}
 

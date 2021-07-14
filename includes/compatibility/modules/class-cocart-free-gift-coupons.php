@@ -3,7 +3,6 @@
  * Handles support for Free Gift Coupons extension.
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Compatibility\Modules
  * @since    3.0.0
  * @license  GPL-2.0+
@@ -20,6 +19,9 @@ if ( ! class_exists( 'WC_Free_Gift_Coupons' ) ) {
 
 if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 
+	/**
+	 * Free Gift Coupons Support.
+	 */
 	class CoCart_FGC_Compatibility {
 
 		/**

@@ -5,7 +5,6 @@
  * Adds a note to ask the client to activate CoCart Pro.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.4.0
  * @version  2.8.0

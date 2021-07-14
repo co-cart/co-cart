@@ -3,7 +3,6 @@
  * Handles support for Pantheon host.
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Third Party\Hosting
  * @since    2.8.1
  * @license  GPL-2.0+
@@ -16,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CoCart_Host_Pantheon' ) ) {
 
+	/**
+	 * Host: Pantheon.
+	 */
 	class CoCart_Host_Pantheon {
 
 		/**

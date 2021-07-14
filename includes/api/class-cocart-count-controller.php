@@ -5,7 +5,6 @@
  * Handles the request to count the items in the cart with /cart/items/count endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
  * @license  GPL-2.0+
@@ -42,7 +41,7 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Count Items in Cart - cocart/v2/cart/items/count (GET)
+		// Count Items in Cart - cocart/v2/cart/items/count (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -79,9 +78,8 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 			// Return count for removed items in cart.
 			if ( isset( $request['removed_items'] ) && is_bool( $request['removed_items'] ) && $request['removed_items'] ) {
 				$count = array_sum( wp_list_pluck( $controller->get_cart_instance()->get_removed_cart_contents(), 'quantity' ) );
-			}
-			// Return count for items in cart.
-			else {
+			} else {
+				// Return count for items in cart.
 				$count = $controller->get_cart_instance()->get_cart_contents_count();
 			}
 		} else {
@@ -89,7 +87,7 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Count_Items_Controller {
 			$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
 		}
 
-		if ( $return != 'numeric' && $count <= 0 ) {
+		if ( 'numeric' !== $return && $count <= 0 ) {
 			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
 
 			CoCart_Logger::log( $message, 'notice' );

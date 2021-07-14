@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards">
+<ruleset name="CoCart Coding Standards">
 	<description>CoCart Code Standards</description>
 
 	<file>.</file>
@@ -26,7 +26,7 @@
 	<config name="testVersion" value="7.0-" />
 
 	<!-- Rules -->
-	<rule ref="WooCommerce-Core">
+	<rule ref="CoCart-Core">
 		<exclude name="Core.Commenting.CommentTags.AuthorTag" />
 		<exclude name="WordPress.PHP.DontExtract" />
 	</rule>
@@ -41,7 +41,27 @@
 		<exclude-pattern>languages/</exclude-pattern>
 	</rule>
 
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>includes/compatibility/modules/*.php</exclude-pattern>
+		<exclude-pattern>includes/third-party/**/**/*.php</exclude-pattern>
+		<exclude-pattern>includes/third-party/**/*.php</exclude-pattern>
+		<exclude-pattern>includes/*.php</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.PHP.StrictInArray.MissingTrueStrict">
+		<severity>0</severity>
+	</rule>
+
 	<rule ref="PHPCompatibility">
+		<include-pattern>*\.php$</include-pattern>
 		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FunctionComment.ParamNameNoMatch">
+		<severity>0</severity>
 	</rule>
 </ruleset>

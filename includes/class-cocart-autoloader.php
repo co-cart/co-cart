@@ -3,7 +3,6 @@
  * CoCart - Autoloader.
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\AutoLoader
  * @since    2.0.0
  * @license  GPL-2.0+

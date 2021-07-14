@@ -5,7 +5,6 @@
  * Adds relevant information to help developers with CoCart via the WooCommerce Inbox.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin
  * @since    2.3.0
  * @version  2.8.0

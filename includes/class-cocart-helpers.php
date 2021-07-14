@@ -5,7 +5,6 @@
  * Provides functions that provide helpful data for the plugin.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\Classes
  * @since    2.3.0
  * @version  3.0.3
@@ -142,8 +141,8 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
 	 *
 	 * @access public
-	 * @param  string $version the version to compare
-	 * @return boolean true if the installed version of WooCommerce is >= $version
+	 * @param  string $version The version to compare.
+	 * @return boolean
 	 */
 	public static function is_wc_version_gte( $version ) {
 		if ( ! isset( self::$is_wc_version_gte[ $version ] ) ) {
@@ -156,8 +155,8 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is greater than $version.
 	 *
 	 * @access public
-	 * @param  string $version the version to compare
-	 * @return boolean true if the installed version of WooCommerce is > $version
+	 * @param  string $version The version to compare.
+	 * @return boolean
 	 */
 	public static function is_wc_version_gt( $version ) {
 		if ( ! isset( self::$is_wc_version_gt[ $version ] ) ) {
@@ -172,8 +171,8 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @since  2.6.0
-	 * @param  string $version the version to compare
-	 * @return boolean true if the installed version of WooCommerce is <= $version
+	 * @param  string $version The version to compare.
+	 * @return boolean
 	 */
 	public static function is_wc_version_lte( $version ) {
 		if ( ! isset( self::$is_wc_version_lte[ $version ] ) ) {
@@ -187,8 +186,8 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @since  2.6.0
-	 * @param  string $version the version to compare
-	 * @return boolean true if the installed version of WooCommerce is < $version
+	 * @param  string $version The version to compare.
+	 * @return boolean
 	 */
 	public static function is_wc_version_lt( $version ) {
 		if ( ! isset( self::$is_wc_version_lt[ $version ] ) ) {
@@ -217,7 +216,7 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WordPress is greater than $version.
 	 *
 	 * @access public
-	 * @param  string $version
+	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
 	public static function is_wp_version_gt( $version ) {
@@ -234,7 +233,7 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WordPress is greater than or equal to $version.
 	 *
 	 * @access public
-	 * @param  string $version
+	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
 	public static function is_wp_version_gte( $version ) {
@@ -252,7 +251,7 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @since  2.5.0
-	 * @param  string $version
+	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
 	public static function is_wp_version_lt( $version ) {
@@ -343,7 +342,7 @@ class CoCart_Helpers {
 			$active_plugins = array_merge( $active_plugins, get_option( 'active_sitewide_plugins', array() ) );
 		}
 
-		return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins );
+		return in_array( 'cocart-pro/cocart-pro.php', $active_plugins ) || array_key_exists( 'cocart-pro/cocart-pro.php', $active_plugins ); // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 	} // END is_cocart_pro_installed()
 
 	/**
@@ -373,15 +372,18 @@ class CoCart_Helpers {
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
-		return apply_filters( 'cocart_admin_screens', array(
-			'dashboard',
-			'dashboard-network',
-			'plugins',
-			'plugins-network',
-			'woocommerce_page_wc-status',
-			'toplevel_page_cocart',
-			'toplevel_page_cocart-network',
-		) );
+		return apply_filters(
+			'cocart_admin_screens',
+			array(
+				'dashboard',
+				'dashboard-network',
+				'plugins',
+				'plugins-network',
+				'woocommerce_page_wc-status',
+				'toplevel_page_cocart',
+				'toplevel_page_cocart-network',
+			)
+		);
 	} // END cocart_get_admin_screens()
 
 	/**
@@ -396,7 +398,7 @@ class CoCart_Helpers {
 		$screen    = get_current_screen();
 		$screen_id = $screen ? $screen->id : '';
 
-		if ( ! in_array( $screen_id, self::cocart_get_admin_screens() ) ) {
+		if ( ! in_array( $screen_id, self::cocart_get_admin_screens() ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 			return false;
 		}
 
@@ -437,6 +439,8 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since  3.0.3
+	 * @param  array $args Passed arguments.
+	 * @return array
 	 */
 	public static function cocart_campaign( $args = array() ) {
 		$defaults = array(
@@ -596,7 +600,7 @@ class CoCart_Helpers {
 	 */
 	public static function get_environment_message() {
 		/* translators: 1: CoCart, 2: Required PHP version */
-		return sprintf( __( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart::$required_php, self::get_php_version() );
+		return sprintf( esc_html__( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart::$required_php, self::get_php_version() );
 	} // END get_environment_message()
 
 	/**
@@ -615,7 +619,7 @@ class CoCart_Helpers {
 		}
 
 		if ( function_exists( 'memory_get_usage' ) ) {
-			$system_memory = @ini_get( 'memory_limit' );
+			$system_memory = @ini_get( 'memory_limit' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 
 			if ( function_exists( 'wc_let_to_num' ) ) {
 				$system_memory = wc_let_to_num( $system_memory );

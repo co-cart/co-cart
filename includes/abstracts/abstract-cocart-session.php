@@ -7,7 +7,6 @@
  * @link https://github.com/woocommerce/woocommerce/blob/master/includes/abstracts/abstract-wc-session.php
  *
  * @author   Sébastien Dumont
- * @category Abstracts
  * @package  CoCart\Abstracts
  * @since    3.0.0
  * @license  GPL-2.0+

@@ -3,7 +3,6 @@
  * Admin View: PHP Requirement Notice.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\Views
  * @since    2.6.0
  * @license  GPL-2.0+

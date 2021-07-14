@@ -5,7 +5,6 @@
  * Adds a note for the client giving a helping hand with accessing products via API.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce Admin\Notes
  * @since    2.3.0
  * @version  2.8.0
@@ -84,10 +83,12 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		$type   = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING;
 		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
-		$campaign_args = CoCart_Helpers::cocart_campaign( array(
-			'utm_campaign' => 'wc-admin',
-			'utm_content'  => 'wc-inbox',
-		) );
+		$campaign_args = CoCart_Helpers::cocart_campaign(
+			array(
+				'utm_campaign' => 'wc-admin',
+				'utm_content'  => 'wc-inbox',
+			)
+		);
 
 		$args = array(
 			'title'   => sprintf( __( '6 things you can do with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart Products' ),

@@ -5,7 +5,6 @@
  * Handles logging errors.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\Classes
  * @since    2.1.0
  * @version  3.0.0
@@ -23,6 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CoCart_Logger {
 
+	/**
+	 * @access public
+	 * @static
+	 * @var object $logger
+	 */
 	public static $logger;
 
 	/**
@@ -46,10 +50,10 @@ class CoCart_Logger {
 				self::$logger = wc_get_logger();
 			}
 
-			if ( $plugin == 'cocart-lite' ) {
+			if ( 'cocart-lite' === $plugin ) {
 				$log_entry = "\n" . '====CoCart Lite Version: ' . COCART_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-lite' );
-			} elseif ( $plugin == 'cocart-pro' ) {
+			} elseif ( 'cocart-pro' === $plugin ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-pro' );
 			} else {
@@ -58,7 +62,7 @@ class CoCart_Logger {
 				$context   = array( 'source' => apply_filters( 'cocart_log_entry_source', '' ) );
 			}
 
-			$log_time = date_i18n( get_option( 'date_format' ) . ' g:ia', current_time( 'timestamp' ) );
+			$log_time = date_i18n( get_option( 'date_format' ) . ' g:ia', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 
 			$log_entry .= '====Start Log ' . $log_time . '====' . "\n" . $message . "\n";
 			$log_entry .= '====End Log====' . "\n\n";

@@ -3,7 +3,6 @@
  * Manages CoCart dashboard assets.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin
  * @since    1.2.0
  * @version  3.0.0

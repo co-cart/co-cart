@@ -3,7 +3,6 @@
  * Admin View: Custom Notices
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\Views
  * @since    3.0.0
  * @license  GPL-2.0+

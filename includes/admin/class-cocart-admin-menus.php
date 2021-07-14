@@ -3,7 +3,6 @@
  * CoCart - Admin Menus.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\Menus
  * @since    2.0.0
  * @version  3.0.0
@@ -105,7 +104,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 						'title'      => esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' ),
 						'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
 						'url'        => 'cocart',
-						'parent'     => 'cocart-category'
+						'parent'     => 'cocart-category',
 					)
 				);
 			}

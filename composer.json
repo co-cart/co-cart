@@ -40,7 +40,7 @@
 	},
 	"require": {
 		"composer/installers": "1.11.0",
-		"co-cart/cocart-sniffs": "0.0.1"
+		"co-cart/cocart-sniffs": "0.0.2"
 	},
 	"require-dev": {
 		"wp-cli/i18n-command": "2.2.8",

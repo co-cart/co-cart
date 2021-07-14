@@ -3,7 +3,6 @@
  * Manages CoCart plugin update notices.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin
  * @since    2.0.12
  * @version  3.0.0

@@ -5,7 +5,6 @@
  * Forked the notice system from: https://github.com/woocommerce/woocommerce/blob/master/includes/admin/class-wc-admin-notices.php
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\Notices
  * @since    1.2.0
  * @version  3.0.0
@@ -74,7 +73,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			add_action( 'cocart_installed', array( $this, 'reset_admin_notices' ) );
 			add_action( 'wp_loaded', array( $this, 'hide_notices' ) );
 			add_action( 'init', array( $this, 'timed_notices' ) );
-	
+
 			if ( ! CoCart_Install::is_new_install() ) {
 				add_action( 'shutdown', array( $this, 'store_notices' ) );
 			}

@@ -5,7 +5,6 @@
  * Handles the request to get the totals of the cart with /cart/totals endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v2
  * @since    3.0.0
  * @license  GPL-2.0+
@@ -35,7 +34,7 @@ class CoCart_Totals_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Cart Totals - cocart/v2/cart/totals (GET)
+		// Get Cart Totals - cocart/v2/cart/totals (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,

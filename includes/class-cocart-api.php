@@ -5,10 +5,9 @@
  * Handles CoCart endpoint requests for CoCart API.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\Classes
  * @since    1.0.0
- * @version  3.0.0
+ * @version  3.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -73,8 +72,8 @@ class CoCart_API {
 	public function handle_api_requests() {
 		global $wp;
 
-		if ( ! empty( $_GET['cocart'] ) ) {
-			$wp->query_vars['cocart'] = sanitize_key( wp_unslash( $_GET['cocart'] ) );
+		if ( ! empty( $_GET['cocart'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$wp->query_vars['cocart'] = sanitize_key( wp_unslash( $_GET['cocart'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		// CoCart endpoint requests.

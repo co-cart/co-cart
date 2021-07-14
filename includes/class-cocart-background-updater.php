@@ -3,7 +3,6 @@
  * Background Updater
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Classes
  * @since    3.0.0
  * @version  3.0.5

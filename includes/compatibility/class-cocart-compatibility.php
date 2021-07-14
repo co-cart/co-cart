@@ -3,7 +3,6 @@
  * Extension Compatibility
  *
  * @author   Sébastien Dumont
- * @category Classes
  * @package  CoCart\Compatibility
  * @since    3.0.0
  * @license  GPL-2.0+
@@ -33,8 +32,8 @@ if ( ! class_exists( 'CoCart_Compatibility' ) ) {
 		 * @access public
 		 */
 		public function include_compatibility() {
-			include_once COCART_ABSPATH . 'includes/compatibility/modules/class-cocart-advanced-shipping-packages.php'; // Advanced Shipping Packages
-			include_once COCART_ABSPATH . 'includes/compatibility/modules/class-cocart-free-gift-coupons.php'; // Free Gift Coupons
+			include_once COCART_ABSPATH . 'includes/compatibility/modules/class-cocart-advanced-shipping-packages.php'; // Advanced Shipping Packages.
+			include_once COCART_ABSPATH . 'includes/compatibility/modules/class-cocart-free-gift-coupons.php'; // Free Gift Coupons.
 		}
 
 	} // END class.

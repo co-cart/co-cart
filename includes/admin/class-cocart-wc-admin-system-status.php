@@ -5,7 +5,6 @@
  * Adds additional related information to the WooCommerce System Status.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\WooCommerce System Status
  * @since    2.1.0
  * @version  3.0.0
@@ -453,9 +452,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			}
 
 			$tools['cocart_update_db'] = array(
-				'name'   => esc_html__( 'Update CoCart Database', 'cart-rest-api-for-woocommerce' ),
-				'button' => esc_html__( 'Update Database', 'cart-rest-api-for-woocommerce' ),
-				'desc'   => sprintf(
+				'name'     => esc_html__( 'Update CoCart Database', 'cart-rest-api-for-woocommerce' ),
+				'button'   => esc_html__( 'Update Database', 'cart-rest-api-for-woocommerce' ),
+				'desc'     => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
 					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
 					esc_html__( 'This will update CoCart\'s session table in the database to the latest version. This is only needed to be done if you prefer to update manually or the automatic update failed. Please ensure you make sufficient backups before proceeding.', 'cart-rest-api-for-woocommerce' )
@@ -609,7 +608,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			if ( 0 === count( $missing_tables ) ) {
 				$message = esc_html__( 'Database verified successfully.', 'cart-rest-api-for-woocommerce' );
 			} else {
-				$message = esc_html__( 'Verifying database: ', 'cart-rest-api-for-woocommerce' );
+				$message  = esc_html__( 'Verifying database: ', 'cart-rest-api-for-woocommerce' );
 				$message .= implode( ', ', $missing_tables );
 			}
 
