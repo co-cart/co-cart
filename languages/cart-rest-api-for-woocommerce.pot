@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-rc.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-07-14 22:22:59+00:00\n"
+"POT-Creation-Date: 2021-07-18 18:44:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2940,12 +2940,12 @@ msgid ""
 "customer."
 msgstr ""
 
-#: includes/class-cocart.php:264
+#: includes/class-cocart.php:300
 #. translators: %1$s: CoCart, %2$s: Environment message
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:270
+#: includes/class-cocart.php:306
 #. translators: %1$s: CoCart Lite, %2$s: CoCart Pro
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""

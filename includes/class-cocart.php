@@ -146,6 +146,42 @@ final class CoCart {
 	} // END define()
 
 	/**
+	 * Return the name of the package.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.8
+	 * @return string
+	 */
+	public static function get_name() {
+		return 'CoCart';
+	} // END get_name()
+
+	/**
+	 * Return the version of the package.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.8
+	 * @return string
+	 */
+	public static function get_version() {
+		return self::$version;
+	} // END get_version()
+
+	/**
+	 * Return the path to the package.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.8
+	 * @return string
+	 */
+	public static function get_path() {
+		return dirname( __DIR__ );
+	} // END get_path()
+
+	/**
 	 * Includes required core files.
 	 *
 	 * @access  public

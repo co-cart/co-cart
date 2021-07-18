@@ -19,6 +19,10 @@
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. ⚠️
 
+## v3.0.8 - 18th July, 2021
+
+* Dev: Plugin package tweaks for future CoCart project.
+
 ## v3.0.7 - 14th July, 2021
 
 **🔒 This is a SECURTIY FIX!**
