@@ -150,6 +150,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 				$controller->get_cart_instance()->calculate_totals();
 
 				$response = $controller->get_cart_contents( $request );
+				$response = apply_filters( 'cocart_remove_from_cart_custom_message', $response);
 
 				/* translators: %s: Item name. */
 				$message = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );

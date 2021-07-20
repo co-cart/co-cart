@@ -124,6 +124,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					$response = $controller->get_item( $was_added_to_cart['data'], $was_added_to_cart, $was_added_to_cart['key'], true );
 				} else {
 					$response = $controller->get_cart_contents( $request );
+					$response = apply_filters( 'cocart_add_to_cart_custom_message', $response, $was_added_to_cart );
 				}
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
