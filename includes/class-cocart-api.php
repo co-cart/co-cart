@@ -73,7 +73,7 @@ class CoCart_API {
 		global $wp;
 
 		if ( ! empty( $_GET['cocart'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$wp->query_vars['cocart'] = sanitize_key( wp_unslash( $_GET['cocart'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$wp->query_vars['cocart'] = trim( sanitize_key( wp_unslash( $_GET['cocart'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		// CoCart endpoint requests.
