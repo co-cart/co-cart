@@ -1,5 +1,9 @@
 # Changelog for CoCart Lite
 
+## v3.0.9 - 21st July, 2021
+
+* Corrected: Sanitize only. Some functions were escaped when not needed to.
+
 ## v3.0.8 - 18th July, 2021
 
 * Dev: Plugin package tweaks for future CoCart project.
