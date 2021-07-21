@@ -399,7 +399,7 @@ class CoCart_REST_API {
 		}
 
 		// Check if we requested to load a specific cart.
-		$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( esc_html( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// Send cart key in the header if it's not empty or ZERO.
 		if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
