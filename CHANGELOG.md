@@ -1,5 +1,9 @@
 # Changelog for CoCart Lite
 
+## v3.0.8 - 18th July, 2021
+
+* Dev: Plugin package tweaks for future CoCart project.
+
 ## v3.0.7 - 14th July, 2021
 
 **🔒 This is a SECURTIY FIX!**

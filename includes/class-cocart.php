@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart
  * @since    2.6.0
- * @version  3.0.5
+ * @version  3.0.8
  * @license  GPL-2.0+
  */
 
@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.0.7';
+	public static $version = '3.0.8';
 
 	/**
 	 * CoCart Database Schema version.
@@ -144,6 +144,42 @@ final class CoCart {
 			define( $name, $value );
 		}
 	} // END define()
+
+	/**
+	 * Return the name of the package.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.8
+	 * @return string
+	 */
+	public static function get_name() {
+		return 'CoCart';
+	} // END get_name()
+
+	/**
+	 * Return the version of the package.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.8
+	 * @return string
+	 */
+	public static function get_version() {
+		return self::$version;
+	} // END get_version()
+
+	/**
+	 * Return the path to the package.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.0.8
+	 * @return string
+	 */
+	public static function get_path() {
+		return dirname( __DIR__ );
+	} // END get_path()
 
 	/**
 	 * Includes required core files.

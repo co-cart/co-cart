@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.8
-Stable tag: 3.0.7
+Stable tag: 3.0.8
 WC requires at least: 4.3
 WC tested up to: 5.5
 License: GPLv3
@@ -327,6 +327,10 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.0.8 - 18th July, 2021 =
+
+* Dev: Plugin package tweaks for future CoCart project.
 
 = v3.0.7 - 14th July, 2021 =
 
