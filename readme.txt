@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.8
-Stable tag: 3.0.9
+Stable tag: 3.0.10
 WC requires at least: 4.3
 WC tested up to: 5.5
 License: GPLv3
@@ -328,6 +328,11 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.0.10 - 22nd July, 2021 =
+
+* Dev: Stopped custom upgrade notice from being called on plugin page when major update is available for those using WordPress 5.5 or greater. [See article](https://make.wordpress.org/plugins/2021/01/26/reminder-plugins-must-not-interfere-with-updates/)!
+* Dev: Package file added for better composer packaging support.
+
 = v3.0.9 - 21st July, 2021 =
 
 * Corrected: Sanitize only. Some functions were escaped when not needed to.
@@ -429,6 +434,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.0.9 =
+= 3.0.10 =
 
-Corrected: Sanitize only. Some functions were escaped when not needed to.
+Stopped custom upgrade notice from being called on plugin page when major update is available for those using WordPress 5.5 or greater.
