@@ -2,10 +2,12 @@
 /**
  * Manages CoCart plugin update notices.
  *
+ * @todo Deprecate this in the future.
+ *
  * @author   Sébastien Dumont
  * @package  CoCart\Admin
  * @since    2.0.12
- * @version  3.0.7
+ * @version  3.0.10
  * @license  GPL-2.0+
  */
 
@@ -63,16 +65,24 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  protected
 		 * @since   2.0.12
-		 * @version 2.6.1
+		 * @version 3.0.10
 		 * @param   string $version CoCart new version.
 		 * @return  string $upgrade_notice
 		 */
 		protected function get_upgrade_notice( $version ) {
+			/**
+			 * If WordPress version is 5.5 or greater then return nothing.
+			 * This is because of WordPress auto-update support.
+			 */
+			if ( CoCart_Helpers::is_wp_version_gte( '5.5' ) ) {
+				return '';
+			}
+
 			$transient_name = 'cocart_readme_upgrade_notice_' . $version;
 			$upgrade_notice = get_transient( $transient_name );
 
 			if ( false === $upgrade_notice ) {
-				$response = wp_safe_remote_get( 'https://plugins.svn.wordpress.org/' . COCART_SLUG . '/trunk/readme.txt' );
+				$response = wp_safe_remote_get( esc_url_raw( 'https://plugins.svn.wordpress.org/' . COCART_SLUG . '/trunk/readme.txt' ) );
 
 				if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
 					$upgrade_notice = $this->parse_update_notice( $response['body'], $version );

@@ -130,12 +130,12 @@ msgstr ""
 msgid "You don&#8217;t have permission to do this."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-screen-update.php:55
+#: includes/admin/class-cocart-admin-plugin-screen-update.php:57
 #. translators: %s: CoCart
 msgid "%s Upgrade Notice"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-screen-update.php:182
+#: includes/admin/class-cocart-admin-plugin-screen-update.php:192
 #. translators: 1: plugin name, 2: version mentioned, 3: details URL
 msgid ""
 "Because of the great feedback %1$s users have provided, <strong>%1$s "
