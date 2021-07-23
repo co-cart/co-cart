@@ -4,11 +4,10 @@
  *
  * Handles the request to view just the items in the cart with /cart/items endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +41,7 @@ class CoCart_Items_v2_Controller extends CoCart_Item_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Items - cocart/v2/cart/items (GET)
+		// Get Items - cocart/v2/cart/items (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -60,7 +59,7 @@ class CoCart_Items_v2_Controller extends CoCart_Item_Controller {
 	 * Returns all items in the cart.
 	 *
 	 * @access public
-	 * @return void
+	 * @return WP_REST_Response
 	 */
 	public function view_items() {
 		$controller = new CoCart_Cart_V2_Controller();

@@ -16,5 +16,6 @@ ratings:
   paths:
    - "includes/*"
 exclude_paths:
-- "languages/"
+- "includes/api/cocart/v1/"
 - "includes/api/legacy/"
+- "languages/"

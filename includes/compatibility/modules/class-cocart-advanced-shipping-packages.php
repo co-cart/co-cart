@@ -2,11 +2,10 @@
 /**
  * Handles support for Advanced Shipping Packages extension.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Compatibility\Modules
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Compatibility\Modules
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -39,12 +38,12 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 		 * @return string          Modified shipping package name.
 		 */
 		public function cocart_asp_shipping_package_name( $name, $i, $package ) {
-			if ( is_numeric( $i ) && 'shipping_package' == get_post_type( $i ) ) {
+			if ( is_numeric( $i ) && 'shipping_package' === get_post_type( $i ) ) {
 				$name = get_post_meta( $i, '_name', true );
 			}
 
 			// Default package name.
-			if ( $i === 0 && $title = get_option( 'advanced_shipping_packages_default_package_name', '' ) ) {
+			if ( 0 === $i && get_option( 'advanced_shipping_packages_default_package_name', '' ) === $title ) {
 				$name = $title;
 			}
 

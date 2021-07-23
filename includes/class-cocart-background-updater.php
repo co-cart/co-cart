@@ -2,12 +2,11 @@
 /**
  * Background Updater
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Classes
- * @since    3.0.0
- * @version  3.0.5
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   3.0.0
+ * @version 3.0.5
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

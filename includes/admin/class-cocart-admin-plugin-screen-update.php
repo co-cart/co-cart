@@ -2,12 +2,13 @@
 /**
  * Manages CoCart plugin update notices.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin
- * @since    2.0.12
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @todo Deprecate this in the future.
+ *
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   2.0.12
+ * @version 3.0.10
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -41,6 +42,8 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		/**
 		 * Show plugin changes on the plugins screen.
 		 *
+		 * @todo Deprecate this in the future.
+		 *
 		 * @access  public
 		 * @since   2.0.12
 		 * @version 2.6.1
@@ -64,16 +67,24 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  protected
 		 * @since   2.0.12
-		 * @version 2.6.1
+		 * @version 3.0.10
 		 * @param   string $version CoCart new version.
 		 * @return  string $upgrade_notice
 		 */
 		protected function get_upgrade_notice( $version ) {
+			/**
+			 * If WordPress version is 5.5 or greater then return nothing.
+			 * This is because of WordPress auto-update support.
+			 */
+			if ( CoCart_Helpers::is_wp_version_gte( '5.5' ) ) {
+				return '';
+			}
+
 			$transient_name = 'cocart_readme_upgrade_notice_' . $version;
 			$upgrade_notice = get_transient( $transient_name );
 
 			if ( false === $upgrade_notice ) {
-				$response = wp_safe_remote_get( 'https://plugins.svn.wordpress.org/' . COCART_SLUG . '/trunk/readme.txt' );
+				$response = wp_safe_remote_get( esc_url_raw( 'https://plugins.svn.wordpress.org/' . COCART_SLUG . '/trunk/readme.txt' ) );
 
 				if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
 					$upgrade_notice = $this->parse_update_notice( $response['body'], $version );
@@ -132,6 +143,8 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		/**
 		 * Displays a notice under the plugin row for CoCart.
 		 *
+		 * @todo Deprecate this in the future.
+		 *
 		 * @access  public
 		 * @since   2.0.3
 		 * @version 3.0.0
@@ -176,13 +189,13 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 					return;
 				}
 
-				echo '<tr class="plugin-update-tr' . $active_class . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . $notice_type . '"><p class="cart">';
+				echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">';
 
-				/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
 				printf(
+					/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
 					__( 'Because of the great feedback %1$s users have provided, <strong>%1$s v%2$s</strong> will be introducing a new and improved API in the future. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Sign Up to Test</a>.', 'cart-rest-api-for-woocommerce' ),
-					$plugin_name,
-					COCART_NEXT_VERSION,
+					esc_attr( $plugin_name ),
+					esc_attr( COCART_NEXT_VERSION ),
 					esc_url( COCART_STORE_URL . 'contact/' )
 				);
 

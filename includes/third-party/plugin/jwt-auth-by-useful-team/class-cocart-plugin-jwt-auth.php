@@ -2,11 +2,10 @@
 /**
  * Handles support for JWT Auth plugin.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Third Party\Plugin
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Third Party\Plugin
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -16,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CoCart_Plugin_JWT_Auth' ) ) {
 
+	/**
+	 * JWT Authentication.
+	 */
 	class CoCart_Plugin_JWT_Auth {
 
 		/**

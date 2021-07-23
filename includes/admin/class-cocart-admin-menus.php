@@ -2,12 +2,11 @@
 /**
  * CoCart - Admin Menus.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin\Menus
- * @since    2.0.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Menus
+ * @since   2.0.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -26,8 +25,12 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-			add_action( 'cocart_page_title_upgrade', function() { return __( 'Upgrade CoCart', 'cart-rest-api-for-woocommerce' ); });
-			add_action( 'cocart_page_wc_bar_breadcrumb_upgrade', function() { return __( 'Upgrade CoCart', 'cart-rest-api-for-woocommerce' ); });
+			add_action( 'cocart_page_title_upgrade', function() {
+				return __( 'Upgrade CoCart', 'cart-rest-api-for-woocommerce' );
+			} );
+			add_action( 'cocart_page_wc_bar_breadcrumb_upgrade', function() {
+				return __( 'Upgrade CoCart', 'cart-rest-api-for-woocommerce' );
+			} );
 			add_action( 'cocart_page_section_upgrade', array( $this, 'upgrade_cocart_content' ) );
 			add_filter( 'parent_file', array( $this, 'highlight_submenu_upgrade' ) );
 		} // END __construct()
@@ -40,13 +43,13 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @version 3.1.0
 		 */
 		public function admin_menu() {
-			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( $_GET['section'] );
+			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			switch ( $section ) {
 				case 'getting-started':
 					/* translators: %s: CoCart */
 					$title      = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
-					$breadcrumb = esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' );
+					$breadcrumb = esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' );
 					break;
 				default:
 					$title      = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
@@ -73,7 +76,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					'',
 					esc_attr__( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
 					apply_filters( 'cocart_screen_capability', 'manage_options' ),
-					admin_url( 'admin.php?page=cocart-setup' ),
+					admin_url( 'admin.php?page=cocart-setup' )
 				);
 			}
 
@@ -85,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					esc_attr__( 'Upgrade', 'cart-rest-api-for-woocommerce' ),
 					apply_filters( 'cocart_screen_capability', 'manage_options' ),
 					'upgrade-cocart',
-					array( $this, 'redirect_upgrade' ),
+					array( $this, 'redirect_upgrade' )
 				);
 			}
 
@@ -116,7 +119,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 			 * @since 3.0.0
 			 */
 			if ( class_exists( '\Automattic\WooCommerce\Admin\Features\Navigation\Menu' ) && apply_filters( 'cocart_wc_navigation', true ) ) {
-				// Add Category
+				// Add Category.
 				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_category(
 					array(
 						'id'     => 'cocart-category',
@@ -125,11 +128,11 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 					)
 				);
 
-				// Add Page
+				// Add Page.
 				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_item(
 					array(
 						'id'         => 'cocart',
-						'title'      => esc_attr( 'Getting Started', 'cart-rest-api-for-woocommerce' ),
+						'title'      => esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ),
 						'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
 						'url'        => 'cocart',
 						'parent'     => 'cocart-category',
@@ -147,7 +150,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @version 2.6.0
 		 */
 		public static function cocart_page() {
-			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( $_GET['section'] );
+			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			switch ( $section ) {
 				case 'getting-started':
@@ -205,10 +208,10 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		public function highlight_submenu_upgrade( $parent_file ) {
 			global $plugin_page;
 
-			$section = ! isset( $_GET['section'] ) ? '' : trim( $_GET['section'] );
+			$section = ! isset( $_GET['section'] ) ? '' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			if ( 'cocart' === $plugin_page && 'upgrade' === $section ) {
-				$plugin_page = 'upgrade-cocart';
+				$plugin_page = 'upgrade-cocart'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			}
 
 			return $parent_file;

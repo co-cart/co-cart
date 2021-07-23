@@ -2,12 +2,11 @@
 /**
  * Handles product validation.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Classes
- * @since    2.1.0
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   2.1.0
+ * @version 3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -34,7 +33,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 			// Prevent password products being added to the cart.
 			add_filter( 'cocart_add_to_cart_validation', array( $this, 'protected_product_add_to_cart' ), 10, 2 );
 
-			// Prevents variations that are not purchasable from being added to the cart. @since 2.7.2
+			// Prevents variations that are not purchasable from being added to the cart. @since 2.7.2.
 			add_filter( 'cocart_add_to_cart_validation', array( $this, 'variation_not_purchasable' ), 10, 5 );
 
 			// Correct product name for missing variation attributes.
@@ -44,6 +43,8 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 
 		/**
 		 * Error response for product types that are not allowed to be added to the cart.
+		 *
+		 * @throws  CoCart_Data_Exception Exception if invalid data is detected.
 		 *
 		 * @access  public
 		 * @since   2.1.0
@@ -60,9 +61,9 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 					$route = $request->get_route();
 				}
 
-				if ( ! empty( $route ) && ( false === strpos( $route, 'cocart/v2/add-item' ) ) && $product_data->get_type() == 'grouped' ) {
+				if ( ! empty( $route ) && ( false === strpos( $route, 'cocart/v2/add-item' ) ) && $product_data->get_type() === 'grouped' ) {
 					/* translators: %1$s: product type, %2$s: api route */
-					$message = sprintf( __( 'You cannot use this route to add "%s" products to the cart. Please use %2$s instead.', 'cart-rest-api-for-woocommerce' ), $product_data->get_type(), str_replace( 'add-item', 'add-items', $route ) );
+					$message = sprintf( __( 'You cannot use this route to add "%1$s" products to the cart. Please use %2$s instead.', 'cart-rest-api-for-woocommerce' ), $product_data->get_type(), str_replace( 'add-item', 'add-items', $route ) );
 				} else {
 					/* translators: %1$s: product name, %2$s: product type */
 					$message = sprintf( __( 'You cannot add "%1$s" to your cart as it is an "%2$s" product.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $product_data->get_type() );
@@ -138,8 +139,8 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * @param  bool  $passed       Result before validating.
 		 * @param  int   $product_id   Product ID.
 		 * @param  int   $quantity     Quantity of item.
-		 * @param  int   $variation_id Variation ID
-		 * @param  array $variation    Attributes of the variation
+		 * @param  int   $variation_id Variation ID.
+		 * @param  array $variation    Attributes of the variation.
 		 * @return bool  $passed       Result after validating.
 		 */
 		public function variation_not_purchasable( $passed, $product_id, $quantity, $variation_id, $variation ) {

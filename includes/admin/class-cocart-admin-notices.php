@@ -4,12 +4,11 @@
  *
  * Forked the notice system from: https://github.com/woocommerce/woocommerce/blob/master/includes/admin/class-wc-admin-notices.php
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin\Notices
- * @since    1.2.0
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Notices
+ * @since   1.2.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -55,7 +54,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			'check_wc'            => 'check_woocommerce_notice',
 			'plugin_review'       => 'plugin_review_notice',
 			'check_beta'          => 'check_beta_notice',
-			'upgrade_warning'     => 'upgrade_warning_notice',
 			'base_tables_missing' => 'base_tables_missing_notice',
 			'setup_wizard'        => 'setup_wizard_notice',
 		);
@@ -125,7 +123,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since  3.0.0
 		 */
 		public function reset_admin_notices() {
-			self::add_notice( 'upgrade_warning' );
 			self::add_notice( 'check_php' );
 			self::add_notice( 'check_wp' );
 			self::add_notice( 'check_wc' );
@@ -320,28 +317,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END timed_notices()
 
 		/**
-		 * Shows an upgrade warning notice if the installed version is less
-		 * than the new release coming soon.
-		 *
-		 * @access  public
-		 * @since   1.2.3
-		 * @version 3.0.0
-		 * @return  void
-		 */
-		public function upgrade_warning_notice() {
-			$version = strstr( COCART_VERSION, '-', true );
-
-			// If version returns empty then just set as the current plugin version.
-			if ( empty( $version ) ) {
-				$version = COCART_VERSION;
-			}
-
-			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( $version, COCART_NEXT_VERSION, '<' ) ) {
-				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-upgrade-warning.php';
-			}
-		} // END upgrade_warning_notice()
-
-		/**
 		 * If we need to update the database, include a message with the DB update button.
 		 *
 		 * @access public
@@ -355,7 +330,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( CoCart_Install::needs_db_update() ) {
 				$next_scheduled_date = WC()->queue()->get_next( 'cocart_run_update_callback', null, 'cocart-db-updates' );
 
-				if ( $next_scheduled_date || ! empty( $_GET['do_update_cocart'] ) ) { // WPCS: input var ok, CSRF ok.
+				if ( $next_scheduled_date || ! empty( $_GET['do_update_cocart'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					include COCART_ABSPATH . 'includes/admin/views/html-notice-updating.php';
 				} else {
 					include COCART_ABSPATH . 'includes/admin/views/html-notice-update.php';
@@ -413,12 +388,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 				// WooCommerce is Not Installed or Activated Notice.
 				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-wc-not-installed.php';
-			}
-			/**
-			 * Displays a warning message if minimum version of WooCommerce check fails and
-			 * provides an update button if the user has admin capabilities to update the plugin.
-			 */
-			elseif ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+			} elseif ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
+				/**
+				 * Displays a warning message if minimum version of WooCommerce check fails and
+				 * provides an update button if the user has admin capabilities to update the plugin.
+				 */
 				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-required-wc.php';
 			}
 		} // END check_woocommerce_notice()

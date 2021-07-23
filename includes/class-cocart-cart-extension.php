@@ -4,11 +4,10 @@
  *
  * Allows developers to extend CoCart by allowing to update the cart via custom callback.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\Classes
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,6 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CoCart_Cart_Extension {
 
+	/**
+	 * Registered Callbacks.
+	 *
+	 * @access protected
+	 * @var    array $registered_callbacks - Registered callbacks.
+	 */
 	protected $registered_callbacks = array();
 
 	/**
@@ -31,6 +36,11 @@ class CoCart_Cart_Extension {
 		$this->init();
 	} // END __construct()
 
+	/**
+	 * Initialize Callbacks.
+	 *
+	 * @access protected
+	 */
 	protected function init() {
 		/**
 		 * Hook: cocart_register_extension_callback.

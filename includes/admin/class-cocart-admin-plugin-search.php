@@ -3,12 +3,11 @@
  * Includes cards in the plugin search results when users
  * enter terms that match CoCart add-ons or view all add-ons.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin
- * @since    3.0.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   3.0.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -87,7 +86,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * action hook to return our results.
 		 *
 		 * @access public
-		 * @param  object $args
+		 * @param  object $args Default arguments.
 		 * @return object $args
 		 */
 		public function plugin_list_args( $args ) {
@@ -96,7 +95,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			$per_page = 30;
 
 			$cocart_args = array(
-				'page'              => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0,
+				'page'              => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				'per_page'          => $per_page,
 				'author'            => 'cocartforwc',
 				'installed_plugins' => array_keys( $installed_plugins ),
@@ -160,7 +159,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				</p>
 
 				<p>
-					<?php print( __( 'Some of these plugins require a 3rd party plugin or extension to support it’s features. See plugin requirement at the bottom of each plugin card.', 'cart-rest-api-for-woocommerce' ) ); ?>
+					<?php print( esc_html__( 'Some of these plugins require a 3rd party plugin or extension to support it’s features. See plugin requirement at the bottom of each plugin card.', 'cart-rest-api-for-woocommerce' ) ); ?>
 				</p>
 
 			</div>
@@ -185,8 +184,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				COCART_SLUG . '-plugin-search',
 				'CoCartPluginSearch',
 				array(
-					/* translators: %s: CoCart */
 					'legend'      => sprintf(
+						/* translators: %s: CoCart */
 						esc_html__(
 							'This suggestion was made by %s, the awesome REST API plugin already installed on your site.',
 							'cart-rest-api-for-woocommerce'
@@ -255,7 +254,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'plugin'            => 'acf',
 					'search_terms'      => 'advanced, acf, fields, custom fields, meta, repeater',
 					'short_description' => esc_html__( 'Returns all custom meta data saved for all products using Advanced Custom Fields.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
+					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
 					'requirement'       => 'CoCart Products',
 					'info'              => array(
 						'requires'     => '5.2',
@@ -272,7 +271,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'plugin'            => 'yoast-seo',
 					'search_terms'      => 'yoast, seo, xml sitemap, content analysis, readability, schema',
 					'short_description' => esc_html__( 'Returns all Yoast SEO data for all products, product categories and tags.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/logo.jpg',
+					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
 					'requirement'       => 'CoCart Products',
 					'info'              => array(
 						'requires'     => '5.2',
@@ -301,7 +300,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Let customers pay what they want with Name Your Price', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://woocommerce.com/wp-content/uploads/2020/07/kia-logo-retina.png',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
 					'info'              => array(
 						'requires'     => '4.4',
@@ -318,7 +317,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Create mix and match products with WooCommerce, for creating cases of customer-selected products.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://woocommerce.com/wp-content/uploads/2020/07/kia-logo-retina.png',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
 					'info'              => array(
 						'requires'     => '4.4',
@@ -336,7 +335,11 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'search_terms'      => 'subscription, product page feature, recurring payments, enhancements',
 					'short_description' => esc_html__( 'Sell products and services with recurring payments in your WooCommerce store.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
-					'requirement'       => sprintf( esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+					'requirement'       => sprintf(
+						/* translators: %s: CoCart */
+						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					),
 					'plugin_does'       => esc_html__( 'Supported With', 'cart-rest-api-for-woocommerce' ),
 					'info'              => array(
 						'requires'     => '4.0',
@@ -354,7 +357,11 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'search_terms'      => 'coupon, credit, store credit, gift, certificate, voucher, discount, gift certificate, gift voucher, customer, self service',
 					'short_description' => esc_html__( 'Grow your sales and customers using discounts, coupons, credits, vouchers, product giveaways, offers and promotions.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
-					'requirement'       => sprintf( esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+					'requirement'       => sprintf(
+						/* translators: %s: CoCart */
+						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					),
 					'plugin_does'       => esc_html__( 'Compatible With', 'cart-rest-api-for-woocommerce' ),
 					'info'              => array(
 						'requires'     => '4.0',
@@ -424,7 +431,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * Returns both CoCart addons and supported extensions.
 		 *
 		 * @access public
-		 * @return void
+		 * @return array
 		 */
 		public function get_suggestions() {
 			return array_merge( self::get_addons_list(), self::get_third_party_list() );
@@ -436,8 +443,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @access  public
 		 * @since   3.0.0
 		 * @version 3.1.0
-		 * @param   array $inject Plugin information from WordPress.org
-		 * @param   array $data   Plugin information from CoCart
+		 * @param   array $inject Plugin information from WordPress.org.
+		 * @param   array $data   Plugin information from CoCart.
 		 * @return  array         Plugin results to inject.
 		 */
 		public function get_inject_data( $inject, $data ) {
@@ -513,8 +520,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				// Override plugin slug to identify suggestion.
 				$inject_data['slug'] = 'cocart-plugin-search';
 
-				// Override card title and icon. /* translators: %s: Plugin author */
-				$inject_data['name']  = '<h3>' . $inject_data['name'] . '</h3><strong>' . sprintf( esc_html__( 'by %s', 'cart-rest-api-for-woocommerce' ), $inject_data['author'] ) . '</strong>';
+				// Override card title and icon.
+				$inject_data['name'] = '<h3>' . $inject_data['name'] . '</h3><strong>' . sprintf(
+					/* translators: %s: Plugin author */
+					esc_html__( 'by %s', 'cart-rest-api-for-woocommerce' ),
+					$inject_data['author']
+				) . '</strong>';
 				$inject_data['icons'] = $inject_data['logo'];
 
 				// Lowercase, trim, remove punctuation/special chars, decode url, remove 'cart-rest-api-for-woocommerce'.
@@ -632,9 +643,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return array $links Returns our related links or falls back to default.
 		 */
 		public function insert_related_links( $links, $plugin ) {
-			if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'cocart' ) {
+			if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$links = self::get_related_links( $links, $plugin );
-			} elseif ( 'cocart-plugin-search' == $plugin['slug'] ) {
+			} elseif ( 'cocart-plugin-search' === $plugin['slug'] ) {
 				$links = self::get_suggestion_links( $plugin );
 			} else {
 				return $links;
@@ -653,9 +664,15 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
 				// Add plugin requirement.
-				if ( $key == $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
-					/* translators: %4$s: plugin does, %3$s: requirement */
-					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf( esc_html__( '%1$sPlugin %4$s: %2$s%3$s', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>', esc_html( $plugin['requirement'] ), $plugin['plugin_does'] ) . '</div>';
+				if ( $key === $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
+					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf(
+						/* translators: %4$s: plugin does, %3$s: requirement */
+						esc_html__( '%1$sPlugin %4$s: %2$s%3$s', 'cart-rest-api-for-woocommerce' ),
+						'<strong>',
+						'</strong>',
+						esc_html( $plugin['requirement'] ),
+						$plugin['plugin_does']
+					) . '</div>';
 				}
 			}
 
@@ -667,7 +684,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 *
 		 * @access public
 		 * @param  array $links  Related links before change.
-		 * @param  array $plugin Plugin details
+		 * @param  array $plugin Plugin details.
 		 * @return array $links  Related links after change.
 		 */
 		public function get_related_links( $links, $plugin ) {
@@ -678,7 +695,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * Returns related links for suggested plugin.
 		 *
 		 * @access public
-		 * @param  array $plugin Plugin details
+		 * @param  array $plugin Plugin details.
 		 * @return array $links  Related links after change.
 		 */
 		public function get_suggestion_links( $plugin ) {
@@ -694,19 +711,19 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @since   3.0.0
 		 * @version 3.1.0
 		 * @param   array $links  Related links before change.
-		 * @param   array $plugin Plugin details
+		 * @param   array $plugin Plugin details.
 		 * @return  array $links  Related links after change.
 		 */
 		public function get_action_links( $links = array(), $plugin ) {
 			$plugins_allowedtags = self::plugins_allowedtags();
 
 			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
-				if ( $key == $plugin['slug'] ) {
-					$links = array(); // Reset links if plugin is not from WP.org
+				if ( $key === $plugin['slug'] ) {
+					$links = array(); // Reset links if plugin is not from WP.org.
 
 					$title          = wp_kses( $plugin['name'], $plugins_allowedtags );
 					$version        = wp_kses( $plugin['version'], $plugins_allowedtags );
-					$name           = strip_tags( $title . ' ' . $version );
+					$name           = wp_strip_all_tags( $title . ' ' . $version );
 					$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
 					$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
 					$compatible_php = is_php_version_compatible( $requires_php );

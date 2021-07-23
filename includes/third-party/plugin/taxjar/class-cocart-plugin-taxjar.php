@@ -2,11 +2,10 @@
 /**
  * Handles support for TaxJar plugin.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Third Party\Plugin
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Third Party\Plugin
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -16,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 
+	/**
+	 * TaxJar.
+	 */
 	class CoCart_Plugin_TaxJar {
 
 		/**
@@ -34,6 +36,7 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 		 * when CoCart API is requested.
 		 *
 		 * @access public
+		 * @param bool $should_calculate Determines whether TaxJar should calculate tax on the cart.
 		 * @return bool
 		 */
 		public function maybe_calculate_tax( $should_calculate ) {

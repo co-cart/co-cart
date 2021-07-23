@@ -4,11 +4,10 @@
  *
  * Handles the request to remove items in the cart with /cart/item endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +41,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Remove Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (DELETE)
+		// Remove Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (DELETE).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',

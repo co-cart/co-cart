@@ -2,11 +2,10 @@
 /**
  * Handles the REST API response even if it returns an error.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Classes
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -44,7 +43,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 				 * 2. The response returned nothing because the cart is empty.
 				 * 3. The developer filtered the response incorrectly and returned nothing.
 				 */
-				if ( $rest_base !== 'cart' && $rest_base !== 'session' && empty( $response ) ) {
+				if ( 'cart' !== $rest_base && 'session' !== $rest_base && empty( $response ) ) {
 					/* translators: %s: REST API URL */
 					throw new CoCart_Data_Exception( 'cocart_response_returned_empty', sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $namespace, $rest_base ) ) ) );
 				}

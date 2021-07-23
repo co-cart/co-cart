@@ -4,11 +4,10 @@
  *
  * Handles the request to update items in the cart with /cart/item endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -43,7 +42,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Update Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (POST)
+		// Update Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',
@@ -164,7 +163,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 
 					$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
-					if ( $quantity != $current_data['quantity'] ) {
+					if ( $quantity !== $current_data['quantity'] ) {
 						do_action( 'cocart_item_quantity_changed', $item_key, $new_data );
 
 						/**
@@ -196,21 +195,32 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 
 					// Return response based on product quantity increment.
 					if ( $quantity > $current_data['quantity'] ) {
-						/* translators: 1: product name, 2: new quantity */
 						$response = array(
-							'message'  => sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
+							'message'  => sprintf(
+								/* translators: 1: product name, 2: new quantity */
+								__( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+								$product_data->get_name(),
+								$new_data['quantity']
+							),
 							'quantity' => $new_data['quantity'],
 						);
 					} elseif ( $quantity < $current_data['quantity'] ) {
-						/* translators: 1: product name, 2: new quantity */
 						$response = array(
-							'message'  => sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
+							'message'  => sprintf(
+								/* translators: 1: product name, 2: new quantity */
+								__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+								$product_data->get_name(),
+								$new_data['quantity']
+							),
 							'quantity' => $new_data['quantity'],
 						);
 					} else {
-						/* translators: %s: product name */
 						$response = array(
-							'message'  => sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ),
+							'message'  => sprintf(
+								/* translators: %s: product name */
+								__( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ),
+								$product_data->get_name()
+							),
 							'quantity' => $quantity,
 						);
 					}

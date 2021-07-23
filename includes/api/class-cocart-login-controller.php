@@ -4,11 +4,10 @@
  *
  * Handles the request to login the user /login endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +41,7 @@ class CoCart_Login_v2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Login user - cocart/v2/login (POST)
+		// Login user - cocart/v2/login (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,

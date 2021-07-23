@@ -322,6 +322,18 @@ module.exports = function(grunt) {
 							to: 'Stable tag:$1$2<%= pkg.version %>$3'
 						},
 					]
+				},
+				package: {
+					src: [
+						'load-package.php',
+					],
+					overwrite: true,
+					replacements: [
+						{
+							from: /@version .*$/m,
+							to: "@version <%= pkg.version %>"
+						},
+					]
 				}
 			},
 
@@ -356,7 +368,7 @@ module.exports = function(grunt) {
 							],
 							dest: 'build/',
 							dot: true
-						}
+					}
 					]
 				}
 			},
@@ -374,7 +386,7 @@ module.exports = function(grunt) {
 							cwd: './build/',
 							src: '**',
 							dest: '<%= pkg.name %>'
-						}
+					}
 					]
 				}
 			},
@@ -398,8 +410,8 @@ module.exports = function(grunt) {
 	// Build CSS, minify CSS, minify JS and runs i18n tasks.
 	grunt.registerTask( 'build', [ 'sass', 'postcss', 'cssmin', 'uglify', 'update-pot' ] );
 
-	// Update version of plugin.
-	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme' ] );
+	// Update version of plugin and package.
+	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme', 'replace:package' ] );
 
 	// Update stable version of plugin.
 	grunt.registerTask( 'stable', [ 'replace:stable' ] );

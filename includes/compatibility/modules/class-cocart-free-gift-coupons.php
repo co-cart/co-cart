@@ -2,11 +2,10 @@
 /**
  * Handles support for Free Gift Coupons extension.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Compatibility\Modules
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Compatibility\Modules
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -20,6 +19,9 @@ if ( ! class_exists( 'WC_Free_Gift_Coupons' ) ) {
 
 if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 
+	/**
+	 * Free Gift Coupons Support.
+	 */
 	class CoCart_FGC_Compatibility {
 
 		/**
@@ -56,7 +58,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 				if ( ! empty( $values['free_gift'] ) ) {
 					// Has an initial FGC quantity.
 					if ( ! empty( $values['fgc_quantity'] ) && $quantity !== $values['fgc_quantity'] ) {
-						/* Translators: %s Product title. */
+						/* translators: %s Product title. */
 						$error_message = sprintf( __( 'You are not allowed to modify the quantity of your %s gift.', 'cart-rest-api-for-woocommerce' ), $values['data']->get_name() );
 
 						throw new CoCart_Data_Exception( 'cocart_fgc_update_quantity', $error_message, 404 );

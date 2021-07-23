@@ -2,12 +2,11 @@
 /**
  * Handles tweaks made to WooCommerce to support CoCart.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Classes
- * @since    2.1.2
- * @version  3.0.3
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   2.1.2
+ * @version 3.0.7
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -50,8 +49,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @static
 		 * @since   2.0.5
 		 * @version 2.6.0
-		 * @param   bool $request
-		 * @return  bool true|$request
+		 * @param   bool $request Current status of allowing WooCommerce request.
+		 * @return  bool true|$request Status after checking if CoCart is allowed.
 		 */
 		public static function allow_cocart_requests_wc( $request ) {
 			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
@@ -104,8 +103,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			}
 
 			// Check if we requested to load a specific cart.
-			if ( isset( $_REQUEST['cart_key'] ) ) {
-				$cart_key = $_REQUEST['cart_key'];
+			if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$cart_key = trim( esc_html( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			}
 
 			// Check if the user is logged in.
@@ -113,7 +112,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				$customer_id = strval( get_current_user_id() );
 
 				// Compare the customer ID with the requested cart key. If they match then return error message.
-				if ( isset( $_REQUEST['cart_key'] ) && $customer_id == $_REQUEST['cart_key'] ) {
+				if ( isset( $_REQUEST['cart_key'] ) && $customer_id === $_REQUEST['cart_key'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 					wp_send_json_error( $error, 403 );
 					exit;

@@ -4,11 +4,10 @@
  *
  * Handles the request to add items to the cart with /cart/add-items endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +41,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Add Items - cocart/v2/cart/add-items (POST)
+		// Add Items - cocart/v2/cart/add-items (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -84,7 +83,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 			$adding_to_cart = wc_get_product( $product_id );
 			$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
 
-			// Add to cart handlers
+			// Add to cart handlers.
 			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 			if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
@@ -144,7 +143,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 
 					$quantity_set = true;
 
-					// Product validation
+					// Product validation.
 					$product_to_add = $controller->validate_product( $item, $quantity, 0, array(), array(), 'grouped', $request );
 
 					/**

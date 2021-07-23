@@ -2,12 +2,11 @@
 /**
  * Admin View: Notice - Base table missing.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin\Views
- * @since    3.0.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Views
+ * @since   3.0.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -18,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo COCART_URL_PATH . '/assets/images/logo.jpg'; ?>" alt="CoCart Logo" />
+			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/logo.jpg' ); ?>" alt="CoCart Logo" />
 		</div>
 
 		<div class="cocart-notice-content">

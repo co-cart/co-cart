@@ -2,11 +2,10 @@
 /**
  * Handles default cart extension callback.
  *
- * @author   Sébastien Dumont
- * @category Abstracts
- * @package  CoCart\Abstracts
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Abstracts
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,12 +35,18 @@ abstract class CoCart_Cart_Extension_Callback {
 	/**
 	 * Runs the extension callback.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 * @param  WP_REST_Request $request Full details about the request.
 	 */
 	public function callback( $request ) {
 		try {
-			throw new CoCart_Data_Exception( 'cocart_no_callback_found', sprintf( __( 'A "callback" function must be registered when extending class "%s"', 'cart-rest-api-for-woocommerce' ), __CLASS__ ), 400 );
+			throw new CoCart_Data_Exception( 'cocart_no_callback_found', sprintf(
+				/* translators: %s: Class name */
+				esc_html__( 'A "callback" function must be registered when extending class "%s"', 'cart-rest-api-for-woocommerce' ),
+				__CLASS__
+			), 400 );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

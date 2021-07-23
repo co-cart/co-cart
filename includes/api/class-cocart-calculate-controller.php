@@ -4,11 +4,10 @@
  *
  * Handles the request to calculate the cart with /cart/calculate endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +41,7 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Calculate Cart Total - cocart/v2/cart/calculate (POST)
+		// Calculate Cart Total - cocart/v2/cart/calculate (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,

@@ -1,10 +1,14 @@
+# .scrutinizer.yml
 tools:
+  php_sim: true
+  php_pdepend: true
+  php_analyzer: true
   php_code_sniffer:
     config:
       standard: WordPress
   sensiolabs_security_checker: true
-  external_code_coverage:
-    timeout: 600
+  external_code_coverage: false
+
 checks:
   php:
     avoid_closing_tag: false
@@ -21,7 +25,10 @@ checks:
     verify_access_scope_valid: false
     verify_argument_usable_as_reference: false
     verify_property_names: false
+
 filter:
   excluded_paths:
+    - includes/api/cocart/v1/
     - includes/api/legacy/
     - languages/
+    - tests/*

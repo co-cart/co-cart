@@ -2,12 +2,12 @@
 Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency
 Tags: woocommerce, cart, rest-api, decoupled, headless, session
 Donate link: https://www.buymeacoffee.com/sebastien
-Requires at least: 5.4
+Requires at least: 5.5
 Requires PHP: 7.3
-Tested up to: 5.7
-Stable tag: 3.0.6
+Tested up to: 5.8
+Stable tag: 3.0.10
 WC requires at least: 4.3
-WC tested up to: 5.4
+WC tested up to: 5.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -349,6 +349,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * **NEW**: CoCart Products add-on now merged introducing API v2 with a new option to view single products by SKU. Additional product support in CoCart Pro only.
 * **NEW**: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/) added as plugin suggestion.
 * **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
+* **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
@@ -357,6 +358,9 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
 * Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
 * Dev: Added more compatibility for next update of CoCart Pro.
+* Dev: Minimum requirement for WordPress is now v5.5
+
+> ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. ⚠️
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 

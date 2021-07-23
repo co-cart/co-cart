@@ -2,12 +2,11 @@
 /**
  * Manages CoCart dashboard assets.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin
- * @since    1.2.0
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   1.2.0
+ * @version 3.0.7
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -35,7 +34,9 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		/**
 		 * Registers and enqueue Stylesheets.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   1.2.0
+		 * @version 3.0.7
 		 */
 		public function admin_styles() {
 			$screen    = get_current_screen();
@@ -43,7 +44,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			$suffix    = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			if ( in_array( $screen_id, CoCart_Helpers::cocart_get_admin_screens() ) ) {
-				wp_register_style( COCART_SLUG . '_admin', COCART_URL_PATH . '/assets/css/admin/cocart' . $suffix . '.css' );
+				wp_register_style( COCART_SLUG . '_admin', COCART_URL_PATH . '/assets/css/admin/cocart' . $suffix . '.css', array(), COCART_VERSION );
 				wp_enqueue_style( COCART_SLUG . '_admin' );
 			}
 		} // END admin_styles()
@@ -53,22 +54,22 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.0.0
-		 * @param   string $classes
-		 * @return  string $classes
+		 * @version 3.0.7
+		 * @param   string $classes - Classes already registered.
+		 * @return  string $classes - All classes registered.
 		 */
 		public function admin_body_class( $classes ) {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
 
 			// Add body class for CoCart page.
-			if ( $screen_id == 'toplevel_page_cocart' || $screen_id == 'toplevel_page_cocart-network' ) {
+			if ( 'toplevel_page_cocart' === $screen_id || 'toplevel_page_cocart-network' === $screen_id ) {
 				$classes = ' cocart ';
 			}
 
 			// Add special body class for plugin install page.
-			if ( $screen_id == 'plugin-install' || $screen_id == 'plugin-install-network' ) {
-				if ( isset( $_GET['tab'] ) && $_GET['tab'] == 'cocart' ) {
+			if ( 'plugin-install' === $screen_id || 'plugin-install-network' === $screen_id ) {
+				if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					$classes = ' cocart-plugin-install ';
 				}
 			}

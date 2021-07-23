@@ -2,12 +2,11 @@
 /**
  * CoCart - Admin.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin
- * @since    1.2.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   1.2.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -42,16 +41,16 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @version 3.1.0
 		 */
 		public function includes() {
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';           // Admin Assets
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';            // Admin Menus
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';          // Plugin Notices
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';    // Plugin Search
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';       // WooCommerce Admin Notices
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php'; // WooCommerce System Status
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';           // Admin Assets.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';            // Admin Menus.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';          // Plugin Notices.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';    // Plugin Search.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';       // WooCommerce Admin Notices.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php'; // WooCommerce System Status.
 
 			// Setup Wizard.
-			if ( ! empty( $_GET['page'] ) ) {
-				switch ( $_GET['page'] ) {
+			if ( ! empty( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				switch ( $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					case 'cocart-setup':
 						include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';
 						break;
@@ -74,8 +73,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			switch ( $screen->id ) {
 				case 'plugins':
-					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Plugin Action Links
-					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Update
+					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Plugin Action Links.
+					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
 					break;
 			}
 		} // END conditional_includes()
@@ -94,8 +93,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				return;
 			}
 
-			if ( ! empty( $_GET['cocart-install-plugin-redirect'] ) ) {
-				$plugin_slug = wc_clean( wp_unslash( $_GET['cocart-install-plugin-redirect'] ) );
+			if ( ! empty( $_GET['cocart-install-plugin-redirect'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$plugin_slug = wc_clean( wp_unslash( $_GET['cocart-install-plugin-redirect'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, CoCart_Helpers::get_wporg_cocart_plugins(), true ) ) {
 					$nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin_slug );
@@ -116,7 +115,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			// Setup wizard redirect.
 			if ( get_transient( '_cocart_activation_redirect' ) && apply_filters( 'cocart_enable_setup_wizard', true ) ) {
 				$do_redirect  = true;
-				$current_page = isset( $_GET['page'] ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : false;
+				$current_page = isset( $_GET['page'] ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				// On these pages, or during these events, postpone the redirect.
 				if ( wp_doing_ajax() || is_network_admin() || ! current_user_can( 'manage_options' ) ) {
@@ -124,7 +123,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 				}
 
 				// On these pages, or during these events, disable the redirect.
-				if ( 'cocart-setup' === $current_page || ! CoCart_Admin_Notices::has_notice( 'setup_wizard' ) || apply_filters( 'cocart_prevent_automatic_wizard_redirect', false ) || isset( $_GET['activate-multi'] ) ) {
+				if ( 'cocart-setup' === $current_page || ! CoCart_Admin_Notices::has_notice( 'setup_wizard' ) || apply_filters( 'cocart_prevent_automatic_wizard_redirect', false ) || isset( $_GET['activate-multi'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					delete_transient( '_cocart_activation_redirect' );
 					$do_redirect = false;
 				}
@@ -145,12 +144,12 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 */
 		public function install_cocart_plugin() {
 			if ( ! current_user_can( 'install_plugins' ) ) {
-				wp_die( __( 'Sorry, you are not allowed to install plugins on this site.', 'cart-rest-api-for-woocommerce' ) );
+				wp_die( esc_html__( 'Sorry, you are not allowed to install plugins on this site.', 'cart-rest-api-for-woocommerce' ) );
 			}
 
 			include_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // For plugins_api().
 
-			$plugin = isset( $_REQUEST['plugin'] ) ? trim( $_REQUEST['plugin'] ) : '';
+			$plugin = isset( $_REQUEST['plugin'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['plugin'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			check_admin_referer( 'install-cocart-plugin_' . $plugin );
 
@@ -167,7 +166,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			$api = apply_filters( 'cocart_api_install_plugin', $api, $plugin );
 
 			if ( is_wp_error( $api ) ) {
-				wp_die( $api );
+				wp_die( esc_url( $api ) );
 			}
 
 			$title = __( 'CoCart Plugin Installation', 'cart-rest-api-for-woocommerce' );
@@ -177,7 +176,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			/* translators: %s: Plugin name and version. */
 			$title = sprintf( __( 'Installing Plugin: %s', 'cart-rest-api-for-woocommerce' ), $api->name . ' ' . $api->version );
 			$nonce = 'install-cocart-plugin_' . $plugin;
-			$url   = 'update.php?action=install-cocart-plugin&plugin=' . urlencode( $plugin );
+			$url   = 'update.php?action=install-cocart-plugin&plugin=' . rawurlencode( $plugin );
 			$url  .= '&from=cocart';
 
 			$type = 'web'; // Install plugin from Web.
@@ -193,13 +192,21 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access public
 		 * @since  3.1.0
+		 * @param array  $install_actions - Array of install actions.
+		 * @param string $api - The API URL.
+		 * @param string $plugin_file - Plugin file name.
 		 */
 		public function install_plugin_complete_actions( $install_actions, $api, $plugin_file ) {
 			if ( strstr( $plugin_file, 'cocart-' ) ) {
 				$install_actions['plugins_page'] = sprintf(
-					'<a href="%s">%s</a>',
+					/* translators: 1; Admin URL, 2: Link Text */
+					'<a href="%1$s">%2$s</a>',
 					self_admin_url( 'plugin-install.php?tab=cocart' ),
-					sprintf( __( 'Go to %s Plugin Installer', 'cart-rest-api-for-woocommerce' ), 'CoCart' )
+					sprintf(
+						/* translators: %s: CoCart */
+						__( 'Go to %s Plugin Installer', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					)
 				);
 			}
 

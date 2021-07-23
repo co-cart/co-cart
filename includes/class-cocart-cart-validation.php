@@ -2,12 +2,11 @@
 /**
  * Handles cart validation.
  *
- * @author   Sébastien Dumont
- * @category Classes
- * @package  CoCart\Classes
- * @since    3.0.0
- * @version  3.0.4
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   3.0.0
+ * @version 3.0.4
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -36,7 +35,7 @@ if ( ! class_exists( 'CoCart_Cart_Validation' ) ) {
 		 * @since   3.0.0
 		 * @version 3.0.4
 		 * @param   array  $cart_contents Cart contents before cart changes.
-		 * @param   WC_Cart               Cart object.
+		 * @param   object $cart          Cart object.
 		 * @return  array  $cart_contents Cart contents after cart changes.
 		 */
 		public function check_cart_item_stock( $cart_contents, $cart ) {
@@ -90,7 +89,7 @@ if ( ! class_exists( 'CoCart_Cart_Validation' ) ) {
 		 *
 		 * @access public
 		 * @param  array  $cart_contents Cart contents before cart changes.
-		 * @param  WC_Cart               Cart object.
+		 * @param  object $cart          Cart object.
 		 * @return array  $cart_contents Cart contents after cart changes.
 		 */
 		public function check_cart_coupons( $cart_contents, $cart ) {

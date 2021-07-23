@@ -4,11 +4,10 @@
  *
  * Takes users through some basic steps to setup their headless store.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -96,7 +95,7 @@ class CoCart_Admin_Setup_Wizard {
 	 * @access public
 	 */
 	public function setup_wizard() {
-		if ( empty( $_GET['page'] ) || 'cocart-setup' !== $_GET['page'] ) {
+		if ( empty( $_GET['page'] ) || 'cocart-setup' !== $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 		$default_steps = array(
@@ -118,9 +117,9 @@ class CoCart_Admin_Setup_Wizard {
 		);
 
 		$this->steps = apply_filters( 'cocart_setup_wizard_steps', $default_steps );
-		$this->step  = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
+		$this->step  = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		if ( ! empty( $_POST['save_step'] ) && isset( $this->steps[ $this->step ]['handler'] ) ) {
+		if ( ! empty( $_POST['save_step'] ) && isset( $this->steps[ $this->step ]['handler'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			call_user_func( $this->steps[ $this->step ]['handler'], $this );
 		}
 
@@ -190,8 +189,8 @@ class CoCart_Admin_Setup_Wizard {
 		</head>
 		<body class="cocart-setup-wizard wp-core-ui <?php echo esc_attr( 'cocart-setup-step__' . $this->step ); ?> <?php echo esc_attr( $wp_version_class ); ?>">
 		<h1 class="cocart-logo">
-			<a href="<?php echo $store_url; ?>" target="_blank">
-				<img src="<?php echo COCART_URL_PATH . '/assets/images/header-logo.png'; ?>" alt="CoCart Logo" />
+			<a href="<?php echo esc_url( $store_url ); ?>" target="_blank">
+				<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/header-logo.png' ); ?>" alt="CoCart Logo" />
 			</a>
 		</h1>
 		<?php
@@ -284,9 +283,26 @@ class CoCart_Admin_Setup_Wizard {
 			<input type="hidden" name="save_step" value="store_setup" />
 			<?php wp_nonce_field( 'cocart-setup' ); ?>
 
-			<p><?php printf( __( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'WooCommerce' ); ?>
+			<p>
+			<?php
+			printf(
+				/* translators: 1: CoCart, 2: WooCommerce */
+				esc_html__( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart',
+				'WooCommerce'
+			);
+			?>
+			</p>
 
-			<p><?php printf( __( '%s focuses on the front-end of the store helping you to manage shopping carts and allows developers to build a headless store in any framework of their choosing. No local storing required.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+			<p>
+			<?php
+			printf(
+				/* translators: %s: CoCart */
+				esc_html__( '%s focuses on the front-end of the store helping you to manage shopping carts and allows developers to build a headless store in any framework of their choosing. No local storing required.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			);
+			?>
+			</p>
 
 			<p><?php esc_html_e( 'The following wizard will help you configure CoCart for your headless store.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
@@ -310,8 +326,6 @@ class CoCart_Admin_Setup_Wizard {
 		</form>
 		<?php
 	} // END cocart_setup_wizard_store_setup()
-
-	/** @TODO: Add save initial step here! **/
 
 	/**
 	 * Determins the next step to take based on the choices made.
@@ -455,14 +469,30 @@ class CoCart_Admin_Setup_Wizard {
 		?>
 		<h1><?php esc_html_e( "You're ready!", 'cart-rest-api-for-woocommerce' ); ?></h1>
 
-		<p><?php printf( __( 'Now that you have %1$s installed, your ready to start developing. In the documentation you will find the API routes available along with action hooks and filters that allow you to customise %1$s to your needs.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+		<p>
+		<?php
+		printf(
+			/* translators: %s: CoCart */
+			esc_html__( 'Now that you have %1$s installed, your ready to start developing. In the documentation you will find the API routes available along with action hooks and filters that allow you to customise %1$s to your needs.', 'cart-rest-api-for-woocommerce' ),
+			'CoCart'
+		);
+		?>
+		</p>
 
-		<p><?php _e( 'There is also a knowledge base section that provides answers to most common questions should you find that you need help. This is best to be looked at first before contacting for support.', 'cart-rest-api-for-woocommerce' ); ?>
+		<p><?php esc_html_e( 'There is also a knowledge base section that provides answers to most common questions should you find that you need help. This is best to be looked at first before contacting for support.', 'cart-rest-api-for-woocommerce' ); ?>
 
-		<p><?php printf( __( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?>
+		<p>
+		<?php
+		printf(
+			/* translators: %s: CoCart */
+			esc_html__( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ),
+			'CoCart'
+		);
+		?>
+		</p>
 
 		<p class="tweet-share">
-			<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="<?php echo $this->tweets[ $tweet ]; ?>" data-url="https://cocart.xyz/" data-hashtags="WooCommerce" data-related="WooCommerce" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="<?php echo esc_html( $this->tweets[ $tweet ] ); ?>" data-url="https://cocart.xyz/" data-hashtags="WooCommerce" data-related="WooCommerce" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
 		</p>
 
 		<div class="cocart-newsletter">
@@ -499,7 +529,7 @@ class CoCart_Admin_Setup_Wizard {
 				</div>
 				<div class="cocart-setup-wizard-next-step-action">
 					<p class="cocart-setup-wizard-actions step">
-						<a class="button button-primary button-large" href="<?php echo CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://docs.cocart.xyz' ) ) ); ?>" target="_blank">
+						<a class="button button-primary button-large" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://docs.cocart.xyz' ) ) ) ); ?>" target="_blank">
 							<?php esc_html_e( 'View Documentation', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
 					</p>
@@ -513,7 +543,7 @@ class CoCart_Admin_Setup_Wizard {
 				</div>
 				<div class="cocart-setup-wizard-next-step-action">
 					<p class="cocart-setup-wizard-actions step">
-						<a class="button button-large" href="<?php echo admin_url( 'plugin-install.php?tab=cocart' ); ?>" target="_blank">
+						<a class="button button-large" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=cocart' ) ); ?>" target="_blank">
 							<?php esc_html_e( 'View Plugin Suggestions', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
 					</p>
@@ -534,7 +564,7 @@ class CoCart_Admin_Setup_Wizard {
 						<a class="button" href="<?php echo esc_url( 'https://marketplace.visualstudio.com/items?itemName=sebastien-dumont.cocart-vscode' ); ?>" target="_blank">
 							<?php esc_html_e( 'Install CoCart VSCode Extension', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
-						<a class="button" href="<?php echo CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ); ?>" target="_blank">
+						<a class="button" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ) ); ?>" target="_blank">
 							<?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
 					</p>

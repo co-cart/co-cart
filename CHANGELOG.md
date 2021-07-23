@@ -16,8 +16,37 @@
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
 * Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
 * Dev: Added more compatibility for next update of CoCart Pro.
+* Dev: Minimum requirement for WordPress is now v5.5
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. ⚠️
+
+## v3.0.10 - 22nd July, 2021
+
+* Dev: Stopped custom upgrade notice from being called on plugin page when major update is available for those using WordPress 5.5 or greater. [See article](https://make.wordpress.org/plugins/2021/01/26/reminder-plugins-must-not-interfere-with-updates/)!
+* Dev: Package file added for better composer packaging support.
+
+## v3.0.9 - 21st July, 2021
+
+* Corrected: Sanitize only. Some functions were escaped when not needed to.
+
+## v3.0.8 - 18th July, 2021
+
+* Dev: Plugin package tweaks for future CoCart project.
+
+## v3.0.7 - 14th July, 2021
+
+**🔒 This is a SECURTIY FIX!**
+
+> This release brings in a number of fixes to secure the plugin and keep up with WordPress code standards. It is highly recommended that you update to this release.
+
+* Fixed: Escaping HTML from requested cart key.
+* Fixed: Sanitized username and password with basic authentication.
+* Fixed: Yoda conditions.
+* Fixed: Localization for translators.
+* Updated: Getting started page with new lowest price to upgrade to CoCart Pro.
+* Dev: Documented parameter comments for functions that were missing.
+* Dev: Change the use of `date()` function to `gmdate()` function instead.
+* Dev: Change the use of `strip_tags()` function to `wp_strip_all_tags()` function instead.
 
 ## v3.0.6 - 25th June, 2021
 

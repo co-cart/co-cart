@@ -40,7 +40,7 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 
 	require_once dirname( __FILE__ ) . '/includes/class-cocart-helpers.php';
 
-	// Delete WooCommerce Admin Notes
+	// Delete WooCommerce Admin Notes.
 	if (
 		class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ||
 		class_exists( 'Automattic\WooCommerce\Admin\Notes\Notes' )

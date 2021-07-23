@@ -8,12 +8,11 @@
  *
  * @link https://github.com/woocommerce/woocommerce/blob/master/includes/class-wc-session-handler.php
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\Classes
- * @since    2.1.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   2.1.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -134,8 +133,8 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
-	 * @param   int $current_user_id
+	 * @version 3.0.7
+	 * @param   int $current_user_id Current user ID.
 	 */
 	public function init_session_cookie( $current_user_id = 0 ) {
 		// Get cart cookie... if any.
@@ -151,9 +150,9 @@ class CoCart_Session_Handler extends CoCart_Session {
 		}
 
 		// Check if we requested to load a specific cart.
-		if ( isset( $_REQUEST['cart_key'] ) ) {
+		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			// Set requested cart key as customer ID in session.
-			$this->_customer_id = $_REQUEST['cart_key'];
+			$this->_customer_id = (string) trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		// Override cookie check to force load the authenticated users cart if switched without logging out first.
@@ -190,9 +189,8 @@ class CoCart_Session_Handler extends CoCart_Session {
 				$this->set_cart_expiration();
 				$this->update_cart_timestamp( $this->_customer_id, $this->_cart_expiration );
 			}
-		}
-		// New guest customer.
-		else {
+		} else {
+			// New guest customer.
 			$this->set_cart_expiration();
 			$this->_customer_id = $this->generate_customer_id();
 			$this->_data        = $this->get_cart_data();
@@ -279,37 +277,18 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 2.9.2
-	 * @param   string                                                                           $name     Name of the cookie being set.
-	 * @param   string                                                                           $value    Value of the cookie.
-	 * @param   integer                                                                          $expire   Expiry of the cookie.
-	 * @param   bool                                                                             $secure   Whether the cookie should be served only over https.
-	 * @param   bool                                                                             $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
-	 * @param   string  samesite  Set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1
+	 * @version 3.0.7
+	 * @param   string  $name Name of the cookie being set.
+	 * @param   string  $value Value of the cookie.
+	 * @param   integer $expire Expiry of the cookie.
+	 * @param   bool    $secure Whether the cookie should be served only over https.
+	 * @param   bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
 		if ( ! headers_sent() ) {
+			// samesite - Set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1.
 			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
-				setcookie(
-					$name,
-					$value,
-					apply_filters(
-						'cocart_set_cookie_options',
-						array(
-							'expires'  => $expire,
-							'secure'   => $secure,
-							'path'     => COOKIEPATH ? COOKIEPATH : '/',
-							'domain'   => COOKIE_DOMAIN,
-							'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ),
-							'samesite' => apply_filters(
-								'cocart_cookie_samesite',
-								'Lax'
-							),
-						),
-						$name,
-						$value
-					)
-				);
+				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', 'domain' => COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ), 'samesite' => apply_filters( 'cocart_cookie_samesite', 'Lax' ) ), $name, $value ) ); // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 			} else {
 				setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) );
 			}
@@ -409,7 +388,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @return  bool|array
 	 */
 	public function get_session_cookie() {
-		$cookie_value = isset( $_COOKIE[ $this->_cookie ] ) ? wp_unslash( $_COOKIE[ $this->_cookie ] ) : false;
+		$cookie_value = isset( $_COOKIE[ $this->_cookie ] ) ? wp_unslash( $_COOKIE[ $this->_cookie ] ) : false; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		if ( empty( $cookie_value ) || ! is_string( $cookie_value ) ) {
 			return false;
@@ -465,7 +444,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.0.7
 	 * @param   int $old_cart_key cart ID before user logs in.
 	 * @global  $wpdb
 	 */
@@ -481,8 +460,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
 				/* translators: %s: filter name */
 				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
-				_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
-				CoCart_Logger::log( $message, 'debug' );
+				cocart_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
 			}
 
 			/**
@@ -529,7 +507,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, COCART_CART_CACHE_GROUP, $this->_cart_expiration - time() );
 
 			// Customer is now registered so we delete the previous cart as guest to prevent duplication.
-			if ( get_current_user_id() != $old_cart_key && ! is_object( get_user_by( 'id', $old_cart_key ) ) ) {
+			if ( get_current_user_id() !== $old_cart_key && ! is_object( get_user_by( 'id', $old_cart_key ) ) ) {
 				$this->delete_cart( $old_cart_key );
 			}
 		}
@@ -604,7 +582,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function cleanup_sessions() {
 		global $wpdb;
 
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $this->_table WHERE cart_expiry < %d", time() ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $this->_table WHERE cart_expiry < %d", time() ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Invalidate cache group.
 		if ( class_exists( 'WC_Cache_Helper' ) ) {
@@ -628,7 +606,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$value = wp_cache_get( $this->get_cache_prefix() . $cart_key, COCART_CART_CACHE_GROUP );
 
 		if ( false === $value ) {
-			$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM $this->_table WHERE cart_key = %s", $cart_key ) );
+			$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			if ( is_null( $value ) ) {
 				$value = $default;
@@ -667,7 +645,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_cart_created( $cart_key ) {
 		global $wpdb;
 
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_created FROM $this->_table WHERE cart_key = %s", $cart_key ) );
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_created FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $value;
 	} // END get_cart_created()
@@ -683,7 +661,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_cart_expiration( $cart_key ) {
 		global $wpdb;
 
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_expiry FROM $this->_table WHERE cart_key = %s", $cart_key ) );
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_expiry FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $value;
 	} // END get_cart_expiration()
@@ -699,7 +677,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_cart_source( $cart_key ) {
 		global $wpdb;
 
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_source FROM $this->_table WHERE cart_key = %s", $cart_key ) );
+		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_source FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $value;
 	} // END get_cart_source()
@@ -754,7 +732,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * Update cart.
 	 *
 	 * @access public
-	 * @param  string $cart_key
+	 * @param  string $cart_key Cart to update.
 	 * @global $wpdb
 	 */
 	public function update_cart( $cart_key ) {
@@ -782,7 +760,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function delete_cart( $cart_key ) {
 		global $wpdb;
 
-		// Delete cache
+		// Delete cache.
 		wp_cache_delete( $this->get_cache_prefix() . $cart_key, COCART_CART_CACHE_GROUP );
 
 		// Delete cart from database.

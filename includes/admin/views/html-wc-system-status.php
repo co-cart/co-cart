@@ -2,11 +2,10 @@
 /**
  * Outputs the status section for CoCart.
  *
- * @author   Sébastien Dumont
- * @category Admin
- * @package  CoCart\Admin\Views
- * @since    2.7.2
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Views
+ * @since   2.7.2
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -38,7 +37,7 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 			$mark = 'error';
 		}
 
-		// Use mark_icon key if available, otherwise set based on $mark
+		// Use mark_icon key if available, otherwise set based on $mark.
 		if ( isset( $data['mark_icon'] ) ) {
 			$mark_icon = $data['mark_icon'];
 		} elseif ( 'yes' === $mark ) {
@@ -47,10 +46,10 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 			$mark_icon = 'no-alt';
 		}
 		?>
-		<?php if ( isset( $data['type'] ) && $data['type'] == 'titles' ) { ?>
+		<?php if ( isset( $data['type'] ) && 'titles' === $data['type'] ) { ?>
 			<tr>
 				<?php foreach ( $data['columns'] as $column ) { ?>
-					<td style="border-bottom: 1px solid #ccd0d4; border-top: 1px solid #ccd0d4;" colspan="2" data-export-label="<?php echo $column; ?>"><strong><?php echo $column; ?></strong></td>
+					<td style="border-bottom: 1px solid #ccd0d4; border-top: 1px solid #ccd0d4;" colspan="2" data-export-label="<?php echo esc_attr( $column ); ?>"><strong><?php echo esc_attr( $column ); ?></strong></td>
 				<?php } ?>
 			</tr>
 		<?php } else { ?>
@@ -77,7 +76,7 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 						foreach ( $data['data'] as $row ) {
 							echo wp_kses_post( $row );
 
-							if ( 1 != $row_number ) {
+							if ( 1 !== $row_number ) {
 								echo ', ';
 							}
 							echo '<br />';
