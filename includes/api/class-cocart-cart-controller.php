@@ -1009,8 +1009,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
 
 				if ( $qty_remaining < $qty_in_cart + $quantity ) {
-					/* translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart */
 					$message = sprintf(
+						/* translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart */
 						__( 'You cannot add that amount of "%1$s" to the cart &mdash; we have (%2$s) in stock remaining. You already have (%3$s) in your cart.', 'cart-rest-api-for-woocommerce' ),
 						$product->get_name(),
 						wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),

@@ -16,17 +16,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
 		<div class="cocart-notice-icon">
-			<img src="<?php echo COCART_URL_PATH . '/assets/images/brand/logo.jpg'; ?>" alt="CoCart Logo" />
+			<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/logo.jpg' ); ?>" alt="CoCart Logo" />
 		</div>
 
 		<div class="cocart-notice-content">
 			<h3>
-				<strong><?php echo sprintf( esc_html__( 'Welcome to %s!', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></strong>
+				<strong>
+				<?php
+				echo sprintf(
+					/* translators: %s: CoCart */
+					esc_html__( 'Welcome to %s!', 'cart-rest-api-for-woocommerce' ),
+					'CoCart'
+				);
+				?>
+				</strong>
 			</h3>
 			<p>
 				<?php
-					echo sprintf( esc_html__( 'To help prepare %s running smoothly, we would like to guide you with a setup wizard.', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
-				?>
+					echo sprintf(
+						/* translators: %s: CoCart */
+						esc_html__( 'To help prepare %s running smoothly, we would like to guide you with a setup wizard.', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					);
+					?>
 			</p>
 		</div>
 

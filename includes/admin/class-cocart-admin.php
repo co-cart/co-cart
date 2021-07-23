@@ -149,7 +149,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			include_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // For plugins_api().
 
-			$plugin = isset( $_REQUEST['plugin'] ) ? trim( $_REQUEST['plugin'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$plugin = isset( $_REQUEST['plugin'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['plugin'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			check_admin_referer( 'install-cocart-plugin_' . $plugin );
 
@@ -166,7 +166,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			$api = apply_filters( 'cocart_api_install_plugin', $api, $plugin );
 
 			if ( is_wp_error( $api ) ) {
-				wp_die( $api );
+				wp_die( esc_url( $api ) );
 			}
 
 			$title = __( 'CoCart Plugin Installation', 'cart-rest-api-for-woocommerce' );
@@ -192,13 +192,21 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access public
 		 * @since  3.1.0
+		 * @param array  $install_actions - Array of install actions.
+		 * @param string $api - The API URL.
+		 * @param string $plugin_file - Plugin file name.
 		 */
 		public function install_plugin_complete_actions( $install_actions, $api, $plugin_file ) {
 			if ( strstr( $plugin_file, 'cocart-' ) ) {
 				$install_actions['plugins_page'] = sprintf(
-					'<a href="%s">%s</a>',
+					/* translators: 1; Admin URL, 2: Link Text */
+					'<a href="%1$s">%2$s</a>',
 					self_admin_url( 'plugin-install.php?tab=cocart' ),
-					sprintf( __( 'Go to %s Plugin Installer', 'cart-rest-api-for-woocommerce' ), 'CoCart' )
+					sprintf(
+						/* translators: %s: CoCart */
+						__( 'Go to %s Plugin Installer', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					)
 				);
 			}
 

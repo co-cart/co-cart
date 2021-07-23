@@ -28,8 +28,8 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 	<div class="container">
 		<div class="content">
 			<div class="logo">
-				<a href="<?php echo $store_url; ?>" target="_blank">
-					<img src="<?php echo COCART_URL_PATH . '/assets/images/brand/logo.jpg'; ?>" alt="CoCart Logo" />
+				<a href="<?php echo esc_url( $store_url ); ?>" target="_blank">
+					<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/logo.jpg' ); ?>" alt="CoCart Logo" />
 				</a>
 			</div>
 
@@ -104,7 +104,7 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 
 			<p style="text-align: center;">
 				<?php printf( '<a class="button button-primary button-large" href="%1$s" target="_blank">%2$s</a>', esc_url( COCART_DOCUMENTATION_URL ), esc_html__( 'View Documentation', 'cart-rest-api-for-woocommerce' ) ); ?> 
-				<?php printf( '<a class="button button-secondary button-large" href="%1$s" target="_blank">%2$s</a>', CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ), esc_html__( 'Join Community', 'cart-rest-api-for-woocommerce' ) ); ?>
+				<?php printf( '<a class="button button-secondary button-large" href="%1$s" target="_blank">%2$s</a>', esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ) ), esc_html__( 'Join Community', 'cart-rest-api-for-woocommerce' ) ); ?>
 			</p>
 
 			<?php if ( CoCart_Helpers::is_cocart_ps_active() ) { ?>

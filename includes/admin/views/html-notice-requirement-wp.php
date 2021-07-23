@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Views
  * @since   1.2.0
- * @version 3.0.7
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -22,8 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			__( 'Sorry, %1$s%3$s%2$s requires WordPress %4$s or higher. Please upgrade your WordPress setup.', 'cart-rest-api-for-woocommerce' ),
 			'<strong>',
 			'</strong>',
-			esc_attr( 'CoCart' ),
-			CoCart::$required_wp
+			'CoCart',
+			esc_html( CoCart::$required_wp )
 		);
 		?>
 	</p>
