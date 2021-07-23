@@ -521,7 +521,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				$rest_url = ''; // Return nothing for these product types.
 				break;
 			case 'default':
-				$rest_url = apply_filter( 'cocart_products_add_to_cart_rest_url', '', $product, $type, $id );
+				$rest_url = apply_filters( 'cocart_products_add_to_cart_rest_url', $rest_url, $product, $type, $id );
 				break;
 		}
 
