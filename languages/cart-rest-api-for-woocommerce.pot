@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-rc.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-07-23 04:55:09+00:00\n"
+"POT-Creation-Date: 2021-07-23 05:27:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1130,25 +1130,25 @@ msgstr ""
 
 #: includes/admin/views/html-upgrade-cocart.php:90
 #. translators: 1: Start of link, 2: WooCommerce Subscriptions, 3: Close of
-#. link, 4: URL
+#. link
 msgid ""
 "Integration with the official %1$s%2$s%3$s extension – see subscription "
 "details for any subscription product added to cart. Also extends support "
 "for Shipping Methods."
 msgstr ""
 
-#: includes/admin/views/html-upgrade-cocart.php:107
+#: includes/admin/views/html-upgrade-cocart.php:106
 #. translators: %s: CoCart Pro
 msgid ""
 "Upgrade to %s and get plugin updates and support per year for 1 website. "
 "You may upgrade your licence at any time, just pay the difference in cost!"
 msgstr ""
 
-#: includes/admin/views/html-upgrade-cocart.php:114
+#: includes/admin/views/html-upgrade-cocart.php:113
 msgid "Upgrade Now"
 msgstr ""
 
-#: includes/admin/views/html-upgrade-cocart.php:121
+#: includes/admin/views/html-upgrade-cocart.php:120
 msgid "Testimonials"
 msgstr ""
 

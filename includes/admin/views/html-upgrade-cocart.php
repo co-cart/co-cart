@@ -86,12 +86,11 @@ $star_svg      = COCART_URL_PATH . '/assets/images/star-filled.svg';
 			<p>
 			<?php
 			printf(
-				/* translators: 1: Start of link, 2: WooCommerce Subscriptions, 3: Close of link, 4: URL */
+				/* translators: 1: Start of link, 2: WooCommerce Subscriptions, 3: Close of link */
 				__( 'Integration with the official %1$s%2$s%3$s extension – see subscription details for any subscription product added to cart. Also extends support for Shipping Methods.', 'cart-rest-api-for-woocommerce' ),
-				'<a href="%4$s" target="_blank">',
+				'<a href="' . esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' ) . '" target="_blank">',
 				'WooCommerce Subscriptions',
-				'</a>',
-				esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' )
+				'</a>'
 			);
 			?>
 			</p>
