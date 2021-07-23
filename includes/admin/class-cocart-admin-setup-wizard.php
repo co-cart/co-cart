@@ -4,10 +4,10 @@
  *
  * Takes users through some basic steps to setup their headless store.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

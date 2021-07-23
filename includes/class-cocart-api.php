@@ -4,10 +4,10 @@
  *
  * Handles CoCart endpoint requests for CoCart API.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    1.0.0
- * @version  3.0.7
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   1.0.0
+ * @version 3.0.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

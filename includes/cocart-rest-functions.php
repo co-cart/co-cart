@@ -4,11 +4,11 @@
  *
  * Functions for REST specific things.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Functions
- * @since    3.0.0
- * @version  3.0.7
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Functions
+ * @since   3.0.0
+ * @version 3.0.7
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

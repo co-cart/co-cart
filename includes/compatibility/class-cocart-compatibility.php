@@ -2,10 +2,10 @@
 /**
  * Extension Compatibility
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Compatibility
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Compatibility
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

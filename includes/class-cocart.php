@@ -2,11 +2,11 @@
 /**
  * CoCart core setup.
  *
- * @author   Sébastien Dumont
- * @package  CoCart
- * @since    2.6.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart
+ * @since   2.6.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -226,8 +226,9 @@ final class CoCart {
 		 * NOT set or IS set to false in user's wp-config.php file.
 		 */
 		if (
-			! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL &&
-			is_admin() || ( defined( 'WP_CLI' ) && WP_CLI )
+			! defined( 'COCART_WHITE_LABEL' ) && is_admin() ||
+			false === COCART_WHITE_LABEL && is_admin() ||
+			( defined( 'WP_CLI' ) && WP_CLI )
 		) {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin.php';
 		} else {

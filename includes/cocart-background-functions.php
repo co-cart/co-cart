@@ -4,10 +4,10 @@
  *
  * Functions for running in the background.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Functions
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Functions
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

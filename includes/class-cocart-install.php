@@ -2,11 +2,11 @@
 /**
  * CoCart - Installation related functions and actions.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    1.2.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   1.2.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -552,7 +552,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return true;
 			}
 
-			$wpdb->query( $create_sql );
+			$wpdb->query( $create_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 			return in_array( $table_name, $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ), 0 ), true );
 		} // END maybe_create_table()

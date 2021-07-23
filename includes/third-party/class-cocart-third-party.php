@@ -2,11 +2,11 @@
 /**
  * Handles support for Third Party.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Third Party
- * @since    2.8.1
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Third Party
+ * @since   2.8.1
+ * @version 3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

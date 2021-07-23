@@ -4,11 +4,11 @@
  *
  * Adds a note for the client thanking them for installing the plugin.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\WooCommerce Admin\Notes
- * @since    2.3.0
- * @version  3.0.7
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\WooCommerce Admin\Notes
+ * @since   2.3.0
+ * @version 3.0.7
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

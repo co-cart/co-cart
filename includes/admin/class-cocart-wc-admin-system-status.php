@@ -4,11 +4,11 @@
  *
  * Adds additional related information to the WooCommerce System Status.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\WooCommerce System Status
- * @since    2.1.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\WooCommerce System Status
+ * @since   2.1.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

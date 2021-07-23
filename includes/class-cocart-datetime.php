@@ -3,10 +3,10 @@
  * Wrapper for PHP DateTime which adds support for gmt/utc offset when a
  * timezone is absent
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

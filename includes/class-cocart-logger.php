@@ -4,11 +4,11 @@
  *
  * Handles logging errors.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    2.1.0
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   2.1.0
+ * @version 3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,9 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_Logger {
 
 	/**
+	 * Log Handler Interface.
+	 *
 	 * @access public
 	 * @static
-	 * @var object $logger
+	 * @var object $logger Log Handler Interface.
 	 */
 	public static $logger;
 

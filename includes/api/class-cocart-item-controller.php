@@ -4,10 +4,10 @@
  *
  * Handles the request to view a single item in the cart with /cart/item endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -64,7 +64,7 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 	 * @access  public
 	 * @since   3.0.0
 	 * @version 3.0.4
-	 * @param   array $request
+	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function view_item( $request = array() ) {

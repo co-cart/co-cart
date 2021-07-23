@@ -4,10 +4,10 @@
  *
  * Returns specified details from a specific session.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

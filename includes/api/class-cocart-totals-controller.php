@@ -4,10 +4,10 @@
  *
  * Handles the request to get the totals of the cart with /cart/totals endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

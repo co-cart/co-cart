@@ -4,11 +4,11 @@
  *
  * Responsible for loading the REST API and all REST API namespaces.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    1.0.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   1.0.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

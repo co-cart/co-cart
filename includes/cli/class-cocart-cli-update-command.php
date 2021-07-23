@@ -2,10 +2,10 @@
 /**
  * Allows you to update CoCart via CLI.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\CLI
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\CLI
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

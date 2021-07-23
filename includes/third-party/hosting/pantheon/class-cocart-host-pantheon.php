@@ -2,10 +2,10 @@
 /**
  * Handles support for Pantheon host.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Third Party\Hosting
- * @since    2.8.1
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Third Party\Hosting
+ * @since   2.8.1
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

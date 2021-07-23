@@ -4,11 +4,11 @@
  *
  * @todo Deprecate this in the future.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin
- * @since    2.0.12
- * @version  3.0.10
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   2.0.12
+ * @version 3.0.10
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -41,6 +41,8 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 
 		/**
 		 * Show plugin changes on the plugins screen.
+		 *
+		 * @todo Deprecate this in the future.
 		 *
 		 * @access  public
 		 * @since   2.0.12
@@ -140,6 +142,8 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 
 		/**
 		 * Displays a notice under the plugin row for CoCart.
+		 *
+		 * @todo Deprecate this in the future.
 		 *
 		 * @access  public
 		 * @since   2.0.3

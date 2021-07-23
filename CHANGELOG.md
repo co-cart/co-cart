@@ -16,6 +16,7 @@
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
 * Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
 * Dev: Added more compatibility for next update of CoCart Pro.
+* Dev: Minimum requirement for WordPress is now v5.5
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. ⚠️
 

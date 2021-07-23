@@ -4,11 +4,11 @@
  *
  * Adds relevant information to help developers with CoCart via the WooCommerce Inbox.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\WooCommerce Admin
- * @since    2.3.0
- * @version  3.0.7
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\WooCommerce Admin
+ * @since   2.3.0
+ * @version 3.0.7
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

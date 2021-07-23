@@ -4,11 +4,11 @@
  *
  * Handles requests to the cart endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -1405,6 +1405,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 * @since  3.1.0
+	 * @param  object $method - Method data.
+	 * @param  string $type - Meta data we are cleaning for.
 	 * @return array
 	 */
 	protected function clean_meta_data( $method, $type = 'shipping' ) {

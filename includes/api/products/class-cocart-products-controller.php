@@ -298,12 +298,10 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				),
 				'currency'      => $controller->get_store_currency(),
 			),
-			'conditions'         => array(
+			'hidden_conditions'  => array(
 				'virtual'           => $product->is_virtual(),
 				'downloadable'      => $product->is_downloadable(),
-				'has_options'       => $product->has_options(),
-				'is_purchasable'    => $product->is_purchasable(),
-				'is_in_stock'       => $product->is_in_stock(),
+				'manage_stock'      => $product->managing_stock(),
 				'sold_individually' => $product->is_sold_individually(),
 				'reviews_allowed'   => $product->get_reviews_allowed( 'view' ),
 				'shipping_required' => $product->needs_shipping(),
@@ -320,7 +318,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			'variations'         => array(),
 			'grouped_products'   => array(),
 			'stock'              => array(
-				'manage_stock'       => $product->managing_stock(),
+				'is_in_stock'        => $product->is_in_stock(),
 				'stock_quantity'     => $product->get_stock_quantity( 'view' ),
 				'stock_status'       => $product->get_stock_status( 'view' ),
 				'backorders'         => $product->get_backorders( 'view' ),
@@ -346,9 +344,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			'external_url'       => $product->is_type( 'external' ) ? $product->get_product_url( 'view' ) : '',
 			'button_text'        => $product->is_type( 'external' ) ? $product->get_button_text( 'view' ) : '',
 			'add_to_cart'        => array(
-				'text'        => $product->add_to_cart_text(),
-				'description' => $product->add_to_cart_description(),
-				'rest_url'    => $this->add_to_cart_rest_url( $product, $type ),
+				'text'           => $product->add_to_cart_text(),
+				'description'    => $product->add_to_cart_description(),
+				'has_options'    => $product->has_options(),
+				'is_purchasable' => $product->is_purchasable(),
+				'rest_url'       => $this->add_to_cart_rest_url( $product, $type ),
 			),
 			'meta_data'          => $product->get_meta_data(),
 		);
@@ -505,7 +505,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access public
 	 * @param  WC_Product $product
-	 * @param  string $type Product type.
+	 * @param  string     $type Product type.
 	 * @return string
 	 */
 	public function add_to_cart_rest_url( $product, $type ) {
@@ -514,18 +514,18 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
 
 		switch ( $type ) {
-			case 'simple':
-			case 'subscription':
-				return $rest_url;
-				break;
 			case 'variation':
 			case 'subscription_variation':
-				return '';
+			case 'external':
+			case 'grouped':
+				$rest_url = ''; // Return nothing for these product types.
 				break;
 			case 'default':
-				return apply_filter( 'cocart_products_add_to_cart_rest_url', '', $product, $type, $id );
+				$rest_url = apply_filter( 'cocart_products_add_to_cart_rest_url', '', $product, $type, $id );
 				break;
 		}
+
+		return $rest_url;
 	} // END add_to_cart_rest_url()
 
 } // END class

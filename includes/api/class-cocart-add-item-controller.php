@@ -4,11 +4,11 @@
  *
  * Handles the request to add items to the cart with /cart/add-item endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @version  3.0.1
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @version 3.0.1
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

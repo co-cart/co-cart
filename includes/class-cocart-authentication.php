@@ -2,11 +2,11 @@
 /**
  * Handles REST API authentication.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    2.6.0
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   2.6.0
+ * @version 3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

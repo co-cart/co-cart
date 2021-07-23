@@ -2,11 +2,11 @@
 /**
  * Handles loading cart from session.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    2.1.0
- * @version  3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   2.1.0
+ * @version 3.0.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -4,10 +4,10 @@
  *
  * Handles the request to update the cart with /cart/update endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +42,7 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Update Cart - cocart/v2/cart/update (POST)
+		// Update Cart - cocart/v2/cart/update (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,

@@ -3,11 +3,11 @@
  * Includes cards in the plugin search results when users
  * enter terms that match CoCart add-ons or view all add-ons.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin
- * @since    3.0.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   3.0.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

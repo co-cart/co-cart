@@ -2,10 +2,10 @@
 /**
  * Handles support for Free Gift Coupons extension.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Compatibility\Modules
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Compatibility\Modules
+ * @since   3.0.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

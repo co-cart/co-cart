@@ -2,10 +2,10 @@
 /**
  * Admin View: Notice - Setup Wizard
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\Views
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Views
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

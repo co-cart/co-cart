@@ -2,10 +2,10 @@
 /**
  * Admin View: PHP Requirement Notice.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\Views
- * @since    2.6.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Views
+ * @since   2.6.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

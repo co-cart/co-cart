@@ -8,11 +8,11 @@
  *
  * @link https://github.com/woocommerce/woocommerce/blob/master/includes/class-wc-session-handler.php
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Classes
- * @since    2.1.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Classes
+ * @since   2.1.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

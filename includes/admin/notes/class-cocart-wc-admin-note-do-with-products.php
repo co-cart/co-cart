@@ -4,11 +4,11 @@
  *
  * Adds a note for the client giving a helping hand with accessing products via API.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\WooCommerce Admin\Notes
- * @since    2.3.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\WooCommerce Admin\Notes
+ * @since   2.3.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

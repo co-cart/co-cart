@@ -4,11 +4,11 @@
  *
  * Forked the notice system from: https://github.com/woocommerce/woocommerce/blob/master/includes/admin/class-wc-admin-notices.php
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\Notices
- * @since    1.2.0
- * @version  3.0.7
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Notices
+ * @since   1.2.0
+ * @version 3.0.7
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.

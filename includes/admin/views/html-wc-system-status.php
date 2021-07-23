@@ -2,10 +2,10 @@
 /**
  * Outputs the status section for CoCart.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\Views
- * @since    2.7.2
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Views
+ * @since   2.7.2
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

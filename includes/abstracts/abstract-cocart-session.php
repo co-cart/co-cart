@@ -4,11 +4,11 @@
  *
  * Extends WC_Session and added a few tweaks to support our features.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Abstracts
- * @since    3.0.0
- * @version  3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Abstracts
+ * @since   3.0.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
