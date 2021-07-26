@@ -226,7 +226,7 @@ final class CoCart {
 		 * NOT set or IS set to false in user's wp-config.php file.
 		 */
 		if (
-			! defined( 'COCART_WHITE_LABEL' ) && is_admin() ||
+			! defined( 'COCART_WHITE_LABEL' ) ||
 			false === COCART_WHITE_LABEL && is_admin() ||
 			( defined( 'WP_CLI' ) && WP_CLI )
 		) {
