@@ -15,6 +15,7 @@
 * Tweaked: Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
 * Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
+* Dev: Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
 * Dev: Added more compatibility for next update of CoCart Pro.
 * Dev: Minimum requirement for WordPress is now v5.5
 

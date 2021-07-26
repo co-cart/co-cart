@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.2
- * @version 3.0.7
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -80,7 +80,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public static function load_cart_from_session() {
 			// Return nothing if WP-GraphQL is requested.
@@ -121,7 +121,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				$user = get_user_by( 'id', $cart_key );
 
 				// If the user exists then return error message.
-				if ( ! empty( $user ) ) {
+				if ( ! empty( $user ) && apply_filters( 'cocart_secure_registered_users', true ) ) {
 					$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 					wp_send_json_error( $error, 403 );
 					exit;
