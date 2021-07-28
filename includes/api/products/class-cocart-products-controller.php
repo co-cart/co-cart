@@ -517,6 +517,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		switch ( $type ) {
 			case 'variation':
 			case 'subscription_variation':
+			case 'variable':
 			case 'external':
 			case 'grouped':
 				$rest_url = ''; // Return nothing for these product types.
