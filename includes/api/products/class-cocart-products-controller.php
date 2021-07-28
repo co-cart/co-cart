@@ -446,6 +446,61 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END get_attribute_options()
 
 	/**
+	 * Get the attributes for a product or product variation.
+	 *
+	 * @access protected
+	 * @param  WC_Product|WC_Product_Variation $product Product instance.
+	 * @return array
+	 */
+	protected function get_attributes( $product ) {
+		$attributes = array();
+
+		if ( $product->is_type( 'variation' ) || $product->is_type( 'subscription_variation' ) ) {
+			$_product = wc_get_product( $product->get_parent_id() );
+
+			foreach ( $product->get_variation_attributes() as $attribute_name => $attribute ) {
+				$name = str_replace( 'attribute_', '', $attribute_name );
+
+				if ( ! $attribute ) {
+					continue;
+				}
+
+				// Taxonomy-based attributes are prefixed with `pa_`, otherwise simply `attribute_`.
+				if ( 0 === strpos( $attribute_name, 'attribute_pa_' ) ) {
+					$option_term = get_term_by( 'slug', $attribute, $name );
+
+					$attributes[ 'attribute_' . $name ] = array(
+						'id'     => wc_attribute_taxonomy_id_by_name( $name ),
+						'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
+						'option' => $option_term && ! is_wp_error( $option_term ) ? $option_term->name : $attribute,
+					);
+				} else {
+					$attributes[ 'attribute_' . $name ] = array(
+						'id'     => 0,
+						'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
+						'option' => $attribute,
+					);
+				}
+			}
+		} else {
+			foreach ( $product->get_attributes() as $attribute ) {
+				$attribute_id = 'attribute_' . str_replace( ' ', '-', strtolower( $attribute['name'] ) );
+
+				$attributes[ $attribute_id ] = array(
+					'id'                   => $attribute['is_taxonomy'] ? wc_attribute_taxonomy_id_by_name( $attribute['name'] ) : 0,
+					'name'                 => $this->get_attribute_taxonomy_name( $attribute['name'], $product ),
+					'position'             => (int) $attribute['position'],
+					'is_attribute_visible' => (bool) $attribute['is_visible'],
+					'used_for_variation'   => (bool) $attribute['is_variation'],
+					'options'              => $this->get_attribute_options( $product->get_id(), $attribute ),
+				);
+			}
+		}
+
+		return $attributes;
+	} // END get_attributes()
+
+	/**
 	 * Get minimum details on connected products.
 	 *
 	 * @access public
