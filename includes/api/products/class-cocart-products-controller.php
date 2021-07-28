@@ -517,6 +517,22 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		switch ( $type ) {
 			case 'variation':
 			case 'subscription_variation':
+				$_product = wc_get_product( $product->get_parent_id() );
+
+				foreach ( $product->get_variation_attributes() as $attribute_name => $attribute ) {
+					$name = str_replace( 'attribute_', '', $attribute_name );
+
+					if ( ! $attribute ) {
+						continue;
+					}
+
+					$rest_url = add_query_arg( array(
+						"variation[attribute_$name]" => $attribute,
+					), $rest_url );
+				}
+
+				$rest_url = urldecode( html_entity_decode( $rest_url ) );
+				break;
 			case 'variable':
 			case 'external':
 			case 'grouped':
