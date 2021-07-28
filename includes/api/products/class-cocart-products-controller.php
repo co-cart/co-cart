@@ -431,14 +431,14 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			);
 
 			foreach ( $terms as $term ) {
-				$attributes[$term->slug] = $term->name;
+				$attributes[ $term->slug ] = $term->name;
 			}
 		} elseif ( isset( $attribute['value'] ) ) {
 			$options = explode( '|', $attribute['value'] );
 
 			foreach ( $options as $attribute ) {
-				$slug = trim( strtolower( $attribute ) );
-				$attributes[$slug] = trim( $attribute );
+				$slug                = trim( strtolower( $attribute ) );
+				$attributes[ $slug ] = trim( $attribute );
 			}
 		}
 
