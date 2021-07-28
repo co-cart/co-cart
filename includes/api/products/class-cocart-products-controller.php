@@ -121,7 +121,6 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 				// If requested to return variations then fetch them.
 				if ( $request['return_variations'] ) {
-					// $variation_object                         = new WC_Product_Variation( $variation_id );
 					$data['variations'][ $variation_id ] = $this->get_variation_product_data( $variation );
 				}
 			}
