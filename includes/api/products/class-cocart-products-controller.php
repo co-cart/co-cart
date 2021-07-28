@@ -411,6 +411,41 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END get_taxonomy_terms()
 
 	/**
+	 * Get attribute options.
+	 *
+	 * @access protected
+	 * @param  int   $product_id Product ID.
+	 * @param  array $attribute  Attribute data.
+	 * @return array
+	 */
+	protected function get_attribute_options( $product_id, $attribute ) {
+		$attributes = array();
+
+		if ( isset( $attribute['is_taxonomy'] ) && $attribute['is_taxonomy'] ) {
+			$terms = wc_get_product_terms(
+				$product_id,
+				$attribute['name'],
+				array(
+					'fields' => 'all',
+				)
+			);
+
+			foreach ( $terms as $term ) {
+				$attributes[$term->slug] = $term->name;
+			}
+		} elseif ( isset( $attribute['value'] ) ) {
+			$options = explode( '|', $attribute['value'] );
+
+			foreach ( $options as $attribute ) {
+				$slug = trim( strtolower( $attribute ) );
+				$attributes[$slug] = trim( $attribute );
+			}
+		}
+
+		return $attributes;
+	} // END get_attribute_options()
+
+	/**
 	 * Get minimum details on connected products.
 	 *
 	 * @access public
