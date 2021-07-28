@@ -1,10 +1,10 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? July, 2021 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - ?? August, 2021 (DATE SUBJECT TO CHANGE)
 
 * **NEW**: Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
 * **NEW**: Cart API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
-* **NEW**: CoCart Products add-on now merged introducing API v2 with a new option to view single products by SKU. Additional product support in CoCart Pro only.
+* **NEW**: CoCart Products add-on now merged introducing API v2 with a new option to view single products by SKU and many improved tweaks.
 * **NEW**: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/) added as plugin suggestion.
 * **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
 * **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
@@ -19,7 +19,7 @@
 * Dev: Added more compatibility for next update of CoCart Pro.
 * Dev: Minimum requirement for WordPress is now v5.5
 
-> ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. ⚠️
+> ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 
 ## v3.0.10 - 22nd July, 2021
 
