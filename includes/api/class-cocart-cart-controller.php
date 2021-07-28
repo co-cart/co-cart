@@ -762,7 +762,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
 	 * @return  string       The new amount.
 	 */
-	protected function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 		$amount = html_entity_decode( wp_strip_all_tags( $amount ) );
 
 		return (string) intval(
