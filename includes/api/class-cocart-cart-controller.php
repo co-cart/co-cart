@@ -7,7 +7,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\API\v2
  * @since    3.0.0
- * @version  3.0.6
+ * @version  3.0.11
  * @license  GPL-2.0+
  */
 
@@ -239,7 +239,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.0.11
 	 * @param   int|string $product_id - The product ID to validate.
 	 * @return  int $product_id
 	 */
@@ -256,9 +256,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 500 );
 				}
-
-				// Force product ID to be integer.
-				$product_id = (int) $product_id;
 			}
 
 			if ( empty( $product_id ) ) {
@@ -272,6 +269,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 				throw new CoCart_Data_Exception( 'cocart_product_id_not_numeric', $message, 405 );
 			}
+
+			// Force product ID to be integer.
+			$product_id = (int) $product_id;
 
 			return $product_id;
 		} catch ( CoCart_Data_Exception $e ) {
