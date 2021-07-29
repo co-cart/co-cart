@@ -330,7 +330,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 = v3.0.11 - 29th July, 2021 =
 
-* Fixed: Product ID not returning as integer once validated instead of a string. 🙈 Thanks to [Chris Dark](https://profiles.wordpress.org/darkchris/) for reporting the issue.
+* Fixed: Product ID not returning as integer once validated instead of a string. 🙈 Thanks to [Christian Kormos](https://profiles.wordpress.org/darkchris/) for reporting the issue.
 
 > Dev note: This will help solve issues with filters using the `$product_id` parameter when a product is added to cart.
 
