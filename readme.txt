@@ -1,5 +1,5 @@
 === Build a Headless WooCommerce store with CoCart === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris
 Tags: woocommerce, cart, rest-api, decoupled, headless, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.4
@@ -330,7 +330,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 = v3.0.11 - 29th July, 2021 =
 
-* Fixed: Product ID not returning as integer once validated instead of a string. 🙈
+* Fixed: Product ID not returning as integer once validated instead of a string. 🙈 Thanks to [Chris Dark](https://profiles.wordpress.org/darkchris/) for reporting the issue.
 
 > Dev note: This will help solve issues with filters using the `$product_id` parameter when a product is added to cart.
 
@@ -442,4 +442,4 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 = 3.0.10 =
 
-Stopped custom upgrade notice from being called on plugin page when major update is available for those using WordPress 5.5 or greater.
+Dev note: This will help solve issues with filters using the `$product_id` parameter when a product is added to cart.
