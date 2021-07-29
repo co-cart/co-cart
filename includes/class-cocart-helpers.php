@@ -267,7 +267,7 @@ class CoCart_Helpers {
 	/**
 	 * Helper method to get the version of the currently installed CoCart.
 	 *
-	 * @access private
+	 * @access public
 	 * @static
 	 * @return string
 	 */
