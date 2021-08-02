@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Classes
  * @since    1.2.0
- * @version  3.0.7
+ * @version  3.0.12
  * @license  GPL-2.0+
  */
 
@@ -159,10 +159,10 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Install CoCart.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
 		 * @since   1.2.0
-		 * @version 3.0.0
+		 * @version 3.0.12
 		 */
 		public static function install() {
 			if ( ! is_blog_installed() ) {
@@ -216,9 +216,9 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 *
 		 * @access public
 		 * @static
-		 * @since 3.0.0
-		 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
-		 * @param bool $execute       Whether to execute get_schema queries as well.
+		 * @since  3.0.0
+		 * @param  bool $modify_notice Whether to modify notice based on if all tables are present.
+		 * @param  bool $execute       Whether to execute get_schema queries as well.
 		 * @return array List of querues.
 		 */
 		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
@@ -281,7 +281,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 */
 		public static function is_new_install() {
 			return is_null( get_option( 'cocart_version', null ) );
-		}
+		} // END is_new_install()
 
 		/**
 		 * Is a Database update needed?
@@ -460,7 +460,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * This is called from `install` method and is executed in-sync when CoCart is installed or updated.
 		 * This can also be called optionally from `verify_base_tables`.
 		 *
-		 * @access private
+		 * @access  private
 		 * @static
 		 * @since   2.1.0
 		 * @version 3.0.0
