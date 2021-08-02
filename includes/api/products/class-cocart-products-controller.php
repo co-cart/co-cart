@@ -518,7 +518,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				$ids = array_map( 'absint', $product->get_cross_sell_ids( 'view' ) );
 				break;
 			case 'related':
-			case 'default':
+			default:
 				$ids = array_map( 'absint', array_values( wc_get_related_products( $product->get_id(), apply_filters( 'cocart_products_get_related_products_limit', 5 ) ) ) );
 				break;
 		}
@@ -627,7 +627,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			case 'grouped':
 				$rest_url = ''; // Return nothing for these product types.
 				break;
-			case 'default':
+			default:
 				$rest_url = apply_filters( 'cocart_products_add_to_cart_rest_url', $rest_url, $product, $type, $id );
 				break;
 		}
