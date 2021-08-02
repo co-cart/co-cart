@@ -159,13 +159,17 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Install CoCart.
 		 *
-		 * @access public
+		 * @access  public
 		 * @static
 		 * @since   1.2.0
 		 * @version 3.1.0
 		 */
 		public static function install() {
 			if ( ! is_blog_installed() ) {
+				return;
+			}
+
+			if ( ! version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {
 				return;
 			}
 
@@ -261,10 +265,12 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access  private
 		 * @static
 		 * @since   3.0.0
-		 * @version 3.1.0
+		 * @version 3.0.12
 		 */
 		private static function remove_admin_notices() {
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';
+			if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
+				include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';
+			}
 			CoCart_Admin_Notices::remove_all_notices();
 		} // END remove_admin_notices()
 
@@ -476,7 +482,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * This is called from `install` method and is executed in-sync when CoCart is installed or updated.
 		 * This can also be called optionally from `verify_base_tables`.
 		 *
-		 * @access private
+		 * @access  private
 		 * @static
 		 * @since   2.1.0
 		 * @version 3.1.0
@@ -626,7 +632,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access public
 		 * @since  2.1.0
 		 * @param  array $tables List of tables that will be deleted by WP.
-		 * @return string[]
+		 * @return array
 		 */
 		public static function wpmu_drop_tables( $tables ) {
 			return array_merge( $tables, self::get_tables() );

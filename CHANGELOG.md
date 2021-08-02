@@ -21,6 +21,12 @@
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 
+## v3.0.12 - 2nd August, 2021
+
+* Fixed: Validate item quantity by passing missing parameters.
+* Fixed: Default package title for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
+* Dev: Improved performance in the WordPress dashboard.
+
 ## v3.0.11 - 29th July, 2021
 
 * Fixed: Product ID not returning as integer once validated instead of a string. 🙈 Thanks to [Christian Kormos](https://profiles.wordpress.org/darkchris/) for reporting the issue.

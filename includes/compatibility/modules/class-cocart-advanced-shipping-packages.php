@@ -5,6 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Compatibility\Modules
  * @since   3.0.0
+ * @version 3.0.12
  * @license GPL-2.0+
  */
 
@@ -43,8 +44,8 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 			}
 
 			// Default package name.
-			if ( 0 === $i && get_option( 'advanced_shipping_packages_default_package_name', '' ) === $title ) {
-				$name = $title;
+			if ( 0 === $i ) {
+				$name = get_option( 'advanced_shipping_packages_default_package_name', '' );
 			}
 
 			return $name;

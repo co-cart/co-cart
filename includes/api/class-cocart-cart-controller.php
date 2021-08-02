@@ -482,7 +482,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.7
+	 * @version 3.0.12
 	 * @param   int             $product_id   - Contains the ID of the product.
 	 * @param   int|float       $quantity     - Contains the quantity of the item.
 	 * @param   null            $deprecated   - Used to pass the variation id of the product to add to the cart.
@@ -561,6 +561,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 500 );
 			}
 
+			// Add cart item data - may be added by other plugins.
+			$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
+
+			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
+			$cart_id = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
+
+			// Find the cart item key in the existing cart.
+			$item_key = $this->find_product_in_cart( $cart_id );
+
 			/**
 			 * Filters the quantity for specified products.
 			 *
@@ -573,7 +582,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
 
 			// Validates the item quantity.
-			$quantity = $this->validate_item_quantity( $product, $quantity );
+			$quantity = $this->validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id );
 
 			/**
 			 * If product validation returned an error return error response.
@@ -595,15 +604,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			if ( is_wp_error( $is_valid ) ) {
 				return $is_valid;
 			}
-
-			// Add cart item data - may be added by other plugins.
-			$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
-
-			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
-			$cart_id = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
-
-			// Find the cart item key in the existing cart.
-			$item_key = $this->find_product_in_cart( $cart_id );
 
 			// Returns all valid data.
 			return array(
@@ -920,12 +920,18 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access public
-	 * @param  WC_Product $product  - Product object associated with the cart item.
-	 * @param  float      $quantity - The quantity to validate.
-	 * @return float      $quantity - The quantity returned.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.12
+	 * @param   WC_Product $product      - Product object associated with the cart item.
+	 * @param   float      $quantity     - The quantity to validate.
+	 * @param   int        $product_id   - The product ID.
+	 * @param   int        $variation_id - The variation ID.
+	 * @param   array      $item_data    - The cart item data.
+	 * @param   string     $cart_id      - Generated ID based on item in cart.
+	 * @return  float      $quantity     - The quantity returned.
 	 */
-	public function validate_item_quantity( $product, $quantity ) {
+	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id ) {
 		try {
 			// Force quantity to 1 if sold individually and check for existing item in cart.
 			if ( $product->is_sold_individually() ) {

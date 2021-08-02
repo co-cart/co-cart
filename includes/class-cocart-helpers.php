@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.3.0
- * @version 3.0.3
+ * @version 3.0.12
  * @license GPL-2.0+
  */
 
@@ -735,6 +735,21 @@ class CoCart_Helpers {
 
 		return false;
 	} // END get_user_language()
+
+	/**
+	 * Checks if CoCart is white labelled.
+	 *
+	 * @access public
+	 * @static
+	 * @since 3.0.12
+	 */
+	public static function is_white_labelled() {
+		if ( ! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL ) {
+			return false;
+		}
+
+		return true;
+	} // END is_white_labelled()
 
 } // END class
 
