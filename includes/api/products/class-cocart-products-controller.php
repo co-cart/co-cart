@@ -287,7 +287,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				'price'         => $controller->prepare_money_response( $product->get_price( 'view' ), wc_get_price_decimals() ),
 				'regular_price' => $controller->prepare_money_response( $product->get_regular_price( 'view' ), wc_get_price_decimals() ),
 				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $product->get_sale_price( 'view' ), wc_get_price_decimals() ) : '',
-				'price_range'   => '',
+				'price_range'   => $this->get_price_range( $product ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
 					'from'     => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ), false ),
@@ -634,5 +634,45 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 		return $rest_url;
 	} // END add_to_cart_rest_url()
+
+	/**
+	 * Returns the price range for a variable product.
+	 *
+	 * @access public
+	 * @param  WC_Product $product Product object.
+	 * @return array
+	 */
+	public function get_price_range( $product ) {
+		$price = array();
+
+		$controller = new CoCart_Cart_V2_Controller();
+
+		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
+			$prices = $product->get_variation_prices( true );
+
+			if ( empty( $prices['price'] ) ) {
+				$price = apply_filters( 'cocart_variable_empty_price', '', $product );
+			} else {
+				$min_price     = current( $prices['price'] );
+				$max_price     = end( $prices['price'] );
+				$min_reg_price = current( $prices['regular_price'] );
+				$max_reg_price = end( $prices['regular_price'] );
+
+				if ( $min_price !== $max_price ) {
+					$price = array(
+						'from' => $controller->prepare_money_response( $min_price, wc_get_price_decimals() ),
+						'to'   => $controller->prepare_money_response( $max_price, wc_get_price_decimals() ),
+					);
+				} else {
+					$price = array(
+						'from' => $controller->prepare_money_response( $min_price, wc_get_price_decimals() ),
+						'to'   => ''
+					);
+				}
+			}
+		}
+
+		return apply_filters( 'cocart_get_price_range', $price, $product );
+	} // END get_price_range()
 
 } // END class
