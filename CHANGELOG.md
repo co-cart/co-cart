@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v3.0.12 - 2nd August, 2021
+
+* Fixed: Validate item quantity by passing missing parameters.
+* Fixed: Default package title for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
+* Dev: Improved performance in the WordPress dashboard.
+
 ## v3.0.11 - 29th July, 2021
 
 * Fixed: Product ID not returning as integer once validated instead of a string. 🙈 Thanks to [Christian Kormos](https://profiles.wordpress.org/darkchris/) for reporting the issue.
