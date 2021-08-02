@@ -257,13 +257,17 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Reset any notices added to admin.
 		 *
-		 * @access private
+		 * @access  private
 		 * @static
-		 * @since  3.0.0
+		 * @since   3.0.0
+		 * @version 3.0.12
 		 */
 		private static function remove_admin_notices() {
+			if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
+				include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';
+			}
 			CoCart_Admin_Notices::remove_all_notices();
-		}
+		} // END remove_admin_notices()
 
 		/**
 		 * Is this a brand new CoCart install?
