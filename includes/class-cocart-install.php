@@ -543,7 +543,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @access public
 		 * @since  2.1.0
 		 * @param  array $tables List of tables that will be deleted by WP.
-		 * @return string[]
+		 * @return array
 		 */
 		public static function wpmu_drop_tables( $tables ) {
 			return array_merge( $tables, self::get_tables() );
