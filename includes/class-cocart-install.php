@@ -169,6 +169,10 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return;
 			}
 
+			if ( ! version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {
+				return;
+			}
+
 			// Check if we are not already running this routine.
 			if ( 'yes' === get_transient( 'cocart_installing' ) ) {
 				return;
