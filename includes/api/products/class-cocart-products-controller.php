@@ -671,6 +671,8 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		return 'incl' === $tax_display_mode ? 'wc_get_price_including_tax' : 'wc_get_price_excluding_tax';
 	} // END get_price_from_tax_display_mode()
 
+	/**
+	 * Returns the price range for variable or grouped product.
 	 *
 	 * @access public
 	 * @param  WC_Product $product Product object.
@@ -706,6 +708,24 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 						'to'   => '',
 					);
 				}
+			}
+		}
+
+		if ( $product->is_type( 'grouped' ) ) {
+			$children       = array_filter( array_map( 'wc_get_product', $product->get_children() ), 'wc_products_array_filter_visible_grouped' );
+			$price_function = $this->get_price_from_tax_display_mode( $tax_display_mode );
+
+			foreach ( $children as $child ) {
+				if ( '' !== $child->get_price() ) {
+					$child_prices[] = $price_function( $child );
+				}
+			}
+
+			if ( ! empty( $child_prices ) ) {
+				$price = array(
+					'from' => $controller->prepare_money_response( min( $child_prices ), wc_get_price_decimals() ),
+					'to'   => $controller->prepare_money_response( max( $child_prices ), wc_get_price_decimals() ),
+				);
 			}
 		}
 
