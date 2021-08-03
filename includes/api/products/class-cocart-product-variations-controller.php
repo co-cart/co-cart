@@ -16,9 +16,9 @@ defined( 'ABSPATH' ) || exit;
  * REST API variations controller class.
  *
  * @package CoCart Products/API
- * @extends CoCart_Product_Variations_Controller
+ * @extends CoCart_Products_V2_Controller
  */
-class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_Controller {
+class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -26,6 +26,20 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
+
+	/**
+	 * Route base.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'products/(?P<product_id>[\d]+)/variations';
+
+	/**
+	 * Post type.
+	 *
+	 * @var string
+	 */
+	protected $post_type = 'product_variation';
 
 	/**
 	 * Prepare a single variation output for response.
