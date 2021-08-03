@@ -65,7 +65,6 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	protected function get_variation_product_data( $product ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$type         = $product->get_type();
 		$rating_count = $product->get_rating_count( 'view' );
 		$average      = $product->get_average_rating( 'view' );
 
