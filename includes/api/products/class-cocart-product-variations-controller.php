@@ -69,6 +69,12 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 		$rating_count = $product->get_rating_count( 'view' );
 		$average      = $product->get_average_rating( 'view' );
 
+		$tax_display_mode = $this->get_tax_display_mode();
+		$price_function   = $this->get_price_from_tax_display_mode( $tax_display_mode );
+
+		$regular_price = $product->get_regular_price();
+		$sale_price    = $product->get_sale_price();
+
 		$data = array(
 			'id'          => $product->get_id(),
 			'parent_id'   => $product->get_parent_id( 'view' ),
@@ -84,10 +90,10 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 				'modified_gmt' => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ) ),
 			),
 			'prices'      => array(
-				'price'         => $controller->prepare_money_response( $product->get_price( 'view' ), wc_get_price_decimals() ),
-				'regular_price' => $controller->prepare_money_response( $product->get_regular_price( 'view' ), wc_get_price_decimals() ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $product->get_sale_price( 'view' ), wc_get_price_decimals() ) : '',
-				'price_range'   => '',
+				'price'         => $controller->prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
+				'regular_price' => $controller->prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
+				'price_range'   => $this->get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
 					'from'     => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ), false ),

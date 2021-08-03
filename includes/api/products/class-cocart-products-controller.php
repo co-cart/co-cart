@@ -266,6 +266,18 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		$rating_count = $product->get_rating_count( 'view' );
 		$average      = $product->get_average_rating( 'view' );
 
+		$tax_display_mode = $this->get_tax_display_mode();
+		$price_function   = $this->get_price_from_tax_display_mode( $tax_display_mode );
+
+		// If we have a variable product, get the price from the variations (this will use the min value).
+		if ( $product->is_type( 'variable' ) ) {
+			$regular_price = $product->get_variation_regular_price();
+			$sale_price    = $product->get_variation_sale_price();
+		} else {
+			$regular_price = $product->get_regular_price();
+			$sale_price    = $product->get_sale_price();
+		}
+
 		$data = array(
 			'id'                 => $product->get_id(),
 			'parent_id'          => $product->get_parent_id( 'view' ),
@@ -284,10 +296,10 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			),
 			'featured'           => $product->is_featured(),
 			'prices'             => array(
-				'price'         => $controller->prepare_money_response( $product->get_price( 'view' ), wc_get_price_decimals() ),
-				'regular_price' => $controller->prepare_money_response( $product->get_regular_price( 'view' ), wc_get_price_decimals() ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $product->get_sale_price( 'view' ), wc_get_price_decimals() ) : '',
-				'price_range'   => $this->get_price_range( $product ),
+				'price'         => $controller->prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
+				'regular_price' => $controller->prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
+				'price_range'   => $this->get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
 					'from'     => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ), false ),
@@ -662,9 +674,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access public
 	 * @param  WC_Product $product Product object.
+	 * @param string     $tax_display_mode If returned prices are incl or excl of tax.
 	 * @return array
 	 */
-	public function get_price_range( $product ) {
+	public function get_price_range( $product, $tax_display_mode = '' ) {
+		$tax_display_mode = $this->get_tax_display_mode( $tax_display_mode );
+
 		$price = array();
 
 		$controller = new CoCart_Cart_V2_Controller();
@@ -673,7 +688,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			$prices = $product->get_variation_prices( true );
 
 			if ( empty( $prices['price'] ) ) {
-				$price = apply_filters( 'cocart_variable_empty_price', '', $product );
+				$price = apply_filters( 'cocart_variable_empty_price', array(), $product );
 			} else {
 				$min_price     = current( $prices['price'] );
 				$max_price     = end( $prices['price'] );
@@ -688,7 +703,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				} else {
 					$price = array(
 						'from' => $controller->prepare_money_response( $min_price, wc_get_price_decimals() ),
-						'to'   => ''
+						'to'   => '',
 					);
 				}
 			}
