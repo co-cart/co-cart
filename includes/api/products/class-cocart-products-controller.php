@@ -636,7 +636,29 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END add_to_cart_rest_url()
 
 	/**
-	 * Returns the price range for a variable product.
+	 * WooCommerce can return prices including or excluding tax.
+	 * Choose the correct method based on tax display mode.
+	 *
+	 * @access protected
+	 * @param  string $tax_display_mode - Provided tax display mode.
+	 * @return string Valid tax display mode.
+	 */
+	protected function get_tax_display_mode( $tax_display_mode = '' ) {
+		return in_array( $tax_display_mode, array( 'incl', 'excl' ), true ) ? $tax_display_mode : get_option( 'woocommerce_tax_display_shop' );
+	} // END get_tax_display_mode()
+
+	/**
+	 * WooCommerce can return prices including or excluding tax.
+	 * Choose the correct method based on tax display mode.
+	 *
+	 * @access protected
+	 * @param  string $tax_display_mode - If returned prices are incl or excl of tax.
+	 * @return string Function name.
+	 */
+	protected function get_price_from_tax_display_mode( $tax_display_mode ) {
+		return 'incl' === $tax_display_mode ? 'wc_get_price_including_tax' : 'wc_get_price_excluding_tax';
+	} // END get_price_from_tax_display_mode()
+
 	 *
 	 * @access public
 	 * @param  WC_Product $product Product object.
