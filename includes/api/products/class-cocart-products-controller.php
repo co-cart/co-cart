@@ -449,7 +449,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			$options = explode( '|', $attribute['value'] );
 
 			foreach ( $options as $attribute ) {
-				$slug                = trim( strtolower( $attribute ) );
+				$slug                = trim( $attribute );
 				$attributes[ $slug ] = trim( $attribute );
 			}
 		}
@@ -484,13 +484,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					$attributes[ 'attribute_' . $name ] = array(
 						'id'     => wc_attribute_taxonomy_id_by_name( $name ),
 						'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
-						'option' => $option_term && ! is_wp_error( $option_term ) ? $option_term->name : $attribute,
+						'option' => $option_term && ! is_wp_error( $option_term ) ? array( $option_term->slug => $option_term->name ) : array( $attribute => $attribute ),
 					);
 				} else {
 					$attributes[ 'attribute_' . $name ] = array(
 						'id'     => 0,
 						'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
-						'option' => $attribute,
+						'option' => array( $attribute => $attribute ),
 					);
 				}
 			}
