@@ -460,10 +460,10 @@ class CoCart_Admin_Setup_Wizard {
 		$tweet = array_rand( $this->tweets );
 
 		$user_email = $this->get_current_user_email();
-		$docs_url   = 'https://cocart.xyz/getting-started/';
+		$docs_url   = 'https://cocart.dev/';
 		$help_text  = sprintf(
 			/* translators: %1$s: link to docs */
-			__( 'Visit CoCart.xyz to learn more about <a href="%1$s" target="_blank">getting started</a>.', 'cart-rest-api-for-woocommerce' ),
+			__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),
 			$docs_url
 		);
 		?>
