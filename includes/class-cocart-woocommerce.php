@@ -134,6 +134,25 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			// Get current cart contents.
 			$cart_contents = WC()->session->get( 'cart', null );
 
+			// Merge requested cart. - ONLY ITEMS, COUPONS AND FEES THAT ARE NOT APPLIED TO THE CART IN SESSION WILL MERGE!!!
+			if ( ! empty( $cart_key ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$merge_cart = array();
+
+				$applied_coupons       = WC()->session->get( 'applied_coupons', null );
+				$removed_cart_contents = WC()->session->get( 'removed_cart_contents', null );
+				$cart_fees             = WC()->session->get( 'cart_fees', null );
+
+				$merge_cart['cart']                  = maybe_unserialize( $cart['cart'] );
+				$merge_cart['applied_coupons']       = maybe_unserialize( $cart['applied_coupons'] );
+				$merge_cart['applied_coupons']       = array_merge( $applied_coupons, $merge_cart['applied_coupons'] ); // Merge applied coupons.
+				$merge_cart['removed_cart_contents'] = maybe_unserialize( $cart['removed_cart_contents'] );
+				$merge_cart['removed_cart_contents'] = array_merge( $removed_cart_contents, $merge_cart['removed_cart_contents'] ); // Merge removed cart contents.
+				$merge_cart['cart_fees']             = maybe_unserialize( $cart['cart_fees'] );
+				$merge_cart['cart_fees']             = array_merge( $cart_fees, $cart['cart_fees'] ); // Merge cart fees.
+
+				$cart_contents = array_merge( $merge_cart['cart'], $cart_contents ); // Merge carts.
+			}
+
 			// Merge saved cart with current cart.
 			if ( ! empty( $cart_contents ) && strval( get_current_user_id() ) > 0 ) {
 				$saved_cart    = self::get_saved_cart();
@@ -144,17 +163,17 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			if ( ! empty( $cart ) ) {
 				WC()->session->set( 'cart', $cart_contents );
 				WC()->session->set( 'cart_totals', maybe_unserialize( $cart['cart_totals'] ) );
-				WC()->session->set( 'applied_coupons', maybe_unserialize( $cart['applied_coupons'] ) );
+				WC()->session->set( 'applied_coupons', ! empty( $merge_cart['applied_coupons'] ) ? $merge_cart['applied_coupons'] : maybe_unserialize( $cart['applied_coupons'] ) );
 				WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart['coupon_discount_totals'] ) );
 				WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart['coupon_discount_tax_totals'] ) );
-				WC()->session->set( 'removed_cart_contents', maybe_unserialize( $cart['removed_cart_contents'] ) );
+				WC()->session->set( 'removed_cart_contents', ! empty( $merge_cart['removed_cart_contents'] ) ? $merge_cart['removed_cart_contents'] : maybe_unserialize( $cart['removed_cart_contents'] ) );
 
 				if ( ! empty( $cart['chosen_shipping_methods'] ) ) {
 					WC()->session->set( 'chosen_shipping_methods', maybe_unserialize( $cart['chosen_shipping_methods'] ) );
 				}
 
 				if ( ! empty( $cart['cart_fees'] ) ) {
-					WC()->session->set( 'cart_fees', maybe_unserialize( $cart['cart_fees'] ) );
+					WC()->session->set( 'cart_fees', ! empty( $merge_cart['cart_fees'] ) ? $merge_cart['cart_fees'] : maybe_unserialize( $cart['cart_fees'] ) );
 				}
 			}
 		} // END load_cart_from_session()
