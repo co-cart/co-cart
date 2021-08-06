@@ -143,7 +143,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   string          $deprecated - Originally the cart item key.
 	 * @return  WP_REST_Response
 	 */
-	public function get_cart( $request = array(), $deprecated = '' ) {
+	public function get_cart( $request = array(), $deprecated = null ) {
 		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$cart_contents = ! $this->is_completly_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
@@ -186,7 +186,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   deprected       $deprecated - Originally the cart item key.
 	 * @return  array           $cart
 	 */
-	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = '', $from_session = false ) {
+	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = null, $from_session = false ) {
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 
