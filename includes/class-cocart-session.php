@@ -113,29 +113,27 @@ class CoCart_API_Session {
 
 			wc_nocache_headers();
 
-			// Check the user is logged in. If true a different cart cannot be loaded so just return.
-			if ( is_user_logged_in() ) {
-				$current_user = wp_get_current_user();
-				$user_id      = $current_user->ID;
+			// Check the cart doesn't belong to a registered user - only guest carts should be loadable from session
+			$user = get_user_by( 'id', $cart_key );
 
-				// Compare the user ID with the cart key.
-				if ( $user_id === $cart_key ) {
-					/* translators: %s: cart key */
-					CoCart_Logger::log( sprintf( __( 'Cart key "%s" is already loaded as the user is logged in.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'errro' );
+			// If the user exists, the cart key is for a registered user so we should just return
+			if ( ! empty( $user ) ) {
+				if ( is_user_logged_in() ) {
+					$current_user = wp_get_current_user();
+					$user_id      = $current_user->ID;
+
+					// Compare the user ID with the cart key.
+					if ( $user_id === $cart_key ) {
+						/* translators: %s: cart key */
+						CoCart_Logger::log( sprintf( __( 'Cart key "%s" is already loaded as the currently logged in user.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
+					} else {
+						/* translators: %s: cart key */
+						CoCart_Logger::log( sprintf( __( 'Customer is logged in as a different user. Cart key "%s" cannot be loaded into session for a different user.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
+					}
 				} else {
-					/* translators: %s: cart key */
-					CoCart_Logger::log( sprintf( __( 'Customer is already logged in. Cart key "%s" cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
+					CoCart_Logger::log( __( 'Cart key is recognised as a registered user on site. Cannot be loaded into session for a guest.', 'cart-rest-api-for-woocommerce' ), 'error' );
 				}
 				return;
-			} else {
-				// If user is not logged in, check that the cart key does not belong to a user registered.
-				$user = get_user_by( 'id', $cart_key );
-
-				// If the user exists then just return.
-				if ( ! empty( $user ) ) {
-					CoCart_Logger::log( __( 'Cart key is recognised as a registered user on site. Cannot be loaded into session.', 'cart-rest-api-for-woocommerce' ), 'error' );
-					return;
-				}
 			}
 
 			// At this point, the cart should load into session with no issues as we have passed verification.
