@@ -551,10 +551,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * Filter plugin fetching API results to return CoCart add-ons.
 		 *
 		 * @access public
-		 * @param  object|WP_Error $result Response object or WP_Error.
-		 * @param  string          $action The type of information being requested from the Plugin Install API.
-		 * @param  object          $args   Plugin API arguments.
-		 * @return array           $result Updated array of results.
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   object|WP_Error $result Response object or WP_Error.
+		 * @param   string          $action The type of information being requested from the Plugin Install API.
+		 * @param   object          $args   Plugin API arguments.
+		 * @return  array           $result Updated array of results.
 		 */
 		public function cocart_plugins( $result, $action, $args ) {
 			// If we are not browsing just CoCart then return results.
@@ -572,6 +574,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 			$suggestions = self::get_suggestions();
 
+			$total_items = $result->info['results'];
+
 			// Get each add-on and see if we should suggest it to the user.
 			foreach ( $suggestions as $slug => $data ) {
 				// Get prepared data to inject the results.
@@ -580,7 +584,11 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				// Override card icon.
 				$inject_data['icons'] = $inject_data['logo'];
 
+				// Inserts suggestion as part of results.
 				array_push( $result->plugins, $inject_data );
+
+				// Updates the total amount of plugins found.
+				$result->info['results'] = $total_items++;
 			} // END foreach add-on
 
 			// Return search results.
