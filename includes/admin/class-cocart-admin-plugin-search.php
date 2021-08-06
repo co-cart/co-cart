@@ -652,7 +652,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function insert_related_links( $links, $plugin ) {
 			if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$links = self::get_related_links( $links, $plugin );
+				$links = self::get_related_links( $plugin, $links );;
 			} elseif ( 'cocart-plugin-search' === $plugin['slug'] ) {
 				$links = self::get_suggestion_links( $plugin );
 			} else {
@@ -690,26 +690,30 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Returns related links for each CoCart plugin.
 		 *
-		 * @access public
-		 * @param  array $links  Related links before change.
-		 * @param  array $plugin Plugin details.
-		 * @return array $links  Related links after change.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   array $plugin Plugin details.
+		 * @param   array $links  Related links before change.
+		 * @return  array $links  Related links after change.
 		 */
-		public function get_related_links( $links, $plugin ) {
-			return self::get_action_links( $links, $plugin );
+		public function get_related_links( $plugin, $links ) {
+			return self::get_action_links( $plugin, $links );
 		} // END get_related_links()
 
 		/**
 		 * Returns related links for suggested plugin.
 		 *
-		 * @access public
-		 * @param  array $plugin Plugin details.
-		 * @return array $links  Related links after change.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   array $plugin Plugin details.
+		 * @return  array $links  Related links after change.
 		 */
 		public function get_suggestion_links( $plugin ) {
 			$links = array();
 
-			return self::get_action_links( $links, $plugin );
+			return self::get_action_links( $plugin, $links );
 		} // END get_suggestion_links()
 
 		/**
@@ -718,11 +722,11 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @access  public
 		 * @since   3.0.0
 		 * @version 3.1.0
-		 * @param   array $links  Related links before change.
 		 * @param   array $plugin Plugin details.
 		 * @return  array $links  Related links after change.
+		 * @return  array $links  Related links after change.
 		 */
-		public function get_action_links( $links = array(), $plugin ) {
+		public function get_action_links( $plugin, $links = array() ) {
 			$plugins_allowedtags = self::plugins_allowedtags();
 
 			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
