@@ -140,7 +140,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 				$applied_coupons       = WC()->session->get( 'applied_coupons', null );
 				$removed_cart_contents = WC()->session->get( 'removed_cart_contents', null );
-				$cart_fees             = WC()->session->get( 'cart_fees', null );
+				$cart_fees             = WC()->session->get( 'cart_fees', array() );
 
 				$merge_cart['cart']                  = maybe_unserialize( $cart['cart'] );
 				$merge_cart['applied_coupons']       = maybe_unserialize( $cart['applied_coupons'] );
@@ -148,7 +148,11 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				$merge_cart['removed_cart_contents'] = maybe_unserialize( $cart['removed_cart_contents'] );
 				$merge_cart['removed_cart_contents'] = array_merge( $removed_cart_contents, $merge_cart['removed_cart_contents'] ); // Merge removed cart contents.
 				$merge_cart['cart_fees']             = maybe_unserialize( $cart['cart_fees'] );
-				$merge_cart['cart_fees']             = array_merge( $cart_fees, $cart['cart_fees'] ); // Merge cart fees.
+
+				// Check cart fees return as an array so not to crash if PHP 8 or higher is used.
+				if ( is_array( $merge_cart['cart_fees'] ) ) {
+					$merge_cart['cart_fees'] = array_merge( $cart_fees, $merge_cart['cart_fees'] ); // Merge cart fees.
+				}
 
 				$cart_contents = array_merge( $merge_cart['cart'], $cart_contents ); // Merge carts.
 			}
