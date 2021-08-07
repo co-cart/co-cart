@@ -652,7 +652,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 */
 		public function insert_related_links( $links, $plugin ) {
 			if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$links = self::get_related_links( $plugin, $links );;
+				$links = self::get_related_links( $plugin, $links );
 			} elseif ( 'cocart-plugin-search' === $plugin['slug'] ) {
 				$links = self::get_suggestion_links( $plugin );
 			} else {
