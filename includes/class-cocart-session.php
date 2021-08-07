@@ -133,6 +133,12 @@ class CoCart_API_Session {
 				} else {
 					CoCart_Logger::log( __( 'Cart key is recognised as a registered user on site. Cannot be loaded into session as a guest.', 'cart-rest-api-for-woocommerce' ), 'error' );
 				}
+
+				// Display notice to developer if debug mode is enabled.
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					wc_add_notice( __( 'Technical error made! See error log for reason.', 'cart-rest-api-for-woocommerce' ), 'error' );
+				}
+
 				return;
 			}
 
