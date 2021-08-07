@@ -10,6 +10,7 @@
 * **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
+* Enhanced: Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
 * Fixed: Plugin review notice dismiss action.
 * Tweaked: Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
