@@ -113,10 +113,10 @@ class CoCart_API_Session {
 
 			wc_nocache_headers();
 
-			// Check the cart doesn't belong to a registered user - only guest carts should be loadable from session
+			// Check the cart doesn't belong to a registered user - only guest carts should be loadable from session.
 			$user = get_user_by( 'id', $cart_key );
 
-			// If the user exists, the cart key is for a registered user so we should just return
+			// If the user exists, the cart key is for a registered user so we should just return.
 			if ( ! empty( $user ) ) {
 				if ( is_user_logged_in() ) {
 					$current_user = wp_get_current_user();
