@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -102,7 +102,7 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
