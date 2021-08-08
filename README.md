@@ -39,7 +39,7 @@
 
 <br>
 
-<p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/master/.github/Logo-1024x534.png.webp" alt="CoCart" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/master/.wordpress-org/banner-772x250.jpg" alt="CoCart. Build headless stores, without building an API" /></p>
 
 ## Looking for documentation?
 
