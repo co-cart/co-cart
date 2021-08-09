@@ -350,6 +350,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * **NEW**: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/) added as plugin suggestion.
 * **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
 * **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
+* Deprecated: Upgrade Warning notice.
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
 * Enhanced: Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
@@ -361,6 +362,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Dev: Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
 * Dev: Introduced new filter `cocart_variable_empty_price` to provide a custom price range for variable products should none exist yet.
 * Dev: Introduced new filter `cocart_get_price_range` to alter the price range for variable products.
+* Dev: Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
 * Dev: Added more compatibility for next update of CoCart Pro.
 * Dev: Minimum requirement for WordPress is now v5.5
 
