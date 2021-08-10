@@ -222,7 +222,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
 
 		if ( ! empty( $coupons ) ) {
-			foreach ( $coupons as $i => $coupon ) {
+			foreach ( $coupons as $coupon ) {
 				$cart['coupons'][] = array(
 					'coupon'      => wc_format_coupon_code( wp_unslash( $coupon ) ),
 					'label'       => esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ),
