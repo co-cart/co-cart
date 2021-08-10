@@ -199,7 +199,7 @@ class CoCart_API_Session {
 			} else {
 				$new_cart_content                       = array_merge( $new_cart['cart'], $cart_in_session );
 				$new_cart['cart']                       = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
-				$new_cart['applied_coupons']            = array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() );
+				$new_cart['applied_coupons']            = array_unique( array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() ) );
 				$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
 				$new_cart['coupon_discount_tax_totals'] = array_merge( $new_cart['coupon_discount_tax_totals'], WC()->cart->get_coupon_discount_tax_totals() );
 				$new_cart['removed_cart_contents']      = array_merge( $new_cart['removed_cart_contents'], WC()->cart->get_removed_cart_contents() );
