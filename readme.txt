@@ -351,6 +351,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
 * **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
 * **NEW**: Ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
+* **NEW**: Ability to return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
 * Deprecated: Upgrade Warning notice.
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
