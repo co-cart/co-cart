@@ -216,57 +216,54 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		// Other Requested conditions.
-		$fields     = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
-		foreach ( $fields as $field ) {
-			if ( $field === 'coupons' ) {
-				// Returns each coupon applied and coupon total applied if store has coupons enabled.
-				$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
+		if ( in_array( 'coupons', $cart_template ) ) {
+			// Returns each coupon applied and coupon total applied if store has coupons enabled.
+			$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
 
-				if ( ! empty( $coupons ) ) {
-					foreach ( $coupons as $coupon ) {
-						$cart['coupons'][] = array(
-							'coupon'      => wc_format_coupon_code( wp_unslash( $coupon ) ),
-							'label'       => esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ),
-							'saving'      => $this->coupon_html( $coupon, false ),
-							'saving_html' => $this->coupon_html( $coupon ),
-						);
-					}
+			if ( ! empty( $coupons ) ) {
+				foreach ( $coupons as $coupon ) {
+					$cart['coupons'][] = array(
+						'coupon'      => wc_format_coupon_code( wp_unslash( $coupon ) ),
+						'label'       => esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ),
+						'saving'      => $this->coupon_html( $coupon, false ),
+						'saving_html' => $this->coupon_html( $coupon ),
+					);
 				}
 			}
+		}
 
-			if ( $field === 'taxes' ) {
-				// Return calculated tax based on store settings and customer details.
-				if ( wc_tax_enabled() && ! $this->get_cart_instance()->display_prices_including_tax() ) {
-					$taxable_address = WC()->customer->get_taxable_address();
-					$estimated_text  = '';
+		if ( in_array( 'taxes', $cart_template ) ) {
+			// Return calculated tax based on store settings and customer details.
+			if ( wc_tax_enabled() && ! $this->get_cart_instance()->display_prices_including_tax() ) {
+				$taxable_address = WC()->customer->get_taxable_address();
+				$estimated_text  = '';
 
-					if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
-						/* translators: %s location. */
-						$estimated_text = sprintf( ' ' . esc_html__( '(estimated for %s)', 'cart-rest-api-for-woocommerce' ), WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ] );
-					}
+				if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
+					/* translators: %s location. */
+					$estimated_text = sprintf( ' ' . esc_html__( '(estimated for %s)', 'cart-rest-api-for-woocommerce' ), WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ] );
+				}
 
-					if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
-						$cart['taxes'] = $this->get_tax_lines( $this->get_cart_instance() );
-					} else {
-						$cart['taxes'] = array(
-							'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-							'total' => apply_filters( 'cocart_cart_totals_taxes_total', $this->prepare_money_response( $this->get_cart_instance()->get_taxes_total() ) ),
-						);
-					}
+				if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
+					$cart['taxes'] = $this->get_tax_lines( $this->get_cart_instance() );
+				} else {
+					$cart['taxes'] = array(
+						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
+						'total' => apply_filters( 'cocart_cart_totals_taxes_total', $this->prepare_money_response( $this->get_cart_instance()->get_taxes_total() ) ),
+					);
 				}
 			}
+		}
 
-			// Returns items.
-			if ( $field === 'items' ) {
-				$cart['items'] = $this->get_items( $cart_contents, $show_thumb );
-			}
+		// Returns items.
+		if ( in_array( 'items', $cart_template ) ) {
+			$cart['items'] = $this->get_items( $cart_contents, $show_thumb );
+		}
 
-			// Returns removed items.
-			if ( $field === 'removed_items' ) {
-				$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
-			}
+		// Returns removed items.
+		if ( in_array( 'removed_items', $cart_template ) ) {
+			$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
 		}
 
 		// Parse cart data to template.
