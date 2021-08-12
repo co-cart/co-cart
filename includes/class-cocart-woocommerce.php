@@ -154,7 +154,10 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 					$merge_cart['cart_fees'] = array_merge( $cart_fees, $merge_cart['cart_fees'] ); // Merge cart fees.
 				}
 
-				$cart_contents = array_merge( $merge_cart['cart'], $cart_contents ); // Merge carts.
+				// Checking if there is cart content to merge.
+				if ( ! empty( $merge_cart['cart'] ) ) {
+					$cart_contents = array_merge( $merge_cart['cart'], $cart_contents ); // Merge carts.
+				}
 			}
 
 			// Merge saved cart with current cart.
