@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.1
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -65,7 +65,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -116,6 +116,19 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			}
 
 			if ( ! is_wp_error( $was_added_to_cart ) ) {
+				/**
+				 * Set customers billing email address.
+				 *
+				 * @since 3.1.0
+				 */
+				if ( isset( $request['email'] ) ) {
+					WC()->customer->set_props(
+						array(
+							'billing_email' => trim( esc_html( $request['email'] ) ),
+						)
+					);
+				}
+
 				cocart_add_to_cart_message( array( $was_added_to_cart['product_id'] => $was_added_to_cart['quantity'] ) );
 
 				// Was it requested to return the item details after being added?
@@ -312,7 +325,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.2
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @return  array
 	 */
 	public function get_item_schema() {
@@ -342,6 +355,11 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 				),
+				'email'       => array(
+					'required'    => false,
+					'description' => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+				),
 				'return_item' => array(
 					'required'    => false,
 					'default'     => false,
@@ -361,7 +379,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
@@ -394,6 +412,12 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					'required'          => false,
 					'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
 					'type'              => 'object',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'email'       => array(
+					'required'          => false,
+					'description'       => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
 				'return_item' => array(
