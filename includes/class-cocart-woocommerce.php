@@ -132,7 +132,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			$cart = WC()->session->get_cart( $cart_key );
 
 			// Get current cart contents.
-			$cart_contents = WC()->session->get( 'cart', null );
+			$cart_contents = WC()->session->get( 'cart', array() );
 
 			// Merge requested cart. - ONLY ITEMS, COUPONS AND FEES THAT ARE NOT APPLIED TO THE CART IN SESSION WILL MERGE!!!
 			if ( ! empty( $cart_key ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
