@@ -376,6 +376,11 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					'description' => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
+				'price'       => array(
+					'required'    => false,
+					'description' => __( 'Set a custom price for the item.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+				),
 				'return_item' => array(
 					'required'    => false,
 					'default'     => false,
@@ -433,6 +438,12 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				'email'       => array(
 					'required'          => false,
 					'description'       => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+				'price'       => array(
+					'required'          => false,
+					'description'       => __( 'Set a custom price for the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'              => 'string',
 					'validate_callback' => 'rest_validate_request_arg',
 				),
