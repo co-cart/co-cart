@@ -32,6 +32,7 @@ class CoCart_Cart_Cache {
 	 */
 	public function __construct() {
 		add_filter( 'cocart_override_cart_item', array( $this, 'set_new_price' ), 1, 2 );
+		add_action( 'cocart_item_removed', array( $this, 'remove_cached_item' ), 0, 1 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_cached_items' ), 99, 1 );
 	}
