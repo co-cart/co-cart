@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-rc.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-08-12 11:37:33+00:00\n"
+"POT-Creation-Date: 2021-08-26 14:21:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2846,7 +2846,7 @@ msgstr ""
 msgid "Get started with %3$s here:"
 msgstr ""
 
-#: includes/class-cocart-install.php:579
+#: includes/class-cocart-install.php:581
 #. translators: %2$s table name, %3$s database user, %4$s database name.
 msgid ""
 "%1$s %2$s table creation failed. Does the %3$s user have CREATE privileges "
@@ -2890,38 +2890,38 @@ msgstr ""
 msgid "This filter \"%s\" is no longer required and has been deprecated."
 msgstr ""
 
-#: includes/class-cocart-session.php:128
+#: includes/class-cocart-session.php:134
 #. translators: %s: cart key
 msgid "Cart key \"%s\" is already loaded as the currently logged in user."
 msgstr ""
 
-#: includes/class-cocart-session.php:131
+#: includes/class-cocart-session.php:137
 #. translators: %s: cart key
 msgid ""
 "Customer is logged in as a different user. Cart key \"%s\" cannot be loaded "
 "into session for a different user."
 msgstr ""
 
-#: includes/class-cocart-session.php:134
+#: includes/class-cocart-session.php:140
 msgid ""
 "Cart key is recognised as a registered user on site. Cannot be loaded into "
 "session as a guest."
 msgstr ""
 
-#: includes/class-cocart-session.php:139
+#: includes/class-cocart-session.php:145
 msgid "Technical error made! See error log for reason."
 msgstr ""
 
-#: includes/class-cocart-session.php:163
+#: includes/class-cocart-session.php:169
 #. translators: %s: cart key
 msgid "Unable to find cart for: %s"
 msgstr ""
 
-#: includes/class-cocart-session.php:166
+#: includes/class-cocart-session.php:172
 msgid "Sorry but this cart has expired!"
 msgstr ""
 
-#: includes/class-cocart-session.php:242
+#: includes/class-cocart-session.php:248
 #. translators: %1$s: Start of link to Shop archive. %2$s: Start of link to
 #. checkout page. %3$s: Closing link tag.
 msgid ""
