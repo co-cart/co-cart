@@ -465,11 +465,13 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		/**
 		 * Create cron jobs (clear them first).
 		 *
-		 * @access private
+		 * @access  private
 		 * @static
-		 * @since  2.1.0
+		 * @since   2.1.0
+		 * @version 3.1.0
 		 */
 		private static function create_cron_jobs() {
+			wp_clear_scheduled_hook( 'woocommerce_cleanup_sessions' ); // Remove WooCommerce cleanup sessions event.
 			wp_clear_scheduled_hook( 'cocart_cleanup_carts' );
 
 			wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'cocart_cleanup_carts' );

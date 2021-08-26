@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Uninstaller
  * @since   2.1.0
- * @version 2.8.3
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -15,7 +15,11 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 global $wpdb, $wp_version;
 
+// Clear clean up carts schedule.
 wp_clear_scheduled_hook( 'cocart_cleanup_carts' );
+
+// Reschedule WooCommerce cleanup sessions event.
+wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'woocommerce_cleanup_sessions' );
 
 /**
  * Only remove ALL plugin data and database table if COCART_REMOVE_ALL_DATA constant is

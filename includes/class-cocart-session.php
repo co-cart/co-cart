@@ -83,12 +83,18 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 2.4.0
+	 * @version 3.1.0
 	 */
 	public static function cleanup_carts() {
-		if ( class_exists( 'CoCart_Session_Handler' ) ) {
-			$handler = new CoCart_Session_Handler();
-			$handler->cleanup_sessions();
+		if ( ! class_exists( 'CoCart_Session_Handler' ) ) {
+			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
+			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
+		}
+
+		$session = new CoCart_Session_Handler();
+
+		if ( is_callable( array( $session, 'cleanup_sessions' ) ) ) {
+			$session->cleanup_sessions();
 		}
 	} // END cleanup_carts()
 

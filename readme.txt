@@ -358,6 +358,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Enhanced: Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
 * Fixed: Plugin review notice dismiss action.
+* Tweaked: Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
 * Tweaked: Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
 * Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
@@ -367,6 +368,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Dev: Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
 * Dev: Added more compatibility for next update of CoCart Pro.
 * Dev: Minimum requirement for WordPress is now v5.5
+* Uninstall: Will reschedule WooCommerce cron job for cleanup sessions.
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 
