@@ -32,6 +32,7 @@ class CoCart_Cart_Cache {
 	 */
 	public function __construct() {
 		add_filter( 'cocart_override_cart_item', array( $this, 'set_new_price' ), 1, 2 );
+		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_cached_items' ), 99, 1 );
 	}
 
@@ -52,6 +53,25 @@ class CoCart_Cart_Cache {
 
 		return $cart_item;
 	} // END set_new_price()
+
+	/**
+	 * Removes item from cache to prevent it from 
+	 * calculating wrong the next time it's added to the cart.
+	 *
+	 * @access public
+	 * @param  array|string $cart_item_key - Cart item key to remove from the cart cache.
+	 */
+	public function remove_cached_item( $cart_item_key ) {
+		if ( is_array( $cart_item_key ) ) {
+			$cart_item_key = $cart_item_key['key'];
+		}
+
+		// Remove item from cache.
+		unset( self::$_cart_contents_cached[ $cart_item_key ] );
+
+		// Update session.
+		WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+	} // END remove_cached_item()
 
 	/**
 	 * Calculate cached items.
