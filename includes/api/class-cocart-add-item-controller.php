@@ -131,6 +131,22 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 				cocart_add_to_cart_message( array( $was_added_to_cart['product_id'] => $was_added_to_cart['quantity'] ) );
 
+				/**
+				 * Override cart item for anything extra.
+				 *
+				 * DEVELOPER WARNING: THIS FILTER CAN CAUSE HAVOC SO BE CAREFULL WHEN USING IT!
+				 *
+				 * @since 3.1.0
+				 */
+				$was_added_to_cart = apply_filters( 'cocart_override_cart_item', $was_added_to_cart, $request );
+
+				/**
+				 * Cache cart item.
+				 *
+				 * @since 3.1.0
+				 */
+				$controller->cache_cart_item( $was_added_to_cart );
+
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
 					$response = $controller->get_item( $was_added_to_cart['data'], $was_added_to_cart, $was_added_to_cart['key'], true );
@@ -220,7 +236,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.1
+	 * @version 3.1.0
 	 * @param   array $product_to_add - Passes details of the item ready to add to the cart.
 	 * @return  array $item_added     - Returns details of the added item in the cart.
 	 */
@@ -268,7 +284,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				 * @param $product_id   Contains the id of the product to add to the cart.
 				 */
 				if ( apply_filters( 'cocart_skip_woocommerce_item_validation', false, $product_data, $product_id ) ) {
-					$item_key = $controller->add_cart_item( $product_id, $quantity, $variation_id, $variation, $item_data );
+					$item_key = $controller->add_cart_item( $product_id, $quantity, $variation_id, $variation, $item_data, $product_data );
 				} else {
 					$item_key = $controller->get_cart_instance()->add_to_cart( $product_id, $quantity, $variation_id, $variation, $item_data );
 				}

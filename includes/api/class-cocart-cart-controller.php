@@ -1530,6 +1530,19 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END add_cart_item()
 
 	/**
+	 * Cache cart item.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 * @param  array $was_added_to_cart - Cart item to cache.
+	 */
+	public function cache_cart_item( $was_added_to_cart ) {
+		$item_key = $was_added_to_cart['key'];
+
+		CoCart_Cart_Cache::set_cached_item( $item_key, $was_added_to_cart );
+	} // END cache_cart_item()
+
+	/**
 	 * Returns the customers details.
 	 *
 	 * @access protected
