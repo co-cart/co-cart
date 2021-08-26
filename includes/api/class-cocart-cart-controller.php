@@ -1487,16 +1487,18 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access public
-	 * @since  3.0.0
-	 * @param  int   $product_id     - Contains the id of the product to add to the cart.
-	 * @param  int   $quantity       - Contains the quantity of the item to add.
-	 * @param  int   $variation_id   - ID of the variation being added to the cart.
-	 * @param  array $variation      - Attribute values.
-	 * @param  array $cart_item_data - Extra cart item data we want to pass into the item.
-	 * @return string|boolean $item_key
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @param   int   $product_id     - Contains the id of the product to add to the cart.
+	 * @param   int   $quantity       - Contains the quantity of the item to add.
+	 * @param   int   $variation_id   - ID of the variation being added to the cart.
+	 * @param   array $variation      - Attribute values.
+	 * @param   array $cart_item_data - Extra cart item data we want to pass into the item.
+	 * @param   WC_Product $product_data - Product data.
+	 * @return  string|boolean $item_key
 	 */
-	public function add_cart_item( $product_id = 0, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array() ) {
+	public function add_cart_item( $product_id = 0, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array(), $product_data ) {
 		try {
 			// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
