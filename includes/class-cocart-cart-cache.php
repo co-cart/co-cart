@@ -71,7 +71,11 @@ class CoCart_Cart_Cache {
 		unset( self::$_cart_contents_cached[ $cart_item_key ] );
 
 		// Update session.
-		WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+		if ( ! empty( self::$_cart_contents_cached ) ) {
+			WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+		} else {
+			WC()->session->__unset( 'cart_cached' );
+		}
 	} // END remove_cached_item()
 
 	/**
