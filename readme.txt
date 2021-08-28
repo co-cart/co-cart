@@ -364,6 +364,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
 * Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
 * Dev: Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
+* Dev: Introduced new filter `cocart_override_cart_item` to override cart item for anything extra.
 * Dev: Introduced new filter `cocart_variable_empty_price` to provide a custom price range for variable products should none exist yet.
 * Dev: Introduced new filter `cocart_get_price_range` to alter the price range for variable products.
 * Dev: Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
