@@ -43,10 +43,10 @@ class CoCart_Admin_Setup_Wizard {
 	 * @var    array
 	 */
 	private $tweets = array(
-		'Someone give me cha ching, I just set up a headless store with @WooCommerce and @cart_co!',
-		'Someone give me high five, I just set up a headless store with @WooCommerce and @cart_co!',
-		'Want to build a fast headless store like me? Checkout @cart_co - Designed for @WooCommerce.',
-		'Build headless stores, without building an API. Checkout @cart_co - Designed for @WooCommerce.',
+		'Someone give me cha ching, I just set up a headless store with @WooCommerce and @cocartapi!',
+		'Someone give me high five, I just set up a headless store with @WooCommerce and @cocartapi!',
+		'Want to build a fast headless store like me? Checkout @cocartapi - Designed for @WooCommerce.',
+		'Build headless stores, without building an API. Checkout @cocartapi - Designed for @WooCommerce.',
 	);
 
 	/**
