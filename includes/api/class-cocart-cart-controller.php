@@ -1490,11 +1490,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   3.0.0
 	 * @version 3.1.0
-	 * @param   int   $product_id     - Contains the id of the product to add to the cart.
-	 * @param   int   $quantity       - Contains the quantity of the item to add.
-	 * @param   int   $variation_id   - ID of the variation being added to the cart.
-	 * @param   array $variation      - Attribute values.
-	 * @param   array $cart_item_data - Extra cart item data we want to pass into the item.
+	 * @param   int        $product_id     - Contains the id of the product to add to the cart.
+	 * @param   int        $quantity       - Contains the quantity of the item to add.
+	 * @param   int        $variation_id   - ID of the variation being added to the cart.
+	 * @param   array      $variation      - Attribute values.
+	 * @param   array      $cart_item_data - Extra cart item data we want to pass into the item.
 	 * @param   WC_Product $product_data - Product data.
 	 * @return  string|boolean $item_key
 	 */

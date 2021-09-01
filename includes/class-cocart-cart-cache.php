@@ -41,7 +41,7 @@ class CoCart_Cart_Cache {
 	 * Add new price to item if one is requested.
 	 *
 	 * @access public
-	 * @param  array $cart_item - Before cart item modified.
+	 * @param  array           $cart_item - Before cart item modified.
 	 * @param  WP_REST_Request $request - Full details about the request.
 	 * @return array $cart_item - After cart item modified.
 	 */
@@ -56,7 +56,7 @@ class CoCart_Cart_Cache {
 	} // END set_new_price()
 
 	/**
-	 * Removes item from cache to prevent it from 
+	 * Removes item from cache to prevent it from
 	 * calculating wrong the next time it's added to the cart.
 	 *
 	 * @access public
