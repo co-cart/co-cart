@@ -1940,7 +1940,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
@@ -1948,18 +1948,35 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'cart_key' => array(
 				'description' => __( 'Unique identifier for the cart or customer.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
+				'required'    => false,
+			),
+			'fields'   => array(
+				'description' => __( 'Specify each parent field you want to request seperated by (,) in the cart response before the data is fetched.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'required'    => false,
 			),
 			'thumb'    => array(
-				'description' => __( 'Returns the URL of the featured product image for each item in cart.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'True if you want to return the URL of the featured product image for each item in cart.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => true,
 				'type'        => 'boolean',
+				'required'    => false,
 			),
 			'default'  => array(
 				'description' => __( 'Return the default cart data if set to true.', 'cart-rest-api-for-woocommerce' ),
 				'default'     => false,
 				'type'        => 'boolean',
+				'required'    => false,
 			),
 		);
+
+		/**
+		 * Extend the query parameters.
+		 *
+		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default parameters.
+		 *
+		 * @since 3.1.0
+		 */
+		$params += apply_filters( 'cocart_cart_query_parameters', array() );
 
 		return $params;
 	} // END get_collection_params()

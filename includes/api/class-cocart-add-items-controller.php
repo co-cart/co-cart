@@ -257,34 +257,44 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	public function get_collection_params() {
 		$controller = new CoCart_Cart_V2_Controller();
 
-		$params = array_merge(
-			$controller->get_collection_params(),
-			array(
-				'id'           => array(
-					'description'       => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'string',
-					'sanitize_callback' => 'sanitize_text_field',
-					'validate_callback' => 'rest_validate_request_arg',
-				),
-				'quantity'     => array(
-					'required'          => true,
-					'description'       => __( 'List of items and quantity in the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'object',
-					'validate_callback' => 'rest_validate_request_arg',
-				),
-				'email'        => array(
-					'required'          => false,
-					'description'       => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'string',
-					'validate_callback' => 'rest_validate_request_arg',
-				),
-				'return_items' => array(
-					'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
-					'default'     => false,
-					'type'        => 'boolean',
-				),
-			)
+		// Cart query parameters.
+		$params = $controller->get_collection_params();
+
+		// Add to cart query parameters.
+		$params += array(
+			'id'           => array(
+				'description'       => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'quantity'     => array(
+				'required'          => true,
+				'description'       => __( 'List of items and quantity to add to the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'object',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'email'        => array(
+				'required'          => false,
+				'description'       => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'return_items' => array(
+				'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
+				'default'     => false,
+				'type'        => 'boolean',
+			),
 		);
+
+		/**
+		 * Extend the query parameters.
+		 *
+		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default parameters.
+		 *
+		 * @since 3.1.0
+		 */
+		$params += apply_filters( 'cocart_add_items_query_parameters', array() );
 
 		return $params;
 	} // END get_collection_params()
