@@ -1218,7 +1218,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 				// Collect all cart item data if any thing is left.
 				if ( ! empty( $cart_item ) ) {
-					$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
+					$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
 				}
 
 				// This filter allows additional data to be returned for a specific item in cart.
@@ -1258,7 +1258,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Collect all cart item data if any thing is left.
 			if ( ! empty( $cart_item ) ) {
-				$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
+				$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
 			}
 		}
 
