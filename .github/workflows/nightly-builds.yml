@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build: [trunk]
+        build: [master]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
