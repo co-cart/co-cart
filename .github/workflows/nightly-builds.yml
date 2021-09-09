@@ -1,7 +1,7 @@
 name: Nightly builds
 on:
   schedule:
-    - cron: '21 0 * * 1-5' # Run at 9 PM UTC+2 on Weekdays.
+    - cron: '0 21 * * 1-5' # Run at 9 PM UTC+2 on Weekdays.
 jobs:
   build:
     if: github.repository_owner == 'co-cart'
