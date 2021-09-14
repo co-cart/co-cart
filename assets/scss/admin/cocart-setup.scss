@@ -234,7 +234,7 @@ body {
 	}
 
 	li::before {
-		content: "";
+		content: '';
 		border: 4px solid #ccc;
 		border-radius: 100%;
 		width: 4px;
@@ -436,7 +436,7 @@ label {
 		}
 
 		.cocart-setup-wizard-actions {
-			margin: 0 0 1.5em 0;
+			margin: 0 0 1.5em;
 
 			.button {
 				font-size: 15px;
