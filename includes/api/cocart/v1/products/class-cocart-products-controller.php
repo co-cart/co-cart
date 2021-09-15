@@ -612,7 +612,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			// Use 0 when there's no on sale products to avoid return all products.
 			$on_sale_ids = empty( $on_sale_ids ) ? array( 0 ) : $on_sale_ids;
 
-			$args[ $on_sale_key ] += $on_sale_ids;
+			$args[ $on_sale_key ] = $on_sale_ids;
 		}
 
 		// Filter by Catalog Visibility
