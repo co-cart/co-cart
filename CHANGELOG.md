@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? August, 2021 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - ?? September, 2021 (DATE SUBJECT TO CHANGE)
 
 * **NEW**: Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
 * **NEW**: Cart API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
