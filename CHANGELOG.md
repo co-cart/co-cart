@@ -27,6 +27,9 @@
 * Dev: Introduced new filter `cocart_variable_empty_price` to provide a custom price range for variable products should none exist yet.
 * Dev: Introduced new filter `cocart_get_price_range` to alter the price range for variable products.
 * Dev: Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
+* Dev: Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
+* Dev: Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
+* Dev: Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
 * Dev: Added more compatibility for next update of CoCart Pro.
 * Dev: Minimum requirement for WordPress is now v5.5
 * Uninstall: Will reschedule WooCommerce cron job for cleanup sessions.
