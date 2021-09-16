@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-rc.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-09-14 17:25:59+00:00\n"
+"POT-Creation-Date: 2021-09-16 16:52:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1166,7 +1166,7 @@ msgid "Add Item"
 msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:355
-#: includes/api/class-cocart-add-item-controller.php:414
+#: includes/api/class-cocart-add-item-controller.php:415
 #: includes/api/class-cocart-cart-controller.php:1835
 msgid "Unique identifier for the product or variation ID."
 msgstr ""
@@ -1187,34 +1187,31 @@ msgid "Additional item data to make the item unique."
 msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:376
-#: includes/api/class-cocart-add-item-controller.php:440
+#: includes/api/class-cocart-add-item-controller.php:441
 #: includes/api/class-cocart-add-items-controller.php:232
-#: includes/api/class-cocart-add-items-controller.php:277
+#: includes/api/class-cocart-add-items-controller.php:279
 msgid "Customers billing email address."
 msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:381
-#: includes/api/class-cocart-add-item-controller.php:446
+#: includes/api/class-cocart-add-item-controller.php:447
 msgid "Set a custom price for the item."
 msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:387
-#: includes/api/class-cocart-add-item-controller.php:451
+#: includes/api/class-cocart-add-item-controller.php:453
 msgid "Returns the item details once added."
 msgstr ""
 
 #: includes/api/class-cocart-add-item-controller.php:422
-#: includes/api/class-cocart-cart-controller.php:1864
-#: includes/api/cocart/v1/class-cocart-controller.php:931
-msgid "Quantity of this item in the cart."
+msgid "Quantity of this item to add to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:428
-#: includes/api/cocart/v1/class-cocart-add-item-controller.php:366
-msgid "The variation attributes that identity the variation of the item."
+#: includes/api/class-cocart-add-item-controller.php:429
+msgid "Variable attributes that identify the variation of the item."
 msgstr ""
 
-#: includes/api/class-cocart-add-item-controller.php:434
+#: includes/api/class-cocart-add-item-controller.php:435
 #: includes/api/cocart/v1/class-cocart-add-item-controller.php:372
 msgid "Additional item data passed to make item unique."
 msgstr ""
@@ -1232,18 +1229,21 @@ msgid "Add Items"
 msgstr ""
 
 #: includes/api/class-cocart-add-items-controller.php:222
-#: includes/api/class-cocart-add-items-controller.php:264
+#: includes/api/class-cocart-add-items-controller.php:266
 msgid "Unique identifier for the container product ID."
 msgstr ""
 
 #: includes/api/class-cocart-add-items-controller.php:227
-#: includes/api/class-cocart-add-items-controller.php:271
 msgid "List of items and quantity in the cart."
 msgstr ""
 
 #: includes/api/class-cocart-add-items-controller.php:238
-#: includes/api/class-cocart-add-items-controller.php:282
+#: includes/api/class-cocart-add-items-controller.php:284
 msgid "Returns the items details once added."
+msgstr ""
+
+#: includes/api/class-cocart-add-items-controller.php:273
+msgid "List of items and quantity to add to the cart."
 msgstr ""
 
 #: includes/api/class-cocart-calculate-controller.php:56
@@ -1420,6 +1420,11 @@ msgstr ""
 msgid "Variation attribute value."
 msgstr ""
 
+#: includes/api/class-cocart-cart-controller.php:1864
+#: includes/api/cocart/v1/class-cocart-controller.php:931
+msgid "Quantity of this item in the cart."
+msgstr ""
+
 #: includes/api/class-cocart-cart-controller.php:1878
 #: includes/api/cocart/v1/class-cocart-controller.php:945
 msgid "Line subtotal tax data."
@@ -1470,11 +1475,19 @@ msgstr ""
 msgid "Unique identifier for the cart or customer."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1954
-msgid "Returns the URL of the featured product image for each item in cart."
+#: includes/api/class-cocart-cart-controller.php:1955
+msgid ""
+"Specify each parent field you want to request seperated by (,) in the cart "
+"response before the data is fetched."
 msgstr ""
 
-#: includes/api/class-cocart-cart-controller.php:1959
+#: includes/api/class-cocart-cart-controller.php:1960
+msgid ""
+"True if you want to return the URL of the featured product image for each "
+"item in cart."
+msgstr ""
+
+#: includes/api/class-cocart-cart-controller.php:1966
 msgid "Return the default cart data if set to true."
 msgstr ""
 
@@ -1513,9 +1526,9 @@ msgid "Item specified was not found in cart."
 msgstr ""
 
 #: includes/api/class-cocart-item-controller.php:102
-#: includes/api/class-cocart-remove-item-controller.php:197
-#: includes/api/class-cocart-restore-item-controller.php:173
-#: includes/api/class-cocart-update-item-controller.php:251
+#: includes/api/class-cocart-remove-item-controller.php:201
+#: includes/api/class-cocart-restore-item-controller.php:177
+#: includes/api/class-cocart-update-item-controller.php:255
 #: includes/api/cocart/v1/class-cocart-item-controller.php:430
 msgid "Unique identifier for the item in the cart."
 msgstr ""
@@ -1579,7 +1592,7 @@ msgstr ""
 msgid "Unable to remove item from cart."
 msgstr ""
 
-#: includes/api/class-cocart-remove-item-controller.php:203
+#: includes/api/class-cocart-remove-item-controller.php:207
 msgid "Returns a message after removing item from cart."
 msgstr ""
 
@@ -1598,7 +1611,7 @@ msgstr ""
 msgid "Unable to restore item to the cart."
 msgstr ""
 
-#: includes/api/class-cocart-restore-item-controller.php:179
+#: includes/api/class-cocart-restore-item-controller.php:183
 msgid "Returns the item details once restored."
 msgstr ""
 
@@ -1701,7 +1714,7 @@ msgstr ""
 msgid "The quantity for \"%s\" has not changed."
 msgstr ""
 
-#: includes/api/class-cocart-update-item-controller.php:264
+#: includes/api/class-cocart-update-item-controller.php:268
 msgid "Returns a message and quantity value after updating item in cart."
 msgstr ""
 
@@ -1734,6 +1747,10 @@ msgstr ""
 
 #: includes/api/cocart/v1/class-cocart-add-item-controller.php:351
 msgid "The quantity amount of the item to add to cart."
+msgstr ""
+
+#: includes/api/cocart/v1/class-cocart-add-item-controller.php:366
+msgid "The variation attributes that identity the variation of the item."
 msgstr ""
 
 #: includes/api/cocart/v1/class-cocart-add-item-controller.php:379
