@@ -7,11 +7,11 @@ Requires PHP: 7.3
 Tested up to: 5.8
 Stable tag: 3.0.12
 WC requires at least: 4.3
-WC tested up to: 5.5
+WC tested up to: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A RESTful API that focuses on the front-end of the store with an integration to build your headless store with ease.
+RESTful API that focuses on the front-end of the store with an integration to build your headless store with ease.
 
 == Description ==
 
@@ -84,6 +84,8 @@ As an added bonus for administrators or shop managers, CoCart Lite also provides
 
 CoCart also provides built in features to:
 
+* **NEW**: Override price for item added to cart.
+* **NEW**: Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
 * Load a cart in session via the web.
 * Support guest customers.
 * Supports basic authentication including the use of email as username.
@@ -125,7 +127,7 @@ Features that will be available in the future:
 
 * **Coming Soon** Remove All Coupons from Cart
 * **Coming Soon** Register Customers
-* **Coming Soon** Retrieve Checkout Fields
+* **Coming Soon** Retrieve Checkout Fields (More details on that soon)
 * **Coming Soon** Set Cart Customer (In Development)
 * **Coming Soon** Create Order (In Development)
 
@@ -134,7 +136,7 @@ For logged in customers:
 * **Coming Soon** Return Orders
 * **Coming Soon** Return Subscriptions
 * **Coming Soon** Return Downloads (Auditing)
-* **Coming Soon** Return Payment Methods (Auditing)
+* **Coming Soon** Return Payment Methods
 * **Coming Soon** Get and Update Profile (In Development)
 
 [Buy CoCart Pro Now](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
@@ -180,7 +182,7 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 * The [CoCart plugin](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) official website.
 * The CoCart [Documentation](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
-* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cart_co), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
+* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
 
 #### Credits
 
@@ -261,7 +263,7 @@ The default WooCommerce session table only stores the basics of a cart in sessio
 
 Such as when the cart was created. This information is only stored in the browser session.
 
-Also the source of the cart it was last saved. For the web it will be `WooCommerce` and for your headlesss store `CoCart`. This lets you know which version of your store your customers are shopping from.
+Also the source of the cart it was last saved. For the web it will be `WooCommerce` and for your headlesss store `CoCart`. This lets you know which version of your store your customers are shopping from should you have both web and app versions.
 
 = Can I have WordPress running on one domain and my headless store on another domain? =
 
@@ -280,6 +282,8 @@ If you have "TaxJar for WooCommerce" v3.2.5 or above and CoCart v3.0 or above in
 = Why CoCart and not WooCommerce Store API? =
 
 WooCommerce Store API is limited and designed mainly to focus on their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) they have developed in React. CoCart is designed to focus on decoupling WooCommerce so you can use any framework to allow your store to be headless.
+
+Also, after tweaking WooCommerce Store API to work for decoupled purposes (which CoCart does not require), your still using the default session handler which does not support guest customers. CoCart uses it's own session handler which does support guest customers.
 
 = Do you have a JavaScript Library? =
 
@@ -307,7 +311,7 @@ Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart
 
 = CoCart is awesome! Can I contribute? =
 
-Yes, you can! Join in on our [GitHub repository](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md) and follow the [development blog](https://cocart.xyz/news/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) to stay up-to-date with everything happening in the project.
+Yes, you can! Join in on our [GitHub repository](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md) and follow the [development blog](https://cocart.dev/news/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) to stay up-to-date with everything happening in the project.
 
 = Is CoCart translatable? =
 
@@ -342,7 +346,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.1.0 - ?? August, 2021 =
+= v3.1.0 - ?? September, 2021 =
 
 * **NEW**: Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
 * **NEW**: Cart API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
@@ -357,6 +361,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
 * Enhanced: Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
+* Fixed: Coupons duplicating on each load.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
 * Fixed: Plugin review notice dismiss action.
 * Tweaked: Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
