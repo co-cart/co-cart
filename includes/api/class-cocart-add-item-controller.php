@@ -200,7 +200,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   string          $product_id - Contains the id of the product to add to the cart.
 	 * @param   float           $quantity   - Contains the quantity of the item to add to the cart.
 	 * @param   null            $deprecated - Used to pass the variation id of the product to add to the cart.
@@ -209,7 +209,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @param   WP_REST_Request $request    - Full details about the request.
 	 * @return  bool            success or not
 	 */
-	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated = null, $variation, $item_data, $request = array() ) {
+	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated, $variation, $item_data, $request = array() ) {
 		$controller = new CoCart_Cart_V2_Controller();
 
 		$product_to_add = $controller->validate_product( $product_id, $quantity, $deprecated, $variation, $item_data, 'variable', $request );
