@@ -33,6 +33,7 @@ class CoCart_Cart_Cache {
 	public function __construct() {
 		add_filter( 'cocart_override_cart_item', array( $this, 'set_new_price' ), 1, 2 );
 		add_action( 'cocart_item_removed', array( $this, 'remove_cached_item' ), 0, 1 );
+		add_action( 'cocart_cart_cleared', array( $this, 'remove_cached_item' ), 0 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_cached_items' ), 99, 1 );
 	}
@@ -58,6 +59,7 @@ class CoCart_Cart_Cache {
 	/**
 	 * Removes item from cache to prevent it from
 	 * calculating wrong the next time it's added to the cart.
+	 * Or clears all cached items when the cart is cleared.
 	 *
 	 * @access public
 	 * @param  array|string $cart_item_key - Cart item key to remove from the cart cache.
@@ -67,13 +69,18 @@ class CoCart_Cart_Cache {
 			$cart_item_key = $cart_item_key['key'];
 		}
 
-		// Remove item from cache.
-		unset( self::$_cart_contents_cached[ $cart_item_key ] );
+		if ( ! empty( $cart_item_key ) ) {
+			// Remove item from cache.
+			unset( self::$_cart_contents_cached[ $cart_item_key ] );
 
-		// Update session.
-		if ( ! empty( self::$_cart_contents_cached ) ) {
-			WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+			// Update session.
+			if ( ! empty( self::$_cart_contents_cached ) ) {
+				WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+			} else {
+				WC()->session->__unset( 'cart_cached' );
+			}
 		} else {
+			// Clear cache.
 			WC()->session->__unset( 'cart_cached' );
 		}
 	} // END remove_cached_item()
