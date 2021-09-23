@@ -94,7 +94,7 @@ class CoCart_Cart_Cache {
 
 				// If this item is cached then look up price difference before setting the new price.
 				if ( isset( $cart_contents_cached[ $key ] ) ) {
-					if ( $product->get_price() !== $cart_contents_cached[ $key ]['price'] ) {
+					if ( isset( $cart_contents_cached[ $key ]['price'] ) && $product->get_price() !== $cart_contents_cached[ $key ]['price'] ) {
 						$value['data']->set_price( $cart_contents_cached[ $key ]['price'] );
 					}
 				}
