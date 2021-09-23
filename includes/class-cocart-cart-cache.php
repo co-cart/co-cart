@@ -116,10 +116,11 @@ class CoCart_Cart_Cache {
 	 * Get a cached cart item.
 	 *
 	 * @access public
+	 * @static
 	 * @param  string $item_key Item key to get.
 	 * @return array Value of cart data.
 	 */
-	public function get_cached_item( $item_key ) {
+	public static function get_cached_item( $item_key ) {
 		$item_key = sanitize_key( $item_key );
 
 		return isset( self::$_cart_contents_cached[ $item_key ] ) ? self::$_cart_contents_cached[ $item_key ] : null;
