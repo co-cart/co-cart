@@ -397,13 +397,13 @@ class CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   2.1.0
-	 * @version 2.7.0
+	 * @version 3.1.0
 	 * @param   int        $variation_id   - ID of the variation.
 	 * @param   array      $variation      - Attribute values.
 	 * @param   WC_Product $product        - The product data.
 	 * @return  array|WP_Error
 	 */
-	protected function validate_variable_product( $variation_id, $variation, $product ) {
+	protected function validate_variable_product( int $variation_id, array $variation, \WC_Product $product ) {
 		// Flatten data and format posted values.
 		$variable_product_attributes = $this->get_variable_product_attributes( $product );
 

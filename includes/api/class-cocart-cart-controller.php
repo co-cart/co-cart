@@ -354,7 +354,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   WC_Product $product      - The product data.
 	 * @return  array
 	 */
-	protected function validate_variable_product( $variation_id, $variation = array(), $product ) {
+	protected function validate_variable_product( int $variation_id, array $variation, \WC_Product $product ) {
 		try {
 			// Flatten data and format posted values.
 			$variable_product_attributes = $this->get_variable_product_attributes( $product );
@@ -1499,7 +1499,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   WC_Product $product_data - Product data.
 	 * @return  string|boolean $item_key
 	 */
-	public function add_cart_item( $product_id = 0, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array(), $product_data ) {
+	public function add_cart_item( int $product_id, int $quantity, $variation_id, array $variation, array $cart_item_data, \WC_Product $product_data ) {
 		try {
 			// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
