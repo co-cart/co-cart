@@ -105,6 +105,7 @@ class CoCart_Cart_Cache {
 	/**
 	 * Gets cart contents cached.
 	 *
+	 * @access public
 	 * @return array of cart items
 	 */
 	public function get_cart_contents_cached() {
@@ -114,7 +115,8 @@ class CoCart_Cart_Cache {
 	/**
 	 * Get a cached cart item.
 	 *
-	 * @param string $item_key Item key to get.
+	 * @access public
+	 * @param  string $item_key Item key to get.
 	 * @return array Value of cart data.
 	 */
 	public function get_cached_item( $item_key ) {
@@ -126,8 +128,10 @@ class CoCart_Cart_Cache {
 	/**
 	 * Set a cart item to cache.
 	 *
-	 * @param string $item_key Key to item in cart.
-	 * @param mixed  $value Value to set.
+	 * @access public
+	 * @static
+	 * @param  string $item_key Key to item in cart.
+	 * @param  mixed  $value Value to set.
 	 */
 	public static function set_cached_item( $item_key, $value ) {
 		if ( $value !== self::get_cached_item( $item_key ) ) {
