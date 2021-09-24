@@ -16,6 +16,7 @@
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
 * Enhanced: Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
 * Fixed: Coupons duplicating on each load.
+* Fixed: `$item_key` not passed in validate_item_quantity() function to validate the quantity allowed for the item.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
 * Fixed: Plugin review notice dismiss action.
 * Tweaked: Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
