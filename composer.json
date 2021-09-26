@@ -17,7 +17,11 @@
 		"cart",
 		"rest",
 		"rest-api",
-		"JSON"
+		"JSON",
+		"decoupled",
+		"headless",
+		"headless-wordpress",
+		"headless-woocommerce"
 	],
 	"license": "GPL-3.0-or-later",
 	"prefer-stable": true,
