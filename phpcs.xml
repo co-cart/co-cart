@@ -24,7 +24,7 @@
 
 	<!-- Configs -->
 	<config name="minimum_supported_wp_version" value="5.5" />
-	<config name="testVersion" value="7.0-" />
+	<config name="testVersion" value="7.3-" />
 
 	<!-- Rules -->
 	<rule ref="CoCart-Core">
