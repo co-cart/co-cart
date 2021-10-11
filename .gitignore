@@ -24,6 +24,9 @@ contributors.html
 /build/
 /releases/
 
+# Tests
+/tests/
+
 # Various file types to ignore when exporting.
 *.sh
 .gitconfig
