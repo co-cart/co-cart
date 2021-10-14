@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v3.0.13 - 14th October, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Fatal error when `$session->save_data()` is called either in JetPack or Amazon Pay payment gateway.
+
 ## v3.0.12 - 2nd August, 2021
 
 * Fixed: Validate item quantity by passing missing parameters.

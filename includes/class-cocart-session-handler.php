@@ -11,7 +11,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Classes
  * @since    2.1.0
- * @version  3.0.7
+ * @version  3.0.13
  * @license  GPL-2.0+
  */
 
@@ -514,6 +514,18 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END save_cart()
 
 	/**
+	 * Backwards compatibility for other plugins to
+	 * save data and delete guest session.
+	 *
+	 * @access public
+	 * @since  3.0.13
+	 * @param  int $old_session_key session ID before user logs in.
+	 */
+	public function save_data( $old_session_key = 0 ) {
+		$this->save_cart( $old_cart_key );
+	} // END save_data()
+
+	/**
 	 * Destroy all cart data.
 	 *
 	 * @access public
@@ -522,6 +534,17 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$this->delete_cart( $this->_customer_id );
 		$this->forget_cart();
 	} // END destroy_cart()
+
+	/**
+	 * Backwards compatibility for other plugins to
+	 * destroy all session data.
+	 *
+	 * @access public
+	 * @since  3.0.13
+	 */
+	public function destroy_session() {
+		$this->destroy_cart();
+	} // END destroy_session()
 
 	/**
 	 * Destroy cart cookie.
