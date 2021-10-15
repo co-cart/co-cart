@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? September, 2021 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - ?? October, 2021 (DATE SUBJECT TO CHANGE)
 
 ### What's New?
 
@@ -46,6 +46,12 @@
 * Dev: Minimum requirement for WordPress is now v5.5
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
+
+## v3.0.13 - 15th October, 2021
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Fatal error when `$session->save_data()` is called in [JetPack WooCommerce Analytics](https://jetpack.com/support/woocommerce-analytics/) and [WooCommerce Amazon Pay](https://wordpress.org/plugins/woocommerce-gateway-amazon-payments-advanced/) payment gateway.
 
 ## v3.0.12 - 2nd August, 2021
 
