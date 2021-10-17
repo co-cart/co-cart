@@ -138,8 +138,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			if ( ! empty( $cart_key ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$merge_cart = array();
 
-				$applied_coupons       = WC()->session->get( 'applied_coupons', null );
-				$removed_cart_contents = WC()->session->get( 'removed_cart_contents', null );
+				$applied_coupons       = WC()->session->get( 'applied_coupons', array() );
+				$removed_cart_contents = WC()->session->get( 'removed_cart_contents', array() );
 				$cart_fees             = WC()->session->get( 'cart_fees', array() );
 
 				$merge_cart['cart']                  = maybe_unserialize( $cart['cart'] );
