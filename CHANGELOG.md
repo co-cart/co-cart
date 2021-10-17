@@ -1,5 +1,9 @@
 # Changelog for CoCart Lite
 
+## v3.0.14 - ?? October, 2021
+
+* Fixed: Undefined index: `cart` that rarely happens. Reported by [@AlceoMazza](https://github.com/AlceoMazza)
+
 ## v3.0.13 - 15th October, 2021
 
 **🔥 This is a HOTFIX!**
