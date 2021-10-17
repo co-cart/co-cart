@@ -492,7 +492,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.12
+	 * @version 3.1.0
 	 * @param   int             $product_id   - Contains the ID of the product.
 	 * @param   int|float       $quantity     - Contains the quantity of the item.
 	 * @param   null            $deprecated   - Used to pass the variation id of the product to add to the cart.
@@ -592,7 +592,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
 
 			// Validates the item quantity.
-			$quantity = $this->validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id );
+			$quantity = $this->validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id, $item_key );
 
 			/**
 			 * If product validation returned an error return error response.
@@ -932,16 +932,17 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.12
+	 * @version 3.1.0
 	 * @param   WC_Product $product      - Product object associated with the cart item.
 	 * @param   float      $quantity     - The quantity to validate.
 	 * @param   int        $product_id   - The product ID.
 	 * @param   int        $variation_id - The variation ID.
 	 * @param   array      $item_data    - The cart item data.
 	 * @param   string     $cart_id      - Generated ID based on item in cart.
+	 * @param   string     $item_key     - Item key of item in cart.
 	 * @return  float      $quantity     - The quantity returned.
 	 */
-	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id ) {
+	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id, $item_key ) {
 		try {
 			// Force quantity to 1 if sold individually and check for existing item in cart.
 			if ( $product->is_sold_individually() ) {
