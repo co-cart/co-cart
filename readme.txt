@@ -334,6 +334,10 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.0.14 - 16th October, 2021 =
+
+* Fixed: Undefined index: `cart` that rarely happens. Reported by [@AlceoMazza](https://github.com/AlceoMazza)
+
 = v3.0.13 - 15th October, 2021 =
 
 **🔥 This is a HOTFIX!**
@@ -458,6 +462,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.0.13 =
+= 3.0.14 =
 
-Fixed a fatal error when `$session->save_data()` is called either in JetPack or Amazon Pay payment gateway.
+Fixed: Undefined index: `cart` that rarely happens. 
