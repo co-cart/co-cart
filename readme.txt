@@ -172,7 +172,7 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 * The [CoCart plugin](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) official website.
 * The CoCart [Documentation](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
-* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cart_co), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
+* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
 
 #### Credits
 
