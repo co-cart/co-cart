@@ -5,9 +5,9 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.5
 Requires PHP: 7.3
 Tested up to: 5.8
-Stable tag: 3.0.13
+Stable tag: 3.0.14
 WC requires at least: 4.3
-WC tested up to: 5.7
+WC tested up to: 5.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,9 +31,15 @@ CoCart, in my opinion, is the best frontend REST API for WooCommerce. Don’t ju
 
 Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
 
+---
+
 This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
 
+---
+
 Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
+
+---
 
 This plugin works great out of the box for adding products to the Woo cart via API. The code is solid and functionality is as expected, thanks Sebastien! [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
 
