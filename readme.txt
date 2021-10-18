@@ -335,7 +335,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.0.14 - 16th October, 2021 =
+= v3.0.14 - 18th October, 2021 =
 
 * Fixed: Undefined index: `cart` that rarely happens. Reported by [@AlceoMazza](https://github.com/AlceoMazza)
 
