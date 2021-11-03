@@ -22,8 +22,9 @@ contributors.html
 
 # Build & Releases
 /build/
+/fire-build/
 /releases/
-
+/tests/
 # Various file types to ignore when exporting.
 *.sh
 .gitconfig
