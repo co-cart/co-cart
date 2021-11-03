@@ -469,6 +469,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.0.14 =
+= 3.0.15 =
 
-Fixed: Undefined index: `cart` that rarely happens. 
+* Fixed: Undefined function for `wp_get_environment_type()` introduced in WordPress 5.5 should the site be running a lower version of WordPress.
