@@ -99,7 +99,7 @@
 		"stylelint-order": "4.1.0"
 	},
 	"dependencies": {
-		"autoprefixer": "^9.8.6",
+		"autoprefixer": "^10.0.0",
 		"stylelint": "~13.13.1"
 	},
 	"engines": {
