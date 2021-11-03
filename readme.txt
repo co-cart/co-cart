@@ -288,7 +288,7 @@ Yes. Just install CoCart and activate it via the network and all sites will have
 
 = Can I enable white labelling for CoCart? =
 
-Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://docs.cocart.xyz/#wp-config-php-white-labelling).
+Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://cocart.dev/articles/wp-config-php/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart#white-labelling).
 
 = Does CoCart work with the Dokan plugin? =
 
