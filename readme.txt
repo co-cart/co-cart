@@ -1,11 +1,11 @@
 === Headless WooCommerce powered by CoCart === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, ashtarcommunications
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, ashtarcommunications
 Tags: woocommerce, cart, rest-api, decoupled, headless, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.5
 Requires PHP: 7.3
 Tested up to: 5.8
-Stable tag: 3.0.14
+Stable tag: 3.0.15
 WC requires at least: 4.3
 WC tested up to: 5.8
 License: GPLv3
@@ -198,7 +198,7 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-* WordPress v5.4
+* WordPress v5.5
 * WooCommerce v4.3
 * PHP v7.3
 
@@ -224,7 +224,9 @@ Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the ful
 
 = How do I start using CoCart? =
 
-You will first need WooCommerce v4.3 or higher installed with the REST API enabled. Then install CoCart and follow the documentation.
+You will first need WooCommerce installed with the REST API enabled. Then install CoCart and follow the documentation.
+
+> Please check the requirements listed in the [installation](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#installation) section.
 
 = Why should I use CoCart? =
 
@@ -305,7 +307,7 @@ Yes. Just install CoCart and activate it via the network and all sites will have
 
 = Can I enable white labelling for CoCart? =
 
-Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://docs.cocart.xyz/#wp-config-php-white-labelling).
+Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://cocart.dev/articles/wp-config-php/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart#white-labelling).
 
 = Does CoCart work with the Dokan plugin? =
 

@@ -161,18 +161,18 @@ msgid ""
 "it’s features. See plugin requirement at the bottom of each plugin card."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:189
+#: includes/admin/class-cocart-admin-plugin-search.php:191
 #. translators: %s: CoCart
 msgid ""
 "This suggestion was made by %s, the awesome REST API plugin already "
 "installed on your site."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:195
+#: includes/admin/class-cocart-admin-plugin-search.php:197
 msgid "Learn more about these suggestions."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:256
+#: includes/admin/class-cocart-admin-plugin-search.php:259
 msgid ""
 "Returns all custom meta data saved for all products using Advanced Custom "
 "Fields."
@@ -2740,13 +2740,13 @@ msgstr ""
 msgid "Authentication is invalid."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:375
-#: includes/class-cocart-authentication.php:386
+#: includes/class-cocart-authentication.php:380
+#: includes/class-cocart-authentication.php:391
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:395
+#: includes/class-cocart-authentication.php:400
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""

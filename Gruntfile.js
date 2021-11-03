@@ -1,3 +1,9 @@
+/**
+ * Build automation scripts.
+ * 
+ * @package CoCart
+ */
+
 module.exports = function(grunt) {
 	'use strict';
 
@@ -6,9 +12,16 @@ module.exports = function(grunt) {
 	require( 'load-grunt-tasks' )( grunt );
 
 	// Project configuration.
-	grunt.initConfig(
-		{
+	grunt.initConfig({
 			pkg: grunt.file.readJSON( 'package.json' ),
+
+			// Setting folder templates.
+			dirs: {
+				css: 'assets/css',
+				js: 'assets/js',
+				php: 'includes',
+				scss: 'assets/scss'
+			},
 
 			// Update developer dependencies
 			devUpdate: {
@@ -35,33 +48,37 @@ module.exports = function(grunt) {
 				},
 				dist: {
 					files: {
-						'assets/css/admin/cocart.css' : 'assets/scss/admin/admin.scss',
-						'assets/css/admin/cocart-setup.css' : 'assets/scss/admin/cocart-setup.scss',
-						'assets/css/admin/plugin-search.css' : 'assets/scss/admin/plugin-search.scss'
+						'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin.scss',
+						'<%= dirs.css %>/admin/cocart-setup.css' : '<%= dirs.css %>/admin/cocart-setup.scss',
+						'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/plugin-search.scss'
 					}
+				}
+			},
+
+			// Generate RTL .css files.
+			rtlcss: {
+				dist: {
+					expand: true,
+					src: [
+						'<%= dirs.css %>/admin/*.css',
+						'!<%= dirs.css %>/admin/*-rtl.css',
+						'!<%= dirs.css %>/admin/*.min.css'
+					],
+					ext: '-rtl.css'
 				}
 			},
 
 			// Post CSS
 			postcss: {
 				options: {
-					// map: false,
 					processors: [
-					require( 'autoprefixer' )(
-						{
-							overrideBrowserslist: [
-								'> 0.1%',
-								'ie 8',
-								'ie 9'
-							]
-						}
-					)
-				]
+						require('autoprefixer')
+					]
 				},
 				dist: {
 					src: [
-						'!assets/css/admin/*.min.css',
-						'assets/css/admin/*.css'
+						'!<%= dirs.css %>/admin/*.min.css',
+						'<%= dirs.css %>/admin/*.css'
 					]
 				}
 			},
@@ -80,12 +97,12 @@ module.exports = function(grunt) {
 				build: {
 					files: [{
 						expand: true,
-						cwd: 'assets/js/admin',
+						cwd: '<%= dirs.js %>/admin',
 						src: [
 							'*.js',
 							'!*.min.js'
 						],
-						dest: 'assets/js/admin',
+						dest: '<%= dirs.js %>/admin',
 						ext: '.min.js'
 					}]
 				}
@@ -101,12 +118,12 @@ module.exports = function(grunt) {
 				target: {
 					files: [{
 						expand: true,
-						cwd: 'assets/css/admin',
+						cwd: '<%= dirs.css %>/admin',
 						src: [
 							'*.css',
 							'!*.min.css'
 						],
-						dest: 'assets/css/admin',
+						dest: '<%= dirs.css %>/admin',
 						ext: '.min.css'
 					}]
 				}
@@ -116,10 +133,10 @@ module.exports = function(grunt) {
 			watch: {
 				css: {
 					files: [
-						'assets/scss/*.scss',
-						'assets/scss/admin/*.scss',
+						'<%= dirs.scss %>/*.scss',
+						'<%= dirs.scss %>/admin/*.scss',
 					],
-					tasks: ['sass', 'postcss']
+					tasks: ['sass', 'rtlcss', 'postcss', 'cssmin']
 				},
 			},
 
@@ -129,7 +146,7 @@ module.exports = function(grunt) {
 					configFile: '.stylelintrc'
 				},
 				all: [
-					'assets/scss/**/*.scss',
+					'<%= dirs.scss %>/**/*.scss',
 				]
 			},
 
@@ -140,9 +157,9 @@ module.exports = function(grunt) {
 						cwd: '',
 						domainPath: 'languages',                                  // Where to save the POT file.
 						exclude: [
-							'includes/api/experiments',
-							'includes/api/pro-enhancements',
-							'includes/api/wip',
+							'<%= dirs.php %>/api/experiments',
+							'<%= dirs.php %>/api/pro-enhancements',
+							'<%= dirs.php %>/api/wip',
 							'releases',
 							'node_modules',
 							'vendor'
@@ -237,7 +254,7 @@ module.exports = function(grunt) {
 				php: {
 					src: [
 						'<%= pkg.name %>.php',
-						'includes/class-cocart.php'
+						'<%= dirs.php %>/class-cocart.php'
 					],
 					overwrite: true,
 					replacements: [
@@ -368,7 +385,24 @@ module.exports = function(grunt) {
 							],
 							dest: 'build/',
 							dot: true
-					}
+						}
+					]
+				},
+				firebuild: {
+					files: [
+						{
+							expand: true,
+							src: [
+								'**',
+								'!node_modules/**',
+								'!releases/**',
+								'!tests/**',
+								'!vendor/**',
+								'!unit-tests/**',
+							],
+							dest: 'fire-build/',
+							dot: true
+						}
 					]
 				}
 			},
@@ -386,17 +420,32 @@ module.exports = function(grunt) {
 							cwd: './build/',
 							src: '**',
 							dest: '<%= pkg.name %>'
-					}
+						}
+					]
+				},
+				firebuild: {
+					options: {
+						archive: './releases/fire-builds/<%= pkg.name %>-v<%= pkg.version %>-<%= grunt.template.today("dS-mmmm-yyyy-HH-MM") %>.zip',
+						mode: 'zip'
+					},
+					files: [
+						{
+							expand: true,
+							cwd: './fire-build/',
+							src: '**',
+							dest: ''
+						}
 					]
 				}
 			},
 
 			// Deletes the deployable plugin folder once zipped up.
 			clean: {
-				build: [ 'build/' ]
-			}
-		}
-	);
+				build: [ 'build/' ],
+				firebuild: [ 'fire-build/' ]
+			},
+
+	}); // END of Grunt modules.
 
 	// Set the default grunt command to run test cases.
 	grunt.registerTask( 'default', [ 'test' ] );
@@ -407,13 +456,16 @@ module.exports = function(grunt) {
 	// Checks for errors.
 	grunt.registerTask( 'test', [ 'stylelint', 'checktextdomain' ] );
 
-	// Build CSS, minify CSS, minify JS and runs i18n tasks.
-	grunt.registerTask( 'build', [ 'sass', 'postcss', 'cssmin', 'uglify', 'update-pot' ] );
+	// Build CSS ONLY!
+	grunt.registerTask( 'css', [ 'sass', 'rtlcss', 'postcss', 'cssmin' ] );
+
+	// Build JS ONLY!
+	grunt.registerTask( 'js', [ 'uglify' ] );
 
 	// Update version of plugin and package.
 	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme', 'replace:package' ] );
 
-	// Update stable version of plugin.
+	// Update stable version of plugin in readme.txt.
 	grunt.registerTask( 'stable', [ 'replace:stable' ] );
 
 	/**
@@ -428,5 +480,16 @@ module.exports = function(grunt) {
 	 * Creates a deployable plugin zipped up ready to upload
 	 * and install on a WordPress installation.
 	 */
-	grunt.registerTask( 'zip', [ 'copy:build', 'compress', 'clean:build' ] );
+	grunt.registerTask( 'zip', [ 'copy:build', 'compress:zip', 'clean:build' ] );
+
+	// Backup a copy of everything incase of emergency.
+	grunt.registerTask( 'zipfire', [ 'copy:firebuild', 'compress:firebuild', 'clean:firebuild' ] );
+
+	// Build Plugin.
+	grunt.registerTask( 'build', [ 'version', 'css', 'js', 'update-pot', 'zip' ] );
+	grunt.registerTask( 'fire', [ 'version', 'css', 'js', 'update-pot', 'zipfire' ] );
+
+	// Ready for release.
+	grunt.registerTask( 'ready', [ 'version', 'stable', 'css', 'js', 'update-pot', 'zip' ] );
+
 };
