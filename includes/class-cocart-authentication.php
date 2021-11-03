@@ -275,14 +275,19 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Checks the WordPress environment to see if we are running CoCart locally.
 		 *
+		 * @uses wp_get_environment_type() function introduced in WP 5.5
+		 * @link https://developer.wordpress.org/reference/functions/wp_get_environment_type/
+		 *
 		 * @access  protected
 		 * @since   3.0.0
-		 * @version 3.0.7
+		 * @version 3.0.15
 		 * @return  bool
 		 */
 		protected function is_wp_environment_local() {
-			if ( 'local' === wp_get_environment_type() || 'development' === wp_get_environment_type() ) {
-				return true;
+			if ( function_exists( 'wp_get_environment_type' ) ) {
+				if ( 'local' === wp_get_environment_type() || 'development' === wp_get_environment_type() ) {
+					return true;
+				}
 			}
 
 			return false;
