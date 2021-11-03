@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? October, 2021 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - ?? November, 2021 (DATE SUBJECT TO CHANGE)
 
 ### What's New?
 
@@ -22,6 +22,7 @@
 
 ### Enhancments and Tweaks
 
+* Added: Support for RTL display.
 * Deprecated: Upgrade Warning notice.
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
