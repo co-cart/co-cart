@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart Lite 3.0.14\n"
+"Project-Id-Version: CoCart Lite 3.0.15\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-10-18 11:40:55+00:00\n"
+"POT-Creation-Date: 2021-11-03 16:51:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -142,158 +142,158 @@ msgid ""
 "it’s features. See plugin requirement at the bottom of each plugin card."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:189
+#: includes/admin/class-cocart-admin-plugin-search.php:191
 #. translators: %s: CoCart
 msgid ""
 "This suggestion was made by %s, the awesome REST API plugin already "
 "installed on your site."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:195
+#: includes/admin/class-cocart-admin-plugin-search.php:197
 msgid "Learn more about these suggestions."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:256
+#: includes/admin/class-cocart-admin-plugin-search.php:259
 msgid ""
 "Provides access to non-sensitive product information, categories, tags, "
 "attributes and even reviews from your store without the need to "
 "authenticate."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:273
+#: includes/admin/class-cocart-admin-plugin-search.php:276
 msgid ""
 "Returns all custom meta data saved for all products using Advanced Custom "
 "Fields."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:290
+#: includes/admin/class-cocart-admin-plugin-search.php:293
 msgid "Returns all Yoast SEO data for all products, product categories and tags."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:319
+#: includes/admin/class-cocart-admin-plugin-search.php:322
 msgid "Let customers pay what they want with Name Your Price"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:336
+#: includes/admin/class-cocart-admin-plugin-search.php:339
 msgid ""
 "Create mix and match products with WooCommerce, for creating cases of "
 "customer-selected products."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:353
+#: includes/admin/class-cocart-admin-plugin-search.php:356
 msgid ""
 "Sell products and services with recurring payments in your WooCommerce "
 "store."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:357
-#: includes/admin/class-cocart-admin-plugin-search.php:379
+#: includes/admin/class-cocart-admin-plugin-search.php:360
+#: includes/admin/class-cocart-admin-plugin-search.php:382
 #. translators: %s: CoCart
 msgid "%s Pro"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:360
+#: includes/admin/class-cocart-admin-plugin-search.php:363
 msgid "Supported With"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:375
+#: includes/admin/class-cocart-admin-plugin-search.php:378
 msgid ""
 "Grow your sales and customers using discounts, coupons, credits, vouchers, "
 "product giveaways, offers and promotions."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:382
+#: includes/admin/class-cocart-admin-plugin-search.php:385
 msgid "Compatible With"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:397
+#: includes/admin/class-cocart-admin-plugin-search.php:400
 msgid ""
 "Split your order into multiple shipping packages when you need it to, with "
 "the products you want to."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:414
+#: includes/admin/class-cocart-admin-plugin-search.php:417
 msgid "Give away a free item(s) to any customer with the correct code."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:450
+#: includes/admin/class-cocart-admin-plugin-search.php:453
 #. translators: %1$s: Add-on name
 msgid "%1$s Add-on"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:472
+#: includes/admin/class-cocart-admin-plugin-search.php:475
 msgid "Requires"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:522
+#: includes/admin/class-cocart-admin-plugin-search.php:525
 #. translators: %s: Plugin author
 msgid "by %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:658
+#: includes/admin/class-cocart-admin-plugin-search.php:661
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:112
 #: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:82
 #: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:97
 msgid "Learn more"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:666
+#: includes/admin/class-cocart-admin-plugin-search.php:669
 #. translators: %4$s: plugin does, %3$s: requirement
 msgid "%1$sPlugin %4$s: %2$s%3$s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:740
+#: includes/admin/class-cocart-admin-plugin-search.php:743
 #. translators: %s: Plugin name
 msgid "Purchase %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:742
+#: includes/admin/class-cocart-admin-plugin-search.php:745
 msgid "Purchase Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:748
-#: includes/admin/class-cocart-admin-plugin-search.php:815
+#: includes/admin/class-cocart-admin-plugin-search.php:751
+#: includes/admin/class-cocart-admin-plugin-search.php:818
 msgid "Not Compatible"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:764
+#: includes/admin/class-cocart-admin-plugin-search.php:767
 #. translators: %s: Plugin name
 msgid "Update %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:766
+#: includes/admin/class-cocart-admin-plugin-search.php:769
 msgid "Update Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:771
+#: includes/admin/class-cocart-admin-plugin-search.php:774
 msgid "Cannot Update"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:783
+#: includes/admin/class-cocart-admin-plugin-search.php:786
 msgid "Installed & Active"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:787
+#: includes/admin/class-cocart-admin-plugin-search.php:790
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:789
+#: includes/admin/class-cocart-admin-plugin-search.php:792
 #: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:137
 #. translators: %s: Plugin name.
 #. translators: %s: CoCart Pro
 msgid "Activate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:800
+#: includes/admin/class-cocart-admin-plugin-search.php:803
 msgid "Network Activate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:802
+#: includes/admin/class-cocart-admin-plugin-search.php:805
 #. translators: %s: Plugin name.
 msgid "Network Activate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:821
+#: includes/admin/class-cocart-admin-plugin-search.php:824
 msgid "Installed"
 msgstr ""
 
@@ -1625,13 +1625,13 @@ msgstr ""
 msgid "Authentication is invalid."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:375
-#: includes/class-cocart-authentication.php:386
+#: includes/class-cocart-authentication.php:380
+#: includes/class-cocart-authentication.php:391
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:395
+#: includes/class-cocart-authentication.php:400
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
