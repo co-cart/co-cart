@@ -207,7 +207,9 @@ Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the ful
 
 = How do I start using CoCart? =
 
-You will first need WooCommerce v4.3 or higher installed with the REST API enabled. Then install CoCart and follow the documentation.
+You will first need WooCommerce installed with the REST API enabled. Then install CoCart and follow the documentation.
+
+> Please check the requirements listed in the [installation](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#installation) section.
 
 = Why should I use CoCart? =
 
