@@ -19,6 +19,7 @@
 * Fixed: Coupons duplicating on each load.
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
 * Fixed: Plugin review notice dismiss action.
+* Fixed: Requesting `OPTIONS` for any endpoint to return arguments and schema.
 
 ### Enhancments and Tweaks
 
