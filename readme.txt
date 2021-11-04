@@ -2,7 +2,7 @@
 Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007
 Tags: woocommerce, cart, rest-api, decoupled, headless, session
 Donate link: https://www.buymeacoffee.com/sebastien
-Requires at least: 5.5
+Requires at least: 5.4
 Requires PHP: 7.3
 Tested up to: 5.8
 Stable tag: 3.0.15
@@ -181,7 +181,7 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-* WordPress v5.5
+* WordPress v5.4
 * WooCommerce v4.3
 * PHP v7.3
 
