@@ -185,6 +185,12 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 * WooCommerce v4.3
 * PHP v7.3
 
+= Recommended Requirements =
+
+* WordPress v5.6 or higher.
+* WooCommerce v5.2 or higher.
+* PHP v7.4
+
 = Automatic installation =
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t need to leave your web browser. To do an automatic install of CoCart, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
