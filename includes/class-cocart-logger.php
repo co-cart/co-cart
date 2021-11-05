@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -37,7 +37,7 @@ class CoCart_Logger {
 	 * @access public
 	 * @static
 	 * @since   2.1.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   string $message - The message of the log.
 	 * @param   string $type    - The type of log to record.
 	 * @param   string $plugin  - The CoCart plugin being logged.
@@ -64,7 +64,7 @@ class CoCart_Logger {
 				$context   = array( 'source' => apply_filters( 'cocart_log_entry_source', '' ) );
 			}
 
-			$log_time = date_i18n( get_option( 'date_format' ) . ' g:ia', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+			$log_time = date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ) . ' @ ' . date_i18n( get_option( 'time_format' ), current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 
 			$log_entry .= '====Start Log ' . $log_time . '====' . "\n" . $message . "\n";
 			$log_entry .= '====End Log====' . "\n\n";
