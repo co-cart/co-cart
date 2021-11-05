@@ -238,6 +238,34 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		} // END get_cocart_plugin_data()
 
 		/**
+		 * Get the plugin data from WP.org to populate fields with.
+		 *
+		 * @access public
+		 * @static
+		 * @param  string Plugin slug.
+		 * @return array|mixed|object|WP_Error
+		 */
+		public static function get_wporg_plugin_data( $slug = '' ) {
+			$query_args = array(
+				'slug'   => $slug,
+				'is_ssl' => is_ssl(),
+				'fields' => array(
+					'short_description' => false,
+					'sections'          => false,
+					'versions'          => false,
+					'reviews'           => true,
+					'banners'           => false,
+					'icons'             => true,
+					'active_installs'   => true,
+				),
+			);
+
+			$data = plugins_api( 'plugin_information', $query_args );
+
+			return $data;
+		} // END get_wporg_plugin_data()
+
+		/**
 		 * Create a list of CoCart add-ons.
 		 *
 		 * @access public
@@ -567,7 +595,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				return $result;
 			}
 
-			// Get CoCart plugin data.
+			// Get CoCart core plugin data.
 			$inject = (array) self::get_cocart_plugin_data();
 
 			// Return current results if failed to get plugin data.
@@ -593,6 +621,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				// Updates the total amount of plugins found.
 				$result->info['results'] = $total_items++;
 			} // END foreach add-on
+
+			// Remove CoCart core from results.
+			unset( $result->plugins[2] );
 
 			// Return search results.
 			return $result;
