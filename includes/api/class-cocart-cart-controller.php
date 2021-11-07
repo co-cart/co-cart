@@ -1820,117 +1820,547 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'title'      => 'CoCart - ' . __( 'Cart', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(
-				'items' => array(
-					'description' => __( 'List of cart items.', 'cart-rest-api-for-woocommerce' ),
+				'cart_hash'      => array(
+					'description' => __( 'Cart hash.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
-					'properties'  => array(
-						'item_key'          => array(
-							'description' => __( 'Unique identifier for the item within the cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'string',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_key'       => array(
+					'description' => __( 'Cart key.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'currency'       => array(
+					'description' => __( 'Store currency information.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'array',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'currency_code'               => array(
+								'description' => __( 'Currency code (in ISO format) for returned prices.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'currency_symbol'             => array(
+								'description' => __( 'Currency symbol for the currency which can be used to format returned prices.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'currency_minor_unit'         => array(
+								'description' => __( 'Currency minor unit (number of digits after the decimal separator) for returned prices.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'integer',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'currency_decimal_separator'  => array(
+								'description' => __( 'Decimal separator for the currency which can be used to format returned prices.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'currency_thousand_separator' => array(
+								'description' => __( 'Thousand separator for the currency which can be used to format returned prices.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'currency_prefix'             => array(
+								'description' => __( 'Price prefix for the currency which can be used to format returned prices.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'currency_suffix'             => array(
+								'description' => __( 'Price prefix for the currency which can be used to format returned prices.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
 						),
-						'product_id'        => array(
-							'description' => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'variation'         => array(
-							'description' => __( 'Chosen attributes (for variations).', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'array',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-							'items'       => array(
-								'type'       => 'object',
-								'properties' => array(
-									'attribute' => array(
-										'description' => __( 'Variation attribute slug.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'string',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'value'     => array(
-										'description' => __( 'Variation attribute value.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'string',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
+					),
+				),
+				'customer'       => array(
+					'description' => __( 'Customer information.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'array',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'billing_address'  => array(
+								'description' => __( 'Customers billing address.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'billing_first_name' => array(
+											'description' => __( 'Customers billing first name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_last_name' => array(
+											'description' => __( 'Customers billing last name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_company'  => array(
+											'description' => __( 'Customers billing company name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_country'  => array(
+											'description' => __( 'Customers billing country.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_address_1' => array(
+											'description' => __( 'Customers billing address line one.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_address_2' => array(
+											'description' => __( 'Customers billing address line two.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_city'     => array(
+											'description' => __( 'Customers billing address city.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_state'    => array(
+											'description' => __( 'Customers billing state.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_postcode' => array(
+											'description' => __( 'Customers billing postcode.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_phone'    => array(
+											'description' => __( 'Customers billing phone.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'billing_email'    => array(
+											'description' => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
 									),
 								),
 							),
-						),
-						'quantity'          => array(
-							'description' => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'float',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'line_tax_data'     => array(
-							'description' => '',
-							'type'        => 'array',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-							'items'       => array(
-								'type'       => 'object',
-								'properties' => array(
-									'subtotal' => array(
-										'description' => __( 'Line subtotal tax data.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'integer',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'total'    => array(
-										'description' => __( 'Line total tax data.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'integer',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
+							'shipping_address' => array(
+								'description' => __( 'Customers shipping address.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'shipping_first_name' => array(
+											'description' => __( 'Customers shipping first name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_last_name' => array(
+											'description' => __( 'Customers shipping last name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_company' => array(
+											'description' => __( 'Customers shipping company name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_country' => array(
+											'description' => __( 'Customers shipping country.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_address_1' => array(
+											'description' => __( 'Customers shipping address line one.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_address_2' => array(
+											'description' => __( 'Customers shipping address line two.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_city'    => array(
+											'description' => __( 'Customers shipping address city.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_state'   => array(
+											'description' => __( 'Customers shipping state.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'shipping_postcode' => array(
+											'description' => __( 'Customers shipping postcode.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
 									),
 								),
 							),
+
 						),
-						'line_subtotal'     => array(
-							'description' => __( 'Line subtotal (the price of the product before coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'line_subtotal_tax' => array(
-							'description' => __( 'Line subtotal tax.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'line_total'        => array(
-							'description' => __( 'Line total (the price of the product after coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'line_tax'          => array(
-							'description' => __( 'Line total tax.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'product_name'      => array(
-							'description' => __( 'Product name.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'string',
-							'context'     => ( 'view' ),
-							'readonly'    => true,
-						),
-						'product_price'     => array(
-							'description' => __( 'Current product price.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'string',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
+					),
+				),
+				'items'          => array(
+					'description' => __( 'List of cart items.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'array',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'item_key'       => array(
+								'description' => __( 'Unique identifier for the item within the cart.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'id'             => array(
+								'description' => __( 'Unique identifier for the product or variation ID.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'integer',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'name'           => array(
+								'description' => __( 'Name of the item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => ( 'view' ),
+								'readonly'    => true,
+							),
+							'title'          => array(
+								'description' => __( 'Title of the item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => ( 'view' ),
+								'readonly'    => true,
+							),
+							'price'          => array(
+								'description' => __( 'Current product price.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'quantity'       => array(
+								'description' => __( 'Current product quantity and purchase level ability.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'value'        => array(
+											'description' => __( 'Quantity of the item in the current package.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'min_purchase' => array(
+											'description' => __( 'Minimum quantity purchase ability.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'max_purchase' => array(
+											'description' => __( 'Maximum quantity purchase ability.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+									),
+								),
+							),
+							'tax_data'       => array(
+								'description' => '',
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'subtotal' => array(
+											'description' => __( 'Line subtotal tax data.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'total'    => array(
+											'description' => __( 'Line total tax data.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+									),
+								),
+							),
+							'totals'         => array(
+								'description' => __( 'Line item totals.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'subtotal'     => array(
+											'description' => __( 'Line subtotal (the price of the product before coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'subtotal_tax' => array(
+											'description' => __( 'Line subtotal tax.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'total'        => array(
+											'description' => __( 'Line total (the price of the product after coupon discounts have been applied).', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'tax'          => array(
+											'description' => __( 'Line total tax.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+									),
+								),
+							),
+							'slug'           => array(
+								'description' => __( 'Product slug of item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'meta'           => array(
+								'description' => __( 'Product meta data of item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'product_type' => array(
+											'description' => __( 'Product type.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'sku'          => array(
+											'description' => __( 'Product SKU ID.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'dimensions'   => array(
+											'description' => __( 'Product dimensions.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'array',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+											'items'       => array(
+												'type' => 'object',
+												'properties' => array(
+													'length' => array(
+														'description' => __( 'Product length.', 'cart-rest-api-for-woocommerce' ),
+														'type' => 'string',
+														'context' => array( 'view' ),
+														'readonly' => true,
+													),
+													'width' => array(
+														'description' => __( 'Product width.', 'cart-rest-api-for-woocommerce' ),
+														'type' => 'string',
+														'context' => array( 'view' ),
+														'readonly' => true,
+													),
+													'height' => array(
+														'description' => __( 'Product height.', 'cart-rest-api-for-woocommerce' ),
+														'type' => 'string',
+														'context' => array( 'view' ),
+														'readonly' => true,
+													),
+													'unit' => array(
+														'description' => __( 'Product unit.', 'cart-rest-api-for-woocommerce' ),
+														'type' => 'string',
+														'context' => array( 'view' ),
+														'readonly' => true,
+													),
+												),
+											),
+										),
+										'weight'       => array(
+											'description' => __( 'Product weight.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'variation'    => array(
+											'description' => __( 'Chosen attributes (for the variation).', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'array',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+											'items'       => array(
+												'type' => 'object',
+												'properties' => array(
+													'attribute' => array(
+														'description' => __( 'Variation attribute slug.', 'cart-rest-api-for-woocommerce' ),
+														'type' => 'string',
+														'context' => array( 'view' ),
+														'readonly' => true,
+													),
+													'value' => array(
+														'description' => __( 'Variation attribute value.', 'cart-rest-api-for-woocommerce' ),
+														'type' => 'string',
+														'context' => array( 'view' ),
+														'readonly' => true,
+													),
+												),
+											),
+										),
+										'virtual'      => array(
+											'description' => __( 'True if product is virtual.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'boolean',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'downloadable' => array(
+											'description' => __( 'True if product offer downloadable items.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'boolean',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+									),
+								),
+							),
+							'backorders'     => array(
+								'description' => __( 'Product backorder status.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'featured_image' => array(
+								'description' => __( 'Main featured product image.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
 						),
 					),
 					'readonly'    => true,
 				),
+				'item_count'     => array(
+					'description' => __( 'Number of (parent countainer) items in cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'items_weight'   => array(
+					'description' => __( 'Total weight of all products in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+
+				'needs_payment'  => array(
+					'description' => __( 'True if the cart needs payment. False for carts with only free products and no shipping costs.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'boolean',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'needs_shipping' => array(
+					'description' => __( 'True if the cart needs shipping and requires the showing of shipping costs.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'boolean',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'shipping'       => array(
+					'description' => __( 'List of cart items.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'array',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'label' => array(
+								'description' => __( 'Shipping heading label.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'total_packages'          => array(
+								'description' => __( 'Number of shipping packages available calculated on shipping address.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'integer',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'show_package_details'    => array(
+								'description' => __( 'True if the cart meets the criteria for showing items in cart assigned to package.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'has_calculated_shipping' => array(
+								'description' => __( 'True if the cart meets the criteria for showing shipping costs, and rates have been calculated and included in the totals.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+
+						),
+					),
+				),
+
 			),
 		);
 
-		$schema['properties'] = apply_filters( 'cocart_cart_schema', $schema['properties'] );
+		/**
+		 * Extend the cart schema properties for items.
+		 *
+		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default properties.
+		 *
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 */
+		cocart_deprecated_filter( 'cocart_cart_schema', array(), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
+
+		$schema['properties']['items']['items']['properties'] += apply_filters( 'cocart_cart_items_schema', array() );
 
 		return $schema;
 	} // END get_item_schema()
