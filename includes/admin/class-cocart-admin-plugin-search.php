@@ -151,7 +151,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					<?php
 					printf(
 						/* translators: %1$s: https://cocart.xyz/add-ons/, %2$s: https://cocart.xyz/woocommerce-extensions/ */
-						__( 'These plugins extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ),
+						__( 'These plugins are supported, extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ),
 						esc_url( COCART_STORE_URL . 'add-ons/' ),
 						esc_url( COCART_STORE_URL . 'woocommerce-extensions/' )
 					);
@@ -447,11 +447,29 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'requirement'       => false,
 					'info'              => array(
 						'requires'     => '5.2',
-						'tested'       => '5.7.2',
+						'tested'       => '5.9',
 						'requires_php' => '7.0',
 						'last_updated' => '',
 					),
 					'learn_more'        => esc_url( 'https://flexibleshipping.com' ),
+					'third_party'       => true,
+					'wporg'             => true,
+				),
+				'taxjar-simplified-taxes-for-woocommerce' => array(
+					'name'              => 'TaxJar – Sales Tax Automation for WooCommerce',
+					'plugin'            => 'taxjar-simplified-taxes-for-woocommerce',
+					'author'            => 'TaxJar',
+					'search_terms'      => 'sales, tax, taxes',
+					'short_description' => esc_html__( 'Painless sales tax calculations, reporting and filing for WooCommerce!', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => 'https://ps.w.org/taxjar-simplified-taxes-for-woocommerce/assets/icon-256x256.png?rev=1203621',
+					'requirement'       => false,
+					'info'              => array(
+						'requires'     => '5.4',
+						'tested'       => '5.8.1',
+						'requires_php' => '7.0',
+						'last_updated' => '',
+					),
+					'learn_more'        => esc_url( 'https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/' ),
 					'third_party'       => true,
 					'wporg'             => true,
 				),
