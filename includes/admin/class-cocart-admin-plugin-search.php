@@ -268,8 +268,10 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Create a list of CoCart add-ons.
 		 *
-		 * @access public
-		 * @return array List of add-ons.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @return  array List of add-ons.
 		 */
 		public function get_addons_list() {
 			$campaign_args = CoCart_Helpers::cocart_campaign(
@@ -282,34 +284,36 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			return array(
 				'cocart-acf'       => array(
 					'name'              => 'Advanced Custom Fields',
-					'plugin'            => 'acf',
+					'slug'              => 'acf',
 					'search_terms'      => 'advanced, acf, fields, custom fields, meta, repeater',
 					'short_description' => esc_html__( 'Returns all custom meta data saved for all products using Advanced Custom Fields.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
-					'requirement'       => 'CoCart Products',
-					'info'              => array(
-						'requires'     => '5.2',
-						'tested'       => '5.6',
-						'requires_php' => '7.2',
-						'last_updated' => '',
-					),
+					'requirement'       => false,
+					'requires'          => '5.2',
+					'tested'            => '5.6',
+					'requires_php'      => '7.2',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '2021-10-18 12:43pm GMT',
 					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
 					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/advanced-custom-fields/' ) ) ),
 					'third_party'       => false,
 				),
 				'cocart-yoast-seo' => array(
 					'name'              => 'Yoast SEO',
-					'plugin'            => 'yoast-seo',
+					'slug'              => 'yoast-seo',
 					'search_terms'      => 'yoast, seo, xml sitemap, content analysis, readability, schema',
 					'short_description' => esc_html__( 'Returns all Yoast SEO data for all products, product categories and tags.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
-					'requirement'       => 'CoCart Products',
-					'info'              => array(
-						'requires'     => '5.2',
-						'tested'       => '5.6',
-						'requires_php' => '7.2',
-						'last_updated' => '',
-					),
+					'requirement'       => false,
+					'requires'          => '5.2',
+					'tested'            => '5.6',
+					'requires_php'      => '7.2',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
 					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/yoast-seo/' ) ) ),
 					'third_party'       => false,
@@ -320,48 +324,52 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Create a list of CoCart supported third party plugins.
 		 *
-		 * @access public
-		 * @return array List of third party plugins.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @return  array List of third party plugins.
 		 */
 		public function get_third_party_list() {
 			return array(
-				'woocommerce-name-your-price'            => array(
+				'woocommerce-name-your-price'             => array(
 					'name'              => 'WooCommerce Name Your Price',
-					'plugin'            => 'woocommerce-name-your-price',
+					'slug'              => 'woocommerce-name-your-price',
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Let customers pay what they want with Name Your Price', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
-					'info'              => array(
-						'requires'     => '4.4',
-						'tested'       => '5.3',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '4.4',
+					'tested'            => '5.3',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/name-your-price/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-mix-and-match-products'     => array(
+				'woocommerce-mix-and-match-products'      => array(
 					'name'              => 'WooCommerce Mix & Match Products',
-					'plugin'            => 'woocommerce-mix-and-match-products',
+					'slug'              => 'woocommerce-mix-and-match-products',
 					'author'            => 'Kathy Darling',
 					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
 					'short_description' => esc_html__( 'Create mix and match products with WooCommerce, for creating cases of customer-selected products.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
 					'requirement'       => false,
-					'info'              => array(
-						'requires'     => '4.4',
-						'tested'       => '5.3',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '4.4',
+					'tested'            => '5.3',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-mix-and-match-products/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-subscriptions'              => array(
+				'woocommerce-subscriptions'               => array(
 					'name'              => 'WooCommerce Subscriptions',
-					'plugin'            => 'woocommerce-subscriptions',
+					'slug'              => 'woocommerce-subscriptions',
 					'author'            => 'WooCommerce',
 					'search_terms'      => 'subscription, product page feature, recurring payments, enhancements',
 					'short_description' => esc_html__( 'Sell products and services with recurring payments in your WooCommerce store.', 'cart-rest-api-for-woocommerce' ),
@@ -372,18 +380,19 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'CoCart'
 					),
 					'plugin_does'       => esc_html__( 'Supported With', 'cart-rest-api-for-woocommerce' ),
-					'info'              => array(
-						'requires'     => '4.0',
-						'tested'       => '5.5',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '4.0',
+					'tested'            => '5.5',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-smart-coupons'              => array(
+				'woocommerce-smart-coupons'               => array(
 					'name'              => 'WooCommerce Smart Coupons',
-					'plugin'            => 'woocommerce-smart-coupons',
+					'slug'              => 'woocommerce-smart-coupons',
 					'author'            => 'StoreApps',
 					'search_terms'      => 'coupon, credit, store credit, gift, certificate, voucher, discount, gift certificate, gift voucher, customer, self service',
 					'short_description' => esc_html__( 'Grow your sales and customers using discounts, coupons, credits, vouchers, product giveaways, offers and promotions.', 'cart-rest-api-for-woocommerce' ),
@@ -394,81 +403,86 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'CoCart'
 					),
 					'plugin_does'       => esc_html__( 'Compatible With', 'cart-rest-api-for-woocommerce' ),
-					'info'              => array(
-						'requires'     => '4.0',
-						'tested'       => '5.5',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '4.0',
+					'tested'            => '5.5',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/smart-coupons/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-advanced-shipping-packages' => array(
+				'woocommerce-advanced-shipping-packages'  => array(
 					'name'              => 'WooCommerce Advanced Shipping Packages',
-					'plugin'            => 'woocommerce-advanced-shipping-packages',
+					'slug'              => 'woocommerce-advanced-shipping-packages',
 					'author'            => 'Jeroen Sormani',
 					'search_terms'      => 'woocommerce shipping, packages, split-packages, multiple shipping',
 					'short_description' => esc_html__( 'Split your order into multiple shipping packages when you need it to, with the products you want to.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
 					'requirement'       => false,
-					'info'              => array(
-						'requires'     => '4.0',
-						'tested'       => '5.5',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '4.0',
+					'tested'            => '5.5',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-advanced-shipping-packages/' ),
 					'third_party'       => true,
 				),
-				'woocommerce-free-gift-coupons'          => array(
+				'woocommerce-free-gift-coupons'           => array(
 					'name'              => 'WooCommerce Free Gift Coupons',
-					'plugin'            => 'woocommerce-free-gift-coupons',
+					'slug'              => 'woocommerce-free-gift-coupons',
 					'author'            => 'Backcourt Development',
 					'search_terms'      => 'coupon, give away, free items, gift items',
 					'short_description' => esc_html__( 'Give away a free item(s) to any customer with the correct code.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
 					'requirement'       => false,
-					'info'              => array(
-						'requires'     => '4.0',
-						'tested'       => '5.5',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '4.0',
+					'tested'            => '5.5',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://woocommerce.com/products/free-gift-coupons/' ),
 					'third_party'       => true,
 				),
-				'flexible-shipping'                      => array(
+				'flexible-shipping'                       => array(
 					'name'              => 'Table Rate for WooCommerce by Flexible Shipping',
-					'plugin'            => 'flexible-shipping',
+					'slug'              => 'flexible-shipping',
 					'author'            => 'WP Desk',
 					'search_terms'      => 'woocommerce shipping, conditional shipping, shipping method, table rate, table rate shipping',
 					'short_description' => esc_html__( 'The most flexible Table Rate Shipping WooCommerce plugin. Create almost every shipping scenario you need.', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/flexible-shipping/assets/icon-128x128.png?rev=1436359',
 					'requirement'       => false,
-					'info'              => array(
-						'requires'     => '5.2',
-						'tested'       => '5.9',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '5.2',
+					'tested'            => '5.7.2',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://flexibleshipping.com' ),
 					'third_party'       => true,
 					'wporg'             => true,
 				),
 				'taxjar-simplified-taxes-for-woocommerce' => array(
 					'name'              => 'TaxJar – Sales Tax Automation for WooCommerce',
-					'plugin'            => 'taxjar-simplified-taxes-for-woocommerce',
+					'slug'              => 'taxjar-simplified-taxes-for-woocommerce',
 					'author'            => 'TaxJar',
 					'search_terms'      => 'sales, tax, taxes',
 					'short_description' => esc_html__( 'Painless sales tax calculations, reporting and filing for WooCommerce!', 'cart-rest-api-for-woocommerce' ),
 					'logo'              => 'https://ps.w.org/taxjar-simplified-taxes-for-woocommerce/assets/icon-256x256.png?rev=1203621',
 					'requirement'       => false,
-					'info'              => array(
-						'requires'     => '5.4',
-						'tested'       => '5.8.1',
-						'requires_php' => '7.0',
-						'last_updated' => '',
-					),
+					'requires'          => '5.4',
+					'tested'            => '5.8.1',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
 					'learn_more'        => esc_url( 'https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/' ),
 					'third_party'       => true,
 					'wporg'             => true,
@@ -500,19 +514,19 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			return array(
 				/* translators: %1$s: Add-on name */
 				'name'              => empty( $data['third_party'] ) ? sprintf( esc_html__( '%1$s Add-on', 'cart-rest-api-for-woocommerce' ), $data['name'] ) : $data['name'],
-				'slug'              => empty( $data['third_party'] ) ? 'cocart-' . $data['plugin'] : $data['plugin'],
-				'plugin'            => $data['plugin'],
+				'slug'              => empty( $data['third_party'] ) ? 'cocart-' . $data['slug'] : $data['slug'],
 				'version'           => '',
 				'author'            => ! empty( $data['author'] ) ? esc_html( $data['author'] ) : 'CoCart',
 				'author_profile'    => 'https://cocart.xyz',
-				'requires'          => ! empty( $data['info'] ) ? $data['info']['requires'] : $inject['requires'],
-				'tested'            => ! empty( $data['info'] ) ? $data['info']['tested'] : $inject['tested'],
-				'requires_php'      => ! empty( $data['info'] ) ? $data['info']['requires_php'] : $inject['requires_php'],
-				'rating'            => $inject['rating'],
-				'num_ratings'       => $inject['num_ratings'],
-				'active_installs'   => $inject['active_installs'],
-				'last_updated'      => ! empty( $data['last_updated'] ) ? $data['last_updated'] : $inject['last_updated'],
 				'short_description' => $data['short_description'],
+				'requirement'       => ! empty( $data['requirement'] ) ? $data['requirement'] : '',
+				'requires'          => ! empty( $inject['requires'] ) ? $inject['requires'] : $data['requires'],
+				'tested'            => ! empty( $inject['tested'] ) ? $inject['tested'] : $data['tested'],
+				'requires_php'      => ! empty( $inject['requires_php'] ) ? $inject['requires_php'] : $data['requires_php'],
+				'rating'            => ! empty( $inject['rating'] ) ? $inject['rating'] : $data['rating'],
+				'num_ratings'       => ! empty( $inject['num_ratings'] ) ? $inject['num_ratings'] : $data['num_ratings'],
+				'active_installs'   => ! empty( $inject['active_installs'] ) ? $inject['active_installs'] : $data['active_installs'],
+				'last_updated'      => ! empty( $inject['last_updated'] ) ? $inject['last_updated'] : $data['last_updated'],
 				'download_link'     => '',
 				'icons'             => isset( $inject['icons'] ) ? $inject['icons'] : $data['logo'],
 				'logo'              => array(
@@ -520,7 +534,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'2x'  => esc_url( $data['logo'] ),
 					'svg' => esc_url( $data['logo'] ),
 				),
-				'requirement'       => ! empty( $data['requirement'] ) ? $data['requirement'] : '',
 				'plugin_does'       => ! empty( $data['plugin_does'] ) ? $data['plugin_does'] : esc_html__( 'Requires', 'cart-rest-api-for-woocommerce' ),
 				'purchase'          => ! empty( $data['purchase'] ) ? esc_url( $data['purchase'] ) : '',
 				'learn_more'        => ! empty( $data['learn_more'] ) ? esc_url( $data['learn_more'] ) : '',
@@ -630,35 +643,46 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				return $result;
 			}
 
-			// Get CoCart core plugin data.
-			$inject = (array) self::get_cocart_plugin_data();
+			// Get results previously stored if any.
+			$saved_results = get_transient( 'cocart_plugin_data' );
 
-			// Return current results if failed to get plugin data.
-			if ( is_wp_error( $inject ) ) {
-				return $result;
+			// If saved results dont exist then use the new results and add our suggestions.
+			if ( false === $saved_results || is_wp_error( $saved_results ) ) {
+
+				$suggestions = self::get_suggestions();
+
+				$total_items = $result->info['results'];
+
+				// Get each add-on and see if we should suggest it to the user.
+				foreach ( $suggestions as $slug => $data ) {
+					// If suggestion is hosted on WP.org then get plugin data.
+					if ( ! empty( $data['wporg'] ) ) {
+						$suggestion_info = (array) self::get_wporg_plugin_data( $slug );
+
+						$inject_data = self::get_inject_data( $suggestion_info, $data );
+					} else {
+						// Get prepared data to inject the results.
+						$inject_data = self::get_inject_data( array(), $data );
+
+						// Override card icon.
+						$inject_data['icons'] = $inject_data['logo'];
+					}
+
+					// Inserts suggestion as part of results.
+					array_push( $result->plugins, $inject_data );
+
+					// Updates the total amount of plugins found.
+					$result->info['results'] = $total_items++;
+				} // END foreach add-on
+
+				// Remove CoCart core from results.
+				unset( $result->plugins[2] );
+
+				set_transient( 'cocart_plugin_data', $result, DAY_IN_SECONDS );
+			} else {
+				// Return saved results.
+				$result = $saved_results;
 			}
-
-			$suggestions = self::get_suggestions();
-
-			$total_items = $result->info['results'];
-
-			// Get each add-on and see if we should suggest it to the user.
-			foreach ( $suggestions as $slug => $data ) {
-				// Get prepared data to inject the results.
-				$inject_data = self::get_inject_data( $inject, $data );
-
-				// Override card icon.
-				$inject_data['icons'] = $inject_data['logo'];
-
-				// Inserts suggestion as part of results.
-				array_push( $result->plugins, $inject_data );
-
-				// Updates the total amount of plugins found.
-				$result->info['results'] = $total_items++;
-			} // END foreach add-on
-
-			// Remove CoCart core from results.
-			unset( $result->plugins[2] );
 
 			// Return search results.
 			return $result;
@@ -714,10 +738,12 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Put some more appropriate links on our custom result cards.
 		 *
-		 * @access public
-		 * @param  array $links Related links.
-		 * @param  array $plugin Plugin result information.
-		 * @return array $links Returns our related links or falls back to default.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   array $links Related links.
+		 * @param   array $plugin Plugin result information.
+		 * @return  array $links Returns our related links or falls back to default.
 		 */
 		public function insert_related_links( $links, $plugin ) {
 			if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -734,7 +760,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					class="cocart-plugin-search__learn-more button"
 					href="' . esc_url( $plugin['learn_more'] ) . '"
 					target="_blank"
-					data-addon="' . esc_attr( $plugin['plugin'] ) . '"
+					data-addon="' . esc_attr( $plugin['slug'] ) . '"
 					data-track="learn_more"
 					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . ' <span class="dashicons dashicons-external"></span></a>';
 			}
