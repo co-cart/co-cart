@@ -379,7 +379,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
 					),
-					'plugin_does'       => esc_html__( 'Supported With', 'cart-rest-api-for-woocommerce' ),
+					'plugin_does'       => esc_html__( 'supported with', 'cart-rest-api-for-woocommerce' ),
 					'requires'          => '4.0',
 					'tested'            => '5.5',
 					'requires_php'      => '7.0',
@@ -402,7 +402,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
 					),
-					'plugin_does'       => esc_html__( 'Compatible With', 'cart-rest-api-for-woocommerce' ),
+					'plugin_does'       => esc_html__( 'compatible with', 'cart-rest-api-for-woocommerce' ),
 					'requires'          => '4.0',
 					'tested'            => '5.5',
 					'requires_php'      => '7.0',
@@ -770,7 +770,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				if ( $key === $plugin['slug'] && ! empty( $plugin['requirement'] ) ) {
 					$links['cocart-requirement'] = '<div class="plugin-requirement">' . sprintf(
 						/* translators: %4$s: plugin does, %3$s: requirement */
-						esc_html__( '%1$sPlugin %4$s: %2$s%3$s', 'cart-rest-api-for-woocommerce' ),
+						esc_html__( '%1$sPlugin %4$s %2$s%3$s', 'cart-rest-api-for-woocommerce' ),
 						'<strong>',
 						'</strong>',
 						esc_html( $plugin['requirement'] ),
