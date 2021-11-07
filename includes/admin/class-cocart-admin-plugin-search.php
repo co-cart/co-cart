@@ -532,11 +532,13 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Filter plugin fetching API results to inject CoCart add-ons.
 		 *
-		 * @access public
-		 * @param  object|WP_Error $result Response object or WP_Error.
-		 * @param  string          $action The type of information being requested from the Plugin Install API.
-		 * @param  object          $args   Plugin API arguments.
-		 * @return array           $result Updated array of results.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   object|WP_Error $result Response object or WP_Error.
+		 * @param   string          $action The type of information being requested from the Plugin Install API.
+		 * @param   object          $args   Plugin API arguments.
+		 * @return  array           $result Updated array of results.
 		 */
 		public function inject_cocart_suggestion( $result, $action, $args ) {
 			// Return current results if we are not searching for suggestion.
@@ -549,46 +551,61 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				return $result;
 			}
 
-			// Get CoCart plugin data.
-			$inject = (array) self::get_cocart_plugin_data();
-
-			// Return current results if failed to get plugin data.
-			if ( is_wp_error( $inject ) ) {
-				return $result;
-			}
-
 			$suggestions = self::get_suggestions();
 
-			$show_addon = false;
+			$show_suggestion = false;
+
+			// Lowercase, trim, remove punctuation/special chars, decode url, remove 'cart-rest-api-for-woocommerce'.
+			$normalized_term = $this->sanitize_search_term( $args->search );
+
+			$plugin_results = array();
+
+			// Re-format current results so we can manipulate them after.
+			foreach( $result->plugins as $key => $value ) {
+				$plugin_results[$value['slug']] = $value;
+			}
+
+			// Override current results with new format.
+			$result->plugins = $plugin_results;
 
 			// Get each add-on and see if we should suggest it to the user.
 			foreach ( $suggestions as $slug => $data ) {
-				// Get prepared data to inject the results.
-				$inject_data = self::get_inject_data( $inject, $data );
-
-				// Override plugin slug to identify suggestion.
-				$inject_data['slug'] = 'cocart-plugin-search';
-
-				// Override card title and icon.
-				$inject_data['name'] = '<h3>' . $inject_data['name'] . '</h3><strong>' . sprintf(
-					/* translators: %s: Plugin author */
-					esc_html__( 'by %s', 'cart-rest-api-for-woocommerce' ),
-					$inject_data['author']
-				) . '</strong>';
-				$inject_data['icons'] = $inject_data['logo'];
-
-				// Lowercase, trim, remove punctuation/special chars, decode url, remove 'cart-rest-api-for-woocommerce'.
-				$normalized_term = $this->sanitize_search_term( $args->search );
-
-				// Show if searched keywords matched any of the tags.
+				// If searched keywords matched any of the tags, get information.
 				if ( false !== stripos( $data['search_terms'] . ', ' . $data['name'], $normalized_term ) ) {
-					$show_addon = true;
-					break;
+
+					// If plugin has not already returned in the results then add suggestion.
+					if ( ! isset( $plugin_results[$data['slug']] ) ) {
+
+						// If suggestion is hosted on WP.org then get plugin data.
+						if ( ! empty( $data['wporg'] ) ) {
+							$suggestion_info = (array) self::get_wporg_plugin_data( $slug );
+
+							$inject_data = self::get_inject_data( $suggestion_info, $data );
+						} else {
+							// Get prepared data to inject the results.
+							$inject_data = self::get_inject_data( $inject, $data );
+						}
+
+						// Override plugin slug to identify suggestion.
+						$inject_data['slug'] = 'cocart-plugin-search';
+
+						// Override card title and icon.
+						$inject_data['name'] = '<h3>' . $inject_data['name'] . '</h3><strong>' . sprintf(
+							/* translators: %s: Plugin author */
+							esc_html__( 'by %s', 'cart-rest-api-for-woocommerce' ),
+							$inject_data['author']
+						) . '</strong>';
+						$inject_data['icons'] = $inject_data['logo'];
+
+						// Show plugin suggestion.
+						$show_suggestion = true;
+						break;
+					}
 				}
 			} // END foreach add-on
 
 			// Inject single search result from list of suggestions to the bottom of the results.
-			if ( $show_addon ) {
+			if ( $show_suggestion ) {
 				array_push( $result->plugins, $inject_data );
 			}
 
