@@ -8,6 +8,7 @@
 * **NEW**: Cart API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
 * **NEW**: CoCart Products add-on now merged introducing API v2 with a new option to view single products by SKU and many improved tweaks.
 * **NEW**: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/) added as plugin suggestion.
+* **NEW**: [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) added as plugin suggestion.
 * **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
 * **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
 * **NEW**: Ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
@@ -20,6 +21,7 @@
 * Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
 * Fixed: Plugin review notice dismiss action.
 * Fixed: Requesting `OPTIONS` for any endpoint to return arguments and schema.
+* Fixed: Log time.
 
 ### Enhancments and Tweaks
 
@@ -28,6 +30,7 @@
 * Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Enhanced: Stock check improved when adding item by checking the remaining stock instead.
 * Enhanced: Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
+* Enhanced: Plugin suggestions optimized for better performance, cached once a day.
 * Tweaked: Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
 * Tweaked: Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
 * Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
