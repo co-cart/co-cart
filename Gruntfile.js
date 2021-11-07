@@ -136,7 +136,7 @@ module.exports = function(grunt) {
 						'<%= dirs.scss %>/*.scss',
 						'<%= dirs.scss %>/admin/*.scss',
 					],
-					tasks: ['sass', 'rtlcss', 'postcss', 'cssmin']
+					tasks: ['sass', 'stylelint', 'rtlcss', 'postcss', 'cssmin']
 				},
 			},
 
@@ -486,7 +486,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'zipfire', [ 'copy:firebuild', 'compress:firebuild', 'clean:firebuild' ] );
 
 	// Build Plugin.
-	grunt.registerTask( 'build', [ 'version', 'css', 'js', 'update-pot', 'zip' ] );
+	grunt.registerTask( 'build', [ 'version', 'stylelint', 'css', 'js', 'update-pot', 'zip' ] );
 	grunt.registerTask( 'fire', [ 'version', 'css', 'js', 'update-pot', 'zipfire' ] );
 
 	// Ready for release.
