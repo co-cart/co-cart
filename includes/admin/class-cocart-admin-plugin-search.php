@@ -596,7 +596,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 							$inject_data = self::get_inject_data( $suggestion_info, $data );
 						} else {
 							// Get prepared data to inject the results.
-							$inject_data = self::get_inject_data( $inject, $data );
+							$inject_data = self::get_inject_data( array(), $data );
 						}
 
 						// Override plugin slug to identify suggestion.
