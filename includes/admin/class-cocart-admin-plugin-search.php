@@ -295,7 +295,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'rating'            => 0,
 					'num_ratings'       => 0,
 					'active_installs'   => 0,
-					'last_updated'      => '2021-10-18 12:43pm GMT',
+					'last_updated'      => '',
 					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
 					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/advanced-custom-fields/' ) ) ),
 					'third_party'       => false,
