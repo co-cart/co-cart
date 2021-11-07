@@ -404,7 +404,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					),
 					'plugin_does'       => esc_html__( 'compatible with', 'cart-rest-api-for-woocommerce' ),
 					'requires'          => '4.0',
-					'tested'            => '5.5',
+					'tested'            => '5.8.1',
 					'requires_php'      => '7.0',
 					'rating'            => 0,
 					'num_ratings'       => 0,
