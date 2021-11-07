@@ -57,9 +57,7 @@ body.cocart-plugin-install .plugin-card {
   display: none; }
 
 .cocart-plugin-search__bottom {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-align: center;
   align-items: center;
   align-content: space-between;
   clear: both;
@@ -69,7 +67,6 @@ body.cocart-plugin-install .plugin-card {
   overflow: hidden; }
 
 .cocart-plugin-search__text {
-  -webkit-box-flex: 1;
   flex: 1;
   margin: 0 24px 0 16px; }
 
