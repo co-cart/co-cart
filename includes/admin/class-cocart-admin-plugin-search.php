@@ -176,7 +176,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 *
 		 * @access  public
 		 * @since   3.0.0
-		 * @version 3.0.15
+		 * @version 3.1.0
 		 */
 		public function load_plugins_search_script() {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -195,7 +195,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						'CoCart'
 					),
 					'supportText' => esc_html__( 'Learn more about these suggestions.', 'cart-rest-api-for-woocommerce' ),
-					'supportLink' => COCART_STORE_URL . 'plugin-suggestions/',
+					'supportLink' => 'https://cocart.dev/guide/plugin-suggestions/',
 				)
 			);
 
