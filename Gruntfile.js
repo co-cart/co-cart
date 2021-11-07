@@ -48,7 +48,7 @@ module.exports = function(grunt) {
 				},
 				dist: {
 					files: {
-						'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin.scss',
+						'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin/admin.scss',
 						'<%= dirs.css %>/admin/cocart-setup.css' : '<%= dirs.css %>/admin/cocart-setup.scss',
 						'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/plugin-search.scss'
 					}
