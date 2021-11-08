@@ -1,8 +1,18 @@
 # Changelog for CoCart Lite
 
-## v3.0.15 - ?? November, 2021
+## v3.0.15 - 8th November, 2021
 
+* Added: Recommended requirements to the installation section of the readme.txt file.
+* Added: Support for RTL.
 * Fixed: Undefined function for `wp_get_environment_type()` introduced in WordPress 5.5 should the site be running a lower version of WordPress. Reported by [Mohib Salahuddin Ayubi](https://profiles.wordpress.org/mohib007/).
+* Fixed: JS bug identifying the parent node for plugin suggestions page.
+* Tested: ✔️ Compatible with WooCommerce v5.8
+
+### Recommended Requirements
+
+* WordPress v5.6 or higher.
+* WooCommerce v5.2 or higher.
+* PHP v7.4
 
 ## v3.0.14 - 16th October, 2021
 
