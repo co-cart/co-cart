@@ -29,7 +29,7 @@ $star_svg      = COCART_URL_PATH . '/assets/images/star-filled.svg';
 		<div class="content">
 			<div class="logo">
 				<a href="<?php echo esc_url( $store_url ); ?>" target="_blank">
-					<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/logo.jpg' ); ?>" alt="CoCart Logo" />
+					<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/header-logo.png' ); ?>" alt="CoCart Logo" />
 				</a>
 			</div>
 

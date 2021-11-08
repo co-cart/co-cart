@@ -22,6 +22,7 @@ contributors.html
 
 # Build & Releases
 /build/
+/fire-build/
 /releases/
 
 # Tests

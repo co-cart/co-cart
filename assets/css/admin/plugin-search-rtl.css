@@ -5,13 +5,13 @@ body.cocart-plugin-install .plugin-card {
   body.cocart-plugin-install .plugin-card .plugin-card-top {
     min-height: 150px; }
   body.cocart-plugin-install .plugin-card .name, body.cocart-plugin-install .plugin-card .desc {
-    margin-right: 120px !important; }
+    margin-left: 120px !important; }
   body.cocart-plugin-install .plugin-card .plugin-card-bottom {
     min-height: 36px; }
 
 .plugin-card .plugin-card-bottom .plugin-requirement {
-  float: right;
-  clear: right; }
+  float: left;
+  clear: left; }
 
 .plugin-card.plugin-card-cocart-plugin-search {
   border: 2px solid #b27de3; }
@@ -21,7 +21,7 @@ body.cocart-plugin-install .plugin-card {
 
 .plugin-card-cocart-plugin-search .column-name,
 .plugin-card-cocart-plugin-search .column-description {
-  margin-right: 20px; }
+  margin-left: 20px; }
 
 .plugin-card-cocart-plugin-search .action-links {
   overflow: auto;
@@ -30,12 +30,12 @@ body.cocart-plugin-install .plugin-card {
 .plugin-card-cocart-plugin-search .plugin-action-buttons {
   margin: 0;
   width: 100%;
-  text-align: left;
+  text-align: right;
   white-space: nowrap; }
 
 @media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
   .plugin-card-cocart-plugin-search .action-links {
-    margin-left: 0; } }
+    margin-right: 0; } }
 
 .plugin-card .plugin-action-buttons .cocart-plugin-search__learn-more .dashicons,
 .plugin-card .plugin-action-buttons .cocart-plugin-search__learn-more .dashicons-before::before {
@@ -68,10 +68,10 @@ body.cocart-plugin-install .plugin-card {
 
 .cocart-plugin-search__text {
   flex: 1;
-  margin: 0 24px 0 16px; }
+  margin: 0 16px 0 24px; }
 
 @media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
   .plugin-card-cocart-plugin-search .plugin-action-buttons li {
     display: block; }
   .plugin-card-cocart-plugin-search .plugin-action-buttons li button {
-    margin-right: 0; } }
+    margin-left: 0; } }

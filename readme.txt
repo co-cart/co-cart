@@ -1,13 +1,13 @@
 === Headless WooCommerce powered by CoCart === 
-Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, ashtarcommunications
+Contributors: sebd86, cocartforwc, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, ashtarcommunications
 Tags: woocommerce, cart, rest-api, decoupled, headless, session
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.5
 Requires PHP: 7.3
 Tested up to: 5.8
-Stable tag: 3.0.12
+Stable tag: 3.0.15
 WC requires at least: 4.3
-WC tested up to: 5.7
+WC tested up to: 5.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,9 +31,15 @@ CoCart, in my opinion, is the best frontend REST API for WooCommerce. Don’t ju
 
 Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
 
+---
+
 This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
 
+---
+
 Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
+
+---
 
 This plugin works great out of the box for adding products to the Woo cart via API. The code is solid and functionality is as expected, thanks Sebastien! [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
 
@@ -192,9 +198,15 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-* WordPress v5.4
+* WordPress v5.5
 * WooCommerce v4.3
 * PHP v7.3
+
+= Recommended Requirements =
+
+* WordPress v5.6 or higher.
+* WooCommerce v5.2 or higher.
+* PHP v7.4
 
 = Automatic installation =
 
@@ -218,7 +230,9 @@ Yes! CoCart’s core features are absolutely free. [CoCart Pro completes the ful
 
 = How do I start using CoCart? =
 
-You will first need WooCommerce v4.3 or higher installed with the REST API enabled. Then install CoCart and follow the documentation.
+You will first need WooCommerce installed with the REST API enabled. Then install CoCart and follow the documentation.
+
+> Please check the requirements listed in the [installation](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#installation) section.
 
 = Why should I use CoCart? =
 
@@ -299,7 +313,7 @@ Yes. Just install CoCart and activate it via the network and all sites will have
 
 = Can I enable white labelling for CoCart? =
 
-Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://docs.cocart.xyz/#wp-config-php-white-labelling).
+Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://cocart.dev/articles/wp-config-php/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart#white-labelling).
 
 = Does CoCart work with the Dokan plugin? =
 
@@ -346,53 +360,200 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.1.0 - ?? September, 2021 =
+= v3.1.0 - ?? October, 2021 =
 
 ## What's New?
 
-* **NEW**: Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
-* **NEW**: Cart API route introduced that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
-* **NEW**: CoCart Products add-on now merged introducing API v2 with a new option to view single products by SKU and many improved tweaks.
-* **NEW**: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/) added as plugin suggestion.
-* **NEW**: No cache control added to help prevent CoCart from being cached at all so results return quicker.
-* **NEW**: Should table creation fail during install, ask user if they have privileges to do so.
-* **NEW**: Ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
-* **NEW**: Ability to return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
-* **NEW**: Ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
+* Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
+* Introduced a new Cart API route that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
+* CoCart Products add-on now merged with the core and introducing API v2 with a new option to view single products by SKU and many improved tweaks.
+* No cache control added to help prevent CoCart from being cached at all so results return quicker.
+* Added: Ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
+* Added: Ability to return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
+* Added: Ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
+
+> ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
+
+## Plugin Suggestions
+
+* Added: [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
+* Added: [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
+* Removed: CoCart Products Add-on now the products API is merged with core of CoCart.
+* Optimized: Results for better performance and cached once a day.
 
 ## Bug Fixes
 
-* Fixed: Coupons duplicating on each load.
-* Fixed: `$item_key` not passed in validate_item_quantity() function to validate the quantity allowed for the item.
-* Fixed: Redirect to the "Getting Started" page should no longer happen on every activation.
-* Fixed: Plugin review notice dismiss action.
+* Coupons duplicating on each load.
+* `$item_key` not passed in `validate_item_quantity()` function to validate the quantity allowed for the item.
+* Redirect to the "Getting Started" page should no longer happen on every activation.
+* Plugin review notice dismiss action.
+* Requesting `OPTIONS` for any endpoint to return arguments and schema.
+* Log time.
 
-## Enhancments and Tweaks
+## Enhancments
 
 * Deprecated: Upgrade Warning notice.
-* Enhanced: Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
-* Enhanced: Stock check improved when adding item by checking the remaining stock instead.
-* Enhanced: Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
-* Tweaked: Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
-* Tweaked: Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
-* Tweaked: Session handler by adding `get_session()` function for plugin compatibility.
-* Removed: CoCart Products Add-on as a plugin suggestion now the products API is merged with core of CoCart.
+* Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
+* Stock check improved when adding item by checking the remaining stock instead.
+* Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
+* Should table creation fail during install, ask user if they have privileges to do so.
+
+## Tweaks
+
+* Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
+* Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
+* Session handler by adding `get_session()` function for plugin compatibility.
 * Uninstall: Will reschedule WooCommerce cron job for cleanup sessions.
+
+## Compatibility and Requirements
+
+* Added more compatibility for next update of CoCart Pro.
+* Minimum requirement for WordPress is now v5.5
+* Tested: ✔️ Compatible with WooCommerce v5.9
+* Tested: ✔️ Compatible with WordPress v5.9
 
 ## For Developers
 
-* Dev: Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
-* Dev: Introduced new filter `cocart_override_cart_item` to override cart item for anything extra.
-* Dev: Introduced new filter `cocart_variable_empty_price` to provide a custom price range for variable products should none exist yet.
-* Dev: Introduced new filter `cocart_get_price_range` to alter the price range for variable products.
-* Dev: Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
-* Dev: Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
-* Dev: Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
-* Dev: Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
-* Dev: Added more compatibility for next update of CoCart Pro.
-* Dev: Minimum requirement for WordPress is now v5.5
+* Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
+* Introduced new filter `cocart_override_cart_item` to override cart item for anything extra.
+* Introduced new filter `cocart_variable_empty_price` to provide a custom price range for variable products should none exist yet.
+* Introduced new filter `cocart_get_price_range` to alter the price range for variable products.
+* Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
+* Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
+* Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
+* Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
 
-> ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
+= v3.0.15 - 8th November, 2021 =
+
+* Added: Recommended requirements to the installation section of the readme.txt file.
+* Added: Support for RTL.
+* Fixed: Undefined function for `wp_get_environment_type()` introduced in WordPress 5.5 should the site be running a lower version of WordPress. Reported by [Mohib Salahuddin Ayubi](https://profiles.wordpress.org/mohib007/).
+* Fixed: JS bug identifying the parent node for plugin suggestions page.
+* Tested: ✔️ Compatible with WooCommerce v5.8
+
+= v3.0.14 - 16th October, 2021 =
+
+* Fixed: Undefined index: `cart` that rarely happens. Reported by [@AlceoMazza](https://github.com/AlceoMazza)
+
+= v3.0.13 - 15th October, 2021 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Fatal error when `$session->save_data()` is called in [JetPack WooCommerce Analytics](https://jetpack.com/support/woocommerce-analytics/) and [WooCommerce Amazon Pay](https://wordpress.org/plugins/woocommerce-gateway-amazon-payments-advanced/) payment gateway.
+
+= v3.0.12 - 2nd August, 2021 =
+
+* Fixed: Validate item quantity by passing missing parameters.
+* Fixed: Default package title for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
+* Dev: Improved performance in the WordPress dashboard.
+
+= v3.0.11 - 29th July, 2021 =
+
+* Fixed: Product ID not returning as integer once validated instead of a string. 🙈 Thanks to [Christian Kormos](https://profiles.wordpress.org/darkchris/) for reporting the issue.
+
+> Dev note: This will help solve issues with filters using the `$product_id` parameter when a product is added to cart.
+
+= v3.0.10 - 22nd July, 2021 =
+
+* Dev: Stopped custom upgrade notice from being called on plugin page when major update is available for those using WordPress 5.5 or greater. [See article](https://make.wordpress.org/plugins/2021/01/26/reminder-plugins-must-not-interfere-with-updates/)!
+* Dev: Package file added for better composer packaging support.
+
+= v3.0.9 - 21st July, 2021 =
+
+* Corrected: Sanitize only. Some functions were escaped when not needed to.
+
+= v3.0.8 - 18th July, 2021 =
+
+* Dev: Plugin package tweaks for future CoCart project.
+
+= v3.0.7 - 14th July, 2021 =
+
+**🔒 This is a SECURTIY FIX!**
+
+> This release brings in a number of fixes to secure the plugin and keep up with WordPress code standards. It is highly recommended that you update to this release.
+
+* Fixed: Escaping HTML from requested cart key.
+* Fixed: Sanitized username and password with basic authentication.
+* Fixed: Yoda conditions.
+* Fixed: Localization for translators.
+* Updated: Getting started page with new lowest price to upgrade to CoCart Pro.
+* Dev: Documented parameter comments for functions that were missing.
+* Dev: Change the use of `date()` function to `gmdate()` function instead.
+* Dev: Change the use of `strip_tags()` function to `wp_strip_all_tags()` function instead.
+
+= v3.0.6 - 25th June, 2021 =
+
+* Fixed: Validation of a variation added to cart should the parent ID be used. Thanks to [Brandan King](https://profiles.wordpress.org/inspiredagency/) for reporting the issue.
+
+= v3.0.5 - 28th May, 2021 =
+
+* Tweaked: Adding an item/items now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all when not set.
+
+= v3.0.4 - 19th May, 2021 =
+
+* Fixed: Return error if no matching variation is found.
+* Fixed: Validation of empty totals forcing false error message to return.
+* Fixed: Empty `backorders` and `featured_image` now returns in cart response. Keeps cart response structure consistent.
+* Fixed: Coupon HTML formatting returned in cart response.
+* Fixed: Error response when attempting to view a single item that is not in the cart.
+* Tweaked: When items in cart are checked for remaining stock, only the first error notice is returned per item.
+* Tweaked: Updating, Removing or Restoring an item now includes the cart parameters so things like the featured image can return if left as the default setting instead of not showing at all when not set.
+* Tweaked: Localization for validation error messages.
+* Tweaked: `cocart_price_no_html()` function to decode HTML so currency symbol returns correctly.
+
+= v3.0.3 - 15th May, 2021 =
+
+* Fixed: Cart hash now returns in cart response after adding first item.
+* Dev: Code tweaks and inline doc improvements.
+* Dev: Added new helper function to detect CoCart Pro is activated.
+
+= v3.0.2 - 12th May, 2021 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Error when product image is not set. Now fails safely by returning the product placeholder image instead.
+* Fixed: Totals total returned value was returning the currency symbol decoded for certain countries so it looked like the total was an incorrect value.
+* Tweaked: Convert monetary values given before returning.
+
+= v3.0.1 - 12th May, 2021 =
+
+**🔥 This is a HOTFIX!**
+
+* Fixed: Uncaught error when the cart hash is not generated and saved in session cookie.
+* Fixed: Some validation errors not returning when attempting to add item to cart.
+* Tweaked: When adding an item and fails. Any remaining error notice that WooCommerce normally returns on the frontend is converted to throw an exception.
+
+= v3.0.0 - 10th May, 2021 =
+
+[See blog post for release notes](https://cocart.xyz/cocart-v3-release-notes/).
+
+### What's New with CoCart v3?
+
+* 🥇 **NEW**: API v2 with new routes to help with the flow.
+* 💯 **NEW**: Better cart response based on the experimental free add-on "[Get Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)".
+* ⛓️ **NEW**: Carts can sync for guest customers between app and web once "Load Cart from Session" feature has been used.
+* 🔑 **NEW**: Basic Authentication now built in with the ability to authenticate via email instead of username. 🥳
+* 🔒 **NEW**: Each route can be forced to check if the user (meaning only a logged in user) has permission to use the API. This requires the use of a new filter. [See article for more information](https://cocart.xyz/force-api-permissions/).
+* 🔎 **NEW**: Browse and Search CoCart add-ons or supported extensions from the plugin install page.
+ * * Search suggestions are added at the bottom of the plugin search results on the first page only if matching key words match.
+ * * New plugin install section "CoCart" displays information on available add-ons or supported extensions with compatibility information and links to more details.
+* 🧾 **NEW**: Support for [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/) plugin if you have **v3.2.5** or above.
+* 🚢 **NEW**: Support for [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
+* 🎁 **NEW**: Support for [WooCommerce Free Gift Coupons](https://woocommerce.com/products/free-gift-coupons/) extension.
+* 🗝️ **NEW**: Support for [JWT Auth plugin](https://wordpress.org/plugins/jwt-auth/) by Useful Team.
+* 🌗 **NEW**: Compatible with [WP-GraphQL WooCommerce](https://github.com/wp-graphql/wp-graphql-woocommerce) add-on.
+* Tweaked: Session data now handled by new abstract to gain more control over it.
+* Tweaked: Cart key now returns in the cart response the first time round. 🥳
+* Tweaked: The loading of the session handler for better initialization by filtering it outside the action hook `woocommerce_loaded`.
+* Tweaked: Loading a cart from session is now prevented if a user is already logged in.
+* Tweaked: Loading a cart from session is now prevented if a user is not logged in and the cart key requested matches any registered user.
+* Tweaked: Cart session now stores when the cart was created, it's source and hash.
+* Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
+* Deprecated: Redirect to cart after using load cart from session.
+* Tested: ✔️ Compatible with WooCommerce v5.3
+* Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
+* Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
+* Dev: Forked `get_customer_unique_id()` from WooCommerce session handler for backwards compatibility. Introduced to help with unit tests in WooCommerce since version 5.3. Not needed for CoCart.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 

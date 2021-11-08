@@ -65,14 +65,14 @@ var CoCartPS = {};
 			if ( 'object' === typeof hint && null !== hint ) {
 				var title = hint.querySelector( '.column-name h3 a' );
 
-				title.outerHTML = $(title).replaceWith( $(title).html() );
+				$(title).outerHTML = $(title).replaceWith( $(title).html() );
 			}
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
 					var title = element.querySelector( '.column-name h3 a' );
 
-					title.outerHTML = $(title).replaceWith( $(title).html() );
+					$(title).outerHTML = $(title).replaceWith( $(title).html() );
 				} )
 			}
 		},

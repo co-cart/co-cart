@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.6.0
- * @version 3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -275,14 +275,19 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Checks the WordPress environment to see if we are running CoCart locally.
 		 *
+		 * @uses wp_get_environment_type() function introduced in WP 5.5
+		 * @link https://developer.wordpress.org/reference/functions/wp_get_environment_type/
+		 *
 		 * @access  protected
 		 * @since   3.0.0
-		 * @version 3.0.7
+		 * @version 3.0.15
 		 * @return  bool
 		 */
 		protected function is_wp_environment_local() {
-			if ( 'local' === wp_get_environment_type() || 'development' === wp_get_environment_type() ) {
-				return true;
+			if ( function_exists( 'wp_get_environment_type' ) ) {
+				if ( 'local' === wp_get_environment_type() || 'development' === wp_get_environment_type() ) {
+					return true;
+				}
 			}
 
 			return false;
@@ -346,12 +351,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 		 *
-		 * @access public
-		 * @since  3.0.0
-		 * @param  mixed           $result  Response to replace the requested version with.
-		 * @param  WP_REST_Server  $server  Server instance.
-		 * @param  WP_REST_Request $request Request used to generate the response.
-		 * @return mixed
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   mixed           $result  Response to replace the requested version with.
+		 * @param   WP_REST_Server  $server  Server instance.
+		 * @param   WP_REST_Request $request Request used to generate the response.
+		 * @return  mixed
 		 */
 		public function check_api_permissions( $result, $server, $request ) {
 			$method = $request->get_method();
@@ -388,8 +394,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 							}
 							break;
 						case 'OPTIONS':
-							return true;
-
+							foreach ( $api_not_allowed as $route ) {
+								if ( preg_match( '!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
+									/* translators: 1: permission method, 2: api route */
+									throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ), 'OPTIONS', $path ), 401 );
+								}
+							}
+							break;
 						default:
 							/* translators: %s: api route */
 							throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Unknown request method for %s.', 'cart-rest-api-for-woocommerce' ), $path ), 401 );
@@ -401,7 +412,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			} catch ( CoCart_Data_Exception $e ) {
 				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
-		} // END check_permissions()
+		} // END check_api_permissions()
 
 	} // END class.
 

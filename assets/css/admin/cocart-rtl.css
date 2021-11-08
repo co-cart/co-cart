@@ -28,7 +28,7 @@
   color: #292929;
   margin: 20px auto 40px;
   max-width: 700px;
-  text-align: left;
+  text-align: right;
   width: calc(100% - 20px); }
   .cocart .container .content {
     padding: 40px; }
@@ -52,7 +52,7 @@
     .cocart .container .content ul {
       list-style: disc; }
     .cocart .container .content li {
-      margin-left: 12px; }
+      margin-right: 12px; }
     .cocart .container .content a.button.button-large,
     .cocart .container .content button.button-large {
       font-size: 24px;
@@ -86,13 +86,13 @@
         font-size: 30px;
         line-height: 8px;
         vertical-align: top;
-        margin-right: 2px; }
+        margin-left: 2px; }
       .cocart .container .content p.price-tag sup {
         display: inline-block;
         font-size: 18px;
         line-height: 16px;
         vertical-align: bottom;
-        margin-left: 2px; }
+        margin-right: 2px; }
     .cocart .container .content img.emoji {
       display: inline !important;
       border: none !important;
@@ -136,7 +136,7 @@
   margin: 0 0 5px; }
 
 .notice.cocart-notice .cocart-action {
-  float: right;
+  float: left;
   text-align: center; }
 
 .notice.cocart-notice .cocart-action .cocart-button {
@@ -155,7 +155,7 @@
     vertical-align: middle; }
 
 .notice.cocart-notice .cocart-notice-content {
-  padding: 0 6% 0 20px; }
+  padding: 0 20px 0 6%; }
 
 .notice .cocart-notice-icon {
   color: #509ed2;
@@ -183,7 +183,7 @@ body.cocart .error {
   .notice.cocart-notice .cocart-notice-inner .cocart-action {
     margin-top: 20px;
     display: block;
-    text-align: left; }
+    text-align: right; }
   .notice.cocart-notice .cocart-notice-inner .no-thanks {
     display: inline-block;
-    margin-left: 15px; } }
+    margin-right: 15px; } }

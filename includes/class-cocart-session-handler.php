@@ -514,6 +514,18 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END save_cart()
 
 	/**
+	 * Backwards compatibility for other plugins to
+	 * save data and delete guest session.
+	 *
+	 * @access public
+	 * @since  3.0.13
+	 * @param  int $old_session_key session ID before user logs in.
+	 */
+	public function save_data( $old_session_key = 0 ) {
+		$this->save_cart( $old_cart_key );
+	} // END save_data()
+
+	/**
 	 * Destroy all cart data.
 	 *
 	 * @access public
@@ -522,6 +534,17 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$this->delete_cart( $this->_customer_id );
 		$this->forget_cart();
 	} // END destroy_cart()
+
+	/**
+	 * Backwards compatibility for other plugins to
+	 * destroy all session data.
+	 *
+	 * @access public
+	 * @since  3.0.13
+	 */
+	public function destroy_session() {
+		$this->destroy_cart();
+	} // END destroy_session()
 
 	/**
 	 * Destroy cart cookie.
@@ -792,7 +815,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access  protected
 	 * @since   2.7.2
-	 * @version 3.1.0
+	 * @version 3.0.14
 	 * @param   array  $data     The cart data to validate.
 	 * @param   string $cart_key The cart key.
 	 * @return  array  $data     Returns the original cart data or a boolean value.
@@ -800,10 +823,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	protected function is_cart_data_valid( $data, $cart_key ) {
 		if ( ! empty( $data ) && empty( $this->get_cart( $cart_key ) ) ) {
 			// If the cart value is empty then the cart data is not valid.
-			if (
-				empty( maybe_unserialize( $data['cart'] ) ) ||
-				! isset( $data['cart'] )
-			) {
+			if ( ! isset( $data['cart'] ) || empty( maybe_unserialize( $data['cart'] ) ) ) {
 				$data = false;
 			}
 		}
