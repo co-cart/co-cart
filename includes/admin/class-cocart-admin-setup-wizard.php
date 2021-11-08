@@ -87,6 +87,9 @@ class CoCart_Admin_Setup_Wizard {
 
 		wp_enqueue_style( 'cocart-setup', COCART_URL_PATH . '/assets/css/admin/cocart-setup.css', array( 'dashicons', 'install' ), $version );
 		wp_style_add_data( 'cocart-setup', 'rtl', 'replace' );
+		if ( $suffix ) {
+			wp_style_add_data( 'cocart-setup', 'suffix', '.min' );
+		}
 	}
 
 	/**
