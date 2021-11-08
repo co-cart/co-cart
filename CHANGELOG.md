@@ -9,14 +9,14 @@
 * CoCart Products add-on now merged with the core and introducing API v2 with a new option to view single products by SKU and many improved tweaks.
 * No cache control added to help prevent CoCart from being cached at all so results return quicker.
 * Added: Ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
-* Added: Ability to Return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
+* Added: Ability to return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
 * Added: Ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 
 ### Plugin Suggestions
 
-* Added: [Flexiable Shipping](https://wordpress.org/plugins/flexible-shipping/)
+* Added: [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
 * Added: [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
 * Removed: CoCart Products Add-on now the products API is merged with core of CoCart.
 * Optimized: Results for better performance and cached once a day.
