@@ -129,6 +129,24 @@ module.exports = function(grunt) {
 				}
 			},
 
+			// Check for Javascript errors.
+			jshint: {
+				options: {
+					reporter: require('jshint-stylish'),
+					globals: {
+						"EO_SCRIPT_DEBUG": false,
+					},
+					'-W099': true, // Mixed spaces and tabs
+					'-W083': true, // Fix functions within loop
+					'-W082': true, // Declarations should not be placed in blocks
+					'-W020': true, // Read only - error when assigning EO_SCRIPT_DEBUG a value.
+				},
+				all: [
+					'<%= dirs.js %>/admin/*.js',
+					'!<%= dirs.js %>/admin/*.min.js'
+				]
+			},
+
 			// Watch for changes made in SASS.
 			watch: {
 				css: {
@@ -454,13 +472,13 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'check', [ 'devUpdate' ] );
 
 	// Checks for errors.
-	grunt.registerTask( 'test', [ 'stylelint', 'checktextdomain' ] );
+	grunt.registerTask( 'test', [ 'stylelint', 'jshint', 'checktextdomain' ] );
 
 	// Build CSS ONLY!
-	grunt.registerTask( 'css', [ 'sass', 'rtlcss', 'postcss', 'cssmin' ] );
+	grunt.registerTask( 'css', [ 'stylelint', 'sass', 'rtlcss', 'postcss', 'cssmin' ] );
 
 	// Build JS ONLY!
-	grunt.registerTask( 'js', [ 'uglify' ] );
+	grunt.registerTask( 'js', [ 'jshint', 'uglify' ] );
 
 	// Update version of plugin and package.
 	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme', 'replace:package' ] );
