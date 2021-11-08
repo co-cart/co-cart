@@ -51,7 +51,7 @@ var CoCartPS = {};
 						$(title).after( '<strong>' + $(author).text() + '</strong>' );
 					}
 					$(author).remove();
-				} )
+				} );
 			}
 		},
 
@@ -73,7 +73,7 @@ var CoCartPS = {};
 					var title = element.querySelector( '.column-name h3 a' );
 
 					$(title).outerHTML = $(title).replaceWith( $(title).html() );
-				} )
+				} );
 			}
 		},
 
@@ -121,7 +121,7 @@ var CoCartPS = {};
 
 			if ( 'object' === typeof card && null !== card ) {
 				card.forEach( function( element, index ) {
-					var bottomCard  = element.querySelector( '.plugin-card-bottom' )
+					var bottomCard  = element.querySelector( '.plugin-card-bottom' );
 					var review      = element.querySelector( '.column-rating' );
 					var downloads   = element.querySelector( '.column-downloaded' );
 					var lastUpdated = element.querySelector( '.column-updated' );
@@ -136,7 +136,7 @@ var CoCartPS = {};
 					if ( $(require).length > 0 ) {
 						bottomCard.append(require);
 					}
-				} )
+				} );
 			}
 		},
 
@@ -156,7 +156,7 @@ var CoCartPS = {};
 		 */
 		reset: function() {
 			var body = document.querySelector( 'body' );
-			var dashboard = document.querySelector( '.cocart-plugin-install-dashboard' )
+			var dashboard = document.querySelector( '.cocart-plugin-install-dashboard' );
 
 			if ( $(body).hasClass( 'cocart-plugin-install' ) ) {
 				$(body).removeClass( 'cocart-plugin-install' );
