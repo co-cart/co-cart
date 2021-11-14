@@ -176,7 +176,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 *
 		 * @access  public
 		 * @since   3.0.0
-		 * @version 3.0.15
+		 * @version 3.0.16
 		 */
 		public function load_plugins_search_script() {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -202,6 +202,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			wp_register_style( COCART_SLUG . '-plugin-search', COCART_URL_PATH . '/assets/css/admin/plugin-search' . $suffix . '.css', array(), COCART_VERSION );
 			wp_enqueue_style( COCART_SLUG . '-plugin-search' );
 			wp_style_add_data( COCART_SLUG . '-plugin-search', 'rtl', 'replace' );
+			if ( $suffix ) {
+				wp_style_add_data( COCART_SLUG . '-plugin-search', 'suffix', '.min' );
+			}
 		} // END load_plugins_search_script()
 
 		/**
