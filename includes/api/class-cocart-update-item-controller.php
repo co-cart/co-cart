@@ -94,7 +94,16 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 				return $this->remove_item( $request );
 			}
 
-			$controller->validate_quantity( $quantity );
+			$quantity = $controller->validate_quantity( $quantity );
+
+			/**
+			 * If validation returned an error return error response.
+			 *
+			 * @param $quantity
+			 */
+			if ( is_wp_error( $quantity ) ) {
+				return $quantity;
+			}
 
 			// Check item exists in cart before fetching the cart item data to update.
 			$current_data = $controller->get_cart_item( $item_key, 'container' );
@@ -114,7 +123,16 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
-			$controller->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+			$has_stock = $controller->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+
+			/**
+			 * If not true, return error response.
+			 *
+			 * @param $has_stock
+			 */
+			if ( is_wp_error( $has_stock ) ) {
+				return $has_stock;
+			}
 
 			/**
 			 * Update cart validation.
