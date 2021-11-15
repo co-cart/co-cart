@@ -4,10 +4,11 @@
  *
  * Handles the request to update items in the cart with /cart/item endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @version 3.0.16
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -64,7 +65,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.0.16
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -73,7 +74,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 			$item_key = ! isset( $request['item_key'] ) ? 0 : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
 			$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
 
-			if ( 0 === $item_key || $item_key < 0 ) {
+			if ( 0 === $item_key || $item_key < 1 ) {
 				$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
 
 				/**
