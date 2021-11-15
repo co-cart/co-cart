@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.0.15';
+	public static $version = '3.0.16';
 
 	/**
 	 * CoCart Database Schema version.

@@ -4,11 +4,11 @@
  *
  * Handles requests to the cart endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @version  3.0.11
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @version 3.0.16
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
