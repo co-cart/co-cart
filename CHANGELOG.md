@@ -63,6 +63,13 @@
 * Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
 * Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
 
+## v3.0.16 - 15th November, 2021
+
+* Fixed: Loading of RTL stylesheet if SCRIPT_DEBUG is not enabled.
+* Fixed: Can no longer remove item by updating quantity to zero.
+* Fixed: Returning error responses when updating an item fails.
+* Tested: ✔️ Compatible with WooCommerce v5.9
+
 ## v3.0.15 - 8th November, 2021
 
 * Added: Recommended requirements to the installation section of the readme.txt file.

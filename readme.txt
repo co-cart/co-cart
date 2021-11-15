@@ -5,9 +5,9 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.5
 Requires PHP: 7.3
 Tested up to: 5.8
-Stable tag: 3.0.15
+Stable tag: 3.0.16
 WC requires at least: 4.3
-WC tested up to: 5.8
+WC tested up to: 5.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -360,7 +360,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.1.0 - ?? October, 2021 =
+= v3.1.0 - ?? November, 2021 =
 
 ## What's New?
 
@@ -422,6 +422,13 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
 * Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
 * Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
+
+= v3.0.16 - 15th November, 2021 =
+
+* Fixed: Loading of RTL stylesheet if SCRIPT_DEBUG is not enabled.
+* Fixed: Can no longer remove item by updating quantity to zero.
+* Fixed: Returning error responses when updating an item fails.
+* Tested: ✔️ Compatible with WooCommerce v5.9
 
 = v3.0.15 - 8th November, 2021 =
 

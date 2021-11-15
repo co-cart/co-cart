@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
+ * @version 3.0.16
  * @license GPL-2.0+
  */
 
@@ -64,7 +65,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.0.16
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -73,7 +74,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 			$item_key = ! isset( $request['item_key'] ) ? 0 : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
 			$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
 
-			if ( 0 === $item_key || $item_key < 0 ) {
+			if ( 0 === $item_key || $item_key < 1 ) {
 				$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
 
 				/**
@@ -94,7 +95,16 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 				return $this->remove_item( $request );
 			}
 
-			$controller->validate_quantity( $quantity );
+			$quantity = $controller->validate_quantity( $quantity );
+
+			/**
+			 * If validation returned an error return error response.
+			 *
+			 * @param $quantity
+			 */
+			if ( is_wp_error( $quantity ) ) {
+				return $quantity;
+			}
 
 			// Check item exists in cart before fetching the cart item data to update.
 			$current_data = $controller->get_cart_item( $item_key, 'container' );
@@ -114,7 +124,16 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
-			$controller->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+			$has_stock = $controller->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+
+			/**
+			 * If not true, return error response.
+			 *
+			 * @param $has_stock
+			 */
+			if ( is_wp_error( $has_stock ) ) {
+				return $has_stock;
+			}
 
 			/**
 			 * Update cart validation.
