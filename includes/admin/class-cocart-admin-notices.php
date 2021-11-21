@@ -4,11 +4,11 @@
  *
  * Forked the notice system from: https://github.com/woocommerce/woocommerce/blob/master/includes/admin/class-wc-admin-notices.php
  *
- * @author   Sébastien Dumont
- * @package  CoCart\Admin\Notices
- * @since    1.2.0
- * @version  3.0.7
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Notices
+ * @since   1.2.0
+ * @version 3.0.17
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -219,10 +219,16 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Add notices.
 		 *
-		 * @access public
-		 * @since  3.0.0
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.0.17
 		 */
 		public function add_notices() {
+			// Prevent notices from loading on the frontend.
+			if ( ! is_admin() ) {
+				return;
+			}
+
 			$notices = self::get_notices();
 
 			if ( empty( $notices ) ) {
