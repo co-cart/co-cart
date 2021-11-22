@@ -1041,7 +1041,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.4
+	 * @version 3.0.17
 	 * @param   WC_Product $_product     - The product data of the item in the cart.
 	 * @param   array      $cart_item    - The item in the cart containing the default cart item data.
 	 * @param   string     $item_key     - The item key generated based on the details of the item.
@@ -1073,7 +1073,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => wc_get_weight( (int) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
+				'weight'       => wc_get_weight( $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
