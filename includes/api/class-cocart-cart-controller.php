@@ -286,17 +286,25 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.16
-	 * @param   int $quantity - The quantity to validate.
+	 * @version 3.0.17
+	 * @param   int|float $quantity - The quantity to validate.
 	 */
 	protected function validate_quantity( $quantity ) {
 		try {
 			if ( ! is_numeric( $quantity ) ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
+				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
 			}
 
-			if ( 0 === $quantity || $quantity < 1 ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be set to a minimum of %s.', 'cart-rest-api-for-woocommerce' ), 1 ), 405 );
+			/**
+			 * This filter was added to support certain edge cases.
+			 *
+			 * @since 3.0.17
+			 * @param int|float Minimum Quantity to validate with.
+			 */
+			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', 1 );
+
+			if ( 0 == $quantity || $quantity < $minimum_quantity ) {
+				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be set to a minimum of %s.', 'cart-rest-api-for-woocommerce' ), $minimum_quantity ), 405 );
 			}
 
 			return wc_stock_amount( $quantity );
