@@ -73,21 +73,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Item_v2_Controller {
 		try {
 			$item_key = ! isset( $request['item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
 
-			if ( 0 === $item_key || $item_key < 1 ) {
-				$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
-
-				/**
-				 * Filters message about cart item key required.
-				 *
-				 * @since 2.1.0
-				 * @param string $message Message.
-				 */
-				$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'update' );
-
-				throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', $message, 404 );
-			}
-
-			$controller = new CoCart_Cart_V2_Controller();
+			$item_key = $this->throw_missing_item_key( $item_key, 'restore' );
 
 			// Check item removed from cart before fetching the cart item data.
 			$current_data = $controller->get_cart_instance()->get_removed_cart_contents();

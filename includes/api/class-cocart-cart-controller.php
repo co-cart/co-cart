@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.16
+ * @version 3.0.17
  * @license GPL-2.0+
  */
 
@@ -1603,6 +1603,35 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 403 );
 	} // END throw_product_not_purchasable()
+
+	/**
+	 * Throws exception if the item key is not provided when either removing, updating or restoring the item.
+	 *
+	 * @access protected
+	 * @since  3.0.17
+	 * @param  string $item_key Item key of the item in the cart.
+	 * @param  string $status   Status of which we are checking the item key.
+	 * @return string $item_key Item key of the item in the cart.
+	 */
+	protected function throw_missing_item_key( $item_key, $status ) {
+		$item_key = (string) $item_key; // Make sure the item key is a string value.
+
+		if ( '0' === $item_key ) {
+			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+
+			/**
+			 * Filters message about cart item key required.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
+
+			throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', $message, 404 );
+		}
+
+		return $item_key;
+	} // END throw_missing_item_key()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.

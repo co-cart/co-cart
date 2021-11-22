@@ -74,21 +74,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 			$item_key = ! isset( $request['item_key'] ) ? 0 : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
 			$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
 
-			if ( 0 === $item_key || $item_key < 1 ) {
-				$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
-
-				/**
-				 * Filters message about cart item key required.
-				 *
-				 * @since 2.1.0
-				 * @param string $message Message.
-				 */
-				$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'update' );
-
-				throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', $message, 404 );
-			}
-
-			$controller = new CoCart_Cart_V2_Controller();
+			$item_key = $this->throw_missing_item_key( $item_key, 'update' );
 
 			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 			if ( 0 === $quantity || $quantity < 0 ) {
