@@ -4,10 +4,11 @@
  *
  * Handles the request to view a single item in the cart with /cart/item endpoint.
  *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v2
- * @since    3.0.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v2
+ * @since   3.0.0
+ * @version 3.0.17
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -94,17 +95,24 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access public
-	 * @return array $params
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.17
+	 * @return  array $params
 	 */
 	public function get_collection_params() {
-		$params = array(
-			'item_key' => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
+		$controller = new CoCart_Cart_V2_Controller();
+
+		$params = array_merge(
+			$controller->get_collection_params(),
+			array(
+				'item_key' => array(
+					'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_text_field',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+			)
 		);
 
 		return $params;
