@@ -1105,6 +1105,19 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
 
+		// Backorder notification.
+		if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
+			$item['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) );
+		}
+
+		// Prepares the remaining cart item data.
+		$cart_item = $this->prepare_item( $cart_item );
+
+		// Collect all cart item data if any thing is left.
+		if ( ! empty( $cart_item ) ) {
+			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
+		}
+
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
 			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
@@ -1134,10 +1147,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Gets the cart items.
 	 *
-	 * @access public
-	 * @param  array   $cart_contents - The cart contents passed.
-	 * @param  boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
-	 * @return array   $items         - Returns all items in the cart.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.17
+	 * @param   array   $cart_contents - The cart contents passed.
+	 * @param   boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
+	 * @return  array   $items         - Returns all items in the cart.
 	 */
 	public function get_items( $cart_contents = array(), $show_thumb = true ) {
 		$items = array();
@@ -1176,19 +1191,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			} else {
 				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
 
-				// Backorder notification.
-				if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-					$items[ $item_key ]['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) );
-				}
-
-				// Prepares the remaining cart item data.
-				$cart_item = $this->prepare_item( $cart_item );
-
-				// Collect all cart item data if any thing is left.
-				if ( ! empty( $cart_item ) ) {
-					$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
-				}
-
 				// This filter allows additional data to be returned for a specific item in cart.
 				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
 			}
@@ -1200,10 +1202,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Gets the cart removed items.
 	 *
-	 * @access public
-	 * @param  array   $removed_items - The removed cart contents passed.
-	 * @param  boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
-	 * @return array   $items         - Returns all removed items in the cart.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.17
+	 * @param   array   $removed_items - The removed cart contents passed.
+	 * @param   boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
+	 * @return  array   $items         - Returns all removed items in the cart.
 	 */
 	public function get_removed_items( $removed_items = array(), $show_thumb = true ) {
 		$items = array();
@@ -1220,14 +1224,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Move the quantity value to it's parent.
 			$items[ $item_key ]['quantity'] = $items[ $item_key ]['quantity']['value'];
-
-			// Prepares the remaining cart item data.
-			$cart_item = $this->prepare_item( $cart_item );
-
-			// Collect all cart item data if any thing is left.
-			if ( ! empty( $cart_item ) ) {
-				$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
-			}
 		}
 
 		return $items;
