@@ -904,12 +904,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   3.0.0
 	 * @version 3.0.12
 	 * @param   WC_Product $product      - Product object associated with the cart item.
-	 * @param   float      $quantity     - The quantity to validate.
+	 * @param   int|float  $quantity     - The quantity to validate.
 	 * @param   int        $product_id   - The product ID.
 	 * @param   int        $variation_id - The variation ID.
 	 * @param   array      $item_data    - The cart item data.
 	 * @param   string     $cart_id      - Generated ID based on item in cart.
-	 * @return  float      $quantity     - The quantity returned.
+	 * @return  int|float  $quantity     - The quantity returned.
 	 */
 	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id ) {
 		try {
@@ -1535,10 +1535,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Used as a base even if the cart is empty along with
 	 * customer information should the user be logged in.
 	 *
-	 * @access protected
-	 * @since  3.0.3
-	 * @param  WP_REST_Request $request - Full details about the request.
-	 * @return array - Returns the default cart response.
+	 * @access  protected
+	 * @since   3.0.3
+	 * @version 3.0.17
+	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @return  array - Returns the default cart response.
 	 */
 	protected function get_cart_template( $request = array() ) {
 		return array(
@@ -1551,7 +1552,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
-			'items_weight'   => wc_get_weight( (int) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'items_weight'   => wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
 			'coupons'        => array(),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
