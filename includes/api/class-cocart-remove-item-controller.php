@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.16
+ * @version 3.0.17
  * @license GPL-2.0+
  */
 
@@ -19,15 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * REST API Remove Item controller class.
  *
  * @package CoCart\API
+ * @extends CoCart_Cart_V2_Controller
  */
-class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
+class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -92,7 +86,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 			}
 
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = $controller->get_cart_item( $item_key, 'remove' );
+			$current_data = $this->get_cart_item( $item_key, 'remove' );
 
 			$product = wc_get_product( $current_data['product_id'] );
 
@@ -101,7 +95,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				$removed_contents = $controller->get_cart_instance()->get_removed_cart_contents();
+				$removed_contents = $this->get_cart_instance()->get_removed_cart_contents();
 
 				// Check if the item has already been removed.
 				if ( isset( $removed_contents[ $item_key ] ) ) {
@@ -127,7 +121,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
-			if ( $controller->get_cart_instance()->remove_cart_item( $item_key ) ) {
+			if ( $this->get_cart_instance()->remove_cart_item( $item_key ) ) {
 				do_action( 'cocart_item_removed', $current_data );
 
 				/**
@@ -135,9 +129,9 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Item_Controller {
 				 *
 				 * @since 2.1.0
 				 */
-				$controller->get_cart_instance()->calculate_totals();
+				$this->get_cart_instance()->calculate_totals();
 
-				$response = $controller->get_cart_contents( $request );
+				$response = $this->get_cart_contents( $request );
 
 				/* translators: %s: Item name. */
 				$message = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );

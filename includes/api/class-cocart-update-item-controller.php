@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.16
+ * @version 3.0.17
  * @license GPL-2.0+
  */
 
@@ -19,16 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * REST API Item controller class.
  *
  * @package CoCart\API
- * @extends CoCart_Item_v2_Controller
+ * @extends CoCart_Cart_V2_Controller
  */
-class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
+class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -65,7 +58,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.16
+	 * @version 3.0.17
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -77,11 +70,13 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 			$item_key = $this->throw_missing_item_key( $item_key, 'update' );
 
 			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
-			if ( 0 === $quantity || $quantity < 0 ) {
-				return $this->remove_item( $request );
+			if ( 0 == $quantity ) {
+				$controller = new CoCart_Remove_Item_v2_Controller();
+
+				return $controller->remove_item( $request );
 			}
 
-			$quantity = $controller->validate_quantity( $quantity );
+			$quantity = $this->validate_quantity( $quantity );
 
 			/**
 			 * If validation returned an error return error response.
@@ -93,7 +88,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 			}
 
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = $controller->get_cart_item( $item_key, 'container' );
+			$current_data = $this->get_cart_item( $item_key, 'container' );
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -110,7 +105,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
-			$has_stock = $controller->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+			$has_stock = $this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
 
 			/**
 			 * If not true, return error response.
@@ -160,8 +155,8 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 
 			// Only update cart item quantity if passed validation.
 			if ( $passed_validation ) {
-				if ( $controller->get_cart_instance()->set_quantity( $item_key, $quantity ) ) {
-					$new_data = $controller->get_cart_item( $item_key, 'update' );
+				if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity ) ) {
+					$new_data = $this->get_cart_item( $item_key, 'update' );
 
 					$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
 					$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
@@ -176,7 +171,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 						 *
 						 * @since 2.1.0
 						 */
-						$controller->get_cart_instance()->calculate_totals();
+						$this->get_cart_instance()->calculate_totals();
 					}
 				} else {
 					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
@@ -192,7 +187,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Item_v2_Controller {
 					throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, array( 'status' => 403 ) );
 				}
 
-				$response = $controller->get_cart_contents( $request );
+				$response = $this->get_cart_contents( $request );
 
 				// Was it requested to return status once item updated?
 				if ( $request['return_status'] ) {
