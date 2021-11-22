@@ -68,10 +68,8 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 
 			$item_key = $this->throw_missing_item_key( $item_key, 'remove' );
 
-			$controller = new CoCart_Cart_V2_Controller();
-
-			// Checks to see if the cart is empty before attempting to remove item.
-			if ( $controller->get_cart_instance()->is_empty() ) {
+			// Checks to see if the cart contains item before attempting to remove it.
+			if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
 				$message = __( 'No items in cart.', 'cart-rest-api-for-woocommerce' );
 
 				/**
