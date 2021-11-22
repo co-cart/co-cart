@@ -9,7 +9,6 @@
 .cocart #wpbody-content {
   padding: 0;
   overflow-x: hidden !important;
-  min-height: -webkit-calc(100vh - 32px);
   min-height: calc(100vh - 32px); }
 
 .cocart .woocommerce-layout__header-breadcrumbs {
@@ -30,7 +29,6 @@
   margin: 20px auto 40px;
   max-width: 692px;
   text-align: left;
-  width: -webkit-calc(100% - 20px);
   width: calc(100% - 20px); }
   .cocart .container .content {
     padding: 40px; }
