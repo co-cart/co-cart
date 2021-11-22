@@ -547,11 +547,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters the quantity for specified products.
 			 *
-			 * @param int   $quantity     - The original quantity of the item.
-			 * @param int   $product_id   - The product ID.
-			 * @param int   $variation_id - The variation ID.
-			 * @param array $variation    - The variation data.
-			 * @param array $item_data  - - The cart item data.
+			 * @param int|float $quantity     - The original quantity of the item.
+			 * @param int       $product_id   - The product ID.
+			 * @param int       $variation_id - The variation ID.
+			 * @param array     $variation    - The variation data.
+			 * @param array     $item_data  - - The cart item data.
 			 */
 			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
 
@@ -604,8 +604,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  protected
 	 * @since   1.0.6
 	 * @version 3.0.0
-	 * @param   array   $current_data - Cart item details.
-	 * @param   integer $quantity     - The quantity to check stock.
+	 * @param   array     $current_data - Cart item details.
+	 * @param   int|float $quantity     - The quantity to check stock.
 	 * @return  bool
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
@@ -1421,11 +1421,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @since  3.0.0
-	 * @param  int   $product_id     - Contains the id of the product to add to the cart.
-	 * @param  int   $quantity       - Contains the quantity of the item to add.
-	 * @param  int   $variation_id   - ID of the variation being added to the cart.
-	 * @param  array $variation      - Attribute values.
-	 * @param  array $cart_item_data - Extra cart item data we want to pass into the item.
+	 * @param  int            $product_id     - Contains the id of the product to add to the cart.
+	 * @param  int|float      $quantity       - Contains the quantity of the item to add.
+	 * @param  int            $variation_id   - ID of the variation being added to the cart.
+	 * @param  array          $variation      - Attribute values.
+	 * @param  array          $cart_item_data - Extra cart item data we want to pass into the item.
 	 * @return string|boolean $item_key
 	 */
 	public function add_cart_item( $product_id = 0, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array() ) {
