@@ -221,6 +221,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Defines an empty cart template 
 		$cart = array();
 
+		if ( array_key_exists( 'coupons', $cart_template ) ) {
 			// Returns each coupon applied and coupon total applied if store has coupons enabled.
 			$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
 
@@ -236,7 +237,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 		}
 
-		if ( in_array( 'taxes', $cart_template ) ) {
+		if ( array_key_exists( 'taxes', $cart_template ) ) {
 			// Return calculated tax based on store settings and customer details.
 			if ( wc_tax_enabled() && ! $this->get_cart_instance()->display_prices_including_tax() ) {
 				$taxable_address = WC()->customer->get_taxable_address();
@@ -259,12 +260,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		// Returns items.
-		if ( in_array( 'items', $cart_template ) ) {
+		if ( array_key_exists( 'items', $cart_template ) ) {
 			$cart['items'] = $this->get_items( $cart_contents, $show_thumb );
 		}
 
 		// Returns removed items.
-		if ( in_array( 'removed_items', $cart_template ) ) {
+		if ( array_key_exists( 'removed_items', $cart_template ) ) {
 			$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
 		}
 
