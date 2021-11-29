@@ -577,8 +577,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			$plugin_results = array();
 
 			// Re-format current results so we can manipulate them after.
-			foreach( $result->plugins as $key => $value ) {
-				$plugin_results[$value['slug']] = $value;
+			foreach ( $result->plugins as $key => $value ) {
+				$plugin_results[ $value['slug'] ] = $value;
 			}
 
 			// Override current results with new format.
@@ -590,7 +590,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				if ( false !== stripos( $data['search_terms'] . ', ' . $data['name'], $normalized_term ) ) {
 
 					// If plugin has not already returned in the results then add suggestion.
-					if ( ! isset( $plugin_results[$data['slug']] ) ) {
+					if ( ! isset( $plugin_results[ $data['slug'] ] ) ) {
 
 						// If suggestion is hosted on WP.org then get plugin data.
 						if ( ! empty( $data['wporg'] ) ) {
