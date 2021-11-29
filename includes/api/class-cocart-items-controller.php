@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -18,15 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * REST API View Items controller class.
  *
  * @package CoCart\API
+ * @extends CoCart_Cart_V2_Controller
  */
-class CoCart_Items_v2_Controller extends CoCart_Item_Controller {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
+class CoCart_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -62,11 +57,9 @@ class CoCart_Items_v2_Controller extends CoCart_Item_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function view_items() {
-		$controller = new CoCart_Cart_V2_Controller();
+		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
-		$cart_contents = ! $controller->get_cart_instance()->is_empty() ? array_filter( $controller->get_cart_instance()->get_cart() ) : array();
-
-		$items = $controller->get_items( $cart_contents );
+		$items = $this->get_items( $cart_contents );
 
 		// Return message should the cart be empty.
 		if ( empty( $cart_contents ) ) {
