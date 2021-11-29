@@ -218,7 +218,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Other Requested conditions.
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
-		if ( in_array( 'coupons', $cart_template ) ) {
+		// Defines an empty cart template 
+		$cart = array();
+
 			// Returns each coupon applied and coupon total applied if store has coupons enabled.
 			$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
 
