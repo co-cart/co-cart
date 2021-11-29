@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -18,15 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * REST API View individual item controller class.
  *
  * @package CoCart\API
+ * @extends CoCart_Cart_V2_Controller
  */
-class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
+class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -63,7 +58,7 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.4
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -71,11 +66,9 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 		try {
 			$item_key = ! isset( $request['item_key'] ) ? '' : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
 
-			$controller = new CoCart_Cart_V2_Controller();
+			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
-			$cart_contents = ! $controller->get_cart_instance()->is_empty() ? array_filter( $controller->get_cart_instance()->get_cart() ) : array();
-
-			$item = $controller->get_items( $cart_contents );
+			$item = $this->get_items( $cart_contents );
 
 			$item = isset( $item[ $item_key ] ) ? $item[ $item_key ] : false;
 
@@ -93,17 +86,24 @@ class CoCart_Item_v2_Controller extends CoCart_Item_Controller {
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access public
-	 * @return array $params
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.17
+	 * @return  array $params
 	 */
 	public function get_collection_params() {
-		$params = array(
-			'item_key' => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
+		$controller = new CoCart_Cart_V2_Controller();
+
+		$params = array_merge(
+			$controller->get_collection_params(),
+			array(
+				'item_key' => array(
+					'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_text_field',
+					'validate_callback' => 'rest_validate_request_arg',
+				),
+			)
 		);
 
 		return $params;
