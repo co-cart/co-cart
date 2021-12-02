@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? November, 2021 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - ?? December, 2021 (DATE SUBJECT TO CHANGE)
 
 ### What's New?
 
@@ -8,9 +8,9 @@
 * Introduced a new Cart API route that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
 * CoCart Products add-on now merged with the core and introducing API v2 with a new option to view single products by SKU and many improved tweaks.
 * No cache control added to help prevent CoCart from being cached at all so results return quicker.
-* Added: Ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
-* Added: Ability to return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
-* Added: Ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
+* Added the ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
+* Added the ability to return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
+* Added the ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 
@@ -18,8 +18,8 @@
 
 * Added: [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
 * Added: [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
-* Removed: CoCart Products Add-on now the products API is merged with core of CoCart.
-* Optimized: Results for better performance and cached once a day.
+* Removed CoCart Products Add-on now the products API is merged with core of CoCart.
+* Optimized the results for better performance and cached once a day.
 
 ### Bug Fixes
 
@@ -32,7 +32,7 @@
 
 ### Enhancments
 
-* Deprecated: Upgrade Warning notice.
+* Deprecated the upgrade warning notice.
 * Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Stock check improved when adding item by checking the remaining stock instead.
 * Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
@@ -43,7 +43,7 @@
 * Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
 * Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
 * Session handler by adding `get_session()` function for plugin compatibility.
-* Uninstall: Will reschedule WooCommerce cron job for cleanup sessions.
+* When you uninstall CoCart, the original WooCommerce cron job for cleanup sessions will be rescheduled.
 
 ### Compatibility and Requirements
 
