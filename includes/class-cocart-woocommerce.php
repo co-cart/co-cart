@@ -129,7 +129,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			}
 
 			// Get requested cart.
-			$cart = WC()->session->get_cart( $cart_key );
+			$cart = WC()->session->get_session( $cart_key );
 
 			// Get current cart contents.
 			$cart_contents = WC()->session->get( 'cart', array() );
