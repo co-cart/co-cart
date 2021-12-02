@@ -1081,7 +1081,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => wc_get_weight( $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
+				'weight'       => wc_get_weight( (float) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
