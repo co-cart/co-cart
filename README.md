@@ -154,8 +154,9 @@ Here are a few other resources you find helpful.
 
 * **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart Lite from the GitHub repo.
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
-* **[CoCart - Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
+* **[CoCart Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
+* **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 * **[Node.js Library](https://www.npmjs.com/package/@cocart/cocart-rest-api)** provides a JavaScript wrapper supporting CommonJS (CJS) and ECMAScript Modules (ESM).
 
@@ -173,9 +174,7 @@ If you think you have found a bug in the plugin, please [open a new issue](https
 
 ## Support CoCart
 
-If you or your company use CoCart Lite or appreciate the work I’m doing in open source, please consider donating via one of the links available on right hand side under "**Sponsor this project**" or [purchasing CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) where you not just get the full cart experience but also support me directly so I can continue maintaining CoCart and keep evolving the project.
-
-Please also consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
+Please consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
 
 Thank you for your support! 🙌
 
@@ -224,7 +223,7 @@ We have different channels at your disposal where you can find information about
 
 Do you like the idea of creating a headless ecommerce with WooCommerce? Got questions or feedback? We'd love to hear from you. Come join our [community](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)! ❤️
 
-CoCart Lite also welcomes contributions. There are many ways to support the project (and get free swag)! If you don't know where to start, this guide might help >> [How to contribute?](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md)
+CoCart Lite also welcomes contributions. There are many ways to support the project! If you don't know where to start, this guide might help >> [How to contribute?](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md)
 
 ---
 
