@@ -52,6 +52,10 @@
 * Tested: ✔️ Compatible with WooCommerce v5.9
 * Tested: ✔️ Compatible with WordPress v5.9
 
+### Compatibility
+
+* Tested: ✔️ Compatible with WooCommerce v5.9
+
 ### For Developers
 
 * Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
@@ -64,6 +68,8 @@
 * Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
 
 ## v3.0.16 - 15th November, 2021
+
+> 📢 This release is broken. Please DO NOT use it.
 
 * Fixed: Loading of RTL stylesheet if SCRIPT_DEBUG is not enabled.
 * Fixed: Can no longer remove item by updating quantity to zero.

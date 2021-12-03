@@ -176,7 +176,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 *
 		 * @access  public
 		 * @since   3.0.0
-		 * @version 3.0.16
+		 * @version 3.0.17
 		 */
 		public function load_plugins_search_script() {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';

@@ -5,7 +5,7 @@
  * @author   Sébastien Dumont
  * @package  CoCart\Admin
  * @since    1.2.0
- * @version  3.0.16
+ * @version  3.0.17
  * @license  GPL-2.0+
  */
 
@@ -36,7 +36,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.0.16
+		 * @version 3.0.17
 		 */
 		public function admin_styles() {
 			$screen    = get_current_screen();

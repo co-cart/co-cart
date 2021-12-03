@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.5
 Requires PHP: 7.3
 Tested up to: 5.8
-Stable tag: 3.0.16
+Stable tag: 3.0.17
 WC requires at least: 4.3
 WC tested up to: 5.9
 License: GPLv3
@@ -425,10 +425,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 = v3.0.16 - 15th November, 2021 =
 
-* Fixed: Loading of RTL stylesheet if SCRIPT_DEBUG is not enabled.
-* Fixed: Can no longer remove item by updating quantity to zero.
-* Fixed: Returning error responses when updating an item fails.
-* Tested: ✔️ Compatible with WooCommerce v5.9
+> 📢 This release is broken and was removed from WordPress plugin directory.
 
 = v3.0.15 - 8th November, 2021 =
 
