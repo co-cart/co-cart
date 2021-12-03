@@ -218,10 +218,16 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Add notices.
 		 *
-		 * @access public
-		 * @since  3.0.0
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.0.17
 		 */
 		public function add_notices() {
+			// Prevent notices from loading on the frontend.
+			if ( ! is_admin() ) {
+				return;
+			}
+
 			$notices = self::get_notices();
 
 			if ( empty( $notices ) ) {

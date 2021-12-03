@@ -329,17 +329,25 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.16
-	 * @param   int $quantity - The quantity to validate.
+	 * @version 3.0.17
+	 * @param   int|float $quantity - The quantity to validate.
 	 */
 	protected function validate_quantity( $quantity ) {
 		try {
 			if ( ! is_numeric( $quantity ) ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
+				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
 			}
 
-			if ( 0 === $quantity || $quantity < 1 ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be set to a minimum of %s.', 'cart-rest-api-for-woocommerce' ), 1 ), 405 );
+			/**
+			 * This filter was added to support certain edge cases.
+			 *
+			 * @since 3.0.17
+			 * @param int|float Minimum Quantity to validate with.
+			 */
+			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', 1 );
+
+			if ( 0 == $quantity || $quantity < $minimum_quantity ) {
+				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be set to a minimum of %s.', 'cart-rest-api-for-woocommerce' ), $minimum_quantity ), 405 );
 			}
 
 			return wc_stock_amount( $quantity );
@@ -590,11 +598,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters the quantity for specified products.
 			 *
-			 * @param int   $quantity     - The original quantity of the item.
-			 * @param int   $product_id   - The product ID.
-			 * @param int   $variation_id - The variation ID.
-			 * @param array $variation    - The variation data.
-			 * @param array $item_data  - - The cart item data.
+			 * @param int|float $quantity     - The original quantity of the item.
+			 * @param int       $product_id   - The product ID.
+			 * @param int       $variation_id - The variation ID.
+			 * @param array     $variation    - The variation data.
+			 * @param array     $item_data  - - The cart item data.
 			 */
 			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
 
@@ -647,8 +655,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  protected
 	 * @since   1.0.6
 	 * @version 3.0.0
-	 * @param   array   $current_data - Cart item details.
-	 * @param   integer $quantity     - The quantity to check stock.
+	 * @param   array     $current_data - Cart item details.
+	 * @param   int|float $quantity     - The quantity to check stock.
 	 * @return  bool
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
@@ -941,7 +949,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   3.0.0
 	 * @version 3.1.0
 	 * @param   WC_Product $product      - Product object associated with the cart item.
-	 * @param   float      $quantity     - The quantity to validate.
+	 * @param   int|float  $quantity     - The quantity to validate.
 	 * @param   int        $product_id   - The product ID.
 	 * @param   int        $variation_id - The variation ID.
 	 * @param   array      $item_data    - The cart item data.
@@ -1089,7 +1097,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.4
+	 * @version 3.0.17
 	 * @param   WC_Product $_product     - The product data of the item in the cart.
 	 * @param   array      $cart_item    - The item in the cart containing the default cart item data.
 	 * @param   string     $item_key     - The item key generated based on the details of the item.
@@ -1145,6 +1153,19 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
 
+		// Backorder notification.
+		if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
+			$item['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) );
+		}
+
+		// Prepares the remaining cart item data.
+		$cart_item = $this->prepare_item( $cart_item );
+
+		// Collect all cart item data if any thing is left.
+		if ( ! empty( $cart_item ) ) {
+			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
+		}
+
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
 			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
@@ -1174,10 +1195,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Gets the cart items.
 	 *
-	 * @access public
-	 * @param  array   $cart_contents - The cart contents passed.
-	 * @param  boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
-	 * @return array   $items         - Returns all items in the cart.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.17
+	 * @param   array   $cart_contents - The cart contents passed.
+	 * @param   boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
+	 * @return  array   $items         - Returns all items in the cart.
 	 */
 	public function get_items( $cart_contents = array(), $show_thumb = true ) {
 		$items = array();
@@ -1216,19 +1239,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			} else {
 				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
 
-				// Backorder notification.
-				if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-					$items[ $item_key ]['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) );
-				}
-
-				// Prepares the remaining cart item data.
-				$cart_item = $this->prepare_item( $cart_item );
-
-				// Collect all cart item data if any thing is left.
-				if ( ! empty( $cart_item ) ) {
-					$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
-				}
-
 				// This filter allows additional data to be returned for a specific item in cart.
 				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
 			}
@@ -1240,10 +1250,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Gets the cart removed items.
 	 *
-	 * @access public
-	 * @param  array   $removed_items - The removed cart contents passed.
-	 * @param  boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
-	 * @return array   $items         - Returns all removed items in the cart.
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.0.17
+	 * @param   array   $removed_items - The removed cart contents passed.
+	 * @param   boolean $show_thumb    - Determines if requested to return the item featured thumbnail.
+	 * @return  array   $items         - Returns all removed items in the cart.
 	 */
 	public function get_removed_items( $removed_items = array(), $show_thumb = true ) {
 		$items = array();
@@ -1260,14 +1272,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Move the quantity value to it's parent.
 			$items[ $item_key ]['quantity'] = $items[ $item_key ]['quantity']['value'];
-
-			// Prepares the remaining cart item data.
-			$cart_item = $this->prepare_item( $cart_item );
-
-			// Collect all cart item data if any thing is left.
-			if ( ! empty( $cart_item ) ) {
-				$items[ $item_key ]['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
-			}
 		}
 
 		return $items;
@@ -1709,7 +1713,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$template['item_count'] = $this->get_cart_instance()->get_cart_contents_count();
 			}
 			if ( $field === 'items_weight' ) {
-				$template['items_weight'] = wc_get_weight( (int) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
+				$template['items_weight'] = wc_get_weight( (float) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
 			}
 			if ( $field === 'coupons' ) {
 				$template['coupons'] = array();
@@ -1815,6 +1819,35 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $product->get_stock_quantity() - $qty_reserved;
 	} // END get_remaining_stock_for_product()
+
+	/**
+	 * Throws exception if the item key is not provided when either removing, updating or restoring the item.
+	 *
+	 * @access protected
+	 * @since  3.0.17
+	 * @param  string $item_key Item key of the item in the cart.
+	 * @param  string $status   Status of which we are checking the item key.
+	 * @return string $item_key Item key of the item in the cart.
+	 */
+	protected function throw_missing_item_key( $item_key, $status ) {
+		$item_key = (string) $item_key; // Make sure the item key is a string value.
+
+		if ( '0' === $item_key ) {
+			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+
+			/**
+			 * Filters message about cart item key required.
+			 *
+			 * @since 2.1.0
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
+
+			throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', $message, 404 );
+		}
+
+		return $item_key;
+	} // END throw_missing_item_key()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
