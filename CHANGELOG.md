@@ -1,23 +1,28 @@
 # Changelog for CoCart Lite
 
-## v3.0.17 - ?? November, 2021
+## v3.0.17 - 3rd December, 2021
 
 ### Bug Fixes
 
 * Unable to remove items due to validation issue for certain edge cases. Reported by [Rozaliya Stoilova](https://github.com/rozalia) [Issue 287](https://github.com/co-cart/co-cart/issues/287)
 * Uncaught Error: Call to undefined function `get_current_screen()`. Reported by [Tommie Lagerroos](https://github.com/lagerroos) for [Frontity](https://frontity.org/) compatibility.
+* Loading of RTL stylesheet if `SCRIPT_DEBUG` is not enabled.
 
 ### Improvements
 
 * Getting a single item with `cart/item` route now includes the `cart` route parameters so you can use all available.
 * Validation of item key used to remove, update or restore an item.
-* Weight does not forcefully round up as an integer value. Shows the correct weight based on the quantity of item in cart. The weight is normalised unifying to "kg" then converted to the wanted unit set by the store settings. Reported by Miguel Peixe Aldeias.
+* Weight does not forcefully round up the value. Shows the correct weight based on the quantity of item in cart. The weight is normalised unifying to "kg" then converted to the wanted unit set by the store settings. Reported by Miguel Peixe Aldeias.
 
 ### Tweaks
 
-* Moved `backorders` and `cart_item_data` into the `get_item()` function instead so it returns data when `return_item` is set to true. Data was missing as it was outside this function. Reduced duplicate code in the process. 👍 Bug reported by [fatheaddrummer](https://github.com/fatheaddrummer) [Issue 288](https://github.com/co-cart/co-cart/issues/288)
+* Moved `backorders` and `cart_item_data` into the `get_item()` function instead so it returns data when `return_item` is set to true. Data was missing as it was outside this function. Reduced duplicate code in the process. 👍 Issue reported by [Christian Grosskop](https://github.com/fatheaddrummer) [Issue 288](https://github.com/co-cart/co-cart/issues/288)
 * The `cart/item` route now extends the `cart` route for better code management.
 * Filter `cocart_cart_item_key_required_message` now passes the correct status for the second parameter.
+
+### Compatibility
+
+* Tested: ✔️ Compatible with WooCommerce v5.9
 
 ### For Developers
 
@@ -25,7 +30,7 @@
 
 ## v3.0.16 - 15th November, 2021
 
-> 📢 This release is broken. Please DO NOT use it. The bug fixes in this release are applied in v3.0.17
+> 📢 This release is broken. Please DO NOT use it.
 
 * Fixed: Loading of RTL stylesheet if SCRIPT_DEBUG is not enabled.
 * Fixed: Returning error responses when updating an item fails.
