@@ -30,7 +30,7 @@ CoCart works great with:
 - [React](https://reactjs.org/)
 - [Vue](https://vuejs.org/)
 - [Ember](https://emberjs.com/)
- - ...and more
+- ...and more
 
 ## Testimonials - Developers love it
 

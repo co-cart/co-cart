@@ -33,7 +33,7 @@
   .cocart .container .content {
     padding: 40px; }
     .cocart .container .content .logo {
-      background-color: #b27de3;
+      background-color: #6032b0;
       margin: -40px -40px 30px;
       text-align: center; }
     .cocart .container .content h1 {
@@ -66,16 +66,16 @@
       line-height: 36px;
       height: 40px; }
     .cocart .container .content a.button.upgrade {
-      background-color: #b27de3;
-      border-color: #b27de3;
+      background-color: #6032b0;
+      border-color: #6032b0;
       color: #fff; }
     .cocart .container .content a.button.upgrade:hover,
     .cocart .container .content a.button.upgrade:focus {
-      background-color: #9a6fc4;
-      border-color: #9a6fc4; }
+      background-color: #6131af;
+      border-color: #6131af; }
     .cocart .container .content p.price-tag {
       font-size: 69px;
-      color: #b27de3;
+      color: #6032b0;
       line-height: 66px;
       font-weight: 700;
       margin: 20px auto;
@@ -105,9 +105,9 @@
       box-shadow: none !important; }
 
 .notice.inline.notice-cocart {
-  border-color: #b27de3; }
+  border-color: #6032b0; }
   .notice.inline.notice-cocart p.cart::before {
-    color: #b27de3;
+    color: #6032b0;
     content: '\f174';
     display: inline-block;
     font: normal 20px/1 'dashicons';
@@ -116,7 +116,7 @@
     vertical-align: top; }
 
 .notice.cocart-notice {
-  border-color: #b27de3;
+  border-color: #6032b0;
   padding: 20px !important; }
 
 .notice.cocart-notice .no-thanks {

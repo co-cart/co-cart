@@ -47,7 +47,7 @@ body {
     line-height: 1.75;
     color: #666; }
   .cocart-setup-wizard-content a {
-    color: #b27de3; }
+    color: #6032b0; }
     .cocart-setup-wizard-content a:hover, .cocart-setup-wizard-content a:focus {
       color: #111; }
   .cocart-setup-wizard-content .form-table th {
@@ -145,7 +145,7 @@ body {
     border-bottom: 4px solid #ccc;
     line-height: 1.4; }
     .cocart-setup-wizard-steps li a {
-      color: #b27de3;
+      color: #6032b0;
       text-decoration: none;
       padding: 1.5em;
       margin: -1.5em;
@@ -167,17 +167,17 @@ body {
     margin-bottom: -8px;
     background: #fff; }
   .cocart-setup-wizard-steps li.active {
-    border-color: #b27de3;
-    color: #b27de3;
+    border-color: #6032b0;
+    color: #6032b0;
     font-weight: 700; }
     .cocart-setup-wizard-steps li.active::before {
-      border-color: #b27de3; }
+      border-color: #6032b0; }
   .cocart-setup-wizard-steps li.done {
-    border-color: #b27de3;
-    color: #b27de3; }
+    border-color: #6032b0;
+    color: #6032b0; }
     .cocart-setup-wizard-steps li.done::before {
-      border-color: #b27de3;
-      background: #b27de3; }
+      border-color: #6032b0;
+      background: #6032b0; }
 
 .cocart-setup-wizard .cocart-setup-wizard-actions {
   overflow: hidden;
