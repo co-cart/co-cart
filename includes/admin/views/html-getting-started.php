@@ -67,8 +67,8 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 			<p>
 				<?php
 				printf(
-					/* translators: 1: CoCart */
-					esc_html__( 'Now that you have %1$s installed, your ready to start developing. In the documentation you will find the API routes available along with action hooks and filters that allow you to customise %1$s to your needs.', 'cart-rest-api-for-woocommerce' ),
+					/* translators: %s: CoCart */
+					esc_html__( 'Now that you have %1$s installed, your ready to start developing your headless store.', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'
 				);
 				?>
@@ -76,7 +76,28 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 
 			<p>
 				<?php
-				esc_html_e( 'There is also a knowledge base section that provides answers to most common questions should you find that you need help. This is best to be looked at first before contacting for support.', 'cart-rest-api-for-woocommerce' );
+				printf(
+					/* translators: %s: CoCart */
+					esc_html__( 'In the documentation you will find the API routes available along with over 100+ action hooks and filters for developers to customise API responses or change how %1$s operates.', 'cart-rest-api-for-woocommerce' ),
+					'CoCart'
+				);
+				?>
+			</p>
+
+			<p>
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						__( 'There is also a <a href="%1$s" target="_blank">developers hub</a> where you can find all the resources you need to be productive with CoCart and keep track of everything that is happening with the plugin including development decisions and scoping of future versions.', 'cart-rest-api-for-woocommerce' ),
+						'https://cocart.dev'
+					)
+				);
+				?>
+			</p>
+
+			<p>
+				<?php
+				esc_html_e( 'It also provides answers to most common questions should you find that you need help. This is best place to look at first before contacting for support.', 'cart-rest-api-for-woocommerce' );
 				?>
 			</p>
 
@@ -90,17 +111,19 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 				?>
 			</p>
 
-			<?php
-			// Display warning notice if WooCommerce is not installed or the minimum required version.
-			if ( ! defined( 'WC_VERSION' ) || CoCart_Helpers::is_not_wc_version_required() ) {
-				echo '<p><strong>' . sprintf(
-					/* translators: 1: WooCommerce, 2: CoCart */
-					esc_html__( 'It appears you either do not have %1$s installed or have the minimum required version to be compatible with %2$s. Please install or update your %1$s setup.', 'cart-rest-api-for-woocommerce' ),
-					'WooCommerce',
-					'CoCart'
-				) . '</strong></p>';
-			}
-			?>
+			<p><?php esc_html_e( 'Thank you and enjoy!', 'cart-rest-api-for-woocommerce' ); ?></p>
+
+			<p><?php esc_html_e( 'regards,', 'cart-rest-api-for-woocommerce' ); ?></p>
+
+			<div class="founder-row">
+				<div class="founder-image">
+					<img src="<?php echo 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( 'mailme@sebastiendumont.com' ) ) ) . '?d=mp&s=60'; ?>" width="60px" height="60px" alt="Photo of Founder" />
+				</div>
+
+				<div class="founder-details">
+					<p>Sébastien Dumont<br><?php echo sprintf( __( 'Founder of %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+				</div>
+			</div>
 
 			<p style="text-align: center;">
 				<?php printf( '<a class="button button-primary button-large" href="%1$s" target="_blank">%2$s</a>', esc_url( COCART_DOCUMENTATION_URL ), esc_html__( 'View Documentation', 'cart-rest-api-for-woocommerce' ) ); ?> 
