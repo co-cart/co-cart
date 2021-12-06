@@ -147,7 +147,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				$merge_cart['applied_coupons']       = array_unique( array_merge( $applied_coupons, $merge_cart['applied_coupons'] ) ); // Merge applied coupons.
 				$merge_cart['removed_cart_contents'] = maybe_unserialize( $cart['removed_cart_contents'] );
 				$merge_cart['removed_cart_contents'] = array_merge( $removed_cart_contents, $merge_cart['removed_cart_contents'] ); // Merge removed cart contents.
-				$merge_cart['cart_fees']             = maybe_unserialize( $cart['cart_fees'] );
+				$merge_cart['cart_fees']             = isset( $cart['cart_fees'] ) ? maybe_unserialize( $cart['cart_fees'] ) : array();
 
 				// Check cart fees return as an array so not to crash if PHP 8 or higher is used.
 				if ( is_array( $merge_cart['cart_fees'] ) ) {
