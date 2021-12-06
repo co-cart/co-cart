@@ -290,7 +290,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'slug'              => 'acf',
 					'search_terms'      => 'advanced, acf, fields, custom fields, meta, repeater',
 					'short_description' => esc_html__( 'Returns all custom meta data saved for all products using Advanced Custom Fields.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/cocart.png',
 					'requirement'       => false,
 					'requires'          => '5.2',
 					'tested'            => '5.6',
@@ -308,7 +308,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'slug'              => 'yoast-seo',
 					'search_terms'      => 'yoast, seo, xml sitemap, content analysis, readability, schema',
 					'short_description' => esc_html__( 'Returns all Yoast SEO data for all products, product categories and tags.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/brand/logo.jpg',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/cocart.png',
 					'requirement'       => false,
 					'requires'          => '5.2',
 					'tested'            => '5.6',
@@ -376,7 +376,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'WooCommerce',
 					'search_terms'      => 'subscription, product page feature, recurring payments, enhancements',
 					'short_description' => esc_html__( 'Sell products and services with recurring payments in your WooCommerce store.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
 					'requirement'       => sprintf(
 						/* translators: %s: CoCart */
 						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
@@ -399,7 +399,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'StoreApps',
 					'search_terms'      => 'coupon, credit, store credit, gift, certificate, voucher, discount, gift certificate, gift voucher, customer, self service',
 					'short_description' => esc_html__( 'Grow your sales and customers using discounts, coupons, credits, vouchers, product giveaways, offers and promotions.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
 					'requirement'       => sprintf(
 						/* translators: %s: CoCart */
 						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
@@ -422,7 +422,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Jeroen Sormani',
 					'search_terms'      => 'woocommerce shipping, packages, split-packages, multiple shipping',
 					'short_description' => esc_html__( 'Split your order into multiple shipping packages when you need it to, with the products you want to.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
 					'requirement'       => false,
 					'requires'          => '4.0',
 					'tested'            => '5.5',
@@ -440,7 +440,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'author'            => 'Backcourt Development',
 					'search_terms'      => 'coupon, give away, free items, gift items',
 					'short_description' => esc_html__( 'Give away a free item(s) to any customer with the correct code.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418',
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
 					'requirement'       => false,
 					'requires'          => '4.0',
 					'tested'            => '5.5',
