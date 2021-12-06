@@ -58,7 +58,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.17
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -129,13 +129,13 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				 */
 				$this->get_cart_instance()->calculate_totals();
 
-				$response = $this->get_cart_contents( $request );
-
 				/* translators: %s: Item name. */
 				$message = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );
 
 				// Add notice.
 				wc_add_notice( $message );
+
+				$response = $this->get_cart_contents( $request );
 
 				// Was it requested to return status once item removed?
 				if ( $request['return_status'] ) {
