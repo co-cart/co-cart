@@ -11,7 +11,7 @@ WC tested up to: 5.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-RESTful API that focuses on the front-end of the store with an integration to build your headless store with ease.
+Integrate our REST API into any modern framework to build a headless store.
 
 == Description ==
 
