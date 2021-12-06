@@ -1,0 +1,181 @@
+.founder-row {
+	height: 60px;
+	margin-bottom: 2rem;
+
+	.founder-image {
+		width: 4.6rem;
+		float: left;
+	}
+
+	.founder-details {
+		float: left;
+		width: calc( 100% - 4.6rem );
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+.cocart-newsletter {
+	padding: 24px 24px 0;
+	overflow: hidden;
+	background: #f5f5f5;
+	clear: both;
+
+	p {
+		padding: 0;
+		margin: 0 0 12px;
+	}
+
+	form,
+	p:last-child {
+		margin: 0 0 24px;
+	}
+}
+
+ul.cocart-setup-wizard-next-steps {
+	border: 1px solid #eee;
+	border-radius: 4px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	list-style: none outside;
+
+	h2 {
+		margin-bottom: 12px;
+	}
+
+	h3 {
+		&.next-step-description {
+			margin: 0;
+			font-size: 16px;
+			font-weight: 600;
+		}
+	}
+
+	li {
+		padding: 0;
+
+		a {
+			display: block;
+			padding: 0 0 0.75em;
+		}
+
+		a::before {
+			color: #82878c;
+			font: 400 20px/1 dashicons; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+			speak: none;
+			display: inline-block;
+			padding: 0 10px 0 0;
+			top: 1px;
+			position: relative;
+			text-decoration: none !important;
+			vertical-align: top;
+		}
+	}
+
+	.cocart-setup-wizard-next-step-item {
+		display: flex;
+		border-top: 1px solid #eee;
+
+		&:first-child {
+			border-top: 0;
+		}
+	}
+
+	.cocart-setup-wizard-next-step-description {
+		flex-grow: 1;
+		margin: 1.5em;
+	}
+
+	.cocart-setup-wizard-next-step-action {
+		flex-grow: 0;
+		display: flex;
+		align-items: center;
+
+		.button {
+			margin: 1em 1.5em !important;
+		}
+	}
+
+	.cocart-setup-wizard-additional-steps {
+		border-top: 1px solid #eee;
+
+		.cocart-setup-wizard-next-step-description {
+			margin-bottom: 0;
+		}
+
+		.cocart-setup-wizard-actions {
+			margin: 0 0 1.5em;
+
+			.button {
+				font-size: 15px;
+				margin: 1em 0 1em 1.5em;
+			}
+		}
+	}
+}
+
+p {
+	&.next-steps-help-text {
+		color: #9f9f9f !important;
+		padding: 0 2em;
+		text-align: center;
+		font-size: 0.9em !important;
+	}
+
+	&.next-step-heading {
+		margin: 0 !important;
+		font-size: 0.95em;
+		font-weight: 400;
+		font-variant: all-petite-caps;
+	}
+
+	&.next-step-extra-info {
+		margin: 0 !important;
+	}
+}
+
+.tweet-share {
+	display: flex;
+	padding: 0;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+	flex-wrap: nowrap;
+}
+
+@media only screen and (max-width: 400px) {
+	.cocart-newsletter {
+		.newsletter-form-container {
+			display: block;
+
+			.newsletter-form-email {
+				display: block;
+				box-sizing: border-box;
+				width: 100%;
+				margin-bottom: 10px;
+			}
+
+			.button.newsletter-form-button {
+				float: left;
+			}
+		}
+	}
+
+	.cocart-setup-wizard-next-steps .cocart-setup-wizard-next-step-item {
+		flex-wrap: wrap;
+
+		.cocart-setup-wizard-next-step-description {
+			margin-bottom: 0;
+		}
+
+		.cocart-setup-wizard-next-step-action {
+			p {
+				margin: 0;
+			}
+		}
+	}
+}
