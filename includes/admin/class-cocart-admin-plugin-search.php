@@ -500,6 +500,24 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					'third_party'       => true,
 					'wporg'             => true,
 				),
+				'woocommerce-follow-up-emails'            => array(
+					'name'              => 'WooCommerce Follow Up Emails',
+					'slug'              => 'woocommerce-follow-up-emails',
+					'author'            => 'WooCommerce',
+					'search_terms'      => 'automation, conversion, customer feedback, customer service, post-purchase services, promotions, recovering orders, rewards and loyalty, store alerts, upsells and cross-sells, marketing, email, social',
+					'short_description' => esc_html__( 'Automatically contact customers after purchase and keep your store top-of-mind.', 'cart-rest-api-for-woocommerce' ),
+					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
+					'requirement'       => false,
+					'requires'          => '4.0',
+					'tested'            => '5.8',
+					'requires_php'      => '7.0',
+					'rating'            => 0,
+					'num_ratings'       => 0,
+					'active_installs'   => 0,
+					'last_updated'      => '',
+					'learn_more'        => esc_url( 'https://woocommerce.com/products/follow-up-emails/' ),
+					'third_party'       => true,
+				),
 			);
 		} // END get_third_party_list()
 

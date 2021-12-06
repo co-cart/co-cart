@@ -18,6 +18,7 @@
 
 * Added: [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
 * Added: [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
+* Added: [Follow Up Emails](https://woocommerce.com/products/follow-up-emails/) - **Still requires testing with**
 * Removed CoCart Products Add-on now the products API is merged with core of CoCart.
 * Optimized the results for better performance and cached once a day.
 
