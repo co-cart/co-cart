@@ -56,7 +56,9 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				add_filter( 'plugin_install_action_links', array( $this, 'insert_related_links' ), 10, 2 );
 
 				// Filters below are for CoCarts own plugin section.
-				add_filter( 'plugins_api_result', array( $this, 'cocart_plugins' ), 10, 3 );
+				if ( self::is_airplane_mode_enabled() != 'on' ) {
+					add_filter( 'plugins_api_result', array( $this, 'cocart_plugins' ), 10, 3 );
+				}
 				add_filter( 'install_plugins_tabs', array( $this, 'plugins_tab' ) );
 				add_filter( 'install_plugins_table_api_args_cocart', array( $this, 'plugin_list_args' ) );
 				add_action( 'install_plugins_cocart', array( $this, 'cocart_plugin_dashboard' ) );
@@ -142,33 +144,41 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		/**
 		 * Displays our own plugin dashboard on the plugin install page.
 		 *
-		 * @access public
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
 		 */
 		public function cocart_plugin_dashboard() {
-			?>
-			<div class="cocart-plugin-install-dashboard">
-				<p>
-					<?php
-					printf(
-						/* translators: %1$s: https://cocart.xyz/add-ons/, %2$s: https://cocart.xyz/woocommerce-extensions/ */
-						__( 'These plugins are supported, extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ),
-						esc_url( COCART_STORE_URL . 'add-ons/' ),
-						esc_url( COCART_STORE_URL . 'woocommerce-extensions/' )
-					);
-					?>
-				</p>
+			if ( self::is_airplane_mode_enabled() == 'on' ) {
+				?>
+				<p><?php echo sprintf( __( "Airplane Mode is Enabled so we're unable to return plugin suggestions for %s. Please disable Airplane Mode to view results.", 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+				<?php
+			} else {
+				?>
+				<div class="cocart-plugin-install-dashboard">
+					<p>
+						<?php
+						printf(
+							/* translators: %1$s: https://cocart.xyz/add-ons/, %2$s: https://cocart.xyz/woocommerce-extensions/ */
+							__( 'These plugins are supported, extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ),
+							esc_url( COCART_STORE_URL . 'add-ons/' ),
+							esc_url( COCART_STORE_URL . 'woocommerce-extensions/' )
+						);
+						?>
+					</p>
 
-				<p>
-					<?php print( esc_html__( 'Some of these plugins require a 3rd party plugin or extension to support it’s features. See plugin requirement at the bottom of each plugin card.', 'cart-rest-api-for-woocommerce' ) ); ?>
-				</p>
+					<p>
+						<?php print( esc_html__( 'Some of these plugins require a 3rd party plugin or extension to support it’s features. See plugin requirement at the bottom of each plugin card.', 'cart-rest-api-for-woocommerce' ) ); ?>
+					</p>
 
-			</div>
-			<?php
-			do_action( 'cocart_before_display_plugins_table' );
+				</div>
+				<?php
+				do_action( 'cocart_before_display_plugins_table' );
 
-			display_plugins_table();
+				display_plugins_table();
 
-			do_action( 'cocart_after_display_plugins_table' );
+				do_action( 'cocart_after_display_plugins_table' );
+			}
 		} // END cocart_plugin_dashboard()
 
 		/**
@@ -964,6 +974,26 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 			return $links;
 		} // END get_action_links()
+
+		/**
+		 * Checks if Airplane mode is enabled.
+		 *
+		 * @access public
+		 * @since  3.1.0
+		 * @return string Status of Airplane mode.
+		 */
+		public function is_airplane_mode_enabled() {
+			// Pull our status from the options table.
+			$option = get_site_option( 'airplane-mode' );
+
+			// Backup check for regular options table.
+			if ( false === $option ) {
+				$option = get_option( 'airplane-mode' );
+			}
+
+			// Return the option flag.
+			return 'on' === $option;
+		} // END is_airplane_mode_enabled()
 
 	} // END class
 
