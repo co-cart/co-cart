@@ -218,7 +218,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		// Other Requested conditions.
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
-		// Defines an empty cart template 
+		// Defines an empty cart template.
 		$cart = array();
 
 		if ( array_key_exists( 'coupons', $cart_template ) ) {
