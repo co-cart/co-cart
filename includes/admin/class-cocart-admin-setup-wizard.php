@@ -43,7 +43,7 @@ class CoCart_Admin_Setup_Wizard {
 	 * @var    array
 	 */
 	private $tweets = array(
-		'Someone give me cha ching, I just set up a headless store with @WooCommerce and @cocartapi!',
+		'Cha ching. I just set up a headless store with @WooCommerce and @cocartapi!',
 		'Someone give me high five, I just set up a headless store with @WooCommerce and @cocartapi!',
 		'Want to build a fast headless store like me? Checkout @cocartapi - Designed for @WooCommerce.',
 		'Build headless stores, without building an API. Checkout @cocartapi - Designed for @WooCommerce.',
@@ -476,27 +476,62 @@ class CoCart_Admin_Setup_Wizard {
 		<?php
 		printf(
 			/* translators: %s: CoCart */
-			esc_html__( 'Now that you have %1$s installed, your ready to start developing. In the documentation you will find the API routes available along with action hooks and filters that allow you to customise %1$s to your needs.', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( 'Now that you have %1$s installed, your ready to start developing your headless store.', 'cart-rest-api-for-woocommerce' ),
 			'CoCart'
 		);
 		?>
 		</p>
-
-		<p><?php esc_html_e( 'There is also a knowledge base section that provides answers to most common questions should you find that you need help. This is best to be looked at first before contacting for support.', 'cart-rest-api-for-woocommerce' ); ?>
 
 		<p>
-		<?php
-		printf(
-			/* translators: %s: CoCart */
-			esc_html__( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ),
-			'CoCart'
-		);
-		?>
+			<?php
+			printf(
+				/* translators: %s: CoCart */
+				esc_html__( 'In the documentation you will find the API routes available along with over 100+ action hooks and filters for developers to customise API responses or change how %1$s operates.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			);
+			?>
 		</p>
 
-		<p class="tweet-share">
-			<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="<?php echo esc_html( $this->tweets[ $tweet ] ); ?>" data-url="https://cocart.xyz/" data-hashtags="WooCommerce" data-related="WooCommerce" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+		<p>
+			<?php
+			echo wp_kses_post(
+				sprintf(
+					__( 'There is also a <a href="%1$s" target="_blank">developers hub</a> where you can find all the resources you need to be productive with CoCart and keep track of everything that is happening with the plugin including development decisions and scoping of future versions.', 'cart-rest-api-for-woocommerce' ),
+					$docs_url
+				)
+			);
+			?>
 		</p>
+
+		<p>
+			<?php
+			esc_html_e( 'It also provides answers to most common questions should you find that you need help. This is best place to look at first before contacting for support.', 'cart-rest-api-for-woocommerce' );
+			?>
+		</p>
+
+		<p>
+			<?php
+			printf(
+				/* translators: %s: CoCart */
+				esc_html__( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			);
+			?>
+		</p>
+
+		<p><?php esc_html_e( 'Thank you and enjoy!', 'cart-rest-api-for-woocommerce' ); ?></p>
+
+		<p><?php esc_html_e( 'regards,', 'cart-rest-api-for-woocommerce' ); ?></p>
+
+		<div class="founder-row">
+			<div class="founder-image">
+				<img src="<?php echo 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( 'mailme@sebastiendumont.com' ) ) ) . '?d=mp&s=60'; ?>" width="60px" height="60px" alt="Photo of Founder" />
+			</div>
+
+			<div class="founder-details">
+				<p>Sébastien Dumont<br><?php echo sprintf( __( 'Founder of %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+			</div>
+		</div>
 
 		<div class="cocart-newsletter">
 			<p><?php esc_html_e( 'Get product updates, tutorials and more straight to your inbox.', 'cart-rest-api-for-woocommerce' ); ?></p>
@@ -573,8 +608,12 @@ class CoCart_Admin_Setup_Wizard {
 					</p>
 				</div>
 			</li>
-
 		</ul>
+
+		<p class="tweet-share">
+			<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="<?php echo esc_html( $this->tweets[ $tweet ] ); ?>" data-url="https://cocart.xyz/" data-hashtags="WooCommerce" data-related="WooCommerce" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+		</p>
+
 		<p class="next-steps-help-text"><?php echo wp_kses_post( $help_text ); ?></p>
 		<?php
 	} // END cocart_setup_wizard_ready()
