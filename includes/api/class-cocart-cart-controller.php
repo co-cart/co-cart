@@ -264,11 +264,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$cart['items'] = $this->get_items( $cart_contents, $show_thumb );
 		}
 
-		// Returns removed items.
-		if ( array_key_exists( 'removed_items', $cart_template ) ) {
-			$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
-		}
-
 		// Parse cart data to template.
 		$cart = wp_parse_args( $cart, $cart_template );
 
@@ -1640,6 +1635,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			return self::get_cart_template_limited( $request );
 		}
 
+		// Other Requested conditions.
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
+
 		return array(
 			'cart_hash'      => $this->get_cart_instance()->get_cart_hash(),
 			'cart_key'       => $this->get_cart_key( $request ),
@@ -1669,7 +1667,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'total'          => $this->prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
 				'total_tax'      => $this->prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
 			),
-			'removed_items'  => array(),
+			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb ),
 			'cross_sells'    => $this->get_cross_sells(),
 			'notices'        => $this->maybe_return_notices(),
 		);
@@ -1686,7 +1684,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array - Returns requested cart response.
 	 */
 	protected function get_cart_template_limited( $request = array() ) {
-		$fields = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
+		$fields     = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		$template = array();
 
@@ -1748,7 +1747,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				);
 			}
 			if ( $field === 'removed_items' ) {
-				$template['removed_items'] = array();
+				$template['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
 			}
 			if ( $field === 'cross_sells' ) {
 				$template['cross_sells'] = $this->get_cross_sells();
