@@ -33,18 +33,6 @@ $star_svg      = COCART_URL_PATH . '/assets/images/star-filled.svg';
 				</a>
 			</div>
 
-			<?php
-			// Display warning notice if WooCommerce is not installed or the minimum required version.
-			if ( ! defined( 'WC_VERSION' ) || CoCart_Helpers::is_not_wc_version_required() ) {
-				echo '<p><strong>' . sprintf(
-					/* translators: 1: WooCommerce, 2: CoCart */
-					esc_html__( 'It appears you either do not have %1$s installed or have the minimum required version to be compatible with %2$s. Please install or update your %1$s setup.', 'cart-rest-api-for-woocommerce' ),
-					'WooCommerce',
-					'CoCart'
-				) . '</strong></p>';
-			}
-			?>
-
 			<h2 style="text-align: center;">
 			<?php
 			printf(
@@ -123,37 +111,43 @@ $star_svg      = COCART_URL_PATH . '/assets/images/star-filled.svg';
 				<source src="https://cocart.xyz/wp-content/uploads/2021/06/james-video-testimonial.mp4" type="video/mp4">
 			</video>
 
-			<strong>James Rowland</strong> - CEO of PerfectCheckout.com <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<p><strong>James Rowland</strong> - CEO of PerfectCheckout.com <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
-			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true"></p>
+
+			<hr>
 
 			<p>What can I say this thing has it all. It is the “Missing WooCommerce REST API plugin” without it I was managing users cart myself in weird and wonderful but hacky ways. NOT GOOD and so vulnerable. Then I stumbled upon CoCart and with the help of Seb I got it working how I needed it and he has been supporting me with even the smallest of queries. Really appreciate your work and continued support Seb.</p>
 
-			<strong>Joel Pierre</strong> – JPPdesigns Web design & Development <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<p><strong>Joel Pierre</strong> – JPPdesigns Web design & Development <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
-			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true"></p>
+
+			<hr>
 
 			<p>This plugin was critical to achieve my project of building a headless / decoupled WooCommerce store. I wanted to provide my clients with a CMS to manage their store, but wanted to build the front-end in React. I was able to fetch content over the WooCommerce REST API, but otherwise would not have been able to fetch the cart, and add & remove items if not for this plugin.</p>
 
 			<p>Thank you very much Sébastien for sharing this extension, you’ve saved me a lot of time.</p>
 
-			<strong>Allan Pooley</strong> – Little and Big <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<p><strong>Allan Pooley</strong> – Little and Big <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
-			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true"></p>
+
+			<hr>
 
 			<p>Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription.</p>
 
-			<strong>MightyGroup</strong> – Rikard Kling <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<p><strong>MightyGroup</strong> – Rikard Kling <img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
 			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
-			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true">
+			<img draggable="false" class="emoji" alt="⭐" src="<?php echo esc_url( $star_svg ); ?>" data-lazy-src="<?php echo esc_url( $star_svg ); ?>" data-was-processed="true"></p>
 		</div>
 	</div>
 
