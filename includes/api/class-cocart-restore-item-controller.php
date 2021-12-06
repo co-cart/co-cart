@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.17
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -58,7 +58,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.17
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -109,6 +109,17 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				 * @since 2.1.0
 				 */
 				$this->get_cart_instance()->calculate_totals();
+
+				$product = wc_get_product( $restored_item['product_id'] );
+
+				/* translators: %s: Item name. */
+				$item_restored_title = apply_filters( 'cocart_cart_item_restored_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+
+				/* translators: %s: product name */
+				$restored_message = sprintf( __( '%s has been added back to your cart.', 'cart-rest-api-for-woocommerce' ), $item_restored_title );
+
+				// Add notice.
+				wc_add_notice( apply_filters( 'cocart_cart_item_restored_message', $restored_message ), 'success' );
 
 				// Get cart contents.
 				$response = $this->get_cart_contents( $request );
