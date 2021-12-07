@@ -76,7 +76,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				$restored_item = $this->get_cart_item( $item_key, 'restore' );
 
 				// Check if the item has already been restored.
-				if ( isset( $restored_item ) ) {
+				if ( ! empty( $restored_item ) ) {
 					$product = wc_get_product( $restored_item['product_id'] );
 
 					/* translators: %s: Item name. */
