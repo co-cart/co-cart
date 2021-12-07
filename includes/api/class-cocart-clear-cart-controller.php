@@ -70,48 +70,50 @@ class CoCart_Clear_Cart_v2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function clear_cart( $request = array() ) {
 		try {
-			$controller = new CoCart_Cart_V2_Controller();
+			// We need the cart key to force a session save later.
+			$cart_key = WC()->session->get_customer_unique_id();
 
 			do_action( 'cocart_before_cart_emptied' );
 
-			WC()->session->set( 'cart', array() );
+			// Clear all cart fees via session as we cant do it via the fee api.
+			WC()->session->set( 'cart_fees', array() );
+
+			// Clear cart.
+			WC()->cart->cart_contents = array();
 
 			// Clear removed items if not kept.
 			if ( ! $request['keep_removed_items'] ) {
-				WC()->session->set( 'removed_cart_contents', array() );
+				WC()->cart->removed_cart_contents = array();
 			}
 
-			WC()->session->set( 'shipping_methods', array() );
-			WC()->session->set( 'coupon_discount_totals', array() );
-			WC()->session->set( 'coupon_discount_tax_totals', array() );
-			WC()->session->set( 'applied_coupons', array() );
-			WC()->session->set(
-				'total',
-				array(
-					'subtotal'            => 0,
-					'subtotal_tax'        => 0,
-					'shipping_total'      => 0,
-					'shipping_tax'        => 0,
-					'shipping_taxes'      => array(),
-					'discount_total'      => 0,
-					'discount_tax'        => 0,
-					'cart_contents_total' => 0,
-					'cart_contents_tax'   => 0,
-					'cart_contents_taxes' => array(),
-					'fee_total'           => 0,
-					'fee_tax'             => 0,
-					'fee_taxes'           => array(),
-					'total'               => 0,
-					'total_tax'           => 0,
-				)
+			// Reset everything.
+			WC()->cart->shipping_methods           = array();
+			WC()->cart->coupon_discount_totals     = array();
+			WC()->cart->coupon_discount_tax_totals = array();
+			WC()->cart->applied_coupons            = array();
+			WC()->cart->totals                     = array(
+				'subtotal'            => 0,
+				'subtotal_tax'        => 0,
+				'shipping_total'      => 0,
+				'shipping_tax'        => 0,
+				'shipping_taxes'      => array(),
+				'discount_total'      => 0,
+				'discount_tax'        => 0,
+				'cart_contents_total' => 0,
+				'cart_contents_tax'   => 0,
+				'cart_contents_taxes' => array(),
+				'fee_total'           => 0,
+				'fee_tax'             => 0,
+				'fee_taxes'           => array(),
+				'total'               => 0,
+				'total_tax'           => 0,
 			);
-			WC()->session->set( 'cart_fees', array() );
 
 			/**
 			 * If the user is authorized and `woocommerce_persistent_cart_enabled` filter is left enabled
@@ -123,7 +125,14 @@ class CoCart_Clear_Cart_v2_Controller {
 
 			do_action( 'cocart_cart_emptied' );
 
-			if ( 0 === count( WC()->session->get( 'cart' ) ) ) {
+			/**
+			 * We force the session to update in the database as we 
+			 * cannot wait for PHP to shutdown to trigger the save 
+			 * should it fail to do so later.
+			 */
+			WC()->session->update_cart( $cart_key );
+
+			if ( WC()->cart->is_empty() ) {
 				do_action( 'cocart_cart_cleared' );
 
 				$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
@@ -139,8 +148,9 @@ class CoCart_Clear_Cart_v2_Controller {
 				// Add notice.
 				wc_add_notice( $message );
 
-				// Get cart contents.
-				$response = $controller->get_cart_contents( $request );
+				// Return cart response.
+				$controller = new CoCart_Cart_V2_Controller();
+				$response   = $controller->get_cart_contents( $request );
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			} else {

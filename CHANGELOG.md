@@ -29,7 +29,7 @@
 * Redirect to the "Getting Started" page should no longer happen on every activation.
 * Plugin review notice dismiss action.
 * Requesting `OPTIONS` for any endpoint to return arguments and schema.
-* Log time.
+* Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions.
 
 ### Enhancments
 
