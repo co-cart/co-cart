@@ -142,10 +142,10 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 				$removed_cart_contents = WC()->session->get( 'removed_cart_contents', array() );
 				$cart_fees             = WC()->session->get( 'cart_fees', array() );
 
-				$merge_cart['cart']                  = maybe_unserialize( $cart['cart'] );
-				$merge_cart['applied_coupons']       = maybe_unserialize( $cart['applied_coupons'] );
+				$merge_cart['cart']                  = isset( $cart['cart'] ) ? maybe_unserialize( $cart['cart'] ) : array();
+				$merge_cart['applied_coupons']       = isset( $cart['applied_coupons'] ) ? maybe_unserialize( $cart['applied_coupons'] ) : array();
 				$merge_cart['applied_coupons']       = array_unique( array_merge( $applied_coupons, $merge_cart['applied_coupons'] ) ); // Merge applied coupons.
-				$merge_cart['removed_cart_contents'] = maybe_unserialize( $cart['removed_cart_contents'] );
+				$merge_cart['removed_cart_contents'] = isset( $cart['removed_cart_contents'] ) ? maybe_unserialize( $cart['removed_cart_contents'] ) : array();
 				$merge_cart['removed_cart_contents'] = array_merge( $removed_cart_contents, $merge_cart['removed_cart_contents'] ); // Merge removed cart contents.
 				$merge_cart['cart_fees']             = isset( $cart['cart_fees'] ) ? maybe_unserialize( $cart['cart_fees'] ) : array();
 
