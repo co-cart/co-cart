@@ -33,7 +33,7 @@ class CoCart_Cart_Cache {
 	public function __construct() {
 		add_filter( 'cocart_override_cart_item', array( $this, 'set_new_price' ), 1, 2 );
 		add_action( 'cocart_item_removed', array( $this, 'remove_cached_item' ), 0, 1 );
-		add_action( 'cocart_cart_cleared', array( $this, 'remove_cached_item' ), 0 );
+		add_action( 'cocart_before_cart_emptied', array( $this, 'clear_cart_cached' ), 0 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_cached_items' ), 99, 1 );
 	}
@@ -81,7 +81,7 @@ class CoCart_Cart_Cache {
 			}
 		} else {
 			// Clear cache.
-			WC()->session->__unset( 'cart_cached' );
+			self::clear_cart_cached();
 		}
 	} // END remove_cached_item()
 
@@ -148,6 +148,15 @@ class CoCart_Cart_Cache {
 
 		WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
 	} // END set_cached_item()
+
+	/**
+	 * Clear cart cached.
+	 *
+	 * @access public
+	 */
+	public function clear_cart_cached() {
+		WC()->session->__unset( 'cart_cached' );
+	} // END clear_cart_cached()
 
 } // END class
 
