@@ -71,7 +71,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 			// Check item removed from cart before fetching the cart item data.
 			$current_data = $this->get_cart_instance()->get_removed_cart_contents();
 
-			// If item does not exist in cart return response.
+			// If item does not exist as an item removed check if the item is in the cart.
 			if ( empty( $current_data ) ) {
 				$restored_item = $this->get_cart_item( $item_key, 'restore' );
 
@@ -84,8 +84,10 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 
 					/* translators: %s: Item name. */
 					$message = sprintf( __( '%s has already been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $item_already_restored_title );
+					$response_code = 405;
 				} else {
-					$message = __( 'Item does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+					$message    = __( 'Item does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+					$response_code = 404;
 				}
 
 				/**
@@ -95,7 +97,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				 */
 				$message = apply_filters( 'cocart_item_restored_message', $message );
 
-				throw new CoCart_Data_Exception( 'cocart_item_restored_to_cart', $message, 404 );
+				throw new CoCart_Data_Exception( 'cocart_item_restored_to_cart', $message, $response_code );
 			}
 
 			if ( $this->get_cart_instance()->restore_cart_item( $item_key ) ) {
