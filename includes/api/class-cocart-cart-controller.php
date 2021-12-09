@@ -1553,14 +1553,14 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END cache_cart_item()
 
 	/**
-	 * Returns the customers details.
+	 * Returns the customers details from fields.
 	 *
 	 * @access protected
 	 * @since  3.0.0
 	 * @param  string $fields - The customer fields to return.
 	 * @return array  Returns the customer details based on the field requested.
 	 */
-	protected function get_customer( $fields = 'billing' ) {
+	protected function get_customer_fields( $fields = 'billing' ) {
 		$customer = $this->get_cart_instance()->get_customer();
 
 		/**
@@ -1585,7 +1585,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		return $results;
-	} // END get_customer()
+	} // END get_customer_fields()
 
 	/**
 	 * Convert queued error notices into an exception.
@@ -1643,8 +1643,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'cart_key'       => $this->get_cart_key( $request ),
 			'currency'       => $this->get_store_currency(),
 			'customer'       => array(
-				'billing_address'  => $this->get_customer( 'billing' ),
-				'shipping_address' => $this->get_customer( 'shipping' ),
+				'billing_address'  => $this->get_customer_fields( 'billing' ),
+				'shipping_address' => $this->get_customer_fields( 'shipping' ),
 			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
@@ -1701,8 +1701,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 			if ( $field === 'customer' ) {
 				$template['customer'] = array(
-					'billing_address'  => $this->get_customer( 'billing' ),
-					'shipping_address' => $this->get_customer( 'shipping' ),
+					'billing_address'  => $this->get_customer_fields( 'billing' ),
+					'shipping_address' => $this->get_customer_fields( 'shipping' ),
 				);
 			}
 			if ( $field === 'items' ) {
