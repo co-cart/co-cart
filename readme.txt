@@ -392,6 +392,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 * Added: [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
 * Added: [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
+* Added: [Follow Up Emails](https://woocommerce.com/products/follow-up-emails/) - **Still requires testing with**
 * Removed CoCart Products Add-on now the products API is merged with core of CoCart.
 * Optimized the results for better performance and cached once a day.
 
@@ -402,7 +403,9 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Redirect to the "Getting Started" page should no longer happen on every activation.
 * Plugin review notice dismiss action.
 * Requesting `OPTIONS` for any endpoint to return arguments and schema.
-* Log time.
+* Log time for error logs recorded.
+* Fixed any undefined index for loading a cart for guest customers.
+* Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions.
 
 ## Enhancments
 
@@ -411,6 +414,8 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Stock check improved when adding item by checking the remaining stock instead.
 * Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
 * Should table creation fail during install, ask user if they have privileges to do so.
+* Removed items (if any) now returns in the cart response even if the cart is empty.
+* Prevents certain routes from initializing the session and cart. Small performance boost.
 
 ## Tweaks
 
@@ -418,6 +423,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
 * Session handler by adding `get_session()` function for plugin compatibility.
 * When you uninstall CoCart, the original WooCommerce cron job for cleanup sessions will be rescheduled.
+* Notice for when item is removed now returns in the first response.
 
 ## Compatibility and Requirements
 
@@ -425,10 +431,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Minimum requirement for WordPress is now v5.5
 * Tested: ✔️ Compatible with WooCommerce v5.9
 * Tested: ✔️ Compatible with WordPress v5.9
-
-## Compatibility
-
-* Tested: ✔️ Compatible with WooCommerce v5.9
 
 ## For Developers
 
@@ -440,6 +442,8 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
 * Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
 * Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
+* Introduced new filter `cocart_cart_item_restored_title` to allow developers to change the title of the product restored for the notice.
+* Introduced new filter `cocart_cart_item_restored_message` to allow developers to change the message of the restored item notice.
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/master/CHANGELOG.md).
 

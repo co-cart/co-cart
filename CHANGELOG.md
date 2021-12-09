@@ -41,6 +41,7 @@
 * Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
 * Should table creation fail during install, ask user if they have privileges to do so.
 * Removed items (if any) now returns in the cart response even if the cart is empty.
+* Prevents certain routes from initializing the session and cart. Small performance boost.
 
 ### Tweaks
 
