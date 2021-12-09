@@ -1275,11 +1275,11 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Removes all internal elements of an item that is not needed.
 	 *
-	 * @access private
+	 * @access protected
 	 * @param  array $cart_item - Before cart item data is modified.
 	 * @return array $cart_item - Modified cart item data returned.
 	 */
-	private function prepare_item( $cart_item ) {
+	protected function prepare_item( $cart_item ) {
 		unset( $cart_item['key'] );
 		unset( $cart_item['product_id'] );
 		unset( $cart_item['variation_id'] );
