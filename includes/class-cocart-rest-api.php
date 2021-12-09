@@ -166,10 +166,16 @@ class CoCart_REST_API {
 	 *
 	 * @access  private
 	 * @since   2.0.0
-	 * @version 3.0.0
+	 * @version 3.1.0
 	 */
 	private function maybe_load_cart() {
 		if ( CoCart_Authentication::is_rest_api_request() ) {
+
+			// Check if we should prevent the requested route from initializing the session and cart.
+			if ( $this->prevent_routes_from_initializing() ) {
+				return;
+			}
+
 			// WooCommerce is greater than v3.6 or less than v4.5.
 			if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_wc_version_lt_4_5() ) {
 				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
@@ -431,6 +437,31 @@ class CoCart_REST_API {
 
 		return $served;
 	} // END cache_control()
+
+	/**
+	 * Prevents certain routes from initializing the session and cart.
+	 *
+	 * @access protected
+	 * @since  3.1.0
+	 */
+	protected function prevent_routes_from_initializing() {
+		$rest_prefix = trailingslashit( rest_get_url_prefix() );
+		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+
+		$routes = array(
+			'cocart/v1/products',
+			'cocart/v2/products',
+			'cocart/v2/sessions',
+			'cocart/v2/session',
+			'cocart/v2/store',
+		);
+
+		foreach ( $routes as $route ) {
+			if ( ( false !== strpos( $request_uri, $rest_prefix . $route ) ) ) {
+				return true;
+			}
+		}
+	} // END prevent_routes_from_initializing()
 
 } // END class
 
