@@ -1555,13 +1555,18 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns the customers details from fields.
 	 *
-	 * @access protected
-	 * @since  3.0.0
-	 * @param  string $fields - The customer fields to return.
-	 * @return array  Returns the customer details based on the field requested.
+	 * @access  protected
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @param   string      $fields - The customer fields to return.
+	 * @param   WC_Customer $customer - The customer object or ID.
+	 * @return  array  Returns the customer details based on the field requested.
 	 */
-	protected function get_customer_fields( $fields = 'billing' ) {
-		$customer = $this->get_cart_instance()->get_customer();
+	protected function get_customer_fields( $fields = 'billing', $customer = '' ) {
+		// If no customer is set then get customer from cart.
+		if ( empty( $customer ) ) {
+			$customer = $this->get_cart_instance()->get_customer();
+		}
 
 		/**
 		 * We get the checkout fields so we return the fields the store uses during checkout.
