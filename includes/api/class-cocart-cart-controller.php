@@ -140,10 +140,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   3.0.0
 	 * @version 3.1.0
 	 * @param   WP_REST_Request $request    - Full details about the request.
-	 * @param   string          $deprecated - Originally the cart item key.
+	 * @param   string          $cart_item_key - Originally the cart item key.
 	 * @return  WP_REST_Response
 	 */
-	public function get_cart( $request = array(), $deprecated = null ) {
+	public function get_cart( $request = array(), $cart_item_key = null ) {
 		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$cart_contents = ! $this->is_completly_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
@@ -182,11 +182,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @version 3.1.0
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @param   array           $cart_contents - Cart content.
-	 * @param   boolean         $from_session - Identifies if the cart is called from a session.
-	 * @param   deprected       $deprecated - Originally the cart item key.
+	 * @param   deprected       $cart_item_key - Originally the cart item key.
 	 * @return  array           $cart
 	 */
-	public function return_cart_contents( $request = array(), $cart_contents = array(), $deprecated = null, $from_session = false ) {
+	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = null, $from_session = false ) {
 		// Calculate totals to be sure they are correct before returning cart contents.
 		$this->get_cart_instance()->calculate_totals();
 
