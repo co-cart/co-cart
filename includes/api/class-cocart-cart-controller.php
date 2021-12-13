@@ -1380,24 +1380,24 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
 			}
 
-			$rates = array();
-
 			if ( 0 === $i ) {
 				$package_key = 'default'; // Identifies the default package.
 			}
 
-			$details['packages'][ $package_key ] = array(
-				/* translators: %d: shipping package number */
-				'package_name'          => apply_filters( 'cocart_shipping_package_name', ( ( $i + 1 ) > 1 ) ? sprintf( _x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ), ( $i + 1 ) ) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' ), $i, $package ),
-				'rates'                 => $package['rates'],
-				'package_details'       => implode( ', ', $product_names ),
-				'index'                 => $i, // Shipping package number.
-				'chosen_method'         => $chosen_method,
-				'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
-			);
-
 			// Check that there are rates available for the package.
 			if ( count( (array) $package['rates'] ) > 0 ) {
+				$details['packages'][ $package_key ] = array(
+					/* translators: %d: shipping package number */
+					'package_name'          => apply_filters( 'cocart_shipping_package_name', ( ( $i + 1 ) > 1 ) ? sprintf( _x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ), ( $i + 1 ) ) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' ), $i, $package ),
+					'rates'                 => array(),
+					'package_details'       => implode( ', ', $product_names ),
+					'index'                 => $i, // Shipping package number.
+					'chosen_method'         => $chosen_method,
+					'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
+				);
+
+				$rates = array();
+
 				// Return each rate.
 				foreach ( $package['rates'] as $key => $method ) {
 					$meta_data = $this->clean_meta_data( $method, $type = 'shipping' );
@@ -1414,9 +1414,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						'meta_data'     => $meta_data,
 					);
 				}
-			}
 
-			$details['packages'][ $package_key ]['rates'] = $rates;
+				$details['packages'][ $package_key ]['rates'] = $rates;
+			}
 
 			$package_key++; // Update package key for next inline if any.
 		}
