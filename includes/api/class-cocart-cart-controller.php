@@ -183,6 +183,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @param   array           $cart_contents - Cart content.
 	 * @param   deprected       $cart_item_key - Originally the cart item key.
+	 * @param   deprected       $from_session  - Identifies if the cart is called from a session.
 	 * @return  array           $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = null, $from_session = false ) {
