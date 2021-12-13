@@ -224,8 +224,8 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @return  WP_REST_Response         Returns the cart items from the session.
 	 */
 	public function get_cart_items_in_session( $request = array() ) {
-		$session_key   = ! empty( $request['session_key'] ) ? $request['session_key'] : '';
-		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
+		$session_key = ! empty( $request['session_key'] ) ? $request['session_key'] : '';
+		$show_thumb  = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		try {
 			// The cart key is a required variable.
@@ -275,17 +275,17 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 
 		// Session response.
 		$session = array(
-			'cart_key'       => $request['session_key'],
-			'customer'       => array(
+			'cart_key'      => $request['session_key'],
+			'customer'      => array(
 				'billing_address'  => $this->get_customer_fields( 'billing', $this->get_customer( $customer ) ),
 				'shipping_address' => $this->get_customer_fields( 'shipping', $this->get_customer( $customer ) ),
 			),
-			'items'          => array(),
-			'item_count'     => $this->get_cart_contents_count( $session_data ),
-			'items_weight'   => wc_get_weight( (float) $this->get_cart_contents_weight( $session_data ), get_option( 'woocommerce_weight_unit' ) ),
-			'coupons'        => array(),
-			'fees'           => $this->get_fees( $session_data ),
-			'totals'         => array(
+			'items'         => array(),
+			'item_count'    => $this->get_cart_contents_count( $session_data ),
+			'items_weight'  => wc_get_weight( (float) $this->get_cart_contents_weight( $session_data ), get_option( 'woocommerce_weight_unit' ) ),
+			'coupons'       => array(),
+			'fees'          => $this->get_fees( $session_data ),
+			'totals'        => array(
 				'subtotal'       => $this->prepare_money_response( $this->get_subtotal( $session_data ), wc_get_price_decimals() ),
 				'subtotal_tax'   => $this->prepare_money_response( $this->get_subtotal_tax( $session_data ), wc_get_price_decimals() ),
 				'fee_total'      => $this->prepare_money_response( $this->get_fee_total( $session_data ), wc_get_price_decimals() ),
@@ -297,8 +297,8 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 				'total'          => $this->prepare_money_response( $this->get_total( $session_data ), wc_get_price_decimals() ),
 				'total_tax'      => $this->prepare_money_response( $this->get_total_tax( $session_data ), wc_get_price_decimals() ),
 			),
-			'needs_payment'  => $this->needs_payment( $session_data ),
-			'removed_items'  => $this->get_removed_items( $this->get_removed_cart_contents( $session_data ), $show_thumb ),
+			'needs_payment' => $this->needs_payment( $session_data ),
+			'removed_items' => $this->get_removed_items( $this->get_removed_cart_contents( $session_data ), $show_thumb ),
 		);
 
 		if ( array_key_exists( 'coupons', $session ) ) {
@@ -520,7 +520,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array  $session_data - Session data.
 	 * @param  object $fee         - Fee data.
 	 * @return string              - Returns the fee value.
 	 */

@@ -83,10 +83,10 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 					$item_already_restored_title = apply_filters( 'cocart_cart_item_already_restored_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
 
 					/* translators: %s: Item name. */
-					$message = sprintf( __( '%s has already been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $item_already_restored_title );
+					$message       = sprintf( __( '%s has already been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $item_already_restored_title );
 					$response_code = 405;
 				} else {
-					$message    = __( 'Item does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+					$message       = __( 'Item does not exist in cart.', 'cart-rest-api-for-woocommerce' );
 					$response_code = 404;
 				}
 

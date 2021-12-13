@@ -126,8 +126,8 @@ class CoCart_Clear_Cart_v2_Controller {
 			do_action( 'cocart_cart_emptied' );
 
 			/**
-			 * We force the session to update in the database as we 
-			 * cannot wait for PHP to shutdown to trigger the save 
+			 * We force the session to update in the database as we
+			 * cannot wait for PHP to shutdown to trigger the save
 			 * should it fail to do so later.
 			 */
 			WC()->session->update_cart( $cart_key );
