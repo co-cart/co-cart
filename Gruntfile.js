@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 				files: {
 					'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin/admin.scss',
 					'<%= dirs.css %>/admin/cocart-setup.css' : '<%= dirs.scss %>/admin/cocart-setup.scss',
-					'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/plugin-search.scss'
+					'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/admin/plugin-search.scss'
 				}
 			}
 		},
