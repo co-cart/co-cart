@@ -2,12 +2,12 @@
 /**
  * CoCart REST API Store controller.
  *
- * Returns store details and all routes.
+ * Returns store details and all public routes.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.7
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -115,8 +115,10 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns the list of all public CoCart API routes.
 	 *
-	 * @access public
-	 * @return array
+	 * @access  public
+	 * @since   3.0.0
+	 * @version 3.1.0
+	 * @return  array
 	 */
 	public function get_routes() {
 		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' );
@@ -124,17 +126,22 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 		return apply_filters(
 			'cocart_routes',
 			array(
-				'cart'             => $prefix . 'cart',
-				'cart-add-item'    => $prefix . 'cart/add-item',
-				'cart-add-items'   => $prefix . 'cart/add-items',
-				'cart-item'        => $prefix . 'cart/item',
-				'cart-items'       => $prefix . 'cart/items',
-				'cart-items-count' => $prefix . 'cart/items/count',
-				'cart-calculate'   => $prefix . 'cart/calculate',
-				'cart-clear'       => $prefix . 'cart/clear',
-				'cart-totals'      => $prefix . 'cart/totals',
-				'login'            => $prefix . 'login',
-				'logout'           => $prefix . 'logout',
+				'cart'                => $prefix . 'cart',
+				'cart-add-item'       => $prefix . 'cart/add-item',
+				'cart-add-items'      => $prefix . 'cart/add-items',
+				'cart-item'           => $prefix . 'cart/item',
+				'cart-items'          => $prefix . 'cart/items',
+				'cart-items-count'    => $prefix . 'cart/items/count',
+				'cart-calculate'      => $prefix . 'cart/calculate',
+				'cart-clear'          => $prefix . 'cart/clear',
+				'cart-totals'         => $prefix . 'cart/totals',
+				'login'               => $prefix . 'login',
+				'logout'              => $prefix . 'logout',
+				'products'            => $prefix . 'products',
+				'products-attributes' => $prefix . 'products/attributes',
+				'products-categories' => $prefix . 'products/categories',
+				'products-reviews'    => $prefix . 'products/reviews',
+				'products-tags'       => $prefix . 'products/tags',
 			)
 		);
 	} // END get_routes()
