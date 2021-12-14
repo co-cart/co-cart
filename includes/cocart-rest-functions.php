@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 3.0.7
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -409,3 +409,65 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
 		wc_add_notice( $message, 'success' );
 	}
 } // END cocart_add_to_cart_message()
+
+/**
+ * Convert monetary values from WooCommerce to string based integers, using
+ * the smallest unit of a currency.
+ *
+ * @since   3.0.0
+ * @version 3.1.0
+ * @param   string|float $amount        - Monetary amount with decimals.
+ * @param   int          $decimals      - Number of decimals the amount is formatted with.
+ * @param   int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
+ * @return  string       The new amount.
+ */
+function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+	$amount = html_entity_decode( wp_strip_all_tags( $amount ) );
+
+	return (string) intval(
+		round(
+			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
+			0,
+			absint( $rounding_mode )
+		)
+	);
+} // END cocart_prepare_money_response()
+
+/**
+ * Prepares a list of store currency data to return in responses.
+ *
+ * @since   3.0.0
+ * @version 3.1.0
+ * @return  array
+ */
+function cocart_get_store_currency() {
+	$position = get_option( 'woocommerce_currency_pos' );
+	$symbol   = html_entity_decode( get_woocommerce_currency_symbol() );
+	$prefix   = '';
+	$suffix   = '';
+
+	switch ( $position ) {
+		case 'left_space':
+			$prefix = $symbol . ' ';
+			break;
+		case 'left':
+			$prefix = $symbol;
+			break;
+		case 'right_space':
+			$suffix = ' ' . $symbol;
+			break;
+		case 'right':
+			$suffix = $symbol;
+			break;
+	}
+
+	return array(
+		'currency_code'               => get_woocommerce_currency(),
+		'currency_symbol'             => $symbol,
+		'currency_minor_unit'         => wc_get_price_decimals(),
+		'currency_decimal_separator'  => wc_get_price_decimal_separator(),
+		'currency_thousand_separator' => wc_get_price_thousand_separator(),
+		'currency_prefix'             => $prefix,
+		'currency_suffix'             => $suffix,
+	);
+} // END cocart_get_store_currency()

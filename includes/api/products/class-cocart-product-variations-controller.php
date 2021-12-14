@@ -77,8 +77,6 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 	 * @return array
 	 */
 	protected function get_variation_product_data( $product ) {
-		$controller = new CoCart_Cart_V2_Controller();
-
 		$rating_count = $product->get_rating_count( 'view' );
 		$average      = $product->get_average_rating( 'view' );
 
@@ -103,9 +101,9 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 				'modified_gmt' => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ) ),
 			),
 			'prices'      => array(
-				'price'         => $controller->prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
-				'regular_price' => $controller->prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
+				'price'         => cocart_prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
+				'regular_price' => cocart_prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
 				'price_range'   => $this->get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
@@ -114,7 +112,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 					'to'       => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
 					'to_gmt'   => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ) ),
 				),
-				'currency'      => $controller->get_store_currency(),
+				'currency'      => cocart_get_store_currency(),
 			),
 			'conditions'  => array(
 				'virtual'           => $product->is_virtual(),
