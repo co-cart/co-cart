@@ -306,14 +306,14 @@ class CoCart_REST_API {
 		}
 
 		// CoCart REST API v1 controllers.
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-add-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-clear-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-calculate-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-count-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-logout-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/class-cocart-totals-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-add-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-clear-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-calculate-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-count-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-logout-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-totals-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-abstract-terms-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-attribute-terms-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-attributes-controller.php';
@@ -324,32 +324,32 @@ class CoCart_REST_API {
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-variations-controller.php';
 
 		// CoCart REST API v2 controllers.
-		include_once dirname( __FILE__ ) . '/api/class-cocart-store-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-add-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-add-items-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-items-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-clear-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-calculate-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-count-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-update-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-remove-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-restore-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-login-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-logout-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-totals-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-session-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-sessions-controller.php';
-		include_once dirname( __FILE__ ) . '/api/class-cocart-update-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-abstract-terms-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-attribute-terms-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-attributes-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-categories-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-reviews-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-tags-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-products-controller.php';
-		include_once dirname( __FILE__ ) . '/api/products/class-cocart-product-variations-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-store-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-add-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-add-items-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-items-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-clear-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-calculate-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-count-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-update-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-remove-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-restore-item-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-login-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-logout-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-totals-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-update-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/admin/class-cocart-session-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/admin/class-cocart-sessions-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-abstract-terms-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-attribute-terms-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-attributes-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-categories-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-reviews-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-tags-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-products-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-variations-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // rest_api_includes()

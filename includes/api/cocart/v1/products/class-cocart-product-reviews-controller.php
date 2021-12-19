@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Products controller
+ * CoCart - Product Reviews controller
  *
  * Handles requests to the /products/reviews/ endpoint.
  *
