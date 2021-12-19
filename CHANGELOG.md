@@ -32,6 +32,7 @@
 * Log time for error logs recorded.
 * Fixed any undefined index for loading a cart for guest customers.
 * Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions.
+* The use of WooCommerce API consumer key and consumer sercret for authentication is now working again.
 
 ### Enhancments
 

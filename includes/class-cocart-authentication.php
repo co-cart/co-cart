@@ -1,6 +1,12 @@
 <?php
 /**
  * Handles REST API authentication.
+ * 
+ * Our built in support for authenticating users with CoCart is basic 
+ * but secure. When you authenticate CoCart as the customer you are 
+ * logging them in with their account. If you are using WooCommerce 
+ * API comsumer key and secret you will need a secure connection for
+ * authentication to be valid.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -50,13 +56,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.6.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 */
 		public function __construct() {
 			// Check that we are only authenticating for our API.
 			if ( $this->is_rest_api_request() ) {
 				// Authenticate user.
-				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 15 );
+				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 				add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
 
 				// Triggers saved cart after login and updates user activity.
