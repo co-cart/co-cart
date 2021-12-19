@@ -169,6 +169,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 */
 		wc_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
 
+		// Ensures the cart totals are calculated before an API response is returned.
+		$this->calculate_totals( );
+
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
 		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
@@ -187,9 +190,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return  array           $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = null, $from_session = false ) {
-		// Calculate totals to be sure they are correct before returning cart contents.
-		$this->get_cart_instance()->calculate_totals();
-
 		/**
 		 * Return the default cart data if set to true.
 		 *
@@ -1788,6 +1788,18 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $item_key;
 	} // END throw_missing_item_key()
+
+	/**
+	 * Ensures the cart totals are calculated before an API response is returned.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 */
+	public function calculate_totals() {
+		$this->get_cart_instance()->calculate_fees();
+		$this->get_cart_instance()->calculate_shipping();
+		$this->get_cart_instance()->calculate_totals();
+	} // END calculate_totals()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
