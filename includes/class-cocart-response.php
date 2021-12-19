@@ -5,6 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -22,13 +23,15 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 *
 		 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 		 *
-		 * @access public
-		 * @param  mixed  $response  - The original response of the API requested.
-		 * @param  string $namespace - The namespace of the API requested.
-		 * @param  string $rest_base - The rest base of the API requested.
-		 * @return WP_REST_Response  - The returned response.
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.1.0
+		 * @param   mixed  $data      - The original data response of the API requested.
+		 * @param   string $namespace - The namespace of the API requested.
+		 * @param   string $rest_base - The rest base of the API requested.
+		 * @return  WP_REST_Response  - The returned response.
 		 */
-		public static function get_response( $response, $namespace = '', $rest_base = '' ) {
+		public static function get_response( $data, $namespace = '', $rest_base = '' ) {
 			if ( empty( $rest_base ) ) {
 				$rest_base = 'cart';
 			}
@@ -37,13 +40,13 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 			try {
 				/**
-				 * The response can only return empty based on a few things.
+				 * The data can only return empty based on a few things.
 				 *
-				 * 1. Something seriously has gone wrong server side and no response could be provided.
+				 * 1. Something seriously has gone wrong server side and no data could be provided.
 				 * 2. The response returned nothing because the cart is empty.
 				 * 3. The developer filtered the response incorrectly and returned nothing.
 				 */
-				if ( 'cart' !== $rest_base && 'session' !== $rest_base && empty( $response ) ) {
+				if ( 'cart' !== $rest_base && 'session' !== $rest_base && empty( $data ) ) {
 					/* translators: %s: REST API URL */
 					throw new CoCart_Data_Exception( 'cocart_response_returned_empty', sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $namespace, $rest_base ) ) ) );
 				}
@@ -53,10 +56,16 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 				if ( ! $default_response ) {
 					// This filter can be used as a final straw for changing the response to what ever needs.
-					$response = apply_filters( 'cocart_' . $rest_base . '_response', $response );
+					$data = apply_filters( 'cocart_' . $rest_base . '_response', $data );
 				}
 
-				return new WP_REST_Response( $response, 200 );
+				// Return response.
+				$response = rest_ensure_response( $data );
+
+				// Add timestamp of resposne.
+				$response->header( 'X-CoCart-API-Timestamp', time() );
+
+				return $response;
 			} catch ( \CoCart_Data_Exception $e ) {
 				$response = self::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			} catch ( \Exception $e ) {
