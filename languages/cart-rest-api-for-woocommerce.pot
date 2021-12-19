@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart Lite 3.1.0-rc.5\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2021-12-19 22:23:53+00:00\n"
+"POT-Creation-Date: 2021-12-19 22:28:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1223,7 +1223,6 @@ msgstr ""
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:75
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:1080
 #: includes/api/cocart/v2/products/class-cocart-products-controller.php:61
-#: includes/api/products/class-cocart-products-controller.php:61
 msgid "Unique identifier for the product."
 msgstr ""
 
@@ -1689,7 +1688,6 @@ msgstr ""
 #: includes/api/cocart/v1/products/class-cocart-product-tags-controller.php:89
 #: includes/api/cocart/v1/products/class-cocart-product-variations-controller.php:247
 #: includes/api/cocart/v2/products/class-cocart-abstract-terms-controller.php:62
-#: includes/api/products/class-cocart-abstract-terms-controller.php:62
 msgid "Unique identifier for the resource."
 msgstr ""
 
@@ -2192,7 +2190,6 @@ msgstr ""
 
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:321
 #: includes/api/cocart/v2/products/class-cocart-products-controller.php:181
-#: includes/api/products/class-cocart-products-controller.php:181
 msgid "Invalid ID."
 msgstr ""
 
@@ -2200,8 +2197,6 @@ msgstr ""
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:737
 #: includes/api/cocart/v2/products/class-cocart-products-controller.php:246
 #: includes/api/cocart/v2/products/class-cocart-products-controller.php:247
-#: includes/api/products/class-cocart-products-controller.php:246
-#: includes/api/products/class-cocart-products-controller.php:247
 msgid "Placeholder"
 msgstr ""
 
@@ -2658,7 +2653,6 @@ msgstr ""
 
 #: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:293
 #: includes/api/cocart/v2/products/class-cocart-products-controller.php:169
-#: includes/api/products/class-cocart-products-controller.php:169
 msgid ""
 "Product does not exist! Check that you have submitted a product ID or SKU "
 "ID correctly for a product that exists."
