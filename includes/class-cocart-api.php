@@ -42,8 +42,8 @@ class CoCart_API {
 	 *
 	 * @access public
 	 * @since  2.0.0
-	 * @param  array $vars Query vars.
-	 * @return string[]
+	 * @param  array $vars Query variable.
+	 * @return array
 	 */
 	public function add_query_vars( $vars ) {
 		$vars[] = 'cocart';
@@ -64,6 +64,8 @@ class CoCart_API {
 
 	/**
 	 * API request - Trigger any API requests.
+	 *
+	 * Trigger a request for CoCart which plugins can hook into to fulfill the request.
 	 *
 	 * @access public
 	 * @since  2.0.0
@@ -88,13 +90,29 @@ class CoCart_API {
 			// Clean the API request.
 			$api_request = strtolower( wc_clean( $wp->query_vars['cocart'] ) );
 
-			// Trigger generic action before request hook.
+			/**
+			 * Trigger any API request.
+			 *
+			 * Triggers a generic action before the requested hook.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param string $api_request The request.
+			 */
 			do_action( 'cocart_api_request', $api_request );
 
 			// Is there actually something hooked into this API request? If not trigger 400 - Bad request.
 			status_header( has_action( 'cocart_api_' . $api_request ) ? 200 : 400 );
 
-			// Trigger an action which plugins can hook into to fulfill the request.
+			/**
+			 * Trigger a specific API request.
+			 *
+			 * Trigger an action which plugins can hook into to fulfill the request.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param string $api_request The request.
+			 */
 			do_action( 'cocart_api_' . $api_request );
 
 			// Done, clear buffer and exit.
