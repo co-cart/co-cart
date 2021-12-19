@@ -270,7 +270,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			}
 
 			if ( is_wp_error( $this->user ) ) {
-				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again. Authentication may also only work on a secure connection.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
 
 				return false;
 			}
