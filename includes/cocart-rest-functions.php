@@ -414,12 +414,11 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
  * Convert monetary values from WooCommerce to string based integers, using
  * the smallest unit of a currency.
  *
- * @since   3.0.0
- * @version 3.1.0
- * @param   string|float $amount        - Monetary amount with decimals.
- * @param   int          $decimals      - Number of decimals the amount is formatted with.
- * @param   int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
- * @return  string       The new amount.
+ * @since  3.1.0
+ * @param  string|float $amount        - Monetary amount with decimals.
+ * @param  int          $decimals      - Number of decimals the amount is formatted with.
+ * @param  int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
+ * @return string       The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 	$amount = html_entity_decode( wp_strip_all_tags( $amount ) );
@@ -436,9 +435,8 @@ function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode =
 /**
  * Prepares a list of store currency data to return in responses.
  *
- * @since   3.0.0
- * @version 3.1.0
- * @return  array
+ * @since  3.1.0
+ * @return array
  */
 function cocart_get_store_currency() {
 	$position = get_option( 'woocommerce_currency_pos' );

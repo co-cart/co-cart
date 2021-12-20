@@ -260,8 +260,6 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return array
 	 */
 	protected function get_product_data( $product ) {
-		$controller = new CoCart_Cart_V2_Controller();
-
 		$type         = $product->get_type();
 		$rating_count = $product->get_rating_count( 'view' );
 		$average      = $product->get_average_rating( 'view' );
@@ -296,9 +294,9 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			),
 			'featured'           => $product->is_featured(),
 			'prices'             => array(
-				'price'         => $controller->prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
-				'regular_price' => $controller->prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? $controller->prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
+				'price'         => cocart_prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
+				'regular_price' => cocart_prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
 				'price_range'   => $this->get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
@@ -307,7 +305,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					'to'       => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
 					'to_gmt'   => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ) ),
 				),
-				'currency'      => $controller->get_store_currency(),
+				'currency'      => cocart_get_store_currency(),
 			),
 			'hidden_conditions'  => array(
 				'virtual'           => $product->is_virtual(),
@@ -546,7 +544,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				'id'          => $id,
 				'name'        => $_product->get_name( 'view' ),
 				'permalink'   => $_product->get_permalink(),
-				'price'       => $controller->prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
+				'price'       => cocart_prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
 				'add_to_cart' => array(
 					'text'        => $_product->add_to_cart_text(),
 					'description' => $_product->add_to_cart_description(),
@@ -699,12 +697,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 				if ( $min_price !== $max_price ) {
 					$price = array(
-						'from' => $controller->prepare_money_response( $min_price, wc_get_price_decimals() ),
-						'to'   => $controller->prepare_money_response( $max_price, wc_get_price_decimals() ),
+						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
+						'to'   => cocart_prepare_money_response( $max_price, wc_get_price_decimals() ),
 					);
 				} else {
 					$price = array(
-						'from' => $controller->prepare_money_response( $min_price, wc_get_price_decimals() ),
+						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
 						'to'   => '',
 					);
 				}
@@ -723,8 +721,8 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 			if ( ! empty( $child_prices ) ) {
 				$price = array(
-					'from' => $controller->prepare_money_response( min( $child_prices ), wc_get_price_decimals() ),
-					'to'   => $controller->prepare_money_response( max( $child_prices ), wc_get_price_decimals() ),
+					'from' => cocart_prepare_money_response( min( $child_prices ), wc_get_price_decimals() ),
+					'to'   => cocart_prepare_money_response( max( $child_prices ), wc_get_price_decimals() ),
 				);
 			}
 		}

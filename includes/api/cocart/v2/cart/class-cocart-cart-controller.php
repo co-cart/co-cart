@@ -674,6 +674,22 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END has_enough_stock()
 
 	/**
+	 * Prepares a list of store currency data to return in responses.
+	 *
+	 * @access     public
+	 * @since      3.0.0
+	 * @deprecated 3.1.0 Use cocart_get_store_currency()
+	 * @see              cocart_get_store_currency()
+	 *
+	 * @return  array
+	 */
+	public function get_store_currency() {
+		_deprecated_function( __FUNCTION__, '3.1', 'cocart_get_store_currency' );
+
+		return cocart_get_store_currency();
+	} // END get_store_currency()
+
+	/**
 	 * Returns the cart key.
 	 *
 	 * @access public
@@ -729,6 +745,26 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $tax_lines;
 	} // END get_tax_lines()
+
+	/**
+	 * Convert monetary values from WooCommerce to string based integers, using
+	 * the smallest unit of a currency.
+	 *
+	 * @access     public
+	 * @since      3.0.0
+	 * @deprecated 3.1.0 Use cocart_prepare_money_response()
+	 * @see              cocart_prepare_money_response()
+	 *
+	 * @param   string|float $amount        - Monetary amount with decimals.
+	 * @param   int          $decimals      - Number of decimals the amount is formatted with.
+	 * @param   int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
+	 * @return  string       The new amount.
+	 */
+	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+		_deprecated_function( __FUNCTION__, '3.1', 'cocart_prepare_money_response' );
+
+		return cocart_prepare_money_response( $amount, $decimals, $rounding_mode );
+	} // END prepare_money_response()
 
 	/**
 	 * Format variation data, for example convert slugs such as attribute_pa_size to Size.

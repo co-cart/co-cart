@@ -34,6 +34,11 @@
 * Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions.
 * The use of WooCommerce API consumer key and consumer sercret for authentication is now working again.
 
+### Deprecated & Replacements
+
+* Function `get_store_currency()` is replaced with a global function `cocart_get_store_currency()`.
+* Function `prepare_money_response()` is replaced with a global function `cocart_prepare_money_response()`.
+
 ### Enhancments
 
 * Deprecated the upgrade warning notice.
