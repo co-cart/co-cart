@@ -170,7 +170,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		wc_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
 
 		// Ensures the cart totals are calculated before an API response is returned.
-		$this->calculate_totals( );
+		$this->calculate_totals();
 
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 

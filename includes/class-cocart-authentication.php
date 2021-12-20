@@ -1,10 +1,10 @@
 <?php
 /**
  * Handles REST API authentication.
- * 
- * Our built in support for authenticating users with CoCart is basic 
- * but secure. When you authenticate CoCart as the customer you are 
- * logging them in with their account. If you are using WooCommerce 
+ *
+ * Our built in support for authenticating users with CoCart is basic
+ * but secure. When you authenticate CoCart as the customer you are
+ * logging them in with their account. If you are using WooCommerce
  * API comsumer key and secret you will need a secure connection for
  * authentication to be valid.
  *
