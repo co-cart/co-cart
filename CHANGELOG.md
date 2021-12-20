@@ -6,10 +6,10 @@
 
 * Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
 * Introduced a new Cart API route that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
-* CoCart Products add-on now merged with the core and introducing API v2 with a new option to view single products by SKU and many improved tweaks.
+* CoCart Products add-on now merged with the core and introduces API v2 with a new option to view single products by SKU and many improved tweaks to the response.
 * No cache control added to help prevent CoCart from being cached at all so results return quicker.
 * Added the ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
-* Added the ability to return only requested fields for the cart response before fetching data. Just like GraphQL. Powerful speed performance.
+* Added the ability to return only requested fields for the cart response before fetching data. Similar to GraphQL. Powerful speed performance if you don't want everything.
 * Added the ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
@@ -24,15 +24,15 @@
 
 ### Bug Fixes
 
-* Coupons duplicating on each load.
-* `$item_key` not passed in `validate_item_quantity()` function to validate the quantity allowed for the item.
+* Coupons duplicating on each REST API request.
+* `$item_key` was not passed in `validate_item_quantity()` function to validate the quantity allowed for the item.
 * Redirect to the "Getting Started" page should no longer happen on every activation.
 * Plugin review notice dismiss action.
 * Requesting `OPTIONS` for any endpoint to return arguments and schema.
 * Log time for error logs recorded.
 * Fixed any undefined index for loading a cart for guest customers.
-* Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions.
-* The use of WooCommerce API consumer key and consumer sercret for authentication is now working again.
+* Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions but I succedded.
+* The use of WooCommerce API consumer key and consumer sercret for authentication is now working again. Changed the priority of authentication to allow WooCommerce to check authentication first.
 
 ### Deprecated & Replacements
 
@@ -41,19 +41,21 @@
 
 ### Enhancments
 
-* Deprecated the upgrade warning notice.
+* Deprecated the upgrade warning notice. Dev note: Just keep an eye for major updates on [CoCart.dev](https://cocart.dev)
 * Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
 * Stock check improved when adding item by checking the remaining stock instead.
 * Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
-* Should table creation fail during install, ask user if they have privileges to do so.
+* Should CoCart session table creation fail during install, ask user if they have privileges to do so.
 * Removed items (if any) now returns in the cart response even if the cart is empty.
-* Prevents certain routes from initializing the session and cart. Small performance boost.
+* Prevented certain routes from initializing the session and cart as they are not needed. Small performance boost.
+* Timestamp of each REST API request is returned in the response headers. `X-CoCart-API-Timestamp`
 
 ### Tweaks
 
-* Cron job for cleanup sessions and removed WooCommerce cron job for cleanup sessions as it is not needed.
+* CoCart cron job for cleanup sessions improved.
+* Removed WooCommerce cron job for cleanup sessions as it is not needed.
 * Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
-* Session handler by adding `get_session()` function for plugin compatibility.
+* Added `get_session()` function for plugin compatibility to session handler.
 * When you uninstall CoCart, the original WooCommerce cron job for cleanup sessions will be rescheduled.
 * Notice for when item is removed now returns in the first response.
 
@@ -411,7 +413,7 @@ The following filters match filters used in WooCommerce add to cart success noti
 
 ## v2.7.4 - 18th November, 2020
 
-* Enhanced: 🤯 **Access-Control-Expose-Headers** to allow `X-COCART-API` to be exposed allowing frameworks like **React** to fetch them.
+* Enhanced: 🤯 **Access-Control-Expose-Headers** to allow `X-CoCart-API` to be exposed allowing frameworks like **React** to fetch them.
 * Tested: ✔️ Compatible with WooCommerce v4.7
 
 > This is a community release by [@saulable](https://github.com/saulable)
