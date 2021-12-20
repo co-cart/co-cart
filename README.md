@@ -5,10 +5,10 @@
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
 	</a>
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.5+-+5.7&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.5+-+5.9&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+5.5&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+6.0&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -56,12 +56,14 @@ CoCart Lite provides the basic API needs to get you started.
 * Update items in the cart.
 * Remove items from the cart.
 * Restore items to the cart.
-* Re-calculate the totals.
+* Re-calculate the totals. (*)
 * Retrieve the cart totals.
 * Retrieve the number of items in cart or items removed from it.
 * Empty the cart.
 * Login the customer/user.
 * Logout the customer/user.
+
+> (*) Each other cart REST API request made will calculate all totals before the cart response is returned. You don't really need to use this and this API route will be deprecated in future.
 
 Also included is the ability to access products, product categories, product tags, product attributes and 
 even reviews without the need to authenticate.
