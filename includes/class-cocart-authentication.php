@@ -324,9 +324,12 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Cross Origin headers.
 		 *
+		 * For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts.
+		 * This overrides that by providing access should the request be for CoCart.
+		 *
 		 * @access  public
 		 * @since   2.2.0
-		 * @version 3.0.0
+		 * @version 3.1.0
 		 * @param   bool             $served  Whether the request has already been served. Default false.
 		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param   WP_REST_Request  $request Request used to generate the response.
@@ -342,11 +345,26 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					$origin = esc_url_raw( $origin );
 				}
 
+				$allow_headers = array(
+					'Authorization',
+					'X-Requested-With',
+					'Content-Disposition',
+					'Content-MD5',
+					'Content-Type',
+				);
+
+				$expose_headers = array(
+					'X-WP-Total',
+					'X-WP-TotalPages',
+					'Link',
+					'X-CoCart-API'
+				);
+
 				header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );
 				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE' );
 				header( 'Access-Control-Allow-Credentials: true' );
-				header( 'Access-Control-Allow-Headers: Authorization, Content-Type, X-Requested-With' );
-				header( 'Access-Control-Expose-Headers: X-CoCart-API' );
+				header( 'Access-Control-Allow-Headers: ' . implode( ', ', $allow_headers ) );
+				header( 'Access-Control-Expose-Headers: ' . implode( ', ', $expose_headers ) );
 			}
 
 			return $served;
