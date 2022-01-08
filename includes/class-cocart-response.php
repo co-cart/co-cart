@@ -19,6 +19,37 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 	class CoCart_Response {
 
 		/**
+		 * Constructor.
+		 *
+		 * @access public
+		 * @since  3.1.0 Introduced
+		 */
+		public function __construct() {
+			// Expose custom headers.
+			add_action( 'rest_pre_serve_request', array( $this, 'expose_custom_headers' ), 11, 4 );
+		}
+
+		/**
+		 * Expose CoCart Headers.
+		 *
+		 * @access public
+		 * @since  3.1.0            Introduced
+		 * @param  bool             $served  Whether the request has already been served. Default false.
+		 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+		 * @param  WP_REST_Request  $request Request used to generate the response.
+		 * @param  WP_REST_Server   $server  Server instance.
+		 * @return bool
+		 */
+		public function expose_custom_headers( $served, $result, $request, $server ) {
+			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
+				header( 'Access-Control-Expose-Headers: X-CoCart-API-Timestamp' );
+				header( 'Access-Control-Expose-Headers: X-CoCart-API-Version' );
+			}
+
+			return $served;
+		} // END expose_custom_headers()
+
+		/**
 		 * Returns either the default response of the API requested or a filtered response.
 		 *
 		 * @throws CoCart_Data_Exception Exception if invalid data is detected.
@@ -62,8 +93,8 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 				// Return response.
 				$response = rest_ensure_response( $data );
+
 				// Add timestamp of response.
-				// Add timestamp of resposne.
 				$response->header( 'X-CoCart-API-Timestamp', time() );
 
 				// Add version of CoCart.
