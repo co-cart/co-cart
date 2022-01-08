@@ -147,6 +147,15 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				 */
 				$controller->cache_cart_item( $was_added_to_cart );
 
+				/**
+				 * Calculate the totals again here incase of custom data applied 
+				 * like a change of price for example so the response is upto date
+				 * when returned.
+				 *
+				 * @since 3.1.0
+				 */
+				$controller->calculate_totals();
+
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
 					$response = $controller->get_item( $was_added_to_cart['data'], $was_added_to_cart, $was_added_to_cart['key'], true );
