@@ -25,6 +25,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 *
 		 * @access  public
 		 * @since   3.0.0
+		 * @since   3.1.0  Added two response headers; a timestamp and the version of CoCart.
 		 * @version 3.1.0
 		 * @param   mixed  $data      - The original data response of the API requested.
 		 * @param   string $namespace - The namespace of the API requested.
@@ -61,9 +62,12 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 				// Return response.
 				$response = rest_ensure_response( $data );
-
+				// Add timestamp of response.
 				// Add timestamp of resposne.
 				$response->header( 'X-CoCart-API-Timestamp', time() );
+
+				// Add version of CoCart.
+				$response->header( 'X-CoCart-API-Version', COCART_VERSION );
 
 				return $response;
 			} catch ( \CoCart_Data_Exception $e ) {
