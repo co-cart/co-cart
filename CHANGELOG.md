@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? December, 2021 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - ?? January, 2022 (DATE SUBJECT TO CHANGE)
 
 ### What's New?
 
@@ -49,6 +49,8 @@
 * Removed items (if any) now returns in the cart response even if the cart is empty.
 * Prevented certain routes from initializing the session and cart as they are not needed. Small performance boost.
 * Timestamp of each REST API request is returned in the response headers. `X-CoCart-API-Timestamp`
+* Plugin version of CoCart is returned in the response headers. `X-CoCart-API-Version`
+* To help support the ability to set a custom price for an item once added, the totals are recalculated before the cart response returns so it is upto date on the first callback.
 
 ### Tweaks
 
