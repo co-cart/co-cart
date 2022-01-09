@@ -501,18 +501,19 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  protected
-	 * @since   1.0.0
-	 * @version 3.1.0
-	 * @param   int             $product_id   - Contains the ID of the product.
-	 * @param   int|float       $quantity     - Contains the quantity of the item.
-	 * @param   null            $deprecated   - Used to pass the variation id of the product to add to the cart.
-	 * @param   array           $variation    - Contains the selected attributes.
-	 * @param   array           $item_data    - Extra cart item data we want to pass into the item.
-	 * @param   string          $product_type - The product type.
-	 * @param   WP_REST_Request $request      - Full details about the request.
-	 * @return  array
+	 * @since      1.0.0           Introduced.
+	 * @deprecated 3.0.0           $variation_id param is no longer used.
+	 * @version    3.1.0
+	 * @param      int             $product_id   - Contains the ID of the product.
+	 * @param      int|float       $quantity     - Contains the quantity of the item.
+	 * @param      null            $variation_id   Used to pass the variation id of the product to add to the cart.
+	 * @param      array           $variation    - Contains the selected attributes.
+	 * @param      array           $item_data    - Extra cart item data we want to pass into the item.
+	 * @param      string          $product_type - The product type.
+	 * @param      WP_REST_Request $request      - Full details about the request.
+	 * @return     array
 	 */
-	protected function validate_product( $product_id = null, $quantity = 1, $deprecated = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
+	protected function validate_product( $product_id = null, $quantity = 1, $variation_id = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
 		try {
 			// Get product and validate product for the cart.
 			$product = wc_get_product( $product_id );
