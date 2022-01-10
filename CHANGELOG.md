@@ -11,14 +11,17 @@
 * Added the ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
 * Added the ability to return only requested fields for the cart response before fetching data. Similar to GraphQL. Powerful speed performance if you don't want everything.
 * Added the ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
+* Prevented certain routes from initializing the session and cart as they are not needed. Small performance boost.
+* Timestamp of each REST API request is returned in the response headers. `X-CoCart-API-Timestamp`
+* Plugin version of CoCart is returned in the response headers. `X-CoCart-API-Version`
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 
 ### Plugin Suggestions
 
-* Added: [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
-* Added: [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
-* Added: [Follow Up Emails](https://woocommerce.com/products/follow-up-emails/) - **Still requires testing with**
+* Added [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
+* Added [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
+* Added [Follow Up Emails](https://woocommerce.com/products/follow-up-emails/) - **Still requires testing with**
 * Removed CoCart Products Add-on now the products API is merged with core of CoCart.
 * Optimized the results for better performance and cached once a day.
 
@@ -39,7 +42,7 @@
 * Function `get_store_currency()` is replaced with a global function `cocart_get_store_currency()`.
 * Function `prepare_money_response()` is replaced with a global function `cocart_prepare_money_response()`.
 
-### Enhancments
+### Enhancements
 
 * Deprecated the upgrade warning notice. Dev note: Just keep an eye for major updates on [CoCart.dev](https://cocart.dev)
 * Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
@@ -47,9 +50,7 @@
 * Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
 * Should CoCart session table creation fail during install, ask user if they have privileges to do so.
 * Removed items (if any) now returns in the cart response even if the cart is empty.
-* Prevented certain routes from initializing the session and cart as they are not needed. Small performance boost.
-* Timestamp of each REST API request is returned in the response headers. `X-CoCart-API-Timestamp`
-* Plugin version of CoCart is returned in the response headers. `X-CoCart-API-Version`
+* Exposed WordPress headers for product route support.
 * To help support the ability to set a custom price for an item once added, the totals are recalculated before the cart response returns so it is upto date on the first callback.
 
 ### Tweaks
@@ -65,7 +66,7 @@
 
 * Added more compatibility for next update of CoCart Pro.
 * Minimum requirement for WordPress is now v5.5
-* Tested: ✔️ Compatible with WooCommerce v6.0
+* Tested: ✔️ Compatible with WooCommerce v6.1
 * Tested: ✔️ Compatible with WordPress v5.9
 
 ### For Developers
