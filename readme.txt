@@ -95,9 +95,9 @@ As an added bonus for administrators or shop managers, CoCart Lite also provides
 
 CoCart also provides built in features to:
 
-* **NEW**: Override price for item added to cart.
+* **NEW**: Override price for simple or variable products added to cart.
 * **NEW**: Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
-* Load a cart in session via the web.
+* Load a cart in session via the web. (Useful if you don't have a headless checkout and want to use native checkout.)
 * Support guest customers.
 * Supports basic authentication including the use of email as username.
 * Support [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
