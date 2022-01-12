@@ -49,15 +49,7 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'calculate_totals' ),
 				'permission_callback' => '__return_true',
-				'args'                => array(
-					'return_totals' => array(
-						'required'          => false,
-						'default'           => false,
-						'description'       => __( 'Returns the cart totals once calculated if requested.', 'cart-rest-api-for-woocommerce' ),
-						'type'              => 'boolean',
-						'validate_callback' => 'rest_validate_request_arg',
-					),
-				),
+				'args'                => $this->get_collection_params(),
 			)
 		);
 	} // register_routes()
@@ -94,5 +86,32 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END calculate_totals()
+
+	/**
+	 * Get the query params for calculating totals.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		$controller = new CoCart_Cart_V2_Controller();
+
+		// Cart query parameters.
+		$params = $controller->get_collection_params();
+
+		// Add to cart query parameters.
+		$params += array(
+			'return_totals' => array(
+				'required'          => false,
+				'default'           => false,
+				'description'       => __( 'Returns the cart totals once calculated if requested.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'boolean',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
