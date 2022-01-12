@@ -449,6 +449,8 @@ class CoCart_REST_API {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 
 		$routes = array(
+			'cocart/v2/login',
+			'cocart/v2/logout',
 			'cocart/v1/products',
 			'cocart/v2/products',
 			'cocart/v2/sessions',
