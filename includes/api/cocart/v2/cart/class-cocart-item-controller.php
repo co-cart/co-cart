@@ -41,11 +41,11 @@ class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',
 			array(
-				'args' => $this->get_collection_params(),
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'view_item' ),
 					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
 				),
 			)
 		);
@@ -87,23 +87,21 @@ class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * Get the query params for item.
 	 *
 	 * @access  public
-	 * @since   3.0.0
-	 * @version 3.0.17
+	 * @since   3.1.0
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
+		// Cart query parameters.
+		$params = parent::get_collection_params();
 
-		$params = array_merge(
-			$controller->get_collection_params(),
-			array(
-				'item_key' => array(
-					'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'              => 'string',
-					'sanitize_callback' => 'sanitize_text_field',
-					'validate_callback' => 'rest_validate_request_arg',
-				),
-			)
+		// Add to cart query parameters.
+		$params += array(
+			'item_key' => array(
+				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
 		);
 
 		return $params;
