@@ -447,13 +447,13 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'email'       => array(
-				'description'       => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Set the customers billing email address.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'required'          => false,
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'price'       => array(
-				'description'       => __( 'Set a custom price for the item.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Overrides the general or sale price with a custom price for the item if set.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'required'          => false,
 				'validate_callback' => 'rest_validate_request_arg',

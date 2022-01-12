@@ -256,6 +256,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'      => array(
+				'description'       => __( 'Set the quantity you wish to update the item to.', 'cart-rest-api-for-woocommerce' ),
 				'default'           => 1,
 				'type'              => 'float',
 				'validate_callback' => function( $value, $request, $param ) {
