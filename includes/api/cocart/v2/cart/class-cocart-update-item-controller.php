@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.17
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -41,11 +41,11 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',
 			array(
-				'args' => $this->get_collection_params(),
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'update_item' ),
 					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
 				),
 			)
 		);
@@ -244,10 +244,8 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
-
 		// Cart query parameters.
-		$params = $controller->get_collection_params();
+		$params = parent::get_collection_params();
 
 		// Update item query parameters.
 		$params += array(
