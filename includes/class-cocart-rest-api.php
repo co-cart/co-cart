@@ -324,7 +324,9 @@ class CoCart_REST_API {
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-variations-controller.php';
 
 		// CoCart REST API v2 controllers.
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-store-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/others/class-cocart-store-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/others/class-cocart-login-controller.php';
+		include_once dirname( __FILE__ ) . '/api/cocart/v2/others/class-cocart-logout-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-cart-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-add-item-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-add-items-controller.php';
@@ -336,8 +338,6 @@ class CoCart_REST_API {
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-update-item-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-remove-item-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-restore-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-login-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-logout-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-totals-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-update-cart-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/admin/class-cocart-session-controller.php';

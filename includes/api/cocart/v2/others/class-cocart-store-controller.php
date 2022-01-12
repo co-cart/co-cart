@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart REST API/API
  */
-class CoCart_Store_V2_Controller extends CoCart_API_Controller {
+class CoCart_Store_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -37,12 +37,12 @@ class CoCart_Store_V2_Controller extends CoCart_API_Controller {
 	protected $rest_base = 'store';
 
 	/**
-	 * Register the routes for index.
+	 * Register routes.
 	 *
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Cart - cocart/v2 (GET).
+		// Get Store - cocart/v2/store (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,

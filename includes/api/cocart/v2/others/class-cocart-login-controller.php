@@ -91,7 +91,7 @@ class CoCart_Login_v2_Controller {
 			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cart-rest-api-for-woocommerce' ),
 		);
 
-		return new WP_REST_Response( $response, 200 );
+		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 	} // END login()
 
 } // END class
