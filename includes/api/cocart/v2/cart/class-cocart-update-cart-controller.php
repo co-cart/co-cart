@@ -47,11 +47,11 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'args' => $this->get_collection_params(),
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'update_cart' ),
 					'permission_callback' => array( $this, 'get_permissions_check' ),
+					'args'                => $this->get_collection_params(),
 				),
 			)
 		);
@@ -136,20 +136,19 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @return array $params
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
+		// Cart query parameters.
+		$params = parent::get_collection_params();
 
-		$params = array_merge(
-			$controller->get_collection_params(),
-			array(
-				'namespace' => array(
-					'description' => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-				),
-				'data'      => array(
-					'description' => __( 'Additional data to pass.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'object',
-				),
-			)
+		// Add to cart query parameters.
+		$params += array(
+			'namespace' => array(
+				'description' => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+			),
+			'data'      => array(
+				'description' => __( 'Additional data to pass.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'object',
+			),
 		);
 
 		return $params;
