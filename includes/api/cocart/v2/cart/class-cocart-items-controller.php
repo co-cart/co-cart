@@ -45,6 +45,7 @@ class CoCart_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'view_items' ),
 					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
 				),
 			)
 		);
@@ -68,5 +69,16 @@ class CoCart_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 
 		return CoCart_Response::get_response( $items, $this->namespace, $this->rest_base );
 	} // END view_items()
+
+	/**
+	 * Get the query params.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		return parent::get_collection_params();
+	} // END get_collection_params()
 
 } // END class
