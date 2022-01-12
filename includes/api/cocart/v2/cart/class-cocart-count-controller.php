@@ -132,24 +132,24 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
-
 		// Cart query parameters.
-		$params = $controller->get_collection_params();
+		$params = parent::get_collection_params();
 
 		// Count Items parameters.
 		$params += array(
+			'removed_items' => array(
+				'description' => __( 'Set as true to count items removed from the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'     => 'boolean',
+				'required' => false,
+				'default'  => false,
+			),
 			'return'        => array(
+				'description' => __( 'Internal parameter. No description.', 'cart-rest-api-for-wordpress' ),
 				'required'          => false,
 				'default'           => 'numeric',
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'removed_items' => array(
-				'required' => false,
-				'default'  => false,
-				'type'     => 'boolean',
 			),
 		);
 
