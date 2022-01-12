@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -42,15 +43,7 @@ class CoCart_Totals_v2_Controller extends CoCart_Cart_V2_Controller {
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_totals' ),
 				'permission_callback' => '__return_true',
-				'args'                => array(
-					'html' => array(
-						'required'          => false,
-						'default'           => false,
-						'description'       => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
-						'type'              => 'boolean',
-						'validate_callback' => 'rest_validate_request_arg',
-					),
-				),
+				'args'                => $this->get_collection_params(),
 			)
 		);
 	} // register_routes()
@@ -115,5 +108,29 @@ class CoCart_Totals_v2_Controller extends CoCart_Cart_V2_Controller {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_totals()
+
+	/**
+	 * Get the query params for cart totals.
+	 *
+	 * @access public
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		// Cart query parameters.
+		$params = parent::get_collection_params();
+
+		// Add to cart query parameters.
+		$params += array(
+			'html' => array(
+				'required'          => false,
+				'default'           => false,
+				'description'       => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'boolean',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
