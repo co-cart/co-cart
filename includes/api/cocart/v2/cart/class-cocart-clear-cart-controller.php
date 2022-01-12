@@ -19,8 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * REST API Clear Cart controller class.
  *
  * @package CoCart\API
+ * @extends CoCart_Cart_V2_Controller
  */
-class CoCart_Clear_Cart_v2_Controller {
+class CoCart_Clear_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -50,15 +51,7 @@ class CoCart_Clear_Cart_v2_Controller {
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'clear_cart' ),
 				'permission_callback' => '__return_true',
-				'args'                => array(
-					'keep_removed_items' => array(
-						'required'          => false,
-						'default'           => false,
-						'description'       => __( 'Keeps removed items in session when clearing the cart.', 'cart-rest-api-for-woocommerce' ),
-						'type'              => 'boolean',
-						'validate_callback' => 'rest_validate_request_arg',
-					),
-				),
+				'args'                => $this->get_collection_params(),
 			)
 		);
 	} // register_routes()
@@ -170,5 +163,30 @@ class CoCart_Clear_Cart_v2_Controller {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END clear_cart()
+
+	/**
+	 * Get the query params for clearing the cart.
+	 *
+	 * @access public
+	 * @since  3.1.0
+	 * @return array $params
+	 */
+	public function get_collection_params() {
+		// Cart query parameters.
+		$params = parent::get_collection_params();
+
+		// Add to cart query parameters.
+		$params += array(
+			'keep_removed_items' => array(
+				'required'          => false,
+				'default'           => false,
+				'description'       => __( 'Keeps removed items in session when clearing the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'boolean',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+		);
+
+		return $params;
+	} // END get_collection_params()
 
 } // END class
