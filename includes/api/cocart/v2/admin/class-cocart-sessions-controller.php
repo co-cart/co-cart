@@ -104,10 +104,10 @@ class CoCart_Sessions_V2_Controller {
 
 				$email      = ! empty( $customer['email'] ) ? $customer['email'] : '';
 				$first_name = ! empty( $customer['first_name'] ) ? $customer['first_name'] : '';
-				$last_name  = ! empty( $customer['last_name'] ) ? $customer['last_name'] : '';
+				$last_name  = ! empty( $customer['last_name'] ) ? ' ' . $customer['last_name'] : '';
 
 				if ( ! empty( $first_name ) || ! empty( $last_name ) ) {
-					$name = $first_name . ' ' . $last_name;
+					$name = $first_name . $last_name;
 				} else {
 					$name = '';
 				}
