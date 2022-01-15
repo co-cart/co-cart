@@ -39,7 +39,10 @@ class CoCart_Store_V2_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   3.0.0 Introduced
+	 * @since   3.1.0 Added schema information.
+	 * @version 3.1.0
 	 */
 	public function register_routes() {
 		// Get Store - cocart/v2/store (GET).
@@ -47,10 +50,13 @@ class CoCart_Store_V2_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_store' ),
-				'permission_callback' => '__return_true',
-			)
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_store' ),
+					'permission_callback' => '__return_true',
+				),
+				'schema' => array( $this, 'get_public_object_schema' ),
+			),
 		);
 	} // register_routes()
 
@@ -118,7 +124,8 @@ class CoCart_Store_V2_Controller {
 	 * Returns the list of all public CoCart API routes.
 	 *
 	 * @access  public
-	 * @since   3.0.0
+	 * @since   3.0.0 Introduced
+	 * @since   3.1.0 Added login, logout and product routes.
 	 * @version 3.1.0
 	 * @return  array
 	 */
@@ -147,5 +154,126 @@ class CoCart_Store_V2_Controller {
 			)
 		);
 	} // END get_routes()
+
+	/**
+	 * Get the schema for returning the store.
+	 *
+	 * @access public
+	 * @since  3.1.0 Introduced
+	 * @return array
+	 */
+	public function get_public_object_schema() {
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'CoCart - ' . __( 'Store Information', 'cart-rest-api-for-woocommerce' ),
+			'type'       => 'object',
+			'properties' => array(
+				'version'         => array(
+					'description' => sprintf( __( 'Version of the %s (core) plugin.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'title'           => array(
+					'description' => __( 'Title of the site.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'description'     => array(
+					'description' => __( 'The site tag line.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'home_url'        => array(
+					'description' => __( 'The site home URL.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'language'        => array(
+					'description' => __( 'The site language, by default.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'gmt_offset'      => array(
+					'description' => __( 'The time offset for the timezone.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'timezone_string' => array(
+					'description' => __( 'The timezone from site settings as a string.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'store_address'   => array(
+					'description' => __( 'The full store address.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+					'context'     => array( 'view' ),
+					'properties'  => array(
+						'address'   => array(
+							'description' => __( 'The store address line one.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'address_2' => array(
+							'description' => __( 'The store address line two.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'city'      => array(
+							'description' => __( 'The store address city.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'country'   => array(
+							'description' => __( 'The store address country.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+						'postcode'  => array(
+							'description' => __( 'The store address postcode or zip.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
+					),
+				),
+				'routes'          => array(
+					'description' => __( 'The public routes of CoCart.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+					'context'     => array( 'view' ),
+					'properties'  => array(),
+				),
+			),
+		);
+
+		$routes = $this->get_routes();
+
+		if ( count( $routes ) > 0 ) {
+			// Apply each route to the properties.
+			foreach ( $routes as $route => $endpoint ) {
+				$schema['properties']['routes']['properties'][ $route ] = array(
+					'description' => sprintf( __( 'The "%s" route URL.', 'cart-rest-api-for-woocommerce' ), $route ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				);
+			}
+		} else {
+			// Remove routes property if none exist.
+			unset( $schema['properties']['routes'] );
+		}
+
+		return $schema;
+	} // END get_public_object_schema()
 
 } // END class
