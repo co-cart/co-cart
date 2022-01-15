@@ -59,9 +59,11 @@ class CoCart_Store_V2_Controller {
 	 *
 	 * This endpoint describes the general store details.
 	 *
-	 * @access public
-	 * @param  WP_REST_Request $request - Full details about the request.
-	 * @return WP_REST_Response The API root index data.
+	 * @access  public
+	 * @since   3.0.0 Introduced
+	 * @version 3.1.0
+	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @return  WP_REST_Response The API root index data.
 	 */
 	public function get_store( $request ) {
 		// General store data.
@@ -72,7 +74,7 @@ class CoCart_Store_V2_Controller {
 			'home_url'        => home_url(),
 			'language'        => get_bloginfo( 'language' ),
 			'gmt_offset'      => get_option( 'gmt_offset' ),
-			'timezone_string' => get_option( 'timezone_string' ),
+			'timezone_string' => wp_timezone_string(),
 			'store_address'   => $this->get_store_address(),
 			'routes'          => $this->get_routes(),
 		);
