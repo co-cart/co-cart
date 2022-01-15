@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 
 /**
- * CoCart REST API v2 controller class.
+ * CoCart REST API v2 - Cart controller class.
  *
  * @package CoCart REST API/API
  * @extends CoCart_API_Controller

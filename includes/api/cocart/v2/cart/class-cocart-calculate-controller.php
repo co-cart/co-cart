@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Calculate controller class.
+ * CoCart REST API v2 - Calculate controller class.
  *
  * @package CoCart\API
  */

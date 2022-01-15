@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 
 	/**
-	 * CoCart REST API Terms v2 controller class.
+	 * CoCart REST API v2 - Terms controller class.
 	 *
 	 * @package CoCart Products/API
 	 * @extends CoCart_REST_Terms_Controller

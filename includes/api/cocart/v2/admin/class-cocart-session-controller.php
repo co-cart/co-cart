@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API Session v2 controller class.
+ * CoCart REST API v2 - Session controller class.
  *
  * @package CoCart REST API/API
  * @extends CoCart_Cart_V2_Controller

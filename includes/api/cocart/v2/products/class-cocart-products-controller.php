@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API Product v2 controller class.
+ * CoCart REST API v2 - Product controller class.
  *
  * @package CoCart Products/API
  * @extends CoCart_Products_Controller
@@ -30,7 +30,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	protected $namespace = 'cocart/v2';
 
 	/**
-	 * Register the routes for products.
+	 * Register routes.
 	 *
 	 * @access public
 	 */

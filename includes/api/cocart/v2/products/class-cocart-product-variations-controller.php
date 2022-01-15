@@ -13,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * CoCart REST API variations v2 controller class.
+ * CoCart REST API v2 - Product Variations controller class.
  *
  * @package CoCart Products/API
  * @extends CoCart_Products_V2_Controller

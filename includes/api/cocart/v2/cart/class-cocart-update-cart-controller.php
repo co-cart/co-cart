@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Update Cart controller class.
+ * CoCart REST API v2 - Update Cart controller class.
  *
  * @package CoCart\API
  * @extends CoCart_Cart_v2_Controller

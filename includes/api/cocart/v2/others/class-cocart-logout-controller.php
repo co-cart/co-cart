@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Logout v2 controller class.
+ * CoCart REST API v2 - Logout controller class.
  *
  * @package CoCart\API
  */

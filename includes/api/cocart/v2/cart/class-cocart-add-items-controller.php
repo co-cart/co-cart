@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API Add Items v2 controller class.
+ * CoCart REST API v2 - Add Items controller class.
  *
  * @package CoCart\API
  */

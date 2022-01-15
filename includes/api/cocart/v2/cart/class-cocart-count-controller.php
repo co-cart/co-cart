@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Count Items controller class.
+ * CoCart REST API v2 - Count Items controller class.
  *
  * @package CoCart\API
  * @extends CoCart_Cart_V2_Controller

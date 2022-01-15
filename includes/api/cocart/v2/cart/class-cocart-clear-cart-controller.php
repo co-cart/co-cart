@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Clear Cart controller class.
+ * CoCart REST API v2 - Clear Cart controller class.
  *
  * @package CoCart\API
  * @extends CoCart_Cart_V2_Controller

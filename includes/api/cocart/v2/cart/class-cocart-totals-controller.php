@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Totals controller class.
+ * CoCart REST API v2 - Totals controller class.
  *
  * @package CoCart\API
  */

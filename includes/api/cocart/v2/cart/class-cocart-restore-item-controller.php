@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Restore Item controller class.
+ * CoCart REST API v2 - Restore Item controller class.
  *
  * @package CoCart\API
  * @extends CoCart_Cart_V2_Controller

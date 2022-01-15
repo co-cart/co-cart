@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API Product Tags v2 controller class.
+ * CoCart REST API v2 - Product Tags controller class.
  *
  * @package CoCart Products/API
  * @extends CoCart_Product_Tags_Controller

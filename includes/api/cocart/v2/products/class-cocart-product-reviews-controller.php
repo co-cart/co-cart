@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API Product Reviews v2 controller class.
+ * CoCart REST API v2 - Product Reviews controller class.
  *
  * @package CoCart Products/API
  * @extends CoCart_Product_Reviews_V2_Controller
