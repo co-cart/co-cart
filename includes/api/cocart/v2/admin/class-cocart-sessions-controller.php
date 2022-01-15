@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.7
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -39,7 +39,10 @@ class CoCart_Sessions_V2_Controller {
 	/**
 	 * Register the routes for index.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   3.0.0 Introduced
+	 * @since   3.1.0 Added schema information.
+	 * @version 3.1.0
 	 */
 	public function register_routes() {
 		// Get Sessions - cocart/v2/sessions (GET).
@@ -52,8 +55,8 @@ class CoCart_Sessions_V2_Controller {
 					'callback'            => array( $this, 'get_carts_in_session' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
-			// 'schema' => array( $this, 'get_item_schema' )
-			)
+				'schema' => array( $this, 'get_public_object_schema' ),
+			),
 		);
 	} // register_routes()
 
@@ -78,7 +81,7 @@ class CoCart_Sessions_V2_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.7
+	 * @version 3.1.0
 	 * @return  WP_REST_Response Returns the carts in session from the database.
 	 */
 	public function get_carts_in_session() {
@@ -131,5 +134,72 @@ class CoCart_Sessions_V2_Controller {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_carts_in_session()
+
+	/**
+	 * Get the schema for returning the sessions.
+	 *
+	 * @access public
+	 * @since  3.1.0 Introduced
+	 * @return array
+	 */
+	public function get_public_object_schema() {
+		return array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'CoCart - ' . __( 'View all Sessions', 'cart-rest-api-for-woocommerce' ),
+			'type'       => 'object',
+			'properties' => array(
+				'cart_id'         => array(
+					'description' => __( 'Unique identifier for the session.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_key'        => array(
+					'description' => __( 'Unique identifier for the customers cart.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'customers_name'  => array(
+					'description' => __( 'The name of the customer provided.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'customers_email' => array(
+					'description' => __( 'The email the customer provided.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_created'    => array(
+					'description' => __( 'The date and time the cart was created, in the site\'s timezone.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'format'      => 'date-time',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_expiry'     => array(
+					'description' => __( 'The date and time the cart will expire, in the site\'s timezone.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'format'      => 'date-time',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_source'     => array(
+					'description' => __( 'Identifies the source of how the cart was made, native or headless.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'link'            => array(
+					'description' => __( 'URL to the individual cart in session.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+			),
+		);
+	}
 
 } // END class
