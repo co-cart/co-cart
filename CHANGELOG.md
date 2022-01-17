@@ -66,7 +66,7 @@
 ### Compatibility and Requirements
 
 * Added more compatibility for next update of CoCart Pro.
-* Minimum requirement for WordPress is now v5.5
+* Minimum requirement for WordPress is now v5.6
 * Tested: ✔️ Compatible with WooCommerce v6.1
 * Tested: ✔️ Compatible with WordPress v5.9
 

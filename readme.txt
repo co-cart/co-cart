@@ -2,7 +2,7 @@
 Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Donate link: https://www.buymeacoffee.com/sebastien
-Requires at least: 5.5
+Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 5.9
 Stable tag: 3.0.17
