@@ -144,7 +144,7 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 				'default'  => false,
 			),
 			'return'        => array(
-				'description' => __( 'Internal parameter. No description.', 'cart-rest-api-for-wordpress' ),
+				'description'       => __( 'Internal parameter. No description.', 'cart-rest-api-for-woocommerce' ),
 				'required'          => false,
 				'default'           => 'numeric',
 				'type'              => 'string',
