@@ -79,6 +79,7 @@ class CoCart_Clear_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 
 			// Clear cart.
 			WC()->cart->cart_contents = array();
+			WC()->session->cart = array();
 
 			// Clear removed items if not kept.
 			if ( ! $request['keep_removed_items'] ) {
