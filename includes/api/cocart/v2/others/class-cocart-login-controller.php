@@ -39,7 +39,10 @@ class CoCart_Login_v2_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access public
+	 * @access  public
+	 * @since   3.0.0 Introduced.
+	 * @since   3.1.0 Added schema information.
+	 * @version 3.1.0
 	 */
 	public function register_routes() {
 		// Login user - cocart/v2/login (POST).
@@ -47,10 +50,13 @@ class CoCart_Login_v2_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'login' ),
-				'permission_callback' => array( $this, 'get_permission_callback' ),
-			)
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'login' ),
+					'permission_callback' => array( $this, 'get_permission_callback' ),
+				),
+				'schema' => array( $this, 'get_public_object_schema' ),
+			),
 		);
 	} // register_routes()
 
@@ -99,5 +105,58 @@ class CoCart_Login_v2_Controller {
 
 		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 	} // END login()
+
+	/**
+	 * Get the schema for returning the login.
+	 *
+	 * @access public
+	 * @since  3.1.0 Introduced.
+	 * @return array
+	 */
+	public function get_public_object_schema() {
+		return array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'CoCart - ' . __( 'Login', 'cart-rest-api-for-woocommerce' ),
+			'type'       => 'object',
+			'properties' => array(
+				'user_id'      => array(
+					'description' => __( 'Unique ID to the user on the site.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'display_name' => array(
+					'description' => __( 'The display name of the user (if any).', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'role'         => array(
+					'description' => __( 'The role type assigned to the user.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'avatar_urls'       => array(
+					'description' => __( 'The avatar URLs of the user for each avatar size registered.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+					'context'     => array( 'view' ),
+					'properties'  => array(),
+				),
+				'email'        => array(
+					'description' => __( 'The email address of the user.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'dev_note'     => array(
+					'description' => __( 'A message to developers.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+			),
+		);
+	} // END get_public_object_schema()
 
 } // END class
