@@ -14,6 +14,7 @@
 * Prevented certain routes from initializing the session and cart as they are not needed. Small performance boost.
 * Timestamp of each REST API request is returned in the response headers. `X-CoCart-API-Timestamp`
 * Plugin version of CoCart is returned in the response headers. `X-CoCart-API-Version`
+* Added to the login response the users avatar URLS and email address.
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 

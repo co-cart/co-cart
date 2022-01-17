@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
@@ -70,8 +71,11 @@ class CoCart_Login_v2_Controller {
 	/**
 	 * Login user.
 	 *
-	 * @access public
-	 * @return WP_REST_Response
+	 * @access  public
+	 * @since   3.0.0 Introduced.
+	 * @since   3.1.0 Added avatar URLS and users email address.
+	 * @version 3.1.0
+	 * @return  WP_REST_Response
 	 */
 	public function login() {
 		$current_user = get_userdata( get_current_user_id() );
@@ -88,6 +92,8 @@ class CoCart_Login_v2_Controller {
 			'user_id'      => strval( get_current_user_id() ),
 			'display_name' => esc_html( $current_user->display_name ),
 			'role'         => implode( ', ', $display_user_roles ),
+			'avatar_urls'  => rest_get_avatar_urls( trim( $current_user->user_email ) ),
+			'email'        => trim( $current_user->user_email ),
 			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cart-rest-api-for-woocommerce' ),
 		);
 
