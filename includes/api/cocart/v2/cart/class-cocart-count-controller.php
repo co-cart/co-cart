@@ -139,9 +139,9 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 		$params += array(
 			'removed_items' => array(
 				'description' => __( 'Set as true to count items removed from the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'     => 'boolean',
-				'required' => false,
-				'default'  => false,
+				'type'        => 'boolean',
+				'required'    => false,
+				'default'     => false,
 			),
 			'return'        => array(
 				'description'       => __( 'Internal parameter. No description.', 'cart-rest-api-for-woocommerce' ),
