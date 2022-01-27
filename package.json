@@ -65,6 +65,7 @@
 		"test": "grunt",
 		"watch": "grunt watch",
 		"build": "grunt build",
+		"ready": "grunt ready",
 		"makepot": "composer run-script makepot",
 		"update:version": "grunt version",
 		"update:pot": "grunt update-pot",
