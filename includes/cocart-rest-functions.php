@@ -19,14 +19,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Wrapper for deprecated hook so we can apply some extra logic.
  *
- * @since 3.0.7
- * @param string $hook        The hook that was used.
- * @param string $version     The version of WordPress that deprecated the hook.
- * @param string $replacement The hook that should have been used.
- * @param string $message     A message regarding the change.
+ * @since   3.0.7  Introduced.
+ * @since   3.1.0  Changed function `is_ajax()` to `wp_doing_ajax()`.
+ * @version 3.1.0
+ * @uses    wp_doing_ajax()
+ * @param   string $hook        The hook that was used.
+ * @param   string $version     The version of WordPress that deprecated the hook.
+ * @param   string $replacement The hook that should have been used.
+ * @param   string $message     A message regarding the change.
  */
 function cocart_deprecated_hook( $hook, $version, $replacement = null, $message = null ) {
-	if ( is_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 
 		$message = empty( $message ) ? '' : ' ' . $message;
@@ -44,15 +47,18 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
 /**
  * Wrapper for deprecated filter so we can apply some extra logic.
  *
- * @since 3.0.0
- * @param string $filter      The filter that was used.
- * @param array  $args        Array of additional function arguments to be passed to apply_filters().
- * @param string $version     The version of WordPress that deprecated the filter.
- * @param string $replacement The filter that should have been used.
- * @param string $message     A message regarding the change.
+ * @since   3.0.0  Introduced.
+ * @since   3.1.0  Changed function `is_ajax()` to `wp_doing_ajax()`.
+ * @version 3.1.0
+ * @uses    wp_doing_ajax()
+ * @param   string $filter      The filter that was used.
+ * @param   array  $args        Array of additional function arguments to be passed to apply_filters().
+ * @param   string $version     The version of WordPress that deprecated the filter.
+ * @param   string $replacement The filter that should have been used.
+ * @param   string $message     A message regarding the change.
  */
 function cocart_deprecated_filter( $filter, $args = array(), $version = '', $replacement = null, $message = null ) {
-	if ( is_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
 		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message );
 
 		$message = empty( $message ) ? '' : ' ' . $message;
