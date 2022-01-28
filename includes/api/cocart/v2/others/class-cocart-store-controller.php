@@ -125,7 +125,7 @@ class CoCart_Store_V2_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0 Introduced
-	 * @since   3.1.0 Added login, logout and product routes.
+	 * @since   3.1.0 Added login, logout, cart update and product routes.
 	 * @version 3.1.0
 	 * @return  array
 	 */
@@ -144,6 +144,7 @@ class CoCart_Store_V2_Controller {
 				'cart-calculate'      => $prefix . 'cart/calculate',
 				'cart-clear'          => $prefix . 'cart/clear',
 				'cart-totals'         => $prefix . 'cart/totals',
+				'cart-update'         => $prefix . 'cart/update',
 				'login'               => $prefix . 'login',
 				'logout'              => $prefix . 'logout',
 				'products'            => $prefix . 'products',
