@@ -74,7 +74,7 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 
 		try {
 			if ( ! is_string( $namespace ) ) {
-				throw new CoCart_Data_Exception( 'cocart_update_cart_namespace_error', __( 'You must provide a plugin namespace when extending the cart endpoint.', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_update_cart_namespace_error', sprintf( __( 'You must provide a namespace when extending the cart endpoint. Available namespaces: (%s)', 'cart-rest-api-for-woocommerce' ), implode( ', ', array_keys( $callback_methods ) ) ), 404 );
 			}
 
 			if ( ! array_key_exists( $namespace, $callback_methods ) ) {
