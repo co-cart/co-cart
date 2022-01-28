@@ -76,6 +76,8 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 			}
 
 			if ( $cart_updated ) {
+				do_action( 'cocart_cart_updated', $request, $controller );
+
 				$controller->calculate_totals();
 
 				wc_add_notice( __( 'Cart updated.', 'cart-rest-api-for-woocommerce' ), 'success' );
