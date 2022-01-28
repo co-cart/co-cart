@@ -102,7 +102,7 @@ class CoCart_Update_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 	 */
 	public function update_cart( $request ) {
 		try {
-			$namespace = $request['namespace'];
+			$namespace = wc_clean( wp_unslash( $request['namespace'] ) );
 			$callback  = null;
 
 			$extension_class  = new CoCart_Cart_Extension();
