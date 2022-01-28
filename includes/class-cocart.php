@@ -204,6 +204,7 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-cart-cache.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-cart-callbacks.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-cart-extension.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/class-cocart-install.php';
