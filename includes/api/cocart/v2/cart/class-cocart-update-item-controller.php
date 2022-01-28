@@ -58,7 +58,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.17
+	 * @version 3.1.0
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -169,9 +169,10 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 						/**
 						 * Calculates the cart totals if an item has changed it's quantity.
 						 *
-						 * @since 2.1.0
+						 * @since 2.1.0 Introduced.
+						 * @since 3.1.0 Changed to calculate all totals.
 						 */
-						$this->get_cart_instance()->calculate_totals();
+						$this->calculate_totals();
 					}
 				} else {
 					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
