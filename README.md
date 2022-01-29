@@ -53,7 +53,7 @@ CoCart Lite provides the basic API needs to get you started.
 * Add simple, variable and grouped products to the cart.
 * Get customers cart.
 * Get customers cart contents.
-* Update items in the cart.
+* Update items in the cart both individually and in bulk.
 * Remove items from the cart.
 * Restore items to the cart.
 * Re-calculate the totals. (*)
