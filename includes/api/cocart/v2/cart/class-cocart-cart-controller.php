@@ -108,19 +108,19 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END get_cart_items()
 
 	/**
-	 * Returns true if the cart is completly empty.
+	 * Returns true if the cart is completely empty.
 	 *
 	 * @access public
 	 * @since  3.1.0
 	 * @return bool
 	 */
-	public function is_completly_empty() {
+	public function is_completely_empty() {
 		if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && $this->get_removed_cart_contents_count() <= 0 ) {
 			return true;
 		}
 
 		return false;
-	} // END is_completly_empty()
+	} // END is_completely_empty()
 
 	/**
 	 * Get number of removed items in the cart.
@@ -139,13 +139,13 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   3.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request    - Full details about the request.
+	 * @param   WP_REST_Request $request       - Full details about the request.
 	 * @param   string          $cart_item_key - Originally the cart item key.
 	 * @return  WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $cart_item_key = null ) {
 		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
-		$cart_contents = ! $this->is_completly_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+		$cart_contents = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		/**
 		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
@@ -183,10 +183,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request       - Full details about the request.
 	 * @param   array           $cart_contents - Cart content.
-	 * @param   deprected       $cart_item_key - Originally the cart item key.
-	 * @param   deprected       $from_session  - Identifies if the cart is called from a session.
+	 * @param   deprecated      $cart_item_key - Originally the cart item key.
+	 * @param   deprecated      $from_session  - Identifies if the cart is called from a session.
 	 * @return  array           $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = null, $from_session = false ) {
@@ -2412,7 +2412,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'required'    => false,
 			),
 			'fields'   => array(
-				'description' => __( 'Specify each parent field you want to request seperated by (,) in the cart response before the data is fetched.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Specify each parent field you want to request separated by (,) in the cart response before the data is fetched.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 				'required'    => false,
 			),
