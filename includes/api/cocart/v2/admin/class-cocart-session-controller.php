@@ -750,7 +750,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 		}
 
 		return new WC_Customer( $customer, true );
-	} // END get_custoemr()
+	} // END get_customer()
 
 	/**
 	 * Return items removed from the cart.

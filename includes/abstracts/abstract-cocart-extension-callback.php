@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class CoCart_Cart_Extension_Callback {
 
 	/**
-	 * Extenstion Callback name defined by extending this class.
+	 * Extension Callback name defined by extending this class.
 	 *
 	 * @access protected
 	 * @var    string
@@ -23,7 +23,7 @@ abstract class CoCart_Cart_Extension_Callback {
 	protected $name = '';
 
 	/**
-	 * Returns the name of the extenstion callback.
+	 * Returns the name of the extension callback.
 	 *
 	 * @access public
 	 * @return string

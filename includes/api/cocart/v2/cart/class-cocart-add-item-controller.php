@@ -134,7 +134,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				/**
 				 * Override cart item for anything extra.
 				 *
-				 * DEVELOPER WARNING: THIS FILTER CAN CAUSE HAVOC SO BE CAREFULL WHEN USING IT!
+				 * DEVELOPER WARNING: THIS FILTER CAN CAUSE HAVOC SO BE CAREFUL WHEN USING IT!
 				 *
 				 * @since 3.1.0
 				 */

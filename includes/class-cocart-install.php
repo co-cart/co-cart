@@ -429,7 +429,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				return;
 			}
 
-			// Dont redirect to getting started page if CoCart is not a new install.
+			// Don't redirect to getting started page if CoCart is not a new install.
 			if ( ! get_transient( '_cocart_activation_redirect' ) ) {
 				return;
 			}

@@ -101,7 +101,7 @@ class CoCart_DateTime extends DateTime {
 	}
 
 	/**
-	 * Return a localised date based on offset timestamp. Wrapper for date_i18n function.
+	 * Return a localized date based on offset timestamp. Wrapper for date_i18n function.
 	 *
 	 * @access public
 	 * @param  string $format Date format.

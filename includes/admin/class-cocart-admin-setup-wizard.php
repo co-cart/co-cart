@@ -331,7 +331,7 @@ class CoCart_Admin_Setup_Wizard {
 	} // END cocart_setup_wizard_store_setup()
 
 	/**
-	 * Determins the next step to take based on the choices made.
+	 * Determine the next step to take based on the choices made.
 	 *
 	 * @access public
 	 */

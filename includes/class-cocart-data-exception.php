@@ -41,7 +41,7 @@ class CoCart_Data_Exception extends Exception {
 	 * @param  string $error_code       Machine-readable error code, e.g `cocart_invalid_product_id`.
 	 * @param  string $message          User-friendly translated error message, e.g. 'Product ID is invalid'.
 	 * @param  int    $http_status_code Proper HTTP status code to respond with, e.g. 400.
-	 * @param  array  $additonal_data   Extra error data.
+	 * @param  array  $additional_data   Extra error data.
 	 */
 	public function __construct( $error_code, $message, $http_status_code = 400, $additional_data = array() ) {
 		$this->error_code      = $error_code;

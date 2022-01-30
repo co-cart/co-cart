@@ -137,7 +137,7 @@ class CoCart_API_Session {
 						CoCart_Logger::log( sprintf( __( 'Customer is logged in as a different user. Cart key "%s" cannot be loaded into session for a different user.', 'cart-rest-api-for-woocommerce' ), $cart_key ), 'error' );
 					}
 				} else {
-					CoCart_Logger::log( __( 'Cart key is recognised as a registered user on site. Cannot be loaded into session as a guest.', 'cart-rest-api-for-woocommerce' ), 'error' );
+					CoCart_Logger::log( __( 'Cart key is recognized as a registered user on site. Cannot be loaded into session as a guest.', 'cart-rest-api-for-woocommerce' ), 'error' );
 				}
 
 				// Display notice to developer if debug mode is enabled.

@@ -5,7 +5,7 @@
  * Our built in support for authenticating users with CoCart is basic
  * but secure. When you authenticate CoCart as the customer you are
  * logging them in with their account. If you are using WooCommerce
- * API comsumer key and secret you will need a secure connection for
+ * API consumer key and secret you will need a secure connection for
  * authentication to be valid.
  *
  * @author  Sébastien Dumont
@@ -148,7 +148,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 * Should you need to authenticate as another user instead of the one returned.
 			 *
 			 * @param int  $user_id The user ID returned if authentication was successful.
-			 * @param bool          Determins if the site is secure.
+			 * @param bool          Determines if the site is secure.
 			 */
 			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl() );
 
