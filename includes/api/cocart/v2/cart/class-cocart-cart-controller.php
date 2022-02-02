@@ -1380,7 +1380,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						'method_id'     => $method->get_method_id(),
 						'instance_id'   => $method->instance_id,
 						'label'         => $method->get_label(),
-						'cost'          => $method->cost,
+						'cost'          => cocart_prepare_money_response( $method->cost, wc_get_price_decimals() ),
 						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => '',
 						'chosen_method' => ( $chosen_method === $key ),
