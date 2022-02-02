@@ -518,8 +518,6 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @param  $type Type of products to return.
 	 */
 	public function get_connected_products( $product, $type ) {
-		$controller = new CoCart_Cart_V2_Controller();
-
 		switch ( $type ) {
 			case 'upsells':
 				$ids = array_map( 'absint', $product->get_upsell_ids( 'view' ) );
@@ -681,8 +679,6 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		$tax_display_mode = $this->get_tax_display_mode( $tax_display_mode );
 
 		$price = array();
-
-		$controller = new CoCart_Cart_V2_Controller();
 
 		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
 			$prices = $product->get_variation_prices( true );
