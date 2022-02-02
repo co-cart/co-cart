@@ -1374,7 +1374,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 				// Return each rate.
 				foreach ( $package['rates'] as $key => $method ) {
-					$meta_data = $this->clean_meta_data( $method, $type = 'shipping' );
+					$meta_data = $this->clean_meta_data( $method, 'shipping' );
 
 					$rates[ $key ] = array(
 						'key'           => $key,
