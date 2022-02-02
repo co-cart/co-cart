@@ -1334,7 +1334,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$packages = WC()->shipping->get_packages();
 
 		$details = array(
-			'label'                   => apply_filters( 'cocart_cart_shipping_label', esc_html__( 'Shipping', 'cart-rest-api-for-woocommerce' ) ),
 			'total_packages'          => count( (array) $packages ),
 			'show_package_details'    => count( (array) $packages ) > 1,
 			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
