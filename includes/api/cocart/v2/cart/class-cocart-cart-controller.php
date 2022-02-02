@@ -1065,7 +1065,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.17
+	 * @version 3.1.0
 	 * @param   WC_Product $_product     - The product data of the item in the cart.
 	 * @param   array      $cart_item    - The item in the cart containing the default cart item data.
 	 * @param   string     $item_key     - The item key generated based on the details of the item.
@@ -1085,7 +1085,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
-			'tax_data'       => $cart_item['line_tax_data'],
+			// 'tax_data'       => $cart_item['line_tax_data'],
 			'totals'         => array(
 				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $cart_item['line_subtotal'], $cart_item, $item_key ),
 				'subtotal_tax' => $cart_item['line_subtotal_tax'],
