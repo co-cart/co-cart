@@ -1272,8 +1272,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns cross sells based on the items in the cart.
 	 *
-	 * @access public
-	 * @return array
+	 * @access  public
+	 * @since   3.0.0 Introduced.
+	 * @version 3.1.0 Prices now return with formatted decimals.
+	 * @return  array
 	 */
 	public function get_cross_sells() {
 		// Get visible cross sells then sort them at random.
@@ -1300,9 +1302,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'name'           => $cross_sell->get_name(),
 				'title'          => $cross_sell->get_title(),
 				'slug'           => $this->get_product_slug( $cross_sell ),
-				'price'          => $cross_sell->get_price(),
-				'regular_price'  => $cross_sell->get_regular_price(),
-				'sale_price'     => $cross_sell->get_sale_price(),
+				'price'          => wc_format_decimal( $cross_sell->get_price(), wc_get_price_decimals() ),
+				'regular_price'  => wc_format_decimal( $cross_sell->get_regular_price(), wc_get_price_decimals() ),
+				'sale_price'     => wc_format_decimal( $cross_sell->get_sale_price(), wc_get_price_decimals() ),
 				'image'          => esc_url( $thumbnail_src ),
 				'average_rating' => $cross_sell->get_average_rating() > 0 ? sprintf(
 					/* translators: %s: average rating */
