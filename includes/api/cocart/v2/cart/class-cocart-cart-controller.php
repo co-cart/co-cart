@@ -1085,7 +1085,6 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
-			// 'tax_data'       => $cart_item['line_tax_data'],
 			'totals'         => array(
 				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $cart_item['line_subtotal'], $cart_item, $item_key ),
 				'subtotal_tax' => $cart_item['line_subtotal_tax'],
