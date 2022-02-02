@@ -253,7 +253,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				} else {
 					$cart['taxes'] = array(
 						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-						'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $this->get_cart_instance()->get_taxes_total() ) ),
+						'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $this->get_cart_instance()->get_taxes_total(), wc_get_price_decimals() ) ),
 					);
 				}
 			}
