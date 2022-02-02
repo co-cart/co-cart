@@ -5,13 +5,17 @@
  * @author  Sébastien Dumont
  * @package CoCart\Compatibility\Modules
  * @since   3.0.0
- * @version 3.0.12
+ * @version 3.1.0
  * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+if ( ! class_exists( 'Advanced_Shipping_Packages_for_WooCommerce' ) ) {
+	return;
 }
 
 if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
@@ -45,7 +49,7 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 
 			// Default package name.
 			if ( 0 === $i ) {
-				$name = get_option( 'advanced_shipping_packages_default_package_name', '' );
+				$name = get_option( 'advanced_shipping_packages_default_package_name', __( 'Shipping', 'cart-rest-api-for-woocommerce' ) );
 			}
 
 			return $name;
