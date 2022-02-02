@@ -137,7 +137,7 @@ class CoCart_Login_v2_Controller {
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
-				'avatar_urls'       => array(
+				'avatar_urls'  => array(
 					'description' => __( 'The avatar URLs of the user for each avatar size registered.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
