@@ -1382,10 +1382,14 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						'label'         => $method->get_label(),
 						'cost'          => $method->cost,
 						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
-						'taxes'         => $method->taxes,
+						'taxes'         => '',
 						'chosen_method' => ( $chosen_method === $key ),
 						'meta_data'     => $meta_data,
 					);
+
+					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
+						$rates[ $key ]['taxes'] = cocart_prepare_money_response( $tax_cost, wc_get_price_decimals() );
+					}
 				}
 
 				$details['packages'][ $package_key ]['rates'] = $rates;
