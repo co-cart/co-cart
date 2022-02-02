@@ -375,7 +375,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	protected function get_variation_product_data( $product ) {
 		$data = self::get_product_data( $product );
 
-		// Remove fields not required for a variaion.
+		// Remove fields not required for a variation.
 		unset( $data['type'] );
 		unset( $data['short_description'] );
 		unset( $data['conditions']['has_options'] );
