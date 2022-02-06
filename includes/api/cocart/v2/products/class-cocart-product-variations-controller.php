@@ -100,4 +100,23 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 		return apply_filters( "cocart_prepare_{$this->post_type}_object", $response, $product, $request );
 	}
 
+	/**
+	 * Prepare links for the request.
+	 *
+	 * @access protected
+	 * @param  WC_Product      $product Product object.
+	 * @param  WP_REST_Request $request Request object.
+	 * @return array Links for the given product.
+	 */
+	protected function prepare_links( $product, $request ) {
+		$links = parent::prepare_links( $product, $request );
+
+		$rest_base = str_replace( '(?P<product_id>[\d]+)', $product->get_parent_id(), $this->rest_base );
+
+		$links['self']['href']       = rest_url( sprintf( '/%s/%s/%d', $this->namespace, $rest_base, $product->get_id() ) );
+		$links['collection']['href'] = rest_url( sprintf( '/%s/%s', $this->namespace, $rest_base ) );
+
+		return $links;
+	} // END prepare_links()
+
 }
