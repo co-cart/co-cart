@@ -83,26 +83,26 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Prepare a single product output for response.
 	 *
 	 * @access public
-	 * @param  WC_Data         $object  Object data.
+	 * @param  WC_Product      $product Product instance.
 	 * @param  WP_REST_Request $request Request object.
 	 * @return WP_REST_Response
 	 */
-	public function prepare_object_for_response( $object, $request ) {
+	public function prepare_object_for_response( $product, $request ) {
 		// Check what product type before returning product data.
-		if ( $object->get_type() !== 'variation' ) {
-			$data = $this->get_product_data( $object );
+		if ( $product->get_type() !== 'variation' ) {
+			$data = $this->get_product_data( $product );
 		} else {
-			$data = $this->get_variation_product_data( $object );
+			$data = $this->get_variation_product_data( $product );
 		}
 
 		// Add review data to products if requested.
 		if ( $request['show_reviews'] ) {
-			$data['reviews'] = $this->get_reviews( $object );
+			$data['reviews'] = $this->get_reviews( $product );
 		}
 
 		// Add variations to variable products. Returns just IDs by default.
-		if ( $object->is_type( 'variable' ) && $object->has_child() ) {
-			$variation_ids = $object->get_children();
+		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
+			$variation_ids = $product->get_children();
 
 			foreach ( $variation_ids as $variation_id ) {
 				$variation = wc_get_product( $variation_id );
@@ -127,23 +127,23 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		}
 
 		// Add grouped products data.
-		if ( $object->is_type( 'grouped' ) && $object->has_child() ) {
-			$data['grouped_products'] = $object->get_children();
+		if ( $product->is_type( 'grouped' ) && $product->has_child() ) {
+			$data['grouped_products'] = $product->get_children();
 		}
 
 		$data     = $this->add_additional_fields_to_object( $data, $request );
 		$data     = $this->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $object, $request ) );
+		$response->add_links( $this->prepare_links( $product, $request ) );
 
 		/**
 		 * Filter the data for a response.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Data          $object   Object data.
+		 * @param WC_Product       $product  Product instance.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
-		return apply_filters( 'cocart_prepare_product_object', $response, $object, $request );
+		return apply_filters( 'cocart_prepare_product_object', $response, $product, $request );
 	} // END prepare_object_for_response()
 
 	/**
@@ -170,18 +170,18 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 500 );
 				}
-
-				// Force product ID to be integer.
-				$product_id = (int) $product_id;
 			}
 
-			$object = $this->get_object( (int) $product_id );
+			// Force product ID to be integer.
+			$product_id = (int) $product_id;
 
-			if ( ! $object || 0 === $object->get_id() ) {
+			$_product = wc_get_product( $product_id );
+
+			if ( ! $_product || 0 === $_product->get_id() ) {
 				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			$data     = $this->prepare_object_for_response( $object, $request );
+			$data     = $this->prepare_object_for_response( $_product, $request );
 			$response = rest_ensure_response( $data );
 
 			return $response;
