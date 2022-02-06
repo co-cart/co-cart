@@ -220,19 +220,19 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function prepare_links( $product, $request ) {
 		$links = array(
 			'self'       => array(
-				'href'      => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $product->get_id() ) ),
 				'permalink' => get_permalink( $product->get_id() ),
+				'href'      => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $product->get_id() ) ),
 			),
 			'collection' => array(
-				'href'      => rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ),
 				'permalink' => wc_get_page_permalink( 'shop' ),
+				'href'      => rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ),
 			),
 		);
 
 		if ( $product->get_parent_id() ) {
 			$links['parent_product'] = array(
-				'href'      => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product->get_parent_id() ) ),
 				'permalink' => get_permalink( $product->get_parent_id() ),
+				'href'      => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product->get_parent_id() ) ),
 			);
 		}
 
@@ -242,8 +242,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 			foreach ( $variations as $variation_product ) {
 				$links['variations'][ $variation_product ] = array(
-					'href'      => rest_url( sprintf( '/%s/products/%d/variations/%d', $this->namespace, $product->get_id(), $variation_product ) ),
 					'permalink' => get_permalink( $variation_product ),
+					'href'      => rest_url( sprintf( '/%s/products/%d/variations/%d', $this->namespace, $product->get_id(), $variation_product ) ),
 				);
 			}
 		}
