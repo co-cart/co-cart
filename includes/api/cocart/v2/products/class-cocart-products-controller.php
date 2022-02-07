@@ -631,6 +631,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				$rest_url = urldecode( html_entity_decode( $rest_url ) );
 				break;
 			case 'variable':
+			case 'variable-subscription':
 			case 'external':
 			case 'grouped':
 				$rest_url = ''; // Return nothing for these product types.
