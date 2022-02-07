@@ -1087,9 +1087,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			),
 			'totals'         => array(
 				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $cart_item['line_subtotal'], $cart_item, $item_key ),
-				'subtotal_tax' => $cart_item['line_subtotal_tax'],
-				'total'        => $cart_item['line_total'],
-				'tax'          => $cart_item['line_tax'],
+				'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key ),
+				'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key ),
+				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
 			),
 			'slug'           => $this->get_product_slug( $_product ),
 			'meta'           => array(
