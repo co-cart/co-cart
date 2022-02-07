@@ -60,14 +60,14 @@ class CoCart_Product_Categories_V2_Controller extends CoCart_Product_Categories_
 		$image_id = get_term_meta( $item->term_id, 'thumbnail_id', true );
 
 		$thumbnail_id = ! empty( $image_id ) ? $image_id : get_option( 'woocommerce_placeholder_image', 0 );
-		$thumbnail_id = apply_filters( 'cocart_category_thumbnail', $thumbnail_id );
+		$thumbnail_id = apply_filters( 'cocart_products_category_thumbnail', $thumbnail_id );
 
 		if ( $image_id ) {
 			$attachment = get_post( $image_id );
 
-			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_category_thumbnail_size', 'woocommerce_thumbnail' ) );
+			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_products_category_thumbnail_size', 'woocommerce_thumbnail' ) );
 			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
-			$thumbnail_src = apply_filters( 'cocart_category_thumbnail_src', $thumbnail_src );
+			$thumbnail_src = apply_filters( 'cocart_products_category_thumbnail_src', $thumbnail_src );
 
 			$data['image'] = array(
 				'id'   => (int) $image_id,

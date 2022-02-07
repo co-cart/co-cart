@@ -685,7 +685,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			$prices = $product->get_variation_prices( true );
 
 			if ( empty( $prices['price'] ) ) {
-				$price = apply_filters( 'cocart_variable_empty_price', array(), $product );
+				$price = apply_filters( 'cocart_products_variable_empty_price', array(), $product );
 			} else {
 				$min_price     = current( $prices['price'] );
 				$max_price     = end( $prices['price'] );
@@ -724,7 +724,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 		}
 
-		return apply_filters( 'cocart_get_price_range', $price, $product );
+		return apply_filters( 'cocart_products_get_price_range', $price, $product );
 	} // END get_price_range()
 
 } // END class
