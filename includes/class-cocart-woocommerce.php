@@ -77,6 +77,8 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 		 * Triggered when "woocommerce_load_cart_from_session" is called
 		 * to make sure the cart from session is loaded in time.
 		 *
+		 * THIS IS FOR REST API USE ONLY!
+		 *
 		 * @access  public
 		 * @static
 		 * @since   2.1.0
