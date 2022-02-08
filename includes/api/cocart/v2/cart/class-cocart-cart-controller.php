@@ -1079,7 +1079,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'id'             => $_product->get_id(),
 			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
 			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
-			'price'          => apply_filters( 'cocart_cart_item_price', wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
 			'quantity'       => array(
 				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
 				'min_purchase' => $_product->get_min_purchase_quantity(),
