@@ -2450,6 +2450,28 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						),
 					),
 				),
+				'fees'           => array(
+					'description' => __( 'The cart fees.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'properties'  => array(
+						'[a-zA-Z0-9]' => array(
+							'name'  => array(
+								'description' => __( 'The fee name.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'fee' => array(
+								'description' => __( 'The fee value.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+						),
+					),
+				),
 				'taxes'          => array(
 					'description' => __( 'The cart taxes.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
