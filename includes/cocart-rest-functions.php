@@ -429,6 +429,16 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 	$amount = html_entity_decode( wp_strip_all_tags( $amount ) );
 
+	/**
+	 * This filter allows you to disable the decimals.
+	 * If set to "True" the decimals will be set to "Zero".
+	 */
+	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
+
+	if ( $disable_decimals ) {
+		$decimals = 0;
+	}
+
 	return (string) intval(
 		round(
 			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
