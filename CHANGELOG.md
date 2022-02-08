@@ -40,6 +40,7 @@
 * Fixed any undefined index for loading a cart for guest customers.
 * Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions but I succeeded.
 * The use of WooCommerce API consumer key and consumer secret for authentication is now working again. Changed the priority of authentication to allow WooCommerce to check authentication first.
+* Detection of [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
 
 ### Deprecated & Replacements
 
@@ -48,6 +49,7 @@
 * Function `wc_deprecated_hook()` is replaced with our version of that function `cocart_deprecated_hook()`.
 * Function `is_ajax()` ìs replaced with `wp_doing_ajax()`.
 * Timezone `get_option( 'timezone_string' )` is replaced with `wp_timezone_string()` function to return proper timezone string on the store route.
+* Replaced `wc_rest_prepare_date_response()` function with `cocart_prepare_date_response()` function.
 
 ### Enhancements
 
@@ -69,6 +71,12 @@
 * Added `get_session()` function for plugin compatibility to session handler.
 * When you uninstall CoCart, the original WooCommerce cron job for cleanup sessions will be rescheduled.
 * Notice for when item is removed now returns in the first response.
+* Cross sell prices now returns with formatted decimals.
+* Cart tax total now returns with formatted decimals.
+* Removed last raw WooCommerce cart data `tax_data` object from under cart items as the `totals` object provides a better data for each item.
+* Item price in the cart now returns unformatted to be consistent with other monetary values such as taxes and totals.
+* Shipping cost now returns unformatted with formatted decimals to be consistent with other monetary values such as taxes and totals.
+* Shipping tax now returns as a `string` not `object` with just the tax cost unformatted with formatted decimals to be consistent with other monetary values such as taxes and totals.
 
 ### Compatibility and Requirements
 
@@ -91,6 +99,14 @@
 * Introduced new filter `cocart_cart_item_restored_message` to allow developers to change the message of the restored item notice.
 * Introduced new filter `cocart_update_cart_validation` to allow developers to change the validation for updating a specific item in the cart.
 * Introduced new action `cocart_cart_updated` to allow developers to hook in once the cart has updated.
+* Introduced new filter `cocart_cart_item_subtotal_tax` to allow developers to change the item subtotal tax.
+* Introduced new filter `cocart_cart_item_total` to allow developers to change the item total.
+* Introduced new filter `cocart_cart_item_tax` to allow developers to change the item tax.
+* Introduced new filter `cocart_prepare_money_disable_decimals` that allows you to disable the decimals used when returning the monetary value.
+
+* Dev: Renamed filter `cocart_category_thumbnail` to `cocart_products_category_thumbnail`. // Products API v2
+* Dev: Renamed filter `cocart_category_thumbnail_size` to `cocart_products_category_thumbnail_size`. // Products API v2
+* Dev: Renamed filter `cocart_category_thumbnail_src` to `cocart_products_category_thumbnail_src`. // Products API v2
 
 ## v3.0.17 - 3rd December, 2021
 
@@ -180,7 +196,7 @@
 
 ## v3.0.7 - 14th July, 2021
 
-**🔒 This is a SECURTIY FIX!**
+**🔒 This is a SECURITY FIX!**
 
 > This release brings in a number of fixes to secure the plugin and keep up with WordPress code standards. It is highly recommended that you update to this release.
 
@@ -281,7 +297,7 @@ This major release brings a lot more support for developers including those who 
 * Dev: Introduced `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
 * Dev: Introduced `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: Introduced `cocart_shipping_package_name` filter for renaming the package name.
-* Dev: Introduced `cocart_cart` filter for modifiying the cart response in any capacity.
+* Dev: Introduced `cocart_cart` filter for modifying the cart response in any capacity.
 
 ----
 
@@ -319,7 +335,7 @@ The following filters affect adding bundled/grouped products to the cart.
 The following filters match filters used in WooCommerce templates for manipulating what is displayed in the cart. Parameters are equally the same so returning the same results is easy.
 
 * Dev: Introduced `cocart_cart_item_name` filter matches `woocommerce_cart_item_name`.
-* Dev: Introduced `cocart_cart_item_title` filter allows you to change the product title. The title normaly returns the same as the product name but variable products return the title differently.
+* Dev: Introduced `cocart_cart_item_title` filter allows you to change the product title. The title normally returns the same as the product name but variable products return the title differently.
 * Dev: Introduced `cocart_cart_item_price` filter matches `woocommerce_cart_item_price`.
 * Dev: Introduced `cocart_cart_item_quantity` filter matches `woocommerce_cart_item_quantity`.
 * Dev: Introduced `cocart_cart_item_subtotal` filter matches `woocommerce_cart_item_subtotal`.
