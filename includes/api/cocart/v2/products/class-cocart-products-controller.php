@@ -672,8 +672,8 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns the price range for variable or grouped product.
 	 *
 	 * @access public
-	 * @param  WC_Product $product Product object.
-	 * @param string     $tax_display_mode If returned prices are incl or excl of tax.
+	 * @param  \WC_Product $product Product object.
+	 * @param  string      $tax_display_mode If returned prices are incl or excl of tax.
 	 * @return array
 	 */
 	public function get_price_range( $product, $tax_display_mode = '' ) {

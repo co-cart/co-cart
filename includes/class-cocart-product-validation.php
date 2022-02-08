@@ -22,7 +22,8 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * Constructor.
 		 *
 		 * @access  public
-		 * @since   2.1.0
+		 * @since   2.1.0 Introduced.
+		 * @since   2.7.2 Prevents variations that are not purchasable from being added to the cart.
 		 * @version 2.7.2
 		 */
 		public function __construct() {
@@ -33,7 +34,11 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 			// Prevent password products being added to the cart.
 			add_filter( 'cocart_add_to_cart_validation', array( $this, 'protected_product_add_to_cart' ), 10, 2 );
 
-			// Prevents variations that are not purchasable from being added to the cart. @since 2.7.2.
+			/**
+			 * Prevents variations that are not purchasable from being added to the cart.
+			 *
+			 * @since 2.7.2.
+			 */
 			add_filter( 'cocart_add_to_cart_validation', array( $this, 'variation_not_purchasable' ), 10, 5 );
 
 			// Correct product name for missing variation attributes.
@@ -47,7 +52,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * @throws  CoCart_Data_Exception Exception if invalid data is detected.
 		 *
 		 * @access  public
-		 * @since   2.1.0
+		 * @since   2.1.0 Introduced.
 		 * @version 3.0.0
 		 * @param   WC_Product      $product_data Passes the product data we are attempting to add to cart.
 		 * @param   WP_REST_Request $request      Request used to generate the response.
@@ -89,7 +94,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * If variation details are missing then return the product title instead.
 		 *
 		 * @access  public
-		 * @since   2.1.0
+		 * @since   2.1.0 Introduced.
 		 * @version 2.2.0
 		 * @param   string $product_name - Product name before change.
 		 * @param   object $_product     - Product data.
@@ -113,7 +118,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * Prevent password protected products being added to the cart.
 		 *
 		 * @access  public
-		 * @since   2.1.2
+		 * @since   2.1.2 Introduced.
 		 * @version 2.7.2
 		 * @param   bool $passed     Result before validating.
 		 * @param   int  $product_id Product ID.
@@ -135,7 +140,7 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * Prevents variations that are not purchasable from being added to the cart.
 		 *
 		 * @access public
-		 * @since  2.7.2
+		 * @since  2.7.2 Introduced.
 		 * @param  bool  $passed       Result before validating.
 		 * @param  int   $product_id   Product ID.
 		 * @param  int   $quantity     Quantity of item.

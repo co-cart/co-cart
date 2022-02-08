@@ -506,7 +506,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @version    3.1.0
 	 * @param      int             $product_id   - Contains the ID of the product.
 	 * @param      int|float       $quantity     - Contains the quantity of the item.
-	 * @param      null            $variation_id   Used to pass the variation id of the product to add to the cart.
+	 * @param      null            $variation_id - Used to pass the variation id of the product to add to the cart.
 	 * @param      array           $variation    - Contains the selected attributes.
 	 * @param      array           $item_data    - Extra cart item data we want to pass into the item.
 	 * @param      string          $product_type - The product type.
