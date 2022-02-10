@@ -336,12 +336,14 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 
 			/**
-			 * This filter was added to support certain edge cases.
+			 * This filter allows control over the minimum quantity a customer must add to purchase said item.
 			 *
 			 * @since 3.0.17
-			 * @param int|float Minimum Quantity to validate with.
+			 * @since 3.1.0       Added product object as parameter.
+			 * @param int|float   Minimum quantity to validate with.
+			 * @param \WC_Product Product object.
 			 */
-			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', 1 );
+			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
 
 			if ( 0 == $quantity || $quantity < $minimum_quantity ) {
 				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be set to a minimum of %s.', 'cart-rest-api-for-woocommerce' ), $minimum_quantity ), 405 );
