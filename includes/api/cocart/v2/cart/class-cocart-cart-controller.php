@@ -346,7 +346,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
 
 			if ( 0 == $quantity || $quantity < $minimum_quantity ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be set to a minimum of %s.', 'cart-rest-api-for-woocommerce' ), $minimum_quantity ), 405 );
+				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be a minimum of %s.', 'cart-rest-api-for-woocommerce' ), $minimum_quantity ), 405 );
 			}
 
 			return wc_stock_amount( $quantity );
