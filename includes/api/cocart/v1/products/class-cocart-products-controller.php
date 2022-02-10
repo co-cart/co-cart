@@ -144,7 +144,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	} // END get_objects()
 
 	/**
-	 * Get a collection of posts.
+	 * Get a collection of products.
 	 *
 	 * @access public
 	 * @param  WP_REST_Request $request Full details about the request.
