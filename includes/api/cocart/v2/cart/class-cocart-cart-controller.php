@@ -349,6 +349,20 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be a minimum of %s.', 'cart-rest-api-for-woocommerce' ), $minimum_quantity ), 405 );
 			}
 
+			/**
+			 * This filter allows control over the maximum quantity a customer is able to add said item to the cart.
+			 *
+			 * @since 3.1.0
+			 * @param int|float   Maximum quantity to validate with.
+			 * @param \WC_Product Product object.
+			 */
+			$maximum_quantity = ( ( $product->get_max_purchase_quantity() < 0 ) ) ? '' : $product->get_max_purchase_quantity(); // We replace -1 with a blank if stock management is not used.
+			$maximum_quantity = apply_filters( 'cocart_quantity_maximum_allowed', $maximum_quantity, $product );
+
+			if ( ! empty( $maximum_quantity ) && $quantity > $maximum_quantity ) {
+				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be %s or lower.', 'cart-rest-api-for-woocommerce' ), $maximum_quantity ), 405 );
+			}
+
 			return wc_stock_amount( $quantity );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
