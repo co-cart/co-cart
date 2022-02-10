@@ -76,15 +76,25 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 
 			$controller = new CoCart_Cart_V2_Controller();
 
-			// Filters additional requested data.
-			$request = $controller->filter_request_data( $request );
-
 			// Validate product ID before continuing and return correct product ID if different.
 			$product_id = $this->validate_product_id( $product_id );
+
+			// Return error response if product ID is not found.
+			if ( is_wp_error( $product_id ) ) {
+				return $product_id;
+			}
 
 			// The product we are attempting to add to the cart.
 			$adding_to_cart = wc_get_product( $product_id );
 			$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
+
+			// Return error response if product cannot be added to cart?
+			if ( is_wp_error( $adding_to_cart ) ) {
+				return $adding_to_cart;
+			}
+
+			// Filters additional requested data.
+			$request = $controller->filter_request_data( $request );
 
 			// Add to cart handlers.
 			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );

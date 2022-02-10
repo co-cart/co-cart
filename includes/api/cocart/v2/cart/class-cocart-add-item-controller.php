@@ -78,21 +78,12 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 			$controller = new CoCart_Cart_V2_Controller();
 
-			// Filters additional requested data.
-			$request = $controller->filter_request_data( $request );
-
 			// Validate product ID before continuing and return correct product ID if different.
 			$product_id = $controller->validate_product_id( $product_id );
 
+			// Return error response if product ID is not found.
 			if ( is_wp_error( $product_id ) ) {
 				return $product_id;
-			}
-
-			// Validate quantity before continuing and return formatted.
-			$quantity = $controller->validate_quantity( $quantity );
-
-			if ( is_wp_error( $quantity ) ) {
-				return $quantity;
 			}
 
 			// The product we are attempting to add to the cart.
@@ -102,6 +93,16 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			// Return error response if product cannot be added to cart?
 			if ( is_wp_error( $adding_to_cart ) ) {
 				return $adding_to_cart;
+			}
+
+			// Filters additional requested data.
+			$request = $controller->filter_request_data( $request );
+
+			// Validate quantity before continuing and return formatted.
+			$quantity = $controller->validate_quantity( $quantity, $adding_to_cart );
+
+			if ( is_wp_error( $quantity ) ) {
+				return $quantity;
 			}
 
 			// Add to cart handlers.
