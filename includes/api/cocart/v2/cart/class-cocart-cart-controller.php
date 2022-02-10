@@ -324,10 +324,12 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  protected
 	 * @since   1.0.0
-	 * @version 3.0.17
-	 * @param   int|float $quantity - The quantity to validate.
+	 * @since   3.1.0     Added product object as parameter and validation for maximum quantity allowed to add to cart.
+	 * @version 3.1.0
+	 * @param   int|float  $quantity The quantity to validate.
+	 * @param   WC_Product $product
 	 */
-	protected function validate_quantity( $quantity ) {
+	protected function validate_quantity( $quantity, WC_Product $product = null ) {
 		try {
 			if ( ! is_numeric( $quantity ) ) {
 				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
