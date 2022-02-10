@@ -158,7 +158,7 @@ class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 					'properties'  => array(
 						'value'        => array(
 							'description' => __( 'The quantity of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
+							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
@@ -183,25 +183,25 @@ class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 					'properties'  => array(
 						'subtotal'     => array(
 							'description' => __( 'The subtotal of the item in cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
+							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'subtotal_tax' => array(
 							'description' => __( 'The subtotal tax of the item in cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
+							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'total'        => array(
 							'description' => __( 'The total of the item in cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
+							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'total_tax'    => array(
 							'description' => __( 'The total tax of the item in cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
+							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
@@ -263,7 +263,7 @@ class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 						),
 						'weight'       => array(
 							'description' => __( 'The weight of the item in cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'integer',
+							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
