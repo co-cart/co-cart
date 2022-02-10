@@ -1015,8 +1015,25 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 
 			if ( ! $product->has_enough_stock( $quantity ) ) {
-				/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-				$message = sprintf( __( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock, only (%3$s) remaining.', 'cart-rest-api-for-woocommerce' ), $quantity, $product->get_name(), wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ) );
+				$stock_quantity = wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product );
+
+				if ( $stock_quantity > 0 ) {
+					/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
+					$message = sprintf( __( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock, only (%3$s) remaining.', 'cart-rest-api-for-woocommerce' ), $quantity, $product->get_name(), $stock_quantity );
+				} else {
+					/* translators: 1: Product Name */
+					$message = sprintf( __( 'You cannot add %1$s to the cart as it is no longer in stock.', 'cart-rest-api-for-woocommerce' ), $product->get_name() );
+				}
+
+				/**
+				 * Filters message about product not having enough stock.
+				 *
+				 * @since 3.1.0
+				 * @param string     $message        Message.
+				 * @param WC_Product $product        Product data.
+				 * @param int        $stock_quantity Quantity remaining.
+				 */
+				$message = apply_filters( 'cocart_product_not_enough_stock_message', $message, $product, $stock_quantity );
 
 				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 403 );
 			}
