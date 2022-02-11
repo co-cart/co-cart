@@ -280,6 +280,16 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			$sale_price    = $product->get_sale_price();
 		}
 
+		// Provide purchase quantity if not a variable or external product type.
+		$purchase_quantity = array();
+
+		if ( ! $product->is_type( 'variable' ) && ! $product->is_type( 'external' ) ) {
+			$purchase_quantity = array(
+				'min_purchase' => apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product ),
+				'max_purchase' => apply_filters( 'cocart_quantity_maximum_allowed', $product->get_max_purchase_quantity(), $product ),
+			);
+		}
+
 		$data = array(
 			'id'                 => $product->get_id(),
 			'parent_id'          => $product->get_parent_id( 'view' ),
@@ -357,11 +367,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			'external_url'       => $product->is_type( 'external' ) ? $product->get_product_url( 'view' ) : '',
 			'button_text'        => $product->is_type( 'external' ) ? $product->get_button_text( 'view' ) : '',
 			'add_to_cart'        => array(
-				'text'           => $product->add_to_cart_text(),
-				'description'    => $product->add_to_cart_description(),
-				'has_options'    => $product->has_options(),
-				'is_purchasable' => $product->is_purchasable(),
-				'rest_url'       => $this->add_to_cart_rest_url( $product, $type ),
+				'text'              => $product->add_to_cart_text(),
+				'description'       => $product->add_to_cart_description(),
+				'has_options'       => $product->has_options(),
+				'is_purchasable'    => $product->is_purchasable(),
+				'purchase_quantity' => $purchase_quantity,
+				'rest_url'          => $this->add_to_cart_rest_url( $product, $type ),
 			),
 			'meta_data'          => $product->get_meta_data(),
 		);
