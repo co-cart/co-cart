@@ -224,12 +224,15 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				$attachments[ $size ] = current( wp_get_attachment_image_src( $attachment_id, $size ) );
 			}
 
+			$featured = $position === 0 ? true : false;
+
 			$images[] = array(
 				'id'       => (int) $attachment_id,
 				'src'      => $attachments,
 				'name'     => get_the_title( $attachment_id ),
 				'alt'      => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
 				'position' => (int) $position,
+				'featured' => $featured,
 			);
 		}
 
@@ -246,6 +249,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				'name'     => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
 				'alt'      => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
 				'position' => 0,
+				'featured' => true,
 			);
 		}
 
