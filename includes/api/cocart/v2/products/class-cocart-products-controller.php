@@ -180,10 +180,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					),
 					'currency'      => cocart_get_store_currency(),
 				),
-				'is_purchasable'    => $variation->is_purchasable(),
-				'purchase_quantity' => array(
-					'min_purchase' => apply_filters( 'cocart_quantity_minimum_requirement', $variation->get_min_purchase_quantity(), $variation ),
-					'max_purchase' => apply_filters( 'cocart_quantity_maximum_allowed', $variation->get_max_purchase_quantity(), $variation ),
+				'add_to_cart' => array(
+					'is_purchasable'    => $variation->is_purchasable(),
+					'purchase_quantity' => array(
+						'min_purchase' => apply_filters( 'cocart_quantity_minimum_requirement', $variation->get_min_purchase_quantity(), $variation ),
+						'max_purchase' => apply_filters( 'cocart_quantity_maximum_allowed', $variation->get_max_purchase_quantity(), $variation ),
+					),
+					'rest_url'          => $this->add_to_cart_rest_url( $variation, $variation->get_type() ),
 				),
 			);
 		}
