@@ -1697,8 +1697,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 * @since  3.1.0
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return array Returns requested cart response.
+	 * @param  WP_REST_Request $request  Full details about the request.
+	 * @return array           $template Returns requested cart response.
 	 */
 	protected function get_cart_template_limited( $request = array() ) {
 		$fields     = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
@@ -1707,70 +1707,122 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$template = array();
 
 		foreach ( $fields as $field ) {
-			if ( $field === 'cart_hash' ) {
-				$template['cart_hash'] = $this->get_cart_instance()->get_cart_hash();
-			}
-			if ( $field === 'cart_key' ) {
-				$template['cart_key'] = $this->get_cart_key( $request );
-			}
-			if ( $field === 'currency' ) {
-				$template['currency'] = cocart_get_store_currency();
-			}
-			if ( $field === 'customer' ) {
-				$template['customer'] = array(
-					'billing_address'  => $this->get_customer_fields( 'billing' ),
-					'shipping_address' => $this->get_customer_fields( 'shipping' ),
-				);
-			}
-			if ( $field === 'items' ) {
-				$template['items'] = array();
-			}
-			if ( $field === 'item_count' ) {
-				$template['item_count'] = $this->get_cart_instance()->get_cart_contents_count();
-			}
-			if ( $field === 'items_weight' ) {
-				$template['items_weight'] = wc_get_weight( (float) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
-			}
-			if ( $field === 'coupons' ) {
-				$template['coupons'] = array();
-			}
-			if ( $field === 'needs_payment' ) {
-				$template['needs_payment'] = $this->get_cart_instance()->needs_payment();
-			}
-			if ( $field === 'needs_shipping' ) {
-				$template['needs_shipping'] = $this->get_cart_instance()->needs_shipping();
-			}
-			if ( $field === 'shipping' ) {
-				$template['shipping'] = $this->get_shipping_details();
-			}
-			if ( $field === 'fees' ) {
-				$template['fees'] = $this->get_fees( $this->get_cart_instance() );
-			}
-			if ( $field === 'taxes' ) {
-				$template['taxes'] = array();
-			}
-			if ( $field === 'totals' ) {
-				$template['totals'] = array(
-					'subtotal'       => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
-					'subtotal_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
-					'fee_total'      => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
-					'fee_tax'        => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() ),
-					'discount_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() ),
-					'discount_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
-					'shipping_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
-					'shipping_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
-					'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
-					'total_tax'      => cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
-				);
-			}
-			if ( $field === 'removed_items' ) {
-				$template['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
-			}
-			if ( $field === 'cross_sells' ) {
-				$template['cross_sells'] = $this->get_cross_sells();
-			}
-			if ( $field === 'notices' ) {
-				$template['notices'] = $this->maybe_return_notices();
+			$field        = explode( ':', $field );
+			$parent_field = $field[0];
+			$child_field  = ! empty( $field[1] ) ? $field[1] : '';
+
+			switch ( $parent_field ) {
+				case 'cart_hash':
+					$template['cart_hash'] = $this->get_cart_instance()->get_cart_hash();
+					break;
+				case 'cart_key':
+					$template['cart_key'] = $this->get_cart_key( $request );
+					break;
+				case 'currency':
+					$template['currency'] = cocart_get_store_currency();
+					break;
+				case 'customer':
+					if ( ! empty( $child_field ) ) {
+						if ( $child_field === 'billing_address' ) {
+							$template['customer']['billing_address'] = $this->get_customer_fields( 'billing' );
+						}
+						if ( $child_field === 'shipping_address' ) {
+							$template['customer']['shipping_address'] = $this->get_customer_fields( 'shipping' );
+						}
+					} else {
+						$template['customer'] = array(
+							'billing_address'  => $this->get_customer_fields( 'billing' ),
+							'shipping_address' => $this->get_customer_fields( 'shipping' ),
+						);
+					}
+					break;
+				case 'items':
+					$template['items'] = array();
+					break;
+				case 'item_count':
+					$template['item_count'] = $this->get_cart_instance()->get_cart_contents_count();
+					break;
+				case 'items_weight':
+					$template['items_weight'] = wc_get_weight( (float) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
+					break;
+				case 'coupons':
+					$template['coupons'] = array();
+					break;
+				case 'needs_payment':
+					$template['needs_payment'] = $this->get_cart_instance()->needs_payment();
+					break;
+				case 'needs_shipping':
+					$template['needs_shipping'] = $this->get_cart_instance()->needs_shipping();
+					break;
+				case 'shipping':
+					$template['shipping'] = $this->get_shipping_details();
+					break;
+				case 'fees':
+					$template['fees'] = $this->get_fees( $this->get_cart_instance() );
+					break;
+				case 'taxes':
+					$template['taxes'] = array();
+					break;
+				case 'totals':
+					if ( ! empty( $child_field ) ) {
+						$child_field = explode( '-', $child_field );
+
+						foreach ( $child_field as $total ) {
+							if ( $total === 'subtotal' ) {
+								$template['totals']['subtotal'] = cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() );
+							}
+							if ( $total === 'subtotal_tax' ) {
+								$template['totals']['subtotal_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() );
+							}
+							if ( $total === 'fee_total' ) {
+								$template['totals']['fee_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() );
+							}
+							if ( $total === 'fee_tax' ) {
+								$template['totals']['fee_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() );
+							}
+							if ( $total === 'discount_total' ) {
+								$template['totals']['discount_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() );
+							}
+							if ( $total === 'discount_tax' ) {
+								$template['totals']['discount_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() );
+							}
+							if ( $total === 'shipping_total' ) {
+								$template['totals']['shipping_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() );
+							}
+							if ( $total === 'shipping_tax' ) {
+								$template['totals']['shipping_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() );
+							}
+							if ( $total === 'total' ) {
+								$template['totals']['total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() );
+							}
+							if ( $total === 'total_tax' ) {
+								$template['totals']['total_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() );
+							}
+						}
+					} else {
+						$template['totals'] = array(
+							'subtotal'       => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
+							'subtotal_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
+							'fee_total'      => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
+							'fee_tax'        => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() ),
+							'discount_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() ),
+							'discount_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
+							'shipping_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
+							'shipping_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
+							'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
+							'total_tax'      => cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
+						);
+					}
+					break;
+				case 'removed_items':
+					$template['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
+					break;
+				case 'cross_sells':
+					$template['cross_sells'] = $this->get_cross_sells();
+					break;
+				case 'notices':
+					$template['notices'] = $this->maybe_return_notices();
+					break;
 			}
 		}
 
