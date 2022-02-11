@@ -100,30 +100,9 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			$data['reviews'] = $this->get_reviews( $product );
 		}
 
-		// Add variations to variable products. Returns just IDs by default.
+		// Return each variation if the variable product has variations available.
 		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
-			$variation_ids = $product->get_children();
-
-			foreach ( $variation_ids as $variation_id ) {
-				$variation = wc_get_product( $variation_id );
-
-				// Hide out of stock variations if 'Hide out of stock items from the catalog' is checked.
-				if ( ! $variation || ! $variation->exists() || ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) && ! $variation->is_in_stock() ) ) {
-					continue;
-				}
-
-				// Filter 'woocommerce_hide_invisible_variations' to optionally hide invisible variations (disabled variations and variations with empty price).
-				if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) {
-					continue;
-				}
-
-				$data['variations'][ $variation_id ] = array( 'id' => $variation_id );
-
-				// If requested to return variations then fetch them.
-				if ( $request['return_variations'] ) {
-					$data['variations'][ $variation_id ] = $this->get_variation_product_data( $variation );
-				}
-			}
+			$data['variations'] = $this->get_variations( $product );
 		}
 
 		// Add grouped products data.
@@ -145,6 +124,72 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		 */
 		return apply_filters( 'cocart_prepare_product_object', $response, $product, $request );
 	} // END prepare_object_for_response()
+
+	/**
+	 * Return the basic of each variation to make it easier 
+	 * for developers with their UI/UX.
+	 *
+	 * @access public
+	 * @param  WC_Product $product    Product instance.
+	 * @return array      $variations Returns the variations.
+	 */
+	public function get_variations( $product ) {
+		$variation_ids    = $product->get_children();
+		$tax_display_mode = $this->get_tax_display_mode();
+		$price_function   = $this->get_price_from_tax_display_mode( $tax_display_mode );
+
+		foreach ( $variation_ids as $variation_id ) {
+			$variation = wc_get_product( $variation_id );
+
+			// Hide out of stock variations if 'Hide out of stock items from the catalog' is checked.
+			if ( ! $variation || ! $variation->exists() || ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) && ! $variation->is_in_stock() ) ) {
+				continue;
+			}
+
+			// Filter 'woocommerce_hide_invisible_variations' to optionally hide invisible variations (disabled variations and variations with empty price).
+			if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) {
+				continue;
+			}
+
+			$expected_attributes = wc_get_product_variation_attributes( $variation_id );
+			$featured_image_id   = $variation->get_image_id();
+			$attachment_post     = get_post( $featured_image_id );
+			$attachment_sizes    = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
+
+			// Get each image size of the attachment.
+			foreach ( $attachment_sizes as $size ) {
+				$attachments[ $size ] = current( wp_get_attachment_image_src( $featured_image_id, $size ) );
+			}
+
+			$variations[] = array(
+				'id'                => $variation_id,
+				'sku'               => $variation->get_sku( 'view' ),
+				'description'       => $variation->get_description( 'view' ),
+				'attributes'        => $expected_attributes,
+				'featured_image'    => $attachments,
+				'prices'            => array(
+					'price'         => cocart_prepare_money_response( $price_function( $variation ), wc_get_price_decimals() ),
+					'regular_price' => cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ), wc_get_price_decimals() ),
+					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ), wc_get_price_decimals() ) : '',
+					'on_sale'       => $variation->is_on_sale( 'view' ),
+					'date_on_sale'  => array(
+						'from'     => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_from( 'view' ) ), false ),
+						'from_gmt' => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_from( 'view' ) ) ),
+						'to'       => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_to( 'view' ) ), false ),
+						'to_gmt'   => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_to( 'view' ) ) ),
+					),
+					'currency'      => cocart_get_store_currency(),
+				),
+				'is_purchasable'    => $variation->is_purchasable(),
+				'purchase_quantity' => array(
+					'min_purchase' => apply_filters( 'cocart_quantity_minimum_requirement', $variation->get_min_purchase_quantity(), $variation ),
+					'max_purchase' => apply_filters( 'cocart_quantity_maximum_allowed', $variation->get_max_purchase_quantity(), $variation ),
+				),
+			);
+		}
+
+		return $variations;
+	} // END get_variations()
 
 	/**
 	 * Get a single item.
