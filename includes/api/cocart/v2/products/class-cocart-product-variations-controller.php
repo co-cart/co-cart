@@ -116,6 +116,14 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 		$links['self']['href']       = rest_url( sprintf( '/%s/%s/%d', $this->namespace, $rest_base, $product->get_id() ) );
 		$links['collection']['href'] = rest_url( sprintf( '/%s/%s', $this->namespace, $rest_base ) );
 
+		// Rename link type and add permalink for the parent product.
+		$links['up'] = array(
+			'permalink' => get_permalink( $product->get_parent_id() ),
+			'href'      => $links['parent_product']['href'],
+		);
+
+		unset( $links['parent_product'] );
+
 		return $links;
 	} // END prepare_links()
 
