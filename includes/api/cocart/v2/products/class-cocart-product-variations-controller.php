@@ -16,9 +16,9 @@ defined( 'ABSPATH' ) || exit;
  * CoCart REST API v2 - Product Variations controller class.
  *
  * @package CoCart Products/API
- * @extends CoCart_Products_V2_Controller
+ * @extends CoCart_Product_Variations_Controller
  */
-class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Controller {
+class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -46,8 +46,29 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 	 *
 	 * @access public
 	 */
-	/*public function register_routes() {
-		// Get Products - cocart/v1/products/32/variations/148 (GET)
+	public function register_routes() {
+		// Get Variable Product Variations - cocart/v2/products/32/variations (GET)
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				'args'   => array(
+					'product_id' => array(
+						'description' => __( 'Unique identifier for the variable product.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'integer',
+					),
+				),
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_items' ),
+					'args'                => $this->get_collection_params(),
+					'permission_callback' => '__return_true',
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
+
+		// Get a single variation - cocart/v2/products/32/variations/148 (GET)
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<id>[\d]+)',
@@ -65,12 +86,12 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 							'type'        => 'integer',
 						),
 					),
-					'permission_callback' => array( $this, 'validate_variation_request' ),
+					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-	}*/
+	}
 
 	/**
 	 * Prepare a single variation output for response.
@@ -81,9 +102,11 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $product, $request ) {
-		$data     = $this->get_variation_product_data( $product );
-		$data     = $this->add_additional_fields_to_object( $data, $request );
-		$data     = $this->filter_response_by_context( $data, 'view' );
+		$controller = new CoCart_Products_V2_Controller();
+
+		$data     = $controller->get_variation_product_data( $product );
+		$data     = $controller->add_additional_fields_to_object( $data, $request );
+		$data     = $controller->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
 		$response->add_links( $this->prepare_links( $product, $request ) );
 
@@ -94,11 +117,12 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 		 * refers to product type being prepared for the response.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Data          $object   Object data.
+		 * @param WC_Product       $product   Product object.
 		 * @param WP_REST_Request  $request - Full details about the request.
 		 */
-		return apply_filters( "cocart_prepare_{$this->post_type}_object", $response, $product, $request );
-	}
+		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
+	} // END prepare_object_for_response()
+
 
 	/**
 	 * Prepare links for the request.
@@ -106,10 +130,12 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Products_V2_Control
 	 * @access protected
 	 * @param  WC_Product      $product Product object.
 	 * @param  WP_REST_Request $request Request object.
-	 * @return array Links for the given product.
+	 * @return array           $links   Links for the given product.
 	 */
 	protected function prepare_links( $product, $request ) {
-		$links = parent::prepare_links( $product, $request );
+		$controller = new CoCart_Products_V2_Controller();
+
+		$links = $controller->prepare_links( $product, $request );
 
 		$rest_base = str_replace( '(?P<product_id>[\d]+)', $product->get_parent_id(), $this->rest_base );
 
