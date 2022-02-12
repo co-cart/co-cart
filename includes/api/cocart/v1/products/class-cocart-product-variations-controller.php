@@ -529,8 +529,6 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	protected function prepare_objects_query( $request ) {
 		$args = parent::prepare_objects_query( $request );
 
-		// $args = WC_REST_CRUD_Controller::prepare_objects_query( $request );
-
 		// Set post_status.
 		$args['post_status'] = 'publish';
 
