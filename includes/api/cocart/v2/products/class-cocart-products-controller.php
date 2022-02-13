@@ -122,7 +122,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		 * @param WC_Product       $product  Product instance.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
-		return apply_filters( 'cocart_prepare_product_object', $response, $product, $request );
+		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()
 
 	/**
@@ -441,8 +441,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		// Remove fields not required for a variation.
 		unset( $data['type'] );
 		unset( $data['short_description'] );
-		unset( $data['conditions']['has_options'] );
-		unset( $data['conditions']['reviews_allowed'] );
+		unset( $data['hidden_conditions']['reviews_allowed'] );
 		unset( $data['average_rating'] );
 		unset( $data['review_count'] );
 		unset( $data['rating_count'] );
@@ -456,6 +455,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		unset( $data['cross_sells'] );
 		unset( $data['external_url'] );
 		unset( $data['button_text'] );
+		unset( $data['add_to_cart']['has_options'] );
 
 		return $data;
 	} // END get_variation_product_data()

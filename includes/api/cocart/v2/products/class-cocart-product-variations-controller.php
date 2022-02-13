@@ -28,20 +28,6 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	protected $namespace = 'cocart/v2';
 
 	/**
-	 * Route base.
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'products/(?P<product_id>[\d]+)/variations';
-
-	/**
-	 * Post type.
-	 *
-	 * @var string
-	 */
-	protected $post_type = 'product_variation';
-
-	/**
 	 * Register the routes for product variations.
 	 *
 	 * @access public
