@@ -103,7 +103,6 @@ class CoCart_Session_Handler extends CoCart_Session {
 		if ( CoCart_Authentication::is_rest_api_request() && $this->maybe_initialize_rest_session() ) {
 			$this->init_session();
 		} else {
-
 			$this->init_session_cookie( $current_user_id );
 			add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		}
