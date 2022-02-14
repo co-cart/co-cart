@@ -472,7 +472,6 @@ class CoCart_REST_API {
 			'cocart/v2/sessions',
 			'cocart/v2/session',
 			'cocart/v2/store',
-			'cocart/v3/cart',
 		);
 
 		foreach ( $routes as $route ) {
