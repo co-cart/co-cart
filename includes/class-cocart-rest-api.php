@@ -170,7 +170,7 @@ class CoCart_REST_API {
 	 */
 	protected function get_v3_controllers() {
 		return array(
-			'cocart-v2-cart' => 'CoCart_Cart_V3_Controller',
+			'cocart-v3-cart' => 'CoCart_Cart_V3_Controller',
 		);
 	}
 
