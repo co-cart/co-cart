@@ -2,7 +2,7 @@
 /**
  * CoCart REST API controller
  *
- * Handles requests to the cart endpoint.
+ * Handles requests to the /cart endpoint.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
@@ -1336,9 +1336,9 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				'name'           => $cross_sell->get_name(),
 				'title'          => $cross_sell->get_title(),
 				'slug'           => $this->get_product_slug( $cross_sell ),
-				'price'          => wc_format_decimal( $cross_sell->get_price(), wc_get_price_decimals() ),
-				'regular_price'  => wc_format_decimal( $cross_sell->get_regular_price(), wc_get_price_decimals() ),
-				'sale_price'     => wc_format_decimal( $cross_sell->get_sale_price(), wc_get_price_decimals() ),
+				'price'          => cocart_prepare_money_response( $cross_sell->get_price(), wc_get_price_decimals() ),
+				'regular_price'  => cocart_prepare_money_response( $cross_sell->get_regular_price(), wc_get_price_decimals() ),
+				'sale_price'     => cocart_prepare_money_response( $cross_sell->get_sale_price(), wc_get_price_decimals() ),
 				'image'          => esc_url( $thumbnail_src ),
 				'average_rating' => $cross_sell->get_average_rating() > 0 ? sprintf(
 					/* translators: %s: average rating */
