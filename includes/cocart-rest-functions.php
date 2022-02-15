@@ -369,7 +369,6 @@ function cocart_price_no_html( $price, $args = array() ) {
 	return apply_filters( 'cocart_price_no_html', $return, $price, $args, $unformatted_price, $original_price );
 } // END cocart_price_no_html()
 
-
 /**
  * Add to cart messages.
  *
