@@ -1364,6 +1364,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return  array.
 	 */
 	public function get_shipping_details() {
+		if ( ! wc_shipping_enabled() || 0 === wc_get_shipping_method_count( true ) ) {
+			return array();
+		}
+
 		// Get shipping packages.
 		$packages = WC()->shipping->get_packages();
 
