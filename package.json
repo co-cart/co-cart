@@ -34,9 +34,9 @@
 	"requires_php": "7.3",
 	"tested_up_to": "5.9",
 	"wc_requires": "4.3",
-	"wc_tested_up_to": "6.1",
+	"wc_tested_up_to": "6.2",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2021, Sébastien Dumont",
+	"copyright": "Copyright (c) 2022, Sébastien Dumont",
 	"description": "A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.",
 	"tags": "",
 	"keywords": [
