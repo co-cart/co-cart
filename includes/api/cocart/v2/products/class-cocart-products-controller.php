@@ -126,7 +126,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END prepare_object_for_response()
 
 	/**
-	 * Return the basic of each variation to make it easier 
+	 * Return the basic of each variation to make it easier
 	 * for developers with their UI/UX.
 	 *
 	 * @access public
@@ -162,12 +162,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 
 			$variations[] = array(
-				'id'                => $variation_id,
-				'sku'               => $variation->get_sku( 'view' ),
-				'description'       => $variation->get_description( 'view' ),
-				'attributes'        => $expected_attributes,
-				'featured_image'    => $attachments,
-				'prices'            => array(
+				'id'             => $variation_id,
+				'sku'            => $variation->get_sku( 'view' ),
+				'description'    => $variation->get_description( 'view' ),
+				'attributes'     => $expected_attributes,
+				'featured_image' => $attachments,
+				'prices'         => array(
 					'price'         => cocart_prepare_money_response( $price_function( $variation ), wc_get_price_decimals() ),
 					'regular_price' => cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ), wc_get_price_decimals() ),
 					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ), wc_get_price_decimals() ) : '',
@@ -180,7 +180,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					),
 					'currency'      => cocart_get_store_currency(),
 				),
-				'add_to_cart' => array(
+				'add_to_cart'    => array(
 					'is_purchasable'    => $variation->is_purchasable(),
 					'purchase_quantity' => array(
 						'min_purchase' => apply_filters( 'cocart_quantity_minimum_requirement', $variation->get_min_purchase_quantity(), $variation ),
