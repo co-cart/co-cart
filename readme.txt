@@ -17,9 +17,9 @@ Integrate our REST API into any modern framework to build a headless store.
 
 ### CoCart: The #1 RESTful API that handles the front-end of WooCommerce.
 
-[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) allows you to seamlessly connect your WooCommerce store via our REST API so developers can use the frameworks and tools they know and love to build a headless store with ease.
+[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) connects your WooCommerce store via our REST API so developers can use the frameworks and tools they know and love to build a headless store with ease.
 
-WooCommerce does not nativley come with cart support via the REST API so if you have been struggerling to build a headless store. CoCart will save you hours of development time. Don't build an API, build the store.
+WooCommerce does not natively come with cart support via the REST API so if you have been struggling to build a headless store. CoCart will save you hours of development time. Don't build an API, build the store.
 
 Don't take my word for it. Checkout below the testimonials left by startups, freelancers, agencies and many more.
 
@@ -57,10 +57,10 @@ CoCart works great with:
 CoCart Lite provides the basic API needs to help you get started.
 
 * Get store information.
-* Add simple, variable and grouped products to the cart.
+* Add simple, variable and grouped products to the cart by product ID / SKU ID.
 * Get customers cart.
 * Get customers cart contents.
-* Update items in the cart both individually and in bulk.
+* Update items in the cart both individually or in bulk.
 * Remove items from the cart.
 * Restore items to the cart.
 * Re-calculate the totals.
@@ -70,8 +70,7 @@ CoCart Lite provides the basic API needs to help you get started.
 * Login the customer/user.
 * Logout the customer/user.
 
-Also included is the ability to access products, product categories, product tags, product attributes and 
-even reviews without the need to authenticate.
+Also included is a specially designed API to access products, product categories, product tags, product attributes and even reviews without the need to authenticate.
 
 * Return all published products.
 * Return an individual product by product ID / SKU ID.
@@ -83,6 +82,8 @@ even reviews without the need to authenticate.
 * Return all product reviews.
 * Return an individual product review.
 * Create a product review.
+
+All the information you need about a product and conditions to help you with UX/UI development is all provided.
 
 As an added bonus for administrators or shop managers, CoCart Lite also provides the capabilities to:
 
@@ -100,7 +101,7 @@ CoCart also provides built in features to:
 * Load a cart in session via the web. (Useful if you don't have a headless checkout and want to use native checkout.)
 * Support guest customers.
 * Supports basic authentication including the use of email as username.
-* Support [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+* Support [authentication via WooCommerce's method](https://cocart.dev/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
 * Does not cache so responses are fast.
 * Works across multiple domains, CORS ready (so you can have multiple frontends connected to one backend).
@@ -204,13 +205,13 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Minimum Requirements =
 
-* WordPress v5.5
+* WordPress v5.6
 * WooCommerce v4.3
 * PHP v7.3
 
 = Recommended Requirements =
 
-* WordPress v5.6 or higher.
+* WordPress v5.8 or higher.
 * WooCommerce v5.2 or higher.
 * PHP v7.4
 
@@ -250,7 +251,7 @@ You will first need WooCommerce installed with the REST API enabled. Then instal
 
 = Why should I use CoCart? =
 
-The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. It does not nativley provide an API for controlling the frontend.
+The question is why not! WooCommerce's REST API is only created for controlling the backend of your store. It does not natively provide an API for controlling the frontend.
 
 CoCart handles your customers cart for you ready to use in any modern framework of your choosing. No local storing required. It's **Powerful** and **Developer** friendly ready to build your headless store the way you want, **without the need to build an API**.
 
@@ -291,7 +292,7 @@ The default WooCommerce session table only stores the basics of a cart in sessio
 
 Such as when the cart was created. This information is only stored in the browser session.
 
-Also the source of the cart it was last saved. For the web it will be `WooCommerce` and for your headlesss store `CoCart`. This lets you know which version of your store your customers are shopping from should you have both web and app versions.
+Also the source of the cart it was last saved. For the web it will be `WooCommerce` and for your headless store `CoCart`. This lets you know which version of your store your customers are shopping from should you have both web and app versions.
 
 = Can I have WordPress running on one domain and my headless store on another domain? =
 
