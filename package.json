@@ -33,7 +33,7 @@
 	"requires": "5.6",
 	"requires_php": "7.4",
 	"tested_up_to": "5.9",
-	"wc_requires": "4.3",
+	"wc_requires": "5.0",
 	"wc_tested_up_to": "6.2",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2022, Sébastien Dumont",
