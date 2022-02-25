@@ -376,24 +376,11 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						src: [
-							'**',
-							'!.*',
-							'!**/*.{gif,jpg,jpeg,js,json,log,lock,md,png,scss,sh,txt,xml,zip}',
-							'!.*/**',
-							'!.DS_Store',
-							'!.htaccess',
-							'plugins/cocart/assets/images/**',
-							'!source/scss/**',
-							'!source/**/*.scss',
-							'!bin/**',
-							'!<%= pkg.name %>-git/**',
-							'!<%= pkg.name %>-svn/**',
-							'!node_modules/**',
-							'!releases/**',
-							'!tests/**',
-							'!vendor/**',
-							'!unit-tests/**',
-							'plugins/cocart/readme.txt'
+							'!plugins/cocart/.DS_Store',
+							'!plugins/cocart/.htaccess',
+							'plugins/cocart/*',
+							'plugins/cocart/**',
+							'!plugins/cocart/packages/README.md',
 						],
 						dest: 'build/',
 						dot: true
@@ -429,8 +416,8 @@ module.exports = function(grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: './build/',
-						src: 'plugins/cocart/',
+						cwd: './build/plugins/cocart/',
+						src: '**',
 						dest: '<%= pkg.name %>'
 					}
 				]
