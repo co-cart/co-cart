@@ -17,8 +17,8 @@ module.exports = function(grunt) {
 
 		// Setting folder templates.
 		dirs: {
-			css: 'assets/css',
-			js: 'assets/js',
+			css: 'plugins/cocart/assets/css',
+			js: 'plugins/cocart/assets/js',
 			php: 'plugins/cocart/includes',
 			scss: 'source/scss',
 		},
