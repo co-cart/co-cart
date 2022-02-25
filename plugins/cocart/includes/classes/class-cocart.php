@@ -118,7 +118,7 @@ final class Core {
 	 * @version 3.0.0
 	 */
 	public static function setup_constants() {
-		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/plugins/cocart/' );
+		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
 		self::define( 'COCART_PLUGIN_BASENAME', plugin_basename( COCART_FILE ) );
 		self::define( 'COCART_VERSION', self::$version );
 		self::define( 'COCART_DB_VERSION', self::$db_version );
