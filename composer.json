@@ -50,7 +50,7 @@
 	},
 	"autoload": {
 		"exclude-from-classmap": [
-			"includes/api/legacy"
+			"includes/classes/api/legacy"
 		],
 		"classmap": [
 			"includes/classes"
