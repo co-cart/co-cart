@@ -5,11 +5,11 @@
  * Description: A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     3.1.0-rc.5
+ * Version:     4.0.0-alpha.1
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.6
- * Requires PHP: 7.3
+ * Requires PHP: 7.4
  * WC requires at least: 4.3
  * WC tested up to: 6.2
  *
@@ -22,9 +22,14 @@ if ( ! defined( 'COCART_FILE' ) ) {
 	define( 'COCART_FILE', __FILE__ );
 }
 
+// Package loader.
+require __DIR__ . '/plugins/cocart/src/packages.php';
+
+\CoCart\CoCart\Packages::init();
+
 // Include the main CoCart class.
-if ( ! class_exists( 'CoCart', false ) ) {
-	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php';
+if ( ! class_exists( 'CoCart\CoCart\Core', false ) ) {
+	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/plugins/cocart/includes/classes/class-cocart.php';
 }
 
 /**
@@ -39,7 +44,7 @@ if ( ! function_exists( 'CoCart' ) ) {
 	 * Initialize CoCart.
 	 */
 	function CoCart() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-		return CoCart::init();
+		return \CoCart\CoCart\Core::init();
 	}
 
 	CoCart();
