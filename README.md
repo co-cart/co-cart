@@ -47,7 +47,7 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 ## The API
 
-CoCart Lite provides the basic API needs to get you started.
+CoCart Lite provides the basic needs to get you started.
 
 * Get store information.
 * Add simple, variable and grouped products to the cart by product ID / SKU ID.
