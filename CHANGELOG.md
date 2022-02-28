@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? February, 2022 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - 28th February, 2022
 
 ### What's New?
 
