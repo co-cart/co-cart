@@ -17,10 +17,10 @@ module.exports = function(grunt) {
 
 		// Setting folder templates.
 		dirs: {
-			css: 'assets/css',
-			js: 'assets/js',
-			php: 'includes',
-			scss: 'assets/scss'
+			css: 'plugins/cocart/assets/css',
+			js: 'plugins/cocart/assets/js',
+			php: 'plugins/cocart/includes',
+			scss: 'source/scss',
 		},
 
 		// Update developer dependencies
@@ -172,17 +172,14 @@ module.exports = function(grunt) {
 		makepot: {
 			target: {
 				options: {
-					cwd: '',
+					cwd: 'plugins/cocart',
 					domainPath: 'languages',                                  // Where to save the POT file.
 					exclude: [
-						'<%= dirs.php %>/api/experiments',
-						'<%= dirs.php %>/api/pro-enhancements',
-						'<%= dirs.php %>/api/wip',
 						'releases',
 						'node_modules',
 						'vendor'
 					],
-					mainFile: '<%= pkg.name %>.php', // Main project file.
+					mainFile: 'plugins/cocart/<%= pkg.name %>.php', // Main project file.
 					potComments: 'Copyright (c) {year} Sébastien Dumont\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					potHeaders: {
@@ -258,9 +255,9 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'languages',
+					cwd: 'plugins/cocart/languages',
 					src: ['*.po'],
-					dest: 'languages',
+					dest: 'plugins/cocart/languages',
 					ext: '.mo',
 					nonull: false
 				}]
@@ -271,8 +268,8 @@ module.exports = function(grunt) {
 		replace: {
 			php: {
 				src: [
-					'<%= pkg.name %>.php',
-					'<%= dirs.php %>/class-cocart.php'
+					'plugins/cocart/<%= pkg.name %>.php',
+					'<%= dirs.php %>/classes/class-cocart.php'
 				],
 				overwrite: true,
 				replacements: [
@@ -320,7 +317,7 @@ module.exports = function(grunt) {
 			},
 			readme: {
 				src: [
-					'readme.txt',
+					'plugins/cocart/readme.txt',
 				],
 				overwrite: true,
 				replacements: [
@@ -348,7 +345,7 @@ module.exports = function(grunt) {
 			},
 			stable: {
 				src: [
-					'readme.txt',
+					'plugins/cocart/readme.txt',
 				],
 				overwrite: true,
 				replacements: [
@@ -360,7 +357,7 @@ module.exports = function(grunt) {
 			},
 			package: {
 				src: [
-					'load-package.php',
+					'plugins/cocart/load-package.php',
 				],
 				overwrite: true,
 				replacements: [
@@ -379,27 +376,11 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						src: [
-							'**',
-							'!.*',
-							'!**/*.{gif,jpg,jpeg,js,json,log,lock,md,png,scss,sh,txt,xml,zip}',
-							'!.*/**',
-							'!.DS_Store',
-							'!.htaccess',
-							'assets/images/**',
-							'!assets/scss/**',
-							'!assets/**/*.scss',
-							'!bin/**',
-							'!includes/api/experiments/**',
-							'!includes/api/pro-enhancements/**',
-							'!includes/api/wip/**',
-							'!<%= pkg.name %>-git/**',
-							'!<%= pkg.name %>-svn/**',
-							'!node_modules/**',
-							'!releases/**',
-							'!tests/**',
-							'!vendor/**',
-							'!unit-tests/**',
-							'readme.txt'
+							'!plugins/cocart/.DS_Store',
+							'!plugins/cocart/.htaccess',
+							'plugins/cocart/*',
+							'plugins/cocart/**',
+							'!plugins/cocart/packages/README.md',
 						],
 						dest: 'build/',
 						dot: true
@@ -435,7 +416,7 @@ module.exports = function(grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: './build/',
+						cwd: './build/plugins/cocart/',
 						src: '**',
 						dest: '<%= pkg.name %>'
 					}

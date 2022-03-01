@@ -37,9 +37,23 @@
 	"support": {
 		"issues": "https://github.com/co-cart/co-cart/issues"
 	},
+	"config": {
+		"platform": {
+			"php": "7.4"
+		},
+		"preferred-install": {
+			"co-cart/cocart-admin": "dist",
+			"co-cart/cocart-compatibility": "dist",
+			"co-cart/cocart-third-party": "dist"
+		},
+		"sort-packages": true
+	},
 	"autoload": {
+		"exclude-from-classmap": [
+			"includes/classes/api/legacy"
+		],
 		"classmap": [
-			"includes/"
+			"includes/classes"
 		]
 	},
 	"require": {
@@ -60,6 +74,12 @@
 		"phpcbf": [
 			"phpcbf . -p"
 		],
+		"post-install-cmd": [
+			"sh ./bin/package-update.sh"
+		],
+		"post-update-cmd": [
+			"sh ./bin/package-update.sh"
+		],
 		"makepot-audit": [
 			"wp --allow-root i18n make-pot . --exclude=\".github,.wordpress-org,bin,node_modules,tests\" --slug=cart-rest-api-for-woocommerce"
 		],
@@ -68,6 +88,11 @@
 		]
 	},
 	"extra": {
+		"installer-paths": {
+			"packages/admin": ["co-cart/cocart-admin"],
+			"packages/compatibility": ["co-cart/cocart-compatibility"],
+			"packages/third-party": ["co-cart/cocart-third-party"]
+		},
 		"scripts-description": {
 			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
 			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",

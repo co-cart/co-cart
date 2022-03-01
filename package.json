@@ -1,7 +1,7 @@
 {
 	"title": "CoCart Lite",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "3.1.0-rc.5",
+	"version": "4.0.0-alpha.1",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -31,12 +31,12 @@
 		"url": "https://github.com/co-cart/co-cart/issues"
 	},
 	"requires": "5.6",
-	"requires_php": "7.3",
+	"requires_php": "7.4",
 	"tested_up_to": "5.9",
-	"wc_requires": "4.3",
-	"wc_tested_up_to": "6.1",
+	"wc_requires": "5.0",
+	"wc_tested_up_to": "6.2",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2021, Sébastien Dumont",
+	"copyright": "Copyright (c) 2022, Sébastien Dumont",
 	"description": "A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.",
 	"tags": "",
 	"keywords": [
@@ -75,7 +75,6 @@
 	},
 	"devDependencies": {
 		"@lodder/grunt-postcss": "^3.1.1",
-		"github-contributors-list": "https://github.com/woocommerce/github-contributors-list/tarball/master",
 		"grunt": "1.4.1",
 		"grunt-checktextdomain": "1.0.1",
 		"grunt-contrib-clean": "2.0.0",

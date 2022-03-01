@@ -16,9 +16,19 @@ Thumbs.db
 composer.lock
 contributors.html
 
+# Assets
+!/plugins/cocart/assets/js/admin/
+/plugins/cocart/assets/*/admin/*.min.*
+/plugins/cocart/assets/css/
+
 # Languages
-/languages/*
-!/languages/README.md
+/plugins/cocart/languages/*
+!/plugins/cocart/languages/*.pot
+!/plugins/cocart/languages/README.md
+
+# Packages
+/plugins/cocart/packages/*
+!/plugins/cocart/packages/README.md
 
 # Build & Releases
 /build/
@@ -34,3 +44,4 @@ contributors.html
 *.zip
 *.json
 *.yml
+*.php
