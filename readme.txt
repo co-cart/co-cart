@@ -378,7 +378,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 = v3.1.0 - 28th February, 2022 =
 
-## What's New?
+### What's New?
 
 * Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
 * Introduced a new Cart API route that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
@@ -397,7 +397,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 > ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
 
-## Plugin Suggestions
+### Plugin Suggestions
 
 * Added [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
 * Added [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
@@ -405,7 +405,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Removed CoCart Products Add-on now the products API is merged with core of CoCart.
 * Optimized the results for better performance and cached once a day.
 
-## Bug Fixes
+### Bug Fixes
 
 * Coupons duplicating on each REST API request.
 * `$item_key` was not passed in `validate_item_quantity()` function to validate the quantity allowed for the item.
@@ -419,7 +419,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * The use of WooCommerce API consumer key and consumer secret for authentication is now working again. Changed the priority of authentication to allow WooCommerce to check authentication first.
 * Detection of [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
 
-## Deprecated & Replacements
+### Deprecated & Replacements
 
 * Function `get_store_currency()` is replaced with a global function `cocart_get_store_currency()`.
 * Function `prepare_money_response()` is replaced with a global function `cocart_prepare_money_response()`.
@@ -428,7 +428,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Timezone `get_option( 'timezone_string' )` is replaced with `wp_timezone_string()` function to return proper timezone string on the store route.
 * Replaced `wc_rest_prepare_date_response()` function with `cocart_prepare_date_response()` function.
 
-## Enhancements
+### Enhancements
 
 * Deprecated the upgrade warning notice. Dev note: Just keep an eye for major updates on [CoCart.dev](https://cocart.dev)
 * Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
@@ -441,7 +441,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Allow count items endpoint to return `0` if no items are in the cart.
 * Re-worked session endpoint to get data from the session and not the cart object.
 
-## Tweaks
+### Tweaks
 
 > 📢 Warning: Some tweaks have been made in this release that will introduce breaking changes to the API response so please review the changelog and test on a staging environment before updating on production.
 
@@ -460,14 +460,14 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 * Shipping tax now returns as a `string` not `object` with just the tax cost unformatted with formatted decimals to be consistent with other monetary values such as taxes and totals.
 * Moved validating product up so it can be validated first and allows us to pass the product object when validate the quantity.
 
-## Compatibility and Requirements
+### Compatibility and Requirements
 
 * Added more compatibility for next update of CoCart Pro.
 * Minimum requirement for WordPress is now v5.6
 * Tested: ✔️ Compatible with WooCommerce v6.2
 * Tested: ✔️ Compatible with WordPress v5.9
 
-## For Developers
+### For Developers
 
 * Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
 * Introduced new filter `cocart_override_cart_item` to override cart item for anything extra.
