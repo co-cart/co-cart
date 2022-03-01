@@ -37,7 +37,7 @@
 	"wc_tested_up_to": "6.2",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2022, Sébastien Dumont",
-	"description": "A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.",
+	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
 	"tags": "",
 	"keywords": [
 		"wordpress",

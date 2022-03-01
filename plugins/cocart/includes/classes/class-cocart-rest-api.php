@@ -89,6 +89,7 @@ class Server {
 				'wc/v2'     => $this->get_legacy_controller(),
 				'cocart/v1' => $this->get_v1_controllers(),
 				'cocart/v2' => $this->get_v2_controllers(),
+				'cocart/v3' => $this->get_v3_controllers(),
 			)
 		);
 	}
@@ -164,6 +165,18 @@ class Server {
 			'cocart-v2-product-tags'            => 'CoCart_Product_Tags_V2_Controller',
 			'cocart-v2-products'                => 'CoCart_Products_V2_Controller',
 			'cocart-v2-product-variations'      => 'CoCart_Product_Variations_V2_Controller',
+		);
+	}
+
+	/**
+	 * List of controllers in the cocart/v3 namespace.
+	 *
+	 * @access protected
+	 * @return array
+	 */
+	protected function get_v3_controllers() {
+		return array(
+			'cocart-v3-cart' => 'CoCart_Cart_V3_Controller',
 		);
 	}
 
@@ -356,6 +369,9 @@ class Server {
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-tags-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-products-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-variations-controller.php';
+
+		// CoCart REST API v3 controllers.
+		include_once dirname( __FILE__ ) . '/api/cocart/v3/cart/class-cocart-cart-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // rest_api_includes()
