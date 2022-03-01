@@ -50,10 +50,10 @@
 	},
 	"autoload": {
 		"exclude-from-classmap": [
-			"includes/classes/api/legacy"
+			"plugins/cocart/includes/classes/api/legacy"
 		],
 		"classmap": [
-			"includes/classes"
+			"plugins/cocart/includes/classes"
 		]
 	},
 	"require": {
@@ -61,7 +61,7 @@
 		"co-cart/cocart-sniffs": "0.0.2"
 	},
 	"require-dev": {
-		"wp-cli/i18n-command": "2.2.9",
+		"wp-cli/i18n-command": "2.2.13",
 		"squizlabs/php_codesniffer": "3.6.2"
 	},
 	"scripts": {
