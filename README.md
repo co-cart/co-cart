@@ -5,13 +5,13 @@
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
 	</a>
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.5+-+5.9&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+5.9&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+6.1&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+6.2&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=7.0+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=7.3+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
 	</a>
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
 		<img src="https://poser.pugx.org/co-cart/co-cart/v/stable" alt="Latest Stable Version">
@@ -47,13 +47,13 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 ## The API
 
-CoCart Lite provides the basic API needs to get you started.
+CoCart Lite provides the basic needs to get you started.
 
 * Get store information.
-* Add simple, variable and grouped products to the cart.
+* Add simple, variable and grouped products to the cart by product ID / SKU ID.
 * Get customers cart.
 * Get customers cart contents.
-* Update items in the cart both individually and in bulk.
+* Update items in the cart both individually or in bulk.
 * Remove items from the cart.
 * Restore items to the cart.
 * Re-calculate the totals. (*)
@@ -65,8 +65,7 @@ CoCart Lite provides the basic API needs to get you started.
 
 > (*) Each other cart REST API request made will calculate all totals before the cart response is returned. You don't really need to use this and this API route will be deprecated in future.
 
-Also included is the ability to access products, product categories, product tags, product attributes and 
-even reviews without the need to authenticate.
+Also included is a specially designed API to access products, product categories, product tags, product attributes and even reviews without the need to authenticate.
 
 * Return all published products.
 * Return an individual product by product ID / SKU ID.
@@ -95,7 +94,7 @@ CoCart Lite also provides built in features to:
 * Load a cart in session via the web. (Useful if you don't have a headless checkout and want to use native checkout.)
 * Supports guest customers.
 * Supports basic authentication including the use of email as username.
-* Supports [authentication via WooCommerce's method](https://cocart.xyz/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
+* Supports [authentication via WooCommerce's method](https://cocart.dev/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
 * Does not cache API so responses are fast.
 * Works across multiple domains, CORS ready (so you can have multiple frontends connected to one backend).
@@ -223,7 +222,7 @@ We have different channels at your disposal where you can find information about
 
 ## Get involved
 
-Do you like the idea of creating a headless ecommerce with WooCommerce? Got questions or feedback? We'd love to hear from you. Come join our [community](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)! ❤️
+Do you like the idea of creating a headless e-commerce with WooCommerce? Got questions or feedback? We'd love to hear from you. Come join our [community](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)! ❤️
 
 CoCart Lite also welcomes contributions. There are many ways to support the project! If you don't know where to start, this guide might help >> [How to contribute?](https://github.com/co-cart/co-cart/blob/master/.github/CONTRIBUTING.md)
 

@@ -2,16 +2,16 @@
 /**
  * Plugin Name: CoCart Lite
  * Plugin URI:  https://cocart.xyz
- * Description: A <strong>RESTful API</strong> made for <strong>WooCommerce</strong>, focusing on <strong>the front-end</strong> of the store helping you to manage shopping carts and allows developers to build a <strong>headless store</strong>.
+ * Description: Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     3.1.0-rc.5
+ * Version:     3.1.0
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.6
  * Requires PHP: 7.3
  * WC requires at least: 4.3
- * WC tested up to: 6.1
+ * WC tested up to: 6.2
  *
  * @package CoCart
  */

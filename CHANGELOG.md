@@ -1,6 +1,6 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? February, 2022 (DATE SUBJECT TO CHANGE)
+## v3.1.0 - 28th February, 2022
 
 ### What's New?
 
@@ -38,7 +38,8 @@
 * Requesting `OPTIONS` for any endpoint to return arguments and schema.
 * Log time for error logs recorded.
 * Fixed any undefined index for loading a cart for guest customers.
-* Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions but I succeeded.
+* Fixed an attempt trying to access array offset on value of type float.
+* Clearing the cart now **100%** clears.
 * The use of WooCommerce API consumer key and consumer secret for authentication is now working again. Changed the priority of authentication to allow WooCommerce to check authentication first.
 * Detection of [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
 
@@ -62,8 +63,11 @@
 * Exposed WordPress headers for product route support.
 * To help support the ability to set a custom price for an item once added, the totals are recalculated before the cart response returns so it is up to date on the first callback.
 * Allow count items endpoint to return `0` if no items are in the cart.
+* Re-worked session endpoint to get data from the session and not the cart object.
 
 ### Tweaks
+
+> 📢 Warning: Some tweaks have been made in this release that will introduce breaking changes to the API response so please review the changelog and test on a staging environment before updating on production.
 
 * CoCart cron job for cleanup sessions improved.
 * Removed WooCommerce cron job for cleanup sessions as it is not needed.
@@ -71,26 +75,28 @@
 * Added `get_session()` function for plugin compatibility to session handler.
 * When you uninstall CoCart, the original WooCommerce cron job for cleanup sessions will be rescheduled.
 * Notice for when item is removed now returns in the first response.
+* Added notice for when item is restored.
 * Cross sell prices now returns with formatted decimals.
 * Cart tax total now returns with formatted decimals.
 * Removed last raw WooCommerce cart data `tax_data` object from under cart items as the `totals` object provides a better data for each item.
 * Item price in the cart now returns unformatted to be consistent with other monetary values such as taxes and totals.
 * Shipping cost now returns unformatted with formatted decimals to be consistent with other monetary values such as taxes and totals.
 * Shipping tax now returns as a `string` not `object` with just the tax cost unformatted with formatted decimals to be consistent with other monetary values such as taxes and totals.
+* Moved validating product up so it can be validated first and allows us to pass the product object when validate the quantity.
 
 ### Compatibility and Requirements
 
 * Added more compatibility for next update of CoCart Pro.
 * Minimum requirement for WordPress is now v5.6
-* Tested: ✔️ Compatible with WooCommerce v6.1
+* Tested: ✔️ Compatible with WooCommerce v6.2
 * Tested: ✔️ Compatible with WordPress v5.9
 
 ### For Developers
 
 * Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
 * Introduced new filter `cocart_override_cart_item` to override cart item for anything extra.
-* Introduced new filter `cocart_variable_empty_price` to provide a custom price range for variable products should none exist yet.
-* Introduced new filter `cocart_get_price_range` to alter the price range for variable products.
+* Introduced new filter `cocart_products_variable_empty_price` to provide a custom price range for variable products should none exist yet.
+* Introduced new filter `cocart_products_get_price_range` to alter the price range for variable products.
 * Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
 * Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
 * Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
@@ -103,10 +109,15 @@
 * Introduced new filter `cocart_cart_item_total` to allow developers to change the item total.
 * Introduced new filter `cocart_cart_item_tax` to allow developers to change the item tax.
 * Introduced new filter `cocart_prepare_money_disable_decimals` that allows you to disable the decimals used when returning the monetary value.
+* Introduced new filter `cocart_quantity_maximum_allowed` that allows control over the maximum quantity a customer is able to add said item to the cart.
+* Introduced new filter `cocart_product_not_enough_stock_message` that allows you to change the message about product not having enough stock.
+* Added `$product` object as a parameter for `cocart_quantity_minimum_requirement` filter so you have more control on which products we want to alter the minimum requirement if not all.
 
-* Dev: Renamed filter `cocart_category_thumbnail` to `cocart_products_category_thumbnail`. // Products API v2
-* Dev: Renamed filter `cocart_category_thumbnail_size` to `cocart_products_category_thumbnail_size`. // Products API v2
-* Dev: Renamed filter `cocart_category_thumbnail_src` to `cocart_products_category_thumbnail_src`. // Products API v2
+> The following filters are affected on Products API v2 ONLY should you have used the filters for API v1!
+
+* Renamed filter `cocart_category_thumbnail` to `cocart_products_category_thumbnail`.
+* Renamed filter `cocart_category_thumbnail_size` to `cocart_products_category_thumbnail_size`.
+* Renamed filter `cocart_category_thumbnail_src` to `cocart_products_category_thumbnail_src`.
 
 ## v3.0.17 - 3rd December, 2021
 
