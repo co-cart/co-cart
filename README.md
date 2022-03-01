@@ -21,22 +21,6 @@
 	</a>
 </p>
 
-<p align="center">
-	<a href="#the-api">The API</a>
-	&nbsp;|&nbsp;
-	<a href="#cocart-pro">CoCart Pro</a>
-	&nbsp;|&nbsp;
-	<a href="#add-ons">Add-ons</a>
-	&nbsp;|&nbsp;
-	<a href="#developers">Developers</a>
-	&nbsp;|&nbsp;
-	<a href="#testimonials">Testimonials</a>
-	&nbsp;|&nbsp;
-	<a href="#credits">Credits</a>
-</p>
-
-<br>
-
 Welcome to the CoCart Lite repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)
