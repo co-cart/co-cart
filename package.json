@@ -95,7 +95,7 @@
 		"grunt-wp-i18n": "1.0.3",
 		"jshint-stylish": "2.2.1",
 		"load-grunt-tasks": "5.1.0",
-		"node-sass": "7.0.0",
+		"node-sass": "7.0.1",
 		"postcss": "^8.4.5",
 		"prettier-stylelint": "0.4.2",
 		"stylelint-config-prettier": "8.0.2",
