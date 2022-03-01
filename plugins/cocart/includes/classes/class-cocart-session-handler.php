@@ -96,23 +96,16 @@ class CoCart_Session_Handler extends \CoCart_Session {
 	 *
 	 * @access  public
 	 * @since   2.1.0
-	 * @since   4.0.0 Introduced new REST API session initialization.
-	 * @version 4.0.0
+	 * @version 3.0.0
 	 */
 	public function init() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
 		$current_user_id = strval( get_current_user_id() );
 
-		// Check how the session will be initialized.
-		if ( CoCart_Authentication::is_rest_api_request() && $this->maybe_initialize_rest_session() ) {
-			$this->init_session();
-		} else {
-			$this->init_session_cookie( $current_user_id );
-			add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
-		}
-
+		$this->init_session_cookie( $current_user_id );
 		$this->set_cart_hash();
 
+		add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
 		add_action( 'wp_logout', array( $this, 'destroy_cart' ) );
 
@@ -140,41 +133,7 @@ class CoCart_Session_Handler extends \CoCart_Session {
 	} // END init()
 
 	/**
-	 * Setup cart for REST API.
-	 *
-	 * @access public
-	 * @since  4.0.0 Introduced.
-	 */
-	public function init_session() {
-		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$request_uri = str_replace( $rest_prefix, '', $request_uri );
-
-		// Fetch cart key.
-		$cart_key = explode( '/', $request_uri );
-		$cart_key = (string) trim( wp_unslash( $cart_key[4] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-		$this->_customer_id = (string) trim( wp_unslash( $cart_key ) );
-
-		// If cart requested then fetch.
-		if ( $this->_customer_id ) {
-			$this->_data = $this->get_cart_data();
-
-			// Update cart if its close to expiring.
-			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
-				$this->set_cart_expiration();
-				$this->update_cart_timestamp( $this->_customer_id, $this->_cart_expiration );
-			}
-		} else {
-			// New guest customer.
-			$this->set_cart_expiration();
-			$this->_customer_id = $this->generate_customer_id();
-			$this->_data        = $this->get_cart_data();
-		}
-	} // END init_session()
-
-	/**
-	 * Setup cart - Legacy.
+	 * Setup cart.
 	 *
 	 * @access  public
 	 * @since   2.1.0
@@ -241,23 +200,6 @@ class CoCart_Session_Handler extends \CoCart_Session {
 			$this->_data        = $this->get_cart_data();
 		}
 	} // END init_session_cookie()
-
-	/**
-	 * Check which API will use new session initiation.
-	 *
-	 * @access protected
-	 * @since  4.0.0 Introduced.
-	 */
-	protected function maybe_initialize_rest_session() {
-		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-
-		if ( strpos( $request_uri, $rest_prefix . 'cocart/v3/' ) !== false ) {
-			return true;
-		}
-
-		return false;
-	} // END maybe_initialize_rest_session()
 
 	/**
 	 * Is Cookie support enabled?
