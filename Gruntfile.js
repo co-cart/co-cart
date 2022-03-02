@@ -381,7 +381,7 @@ module.exports = function(grunt) {
 						src: [
 							'**',
 							'!.*',
-							'!**/*.{gif,jpg,jpeg,js,json,log,lock,md,png,scss,sh,txt,xml,zip}',
+							'!**/*.{gif,html,jpg,jpeg,js,json,log,lock,md,png,scss,sh,txt,xml,zip}',
 							'!.*/**',
 							'!.DS_Store',
 							'!.htaccess',
@@ -390,9 +390,6 @@ module.exports = function(grunt) {
 							'!assets/scss/**',
 							'!assets/**/*.scss',
 							'!bin/**',
-							'!includes/api/experiments/**',
-							'!includes/api/pro-enhancements/**',
-							'!includes/api/wip/**',
 							'!<%= pkg.name %>-git/**',
 							'!<%= pkg.name %>-svn/**',
 							'!node_modules/**',
