@@ -382,7 +382,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 ### Bug Fix
 
-* When updating an individual item in cart, the product data is not passed when validating the quantity and is causing a fatal error. [issue #319][https://github.com/co-cart/co-cart/issues/319]
+* When updating an individual item in cart, the product data is not passed when validating the quantity and is causing a fatal error. [[issue #319](https://github.com/co-cart/co-cart/issues/319)]
 
 > Developer note: This is because an improvement was made when adding items to the cart using the same function that is used to validate the quantity and I forgot to update the parameters for when it's used to update an item. My bad.
 
