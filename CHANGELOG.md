@@ -1,6 +1,16 @@
 # Changelog for CoCart Lite
 
-## v3.1.0 - ?? February, 2022 (DATE SUBJECT TO CHANGE)
+## v3.1.1 - 2nd March, 2022
+
+**🔥 This is a HOTFIX!**
+
+### Bug Fix
+
+* When updating an individual item in cart, the product data is not passed when validating the quantity and is causing a fatal error. [[issue #319](https://github.com/co-cart/co-cart/issues/319)]
+
+> Developer note: This is because an improvement was made when adding items to the cart using the same function that is used to validate the quantity and I forgot to update the parameters for when it's used to update an item. My bad.
+
+## v3.1.0 - 28th February, 2022
 
 ### What's New?
 
