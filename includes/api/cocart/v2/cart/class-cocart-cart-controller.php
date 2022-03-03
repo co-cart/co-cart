@@ -1443,18 +1443,19 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Cleans up the meta data for API.
 	 *
-	 * @access protected
-	 * @since  3.1.0
-	 * @param  object $method Method data.
-	 * @param  string $type   Meta data we are cleaning for.
-	 * @return array
+	 * @access  protected
+	 * @since   3.1.0 Introduced
+	 * @version 3.1.2
+	 * @param   object $method Method data.
+	 * @param   string $type   Meta data we are cleaning for.
+	 * @return  array
 	 */
 	protected function clean_meta_data( $method, $type = 'shipping' ) {
 		$meta_data = $method->get_meta_data();
 
 		switch ( $type ) {
 			case 'shipping':
-				$meta_data['items'] = html_entity_decode( wp_strip_all_tags( $meta_data['Items'] ) );
+				$meta_data['items'] = isset( $meta_data['Items'] ) ? html_entity_decode( wp_strip_all_tags( $meta_data['Items'] ) ) : '';
 				unset( $meta_data['Items'] );
 
 				break;
