@@ -202,7 +202,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 *
 		 * @access public
 		 * @since  3.1.0
-		 * @param  $parent_file
+		 * @param  string $parent_file The parent file.
 		 * @return mixed
 		 */
 		public function highlight_submenu_upgrade( $parent_file ) {

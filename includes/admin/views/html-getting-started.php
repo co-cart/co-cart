@@ -88,6 +88,7 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 				<?php
 				echo wp_kses_post(
 					sprintf(
+						/* translators: %1$s: Developers Hub link */
 						__( 'There is also a <a href="%1$s" target="_blank">developers hub</a> where you can find all the resources you need to be productive with CoCart and keep track of everything that is happening with the plugin including development decisions and scoping of future versions.', 'cart-rest-api-for-woocommerce' ),
 						'https://cocart.dev'
 					)
@@ -117,11 +118,19 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 
 			<div class="founder-row">
 				<div class="founder-image">
-					<img src="<?php echo 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( 'mailme@sebastiendumont.com' ) ) ) . '?d=mp&s=60'; ?>" width="60px" height="60px" alt="Photo of Founder" />
+					<img src="<?php echo 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( 'mailme@sebastiendumont.com' ) ) ) . '?d=mp&s=60'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" width="60px" height="60px" alt="Photo of Founder" />
 				</div>
 
 				<div class="founder-details">
-					<p>Sébastien Dumont<br><?php echo sprintf( __( 'Founder of %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+					<p>Sébastien Dumont<br>
+					<?php
+					echo sprintf(
+						/* translators: %s: CoCart */
+						esc_html__( 'Founder of %s', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					);
+					?>
+					</p>
 				</div>
 			</div>
 

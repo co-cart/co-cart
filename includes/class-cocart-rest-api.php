@@ -446,7 +446,7 @@ class CoCart_REST_API {
 	 */
 	protected function prevent_routes_from_initializing() {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
 			'cocart/v2/login',

@@ -272,7 +272,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				$attachments[ $size ] = current( wp_get_attachment_image_src( $attachment_id, $size ) );
 			}
 
-			$featured = $position === 0 ? true : false;
+			$featured = $position === 0 ? true : false; // phpcs:ignore WordPress.PHP.YodaConditions.NotYoda
 
 			$images[] = array(
 				'id'       => (int) $attachment_id,
@@ -577,8 +577,8 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get minimum details on connected products.
 	 *
 	 * @access public
-	 * @param  WC_Product                      $product
-	 * @param  $type Type of products to return.
+	 * @param  WC_Product $product Product Object.
+	 * @param  string     $type    Type of products to return.
 	 */
 	public function get_connected_products( $product, $type ) {
 		switch ( $type ) {
@@ -647,7 +647,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns an array of REST URLs for each ID.
 	 *
 	 * @access public
-	 * @param  array $ids
+	 * @param  array $ids Product ID's.
 	 * @return array
 	 */
 	public function product_rest_urls( $ids = array() ) {
@@ -664,8 +664,8 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns the REST URL for adding product to the cart.
 	 *
 	 * @access public
-	 * @param  WC_Product $product
-	 * @param  string     $type Product type.
+	 * @param  WC_Product $product Product Object.
+	 * @param  string     $type    Product type.
 	 * @return string
 	 */
 	public function add_to_cart_rest_url( $product, $type ) {
@@ -1787,7 +1787,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		foreach ( $attachment_sizes as $size ) {
 			// Generate the product featured image URL properties for each attachment size.
 			$schema['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
-				'description' => sprintf( __( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ), $size ),
+				'description' => sprintf(
+					/* translators: %s: Product image URL */
+					__( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
+					$size
+				),
 				'type'        => 'string',
 				'context'     => array( 'view' ),
 				'format'      => 'uri',
@@ -1797,7 +1801,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			// Generate the variation product featured image URL properties for each attachment size.
 			if ( isset( $schema['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
 				$schema['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
-					'description' => sprintf( __( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ), $size ),
+					'description' => sprintf(
+						/* translators: %s: Product image URL */
+						__( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
+						$size
+					),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'format'      => 'uri',

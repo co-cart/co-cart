@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart REST API helpers.
+ * CoCart helpers.
  *
  * Provides functions that provide helpful data for the plugin.
  *
@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API helper class.
+ * CoCart helper class.
  *
- * @package CoCart REST API/Helpers
+ * @package CoCart/Helpers
  */
 class CoCart_Helpers {
 

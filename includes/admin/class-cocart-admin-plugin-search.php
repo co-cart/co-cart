@@ -56,7 +56,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				add_filter( 'plugin_install_action_links', array( $this, 'insert_related_links' ), 10, 2 );
 
 				// Filters below are for CoCarts own plugin section.
-				if ( self::is_airplane_mode_enabled() != 'on' ) {
+				if ( self::is_airplane_mode_enabled() !== 'on' ) {
 					add_filter( 'plugins_api_result', array( $this, 'cocart_plugins' ), 10, 3 );
 				}
 				add_filter( 'install_plugins_tabs', array( $this, 'plugins_tab' ) );
@@ -149,18 +149,26 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @version 3.1.0
 		 */
 		public function cocart_plugin_dashboard() {
-			if ( self::is_airplane_mode_enabled() == 'on' ) {
+			if ( self::is_airplane_mode_enabled() === 'on' ) {
 				?>
-				<p><?php echo sprintf( __( "Airplane Mode is Enabled so we're unable to return plugin suggestions for %s. Please disable Airplane Mode to view results.", 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></p>
+				<p>
+					<?php
+					echo sprintf(
+						/* translators: %s: CoCart */
+						esc_html__( "Airplane Mode is Enabled so we're unable to return plugin suggestions for %s. Please disable Airplane Mode to view results.", 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					);
+					?>
+				</p>
 				<?php
 			} else {
 				?>
 				<div class="cocart-plugin-install-dashboard">
 					<p>
 						<?php
-						printf(
+						echo sprintf(
 							/* translators: %1$s: https://cocart.xyz/add-ons/, %2$s: https://cocart.xyz/woocommerce-extensions/ */
-							__( 'These plugins are supported, extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ),
+							__( 'These plugins are supported, extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							esc_url( COCART_STORE_URL . 'add-ons/' ),
 							esc_url( COCART_STORE_URL . 'woocommerce-extensions/' )
 						);
@@ -168,7 +176,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 					</p>
 
 					<p>
-						<?php print( esc_html__( 'Some of these plugins require a 3rd party plugin or extension to support it’s features. See plugin requirement at the bottom of each plugin card.', 'cart-rest-api-for-woocommerce' ) ); ?>
+						<?php esc_html_e( 'Some of these plugins require a 3rd party plugin or extension to support it’s features. See plugin requirement at the bottom of each plugin card.', 'cart-rest-api-for-woocommerce' ); ?>
 					</p>
 
 				</div>
@@ -255,7 +263,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 *
 		 * @access public
 		 * @static
-		 * @param  string Plugin slug.
+		 * @param  string $slug Plugin slug.
 		 * @return array|mixed|object|WP_Error
 		 */
 		public static function get_wporg_plugin_data( $slug = '' ) {
@@ -849,7 +857,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @since   3.0.0
 		 * @version 3.1.0
 		 * @param   array $plugin Plugin details.
-		 * @return  array $links  Related links after change.
+		 * @param   array $links  Related links before change.
 		 * @return  array $links  Related links after change.
 		 */
 		public function get_action_links( $plugin, $links = array() ) {

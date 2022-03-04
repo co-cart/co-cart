@@ -78,7 +78,7 @@ class CoCart_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @since  3.1.0
 	 * @return array $params
 	 */
-	public function get_collection_params() {
+	public function get_collection_params() { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
 		return parent::get_collection_params();
 	} // END get_collection_params()
 

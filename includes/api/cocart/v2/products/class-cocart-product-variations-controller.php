@@ -33,7 +33,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Variable Product Variations - cocart/v2/products/32/variations (GET)
+		// Get Variable Product Variations - cocart/v2/products/32/variations (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -54,7 +54,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 			)
 		);
 
-		// Get a single variation - cocart/v2/products/32/variations/148 (GET)
+		// Get a single variation - cocart/v2/products/32/variations/148 (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<id>[\d]+)',

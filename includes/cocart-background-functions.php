@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Transfer sessions from WooCommerce table to CoCart table.
  *
+ * @since  3.1.0 Introduced.
  * @global $wpdb
  * @return void
  */

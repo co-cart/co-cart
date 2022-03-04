@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart REST API logger.
+ * CoCart logger.
  *
  * Handles logging errors.
  *
@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API logger class.
+ * CoCart logger class.
  *
- * @package CoCart REST API/Logger
+ * @package CoCart/Logger
  */
 class CoCart_Logger {
 
