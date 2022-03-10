@@ -1,12 +1,26 @@
 # Changelog for CoCart Lite
 
+## v3.1.2 - 10th March, 2022
+
+### Bug Fixes
+
+* Fixed an Undefined index: Items for shipping packages in the cart response. Caused the JSON response to not return valid even if the response status was `200`.
+* Fixed a fatal error. Uncaught Error: Class `CoCart_Session_Handler` when cron job runs in the background.
+* Fixed Yoda conditions.
+* Removed calculating totals once cart has been loaded from session as it caused the cart not to show.
+
+### Tweaks
+
+* Cleaning up expired carts function has changed to a global task function. This also fixes the cron job error mentioned above.
+* Added more translation notes to clarify meaning of placeholders.
+
 ## v3.1.1 - 2nd March, 2022
 
 **🔥 This is a HOTFIX!**
 
 ### Bug Fix
 
-* When updating an individual item in cart, the product data is not passed when validating the quantity and is causing a fatal error. [[issue #319](https://github.com/co-cart/co-cart/issues/319)]
+* When updating an individual item in cart, the product data is not passed when validating the quantity and was causing a fatal error. [[issue #319](https://github.com/co-cart/co-cart/issues/319)]
 
 > Developer note: This is because an improvement was made when adding items to the cart using the same function that is used to validate the quantity and I forgot to update the parameters for when it's used to update an item. My bad.
 
