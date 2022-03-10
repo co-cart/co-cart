@@ -142,7 +142,7 @@ class CoCart_Cart_Cache {
 	 * @param  mixed  $value Value to set.
 	 */
 	public static function set_cached_item( $item_key, $value ) {
-		if ( $value !== self::get_cached_item( $item_key ) ) {
+		if ( self::get_cached_item( $item_key ) !== $value ) {
 			self::$_cart_contents_cached[ sanitize_key( $item_key ) ] = $value;
 		}
 
