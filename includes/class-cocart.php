@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.1.1';
+	public static $version = '3.1.2';
 
 	/**
 	 * CoCart Database Schema version.
@@ -76,7 +76,7 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.1.2
 	 */
 	public static function init() {
 		self::setup_constants();
@@ -91,6 +91,7 @@ final class CoCart {
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
 
 		// Setup WooCommerce and CoCart.
+		add_action( 'woocommerce_loaded', array( __CLASS__, 'cocart_tasks' ) );
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'background_updater' ) );
 
@@ -356,6 +357,18 @@ final class CoCart {
 
 		return $handler;
 	} // END session_handler()
+
+	/**
+	 * Includes CoCart tasks.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.1.2 Introduced.
+	 * @return void
+	 */
+	public static function cocart_tasks() {
+		include_once COCART_ABSPATH . 'includes/cocart-task-functions.php';
+	} // END cocart_tasks()
 
 	/**
 	 * Includes WooCommerce tweaks.

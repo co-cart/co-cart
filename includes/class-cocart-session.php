@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.1.0
+ * @version 3.1.2
  * @license GPL-2.0+
  */
 
@@ -26,9 +26,6 @@ class CoCart_API_Session {
 	 * @access public
 	 */
 	public function __construct() {
-		// Cleans up carts from the database that have expired.
-		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
-
 		// Loads a cart in session if still valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ), 10 );
 	} // END __construct()
@@ -60,21 +57,13 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0 Introduced
+	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @version 3.1.2
 	 */
 	public static function clear_carts() {
-		global $wpdb;
+		_deprecated_function( 'clear_carts', '3.1.2', 'cocart_task_clear_carts' );
 
-		$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
-
-		/**
-		 * Clear saved carts.
-		 *
-		 * @since 2.1.2
-		 */
-		$results = absint( $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key='_woocommerce_persistent_cart_" . get_current_blog_id() . "';" ) );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		wp_cache_flush();
-
-		return $results;
+		cocart_task_clear_carts();
 	} // END clear_cart()
 
 	/**
@@ -83,18 +72,13 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0 Introduced
+	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @version 3.1.2
 	 */
 	public static function cleanup_carts() {
-		if ( ! class_exists( 'CoCart_Session_Handler' ) ) {
-			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-		}
+		_deprecated_function( 'cleanup_carts', '3.1.2', 'cocart_task_cleanup_carts' );
 
-		$session = new CoCart_Session_Handler();
-
-		if ( is_callable( array( $session, 'cleanup_sessions' ) ) ) {
-			$session->cleanup_sessions();
-		}
+		cocart_task_cleanup_carts();
 	} // END cleanup_carts()
 
 	/**
@@ -107,6 +91,7 @@ class CoCart_API_Session {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0 Introduced.
+	 * @version 3.1.2
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
