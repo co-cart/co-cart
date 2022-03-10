@@ -36,7 +36,10 @@ class CoCart_API_Session {
 	/**
 	 * Returns true or false if the cart key is saved in the database.
 	 *
+	 * @todo Deprecate in the future.
+	 *
 	 * @access public
+	 * @since  2.1.0 Introduced.
 	 * @param  string $cart_key Requested cart key.
 	 * @return bool
 	 */
@@ -56,10 +59,7 @@ class CoCart_API_Session {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.1.0
-	 * @version 2.1.2
-	 * @global  $wpdb
-	 * @return  int $results The number of saved carts.
+	 * @since   2.1.0 Introduced
 	 */
 	public static function clear_carts() {
 		global $wpdb;
@@ -82,8 +82,7 @@ class CoCart_API_Session {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.1.0
-	 * @version 3.1.0
+	 * @since   2.1.0 Introduced
 	 */
 	public static function cleanup_carts() {
 		if ( ! class_exists( 'CoCart_Session_Handler' ) ) {
@@ -107,8 +106,7 @@ class CoCart_API_Session {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.1.0
-	 * @version 3.1.0
+	 * @since   2.1.0 Introduced.
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
@@ -255,7 +253,7 @@ class CoCart_API_Session {
 	 * and if this feature is not disabled.
 	 *
 	 * @access public
-	 * @since  3.0.0
+	 * @since  3.0.0 Introduced.
 	 * @return bool
 	 */
 	public static function maybe_load_cart() {
@@ -278,14 +276,14 @@ class CoCart_API_Session {
 	 * Get the load cart action query name.
 	 *
 	 * @access protected
-	 * @since  3.0.0
+	 * @since  3.0.0 Introduced.
 	 * @return string
 	 */
 	protected static function get_action_query() {
 		/**
 		 * Filter to allow developers add more white labelling when loading the cart via web.
 		 *
-		 * @since 2.8.2
+		 * @since 2.8.2 Introduced.
 		 * @param string
 		 */
 		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );

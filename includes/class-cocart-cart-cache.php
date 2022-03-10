@@ -89,7 +89,7 @@ class CoCart_Cart_Cache {
 	 * Calculate cached items.
 	 *
 	 * @access public
-	 * @param  WC_Cart
+	 * @param  WC_Cart $cart Cart object.
 	 */
 	public function calculate_cached_items( $cart ) {
 		$cart_contents_cached = $this->get_cart_contents_cached();
