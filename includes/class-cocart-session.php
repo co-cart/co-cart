@@ -14,11 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API session class.
+ * CoCart load cart class.
  *
- * @package CoCart REST API/Session
+ * @package CoCart/Load Cart
  */
-class CoCart_API_Session {
+class CoCart_Load_Cart {
 
 	/**
 	 * Setup class.
@@ -278,4 +278,4 @@ class CoCart_API_Session {
 
 } // END class
 
-return new CoCart_API_Session();
+return new CoCart_Load_Cart();
