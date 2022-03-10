@@ -17,9 +17,19 @@ Customizable REST API that lets you build headless ecommerce without limits powe
 
 ### CoCart is #1 ecommerce RESTful API built for WooCommerce that scales for headless development.
 
-Get started fast with [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart), a customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.
+Take your WooCommerce business to the next level with headless ecommerce.
 
-CoCart puts developers first for building headless ecommerce without limits that will save you 80% of a headache and hours of development time leaving you 20% left over to focus on working on the storefront.
+Get started fast with [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce and build headless ecommerce using your favorite technologies.
+
+## Is CoCart right for my business?
+
+CoCart’s REST API makes it possible for businesses to build a complete custom storefront. It’s API-first, enabling your business to take the shopping experience to the next level.
+
+Made by and for developers, CoCart immediately allows you to create sophisticated experiences fast with unlimited possibilities.
+
+With our extensive documentation and resources available, CoCart is a plug and play solution that works out of the box.
+
+Save yourself 80% of a headache and hours of development time.
 
 ## Modern stack
 
