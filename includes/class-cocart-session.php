@@ -242,9 +242,6 @@ class CoCart_API_Session {
 				WC()->session->set_customer_cart_cookie( true );
 			}
 
-			// Calculate totals.
-			WC()->cart->calculate_totals();
-
 			// If true, notify the customer that there cart has transferred over via the web.
 			if ( ! empty( $new_cart ) && $notify_customer ) {
 				/* translators: %1$s: Start of link to Shop archive. %2$s: Start of link to checkout page. %3$s: Closing link tag. */
