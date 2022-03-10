@@ -5,9 +5,9 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 5.9
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 WC requires at least: 4.3
-WC tested up to: 6.2
+WC tested up to: 6.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
