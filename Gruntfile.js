@@ -76,10 +76,12 @@ module.exports = function(grunt) {
 				]
 			},
 			dist: {
+				expand: true,
 				src: [
 					'!<%= dirs.css %>/admin/*.min.css',
 					'<%= dirs.css %>/admin/*.css'
-				]
+				],
+				ext: '.css'
 			}
 		},
 
@@ -147,14 +149,31 @@ module.exports = function(grunt) {
 			]
 		},
 
-		// Watch for changes made in SASS.
+		// Watch for changes made.
 		watch: {
+			postcss: {
+				files: [
+					'!<%= dirs.css %>/admin/*.min.css',
+					'<%= dirs.css %>/admin/*.css'
+				],
+				tasks: ['postcss'],
+				options: {
+					interrupt: true
+				}
+			},
 			css: {
 				files: [
 					'<%= dirs.scss %>/*.scss',
 					'<%= dirs.scss %>/admin/*.scss',
 				],
-				tasks: ['sass', 'stylelint', 'rtlcss', 'postcss', 'cssmin']
+				tasks: ['css']
+			},
+			js: {
+				files: [
+					'<%= dirs.js %>/admin/*.js',
+					'!<%= dirs.js %>/admin/*.min.js'
+				],
+				tasks: ['jshint']
 			},
 		},
 
@@ -490,5 +509,10 @@ module.exports = function(grunt) {
 
 	// Ready for release.
 	grunt.registerTask( 'ready', [ 'version', 'stable', 'css', 'js', 'update-pot', 'zip' ] );
+
+	// Register Watcher Tasks.
+	grunt.registerTask( 'watch-css', ['watch:css'] );
+	grunt.registerTask( 'watch-js', ['watch:js'] );
+	grunt.registerTask( 'watch-postcss', ['watch:postcss'] );
 
 };
