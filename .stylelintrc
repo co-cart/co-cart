@@ -1,4 +1,7 @@
 {
+	"extends": [
+		"stylelint-config-standard-scss"
+	],
 	"rules": {
 		"indentation": "tab",
 		"color-hex-case": "lower",

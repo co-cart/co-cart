@@ -95,19 +95,20 @@
 		"grunt-wp-i18n": "1.0.3",
 		"jshint-stylish": "2.2.1",
 		"load-grunt-tasks": "5.1.0",
-		"node-sass": "7.0.0",
-		"postcss": "^8.4.5",
+		"node-sass": "7.0.1",
+		"postcss": "^8.4.8",
 		"prettier-stylelint": "0.4.2",
-		"stylelint-config-prettier": "8.0.2",
+		"stylelint-config-prettier": "9.0.3",
+		"stylelint-config-standard-scss": "^3.0.0",
 		"stylelint-config-wordpress": "17.0.0",
 		"stylelint-order": "5.0.0"
 	},
 	"dependencies": {
-		"autoprefixer": "^9.8.6",
-		"stylelint": "~13.13.1"
+		"autoprefixer": "^10.0.0",
+		"stylelint": "~14.0.0"
 	},
 	"engines": {
-		"node": ">=10.15.0",
+		"node": ">=16.14",
 		"npm": ">=6.4.1"
 	},
 	"stylelint": {
