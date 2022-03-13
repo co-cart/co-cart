@@ -1,6 +1,6 @@
 {
 	"name": "co-cart/co-cart",
-	"description": "CoCart is a REST API for WooCommerce. It focuses on the front-end of the store to manage the shopping cart allowing developers to build a headless store.",
+	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
 	"homepage": "https://cocart.xyz",
 	"type": "wordpress-plugin",
 	"keywords": [
@@ -57,7 +57,7 @@
 		]
 	},
 	"require": {
-		"composer/installers": "1.12.0",
+		"composer/installers": "2.0.1",
 		"co-cart/cocart-sniffs": "0.0.2"
 	},
 	"require-dev": {
@@ -89,9 +89,9 @@
 	},
 	"extra": {
 		"installer-paths": {
-			"packages/admin": ["co-cart/cocart-admin"],
-			"packages/compatibility": ["co-cart/cocart-compatibility"],
-			"packages/third-party": ["co-cart/cocart-third-party"]
+			"plugins/cocart/packages/admin": ["co-cart/cocart-admin"],
+			"plugins/cocart/packages/compatibility": ["co-cart/cocart-compatibility"],
+			"plugins/cocart/packages/third-party": ["co-cart/cocart-third-party"]
 		},
 		"scripts-description": {
 			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
