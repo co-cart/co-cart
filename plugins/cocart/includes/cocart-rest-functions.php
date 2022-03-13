@@ -236,9 +236,9 @@ function cocart_upload_image_from_url( $image_url ) {
 /**
  * Set uploaded image as attachment.
  *
- * @param array $upload Upload information from wp_upload_bits.
- * @param  int   $id Post ID. Default to 0.
- * @return int Attachment ID
+ * @param  array $upload        Upload information from wp_upload_bits.
+ * @param  int   $id            Post ID. Default to 0.
+ * @return int   $attachment_id Attachment ID.
  */
 function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 	$info    = wp_check_filetype( $upload['file'] );
@@ -422,7 +422,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
  * Convert monetary values from WooCommerce to string based integers, using
  * the smallest unit of a currency.
  *
- * @since  3.1.0
+ * @since  3.1.0 Introduced.
  * @param  string|float $amount        - Monetary amount with decimals.
  * @param  int          $decimals      - Number of decimals the amount is formatted with.
  * @param  int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
@@ -453,7 +453,7 @@ function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode =
 /**
  * Prepares a list of store currency data to return in responses.
  *
- * @since  3.1.0
+ * @since  3.1.0 Introduced.
  * @return array
  */
 function cocart_get_store_currency() {

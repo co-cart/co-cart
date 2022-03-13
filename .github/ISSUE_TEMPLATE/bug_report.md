@@ -17,7 +17,8 @@ assignees: ''
 <!-- Mark completed items with an [x] -->
 
 - [ ] I have searched for similar issues in both open and closed tickets and cannot find a duplicate.
-- [ ] The issue still exists against the latest `master` branch of CoCart on GitHub (this is **not** the same version as on WordPress.org!)
+- [ ] The issue still exists against the latest `trunk` branch of CoCart on GitHub.
+- [ ] The issue still exists against the latest `dev` branch of CoCart on GitHub (this is **not** the same version as on WordPress.org!).
 - [ ] I have attempted to find the simplest possible steps to reproduce the issue.
 - [ ] I have included a failing test as a pull request (Optional)
 - [ ] I have installed the requirements to run this plugin.
@@ -30,7 +31,7 @@ assignees: ''
 2.
 3.
 
-## Expected/actual behaviour
+## Expected/actual behavior
 
 <!-- A clear and concise description of what actually happens. -->
 

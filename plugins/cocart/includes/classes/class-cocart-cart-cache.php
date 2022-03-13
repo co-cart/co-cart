@@ -91,7 +91,7 @@ class CartCache {
 	 * Calculate cached items.
 	 *
 	 * @access public
-	 * @param  WC_Cart
+	 * @param  WC_Cart $cart Cart object.
 	 */
 	public function calculate_cached_items( $cart ) {
 		$cart_contents_cached = $this->get_cart_contents_cached();
@@ -144,7 +144,7 @@ class CartCache {
 	 * @param  mixed  $value Value to set.
 	 */
 	public static function set_cached_item( $item_key, $value ) {
-		if ( $value !== self::get_cached_item( $item_key ) ) {
+		if ( self::get_cached_item( $item_key ) !== $value ) {
 			self::$_cart_contents_cached[ sanitize_key( $item_key ) ] = $value;
 		}
 

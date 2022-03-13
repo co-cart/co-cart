@@ -4,10 +4,10 @@
  *
  * Allows you to update the cart items in bulk.
  *
- * @author   Sébastien Dumont
- * @category Callbacks
- * @package  CoCart\Callback
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\Callback
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 namespace CoCart\CoCart\Callbacks;

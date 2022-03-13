@@ -66,7 +66,7 @@ class CoCart_Store_V2_Controller {
 	 * This endpoint describes the general store details.
 	 *
 	 * @access  public
-	 * @since   3.0.0 Introduced
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
 	 * @param   WP_REST_Request $request - Full details about the request.
 	 * @return  WP_REST_Response The API root index data.
@@ -124,7 +124,7 @@ class CoCart_Store_V2_Controller {
 	 * Returns the list of all public CoCart API routes.
 	 *
 	 * @access  public
-	 * @since   3.0.0 Introduced
+	 * @since   3.0.0 Introduced.
 	 * @since   3.1.0 Added login, logout, cart update and product routes.
 	 * @version 3.1.0
 	 * @return  array
@@ -160,7 +160,7 @@ class CoCart_Store_V2_Controller {
 	 * Get the schema for returning the store.
 	 *
 	 * @access public
-	 * @since  3.1.0 Introduced
+	 * @since  3.1.0 Introduced.
 	 * @return array
 	 */
 	public function get_public_object_schema() {
@@ -170,7 +170,11 @@ class CoCart_Store_V2_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'version'         => array(
-					'description' => sprintf( __( 'Version of the %s (core) plugin.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+					'description' => sprintf(
+						/* translators: %s: CoCart */
+						__( 'Version of the %s (core) plugin.', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
@@ -263,7 +267,11 @@ class CoCart_Store_V2_Controller {
 			// Apply each route to the properties.
 			foreach ( $routes as $route => $endpoint ) {
 				$schema['properties']['routes']['properties'][ $route ] = array(
-					'description' => sprintf( __( 'The "%s" route URL.', 'cart-rest-api-for-woocommerce' ), $route ),
+					'description' => sprintf(
+						/* translators: %s: Route URL */
+						__( 'The "%s" route URL.', 'cart-rest-api-for-woocommerce' ),
+						$route
+					),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

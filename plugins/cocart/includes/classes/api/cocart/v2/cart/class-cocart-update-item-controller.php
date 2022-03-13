@@ -70,7 +70,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 			$item_key = $this->throw_missing_item_key( $item_key, 'update' );
 
 			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
-			if ( 0 == $quantity ) {
+			if ( 0 === $quantity ) {
 				$controller = new CoCart_Remove_Item_v2_Controller();
 
 				return $controller->remove_item( $request );
@@ -99,7 +99,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about cart item key required.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
@@ -121,12 +121,12 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 			/**
 			 * Update cart validation.
 			 *
-			 * @since   2.1.0
+			 * @since   2.1.0 Introduced.
 			 * @version 2.6.2
 			 * @param   bool
-			 * @param   string $item_key     - Item key.
-			 * @param   array  $current_data - Product data of the item in cart.
-			 * @param   float  $quantity     - The requested quantity to change to.
+			 * @param   string $item_key     Item key.
+			 * @param   array  $current_data Product data of the item in cart.
+			 * @param   float  $quantity     The requested quantity to change to.
 			 */
 			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $current_data, $quantity );
 
@@ -147,8 +147,8 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about product not being allowed to increase quantity.
 				 *
-				 * @param string     $message  - Message.
-				 * @param WC_Product $_product - Product data.
+				 * @param string     $message  Message.
+				 * @param WC_Product $_product Product data.
 				 */
 				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $_product );
 
@@ -182,7 +182,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 					/**
 					 * Filters message about can not update item.
 					 *
-					 * @since 2.1.0
+					 * @since 2.1.0 Introduced.
 					 * @param string $message Message.
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );

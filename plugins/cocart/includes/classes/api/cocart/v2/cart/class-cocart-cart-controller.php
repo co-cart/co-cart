@@ -327,7 +327,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   3.1.0     Added product object as parameter and validation for maximum quantity allowed to add to cart.
 	 * @version 3.1.0
 	 * @param   int|float  $quantity The quantity to validate.
-	 * @param   WC_Product $product
+	 * @param   WC_Product $product Product object.
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product = null ) {
 		try {
@@ -339,28 +339,36 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			 * This filter allows control over the minimum quantity a customer must add to purchase said item.
 			 *
 			 * @since 3.0.17
-			 * @since 3.1.0       Added product object as parameter.
-			 * @param int|float   Minimum quantity to validate with.
-			 * @param \WC_Product Product object.
+			 * @since 3.1.0      Added product object as parameter.
+			 * @param int|float  Minimum quantity to validate with.
+			 * @param WC_Product Product object.
 			 */
 			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
 
-			if ( 0 == $quantity || $quantity < $minimum_quantity ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be a minimum of %s.', 'cart-rest-api-for-woocommerce' ), $minimum_quantity ), 405 );
+			if ( 0 === $quantity || $quantity < $minimum_quantity ) {
+				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf(
+					/* translators: %s: Minimum quantity. */
+					__( 'Quantity must be a minimum of %s.', 'cart-rest-api-for-woocommerce' ),
+					$minimum_quantity
+				), 405 );
 			}
 
 			/**
 			 * This filter allows control over the maximum quantity a customer is able to add said item to the cart.
 			 *
 			 * @since 3.1.0
-			 * @param int|float   Maximum quantity to validate with.
-			 * @param \WC_Product Product object.
+			 * @param int|float  Maximum quantity to validate with.
+			 * @param WC_Product Product object.
 			 */
 			$maximum_quantity = ( ( $product->get_max_purchase_quantity() < 0 ) ) ? '' : $product->get_max_purchase_quantity(); // We replace -1 with a blank if stock management is not used.
 			$maximum_quantity = apply_filters( 'cocart_quantity_maximum_allowed', $maximum_quantity, $product );
 
 			if ( ! empty( $maximum_quantity ) && $quantity > $maximum_quantity ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf( __( 'Quantity must be %s or lower.', 'cart-rest-api-for-woocommerce' ), $maximum_quantity ), 405 );
+				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf(
+					/* translators: %s: Maximum quantity. */
+					__( 'Quantity must be %s or lower.', 'cart-rest-api-for-woocommerce' ),
+					$maximum_quantity
+				), 405 );
 			}
 
 			return wc_stock_amount( $quantity );
@@ -379,10 +387,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @version 3.0.6
 	 * @param   int        $variation_id ID of the variation.
 	 * @param   array      $variation    Attribute values.
-	 * @param   WC_Product $product      The product data.
+	 * @param   WC_Product $product      Product data.
 	 * @return  array
 	 */
-	protected function validate_variable_product( int $variation_id, array $variation, \WC_Product $product ) {
+	protected function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
 		try {
 			// Flatten data and format posted values.
 			$variable_product_attributes = $this->get_variable_product_attributes( $product );
@@ -1443,18 +1451,19 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Cleans up the meta data for API.
 	 *
-	 * @access protected
-	 * @since  3.1.0
-	 * @param  object $method Method data.
-	 * @param  string $type   Meta data we are cleaning for.
-	 * @return array
+	 * @access  protected
+	 * @since   3.1.0 Introduced
+	 * @version 3.1.2
+	 * @param   object $method Method data.
+	 * @param   string $type   Meta data we are cleaning for.
+	 * @return  array
 	 */
 	protected function clean_meta_data( $method, $type = 'shipping' ) {
 		$meta_data = $method->get_meta_data();
 
 		switch ( $type ) {
 			case 'shipping':
-				$meta_data['items'] = html_entity_decode( wp_strip_all_tags( $meta_data['Items'] ) );
+				$meta_data['items'] = isset( $meta_data['Items'] ) ? html_entity_decode( wp_strip_all_tags( $meta_data['Items'] ) ) : '';
 				unset( $meta_data['Items'] );
 
 				break;
@@ -1522,7 +1531,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param   WC_Product $product_data   Product data.
 	 * @return  string|boolean $item_key
 	 */
-	public function add_cart_item( int $product_id, int $quantity, $variation_id, array $variation, array $cart_item_data, \WC_Product $product_data ) {
+	public function add_cart_item( int $product_id, int $quantity, $variation_id, array $variation, array $cart_item_data, WC_Product $product_data ) {
 		try {
 			// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
@@ -1727,10 +1736,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 					break;
 				case 'customer':
 					if ( ! empty( $child_field ) ) {
-						if ( $child_field === 'billing_address' ) {
+						if ( 'billing_address' === $child_field ) {
 							$template['customer']['billing_address'] = $this->get_customer_fields( 'billing' );
 						}
-						if ( $child_field === 'shipping_address' ) {
+						if ( 'shipping_address' === $child_field ) {
 							$template['customer']['shipping_address'] = $this->get_customer_fields( 'shipping' );
 						}
 					} else {
@@ -1772,34 +1781,34 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 						$child_field = explode( '-', $child_field );
 
 						foreach ( $child_field as $total ) {
-							if ( $total === 'subtotal' ) {
+							if ( 'subtotal' === $total ) {
 								$template['totals']['subtotal'] = cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() );
 							}
-							if ( $total === 'subtotal_tax' ) {
+							if ( 'subtotal_tax' === $total ) {
 								$template['totals']['subtotal_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() );
 							}
-							if ( $total === 'fee_total' ) {
+							if ( 'fee_total' === $total ) {
 								$template['totals']['fee_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() );
 							}
-							if ( $total === 'fee_tax' ) {
+							if ( 'fee_tax' === $total ) {
 								$template['totals']['fee_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() );
 							}
-							if ( $total === 'discount_total' ) {
+							if ( 'discount_total' === $total ) {
 								$template['totals']['discount_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() );
 							}
-							if ( $total === 'discount_tax' ) {
+							if ( 'discount_tax' === $total ) {
 								$template['totals']['discount_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() );
 							}
-							if ( $total === 'shipping_total' ) {
+							if ( 'shipping_total' === $total ) {
 								$template['totals']['shipping_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() );
 							}
-							if ( $total === 'shipping_tax' ) {
+							if ( 'shipping_tax' === $total ) {
 								$template['totals']['shipping_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() );
 							}
-							if ( $total === 'total' ) {
+							if ( 'total' === $total ) {
 								$template['totals']['total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() );
 							}
-							if ( $total === 'total_tax' ) {
+							if ( 'total_tax' === $total ) {
 								$template['totals']['total_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() );
 							}
 						}
@@ -1894,6 +1903,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 	/**
 	 * Throws exception if the item key is not provided when either removing, updating or restoring the item.
+	 *
+	 * @throws CoCart_Data_Exception If an error notice is detected, Exception is thrown.
 	 *
 	 * @access protected
 	 * @since  3.0.17

@@ -34,6 +34,7 @@ class Cart {
 	 * Registers callback to update cart.
 	 *
 	 * @access public
+	 * @param CoCart_Cart_Extension $callback Instance of the CoCart_Cart_Extension class.
 	 */
 	public function register_callback_update_cart( $callback ) {
 		include_once COCART_ABSPATH . 'includes/callbacks/update-cart.php';

@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce System Status
  * @since   2.1.0
- * @version 3.1.0
+ * @version 3.1.2
  * @license GPL-2.0+
  */
 
@@ -536,11 +536,11 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.1.0
-		 * @version 3.0.0
+		 * @version 3.1.2
 		 * @return  string
 		 */
 		public function debug_clear_carts() {
-			$results = CoCart_API_Session::clear_carts();
+			$results = cocart_task_clear_carts( true );
 
 			/* translators: %s: results */
 			return sprintf( esc_html__( 'All active carts have been cleared and %s saved carts.', 'cart-rest-api-for-woocommerce' ), absint( $results ) );
@@ -550,11 +550,12 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Runs the debug callback for clearing expired carts ONLY.
 		 *
 		 * @access  public
-		 * @version 3.0.0
+		 * @since   2.1.0
+		 * @version 3.1.2
 		 * @return  string
 		 */
 		public function debug_clear_expired_carts() {
-			CoCart_API_Session::cleanup_carts();
+			cocart_task_cleanup_carts();
 
 			return esc_html__( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' );
 		} // END debug_clear_expired_carts()

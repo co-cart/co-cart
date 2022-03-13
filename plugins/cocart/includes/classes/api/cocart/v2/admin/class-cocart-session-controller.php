@@ -134,7 +134,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @since   2.1.0
 	 * @version 3.1.0
 	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response          Returns the cart data from the database.
+	 * @return  WP_REST_Response         Returns the cart data from the database.
 	 */
 	public function get_cart_in_session( $request = array() ) {
 		$session_key = ! empty( $request['session_key'] ) ? $request['session_key'] : '';
@@ -737,6 +737,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
+	 * @param  mixed $customer Customer object or ID.
 	 * @return WC_Customer $customer Customer object or ID.
 	 */
 	public function get_customer( $customer = 0 ) {

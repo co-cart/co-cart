@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.1.0
+ * @version 3.1.2
  * @license GPL-2.0+
  */
 
@@ -18,11 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API session class.
+ * CoCart load cart class.
  *
- * @package CoCart REST API/Session
+ * @package CoCart/Load Cart
  */
-class APISession {
+class LoadCart {
 
 	/**
 	 * Setup class.
@@ -30,9 +30,6 @@ class APISession {
 	 * @access public
 	 */
 	public function __construct() {
-		// Cleans up carts from the database that have expired.
-		add_action( 'cocart_cleanup_carts', array( $this, 'cleanup_carts' ) );
-
 		// Loads a cart in session if still valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ), 10 );
 	} // END __construct()
@@ -40,7 +37,10 @@ class APISession {
 	/**
 	 * Returns true or false if the cart key is saved in the database.
 	 *
+	 * @todo Deprecate in the future.
+	 *
 	 * @access public
+	 * @since  2.1.0 Introduced.
 	 * @param  string $cart_key Requested cart key.
 	 * @return bool
 	 */
@@ -60,25 +60,14 @@ class APISession {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.1.0
-	 * @version 2.1.2
-	 * @global  $wpdb
-	 * @return  int $results The number of saved carts.
+	 * @since   2.1.0 Introduced
+	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @version 3.1.2
 	 */
 	public static function clear_carts() {
-		global $wpdb;
+		_deprecated_function( 'clear_carts', '3.1.2', 'cocart_task_clear_carts' );
 
-		$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
-
-		/**
-		 * Clear saved carts.
-		 *
-		 * @since 2.1.2
-		 */
-		$results = absint( $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key='_woocommerce_persistent_cart_" . get_current_blog_id() . "';" ) );// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		wp_cache_flush();
-
-		return $results;
+		cocart_task_clear_carts();
 	} // END clear_cart()
 
 	/**
@@ -86,20 +75,14 @@ class APISession {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.1.0
-	 * @version 3.1.0
+	 * @since   2.1.0 Introduced
+	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @version 3.1.2
 	 */
 	public static function cleanup_carts() {
-		if ( ! class_exists( 'CoCart_Session_Handler' ) ) {
-			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-		}
+		_deprecated_function( 'cleanup_carts', '3.1.2', 'cocart_task_cleanup_carts' );
 
-		$session = new CoCart_Session_Handler();
-
-		if ( is_callable( array( $session, 'cleanup_sessions' ) ) ) {
-			$session->cleanup_sessions();
-		}
+		cocart_task_cleanup_carts();
 	} // END cleanup_carts()
 
 	/**
@@ -111,8 +94,8 @@ class APISession {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.1.0
-	 * @version 3.1.0
+	 * @since   2.1.0 Introduced.
+	 * @version 3.1.2
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
@@ -246,9 +229,6 @@ class APISession {
 				WC()->session->set_customer_cart_cookie( true );
 			}
 
-			// Calculate totals.
-			WC()->cart->calculate_totals();
-
 			// If true, notify the customer that there cart has transferred over via the web.
 			if ( ! empty( $new_cart ) && $notify_customer ) {
 				/* translators: %1$s: Start of link to Shop archive. %2$s: Start of link to checkout page. %3$s: Closing link tag. */
@@ -262,7 +242,7 @@ class APISession {
 	 * and if this feature is not disabled.
 	 *
 	 * @access public
-	 * @since  3.0.0
+	 * @since  3.0.0 Introduced.
 	 * @return bool
 	 */
 	public static function maybe_load_cart() {
@@ -285,14 +265,14 @@ class APISession {
 	 * Get the load cart action query name.
 	 *
 	 * @access protected
-	 * @since  3.0.0
+	 * @since  3.0.0 Introduced.
 	 * @return string
 	 */
 	protected static function get_action_query() {
 		/**
 		 * Filter to allow developers add more white labelling when loading the cart via web.
 		 *
-		 * @since 2.8.2
+		 * @since 2.8.2 Introduced.
 		 * @param string
 		 */
 		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
@@ -302,4 +282,4 @@ class APISession {
 
 } // END class
 
-return new APISession();
+return new LoadCart();
