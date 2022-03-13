@@ -31,7 +31,7 @@ Edit `composer.json` in the root directory and add the package and package versi
 ```json
 {
 	"name": "co-cart/co-cart",
-	"description": "CoCart is a REST API for WooCommerce. It focuses on the front-end of the store to manage the shopping cart allowing developers to build a headless store.",
+	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
 	"homepage": "https://cocart.xyz",
 	"type": "wordpress-plugin",
 	"license": "GPL-3.0-or-later",
@@ -44,14 +44,18 @@ Edit `composer.json` in the root directory and add the package and package versi
 	...
 ```
 
-Finally, you will need to tell core to load your package. Edit `src/packages.php` and add your package to the list of packages there:
+Next, if your package contains user translatable strings you'll need to edit `bin/package-update.sh` and instruct it to change your package textdomain to the `cart-rest-api-for-woocommerce` textdomain. For example:
+
+```
+find ./packages/cocart-example-package -iname '*.php' -exec sed -i.bak -e "s/, 'cocart-example-package'/, 'cart-rest-api-for-woocommerce'/g" {} \;
+```
 
 ```php
 	protected static $packages = [
-		'admin' => 'CoCart_Admin',
-		'compatibility' => 'CoCart_Compatibility',
-		'third-party' => 'CoCart_Third_Party',
-		'example-package' => 'CoCart_Example_Package',
+		'admin' => '\\CoCart\\Admin\\Package',
+		'compatibility' => '\\CoCart\\Compatibility\\Package',
+		'third-party' => '\\CoCart\\ThirdParty\\Package',
+		'example-package' => '\\CoCart\\ExamplePackage\\Package',
 	];
 ```
 
@@ -64,3 +68,25 @@ composer install
 ```
 
 and that will install the required Composer packages.
+
+### Using packages
+
+To use something from a package, you have to declare it at the top of the file before any other instruction, and then use it in the code. For example:
+
+```php
+use CoCart\ExamplePackage\ExampleClass;
+
+// other code...
+
+$class = new ExampleClass();
+```
+
+If you need to rule out conflicts, you can alias it:
+
+```php
+use CoCart\ExamplePackage\ExampleClass as Example_Class_Alias;
+
+// other code...
+
+$class = new Example_Class_Alias();
+```
