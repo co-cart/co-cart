@@ -1,5 +1,5 @@
 === CoCart - Headless ecommerce === 
-Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications
+Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.6
