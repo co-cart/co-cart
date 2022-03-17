@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   2.3.0
- * @version 3.1.0
+ * @version 3.2.0
  * @license GPL-2.0+
  */
 
@@ -75,13 +75,14 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.3.0
-	 * @version 3.1.0
+	 * @since   2.3.0 Introduced.
+	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
+	 * @version 3.2.0
 	 * @return  array
 	 */
 	public static function get_note_args() {
-		$type   = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_MARKETING : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_MARKETING;
-		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+		$type   = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_MARKETING;
+		$status = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
 		$campaign_args = CoCart_Helpers::cocart_campaign(
 			array(

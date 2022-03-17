@@ -81,7 +81,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 * @static
 		 * @param   array $args - The arguments of the note to use to create the note.
 		 * @since   2.3.0
-		 * @version 2.8.0
+		 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
 		 * @return  object
 		 */
 		public static function create_new_note( $args = array() ) {
@@ -94,7 +94,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 			}
 
 			// Type of note.
-			$type = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_INFORMATIONAL : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_INFORMATIONAL;
+			$type = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_INFORMATIONAL;
 
 			// Default arguments.
 			$default_args = array(
@@ -127,18 +127,13 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 			}
 
 			// First, see if we've already created this note so we don't do it again.
-			$data_store = \WC_Data_Store::load( 'admin-note' );
+			$data_store = Automattic\WooCommerce\Admin\Notes\Notes::load_data_store();
 			$note_ids   = $data_store->get_notes_with_name( $args['name'] );
 			if ( ! empty( $note_ids ) ) {
 				return;
 			}
 
-			// Are we are on WooCommerce 4.8 or greater.
-			if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
-				$note = new Automattic\WooCommerce\Admin\Notes\Note();
-			} else {
-				$note = new Automattic\WooCommerce\Admin\Notes\WC_Admin_Note();
-			}
+			$note = new Automattic\WooCommerce\Admin\Notes\Note();
 
 			$note->set_name( $args['name'] );
 			$note->set_title( $args['title'] );
