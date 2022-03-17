@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
  * @since   1.2.0
- * @version 3.1.0
+ * @version 3.2.0
  * @license GPL-2.0+
  */
 
@@ -308,17 +308,21 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Shows a notice asking the user for a review of CoCart.
 		 *
-		 * @access public
-		 * @since  3.0.0
-		 * @return void
+		 * @access  public
+		 * @since   3.0.0
+		 * @version 3.2.0
+		 * @return  void
 		 */
 		public function timed_notices() {
+			// Add review notice first. We will remove it after if already dismissed.
+			self::add_notice( 'plugin_review' );
+
 			// Was the plugin review notice dismissed?
 			$hide_review_notice = get_user_meta( get_current_user_id(), 'dismissed_cocart_plugin_review_notice', true );
 
-			// Check if we need to display the review plugin notice.
-			if ( empty( $hide_review_notice ) ) {
-				self::add_notice( 'plugin_review' );
+			// If review plugin notice dismissed, remove it.
+			if ( $hide_review_notice ) {
+				self::remove_notice( 'plugin_review' );
 			}
 		} // END timed_notices()
 
