@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   2.4.0
- * @version 3.0.7
+ * @version 3.2.0
  * @license GPL-2.0+
  */
 
@@ -46,9 +46,12 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access public
 	 * @static
-	 * @param string $note_name  Note name.
-	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param string $source     Source of the note.
+	 * @since   2.4.0 Introduced.
+	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
+	 * @version 3.2.0
+	 * @param string $note_name Note name.
+	 * @param string $seconds   How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source    Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -80,21 +83,11 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 
 				$note_id = array_pop( $note_ids );
 
-				// Are we on WooCommerce 4.8 or greater.
-				if ( CoCart_Helpers::is_wc_version_gte_4_8() ) {
-					$note = Automattic\WooCommerce\Admin\Notes\Notes::get_note( $note_id );
+				$note = Automattic\WooCommerce\Admin\Notes\Notes::get_note( $note_id );
 
-					if ( Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED !== $note->get_status() ) {
-						$note->set_status( Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED );
-						$note->save();
-					}
-				} else {
-					$note = Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes::get_note( $note_id );
-
-					if ( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED !== $note->get_status() ) {
-						$note->set_status( Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED );
-						$note->save();
-					}
+				if ( Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED !== $note->get_status() ) {
+					$note->set_status( Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED );
+					$note->save();
 				}
 			}
 
@@ -110,12 +103,13 @@ class CoCart_WC_Admin_Activate_Pro_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.4.0
-	 * @version 3.0.7
+	 * @since   2.4.0 Introduced.
+	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
+	 * @version 3.2.0
 	 * @return  array
 	 */
 	public static function get_note_args() {
-		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_ACTIONED;
+		$status = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_ACTIONED;
 
 		$args = array(
 			'title'   => sprintf(

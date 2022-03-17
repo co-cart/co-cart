@@ -35,9 +35,9 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access public
 	 * @static
-	 * @param string $note_name  Note name.
-	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param string $source     Source of the note.
+	 * @param string $note_name Note name.
+	 * @param string $seconds   How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source    Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );

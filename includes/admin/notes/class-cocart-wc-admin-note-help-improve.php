@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   2.3.0
- * @version 3.0.7
+ * @version 3.2.0
  * @license GPL-2.0+
  */
 
@@ -35,9 +35,9 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access public
 	 * @static
-	 * @param string $note_name  Note name.
-	 * @param string $seconds    How many seconds since CoCart was installed before the notice is shown.
-	 * @param string $source     Source of the note.
+	 * @param string $note_name Note name.
+	 * @param string $seconds   How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source    Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -56,16 +56,19 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
+	 * @since   2.3.0 Introduced.
+	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
+	 * @version 3.2.0
 	 * @return array
 	 */
 	public static function get_note_args() {
-		$status = CoCart_Helpers::is_wc_version_gte_4_8() ? Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED : Automattic\WooCommerce\Admin\Notes\WC_Admin_Note::E_WC_ADMIN_NOTE_UNACTIONED;
+		$status = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
 		$args = array(
 			'title'   => __( 'Help improve CoCart', 'cart-rest-api-for-woocommerce' ),
-			'content' => __( 'I\'d love your input to shape the future of the CoCart REST API together. Feel free to share any feedback, ideas or suggestions that you have.', 'cart-rest-api-for-woocommerce' ),
+			'content' => __( 'I\'d love your input to shape the future of CoCart together. Feel free to share any feedback, ideas or suggestions that you have.', 'cart-rest-api-for-woocommerce' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
