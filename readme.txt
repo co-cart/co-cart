@@ -386,7 +386,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.2.0 - 15th March, 2022 =
+= v3.2.0 - 17th March, 2022 =
 
 ### What's New?
 
