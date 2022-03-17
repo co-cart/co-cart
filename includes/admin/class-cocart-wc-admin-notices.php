@@ -34,7 +34,8 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.3.0
-		 * @version 2.8.0
+		 * @since   3.2.0 Check if WC Admin is enabled or available.
+		 * @version 3.2.0
 		 */
 		public function include_notes() {
 			// Don't include notes if WC v4.0 or greater is not installed.
@@ -42,13 +43,8 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				return;
 			}
 
-			// Don't include notes if WC Admin does not exist.
-			if (
-				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes' ) ||
-				! class_exists( 'Automattic\WooCommerce\Admin\Notes\WC_Admin_Note' ) ||
-				! class_exists( 'Automattic\WooCommerce\Admin\Notes\Notes' ) ||
-				! class_exists( 'Automattic\WooCommerce\Admin\Notes\Note' )
-			) {
+			// Don't include notes if WC Admin is not enabled or available.
+			if ( ! CoCart_Helpers::is_wc_admin_enabled() ) {
 				return;
 			}
 
