@@ -1,5 +1,29 @@
 # Changelog for CoCart Lite
 
+## v3.2.0 - 17th March, 2022
+
+### What's New?
+
+* Enhancement: Moved products array to it's own object and returned pagination information in the response. - **Products API v2 ONLY!**
+
+> Dev note: A small break but a good one thanks to the feedback from **Alberto Abruzzo**. This only affects when accessing all products with or without arguments set. Just need to access the array of products from an object not just from the response. What's also great about this enhancement is that any arguments set will also be appended to the pagination links making it easy for developers.
+
+### Bug Fix
+
+* Fixed: Plugin review notice reappearing even after it has been dismissed.
+
+### Deprecated
+
+* Support for WooCommerce less than version 4.8 or legacy versions of WooCommerce Admin before it was packaged with the core of WooCommerce.
+
+### Enhancements
+
+* Better detection of WooCommerce Admin. Now checks if the feature is enabled.
+
+### For Developers
+
+* Introduced new filter `cocart_prevent_wc_admin_note_created` to prevent WooCommerce Admin notes from being created.
+
 ## v3.1.2 - 10th March, 2022
 
 ### Bug Fixes

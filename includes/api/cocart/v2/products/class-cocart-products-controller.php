@@ -104,11 +104,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		$page      = (int) $query_args['paged'];
 		$max_pages = $query_results['pages'];
 
-		$results = array(
+		$results  = array(
 			'products'       => $objects,
 			'page'           => $page,
 			'total_pages'    => (int) $max_pages,
-			'total_products' => $query_results['total']
+			'total_products' => $query_results['total'],
 		);
 		$response = rest_ensure_response( $results );
 		$response->header( 'X-WP-Total', $query_results['total'] );
@@ -144,7 +144,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 			$prev_link = add_query_arg( 'page', $prev_page, $base );
 			$response->add_links( array(
-				'prev' => array( 'href' => $prev_link )
+				'prev' => array( 'href' => $prev_link ),
 			) );
 			$response->link_header( 'prev', $prev_link );
 		}
@@ -153,7 +153,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			$next_page = $page + 1;
 			$next_link = add_query_arg( 'page', $next_page, $base );
 			$response->add_links( array(
-				'next' => array( 'href' => $next_link )
+				'next' => array( 'href' => $next_link ),
 			) );
 			$response->link_header( 'next', $next_link );
 		}
