@@ -8,7 +8,7 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart\Abstracts;
+namespace CoCart\Abstracts;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

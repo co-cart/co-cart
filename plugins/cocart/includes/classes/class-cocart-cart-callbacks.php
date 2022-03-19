@@ -8,9 +8,9 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart\Callbacks;
+namespace CoCart\Callbacks;
 
-use CoCart\CoCart\Callbacks\UpdateCart;
+use CoCart\Callbacks\UpdateCart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

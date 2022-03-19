@@ -7,8 +7,6 @@
 module.exports = function(grunt) {
 	'use strict';
 
-	var sass = require( 'node-sass' );
-
 	require( 'load-grunt-tasks' )( grunt );
 
 	// Project configuration.
@@ -17,10 +15,7 @@ module.exports = function(grunt) {
 
 		// Setting folder templates.
 		dirs: {
-			css: 'plugins/cocart/assets/css',
-			js: 'plugins/cocart/assets/js',
 			php: 'plugins/cocart/includes',
-			scss: 'source/scss',
 		},
 
 		// Update developer dependencies
@@ -38,153 +33,6 @@ module.exports = function(grunt) {
 					updateType: 'force'
 				}
 			}
-		},
-
-		// SASS to CSS
-		sass: {
-			options: {
-				implementation: sass,
-				sourcemap: 'none'
-			},
-			dist: {
-				files: {
-					'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin/admin.scss',
-					'<%= dirs.css %>/admin/cocart-setup.css' : '<%= dirs.scss %>/admin/cocart-setup.scss',
-					'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/admin/plugin-search.scss'
-				}
-			}
-		},
-
-		// Generate RTL .css files.
-		rtlcss: {
-			dist: {
-				expand: true,
-				src: [
-					'<%= dirs.css %>/admin/*.css',
-					'!<%= dirs.css %>/admin/*-rtl.css',
-					'!<%= dirs.css %>/admin/*.min.css'
-				],
-				ext: '-rtl.css'
-			}
-		},
-
-		// Post CSS
-		postcss: {
-			options: {
-				processors: [
-					require('autoprefixer')
-				]
-			},
-			dist: {
-				expand: true,
-				src: [
-					'!<%= dirs.css %>/admin/*.min.css',
-					'<%= dirs.css %>/admin/*.css'
-				],
-				ext: '.css'
-			}
-		},
-
-		// Minify JavaScript
-		uglify: {
-			options: {
-				compress: {
-					global_defs: {
-						"EO_SCRIPT_DEBUG": false
-					},
-					dead_code: true
-				},
-				banner: '/*! <%= pkg.title %> v<%= pkg.version %> <%= grunt.template.today("dddd dS mmmm yyyy HH:MM:ss TT Z") %> */'
-			},
-			build: {
-				files: [{
-					expand: true,
-					cwd: '<%= dirs.js %>/admin',
-					src: [
-						'*.js',
-						'!*.min.js'
-					],
-					dest: '<%= dirs.js %>/admin',
-					ext: '.min.js'
-				}]
-			}
-		},
-
-		// Minify CSS
-		cssmin: {
-			options: {
-				processImport: false,
-				roundingPrecision: -1,
-				shorthandCompacting: false
-			},
-			target: {
-				files: [{
-					expand: true,
-					cwd: '<%= dirs.css %>/admin',
-					src: [
-						'*.css',
-						'!*.min.css'
-					],
-					dest: '<%= dirs.css %>/admin',
-					ext: '.min.css'
-				}]
-			}
-		},
-
-		// Check for Javascript errors.
-		jshint: {
-			options: {
-				reporter: require('jshint-stylish'),
-				globals: {
-					"EO_SCRIPT_DEBUG": false,
-				},
-				'-W099': true, // Mixed spaces and tabs
-				'-W083': true, // Fix functions within loop
-				'-W082': true, // Declarations should not be placed in blocks
-				'-W020': true, // Read only - error when assigning EO_SCRIPT_DEBUG a value.
-			},
-			all: [
-				'<%= dirs.js %>/admin/*.js',
-				'!<%= dirs.js %>/admin/*.min.js'
-			]
-		},
-
-		// Watch for changes made.
-		watch: {
-			postcss: {
-				files: [
-					'!<%= dirs.css %>/admin/*.min.css',
-					'<%= dirs.css %>/admin/*.css'
-				],
-				tasks: ['postcss'],
-				options: {
-					interrupt: true
-				}
-			},
-			css: {
-				files: [
-					'<%= dirs.scss %>/*.scss',
-					'<%= dirs.scss %>/admin/*.scss',
-				],
-				tasks: ['css']
-			},
-			js: {
-				files: [
-					'<%= dirs.js %>/admin/*.js',
-					'!<%= dirs.js %>/admin/*.min.js'
-				],
-				tasks: ['jshint']
-			},
-		},
-
-		// Check for Sass errors with "stylelint"
-		stylelint: {
-			options: {
-				configFile: '.stylelintrc'
-			},
-			all: [
-				'<%= dirs.scss %>/**/*.scss',
-			]
 		},
 
 		// Generate .pot file
@@ -474,12 +322,6 @@ module.exports = function(grunt) {
 	// Checks for errors.
 	grunt.registerTask( 'test', [ 'stylelint', 'jshint', 'checktextdomain' ] );
 
-	// Build CSS ONLY!
-	grunt.registerTask( 'css', [ 'stylelint', 'sass', 'rtlcss', 'postcss', 'cssmin' ] );
-
-	// Build JS ONLY!
-	grunt.registerTask( 'js', [ 'jshint', 'uglify' ] );
-
 	// Update version of plugin and package.
 	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme', 'replace:package' ] );
 
@@ -504,15 +346,9 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'zipfire', [ 'copy:firebuild', 'compress:firebuild', 'clean:firebuild' ] );
 
 	// Build Plugin.
-	grunt.registerTask( 'build', [ 'version', 'css', 'js', 'update-pot', 'zip' ] );
-	grunt.registerTask( 'fire', [ 'version', 'css', 'js', 'update-pot', 'zipfire' ] );
+	grunt.registerTask( 'build', [ 'version', 'update-pot', 'zip' ] );
+	grunt.registerTask( 'fire', [ 'version', 'update-pot', 'zipfire' ] );
 
 	// Ready for release.
-	grunt.registerTask( 'ready', [ 'version', 'stable', 'css', 'js', 'update-pot', 'zip' ] );
-
-	// Register Watcher Tasks.
-	grunt.registerTask( 'watch-css', ['watch:css'] );
-	grunt.registerTask( 'watch-js', ['watch:js'] );
-	grunt.registerTask( 'watch-postcss', ['watch:postcss'] );
-
+	grunt.registerTask( 'ready', [ 'version', 'stable', 'update-pot', 'zip' ] );
 };

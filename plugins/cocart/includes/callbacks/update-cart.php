@@ -10,9 +10,9 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart\Callbacks;
+namespace CoCart\Callbacks;
 
-use CoCart\CoCart\Abstracts;
+use CoCart\Abstracts;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

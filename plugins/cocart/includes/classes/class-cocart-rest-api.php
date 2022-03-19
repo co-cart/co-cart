@@ -11,11 +11,11 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
-use CoCart\CoCart\Authentication;
-use CoCart\CoCart\Logger;
-use CoCart\CoCart\Help;
+use CoCart\Authentication;
+use CoCart\Logger;
+use CoCart\Help;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

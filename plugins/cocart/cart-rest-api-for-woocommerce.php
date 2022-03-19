@@ -25,10 +25,10 @@ if ( ! defined( 'COCART_FILE' ) ) {
 // Package loader.
 require __DIR__ . '/src/packages.php';
 
-\CoCart\CoCart\Packages::init();
+\CoCart\Packages::init();
 
 // Include the main CoCart class.
-if ( ! class_exists( 'CoCart\CoCart\Core', false ) ) {
+if ( ! class_exists( 'CoCart\Core', false ) ) {
 	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/classes/class-cocart.php';
 }
 
@@ -44,7 +44,7 @@ if ( ! function_exists( 'CoCart' ) ) {
 	 * Initialize CoCart.
 	 */
 	function CoCart() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-		return \CoCart\CoCart\Core::init();
+		return \CoCart\Core::init();
 	}
 
 	CoCart();

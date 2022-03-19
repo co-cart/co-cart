@@ -9,10 +9,10 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
-use CoCart\CoCart\Core\Logger;
-use CoCart\CoCart\Core\Install;
+use CoCart\Logger;
+use CoCart\Install;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

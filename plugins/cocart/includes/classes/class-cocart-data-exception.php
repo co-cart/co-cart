@@ -10,9 +10,9 @@
  * @version 3.1.0
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
-use CoCart\CoCart\Logger;
+use CoCart\Logger;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

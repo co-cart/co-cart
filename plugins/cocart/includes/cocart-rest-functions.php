@@ -11,8 +11,8 @@
  * @license GPL-2.0+
  */
 
-use CoCart\CoCart\Authentication;
-use CoCart\CoCart\Logger;
+use CoCart\Authentication;
+use CoCart\Logger;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

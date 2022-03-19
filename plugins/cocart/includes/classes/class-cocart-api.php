@@ -10,7 +10,7 @@
  * @version 3.0.7
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

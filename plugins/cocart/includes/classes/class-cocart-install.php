@@ -9,7 +9,7 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -709,4 +709,4 @@ UNIQUE KEY cart_key (cart_key)
 
 } // END class.
 
-\CoCart\CoCart\Install::init();
+\CoCart\Install::init();

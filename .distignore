@@ -8,14 +8,9 @@
 /node_modules/
 /tests/
 composer.*
-contributors.html
-docker-compose.yaml
-Dockerfile
 Gruntfile.js
 package-lock.json
 package.json
 phpcs.xml
-phpunit.xml
-phpunit.xml.dist
 README.md
 renovate.json

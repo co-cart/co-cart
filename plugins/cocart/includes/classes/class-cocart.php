@@ -9,10 +9,10 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
-use CoCart\CoCart\Help;
-use CoCart\CoCart\Install;
+use CoCart\Help;
+use CoCart\Install;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Main CoCart class.
  *
- * @class CoCart
+ * @class CoCart\Core
  */
 final class Core {
 
@@ -86,8 +86,6 @@ final class Core {
 	public static function init() {
 		self::setup_constants();
 		self::includes();
-		self::include_extension_compatibility();
-		self::include_third_party();
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
@@ -233,15 +231,7 @@ final class Core {
 		 * Load backend features only if COCART_WHITE_LABEL constant is
 		 * NOT set or IS set to false in user's wp-config.php file.
 		 */
-		if (
-			! defined( 'COCART_WHITE_LABEL' ) ||
-			false === COCART_WHITE_LABEL && is_admin() ||
-			( defined( 'WP_CLI' ) && WP_CLI )
-		) {
-			if ( file_exists( COCART_ABSPATH . 'includes/classes/admin/class-cocart-admin.php' ) ) {
-				include_once COCART_ABSPATH . 'includes/classes/admin/class-cocart-admin.php';
-			}
-		} else {
+		if ( defined( 'COCART_WHITE_LABEL' ) && COCART_WHITE_LABEL && is_admin() ) {
 			include_once COCART_ABSPATH . 'includes/classes/admin/class-cocart-wc-admin-system-status.php';
 		}
 	} // END includes()
@@ -260,32 +250,6 @@ final class Core {
 	public static function background_updater() {
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-background-updater.php';
 	} // END background_updater()
-
-	/**
-	 * Include extension compatibility.
-	 *
-	 * @access public
-	 * @static
-	 * @since  3.0.0
-	 */
-	public static function include_extension_compatibility() {
-		if ( file_exists( COCART_ABSPATH . 'includes/compatibility/class-cocart-compatibility.php' ) ) {
-			include_once COCART_ABSPATH . 'includes/compatibility/class-cocart-compatibility.php';
-		}
-	} // END include_extension_compatibility()
-
-	/**
-	 * Include third party support.
-	 *
-	 * @access public
-	 * @static
-	 * @since  2.8.1
-	 */
-	public static function include_third_party() {
-		if ( file_exists( COCART_ABSPATH . 'includes/third-party/class-cocart-third-party.php' ) ) {
-			include_once COCART_ABSPATH . 'includes/third-party/class-cocart-third-party.php';
-		}
-	} // END include_third_party()
 
 	/**
 	 * Install CoCart upon activation.
@@ -363,7 +327,7 @@ final class Core {
 		if ( class_exists( 'WC_Session' ) ) {
 			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 			include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
-			$handler = '\CoCart\CoCart\CoCart_Session_Handler';
+			$handler = '\CoCart\CoCart_Session_Handler';
 		}
 
 		return $handler;

@@ -6,8 +6,6 @@
 
 # Remove files for archives generated using `git archive`.
 /.*                 export-ignore
-assets/scss/*       export-ignore
-assets/scss/admin/* export-ignore
 bin                 export-ignore
 tests               export-ignore
 CODE_OF_CONDUCT.md  export-ignore

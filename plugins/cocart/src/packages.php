@@ -8,7 +8,7 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -50,9 +50,9 @@ class Packages {
 	 * @var    array Key is the package name/directory, value is the main package class which handles init.
 	 */
 	protected static $packages = array(
-		'admin' => 'CoCart_Admin',
-		'compatibility' => 'CoCart_Compatibility',
-		'third-party' => 'CoCart_Third_Party',
+		'admin' => '\\CoCart\\Admin\\Package',
+		'compatibility' => '\\CoCart\\Compatibility\\Package',
+		'third-party' => '\\CoCart\\ThirdParty\\Package',
 	);
 
 	/**

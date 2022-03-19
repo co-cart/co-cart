@@ -9,10 +9,10 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\CoCart;
+namespace CoCart;
 
-use CoCart\CoCart\Authentication;
-use CoCart\CoCart\CoCart_Session_Handler;
+use CoCart\Authentication;
+use CoCart\CoCart_Session_Handler;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
