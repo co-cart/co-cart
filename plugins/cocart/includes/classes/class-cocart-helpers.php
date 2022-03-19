@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.3.0
- * @version 3.0.12
+ * @version 3.2.0
  * @license GPL-2.0+
  */
 
@@ -77,6 +77,14 @@ class Help {
 	 * @var   array
 	 */
 	private static $is_wp_version_lt = array();
+
+	/**
+	 * Cache WC Admin status result.
+	 *
+	 * @since 3.2.0
+	 * @var   bool
+	 */
+	private static $is_wc_admin_enabled = null;
 
 	/**
 	 * Helper method to get the version of the currently installed WooCommerce.
@@ -754,6 +762,32 @@ class Help {
 
 		return true;
 	} // END is_white_labelled()
+
+	/**
+	 * Returns true if the WC Admin feature is installed and enabled.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.2.0 Introduced.
+	 * @return boolean
+	 */
+	public static function is_wc_admin_enabled() {
+		if ( is_null( self::$is_wc_admin_enabled ) ) {
+			$enabled = false;
+
+			if ( function_exists( 'wc_admin_connect_page' ) ) {
+				$enabled = true;
+
+				if ( apply_filters( 'woocommerce_admin_disabled', false ) ) {
+					$enabled = false;
+				}
+			}
+
+			self::$is_wc_admin_enabled = $enabled;
+		}
+
+		return self::$is_wc_admin_enabled;
+	} // END is_wc_admin_enabled()
 
 } // END class
 

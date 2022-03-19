@@ -1,11 +1,11 @@
 === CoCart - Headless ecommerce === 
-Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications
+Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 5.9
-Stable tag: 3.1.2
+Stable tag: 3.2.0
 WC requires at least: 4.3
 WC tested up to: 6.3
 License: GPLv3
@@ -386,6 +386,31 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.2.0 - 17th March, 2022 =
+
+### What's New?
+
+* Enhancement: Moved products array to it's own object and returned pagination information in the response. - **Products API v2 ONLY!**
+* Tested: ✔️ Compatible with WooCommerce v6.3
+
+> Dev note: A small break but a good one thanks to the feedback from **[Alberto Abruzzo](https://profiles.wordpress.org/albertoabruzzo/)**. This only affects when accessing all products with or without arguments set. Just need to access the array of products from an object not just from the response. What's also great about this enhancement is that any arguments set will also be appended to the pagination links making it easy for developers.
+
+### Bug Fix
+
+* Fixed: Plugin review notice reappearing even after it has been dismissed.
+
+### Deprecated
+
+* Support for WooCommerce less than version 4.8 or legacy versions of WooCommerce Admin before it was packaged with the core of WooCommerce.
+
+### Enhancements
+
+* Better detection of WooCommerce Admin. Now checks if the feature is enabled.
+
+### For Developers
+
+* Introduced new filter `cocart_prevent_wc_admin_note_created` to prevent WooCommerce Admin notes from being created.
+
 = v3.1.2 - 10th March, 2022 =
 
 ### Bug Fixes
@@ -533,6 +558,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.1.1 =
+= 3.2.0 =
 
-Warning: Some tweaks have been made in this release that will introduce breaking changes to the API response so please review the changelog and test on a staging environment before updating on production.
+Warning: A small tweak has been made in this release that will break the main products response so please review the changelog and test on a staging environment before updating on production.
