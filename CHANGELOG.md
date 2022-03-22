@@ -87,7 +87,7 @@
 * Log time for error logs recorded.
 * Fixed any undefined index for loading a cart for guest customers.
 * Fixed an attempt trying to access array offset on value of type float.
-* Clearing the cart now **100%** clears. - Dev note: Was a challenge to get it stable due to the limitations of WooCommerce and PHP sessions but I succeeded.
+* Clearing the cart now **100%** clears.
 * The use of WooCommerce API consumer key and consumer secret for authentication is now working again. Changed the priority of authentication to allow WooCommerce to check authentication first.
 * Detection of [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
 
@@ -111,8 +111,11 @@
 * Exposed WordPress headers for product route support.
 * To help support the ability to set a custom price for an item once added, the totals are recalculated before the cart response returns so it is up to date on the first callback.
 * Allow count items endpoint to return `0` if no items are in the cart.
+* Re-worked session endpoint to get data from the session and not the cart object.
 
 ### Tweaks
+
+> 📢 Warning: Some tweaks have been made in this release that will introduce breaking changes to the API response so please review the changelog and test on a staging environment before updating on production.
 
 * CoCart cron job for cleanup sessions improved.
 * Removed WooCommerce cron job for cleanup sessions as it is not needed.
@@ -120,6 +123,7 @@
 * Added `get_session()` function for plugin compatibility to session handler.
 * When you uninstall CoCart, the original WooCommerce cron job for cleanup sessions will be rescheduled.
 * Notice for when item is removed now returns in the first response.
+* Added notice for when item is restored.
 * Cross sell prices now returns with formatted decimals.
 * Cart tax total now returns with formatted decimals.
 * Removed last raw WooCommerce cart data `tax_data` object from under cart items as the `totals` object provides a better data for each item.
@@ -139,8 +143,8 @@
 
 * Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
 * Introduced new filter `cocart_override_cart_item` to override cart item for anything extra.
-* Introduced new filter `cocart_variable_empty_price` to provide a custom price range for variable products should none exist yet.
-* Introduced new filter `cocart_get_price_range` to alter the price range for variable products.
+* Introduced new filter `cocart_products_variable_empty_price` to provide a custom price range for variable products should none exist yet.
+* Introduced new filter `cocart_products_get_price_range` to alter the price range for variable products.
 * Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
 * Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
 * Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
