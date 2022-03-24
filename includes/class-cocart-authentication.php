@@ -328,8 +328,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * This overrides that by providing access should the request be for CoCart.
 		 *
 		 * @access  public
-		 * @since   2.2.0
-		 * @version 3.1.0
+		 * @since   2.2.0 Introduced.
+		 * @since   3.3.0 Added new custom headers without the prefix `X-`
+		 * @version 3.3.0
 		 * @param   bool             $served  Whether the request has already been served. Default false.
 		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param   WP_REST_Request  $request Request used to generate the response.
@@ -357,7 +358,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					'X-WP-Total',
 					'X-WP-TotalPages',
 					'Link',
-					'X-CoCart-API',
+					'X-CoCart-API', // @todo Deprecate in v4.0
+					'CoCart-API-Cart-Key'
 				);
 
 				header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );
