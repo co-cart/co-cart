@@ -1,7 +1,7 @@
 {
 	"title": "CoCart Lite",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "3.2.0",
+	"version": "3.3.0",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -17,7 +17,8 @@
 		"darkchris",
 		"mohib007",
 		"rozaliastoilova",
-		"ashtarcommunications"
+		"ashtarcommunications",
+		"AlbertoAbruzzo"
 	],
 	"author": "Sébastien Dumont",
 	"author_uri": "https://sebastiendumont.com",

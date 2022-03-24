@@ -1,12 +1,38 @@
 # Changelog for CoCart Lite
 
+## v3.3.0 - 24th March, 2022
+
+### What's New?
+
+* Enhancement: Appends the cart query (Load Cart from Session) to the checkout URL so when a user proceeds to the native checkout page from the native cart, it forces to load that same cart. - **Guest Customers ONLY**
+
+> This was added due to some circumstances the cart failed to load then after on the checkout page via normal means.
+
+### Tweaks
+
+All custom headers introduced by CoCart with `X-` prefixes (no longer a recommended practice) now have a replacement. Please use the new headers listed below instead.
+
+> 📢 All current `X-` prefixed headers will be removed in a future release of CoCart.
+
+| Previous Header        | New Header           |
+| ---------------------- | -------------------- |
+| X-CoCart-API           | CoCart-API-Cart-Key  |
+| X-CoCart-API-Timestamp | CoCart-Timestamp     |
+| X-CoCart-API-Version   | CoCart-Version       |
+
+### For Developers
+
+* Introduced new filter `cocart_use_cookie_monster` to prevent destroying a previous guest cart and cookie before loading a new one via Load Cart from Session. Thanks to [Alberto Abruzzo](https://github.com/AlbertoAbruzzo) for contributing further feedback.
+
+> Dev note: Helps should you find the web browser is displaying the "Cookie was rejected because it is already expired." in the console log and the cart did not load again on refresh despite the session still being valid.
+
 ## v3.2.0 - 17th March, 2022
 
 ### What's New?
 
 * Enhancement: Moved products array to it's own object and returned pagination information in the response. - **Products API v2 ONLY!**
 
-> Dev note: A small break but a good one thanks to the feedback from **Alberto Abruzzo**. This only affects when accessing all products with or without arguments set. Just need to access the array of products from an object not just from the response. What's also great about this enhancement is that any arguments set will also be appended to the pagination links making it easy for developers.
+> Dev note: A small break but a good one thanks to the feedback from **[Alberto Abruzzo](https://github.com/AlbertoAbruzzo)**. This only affects when accessing all products with or without arguments set. Just need to access the array of products from an object not just from the response. What's also great about this enhancement is that any arguments set will also be appended to the pagination links making it easy for developers.
 
 ### Bug Fix
 
