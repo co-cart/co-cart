@@ -291,7 +291,7 @@ class CoCart_Load_Cart {
 	 * @return string
 	 */
 	public static function proceed_to_checkout( $checkout_url ) {
-		if ( self::maybe_load_cart() ) {
+		if ( ! is_user_logged_in() && self::maybe_load_cart() ) {
 			$action   = self::get_action_query();
 			$cart_key = isset( $_REQUEST[ $action ] ) ? trim( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
