@@ -200,7 +200,7 @@ class CoCart_Load_Cart {
 			}
 
 			// Destroy cart and cookie if user is a guest customer before creating a new one.
-			if ( ! is_user_logged_in() ) {
+			if ( ! is_user_logged_in() && self::maybe_use_cookie_monster() ) {
 				WC()->session->delete_cart( WC()->session->get_customer_id() );
 				WC()->session->destroy_cookie();
 			}
@@ -221,7 +221,7 @@ class CoCart_Load_Cart {
 			}
 
 			// Set loaded cart for guest customer.
-			if ( ! is_user_logged_in() ) {
+			if ( ! is_user_logged_in() && self::maybe_use_cookie_monster() ) {
 				WC()->session->set_cart_hash();
 				WC()->session->set_customer_id( $cart_key );
 				WC()->session->set_cart_expiration();
@@ -302,6 +302,19 @@ class CoCart_Load_Cart {
 
 		return $checkout_url;
 	} // END proceed_to_checkout()
+
+	/**
+	 * Cookie Monster
+	 * 
+	 * Do we eat the cookie before baking a new one? LOL
+	 * 
+	 * @access protected
+	 * @static
+	 * @return boolean
+	 */
+	protected static function maybe_use_cookie_monster() {
+		return apply_filters( 'cocart_use_cookie_monster', true );
+	} // END maybe_use_cookie_monster()
 
 } // END class
 
