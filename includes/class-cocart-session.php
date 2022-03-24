@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.1.2
+ * @version 3.3.0
  * @license GPL-2.0+
  */
 
@@ -28,6 +28,9 @@ class CoCart_Load_Cart {
 	public function __construct() {
 		// Loads a cart in session if still valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ), 10 );
+
+		// Append cart to load for proceed to checkout url.
+		add_action( 'woocommerce_get_checkout_url', array( $this, 'proceed_to_checkout' ) );
 	} // END __construct()
 
 	/**
@@ -275,6 +278,30 @@ class CoCart_Load_Cart {
 
 		return $load_cart;
 	} // END get_action_query()
+
+	/**
+	 * Proceed to Checkout. (Legacy Checkout)
+	 *
+	 * Appends the cart query to the checkout URL so when a user proceeds 
+	 * to the checkout page it loads that same cart.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.3.0 Introduced.
+	 * @return string
+	 */
+	public static function proceed_to_checkout( $checkout_url ) {
+		if ( self::maybe_load_cart() ) {
+			$action   = self::get_action_query();
+			$cart_key = isset( $_REQUEST[ $action ] ) ? trim( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+			if ( ! empty( $cart_key ) ) {
+				$checkout_url = add_query_arg( $action, $cart_key, $checkout_url );
+			}
+		}
+
+		return $checkout_url;
+	} // END proceed_to_checkout()
 
 } // END class
 
