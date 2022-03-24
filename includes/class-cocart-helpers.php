@@ -359,7 +359,7 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since  3.0.3
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function is_cocart_pro_activated() {
 		if ( class_exists( 'CoCart_Pro' ) ) {
@@ -400,7 +400,7 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since  2.3.0
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function is_cocart_admin_page() {
 		$screen    = get_current_screen();
@@ -419,7 +419,7 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since  2.1.0
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function user_has_capabilities() {
 		if ( current_user_can( apply_filters( 'cocart_install_capability', 'install_plugins' ) ) ) {
@@ -436,6 +436,7 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since  3.0.0
+	 * @return boolean
 	 */
 	public static function is_cocart_ps_active() {
 		return apply_filters( 'cocart_show_plugin_search', true );
@@ -562,7 +563,7 @@ class CoCart_Helpers {
 	 * @version 2.8.3
 	 * @static
 	 * @param   int $seconds - Time in seconds to check.
-	 * @return  bool Whether or not WooCommerce admin has been active for $seconds.
+	 * @return  boolean|int Whether or not WooCommerce admin has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {
 		if ( empty( $seconds ) ) {
@@ -607,7 +608,7 @@ class CoCart_Helpers {
 	 * @access public
 	 * @static
 	 * @since  2.6.0
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function is_environment_compatible() {
 		return version_compare( PHP_VERSION, CoCart::$required_php, '>=' );
@@ -749,7 +750,8 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
-	 * @since 3.0.12
+	 * @since  3.0.12
+	 * @return boolean
 	 */
 	public static function is_white_labelled() {
 		if ( ! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL ) {

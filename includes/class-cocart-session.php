@@ -41,7 +41,7 @@ class CoCart_Load_Cart {
 	 * @access public
 	 * @since  2.1.0 Introduced.
 	 * @param  string $cart_key Requested cart key.
-	 * @return bool
+	 * @return boolean
 	 */
 	public function is_cart_saved( $cart_key ) {
 		$handler    = new CoCart_Session_Handler();
@@ -242,7 +242,7 @@ class CoCart_Load_Cart {
 	 *
 	 * @access public
 	 * @since  3.0.0 Introduced.
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function maybe_load_cart() {
 		// Check that "Load Cart from Session" feature is disabled.
