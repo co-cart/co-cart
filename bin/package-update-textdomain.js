@@ -1,6 +1,6 @@
 const wpTextdomain = require( 'wp-textdomain' );
 
-wpTextdomain( 'packages/**/*.php', {
+wpTextdomain( 'plugins/cocart/packages/**/*.php', {
 	domain: 'cart-rest-api-for-woocommerce',
 	fix: true,
 	missingDomain: true,
