@@ -5,7 +5,7 @@ Donate link: https://www.buymeacoffee.com/sebastien
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 5.9
-Stable tag: 3.2.0
+Stable tag: 3.3.0
 WC requires at least: 4.3
 WC tested up to: 6.3
 License: GPLv3
@@ -386,6 +386,32 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.3.0 - 24th March, 2022 =
+
+### What's New?
+
+* Enhancement: Appends the cart query (Load Cart from Session) to the checkout URL so when a user proceeds to the native checkout page from the native cart, it forces to load that same cart. - **Guest Customers ONLY**
+
+> This was added due to some circumstances the cart failed to load then after on the checkout page via normal means.
+
+### Tweaks
+
+All custom headers introduced by CoCart with `X-` prefixes (no longer a recommended practice) now have a replacement. Please use the new headers listed below instead.
+
+> 📢 All current `X-` prefixed headers will be removed in a future release of CoCart.
+
+| Previous Header        | New Header           |
+| ---------------------- | -------------------- |
+| X-CoCart-API           | CoCart-API-Cart-Key  |
+| X-CoCart-API-Timestamp | CoCart-Timestamp     |
+| X-CoCart-API-Version   | CoCart-Version       |
+
+### For Developers
+
+* Introduced new filter `cocart_use_cookie_monster` to prevent destroying a previous guest cart and cookie before loading a new one via Load Cart from Session. Thanks to [Alberto Abruzzo](https://github.com/AlbertoAbruzzo) for contributing further feedback.
+
+> Dev note: Helps should you find the web browser is displaying the "Cookie was rejected because it is already expired." in the console log and the cart did not load again on refresh despite the session still being valid.
+
 = v3.2.0 - 17th March, 2022 =
 
 ### What's New?
@@ -558,6 +584,6 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 == Upgrade Notice ==
 
-= 3.2.0 =
+= 3.3.0 =
 
-Warning: A small tweak has been made in this release that will break the main products response so please review the changelog and test on a staging environment before updating on production.
+All custom headers introduced by CoCart with `X-` prefixes (no longer a recommended practice) now have a replacement. Please use the new headers listed in the changelog. Prefixed headers will be removed in a future release.

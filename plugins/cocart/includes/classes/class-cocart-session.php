@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.1.2
+ * @version 3.3.0
  * @license GPL-2.0+
  */
 
@@ -32,6 +32,9 @@ class LoadCart {
 	public function __construct() {
 		// Loads a cart in session if still valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ), 10 );
+
+		// Append cart to load for proceed to checkout url.
+		add_action( 'woocommerce_get_checkout_url', array( $this, 'proceed_to_checkout' ) );
 	} // END __construct()
 
 	/**
@@ -42,7 +45,7 @@ class LoadCart {
 	 * @access public
 	 * @since  2.1.0 Introduced.
 	 * @param  string $cart_key Requested cart key.
-	 * @return bool
+	 * @return boolean
 	 */
 	public function is_cart_saved( $cart_key ) {
 		$handler    = new CoCart_Session_Handler();
@@ -201,7 +204,7 @@ class LoadCart {
 			}
 
 			// Destroy cart and cookie if user is a guest customer before creating a new one.
-			if ( ! is_user_logged_in() ) {
+			if ( ! is_user_logged_in() && self::maybe_use_cookie_monster() ) {
 				WC()->session->delete_cart( WC()->session->get_customer_id() );
 				WC()->session->destroy_cookie();
 			}
@@ -222,7 +225,7 @@ class LoadCart {
 			}
 
 			// Set loaded cart for guest customer.
-			if ( ! is_user_logged_in() ) {
+			if ( ! is_user_logged_in() && self::maybe_use_cookie_monster() ) {
 				WC()->session->set_cart_hash();
 				WC()->session->set_customer_id( $cart_key );
 				WC()->session->set_cart_expiration();
@@ -243,7 +246,7 @@ class LoadCart {
 	 *
 	 * @access public
 	 * @since  3.0.0 Introduced.
-	 * @return bool
+	 * @return boolean
 	 */
 	public static function maybe_load_cart() {
 		// Check that "Load Cart from Session" feature is disabled.
@@ -279,6 +282,43 @@ class LoadCart {
 
 		return $load_cart;
 	} // END get_action_query()
+
+	/**
+	 * Proceed to Checkout. (Legacy Checkout)
+	 *
+	 * Appends the cart query to the checkout URL so when a user proceeds
+	 * to the checkout page it loads that same cart.
+	 *
+	 * @access public
+	 * @static
+	 * @since  3.3.0 Introduced.
+	 * @return string
+	 */
+	public static function proceed_to_checkout( $checkout_url ) {
+		if ( ! is_user_logged_in() && self::maybe_load_cart() ) {
+			$action   = self::get_action_query();
+			$cart_key = isset( $_REQUEST[ $action ] ) ? trim( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+			if ( ! empty( $cart_key ) ) {
+				$checkout_url = add_query_arg( $action, $cart_key, $checkout_url );
+			}
+		}
+
+		return $checkout_url;
+	} // END proceed_to_checkout()
+
+	/**
+	 * Cookie Monster
+	 *
+	 * Do we eat the cookie before baking a new one? LOL
+	 *
+	 * @access protected
+	 * @static
+	 * @return boolean
+	 */
+	protected static function maybe_use_cookie_monster() {
+		return apply_filters( 'cocart_use_cookie_monster', true );
+	} // END maybe_use_cookie_monster()
 
 } // END class
 

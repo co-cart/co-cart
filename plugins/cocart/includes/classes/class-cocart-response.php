@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0
- * @version 3.1.0
+ * @version 4.0.0
  * @license GPL-2.0+
  */
 
@@ -32,18 +32,21 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		/**
 		 * Expose CoCart Headers.
 		 *
-		 * @access public
-		 * @since  3.1.0            Introduced
-		 * @param  bool             $served  Whether the request has already been served. Default false.
-		 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-		 * @param  WP_REST_Request  $request Request used to generate the response.
-		 * @param  WP_REST_Server   $server  Server instance.
-		 * @return bool
+		 * @access  public
+		 * @since   3.1.0 Introduced.
+		 * @since   3.3.0 Added new custom headers without the prefix `X-`
+		 * @since   4.0.0 Removed old custom headers with the prefix `X-`
+		 * @version 4.0.0
+		 * @param   bool             $served  Whether the request has already been served. Default false.
+		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+		 * @param   WP_REST_Request  $request Request used to generate the response.
+		 * @param   WP_REST_Server   $server  Server instance.
+		 * @return  bool
 		 */
 		public function expose_custom_headers( $served, $result, $request, $server ) {
 			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-				header( 'Access-Control-Expose-Headers: X-CoCart-API-Timestamp' );
-				header( 'Access-Control-Expose-Headers: X-CoCart-API-Version' );
+				header( 'Access-Control-Expose-Headers: CoCart-Timestamp' );
+				header( 'Access-Control-Expose-Headers: CoCart-Version' );
 			}
 
 			return $served;
@@ -55,9 +58,11 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 		 *
 		 * @access  public
-		 * @since   3.0.0
+		 * @since   3.0.0  Introduced.
 		 * @since   3.1.0  Added two response headers; a timestamp and the version of CoCart.
-		 * @version 3.1.0
+		 * @since   3.3.0  Added new custom headers without the prefix `X-`
+		 * @since   4.0.0  Removed old custom headers with the prefix `X-`
+		 * @version 4.0.0
 		 * @param   mixed  $data      - The original data response of the API requested.
 		 * @param   string $namespace - The namespace of the API requested.
 		 * @param   string $rest_base - The rest base of the API requested.
@@ -95,10 +100,10 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 				$response = rest_ensure_response( $data );
 
 				// Add timestamp of response.
-				$response->header( 'X-CoCart-API-Timestamp', time() );
+				$response->header( 'CoCart-Timestamp', time() );
 
 				// Add version of CoCart.
-				$response->header( 'X-CoCart-API-Version', COCART_VERSION );
+				$response->header( 'CoCart-Version', COCART_VERSION );
 
 				return $response;
 			} catch ( \CoCart_Data_Exception $e ) {
