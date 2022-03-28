@@ -1,5 +1,13 @@
 # Changelog for CoCart Lite
 
+## v3.4.0 - 28th March, 2022
+
+### What's New?
+
+* Tweak: Unregistered rest field `yoast_head` from the Products API to keep the JSON response valid and increase performance.
+
+> The rest field `yoast_head_json` still remains.
+
 ## v3.3.0 - 24th March, 2022
 
 ### What's New?

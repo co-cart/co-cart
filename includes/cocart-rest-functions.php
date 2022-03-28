@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 3.1.0
+ * @version 3.4.0
  * @license GPL-2.0+
  */
 
@@ -484,3 +484,26 @@ function cocart_get_store_currency() {
 		'currency_suffix'             => $suffix,
 	);
 } // END cocart_get_store_currency()
+
+/**
+ * Unregister's a field on an existing WordPress object type.
+ *
+ * @todo Submit a ticket to have this part of WordPress.
+ *
+ * @since 3.4.0
+ *
+ * @global array        $wp_rest_additional_fields Holds registered fields, organized by object type.
+ * @param  string|array $object_type               Object(s) the field is being registered to, "post"|"term"|"comment" etc.
+ * @param  string       $attribute                 The attribute name.
+ */
+if ( ! function_exists( 'unregister_rest_field' ) ) {
+	function unregister_rest_field( $object_type, $attribute ) {
+		global $wp_rest_additional_fields;
+
+		$object_types = (array) $object_type;
+
+		foreach ( $object_types as $object_type ) {
+			unset( $wp_rest_additional_fields[ $object_type ][ $attribute ] );
+		}
+	} // END unregister_rest_field()
+}
