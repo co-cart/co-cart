@@ -1,10 +1,10 @@
 === CoCart - Headless ecommerce === 
-Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo
+Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 5.9
-Stable tag: 3.4.0
+Stable tag: 3.4.1
 WC requires at least: 4.3
 WC tested up to: 6.3
 License: GPLv3
@@ -366,6 +366,18 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.4.1 - 4th April, 2022 =
+
+### Bug Fix
+
+* Fixed: An uncaught undefined function `add_meta_query` which allows you to query products by meta. Thanks to [@jnz31](https://wordpress.org/support/topic/uncaught-error-call-to-undefined-method-cocart_products_v2_controlleradd_meta/) for reporting the error.
+
+> Dev note: I'm an idiot for not finding this issue sooner. The function `add_meta_query` was not committed when the products API add-on was merged with the core of CoCart. 🤦‍♂️ Please accept my apologies for the issue caused. 🙏
+
+### Deprecated & Replacement
+
+* Deprecated use of `wc_get_min_max_price_meta_query` function. Although it was *deprecated* in WooCommerce since **v3.6** there was never a replacement provided and it was still working. Now the function has just been copied into a new function `cocart_get_min_max_price_meta_query` and will no longer provide the debug warning. It can be improved in the future if needed.
+
 = v3.4.0 - 28th March, 2022 =
 
 ### What's New?
@@ -572,6 +584,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.4.0 =
+= 3.4.1 =
 
-Tweak: Unregistered rest field `yoast_head` from the Products API to keep the JSON response valid and increase performance.
+* Fixed: An uncaught undefined function `add_meta_query` which allows you to query products by meta.

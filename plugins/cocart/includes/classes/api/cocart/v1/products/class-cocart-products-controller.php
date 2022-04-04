@@ -8,6 +8,7 @@
  * @category API
  * @package  CoCart\API\Products\v1
  * @since    3.1.0
+ * @version  3.4.1
  * @license  GPL-2.0+
  */
 
@@ -589,7 +590,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		// Price filter.
 		if ( ! empty( $request['min_price'] ) || ! empty( $request['max_price'] ) ) {
-			$args['meta_query'] = $this->add_meta_query( $args, wc_get_min_max_price_meta_query( $request ) ); // WPCS: slow query ok.
+			$args['meta_query'] = $this->add_meta_query( $args, cocart_get_min_max_price_meta_query( $request ) ); // WPCS: slow query ok.
 		}
 
 		// Filter product in stock or out of stock.
@@ -1059,6 +1060,25 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		return $data;
 	} // END get_variation_product_data()
+
+	/**
+	 * Add meta query.
+	 *
+	 * @access protected
+	 * @since  3.4.1 Introduced. (Was suppose to be introduced in 3.1.0 but forgot to commit the function until 3.4.1 🤦‍♂️)
+	 * @param  array $args       Query args.
+	 * @param  array $meta_query Meta query.
+	 * @return array
+	 */
+	protected function add_meta_query( $args, $meta_query ) {
+		if ( empty( $args['meta_query'] ) ) {
+			$args['meta_query'] = array();
+		}
+
+		$args['meta_query'][] = $meta_query;
+
+		return $args['meta_query'];
+	} // END add_meta_query()
 
 	/**
 	 * Get the Product's schema, conforming to JSON Schema.
