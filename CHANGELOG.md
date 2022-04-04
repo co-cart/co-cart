@@ -1,5 +1,17 @@
 # Changelog for CoCart Lite
 
+## v3.4.1 - 4th April, 2022
+
+### Bug Fix
+
+* Fixed: An uncaught undefined function `add_meta_query` which allows you to query products by meta. Thanks to [@jnz31](https://wordpress.org/support/topic/uncaught-error-call-to-undefined-method-cocart_products_v2_controlleradd_meta/) for reporting the error.
+
+> Dev note: I'm an idiot for not finding this issue sooner. The function `add_meta_query` was not committed when the products API add-on was merged with the core of CoCart. 🤦‍♂️ Please accept my apologies for the issue caused. 🙏
+
+### Deprecated & Replacement
+
+* Deprecated use of `wc_get_min_max_price_meta_query` function. Although it was *deprecated* in WooCommerce since **v3.6** there was never a replacement provided and it was still working. Now the function has just been copied into a new function `cocart_get_min_max_price_meta_query` and will no longer provide the debug warning. It can be improved in the future if needed.
+
 ## v3.4.0 - 28th March, 2022
 
 ### What's New?

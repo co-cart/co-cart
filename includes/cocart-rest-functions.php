@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 3.4.0
+ * @version 3.4.1
  * @license GPL-2.0+
  */
 
@@ -507,3 +507,26 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
 		}
 	} // END unregister_rest_field()
 }
+
+/**
+ * Get min/max price meta query args.
+ *
+ * @since  3.4.1 Introduced.
+ * @param  array $args Min price and max price arguments.
+ * @return array
+ */
+function cocart_get_min_max_price_meta_query( $args ) {
+	$current_min_price = isset( $args['min_price'] ) ? floatval( $args['min_price'] ) : 0;
+	$current_max_price = isset( $args['max_price'] ) ? floatval( $args['max_price'] ) : PHP_INT_MAX;
+
+	return apply_filters(
+		'woocommerce_get_min_max_price_meta_query',
+		array(
+			'key'     => '_price',
+			'value'   => array( $current_min_price, $current_max_price ),
+			'compare' => 'BETWEEN',
+			'type'    => 'DECIMAL(10,' . wc_get_price_decimals() . ')',
+		),
+		$args
+	);
+} // END cocart_get_min_max_price_meta_query()
