@@ -41,11 +41,6 @@
 		"platform": {
 			"php": "7.4"
 		},
-		"preferred-install": {
-			"co-cart/cocart-admin": "dist",
-			"co-cart/cocart-compatibility": "dist",
-			"co-cart/cocart-third-party": "dist"
-		},
 		"sort-packages": true
 	},
 	"autoload": {
@@ -56,9 +51,31 @@
 			"plugins/cocart/includes/classes"
 		]
 	},
+	"repositories": [
+		{
+			"type": "git",
+			"url" : "https://github.com/co-cart/cocart-admin.git"
+		},
+		{
+			"type": "git",
+			"url" : "https://github.com/co-cart/cocart-compatibility.git"
+		},
+		{
+			"type": "git",
+			"url" : "https://github.com/co-cart/cocart-products-api.git"
+		},
+		{
+			"type": "git",
+			"url" : "https://github.com/co-cart/cocart-third-party.git"
+		}
+	],
 	"require": {
 		"composer/installers": "2.1.0",
-		"co-cart/cocart-sniffs": "0.0.2"
+		"co-cart/cocart-sniffs": "0.0.2",
+		"co-cart/cocart-admin": "dev-master",
+		"co-cart/cocart-compatibility": "dev-master",
+		"co-cart/cocart-products-api": "dev-master",
+		"co-cart/cocart-third-party": "dev-master"
 	},
 	"require-dev": {
 		"wp-cli/i18n-command": "2.2.13",
@@ -91,6 +108,7 @@
 		"installer-paths": {
 			"plugins/cocart/packages/admin": ["co-cart/cocart-admin"],
 			"plugins/cocart/packages/compatibility": ["co-cart/cocart-compatibility"],
+			"plugins/cocart/packages/products-api": ["co-cart/cocart-products-api"],
 			"plugins/cocart/packages/third-party": ["co-cart/cocart-third-party"]
 		},
 		"scripts-description": {
