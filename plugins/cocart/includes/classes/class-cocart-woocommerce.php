@@ -12,7 +12,7 @@
 namespace CoCart;
 
 use CoCart\Authentication;
-use CoCart\CoCart_Session_Handler;
+use CoCart\Session\Handler;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -94,18 +94,11 @@ class WooCommerce {
 		}
 
 		// Check the CoCart session handler is used but is NOT a CoCart REST API request.
-		if ( WC()->session instanceof CoCart_Session_Handler && ! Authentication::is_rest_api_request() ) {
+		if ( WC()->session instanceof CoCart\Session\Handler && ! Authentication::is_rest_api_request() ) {
 			return;
 		}
 
-		$cookie = WC()->session->get_session_cookie();
-
 		$cart_key = '';
-
-		// If cookie exists then return cart key from it.
-		if ( $cookie ) {
-			$cart_key = $cookie[0];
-		}
 
 		// Check if we requested to load a specific cart.
 		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -131,6 +124,11 @@ class WooCommerce {
 				wp_send_json_error( $error, 403 );
 				exit;
 			}
+		}
+
+		// Do nothing if the cart key is empty.
+		if ( empty( $cart_key ) ) {
+			return;
 		}
 
 		// Get requested cart.

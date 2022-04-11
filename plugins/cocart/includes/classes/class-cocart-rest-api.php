@@ -16,6 +16,7 @@ namespace CoCart;
 use CoCart\Authentication;
 use CoCart\Logger;
 use CoCart\Help;
+use CoCart\Session\Handler;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -113,21 +114,14 @@ class Server {
 	 */
 	protected function get_v1_controllers() {
 		return array(
-			'cocart-v1-cart'                    => 'CoCart_API_Controller',
-			'cocart-v1-add-item'                => 'CoCart_Add_Item_Controller',
-			'cocart-v1-calculate'               => 'CoCart_Calculate_Controller',
-			'cocart-v1-clear-cart'              => 'CoCart_Clear_Cart_Controller',
-			'cocart-v1-count-items'             => 'CoCart_Count_Items_Controller',
-			'cocart-v1-item'                    => 'CoCart_Item_Controller',
-			'cocart-v1-logout'                  => 'CoCart_Logout_Controller',
-			'cocart-v1-totals'                  => 'CoCart_Totals_Controller',
-			'cocart-v1-product-attributes'      => 'CoCart_Product_Attributes_Controller',
-			'cocart-v1-product-attribute-terms' => 'CoCart_Product_Attribute_Terms_Controller',
-			'cocart-v1-product-categories'      => 'CoCart_Product_Categories_Controller',
-			'cocart-v1-product-reviews'         => 'CoCart_Product_Reviews_Controller',
-			'cocart-v1-product-tags'            => 'CoCart_Product_Tags_Controller',
-			'cocart-v1-products'                => 'CoCart_Products_Controller',
-			'cocart-v1-product-variations'      => 'CoCart_Product_Variations_Controller',
+			'cocart-v1-cart'        => 'CoCart_API_Controller',
+			'cocart-v1-add-item'    => 'CoCart_Add_Item_Controller',
+			'cocart-v1-calculate'   => 'CoCart_Calculate_Controller',
+			'cocart-v1-clear-cart'  => 'CoCart_Clear_Cart_Controller',
+			'cocart-v1-count-items' => 'CoCart_Count_Items_Controller',
+			'cocart-v1-item'        => 'CoCart_Item_Controller',
+			'cocart-v1-logout'      => 'CoCart_Logout_Controller',
+			'cocart-v1-totals'      => 'CoCart_Totals_Controller',
 		);
 	}
 
@@ -139,31 +133,22 @@ class Server {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'cocart-v2-store'                   => 'CoCart_Store_V2_Controller',
-			'cocart-v2-cart'                    => 'CoCart_Cart_V2_Controller',
-			'cocart-v2-cart-add-item'           => 'CoCart_Add_Item_v2_Controller',
-			'cocart-v2-cart-add-items'          => 'CoCart_Add_Items_v2_Controller',
-			'cocart-v2-cart-item'               => 'CoCart_Item_v2_Controller',
-			'cocart-v2-cart-items'              => 'CoCart_Items_v2_Controller',
-			'cocart-v2-cart-items-count'        => 'CoCart_Count_Items_v2_Controller',
-			'cocart-v2-cart-update-item'        => 'CoCart_Update_Item_v2_Controller',
-			'cocart-v2-cart-remove-item'        => 'CoCart_Remove_Item_v2_Controller',
-			'cocart-v2-cart-restore-item'       => 'CoCart_Restore_Item_v2_Controller',
-			'cocart-v2-cart-calculate'          => 'CoCart_Calculate_v2_Controller',
-			'cocart-v2-cart-clear'              => 'CoCart_Clear_Cart_v2_Controller',
-			'cocart-v2-cart-update'             => 'CoCart_Update_Cart_v2_Controller',
-			'cocart-v2-cart-totals'             => 'CoCart_Totals_v2_Controller',
-			'cocart-v2-login'                   => 'CoCart_Login_v2_Controller',
-			'cocart-v2-logout'                  => 'CoCart_Logout_v2_Controller',
-			'cocart-v2-session'                 => 'CoCart_Session_V2_Controller',
-			'cocart-v2-sessions'                => 'CoCart_Sessions_V2_Controller',
-			'cocart-v2-product-attributes'      => 'CoCart_Product_Attributes_V2_Controller',
-			'cocart-v2-product-attribute-terms' => 'CoCart_Product_Attribute_Terms_V2_Controller',
-			'cocart-v2-product-categories'      => 'CoCart_Product_Categories_V2_Controller',
-			'cocart-v2-product-reviews'         => 'CoCart_Product_Reviews_V2_Controller',
-			'cocart-v2-product-tags'            => 'CoCart_Product_Tags_V2_Controller',
-			'cocart-v2-products'                => 'CoCart_Products_V2_Controller',
-			'cocart-v2-product-variations'      => 'CoCart_Product_Variations_V2_Controller',
+			'cocart-v2-store'             => 'CoCart_Store_V2_Controller',
+			'cocart-v2-cart'              => 'CoCart_Cart_V2_Controller',
+			'cocart-v2-cart-add-item'     => 'CoCart_Add_Item_v2_Controller',
+			'cocart-v2-cart-add-items'    => 'CoCart_Add_Items_v2_Controller',
+			'cocart-v2-cart-item'         => 'CoCart_Item_v2_Controller',
+			'cocart-v2-cart-items'        => 'CoCart_Items_v2_Controller',
+			'cocart-v2-cart-items-count'  => 'CoCart_Count_Items_v2_Controller',
+			'cocart-v2-cart-update-item'  => 'CoCart_Update_Item_v2_Controller',
+			'cocart-v2-cart-remove-item'  => 'CoCart_Remove_Item_v2_Controller',
+			'cocart-v2-cart-restore-item' => 'CoCart_Restore_Item_v2_Controller',
+			'cocart-v2-cart-calculate'    => 'CoCart_Calculate_v2_Controller',
+			'cocart-v2-cart-clear'        => 'CoCart_Clear_Cart_v2_Controller',
+			'cocart-v2-cart-update'       => 'CoCart_Update_Cart_v2_Controller',
+			'cocart-v2-cart-totals'       => 'CoCart_Totals_v2_Controller',
+			'cocart-v2-login'             => 'CoCart_Login_v2_Controller',
+			'cocart-v2-logout'            => 'CoCart_Logout_v2_Controller',
 		);
 	}
 
@@ -183,7 +168,7 @@ class Server {
 			}
 
 			// WooCommerce is greater than v3.6 or less than v4.5.
-			if ( Help::is_wc_version_gte_3_6() && Help::is_wc_version_lt_4_5() ) {
+			if ( Help::is_wc_version_gte( '3.6' ) && Help::is_wc_version_lt( '4.5' ) ) {
 				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
 				require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
 
@@ -195,13 +180,13 @@ class Server {
 			}
 
 			// WooCommerce is greater than v4.5 or equal.
-			if ( Help::is_wc_version_gte_4_5() ) {
+			if ( Help::is_wc_version_gte( '4.5' ) ) {
 				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart' ) ) {
 					wc_load_cart();
 				}
 			}
 
-			// Identify if user has switched.
+			// Identify if user has switched. @todo Deprecate in v4.0
 			if ( $this->has_user_switched() ) {
 				$this->user_switched();
 			}
@@ -212,13 +197,15 @@ class Server {
 	 * If the current customer ID in session does not match,
 	 * then the user has switched.
 	 *
+	 * @todo Deprecate in v4.0
+	 *
 	 * @access  protected
 	 * @since   2.1.0
 	 * @version 2.7.2
 	 * @return  null|boolean
 	 */
 	protected function has_user_switched() {
-		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
+		if ( ! WC()->session instanceof Handler ) {
 			return;
 		}
 
@@ -247,6 +234,8 @@ class Server {
 	/**
 	 * Allows something to happen if a user has switched.
 	 *
+	 * @todo Deprecate in v4.0
+	 *
 	 * @access public
 	 * @since  2.1.0
 	 */
@@ -261,10 +250,7 @@ class Server {
 	 * @since  2.1.0
 	 */
 	public function initialize_session() {
-		// CoCart session handler class.
-		$session_class = 'CoCart_Session_Handler';
-
-		if ( is_null( WC()->session ) || ! WC()->session instanceof $session_class ) {
+		if ( is_null( WC()->session ) || ! WC()->session instanceof Handler ) {
 			// Prefix session class with global namespace if not already namespaced.
 			if ( false === strpos( $session_class, '\\' ) ) {
 				$session_class = '\\' . $session_class;
@@ -320,14 +306,6 @@ class Server {
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-item-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-logout-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-totals-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-abstract-terms-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-attribute-terms-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-attributes-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-categories-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-reviews-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-tags-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-products-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/products/class-cocart-product-variations-controller.php';
 
 		// CoCart REST API v2 controllers.
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/others/class-cocart-store-controller.php';
@@ -346,16 +324,6 @@ class Server {
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-restore-item-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-totals-controller.php';
 		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-update-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/admin/class-cocart-session-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/admin/class-cocart-sessions-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-abstract-terms-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-attribute-terms-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-attributes-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-categories-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-reviews-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-tags-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-products-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/products/class-cocart-product-variations-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // rest_api_includes()
@@ -395,20 +363,12 @@ class Server {
 		}
 
 		// Check that the CoCart session handler has loaded.
-		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
+		if ( ! class_exists( 'CoCart\Session\Handler' ) || ! WC()->session instanceof Handler ) {
 			return $result;
 		}
 
 		// Customer ID used as the cart key by default.
 		$cart_key = WC()->session->get_customer_id();
-
-		// Get cart cookie... if any.
-		$cookie = WC()->session->get_session_cookie();
-
-		// If a cookie exist, override cart key.
-		if ( $cookie ) {
-			$cart_key = $cookie[0];
-		}
 
 		// Check if we requested to load a specific cart.
 		$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended

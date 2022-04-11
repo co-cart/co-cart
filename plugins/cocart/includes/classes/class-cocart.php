@@ -319,7 +319,7 @@ final class Core {
 		if ( class_exists( 'WC_Session' ) ) {
 			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 			include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
-			$handler = '\CoCart\CoCart_Session_Handler';
+			$handler = '\CoCart\Session\Handler';
 		}
 
 		return $handler;

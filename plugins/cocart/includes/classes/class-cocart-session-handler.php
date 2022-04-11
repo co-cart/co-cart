@@ -15,23 +15,24 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart;
+namespace CoCart\Session;
 
 use CoCart\Authentication;
+use CoCart\Abstracts\Session;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 // Checks that CoCart session abstract exists first.
-if ( ! class_exists( '\CoCart_Session' ) ) {
+/*if ( ! class_exists( '\CoCart_Session' ) ) {
 	return;
-}
+}*/
 
 /**
  * Session handler class.
  */
-class CoCart_Session_Handler extends \CoCart_Session {
+class Handler extends Session {
 
 	/**
 	 * Cookie name used for the cart.
@@ -355,7 +356,7 @@ class CoCart_Session_Handler extends \CoCart_Session {
 		if ( empty( $customer_id ) ) {
 			require_once ABSPATH . 'wp-includes/class-phpass.php';
 
-			$hasher      = new PasswordHash( 8, false );
+			$hasher      = new \PasswordHash( 8, false );
 			$customer_id = apply_filters( 'cocart_customer_id', md5( $hasher->get_random_bytes( 32 ) ), $hasher );
 		}
 
@@ -612,8 +613,8 @@ class CoCart_Session_Handler extends \CoCart_Session {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $this->_table WHERE cart_expiry < %d", time() ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Invalidate cache group.
-		if ( class_exists( 'WC_Cache_Helper' ) ) {
-			WC_Cache_Helper::invalidate_cache_group( COCART_CART_CACHE_GROUP );
+		if ( class_exists( '\WC_Cache_Helper' ) ) {
+			\WC_Cache_Helper::invalidate_cache_group( COCART_CART_CACHE_GROUP );
 		}
 	} // END cleanup_sessions()
 

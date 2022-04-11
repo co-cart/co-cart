@@ -275,8 +275,8 @@ class Install {
 	 * @version 3.0.12
 	 */
 	private static function remove_admin_notices() {
-		if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
-			//include_once COCART_ABSPATH . 'includes/classes/admin/class-cocart-admin-notices.php';
+		if ( ! class_exists( 'CoCart\Admin\Notices' ) ) {
+			return;
 		}
 
 		if ( call_user_func( array( 'CoCart_Admin_Notices', 'remove_all_notices' ) ) ) {
@@ -324,7 +324,7 @@ class Install {
 	 */
 	private static function maybe_enable_setup_wizard() {
 		// If the admin package is not available then don't redirect.
-		if ( ! class_exists( 'CoCart_Admin' ) ) {
+		if ( ! class_exists( 'CoCart\Admin\Package' ) ) {
 			return;
 		}
 
@@ -454,7 +454,7 @@ class Install {
 		}
 
 		// If the admin package is not available then don't redirect.
-		if ( ! class_exists( 'CoCart_Admin' ) ) {
+		if ( ! class_exists( 'CoCart\Admin\Package' ) ) {
 			return;
 		}
 

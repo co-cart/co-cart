@@ -15,7 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
+use CoCart\Session\Handler;
+
+use \Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 
 /**
  * CoCart REST API v2 - Cart controller class.
@@ -719,37 +721,35 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns the cart key.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return string
 	 */
 	public function get_cart_key( $request ) {
-		if ( ! class_exists( 'CoCart_Session_Handler' ) || ! WC()->session instanceof CoCart_Session_Handler ) {
-			return;
+		try {
+			if ( ! class_exists( 'CoCart\Session\Handler' ) || ! WC()->session instanceof Handler ) {
+				throw new CoCart_Data_Exception( 'cocart_session_handler_not_found', __( 'Handler not detected in API controller.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			}
+
+			// Current user ID.
+			$current_user_id = strval( get_current_user_id() );
+
+			if ( $current_user_id > 0 ) {
+				return $current_user_id;
+			}
+
+			// Customer ID used as the cart key by default.
+			$cart_key = WC()->session->get_customer_id();
+
+			// Check if we requested to load a specific cart.
+			$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : $cart_key;
+
+			return $cart_key;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
-
-		// Current user ID.
-		$current_user_id = strval( get_current_user_id() );
-
-		if ( $current_user_id > 0 ) {
-			return $current_user_id;
-		}
-
-		// Customer ID used as the cart key by default.
-		$cart_key = WC()->session->get_customer_id();
-
-		// Get cart cookie... if any.
-		$cookie = WC()->session->get_session_cookie();
-
-		// Does a cookie exist?
-		if ( $cookie ) {
-			$cart_key = $cookie[0];
-		}
-
-		// Check if we requested to load a specific cart.
-		$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : $cart_key;
-
-		return $cart_key;
 	} // END get_cart_key()
 
 	/**

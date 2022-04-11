@@ -11,6 +11,10 @@
  * @license GPL-2.0+
  */
 
+namespace CoCart;
+
+use CoCart\Install;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -635,7 +639,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 */
 		public function verify_database() {
 			// Try to manually create table again.
-			$missing_tables = CoCart_Install::verify_base_tables( true, true );
+			$missing_tables = \CoCart\Install::verify_base_tables( true, true );
 
 			if ( 0 === count( $missing_tables ) ) {
 				$message = esc_html__( 'Database verified successfully.', 'cart-rest-api-for-woocommerce' );

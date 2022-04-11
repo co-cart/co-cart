@@ -11,6 +11,8 @@
  * @license GPL-2.0+
  */
 
+namespace CoCart\Abstracts;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -18,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart_Session
  */
-abstract class CoCart_Session extends WC_Session {
+abstract class Session extends \WC_Session {
 
 	/**
 	 * Stores cart hash.
