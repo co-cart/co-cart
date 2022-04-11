@@ -39,7 +39,8 @@ class Packages {
 	protected static $default_packages = array(
 		'admin',
 		'compatibility',
-		'third-party'
+		'products-api',
+		'third-party',
 	);
 
 	/**
@@ -50,9 +51,10 @@ class Packages {
 	 * @var    array Key is the package name/directory, value is the main package class which handles init.
 	 */
 	protected static $packages = array(
-		'admin' => '\\CoCart\\Admin\\Package',
+		'admin'         => '\\CoCart\\Admin\\Package',
 		'compatibility' => '\\CoCart\\Compatibility\\Package',
-		'third-party' => '\\CoCart\\ThirdParty\\Package',
+		'products-api'  => '\\CoCart\\ProductsAPI\\Package',
+		'third-party'   => '\\CoCart\\ThirdParty\\Package',
 	);
 
 	/**
