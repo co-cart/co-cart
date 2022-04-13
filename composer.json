@@ -70,7 +70,7 @@
 		}
 	],
 	"require": {
-		"composer/installers": "2.1.0",
+		"composer/installers": "2.1.1",
 		"co-cart/cocart-sniffs": "0.0.2",
 		"co-cart/cocart-admin": "dev-master",
 		"co-cart/cocart-compatibility": "dev-master",
