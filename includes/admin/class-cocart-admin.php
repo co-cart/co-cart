@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   1.2.0
- * @version 3.1.0
+ * @version 3.5.0
  * @license GPL-2.0+
  */
 
@@ -38,15 +38,16 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.1.0
+		 * @version 3.5.0
 		 */
 		public function includes() {
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';           // Admin Assets.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';            // Admin Menus.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';          // Plugin Notices.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';    // Plugin Search.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';       // WooCommerce Admin Notices.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php'; // WooCommerce System Status.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';             // Admin Assets.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';              // Admin Menus.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';            // Plugin Notices.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';      // Plugin Search.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';         // WooCommerce Admin Notices.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';   // WooCommerce System Status.
 
 			// Setup Wizard.
 			if ( ! empty( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -188,7 +189,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		} // END install_cocart_plugin()
 
 		/**
-		 * Returns instll plugin complete action link if plugin was related to CoCart.
+		 * Returns install plugin complete action link if plugin was related to CoCart.
 		 *
 		 * @access public
 		 * @since  3.1.0

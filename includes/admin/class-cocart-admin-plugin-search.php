@@ -6,7 +6,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.0.0
- * @version 3.1.0
+ * @version 3.5.0
  * @license GPL-2.0+
  */
 
@@ -146,6 +146,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 *
 		 * @access  public
 		 * @since   3.0.0
+		 * @since   3.5.0 Added condition to only show suggestions if allowed.
 		 * @version 3.1.0
 		 */
 		public function cocart_plugin_dashboard() {
@@ -183,7 +184,17 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				<?php
 				do_action( 'cocart_before_display_plugins_table' );
 
-				display_plugins_table();
+				if ( self::allow_suggestions() ) {
+					display_plugins_table();
+				} else {
+					?>
+					<p>
+						<?php
+						echo esc_html__( 'Currently only provide suggestions in English.', 'cart-rest-api-for-woocommerce' );
+						?>
+					</p>
+					<?php
+				}
 
 				do_action( 'cocart_after_display_plugins_table' );
 			}
@@ -287,256 +298,22 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		} // END get_wporg_plugin_data()
 
 		/**
-		 * Create a list of CoCart add-ons.
-		 *
-		 * @access  public
-		 * @since   3.0.0
-		 * @version 3.1.0
-		 * @return  array List of add-ons.
-		 */
-		public function get_addons_list() {
-			$campaign_args = CoCart_Helpers::cocart_campaign(
-				array(
-					'utm_campaign' => 'install-plugin',
-					'utm_content'  => 'plugin-suggestions',
-				)
-			);
-
-			return array(
-				'cocart-acf'       => array(
-					'name'              => 'Advanced Custom Fields',
-					'slug'              => 'acf',
-					'search_terms'      => 'advanced, acf, fields, custom fields, meta, repeater',
-					'short_description' => esc_html__( 'Returns all custom meta data saved for all products using Advanced Custom Fields.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/cocart.png',
-					'requirement'       => false,
-					'requires'          => '5.2',
-					'tested'            => '5.6',
-					'requires_php'      => '7.2',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
-					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/advanced-custom-fields/' ) ) ),
-					'third_party'       => false,
-				),
-				'cocart-yoast-seo' => array(
-					'name'              => 'Yoast SEO',
-					'slug'              => 'yoast-seo',
-					'search_terms'      => 'yoast, seo, xml sitemap, content analysis, readability, schema',
-					'short_description' => esc_html__( 'Returns all Yoast SEO data for all products, product categories and tags.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/cocart.png',
-					'requirement'       => false,
-					'requires'          => '5.2',
-					'tested'            => '5.6',
-					'requires_php'      => '7.2',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'purchase'          => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/#pricing' ) ) ),
-					'learn_more'        => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'add-ons/yoast-seo/' ) ) ),
-					'third_party'       => false,
-				),
-			);
-		} // END get_addons_list()
-
-		/**
-		 * Create a list of CoCart supported third party plugins.
-		 *
-		 * @access  public
-		 * @since   3.0.0
-		 * @version 3.1.0
-		 * @return  array List of third party plugins.
-		 */
-		public function get_third_party_list() {
-			return array(
-				'woocommerce-name-your-price'             => array(
-					'name'              => 'WooCommerce Name Your Price',
-					'slug'              => 'woocommerce-name-your-price',
-					'author'            => 'Kathy Darling',
-					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
-					'short_description' => esc_html__( 'Let customers pay what they want with Name Your Price', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
-					'requirement'       => false,
-					'requires'          => '4.4',
-					'tested'            => '5.3',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://woocommerce.com/products/name-your-price/' ),
-					'third_party'       => true,
-				),
-				'woocommerce-mix-and-match-products'      => array(
-					'name'              => 'WooCommerce Mix & Match Products',
-					'slug'              => 'woocommerce-mix-and-match-products',
-					'author'            => 'Kathy Darling',
-					'search_terms'      => 'nyp, name your price, pay what you want, product page feature, enhancements',
-					'short_description' => esc_html__( 'Create mix and match products with WooCommerce, for creating cases of customer-selected products.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/kia-logo.png',
-					'requirement'       => false,
-					'requires'          => '4.4',
-					'tested'            => '5.3',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-mix-and-match-products/' ),
-					'third_party'       => true,
-				),
-				'woocommerce-subscriptions'               => array(
-					'name'              => 'WooCommerce Subscriptions',
-					'slug'              => 'woocommerce-subscriptions',
-					'author'            => 'WooCommerce',
-					'search_terms'      => 'subscription, product page feature, recurring payments, enhancements',
-					'short_description' => esc_html__( 'Sell products and services with recurring payments in your WooCommerce store.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
-					'requirement'       => sprintf(
-						/* translators: %s: CoCart */
-						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
-						'CoCart'
-					),
-					'plugin_does'       => esc_html__( 'supported with', 'cart-rest-api-for-woocommerce' ),
-					'requires'          => '4.0',
-					'tested'            => '5.5',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-subscriptions/' ),
-					'third_party'       => true,
-				),
-				'woocommerce-smart-coupons'               => array(
-					'name'              => 'WooCommerce Smart Coupons',
-					'slug'              => 'woocommerce-smart-coupons',
-					'author'            => 'StoreApps',
-					'search_terms'      => 'coupon, credit, store credit, gift, certificate, voucher, discount, gift certificate, gift voucher, customer, self service',
-					'short_description' => esc_html__( 'Grow your sales and customers using discounts, coupons, credits, vouchers, product giveaways, offers and promotions.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
-					'requirement'       => sprintf(
-						/* translators: %s: CoCart */
-						esc_html__( '%s Pro', 'cart-rest-api-for-woocommerce' ),
-						'CoCart'
-					),
-					'plugin_does'       => esc_html__( 'compatible with', 'cart-rest-api-for-woocommerce' ),
-					'requires'          => '4.0',
-					'tested'            => '5.8.1',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://woocommerce.com/products/smart-coupons/' ),
-					'third_party'       => true,
-				),
-				'woocommerce-advanced-shipping-packages'  => array(
-					'name'              => 'WooCommerce Advanced Shipping Packages',
-					'slug'              => 'woocommerce-advanced-shipping-packages',
-					'author'            => 'Jeroen Sormani',
-					'search_terms'      => 'woocommerce shipping, packages, split-packages, multiple shipping',
-					'short_description' => esc_html__( 'Split your order into multiple shipping packages when you need it to, with the products you want to.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
-					'requirement'       => false,
-					'requires'          => '4.0',
-					'tested'            => '5.5',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://woocommerce.com/products/woocommerce-advanced-shipping-packages/' ),
-					'third_party'       => true,
-				),
-				'woocommerce-free-gift-coupons'           => array(
-					'name'              => 'WooCommerce Free Gift Coupons',
-					'slug'              => 'woocommerce-free-gift-coupons',
-					'author'            => 'Backcourt Development',
-					'search_terms'      => 'coupon, give away, free items, gift items',
-					'short_description' => esc_html__( 'Give away a free item(s) to any customer with the correct code.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
-					'requirement'       => false,
-					'requires'          => '4.0',
-					'tested'            => '5.5',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://woocommerce.com/products/free-gift-coupons/' ),
-					'third_party'       => true,
-				),
-				'flexible-shipping'                       => array(
-					'name'              => 'Table Rate for WooCommerce by Flexible Shipping',
-					'slug'              => 'flexible-shipping',
-					'author'            => 'WP Desk',
-					'search_terms'      => 'woocommerce shipping, conditional shipping, shipping method, table rate, table rate shipping',
-					'short_description' => esc_html__( 'The most flexible Table Rate Shipping WooCommerce plugin. Create almost every shipping scenario you need.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://ps.w.org/flexible-shipping/assets/icon-128x128.png?rev=1436359',
-					'requirement'       => false,
-					'requires'          => '5.2',
-					'tested'            => '5.7.2',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://flexibleshipping.com' ),
-					'third_party'       => true,
-					'wporg'             => true,
-				),
-				'taxjar-simplified-taxes-for-woocommerce' => array(
-					'name'              => 'TaxJar – Sales Tax Automation for WooCommerce',
-					'slug'              => 'taxjar-simplified-taxes-for-woocommerce',
-					'author'            => 'TaxJar',
-					'search_terms'      => 'sales, tax, taxes',
-					'short_description' => esc_html__( 'Painless sales tax calculations, reporting and filing for WooCommerce!', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => 'https://ps.w.org/taxjar-simplified-taxes-for-woocommerce/assets/icon-256x256.png?rev=1203621',
-					'requirement'       => false,
-					'requires'          => '5.4',
-					'tested'            => '5.8.1',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/' ),
-					'third_party'       => true,
-					'wporg'             => true,
-				),
-				'woocommerce-follow-up-emails'            => array(
-					'name'              => 'WooCommerce Follow Up Emails',
-					'slug'              => 'woocommerce-follow-up-emails',
-					'author'            => 'WooCommerce',
-					'search_terms'      => 'automation, conversion, customer feedback, customer service, post-purchase services, promotions, recovering orders, rewards and loyalty, store alerts, upsells and cross-sells, marketing, email, social',
-					'short_description' => esc_html__( 'Automatically contact customers after purchase and keep your store top-of-mind.', 'cart-rest-api-for-woocommerce' ),
-					'logo'              => COCART_URL_PATH . '/assets/images/plugin-suggestions/woocommerce.png',
-					'requirement'       => false,
-					'requires'          => '4.0',
-					'tested'            => '5.8',
-					'requires_php'      => '7.0',
-					'rating'            => 0,
-					'num_ratings'       => 0,
-					'active_installs'   => 0,
-					'last_updated'      => '',
-					'learn_more'        => esc_url( 'https://woocommerce.com/products/follow-up-emails/' ),
-					'third_party'       => true,
-				),
-			);
-		} // END get_third_party_list()
-
-		/**
-		 * Returns both CoCart addons and supported extensions.
+		 * Returns all plugin suggestions.
 		 *
 		 * @access public
+		 * @since  3.1.0 Introduced
+		 * @since  3.5.0 Changed to fetch cached data or request new data if out of date.
 		 * @return array
 		 */
 		public function get_suggestions() {
-			return array_merge( self::get_addons_list(), self::get_third_party_list() );
+			$data = get_option( 'cocart_plugin_suggestions' );
+
+			// If the options have never been updated, or were updated over a week ago, request suggestions.
+			if ( empty( $data['updated'] ) || ( time() - WEEK_IN_SECONDS ) > $data['updated'] ) {
+				$data = CoCart_Plugin_Suggestions_Updater::update_plugin_suggestions();
+			}
+
+			return ! empty( $data['suggestions'] ) ? $data['suggestions'] : array();
 		} // END get_suggestions()
 
 		/**
@@ -685,7 +462,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			// Get results previously stored if any.
 			$saved_results = get_transient( 'cocart_plugin_data' );
 
-			// If saved results dont exist then use the new results and add our suggestions.
+			// If saved results don't exist then use the new results and add our suggestions.
 			if ( false === $saved_results || is_wp_error( $saved_results ) ) {
 
 				$suggestions = self::get_suggestions();
@@ -861,14 +638,14 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 		 * @return  array $links  Related links after change.
 		 */
 		public function get_action_links( $plugin, $links = array() ) {
-			$plugins_allowedtags = self::plugins_allowedtags();
+			$plugins_allowed_tags = self::plugins_allowedtags();
 
 			foreach ( self::get_suggestions() as $key => $cocart_plugin ) {
 				if ( $key === $plugin['slug'] ) {
 					$links = array(); // Reset links if plugin is not from WP.org.
 
-					$title          = wp_kses( $plugin['name'], $plugins_allowedtags );
-					$version        = wp_kses( $plugin['version'], $plugins_allowedtags );
+					$title          = wp_kses( $plugin['name'], $plugins_allowed_tags );
+					$version        = wp_kses( $plugin['version'], $plugins_allowed_tags );
 					$name           = wp_strip_all_tags( $title . ' ' . $version );
 					$requires_php   = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
 					$requires_wp    = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
@@ -1020,6 +797,32 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 			// Return the option flag.
 			return 'on' === $option;
 		} // END is_airplane_mode_enabled()
+
+		/**
+		 * Should suggestions be displayed?
+		 *
+		 * @access public
+		 * @since  3.5.0 Introduced.
+		 * @return bool
+		 */
+		public function allow_suggestions() {
+			// We currently only support English suggestions.
+			$locale             = get_locale();
+			$suggestion_locales = array(
+				'en_AU',
+				'en_CA',
+				'en_GB',
+				'en_NZ',
+				'en_US',
+				'en_ZA',
+			);
+
+			if ( ! in_array( $locale, $suggestion_locales, true ) ) {
+				return false;
+			}
+
+			return true;
+		} // END allow_suggestions()
 
 	} // END class
 
