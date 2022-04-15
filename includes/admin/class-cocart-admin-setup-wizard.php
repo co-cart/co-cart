@@ -373,7 +373,7 @@ class CoCart_Admin_Setup_Wizard {
 			<input type="hidden" name="save_step" value="session_setup" />
 			<?php wp_nonce_field( 'cocart-setup' ); ?>
 
-			<p><?php esc_html_e( 'Your current WooCommerce sessions will be transfered over to CoCart session table. This will run in the background until completed. Once transfered, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'Your current WooCommerce sessions will be transferred over to CoCart session table. This will run in the background until completed. Once transferred, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 			<p class="cocart-setup-wizard-actions step">
 				<button class="button button-primary button-large" value="<?php esc_attr_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?></button>
@@ -383,7 +383,7 @@ class CoCart_Admin_Setup_Wizard {
 	} // END cocart_setup_wizard_sessions()
 
 	/**
-	 * Triggers in the background transfering of sessions and redirects to the next step.
+	 * Triggers in the background transferring of sessions and redirects to the next step.
 	 *
 	 * @access public
 	 */
@@ -402,8 +402,8 @@ class CoCart_Admin_Setup_Wizard {
 	 * Helper method to queue the background install of a plugin.
 	 *
 	 * @access protected
-	 * @param string $plugin_id  Plugin id used for background install.
-	 * @param array  $plugin_info Plugin info array containing name and repo-slug, and optionally file if different from [repo-slug].php.
+	 * @param  string $plugin_id  Plugin id used for background install.
+	 * @param  array  $plugin_info Plugin info array containing name and repo-slug, and optionally file if different from [repo-slug].php.
 	 */
 	protected function install_plugin( $plugin_id, $plugin_info ) {
 		$plugin_file = isset( $plugin_info['file'] ) ? $plugin_info['file'] : $plugin_info['repo-slug'] . '.php';
