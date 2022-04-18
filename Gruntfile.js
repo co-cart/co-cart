@@ -13,8 +13,9 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON( 'package.json' ),
 
-		// Setting folder templates.
+		// Setting directories.
 		dirs: {
+			lang: 'plugins/cocart/languages',
 			php: 'plugins/cocart/includes',
 		},
 
@@ -46,7 +47,7 @@ module.exports = function(grunt) {
 						'node_modules',
 						'vendor'
 					],
-					mainFile: 'plugins/cocart/<%= pkg.name %>.php', // Main project file.
+					mainFile: '<%= pkg.name %>.php', // Main project file.
 					potComments: 'Copyright (c) {year} Sébastien Dumont\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					potHeaders: {
@@ -122,9 +123,9 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'plugins/cocart/languages',
+					cwd: '<%= dirs.lang %>',
 					src: ['*.po'],
-					dest: 'plugins/cocart/languages',
+					dest: '<%= dirs.lang %>',
 					ext: '.mo',
 					nonull: false
 				}]
@@ -334,7 +335,7 @@ module.exports = function(grunt) {
 	 * This includes extracting translatable strings, updating the master pot file.
 	 * If this is part of a deploy process, it should come before zipping everything up.
 	 */
-	grunt.registerTask( 'update-pot', [ 'checktextdomain', 'makepot' ] );
+	grunt.registerTask( 'update-pot', [ 'checktextdomain', 'makepot', 'potomo' ] );
 
 	/**
 	 * Creates a deployable plugin zipped up ready to upload
