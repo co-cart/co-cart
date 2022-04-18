@@ -5,11 +5,14 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.2.0
- * @version 3.1.0
+ * @version 4.0.0
  * @license GPL-2.0+
  */
 
 namespace CoCart;
+
+use CoCart\Admin;
+use CoCart\Admin\Notices;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -153,8 +156,8 @@ class Install {
 		if ( ! empty( $_GET['do_update_cocart'] ) ) {
 			check_admin_referer( 'cocart_db_update', 'cocart_db_update_nonce' );
 			self::update();
-			if ( call_user_func( array( 'CoCart_Admin_Notices', 'add_notice' ) ) ) {
-				CoCart_Admin_Notices::add_notice( 'update_db', true );
+			if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+				Notices::add_notice( 'update_db', true );
 			}
 		}
 	} // END install_actions()
@@ -247,16 +250,16 @@ class Install {
 
 		if ( 0 < count( $missing_tables ) ) {
 			if ( $modify_notice ) {
-				if ( call_user_func( array( 'CoCart_Admin_Notices', 'add_notice' ) ) ) {
-					CoCart_Admin_Notices::add_notice( 'base_tables_missing' );
+				if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+					Notices::add_notice( 'base_tables_missing' );
 				}
 			}
 
 			update_option( 'cocart_schema_missing_tables', $missing_tables );
 		} else {
 			if ( $modify_notice ) {
-				if ( call_user_func( array( 'CoCart_Admin_Notices', 'remove_notice' ) ) ) {
-					CoCart_Admin_Notices::remove_notice( 'base_tables_missing' );
+				if ( call_user_func( array( 'CoCart\Admin\Notices', 'remove_notice' ) ) ) {
+					Notices::remove_notice( 'base_tables_missing' );
 				}
 			}
 
@@ -279,8 +282,8 @@ class Install {
 			return;
 		}
 
-		if ( call_user_func( array( 'CoCart_Admin_Notices', 'remove_all_notices' ) ) ) {
-			CoCart_Admin_Notices::remove_all_notices();
+		if ( call_user_func( array( 'CoCart\Admin\Notices', 'remove_all_notices' ) ) ) {
+			Notices::remove_all_notices();
 		}
 	} // END remove_admin_notices()
 
@@ -329,8 +332,8 @@ class Install {
 		}
 
 		if ( apply_filters( 'cocart_enable_setup_wizard', true ) && self::is_new_install() ) {
-			if ( call_user_func( array( 'CoCart_Admin_Notices', 'add_notice' ) ) ) {
-				CoCart_Admin_Notices::add_notice( 'setup_wizard', true );
+			if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+				Notices::add_notice( 'setup_wizard', true );
 			}
 			set_transient( '_cocart_activation_redirect', 1, 30 );
 		}
@@ -348,8 +351,8 @@ class Install {
 			if ( apply_filters( 'cocart_enable_auto_update_db', false ) ) {
 				self::update();
 			} else {
-				if ( call_user_func( array( 'CoCart_Admin_Notices', 'add_notice' ) ) ) {
-					CoCart_Admin_Notices::add_notice( 'update_db', true );
+				if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+					Notices::add_notice( 'update_db', true );
 				}
 			}
 		} else {
@@ -609,8 +612,8 @@ UNIQUE KEY cart_key (cart_key)
 			'<code>' . esc_html( DB_NAME ) . '</code>'
 		);
 
-		if ( call_user_func( array( 'CoCart_Admin_Notices', 'add_custom_notice' ) ) ) {
-			CoCart_Admin_Notices::add_custom_notice( 'db_creation_failed', $notice );
+		if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_custom_notice' ) ) ) {
+			Notices::add_custom_notice( 'db_creation_failed', $notice );
 		}
 	} // END add_create_table_notice()
 
