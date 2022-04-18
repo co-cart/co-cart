@@ -21,12 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 3.1.2 Introduced
  */
 function cocart_task_cleanup_carts() {
-	if ( ! class_exists( 'CoCart_Session_Handler' ) ) {
+	if ( ! class_exists( 'CoCart\Session\Handler' ) ) {
 		include COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 		include COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 	}
 
-	$session = new CoCart_Session_Handler();
+	$session = new CoCart\Session\Handler();
 
 	if ( is_callable( array( $session, 'cleanup_sessions' ) ) ) {
 		$session->cleanup_sessions();
