@@ -76,9 +76,9 @@
 		"packages:fix:textdomain": "node ./bin/package-update-textdomain.js"
 	},
 	"devDependencies": {
-		"grunt": "1.4.1",
+		"grunt": "1.5.2",
 		"grunt-checktextdomain": "1.0.1",
-		"grunt-contrib-clean": "2.0.0",
+		"grunt-contrib-clean": "2.0.1",
 		"grunt-contrib-compress": "2.0.0",
 		"grunt-contrib-copy": "1.0.0",
 		"grunt-dev-update": "2.3.0",
