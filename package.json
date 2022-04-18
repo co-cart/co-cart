@@ -72,7 +72,8 @@
 		"update:pot": "grunt update-pot",
 		"update:stable": "grunt stable",
 		"zip:release": "grunt zip",
-		"packages:update": "npm install -g npm-check-updates & ncu -u & npm update & npm install"
+		"packages:update": "npm install -g npm-check-updates & ncu -u & npm update & npm install",
+		"packages:fix:textdomain": "node ./bin/package-update-textdomain.js"
 	},
 	"devDependencies": {
 		"grunt": "1.4.1",
@@ -85,7 +86,8 @@
 		"grunt-potomo": "3.5.0",
 		"grunt-text-replace": "0.4.0",
 		"grunt-wp-i18n": "1.0.3",
-		"load-grunt-tasks": "5.1.0"
+		"load-grunt-tasks": "5.1.0",
+		"wp-textdomain": "^1.0.1"
 	},
 	"dependencies": {},
 	"engines": {
