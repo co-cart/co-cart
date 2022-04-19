@@ -87,7 +87,7 @@
 		"grunt-text-replace": "0.4.0",
 		"grunt-wp-i18n": "1.0.3",
 		"load-grunt-tasks": "5.1.0",
-		"wp-textdomain": "^1.0.1"
+		"wp-textdomain": "1.0.1"
 	},
 	"dependencies": {},
 	"engines": {
