@@ -302,7 +302,13 @@ If you have "[TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simpl
 
 = Why CoCart and not WooCommerce Store API? =
 
-WooCommerce's Store API is designed mainly to focus on their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/). CoCart is designed to focus on decoupling WooCommerce so you can use any of your favorite technologies to allow your store to be headless.
+Both API’s are unique for their individual purposes.
+
+WooCommerce’s Store API is designed for the [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) which only requires a fixed format and is still prone to be used on native storefronts.
+
+CoCart’s API is designed for decoupling away from WordPress and lets you build headless ecommerce using your favorite technologies. No Nonces, no cookies.
+
+[Read more](https://cocart.xyz/cocart-vs-woocommerces-store-api/)
 
 = Do you have a JavaScript Library? =
 
