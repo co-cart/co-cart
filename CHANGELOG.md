@@ -1,9 +1,18 @@
 # Changelog for CoCart Lite
 
-## v3.5.0 - ?? ??, 2022
+## v3.5.0 - 21st April, 2022
 
-* Improved: Plugin suggestions now fetches data from JSON file and is cached once a week.
+### What's New?
+
+* Improved: Plugin suggestions now fetches data from a JSON file and is cached once a week.
 * Tweak: Quality of life update for Cart API v1. Should item added to cart not have an image it will fallback to the placeholder image.
+* Tested: ✔️ Compatible with WooCommerce v6.4
+
+### Bug Fix
+
+* Fixed Products API v2 Schema for Images.
+
+> Related to a change made in v3.2.0
 
 ## v3.4.1 - 4th April, 2022
 

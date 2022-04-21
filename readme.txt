@@ -6,7 +6,7 @@ Requires PHP: 7.3
 Tested up to: 5.9
 Stable tag: 3.4.1
 WC requires at least: 4.3
-WC tested up to: 6.3
+WC tested up to: 6.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -372,6 +372,20 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.5.0 - 21st April, 2022 =
+
+### What's New?
+
+* Improved: Plugin suggestions now fetches data from a JSON file and is cached once a week.
+* Tweak: Quality of life update for Cart API v1. Should item added to cart not have an image it will fallback to the placeholder image.
+* Tested: ✔️ Compatible with WooCommerce v6.4
+
+### Bug Fix
+
+* Fixed Products API v2 Schema for Images.
+
+> Related to a change made in v3.2.0
+
 = v3.4.1 - 4th April, 2022 =
 
 ### Bug Fix
@@ -590,6 +604,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.4.1 =
+= 3.5.0 =
 
-* Fixed: An uncaught undefined function `add_meta_query` which allows you to query products by meta.
+* Fixed Products API v2 Schema for Images.
