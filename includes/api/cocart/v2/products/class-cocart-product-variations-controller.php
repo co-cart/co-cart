@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Product Variations controller
+ * REST API: Product Variations controller
  *
  * Handles requests to the /products/variations endpoint.
  *
@@ -111,7 +111,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 *
 	 * @access public
 	 * @param  WC_Product      $product Product instance.
-	 * @param  WP_REST_Request $request - Full details about the request.
+	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $product, $request ) {
@@ -131,7 +131,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param WC_Product       $product   Product object.
-		 * @param WP_REST_Request  $request - Full details about the request.
+		 * @param WP_REST_Request  $request Full details about the request.
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()

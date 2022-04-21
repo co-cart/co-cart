@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Abstract Rest Terms Controller
+ * REST API: Abstract Rest Terms Controller
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2

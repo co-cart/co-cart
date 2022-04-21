@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Remove Item controller
+ * REST API: Remove Item controller
  *
  * Handles the request to remove items in the cart with /cart/item endpoint.
  *
@@ -75,7 +75,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about no items in cart.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_no_items_message', $message );
@@ -125,7 +125,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Calculates the cart totals now an item has been removed.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 */
 				$this->get_cart_instance()->calculate_totals();
 
@@ -150,7 +150,7 @@ class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about can not remove item.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_remove_item_message', $message );

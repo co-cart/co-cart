@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Item controller
+ * REST API: Item controller
  *
  * Handles the request to view a single item in the cart with /cart/item endpoint.
  *
@@ -60,7 +60,7 @@ class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   3.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function view_item( $request = array() ) {

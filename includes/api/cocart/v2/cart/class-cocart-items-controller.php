@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Items controller
+ * REST API: Items controller
  *
  * Handles the request to view just the items in the cart with /cart/items endpoint.
  *

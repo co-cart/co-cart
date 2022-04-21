@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Products controller
+ * REST API: Products controller
  *
  * Handles requests to the /products/ endpoint.
  *
@@ -794,7 +794,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Choose the correct method based on tax display mode.
 	 *
 	 * @access protected
-	 * @param  string $tax_display_mode - Provided tax display mode.
+	 * @param  string $tax_display_mode Provided tax display mode.
 	 * @return string Valid tax display mode.
 	 */
 	protected function get_tax_display_mode( $tax_display_mode = '' ) {
@@ -806,7 +806,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Choose the correct method based on tax display mode.
 	 *
 	 * @access protected
-	 * @param  string $tax_display_mode - If returned prices are incl or excl of tax.
+	 * @param  string $tax_display_mode If returned prices are incl or excl of tax.
 	 * @return string Function name.
 	 */
 	protected function get_price_from_tax_display_mode( $tax_display_mode ) {

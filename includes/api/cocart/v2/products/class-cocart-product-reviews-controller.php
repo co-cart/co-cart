@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Product Reviews controller
+ * REST API: Product Reviews controller
  *
  * Handles requests to the /products/reviews/ endpoint.
  *

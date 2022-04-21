@@ -84,7 +84,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Return a cart item from the cart.
 	 *
 	 * @access  public
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
 	 * @param   string $item_id   The item we are looking up in the cart.
 	 * @param   string $condition Default is 'add', other conditions are: container, update, remove, restore.
@@ -383,7 +383,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  protected
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 3.0.6
 	 * @param   int        $variation_id ID of the variation.
 	 * @param   array      $variation    Attribute values.
@@ -994,7 +994,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  public
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
 	 * @param   WC_Product $product  Product object associated with the cart item.
 	 * @param   int|float  $quantity Quantity of product to validate availability.
@@ -1189,7 +1189,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters the source of the product thumbnail.
 			 *
-			 * @since   2.1.0
+			 * @since   2.1.0 Introduced.
 			 * @version 3.0.0
 			 * @param   string $thumbnail_src URL of the product thumbnail.
 			 */
@@ -1237,7 +1237,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				/**
 				 * Filter message about item removed from the cart.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 * @param string     $message  Message.
 				 * @param WC_Product $_product Product data.
 				 */
@@ -1921,7 +1921,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters message about cart item key required.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
@@ -2962,7 +2962,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get the query params for getting the cart.
 	 *
 	 * @access  public
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
 	 * @return  array $params
 	 */

@@ -131,7 +131,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  public
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response         Returns the cart data from the database.
@@ -258,8 +258,8 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  WP_REST_Request $request      - Full details about the request.
-	 * @param  array           $session_data - Session data.
+	 * @param  WP_REST_Request $request      Full details about the request.
+	 * @param  array           $session_data Session data.
 	 * @return array           $session
 	 */
 	public function return_session_data( $request = array(), $session_data = array() ) {
@@ -334,12 +334,12 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  WC_Product $_product     - The product data of the item in the cart.
-	 * @param  array      $cart_item    - The item in the cart containing the default cart item data.
-	 * @param  string     $item_key     - The item key generated based on the details of the item.
-	 * @param  boolean    $show_thumb   - Determines if requested to return the item featured thumbnail.
-	 * @param  boolean    $removed_item - Determines if the item in the cart is removed.
-	 * @return array      $item         - Full details of the item in the cart and it's purchase limits.
+	 * @param  WC_Product $_product     The product data of the item in the cart.
+	 * @param  array      $cart_item    The item in the cart containing the default cart item data.
+	 * @param  string     $item_key     The item key generated based on the details of the item.
+	 * @param  boolean    $show_thumb   Determines if requested to return the item featured thumbnail.
+	 * @param  boolean    $removed_item Determines if the item in the cart is removed.
+	 * @return array      $item         Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
 		$item = array(
@@ -414,7 +414,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 			/**
 			 * Filters the source of the product thumbnail.
 			 *
-			 * @since   2.1.0
+			 * @since   2.1.0 Introduced.
 			 * @version 3.0.0
 			 * @param   string $thumbnail_src URL of the product thumbnail.
 			 */
@@ -432,7 +432,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return array of applied coupons
 	 */
 	public function get_applied_coupons( $session_data = array() ) {
@@ -444,7 +444,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return int
 	 */
 	public function get_cart_contents_count( $session_data = array() ) {
@@ -456,7 +456,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_cart_contents_weight( $session_data = array() ) {
@@ -483,7 +483,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return bool
 	 */
 	public function needs_payment( $session_data = array() ) {
@@ -495,7 +495,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return array
 	 */
 	public function get_fees( $session_data = array() ) {
@@ -520,9 +520,9 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array  $session_data - Session data.
-	 * @param  object $fee         - Fee data.
-	 * @return string              - Returns the fee value.
+	 * @param  array  $session_data Session data.
+	 * @param  object $fee         Fee data.
+	 * @return string              Returns the fee value.
 	 */
 	public function fee_html( $session_data = array(), $fee = object ) {
 		$cart_totals_fee_html = $this->display_prices_including_tax( $session_data ) ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
@@ -535,8 +535,8 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array  $session_data - Session data.
-	 * @param  string $key          - Key of element in $totals array.
+	 * @param  array  $session_data Session data.
+	 * @param  string $key          Key of element in $totals array.
 	 * @return mixed
 	 */
 	protected function get_totals_var( $session_data = array(), $key = '' ) {
@@ -550,7 +550,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_subtotal( $session_data = array() ) {
@@ -562,7 +562,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_subtotal_tax( $session_data = array() ) {
@@ -574,7 +574,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_discount_total( $session_data = array() ) {
@@ -586,7 +586,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_discount_tax( $session_data = array() ) {
@@ -598,7 +598,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_shipping_total( $session_data = array() ) {
@@ -610,7 +610,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_shipping_tax( $session_data = array() ) {
@@ -622,7 +622,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float|string
 	 */
 	public function get_total( $session_data = array() ) {
@@ -634,7 +634,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_total_tax( $session_data = array() ) {
@@ -646,7 +646,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_fee_total( $session_data = array() ) {
@@ -658,7 +658,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return float
 	 */
 	public function get_fee_tax( $session_data = array() ) {
@@ -670,7 +670,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 */
 	public function get_shipping_taxes( $session_data = array() ) {
 		return $this->get_totals_var( $session_data, 'shipping_taxes' );
@@ -681,7 +681,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 */
 	public function get_cart_contents_taxes( $session_data = array() ) {
 		return $this->get_totals_var( $session_data, 'cart_contents_taxes' );
@@ -692,7 +692,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since 3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 */
 	public function get_fee_taxes( $session_data = array() ) {
 		return $this->get_totals_var( $session_data, 'fee_taxes' );
@@ -703,7 +703,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return bool
 	 */
 	public function display_prices_including_tax( $session_data = array() ) {
@@ -715,7 +715,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return string
 	 */
 	public function get_tax_price_display_mode( $session_data = array() ) {
@@ -758,7 +758,7 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  array $session_data - Session data.
+	 * @param  array $session_data Session data.
 	 * @return array
 	 */
 	public function get_removed_cart_contents( $session_data = array() ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Logout controller
+ * REST API: Logout controller
  *
  * Handles the request to logout the user /logout endpoint.
  *

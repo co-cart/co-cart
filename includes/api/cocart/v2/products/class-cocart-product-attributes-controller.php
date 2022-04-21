@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Product Attributes controller
+ * REST API: Product Attributes controller
  *
  * Handles requests to the products/attributes endpoint.
  *
