@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 5.9
-Stable tag: 3.5.0
+Stable tag: 3.6.0
 WC requires at least: 4.3
 WC tested up to: 6.4
 License: GPLv3
@@ -372,6 +372,16 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.6.0 - 24th April, 2022 =
+
+### What's New?
+
+* Added more support to prevent CoCart from being cached either with [WP-Super-Cache](https://wordpress.org/plugins/wp-super-cache/) plugin and specific web hosts like [Pantheon](https://pantheon.io/docs/cache-control).
+
+### For Developers
+
+* Introduced new filter `cocart_send_cache_control_patterns` that allows you to control which routes will not be cached in the browser.
+
 = v3.5.0 - 21st April, 2022 =
 
 ### What's New?
@@ -604,6 +614,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.5.0 =
+= 3.6.0 =
 
-* Fixed Products API v2 Schema for Images.
+* Added more support to prevent CoCart from being cached.

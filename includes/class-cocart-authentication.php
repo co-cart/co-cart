@@ -359,7 +359,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					'X-WP-TotalPages',
 					'Link',
 					'X-CoCart-API', // @todo Deprecate in v4.0
-					'CoCart-API-Cart-Key'
+					'CoCart-API-Cart-Key',
 				);
 
 				header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );

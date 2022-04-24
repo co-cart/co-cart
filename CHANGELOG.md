@@ -1,5 +1,15 @@
 # Changelog for CoCart Lite
 
+## v3.6.0 - 24th April, 2022
+
+### What's New?
+
+* Added more support to prevent CoCart from being cached either with [WP-Super-Cache](https://wordpress.org/plugins/wp-super-cache/) plugin and specific web hosts like [Pantheon](https://pantheon.io/docs/cache-control).
+
+### For Developers
+
+* Introduced new filter `cocart_send_cache_control_patterns` that allows you to control which routes will not be cached in the browser.
+
 ## v3.5.0 - 21st April, 2022
 
 ### What's New?
