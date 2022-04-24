@@ -4,7 +4,8 @@
 
 ### What's New?
 
-* Added more support to prevent CoCart from being cached either with [WP-Super-Cache](https://wordpress.org/plugins/wp-super-cache/) plugin and specific web hosts like [Pantheon](https://pantheon.io/docs/cache-control).
+* Added support to prevent CoCart from being cached with [WP-Super-Cache](https://wordpress.org/plugins/wp-super-cache/) plugin.
+* Added support to prevent CoCart from being cached with specific web hosts like [Pantheon](https://pantheon.io/docs/cache-control).
 
 ### For Developers
 
