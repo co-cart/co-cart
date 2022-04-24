@@ -282,7 +282,7 @@ class CoCart_Load_Cart {
 	/**
 	 * Proceed to Checkout. (Legacy Checkout)
 	 *
-	 * Appends the cart query to the checkout URL so when a user proceeds 
+	 * Appends the cart query to the checkout URL so when a user proceeds
 	 * to the checkout page it loads that same cart.
 	 *
 	 * @access public
@@ -305,9 +305,9 @@ class CoCart_Load_Cart {
 
 	/**
 	 * Cookie Monster
-	 * 
+	 *
 	 * Do we eat the cookie before baking a new one? LOL
-	 * 
+	 *
 	 * @access protected
 	 * @static
 	 * @return boolean
