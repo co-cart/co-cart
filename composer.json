@@ -69,17 +69,17 @@
 			"url" : "https://github.com/co-cart/cocart-third-party.git"
 		}
 	],
-	"require": {
+	"require-dev": {
 		"composer/installers": "2.1.1",
 		"co-cart/cocart-sniffs": "0.0.2",
+		"wp-cli/i18n-command": "2.3.0",
+		"squizlabs/php_codesniffer": "3.6.2"
+	},
+	"provide": {
 		"co-cart/cocart-admin": "dev-master",
 		"co-cart/cocart-compatibility": "dev-master",
 		"co-cart/cocart-products-api": "dev-master",
 		"co-cart/cocart-third-party": "dev-master"
-	},
-	"require-dev": {
-		"wp-cli/i18n-command": "2.3.0",
-		"squizlabs/php_codesniffer": "3.6.2"
 	},
 	"scripts": {
 		"phpcs": [
@@ -114,6 +114,8 @@
 		"scripts-description": {
 			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
 			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
+			"post-install-cmd": "Installs the packages required, set by composer.json file.",
+			"post-update-cmd": "Updates the packages required, set by composer.json file.",
 			"makepot-audit": "Generate langauges/cart-rest-api-for-woocommerce.pot file and run audit",
 			"makepot": "Generate langauges/cart-rest-api-for-woocommerce.pot file"
 		}
