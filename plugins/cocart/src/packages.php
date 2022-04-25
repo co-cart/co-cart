@@ -55,6 +55,7 @@ class Packages {
 		'compatibility' => '\\CoCart\\Compatibility\\Package',
 		'products-api'  => '\\CoCart\\ProductsAPI\\Package',
 		'third-party'   => '\\CoCart\\ThirdParty\\Package',
+		'session-api'   => '\\CoCart\\SessionAPI\\Package',
 	);
 
 	/**
