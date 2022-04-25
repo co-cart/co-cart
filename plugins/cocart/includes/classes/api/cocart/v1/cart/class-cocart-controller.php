@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\v1
  * @since    2.0.0
- * @version  2.8.4
+ * @version  3.5.0
  * @license  GPL-2.0+
  */
 
@@ -174,7 +174,7 @@ class CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   2.0.0
-	 * @version 2.7.2
+	 * @version 3.5.0
 	 * @param   array  $data
 	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
@@ -247,23 +247,34 @@ class CoCart_API_Controller {
 					$product_thumbnail_id = $_product->get_image_id();
 
 					if ( ! $product_thumbnail_id ) {
-						$gallery_image_ids = $_product->get_gallery_image_ids();
+						$parent_product = wc_get_product( $_product->get_parent_id() );
 
-						if ( ! empty( $gallery_image_ids ) ) {
-							$product_thumbnail_id = array_shift( $gallery_image_ids );
+						if ( $parent_product ) {
+							$parent_product->get_image_id();
+						} else {
+							$gallery_image_ids = $_product->get_gallery_image_ids();
+
+							if ( ! empty( $gallery_image_ids ) ) {
+								$product_thumbnail_id = array_shift( $gallery_image_ids );
+							}
 						}
 					}
 
-					$thumbnail_id  = apply_filters( 'cocart_item_thumbnail', $product_thumbnail_id, $cart_item, $item_key );
-					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
+					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $product_thumbnail_id, $cart_item, $item_key );
 
-					/**
-					 * Filters the source of the product thumbnail.
-					 *
-					 * @since 2.1.0
-					 * @param string $thumbnail_src URL of the product thumbnail.
-					 */
-					$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
+					if ( ! empty( $thumbnail_id ) ) {
+						$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
+
+						/**
+						 * Filters the source of the product thumbnail.
+						 *
+						 * @since 2.1.0
+						 * @param string $thumbnail_src URL of the product thumbnail.
+						 */
+						$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
+					} else {
+						$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', wc_placeholder_img_src( apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) ), $cart_item, $item_key );
+					}
 
 					// Add main product image as a new variable.
 					$cart_contents[ $item_key ]['product_image'] = esc_url( $thumbnail_src );

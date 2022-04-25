@@ -1,5 +1,30 @@
 # Changelog for CoCart Lite
 
+## v3.6.0 - 24th April, 2022
+
+### What's New?
+
+* Added support to prevent CoCart from being cached with [WP Super Cache](https://wordpress.org/plugins/wp-super-cache/) plugin.
+* Added support to prevent CoCart from being cached with specific web hosts like [Pantheon](https://pantheon.io/docs/cache-control).
+
+### For Developers
+
+* Introduced new filter `cocart_send_cache_control_patterns` that allows you to control which routes will not be cached in the browser.
+
+## v3.5.0 - 21st April, 2022
+
+### What's New?
+
+* Improved: Plugin suggestions now fetches data from a JSON file and is cached once a week.
+* Tweak: Quality of life update for Cart API v1. Should item added to cart not have an image it will fallback to the placeholder image.
+* Tested: ✔️ Compatible with WooCommerce v6.4
+
+### Bug Fix
+
+* Fixed Products API v2 Schema for Images.
+
+> Related to a change made in v3.2.0
+
 ## v3.4.1 - 4th April, 2022
 
 ### Bug Fix

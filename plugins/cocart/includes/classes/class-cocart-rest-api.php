@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0
- * @version 3.1.0
+ * @version 3.6.0
  * @license GPL-2.0+
  */
 
@@ -32,7 +32,7 @@ class Server {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version 3.6.0
 	 */
 	public function __construct() {
 		// REST API was included starting WordPress 4.4.
@@ -45,6 +45,10 @@ class Server {
 			return;
 		}
 
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true ); // Play nice with WP-Super-Cache plugin (https://wordpress.org/plugins/wp-super-cache/).
+		}
+
 		$this->maybe_load_cart();
 		$this->rest_api_includes();
 
@@ -53,6 +57,9 @@ class Server {
 
 		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
+
+		// Prevent CoCart cart responses from being added to browser cache.
+		add_filter( 'rest_post_dispatch', array( $this, 'send_cache_control' ), 12, 2 );
 
 		// Cache Control.
 		add_filter( 'rest_pre_serve_request', array( $this, 'cache_control' ), 0, 4 );
@@ -381,6 +388,35 @@ class Server {
 
 		return true;
 	} // END cocart_key_header()
+
+	/**
+	 * Helps prevent CoCart from being added to browser cache.
+	 *
+	 * @access public
+	 *
+	 * @since  3.6.0 Introduced.
+	 *
+	 * @param  WP_REST_Response $response The response object.
+	 * @param  object           $server The REST server.
+	 * @return WP_REST_Response $response The response object.
+	 **/
+	public function send_cache_control( $response, $server ) {
+		$regex_path_patterns = apply_filters( 'cocart_send_cache_control_patterns', array(
+			'#^/cocart/v2/cart?#',
+			'#^/cocart/v2/logout?#',
+			'#^/cocart/v2/store?#',
+			'#^/cocart/v1/get-cart?#',
+			'#^/cocart/v1/logout?#',
+		) );
+
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( preg_match( $regex_path_pattern, $_SERVER['REQUEST_URI'] ) ) {
+				$server->send_header( 'Cache-Control', 'no-cache, must-revalidate, max-age=0' );
+			}
+		}
+
+		return $response;
+	} // END send_cache_control()
 
 	/**
 	 * Helps prevent CoCart from being cached at all and returns results quicker.

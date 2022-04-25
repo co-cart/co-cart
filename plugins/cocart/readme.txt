@@ -4,9 +4,9 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 5.9
-Stable tag: 3.4.1
+Stable tag: 3.6.0
 WC requires at least: 4.3
-WC tested up to: 6.3
+WC tested up to: 6.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -302,7 +302,13 @@ If you have "[TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simpl
 
 = Why CoCart and not WooCommerce Store API? =
 
-WooCommerce's Store API is designed mainly to focus on their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/). CoCart is designed to focus on decoupling WooCommerce so you can use any of your favorite technologies to allow your store to be headless.
+Both API’s are unique for their individual purposes.
+
+WooCommerce’s Store API is designed for the [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) which only requires a fixed format and is still prone to be used on native storefronts.
+
+CoCart’s API is designed for decoupling away from WordPress and lets you build headless ecommerce using your favorite technologies. No Nonces, no cookies.
+
+[Read more](https://cocart.xyz/cocart-vs-woocommerces-store-api/)
 
 = Do you have a JavaScript Library? =
 
@@ -365,6 +371,31 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.6.0 - 24th April, 2022 =
+
+### What's New?
+
+* Added support to prevent CoCart from being cached with [WP Super Cache](https://wordpress.org/plugins/wp-super-cache/) plugin.
+* Added support to prevent CoCart from being cached with specific web hosts like [Pantheon](https://pantheon.io/docs/cache-control).
+
+### For Developers
+
+* Introduced new filter `cocart_send_cache_control_patterns` that allows you to control which routes will not be cached in the browser.
+
+= v3.5.0 - 21st April, 2022 =
+
+### What's New?
+
+* Improved: Plugin suggestions now fetches data from a JSON file and is cached once a week.
+* Tweak: Quality of life update for Cart API v1. Should item added to cart not have an image it will fallback to the placeholder image.
+* Tested: ✔️ Compatible with WooCommerce v6.4
+
+### Bug Fix
+
+* Fixed Products API v2 Schema for Images.
+
+> Related to a change made in v3.2.0
 
 = v3.4.1 - 4th April, 2022 =
 
@@ -584,6 +615,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.4.1 =
+= 3.6.0 =
 
-* Fixed: An uncaught undefined function `add_meta_query` which allows you to query products by meta.
+* Added more support to prevent CoCart from being cached.
