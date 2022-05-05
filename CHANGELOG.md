@@ -1,5 +1,13 @@
 # Changelog for CoCart Lite
 
+## v3.6.1 - 6th May, 2022
+
+### Bug Fixes
+
+* Fixed calling `update_plugin_suggestions()` function the non-static method. For WordPress Dashboard > Plugins > Add New.
+* Fixed undefined `$variations` for `get_variations()` function. For Products API v2 thanks to [@jnz31]
+* Improved `get_connected_products()` function to validate product ID's before returning. For Products API v2 thanks to [@jnz31]
+
 ## v3.6.0 - 24th April, 2022
 
 ### What's New?
