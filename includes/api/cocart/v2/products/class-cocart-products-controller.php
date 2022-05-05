@@ -219,6 +219,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		$variation_ids    = $product->get_children();
 		$tax_display_mode = $this->get_tax_display_mode();
 		$price_function   = $this->get_price_from_tax_display_mode( $tax_display_mode );
+		$variations       = array();
 
 		foreach ( $variation_ids as $variation_id ) {
 			$variation = wc_get_product( $variation_id );
