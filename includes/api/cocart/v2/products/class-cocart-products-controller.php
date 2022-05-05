@@ -678,23 +678,29 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 		$connected_products = array();
 
-		foreach ( $ids as $id ) {
-			$_product = wc_get_product( $id );
+		// Proceed if we have product ID's.
+		if ( ! empty( $ids ) ) {
+			foreach ( $ids as $id ) {
+				$_product = wc_get_product( $id );
 
-			$type = $_product->get_type();
+				// If product exists, fetch product data.
+				if ( $_product ) {
+					$type = $_product->get_type();
 
-			$connected_products[] = array(
-				'id'          => $id,
-				'name'        => $_product->get_name( 'view' ),
-				'permalink'   => $_product->get_permalink(),
-				'price'       => cocart_prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
-				'add_to_cart' => array(
-					'text'        => $_product->add_to_cart_text(),
-					'description' => $_product->add_to_cart_description(),
-					'rest_url'    => $this->add_to_cart_rest_url( $_product, $type ),
-				),
-				'rest_url'    => $this->product_rest_url( $id ),
-			);
+					$connected_products[] = array(
+						'id'          => $id,
+						'name'        => $_product->get_name( 'view' ),
+						'permalink'   => $_product->get_permalink(),
+						'price'       => cocart_prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
+						'add_to_cart' => array(
+							'text'        => $_product->add_to_cart_text(),
+							'description' => $_product->add_to_cart_description(),
+							'rest_url'    => $this->add_to_cart_rest_url( $_product, $type ),
+						),
+						'rest_url'    => $this->product_rest_url( $id ),
+					);
+				}
+			}
 		}
 
 		return $connected_products;
