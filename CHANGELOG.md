@@ -5,8 +5,8 @@
 ### Bug Fixes
 
 * Fixed calling `update_plugin_suggestions()` function the non-static method. For WordPress Dashboard > Plugins > Add New.
-* Fixed undefined `$variations` for `get_variations()` function. For Products API v2 thanks to [@jnz31]
-* Improved `get_connected_products()` function to validate product ID's before returning. For Products API v2 thanks to [@jnz31]
+* Fixed undefined `$variations` for `get_variations()` function. For Products API v2 thanks to [@jnz31](https://github.com/jnz31)
+* Improved `get_connected_products()` function to validate product ID's before returning. For Products API v2. Solves [[issue #336](https://github.com/co-cart/co-cart/issues/336)]
 
 ## v3.6.0 - 24th April, 2022
 
