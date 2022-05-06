@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 5.9
-Stable tag: 3.6.0
+Stable tag: 3.6.1
 WC requires at least: 4.3
 WC tested up to: 6.4
 License: GPLv3
@@ -371,6 +371,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.6.1 - 6th May, 2022 =
+
+### Bug Fixes
+
+* Fixed calling `update_plugin_suggestions()` function the non-static method. For WordPress Dashboard > Plugins > Add New.
+* Fixed undefined `$variations` for `get_variations()` function. For Products API v2 thanks to [@jnz31](https://github.com/jnz31)
+* Improved `get_connected_products()` function to validate product ID's before returning. For Products API v2. Solves [[issue #336](https://github.com/co-cart/co-cart/issues/336)]
 
 = v3.6.0 - 24th April, 2022 =
 
