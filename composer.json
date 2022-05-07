@@ -103,6 +103,9 @@
 		"ready-build": [
 			"sh ./bin/ready-to-test.sh"
 		],
+		"code-ref": [
+			"sh ./bin/code-ref.sh"
+		],
 		"makepot-audit": [
 			"wp --allow-root i18n make-pot . --exclude=\".github,.wordpress-org,bin,node_modules,tests\" --slug=cart-rest-api-for-woocommerce"
 		],

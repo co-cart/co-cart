@@ -38,6 +38,9 @@ contributors.html
 # Tests
 /tests/
 
+# Code Reference
+/plugins/cocart-ref/
+
 # Various file types to ignore when exporting.
 *.sh
 .gitconfig
