@@ -28,20 +28,20 @@
 	"minimum-stability": "stable",
 	"authors": [
 		{
-			"name": "Sébastien Dumont",
-			"email": "mailme@sebastiendumont.com",
-			"homepage": "https://sebastiendumont.com",
-			"role": "Developer"
+			"name": "CoCart",
+			"email": "hello@cocart.xyz",
+			"homepage": "https://cocart.xyz"
 		}
 	],
 	"support": {
-		"issues": "https://github.com/co-cart/co-cart/issues"
+		"issues": "https://github.com/co-cart/co-cart/issues",
+		"source": "https://github.com/co-cart/co-cart"
 	},
 	"config": {
-		"platform": {
-			"php": "7.4"
-		},
-		"sort-packages": true
+		"sort-packages": true,
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	},
 	"autoload-dev": {
 		"exclude-from-classmap": [
@@ -69,7 +69,12 @@
 			"url" : "https://github.com/co-cart/cocart-third-party.git"
 		}
 	],
+	"require": {
+		"php": ">=7.4",
+		"composer/installers": "^1.0 || ^2.0"
+	},
 	"require-dev": {
+		"php": "^7 || ^8",
 		"composer/installers": "2.1.1",
 		"co-cart/cocart-sniffs": "0.0.2",
 		"wp-cli/i18n-command": "2.3.0",
