@@ -262,13 +262,13 @@ final class Core {
 	 * @access  public
 	 * @static
 	 * @since   2.6.0
-	 * @version 2.6.2
+	 * @version 4.0.0
 	 */
 	public static function activation_check() {
-		if ( ! Help::is_environment_compatible() ) {
+		if ( ! Help::is_environment_compatible( self::$required_php ) ) {
 			self::deactivate_plugin();
 			/* translators: %1$s: CoCart, %2$s: Environment message */
-			wp_die( sprintf( esc_html__( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', Help::get_environment_message() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_die( sprintf( esc_html__( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', Help::get_environment_message( self::$required_php ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		if ( Help::is_cocart_pro_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {

@@ -43,16 +43,18 @@ class Help {
 	/**
 	 * Cache 'lte' comparison results for WooCommerce version.
 	 *
-	 * @since 2.6.0
-	 * @var   array
+	 * @since 2.6.0 Introduced.
+	 *
+	 * @var array
 	 */
 	private static $is_wc_version_lte = array();
 
 	/**
 	 * Cache 'lt' comparison results for WooCommerce version.
 	 *
-	 * @since 2.6.0
-	 * @var   array
+	 * @since 2.6.0 Introduced.
+	 *
+	 * @var array
 	 */
 	private static $is_wc_version_lt = array();
 
@@ -73,16 +75,18 @@ class Help {
 	/**
 	 * Cache 'lt' comparison results for WP version.
 	 *
-	 * @since 2.5.0
-	 * @var   array
+	 * @since 2.5.0 Introduced.
+	 *
+	 * @var array
 	 */
 	private static $is_wp_version_lt = array();
 
 	/**
 	 * Cache WC Admin status result.
 	 *
-	 * @since 3.2.0
-	 * @var   bool
+	 * @since 3.2.0 Introduced.
+	 *
+	 * @var bool
 	 */
 	private static $is_wc_admin_enabled = null;
 
@@ -90,6 +94,8 @@ class Help {
 	 * Helper method to get the version of the currently installed WooCommerce.
 	 *
 	 * @access private
+	 * @static
+	 *
 	 * @return string
 	 */
 	private static function get_wc_version() {
@@ -100,6 +106,8 @@ class Help {
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
 	 *
 	 * @access public
+	 * @static
+	 *
 	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
@@ -114,6 +122,8 @@ class Help {
 	 * Returns true if the installed version of WooCommerce is greater than $version.
 	 *
 	 * @access public
+	 * @static
+	 *
 	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
@@ -129,7 +139,10 @@ class Help {
 	 * Returns true if the installed version of WooCommerce is lower than or equal to $version.
 	 *
 	 * @access public
-	 * @since  2.6.0
+	 * @static
+	 *
+	 * @since 2.6.0 Introduced.
+	 *
 	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
@@ -144,7 +157,10 @@ class Help {
 	 * Returns true if the installed version of WooCommerce is less than $version.
 	 *
 	 * @access public
-	 * @since  2.6.0
+	 * @static
+	 *
+	 * @since 2.6.0 Introduced.
+	 *
 	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
@@ -161,6 +177,7 @@ class Help {
 	 *
 	 * @access public
 	 * @static
+	 *
 	 * @return boolean
 	 */
 	public static function is_not_wc_version_required() {
@@ -175,6 +192,8 @@ class Help {
 	 * Returns true if the installed version of WordPress is greater than $version.
 	 *
 	 * @access public
+	 * @static
+	 *
 	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
@@ -192,6 +211,8 @@ class Help {
 	 * Returns true if the installed version of WordPress is greater than or equal to $version.
 	 *
 	 * @access public
+	 * @static
+	 *
 	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
@@ -209,7 +230,10 @@ class Help {
 	 * Returns true if the installed version of WordPress is less than $version.
 	 *
 	 * @access public
-	 * @since  2.5.0
+	 * @static
+	 *
+	 * @since 2.5.0 Introduced.
+	 *
 	 * @param  string $version The version to compare.
 	 * @return boolean
 	 */
@@ -235,6 +259,77 @@ class Help {
 	} // END get_cocart_version()
 
 	/**
+	 * Returns true if version is a Beta release.
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 * @return boolean
+	 */
+	public static function is_beta_release( $version = '' ) {
+		if ( empty( $version ) ) {
+			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+		}
+
+		if ( strpos( $version, 'beta' ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_beta_release()
+
+	/**
+	 * Returns true if version is a Release Candidate.
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 * @return boolean
+	 */
+	public static function is_rc_release( $version = '' ) {
+		if ( empty( $version ) ) {
+			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+		}
+
+		if ( strpos( $version, 'rc' ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_rc_release()
+
+	/**
+	 * Returns true if version is a pre-release.
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 * @return boolean
+	 */
+	public static function is_pre_release( $version = '' ) {
+		if ( empty( $version ) ) {
+			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+		}
+
+		if (
+			strpos( $version, 'beta' ) || strpos( $version, 'rc' )
+		) {
+			return true;
+		}
+
+		return false;
+	} // END is_pre_release()
+
+	/**
 	 * Returns true if CoCart is a pre-release.
 	 *
 	 * @access public
@@ -242,11 +337,7 @@ class Help {
 	 * @return boolean
 	 */
 	public static function is_cocart_pre_release() {
-		$version = self::get_cocart_version();
-
-		if ( strpos( $version, 'beta' ) ||
-			strpos( $version, 'rc' )
-		) {
+		if ( self::is_pre_release( self::get_cocart_version() ) ) {
 			return true;
 		}
 
@@ -261,9 +352,7 @@ class Help {
 	 * @return boolean
 	 */
 	public static function is_cocart_beta() {
-		$version = self::get_cocart_version();
-
-		if ( strpos( $version, 'beta' ) ) {
+		if ( self::is_beta_release( self::get_cocart_version() ) ) {
 			return true;
 		}
 
@@ -278,9 +367,7 @@ class Help {
 	 * @return boolean
 	 */
 	public static function is_cocart_rc() {
-		$version = self::get_cocart_version();
-
-		if ( strpos( $version, 'rc' ) ) {
+		if ( self::is_rc_release( self::get_cocart_version() ) ) {
 			return true;
 		}
 
@@ -309,7 +396,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  3.0.3
+	 *
+	 * @since 3.0.3 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function is_cocart_pro_activated() {
@@ -326,8 +415,10 @@ class Help {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.0.0
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 3.0.3
+	 *
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
@@ -350,7 +441,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  2.3.0
+	 *
+	 * @since 2.3.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function is_cocart_admin_page() {
@@ -369,7 +462,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function user_has_capabilities() {
@@ -386,7 +481,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since  3.0.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function is_cocart_ps_active() {
@@ -398,7 +495,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  3.0.3
+	 *
+	 * @since 3.0.3 Introduced.
+	 *
 	 * @param  array $args Passed arguments.
 	 * @return array
 	 */
@@ -420,7 +519,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @return array
 	 */
 	public static function get_wporg_cocart_plugins() {
@@ -509,12 +610,14 @@ class Help {
 	/**
 	 * Check how long CoCart has been active for.
 	 *
-	 * @access  public
-	 * @since   2.3.0
-	 * @version 2.8.3
+	 * @access public
 	 * @static
-	 * @param   int $seconds - Time in seconds to check.
-	 * @return  boolean|int Whether or not WooCommerce admin has been active for $seconds.
+	 *
+	 * @since   2.3.0 Introduced.
+	 * @version 2.8.3
+	 *
+	 * @param  int $seconds - Time in seconds to check.
+	 * @return boolean|int Whether or not WooCommerce admin has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {
 		if ( empty( $seconds ) ) {
@@ -536,10 +639,12 @@ class Help {
 	 *
 	 * Returns an empty string if it cannot generate a URL.
 	 *
-	 * @access  public
+	 * @access public
 	 * @static
-	 * @since   2.6.0
+	 *
+	 * @since   2.6.0 Introduced.
 	 * @version 3.0.0
+	 *
 	 * @return  string
 	 */
 	public static function cocart_get_current_admin_url() {
@@ -558,11 +663,16 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  2.6.0
+	 *
+	 * @since  2.6.0 Introduced.
+	 *
+	 * @param  string $required_php Required PHP version.
 	 * @return boolean
 	 */
-	public static function is_environment_compatible() {
-		return version_compare( PHP_VERSION, Core::$required_php, '>=' );
+	public static function is_environment_compatible( $required_php = '' ) {
+		if ( empty( $required_php ) ) $required_php = Core::$required_php;
+
+		return version_compare( PHP_VERSION, $required_php, '>=' );
 	} // END is_environment_compatible()
 
 	/**
@@ -570,13 +680,19 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since   2.6.0
-	 * @version 3.0.0
-	 * @return  string
+	 *
+	 * @since 2.6.0 Introduced.
+	 * @since 4.0.0 Added $plugin_name and $required_php parameters.
+	 *
+	 * @param  string $plugin_name Plugin name.
+	 * @param  string $required_php Required PHP version.
+	 * @return string
 	 */
-	public static function get_environment_message() {
-		/* translators: 1: CoCart, 2: Required PHP version */
-		return sprintf( esc_html__( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', Core::$required_php, self::get_php_version() );
+	public static function get_environment_message( $plugin_name = 'CoCart', $required_php = '' ) {
+		if ( empty( $required_php ) ) $required_php = Core::$required_php;
+
+		/* translators: 1: Plugin Name, 2: Required PHP version */
+		return sprintf( esc_html__( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), $plugin_name, $required_php, self::get_php_version() );
 	} // END get_environment_message()
 
 	/**
@@ -584,7 +700,9 @@ class Help {
 	 *
 	 * @access protected
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
 	 * @return array The shortlink data.
 	 */
 	protected static function collect_additional_shortlink_data() {
@@ -630,7 +748,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
 	 * @param  string $url The URL to build upon.
 	 * @return string The final URL.
 	 */
@@ -643,7 +763,9 @@ class Help {
 	 *
 	 * @access private
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
 	 * @return string The PHP version.
 	 */
 	private static function get_php_version() {
@@ -657,7 +779,9 @@ class Help {
 	 *
 	 * @access protected
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
 	 * @return string The wp_version.
 	 */
 	protected static function get_wordpress_version() {
@@ -669,7 +793,9 @@ class Help {
 	 *
 	 * @access private
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
 	 * @return int The number of days the plugin is active.
 	 */
 	private static function get_days_active() {
@@ -685,7 +811,9 @@ class Help {
 	 *
 	 * @access private
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
 	 * @return string The user's language.
 	 */
 	private static function get_user_language() {
@@ -701,7 +829,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  3.0.12
+	 *
+	 * @since 3.0.12 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function is_white_labelled() {
@@ -717,7 +847,9 @@ class Help {
 	 *
 	 * @access public
 	 * @static
-	 * @since  3.2.0 Introduced.
+	 *
+	 * @since 3.2.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wc_admin_enabled() {
