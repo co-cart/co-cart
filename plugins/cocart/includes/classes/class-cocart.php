@@ -183,7 +183,7 @@ final class Core {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 * @return  void
 	 */
 	public static function includes() {
@@ -202,6 +202,7 @@ final class Core {
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-cache.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-callbacks.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-extension.php';
+		include_once COCART_ABSPATH . 'includes/classes/class-cocart-status.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-install.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-logger.php';

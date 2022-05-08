@@ -7,13 +7,14 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.3.0
- * @version 3.2.0
+ * @version 4.0.0
  * @license GPL-2.0+
  */
 
 namespace CoCart;
 
 use CoCart\Core;
+use CoCart\Status;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -617,7 +618,7 @@ class Help {
 	 * @version 2.8.3
 	 *
 	 * @param  int $seconds - Time in seconds to check.
-	 * @return boolean|int Whether or not WooCommerce admin has been active for $seconds.
+	 * @return boolean|int Whether or not CoCart has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {
 		if ( empty( $seconds ) ) {
@@ -738,7 +739,7 @@ class Help {
 			'debug_mode'       => ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No',
 			'memory_limit'     => size_format( $memory ),
 			'user_language'    => self::get_user_language(),
-			'multisite'        => is_multisite() ? 'Yes' : 'No',
+			'multisite'        => Status::is_multi_network() ? 'Yes' : 'No',
 			'environment_type' => $environment_type,
 		);
 	} // END collect_additional_shortlink_data()
