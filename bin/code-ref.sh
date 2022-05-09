@@ -39,5 +39,17 @@ find ./plugins/cocart-ref/packages -name "third-party" -type d -exec rm -rf {} +
 find ./plugins/cocart-ref -name ".git" -type d -exec rm -rf {} +
 find ./plugins/cocart-ref -name "README.md" -type f -delete
 find ./plugins/cocart-ref -name "src" -type d -exec rm -rf {} +
+find ./plugins/cocart-ref -name "load-package.php" -type f -delete
+find ./plugins/cocart-ref -name "cart-rest-api-for-woocommerce.php" -type f -delete
+find ./plugins/cocart-ref -name "uninstall.php" -type f -delete
+find ./plugins/cocart-ref/includes -name "class-cocart-autoloader.php" -type f -delete
+find ./plugins/cocart-ref/includes -name "class-cocart-cli.php" -type f -delete
+find ./plugins/cocart-ref/includes -name "class-cocart-install.php" -type f -delete
+find ./plugins/cocart-ref/includes -name "class-cocart.php" -type f -delete
+find ./plugins/cocart-ref/includes -name "cocart-background-functions.php" -type f -delete
+find ./plugins/cocart-ref/includes -name "cocart-update-functions.php" -type f -delete
+find ./plugins/cocart-ref/includes/classes -name "admin" -type d -exec rm -rf {} +
+find ./plugins/cocart-ref/includes/classes/api -name "legacy" -type d -exec rm -rf {} +
+find ./plugins/cocart-ref/includes -name "cli" -type d -exec rm -rf {} +
 
 output 2 "Code Reference can now import this build."
