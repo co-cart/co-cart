@@ -1,5 +1,16 @@
 # Changelog for CoCart Lite
 
+## v3.6.2 - 10th May, 2022
+
+### Improvements
+
+* Improved `cocart_prepare_money_response()` function. Cleans up string values better.
+* Additional decimals gone for item price.
+
+### Tweaks
+
+* Item price and subtotal now returns correct money response.
+
 ## v3.6.1 - 6th May, 2022
 
 ### Bug Fixes
