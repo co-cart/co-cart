@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.1.0
+ * @version 3.6.2
  * @license GPL-2.0+
  */
 
@@ -1107,8 +1107,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get a single item from the cart and present the data required.
 	 *
 	 * @access  public
+	 *
 	 * @since   3.0.0
-	 * @version 3.1.0
+	 * @version 3.6.2
+	 *
 	 * @param   WC_Product $_product     The product data of the item in the cart.
 	 * @param   array      $cart_item    The item in the cart containing the default cart item data.
 	 * @param   string     $item_key     The item key generated based on the details of the item.
@@ -1122,14 +1124,14 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			'id'             => $_product->get_id(),
 			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
 			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $this->get_cart_instance()->get_product_price( $_product ), wc_get_price_decimals() ), $cart_item, $item_key ),
 			'quantity'       => array(
 				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
 			'totals'         => array(
-				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $cart_item['line_subtotal'], $cart_item, $item_key ),
+				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', cocart_prepare_money_response( $cart_item['line_subtotal'], wc_get_price_decimals() ), $cart_item, $item_key ),
 				'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key ),
 				'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key ),
 				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
