@@ -1,5 +1,15 @@
 # Changelog for CoCart Lite
 
+## v3.6.3 - 11th May, 2022
+
+**🔥 This is a HOTFIX!**
+
+### Bug Fix
+
+* Undone change made to `cocart_prepare_money_response()` function. Another WC extension using the filter `cocart_cart_item_price` confused me and was overriding the format returned.
+
+> This reverts partially back to v3.6.1
+
 ## v3.6.2 - 10th May, 2022
 
 ### Improvements

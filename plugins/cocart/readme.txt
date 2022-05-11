@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 5.9
-Stable tag: 3.6.2
+Stable tag: 3.6.3
 WC requires at least: 4.3
 WC tested up to: 6.4
 License: GPLv3
@@ -372,6 +372,16 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.6.3 - 11th May, 2022 =
+
+**🔥 This is a HOTFIX!**
+
+### Bug Fix
+
+* Undone change made to `cocart_prepare_money_response()` function. Another WC extension using the filter `cocart_cart_item_price` confused me and was overriding the format returned.
+
+> This reverts partially back to v3.6.1
+
 = v3.6.2 - 10th May, 2022 =
 
 ### Improvements
@@ -634,6 +644,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.6.2 =
+= 3.6.3 =
 
-* Additional decimals gone for item price.
+* Undone change made to `cocart_prepare_money_response()` function. This reverts partially back to v3.6.1
