@@ -423,13 +423,22 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
  * the smallest unit of a currency.
  *
  * @since  3.1.0 Introduced.
+ * @since  3.6.2 Removed any additional zeros before we convert.
+ *
  * @param  string|float $amount        - Monetary amount with decimals.
  * @param  int          $decimals      - Number of decimals the amount is formatted with.
  * @param  int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
  * @return string       The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-	$amount = html_entity_decode( wp_strip_all_tags( $amount ) );
+	// If string, clean it first.
+	if ( is_string( $amount) ) {
+		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
+		$amount = (float) $amount;
+	}
+
+	// Remove any additional zeros before we convert.
+	$amount = rtrim( $amount, '0' );
 
 	/**
 	 * This filter allows you to disable the decimals.
