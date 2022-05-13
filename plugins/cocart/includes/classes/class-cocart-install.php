@@ -156,7 +156,7 @@ class Install {
 		if ( ! empty( $_GET['do_update_cocart'] ) ) {
 			check_admin_referer( 'cocart_db_update', 'cocart_db_update_nonce' );
 			self::update();
-			if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+			if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
 				Notices::add_notice( 'update_db', true );
 			}
 		}
@@ -250,7 +250,7 @@ class Install {
 
 		if ( 0 < count( $missing_tables ) ) {
 			if ( $modify_notice ) {
-				if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+				if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
 					Notices::add_notice( 'base_tables_missing' );
 				}
 			}
@@ -258,7 +258,7 @@ class Install {
 			update_option( 'cocart_schema_missing_tables', $missing_tables );
 		} else {
 			if ( $modify_notice ) {
-				if ( call_user_func( array( 'CoCart\Admin\Notices', 'remove_notice' ) ) ) {
+				if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
 					Notices::remove_notice( 'base_tables_missing' );
 				}
 			}
@@ -278,11 +278,7 @@ class Install {
 	 * @version 3.0.12
 	 */
 	private static function remove_admin_notices() {
-		if ( ! class_exists( 'CoCart\Admin\Notices' ) ) {
-			return;
-		}
-
-		if ( call_user_func( array( 'CoCart\Admin\Notices', 'remove_all_notices' ) ) ) {
+		if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
 			Notices::remove_all_notices();
 		}
 	} // END remove_admin_notices()
@@ -326,13 +322,8 @@ class Install {
 	 * @since  3.1.0
 	 */
 	private static function maybe_enable_setup_wizard() {
-		// If the admin package is not available then don't redirect.
-		if ( ! class_exists( 'CoCart\Admin\Package' ) ) {
-			return;
-		}
-
 		if ( apply_filters( 'cocart_enable_setup_wizard', true ) && self::is_new_install() ) {
-			if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+			if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
 				Notices::add_notice( 'setup_wizard', true );
 			}
 			set_transient( '_cocart_activation_redirect', 1, 30 );
@@ -351,7 +342,7 @@ class Install {
 			if ( apply_filters( 'cocart_enable_auto_update_db', false ) ) {
 				self::update();
 			} else {
-				if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+				if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
 					Notices::add_notice( 'update_db', true );
 				}
 			}
@@ -612,7 +603,7 @@ UNIQUE KEY cart_key (cart_key)
 			'<code>' . esc_html( DB_NAME ) . '</code>'
 		);
 
-		if ( call_user_func( array( 'CoCart\Admin\Notices', 'add_custom_notice' ) ) ) {
+		if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
 			Notices::add_custom_notice( 'db_creation_failed', $notice );
 		}
 	} // END add_create_table_notice()
