@@ -64,9 +64,16 @@ class Install {
 	 * @static
 	 */
 	public static function check_version() {
-		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+		$cocart_version = get_option( 'cocart_version' );
+
+		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( $cocart_version, COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 			self::install();
 			do_action( 'cocart_updated' );
+
+			// If there is no cocart_version option, consider it as a new install.
+			if ( ! $cocart_version ) {
+				do_action( 'cocart_newly_installed' );
+			}
 		}
 	} // END check_version()
 
