@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Update Cart controller.
+ * REST API: Update Cart controller.
  *
  * Handles the request to update the cart with /cart/update endpoint.
  *

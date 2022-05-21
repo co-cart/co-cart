@@ -1,15 +1,12 @@
 <?php
 /**
- * CoCart - Add Item controller
+ * REST API: CoCart_Add_Item_Controller class
  *
- * Handles the request to add items to the cart with /add-item endpoint.
- *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v1
- * @since    2.1.0
- * @version  2.7.2
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v1
+ * @since   2.1.0 Introduced.
+ * @version 2.7.2
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,9 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Add Item controller class.
+ * Add item to cart REST API controller. (API v1)
  *
- * @package CoCart\API
+ * Handles the request to add items to the cart via /add-item endpoint.
+ *
+ * @since 2.1.0 Introduced.
  */
 class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
@@ -33,9 +32,9 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @access public
+	 * @since  2.1.0 Introduced.
+	 * @since  2.5.0 Added permission callback set to return true due to a change to the REST API in WordPress v5.5
 	 */
 	public function register_routes() {
 		// Add Item - cocart/v1/add-item (POST)
@@ -55,13 +54,20 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	} // register_routes()
 
 	/**
-	 * Add to Cart.
+	 * Adds the requested item to the Cart.
 	 *
 	 * @access  public
-	 * @since   1.0.0
+	 * @since   1.0.0 Introduced.
 	 * @version 2.7.0
-	 * @param   array $data - Passed parameters.
-	 * @return  WP_Error|WP_REST_Response
+	 *
+	 * @see CoCart_API_Controller::validate_product_id()
+	 * @see CoCart_Add_Item_Controller::add_to_cart_handler_variable()
+	 * @see CoCart_Add_Item_Controller::add_to_cart_handler_simple()
+	 * @see CoCart_API_Controller::get_cart_contents()
+	 * @see CoCart_API_Controller::get_response()
+	 *
+	 * @param  array $data Passed parameters.
+	 * @return WP_Error on failure, WP_REST_Response on success.
 	 */
 	public function add_to_cart( $data = array() ) {
 		$product_id     = ! isset( $data['product_id'] ) ? 0 : wc_clean( wp_unslash( $data['product_id'] ) );
@@ -90,7 +96,12 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
 		}
 
-		// Add to cart handlers
+		/**
+		 * Add to cart handlers
+		 *
+		 * @param string $adding_to_cart_handler The product type to identify handler.
+		 * @param WC_Product $adding_to_cart The product object.
+		 */
 		$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 		if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
@@ -122,10 +133,14 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * Handle adding simple products to the cart.
 	 *
 	 * @access public
-	 * @since  2.1.0
-	 * @param  int|string $product_id     - Contains the id of the product to add to the cart.
-	 * @param  int|float  $quantity       - Contains the quantity of the item to add to the cart.
-	 * @param  array      $cart_item_data - Contains extra cart item data we want to pass into the item.
+	 * @since  2.1.0 Introduced.
+	 *
+	 * @see CoCart_API_Controller::validate_product_id()
+	 * @see CoCart_API_Controller::add_item_to_cart()
+	 *
+	 * @param  int|string $product_id     Contains the id of the product to add to the cart.
+	 * @param  int|float  $quantity       Contains the quantity of the item to add to the cart.
+	 * @param  array      $cart_item_data Contains extra cart item data we want to pass into the item.
 	 * @return bool       success or not
 	 */
 	public function add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data ) {
@@ -146,11 +161,15 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * Handle adding variable products to the cart.
 	 *
 	 * @access public
-	 * @since  2.1.0
-	 * @param  int|string $product_id     - Contains the id of the product to add to the cart.
-	 * @param  int|float  $quantity       - Contains the quantity of the item to add to the cart.
-	 * @param  int|string $variation_id   - Contains the id of the product to add to the cart.
-	 * @param  array      $cart_item_data - Contains extra cart item data we want to pass into the item.
+	 * @since  2.1.0 Introduced.
+	 *
+	 * @see CoCart_API_Controller::validate_product_id()
+	 * @see CoCart_API_Controller::add_item_to_cart()
+	 *
+	 * @param  int|string $product_id     Contains the id of the product to add to the cart.
+	 * @param  int|float  $quantity       Contains the quantity of the item to add to the cart.
+	 * @param  int|string $variation_id   Contains the id of the product to add to the cart.
+	 * @param  array      $cart_item_data Contains extra cart item data we want to pass into the item.
 	 * @return bool       success or not
 	 */
 	public function add_to_cart_handler_variable( $product_id, $quantity, $variation_id, $variation, $cart_item_data ) {
@@ -171,10 +190,15 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * Adds the item to the cart once passed validation.
 	 *
 	 * @access  public
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 2.2.0
-	 * @param   array $product_to_add - Passes details of the item ready to add to the cart.
-	 * @return  array $item_added - Returns details of the added item in the cart.
+	 *
+	 * @see CoCart_API_Controller::get_cart()
+	 * @see CoCart_API_Controller::get_cart_item()
+	 * @see CoCart_API_Controller::return_additional_item_data()
+	 *
+	 * @param   array $product_to_add Passes details of the item ready to add to the cart.
+	 * @return  array $item_added     Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( $product_to_add = array() ) {
 		$product_id     = $product_to_add['product_id'];
@@ -200,10 +224,11 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Action hook will trigger if item was added again but updated in cart.
 			 *
-			 * @since 2.1.0
-			 * @param string $cart_item_key
-			 * @param array  $item_added
-			 * @param int    $new_quantity
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param string $cart_item_key Item key of the item added again.
+			 * @param array  $item_added Item added to cart again.
+			 * @param int    $new_quantity New quantity of the item.
 			 */
 			do_action( 'cocart_item_added_updated_in_cart', $cart_item_key, $item_added, $new_quantity );
 		} else {
@@ -243,18 +268,19 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Applies additional item data to return.
 	 *
-	 * @access  public
-	 * @since   2.2.0
-	 * @version 2.6.0
-	 * @param   array  $item_added
-	 * @param   string $item_key
-	 * @return  array  $item_added
+	 * @access public
+	 * @since  2.2.0 Introduced.
+	 * @since  2.6.0 Fetch product data if product data does not already exist with item data.
+	 *
+	 * @param  array  $item_added
+	 * @param  string $item_key
+	 * @return array  $item_added
 	 */
 	public function return_additional_item_data( $item_added, $item_key = '' ) {
 		/**
 		 * If product data is missing then get product data.
 		 *
-		 * @since 2.6.0
+		 * @since 2.6.0 Introduced.
 		 */
 		if ( ! isset( $item_added['data'] ) ) {
 			$item_added['data'] = wc_get_product( $item_added['variation_id'] ? $item_added['variation_id'] : $item_added['product_id'] );
@@ -269,7 +295,12 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		// Add product price.
 		$item_added['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
 
-		// This filter allows additional data to be returned.
+		/**
+		 * This filter allows additional data to be returned.
+		 *
+		 * @param array $item_added Item added to cart.
+		 * @param string $item_key Item key of the item added.
+		 */
 		$item_added = apply_filters( 'cocart_item_added', $item_added, $item_key );
 
 		return $item_added;
@@ -279,7 +310,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * Get the schema for adding an item, conforming to JSON Schema.
 	 *
 	 * @access  public
-	 * @since   2.1.2
+	 * @since   2.1.2 Introduced.
 	 * @version 2.7.2
 	 * @return  array
 	 */
@@ -333,7 +364,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * Get the query params for adding items.
 	 *
 	 * @access  public
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 2.7.2
 	 * @return  array $params
 	 */

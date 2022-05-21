@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Totals controller
+ * REST API: Totals controller
  *
  * Handles the request to get the totals of the cart with /cart/totals endpoint.
  *
@@ -56,7 +56,7 @@ class CoCart_Totals_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.0.4
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function get_totals( $request = array() ) {

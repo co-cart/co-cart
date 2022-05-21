@@ -68,7 +68,7 @@ class CoCart_Store_V2_Controller {
 	 * @access  public
 	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response The API root index data.
 	 */
 	public function get_store( $request ) {

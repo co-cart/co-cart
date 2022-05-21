@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Add Items controller
+ * REST API: Add Items controller
  *
  * Handles the request to add items to the cart with /cart/add-items endpoint.
  *
@@ -145,9 +145,9 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  string          $product_id - Contains the id of the container product to add to the cart.
-	 * @param  array           $items      - Contains the quantity of the items to add to the cart.
-	 * @param  WP_REST_Request $request    - Full details about the request.
+	 * @param  string          $product_id Contains the id of the container product to add to the cart.
+	 * @param  array           $items      Contains the quantity of the items to add to the cart.
+	 * @param  WP_REST_Request $request    Full details about the request.
 	 * @return bool            success or not
 	 */
 	public function add_to_cart_handler_grouped( $product_id, $items, $request ) {

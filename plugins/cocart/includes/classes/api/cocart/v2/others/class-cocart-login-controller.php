@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Login controller
+ * REST API: Login controller
  *
  * Handles the request to login the user /login endpoint.
  *

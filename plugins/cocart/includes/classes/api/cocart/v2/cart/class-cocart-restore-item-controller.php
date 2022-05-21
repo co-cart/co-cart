@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Restore Item controller
+ * REST API: Restore Item controller
  *
  * Handles the request to restore items in the cart with /cart/item endpoint.
  *
@@ -108,7 +108,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Calculates the cart totals now an item has been restored.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 */
 				$this->get_cart_instance()->calculate_totals();
 
@@ -138,7 +138,7 @@ class CoCart_Restore_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about can not restore item.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_restore_item_message', $message );

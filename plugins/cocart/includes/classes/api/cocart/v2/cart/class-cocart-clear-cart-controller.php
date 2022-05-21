@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Clear Cart controller
+ * REST API: Clear Cart controller
  *
  * Handles the request to clear the cart with /cart/clear endpoint.
  *
@@ -64,7 +64,7 @@ class CoCart_Clear_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function clear_cart( $request = array() ) {
@@ -134,7 +134,7 @@ class CoCart_Clear_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about the cart being cleared.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_cart_cleared_message', $message );
@@ -153,7 +153,7 @@ class CoCart_Clear_Cart_v2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about the cart failing to clear.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_clear_cart_failed_message', $message );

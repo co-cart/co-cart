@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Count Items controller
+ * REST API: Count Items controller
  *
  * Handles the request to count the items in the cart with /cart/items/count endpoint.
  *
@@ -58,8 +58,8 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request       - Full details about the request.
-	 * @param   array           $cart_contents - Cart contents to count items.
+	 * @param   WP_REST_Request $request       Full details about the request.
+	 * @param   array           $cart_contents Cart contents to count items.
 	 * @return  WP_REST_Response
 	 */
 	public function get_cart_contents_count( $request = array(), $cart_contents = array() ) {
@@ -87,7 +87,7 @@ class CoCart_Count_Items_v2_Controller extends CoCart_Cart_V2_Controller {
 			/**
 			 * Filters message about no items in the cart.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
