@@ -20,54 +20,6 @@ Take your WooCommerce business to the next level with headless ecommerce.
 
 Get started fast with [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce and build headless ecommerce using your favorite technologies.
 
-## Is CoCart right for my business?
-
-CoCart’s REST API makes it possible for businesses to build a complete custom storefront. It’s API-first, enabling your business to take the shopping experience to the next level.
-
-Made by and for developers, CoCart immediately allows you to create sophisticated experiences fast with unlimited possibilities.
-
-With our extensive documentation and resources available, CoCart is a plug and play solution that works out of the box.
-
-Save yourself 80% of a headache and hours of development time.
-
-## Modern stack
-
-Use your preferred tools and favorite modern technologies like [NextJS](https://nextjs.org/), [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Ember](https://emberjs.com/) and more giving you endless flexibility and customization.
-
-## Why CoCart?
-
-WooCommerce's Store API is designed for their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) which only requires a fixed format and is still prone to be used on native storefronts.
-
-It also only works with *Nonces* when you are on the site so for mobile apps or headless ecommerce, you will run into issues. It is also missing a lot of valuable information that developers require to help them.
-
-CoCart's API is designed for decoupling away from WordPress and lets you build headless ecommerce using your favorite technologies. **No Nonces, no cookies.**
-
-CoCart is packed full of powerful features that are completely customizable making it possible for businesses to build a complete custom storefront how they want.
-
-No matter the type of store you are running, CoCart helps you grow.
-
-So even if you are new to building a headless ecommerce or already have a WooCommerce store and been wanting to go headless, nows the time to start.
-
-Don't take my word for it. Checkout the testimonials left by startups, freelancers, agencies and many more.
-
-## Testimonials - Developers love it
-
-★★★★★
-> Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
-
-★★★★★
-> This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
-
-★★★★★
-> Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
-
-★★★★★
-> This plugin works great out of the box for adding products to the cart via API. The code is solid and functionality is as expected, thanks Sebastien! [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
-
-#### More testimonials
-
-[See the wall of love](https://cocart.xyz/wall-of-love/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
-
 ## The API
 
 CoCart Lite provides the basic needs to help you get started.
@@ -98,7 +50,7 @@ As an added bonus for administrators, CoCart Lite also provides the capabilities
 
 CoCart also provides built in features to:
 
-* **NEW**: Override price for simple or variable products added to cart.
+* **NEW**: Override the price for simple or variable products added to cart.
 * **NEW**: Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
 * Load a cart in session via the web. (Useful if you don't have a headless checkout and want to use the native checkout.)
 * Supports guest customers.
@@ -156,6 +108,24 @@ For a logged in customer:
 ### Extensions supported
 
 [View list of the WooCommerce extensions](https://cocart.xyz/woocommerce-extensions/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) that support CoCart or are supported in [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+
+## Testimonials - Developers love it
+
+★★★★★
+> Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
+
+★★★★★
+> This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
+
+★★★★★
+> Thanks for doing such a great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
+
+★★★★★
+> This plugin works great out of the box for adding products to the cart via API. The code is solid and functionality is as expected, thanks Sebastien! [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
+
+#### More testimonials
+
+[See the wall of love](https://cocart.xyz/wall-of-love/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 ### Priority support
 
@@ -292,23 +262,45 @@ Absolutely you can. Any WooCommerce Subscriptions product can be added to the ca
 
 = Is "WooCommerce Shipping and Tax" plugin supported? =
 
-Not at this time. "WooCommerce Shipping and Tax" ignores any REST API from allowing the ability to calculate the taxes from TaxJar. Code has been contributed to the plugin that will allow third-party plugins enable this ability and awaiting feedback.
-
-However, [TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/) plugin is supported.
+Not at this time. "WooCommerce Shipping and Tax" ignores any REST API from allowing the ability to calculate the taxes from TaxJar except for WooCommerce Blocks and JetPack. However, [TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/) plugin is supported.
 
 = Is "TaxJar for WooCommerce" plugin supported? =
 
 If you have "[TaxJar for WooCommerce](https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/)" v3.2.5 or above and CoCart v3.0 or above installed... then yes, it is supported.
 
+= Is CoCart right for my business? =
+
+CoCart’s REST API makes it possible for businesses to build a complete custom storefront. It’s API-first, enabling your business to take the shopping experience to the next level.
+
+Made by and for developers, CoCart immediately allows you to create sophisticated experiences fast with unlimited possibilities.
+
+With our extensive documentation and resources available, CoCart is a plug and play solution that works out of the box.
+
+Save yourself 80% of a headache and hours of development time.
+
+= Can I use any modern stack? =
+
+Yes you can use your preferred tools and favorite modern technologies like [NextJS](https://nextjs.org/), [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Ember](https://emberjs.com/) and more giving you endless flexibility and customization.
+
 = Why CoCart and not WooCommerce Store API? =
 
 Both API’s are unique for their individual purposes.
 
-WooCommerce’s Store API is designed for the [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) which only requires a fixed format and is still prone to be used on native storefronts.
+WooCommerce's Store API is designed for their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) which only requires a fixed format and is still prone to be used on native storefronts.
 
-CoCart’s API is designed for decoupling away from WordPress and lets you build headless ecommerce using your favorite technologies. No Nonces, no cookies.
+It also only works with *Nonces* when you are on the site so for mobile apps or headless ecommerce, you will run into issues. It is also missing a lot of valuable information that developers require to help them.
 
-[Read more](https://cocart.xyz/cocart-vs-woocommerces-store-api/)
+CoCart's API is designed for decoupling away from WordPress and lets you build headless ecommerce using your favorite technologies. **No Nonces, no cookies.**
+
+CoCart is packed full of powerful features that are completely customizable making it possible for businesses to build a complete custom storefront how they want.
+
+No matter the type of store you are running, CoCart helps you grow.
+
+It’s made by and for developers and immediately allows you to create sophisticated experiences fast with unlimited possibilities with it’s plug and play solution that just works out of the box.
+
+So even if you are new to building a headless ecommerce or already have a WooCommerce store and been wanting to go headless, nows the time to start.
+
+Don't take my word for it. Checkout the testimonials left by startups, freelancers, agencies and many more.
 
 = Do you have a JavaScript Library? =
 

@@ -5,10 +5,10 @@
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
 	</a>
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+5.9&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+6.0&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+6.3&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+6.5&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.3+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -89,7 +89,7 @@ As an added bonus for administrators or shop managers, CoCart Lite also provides
 
 CoCart Lite also provides built in features to:
 
-* **NEW**: Override price for simple or variable products added to cart.
+* **NEW**: Override the price for simple or variable products added to cart.
 * **NEW**: Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
 * Load a cart in session via the web. (Useful if you don't have a headless checkout and want to use native checkout.)
 * Supports guest customers.
