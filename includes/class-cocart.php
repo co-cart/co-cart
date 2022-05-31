@@ -279,12 +279,16 @@ final class CoCart {
 	/**
 	 * Install CoCart upon activation.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @since  3.0.0
+	 * @since   3.0.0
+	 * @version 3.7.0
+	 * @param bool $skip_check Whether to skip the activation check. Default is false.
 	 */
-	public static function install_cocart() {
-		self::activation_check();
+	public static function install_cocart( $skip_check = false ) {
+		if ( $skip_check ) {
+			self::activation_check();
+		}
 
 		// If WooCommerce is active, install CoCart.
 		if ( defined( 'WC_VERSION' ) ) {
