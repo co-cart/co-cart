@@ -63,7 +63,7 @@ final class Core {
 	 * @version 2.1.0
 	 * @var     string
 	 */
-	public static $required_woo = '5.0';
+	public static $required_woo = '5.4';
 
 	/**
 	 * Required PHP Version
