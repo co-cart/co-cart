@@ -96,6 +96,9 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 					$data = apply_filters( 'cocart_' . $rest_base . '_response', $data );
 				}
 
+				// TODO: Count the number of requests made in a day.
+				// TODO: Add rate limit response function here if needed.
+
 				// Return response.
 				$response = rest_ensure_response( $data );
 

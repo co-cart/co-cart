@@ -454,7 +454,8 @@ class Install {
 		}
 
 		// If the admin package is not available then don't redirect.
-		if ( ! class_exists( 'CoCart\Admin\Package' ) ) {
+		if ( ! class_exists( '\\CoCart\\Admin\\Package', false ) ) {
+			error_log('CoCart Admin Package not found! Unable to redirect to Getting Started page.');
 			return;
 		}
 

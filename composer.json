@@ -67,6 +67,10 @@
 		{
 			"type": "git",
 			"url" : "https://github.com/co-cart/cocart-third-party.git"
+		},
+		{
+			"type": "git",
+			"url" : "https://github.com/co-cart/cocart-session-api.git"
 		}
 	],
 	"require": {
@@ -75,6 +79,7 @@
 	},
 	"require-dev": {
 		"php": "^7 || ^8",
+		"appsero/client": "^1.2",
 		"composer/installers": "2.1.1",
 		"co-cart/cocart-sniffs": "0.0.2",
 		"wp-cli/i18n-command": "2.3.0",
@@ -82,7 +87,8 @@
 		"co-cart/cocart-admin": "dev-master",
 		"co-cart/cocart-compatibility": "dev-master",
 		"co-cart/cocart-products-api": "dev-master",
-		"co-cart/cocart-third-party": "dev-master"
+		"co-cart/cocart-third-party": "dev-master",
+		"co-cart/cocart-session-api": "dev-master"
 	},
 	"scripts": {
 		"phpcs": [
@@ -115,10 +121,12 @@
 	},
 	"extra": {
 		"installer-paths": {
+			"plugins/cocart/vendors/appsero": ["appsero/client"],
 			"plugins/cocart/packages/admin": ["co-cart/cocart-admin"],
 			"plugins/cocart/packages/compatibility": ["co-cart/cocart-compatibility"],
 			"plugins/cocart/packages/products-api": ["co-cart/cocart-products-api"],
-			"plugins/cocart/packages/third-party": ["co-cart/cocart-third-party"]
+			"plugins/cocart/packages/third-party": ["co-cart/cocart-third-party"],
+			"plugins/cocart/packages/session-api": ["co-cart/cocart-session-api"]
 		},
 		"scripts-description": {
 			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
