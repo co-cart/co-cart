@@ -286,7 +286,10 @@ final class CoCart {
 	public static function install_cocart() {
 		self::activation_check();
 
-		CoCart_Install::install();
+		// If WooCommerce is active, install CoCart.
+		if ( defined( 'WC_VERSION' ) ) {
+			CoCart_Install::install();
+		}
 	} // END install_cocart()
 
 	/**
