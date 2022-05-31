@@ -193,8 +193,9 @@ final class Core {
 		// Abstracts.
 		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-extension-callback.php';
 
-		// Background functions.
+		// Important functions.
 		include_once COCART_ABSPATH . 'includes/cocart-background-functions.php';
+		include_once COCART_ABSPATH . 'includes/cocart-formatting-functions.php';
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
@@ -247,14 +248,21 @@ final class Core {
 	/**
 	 * Install CoCart upon activation.
 	 *
-	 * @access public
+	 * @access  public
 	 * @static
-	 * @since  3.0.0
+	 * @since   3.0.0
+	 * @version 3.7.0
+	 * @param bool $skip_check Whether to skip the activation check. Default is false.
 	 */
-	public static function install_cocart() {
-		self::activation_check();
+	public static function install_cocart( $skip_check = false ) {
+		if ( $skip_check ) {
+			self::activation_check();
+		}
 
-		Install::install();
+		// If WooCommerce is active, install CoCart.
+		if ( defined( 'WC_VERSION' ) ) {
+			Install::install();
+		}
 	} // END install_cocart()
 
 	/**

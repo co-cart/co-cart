@@ -4,9 +4,9 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 5.9
-Stable tag: 3.6.3
+Stable tag: 3.7.0
 WC requires at least: 4.3
-WC tested up to: 6.4
+WC tested up to: 6.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,19 +137,19 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 
 Features that will be available in the future:
 
-* **Coming Soon** Remove all Coupons from Cart
-* **Coming Soon** Register Customers
-* **Coming Soon** Retrieve checkout fields (More details on that soon)
-* **Coming Soon** Set cart customer (In Development)
-* **Coming Soon** Create Order (In Development)
+* Remove all coupons from cart
+* Register Customers
+* Retrieve checkout fields (More details on that soon)
+* Set cart customer (In Development)
+* Create Order (In Development)
 
 For a logged in customer:
 
-* **Coming Soon** Return Orders
-* **Coming Soon** Return Subscriptions
-* **Coming Soon** Return Downloads (Auditing)
-* **Coming Soon** Return Saved Payment Methods (Auditing)
-* **Coming Soon** Get and Update Profile (In Development)
+* Return Customers Orders
+* Return Customers Subscriptions
+* Return Customers Downloads (Auditing)
+* Return Customers Saved Payment Methods
+* Get and Update Customers Profile (In Development)
 
 [Buy CoCart Pro Now](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)
 
@@ -336,10 +336,6 @@ Yes. Just install CoCart and activate it via the network and all sites will have
 
 Yes you can. You will have to edit your `wp-config.php` file to add a new constant. [Details can be found in the documentation](https://cocart.dev/articles/wp-config-php/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart#white-labelling).
 
-= Does CoCart work with the Dokan plugin? =
-
-Yes. The only feature you wont be able to use are coupons if you have [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart). This is because Dokan disables the use of coupons in WooCommerce. All other features are compatible.
-
 = Where can I report bugs? =
 
 Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the support forum – be sure to search the forums to confirm that the error has not already been reported.
@@ -381,6 +377,14 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.7.0 - 31st May, 2022 =
+
+### What's New
+
+* Improved: CoCart does not proceed with any installation when activated unless WooCommerce is active first. Solves [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
+* Tested: ✔️ Compatible with WooCommerce v6.5
+* Tested: ✔️ Compatible with WordPress v6.0
 
 = v3.6.3 - 11th May, 2022 =
 
@@ -654,6 +658,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.6.3 =
+= 3.7.0 =
 
-* Undone change made to `cocart_prepare_money_response()` function. This reverts partially back to v3.6.1
+* Fixed a non-numeric value encounter.

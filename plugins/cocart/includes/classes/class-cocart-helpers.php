@@ -699,28 +699,19 @@ class Help {
 	/**
 	 * Collects the additional data necessary for the shortlink.
 	 *
-	 * @access protected
+	 * @access  protected
 	 * @static
 	 *
-	 * @since 2.7.2 Introduced.
+	 * @since   2.7.2 Introduced.
+	 * @version 3.7.0
 	 *
-	 * @return array The shortlink data.
+	 * @return  array The shortlink data.
 	 */
 	protected static function collect_additional_shortlink_data() {
-		$memory = WP_MEMORY_LIMIT;
-
-		if ( function_exists( 'wc_let_to_num' ) ) {
-			$memory = wc_let_to_num( $memory );
-		}
+		$memory = cocart_let_to_num( WP_MEMORY_LIMIT );
 
 		if ( function_exists( 'memory_get_usage' ) ) {
-			$system_memory = @ini_get( 'memory_limit' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-
-			if ( function_exists( 'wc_let_to_num' ) ) {
-				$system_memory = wc_let_to_num( $system_memory );
-			}
-
-			$memory = max( $memory, $system_memory );
+			$memory = max( $memory, cocart_let_to_num( @ini_get( 'memory_limit' ) ) ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		}
 
 		// WordPress 5.5+ environment type specification.
@@ -737,7 +728,7 @@ class Help {
 			'cocart_version'   => self::get_cocart_version(),
 			'days_active'      => self::get_days_active(),
 			'debug_mode'       => ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No',
-			'memory_limit'     => size_format( $memory ),
+			'memory_limit'     => esc_html( size_format( $memory ) ),
 			'user_language'    => self::get_user_language(),
 			'multisite'        => Status::is_multi_network() ? 'Yes' : 'No',
 			'environment_type' => $environment_type,
