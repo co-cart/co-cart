@@ -1,5 +1,13 @@
 # Changelog for CoCart Lite
 
+## v3.7.0 - 31st May, 2022
+
+### What's New
+
+* Improved: CoCart does not proceed with any installation when activated unless WooCommerce is active first. Solves [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
+* Tested: ✔️ Compatible with WooCommerce v6.5
+* Tested: ✔️ Compatible with WordPress v6.0
+
 ## v3.6.3 - 11th May, 2022
 
 **🔥 This is a HOTFIX!**

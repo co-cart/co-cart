@@ -119,19 +119,19 @@ CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/
 
 Features that will be available in the future:
 
-* **Coming Soon** Remove All Coupons from Cart
-* **Coming Soon** Register Customers
-* **Coming Soon** Retrieve Checkout Fields (More details on that soon)
-* **Coming Soon** Set Cart Customer (In Development)
-* **Coming Soon** Create Order (In Development)
+* Remove all coupons from cart
+* Register Customers
+* Retrieve checkout fields (More details on that soon)
+* Set cart customer (In Development)
+* Create Order (In Development)
 
 For logged in customers:
 
-* **Coming Soon** Return Customers Orders
-* **Coming Soon** Return Customers Subscriptions
-* **Coming Soon** Return Customers Downloads (Auditing)
-* **Coming Soon** Return Customers Payment Methods
-* **Coming Soon** Get and Update Customers Profile (In Development)
+* Return Customers Orders
+* Return Customers Subscriptions
+* Return Customers Downloads (Auditing)
+* Return Customers Saved Payment Methods
+* Get and Update Customers Profile (In Development)
 
 [Buy CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)
 

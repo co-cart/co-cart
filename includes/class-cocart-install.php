@@ -224,7 +224,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @version 3.1.0
 		 * @param   bool $modify_notice Whether to modify notice based on if all tables are present.
 		 * @param   bool $execute       Whether to execute get_schema queries as well.
-		 * @return  array                List of queries.
+		 * @return  array               List of queries.
 		 */
 		public static function verify_base_tables( $modify_notice = true, $execute = false ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';

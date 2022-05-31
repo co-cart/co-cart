@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.6.3';
+	public static $version = '3.7.0';
 
 	/**
 	 * CoCart Database Schema version.
@@ -188,7 +188,7 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 3.1.0
+	 * @version 3.7.0
 	 * @return  void
 	 */
 	public static function includes() {
@@ -198,8 +198,9 @@ final class CoCart {
 		// Abstracts.
 		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-extension-callback.php';
 
-		// Background functions.
+		// Important functions.
 		include_once COCART_ABSPATH . 'includes/cocart-background-functions.php';
+		include_once COCART_ABSPATH . 'includes/cocart-formatting-functions.php';
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
