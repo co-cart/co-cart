@@ -1,19 +1,18 @@
 <?php
 /**
- * CoCart Server.
+ * CoCart Rest API Server.
  *
- * Responsible for loading the REST API and all REST API namespaces.
+ * Responsible for loading the REST API, cache handling and headers.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Classes
+ * @package CoCart\RestApi
  * @since   1.0.0
- * @version 3.6.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
-namespace CoCart;
+namespace CoCart\RestApi;
 
-use CoCart\Authentication;
+use CoCart\RestApi\Authentication;
 use CoCart\Logger;
 use CoCart\Help;
 use CoCart\Session\Handler;
@@ -28,11 +27,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Server {
 
 	/**
+	 * REST API namespaces and endpoints.
+	 *
+	 * @var array
+	 */
+	protected $_namespaces = [];
+
+	/**
 	 * Setup class.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 3.6.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
+	 * @version 4.0.0
 	 */
 	public function __construct() {
 		// REST API was included starting WordPress 4.4.
@@ -51,6 +58,8 @@ class Server {
 
 		$this->maybe_load_cart();
 		$this->rest_api_includes();
+
+		$this->_namespaces = $this->get_rest_namespaces();
 
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
@@ -74,12 +83,10 @@ class Server {
 	 * @access public
 	 */
 	public function register_rest_routes() {
-		foreach ( $this->get_rest_namespaces() as $namespace => $controllers ) {
+		foreach ( $this->_namespaces as $namespace => $controllers ) {
 			foreach ( $controllers as $controller_name => $controller_class ) {
 				if ( class_exists( $controller_class ) ) {
 					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
-					$this->controllers[ $namespace ][ $controller_name ]->register_routes();
-				}
 			}
 		}
 	}
@@ -88,13 +95,13 @@ class Server {
 	 * Get API namespaces - new namespaces should be registered here.
 	 *
 	 * @access protected
+	 *
 	 * @return array List of Namespaces and Main controller classes.
 	 */
 	protected function get_rest_namespaces() {
 		return apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
-				'wc/v2'     => $this->get_legacy_controller(),
 				'cocart/v1' => $this->get_v1_controllers(),
 				'cocart/v2' => $this->get_v2_controllers(),
 			)
@@ -102,21 +109,10 @@ class Server {
 	}
 
 	/**
-	 * List of controllers in the wc/v2 namespace.
-	 *
-	 * @access protected
-	 * @return array
-	 */
-	protected function get_legacy_controller() {
-		return array(
-			'wc-rest-cart' => 'WC_REST_Cart_Controller',
-		);
-	}
-
-	/**
 	 * List of controllers in the cocart/v1 namespace.
 	 *
 	 * @access protected
+	 *
 	 * @return array
 	 */
 	protected function get_v1_controllers() {
@@ -136,6 +132,7 @@ class Server {
 	 * List of controllers in the cocart/v2 namespace.
 	 *
 	 * @access protected
+	 *
 	 * @return array
 	 */
 	protected function get_v2_controllers() {
@@ -162,9 +159,10 @@ class Server {
 	/**
 	 * Loads the cart, session and notices should it be required.
 	 *
-	 * @access  private
-	 * @since   2.0.0
-	 * @version 3.1.0
+	 * @access private
+	 *
+	 * @since   2.0.0 Introduced.
+	 * @version 4.0.0
 	 */
 	private function maybe_load_cart() {
 		if ( Authentication::is_rest_api_request() ) {
@@ -192,11 +190,6 @@ class Server {
 					wc_load_cart();
 				}
 			}
-
-			// Identify if user has switched. @todo Deprecate in v4.0
-			if ( $this->has_user_switched() ) {
-				$this->user_switched();
-			}
 		}
 	} // END maybe_load_cart()
 
@@ -204,14 +197,18 @@ class Server {
 	 * If the current customer ID in session does not match,
 	 * then the user has switched.
 	 *
-	 * @todo Deprecate in v4.0
+	 * @access protected
 	 *
-	 * @access  protected
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 2.7.2
-	 * @return  null|boolean
+	 *
+	 * @deprecated 4.0.0
+	 *
+	 * @return null|boolean
 	 */
 	protected function has_user_switched() {
+		_deprecated_function( 'User switching is now deprecated and will be removed in the future.', '4.0.0' );
+
 		if ( ! WC()->session instanceof Handler ) {
 			return;
 		}
@@ -241,12 +238,17 @@ class Server {
 	/**
 	 * Allows something to happen if a user has switched.
 	 *
-	 * @todo Deprecate in v4.0
-	 *
 	 * @access public
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @deprecated 4.0.0
 	 */
 	public function user_switched() {
+		_deprecated_function( 'User switching is now deprecated and will be removed in the future.', '4.0.0' );
+
+		_deprecated_hook( 'cocart_user_switched', '4.0.0', '', '"cocart_user_switched" hook no longer used and will be removed in the future.' );
+
 		do_action( 'cocart_user_switched' );
 	} // END user_switched()
 
@@ -254,7 +256,8 @@ class Server {
 	 * Initialize session.
 	 *
 	 * @access public
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
 	 */
 	public function initialize_session() {
 		if ( is_null( WC()->session ) || ! WC()->session instanceof Handler ) {
@@ -273,7 +276,8 @@ class Server {
 	 * Initialize cart.
 	 *
 	 * @access public
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
 	 */
 	public function initialize_cart() {
 		if ( is_null( WC()->customer ) || ! WC()->customer instanceof WC_Customer ) {
@@ -293,44 +297,41 @@ class Server {
 	/**
 	 * Include CoCart REST API controllers.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 3.1.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
+	 * @version 4.0.0
 	 */
 	public function rest_api_includes() {
-		// Only include Legacy REST API if WordPress is v5.4.2 or lower.
-		if ( Help::is_wp_version_lt( '5.4.2' ) ) {
-			// Legacy - WC Cart REST API v2 controller.
-			include_once dirname( __FILE__ ) . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php';
-		}
-
 		// CoCart REST API v1 controllers.
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-add-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-clear-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-calculate-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-count-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-logout-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v1/cart/class-cocart-totals-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-add-item-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-clear-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-calculate-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-count-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-item-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-logout-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-totals-controller.php';
 
 		// CoCart REST API v2 controllers.
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/others/class-cocart-store-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/others/class-cocart-login-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/others/class-cocart-logout-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-add-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-add-items-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-items-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-clear-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-calculate-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-count-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-update-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-remove-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-restore-item-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-totals-controller.php';
-		include_once dirname( __FILE__ ) . '/api/cocart/v2/cart/class-cocart-update-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-store-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-login-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-logout-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-add-item-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-add-items-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-item-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-items-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-clear-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-calculate-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-count-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-update-item-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-remove-item-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-restore-item-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-totals-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-update-cart-controller.php';
+
+		// CoCart REST API v3 controllers.
+		include_once dirname( __FILE__ ) . '/controllers/v3/class-cocart-test-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // rest_api_includes()
@@ -339,10 +340,13 @@ class Server {
 	 * Prevents CoCart from being cached.
 	 *
 	 * @access public
-	 * @since  2.1.2
-	 * @param  bool   $skip ( default: WP_DEBUG ).
-	 * @param  string $request_uri Requested REST API.
-	 * @return bool   $skip Results to WP_DEBUG or true if CoCart requested.
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param bool   $skip ( default: WP_DEBUG ).
+	 * @param string $request_uri Requested REST API.
+	 *
+	 * @return bool $skip Results to WP_DEBUG or true if CoCart requested.
 	 */
 	public function prevent_cache( $skip, $request_uri ) {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
@@ -357,12 +361,15 @@ class Server {
 	/**
 	 * Sends the cart key to the header if a cart exists.
 	 *
-	 * @access  public
-	 * @since   2.7.0
-	 * @version 3.0.0
-	 * @param   WP_Error|null|true $result WP_Error if authentication error, null if authentication
-	 *                                      method wasn't used, true if authentication succeeded.
-	 * @return  WP_Error|true $result WP_Error if authentication error, true if authentication succeeded.
+	 * @access public
+	 *
+	 * @since   2.7.0 Introduced.
+	 * @version 4.0.0
+	 *
+	 * @param WP_Error|null|true $result WP_Error if authentication error, null if authentication
+	 *                                    method wasn't used, true if authentication succeeded.
+	 *
+	 * @return WP_Error|true $result WP_Error if authentication error, true if authentication succeeded.
 	 */
 	public function cocart_key_header( $result ) {
 		if ( ! empty( $result ) ) {
@@ -382,7 +389,6 @@ class Server {
 
 		// Send cart key in the header if it's not empty or ZERO.
 		if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
-			rest_get_server()->send_header( 'X-CoCart-API', $cart_key ); // @todo Deprecate in v4.0
 			rest_get_server()->send_header( 'CoCart-API-Cart-Key', $cart_key );
 		}
 
@@ -394,10 +400,11 @@ class Server {
 	 *
 	 * @access public
 	 *
-	 * @since  3.6.0 Introduced.
+	 * @since 3.6.0 Introduced.
 	 *
-	 * @param  WP_REST_Response $response The response object.
-	 * @param  object           $server The REST server.
+	 * @param WP_REST_Response $response The response object.
+	 * @param object           $server   The REST server.
+	 *
 	 * @return WP_REST_Response $response The response object.
 	 **/
 	public function send_cache_control( $response, $server ) {
@@ -422,12 +429,15 @@ class Server {
 	 * Helps prevent CoCart from being cached at all and returns results quicker.
 	 *
 	 * @access public
-	 * @since  3.1.0
-	 * @param  bool             $served  Whether the request has already been served. Default false.
-	 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-	 * @param  WP_REST_Request  $request Request used to generate the response.
-	 * @param  WP_REST_Server   $server  Server instance.
-	 * @return bool
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param bool             $served  Whether the request has already been served. Default false.
+	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param WP_REST_Request  $request Request used to generate the response.
+	 * @param WP_REST_Server   $server  Server instance.
+	 *
+	 * @return null|bool
 	 */
 	public function cache_control( $served, $result, $request, $server ) {
 		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
@@ -445,7 +455,10 @@ class Server {
 	 * Prevents certain routes from initializing the session and cart.
 	 *
 	 * @access protected
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return bool
 	 */
 	protected function prevent_routes_from_initializing() {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );

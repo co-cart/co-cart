@@ -9,13 +9,12 @@
  * authentication to be valid.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Classes
+ * @package CoCart\RestApi
  * @since   2.6.0
- * @version 3.3.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
-namespace CoCart;
+namespace CoCart\RestApi;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

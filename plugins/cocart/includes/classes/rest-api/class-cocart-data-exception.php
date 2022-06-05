@@ -5,12 +5,12 @@
  * Extends exception to provide additional data.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Classes
+ * @package CoCart\RestApi
  * @since   3.0.0
- * @version 3.1.0
+ * @version 4.0.0
  */
 
-namespace CoCart;
+namespace CoCart\RestApi;
 
 use CoCart\Logger;
 

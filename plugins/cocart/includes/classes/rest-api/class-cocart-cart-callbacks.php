@@ -3,14 +3,14 @@
  * Registers all core cart callbacks.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Classes
+ * @package CoCart\RestApi
  * @since   3.1.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
-namespace CoCart\Callbacks;
+namespace CoCart\RestApi\Callbacks;
 
-use CoCart\Callbacks\UpdateCart;
+use CoCart\RestApi\Callbacks\UpdateCart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart Cart Callbacks class.
  */
-class Cart {
+class Callback {
 
 	/**
 	 * Register callbacks.
@@ -44,4 +44,4 @@ class Cart {
 
 } // END class
 
-return new Cart();
+return new Callback();

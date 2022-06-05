@@ -5,12 +5,12 @@
  * Allows developers to extend CoCart by allowing to update the cart via custom callback.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Classes
+ * @package CoCart\RestApi
  * @since   3.1.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
-namespace CoCart;
+namespace CoCart\RestApi;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
