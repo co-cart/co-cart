@@ -6,8 +6,8 @@ There are many ways to contribute to the project!
 
 - [Translating strings into your language](#translating-cocart).
 - Answering questions on the various CoCart communities like the [WP.org support forums](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
-- Testing open [issues](https://github.com/co-cart/co-cart/issues) or [pull requests](https://github.com/co-cart/co-cart/pulls) and sharing your findings in a comment.
-- Testing CoCart beta versions and release candidates. Those are announced in the [CoCart development blog](https://cocart.xyz/news/).
+- Testing open [issues](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) or [pull requests](https://github.com/co-cart/co-cart/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc) and sharing your findings in a comment.
+- Testing [CoCart beta versions and release candidates](https://github.com/co-cart/cocart-beta-tester). Those are announced in the [CoCart development blog](https://cocart.xyz/news/).
 - Submitting fixes, improvements, and enhancements.
 
 If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) CoCart Lite, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
