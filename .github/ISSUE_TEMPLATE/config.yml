@@ -1,0 +1,21 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🖥️ Admin Issue
+    url: https://github.com/co-cart/cocart-admin
+    about: If you have issues related to CoCart in the WordPress Dashboard, please report them to this repository.
+
+  - name: 🍦 Products API Issue
+    url: https://github.com/co-cart/cocart-products-api
+    about: If you have issues related to the Products API specifically, please report them to this repository.
+
+  - name: 🔌 Compatibility Issue
+    url: https://github.com/co-cart/cocart-compatibility
+    about: If you have a compatibility issue specifically with a certain plugin and WooCommerce extension, please report them to this repository.
+
+  - name: 📈 Sessions API
+    url: https://github.com/co-cart/cocart-session-api
+    about: If you have issues related to the Sessions API specifically, please report them to this repository.
+
+  - name: ❓ Support Question
+    url: https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/
+    about: If you have a question please use the support forum!
