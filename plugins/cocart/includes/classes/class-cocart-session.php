@@ -5,13 +5,13 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.3.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 namespace CoCart;
 
 use CoCart\Logger;
+use CoCart\Session\Handler;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -48,7 +48,7 @@ class LoadCart {
 	 * @return boolean
 	 */
 	public function is_cart_saved( $cart_key ) {
-		$handler    = new CoCart_Session_Handler();
+		$handler    = new Handler();
 		$cart_saved = $handler->get_cart( $cart_key );
 
 		if ( ! empty( $cart_saved ) ) {
@@ -151,7 +151,7 @@ class LoadCart {
 			}
 
 			// Get the cart in the database.
-			$handler     = new CoCart_Session_Handler();
+			$handler     = new Handler();
 			$stored_cart = $handler->get_cart( $cart_key );
 
 			if ( empty( $stored_cart ) ) {
