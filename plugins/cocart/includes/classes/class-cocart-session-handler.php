@@ -17,7 +17,7 @@
 
 namespace CoCart\Session;
 
-use CoCart\Authentication;
+use CoCart\RestApi\Authentication;
 use CoCart\Abstracts\Session;
 
 if ( ! defined( 'ABSPATH' ) ) {

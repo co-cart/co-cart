@@ -7,8 +7,10 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
+
+use CoCart\Install;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,5 +39,5 @@ function cocart_update_300_db_structure() {
  * Update database version to 3.0.0
  */
 function cocart_update_300_db_version() {
-	CoCart_Install::update_db_version( '3.0.0' );
+	Install::update_db_version( '3.0.0' );
 }

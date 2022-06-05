@@ -8,10 +8,9 @@
  * @package CoCart\Functions
  * @since   3.0.0
  * @version 4.0.0
- * @license GPL-2.0+
  */
 
-use CoCart\Authentication;
+use CoCart\RestApi\Authentication;
 use CoCart\Logger;
 
 // Exit if accessed directly.
@@ -24,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since   3.0.7  Introduced.
  * @since   3.1.0  Changed function `is_ajax()` to `wp_doing_ajax()`.
- * @version 3.1.0
+ * @version 4.0.0
  * @uses    wp_doing_ajax()
  * @param   string $hook        The hook that was used.
  * @param   string $version     The version of WordPress that deprecated the hook.

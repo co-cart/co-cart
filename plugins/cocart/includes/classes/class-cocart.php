@@ -4,9 +4,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart
- * @since   2.6.0
+ * @since   2.6.0 Introduced.
  * @version 4.0.0
- * @license GPL-2.0+
  */
 
 namespace CoCart;
@@ -29,7 +28,9 @@ final class Core {
 	 * Plugin Version
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @var string
 	 */
 	public static $version = '4.0.0-alpha.1';
@@ -38,8 +39,11 @@ final class Core {
 	 * CoCart Database Schema version.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0 started with version string 3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @var    string
 	 */
 	public static $db_version = '3.0.0';
@@ -48,20 +52,23 @@ final class Core {
 	 * Required WordPress Version
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.3.0
-	 * @var    string
+	 *
+	 * @since 2.3.0 Introduced.
+	 *
+	 * @var string
 	 */
 	public static $required_wp = '5.6';
 
 	/**
 	 * Required WooCommerce Version
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.0.0
-	 * @version 2.1.0
-	 * @var     string
+	 *
+	 * @var string
 	 */
 	public static $required_woo = '5.4';
 
@@ -69,17 +76,20 @@ final class Core {
 	 * Required PHP Version
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.6.0
-	 * @var    string
+	 *
+	 * @var string
 	 */
 	public static $required_php = '7.4';
 
 	/**
 	 * Initiate CoCart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since   1.0.0
 	 * @version 3.1.2
 	 */
@@ -111,9 +121,11 @@ final class Core {
 	/**
 	 * Setup Constants
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.2.0
+	 *
+	 * @since   1.2.0 Introduced.
 	 * @version 4.0.0
 	 */
 	public static function setup_constants() {
@@ -130,10 +142,13 @@ final class Core {
 	 * Define constant if not already set.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since  1.2.0
-	 * @param  string      $name Name of constant.
-	 * @param  string|bool $value Value of constant.
+	 *
+	 * @since 1.2.0 Introduced.
+	 *
+	 * @param string      $name Name of constant.
+	 * @param string|bool $value Value of constant.
 	 */
 	private static function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
@@ -145,8 +160,11 @@ final class Core {
 	 * Return the name of the package.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.8
+	 *
+	 * @since  3.0.8 Introduced.
+	 *
 	 * @return string
 	 */
 	public static function get_name() {
@@ -157,8 +175,11 @@ final class Core {
 	 * Return the version of the package.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.8
+	 *
+	 * @since  3.0.8 Introduced.
+	 *
 	 * @return string
 	 */
 	public static function get_version() {
@@ -169,8 +190,11 @@ final class Core {
 	 * Return the path to the package.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.8
+	 *
+	 * @since 3.0.8 Introduced.
+	 *
 	 * @return string
 	 */
 	public static function get_path() {
@@ -180,11 +204,14 @@ final class Core {
 	/**
 	 * Includes required core files.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.0.0
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 4.0.0
-	 * @return  void
+	 *
+	 * @return void
 	 */
 	public static function includes() {
 		// Class autoloader.
@@ -199,18 +226,11 @@ final class Core {
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-authentication.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-cache.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-callbacks.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-extension.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-status.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-install.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-logger.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-response.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-formatting.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-cart-validation.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-session.php';
 
 		// REST API functions.
@@ -237,8 +257,11 @@ final class Core {
 	 * WooCommerce constants.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0
+	 *
 	 * @return void
 	 */
 	public static function background_updater() {
@@ -248,10 +271,13 @@ final class Core {
 	/**
 	 * Install CoCart upon activation.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   3.0.0
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.7.0
+	 *
 	 * @param bool $skip_check Whether to skip the activation check. Default is false.
 	 */
 	public static function install_cocart( $skip_check = false ) {
@@ -268,9 +294,11 @@ final class Core {
 	/**
 	 * Checks the server environment and other factors and deactivates the plugin if necessary.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.6.0
+	 *
+	 * @since   2.6.0 Introduced.
 	 * @version 4.0.0
 	 */
 	public static function activation_check() {
@@ -291,8 +319,10 @@ final class Core {
 	 * Deactivates the plugin if the environment is not ready.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.6.0
+	 *
+	 * @since  2.6.0 Introduced.
 	 */
 	public static function deactivate_plugin() {
 		deactivate_plugins( plugin_basename( COCART_FILE ) );
@@ -305,24 +335,38 @@ final class Core {
 	/**
 	 * Load REST API.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.6.0
-	 * @version 3.0.0
+	 *
+	 * @since   2.6.0 Introduced.
+	 * @version 4.0.0
 	 */
 	public static function load_rest_api() {
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-rest-api.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-authentication.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-cache.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-callbacks.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-extension.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-response.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-formatting.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-validation.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-product-validation.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-server.php';
 	} // END load_rest_api()
 
 	/**
 	 * Filters the session handler to replace with our own.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.1.2
+	 *
+	 * @since   2.1.2 Introduced.
 	 * @version 3.1.0
-	 * @param   string $handler WooCommerce Session Handler.
-	 * @return  string $handler CoCart Session Handler.
+	 *
+	 * @param string $handler WooCommerce Session Handler.
+	 *
+	 * @return string $handler CoCart Session Handler.
 	 */
 	public static function session_handler( $handler ) {
 		if ( class_exists( 'WC_Session' ) ) {
@@ -338,8 +382,11 @@ final class Core {
 	 * Includes CoCart tasks.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since  3.1.2 Introduced.
+	 *
 	 * @return void
 	 */
 	public static function cocart_tasks() {
@@ -349,11 +396,14 @@ final class Core {
 	/**
 	 * Includes WooCommerce tweaks.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since   2.1.2
 	 * @version 3.0.0
-	 * @return  void
+	 *
+	 * @return void
 	 */
 	public static function woocommerce() {
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-woocommerce.php';
@@ -368,9 +418,11 @@ final class Core {
 	 *      - WP_LANG_DIR/cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce-LOCALE.mo
 	 *      - WP_LANG_DIR/plugins/cart-rest-api-for-woocommerce-LOCALE.mo
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.0.0
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.6.0
 	 */
 	public static function load_plugin_textdomain() {

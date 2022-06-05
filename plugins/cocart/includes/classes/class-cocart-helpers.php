@@ -8,7 +8,6 @@
  * @package CoCart\Classes
  * @since   2.3.0
  * @version 4.0.0
- * @license GPL-2.0+
  */
 
 namespace CoCart;
@@ -703,7 +702,8 @@ class Help {
 	 * @static
 	 *
 	 * @since   2.7.2 Introduced.
-	 * @version 3.7.0
+	 * @since   4.0.0 Added statues of the site.
+	 * @version 4.0.0
 	 *
 	 * @return  array The shortlink data.
 	 */
@@ -722,16 +722,21 @@ class Help {
 		}
 
 		return array(
-			'php_version'      => self::get_php_version(),
-			'wp_version'       => self::get_wordpress_version(),
-			'wc_version'       => self::get_wc_version(),
-			'cocart_version'   => self::get_cocart_version(),
-			'days_active'      => self::get_days_active(),
-			'debug_mode'       => ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No',
-			'memory_limit'     => esc_html( size_format( $memory ) ),
-			'user_language'    => self::get_user_language(),
-			'multisite'        => Status::is_multi_network() ? 'Yes' : 'No',
-			'environment_type' => $environment_type,
+			'php_version'       => self::get_php_version(),
+			'wp_version'        => self::get_wordpress_version(),
+			'wc_version'        => self::get_wc_version(),
+			'cocart_version'    => self::get_cocart_version(),
+			'days_active'       => self::get_days_active(),
+			'debug_mode'        => ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No',
+			'memory_limit'      => esc_html( size_format( $memory ) ),
+			'user_language'     => self::get_user_language(),
+			'multisite'         => Status::is_multi_network() ? 'Yes' : 'No',
+			'environment_type'  => $environment_type,
+			'is_offline_mode'   => Status::is_offline_mode() ? 'Yes' : 'No',
+			'is_local_site'     => Status::is_local_site() ? 'Yes' : 'No',
+			'is_staging_site'   => Status::is_staging_site() ? 'Yes' : 'No',
+			'is_vip_site'       => Status::is_vip_site() ? 'Yes' : 'No',
+			'is_white_labelled' => is_white_labelled() ? 'Yes' : 'No',
 		);
 	} // END collect_additional_shortlink_data()
 

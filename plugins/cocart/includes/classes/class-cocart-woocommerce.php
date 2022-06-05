@@ -5,13 +5,12 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.2
- * @version 3.1.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 namespace CoCart;
 
-use CoCart\Authentication;
+use CoCart\RestApi\Authentication;
 use CoCart\Session\Handler;
 
 // Exit if accessed directly.
@@ -94,7 +93,7 @@ class WooCommerce {
 		}
 
 		// Check the CoCart session handler is used but is NOT a CoCart REST API request.
-		if ( WC()->session instanceof CoCart\Session\Handler && ! Authentication::is_rest_api_request() ) {
+		if ( WC()->session instanceof Handler && ! Authentication::is_rest_api_request() ) {
 			return;
 		}
 

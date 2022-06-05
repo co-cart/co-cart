@@ -10,7 +10,7 @@
  * @license GPL-2.0+
  */
 
-namespace CoCart\Callbacks;
+namespace CoCart\RestApi\Callbacks;
 
 use CoCart\Abstracts;
 
@@ -49,11 +49,6 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 
 			if ( ! empty( $items ) ) {
 				foreach ( $items as $item_key => $quantity ) {
-					$data = array(
-						'item_key' => $item_key,
-						'quantity' => wc_stock_amount( preg_replace( '/[^0-9\.]/', '', $quantity ) ),
-					);
-
 					$cart_item = $controller->get_cart_item( $item_key, 'update' );
 
 					$_product = $cart_item['data'];

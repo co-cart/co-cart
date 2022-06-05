@@ -7,8 +7,11 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.1.2
- * @license GPL-2.0+
+ * @version 4.0.0
  */
+
+use CoCart\Logger;
+use CoCart\Session\Handler;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,12 +29,12 @@ function cocart_task_cleanup_carts() {
 		include COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 	}
 
-	$session = new CoCart\Session\Handler();
+	$session = new Handler();
 
 	if ( is_callable( array( $session, 'cleanup_sessions' ) ) ) {
 		$session->cleanup_sessions();
 	} else {
-		CoCart_Logger::log( esc_html__( 'CoCart Task: Clean up carts failed.', 'cart-rest-api-for-woocommerce' ), 'error' );
+		Logger::log( esc_html__( 'CoCart Task: Clean up carts failed.', 'cart-rest-api-for-woocommerce' ), 'error' );
 	}
 }
 add_action( 'cocart_cleanup_carts', 'cocart_task_cleanup_carts' );
