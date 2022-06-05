@@ -2,13 +2,13 @@
 
 <p align="center">
 	<a href="https://github.com/co-cart/co-cart/blob/trunk/LICENSE.md" target="_blank">
-		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
+		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-blue.svg" alt="Licence">
 	</a>
 	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+5.9&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+6.0&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=4.3+-+6.3&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=5.4+-+6.5&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.4+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -19,7 +19,12 @@
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
 		<img src="https://img.shields.io/wordpress/plugin/dt/cart-rest-api-for-woocommerce.svg" alt="WordPress Plugin Downloads">
 	</a>
+	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
+		<img src="https://img.shields.io/wordpress/plugin/r/cart-rest-api-for-woocommerce.svg" alt="WordPress.org rating">
+	</a>
 </p>
+
+⚠️ This is the development branch for future version of CoCart. For current stable branch [browse trunk](https://github.com/co-cart/co-cart/tree/trunk). ⚠️
 
 Welcome to the CoCart Lite repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
@@ -43,23 +48,16 @@ Here are a few other resources you find helpful.
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 * **[Node.js Library](https://www.npmjs.com/package/@cocart/cocart-rest-api)** provides a JavaScript wrapper supporting CommonJS (CJS) and ECMAScript Modules (ESM).
 
-## Need Support?
+## Support
 
-CoCart Lite is released freely and openly. Feedback or ideas and approaches to solving limitations in CoCart Lite is greatly appreciated.
+This repository is not suitable for support. Please don't use our issue tracker for support requests, but for core CoCart issues only. Support can take place through the appropriate channels:
 
-CoCart Lite is not supported via the WooCommerce help desk as the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
+* [Our community forum on wp.org](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/) which is available for all CoCart users.
+* [Our community Slack chat room](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) on the **#support** channel.
 
-If you are in need of support, please [purchase CoCart Pro](https://cocart.xyz/pro/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart).
+Support requests in issues on this repository will be closed on sight.
 
-## Bug Reporting
-
-If you think you have found a bug in the plugin, please [open a new issue](https://github.com/co-cart/co-cart/issues/new) and I will do my best to help you out.
-
-## Support CoCart
-
-Please consider starring ✨ and sharing 👍 the project repo! This helps the project getting known and grow with the community. 🙏
-
-Thank you for your support! 🙌
+> CoCart Lite is not supported via the WooCommerce help desk as the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
 
 ---
 
@@ -80,11 +78,13 @@ We have different channels at your disposal where you can find information about
 
 ---
 
-## Get involved
+## Contributing to CoCart Lite
 
-Do you like the idea of creating a headless e-commerce with WooCommerce? Got questions or feedback? We'd love to hear from you. Come join our [community](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)! ❤️
+If you have a patch or have stumbled upon an issue with CoCart Lite (Core), you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) for more information how you can do this.
 
-CoCart Lite also welcomes contributions. There are many ways to support the project! If you don't know where to start, this guide might help >> [How to contribute?](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md)
+### Join the Community
+
+Do you like the idea of creating a headless e-commerce with WooCommerce? Have questions or feedback? We'd love to hear from you. Come join the CoCart [community](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)! ❤️
 
 ---
 
