@@ -34,11 +34,48 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 <br>
 
-## Developers
+## Quick Start
 
-CoCart Lite is full of **[filters](https://docs.cocart.xyz/#filters?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** and **[action hooks](https://docs.cocart.xyz/#actions?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)** for developers to use as they please. It's your store so tinker how you please.
+📢 This repo is not package ready and must be **built** in order to activate the plugin.
 
-Here are a few other resources you find helpful.
+### Step 1
+
+Clone the repo to your WordPress development `wp-content/plugins` folder. Don't forget the folder name `"cocart-dev"` at the end of the command.
+
+```
+git clone https://github.com/co-cart/co-cart.git cocart-dev
+```
+
+### Step 2
+
+Then go into the cloned folder `cd cocart-dev` and proceed with the following commands.
+
+```
+composer install
+npm install
+composer ready-build
+```
+
+Now you will have another folder `cocart` within your plugins folder. This makes CoCart package ready. You will then be able to activate it from your `WordPress Dashboard > Plugins`.
+
+If you have made changes to the core of CoCart and want to test those changes locally, simply run `composer ready-build` and CoCart will be packaged together for you again.
+
+## Updating CoCart Packages
+
+As CoCart is now built modular, to keep up to date with all the development changes in all the default set modules you will need to pull them from their individual repositories.
+
+```
+composer update
+composer ready-build
+```
+
+## External Packages
+
+[Are you looking to build your own package?](https://github.com/co-cart/co-cart/blob/dev/plugins/cocart/packages/README.md)
+
+## For Developers
+
+Here are a few other resources you may find helpful.
 
 * **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart Lite from the GitHub repo.
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
