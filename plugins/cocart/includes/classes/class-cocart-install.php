@@ -6,7 +6,6 @@
  * @package CoCart\Classes
  * @since   1.2.0
  * @version 4.0.0
- * @license GPL-2.0+
  */
 
 namespace CoCart;
@@ -30,6 +29,11 @@ class Install {
 		'3.0.0' => array(
 			'cocart_update_300_db_structure',
 			'cocart_update_300_db_version',
+		),
+		'4.0.0' => array(
+			'cocart_update_400_db_structure',
+			'cocart_update_400_db_sessions',
+			'cocart_update_400_db_version',
 		),
 	);
 
@@ -541,7 +545,7 @@ class Install {
 	 * @access private
 	 * @static
 	 * @since   3.0.0
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 * @global  $wpdb
 	 * @return  string
 	 */
@@ -553,6 +557,7 @@ class Install {
 		$table = "CREATE TABLE {$wpdb->prefix}cocart_carts (
 cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 cart_key char(42) NOT NULL,
+cart_customer BIGINT UNSIGNED NOT NULL,
 cart_value longtext NOT NULL,
 cart_created BIGINT UNSIGNED NOT NULL,
 cart_expiry BIGINT UNSIGNED NOT NULL,
@@ -560,6 +565,7 @@ cart_source varchar(200) NOT NULL,
 cart_hash varchar(200) NOT NULL,
 PRIMARY KEY  (cart_id),
 UNIQUE KEY cart_key (cart_key)
+UNIQUE KEY cart_customer (cart_customer)
 ) $collate;";
 
 		return $table;

@@ -7,8 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Abstracts
  * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 namespace CoCart\Abstracts;
@@ -23,12 +22,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Session extends \WC_Session {
 
 	/**
+	 * Stores cart key.
+	 *
+	 * @access protected
+	 * @var    string $_cart_key cart key
+	 */
+	protected $_cart_key;
+
+	/**
 	 * Stores cart hash.
 	 *
 	 * @access protected
 	 * @var    string $_cart_hash cart hash
 	 */
 	protected $_cart_hash;
+
+	/**
+	 * Get cart key.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_cart_key() {
+		return $this->_cart_key;
+	}
 
 	/**
 	 * Get customer ID.
