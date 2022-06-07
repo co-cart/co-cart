@@ -46,7 +46,7 @@ final class Core {
 	 *
 	 * @var    string
 	 */
-	public static $db_version = '3.0.0';
+	public static $db_version = '4.0.0';
 
 	/**
 	 * Required WordPress Version
