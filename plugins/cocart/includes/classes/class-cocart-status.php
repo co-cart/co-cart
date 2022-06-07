@@ -38,7 +38,7 @@ class Status {
 			$offline_mode = constant( '\\COCART_DEV_DEBUG' );
 		} elseif ( defined( '\\WP_LOCAL_DEV' ) ) {
 			$offline_mode = constant( '\\WP_LOCAL_DEV' );
-		} elseif ( $this->is_local_site() ) {
+		} elseif ( self::is_local_site() ) {
 			$offline_mode = true;
 		}
 
