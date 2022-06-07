@@ -226,11 +226,11 @@ final class Core {
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-authentication.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-status.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-install.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-logger.php';
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-response.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-session.php';
 
 		// REST API functions.
@@ -343,7 +343,6 @@ final class Core {
 	 * @version 4.0.0
 	 */
 	public static function load_rest_api() {
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-authentication.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-cache.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-callbacks.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-extension.php';
