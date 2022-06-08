@@ -84,7 +84,7 @@ class WooCommerce {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 */
 	public static function load_cart_from_session() {
 		// Return nothing if WP-GraphQL is requested.
@@ -97,12 +97,7 @@ class WooCommerce {
 			return;
 		}
 
-		$cart_key = '';
-
-		// Check if we requested to load a specific cart.
-		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$cart_key = trim( esc_html( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		}
+		$cart_key = WC()->session->get_requested_cart();
 
 		// Check if the user is logged in.
 		if ( is_user_logged_in() ) {

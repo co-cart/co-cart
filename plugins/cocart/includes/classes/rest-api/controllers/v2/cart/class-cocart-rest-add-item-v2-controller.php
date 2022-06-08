@@ -7,8 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
+class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -76,7 +75,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
 			$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
 
-			$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			// Validate product ID before continuing and return correct product ID if different.
 			$product_id = $controller->validate_product_id( $product_id );
@@ -186,7 +185,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  bool            success or not
 	 */
 	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request = array() ) {
-		$controller = new CoCart_Cart_V2_Controller();
+		$controller = new CoCart_REST_Cart_V2_Controller();
 
 		$product_to_add = $controller->validate_product( $product_id, $quantity, 0, array(), $item_data, 'simple', $request );
 
@@ -220,7 +219,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  bool            success or not
 	 */
 	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated, $variation, $item_data, $request = array() ) {
-		$controller = new CoCart_Cart_V2_Controller();
+		$controller = new CoCart_REST_Cart_V2_Controller();
 
 		$product_to_add = $controller->validate_product( $product_id, $quantity, $deprecated, $variation, $item_data, 'variable', $request );
 
@@ -261,7 +260,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		$request      = $product_to_add['request'];
 
 		try {
-			$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			// If item_key is set, then the item is already in the cart so just update the quantity.
 			if ( ! empty( $item_key ) ) {
@@ -414,7 +413,7 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
+		$controller = new CoCart_REST_Cart_V2_Controller();
 
 		// Cart query parameters.
 		$params = $controller->get_collection_params();

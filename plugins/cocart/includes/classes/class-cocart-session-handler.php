@@ -20,6 +20,7 @@ namespace CoCart\Session;
 
 use CoCart\RestApi\Authentication;
 use CoCart\Abstracts\Session;
+use CoCart\Logger;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -151,24 +152,25 @@ class Handler extends Session {
 		// Does a cookie exist?
 		if ( $cookie ) {
 			// Get cookie details.
-			$this->_customer_id     = $cookie[0];
-			$this->_cart_expiration = $cookie[1];
-			$this->_cart_expiring   = $cookie[2];
+			$this->_cart_key        = $cookie[0];
+			$this->_customer_id     = $cookie[1];
+			$this->_cart_expiration = $cookie[2];
+			$this->_cart_expiring   = $cookie[3];
 			$this->_has_cookie      = true;
 			$this->_data = $this->get_cart_data();
 
 			// If the user logged in, update cart.
 			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_customer_id ) {
 				// Destroy old cookie.
-				$this->set_customer_cart_cookie( false );
+				//$this->set_customer_cart_cookie( false );
 
 				// Update customer ID details.
-				$guest_cart_id      = $this->_customer_id;
-				$this->_cart_key    = $this->generate_key();
+				//$guest_cart_id      = $this->_customer_id;
 				$this->_customer_id = strval( get_current_user_id() );
+				//$this->update_customer_id( $this->_customer_id ); // TODO: Build function to update customer ID to cart. Do not specify cart key, this will be called internally.
 
-				// Save cart data under customers ID number and remove old guest cart.
-				$this->save_cart( $guest_cart_id );
+				// Save cart data.
+				$this->save_cart();
 
 				// Save new cookie for cart.
 				$this->set_customer_cart_cookie( true );
@@ -191,33 +193,43 @@ class Handler extends Session {
 	/**
 	 * Setup cart without cookie.
 	 *
-	 * @access  public
-	 * @since   4.0.0
+	 * @access public
 	 *
-	 * @param   int $current_user_id Current user ID.
+	 * @since 4.0.0
+	 *
+	 * @param int $current_user_id Current user ID.
 	 */
 	public function init_session_without_cookie( $current_user_id = 0 ) {
 		// Check if we requested to load a specific cart.
-		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			// Set requested cart key as customer ID in session.
-			$this->_cart_key = (string) trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		}
+		$this->_cart_key = $this->get_requested_cart();
+
+		// Customer is null until we say otherwise.
+		$this->_customer_id = null;
 
 		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
-			$this->_customer_id = $current_user_id;
+			// TODO: Add user role and customer ID check.
+
+			$customer = new WC_Customer( $current_user_id );
+
+			// If customer is valid, set customer ID.
+			if ( 0 !== $customer->get_id() ) {
+				$this->_customer_id = $current_user_id;
+			}
+			// TODO: If user logged in is shop manager or other by filter, then reset customer ID to null.
 		}
 
-		// If cart retrieved then update cart.
-		if ( $this->_cart_key ) {
+		// If a cart was requested then update it if needed.
+		if ( ! empty( $this->_cart_key ) ) {
 			$this->_data = $this->get_cart_data();
 
-			// If the user logged in, update cart.
-			if ( is_numeric( $current_user_id ) && $current_user_id > 0 && $current_user_id !== $this->_customer_id ) {
+			// Is user logged in?
+			/*if ( is_numeric( $current_user_id ) && $current_user_id > 0 && $current_user_id !== $this->_customer_id ) {
+				// Set user ID as customer ID.
 				$this->_customer_id = $current_user_id;
 
 				// Assign customer ID to the cart.
-				$this->assign_customer( $this->_customer_id );
-			}
+				$this->assign_customer_id( $this->_customer_id ); // TODO: Build function to assign customer ID to cart. Do not specify cart key, this will be called internally.
+			}*/
 
 			// Update cart if its close to expiring.
 			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
@@ -227,11 +239,35 @@ class Handler extends Session {
 		} else {
 			// New guest customer.
 			$this->set_cart_expiration();
-			$this->_cart_key    = $this->generate_key();
-			$this->_customer_id = $this->generate_customer_id();
-			$this->_data        = $this->get_cart_data();
+			$this->_cart_key = $this->generate_key();
+			$this->_data     = $this->get_cart_data();
 		}
 	} // END init_session_without_cookie()
+
+	/**
+	 * Get requested cart.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return string Cart key.
+	 */
+	public function get_requested_cart() {
+		$cart_key = ''; // Leave blank to start.
+
+		// Are we requesting via url parameter?
+		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$cart_key = (string) trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		// Are we requesting via custom header?
+		if ( ! empty( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		return $cart_key;
+	} // END get_requested_cart()
 
 	/**
 	 * Is Cookie support enabled?
@@ -262,7 +298,7 @@ class Handler extends Session {
 		if ( $set ) {
 			$to_hash           = $this->_customer_id . '|' . $this->_cart_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
-			$cookie_value      = $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
+			$cookie_value      = $this->_cart_key . '||' . $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
 			$this->_has_cookie = true;
 
 			// If no cookie exists then create a new.
@@ -336,12 +372,13 @@ class Handler extends Session {
 	} // END cocart_cookie()
 
 	/**
-	 * Return true if the current user has an active cart, i.e. a cookie to retrieve values.
+	 * Return true if the current customer has an active cart, i.e. a cookie to retrieve values.
 	 *
 	 * @access public
 	 * @return bool
 	 */
 	public function has_session() {
+		// Check cookie first for native cart.
 		if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
 			return true;
 		}
@@ -352,7 +389,8 @@ class Handler extends Session {
 			return true;
 		}
 
-		if ( ! empty( $this->_customer_id ) ) {
+		// If we are loading a session via REST API then identify cart key.
+		if ( ! empty( $this->_cart_key ) ) {
 			return true;
 		}
 
@@ -439,10 +477,12 @@ class Handler extends Session {
 	 *
 	 * Cart cookies without a customer ID are invalid.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.0
-	 * @version 3.0.3
-	 * @return  bool|array
+	 * @version 4.0.0
+	 *
+	 * @return bool|array
 	 */
 	public function get_session_cookie() {
 		$cookie_value = isset( $_COOKIE[ $this->_cookie ] ) ? wp_unslash( $_COOKIE[ $this->_cookie ] ) : false; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -451,9 +491,9 @@ class Handler extends Session {
 			return false;
 		}
 
-		list( $customer_id, $cart_expiration, $cart_expiring, $cookie_hash ) = explode( '||', $cookie_value );
+		list( $cart_key, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash ) = explode( '||', $cookie_value );
 
-		if ( empty( $customer_id ) ) {
+		if ( empty( $cart_key ) && empty( $customer_id ) ) {
 			return false;
 		}
 
@@ -465,7 +505,7 @@ class Handler extends Session {
 			return false;
 		}
 
-		return array( $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
+		return array( $cart_key, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
 	} // END get_session_cookie()
 
 	/**
@@ -475,7 +515,7 @@ class Handler extends Session {
 	 * @return array
 	 */
 	public function get_cart_data() {
-		return $this->has_session() ? (array) $this->get_cart( $this->_cart_key, $this->_customer_id, array() ) : array();
+		return $this->has_session() ? (array) $this->get_cart( $this->_cart_key, $this->_customer_id ) : array();
 	} // END get_cart_data()
 
 	/**
@@ -524,6 +564,8 @@ class Handler extends Session {
 			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_cart_key, $this->_customer_id );
 
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
+				Logger::log( __( 'Cart data not valid. Did not save session.', 'cart-rest-api-for-woocommerce' ), 'error' );
+
 				return true;
 			}
 
@@ -557,7 +599,7 @@ class Handler extends Session {
 				)
 			);
 
-			wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, COCART_CART_CACHE_GROUP, $this->_cart_expiration - time() );
+			wp_cache_set( $this->get_cache_prefix() . $this->_cart_key, $this->_data, COCART_CART_CACHE_GROUP, $this->_cart_expiration - time() );
 
 			// Customer is now registered so we delete the previous cart as guest to prevent duplication.
 			// TODO: Just update the current cart with the customers user ID.
@@ -625,7 +667,7 @@ class Handler extends Session {
 
 		$this->_data        = array();
 		$this->_cart_key    = $this->generate_key();
-		$this->_customer_id = $this->generate_customer_id();
+		$this->_customer_id = null;
 	} // END forget_cart()
 
 	/**

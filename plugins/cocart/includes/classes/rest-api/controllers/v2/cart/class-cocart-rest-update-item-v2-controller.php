@@ -19,9 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * CoCart REST API v2 - Item controller class.
  *
  * @package CoCart\API
- * @extends CoCart_Cart_V2_Controller
+ * @extends CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -71,7 +71,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 
 			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 			if ( 0 === $quantity ) {
-				$controller = new CoCart_Remove_Item_v2_Controller();
+				$controller = new CoCart_REST_Remove_Item_v2_Controller();
 
 				return $controller->remove_item( $request );
 			}

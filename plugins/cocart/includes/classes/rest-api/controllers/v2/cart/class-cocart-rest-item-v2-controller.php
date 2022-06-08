@@ -19,9 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * CoCart REST API v2 - View individual item controller class.
  *
  * @package CoCart\API
- * @extends CoCart_Cart_V2_Controller
+ * @extends CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_REST_Item_v2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Route base.

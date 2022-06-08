@@ -226,7 +226,7 @@ final class Core {
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-authentication.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-authentication.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-status.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-helpers.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-install.php';
@@ -343,13 +343,13 @@ final class Core {
 	 * @version 4.0.0
 	 */
 	public static function load_rest_api() {
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-cache.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-callbacks.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-extension.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-response.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-formatting.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-cart-validation.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-product-validation.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-cache.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-callbacks.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-extension.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-response.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-formatting.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-validation.php';
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-server.php';
 	} // END load_rest_api()
 

@@ -1,13 +1,13 @@
 <?php
 /**
- * REST API: Calculate controller
+ * REST API: Calculate v2 controller.
  *
  * Handles the request to calculate the cart with /cart/calculate endpoint.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
+class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -67,7 +67,7 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 */
 	public function calculate_totals( $request = array() ) {
 		try {
-			$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			$controller->get_cart_instance()->calculate_totals();
 
@@ -95,7 +95,7 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * @return array $params
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
+		$controller = new CoCart_REST_Cart_V2_Controller();
 
 		// Cart query parameters.
 		$params = $controller->get_collection_params();

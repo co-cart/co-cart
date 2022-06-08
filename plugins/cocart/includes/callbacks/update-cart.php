@@ -43,7 +43,7 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 		try {
 			$items = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
-			$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			$cart_updated = false;
 

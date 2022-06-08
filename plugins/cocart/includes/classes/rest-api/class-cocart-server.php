@@ -137,22 +137,24 @@ class Server {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'cocart-v2-store'             => 'CoCart_Store_V2_Controller',
-			'cocart-v2-cart'              => 'CoCart_Cart_V2_Controller',
-			'cocart-v2-cart-add-item'     => 'CoCart_Add_Item_v2_Controller',
-			'cocart-v2-cart-add-items'    => 'CoCart_Add_Items_v2_Controller',
-			'cocart-v2-cart-item'         => 'CoCart_Item_v2_Controller',
-			'cocart-v2-cart-items'        => 'CoCart_Items_v2_Controller',
-			'cocart-v2-cart-items-count'  => 'CoCart_Count_Items_v2_Controller',
-			'cocart-v2-cart-update-item'  => 'CoCart_Update_Item_v2_Controller',
-			'cocart-v2-cart-remove-item'  => 'CoCart_Remove_Item_v2_Controller',
-			'cocart-v2-cart-restore-item' => 'CoCart_Restore_Item_v2_Controller',
-			'cocart-v2-cart-calculate'    => 'CoCart_Calculate_v2_Controller',
-			'cocart-v2-cart-clear'        => 'CoCart_Clear_Cart_v2_Controller',
-			'cocart-v2-cart-update'       => 'CoCart_Update_Cart_v2_Controller',
-			'cocart-v2-cart-totals'       => 'CoCart_Totals_v2_Controller',
-			'cocart-v2-login'             => 'CoCart_Login_v2_Controller',
-			'cocart-v2-logout'            => 'CoCart_Logout_v2_Controller',
+			'cocart-v2-store'             => 'CoCart_REST_Store_V2_Controller',
+			'cocart-v2-cart'              => 'CoCart_REST_Cart_V2_Controller',
+			'cocart-v2-cart-add-item'     => 'CoCart_REST_Add_Item_v2_Controller',
+			'cocart-v2-cart-add-items'    => 'CoCart_REST_Add_Items_v2_Controller',
+			'cocart-v2-cart-item'         => 'CoCart_REST_Item_v2_Controller',
+			'cocart-v2-cart-items'        => 'CoCart_REST_Items_v2_Controller',
+			'cocart-v2-cart-items-count'  => 'CoCart_REST_Count_Items_v2_Controller',
+			'cocart-v2-cart-update-item'  => 'CoCart_REST_Update_Item_v2_Controller',
+			'cocart-v2-cart-remove-item'  => 'CoCart_REST_Remove_Item_v2_Controller',
+			'cocart-v2-cart-restore-item' => 'CoCart_REST_Restore_Item_v2_Controller',
+			'cocart-v2-cart-calculate'    => 'CoCart_REST_Calculate_v2_Controller',
+			'cocart-v2-cart-clear'        => 'CoCart_REST_Clear_Cart_v2_Controller',
+			'cocart-v2-cart-update'       => 'CoCart_REST_Update_Cart_v2_Controller',
+			'cocart-v2-cart-totals'       => 'CoCart_REST_Totals_v2_Controller',
+			'cocart-v2-login'             => 'CoCart_REST_Login_v2_Controller',
+			'cocart-v2-logout'            => 'CoCart_REST_Logout_v2_Controller',
+		);
+	}
 		);
 	}
 
@@ -304,31 +306,32 @@ class Server {
 	 */
 	public function rest_api_includes() {
 		// CoCart REST API v1 controllers.
-		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-add-item-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-clear-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-calculate-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-count-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-item-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-logout-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-totals-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-v1-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-add-item-v1-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-clear-cart-v1-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-calculate-v1-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-count-v1-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-item-v1-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-logout-v1-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v1/cart/class-cocart-rest-totals-v1-controller.php';
 
 		// CoCart REST API v2 controllers.
-		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-store-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-login-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-logout-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-add-item-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-add-items-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-item-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-items-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-clear-cart-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-calculate-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-count-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-update-item-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-remove-item-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-restore-item-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-totals-controller.php';
-		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-update-cart-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-rest-store-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-rest-login-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/others/class-cocart-rest-logout-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-cart-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-add-item-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-add-items-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-item-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-items-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-clear-cart-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-calculate-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-count-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-update-item-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-remove-item-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-restore-item-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-totals-v2-controller.php';
+		include_once dirname( __FILE__ ) . '/controllers/v2/cart/class-cocart-rest-update-cart-v2-controller.php';
 
 		// CoCart REST API v3 controllers.
 		include_once dirname( __FILE__ ) . '/controllers/v3/class-cocart-test-controller.php';
@@ -381,11 +384,7 @@ class Server {
 			return $result;
 		}
 
-		// Customer ID used as the cart key by default.
-		$cart_key = WC()->session->get_customer_id();
-
-		// Check if we requested to load a specific cart.
-		$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$cart_key = WC()->session->get_cart_key();
 
 		// Send cart key in the header if it's not empty or ZERO.
 		if ( ! empty( $cart_key ) && '0' !== $cart_key ) {

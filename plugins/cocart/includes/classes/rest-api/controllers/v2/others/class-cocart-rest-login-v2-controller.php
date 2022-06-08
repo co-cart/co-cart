@@ -7,8 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Login_v2_Controller {
+class CoCart_REST_Login_v2_Controller {
 
 	/**
 	 * Endpoint namespace.

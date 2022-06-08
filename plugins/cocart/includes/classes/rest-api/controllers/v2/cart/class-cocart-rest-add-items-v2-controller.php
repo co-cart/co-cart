@@ -74,7 +74,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 			$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
-			$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			// Validate product ID before continuing and return correct product ID if different.
 			$product_id = $this->validate_product_id( $product_id );
@@ -152,7 +152,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 */
 	public function add_to_cart_handler_grouped( $product_id, $items, $request ) {
 		try {
-			$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			$was_added_to_cart = false;
 			$added_to_cart     = array();
@@ -265,7 +265,7 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @return  array $params
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
+		$controller = new CoCart_REST_Cart_V2_Controller();
 
 		// Cart query parameters.
 		$params = $controller->get_collection_params();

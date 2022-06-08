@@ -734,9 +734,9 @@ class Help {
 			'environment_type'  => $environment_type,
 			'is_offline_mode'   => Status::is_offline_mode() ? 'Yes' : 'No',
 			'is_local_site'     => Status::is_local_site() ? 'Yes' : 'No',
-			'is_staging_site'   => Status::is_staging_site() ? 'Yes' : 'No',
+			//'is_staging_site'   => Status::is_staging_site() ? 'Yes' : 'No',
 			'is_vip_site'       => Status::is_vip_site() ? 'Yes' : 'No',
-			'is_white_labelled' => is_white_labelled() ? 'Yes' : 'No',
+			'is_white_labelled' => self::is_white_labelled() ? 'Yes' : 'No',
 		);
 	} // END collect_additional_shortlink_data()
 

@@ -7,8 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.0.17
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,9 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * CoCart REST API v2 - Remove Item controller class.
  *
  * @package CoCart\API
- * @extends CoCart_Cart_V2_Controller
+ * @extends CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Remove_Item_v2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Route base.

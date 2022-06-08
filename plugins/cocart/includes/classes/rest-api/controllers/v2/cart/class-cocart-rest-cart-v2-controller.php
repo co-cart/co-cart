@@ -1,14 +1,13 @@
 <?php
 /**
- * CoCart REST API controller
+ * REST API: Cart v2 controller.
  *
  * Handles requests to the /cart endpoint.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.6.2
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CoCart\Session\Handler;
+use CoCart\RestApi\CartCache;
 
 use \Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 
@@ -25,7 +25,7 @@ use \Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
  * @package CoCart REST API/API
  * @extends CoCart_API_Controller
  */
-class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
+class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -733,20 +733,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				throw new CoCart_Data_Exception( 'cocart_session_handler_not_found', __( 'Handler not detected in API controller.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 			}
 
-			// Current user ID.
-			$current_user_id = strval( get_current_user_id() );
-
-			if ( $current_user_id > 0 ) {
-				return $current_user_id;
-			}
-
-			// Customer ID used as the cart key by default.
-			$cart_key = WC()->session->get_customer_id();
-
-			// Check if we requested to load a specific cart.
-			$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : $cart_key;
-
-			return $cart_key;
+			return WC()->session->get_cart_key();
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
@@ -1576,7 +1563,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	public function cache_cart_item( $was_added_to_cart ) {
 		$item_key = $was_added_to_cart['key'];
 
-		CoCart_Cart_Cache::set_cached_item( $item_key, $was_added_to_cart );
+		CartCache::set_cached_item( $item_key, $was_added_to_cart );
 	} // END cache_cart_item()
 
 	/**
@@ -1671,7 +1658,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		return array(
-			'cart_hash'      => $this->get_cart_instance()->get_cart_hash(),
+			'cart_hash'      => ! empty( $this->get_cart_instance()->get_cart_hash() ) ? $this->get_cart_instance()->get_cart_hash() : __( 'No items in cart so no hash', 'cart-rest-api-for-woocommerce' ),
 			'cart_key'       => $this->get_cart_key( $request ),
 			'currency'       => cocart_get_store_currency(),
 			'customer'       => array(
