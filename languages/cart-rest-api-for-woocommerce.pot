@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart Lite 3.7.0\n"
+"Project-Id-Version: CoCart Lite 3.7.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2022-05-31 19:40:11+00:00\n"
+"POT-Creation-Date: 2022-06-13 17:31:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2383,7 +2383,7 @@ msgid "Limit result set to featured products."
 msgstr ""
 
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:1775
-msgid "Limit result set to products assigned a specific category slug."
+msgid "Limit result set to products assigned a specific category ID or slug."
 msgstr ""
 
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:1781
@@ -2391,7 +2391,7 @@ msgid "Operator to compare product category terms."
 msgstr ""
 
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:1789
-msgid "Limit result set to products assigned a specific tag slug."
+msgid "Limit result set to products assigned a specific tag ID or slug."
 msgstr ""
 
 #: includes/api/cocart/v1/products/class-cocart-products-controller.php:1795

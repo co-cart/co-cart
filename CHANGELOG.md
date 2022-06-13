@@ -1,5 +1,15 @@
 # Changelog for CoCart Lite
 
+## v3.7.1 - 13th June, 2022
+
+### What's New
+
+* 🚀 You can now limit the results set to products assigned a specific category or tag via their slug names instead of ID.
+
+Example of limiting products via category and tag. `wp-json/cocart/v2/products/?category=accessories&tag=hats`
+
+> There was some confusion with this as the documentation said (query by ID) but the API schema said (query by slug). Now you can do either. This adjustment affects both API versions.
+
 ## v3.7.0 - 31st May, 2022
 
 ### What's New

@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 6.0
-Stable tag: 3.7.0
+Stable tag: 3.7.1
 WC requires at least: 4.3
 WC tested up to: 6.5
 License: GPLv3
@@ -360,6 +360,16 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.7.1 - 13th June, 2022 =
+
+### What's New
+
+* 🚀 You can now limit the results set to products assigned a specific category or tag via their slug names instead of ID.
+
+Example of limiting products via category and tag. `wp-json/cocart/v2/products/?category=accessories&tag=hats`
+
+> There was some confusion with this as the documentation said (query by ID) but the API schema said (query by slug). Now you can do either. This adjustment affects both API versions.
+
 = v3.7.0 - 31st May, 2022 =
 
 ### What's New
@@ -640,6 +650,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.0 =
+= 3.7.1 =
 
-* Fixed a non-numeric value encounter.
+* You can now query products by category and tags via their slug names instead of ID.
