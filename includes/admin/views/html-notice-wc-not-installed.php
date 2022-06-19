@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Views
  * @since   2.0.0
- * @version 3.0.7
+ * @version 3.7.2
  * @license GPL-2.0+
  */
 
@@ -55,16 +55,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				}
 
 				echo '<a href="' . esc_url( $url ) . '" class="button button-primary" aria-label="' . esc_html__( 'Install WooCommerce', 'cart-rest-api-for-woocommerce' ) . '">' . esc_html__( 'Install WooCommerce', 'cart-rest-api-for-woocommerce' ) . '</a>';
-
-			endif;
-
-			if ( current_user_can( 'deactivate_plugin', 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' ) ) :
-
-				echo sprintf(
-					' <a href="%1$s" class="button button-secondary" aria-label="%2$s">%2$s</a>',
-					esc_url( wp_nonce_url( 'plugins.php?action=deactivate&plugin=cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php&plugin_status=inactive', 'deactivate-plugin_cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' ) ),
-					esc_html__( 'Turn off the CoCart plugin', 'cart-rest-api-for-woocommerce' )
-				);
 
 			endif;
 			?>

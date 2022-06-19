@@ -1,5 +1,14 @@
 # Changelog for CoCart Lite
 
+## v3.7.2 - 20th June, 2022
+
+### Improvements
+
+* Adjusted WooCommerce detection when installing CoCart on a completely fresh WordPress install. Related to [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
+* Removed "Turn off CoCart" button from admin notice as the plugin already deactivates if WooCommerce not detected.
+* Prevent plugin action links from showing if CoCart is not active.
+* Tested: ✔️ Compatible with WooCommerce v6.6
+
 ## v3.7.1 - 13th June, 2022
 
 ### What's New

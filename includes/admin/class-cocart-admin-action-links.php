@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   1.2.0
- * @version 3.4.1
+ * @version 3.7.2
  * @license GPL-2.0+
  */
 
@@ -33,11 +33,15 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 3.1.0
+		 * @version 3.7.2
 		 * @param   array $links An array of plugin links.
 		 * @return  array $links
 		 */
 		public function plugin_action_links( $links ) {
+			if ( version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {
+				return $links;
+			}
+
 			$page = admin_url( 'admin.php' );
 
 			if ( current_user_can( 'manage_options' ) ) {
@@ -63,13 +67,17 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 3.4.1
+		 * @version 3.7.2
 		 * @param   array  $metadata An array of the plugin's metadata.
 		 * @param   string $file     Path to the plugin file.
 		 * @param   array  $data     Plugin Information.
 		 * @return  array  $metadata
 		 */
 		public function plugin_row_meta( $metadata, $file, $data ) {
+			if ( version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {
+				return $metadata;
+			}
+
 			if ( plugin_basename( COCART_FILE ) === $file ) {
 				/* translators: %s: URL to author */
 				$metadata[1] = sprintf( __( 'Developed By %s', 'cart-rest-api-for-woocommerce' ), '<a href="' . $data['AuthorURI'] . '" aria-label="' . esc_attr__( 'View the developers site', 'cart-rest-api-for-woocommerce' ) . '">' . $data['Author'] . '</a>' );

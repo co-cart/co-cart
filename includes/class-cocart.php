@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.7.1';
+	public static $version = '3.7.2';
 
 	/**
 	 * CoCart Database Schema version.
@@ -283,7 +283,7 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   3.0.0
-	 * @version 3.7.0
+	 * @version 3.7.2
 	 * @param bool $skip_check Whether to skip the activation check. Default is false.
 	 */
 	public static function install_cocart( $skip_check = false ) {
@@ -291,10 +291,7 @@ final class CoCart {
 			self::activation_check();
 		}
 
-		// If WooCommerce is active, install CoCart.
-		if ( defined( 'WC_VERSION' ) ) {
-			CoCart_Install::install();
-		}
+		CoCart_Install::install();
 	} // END install_cocart()
 
 	/**
