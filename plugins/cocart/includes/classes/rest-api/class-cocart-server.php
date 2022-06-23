@@ -513,7 +513,7 @@ class Server {
 		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
-			if ( preg_match( $regex_path_pattern, $_SERVER['REQUEST_URI'] ) ) {
+			if ( ! preg_match( $regex_path_pattern, $_SERVER['REQUEST_URI'] ) ) {
 				if ( ! defined( 'DONOTCACHEPAGE' ) ) {
 					define( 'DONOTCACHEPAGE', true ); // Play nice with WP-Super-Cache plugin (https://wordpress.org/plugins/wp-super-cache/).
 				}
