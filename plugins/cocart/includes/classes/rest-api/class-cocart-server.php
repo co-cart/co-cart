@@ -31,7 +31,7 @@ class Server {
 	 *
 	 * @var array
 	 */
-	protected $_namespaces = [];
+	protected $_namespaces = array();
 
 	/**
 	 * Setup class.
@@ -52,9 +52,8 @@ class Server {
 			return;
 		}
 
-		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true ); // Play nice with WP-Super-Cache plugin (https://wordpress.org/plugins/wp-super-cache/).
-		}
+		// Do not cache specific routes.
+		$this->do_not_cache();
 
 		$this->maybe_load_cart();
 		$this->rest_api_includes();
@@ -64,10 +63,10 @@ class Server {
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
 
-		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
+		// Prevents certain routes from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
-		// Prevent CoCart cart responses from being added to browser cache.
+		// Prevent certain routes from being added to browser cache.
 		add_filter( 'rest_post_dispatch', array( $this, 'send_cache_control' ), 12, 2 );
 
 		// Cache Control.
@@ -338,11 +337,12 @@ class Server {
 	} // rest_api_includes()
 
 	/**
-	 * Prevents CoCart from being cached.
+	 * Prevents certain routes from being cached.
 	 *
 	 * @access public
 	 *
 	 * @since 2.1.2 Introduced.
+	 * @since 4.0.0 Check against allowed routes to determine if we should cache.
 	 *
 	 * @param bool   $skip ( default: WP_DEBUG ).
 	 * @param string $request_uri Requested REST API.
@@ -352,8 +352,12 @@ class Server {
 	public function prevent_cache( $skip, $request_uri ) {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
 
-		if ( strpos( $request_uri, $rest_prefix . 'cocart/' ) !== false ) {
-			return true;
+		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
+
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( ! preg_match( $regex_path_pattern, $request_uri ) ) {
+				return true;
+			}
 		}
 
 		return $skip;
@@ -423,11 +427,12 @@ class Server {
 	} // END send_cache_control()
 
 	/**
-	 * Helps prevent CoCart from being cached at all and returns results quicker.
+	 * Helps prevent CoCart from being cached on most routes and returns results quicker.
 	 *
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 4.0.0 Check against allowed routes to determine if we should cache.
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
 	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
@@ -437,12 +442,16 @@ class Server {
 	 * @return null|bool
 	 */
 	public function cache_control( $served, $result, $request, $server ) {
-		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-			header( 'Expires: Thu, 01-Jan-70 00:00:01 GMT' );
-			header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-			header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-			header( 'Cache-Control: post-check=0, pre-check=0', false );
-			header( 'Pragma: no-cache' );
+		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
+
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( ! preg_match( $regex_path_pattern, $request->get_route() ) ) {
+				header( 'Expires: Thu, 01-Jan-70 00:00:01 GMT' );
+				header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
+				header( 'Cache-Control: no-store, no-cache, must-revalidate' );
+				header( 'Cache-Control: post-check=0, pre-check=0', false );
+				header( 'Pragma: no-cache' );
+			}
 		}
 
 		return $served;
@@ -463,7 +472,6 @@ class Server {
 
 		$routes = array(
 			'cocart/v2/login',
-			'cocart/v2/logout',
 			'cocart/v1/products',
 			'cocart/v2/products',
 			'cocart/v2/sessions',
@@ -477,6 +485,41 @@ class Server {
 			}
 		}
 	} // END prevent_routes_from_initializing()
+
+	/**
+	 * Returns routes that can be cached as a regex pattern.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return array $routes Routes that can be cached.
+	 */
+	protected function allowed_regex_pattern_routes_to_cache() {
+		return array(
+			'#^/cocart/v2/products?#',
+			'#^/cocart/v1/products?#',
+		);
+	} // END allowed_regex_pattern_routes_to_cache()
+
+	/**
+	 * Does not cache specific routes.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
+	 */
+	protected function do_not_cache() {
+		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
+
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( preg_match( $regex_path_pattern, $_SERVER['REQUEST_URI'] ) ) {
+				if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+					define( 'DONOTCACHEPAGE', true ); // Play nice with WP-Super-Cache plugin (https://wordpress.org/plugins/wp-super-cache/).
+				}
+			}
+		}
+	} // END do_not_cache()
 
 } // END class
 
