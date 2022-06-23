@@ -40,7 +40,8 @@
 	"config": {
 		"sort-packages": true,
 		"allow-plugins": {
-			"composer/installers": true
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	},
 	"autoload-dev": {

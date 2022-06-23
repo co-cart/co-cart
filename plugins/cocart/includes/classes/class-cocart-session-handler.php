@@ -58,7 +58,7 @@ class Handler extends Session {
 	/**
 	 * Stores cart source.
 	 *
-	 * @since 3.0.0
+	 * @since 3.0.0 Introduced.
 	 * @var   string cart source
 	 */
 	protected $_cart_source;
@@ -92,8 +92,11 @@ class Handler extends Session {
 	/**
 	 * Init hooks and cart data.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @uses Authentication::is_rest_api_request()
+	 *
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @since   4.0.0 Rest requests don't require the use of cookies as backup.
 	 * @version 4.0.0
 	 */
@@ -114,7 +117,7 @@ class Handler extends Session {
 		add_action( 'wp_logout', array( $this, 'destroy_cart' ) );
 
 		/**
-		 * When a user is logged out, ensure they have a unique nonce by using the customer/cart ID.
+		 * When a user is logged out, ensure they have a unique nonce by using the customer ID.
 		 *
 		 * @since   2.1.2
 		 * @since   4.0.0 No longer needed for API requests.
@@ -125,8 +128,10 @@ class Handler extends Session {
 		}
 
 		/**
-		 * Identifies the source of the cart if it was created
-		 * via CoCart REST API or via the frontend a.k.a "WooCommerce".
+		 * Identifies the source of the cart.
+		 *
+		 * REST API is "cocart"
+		 * Native frontend is "woocommerce"
 		 *
 		 * @since 3.0.0
 		 */
@@ -140,8 +145,11 @@ class Handler extends Session {
 	/**
 	 * Setup cart.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * This is the native session setup.
+	 *
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @since   4.0.0 Removed parameter $current_user_id
 	 * @version 4.0.0
 	 */
@@ -157,7 +165,7 @@ class Handler extends Session {
 			$this->_cart_expiration = $cookie[2];
 			$this->_cart_expiring   = $cookie[3];
 			$this->_has_cookie      = true;
-			$this->_data = $this->get_cart_data();
+			$this->_data            = $this->get_cart_data();
 
 			// If the user logged in, update cart.
 			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_customer_id ) {
@@ -195,7 +203,7 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since 4.0.0
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param int $current_user_id Current user ID.
 	 */
@@ -247,6 +255,8 @@ class Handler extends Session {
 	/**
 	 * Get requested cart.
 	 *
+	 * Either returns the cart key from the URL or via header.
+	 *
 	 * @access public
 	 *
 	 * @since 4.0.0
@@ -266,6 +276,8 @@ class Handler extends Session {
 			$cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
+		$cart_key = apply_filters( 'cocart_' . __FUNCTION__, $cart_key );
+
 		return $cart_key;
 	} // END get_requested_cart()
 
@@ -276,7 +288,7 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.0.0
+	 * @since 4.0.0 Deprecated
 	 *
 	 * @return bool
 	 */
@@ -292,7 +304,8 @@ class Handler extends Session {
 	 * Warning: Cookies will only be set if this is called before the headers are sent.
 	 *
 	 * @access public
-	 * @param  bool $set Should the cart cookie be set.
+	 *
+	 * @param bool $set Should the cart cookie be set.
 	 */
 	public function set_customer_cart_cookie( $set = true ) {
 		if ( $set ) {
@@ -318,8 +331,10 @@ class Handler extends Session {
 	 * Backwards compatibility function for setting cart cookie.
 	 *
 	 * @access public
-	 * @param  bool $set Should the cart cookie be set.
-	 * @since  2.6.0
+	 *
+	 * @param bool $set Should the cart cookie be set.
+	 *
+	 * @since 2.6.0 Introduced.
 	 */
 	public function set_customer_session_cookie( $set = true ) {
 		$this->set_customer_cart_cookie( $set );
@@ -329,6 +344,7 @@ class Handler extends Session {
 	 * Returns the cookie name.
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function get_cookie_name() {
@@ -339,23 +355,26 @@ class Handler extends Session {
 	 * Should the cart cookie be secure?
 	 *
 	 * @access protected
+	 *
 	 * @return bool
 	 */
 	protected function use_secure_cookie() {
-		return apply_filters( 'cocart_cart_use_secure_cookie', wc_site_is_https() && is_ssl() );
+		return apply_filters( 'cocart_cart_' . __FUNCTION__, wc_site_is_https() && is_ssl() );
 	} // END use_secure_cookie()
 
 	/**
 	 * Set a cookie - wrapper for setcookie using WP constants.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
-	 * @param   string  $name Name of the cookie being set.
-	 * @param   string  $value Value of the cookie.
-	 * @param   integer $expire Expiry of the cookie.
-	 * @param   bool    $secure Whether the cookie should be served only over https.
-	 * @param   bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
+	 *
+	 * @param string  $name Name of the cookie being set.
+	 * @param string  $value Value of the cookie.
+	 * @param integer $expire Expiry of the cookie.
+	 * @param bool    $secure Whether the cookie should be served only over https.
+	 * @param bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
 		if ( ! headers_sent() ) {
@@ -372,9 +391,12 @@ class Handler extends Session {
 	} // END cocart_cookie()
 
 	/**
-	 * Return true if the current customer has an active cart, i.e. a cookie to retrieve values.
+	 * Return true if the current customer has an active cart.
+	 *
+	 * Either a cookie, a user ID or a cart key to retrieve values.
 	 *
 	 * @access public
+	 *
 	 * @return bool
 	 */
 	public function has_session() {
@@ -409,6 +431,8 @@ class Handler extends Session {
 
 	/**
 	 * Generate a unique customer ID for guests, or return user ID if logged in.
+	 *
+	 * @uses Handler::generate_key()
 	 *
 	 * @access public
 	 *
@@ -458,6 +482,7 @@ class Handler extends Session {
 	 * Introduced to help with unit tests in WooCommerce since version 5.3
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function get_customer_unique_id() {
@@ -475,11 +500,12 @@ class Handler extends Session {
 	/**
 	 * Get the cart cookie, if set. Otherwise return false.
 	 *
-	 * Cart cookies without a customer ID are invalid.
+	 * Cart cookies without a cart key and customer ID are invalid.
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
+	 * @since   4.0.0 Added $cart_key to return from cookie value.
 	 * @version 4.0.0
 	 *
 	 * @return bool|array
@@ -512,6 +538,7 @@ class Handler extends Session {
 	 * Get cart data.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_cart_data() {
@@ -522,9 +549,11 @@ class Handler extends Session {
 	 * Gets a cache prefix. This is used in cart names so the entire
 	 * cache can be invalidated with 1 function call.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
+	 *
 	 * @return  string
 	 */
 	public function get_cache_prefix() {
@@ -534,11 +563,14 @@ class Handler extends Session {
 	/**
 	 * Save cart data and delete previous cart data.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 3.0.7
-	 * @param   int $old_cart_key cart ID before user logs in.
-	 * @global  $wpdb
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
+	 * @version 4.0.0
+	 *
+	 * @param int $old_cart_key cart ID before user logs in.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
 		if ( $this->has_session() ) {
@@ -547,7 +579,7 @@ class Handler extends Session {
 			/**
 			 * Deprecated filter: `cocart_empty_cart_expiration` as it is no longer needed.
 			 *
-			 * @since 2.7.2
+			 * @since 2.7.2 Deprecated.
 			 */
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
 				/* translators: %s: filter name */
@@ -558,13 +590,13 @@ class Handler extends Session {
 			/**
 			 * Checks if data is still validated to create a cart or update a cart in session.
 			 *
-			 * @since   2.7.2
-			 * @version 2.7.3
+			 * @since 2.7.2
+			 * @since 4.0.0 Passed _cart_key before _customer_id. Added log error if cart is not valid.
 			 */
 			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_cart_key, $this->_customer_id );
 
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
-				Logger::log( __( 'Cart data not valid. Did not save session.', 'cart-rest-api-for-woocommerce' ), 'error' );
+				Logger::log( __( 'Cart data not valid or the session had not loaded during a request. No session saved.', 'cart-rest-api-for-woocommerce' ), 'info' );
 
 				return true;
 			}
@@ -601,6 +633,19 @@ class Handler extends Session {
 
 			wp_cache_set( $this->get_cache_prefix() . $this->_cart_key, $this->_data, COCART_CART_CACHE_GROUP, $this->_cart_expiration - time() );
 
+			/**
+			 * Fires after cart data is saved.
+			 *
+			 * @since 4.0.0 Introduced.
+			 *
+			 * @param int $cart_key Cart ID.
+			 * @param int $customer_id Customer ID.
+			 * @param array $data Cart data.
+			 * @param int $cart_expiration Cart expiration.
+			 * @param string $cart_source Cart source.
+			 */
+			do_action( 'cocart_' . __FUNCTION__, $this->_cart_key, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );
+
 			// Customer is now registered so we delete the previous cart as guest to prevent duplication.
 			// TODO: Just update the current cart with the customers user ID.
 			/*if ( get_current_user_id() !== $old_cart_key && ! is_object( get_user_by( 'id', $old_cart_key ) ) ) {
@@ -614,8 +659,10 @@ class Handler extends Session {
 	 * save data and delete guest session.
 	 *
 	 * @access public
-	 * @since  3.0.13
-	 * @param  int $old_session_key session ID before user logs in.
+	 *
+	 * @since 3.0.13 Introduced.
+	 *
+	 * @param int $old_session_key session ID before user logs in.
 	 */
 	public function save_data( $old_session_key = 0 ) {
 		$this->save_cart( $old_cart_key );
@@ -636,7 +683,8 @@ class Handler extends Session {
 	 * destroy all session data.
 	 *
 	 * @access public
-	 * @since  3.0.13
+	 *
+	 * @since 3.0.13 Introduced.
 	 */
 	public function destroy_session() {
 		$this->destroy_cart();
@@ -646,7 +694,8 @@ class Handler extends Session {
 	 * Destroy cart cookie.
 	 *
 	 * @access public
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	public function destroy_cookie() {
 		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
@@ -655,8 +704,9 @@ class Handler extends Session {
 	/**
 	 * Forget all cart data without destroying it.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
 	 */
 	public function forget_cart() {
@@ -675,7 +725,8 @@ class Handler extends Session {
 	 * forget cart data without destroying it.
 	 *
 	 * @access public
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	public function forget_session() {
 		$this->forget_cart();
@@ -685,8 +736,11 @@ class Handler extends Session {
 	 * When a user is logged out, ensure they have a unique nonce by using the customer ID.
 	 *
 	 * @access public
-	 * @since  2.1.2
-	 * @param  int $uid User ID.
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param int $uid User ID.
+	 *
 	 * @return string
 	 */
 	public function nonce_user_logged_out( $uid ) {
@@ -697,7 +751,8 @@ class Handler extends Session {
 	 * Cleanup cart data from the database and clear caches.
 	 *
 	 * @access public
-	 * @global $wpdb
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function cleanup_sessions() {
 		global $wpdb;
@@ -719,7 +774,7 @@ class Handler extends Session {
 	 * @param int    $customer_id The customer ID.
 	 * @param mixed  $default     Default cart value.
 	 *
-	 * @global $wpdb WordPress DB access object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return string|array
 	 */
@@ -753,9 +808,12 @@ class Handler extends Session {
 	 * Returns the session.
 	 *
 	 * @access public
-	 * @since  3.1.0
-	 * @param  string $cart_key The cart key.
-	 * @param  mixed  $default  Default cart value.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param string $cart_key The cart key.
+	 * @param mixed  $default  Default cart value.
+	 *
 	 * @return string|array
 	 */
 	public function get_session( $cart_key, $default = false ) {
@@ -766,8 +824,11 @@ class Handler extends Session {
 	 * Returns the timestamp the cart was created.
 	 *
 	 * @access public
-	 * @param  string $cart_key The cart key.
-	 * @global $wpdb
+	 *
+	 * @param string $cart_key The cart key.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return string
 	 */
 	public function get_cart_created( $cart_key ) {
@@ -782,8 +843,11 @@ class Handler extends Session {
 	 * Returns the timestamp the cart expires.
 	 *
 	 * @access public
-	 * @param  string $cart_key The cart key.
-	 * @global $wpdb
+	 *
+	 * @param string $cart_key The cart key.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.s
+	 *
 	 * @return string
 	 */
 	public function get_cart_expiration( $cart_key ) {
@@ -798,8 +862,11 @@ class Handler extends Session {
 	 * Returns the source of the cart.
 	 *
 	 * @access public
-	 * @param  string $cart_key The cart key.
-	 * @global $wpdb
+	 *
+	 * @param string $cart_key The cart key.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return string
 	 */
 	public function get_cart_source( $cart_key ) {
@@ -813,6 +880,8 @@ class Handler extends Session {
 	/**
 	 * Create a blank new cart and returns cart key if successful.
 	 *
+	 * @uses Handler::generate_key()
+	 *
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
@@ -820,15 +889,16 @@ class Handler extends Session {
 	 * @version 4.0.0
 	 *
 	 * @param string $cart_key        The cart key passed to create the cart.
+	 * @param int    $cart_customer   The customer ID.
 	 * @param array  $cart_value      The cart data.
 	 * @param string $cart_expiration Timestamp of cart expiration.
 	 * @param string $cart_source     Cart source.
 	 *
-	 * @global $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return $cart_key The cart key if successful, false otherwise.
 	 */
-	public function create_new_cart( $cart_key = '', $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
+	public function create_new_cart( $cart_key = '', $cart_customer = null, $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
 		global $wpdb;
 
 		if ( empty( $cart_key ) ) {
@@ -847,13 +917,13 @@ class Handler extends Session {
 			$this->_table,
 			array(
 				'cart_key'      => $cart_key,
-				'cart_customer' => '',
+				'cart_customer' => $cart_customer,
 				'cart_value'    => maybe_serialize( $cart_value ),
 				'cart_created'  => time(),
 				'cart_expiry'   => $cart_expiration,
 				'cart_source'   => $cart_source,
 			),
-			array( '%s', '%s', '%s', '%d', '%d', '%s' )
+			array( '%s', '%d', '%s', '%d', '%d', '%s' )
 		);
 
 		// Returns the cart key if cart successfully created.
@@ -866,8 +936,10 @@ class Handler extends Session {
 	 * Update cart.
 	 *
 	 * @access public
-	 * @param  string $cart_key Cart to update.
-	 * @global $wpdb
+	 *
+	 * @param string $cart_key Cart to update.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function update_cart( $cart_key ) {
 		global $wpdb;
@@ -888,8 +960,10 @@ class Handler extends Session {
 	 * Delete the cart from the cache and database.
 	 *
 	 * @access public
-	 * @param  string $cart_key The cart key.
-	 * @global $wpdb
+	 *
+	 * @param string $cart_key The cart key.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function delete_cart( $cart_key ) {
 		global $wpdb;
@@ -905,9 +979,11 @@ class Handler extends Session {
 	 * Update the cart expiry timestamp.
 	 *
 	 * @access public
-	 * @param  string $cart_key  The cart key.
-	 * @param  int    $timestamp Timestamp to expire the cookie.
-	 * @global $wpdb
+	 *
+	 * @param string $cart_key  The cart key.
+	 * @param int    $timestamp Timestamp to expire the cookie.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function update_cart_timestamp( $cart_key, $timestamp ) {
 		global $wpdb;
@@ -924,12 +1000,17 @@ class Handler extends Session {
 	/**
 	 * Checks if data is still validated to create a cart or update a cart in session.
 	 *
-	 * @access  protected
-	 * @since   2.7.2
-	 * @version 3.0.14
-	 * @param   array  $data     The cart data to validate.
-	 * @param   string $cart_key The cart key.
-	 * @return  array  $data     Returns the original cart data or a boolean value.
+	 * @access protected
+	 *
+	 * @since   2.7.2 Introduced.
+	 * @since   4.0.0 Added $cart_key parameter.
+	 * @version 4.0.0
+	 *
+	 * @param array  $data        The cart data to validate.
+	 * @param string $cart_key    The cart key.
+	 * @param int    $customer_id The customer ID.
+	 *
+	 * @return array $data Returns the original cart data or a boolean value.
 	 */
 	protected function is_cart_data_valid( $data, $cart_key, $customer_id ) {
 		if ( ! empty( $data ) && empty( $this->get_cart( $cart_key, $customer_id ) ) ) {
@@ -939,7 +1020,7 @@ class Handler extends Session {
 			}
 		}
 
-		$data = apply_filters( 'cocart_is_cart_data_valid', $data );
+		$data = apply_filters( 'cocart_' . __FUNCTION__, $data );
 
 		return $data;
 	} // END is_cart_data_valid()
@@ -948,8 +1029,12 @@ class Handler extends Session {
 	 * Whether the cookie is only accessible over HTTP.
 	 * Returns true by default for the frontend and false by default via the REST API.
 	 *
+	 * @uses Authentication::is_rest_api_request()
+	 *
 	 * @access protected
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
 	 * @return boolean
 	 */
 	protected function use_httponly() {
@@ -965,8 +1050,9 @@ class Handler extends Session {
 	/**
 	 * Set the cart hash based on the carts contents and total.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.0.3
 	 */
 	public function set_cart_hash() {
@@ -983,7 +1069,8 @@ class Handler extends Session {
 	 * Get the session table name.
 	 *
 	 * @access public
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	public function get_table_name() {
 		return $this->_table;

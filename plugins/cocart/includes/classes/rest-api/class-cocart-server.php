@@ -202,14 +202,13 @@ class Server {
 	 * @access protected
 	 *
 	 * @since   2.1.0 Introduced.
+	 * @since   4.0.0 Deprecated
 	 * @version 2.7.2
-	 *
-	 * @deprecated 4.0.0
 	 *
 	 * @return null|boolean
 	 */
 	protected function has_user_switched() {
-		_deprecated_function( 'User switching is now deprecated and will be removed in the future.', '4.0.0' );
+		_deprecated_function( __FUNCTION__, 'User switching is now deprecated and will be removed in the future.', '4.0.0' );
 
 		if ( ! WC()->session instanceof Handler ) {
 			return;
@@ -243,11 +242,10 @@ class Server {
 	 * @access public
 	 *
 	 * @since 2.1.0 Introduced.
-	 *
-	 * @deprecated 4.0.0
+	 * @since 4.0.0 Deprecated
 	 */
 	public function user_switched() {
-		_deprecated_function( 'User switching is now deprecated and will be removed in the future.', '4.0.0' );
+		_deprecated_function( __FUNCTION__, 'User switching is now deprecated and will be removed in the future.', '4.0.0' );
 
 		_deprecated_hook( 'cocart_user_switched', '4.0.0', '', '"cocart_user_switched" hook no longer used and will be removed in the future.' );
 
@@ -395,7 +393,7 @@ class Server {
 	} // END cocart_key_header()
 
 	/**
-	 * Helps prevent CoCart from being added to browser cache.
+	 * Helps prevent certain routes from being added to browser cache.
 	 *
 	 * @access public
 	 *

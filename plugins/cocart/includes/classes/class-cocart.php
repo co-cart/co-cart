@@ -322,7 +322,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since  2.6.0 Introduced.
+	 * @since 2.6.0 Introduced.
 	 */
 	public static function deactivate_plugin() {
 		deactivate_plugins( plugin_basename( COCART_FILE ) );
@@ -384,7 +384,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since  3.1.2 Introduced.
+	 * @since 3.1.2 Introduced.
 	 *
 	 * @return void
 	 */

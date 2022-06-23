@@ -54,7 +54,7 @@ class Authentication {
 	 * Constructor.
 	 *
 	 * @access  public
-	 * @since   2.6.0
+	 * @since   2.6.0 Introduced.
 	 * @version 3.1.0
 	 */
 	public function __construct() {
@@ -86,11 +86,14 @@ class Authentication {
 	/**
 	 * Triggers saved cart after login and updates user activity.
 	 *
-	 * @access  public
-	 * @since   2.9.1
+	 * @access public
+	 *
+	 * @since   2.9.1 Introduced.
 	 * @version 3.0.0
-	 * @param   WP_Error|null|bool $error Error data.
-	 * @return  WP_Error|null|bool
+	 *
+	 * @param WP_Error|null|bool $error Error data.
+	 *
+	 * @return WP_Error|null|bool
 	 */
 	public function cocart_user_logged_in( $error ) {
 		global $current_user;
@@ -106,11 +109,14 @@ class Authentication {
 	/**
 	 * Returns true if we are making a REST API request for CoCart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.1.0
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
-	 * @return  bool
+	 *
+	 * @return bool
 	 */
 	public static function is_rest_api_request() {
 		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
@@ -121,17 +127,20 @@ class Authentication {
 		$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
+		return apply_filters( 'cocart_' . __FUNCTION__, $is_rest_api_request );
 	} // END is_rest_api_request()
 
 	/**
 	 * Authenticate user.
 	 *
-	 * @access  public
-	 * @since   2.6.0
+	 * @access public
+	 *
+	 * @since   2.6.0 Introduced.
 	 * @version 3.0.0
-	 * @param   int|false $user_id User ID if one has been determined, false otherwise.
-	 * @return  int|false
+	 *
+	 * @param int|false $user_id User ID if one has been determined, false otherwise.
+	 *
+	 * @return int|false
 	 */
 	public function authenticate( $user_id ) {
 		// Do not authenticate twice.
@@ -149,7 +158,7 @@ class Authentication {
 		 * @param int  $user_id The user ID returned if authentication was successful.
 		 * @param bool          Determines if the site is secure.
 		 */
-		$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl() );
+		$user_id = apply_filters( 'cocart_' . __FUNCTION__, $user_id, is_ssl() );
 
 		return $user_id;
 	} // END authenticate()
@@ -161,8 +170,11 @@ class Authentication {
 	 * Necessary in cases where wp_get_current_user() is called before CoCart is loaded.
 	 *
 	 * @access public
-	 * @since  3.0.0
-	 * @param  WP_Error|null|bool $error Error data.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param WP_Error|null|bool $error Error data.
+	 *
 	 * @return WP_Error|null|bool
 	 */
 	public function authentication_fallback( $error ) {
@@ -187,8 +199,11 @@ class Authentication {
 	 * Check for authentication error.
 	 *
 	 * @access public
-	 * @since  3.0.0
-	 * @param  WP_Error|null|bool $error Error data.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param WP_Error|null|bool $error Error data.
+	 *
 	 * @return WP_Error|null|bool
 	 */
 	public function check_authentication_error( $error ) {
@@ -204,8 +219,10 @@ class Authentication {
 	 * Set authentication error.
 	 *
 	 * @access protected
-	 * @since  3.0.0
-	 * @param  WP_Error $error Authentication error data.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param WP_Error $error Authentication error data.
 	 */
 	protected function set_error( $error ) {
 		// Reset user.
@@ -218,6 +235,7 @@ class Authentication {
 	 * Get authentication error.
 	 *
 	 * @access protected
+	 *
 	 * @return WP_Error|null.
 	 */
 	protected function get_error() {
@@ -231,10 +249,14 @@ class Authentication {
 	 * attacks, so the request can be authenticated by simply looking up the user
 	 * associated with the given username and password provided that it is valid.
 	 *
-	 * @access  private
-	 * @since   3.0.0
+	 * @uses wp_authenticate()
+	 *
+	 * @access private
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.0.7
-	 * @return  int|bool
+	 *
+	 * @return int|bool
 	 */
 	private function perform_basic_authentication() {
 		$this->auth_method = 'basic_auth';
@@ -283,10 +305,12 @@ class Authentication {
 	 * @uses wp_get_environment_type() function introduced in WP 5.5
 	 * @link https://developer.wordpress.org/reference/functions/wp_get_environment_type/
 	 *
-	 * @access  protected
-	 * @since   3.0.0
+	 * @access protected
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.0.15
-	 * @return  bool
+	 *
+	 * @return bool
 	 */
 	protected function is_wp_environment_local() {
 		if ( function_exists( 'wp_get_environment_type' ) ) {
@@ -303,8 +327,9 @@ class Authentication {
 	 *
 	 * Disabled by default. Requires `cocart_disable_all_cors` filter set to false to enable.
 	 *
-	 * @access  public
-	 * @since   2.2.0
+	 * @access public
+	 *
+	 * @since   2.2.0 Introduced.
 	 * @version 3.0.0
 	 */
 	public function allow_all_cors() {
@@ -326,15 +351,18 @@ class Authentication {
 	 * For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts.
 	 * This overrides that by providing access should the request be for CoCart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.2.0 Introduced.
 	 * @since   3.3.0 Added new custom headers without the prefix `X-`
 	 * @version 3.3.0
-	 * @param   bool             $served  Whether the request has already been served. Default false.
-	 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-	 * @param   WP_REST_Request  $request Request used to generate the response.
-	 * @param   WP_REST_Server   $server  Server instance.
-	 * @return  bool
+	 *
+	 * @param bool             $served  Whether the request has already been served. Default false.
+	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param WP_REST_Request  $request Request used to generate the response.
+	 * @param WP_REST_Server   $server  Server instance.
+	 *
+	 * @return bool
 	 */
 	public function cors_headers( $served, $result, $request, $server ) {
 		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
@@ -375,13 +403,16 @@ class Authentication {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   mixed           $result  Response to replace the requested version with.
-	 * @param   WP_REST_Server  $server  Server instance.
-	 * @param   WP_REST_Request $request Request used to generate the response.
-	 * @return  mixed
+	 *
+	 * @param mixed           $result  Response to replace the requested version with.
+	 * @param WP_REST_Server  $server  Server instance.
+	 * @param WP_REST_Request $request Request used to generate the response.
+	 *
+	 * @return mixed
 	 */
 	public function check_api_permissions( $result, $server, $request ) {
 		$method = $request->get_method();
@@ -389,8 +420,11 @@ class Authentication {
 		$prefix = 'cocart/';
 
 		/**
-		 * Should the developer choose to restrict any of CoCart's API routes for any method.
-		 * They can set the requested API and method to enforce authentication by not allowing it permission to the public.
+		 * API permissions check.
+		 *
+		 * Should the developer choose to restrict any of CoCart's API routes for any method,
+		 * they can set the requested API and method to enforce authentication by not allowing
+		 * it permission to the public.
 		 */
 		$api_not_allowed = apply_filters( 'cocart_api_permission_check_' . strtolower( $method ), array() );
 
@@ -401,8 +435,16 @@ class Authentication {
 					case 'GET':
 						foreach ( $api_not_allowed as $route ) {
 							if ( preg_match( '!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
-								/* translators: 1: permission method, 2: api route */
-								throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ), 'READ', $path ), 401 );
+								throw new CoCart_Data_Exception(
+									'cocart_rest_permission_error',
+									/* translators: 1: permission method, 2: api route */
+									sprintf(
+										__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ),
+										'READ',
+										$path
+									),
+									401
+								);
 							}
 						}
 						break;
@@ -412,22 +454,46 @@ class Authentication {
 					case 'DELETE':
 						foreach ( $api_not_allowed as $route ) {
 							if ( preg_match( '!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
-								/* translators: 1: permission method, 2: api route */
-								throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ), 'WRITE', $path ), 401 );
+								throw new CoCart_Data_Exception(
+									'cocart_rest_permission_error',
+									/* translators: 1: permission method, 2: api route */
+									sprintf(
+										__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ),
+										'WRITE',
+										$path
+									),
+									401
+								);
 							}
 						}
 						break;
 					case 'OPTIONS':
 						foreach ( $api_not_allowed as $route ) {
 							if ( preg_match( '!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
-								/* translators: 1: permission method, 2: api route */
-								throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ), 'OPTIONS', $path ), 401 );
+								throw new CoCart_Data_Exception(
+									'cocart_rest_permission_error',
+									/* translators: 1: permission method, 2: api route */
+									sprintf(
+										__( 'Permission to %1$s %2$s is only permitted if the user is authenticated.', 'cart-rest-api-for-woocommerce' ),
+										'OPTIONS',
+										$path
+									),
+									401
+								);
 							}
 						}
 						break;
 					default:
-						/* translators: %s: api route */
-						throw new CoCart_Data_Exception( 'cocart_rest_permission_error', sprintf( __( 'Unknown request method for %s.', 'cart-rest-api-for-woocommerce' ), $path ), 401 );
+						throw new CoCart_Data_Exception(
+							'cocart_rest_permission_error',
+							/* translators: %s: api route */
+							sprintf(
+								__( 'Unknown request method for %s.', 'cart-rest-api-for-woocommerce'
+								),
+								$path
+							),
+							401
+						);
 				}
 			}
 

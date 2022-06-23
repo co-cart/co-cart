@@ -36,7 +36,7 @@ class CoCart_CLI_Update_Command {
 	 *
 	 * @access public
 	 * @static
-	 * @global $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public static function update() {
 		global $wpdb;

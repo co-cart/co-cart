@@ -41,7 +41,7 @@ class CoCart_CLI_Version_Command {
 	 *
 	 * @access public
 	 * @static
-	 * @global $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public static function version() {
 		global $wpdb;
@@ -63,7 +63,7 @@ class CoCart_CLI_Version_Command {
 	 *
 	 * @access public
 	 * @static
-	 * @global $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public static function db_version() {
 		global $wpdb;

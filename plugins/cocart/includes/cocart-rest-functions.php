@@ -21,14 +21,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Wrapper for deprecated hook so we can apply some extra logic.
  *
- * @since   3.0.7  Introduced.
- * @since   3.1.0  Changed function `is_ajax()` to `wp_doing_ajax()`.
+ * @since   3.0.7 Introduced.
+ * @since   3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
  * @version 4.0.0
- * @uses    wp_doing_ajax()
- * @param   string $hook        The hook that was used.
- * @param   string $version     The version of WordPress that deprecated the hook.
- * @param   string $replacement The hook that should have been used.
- * @param   string $message     A message regarding the change.
+ *
+ * @uses wp_doing_ajax() to check if the request is an AJAX request.
+ * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
+ * @uses Logger::log() to log the deprecation.
+ *
+ * @param string $hook        The hook that was used.
+ * @param string $version     The version of WordPress that deprecated the hook.
+ * @param string $replacement The hook that should have been used.
+ * @param string $message     A message regarding the change.
  */
 function cocart_deprecated_hook( $hook, $version, $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || Authentication::is_rest_api_request() ) {
@@ -49,15 +53,19 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
 /**
  * Wrapper for deprecated filter so we can apply some extra logic.
  *
- * @since   3.0.0  Introduced.
- * @since   3.1.0  Changed function `is_ajax()` to `wp_doing_ajax()`.
+ * @since   3.0.0 Introduced.
+ * @since   3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
  * @version 3.1.0
- * @uses    wp_doing_ajax()
- * @param   string $filter      The filter that was used.
- * @param   array  $args        Array of additional function arguments to be passed to apply_filters().
- * @param   string $version     The version of WordPress that deprecated the filter.
- * @param   string $replacement The filter that should have been used.
- * @param   string $message     A message regarding the change.
+ *
+ * @uses wp_doing_ajax() to check if the request is AJAX.
+ * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
+ * @uses Logger::log() to log the deprecation.
+ *
+ * @param string $filter      The filter that was used.
+ * @param array  $args        Array of additional function arguments to be passed to apply_filters().
+ * @param string $version     The version of WordPress that deprecated the filter.
+ * @param string $replacement The filter that should have been used.
+ * @param string $message     A message regarding the change.
  */
 function cocart_deprecated_filter( $filter, $args = array(), $version = '', $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || Authentication::is_rest_api_request() ) {
@@ -109,7 +117,7 @@ function cocart_prepare_date_response( $date, $utc = true ) {
  */
 function cocart_allowed_image_mime_types() {
 	return apply_filters(
-		'cocart_allowed_image_mime_types',
+		__FUNCTION__,
 		array(
 			'jpg|jpeg|jpe' => 'image/jpeg',
 			'gif'          => 'image/gif',
@@ -124,8 +132,9 @@ function cocart_allowed_image_mime_types() {
 /**
  * CoCart upload directory.
  *
- * @param  array $pathdata Array of paths.
- * @return array
+ * @param array $pathdata Array of paths.
+ *
+ * @return array Array of paths.
  */
 function cocart_upload_dir( $pathdata ) {
 	if ( empty( $pathdata['subdir'] ) ) {
@@ -139,13 +148,16 @@ function cocart_upload_dir( $pathdata ) {
 		$pathdata['subdir'] = str_replace( $pathdata['subdir'], $subdir, $pathdata['subdir'] );
 	}
 
-	return apply_filters( 'cocart_upload_dir', $pathdata );
+	return apply_filters( __FUNCTION__, $pathdata );
 } // END cocart_upload_dir()
 
 /**
  * Upload a file.
  *
- * @param  files $file The file to upload.
+ * @uses wp_handle_upload() to upload the file.
+ *
+ * @param files $file The file to upload.
+ *
  * @return array|WP_Error File data or error message.
  */
 function cocart_upload_file( $file ) {
@@ -168,7 +180,10 @@ function cocart_upload_file( $file ) {
 /**
  * Upload image from URL.
  *
- * @param  string $image_url Image URL.
+ * @uses wp_parse_url() to parse the URL.
+ *
+ * @param string $image_url Image URL.
+ *
  * @return array|WP_Error Attachment data or error message.
  */
 function cocart_upload_image_from_url( $image_url ) {
@@ -235,9 +250,10 @@ function cocart_upload_image_from_url( $image_url ) {
 /**
  * Set uploaded image as attachment.
  *
- * @param  array $upload        Upload information from wp_upload_bits.
- * @param  int   $id            Post ID. Default to 0.
- * @return int   $attachment_id Attachment ID.
+ * @param array $upload        Upload information from wp_upload_bits.
+ * @param int   $id            Post ID. Default to 0.
+ *
+ * @return int $attachment_id Attachment ID.
  */
 function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 	$info    = wp_check_filetype( $upload['file'] );
@@ -368,7 +384,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	 * @param float        $unformatted_price Price as float to allow plugins custom formatting. Since 3.2.0.
 	 * @param float|string $original_price    Original price as float, or empty string. Since 5.0.0.
 	 */
-	return apply_filters( 'cocart_price_no_html', $return, $price, $args, $unformatted_price, $original_price );
+	return apply_filters( __FUNCTION__, $return, $price, $args, $unformatted_price, $original_price );
 } // END cocart_price_no_html()
 
 /**
@@ -421,16 +437,17 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
  * Convert monetary values from WooCommerce to string based integers, using
  * the smallest unit of a currency.
  *
- * @since  3.1.0 Introduced.
+ * @since 3.1.0 Introduced.
  *
- * @param  string|float $amount        - Monetary amount with decimals.
- * @param  int          $decimals      - Number of decimals the amount is formatted with.
- * @param  int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
- * @return string       The new amount.
+ * @param string|float $amount        Monetary amount with decimals.
+ * @param int          $decimals      Number of decimals the amount is formatted with.
+ * @param int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
+ *
+ * @return string The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 	// If string, clean it first.
-	if ( is_string( $amount) ) {
+	if ( is_string( $amount ) ) {
 		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
 		$amount = (float) $amount;
 	}
@@ -457,8 +474,9 @@ function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode =
 /**
  * Prepares a list of store currency data to return in responses.
  *
- * @since  3.1.0 Introduced.
- * @return array
+ * @since 3.1.0 Introduced.
+ *
+ * @return array The store currency data.
  */
 function cocart_get_store_currency() {
 	$position = get_option( 'woocommerce_currency_pos' );
@@ -518,9 +536,10 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
 /**
  * Get min/max price meta query args.
  *
- * @since  3.4.1 Introduced.
- * @param  array $args Min price and max price arguments.
- * @return array
+ * @since 3.4.1 Introduced.
+ * @param array $args Min price and max price arguments.
+ *
+ * @return array Min/max price meta query args.
  */
 function cocart_get_min_max_price_meta_query( $args ) {
 	$current_min_price = isset( $args['min_price'] ) ? floatval( $args['min_price'] ) : 0;

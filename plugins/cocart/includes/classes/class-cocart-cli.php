@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 // Exit if accessed directly.
@@ -47,6 +47,8 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 
 		/**
 		 * Sets up and hooks WP CLI to CoCart CLI code.
+		 *
+		 * @uses WP_CLI::add_hook()
 		 *
 		 * @access private
 		 */

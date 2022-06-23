@@ -9,10 +9,11 @@ This next release re-organizes how CoCart is put together and allows for more op
 * Session manager now initiates lighter for the use of CoCart's API while leaving the original initiation for the native WooCommerce intact.
 * Session now logs customer ID and cart key separately. Allowing more options for the cart to be managed how you like. (Details on this change needs to be documented.)
 * Use of Namespaces have now been applied to help extend CoCart easy to manage and identify for developers.
+* Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
 
 ## Deprecated
 
-* Legacy API that extended `WC/v2` when CoCart was only a prototype.
+* Legacy API that extended `wc/v2` when CoCart was only a prototype.
 * Filter `cocart_customer_id` no longer used to override the customer ID for the session.
 
 ## Database Changes

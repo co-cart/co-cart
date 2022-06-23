@@ -207,7 +207,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @access public
 		 * @static
 		 * @since  3.0.0
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return boolean Returns true or false if the session table exists.
 		 */
 		public static function maybe_show_results() {
@@ -225,7 +225,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @param  string $session - Session table to count.
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return int - Number of carts in session.
 		 */
 		public static function carts_in_session( $session = '' ) {
@@ -259,7 +259,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @since  2.7.2
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return int - Number of carts expiring.
 		 */
 		public static function count_carts_expiring() {
@@ -289,7 +289,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @since  3.0.0
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return int - Number of carts active.
 		 */
 		public static function count_carts_active() {
@@ -317,7 +317,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Counts how many carts have expired.
 		 *
 		 * @access public
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return int - Number of carts expired.
 		 */
 		public static function count_carts_expired() {
@@ -345,7 +345,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Counts how many carts were created via the web.
 		 *
 		 * @access public
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return int - Number of carts created via the web.
 		 */
 		public function carts_source_web() {
@@ -373,7 +373,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Counts how many carts were created via CoCart API.
 		 *
 		 * @access public
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return int - Number of carts created via CoCart API.
 		 */
 		public function carts_source_headless() {
@@ -401,7 +401,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Counts how many carts were the source is other or unknown.
 		 *
 		 * @access public
-		 * @global $wpdb
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 * @return int - Number of carts created via other or unknown.
 		 */
 		public function carts_source_other() {

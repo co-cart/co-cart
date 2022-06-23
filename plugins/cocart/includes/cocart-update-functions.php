@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Update CoCart session database structure.
  *
- * @global $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @return void
  */
 function cocart_update_400_db_structure() {
@@ -36,7 +36,7 @@ function cocart_update_400_db_structure() {
 /**
  * Update CoCart sessions for registered customers.
  *
- * @global $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @return void
  */
 function cocart_update_400_db_sessions() {
@@ -74,7 +74,7 @@ function cocart_update_400_db_version() {
 /**
  * Update CoCart session database structure.
  *
- * @global $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @return void
  */
 function cocart_update_300_db_structure() {

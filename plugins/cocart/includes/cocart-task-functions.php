@@ -21,12 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Cleans up carts from the database that have expired.
  *
+ * @uses Handler->cleanup_sessions()
+ *
  * @since 3.1.2 Introduced
  */
 function cocart_task_cleanup_carts() {
 	if ( ! class_exists( 'CoCart\Session\Handler' ) ) {
 		include COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
-		include COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
+		include COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
 	}
 
 	$session = new Handler();
@@ -44,9 +46,12 @@ add_action( 'cocart_cleanup_carts', 'cocart_task_cleanup_carts' );
  *
  * @todo Create WP-CLI command for this function in the future.
  *
- * @since  3.1.2
- * @param  bool $return_results Return total of persistent carts cleared.
- * @global $wpdb
+ * @since 3.1.2 Introduced.
+ *
+ * @param bool $return_results Return total of persistent carts cleared.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return int $results The number of saved carts.
  */
 function cocart_task_clear_carts( $return_results = false ) {

@@ -44,8 +44,10 @@ class CartCache {
 	 * Add new price to item if one is requested.
 	 *
 	 * @access public
-	 * @param  array           $cart_item - Before cart item modified.
-	 * @param  WP_REST_Request $request - Full details about the request.
+	 *
+	 * @param array           $cart_item - Before cart item modified.
+	 * @param WP_REST_Request $request - Full details about the request.
+	 *
 	 * @return array $cart_item - After cart item modified.
 	 */
 	public function set_new_price( $cart_item, $request ) {
@@ -63,8 +65,12 @@ class CartCache {
 	 * calculating wrong the next time it's added to the cart.
 	 * Or clears all cached items when the cart is cleared.
 	 *
+	 * @uses WC()->session->set()
+	 * @uses WC()->session->__unset()
+	 *
 	 * @access public
-	 * @param  array|string $cart_item_key - Cart item key to remove from the cart cache.
+	 *
+	 * @param array|string $cart_item_key Cart item key to remove from the cart cache.
 	 */
 	public function remove_cached_item( $cart_item_key ) {
 		if ( is_array( $cart_item_key ) ) {
@@ -91,7 +97,8 @@ class CartCache {
 	 * Calculate cached items.
 	 *
 	 * @access public
-	 * @param  WC_Cart $cart Cart object.
+	 *
+	 * @param WC_Cart $cart Cart object.
 	 */
 	public function calculate_cached_items( $cart ) {
 		$cart_contents_cached = $this->get_cart_contents_cached();
@@ -114,8 +121,11 @@ class CartCache {
 	/**
 	 * Gets cart contents cached.
 	 *
+	 * @uses WC()->session->get()
+	 *
 	 * @access public
-	 * @return array of cart items
+	 *
+	 * @return array Cart items cached.
 	 */
 	public function get_cart_contents_cached() {
 		return maybe_unserialize( WC()->session->get( 'cart_cached' ) );
@@ -125,8 +135,11 @@ class CartCache {
 	 * Get a cached cart item.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @param  string $item_key Item key to get.
+	 *
+	 * @param string $item_key Item key to get.
+	 *
 	 * @return array Value of cart data.
 	 */
 	public static function get_cached_item( $item_key ) {
@@ -138,10 +151,14 @@ class CartCache {
 	/**
 	 * Set a cart item to cache.
 	 *
+	 * @uses WC()->session->set()
+	 *
 	 * @access public
+	 *
 	 * @static
-	 * @param  string $item_key Key to item in cart.
-	 * @param  mixed  $value Value to set.
+	 *
+	 * @param string $item_key Key to item in cart.
+	 * @param mixed  $value    Value to set.
 	 */
 	public static function set_cached_item( $item_key, $value ) {
 		if ( self::get_cached_item( $item_key ) !== $value ) {
@@ -153,6 +170,8 @@ class CartCache {
 
 	/**
 	 * Clear cart cached.
+	 *
+	 * @uses WC()->session->__unset()
 	 *
 	 * @access public
 	 */

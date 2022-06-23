@@ -95,8 +95,16 @@ class LoadCart {
 	 * Unless specified not to override, the carts will merge the current cart
 	 * and the loaded cart items together.
 	 *
-	 * @access  public
+	 * @uses wc_nocache_headers()
+	 * @uses wc_add_notice()
+	 * @uses WC()->session->get()
+	 *
+	 * @see Logger::log()
+	 *
+	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.1.2
 	 */
@@ -245,7 +253,9 @@ class LoadCart {
 	 * and if this feature is not disabled.
 	 *
 	 * @access public
-	 * @since  3.0.0 Introduced.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function maybe_load_cart() {
@@ -268,7 +278,9 @@ class LoadCart {
 	 * Get the load cart action query name.
 	 *
 	 * @access protected
-	 * @since  3.0.0 Introduced.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @return string
 	 */
 	protected static function get_action_query() {
@@ -290,8 +302,11 @@ class LoadCart {
 	 * to the checkout page it loads that same cart.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.3.0 Introduced.
+	 *
+	 * @since 3.3.0 Introduced.
+	 *
 	 * @return string
 	 */
 	public static function proceed_to_checkout( $checkout_url ) {
@@ -313,7 +328,9 @@ class LoadCart {
 	 * Do we eat the cookie before baking a new one? LOL
 	 *
 	 * @access protected
+	 *
 	 * @static
+	 *
 	 * @return boolean
 	 */
 	protected static function maybe_use_cookie_monster() {

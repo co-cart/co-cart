@@ -62,7 +62,7 @@ class Status {
 	 *
 	 * @access public
 	 * @static
-	 * @global $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 * @return boolean True if this is a multi-network system.
 	 */
 	public static function is_multi_network() {

@@ -5,7 +5,7 @@
  * Handles requests to the /cart endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\Cart\v2
  * @since   3.0.0
  * @version 4.0.0
  */
@@ -69,7 +69,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0
+	 *
 	 * @return WC_Cart
 	 */
 	public function get_cart_instance() {
@@ -85,12 +87,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Return a cart item from the cart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
-	 * @param   string $item_id   The item we are looking up in the cart.
-	 * @param   string $condition Default is 'add', other conditions are: container, update, remove, restore.
-	 * @return  array  $item      Returns details of the item in the cart if it exists.
+	 *
+	 * @param  string $item_id   The item we are looking up in the cart.
+	 * @param  string $condition Default is 'add', other conditions are: container, update, remove, restore.
+	 * @return array  $item      Returns details of the item in the cart if it exists.
 	 */
 	public function get_cart_item( $item_id, $condition = 'add' ) {
 		$item = isset( $this->get_cart_instance()->cart_contents[ $item_id ] ) ? $this->get_cart_instance()->cart_contents[ $item_id ] : array();
@@ -102,7 +106,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Returns all cart items.
 	 *
 	 * @access public
-	 * @param  callable $callback Optional callback to apply to the array filter.
+	 *
+	 * @param callable $callback Optional callback to apply to the array filter.
+	 *
 	 * @return array
 	 */
 	public function get_cart_items( $callback = null ) {
@@ -113,7 +119,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Returns true if the cart is completely empty.
 	 *
 	 * @access public
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0
+	 *
 	 * @return bool
 	 */
 	public function is_completely_empty() {
@@ -128,7 +136,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get number of removed items in the cart.
 	 *
 	 * @access public
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0
+	 *
 	 * @return int
 	 */
 	public function get_removed_cart_contents_count() {
@@ -138,12 +148,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get cart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   3.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request       Full details about the request.
-	 * @param   string          $cart_item_key Originally the cart item key.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request       Full details about the request.
+	 * @param string          $cart_item_key Originally the cart item key.
+	 *
+	 * @return WP_REST_Response
 	 */
 	public function get_cart( $request = array(), $cart_item_key = null ) {
 		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
@@ -153,6 +166,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @param array           $cart_contents Cart contents.
 		 * @param WC_Cart         Cart object.
 		 * @param WP_REST_Request $request       Full details about the request.
@@ -167,9 +181,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		/**
 		 * Deprecated action hook `cocart_get_cart`.
 		 *
-		 * @reason Better filtering for cart contents later on.
+		 * @since 3.0.0 Deprecated.
 		 */
-		cocart_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
+		cocart_deprecated_hook( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
 
 		// Ensures the cart totals are calculated before an API response is returned.
 		$this->calculate_totals();
@@ -182,14 +196,16 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Return cart contents.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request       Full details about the request.
-	 * @param   array           $cart_contents Cart content.
-	 * @param   deprecated      $cart_item_key Originally the cart item key.
-	 * @param   deprecated      $from_session  Identifies if the cart is called from a session.
-	 * @return  array           $cart
+	 *
+	 * @param  WP_REST_Request $request       Full details about the request.
+	 * @param  array           $cart_contents Cart content.
+	 * @param  deprecated      $cart_item_key Originally the cart item key.
+	 * @param  deprecated      $from_session  Identifies if the cart is called from a session.
+	 * @return array           $cart
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = null, $from_session = false ) {
 		/**
@@ -277,11 +293,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  protected
+	 * @access protected
+	 *
 	 * @since   1.0.0
 	 * @version 3.0.11
-	 * @param   int|string $product_id The product ID to validate.
-	 * @return  int $product_id
+	 *
+	 * @param  int|string $product_id The product ID to validate.
+	 * @return int $product_id
 	 */
 	protected function validate_product_id( $product_id ) {
 		try {
@@ -324,12 +342,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  protected
+	 * @access protected
+	 *
 	 * @since   1.0.0
-	 * @since   3.1.0     Added product object as parameter and validation for maximum quantity allowed to add to cart.
+	 * @since   3.1.0 Added product object as parameter and validation for maximum quantity allowed to add to cart.
 	 * @version 3.1.0
-	 * @param   int|float  $quantity The quantity to validate.
-	 * @param   WC_Product $product Product object.
+	 *
+	 * @param int|float  $quantity The quantity to validate.
+	 * @param WC_Product $product Product object.
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product = null ) {
 		try {
@@ -341,7 +361,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * This filter allows control over the minimum quantity a customer must add to purchase said item.
 			 *
 			 * @since 3.0.17
-			 * @since 3.1.0      Added product object as parameter.
+			 * @since 3.1.0 Added product object as parameter.
+			 *
 			 * @param int|float  Minimum quantity to validate with.
 			 * @param WC_Product Product object.
 			 */
@@ -359,6 +380,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * This filter allows control over the maximum quantity a customer is able to add said item to the cart.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param int|float  Maximum quantity to validate with.
 			 * @param WC_Product Product object.
 			 */
@@ -384,13 +406,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  protected
+	 * @access protected
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.6
-	 * @param   int        $variation_id ID of the variation.
-	 * @param   array      $variation    Attribute values.
-	 * @param   WC_Product $product      Product data.
-	 * @return  array
+	 *
+	 * @param  int        $variation_id ID of the variation.
+	 * @param  array      $variation    Attribute values.
+	 * @param  WC_Product $product      Product data.
+	 * @return array
 	 */
 	protected function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
 		try {
@@ -470,12 +494,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  protected
+	 * @access protected
+	 *
 	 * @since   2.1.2
 	 * @version 3.0.0
-	 * @param   array      $variation    Submitted attributes.
-	 * @param   WC_Product $product      Product being added to the cart.
-	 * @return  int        $variation_id Matching variation ID.
+	 *
+	 * @param  array      $variation    Submitted attributes.
+	 * @param  WC_Product $product      Product being added to the cart.
+	 * @return int        $variation_id Matching variation ID.
 	 */
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
 		try {
@@ -499,11 +525,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  protected
-	 * @since   2.1.2
+	 * @access protected
+	 *
+	 * @since   2.1.2 Introduced.
 	 * @version 3.0.0
-	 * @param   WC_Product $product Product being added to the cart.
-	 * @return  array
+	 *
+	 * @param  WC_Product $product Product being added to the cart.
+	 * @return array
 	 */
 	protected function get_variable_product_attributes( $product ) {
 		try {
@@ -528,18 +556,20 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  protected
-	 * @since      1.0.0           Introduced.
-	 * @deprecated 3.0.0           $variation_id param is no longer used.
-	 * @version    3.1.0
-	 * @param      int             $product_id   Contains the ID of the product.
-	 * @param      int|float       $quantity     Contains the quantity of the item.
-	 * @param      null            $variation_id Used to pass the variation id of the product to add to the cart.
-	 * @param      array           $variation    Contains the selected attributes.
-	 * @param      array           $item_data    Extra cart item data we want to pass into the item.
-	 * @param      string          $product_type The product type.
-	 * @param      WP_REST_Request $request      Full details about the request.
-	 * @return     array
+	 * @access protected
+	 *
+	 * @since   1.0.0 Introduced.
+	 * @since   3.0.0 Deprecated $variation_id param is no longer used.
+	 * @version 3.1.0
+	 *
+	 * @param  int             $product_id   Contains the ID of the product.
+	 * @param  int|float       $quantity     Contains the quantity of the item.
+	 * @param  null            $variation_id Used to pass the variation id of the product to add to the cart.
+	 * @param  array           $variation    Contains the selected attributes.
+	 * @param  array           $item_data    Extra cart item data we want to pass into the item.
+	 * @param  string          $product_type The product type.
+	 * @param  WP_REST_Request $request      Full details about the request.
+	 * @return array
 	 */
 	protected function validate_product( $product_id = null, $quantity = 1, $variation_id = null, $variation = array(), $item_data = array(), $product_type = '', $request = array() ) {
 		try {
@@ -676,12 +706,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  protected
-	 * @since   1.0.6
+	 * @access protected
+	 *
+	 * @since   1.0.6 Introduced.
 	 * @version 3.0.0
-	 * @param   array     $current_data Cart item details.
-	 * @param   int|float $quantity     The quantity to check stock.
-	 * @return  bool
+	 *
+	 * @param  array     $current_data Cart item details.
+	 * @param  int|float $quantity     The quantity to check stock.
+	 * @return bool
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
 		try {
@@ -705,12 +737,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Prepares a list of store currency data to return in responses.
 	 *
-	 * @access     public
-	 * @since      3.0.0
-	 * @deprecated 3.1.0 Use cocart_get_store_currency()
-	 * @see              cocart_get_store_currency()
+	 * @access public
 	 *
-	 * @return  array
+	 * @since 3.0.0
+	 * @since 3.1.0 Deprecated. Use cocart_get_store_currency()
+	 *
+	 * @see cocart_get_store_currency()
+	 *
+	 * @return array
 	 */
 	public function get_store_currency() {
 		_deprecated_function( __FUNCTION__, '3.1', 'cocart_get_store_currency' );
@@ -724,6 +758,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
+	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return string
 	 */
@@ -743,6 +778,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get tax lines from the cart and format to match schema.
 	 *
 	 * @access protected
+	 *
 	 * @param  WC_Cart $cart Cart class instance.
 	 * @return array
 	 */
@@ -764,15 +800,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Convert monetary values from WooCommerce to string based integers, using
 	 * the smallest unit of a currency.
 	 *
-	 * @access     public
-	 * @since      3.0.0
-	 * @deprecated 3.1.0 Use cocart_prepare_money_response()
-	 * @see              cocart_prepare_money_response()
+	 * @access public
 	 *
-	 * @param   string|float $amount        Monetary amount with decimals.
-	 * @param   int          $decimals      Number of decimals the amount is formatted with.
-	 * @param   int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
-	 * @return  string       The new amount.
+	 * @since 3.0.0
+	 * @since 3.1.0 Deprecated. Use cocart_prepare_money_response()
+	 *
+	 * @see cocart_prepare_money_response()
+	 *
+	 * @param  string|float $amount        Monetary amount with decimals.
+	 * @param  int          $decimals      Number of decimals the amount is formatted with.
+	 * @param  int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
+	 * @return string       The new amount.
 	 */
 	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 		_deprecated_function( __FUNCTION__, '3.1', 'cocart_prepare_money_response' );
@@ -784,6 +822,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Format variation data, for example convert slugs such as attribute_pa_size to Size.
 	 *
 	 * @access protected
+	 *
 	 * @param  array      $variation_data Array of data from the cart.
 	 * @param  WC_Product $product        Product data.
 	 * @return array
@@ -821,6 +860,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get cart fees.
 	 *
 	 * @access public
+	 *
 	 * @param  WC_Cart $cart Cart class instance.
 	 * @return array
 	 */
@@ -844,12 +884,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get coupon in HTML.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   3.0.0
 	 * @version 3.0.4
-	 * @param   string|WC_Coupon $coupon    Coupon data or code.
-	 * @param   boolean          $formatted Formats the saving amount.
-	 * @return  string                      The coupon in HTML.
+	 *
+	 * @param  string|WC_Coupon $coupon    Coupon data or code.
+	 * @param  boolean          $formatted Formats the saving amount.
+	 * @return string                      The coupon in HTML.
 	 */
 	public function coupon_html( $coupon, $formatted = true ) {
 		if ( is_string( $coupon ) ) {
@@ -879,6 +921,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get the fee value.
 	 *
 	 * @access public
+	 *
 	 * @param  object $cart Cart instance.
 	 * @param  object $fee  Fee data.
 	 * @return string       Returns the fee value.
@@ -895,6 +938,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
+	 *
 	 * @param  WC_Product $product Passes the product object if valid.
 	 * @return WC_Product $product Returns a product object if purchasable.
 	 */
@@ -927,16 +971,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access  public
-	 * @since   3.0.0
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WC_Product $product      Product object associated with the cart item.
-	 * @param   int|float  $quantity     The quantity to validate.
-	 * @param   int        $product_id   The product ID.
-	 * @param   int        $variation_id The variation ID.
-	 * @param   array      $item_data    The cart item data.
-	 * @param   string     $cart_id      Generated ID based on item in cart.
-	 * @param   string     $item_key     The item key of the cart item.
-	 * @return  float      $quantity     The quantity returned.
+	 *
+	 * @param  WC_Product $product      Product object associated with the cart item.
+	 * @param  int|float  $quantity     The quantity to validate.
+	 * @param  int        $product_id   The product ID.
+	 * @param  int        $variation_id The variation ID.
+	 * @param  array      $item_data    The cart item data.
+	 * @param  string     $cart_id      Generated ID based on item in cart.
+	 * @param  string     $item_key     The item key of the cart item.
+	 * @return float      $quantity     The quantity returned.
 	 */
 	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $cart_id, $item_key ) {
 		try {
@@ -945,7 +991,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				/**
 				 * Quantity for sold individual products can be filtered.
 				 *
-				 * @since 2.0.13
+				 * @since 2.0.13 Introduced.
 				 */
 				$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1 );
 
@@ -980,11 +1026,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WC_Product $product  Product object associated with the cart item.
-	 * @param   int|float  $quantity Quantity of product to validate availability.
+	 *
+	 * @param WC_Product $product  Product object associated with the cart item.
+	 * @param int|float  $quantity Quantity of product to validate availability.
 	 */
 	public function validate_add_to_cart( $product, $quantity ) {
 		try {
@@ -1023,7 +1071,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				/**
 				 * Filters message about product not having enough stock.
 				 *
-				 * @since 3.1.0
+				 * @since 3.1.0 Introduced.
+				 *
 				 * @param string     $message        Message.
 				 * @param WC_Product $product        Product data.
 				 * @param int        $stock_quantity Quantity remaining.
@@ -1062,17 +1111,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Filters additional requested data.
 	 *
 	 * @access public
+	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return $request
 	 */
 	public function filter_request_data( $request ) {
-		return apply_filters( 'cocart_filter_request_data', $request );
+		return apply_filters( 'cocart_' . __FUNCTION__, $request );
 	} // END filter_request_data()
 
 	/**
 	 * Get the main product slug even if the product type is a variation.
 	 *
 	 * @access public
+	 *
 	 * @param  WC_Product $object The product object.
 	 * @return string
 	 */
@@ -1093,17 +1144,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get a single item from the cart and present the data required.
 	 *
-	 * @access  public
+	 * @access public
 	 *
-	 * @since   3.0.0
+	 * @since   3.0.0 Introduced.
 	 * @version 3.6.2
 	 *
-	 * @param   WC_Product $_product     The product data of the item in the cart.
-	 * @param   array      $cart_item    The item in the cart containing the default cart item data.
-	 * @param   string     $item_key     The item key generated based on the details of the item.
-	 * @param   boolean    $show_thumb   Determines if requested to return the item featured thumbnail.
-	 * @param   boolean    $removed_item Determines if the item in the cart is removed.
-	 * @return  array      $item         Full details of the item in the cart and it's purchase limits.
+	 * @param  WC_Product $_product     The product data of the item in the cart.
+	 * @param  array      $cart_item    The item in the cart containing the default cart item data.
+	 * @param  string     $item_key     The item key generated based on the details of the item.
+	 * @param  boolean    $show_thumb   Determines if requested to return the item featured thumbnail.
+	 * @param  boolean    $removed_item Determines if the item in the cart is removed.
+	 * @return array      $item         Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
 		$item = array(
@@ -1180,7 +1231,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 *
 			 * @since   2.1.0 Introduced.
 			 * @version 3.0.0
-			 * @param   string $thumbnail_src URL of the product thumbnail.
+			 *
+			 * @param string $thumbnail_src URL of the product thumbnail.
 			 */
 			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
 
@@ -1194,12 +1246,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Gets the cart items.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.0.17
-	 * @param   array   $cart_contents The cart contents passed.
-	 * @param   boolean $show_thumb    Determines if requested to return the item featured thumbnail.
-	 * @return  array   $items         Returns all items in the cart.
+	 *
+	 * @param  array   $cart_contents The cart contents passed.
+	 * @param  boolean $show_thumb    Determines if requested to return the item featured thumbnail.
+	 * @return array   $items         Returns all items in the cart.
 	 */
 	public function get_items( $cart_contents = array(), $show_thumb = true ) {
 		$items = array();
@@ -1227,6 +1281,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 * Filter message about item removed from the cart.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string     $message  Message.
 				 * @param WC_Product $_product Product data.
 				 */
@@ -1249,12 +1304,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Gets the cart removed items.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.0.17
-	 * @param   array   $removed_items The removed cart contents passed.
-	 * @param   boolean $show_thumb    Determines if requested to return the item featured thumbnail.
-	 * @return  array   $items         Returns all removed items in the cart.
+	 *
+	 * @param  array   $removed_items The removed cart contents passed.
+	 * @param  boolean $show_thumb    Determines if requested to return the item featured thumbnail.
+	 * @return array   $items         Returns all removed items in the cart.
 	 */
 	public function get_removed_items( $removed_items = array(), $show_thumb = true ) {
 		$items = array();
@@ -1280,6 +1337,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Removes all internal elements of an item that is not needed.
 	 *
 	 * @access protected
+	 *
 	 * @param  array $cart_item Before cart item data is modified.
 	 * @return array $cart_item Modified cart item data returned.
 	 */
@@ -1303,10 +1361,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns cross sells based on the items in the cart.
 	 *
-	 * @access  public
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0 Prices now return with formatted decimals.
-	 * @return  array
+	 * @access public
+	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 3.1.0 Prices now return with formatted decimals.
+	 *
+	 * @return array
 	 */
 	public function get_cross_sells() {
 		// Get visible cross sells then sort them at random.
@@ -1355,10 +1415,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns shipping details.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array.
+	 *
+	 * @return array Shipping details.
 	 */
 	public function get_shipping_details() {
 		if ( ! wc_shipping_enabled() || 0 === wc_get_shipping_method_count( true ) ) {
@@ -1440,12 +1502,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Cleans up the meta data for API.
 	 *
-	 * @access  protected
+	 * @access protected
+	 *
 	 * @since   3.1.0 Introduced
 	 * @version 3.1.2
-	 * @param   object $method Method data.
-	 * @param   string $type   Meta data we are cleaning for.
-	 * @return  array
+	 *
+	 * @param  object $method Method data.
+	 * @param  string $type   Meta data we are cleaning for.
+	 * @return array
 	 */
 	protected function clean_meta_data( $method, $type = 'shipping' ) {
 		$meta_data = $method->get_meta_data();
@@ -1465,6 +1529,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Return notices in cart if any.
 	 *
 	 * @access protected
+	 *
 	 * @return array $notices.
 	 */
 	protected function maybe_return_notices() {
@@ -1484,6 +1549,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Returns messages and errors which are stored in the session, then clears them.
 	 *
 	 * @access protected
+	 *
 	 * @return array
 	 */
 	protected function print_notices() {
@@ -1509,16 +1575,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   int        $product_id     Contains the id of the product to add to the cart.
-	 * @param   int        $quantity       Contains the quantity of the item to add.
-	 * @param   int        $variation_id   ID of the variation being added to the cart.
-	 * @param   array      $variation      Attribute values.
-	 * @param   array      $cart_item_data Extra cart item data we want to pass into the item.
-	 * @param   WC_Product $product_data   Product data.
-	 * @return  string|boolean $item_key
+	 *
+	 * @param int        $product_id     Contains the id of the product to add to the cart.
+	 * @param int        $quantity       Contains the quantity of the item to add.
+	 * @param int        $variation_id   ID of the variation being added to the cart.
+	 * @param array      $variation      Attribute values.
+	 * @param array      $cart_item_data Extra cart item data we want to pass into the item.
+	 * @param WC_Product $product_data   Product data.
+	 *
+	 * @return string|boolean $item_key Cart item key or false if error.
 	 */
 	public function add_cart_item( int $product_id, int $quantity, $variation_id, array $variation, array $cart_item_data, WC_Product $product_data ) {
 		try {
@@ -1556,9 +1625,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Cache cart item.
 	 *
+	 * @uses CartCache::set_cached_item()
+	 *
 	 * @access public
-	 * @since  3.1.0
-	 * @param  array $was_added_to_cart Cart item to cache.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param array $was_added_to_cart Cart item to cache.
 	 */
 	public function cache_cart_item( $was_added_to_cart ) {
 		$item_key = $was_added_to_cart['key'];
@@ -1569,12 +1642,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns the customers details from fields.
 	 *
-	 * @access  protected
-	 * @since   3.0.0
+	 * @access protected
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   string      $fields The customer fields to return.
-	 * @param   WC_Customer $customer The customer object or ID.
-	 * @return  array  Returns the customer details based on the field requested.
+	 *
+	 * @param string      $fields The customer fields to return.
+	 * @param WC_Customer $customer The customer object or ID.
+	 *
+	 * @return array  Returns the customer details based on the field requested.
 	 */
 	protected function get_customer_fields( $fields = 'billing', $customer = '' ) {
 		// If no customer is set then get customer from cart.
@@ -1610,15 +1686,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Convert queued error notices into an exception.
 	 *
 	 * For example, Payment methods may add error notices during validating fields to prevent checkout.
-	 *
 	 * This method will find the first error message and thrown an exception instead. Discards notices once complete.
 	 *
 	 * @throws CoCart_Data_Exception If an error notice is detected, Exception is thrown.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.1
-	 * @param  string $error_code Error code for the thrown exceptions.
+	 *
+	 * @since 3.0.1 Introduced.
+	 *
+	 * @param string $error_code Error code for the thrown exceptions.
 	 */
 	public static function convert_notices_to_exceptions( $error_code = 'unknown_server_error' ) {
 		if ( 0 === wc_notice_count( 'error' ) ) {
@@ -1641,11 +1719,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Used as a base even if the cart is empty along with
 	 * customer information should the user be logged in.
 	 *
-	 * @access  protected
-	 * @since   3.0.3
+	 * @access protected
+	 *
+	 * @since   3.0.3 Introduced.
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  array Returns the default cart response.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return array Returns the default cart response.
 	 */
 	protected function get_cart_template( $request = array() ) {
 		$fields = ! empty( $request['fields'] ) ? $request['fields'] : '';
@@ -1698,9 +1779,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Same as original cart template only it returns the fields requested.
 	 *
 	 * @access protected
-	 * @since  3.1.0
-	 * @param  WP_REST_Request $request  Full details about the request.
-	 * @return array           $template Returns requested cart response.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return array $template Returns requested cart response.
 	 */
 	protected function get_cart_template_limited( $request = array() ) {
 		$fields     = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
@@ -1837,8 +1921,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception If an error notice is detected, Exception is thrown.
 	 *
 	 * @access protected
-	 * @since  3.0.4
-	 * @param  WC_Product $product Product object associated with the cart item.
+	 *
+	 * @since 3.0.4
+	 *
+	 * @param WC_Product $product Product object associated with the cart item.
 	 */
 	protected function throw_product_not_purchasable( $product ) {
 		$message = sprintf(
@@ -1862,9 +1948,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Gets the quantity of a product across line items.
 	 *
 	 * @access protected
-	 * @since  3.1.0
-	 * @param  WC_Product $product Product object.
-	 * @return int
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product Product object.
+	 *
+	 * @return int Quantity of the product.
 	 */
 	protected function get_product_quantity_in_cart( $product ) {
 		$cart               = $this->get_cart_instance();
@@ -1878,9 +1967,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Gets remaining stock for a product.
 	 *
 	 * @access protected
-	 * @since  3.1.0
-	 * @param  WC_Product $product Product object.
-	 * @return int
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product Product object.
+	 *
+	 * @return int Remaining stock.
 	 */
 	protected function get_remaining_stock_for_product( $product ) {
 		$reserve_stock = new ReserveStock();
@@ -1896,9 +1988,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @throws CoCart_Data_Exception If an error notice is detected, Exception is thrown.
 	 *
 	 * @access protected
-	 * @since  3.0.17
-	 * @param  string $item_key Item key of the item in the cart.
-	 * @param  string $status   Status of which we are checking the item key.
+	 *
+	 * @since 3.0.17 Introduced.
+	 *
+	 * @param string $item_key Item key of the item in the cart.
+	 * @param string $status   Status of which we are checking the item key.
+	 *
 	 * @return string $item_key Item key of the item in the cart.
 	 */
 	protected function throw_missing_item_key( $item_key, $status ) {
@@ -1911,6 +2006,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * Filters message about cart item key required.
 			 *
 			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
@@ -1925,7 +2021,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Ensures the cart totals are calculated before an API response is returned.
 	 *
 	 * @access public
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0 Introduced.
 	 */
 	public function calculate_totals() {
 		$this->get_cart_instance()->calculate_fees();
@@ -1937,7 +2034,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get the schema for returning the cart.
 	 *
 	 * @access public
+	 *
 	 * @since  3.1.0 Introduced.
+	 *
 	 * @return array
 	 */
 	public function get_public_cart_schema() {
@@ -2931,7 +3030,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		/**
 		 * This filter is now deprecated and is replaced with `cocart_cart_items_schema`.
 		 *
-		 * @deprecated 3.1.0
+		 * @since 3.1.0 Deprecated.
 		 */
 		cocart_deprecated_filter( 'cocart_cart_schema', array(), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
 
@@ -2950,10 +3049,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get the query params for getting the cart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array $params
+	 *
+	 * @return  array $params The query params.
 	 */
 	public function get_collection_params() {
 		$params = array(
@@ -2986,7 +3087,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default parameters.
 		 *
-		 * @since 3.1.0
+		 * @since 3.1.0 Introduced.
 		 */
 		$params += apply_filters( 'cocart_cart_query_parameters', array() );
 

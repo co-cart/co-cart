@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles tweaks made to WooCommerce to support CoCart.
+ * Woocommerce Tweaks
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -18,12 +18,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * CoCart WooCommerce class.
+ *
+ * Handles tweaks made to WooCommerce to support CoCart.
+ *
+ * @package CoCart/WooCommerce
+ */
 class WooCommerce {
 
 	/**
 	 * Constructor.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.2
 	 * @version 3.0.3
 	 */
@@ -47,12 +55,16 @@ class WooCommerce {
 	/**
 	 * Force WooCommerce to accept CoCart API requests when authenticating.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since   2.0.5
 	 * @version 2.6.0
-	 * @param   bool $request Current status of allowing WooCommerce request.
-	 * @return  bool true|$request Status after checking if CoCart is allowed.
+	 *
+	 * @param bool $request Current status of allowing WooCommerce request.
+	 *
+	 * @return bool true|$request Status after checking if CoCart is allowed.
 	 */
 	public static function allow_cocart_requests_wc( $request ) {
 		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
@@ -81,8 +93,10 @@ class WooCommerce {
 	 *
 	 * THIS IS FOR REST API USE ONLY!
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since   2.1.0
 	 * @version 4.0.0
 	 */
@@ -186,8 +200,12 @@ class WooCommerce {
 	 * When a user is deleted in WordPress, delete corresponding CoCart data.
 	 *
 	 * @access public
-	 * @since  3.0.0
-	 * @param  int $user_id User ID being deleted.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param int $user_id User ID being deleted.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function delete_user_data( $user_id ) {
 		global $wpdb;
@@ -205,8 +223,11 @@ class WooCommerce {
 	 * Get the persistent cart from the database.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since  2.9.1
+	 *
+	 * @since 2.9.1
+	 *
 	 * @return array
 	 */
 	private static function get_saved_cart() {
