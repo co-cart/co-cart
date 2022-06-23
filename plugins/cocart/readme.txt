@@ -14,25 +14,25 @@ Customizable REST API that lets you build headless ecommerce without limits powe
 
 == Description ==
 
-### CoCart is #1 ecommerce RESTful API built for WooCommerce that scales for headless development.
+### CoCart: The #1 ecommerce RESTful API built for WooCommerce that scales for headless development.
 
-Take your WooCommerce business to the next level with headless ecommerce.
+Take your **WooCommerce** business to the next level with **headless ecommerce**.
 
 Get started fast with [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce and build headless ecommerce using your favorite technologies.
 
 ## The API
 
-CoCart Lite provides the basic needs to help you get started.
+CoCart Lite provides the basic needs to help you get started with **headless ecommerce**.
 
-### Products API
+#### Products API
 
 Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
 
-### Cart API
+#### Cart API
 
-Add simple, variable and grouped products to the cart by product ID or SKU ID, updates cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your UX/UI.
+Add **simple, variable** and **grouped products** to the cart by **product ID** or **SKU ID**, update cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your **UX/UI**.
 
-### Extras
+#### Extras
 
 * Get store information.
 * Login the customer/user.
@@ -57,11 +57,11 @@ CoCart also provides built in features to:
 * Supports basic authentication including the use of email as the username.
 * Support [authentication via WooCommerce's method](https://cocart.dev/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
-* Does not cache so API responses are fast.
-* Works across multiple domains, CORS ready (so you can have multiple frontends connected to one backend).
+* Does **not cache** so API responses are **fast**.
+* Works across multiple domains, CORS ready! **So you can have multiple frontends connected to one backend.**
 * Allows you to filter CoCart to be white-labelled.
 
-Included with these features are over 100+ **[filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers to customize API responses or change how CoCart operates with our extensive documentation.
+Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers to customize API responses or change how CoCart operates with our extensive documentation.
 
 ## Tools and Libraries
 
@@ -229,7 +229,7 @@ You will first need WooCommerce installed with the REST API enabled. Then instal
 
 = Who should use CoCart? =
 
-CoCart is perfect for ecommerce owners and developers. If you want to create an ecommerce app for mobile or a custom frontend shopping experience completely using the REST API, then CoCart is for you.
+CoCart is perfect for ecommerce owners and developers who want to create an ecommerce app for mobile or a custom frontend shopping experience completely using the REST API.
 
 = Do I need to have coding skills to use CoCart? =
 
@@ -369,6 +369,31 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.7.3 - 23rd June, 2022 =
+
+### What's New
+
+* Added `get_session_data()` function to the session handler. Some plugins appear to be accessing it (though I don't recommend it).
+
+= v3.7.2 - 20th June, 2022 =
+
+### Improvements
+
+* Adjusted WooCommerce detection when installing CoCart on a completely fresh WordPress install. Related to [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
+* Removed "Turn off CoCart" button from admin notice as the plugin already deactivates if WooCommerce not detected.
+* Prevent plugin action links from showing if CoCart is not active.
+* Tested: ✔️ Compatible with WooCommerce v6.6
+
+= v3.7.1 - 13th June, 2022 =
+
+### What's New
+
+* 🚀 You can now limit the results set to products assigned a specific category or tag via their slug names instead of ID.
+
+Example of limiting products via category and tag. `wp-json/cocart/v2/products/?category=accessories&tag=hats`
+
+> There was some confusion with this as the documentation said (query by ID) but the API schema said (query by slug). Now you can do either. This adjustment affects both API versions.
 
 = v3.7.0 - 31st May, 2022 =
 
@@ -650,6 +675,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.0 =
+= 3.7.3 =
 
-* Fixed a non-numeric value encounter.
+* Added `get_session_data()` function to the session handler.

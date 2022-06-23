@@ -1,5 +1,30 @@
 # Changelog for CoCart Lite
 
+## v3.7.3 - 23rd June, 2022
+
+### What's New
+
+* Added `get_session_data()` function to the session handler. Some plugins appear to be accessing it (though I don't recommend it).
+
+## v3.7.2 - 20th June, 2022
+
+### Improvements
+
+* Adjusted WooCommerce detection when installing CoCart on a completely fresh WordPress install. Related to [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
+* Removed "Turn off CoCart" button from admin notice as the plugin already deactivates if WooCommerce not detected.
+* Prevent plugin action links from showing if CoCart is not active.
+* Tested: ✔️ Compatible with WooCommerce v6.6
+
+## v3.7.1 - 13th June, 2022
+
+### What's New
+
+* 🚀 You can now limit the results set to products assigned a specific category or tag via their slug names instead of ID.
+
+Example of limiting products via category and tag. `wp-json/cocart/v2/products/?category=accessories&tag=hats`
+
+> There was some confusion with this as the documentation said (query by ID) but the API schema said (query by slug). Now you can do either. This adjustment affects both API versions.
+
 ## v3.7.0 - 31st May, 2022
 
 ### What's New

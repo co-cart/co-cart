@@ -179,7 +179,7 @@ class Install {
 	 * @access  public
 	 * @static
 	 * @since   1.2.0
-	 * @version 3.1.0
+	 * @version 3.7.2
 	 */
 	public static function install() {
 		if ( ! is_blog_installed() ) {
@@ -193,6 +193,14 @@ class Install {
 		// Check if we are not already running this routine.
 		if ( 'yes' === get_transient( 'cocart_installing' ) ) {
 			return;
+		}
+
+		// If WooCommerce is NOT active, don't install CoCart.
+		if ( ! defined( 'WC_VERSION' ) ) {
+			if ( is_callable( array( 'CoCart\Admin\Notices', 'add_notice' ) ) ) {
+				Notices::add_notice( 'check_wc' );
+				return;
+			}
 		}
 
 		// If we made it till here nothing is running yet, lets set the transient now for five minutes.
