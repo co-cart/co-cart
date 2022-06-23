@@ -21,6 +21,7 @@ namespace CoCart\Session;
 use CoCart\RestApi\Authentication;
 use CoCart\Abstracts\Session;
 use CoCart\Logger;
+use \WC_Customer as Customer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -217,7 +218,7 @@ class Handler extends Session {
 		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
 			// TODO: Add user role and customer ID check.
 
-			$customer = new WC_Customer( $current_user_id );
+			$customer = new Customer( $current_user_id );
 
 			// If customer is valid, set customer ID.
 			if ( 0 !== $customer->get_id() ) {
