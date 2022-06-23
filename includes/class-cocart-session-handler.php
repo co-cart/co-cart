@@ -427,6 +427,16 @@ class CoCart_Session_Handler extends CoCart_Session {
 	} // END get_cart_data()
 
 	/**
+	 * Get session data.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function get_session_data() {
+		return $this->get_cart_data();
+	}
+
+	/**
 	 * Gets a cache prefix. This is used in cart names so the entire
 	 * cache can be invalidated with 1 function call.
 	 *

@@ -1,5 +1,11 @@
 # Changelog for CoCart Lite
 
+## v3.7.3 - 23rd June, 2022
+
+### What's New
+
+* Added `get_session_data()` function to the session handler. Some plugins appear to be accessing it (though I don't recommend it).
+
 ## v3.7.2 - 20th June, 2022
 
 ### Improvements
