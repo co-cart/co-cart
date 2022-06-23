@@ -276,8 +276,9 @@ final class Core {
 	 * @static
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.7.0
-	 *
+	 * @since   3.7.0 Added skip check parameter. Default is false.
+	 * @version 3.7.2
+ 	 *
 	 * @param bool $skip_check Whether to skip the activation check. Default is false.
 	 */
 	public static function install_cocart( $skip_check = false ) {
@@ -285,10 +286,7 @@ final class Core {
 			self::activation_check();
 		}
 
-		// If WooCommerce is active, install CoCart.
-		if ( defined( 'WC_VERSION' ) ) {
-			Install::install();
-		}
+		Install::install();
 	} // END install_cocart()
 
 	/**

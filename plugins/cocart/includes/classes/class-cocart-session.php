@@ -40,14 +40,19 @@ class LoadCart {
 	/**
 	 * Returns true or false if the cart key is saved in the database.
 	 *
-	 * @todo Deprecate in the future.
-	 *
 	 * @access public
-	 * @since  2.1.0 Introduced.
-	 * @param  string $cart_key Requested cart key.
+	 *
+	 * @since   2.1.0 Introduced.
+	 * @since   4.0.0 Deprecated this function.
+	 * @version 4.0.0
+	 *
+	 * @param string $cart_key Requested cart key.
+	 *
 	 * @return boolean
 	 */
 	public function is_cart_saved( $cart_key ) {
+		_deprecated_function( __FUNCTION__, '4.0.0', '' );
+
 		$handler    = new Handler();
 		$cart_saved = $handler->get_cart( $cart_key );
 
@@ -61,14 +66,16 @@ class LoadCart {
 	/**
 	 * Clears all carts from the database.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since   2.1.0 Introduced
 	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
-	 * @version 3.1.2
+	 * @version 4.0.0
 	 */
 	public static function clear_carts() {
-		_deprecated_function( 'clear_carts', '3.1.2', 'cocart_task_clear_carts' );
+		_deprecated_function( __FUNCTION__, '3.1.2', 'cocart_task_clear_carts' );
 
 		cocart_task_clear_carts();
 	} // END clear_cart()
@@ -76,14 +83,16 @@ class LoadCart {
 	/**
 	 * Cleans up carts from the database that have expired.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
+	 *
 	 * @since   2.1.0 Introduced
 	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
-	 * @version 3.1.2
+	 * @version 4.0.0
 	 */
 	public static function cleanup_carts() {
-		_deprecated_function( 'cleanup_carts', '3.1.2', 'cocart_task_cleanup_carts' );
+		_deprecated_function( __FUNCTION__, '3.1.2', 'cocart_task_cleanup_carts' );
 
 		cocart_task_cleanup_carts();
 	} // END cleanup_carts()

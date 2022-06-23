@@ -83,4 +83,4 @@ class CoCart_Data_Exception extends Exception {
 		return $this->additional_data;
 	}
 
-}
+} // END class

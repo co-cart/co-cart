@@ -459,7 +459,7 @@ class Install {
 
 		// If the admin package is not available then don't redirect.
 		if ( ! class_exists( '\\CoCart\\Admin\\Package', false ) ) {
-			error_log('CoCart Admin Package not found! Unable to redirect to Getting Started page.');
+			error_log( 'CoCart Admin Package not found! Unable to redirect to Getting Started page.' );
 			return;
 		}
 
@@ -629,7 +629,7 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * @access public
 	 * @static
 	 * @since  2.1.0
-	 * @global $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 * @return array $tables.
 	 */
 	public static function get_tables() {
@@ -648,7 +648,7 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * @access public
 	 * @static
 	 * @since  2.1.0
-	 * @global $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 * @return void
 	 */
 	public static function drop_tables() {
