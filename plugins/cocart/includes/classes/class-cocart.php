@@ -223,7 +223,7 @@ final class Core {
 		// Important functions.
 		include_once COCART_ABSPATH . 'includes/cocart-background-functions.php';
 		include_once COCART_ABSPATH . 'includes/cocart-formatting-functions.php';
-		include_once COCART_ABSPATH . 'includes/cocart-register-functions.php';
+		// include_once COCART_ABSPATH . 'includes/cocart-register-functions.php';
 
 		// Core classes.
 		// include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
@@ -279,7 +279,7 @@ final class Core {
 	 * @since   3.0.0 Introduced.
 	 * @since   3.7.0 Added skip check parameter. Default is false.
 	 * @version 3.7.2
- 	 *
+	 *
 	 * @param bool $skip_check Whether to skip the activation check. Default is false.
 	 */
 	public static function install_cocart( $skip_check = false ) {
@@ -370,7 +370,9 @@ final class Core {
 		if ( class_exists( 'WC_Session' ) ) {
 			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 
-			if ( version_compare( '4.0.0', COCART_VERSION, '<' ) ) {
+			$current_db_version = get_option( 'cocart_db_version', null );
+
+			if ( version_compare( $current_db_version, COCART_DB_VERSION, '<' ) ) {
 				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler-legacy.php';
 			} else {
 				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
