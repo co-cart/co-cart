@@ -12,6 +12,7 @@
 
 use CoCart\RestApi\Authentication;
 use CoCart\Logger;
+use \CoCart\RestApi\Products\DateTime as ProductDateTime;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -89,20 +90,21 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
  * Requires WP 4.4 or later.
  * See https://developer.wordpress.org/reference/functions/mysql_to_rfc3339/
  *
- * @param  string|null|\CoCart\ProductsAPI\DateTime $date Date.
- * @param  bool                        $utc  Send false to get local/offset time.
+ * @param string|null|ProductDateTime $date Date.
+ * @param bool                        $utc  Send false to get local/offset time.
+ *
  * @return string|null ISO8601/RFC3339 formatted datetime.
  */
 function cocart_prepare_date_response( $date, $utc = true ) {
 	if ( is_numeric( $date ) ) {
-		$date = new \CoCart\ProductsAPI\DateTime( "@$date", new DateTimeZone( 'UTC' ) );
+		$date = new ProductDateTime( "@$date", new DateTimeZone( 'UTC' ) );
 		$date->setTimezone( new DateTimeZone( wc_timezone_string() ) );
 	} elseif ( is_string( $date ) ) {
-		$date = new \CoCart\ProductsAPI\DateTime( $date, new DateTimeZone( 'UTC' ) );
+		$date = new ProductDateTime( $date, new DateTimeZone( 'UTC' ) );
 		$date->setTimezone( new DateTimeZone( wc_timezone_string() ) );
 	}
 
-	if ( ! is_a( $date, 'CoCart\DateTime' ) ) {
+	if ( ! is_a( $date, '\CoCart\RestApi\Products\DateTime' ) ) {
 		return null;
 	}
 

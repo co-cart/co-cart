@@ -33,7 +33,7 @@ final class Core {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.0.0-alpha.1';
+	public static $version = '4.0.0-alpha.2';
 
 	/**
 	 * CoCart Database Schema version.
@@ -223,9 +223,10 @@ final class Core {
 		// Important functions.
 		include_once COCART_ABSPATH . 'includes/cocart-background-functions.php';
 		include_once COCART_ABSPATH . 'includes/cocart-formatting-functions.php';
+		include_once COCART_ABSPATH . 'includes/cocart-register-functions.php';
 
 		// Core classes.
-		include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
+		// include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-authentication.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-status.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-helpers.php';
@@ -359,7 +360,7 @@ final class Core {
 	 * @static
 	 *
 	 * @since   2.1.2 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 *
 	 * @param string $handler WooCommerce Session Handler.
 	 *
@@ -368,7 +369,13 @@ final class Core {
 	public static function session_handler( $handler ) {
 		if ( class_exists( 'WC_Session' ) ) {
 			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
-			include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
+
+			if ( version_compare( '4.0.0', COCART_VERSION, '<' ) ) {
+				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler-legacy.php';
+			} else {
+				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
+			}
+
 			$handler = '\CoCart\Session\Handler';
 		}
 
