@@ -46,6 +46,7 @@ find ./plugins/cocart-ref -name "uninstall.php" -type f -delete
 find ./plugins/cocart-ref/includes/classes -name "class-cocart-autoloader.php" -type f -delete
 find ./plugins/cocart-ref/includes/classes -name "class-cocart-cli.php" -type f -delete
 find ./plugins/cocart-ref/includes/classes -name "class-cocart-install.php" -type f -delete
+find ./plugins/cocart-ref/includes/classes -name "class-cocart-session-handler-legacy.php" -type f -delete
 find ./plugins/cocart-ref/includes/classes -name "class-cocart.php" -type f -delete
 find ./plugins/cocart-ref/includes -name "cocart-background-functions.php" -type f -delete
 find ./plugins/cocart-ref/includes -name "cocart-update-functions.php" -type f -delete
