@@ -40,9 +40,11 @@ class Install {
 	/**
 	 * Constructor.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.2.0
+	 *
+	 * @since   1.2.0 Introduced.
 	 * @version 3.1.0
 	 */
 	public static function init() {
@@ -65,6 +67,7 @@ class Install {
 	 * This check is done on all requests and runs if the versions do not match.
 	 *
 	 * @access public
+	 *
 	 * @static
 	 */
 	public static function check_version() {
@@ -85,8 +88,10 @@ class Install {
 	 * Perform a manual database update when triggered by WooCommerce System Tools.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	public static function manual_database_update() {
 		$blog_id = get_current_blog_id();
@@ -97,9 +102,11 @@ class Install {
 	/**
 	 * Run manual database update.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @version 3.0.0
+	 *
+	 * @version 3.0.0 Introduced.
 	 */
 	public static function run_manual_database_update() {
 		self::update();
@@ -109,9 +116,12 @@ class Install {
 	 * Run an update callback when triggered by ActionScheduler.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
-	 * @param  string $callback Callback name.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param string $callback Callback name.
 	 */
 	public static function run_update_callback( $callback ) {
 		include_once COCART_ABSPATH . 'includes/cocart-update-functions.php';
@@ -127,22 +137,32 @@ class Install {
 	 * Triggered when a callback will run.
 	 *
 	 * @access protected
+	 *
 	 * @static
-	 * @since  3.0.0
-	 * @param  string $callback Callback name.
+	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Removed the shutdown hook during the start of update callback.
+	 *
+	 * @param string $callback Callback name.
 	 */
 	protected static function run_update_callback_start( $callback ) {
 		define( 'COCART_UPDATING', true );
+
+		remove_action( 'shutdown', array( WC()->session, 'save_cart' ), 20 );
 	} // END run_update_callback_start()
 
 	/**
 	 * Triggered when a callback has ran.
 	 *
 	 * @access protected
+	 *
 	 * @static
-	 * @since  3.0.0
-	 * @param  string $callback Callback name.
-	 * @param  bool   $result Return value from callback. Non-false need to run again.
+	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added back the shutdown hook during the end of update callback.
+	 *
+	 * @param string $callback Callback name.
+	 * @param bool   $result Return value from callback. Non-false need to run again.
 	 */
 	protected static function run_update_callback_end( $callback, $result ) {
 		if ( $result ) {
@@ -153,6 +173,8 @@ class Install {
 				),
 				'cocart-db-updates'
 			);
+
+			add_action( 'shutdown', array( WC()->session, 'save_cart' ), 20 );
 		}
 	} // END run_update_callback_end()
 
@@ -160,8 +182,10 @@ class Install {
 	 * Install actions when a update button is clicked within the admin area.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	public static function install_actions() {
 		if ( ! empty( $_GET['do_update_cocart'] ) ) {
@@ -176,9 +200,11 @@ class Install {
 	/**
 	 * Install CoCart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.2.0
+	 *
+	 * @since   1.2.0 Introduced.
 	 * @version 3.7.2
 	 */
 	public static function install() {
@@ -242,13 +268,17 @@ class Install {
 	/**
 	 * Check if all the base tables are present.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   3.0.0
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   bool $modify_notice Whether to modify notice based on if all tables are present.
-	 * @param   bool $execute       Whether to execute get_schema queries as well.
-	 * @return  array               List of queries.
+	 *
+	 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
+	 * @param bool $execute       Whether to execute get_schema queries as well.
+	 *
+	 * @return array List of queries.
 	 */
 	public static function verify_base_tables( $modify_notice = true, $execute = false ) {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -291,9 +321,11 @@ class Install {
 	/**
 	 * Reset any notices added to admin.
 	 *
-	 * @access  private
+	 * @access private
+	 *
 	 * @static
-	 * @since   3.0.0
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.0.12
 	 */
 	private static function remove_admin_notices() {
@@ -308,8 +340,11 @@ class Install {
 	 * A brand new install has no version yet. Also treat empty installs as 'new'.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function is_new_install() {
@@ -320,8 +355,11 @@ class Install {
 	 * Is a Database update needed?
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function needs_db_update() {
@@ -337,8 +375,10 @@ class Install {
 	 * See if we need the setup wizard or not.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0 Introduced.
 	 */
 	private static function maybe_enable_setup_wizard() {
 		if ( apply_filters( 'cocart_enable_setup_wizard', true ) && self::is_new_install() ) {
@@ -353,8 +393,10 @@ class Install {
 	 * See if we need to show or run database updates during install.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	private static function maybe_update_db_version() {
 		if ( self::needs_db_update() ) {
@@ -373,9 +415,11 @@ class Install {
 	/**
 	 * Update plugin version to current.
 	 *
-	 * @access  private
-	 * @since   1.2.0
+	 * @access private
+	 *
+	 * @since   1.2.0 Introduced.
 	 * @version 2.8.3
+	 *
 	 * @static
 	 */
 	private static function update_version() {
@@ -386,9 +430,12 @@ class Install {
 	 * Get list of DB update callbacks.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
-	 * @return array
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @return array Array of update callbacks.
 	 */
 	public static function get_db_update_callbacks() {
 		return self::$db_updates;
@@ -398,8 +445,10 @@ class Install {
 	 * Push all needed DB updates to the queue for processing.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	private static function update() {
 		$current_db_version = get_option( 'cocart_db_version' );
@@ -425,11 +474,14 @@ class Install {
 	/**
 	 * Update CoCart DB version.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.9.0
+	 *
+	 * @since   2.9.0 Introduced.
 	 * @version 4.0.0
-	 * @param   string|null $version New CoCart DB version or null.
+	 *
+	 * @param string|null $version New CoCart DB version or null.
 	 */
 	public static function update_db_version( $version = null ) {
 		update_option( 'cocart_db_version', is_null( $version ) ? COCART_DB_VERSION : $version );
@@ -439,6 +491,7 @@ class Install {
 	 * Set the time the plugin was installed.
 	 *
 	 * @access public
+	 *
 	 * @static
 	 */
 	public static function set_install_date() {
@@ -448,11 +501,14 @@ class Install {
 	/**
 	 * Redirects to the Getting Started page upon plugin activation.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.2.0
+	 *
+	 * @since   1.2.0 Introduced.
 	 * @version 3.1.0
-	 * @param   string $plugin - Activate plugin file.
+	 *
+	 * @param string $plugin Activate plugin file.
 	 */
 	public static function redirect_getting_started( $plugin ) {
 		// Prevent redirect if plugin name does not match or multiple plugins are being activated.
@@ -502,9 +558,11 @@ class Install {
 	/**
 	 * Create cron jobs (clear them first).
 	 *
-	 * @access  private
+	 * @access private
+	 *
 	 * @static
-	 * @since   2.1.0
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
 	 */
 	private static function create_cron_jobs() {
@@ -521,11 +579,14 @@ class Install {
 	 * This is called from `install` method and is executed in-sync when CoCart is installed or updated.
 	 * This can also be called optionally from `verify_base_tables`.
 	 *
-	 * @access  private
+	 * @access private
+	 *
 	 * @static
-	 * @since   2.1.0
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
-	 * @global  $wpdb
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	private static function create_tables() {
 		global $wpdb;
@@ -551,11 +612,15 @@ class Install {
 	 * Get Table schema.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since   3.0.0
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 4.0.0
-	 * @global  $wpdb
-	 * @return  string
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return string Table schema.
 	 */
 	private static function get_schema() {
 		global $wpdb;
@@ -587,9 +652,14 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * @source https://developer.wordpress.org/reference/functions/maybe_create_table/
 	 *
 	 * @access protected
-	 * @since  3.1.0
-	 * @param  string $table_name Database table name.
-	 * @param  string $create_sql Create database table SQL.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param string $table_name Database table name.
+	 * @param string $create_sql Create database table SQL.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return bool False on error, true if already exists or success.
 	 */
 	protected static function maybe_create_table( $table_name, $create_sql ) {
@@ -608,9 +678,12 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * Add a notice if table creation fails.
 	 *
 	 * @access protected
+	 *
 	 * @static
-	 * @since  3.1.0
-	 * @param  string $table_name Name of the missing table.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param string $table_name Name of the missing table.
 	 */
 	protected static function add_create_table_notice( $table_name ) {
 		set_transient( '_cocart_db_creation_failed', 1, MINUTE_IN_SECONDS * 5 );
@@ -635,10 +708,14 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * or multi site environment.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
-	 * @return array $tables.
+	 *
+	 * @return array $tables List of CoCart tables.
 	 */
 	public static function get_tables() {
 		global $wpdb;
@@ -654,9 +731,13 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * Drop CoCart tables.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return void
 	 */
 	public static function drop_tables() {
@@ -673,9 +754,12 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * Uninstall tables when MU blog is deleted.
 	 *
 	 * @access public
-	 * @since  2.1.0
-	 * @param  array $tables List of tables that will be deleted by WP.
-	 * @return array
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @param array $tables List of tables that will be deleted by WP.
+	 *
+	 * @return array $tables List of tables that will be deleted by WP.
 	 */
 	public static function wpmu_drop_tables( $tables ) {
 		return array_merge( $tables, self::get_tables() );
@@ -685,8 +769,10 @@ UNIQUE KEY cart_customer (cart_customer)
 	 * Create files/directories.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since 3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
 	 */
 	private static function create_files() {
 		// Bypass if filesystem is read-only and/or non-standard upload system is used.
