@@ -44,14 +44,6 @@
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	},
-	"autoload-dev": {
-		"exclude-from-classmap": [
-			"plugins/cocart/includes/classes/api/legacy"
-		],
-		"classmap": [
-			"plugins/cocart/includes/classes"
-		]
-	},
 	"repositories": [
 		{
 			"type": "git",
