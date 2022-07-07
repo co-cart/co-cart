@@ -27,7 +27,7 @@ class Autoloader {
 	 * @return boolean
 	 */
 	public static function init() {
-		$autoloader = dirname( __DIR__ ) . '/vendor/autoload_packages.php';
+		$autoloader = dirname( __DIR__ ) . '/vendor/autoload.php';
 
 		if ( ! is_readable( $autoloader ) ) {
 			self::missing_autoloader();

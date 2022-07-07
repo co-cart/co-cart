@@ -12,7 +12,7 @@
 
 use CoCart\RestApi\Authentication;
 use CoCart\Logger;
-use \CoCart\RestApi\Products\DateTime as ProductDateTime;
+use CoCart\ProductsAPI\DateTime as ProductDateTime;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

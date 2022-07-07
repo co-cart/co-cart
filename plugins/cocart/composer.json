@@ -34,7 +34,9 @@
 			"packages/session-api/includes/rest-api"
 		],
 		"psr-4": {
-			"CoCart\\": "src/"
+			"CoCart\\": "src/",
+			"CoCart\\ProductsAPI\\": "packages/products-api/includes/",
+			"CoCart\\SessionAPI\\": "packages/session-api/includes/"
 		}
 	},
 	"require": {
