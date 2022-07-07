@@ -12,8 +12,6 @@ This directory is home to new CoCart class files under the `CoCart` namespace us
 
 Ideally, all the new code for CoCart should consist of classes following the PSR-4 naming and living in this directory, and the code in [the `includes` directory](https://github.com/co-cart/cocart/tree/dev/plugins/cocart/includes/README.md) should receive the minimum amount of changes required for bug fixing. This will not always be possible but that should be the rule of thumb.
 
-A [PSR-11](https://www.php-fig.org/psr/psr-11/) container is in place for registering and resolving the classes in this directory by using the [dependency injection](https://en.wikipedia.org/wiki/Dependency_injection) pattern. There are tools in place to interact with legacy code (and code outside the `src` directory in general) in a way that makes it easy to write unit tests. 
-
 ## Installing Composer
 
 Composer is used to generate autoload class-maps for the files here. The stable release of CoCart comes with the autoloader, however, if you're running a development version you'll need to use Composer.
