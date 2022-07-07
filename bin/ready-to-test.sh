@@ -35,3 +35,17 @@ output 3 "Cleaning remaining dev files..."
 find ./../cocart -name ".git" -type d -exec rm -rf {} +
 find ./../cocart -name "README.md" -type f -delete
 output 2 "CoCart can now be activated from your WordPress dashboard."
+
+output 4 "Changing directory to wp-content/plugins/cocart..."
+cd "../cocart"
+
+output 3 "Installing Composer..."
+composer install
+
+output 3 "Updating autoloader classmaps..."
+composer dump-autoload
+output 2 "Done!"
+
+output 4 "Returning to developement folder."
+cd -
+output 2 "Done!"

@@ -29,7 +29,9 @@
 			"includes/classes/rest-api/legacy"
 		],
 		"classmap": [
-			"includes/classes/rest-api"
+			"includes/classes/rest-api",
+			"packages/products-api/includes/rest-api",
+			"packages/session-api/includes/rest-api"
 		],
 		"psr-4": {
 			"CoCart\\": "src/"

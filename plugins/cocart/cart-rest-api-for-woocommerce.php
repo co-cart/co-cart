@@ -22,8 +22,13 @@ if ( ! defined( 'COCART_FILE' ) ) {
 	define( 'COCART_FILE', __FILE__ );
 }
 
-// Package loader.
+// Load core packages and the autoloader.
+require __DIR__ . '/src/autoloader.php';
 require __DIR__ . '/src/packages.php';
+
+if ( ! \CoCart\Autoloader::init() ) {
+	return;
+}
 
 \CoCart\Packages::init();
 
