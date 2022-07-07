@@ -12,6 +12,9 @@ npm-debug.log
 Thumbs.db
 
 # Composer
+!/plugins/cocart/composer.json
+!/plugins/cocart/src/
+!/plugins/cocart/vendor/
 /vendor/
 composer.lock
 contributors.html
@@ -45,5 +48,5 @@ contributors.html
 *.sh
 .gitconfig
 *.zip
-*.json
 *.yml
+*.xml
