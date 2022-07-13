@@ -74,5 +74,11 @@
 			"makepot-audit": "Generate langauges/cart-rest-api-for-woocommerce.pot file and run audit",
 			"makepot": "Generate langauges/cart-rest-api-for-woocommerce.pot file"
 		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	}
 }

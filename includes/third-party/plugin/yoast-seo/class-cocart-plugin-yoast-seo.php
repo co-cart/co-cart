@@ -27,7 +27,7 @@ if ( ! class_exists( 'CoCart_Plugin_Yoast_SEO' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'rest_api_init', function () {
-				unregister_rest_field( 'product', 'yoast_head' );
+				//unregister_rest_field( 'product', 'yoast_head' );
 			}, 11 );
 		}
 

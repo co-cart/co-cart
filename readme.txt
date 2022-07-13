@@ -6,7 +6,7 @@ Requires PHP: 7.3
 Tested up to: 6.0
 Stable tag: 3.7.3
 WC requires at least: 4.3
-WC tested up to: 6.6
+WC tested up to: 6.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -359,6 +359,20 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.7.4 - 13th July, 2022 =
+
+This minor release is related to Yoast SEO support.
+
+### Tweaks
+
+* Unlocked a change made in **v3.4.0** by un-registering the rest field `yoast_head` for the Products API.
+
+Originally it was to keep the JSON response valid because a bug at the time was causing the response to not return correctly. It was also to increase the performance of the response as Yoast SEO returns the same data twice just in a different format. Now the issue appears to be gone and recent feedback suggested this should be left on by default.
+
+Other improvements for supporting third party plugins are in the works.
+
+If you want to discuss supporting a third party plugin, [start a discussion](https://github.com/co-cart/co-cart/discussions) on the CoCart GitHub repository.
 
 = v3.7.3 - 23rd June, 2022 =
 
