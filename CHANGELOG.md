@@ -3,6 +3,7 @@
 ## v3.7.4 - 13th July, 2022
 
 This minor release is related to Yoast SEO support.
+
 ### Tweaks
 
 * Unlocked a change made in **v3.4.0** by un-registering the rest field `yoast_head` for the Products API.

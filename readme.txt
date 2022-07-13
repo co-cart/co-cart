@@ -679,6 +679,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.3 =
+= 3.7.4 =
 
-* Added `get_session_data()` function to the session handler.
+* This minor release is related to Yoast SEO support.
