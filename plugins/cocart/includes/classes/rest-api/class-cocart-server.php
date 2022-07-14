@@ -72,8 +72,9 @@ class Server {
 		// Cache Control.
 		add_filter( 'rest_pre_serve_request', array( $this, 'cache_control' ), 0, 4 );
 
-		// Sends the cart key to the header.
+		// Sends the cart key and customer ID to the header.
 		add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 20, 1 );
+		add_filter( 'rest_authentication_errors', array( $this, 'cocart_requested_customer_header' ), 20, 1 );
 	} // END __construct()
 
 	/**
@@ -364,6 +365,38 @@ class Server {
 
 		return true;
 	} // END cocart_key_header()
+
+	/**
+	 * Sends the requested customer ID to the header.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param WP_Error|null|true $result WP_Error if authentication error, null if authentication
+	 *                                    method wasn't used, true if authentication succeeded.
+	 *
+	 * @return WP_Error|true $result WP_Error if authentication error, true if authentication succeeded.
+	 */
+	public function cocart_requested_customer_header( $result ) {
+		if ( ! empty( $result ) ) {
+			return $result;
+		}
+
+		// Check that the CoCart session handler has loaded.
+		if ( ! class_exists( 'CoCart\Session\Handler' ) || ! WC()->session instanceof Handler ) {
+			return $result;
+		}
+
+		$customer_id = WC()->session->get_requested_customer();
+
+		// Send customer ID in the header if it's not empty or ZERO.
+		if ( ! empty( $customer_id ) && '0' !== $customer_id ) {
+			rest_get_server()->send_header( 'CoCart-API-Customer', $customer_id );
+		}
+
+		return true;
+	} // END cocart_requested_customer_header()
 
 	/**
 	 * Helps prevent certain routes from being added to browser cache.
