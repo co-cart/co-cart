@@ -2,7 +2,7 @@
 /**
  * This file is designed to be used to load as package NOT a WP plugin!
  *
- * @version 4.0.0-alpha.2
+ * @version 4.0.0-alpha.3
  * @package CoCart
  */
 
@@ -14,6 +14,13 @@ if ( version_compare( PHP_VERSION, '7.3', '<' ) ) {
 
 if ( ! defined( 'COCART_FILE' ) ) {
 	define( 'COCART_FILE', __FILE__ );
+}
+
+// Load the autoloader.
+require __DIR__ . '/src/autoloader.php';
+
+if ( ! CoCart\Autoloader::init() ) {
+	return;
 }
 
 // Include the main CoCart class.
@@ -33,7 +40,7 @@ if ( ! function_exists( 'CoCart' ) ) {
 	 * Initialize CoCart.
 	 */
 	function CoCart() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-		return \CoCart\Core::init();
+		return CoCart\Core::init();
 	}
 
 	CoCart();

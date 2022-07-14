@@ -43,7 +43,7 @@ class LoadCart {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Deprecated this function.
+	 * @deprecated 4.0.0 No replacement.
 	 * @version 4.0.0
 	 *
 	 * @param string $cart_key Requested cart key.
@@ -70,9 +70,11 @@ class LoadCart {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.0 Introduced
-	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
-	 * @version 4.0.0
+	 * @since      2.1.0 Introduced
+	 * @deprecated 3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @version    4.0.0
+	 *
+	 * @see cocart_task_clear_carts()
 	 */
 	public static function clear_carts() {
 		_deprecated_function( __FUNCTION__, '3.1.2', 'cocart_task_clear_carts' );
@@ -87,9 +89,11 @@ class LoadCart {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.0 Introduced
-	 * @since   3.1.2 Deprecated this function in replacement with a global function instead.
-	 * @version 4.0.0
+	 * @since      2.1.0 Introduced
+	 * @deprecated 3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @version    4.0.0
+	 *
+	 * @see cocart_task_cleanup_carts()
 	 */
 	public static function cleanup_carts() {
 		_deprecated_function( __FUNCTION__, '3.1.2', 'cocart_task_cleanup_carts' );
