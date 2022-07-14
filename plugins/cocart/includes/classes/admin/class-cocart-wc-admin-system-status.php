@@ -118,6 +118,14 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'mark_icon' => '',
 			);
 
+			$data['cocart_sessions'] = array(
+				'columns' => array(
+					__( 'Cart Sessions', 'cart-rest-api-for-woocommerce' ),
+					__( 'Cart Count', 'cart-rest-api-for-woocommerce' ),
+				),
+				'type'    => 'titles',
+			);
+
 			$data['cocart_carts_in_session'] = array(
 				'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
 				'label'     => esc_html__( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
@@ -168,24 +176,24 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			);
 
 			$data['cocart_carts_source_headless'] = array(
-				'name'      => _x( 'Carts Source (by CoCart)', 'label that indicates the number of carts created via CoCart API', 'cart-rest-api-for-woocommerce' ),
-				'label'     => esc_html__( 'Carts Source (by CoCart)', 'cart-rest-api-for-woocommerce' ),
+				'name'      => sprintf( _x( 'Carts Created (%s)', 'label that indicates the number of carts created via CoCart REST API', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by CoCart', 'cart-rest-api-for-woocommerce' ) ),
+				'label'     => sprintf( esc_html__( 'Carts Created (%s)', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by CoCart', 'cart-rest-api-for-woocommerce' ) ),
 				'note'      => self::carts_source_headless(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
 
 			$data['cocart_carts_source_web'] = array(
-				'name'      => _x( 'Carts Source (by Web)', 'label that indicates the number of carts created via the web', 'cart-rest-api-for-woocommerce' ),
-				'label'     => esc_html__( 'Carts Source (by Web)', 'cart-rest-api-for-woocommerce' ),
+				'name'      => sprintf( _x( 'Carts Created (%s)', 'label that indicates the number of carts created via the web', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Web', 'cart-rest-api-for-woocommerce' ) ),
+				'label'     => sprintf( esc_html__( 'Carts Created (%s)', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Web', 'cart-rest-api-for-woocommerce' ) ),
 				'note'      => self::carts_source_web(),
 				'mark'      => '',
 				'mark_icon' => '',
 			);
 
 			$data['cocart_carts_source_other'] = array(
-				'name'      => _x( 'Carts Source (by Other)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ),
-				'label'     => esc_html__( 'Carts Source (by Other)', 'cart-rest-api-for-woocommerce' ),
+				'name'      => sprintf( _x( 'Carts Created (%s)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Other', 'cart-rest-api-for-woocommerce' ) ),
+				'label'     => sprintf( esc_html__( 'Carts Created (%s)', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Other', 'cart-rest-api-for-woocommerce' ) ),
 				'note'      => self::carts_source_other(),
 				'tip'       => sprintf(
 					/* translators: 1: CoCart, 2: WooCommerce */
@@ -196,6 +204,39 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				'mark'      => '',
 				'mark_icon' => '',
 			);
+
+			$data['cocart_packages'] = array(
+				'columns' => array(
+					__( 'CoCart Package', 'cart-rest-api-for-woocommerce' ),
+					__( 'Version & Directory', 'cart-rest-api-for-woocommerce' ),
+				),
+				'type'    => 'titles',
+			);
+
+			// Cycle each package.
+			foreach ( Packages::get_packages() as $package_name => $package ) {
+
+				// Checks if the package is a default package.
+				if ( in_array( $package_name, Packages::get_default_packages() ) ) {
+					$mark      = 'yes';
+					$mark_icon = 'lock';
+				} else {
+					$mark      = 'optional';
+					$mark_icon = 'plus';
+				}
+
+				// Check the package exists before displaying package data.
+				if ( class_exists( $package ) ) {
+					$data[ $package_name ] = array(
+						'name'      => sprintf( esc_html( '%s package', 'cart-rest-api-for-woocommerce' ), $package::get_name() ),
+						'label'     => sprintf( esc_html( '%s package', 'cart-rest-api-for-woocommerce' ), $package::get_name() ),
+						'note'      => esc_html( $package::get_version() ) . ' <code class="private">' . $package::get_path() . '</code>',
+						'tip'       => sprintf( esc_html__( 'The %s package running on your site.', 'cart-rest-api-for-woocommerce' ), $package::get_name() ),
+						'mark'      => $mark,
+						'mark_icon' => $mark_icon,
+					);
+				}
+			}
 
 			return $data;
 		} // END get_system_status_data()
