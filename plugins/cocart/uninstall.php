@@ -28,7 +28,7 @@ wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'woocommerce_
  */
 if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 	// Drop Tables.
-	require_once dirname( __FILE__ ) . '/includes/class-cocart-install.php';
+	require_once dirname( __FILE__ ) . '/includes/classes/class-cocart-install.php';
 	CoCart\Install::drop_tables();
 
 	// Delete options.
@@ -42,7 +42,7 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 		$wpdb->query( "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE 'cocart\_%';" );
 	}
 
-	require_once dirname( __FILE__ ) . '/includes/class-cocart-helpers.php';
+	require_once dirname( __FILE__ ) . '/includes/classes/class-cocart-helpers.php';
 
 	// Delete WooCommerce Admin Notes.
 	if ( CoCart\Helpers::is_wc_admin_enabled() ) {
