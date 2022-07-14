@@ -250,7 +250,7 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since 4.0.0
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @return string Cart key.
 	 */
@@ -263,7 +263,7 @@ class Handler extends Session {
 		}
 
 		// Are we requesting via custom header?
-		if ( ! empty( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
@@ -273,13 +273,35 @@ class Handler extends Session {
 	} // END get_requested_cart()
 
 	/**
+	 * Get requested customer.
+	 *
+	 * Returns the customer ID via the custom header.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return string Customer ID.
+	 */
+	public function get_requested_customer() {
+		$customer_id = ''; // Leave blank to start.
+
+		if ( ! empty( $_SERVER['HTTP_COCART_API_CUSTOMER'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$customer_id = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CUSTOMER'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		return $customer_id;
+	} // END get_requested_customer()
+
+	/**
 	 * Is Cookie support enabled?
 	 *
 	 * Determines if a cookie should manage the cart for customers.
 	 *
 	 * @access public
 	 *
-	 * @since 4.0.0 Deprecated
+	 * @since 2.1.0 Introduced.
+	 * @deprecated 4.0.0 No replacement.
 	 *
 	 * @return bool
 	 */
@@ -580,7 +602,7 @@ class Handler extends Session {
 			/**
 			 * Deprecated filter: `cocart_empty_cart_expiration` as it is no longer needed.
 			 *
-			 * @since 2.7.2 Deprecated.
+			 * @deprecated 2.7.2 No replacement.
 			 */
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
 				/* translators: %s: filter name */
@@ -818,7 +840,7 @@ class Handler extends Session {
 	 * @return string|array
 	 */
 	public function get_session( $cart_key, $default = false ) {
-		return $this->get_cart( $cart_key, $default );
+		return $this->get_cart( $cart_key, '', $default );
 	} // END get_session()
 
 	/**
@@ -1076,5 +1098,65 @@ class Handler extends Session {
 	public function get_table_name() {
 		return $this->_table;
 	} // END get_table_name()
+
+	/**
+	 * Get the cart key by looking up the user ID.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param int $customer_id The customer ID.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return bool|string Returns the cart key or false if not found.
+	 */
+	protected function get_cart_key_by_user_id( int $customer_id = 0 ) {
+		if ( $customer_id > 0 ) {
+			return false;
+		}
+
+		$cart_key = $wpdb->get_var( $wpdb->prepare( "SELECT cart_key FROM $this->_table WHERE cart_customer = %s", $customer_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		if ( is_null( $cart_key ) ) {
+			return false;
+		}
+
+		return $cart_key;
+	} // END get_cart_key_by_user_id()
+
+
+	/**
+	 * Updates the customer ID to the cart.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param int $customer_id The customer ID.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 */
+	protected function update_customer_id( int $customer_id = null ) {
+		global $wpdb;
+
+		if ( empty( $customer_id ) ) {
+			$customer_id = $this->_customer_id;
+		}
+
+		// If customer ID is not an integer then we can't update the cart.
+		if ( ! is_int( $customer_id ) ) {
+			return;
+		}
+
+		$wpdb->update(
+			$this->_table,
+			array( 'cart_customer' => $customer_id ),
+			array( 'cart_key' => $this->_cart_key ),
+			array( '%d' ),
+			array( '%s' )
+		);
+	} // END update_customer_id()
 
 } // END class

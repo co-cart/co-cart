@@ -283,7 +283,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since 4.0.0 Deprecated
+	 * @since 2.1.0 Introduced.
+	 * @deprecated 4.0.0 No replacement.
 	 *
 	 * @return bool
 	 */
@@ -582,7 +583,7 @@ class Handler extends Session {
 			/**
 			 * Deprecated filter: `cocart_empty_cart_expiration` as it is no longer needed.
 			 *
-			 * @since 2.7.2 Deprecated.
+			 * @deprecated 2.7.2 No replacement.
 			 */
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
 				/* translators: %s: filter name */

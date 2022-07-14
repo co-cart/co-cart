@@ -291,7 +291,7 @@ class Authentication {
 		}
 
 		if ( is_wp_error( $this->user ) ) {
-			$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again. Authentication may also only work on a secure connection.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+			$this->set_error( new \WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again. Authentication may also only work on a secure connection.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
 
 			return false;
 		}
@@ -386,6 +386,7 @@ class Authentication {
 				'X-WP-TotalPages',
 				'Link',
 				'CoCart-API-Cart-Key',
+				'CoCart-API-Customer',
 			);
 
 			header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );

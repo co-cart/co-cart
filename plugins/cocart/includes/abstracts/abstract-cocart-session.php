@@ -51,6 +51,19 @@ abstract class Session extends \WC_Session {
 	}
 
 	/**
+	 * Set cart key.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $cart_key Cart key.
+	 */
+	public function set_cart_key( $cart_key ) {
+		$this->_cart_key = $cart_key;
+	}
+
+	/**
 	 * Get customer ID.
 	 *
 	 * @access public
