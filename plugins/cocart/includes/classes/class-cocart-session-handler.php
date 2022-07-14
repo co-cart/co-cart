@@ -106,8 +106,12 @@ class Handler extends Session {
 		$current_user_id = strval( get_current_user_id() );
 
 		if ( Authentication::is_rest_api_request() ) {
+			$this->_cart_source = 'cocart';
+
 			$this->init_session_without_cookie( $current_user_id );
 		} else {
+			$this->_cart_source = 'woocommerce';
+
 			$this->init_session_cookie();
 			add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		}
@@ -126,20 +130,6 @@ class Handler extends Session {
 		 */
 		if ( ! Authentication::is_rest_api_request() && is_numeric( $current_user_id ) && $current_user_id < 1 ) {
 			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
-		}
-
-		/**
-		 * Identifies the source of the cart.
-		 *
-		 * REST API is "cocart"
-		 * Native frontend is "woocommerce"
-		 *
-		 * @since 3.0.0
-		 */
-		if ( Authentication::is_rest_api_request() ) {
-			$this->_cart_source = 'cocart';
-		} else {
-			$this->_cart_source = 'woocommerce';
 		}
 	} // END init()
 
