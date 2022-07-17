@@ -35,7 +35,7 @@ abstract class Session extends \WC_Session {
 	 *
 	 * @access protected
 	 *
-	 * @var string $_cart_user_id user ID
+	 * @var int $_cart_user_id user ID
 	 */
 	protected $_cart_user_id;
 
@@ -44,7 +44,7 @@ abstract class Session extends \WC_Session {
 	 *
 	 * @access protected
 	 *
-	 * @var string $_customer_id customer ID
+	 * @var int $_customer_id customer ID
 	 */
 	protected $_customer_id;
 
@@ -81,7 +81,8 @@ abstract class Session extends \WC_Session {
 	 * Stores cart hash.
 	 *
 	 * @access protected
-	 * @var    string $_cart_hash cart hash
+	 *
+	 * @var string $_cart_hash cart hash
 	 */
 	protected $_cart_hash;
 
@@ -115,6 +116,7 @@ abstract class Session extends \WC_Session {
 	 * Get customer ID.
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function get_customer_id() {
@@ -125,7 +127,8 @@ abstract class Session extends \WC_Session {
 	 * Set customer ID.
 	 *
 	 * @access public
-	 * @param  string $customer_id Customer ID.
+	 *
+	 * @param string $customer_id Customer ID.
 	 */
 	public function set_customer_id( $customer_id ) {
 		$this->_customer_id = $customer_id;
@@ -135,6 +138,7 @@ abstract class Session extends \WC_Session {
 	 * Get session data
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_data() {
@@ -145,6 +149,7 @@ abstract class Session extends \WC_Session {
 	 * Get cart hash
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function get_cart_hash() {

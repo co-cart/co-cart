@@ -1,9 +1,10 @@
 <?php
 /**
- * Handles cart data in cache before totals are calculated.
+ * REST API:Cart Cache class.
  *
  * @author  Sébastien Dumont
- * @package CoCart\RestApi
+ * @package CoCart
+ * @subpackage RestApi
  * @since   3.1.0
  * @version 4.0.0
  */
@@ -15,7 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Cart Cache class
+ * Cart Cache for Cart REST API.
+ *
+ * This handles the cart data in cache before the totals are calculated.
+ *
+ * @since 3.1.0
  */
 class CartCache {
 

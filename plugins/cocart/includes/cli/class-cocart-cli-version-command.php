@@ -1,6 +1,6 @@
 <?php
 /**
- * Returns the version of CoCart via CLI.
+ * CoCart_CLI_Version_Command class file.
  *
  * @author  Sébastien Dumont
  * @package CoCart\CLI
@@ -13,13 +13,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Returns the version of CoCart via CLI.
+ *
+ * @version 4.0.0
+ * @package CoCart\CLI
+ */
 class CoCart_CLI_Version_Command {
 
 	/**
 	 * Registers the version commands.
+	 *
+	 * @access public
+	 *
+	 * @static
 	 */
 	public static function register_commands() {
-		WP_CLI::add_command(
+		\WP_CLI::add_command(
 			'cocart version', // Command.
 			array( __CLASS__, 'version' ), // Callback.
 			array( // Arguments.
@@ -27,7 +37,7 @@ class CoCart_CLI_Version_Command {
 			)
 		);
 
-		WP_CLI::add_command(
+		\WP_CLI::add_command(
 			'cocart db-version', // Command.
 			array( __CLASS__, 'db_version' ), // Callback.
 			array( // Arguments.
@@ -40,7 +50,9 @@ class CoCart_CLI_Version_Command {
 	 * Returns the version of CoCart.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public static function version() {
@@ -50,8 +62,8 @@ class CoCart_CLI_Version_Command {
 
 		$current_version = get_option( 'cocart_version' );
 
-		WP_CLI::log(
-			WP_CLI::colorize(
+		\WP_CLI::log(
+			\WP_CLI::colorize(
 				/* translators: 2: Version of CoCart */
 				'%y' . sprintf( __( '%1$s Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $current_version )
 			)
@@ -62,7 +74,9 @@ class CoCart_CLI_Version_Command {
 	 * Returns the database version of CoCart.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public static function db_version() {
@@ -72,8 +86,8 @@ class CoCart_CLI_Version_Command {
 
 		$db_version = get_option( 'cocart_db_version' );
 
-		WP_CLI::log(
-			WP_CLI::colorize(
+		\WP_CLI::log(
+			\WP_CLI::colorize(
 				/* translators: 2: Database Version of CoCart */
 				'%y' . sprintf( __( '%1$s Database Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $db_version )
 			)
@@ -81,5 +95,3 @@ class CoCart_CLI_Version_Command {
 	} // END db_version()
 
 } // END class
-
-new CoCart_CLI_Version_Command();

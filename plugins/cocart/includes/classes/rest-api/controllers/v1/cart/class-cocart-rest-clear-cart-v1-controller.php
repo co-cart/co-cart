@@ -55,9 +55,10 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 2.9.3
+	 * @version 4.0.0
 	 *
 	 * @see CoCart_API_Controller::get_response()
+	 * @see Logger::log()
 	 *
 	 * @return WP_Error if failed. or WP_REST_Response if successful.
 	 */
@@ -107,7 +108,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 
 			$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'notice' );
+			CoCart\Logger::log( $message, 'notice' );
 
 			/**
 			 * Filters message about the cart being cleared.
@@ -122,7 +123,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 		} else {
 			$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'error' );
+			CoCart\Logger::log( $message, 'error' );
 
 			/**
 			 * Filters message about the cart failing to clear.

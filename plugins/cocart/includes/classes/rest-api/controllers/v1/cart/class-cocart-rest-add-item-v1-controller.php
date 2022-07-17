@@ -97,7 +97,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		if ( ! $adding_to_cart ) {
 			$message = __( 'This product does not exist!', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'error' );
+			CoCart\Logger::log( $message, 'error' );
 
 			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
 		}

@@ -65,10 +65,11 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 2.7.0
+	 * @version 4.0.0
 	 *
 	 * @see CoCart_Totals_Controller::get_totals()
 	 * @see CoCart_API_Controller::get_response()
+	 * @see Logger::log()
 	 *
 	 * @param array $data
 	 *
@@ -84,7 +85,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 
 		$message = __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' );
 
-		CoCart_Logger::log( $message, 'notice' );
+		CoCart\Logger::log( $message, 'notice' );
 
 		/**
 		 * Filters message about cart totals have been calculated.

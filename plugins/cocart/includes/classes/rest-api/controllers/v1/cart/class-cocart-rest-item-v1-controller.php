@@ -79,6 +79,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 * @since   1.0.0 Introduced.
 	 * @version 2.7.0
 	 *
+	 * @see Logger::log()
+	 *
 	 * @param array $data The request data.
 	 *
 	 * @return WP_Error|WP_REST_Response
@@ -90,7 +92,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 		if ( WC()->cart->is_empty() ) {
 			$message = __( 'No items in cart.', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'error' );
+			CoCart\Logger::log( $message, 'error' );
 
 			/**
 			 * Filters message about no items in cart.
@@ -112,7 +114,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			if ( empty( $current_data ) ) {
 				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
 
-				CoCart_Logger::log( $message, 'error' );
+				CoCart\Logger::log( $message, 'error' );
 
 				/**
 				 * Filters message about item not in cart.
@@ -147,7 +149,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			} else {
 				$message = __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' );
 
-				CoCart_Logger::log( $message, 'error' );
+				CoCart\Logger::log( $message, 'error' );
 
 				/**
 				 * Filters message about can not remove item.
@@ -163,7 +165,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'error' );
+			CoCart\Logger::log( $message, 'error' );
 
 			/**
 			 * Filters message about cart item key required.
@@ -217,7 +219,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			} else {
 				$message = __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' );
 
-				CoCart_Logger::log( $message, 'error' );
+				CoCart\Logger::log( $message, 'error' );
 
 				/**
 				 * Filters message about can not restore item.
@@ -233,7 +235,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'error' );
+			CoCart\Logger::log( $message, 'error' );
 
 			/**
 			 * Filters message about cart item key required.
@@ -279,7 +281,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			if ( empty( $current_data ) ) {
 				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
 
-				CoCart_Logger::log( $message, 'error' );
+				CoCart\Logger::log( $message, 'error' );
 
 				/**
 				 * Filters message about cart item key required.
@@ -333,7 +335,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				/* translators: %s Product name. */
 				$message = sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $current_data['data']->get_name() );
 
-				CoCart_Logger::log( $message, 'error' );
+				CoCart\Logger::log( $message, 'error' );
 
 				/**
 				 * Filters message about product not being allowed to increase quantity.
@@ -369,7 +371,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				} else {
 					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
 
-					CoCart_Logger::log( $message, 'error' );
+					CoCart\Logger::log( $message, 'error' );
 
 					/**
 					 * Filters message about can not update item.
@@ -420,7 +422,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 		} else {
 			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'error' );
+			CoCart\Logger::log( $message, 'error' );
 
 			/**
 			 * Filters message about cart item key required.

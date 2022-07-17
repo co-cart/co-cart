@@ -542,8 +542,8 @@ class Install {
 		 * display a link to the Getting Started page.
 		 */
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			WP_CLI::log(
-				WP_CLI::colorize(
+			\WP_CLI::log(
+				\WP_CLI::colorize(
 					/* translators: %1$s: message, %2$s: URL, %3$s: CoCart */
 					'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, 'CoCart' ) . '%n'
 				)
