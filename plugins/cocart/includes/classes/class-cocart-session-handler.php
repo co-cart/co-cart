@@ -41,30 +41,6 @@ class Handler extends Session {
 	protected $_cookie;
 
 	/**
-	 * Stores cart expiry.
-	 *
-	 * @access protected
-	 * @var    string cart due to expire timestamp
-	 */
-	protected $_cart_expiring;
-
-	/**
-	 * Stores cart due to expire timestamp.
-	 *
-	 * @access protected
-	 * @var    string cart expiration timestamp
-	 */
-	protected $_cart_expiration;
-
-	/**
-	 * Stores cart source.
-	 *
-	 * @since 3.0.0 Introduced.
-	 * @var   string cart source
-	 */
-	protected $_cart_source;
-
-	/**
 	 * True when the cookie exists.
 	 *
 	 * @access protected

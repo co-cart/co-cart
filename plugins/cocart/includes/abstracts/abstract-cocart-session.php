@@ -1,6 +1,6 @@
 <?php
 /**
- * Handle data for the current customers session.
+ * Handles data for the cart session.
  *
  * Extends WC_Session and added a few tweaks to support our features.
  *
@@ -25,9 +25,57 @@ abstract class Session extends \WC_Session {
 	 * Stores cart key.
 	 *
 	 * @access protected
-	 * @var    string $_cart_key cart key
+	 *
+	 * @var string $_cart_key cart key
 	 */
 	protected $_cart_key;
+
+	/**
+	 * Stores user ID.
+	 *
+	 * @access protected
+	 *
+	 * @var string $_cart_user_id user ID
+	 */
+	protected $_cart_user_id;
+
+	/**
+	 * Stores customer ID.
+	 *
+	 * @access protected
+	 *
+	 * @var string $_customer_id customer ID
+	 */
+	protected $_customer_id;
+
+	/**
+	 * Stores cart expiry.
+	 *
+	 * @access protected
+	 *
+	 * @var string cart due to expire timestamp
+	 */
+	protected $_cart_expiring;
+
+	/**
+	 * Stores cart due to expire timestamp.
+	 *
+	 * @access protected
+	 *
+	 * @var string cart expiration timestamp
+	 */
+	protected $_cart_expiration;
+
+	/**
+	 * Stores cart source.
+	 *
+	 * @access protected
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @var string cart source
+	 */
+	protected $_cart_source;
 
 	/**
 	 * Stores cart hash.
