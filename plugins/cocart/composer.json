@@ -30,6 +30,7 @@
 		],
 		"classmap": [
 			"includes/classes/rest-api",
+			"packages/admin/includes",
 			"packages/compatibility/includes/modules",
 			"packages/products-api/includes/rest-api",
 			"packages/session-api/includes/rest-api",
@@ -37,6 +38,7 @@
 		],
 		"psr-4": {
 			"CoCart\\": "src/",
+			"CoCart\\Admin\\": "packages/admin/includes/",
 			"CoCart\\Compatibility\\Modules\\": "packages/compatibility/includes/modules/",
 			"CoCart\\ProductsAPI\\": "packages/products-api/includes/",
 			"CoCart\\SessionAPI\\": "packages/session-api/includes/",
