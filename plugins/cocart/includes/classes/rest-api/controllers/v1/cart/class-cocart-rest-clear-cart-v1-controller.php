@@ -3,10 +3,9 @@
  * REST API: CoCart_Clear_Cart_Controller class.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v1
+ * @package CoCart\RESTAPI\v1
  * @since   2.1.0 Introduced.
  * @version 2.9.3
- * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,8 +32,9 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 * Register routes.
 	 *
 	 * @access public
-	 * @since  2.1.0 Introduced.
-	 * @since  2.5.0 Added permission callback set to return true due to a change to the REST API in WordPress v5.5
+	 *
+	 * @since 2.1.0 Introduced.
+	 * @since 2.5.0 Added permission callback set to return true due to a change to the REST API in WordPress v5.5
 	 */
 	public function register_routes() {
 		// Clear Cart - cocart/v1/clear (POST)
@@ -52,13 +52,14 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	/**
 	 * Clear cart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   1.0.0 Introduced.
 	 * @version 2.9.3
 	 *
 	 * @see CoCart_API_Controller::get_response()
 	 *
-	 * @return WP_Error if failed. or WP_REST_Response if succesful.
+	 * @return WP_Error if failed. or WP_REST_Response if successful.
 	 */
 	public function clear_cart() {
 		do_action( 'cocart_before_cart_emptied' );
@@ -112,6 +113,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			 * Filters message about the cart being cleared.
 			 *
 			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_cart_cleared_message', $message );
@@ -126,6 +128,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			 * Filters message about the cart failing to clear.
 			 *
 			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_clear_cart_failed_message', $message );

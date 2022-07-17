@@ -1,15 +1,11 @@
 <?php
 /**
- * CoCart - Totals controller
+ * REST API: CoCart_Totals_Controller class.
  *
- * Handles the request to get the totals of the cart with /totals endpoint.
- *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v1
- * @since    2.1.0
- * @version  2.7.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\RESTAPI\v1
+ * @since   2.1.0 Introduced.
+ * @version 2.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Totals controller class.
  *
- * @package CoCart\API
+ * Handles the request to get the totals of the cart with /totals endpoint.
+ *
+ * @since 2.1.0 Introduced.
  */
 class CoCart_Totals_Controller extends CoCart_API_Controller {
 
@@ -33,8 +31,9 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 2.7.0
 	 */
 	public function register_routes() {
@@ -62,12 +61,16 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns all calculated totals.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.0.0
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.1.2
-	 * @param   array $data
-	 * @return  WP_REST_Response
+	 *
+	 * @param array $data Data from the request.
+	 *
+	 * @return WP_REST_Response Response data.
 	 */
 	public static function get_totals( $data = array() ) {
 		if ( ! empty( WC()->cart->totals ) ) {
