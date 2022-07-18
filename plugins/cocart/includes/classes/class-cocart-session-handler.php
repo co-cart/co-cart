@@ -36,7 +36,8 @@ class Handler extends Session {
 	 * Cookie name used for the cart.
 	 *
 	 * @access protected
-	 * @var    string cookie name
+	 *
+	 * @var string cookie name
 	 */
 	protected $_cookie;
 
@@ -44,7 +45,8 @@ class Handler extends Session {
 	 * True when the cookie exists.
 	 *
 	 * @access protected
-	 * @var    bool Based on whether a cookie exists.
+	 *
+	 * @var bool Based on whether a cookie exists.
 	 */
 	protected $_has_cookie = false;
 
@@ -52,7 +54,8 @@ class Handler extends Session {
 	 * Table name for cart data.
 	 *
 	 * @access protected
-	 * @var    string Custom cart table name
+	 *
+	 * @var string Custom cart table name
 	 */
 	protected $_table;
 
@@ -104,8 +107,8 @@ class Handler extends Session {
 		 * @since   4.0.0 No longer needed for API requests.
 		 * @version 4.0.0
 		 */
-		if ( ! Authentication::is_rest_api_request() && is_numeric( $current_user_id ) && $current_user_id < 1 ) {
-			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
+		if ( ! Authentication::is_rest_api_request() && ! is_user_logged_in() ) {
+			add_filter( 'nonce_user_logged_out', array( $this, 'maybe_update_nonce_user_logged_out' ), 10, 2 );
 		}
 	} // END init()
 
@@ -164,6 +167,34 @@ class Handler extends Session {
 			$this->_data        = $this->get_cart_data();
 		}
 	} // END init_session_cookie()
+
+	/**
+	 * Checks if session cookie is expired, or belongs to a logged out user.
+	 *
+	 * @access private
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return bool Whether session cookie is valid.
+	 */
+	private function is_session_cookie_valid() {
+		// If session is expired, session cookie is invalid.
+		if ( time() > $this->_cart_expiration ) {
+			return false;
+		}
+
+		// If user has logged out, session cookie is invalid.
+		if ( ! is_user_logged_in() && ! $this->is_customer_guest( $this->_cart_user_id ) ) {
+			return false;
+		}
+
+		// Session from a different user is not valid. (Although from a guest user will be valid)
+		if ( is_user_logged_in() && ! $this->is_customer_guest( $this->_cart_user_id ) && strval( get_current_user_id() ) !== $this->_cart_user_id ) {
+			return false;
+		}
+
+		return true;
+	} // END is_session_cookie_valid()
 
 	/**
 	 * Setup cart without cookie.
@@ -288,7 +319,7 @@ class Handler extends Session {
 	} // END is_cookie_supported()
 
 	/**
-	 * Sets the cart cookie on-demand.
+	 * Sets the cart cookie on-demand (usually after adding an item to the cart).
 	 *
 	 * Warning: Cookies will only be set if this is called before the headers are sent.
 	 *
@@ -318,6 +349,8 @@ class Handler extends Session {
 
 	/**
 	 * Backwards compatibility function for setting cart cookie.
+	 *
+	 * Since the cookie name (as of WooCommerce 2.1) is prepended with wp, cache systems like batcache will not cache pages when set.
 	 *
 	 * @access public
 	 *
@@ -390,13 +423,13 @@ class Handler extends Session {
 	 */
 	public function has_session() {
 		// Check cookie first for native cart.
-		if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
+		if ( isset( $_COOKIE[ $this->_cookie ] ) || $this->_has_cookie ) {
 			return true;
 		}
 
 		// Current user ID. If value is above zero then user is logged in.
 		$current_user_id = strval( get_current_user_id() );
-		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
+		if ( is_user_logged_in() || is_numeric( $current_user_id ) && $current_user_id > 0 ) {
 			return true;
 		}
 
@@ -461,10 +494,45 @@ class Handler extends Session {
 		require_once ABSPATH . 'wp-includes/class-phpass.php';
 
 		$hasher      = new \PasswordHash( 8, false );
-		$customer_id = md5( $hasher->get_random_bytes( 32 ) );
+		$customer_id = apply_filters( 'cocart_' . __FUNCTION__, md5( $hasher->get_random_bytes( 32 ) ), $hasher );
 
 		return $customer_id;
 	} // END generate_key()
+
+	/**
+	 * Checks if this is an auto-generated customer ID.
+	 *
+	 * @access private
+	 *
+	 * @param string|int $customer_id Customer ID to check.
+	 *
+	 * @return bool Whether customer ID is randomly generated.
+	 */
+	private function is_customer_guest( $customer_id ) {
+		$customer_id = strval( $customer_id );
+
+		if ( empty( $customer_id ) ) {
+			return true;
+		}
+
+		// Almost all random $customer_ids will have some letters in it, while all actual ids will be integers.
+		if ( strval( (int) $customer_id ) !== $customer_id ) {
+			return true;
+		}
+
+		// Performance hack to potentially save a DB query, when same user as $customer_id is logged in.
+		if ( is_user_logged_in() && strval( get_current_user_id() ) === $customer_id ) {
+			return false;
+		} else {
+			$customer = new WC_Customer( $customer_id );
+
+			if ( 0 === $customer->get_id() ) {
+				return true;
+			}
+		}
+
+		return false;
+	} // END is_customer_guest()
 
 	/**
 	 * Get session unique ID for requests if session is initialized or user ID if logged in.
@@ -697,7 +765,7 @@ class Handler extends Session {
 	 * @since 3.0.0 Introduced.
 	 */
 	public function destroy_cookie() {
-		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
+		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), true );
 	} // END destroy_cookie()
 
 	/**
@@ -706,7 +774,7 @@ class Handler extends Session {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.0.0
+	 * @version 4.0.0
 	 */
 	public function forget_cart() {
 		$this->destroy_cookie();
@@ -714,9 +782,10 @@ class Handler extends Session {
 		// Empty cart.
 		wc_empty_cart();
 
-		$this->_data        = array();
-		$this->_cart_key    = $this->generate_key();
-		$this->_customer_id = null;
+		$this->_data         = array();
+		$this->_cart_key     = $this->generate_key();
+		$this->_cart_user_id = null;
+		$this->_customer_id  = null;
 	} // END forget_cart()
 
 	/**
@@ -732,19 +801,42 @@ class Handler extends Session {
 	} // END forget_session()
 
 	/**
-	 * When a user is logged out, ensure they have a unique nonce by using the customer ID.
+	 * When a user is logged out, ensure they have a unique nonce by using the user ID.
 	 *
 	 * @access public
 	 *
-	 * @since 2.1.2 Introduced.
+	 * @since      2.1.2 Introduced.
+	 * @deprecated 4.0.0
+	 * @version    4.0.0
 	 *
 	 * @param int $uid User ID.
 	 *
 	 * @return string
 	 */
 	public function nonce_user_logged_out( $uid ) {
-		return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
+		cocart_deprecated_function( 'CoCart\Session\Handler::nonce_user_logged_out', '4.0', 'CoCart\Session\Handler::maybe_update_nonce_user_logged_out' );
+
+		return $this->has_session() && $this->_cart_user_id ? $this->_cart_user_id : $uid;
 	} // END nonce_user_logged_out()
+
+	/**
+	 * When a user is logged out, ensure they have a unique nonce to manage cart and more using the customer/session ID.
+	 * This filter runs everything `wp_verify_nonce()` and `wp_create_nonce()` gets called.
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param int    $uid    User ID.
+	 * @param string $action The nonce action.
+	 *
+	 * @return int|string
+	 */
+	public function maybe_update_nonce_user_logged_out( $uid, $action ) {
+		if ( \Automattic\WooCommerce\Utilities\StringUtil::starts_with( $action, 'woocommerce' ) ) {
+			return $this->has_session() && $this->_cart_user_id ? $this->_cart_user_id : $uid;
+		}
+
+		return $uid;
+	} // END maybe_update_nonce_user_logged_out()
 
 	/**
 	 * Cleanup cart data from the database and clear caches.
@@ -890,7 +982,7 @@ class Handler extends Session {
 	 * @param string $cart_key        The cart key passed to create the cart.
 	 * @param int    $cart_customer   The customer ID.
 	 * @param array  $cart_value      The cart data.
-	 * @param string $cart_expiration Timestamp of cart expiration.
+	 * @param int    $cart_expiration Timestamp of cart expiration.
 	 * @param string $cart_source     Cart source.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
@@ -916,13 +1008,14 @@ class Handler extends Session {
 			$this->_table,
 			array(
 				'cart_key'      => $cart_key,
-				'cart_customer' => $cart_customer,
+				'cart_user_id'  => (int) $cart_customer,
+				'cart_customer' => (int) $cart_customer,
 				'cart_value'    => maybe_serialize( $cart_value ),
 				'cart_created'  => time(),
-				'cart_expiry'   => $cart_expiration,
+				'cart_expiry'   => (int) $cart_expiration,
 				'cart_source'   => $cart_source,
 			),
-			array( '%s', '%d', '%s', '%d', '%d', '%s' )
+			array( '%s', '%d', '%d', '%s', '%d', '%d', '%s' )
 		);
 
 		// Returns the cart key if cart successfully created.
@@ -947,7 +1040,7 @@ class Handler extends Session {
 			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
-				'cart_expiry' => $this->_cart_expiration,
+				'cart_expiry' => (int) $this->_cart_expiration,
 			),
 			array( 'cart_key' => $cart_key ),
 			array( '%s', '%d' ),
@@ -1033,10 +1126,13 @@ class Handler extends Session {
 	 * @access protected
 	 *
 	 * @since 2.7.2 Introduced.
+	 * @deprecated 4.0.0 No longer used.
 	 *
 	 * @return boolean
 	 */
 	protected function use_httponly() {
+		cocart_deprecated_function( 'CoCart\Session\Handler::use_httponly', '4.0' );
+
 		$httponly = true;
 
 		if ( Authentication::is_rest_api_request() ) {
@@ -1082,18 +1178,18 @@ class Handler extends Session {
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @param int $customer_id The customer ID.
+	 * @param int $user_id The user ID.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return bool|string Returns the cart key or false if not found.
 	 */
-	protected function get_cart_key_by_user_id( int $customer_id = 0 ) {
-		if ( $customer_id > 0 ) {
+	protected function get_cart_key_by_user_id( $user_id = 0 ) {
+		if ( ! is_int( $user_id ) || $user_id === 0 ) {
 			return false;
 		}
 
-		$cart_key = $wpdb->get_var( $wpdb->prepare( "SELECT cart_key FROM $this->_table WHERE cart_customer = %s", $customer_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$cart_key = $wpdb->get_var( $wpdb->prepare( "SELECT cart_key FROM $this->_table WHERE cart_user_id = %d", $user_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( is_null( $cart_key ) ) {
 			return false;
@@ -1101,6 +1197,34 @@ class Handler extends Session {
 
 		return $cart_key;
 	} // END get_cart_key_by_user_id()
+
+	/**
+	 * Get the cart key by looking up the customer ID.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param int $customer_id The customer ID.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return bool|string Returns the cart key or false if not found.
+	 */
+	protected function get_cart_key_for_customer_id( $customer_id = 0 ) {
+		if ( ! is_int( $customer_id ) || $customer_id === 0 ) {
+			return false;
+		}
+
+		$cart_key = $wpdb->get_var( $wpdb->prepare( "SELECT cart_key FROM $this->_table WHERE customer_id = %d", $customer_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		if ( is_null( $cart_key ) ) {
+			return false;
+		}
+
+		return $cart_key;
+	} // END get_cart_key_for_customer_id()
+
 
 
 	/**
