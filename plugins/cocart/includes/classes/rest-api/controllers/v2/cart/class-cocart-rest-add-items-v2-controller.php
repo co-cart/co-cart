@@ -126,6 +126,23 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					}
 				}
 
+				/**
+				 * Set customers billing phone number.
+				 *
+				 * @since 4.0.0 Introduced.
+				 */
+				if ( isset( $request['phone'] ) ) {
+					$is_phone = \WC_Validation::is_phone( $request['phone'] );
+
+					if ( $is_phone ) {
+						WC()->customer->set_props(
+							array(
+								'billing_phone' => trim( esc_html( $request['phone'] ) ),
+							)
+						);
+					}
+				}
+
 				// Was it requested to return the items details after being added?
 				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
 					$response = array();
@@ -225,10 +242,13 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	/**
 	 * Get the schema for adding items, conforming to JSON Schema.
 	 *
-	 * @access  public
-	 * @since   3.0.0
-	 * @version 3.1.0
-	 * @return  array
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
+	 * @since   4.0.0 Added phone number
+	 * @version 4.0.0
+	 *
+	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
 		$schema = array(
@@ -251,6 +271,11 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					'description' => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 				),
+				'phone'        => array(
+					'required'    => false,
+					'description' => __( 'Customers billing phone number.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'string',
+				),
 				'return_items' => array(
 					'required'    => false,
 					'default'     => false,
@@ -268,10 +293,13 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	/**
 	 * Get the query params for adding items.
 	 *
-	 * @access  public
-	 * @since   3.0.0
-	 * @version 3.1.0
-	 * @return  array $params
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
+	 * @since   4.0.0 Added phone number parameter.
+	 * @version 4.0.0
+	 *
+	 * @return array $params Query parameters for the endpoint.
 	 */
 	public function get_collection_params() {
 		$controller = new CoCart_REST_Cart_V2_Controller();
@@ -296,6 +324,12 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 			'email'        => array(
 				'required'          => false,
 				'description'       => __( 'Set the customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'phone'        => array(
+				'required'          => false,
+				'description'       => __( 'Set the customers billing phone number.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'validate_callback' => 'rest_validate_request_arg',
 			),

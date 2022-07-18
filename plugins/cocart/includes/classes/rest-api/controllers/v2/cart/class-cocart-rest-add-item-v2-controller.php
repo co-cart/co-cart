@@ -136,6 +136,22 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					}
 				}
 
+				/**
+				 * Set customers billing phone number.
+				 *
+				 * @since 4.0.0 Introduced.
+				 */
+				if ( isset( $request['phone'] ) ) {
+					$is_phone = \WC_Validation::is_phone( $request['phone'] );
+
+					if ( $is_phone ) {
+						WC()->customer->set_props(
+							array(
+								'billing_phone' => trim( esc_html( $request['phone'] ) ),
+							)
+						);
+					}
+				}
 
 				cocart_add_to_cart_message( array( $was_added_to_cart['product_id'] => $was_added_to_cart['quantity'] ) );
 
@@ -432,7 +448,8 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.1.0
+	 * @since   4.0.0 Added phone number parameter.
+	 * @version 4.0.0
 	 *
 	 * @return array $params Query parameters for the endpoint.
 	 */
@@ -472,6 +489,12 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			),
 			'email'       => array(
 				'description'       => __( 'Set the customers billing email address.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'required'          => false,
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'phone'       => array(
+				'description'       => __( 'Set the customers billing phone number.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'required'          => false,
 				'validate_callback' => 'rest_validate_request_arg',
