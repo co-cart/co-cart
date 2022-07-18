@@ -5,7 +5,7 @@
  * Handles the request to view just the items in the cart with /cart/items endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.0.0
  * @version 3.1.0
  * @license GPL-2.0+
@@ -56,6 +56,7 @@ class CoCart_REST_Items_v2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * Returns all items in the cart.
 	 *
 	 * @access public
+	 *
 	 * @return WP_REST_Response
 	 */
 	public function view_items() {
@@ -75,7 +76,9 @@ class CoCart_REST_Items_v2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * Get the query params.
 	 *
 	 * @access public
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @return array $params
 	 */
 	public function get_collection_params() { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
@@ -86,7 +89,9 @@ class CoCart_REST_Items_v2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * Get the schema for returning cart items.
 	 *
 	 * @access public
-	 * @since  3.1.0 Introduced.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @return array
 	 */
 	public function get_public_items_schema() {

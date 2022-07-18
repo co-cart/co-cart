@@ -5,8 +5,8 @@
  * Returns store details and all public routes.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
- * @since   3.0.0
+ * @package CoCart\RESTAPI\v2
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 

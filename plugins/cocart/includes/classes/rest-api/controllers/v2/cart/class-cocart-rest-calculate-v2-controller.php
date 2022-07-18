@@ -5,7 +5,7 @@
  * Handles the request to calculate the cart with /cart/calculate endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.0.0
  * @version 4.0.0
  */
@@ -59,11 +59,14 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.0.0
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function calculate_totals( $request = array() ) {
 		try {
@@ -91,8 +94,10 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * Get the query params for calculating totals.
 	 *
 	 * @access public
-	 * @since  3.1.0
-	 * @return array $params
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return array $params Query parameters for calculating totals.
 	 */
 	public function get_collection_params() {
 		$controller = new CoCart_REST_Cart_V2_Controller();

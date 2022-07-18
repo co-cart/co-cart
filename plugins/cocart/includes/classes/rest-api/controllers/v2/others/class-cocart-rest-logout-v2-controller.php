@@ -5,8 +5,8 @@
  * Handles the request to logout the user /logout endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
- * @since   3.0.0
+ * @package CoCart\RESTAPI\v2
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 

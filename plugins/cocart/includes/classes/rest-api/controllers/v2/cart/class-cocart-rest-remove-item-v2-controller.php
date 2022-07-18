@@ -5,7 +5,7 @@
  * Handles the request to remove items in the cart with /cart/item endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.0.0
  * @version 4.0.0
  */
@@ -55,11 +55,14 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response
 	 */
 	public function remove_item( $request = array() ) {
 		try {

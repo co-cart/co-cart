@@ -21,6 +21,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * Constructor.
 		 *
 		 * @access public
+		 *
 		 * @since  3.1.0 Introduced
 		 */
 		public function __construct() {
@@ -31,16 +32,19 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		/**
 		 * Expose CoCart Headers.
 		 *
-		 * @access  public
+		 * @access public
+		 *
 		 * @since   3.1.0 Introduced.
 		 * @since   3.3.0 Added new custom headers without the prefix `X-`
 		 * @since   4.0.0 Removed old custom headers with the prefix `X-`
 		 * @version 4.0.0
-		 * @param   bool             $served  Whether the request has already been served. Default false.
-		 * @param   WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-		 * @param   WP_REST_Request  $request Request used to generate the response.
-		 * @param   WP_REST_Server   $server  Server instance.
-		 * @return  bool
+		 *
+		 * @param bool             $served  Whether the request has already been served. Default false.
+		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+		 * @param WP_REST_Request  $request Request used to generate the response.
+		 * @param WP_REST_Server   $server  Server instance.
+		 *
+		 * @return bool Whether the request has already been served.
 		 */
 		public function expose_custom_headers( $served, $result, $request, $server ) {
 			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
@@ -57,14 +61,17 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 		 *
 		 * @access  public
+		 *
 		 * @since   3.0.0  Introduced.
 		 * @since   3.1.0  Added two response headers; a timestamp and the version of CoCart.
 		 * @since   3.3.0  Added new custom headers without the prefix `X-`
 		 * @since   4.0.0  Removed old custom headers with the prefix `X-`
 		 * @version 4.0.0
-		 * @param   mixed  $data      - The original data response of the API requested.
-		 * @param   string $namespace - The namespace of the API requested.
-		 * @param   string $rest_base - The rest base of the API requested.
+		 *
+		 * @param   mixed  $data      The original data response of the API requested.
+		 * @param   string $namespace The namespace of the API requested.
+		 * @param   string $rest_base The rest base of the API requested.
+		 *
 		 * @return  WP_REST_Response  - The returned response.
 		 */
 		public static function get_response( $data, $namespace = '', $rest_base = '' ) {
@@ -125,8 +132,11 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * Converts an error to a response object. Based on \WP_REST_Server.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @param  WP_Error $error WP_Error instance.
+		 *
+		 * @param WP_Error $error WP_Error instance.
+		 *
 		 * @return WP_REST_Response List of associative arrays with code and message keys.
 		 */
 		public static function error_to_response( $error ) {
@@ -157,11 +167,14 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * Get route response when something went wrong.
 		 *
 		 * @access public
+		 *
 		 * @static
+		 *
 		 * @param  string $error_code String based error code.
 		 * @param  string $error_message User facing error message.
 		 * @param  int    $http_status_code HTTP status. Defaults to 500.
 		 * @param  array  $additional_data  Extra data (key value pairs) to expose in the error response.
+		 *
 		 * @return \WP_Error WP Error object.
 		 */
 		public static function get_error_response( $error_code, $error_message, $http_status_code = 500, $additional_data = array() ) {

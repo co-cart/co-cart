@@ -5,7 +5,7 @@
  * Handles the request to clear the cart with /cart/clear endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.0.0
  * @version 4.0.0
  */
@@ -60,11 +60,14 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_V2_Controlle
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response
 	 */
 	public function clear_cart( $request = array() ) {
 		try {
@@ -168,7 +171,9 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_V2_Controlle
 	 * Get the query params for clearing the cart.
 	 *
 	 * @access public
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @return array $params
 	 */
 	public function get_collection_params() {

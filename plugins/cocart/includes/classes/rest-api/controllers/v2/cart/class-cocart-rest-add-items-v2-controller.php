@@ -5,7 +5,7 @@
  * Handles the request to add items to the cart with /cart/add-items endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.0.0
  * @version 3.1.0
  * @license GPL-2.0+
@@ -63,11 +63,14 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response | WP_Error
 	 */
 	public function add_items_to_cart( $request = array() ) {
 		try {
@@ -109,14 +112,18 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 				/**
 				 * Set customers billing email address.
 				 *
-				 * @since 3.1.0
+				 * @since 3.1.0 Introduced.
 				 */
 				if ( isset( $request['email'] ) ) {
-					WC()->customer->set_props(
-						array(
-							'billing_email' => trim( esc_html( $request['email'] ) ),
-						)
-					);
+					$is_email = \WC_Validation::is_email( $request['email'] );
+
+					if ( $is_email ) {
+						WC()->customer->set_props(
+							array(
+								'billing_email' => trim( esc_html( $request['email'] ) ),
+							)
+						);
+					}
 				}
 
 				// Was it requested to return the items details after being added?
@@ -145,9 +152,11 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  string          $product_id Contains the id of the container product to add to the cart.
-	 * @param  array           $items      Contains the quantity of the items to add to the cart.
-	 * @param  WP_REST_Request $request    Full details about the request.
+	 *
+	 * @param string          $product_id Contains the id of the container product to add to the cart.
+	 * @param array           $items      Contains the quantity of the items to add to the cart.
+	 * @param WP_REST_Request $request    Full details about the request.
+	 *
 	 * @return bool            success or not
 	 */
 	public function add_to_cart_handler_grouped( $product_id, $items, $request ) {
@@ -298,11 +307,11 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 		);
 
 		/**
-		 * Extend the query parameters.
+		 * Extends the query parameters.
 		 *
 		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default parameters.
 		 *
-		 * @since 3.1.0
+		 * @since 3.1.0 Introduced.
 		 */
 		$params += apply_filters( 'cocart_add_items_query_parameters', array() );
 

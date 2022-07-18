@@ -5,7 +5,7 @@
  * Handles the request to update the cart with /cart/update endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.1.0
  * @version 4.0.0
  */

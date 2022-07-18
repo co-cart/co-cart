@@ -630,6 +630,7 @@ class Install {
 		$table = "CREATE TABLE {$wpdb->prefix}cocart_carts (
 cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 cart_key char(42) NOT NULL,
+cart_user_id BIGINT UNSIGNED NOT NULL,
 cart_customer BIGINT UNSIGNED NOT NULL,
 cart_value longtext NOT NULL,
 cart_created BIGINT UNSIGNED NOT NULL,
@@ -810,4 +811,4 @@ UNIQUE KEY cart_customer (cart_customer)
 
 } // END class.
 
-\CoCart\Install::init();
+Install::init();

@@ -5,7 +5,7 @@
  * Handles the request to count the items in the cart with /cart/items/count endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.0.0
  * @version 4.0.0
  */
@@ -54,12 +54,17 @@ class CoCart_REST_Count_Items_v2_Controller extends CoCart_REST_Cart_V2_Controll
 	/**
 	 * Get cart contents count.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request       Full details about the request.
-	 * @param   array           $cart_contents Cart contents to count items.
-	 * @return  WP_REST_Response
+	 *
+	 * @see Logger::log()
+	 *
+	 * @param WP_REST_Request $request       Full details about the request.
+	 * @param array           $cart_contents Cart contents to count items.
+	 *
+	 * @return WP_REST_Response
 	 */
 	public function get_cart_contents_count( $request = array(), $cart_contents = array() ) {
 		$return        = ! empty( $request['return'] ) ? $request['return'] : '';
@@ -81,7 +86,7 @@ class CoCart_REST_Count_Items_v2_Controller extends CoCart_REST_Cart_V2_Controll
 		if ( 'numeric' !== $return && $count <= 0 ) {
 			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
 
-			CoCart_Logger::log( $message, 'notice' );
+			CoCart\Logger::log( $message, 'notice' );
 
 			/**
 			 * Filters message about no items in the cart.
@@ -101,7 +106,9 @@ class CoCart_REST_Count_Items_v2_Controller extends CoCart_REST_Cart_V2_Controll
 	 * Get the schema for returning the item count, conforming to JSON Schema.
 	 *
 	 * @access public
-	 * @since  3.0.0
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @return array
 	 */
 	public function get_item_schema() {

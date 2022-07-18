@@ -5,7 +5,7 @@
  * Handles the request to get the totals of the cart with /cart/totals endpoint.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
+ * @package CoCart\RESTAPI\v2
  * @since   3.0.0
  * @version 4.0.0
  */
