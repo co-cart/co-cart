@@ -65,7 +65,7 @@ class Handler extends Session {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->_cookie = apply_filters( 'cocart_cookie', 'wp_cocart_session_' . COOKIEHASH );
+		$this->_cookie = apply_filters( 'woocommerce_cookie', 'wp_woocommerce_session_' . COOKIEHASH );
 		$this->_table  = $GLOBALS['wpdb']->prefix . 'cocart_carts';
 	}
 
@@ -128,7 +128,7 @@ class Handler extends Session {
 		if ( $cookie ) {
 			// Get cookie details.
 			$this->_cart_key        = $cookie[0];
-			$this->_customer_id     = $cookie[1];
+			$this->_cart_user_id    = $cookie[1];
 			$this->_cart_expiration = $cookie[2];
 			$this->_cart_expiring   = $cookie[3];
 			$this->_has_cookie      = true;
@@ -140,30 +140,32 @@ class Handler extends Session {
 			}
 
 			// If the user logged in, update cart.
-			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_customer_id ) {
-				// Destroy old cookie.
-				//$this->set_customer_cart_cookie( false );
+			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_cart_user_id ) {
+				// Generate new cart key after caching old cart key.
+				$guest_cart_key  = $this->_cart_key;
+				$this->_cart_key = $this->generate_key();
+
+				// Set new user ID.
+				$this->_cart_user_id = strval( get_current_user_id() );
+
+				// Save cart data for user and destroy previous cart session.
+				$this->save_cart( $guest_cart_key );
 
 				// Update customer ID details.
-				$guest_cart_id       = $this->_cart_user_id;
-				$this->_cart_user_id = strval( get_current_user_id() );
 				$this->update_customer_id( $this->_cart_user_id );
 
-				// Save cart data.
-				$this->save_cart( $guest_cart_id );
-
-				// Save new cookie for cart.
+				// Set new cookie for cart.
 				$this->set_customer_cart_cookie( true );
 			}
 
 			// Update cart if its close to expiring.
 			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
-				$this->set_cart_expiration();
+				$this->set_session_expiration();
 				$this->update_cart_timestamp( $this->_cart_key, $this->_cart_expiration );
 			}
 		} else {
 			// New guest customer.
-			$this->set_cart_expiration();
+			$this->set_session_expiration();
 			$this->_cart_user_id = strval( get_current_user_id() );
 			$this->_customer_id  = strval( get_current_user_id() );
 			$this->_cart_key     = $this->generate_key();
@@ -448,6 +450,18 @@ class Handler extends Session {
 	} // END has_session()
 
 	/**
+	 * Set session expiration.
+	 *
+	 * PHP session expiration is set to 48 hours by default.
+	 *
+	 * @access public
+	 */
+	public function set_session_expiration() {
+		$this->_session_expiring   = time() + intval( apply_filters( 'wc_session_expiring', 60 * 60 * 47 ) ); // 47 Hours.
+		$this->_session_expiration = time() + intval( apply_filters( 'wc_session_expiration', 60 * 60 * 48 ) ); // 48 Hours.
+	} // END set_session_expiration()
+
+	/**
 	 * Set cart expiration.
 	 *
 	 * @access public
@@ -721,11 +735,10 @@ class Handler extends Session {
 			 */
 			do_action( 'cocart_' . __FUNCTION__, $this->_cart_key, $this->_cart_user_id, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );
 
-			// Customer is now registered so we delete the previous cart as guest to prevent duplication.
-			// TODO: Just update the current cart with the customers user ID.
-			/*if ( get_current_user_id() !== $old_cart_key && ! is_object( get_user_by( 'id', $old_cart_key ) ) ) {
+			// Previous cart session is no longer used so we delete it to prevent duplication.
+			if ( $this->_cart_key !== $old_cart_key ) {
 				$this->delete_cart( $old_cart_key );
-			}*/
+			}
 		}
 	} // END save_cart()
 
