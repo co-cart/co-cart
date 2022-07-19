@@ -464,6 +464,8 @@ class Handler extends Session {
 	/**
 	 * Set cart expiration.
 	 *
+	 * This session expiration is used for the REST API.
+	 *
 	 * @access public
 	 */
 	public function set_cart_expiration() {
