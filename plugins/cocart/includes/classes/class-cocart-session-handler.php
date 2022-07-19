@@ -81,13 +81,10 @@ class Handler extends Session {
 	 * @version 4.0.0
 	 */
 	public function init() {
-		// Current user ID. If user is NOT logged in then the customer is a guest.
-		$current_user_id = strval( get_current_user_id() );
-
 		if ( Authentication::is_rest_api_request() ) {
 			$this->_cart_source = 'cocart';
 
-			$this->init_session_without_cookie( $current_user_id );
+			$this->init_session_without_cookie();
 		} else {
 			$this->_cart_source = 'woocommerce';
 
@@ -137,18 +134,23 @@ class Handler extends Session {
 			$this->_has_cookie      = true;
 			$this->_data            = $this->get_cart_data();
 
+			if ( ! $this->is_session_cookie_valid() ) {
+				$this->destroy_session();
+				$this->set_session_expiration();
+			}
+
 			// If the user logged in, update cart.
 			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_customer_id ) {
 				// Destroy old cookie.
 				//$this->set_customer_cart_cookie( false );
 
 				// Update customer ID details.
-				//$guest_cart_id      = $this->_customer_id;
-				$this->_customer_id = strval( get_current_user_id() );
-				//$this->update_customer_id( $this->_customer_id ); // TODO: Build function to update customer ID to cart. Do not specify cart key, this will be called internally.
+				$guest_cart_id       = $this->_cart_user_id;
+				$this->_cart_user_id = strval( get_current_user_id() );
+				$this->update_customer_id( $this->_cart_user_id );
 
 				// Save cart data.
-				$this->save_cart();
+				$this->save_cart( $guest_cart_id );
 
 				// Save new cookie for cart.
 				$this->set_customer_cart_cookie( true );
@@ -157,14 +159,15 @@ class Handler extends Session {
 			// Update cart if its close to expiring.
 			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
 				$this->set_cart_expiration();
-				$this->update_cart_timestamp( $this->_customer_id, $this->_cart_expiration );
+				$this->update_cart_timestamp( $this->_cart_key, $this->_cart_expiration );
 			}
 		} else {
 			// New guest customer.
 			$this->set_cart_expiration();
-			$this->_cart_key    = $this->generate_key();
-			$this->_customer_id = $this->generate_customer_id();
-			$this->_data        = $this->get_cart_data();
+			$this->_cart_user_id = strval( get_current_user_id() );
+			$this->_customer_id  = strval( get_current_user_id() );
+			$this->_cart_key     = $this->generate_key();
+			$this->_data         = $this->get_cart_data();
 		}
 	} // END init_session_cookie()
 
@@ -325,24 +328,20 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
+	 * @version 4.0.0
+	 *
 	 * @param bool $set Should the cart cookie be set.
 	 */
 	public function set_customer_cart_cookie( $set = true ) {
 		if ( $set ) {
-			$to_hash           = $this->_customer_id . '|' . $this->_cart_expiration;
+			$to_hash           = $this->_cart_key . '|' . $this->_cart_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
-			$cookie_value      = $this->_cart_key . '||' . $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
+			$cookie_value      = $this->_cart_key . '||' . $this->_cart_user_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
 			$this->_has_cookie = true;
 
 			// If no cookie exists then create a new.
 			if ( ! isset( $_COOKIE[ $this->_cookie ] ) || $_COOKIE[ $this->_cookie ] !== $cookie_value ) {
-				$this->cocart_setcookie( $this->_cookie, $cookie_value, $this->_cart_expiration, $this->use_secure_cookie(), $this->use_httponly() );
-			}
-		} else {
-			// If cookies exists, destroy it.
-			if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
-				$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
-				unset( $_COOKIE[ $this->_cookie ] );
+				cocart_setcookie( $this->_cookie, $cookie_value, $this->_cart_expiration, $this->use_secure_cookie(), true );
 			}
 		}
 	} // END set_customer_cart_cookie()
@@ -389,8 +388,9 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.1.0
+	 * @since      2.1.0 Introduced.
+	 * @deprecated 4.0.0 Uses cocart_setcookie() instead.
+	 * @version    4.0.0
 	 *
 	 * @param string  $name Name of the cookie being set.
 	 * @param string  $value Value of the cookie.
@@ -399,8 +399,14 @@ class Handler extends Session {
 	 * @param bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
+		cocart_deprecated_function( 'CoCart\Session\Handler::cocart_setcookie', '4.0', 'cocart_setcookie' );
+
 		if ( ! headers_sent() ) {
-			// samesite - Set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1.
+			/**
+			 * samesite - Set to None by default and only available to those using PHP 7.3 or above.
+			 *
+			 * @since 2.9.1.
+			 */
 			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
 				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', 'domain' => COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ), 'samesite' => apply_filters( 'cocart_cookie_samesite', 'Lax' ) ), $name, $value ) ); // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 			} else {
@@ -574,21 +580,21 @@ class Handler extends Session {
 			return false;
 		}
 
-		list( $cart_key, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash ) = explode( '||', $cookie_value );
+		list( $cart_key, $user_id, $cart_expiration, $cart_expiring, $cookie_hash ) = explode( '||', $cookie_value );
 
-		if ( empty( $cart_key ) && empty( $customer_id ) ) {
+		if ( empty( $cart_key ) ) {
 			return false;
 		}
 
 		// Validate hash.
-		$to_hash = $customer_id . '|' . $cart_expiration;
+		$to_hash = $cart_key . '|' . $cart_expiration;
 		$hash    = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
 
 		if ( empty( $cookie_hash ) || ! hash_equals( $hash, $cookie_hash ) ) {
 			return false;
 		}
 
-		return array( $cart_key, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
+		return array( $cart_key, $user_id, $cart_expiration, $cart_expiring, $cookie_hash );
 	} // END get_session_cookie()
 
 	/**
@@ -686,13 +692,14 @@ class Handler extends Session {
 			// Save or update cart data.
 			$wpdb->query(
 				$wpdb->prepare(
-					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_customer`, `cart_value`, `cart_created`, `cart_expiry`, `cart_source`, `cart_hash`) VALUES (%s, %d, %s, %d, %d, %s, %s)
+					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_user_id`, `cart_customer`, `cart_value`, `cart_created`, `cart_expiry`, `cart_source`, `cart_hash`) VALUES (%s, %d, %d, %s, %d, %d, %s, %s)
  					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`), `cart_hash` = VALUES(`cart_hash`)",
 					$this->_cart_key,
-					$this->_customer_id,
+					(int) $this->_cart_user_id,
+					(int) $this->_customer_id,
 					maybe_serialize( $this->_data ),
 					time(),
-					$this->_cart_expiration,
+					(int) $this->_cart_expiration,
 					$cart_source,
 					$this->_cart_hash
 				)
@@ -706,12 +713,13 @@ class Handler extends Session {
 			 * @since 4.0.0 Introduced.
 			 *
 			 * @param int $cart_key Cart ID.
+			 * @param int $cart_user_id User ID.
 			 * @param int $customer_id Customer ID.
 			 * @param array $data Cart data.
 			 * @param int $cart_expiration Cart expiration.
 			 * @param string $cart_source Cart source.
 			 */
-			do_action( 'cocart_' . __FUNCTION__, $this->_cart_key, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );
+			do_action( 'cocart_' . __FUNCTION__, $this->_cart_key, $this->_cart_user_id, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );
 
 			// Customer is now registered so we delete the previous cart as guest to prevent duplication.
 			// TODO: Just update the current cart with the customers user ID.
@@ -763,9 +771,10 @@ class Handler extends Session {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Use cocart_setcookie() to set cookie instead.
 	 */
 	public function destroy_cookie() {
-		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), true );
+		cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), true );
 	} // END destroy_cookie()
 
 	/**

@@ -222,6 +222,7 @@ final class Core {
 
 		// Important functions.
 		include_once COCART_ABSPATH . 'includes/cocart-background-functions.php';
+		include_once COCART_ABSPATH . 'includes/cocart-core-functions.php';
 		include_once COCART_ABSPATH . 'includes/cocart-deprecated-functions.php';
 		include_once COCART_ABSPATH . 'includes/cocart-formatting-functions.php';
 		// include_once COCART_ABSPATH . 'includes/cocart-register-functions.php';
