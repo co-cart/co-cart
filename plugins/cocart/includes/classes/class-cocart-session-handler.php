@@ -129,8 +129,9 @@ class Handler extends Session {
 			// Get cookie details.
 			$this->_cart_key        = $cookie[0];
 			$this->_cart_user_id    = $cookie[1];
-			$this->_cart_expiration = $cookie[2];
-			$this->_cart_expiring   = $cookie[3];
+			$this->_customer_id     = $cookie[2];
+			$this->_cart_expiration = $cookie[3];
+			$this->_cart_expiring   = $cookie[4];
 			$this->_has_cookie      = true;
 			$this->_data            = $this->get_cart_data();
 
@@ -338,7 +339,7 @@ class Handler extends Session {
 		if ( $set ) {
 			$to_hash           = $this->_cart_key . '|' . $this->_cart_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
-			$cookie_value      = $this->_cart_key . '||' . $this->_cart_user_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
+			$cookie_value      = $this->_cart_key . '||' . $this->_cart_user_id . '||' . $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
 			$this->_has_cookie = true;
 
 			// If no cookie exists then create a new.
@@ -457,8 +458,8 @@ class Handler extends Session {
 	 * @access public
 	 */
 	public function set_session_expiration() {
-		$this->_session_expiring   = time() + intval( apply_filters( 'wc_session_expiring', 60 * 60 * 47 ) ); // 47 Hours.
-		$this->_session_expiration = time() + intval( apply_filters( 'wc_session_expiration', 60 * 60 * 48 ) ); // 48 Hours.
+		$this->_cart_expiring   = time() + intval( apply_filters( 'wc_session_expiring', 60 * 60 * 47 ) ); // 47 Hours.
+		$this->_cart_expiration = time() + intval( apply_filters( 'wc_session_expiration', 60 * 60 * 48 ) ); // 48 Hours.
 	} // END set_session_expiration()
 
 	/**
@@ -596,7 +597,7 @@ class Handler extends Session {
 			return false;
 		}
 
-		list( $cart_key, $user_id, $cart_expiration, $cart_expiring, $cookie_hash ) = explode( '||', $cookie_value );
+		list( $cart_key, $user_id, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash ) = explode( '||', $cookie_value );
 
 		if ( empty( $cart_key ) ) {
 			return false;
@@ -610,7 +611,7 @@ class Handler extends Session {
 			return false;
 		}
 
-		return array( $cart_key, $user_id, $cart_expiration, $cart_expiring, $cookie_hash );
+		return array( $cart_key, $user_id, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
 	} // END get_session_cookie()
 
 	/**
@@ -657,7 +658,7 @@ class Handler extends Session {
 	 * @since   2.1.0 Introduced.
 	 * @version 4.0.0
 	 *
-	 * @param int $old_cart_key cart ID before user logs in.
+	 * @param int $old_cart_key Cart key used before.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
@@ -680,9 +681,9 @@ class Handler extends Session {
 			 * Checks if data is still validated to create a cart or update a cart in session.
 			 *
 			 * @since 2.7.2
-			 * @since 4.0.0 Passed _cart_key before _customer_id. Added log error if cart is not valid.
+			 * @since 4.0.0 Passed _cart_key before _cart_user_id. Added log error if cart is not valid.
 			 */
-			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_cart_key, $this->_customer_id );
+			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_cart_key, $this->_cart_user_id );
 
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
 				Logger::log( __( 'Cart data not valid or the session had not loaded during a request. No session saved.', 'cart-rest-api-for-woocommerce' ), 'info' );
