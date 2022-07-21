@@ -70,3 +70,48 @@ function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponl
 		trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE ); // @codingStandardsIgnoreLine
 	}
 } // END cocart_cookie()
+
+/**
+ * Returns the timestamp the cart was created or expired.
+ *
+ * @access public
+ *
+ * @param string $cart_key The cart key.
+ * @param string $type The type of timestamp.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @return string The timestamp the cart was created or expired.
+ */
+function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) {
+	global $wpdb;
+
+	if ( 'created' === $timestamp_type ) {
+		$value = 'cart_created';
+	} elseif ( 'expired' === $timestamp_type ) {
+		$value = 'cart_expiry';
+	}
+
+	$result = $wpdb->get_var( $wpdb->prepare( "SELECT $value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+	return $result;
+} // END cocart_get_timestamp()
+
+/**
+ * Returns the source of the cart.
+ *
+ * @access public
+ *
+ * @param string $cart_key The cart key.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @return string
+ */
+function cocart_get_source( $cart_key ) {
+	global $wpdb;
+
+	$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_source FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+	return $value;
+} // END cocart_get_source()

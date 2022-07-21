@@ -85,7 +85,7 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 /**
  * Wrapper for deprecated functions so we can apply some extra logic.
  *
- * @since 4.0.0
+ * @since 4.0.0 Introduced.
  *
  * @uses wp_doing_ajax() to check if the request is AJAX.
  * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
