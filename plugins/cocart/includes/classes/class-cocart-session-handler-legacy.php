@@ -39,30 +39,6 @@ class Handler extends Session {
 	protected $_cookie;
 
 	/**
-	 * Stores cart expiry.
-	 *
-	 * @access protected
-	 * @var    string cart due to expire timestamp
-	 */
-	protected $_cart_expiring;
-
-	/**
-	 * Stores cart due to expire timestamp.
-	 *
-	 * @access protected
-	 * @var    string cart expiration timestamp
-	 */
-	protected $_cart_expiration;
-
-	/**
-	 * Stores cart source.
-	 *
-	 * @since 3.0.0 Introduced.
-	 * @var   string cart source
-	 */
-	protected $_cart_source;
-
-	/**
 	 * True when the cookie exists.
 	 *
 	 * @access protected
@@ -84,7 +60,7 @@ class Handler extends Session {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->_cookie = apply_filters( 'cocart_cookie', 'wp_cocart_session_' . COOKIEHASH );
+		$this->_cookie = apply_filters( 'woocommerce_cookie', 'wp_cocart_session_' . COOKIEHASH );
 		$this->_table  = $GLOBALS['wpdb']->prefix . 'cocart_carts';
 	}
 
@@ -100,17 +76,18 @@ class Handler extends Session {
 	 * @version 4.0.0
 	 */
 	public function init() {
-		// Current user ID. If user is NOT logged in then the customer is a guest.
-		$current_user_id = strval( get_current_user_id() );
-
 		if ( Authentication::is_rest_api_request() ) {
-			$this->init_session_without_cookie( $current_user_id );
+			$this->_cart_source = 'cocart';
+
+			$this->init_session_without_cookie();
+
+			$this->set_cart_hash();
 		} else {
+			$this->_cart_source = 'woocommerce';
+
 			$this->init_session_cookie();
 			add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
 		}
-
-		$this->set_cart_hash();
 
 		add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
 		add_action( 'wp_logout', array( $this, 'destroy_cart' ) );
@@ -122,22 +99,8 @@ class Handler extends Session {
 		 * @since   4.0.0 No longer needed for API requests.
 		 * @version 4.0.0
 		 */
-		if ( ! Authentication::is_rest_api_request() && is_numeric( $current_user_id ) && $current_user_id < 1 ) {
-			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
-		}
-
-		/**
-		 * Identifies the source of the cart.
-		 *
-		 * REST API is "cocart"
-		 * Native frontend is "woocommerce"
-		 *
-		 * @since 3.0.0
-		 */
-		if ( Authentication::is_rest_api_request() ) {
-			$this->_cart_source = 'cocart';
-		} else {
-			$this->_cart_source = 'woocommerce';
+		if ( ! Authentication::is_rest_api_request() && ! is_user_logged_in() ) {
+			add_filter( 'nonce_user_logged_out', array( $this, 'maybe_update_nonce_user_logged_out' ), 10, 2 );
 		}
 	} // END init()
 
@@ -163,10 +126,27 @@ class Handler extends Session {
 			$this->_cart_expiration = $cookie[1];
 			$this->_cart_expiring   = $cookie[2];
 			$this->_has_cookie      = true;
-			$this->_data            = $this->get_cart_data();
+		}
+
+		// Check if we requested to load a specific cart.
+		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			// Set requested cart key as customer ID in session.
+			$this->_customer_id = (string) trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
+		// If cart retrieved then update cart.
+		if ( $cookie || $this->_customer_id ) {
+			$this->_data = $this->get_cart_data();
+
+			if ( ! $this->is_session_cookie_valid() ) {
+				$this->destroy_session();
+				$this->set_session_expiration();
+			}
 
 			// If the user logged in, update cart.
 			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_customer_id ) {
+				// Destroy old cookie.
+				$this->set_customer_cart_cookie( false );
 
 				// Update customer ID details.
 				$guest_cart_id      = $this->_customer_id;
@@ -181,16 +161,44 @@ class Handler extends Session {
 
 			// Update cart if its close to expiring.
 			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
-				$this->set_cart_expiration();
+				$this->set_session_expiration();
 				$this->update_cart_timestamp( $this->_customer_id, $this->_cart_expiration );
 			}
 		} else {
 			// New guest customer.
-			$this->set_cart_expiration();
+			$this->set_session_expiration();
 			$this->_customer_id = $this->generate_customer_id();
 			$this->_data        = $this->get_cart_data();
 		}
 	} // END init_session_cookie()
+
+	/**
+	 * Checks if session cookie is expired, or belongs to a logged out user.
+	 *
+	 * @access private
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return bool Whether session cookie is valid.
+	 */
+	private function is_session_cookie_valid() {
+		// If session is expired, session cookie is invalid.
+		if ( time() > $this->_cart_expiration ) {
+			return false;
+		}
+
+		// If user has logged out, session cookie is invalid.
+		if ( ! is_user_logged_in() && ! $this->is_customer_guest( $this->_customer_id ) ) {
+			return false;
+		}
+
+		// Session from a different user is not valid. (Although from a guest user will be valid)
+		if ( is_user_logged_in() && ! $this->is_customer_guest( $this->_customer_id ) && strval( get_current_user_id() ) !== $this->_customer_id ) {
+			return false;
+		}
+
+		return true;
+	} // END is_session_cookie_valid()
 
 	/**
 	 * Setup cart without cookie.
@@ -208,31 +216,9 @@ class Handler extends Session {
 		// Customer is null until we say otherwise.
 		$this->_customer_id = null;
 
-		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
-			// TODO: Add user role and customer ID check.
-
-			$customer = new Customer( $current_user_id );
-
-			// If customer is valid, set customer ID.
-			if ( 0 !== $customer->get_id() ) {
-				$this->_customer_id = $current_user_id;
-			}
-			// TODO: If user logged in is shop manager or other by filter, then reset customer ID to null.
-		}
-
 		// If a cart was requested then update it if needed.
 		if ( ! empty( $this->_cart_key ) ) {
 			$this->_data = $this->get_cart_data();
-
-			// Is user logged in?
-			/*
-			if ( is_numeric( $current_user_id ) && $current_user_id > 0 && $current_user_id !== $this->_customer_id ) {
-				// Set user ID as customer ID.
-				$this->_customer_id = $current_user_id;
-
-				// Assign customer ID to the cart.
-				$this->assign_customer_id( $this->_customer_id ); // TODO: Build function to assign customer ID to cart. Do not specify cart key, this will be called internally.
-			}*/
 
 			// Update cart if its close to expiring.
 			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
@@ -312,12 +298,12 @@ class Handler extends Session {
 
 			// If no cookie exists then create a new.
 			if ( ! isset( $_COOKIE[ $this->_cookie ] ) || $_COOKIE[ $this->_cookie ] !== $cookie_value ) {
-				$this->cocart_setcookie( $this->_cookie, $cookie_value, $this->_cart_expiration, $this->use_secure_cookie(), $this->use_httponly() );
+				cocart_setcookie( $this->_cookie, $cookie_value, $this->_cart_expiration, $this->use_secure_cookie(), $this->use_httponly() );
 			}
 		} else {
 			// If cookies exists, destroy it.
 			if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
-				$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
+				cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
 				unset( $_COOKIE[ $this->_cookie ] );
 			}
 		}
@@ -325,6 +311,8 @@ class Handler extends Session {
 
 	/**
 	 * Backwards compatibility function for setting cart cookie.
+	 *
+	 * Since the cookie name (as of WooCommerce 2.1) is prepended with wp, cache systems like batcache will not cache pages when set.
 	 *
 	 * @access public
 	 *
@@ -363,8 +351,9 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 3.1.0
+	 * @since      2.1.0 Introduced.
+	 * @deprecated 4.0.0 Uses cocart_setcookie() instead.
+	 * @version    4.0.0
 	 *
 	 * @param string  $name Name of the cookie being set.
 	 * @param string  $value Value of the cookie.
@@ -373,8 +362,14 @@ class Handler extends Session {
 	 * @param bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
+		cocart_deprecated_function( 'CoCart\Session\Handler::cocart_setcookie', '4.0', 'cocart_setcookie' );
+
 		if ( ! headers_sent() ) {
-			// samesite - Set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1.
+			/**
+			 * samesite - Set to None by default and only available to those using PHP 7.3 or above.
+			 *
+			 * @since 2.9.1.
+			 */
 			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
 				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', 'domain' => COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ), 'samesite' => apply_filters( 'cocart_cookie_samesite', 'Lax' ) ), $name, $value ) ); // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 			} else {
@@ -384,7 +379,7 @@ class Handler extends Session {
 			headers_sent( $file, $line );
 			trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE ); // @codingStandardsIgnoreLine
 		}
-	} // END cocart_cookie()
+	} // END cocart_setcookie()
 
 	/**
 	 * Return true if the current customer has an active cart.
@@ -397,13 +392,13 @@ class Handler extends Session {
 	 */
 	public function has_session() {
 		// Check cookie first for native cart.
-		if ( isset( $_COOKIE[ $this->_cookie ] ) ) {
+		if ( isset( $_COOKIE[ $this->_cookie ] ) || $this->_has_cookie ) {
 			return true;
 		}
 
 		// Current user ID. If value is above zero then user is logged in.
 		$current_user_id = strval( get_current_user_id() );
-		if ( is_numeric( $current_user_id ) && $current_user_id > 0 ) {
+		if ( is_user_logged_in() || is_numeric( $current_user_id ) && $current_user_id > 0 ) {
 			return true;
 		}
 
@@ -416,7 +411,21 @@ class Handler extends Session {
 	} // END has_session()
 
 	/**
+	 * Set session expiration.
+	 *
+	 * PHP session expiration is set to 48 hours by default.
+	 *
+	 * @access public
+	 */
+	public function set_session_expiration() {
+		$this->_cart_expiring   = time() + intval( apply_filters( 'wc_session_expiring', 60 * 60 * 47 ) ); // 47 Hours.
+		$this->_cart_expiration = time() + intval( apply_filters( 'wc_session_expiration', 60 * 60 * 48 ) ); // 48 Hours.
+	} // END set_session_expiration()
+
+	/**
 	 * Set cart expiration.
+	 *
+	 * This session expiration is used for the REST API.
 	 *
 	 * @access public
 	 */
@@ -468,10 +477,45 @@ class Handler extends Session {
 		require_once ABSPATH . 'wp-includes/class-phpass.php';
 
 		$hasher      = new \PasswordHash( 8, false );
-		$customer_id = md5( $hasher->get_random_bytes( 32 ) );
+		$customer_id = apply_filters( 'cocart_' . __FUNCTION__, md5( $hasher->get_random_bytes( 32 ) ), $hasher );
 
 		return $customer_id;
 	} // END generate_key()
+
+	/**
+	 * Checks if this is an auto-generated customer ID.
+	 *
+	 * @access private
+	 *
+	 * @param string|int $customer_id Customer ID to check.
+	 *
+	 * @return bool Whether customer ID is randomly generated.
+	 */
+	private function is_customer_guest( $customer_id ) {
+		$customer_id = strval( $customer_id );
+
+		if ( empty( $customer_id ) ) {
+			return true;
+		}
+
+		// Almost all random $customer_ids will have some letters in it, while all actual ids will be integers.
+		if ( strval( (int) $customer_id ) !== $customer_id ) {
+			return true;
+		}
+
+		// Performance hack to potentially save a DB query, when same user as $customer_id is logged in.
+		if ( is_user_logged_in() && strval( get_current_user_id() ) === $customer_id ) {
+			return false;
+		} else {
+			$customer = new WC_Customer( $customer_id );
+
+			if ( 0 === $customer->get_id() ) {
+				return true;
+			}
+		}
+
+		return false;
+	} // END is_customer_guest()
 
 	/**
 	 * Get session unique ID for requests if session is initialized or user ID if logged in.
@@ -626,7 +670,7 @@ class Handler extends Session {
 					$this->_customer_id,
 					maybe_serialize( $this->_data ),
 					time(),
-					$this->_cart_expiration,
+					(int) $this->_cart_expiration,
 					$cart_source,
 					$this->_cart_hash
 				)
@@ -685,7 +729,7 @@ class Handler extends Session {
 	 * @since 3.0.0 Introduced.
 	 */
 	public function destroy_cookie() {
-		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
+		cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
 	} // END destroy_cookie()
 
 	/**
@@ -719,19 +763,42 @@ class Handler extends Session {
 	} // END forget_session()
 
 	/**
-	 * When a user is logged out, ensure they have a unique nonce by using the customer ID.
+	 * When a user is logged out, ensure they have a unique nonce by using the user ID.
 	 *
 	 * @access public
 	 *
-	 * @since 2.1.2 Introduced.
+	 * @since      2.1.2 Introduced.
+	 * @deprecated 4.0.0
+	 * @version    4.0.0
 	 *
 	 * @param int $uid User ID.
 	 *
 	 * @return string
 	 */
 	public function nonce_user_logged_out( $uid ) {
+		cocart_deprecated_function( 'CoCart\Session\Handler::nonce_user_logged_out', '4.0', 'CoCart\Session\Handler::maybe_update_nonce_user_logged_out' );
+
 		return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
 	} // END nonce_user_logged_out()
+
+	/**
+	 * When a user is logged out, ensure they have a unique nonce to manage cart and more using the customer/session ID.
+	 * This filter runs everything `wp_verify_nonce()` and `wp_create_nonce()` gets called.
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param int    $uid    User ID.
+	 * @param string $action The nonce action.
+	 *
+	 * @return int|string
+	 */
+	public function maybe_update_nonce_user_logged_out( $uid, $action ) {
+		if ( \Automattic\WooCommerce\Utilities\StringUtil::starts_with( $action, 'woocommerce' ) ) {
+			return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
+		}
+
+		return $uid;
+	} // END maybe_update_nonce_user_logged_out()
 
 	/**
 	 * Cleanup cart data from the database and clear caches.
@@ -891,7 +958,7 @@ class Handler extends Session {
 				'cart_key'     => $cart_key,
 				'cart_value'   => maybe_serialize( $cart_value ),
 				'cart_created' => time(),
-				'cart_expiry'  => $cart_expiration,
+				'cart_expiry'  => (int) $cart_expiration,
 				'cart_source'  => $cart_source,
 			),
 			array( '%s', '%s', '%d', '%d', '%s' )
@@ -919,7 +986,7 @@ class Handler extends Session {
 			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
-				'cart_expiry' => $this->_cart_expiration,
+				'cart_expiry' => (int) $this->_cart_expiration,
 			),
 			array( 'cart_key' => $cart_key ),
 			array( '%s', '%d' ),
@@ -989,7 +1056,7 @@ class Handler extends Session {
 			}
 		}
 
-		$data = apply_filters( 'cocart_is_cart_data_valid', $data );
+		$data = apply_filters( 'cocart_' . __FUNCTION__, $data );
 
 		return $data;
 	} // END is_cart_data_valid()
@@ -1003,10 +1070,13 @@ class Handler extends Session {
 	 * @access protected
 	 *
 	 * @since 2.7.2 Introduced.
+	 * @deprecated 4.0.0 No longer used.
 	 *
 	 * @return boolean
 	 */
 	protected function use_httponly() {
+		cocart_deprecated_function( 'CoCart\Session\Handler::use_httponly', '4.0' );
+
 		$httponly = true;
 
 		if ( Authentication::is_rest_api_request() ) {
