@@ -83,12 +83,14 @@ class WC_System_Status {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.0.0
+	 * @version 4.0.0
 	 *
 	 * @return array $data System status data.
 	 */
 	public function get_system_status_data() {
 		$data = array();
+
+		$carts_in_session = cocart_carts_in_session();
 
 		$data['cocart_version'] = array(
 			'name'      => _x( 'Version', 'label that indicates the version of the plugin', 'cart-rest-api-for-woocommerce' ),
@@ -131,7 +133,7 @@ class WC_System_Status {
 		$data['cocart_carts_in_session'] = array(
 			'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
 			'label'     => esc_html__( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
-			'note'      => cocart_carts_in_session(),
+			'note'      => $carts_in_session,
 			'mark'      => '',
 			'mark_icon' => '',
 		);
@@ -143,7 +145,7 @@ class WC_System_Status {
 				/* translators: 1: Number of active carts, 2: Number of carts in session */
 				esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ),
 				cocart_count_carts_active(),
-				cocart_carts_in_session()
+				$carts_in_session
 			),
 			'mark'      => '',
 			'mark_icon' => '',
@@ -156,7 +158,7 @@ class WC_System_Status {
 				/* translators: 1: Number of carts expiring, 2: Number of carts in session */
 				esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ),
 				cocart_count_carts_expiring(),
-				cocart_carts_in_session()
+				$carts_in_session
 			),
 			'tip'       => esc_html__( 'Carts that only have less than 6 hours left before they have expired.', 'cart-rest-api-for-woocommerce' ),
 			'mark'      => '',
@@ -170,7 +172,7 @@ class WC_System_Status {
 				/* translators: 1: Number of expired carts, 2: Number of carts in session */
 				esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ),
 				cocart_count_carts_expired(),
-				cocart_carts_in_session()
+				$carts_in_session
 			),
 			'tip'       => esc_html__( 'Any expired carts that get updated before being cleared will become an active cart again.', 'cart-rest-api-for-woocommerce' ),
 			'mark'      => '',
