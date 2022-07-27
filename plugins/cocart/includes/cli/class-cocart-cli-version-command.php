@@ -5,8 +5,12 @@
  * @author  Sébastien Dumont
  * @package CoCart\CLI
  * @since   3.0.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
+
+namespace CoCart\CLI;
+
+use \WP_CLI;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 4.0.0
  * @package CoCart\CLI
  */
-class CoCart_CLI_Version_Command {
+class Version {
 
 	/**
 	 * Registers the version commands.
@@ -44,7 +48,7 @@ class CoCart_CLI_Version_Command {
 				'shortdesc' => __( 'Returns the database version of CoCart installed.', 'cart-rest-api-for-woocommerce' ),
 			)
 		);
-	}
+	} // END register_commands()
 
 	/**
 	 * Returns the version of CoCart.
@@ -65,7 +69,7 @@ class CoCart_CLI_Version_Command {
 		\WP_CLI::log(
 			\WP_CLI::colorize(
 				/* translators: 2: Version of CoCart */
-				'%y' . sprintf( __( '%1$s Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $current_version )
+				'%y' . sprintf( __( '%1$s Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $current_version ) . '%n'
 			)
 		);
 	} // END version()
@@ -89,7 +93,7 @@ class CoCart_CLI_Version_Command {
 		\WP_CLI::log(
 			\WP_CLI::colorize(
 				/* translators: 2: Database Version of CoCart */
-				'%y' . sprintf( __( '%1$s Database Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $db_version )
+				'%y' . sprintf( __( '%1$s Database Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $db_version ) . '%n'
 			)
 		);
 	} // END db_version()

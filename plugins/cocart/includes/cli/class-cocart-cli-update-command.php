@@ -5,8 +5,14 @@
  * @author  Sébastien Dumont
  * @package CoCart\CLI
  * @since   3.0.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
+
+namespace CoCart\CLI;
+
+use \WP_CLI;
+use CoCart\Install;
+use CoCart\Admin\Notices;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 4.0.0
  * @package CoCart\CLI
  */
-class CoCart_CLI_Update_Command {
+class Update {
 
 	/**
 	 * Registers the update command.
@@ -57,7 +63,7 @@ class CoCart_CLI_Update_Command {
 
 		$current_db_version = get_option( 'cocart_db_version' );
 		$update_count       = 0;
-		$callbacks          = CoCart\Install::get_db_update_callbacks();
+		$callbacks          = Install::get_db_update_callbacks();
 		$callbacks_to_run   = array();
 
 		foreach ( $callbacks as $version => $update_callbacks ) {
@@ -70,7 +76,7 @@ class CoCart_CLI_Update_Command {
 
 		if ( empty( $callbacks_to_run ) ) {
 			// Ensure DB version is set to the current CoCart version to match WP-Admin update routine.
-			CoCart\Install::update_db_version();
+			Install::update_db_version();
 
 			\WP_CLI::success(
 				/* translators: %s Database version number */
@@ -107,10 +113,10 @@ class CoCart_CLI_Update_Command {
 			$progress->tick();
 		}
 
-		CoCart\Install::update_db_version();
+		Install::update_db_version();
 		$progress->finish();
 
-		CoCart\Admin\Notices::remove_notice( 'update_db', true );
+		Notices::remove_notice( 'update_db', true );
 
 		\WP_CLI::success(
 			/* translators: 1: Number of database updates performed 2: Database version number */

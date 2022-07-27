@@ -1,6 +1,6 @@
 <?php
 /**
- * Enables CoCart, via the command line.
+ * Enables CoCart, via the WP-CLI command line.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -8,57 +8,45 @@
  * @version 4.0.0
  */
 
+namespace CoCart;
+
+use \WP_CLI;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	//exit;
 }
 
-// Should WP-CLI not exist, just return to prevent the plugin from crashing.
-if ( ! class_exists( 'WP_CLI' ) ) {
-	return;
-}
-
-if ( ! class_exists( 'CoCart_CLI' ) ) {
+/**
+ * CLI class.
+ */
+class CLI {
 
 	/**
-	 * CLI class.
+	 * Registers CLI commands where needed for CoCart.
+	 *
+	 * @access public
+	 *
+	 * @uses WP_CLI::add_command()
 	 */
-	class CoCart_CLI {
+	public function __construct() {
+		\WP_CLI::add_command( 'cocart', 'CoCart\CLI\Status' );
 
-		/**
-		 * Load required files and hooks to make the CLI work.
-		 *
-		 * @access public
-		 */
-		public function __construct() {
-			$this->includes();
-			$this->hooks();
-		}
+		$this->hooks();
+	} // END __construct()
 
-		/**
-		 * Load command files.
-		 *
-		 * @access private
-		 */
-		private function includes() {
-			require_once COCART_ABSPATH . 'includes/cli/class-cocart-cli-update-command.php';
-			require_once COCART_ABSPATH . 'includes/cli/class-cocart-cli-version-command.php';
-		}
+	/**
+	 * Sets up and hooks WP CLI to CoCart CLI code.
+	 *
+	 * @uses WP_CLI::add_hook()
+	 *
+	 * @access private
+	 */
+	private function hooks() {
+		\WP_CLI::add_hook( 'after_wp_load', 'CoCart\CLI\Version::register_commands' );
+		\WP_CLI::add_hook( 'after_wp_load', 'CoCart\CLI\Update::register_commands' );
+	}
 
-		/**
-		 * Sets up and hooks WP CLI to CoCart CLI code.
-		 *
-		 * @uses WP_CLI::add_hook()
-		 *
-		 * @access private
-		 */
-		private function hooks() {
-			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Version_Command::register_commands' );
-			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Update_Command::register_commands' );
-		}
+} // END class
 
-	} // END class
-
-} // END if class exists
-
-new CoCart_CLI();
+new CLI();
