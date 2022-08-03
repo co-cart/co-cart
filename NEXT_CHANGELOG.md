@@ -8,7 +8,7 @@ This next release re-organizes how CoCart is put together and allows for more op
 
 * Session manager now initiates lighter for the use of CoCart's API while leaving the original initiation for the native WooCommerce intact.
 * Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
-* Use of Namespaces have now been applied to help extend CoCart, easier to manage and identify for developers.
+* Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
 * Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
 * Added package information of each plugin module to WooCommerce System Status.
 * New WP-CLI command `wp cocart status` shows the status of carts in session.
@@ -33,7 +33,7 @@ This next release re-organizes how CoCart is put together and allows for more op
 
 ## Internal Changes
 
-* Autoload via Composer is now used to help load all modules of the plugin and specific class files without the need to manually include them manually.
+* Autoload via Composer is now used to help load all modules of the plugin and specific class files without the need to manually include them.
 * Moved deprecated functions to it's own file.
 * Inline documentation much improved. Allows for a code reference to be generated per release for developers.
 

@@ -52,7 +52,7 @@ function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponl
 				 *
 				 * @since 2.9.1
 				 */
-				'samesite' => apply_filters( 'cocart_cookie_samesite', $samesite )
+				'samesite' => apply_filters( 'cocart_cookie_samesite', $samesite ),
 			),
 			$name,
 			$value
