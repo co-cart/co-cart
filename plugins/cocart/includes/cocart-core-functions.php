@@ -352,4 +352,3 @@ function cocart_carts_source_other() {
 
 	return $results[0]['count'];
 } // END cocart_carts_source_other()
-

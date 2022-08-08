@@ -1,12 +1,10 @@
 # Next Changelog for CoCart Lite
 
-> This changelog is NOT final so take it with a grain of salt.
-
-This next release re-organizes how CoCart is put together and allows for more open expansion possibilities.
+📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
 ## What's New?
 
-* Session manager now initiates lighter for the use of CoCart's API while leaving the original initiation for the native WooCommerce intact.
+* Session manager now initiates lighter for the use of CoCart's API while leaving the original initiation for the native WooCommerce intact for the frontend.
 * Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
 * Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
 * Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
@@ -18,6 +16,47 @@ This next release re-organizes how CoCart is put together and allows for more op
 
 * Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
 * Plugin Suggestions now returns results better the first time it's viewed.
+
+## Security
+
+This is new and is needed to help prevent session hijacking for someone tech-savvy in manipulating the API.
+
+Since adding the most requested option to override the price of the item, there hasn't been an option to disable it or prevent any bad use of the API should someone with knowledge manipulate the item in the cart to set the price outside of the stores initial design.
+
+So if you are not wanting the price override option used at all for any product, you can disable it via a new filter introduced in this release like so.
+
+```php
+add_filter( 'cocart_is_allowed_to_override_price', function() {
+    return false;
+});
+```
+
+To help with hijacking the price, a salt key `COCART_SALT_KEY` can be defined in your `wp-config.php` file. This can be anything you wish it to be as long as it's not rememberable. It will be encrypted later with **md5** when validated. Once a salt key is set, any request to add item/s to the cart with a new price CoCart will check if the salt key was also passed along. If the salt key does not match then the price will remain the same.
+
+Also, in order for the salt key to be active, you also have to tell WordPress if CoCart is _Production_ ready, not staging or in development. You do that by defining `COCART_READY` as `true` in your `wp-config.php` file. This is our way of saying your not debugging CoCart.
+
+### FAQ
+
+- [Wont a developer be still be able find the salt key?](#wont-a-developer-be-still-be-able-find-the-salt-key)
+- [Can I only allow specific products to be overridden?](#can-i-only-allow-specific-products-to-be-overridden)
+#### Wont a developer be still be able find the salt key?
+
+Possibly. It all depends on how well you have minified your code to hide the fact that you are allowing price override. This is only a means to help slow down the possibility of a session hijack.
+
+#### Can I only allow specific products to be overridden?
+
+Yes of course. With the new filter introduced, you can run it through a loop of product ID's and return the statement as true for them only and return false for every other product your not checking.
+
+```php
+add_filter( 'cocart_is_allowed_to_override_price', 'only_override_these_product_prices', 10, 1 );
+function only_override_these_product_prices( $cart_item ) {
+    if ( in_array( $cart_item, array( '24', '784', '451' ) ) ) {
+        return true;
+    }
+
+    return false;
+}
+```
 
 ## Deprecations and Replacements
 
@@ -37,9 +76,12 @@ This next release re-organizes how CoCart is put together and allows for more op
 * Moved deprecated functions to it's own file.
 * Inline documentation much improved. Allows for a code reference to be generated per release for developers.
 
+## Developers
+
+Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
 ## Database Changes
 
-As we now store the customer ID as a separate unique value to the cart session. We have to update the database structure in order to save it so an upgrade will be required.
+As we now store the user ID and customer ID as a separate unique value to the cart session. We have to update the database structure in order to save it so an upgrade will be required.
 
 As this is a big change, until your WordPress site has processed the update for CoCart it will fallback on a legacy session handler to not disrupt your store from working.
 
