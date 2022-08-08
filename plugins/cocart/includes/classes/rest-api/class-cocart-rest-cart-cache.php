@@ -3,13 +3,14 @@
  * REST API:Cart Cache class.
  *
  * @author  Sébastien Dumont
- * @package CoCart
- * @subpackage RestApi
+ * @package CoCart\RestApi
  * @since   3.1.0
  * @version 4.0.0
  */
 
 namespace CoCart\RestApi;
+
+use CoCart\Logger;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -28,7 +29,7 @@ class CartCache {
 	 * Contains an array of cart items cached.
 	 *
 	 * @access protected
-	 * @var    array $_cart_contents_cached - Stores cached cart items.
+	 * @var    array $_cart_contents_cached Stores cached cart items.
 	 */
 	protected static $_cart_contents_cached = array();
 
@@ -50,12 +51,46 @@ class CartCache {
 	 *
 	 * @access public
 	 *
-	 * @param array           $cart_item - Before cart item modified.
-	 * @param WP_REST_Request $request - Full details about the request.
+	 * @since 3.1.0 Introduced.
+	 * @since 4.0.0 Added security check if the item is allowed for the price to be changed.
 	 *
-	 * @return array $cart_item - After cart item modified.
+	 * @param array           $cart_item Before cart item modified.
+	 * @param WP_REST_Request $request   Full details about the request.
+	 *
+	 * @return array $cart_item After cart item modified.
 	 */
 	public function set_new_price( $cart_item, $request ) {
+		/**
+		 * Check if we require a salt key to match before allowing to continue with request.
+		 *
+		 * @since 4.0.0
+		 */
+		if ( ! empty( self::maybe_cocart_require_salt() ) ) {
+			$default = true;
+
+			if ( $request->get_param( 'csaltk' ) !== self::maybe_cocart_require_salt() ) {
+				Logger::log( __( 'An attempt was made to override the price of an item but the salt key did not match.', 'cart-rest-api-for-woocommerce' ), 'alert' );
+			} else {
+				$default = false;
+			}
+
+			if ( $default ) {
+				return $cart_item;
+			}
+		}
+
+		/**
+		 * Check if we allow to change the price of the item.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param array $cart_item Cart item.
+		 * @param array $request   Full details about the request.
+		 */
+		if ( ! self::is_allowed_to_override_price( $cart_item, $request ) ) {
+			return $cart_item;
+		}
+
 		$price = isset( $request['price'] ) ? wc_clean( wp_unslash( $request['price'] ) ) : '';
 
 		if ( ! empty( $price ) ) {
@@ -183,6 +218,45 @@ class CartCache {
 	public function clear_cart_cached() {
 		WC()->session->__unset( 'cart_cached' );
 	} // END clear_cart_cached()
+
+	/**
+	 * Returns true if the cart item can be allowed to override the price.
+	 *
+	 * By default it will always allow overriding the price unless stated otherwise.
+	 *
+	 * @access protected
+	 *
+	 * @param array           $cart_item Cart item.
+	 * @param WP_REST_Request $request   Full details about the request.
+	 *
+	 * @return bool True if the cart item can be allowed to override the price.
+	 */
+	protected function is_allowed_to_override_price( $cart_item, $request ) {
+		return apply_filters( 'cocart_' . __FUNCTION__, true, $cart_item, $request );
+	} // END is_allowed_to_override_price()
+
+	/**
+	 * Returns the salt key for CoCart if defined.
+	 *
+	 * Used to help prevent session hijacking.
+	 *
+	 * @access protected
+	 *
+	 * @return mixed The salt key for CoCart or false if not defined.
+	 */
+	protected function maybe_cocart_require_salt() {
+		// Check if CoCart is ready to use a salt key.
+		if ( ! defined( 'COCART_READY' ) || defined( 'COCART_READY' ) && COCART_READY !== true ) {
+			return '';
+		}
+
+		// Check if the salt key is defined.
+		if ( defined( 'COCART_SALT_KEY' ) ) {
+			return md5( COCART_SALT_KEY );
+		}
+
+		return false;
+	} // END maybe_cocart_require_salt()
 
 } // END class
 
