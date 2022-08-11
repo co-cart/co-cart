@@ -34,6 +34,7 @@ class Install {
 			'cocart_update_400_db_structure',
 			'cocart_update_400_db_sessions',
 			'cocart_update_400_db_version',
+			'cocart_update_400_session_upgraded',
 		),
 	);
 
@@ -638,7 +639,8 @@ cart_expiry BIGINT UNSIGNED NOT NULL,
 cart_source varchar(200) NOT NULL,
 cart_hash varchar(200) NOT NULL,
 PRIMARY KEY  (cart_id),
-UNIQUE KEY cart_key (cart_key)
+UNIQUE KEY cart_key (cart_key),
+UNIQUE KEY cart_user_id (cart_user_id),
 UNIQUE KEY cart_customer (cart_customer)
 ) $collate;";
 
