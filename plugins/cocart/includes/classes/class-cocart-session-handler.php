@@ -1204,6 +1204,29 @@ class Handler extends Session {
 	} // END get_table_name()
 
 	/**
+	 * Get the user ID by looking up the cart key.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $cart_key The cart key.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return bool|int Returns the user ID or false if not found.
+	 */
+	public function get_user_id_by_cart_key( $cart_key ) {
+		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT cart_user_id FROM $this->_table WHERE cart_key = %d", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		if ( is_null( $user_id ) ) {
+			return false;
+		}
+
+		return $user_id;
+	} // END get_user_id_by_cart_key()
+
+	/**
 	 * Get the cart key by looking up the user ID.
 	 *
 	 * @access protected
