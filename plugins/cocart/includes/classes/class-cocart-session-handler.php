@@ -84,7 +84,7 @@ class Handler extends Session {
 		if ( Authentication::is_rest_api_request() ) {
 			$this->_cart_source = 'cocart';
 
-			$this->init_session_without_cookie();
+			$this->init_decoupled_session();
 
 			$this->set_cart_hash();
 		} else {
@@ -209,13 +209,13 @@ class Handler extends Session {
 	 *
 	 * @since 4.0.0 Introduced.
 	 */
-	public function init_session_without_cookie() {
+	public function init_decoupled_session() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
 		$current_user_id     = strval( get_current_user_id() );
 		$this->_cart_user_id = $current_user_id > 0 ? $current_user_id : 0;
 
-		// Customer ID is null until we say otherwise.
-		$this->_customer_id = null;
+		// Customer ID is zero until we say otherwise.
+		$this->_customer_id = 0;
 
 		// Check if we requested to load a specific cart.
 		$this->_cart_key = $this->get_requested_cart();
@@ -436,7 +436,7 @@ class Handler extends Session {
 		}
 
 		// If we are loading a session via REST API then identify cart key.
-		if ( ! empty( $this->_cart_key ) ) {
+		if ( ! empty( $this->_cart_key ) && Authentication::is_rest_api_request() ) {
 			return true;
 		}
 
@@ -879,6 +879,7 @@ class Handler extends Session {
 	 * @access public
 	 *
 	 * @param string $cart_key    The cart key.
+	 * @param int    $user_id     The user ID.
 	 * @param int    $customer_id The customer ID.
 	 * @param mixed  $default     Default cart value.
 	 *
@@ -886,7 +887,7 @@ class Handler extends Session {
 	 *
 	 * @return string|array
 	 */
-	public function get_cart( $cart_key, $customer_id = null, $default = false ) {
+	public function get_cart( string $cart_key, int $user_id = 0, int $customer_id = 0, $default = false ) {
 		global $wpdb;
 
 		// Try to get it from the cache, it will return false if not present or if object cache not in use.
@@ -925,7 +926,7 @@ class Handler extends Session {
 	 * @return string|array
 	 */
 	public function get_session( $cart_key, $default = false ) {
-		return $this->get_cart( $cart_key, '', $default );
+		return $this->get_cart( $cart_key, 0, 0, $default );
 	} // END get_session()
 
 	/**
