@@ -76,7 +76,7 @@
 		"composer/installers": "2.1.1",
 		"co-cart/cocart-sniffs": "0.0.2",
 		"wp-cli/i18n-command": "2.4.0",
-		"squizlabs/php_codesniffer": "3.6.2",
+		"squizlabs/php_codesniffer": "3.7.1",
 		"co-cart/cocart-admin": "dev-master",
 		"co-cart/cocart-compatibility": "dev-master",
 		"co-cart/cocart-products-api": "dev-master",
