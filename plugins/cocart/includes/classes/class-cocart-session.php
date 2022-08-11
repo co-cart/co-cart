@@ -119,7 +119,7 @@ class LoadCart {
 	 * @static
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.1.2
+	 * @version 4.0.0
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
@@ -130,8 +130,19 @@ class LoadCart {
 
 			wc_nocache_headers();
 
+			$handler = new Handler();
+
 			// Check the cart doesn't belong to a registered user - only guest carts should be loadable from session.
-			$user = get_user_by( 'id', $cart_key );
+			$current_db_version = get_option( 'cocart_db_version', null );
+			$session_upgraded   = get_option( 'cocart_session_upgraded', '' );
+
+			// This upgrade check will only be here until the next major version is released or enough users have upgraded.
+			if ( version_compare( $current_db_version, COCART_DB_VERSION, '==' && $session_upgraded === COCART_DB_VERSION ) ) {
+				$user_id = $handler->get_user_id_by_cart_key( $cart_key );
+				$user    = get_user_by( 'id', $user_id );
+			} else {
+				$user = get_user_by( 'id', $cart_key );
+			}
 
 			// If the user exists, the cart key is for a registered user so we should just return.
 			if ( ! empty( $user ) ) {
@@ -172,7 +183,6 @@ class LoadCart {
 			}
 
 			// Get the cart in the database.
-			$handler     = new Handler();
 			$stored_cart = $handler->get_cart( $cart_key );
 
 			if ( empty( $stored_cart ) ) {
