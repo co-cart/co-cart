@@ -50,14 +50,16 @@ As an added bonus for administrators, CoCart Lite also provides the capabilities
 
 CoCart also provides built in features to:
 
-* **NEW**: Override the price for simple or variable products added to cart.
-* **NEW**: Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
+* **NEW**: PRODUCTS API can be cached to get faster response times.
+* **NEW**: Attach customers phone number while adding an item to the cart. (Useful for abandoned cart situations.)
+* Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
+* Override the price for simple or variable products added to cart.
 * Load a cart in session via the web. (Useful if you don't have a headless checkout and want to use the native checkout.)
 * Supports guest customers.
 * Supports basic authentication including the use of email as the username.
 * Support [authentication via WooCommerce's method](https://cocart.dev/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 * Supports multi-sites.
-* Does **not cache** so API responses are **fast**.
+* Does **NOT Cache** the CART API so responses are **fresh** every time.
 * Works across multiple domains, CORS ready! **So you can have multiple frontends connected to one backend.**
 * Allows you to filter CoCart to be white-labelled.
 
@@ -110,6 +112,9 @@ For a logged in customer:
 [View list of the WooCommerce extensions](https://cocart.xyz/woocommerce-extensions/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) that support CoCart or are supported in [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 ## Testimonials - Developers love it
+
+★★★★★
+> An excellent plugin, which makes building a headless WooCommerce experience a breeze. Easy to use, nearly zero setup time. [Harald Schneider](https://wordpress.org/support/topic/excellent-plugin-8062/)
 
 ★★★★★
 > Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
