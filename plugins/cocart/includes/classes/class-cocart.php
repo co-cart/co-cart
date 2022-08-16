@@ -375,7 +375,7 @@ final class Core {
 			$current_db_version = get_option( 'cocart_db_version', null );
 			$session_upgraded   = get_option( 'cocart_session_upgraded', '' );
 
-			if ( version_compare( $current_db_version, COCART_DB_VERSION, '==' && $session_upgraded === COCART_DB_VERSION ) ) {
+			if ( version_compare( $current_db_version, COCART_DB_VERSION, '==' ) && $session_upgraded === COCART_DB_VERSION ) {
 				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
 			} else {
 				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler-legacy.php';
