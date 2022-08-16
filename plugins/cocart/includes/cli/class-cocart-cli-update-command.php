@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart_CLI_Update_Command class file.
+ * WP-CLI: CoCart Update command class file.
  *
  * @author  Sébastien Dumont
  * @package CoCart\CLI

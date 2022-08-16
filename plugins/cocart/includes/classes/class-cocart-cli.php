@@ -14,7 +14,7 @@ use \WP_CLI;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	//exit;
+	exit;
 }
 
 /**

@@ -187,8 +187,8 @@ function cocart_upload_image_from_url( $image_url ) {
 /**
  * Set uploaded image as attachment.
  *
- * @param array $upload        Upload information from wp_upload_bits.
- * @param int   $id            Post ID. Default to 0.
+ * @param array $upload Upload information from wp_upload_bits.
+ * @param int   $id     Post ID. Default to 0.
  *
  * @return int $attachment_id Attachment ID.
  */
@@ -233,10 +233,11 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
  * Forked wc_price() function and altered to remove HTML wrappers
  * for the use of the REST API.
  *
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 3.0.4
- * @param   float $price Raw price.
- * @param   array $args  Arguments to format a price {
+ *
+ * @param float $price Raw price.
+ * @param array $args  Arguments to format a price {
  *     Array of arguments.
  *     Defaults to empty array.
  *
@@ -253,7 +254,7 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
  *     @type string $price_format       Price format depending on the currency position.
  *                                      Defaults the result of get_woocommerce_price_format().
  * }
- * @return  string
+ * @return string
  */
 function cocart_price_no_html( $price, $args = array() ) {
 	$args = apply_filters(
@@ -452,11 +453,12 @@ function cocart_get_store_currency() {
  *
  * @todo Submit a ticket to have this part of WordPress.
  *
- * @since 3.4.0
+ * @since 3.4.0 Introduced.
  *
- * @global array        $wp_rest_additional_fields Holds registered fields, organized by object type.
- * @param  string|array $object_type               Object(s) the field is being registered to, "post"|"term"|"comment" etc.
- * @param  string       $attribute                 The attribute name.
+ * @global array $wp_rest_additional_fields Holds registered fields, organized by object type.
+ * 
+ * @param string|array $object_type               Object(s) the field is being registered to, "post"|"term"|"comment" etc.
+ * @param string       $attribute                 The attribute name.
  */
 if ( ! function_exists( 'unregister_rest_field' ) ) {
 	function unregister_rest_field( $object_type, $attribute ) {
@@ -474,6 +476,7 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
  * Get min/max price meta query args.
  *
  * @since 3.4.1 Introduced.
+ *
  * @param array $args Min price and max price arguments.
  *
  * @return array Min/max price meta query args.
