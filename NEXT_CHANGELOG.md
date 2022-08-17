@@ -12,10 +12,17 @@
 * New WP-CLI command `wp cocart status` shows the status of carts in session.
 * New ability to set customers billing phone number while adding item to the cart.
 
+## Working on
+
+* New settings page: 
+ * * Set the front-end site URL for product permalinks for the Products API.
+ * * Set a Secret Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
+
 ## Improved
 
 * Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
 * Plugin Suggestions now returns results better the first time it's viewed.
+* Sub-menus in the WordPress dashboard now load faster. No redirects.
 
 ## Security
 
@@ -86,3 +93,7 @@ As we now store the user ID and customer ID as a separate unique value to the ca
 As this is a big change, until your WordPress site has processed the update for CoCart it will fallback on a legacy session handler to not disrupt your store from working.
 
 As always it is best to back-up before any database changes are made. When proceeding with the update, the cart session will not be active again until the upgrade is complete.
+
+## Support
+
+No longer supporting API v1. Only bug or security fixes will be provided if any.
