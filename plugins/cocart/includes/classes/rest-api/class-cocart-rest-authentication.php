@@ -16,6 +16,8 @@
 
 namespace CoCart\RestApi;
 
+use CoCart\Utilities\RateLimits;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -55,11 +57,14 @@ class Authentication {
 	 *
 	 * @access  public
 	 * @since   2.6.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 */
 	public function __construct() {
 		// Check that we are only authenticating for our API.
 		if ( $this->is_rest_api_request() ) {
+			// Check API rate limit.
+			add_filter( 'rest_authentication_errors', array( $this, 'check_rate_limits' ), 0 );
+
 			// Authenticate user.
 			add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 			add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
@@ -504,6 +509,164 @@ class Authentication {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END check_api_permissions()
+
+	/**
+	 * Checks the rate limit has not exceeded before proceeding with the request.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param \WP_Error|mixed $result Error from another authentication handler, null if we should handle it, or another value if not.
+	 *
+	 * @return \WP_Error|null|bool
+	 */
+	public function check_rate_limits( $result ) {
+		$rate_limiting_options = RateLimits::get_options();
+
+		if ( $rate_limiting_options->enabled ) {
+			$action_id = 'cocart_api_request_';
+
+			if ( is_user_logged_in() ) {
+				$action_id .= get_current_user_id();
+			} else {
+				$ip_address = self::get_ip_address( $rate_limiting_options->proxy_support );
+
+				if ( ! $ip_address ) {
+					return new \WP_Error(
+						'ip_address_cannot_be_determined',
+						__( 'Bad request. Client IP address cannot be determined.', 'cart-rest-api-for-woocommerce' ),
+						array( 'status' => 400 )
+					);
+				}
+
+				$action_id .= md5( $ip_address );
+			}
+
+			$retry  = RateLimits::is_exceeded_retry_after( $action_id );
+			$server = rest_get_server();
+			$server->send_header( 'RateLimit-Limit', $rate_limiting_options->limit );
+
+			if ( false !== $retry ) {
+				$server->send_header( 'RateLimit-Retry-After', $retry );
+				$server->send_header( 'RateLimit-Remaining', 0 );
+				$server->send_header( 'RateLimit-Reset', time() + $retry );
+
+				$ip_address = $ip_address ?? self::get_ip_address( $rate_limiting_options->proxy_support );
+				if ( $ip_address ) {
+					do_action( 'cocart_api_rate_limit_exceeded', $ip_address );
+				}
+
+				return new \WP_Error(
+					'rate_limit_exceeded',
+					sprintf(
+						__( 'Too many requests. Please wait %d seconds before trying again.', 'cart-rest-api-for-woocommerce' ),
+						$retry
+					),
+					array( 'status' => 400 )
+				);
+			}
+
+			$rate_limit = RateLimits::update_rate_limit( $action_id );
+			$server->send_header( 'RateLimit-Remaining', $rate_limit->remaining );
+			$server->send_header( 'RateLimit-Reset', $rate_limit->reset );
+		}
+
+		// Pass through errors from other authentication methods used before this one.
+		return ! empty( $result ) ? $result : true;
+	} // END check_rate_limits()
+
+	/**
+	 * Get current user IP Address.
+	 *
+	 * X_REAL_IP and CLIENT_IP are custom implementations designed to facilitate obtaining a user's ip through proxies, load balancers etc.
+	 *
+	 * _FORWARDED_FOR (XFF) request header is a de-facto standard header for identifying the originating IP address of a client connecting to a web server through a proxy server.
+	 * Note for X_FORWARDED_FOR, Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2.
+	 * Make sure we always only send through the first IP in the list which should always be the client IP.
+	 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+	 *
+	 * Forwarded request header contains information that may be added by reverse proxy servers (load balancers, CDNs, and so on).
+	 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
+	 * Full RFC at https://datatracker.ietf.org/doc/html/rfc7239
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param boolean $proxy_support Enables/disables proxy support.
+	 *
+	 * @return string|false
+	 */
+	protected static function get_ip_address( $proxy_support = false ) {
+		if ( ! $proxy_support ) {
+			if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) );
+			}
+		}
+
+		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
+			return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) ) );
+		}
+
+		if ( array_key_exists( 'HTTP_CLIENT_IP', $_SERVER ) ) {
+			return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) ) );
+		}
+
+		if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
+			$ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+			if ( is_array( $ips ) && ! empty( $ips ) ) {
+				return self::validate_ip( trim( $ips[0] ) );
+			}
+		}
+
+		if ( array_key_exists( 'HTTP_FORWARDED', $_SERVER ) ) {
+			// Using regex instead of explode() for a smaller code footprint.
+			// Expected format: Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43,for="[2001:db8:cafe::17]:4711"...
+			preg_match(
+				'/(?<=for\=)[^;,]*/i', // We catch everything on the first "for" entry, and validate later.
+				sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) ),
+				$matches
+			);
+
+			if ( strpos( $matches[0] ?? '', '"[' ) !== false ) { // Detect for ipv6, eg "[ipv6]:port".
+				preg_match(
+					'/(?<=\[).*(?=\])/i', // We catch only the ipv6 and overwrite $matches.
+					$matches[0],
+					$matches
+				);
+			}
+
+			if ( ! empty( $matches ) ) {
+				return self::validate_ip( trim( $matches[0] ) );
+			}
+		}
+
+		return false;
+	} // END get_ip_address()
+
+	/**
+	 * Uses filter_var() to validate and return ipv4 and ipv6 addresses
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @param string $ip ipv4 or ipv6 ip string.
+	 *
+	 * @return string|bool
+	 */
+	protected static function validate_ip( $ip ) {
+		$ip = filter_var(
+			$ip,
+			FILTER_VALIDATE_IP,
+			array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
+		);
+
+		return apply_filters( 'cocart_' . __FUNCTION__, $ip );
+	} // END validate_ip()
 
 } // END class.
 
