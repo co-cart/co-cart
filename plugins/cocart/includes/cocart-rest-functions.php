@@ -456,7 +456,7 @@ function cocart_get_store_currency() {
  * @since 3.4.0 Introduced.
  *
  * @global array $wp_rest_additional_fields Holds registered fields, organized by object type.
- * 
+ *
  * @param string|array $object_type               Object(s) the field is being registered to, "post"|"term"|"comment" etc.
  * @param string       $attribute                 The attribute name.
  */

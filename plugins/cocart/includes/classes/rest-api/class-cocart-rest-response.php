@@ -102,9 +102,6 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 					$data = apply_filters( 'cocart_' . $rest_base . '_response', $data );
 				}
 
-				// TODO: Count the number of requests made in a day.
-				// TODO: Add rate limit response function here if needed.
-
 				// Return response.
 				$response = rest_ensure_response( $data );
 
@@ -170,10 +167,10 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 *
 		 * @static
 		 *
-		 * @param  string $error_code String based error code.
-		 * @param  string $error_message User facing error message.
-		 * @param  int    $http_status_code HTTP status. Defaults to 500.
-		 * @param  array  $additional_data  Extra data (key value pairs) to expose in the error response.
+		 * @param string $error_code String based error code.
+		 * @param string $error_message User facing error message.
+		 * @param int    $http_status_code HTTP status. Defaults to 500.
+		 * @param array  $additional_data  Extra data (key value pairs) to expose in the error response.
 		 *
 		 * @return \WP_Error WP Error object.
 		 */
