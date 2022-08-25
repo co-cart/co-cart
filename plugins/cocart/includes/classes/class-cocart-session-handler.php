@@ -540,7 +540,7 @@ class Handler extends Session {
 		if ( is_user_logged_in() && strval( get_current_user_id() ) === $customer_id ) {
 			return false;
 		} else {
-			$customer = new WC_Customer( $customer_id );
+			$customer = new Customer( $customer_id );
 
 			if ( 0 === $customer->get_id() ) {
 				return true;
