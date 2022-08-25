@@ -80,6 +80,9 @@ class Authentication {
 				remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 			}
 
+			// Set logged in cookie to return immediately.
+			add_action( 'set_logged_in_cookie', array( $this, 'set_logged_in_cookie' ) );
+
 			// Check API permissions.
 			add_filter( 'rest_pre_dispatch', array( $this, 'check_api_permissions' ), 10, 3 );
 
@@ -134,6 +137,25 @@ class Authentication {
 
 		return apply_filters( 'cocart_' . __FUNCTION__, $is_rest_api_request );
 	} // END is_rest_api_request()
+
+	/**
+	 * When the login cookies are set, they are not available until the next page reload. For CoCart specifically
+	 * for returning updated carts, we need this to be available immediately.
+	 *
+	 * This is only to help with frameworks that have issues with or lack of support for Cookies.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $logged_in_cookie The value for the logged in cookie.
+	 */
+	public function set_logged_in_cookie( $logged_in_cookie ) {
+		if ( ! defined( 'LOGGED_IN_COOKIE' ) ) {
+			return;
+		}
+		$_COOKIE[ LOGGED_IN_COOKIE ] = $logged_in_cookie;
+	} // END set_logged_in_cookie()
 
 	/**
 	 * Authenticate user.
