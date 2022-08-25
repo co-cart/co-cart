@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.0
-Stable tag: 3.7.0
+Stable tag: 3.7.4
 WC requires at least: 6.4
 WC tested up to: 6.8
 License: GPLv3
@@ -13,6 +13,12 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Customizable REST API that lets you build headless ecommerce without limits powered by WooCommerce.
 
 == Description ==
+
+**Important**
+
+Updates for the CoCart plugin on WordPress.org on **?? ?? 2022** will not be getting any further major updates for a long while in order to focus on the paid CoCart Pro version of the plugin. Only minor fixes for bugs will be updated. Don't worry, you'll still be able to use this plugin forever.
+
+Also while API v1 can still be used it will no longer be supported.
 
 ### CoCart: The #1 ecommerce RESTful API built for WooCommerce that scales for headless development.
 
@@ -50,6 +56,7 @@ As an added bonus for administrators, CoCart Lite also provides the capabilities
 
 CoCart also provides built in features to:
 
+* **EXPERIMENT**: RateLimit for the API. See [Rate Limit Guide](https://github.com/co-cart/co-cart/blob/dev/docs/rate-limit-guide.md).
 * **NEW**: PRODUCTS API can be cached to get faster response times.
 * **NEW**: Attach customers phone number while adding an item to the cart. (Useful for abandoned cart situations.)
 * Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
@@ -680,6 +687,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.3 =
+= 4.0.0 =
 
-* Added `get_session_data()` function to the session handler.
+* Prepare to have your store super charged.
