@@ -18,6 +18,22 @@
  * * Set the front-end site URL for product permalinks for the Products API.
  * * Set a Secret Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
 
+## Experimental
+
+_The first feature experiment has been added in the hopes to provide more control on who/what has access to CoCart' REST API and requires your feedback._
+
+### RateLimiter for the API.
+
+**Disabled by Default**
+
+It's designed to prevent abuse of endpoints from excessive calls and performance degradation on the machine running the store.
+
+It is unauthenticated, so rate limits are keyed by either USER ID (logged in) or IP ADDRESS (guest user), and standard support for running behind a proxy, load balancer, etc. for unauthenticated users can be enabled.
+
+By default, a maximum of 25 requests can be made within a 10-second time frame. These can be changed through an options filter.
+
+More extensive information can be found on the [Rate Limit Guide](https://github.com/co-cart/co-cart/blob/dev/docs/rate-limit-guide.md) along with a test guide.
+
 ## Improved
 
 * Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
@@ -86,6 +102,8 @@ function only_override_these_product_prices( $cart_item ) {
 ## Developers
 
 Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
+Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
+
 ## Database Changes
 
 As we now store the user ID and customer ID as a separate unique value to the cart session. We have to update the database structure in order to save it so an upgrade will be required.
