@@ -1230,7 +1230,7 @@ class Handler extends Session {
 	/**
 	 * Get the cart key by looking up the user ID.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
@@ -1240,7 +1240,7 @@ class Handler extends Session {
 	 *
 	 * @return bool|string Returns the cart key or false if not found.
 	 */
-	protected function get_cart_key_by_user_id( $user_id = 0 ) {
+	public function get_cart_key_by_user_id( $user_id = 0 ) {
 		if ( ! is_int( $user_id ) || $user_id === 0 ) {
 			return false;
 		}
