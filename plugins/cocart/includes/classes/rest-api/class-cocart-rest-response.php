@@ -50,6 +50,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
 				header( 'Access-Control-Expose-Headers: CoCart-Timestamp' );
 				header( 'Access-Control-Expose-Headers: CoCart-Version' );
+				header( 'Access-Control-Expose-Headers: CoCart-API-Customer' );
 			}
 
 			return $served;
