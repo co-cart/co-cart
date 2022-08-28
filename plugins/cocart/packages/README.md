@@ -8,7 +8,7 @@ To create a package and/or feature plugin for CoCart, you can base your plugin o
 
 https://github.com/co-cart/cocart-example-package
 
-Packages require a Package class which `inits` the package and returns version information. This is shown in the example package above.
+Packages require a Package class which `init` the package and returns version information. This is shown in the example package above.
 
 ## Publishing a package
 
