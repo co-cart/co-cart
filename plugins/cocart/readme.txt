@@ -28,7 +28,7 @@ Get started fast with [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=
 
 ## The API
 
-CoCart Lite provides the basic needs to help you get started with **headless ecommerce**.
+CoCart provides the basic needs to help you get started with **headless ecommerce**.
 
 #### Products API
 
@@ -45,7 +45,7 @@ Add **simple, variable** and **grouped products** to the cart by **product ID** 
 * Logout the customer/user.
 * Empty the cart.
 
-As an added bonus for administrators, CoCart Lite also provides the capabilities to:
+As an added bonus for administrators, CoCart also provides the capabilities to:
 
 * Get Carts in Session.
 * Get details of a cart in session.
@@ -74,7 +74,7 @@ Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#
 
 ## Tools and Libraries
 
-* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to easily update to prerelease versions of CoCart Lite for testing and development purposes.
+* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to easily update to prerelease versions of CoCart for testing and development purposes.
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
 * **[CoCart Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product types to add to the cart with validation including adding your own parameters.
@@ -84,7 +84,7 @@ Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#
 
 ### CoCart Pro
 
-CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) extends with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
+CoCart is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) extends with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 
 * **Plugin Updates** for 1 year.
 * **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users via Slack.
@@ -372,7 +372,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Contributors & Developers ==
 
-"CoCart Lite" has **not** yet been translated in other languages. You can [translate "CoCart Lite" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
+"CoCart" has **not** yet been translated in other languages. You can [translate "CoCart" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
 
 **INTERESTED IN DEVELOPMENT?**
 
