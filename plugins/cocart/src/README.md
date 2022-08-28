@@ -10,7 +10,7 @@
 
 This directory is home to new CoCart class files under the `CoCart` namespace using [PSR-4](https://www.php-fig.org/psr/psr-4/) file naming. This is to take full advantage of autoloading.
 
-Ideally, all the new code for CoCart should consist of classes following the PSR-4 naming and living in this directory, and the code in [the `includes` directory](https://github.com/co-cart/cocart/tree/dev/plugins/cocart/includes/README.md) should receive the minimum amount of changes required for bug fixing. This will not always be possible but that should be the rule of thumb.
+Ideally, all the new code for CoCart should consist of classes following the PSR-4 naming and living in this directory, and the code in [the `includes` directory](https://github.com/co-cart/co-cart/blob/dev/plugins/cocart/includes/README.md) should receive the minimum amount of changes required for bug fixing. This will not always be possible but that should be the rule of thumb.
 
 ## Installing Composer
 
