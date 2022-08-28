@@ -12,6 +12,12 @@
 * New WP-CLI command `wp cocart status` shows the status of carts in session.
 * New ability to set customers billing phone number while adding item to the cart.
 
+## Authentication
+
+When the WordPress login cookies are set, they are not available until the next page reload. For CoCart specifically for returning updated carts, we need this to be available immediately so now they are forced to be available without reload. This is only to help with frameworks that have issues with or lack of support for Cookies.
+
+* [RateLimiter for the API.](#ratelimiter-for-the-api)
+
 ## Working on
 
 * New settings page: 
@@ -103,6 +109,8 @@ function only_override_these_product_prices( $cart_item ) {
 
 Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
 Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
+Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
+Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
 
 ## Database Changes
 
