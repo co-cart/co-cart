@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: CoCart Lite
+ * Plugin Name: CoCart
  * Plugin URI:  https://cocart.xyz
  * Description: Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.
  * Author:      Sébastien Dumont

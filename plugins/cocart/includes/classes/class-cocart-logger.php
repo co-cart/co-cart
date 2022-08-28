@@ -59,7 +59,7 @@ class Logger {
 			}
 
 			if ( 'cocart-lite' === $plugin ) {
-				$log_entry = "\n" . '====CoCart Lite Version: ' . COCART_VERSION . '====' . "\n";
+				$log_entry = "\n" . '====CoCart Version: ' . COCART_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-lite' );
 			} elseif ( 'cocart-pro' === $plugin ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";

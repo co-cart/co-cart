@@ -26,11 +26,11 @@
 
 ⚠️ This is the development branch for future version of CoCart. For current stable branch [browse trunk](https://github.com/co-cart/co-cart/tree/trunk). ⚠️
 
-Welcome to the CoCart Lite repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
+Welcome to the CoCart repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)
 
-[Click here to download](https://downloads.wordpress.org/plugin/cart-rest-api-for-woocommerce.zip) the latest release package of CoCart Lite.
+[Click here to download](https://downloads.wordpress.org/plugin/cart-rest-api-for-woocommerce.zip) the latest release package of CoCart.
 
 <br>
 
@@ -77,7 +77,7 @@ composer ready-build
 
 Here are a few other resources you may find helpful.
 
-* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart Lite from the GitHub repo.
+* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart from the GitHub repo.
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
 * **[CoCart Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
@@ -94,7 +94,7 @@ This repository is not suitable for support. Please don't use our issue tracker 
 
 Support requests in issues on this repository will be closed on sight.
 
-> CoCart Lite is not supported via the WooCommerce help desk as the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
+> CoCart is not supported via the WooCommerce help desk as the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
 
 ---
 
@@ -115,9 +115,9 @@ We have different channels at your disposal where you can find information about
 
 ---
 
-## Contributing to CoCart Lite
+## Contributing to CoCart
 
-If you have a patch or have stumbled upon an issue with CoCart Lite (Core), you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) for more information how you can do this.
+If you have a patch or have stumbled upon an issue with CoCart (Core), you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) for more information how you can do this.
 
 ### Join the Community
 
@@ -127,7 +127,7 @@ Do you like the idea of creating a headless e-commerce with WooCommerce? Have qu
 
 ## Credits
 
-CoCart Lite is developed and maintained by [Sébastien Dumont](https://github.com/seb86).
+CoCart is developed and maintained by [Sébastien Dumont](https://github.com/seb86).
 
 Founder of CoCart - [Sébastien Dumont](https://github.com/seb86).
 

@@ -1,4 +1,4 @@
-# Next Changelog for CoCart Lite
+# Next Changelog for CoCart
 
 📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 

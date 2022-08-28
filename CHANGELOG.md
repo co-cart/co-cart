@@ -1,4 +1,4 @@
-# Changelog for CoCart Lite
+# Changelog for CoCart
 
 ## v3.7.3 - 23rd June, 2022
 
@@ -604,7 +604,7 @@ The following filters match filters used in WooCommerce add to cart success noti
 * Fixed: Headers already sent when filtering `rest_pre_serve_request`. Appears to only cause issues when you have `WP_DEBUG` enabled locally.
 * Fixed: A few errors were not returning the status error in the correct format.
 
-> Last update for CoCart Lite v2 ❄️
+> Last update for CoCart v2 ❄️
 
 ## v2.8.2 - 16th December, 2020
 
@@ -630,7 +630,7 @@ The following filters match filters used in WooCommerce add to cart success noti
 * WordPress now needs to be v5.3 minimum.
 * WooCommerce now needs to be v4.3 minimum.
 
-> Support for CoCart Lite will not be provided for sites running any lower than these minimum requirements.
+> Support for CoCart will not be provided for sites running any lower than these minimum requirements.
 
 ## v2.7.4 - 18th November, 2020
 
@@ -683,7 +683,7 @@ The following filters match filters used in WooCommerce add to cart success noti
 * Dev: New filter `cocart_return_default_response` that if set to false will allow you to return a completely new filtered response using `cocart_****_response`. You replace `****` with the API route e.g: `cocart_cart_response` or `cart_add_item_response`.
 
 > New response has been applied to all API routes excluding the following: `logout`, `count-items`, `totals`.
-> Plugin name has been renamed from "CoCart" to "CoCart Lite".
+> Plugin name has been renamed from "CoCart" to "CoCart".
 
 ## v2.6.3 - 23rd September, 2020
 
@@ -707,7 +707,7 @@ The following filters match filters used in WooCommerce add to cart success noti
 * **NEW**: Added backwards compatibility for when `set_customer_session_cookie()` function is called.
 * **NEW**: Site environment is now checked before plugin activates.
 * **NEW**: Plugin will not activate if CoCart Pro _v1.1.0_ or above is installed.
-* Enhanced: Plugin to be better optimized for future releases of WooCommerce and to allow it to be packaged with CoCart Pro so user's will not require CoCart Lite if Pro is installed.
+* Enhanced: Plugin to be better optimized for future releases of WooCommerce and to allow it to be packaged with CoCart Pro so user's will not require CoCart if Pro is installed.
 * Fixed: Return product data if missing once item is added to cart to prevent undefined index.
 * Improved: `uninstall.php` file and now will only clear plugin data and remove the database table if `COCART_REMOVE_ALL_DATA` constant is set to true in user's `wp-config.php`. This is to prevent data loss when deleting the plugin from the backend and to ensure only the site owner can perform this action.
 * Improved: Handling of admin menu by moving to it's own class.
