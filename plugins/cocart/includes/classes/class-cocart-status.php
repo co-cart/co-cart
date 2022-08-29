@@ -159,7 +159,6 @@ class Status {
 				'#\.wpserveur\.net$#i',         // WPServeur.
 				'#\-liquidwebsites\.com$#i',    // Liquidweb.
 				'#\.myftpupload\.com$#i',       // Go Daddy
-				'#\.dream.press',               // DreamPress.
 				'#\.sg-host\.com$#i',           // Singapore Web Hosting.
 				'#\.platformsh\.site$#i',       // Platform.sh
 				'#\.wpstage\.net$#i',           // WP Stagecoach.
