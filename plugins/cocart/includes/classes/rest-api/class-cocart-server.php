@@ -87,6 +87,7 @@ class Server {
 			foreach ( $controllers as $controller_name => $controller_class ) {
 				if ( class_exists( $controller_class ) ) {
 					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
+				}
 			}
 		}
 	}
@@ -153,8 +154,6 @@ class Server {
 			'cocart-v2-cart-totals'       => 'CoCart_REST_Totals_v2_Controller',
 			'cocart-v2-login'             => 'CoCart_REST_Login_v2_Controller',
 			'cocart-v2-logout'            => 'CoCart_REST_Logout_v2_Controller',
-		);
-	}
 		);
 	}
 
