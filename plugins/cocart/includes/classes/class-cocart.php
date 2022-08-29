@@ -228,7 +228,7 @@ final class Core {
 		// include_once COCART_ABSPATH . 'includes/cocart-register-functions.php';
 
 		// Core classes.
-		// include_once COCART_ABSPATH . 'includes/classes/class-cocart-api.php';
+		include_once COCART_ABSPATH . 'includes/classes/utilities/class-cocart-utilities-rate-limits.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-authentication.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-status.php';
 		include_once COCART_ABSPATH . 'includes/classes/class-cocart-helpers.php';
