@@ -87,6 +87,27 @@ class Server {
 			foreach ( $controllers as $controller_name => $controller_class ) {
 				if ( class_exists( $controller_class ) ) {
 					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
+
+					// Register the legacy way.
+					if ( method_exists( $this->controllers[ $namespace ][ $controller_name ], 'register_routes' ) ) {
+						$this->controllers[ $namespace ][ $controller_name ]->register_routes();
+					}
+
+					// Register the new way temporarily here.
+					// Todo: Remove this when stable.
+					if ( $namespace === 'cocart/v3' ) {
+						if (
+							method_exists( $this->controllers[ $namespace ][ $controller_name ], 'get_endpoint' ) &&
+							method_exists( $this->controllers[ $namespace ][ $controller_name ], 'get_path' ) &&
+							method_exists( $this->controllers[ $namespace ][ $controller_name ], 'get_args' )
+						) {
+							$endpoint = $this->controllers[ $namespace ][ $controller_name ]->get_endpoint();
+							$path     = $this->controllers[ $namespace ][ $controller_name ]->get_path();
+							$args     = $this->controllers[ $namespace ][ $controller_name ]->get_args();
+							// cocart_register_rest_route( $endpoint, $path, $args );
+						}
+					}
+				}
 			}
 		}
 	}
@@ -104,6 +125,7 @@ class Server {
 			array(
 				'cocart/v1' => $this->get_v1_controllers(),
 				'cocart/v2' => $this->get_v2_controllers(),
+				'cocart/v3' => $this->get_v3_controllers(),
 			)
 		);
 	}
@@ -155,6 +177,17 @@ class Server {
 			'cocart-v2-logout'            => 'CoCart_REST_Logout_v2_Controller',
 		);
 	}
+
+	/**
+	 * List of controllers in the cocart/v3 namespace.
+	 *
+	 * @access protected
+	 *
+	 * @return array
+	 */
+	protected function get_v3_controllers() {
+		return array(
+			'cocart-v3-test' => 'CoCart_Test_v3_Controller',
 		);
 	}
 
@@ -519,6 +552,11 @@ class Server {
 				if ( ! defined( 'DONOTCACHEPAGE' ) ) {
 					define( 'DONOTCACHEPAGE', true ); // Play nice with WP-Super-Cache plugin (https://wordpress.org/plugins/wp-super-cache/).
 				}
+
+				/**
+				 * This hook "cocart_do_not_cache" allows third party plugins to inject no caching.
+				 */
+				do_action( 'cocart_' . __FUNCTION__ );
 			}
 		}
 	} // END do_not_cache()
