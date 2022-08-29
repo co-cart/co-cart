@@ -310,8 +310,8 @@ final class Core {
 
 		if ( Help::is_cocart_pro_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {
 			self::deactivate_plugin();
-			/* translators: %1$s: CoCart Lite, %2$s: CoCart Pro */
-			wp_die( sprintf( esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart Lite', 'CoCart Pro' ) );
+			/* translators: %1$s: CoCart, %2$s: CoCart Pro */
+			wp_die( sprintf( esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'CoCart Pro' ) );
 		}
 	} // END activation_check()
 
