@@ -17,10 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Limiter' ) ) {
-	return;
-}
-
 class RateLimits extends Limiter {
 
 	/**
