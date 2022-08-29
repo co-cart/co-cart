@@ -146,7 +146,7 @@ class Status {
 
 		$known_staging = array(
 			'urls'      => array(
-				'#\.staging\.wpengine\.com$#i', // WP Engine.
+				'#\.staging\.wpengine\.com$#i', // WP Engine. This is their legacy staging URL structure. Their new platform does not have a common URL.
 				'#\.staging\.kinsta\.com$#i',   // Kinsta.com.
 				'#\.kinsta\.cloud$#i',          // Kinsta.com.
 				'#\.stage\.site$#i',            // DreamPress.
@@ -165,7 +165,7 @@ class Status {
 				'#\.wpstage\.net$#i',           // WP Stagecoach.
 			),
 			'constants' => array(
-				'IS_WPE_SNAPSHOT',      // WP Engine.
+				'IS_WPE_SNAPSHOT',      // WP Engine. This is used on their legacy staging environment. Their new platform does not have a constant.
 				'KINSTA_DEV_ENV',       // Kinsta.com.
 				'WPSTAGECOACH_STAGING', // WP Stagecoach.
 				'COCART_STAGING_MODE',  // Generic.
