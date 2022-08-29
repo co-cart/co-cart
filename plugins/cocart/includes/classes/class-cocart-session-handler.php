@@ -82,11 +82,29 @@ class Handler extends Session {
 	 */
 	public function init() {
 		if ( Authentication::is_rest_api_request() ) {
+			/**
+			 * Hook: cocart_before_init_decoupled_session.
+			 *
+			 * @since X.0.0 Introduced.
+			 *
+			 * @param Handler $this The session handler.
+			 */
+			do_action( 'cocart_before_init_decoupled_session', $this );
+
 			$this->_cart_source = 'cocart';
 
 			$this->init_decoupled_session();
 
 			$this->set_cart_hash();
+
+			/**
+			 * Hook: cocart_after_init_decoupled_session.
+			 *
+			 * @since X.0.0 Introduced.
+			 *
+			 * @param Handler $this The session handler.
+			 */
+			do_action( 'cocart_after_init_decoupled_session', $this );
 		} else {
 			$this->_cart_source = 'woocommerce';
 
