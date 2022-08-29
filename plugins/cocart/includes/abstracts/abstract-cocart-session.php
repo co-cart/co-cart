@@ -87,6 +87,28 @@ abstract class Session extends \WC_Session {
 	protected $_cart_hash;
 
 	/**
+	 * Stores currency code.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0
+	 *
+	 * @var string $_currency_code Currency code
+	 */
+	protected $_currency_code;
+
+	/**
+	 * Stores current locale code.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0
+	 *
+	 * @var string $_locale_code Locale code
+	 */
+	protected $_locale_code;
+
+	/**
 	 * Get cart key.
 	 *
 	 * @access public
@@ -154,6 +176,58 @@ abstract class Session extends \WC_Session {
 	 */
 	public function get_cart_hash() {
 		return $this->_cart_hash;
+	}
+
+	/**
+	 * Get currency code.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_currency_code() {
+		return $this->_currency_code;
+	}
+
+	/**
+	 * Set currency code.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $currency_code Currency Code.
+	 */
+	public function set_currency_code( $currency_code ) {
+		$this->_currency_code = $currency_code;
+	}
+
+	/**
+	 * Get locale code.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_locale_code() {
+		return $this->_locale_code;
+	}
+
+	/**
+	 * Set locale code.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $locale_code Locale Code.
+	 */
+	public function set_locale_code( $locale_code ) {
+		$this->_locale_code = $locale_code;
 	}
 
 }
