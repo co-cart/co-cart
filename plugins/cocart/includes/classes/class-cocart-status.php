@@ -207,7 +207,7 @@ class Status {
 		 *
 		 * @param bool $is_staging If the current site is a staging site.
 		 */
-		$is_staging = apply_filters( 'cocart_is_staging_site', $is_staging );
+		$is_staging = apply_filters( 'cocart_' . __FUNCTION__, $is_staging );
 
 		return $is_staging;
 	} // END is_staging_site()
