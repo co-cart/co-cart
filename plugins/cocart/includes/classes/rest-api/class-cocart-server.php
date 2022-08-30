@@ -87,6 +87,7 @@ class Server {
 			foreach ( $controllers as $controller_name => $controller_class ) {
 				if ( class_exists( $controller_class ) ) {
 					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
+					$this->controllers[ $namespace ][ $controller_name ]->register_routes();
 				}
 			}
 		}
