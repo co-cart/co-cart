@@ -473,6 +473,8 @@ class Server {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
+			'cocart/settings/get',
+			'cocart/settings/save',
 			'cocart/v2/login',
 			'cocart/v1/products',
 			'cocart/v2/products',
