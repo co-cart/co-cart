@@ -801,8 +801,8 @@ class Handler extends Session {
 
 		$this->_data         = array();
 		$this->_cart_key     = $this->generate_key();
-		$this->_cart_user_id = null;
-		$this->_customer_id  = null;
+		$this->_cart_user_id = 0;
+		$this->_customer_id  = 0;
 	} // END forget_cart()
 
 	/**
@@ -1022,7 +1022,7 @@ class Handler extends Session {
 	 *
 	 * @return $cart_key The cart key if successful, false otherwise.
 	 */
-	public function create_new_cart( $cart_key = '', $cart_customer = null, $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
+	public function create_new_cart( $cart_key = '', $cart_customer = 0, $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
 		global $wpdb;
 
 		if ( empty( $cart_key ) ) {
@@ -1294,10 +1294,10 @@ class Handler extends Session {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
-	protected function update_customer_id( int $customer_id = null ) {
+	protected function update_customer_id( int $customer_id = 0 ) {
 		global $wpdb;
 
-		if ( empty( $customer_id ) ) {
+		if ( empty( $customer_id ) || $customer_id === 0 ) {
 			$customer_id = $this->_customer_id;
 		}
 
