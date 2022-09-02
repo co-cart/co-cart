@@ -6,7 +6,7 @@
 
 * New settings page:
  * * Set the front-end site URL for product permalinks for the Products API.
- * * Set a Secret Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
+ * * Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
 * Session manager now initiates lighter for the use of CoCart's API while leaving the original initiation for the native WooCommerce intact for the frontend.
 * Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
 * Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
@@ -57,9 +57,7 @@ add_filter( 'cocart_is_allowed_to_override_price', function() {
 });
 ```
 
-To help with hijacking the price, a salt key `COCART_SALT_KEY` can be defined in your `wp-config.php` file. This can be anything you wish it to be as long as it's not rememberable. It will be encrypted later with **md5** when validated. Once a salt key is set, any request to add item/s to the cart with a new price CoCart will check if the salt key was also passed along. If the salt key does not match then the price will remain the same.
-
-Also, in order for the salt key to be active, you also have to tell WordPress if CoCart is _Production_ ready, not staging or in development. You do that by defining `COCART_READY` as `true` in your `wp-config.php` file. This is our way of saying your not debugging CoCart.
+To help with hijacking the price, a salt key can be set via the new settings page or by defining a new constant `COCART_SALT_KEY` in your `wp-config.php` file. This can be anything you wish it to be as long as it's not rememberable. It will be encrypted later with **md5** when validated. Once a salt key is set, any request to add item/s to the cart with a new price CoCart will check if the salt key was also passed along. If the salt key does not match then the price will remain the same.
 
 ### FAQ
 
