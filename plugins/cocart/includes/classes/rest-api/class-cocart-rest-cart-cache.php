@@ -259,7 +259,7 @@ class CartCache {
 
 		$settings = get_option( 'cocart_settings', array() );
 
-		$salt_key = ! empty( $settings['general']['salt_key'] ) ? $settings['general']['salt_key'] : '';
+		$salt_key = ! empty( $settings['general']['salt_key'] ) ? md5( $settings['general']['salt_key'] ) : '';
 	
 		if ( ! empty( $salt_key ) ) {
 			return $salt_key;
