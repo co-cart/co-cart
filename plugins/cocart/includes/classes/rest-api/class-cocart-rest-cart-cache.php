@@ -63,7 +63,7 @@ class CartCache {
 		/**
 		 * Check if we require a salt key to match before allowing to continue with request.
 		 *
-		 * @since 4.0.0
+		 * @since 4.0.0 Introduced.
 		 */
 		if ( ! empty( self::maybe_cocart_require_salt() ) ) {
 			$default = true;
@@ -82,7 +82,7 @@ class CartCache {
 		/**
 		 * Check if we allow to change the price of the item.
 		 *
-		 * @since 4.0.0
+		 * @since 4.0.0 Introduced.
 		 *
 		 * @param array $cart_item Cart item.
 		 * @param array $request   Full details about the request.
@@ -241,6 +241,8 @@ class CartCache {
 	 * Used to help prevent session hijacking.
 	 *
 	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @return mixed The salt key for CoCart or false if not defined.
 	 */
