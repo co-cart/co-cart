@@ -248,9 +248,9 @@ class CartCache {
 	 */
 	protected function maybe_cocart_require_salt() {
 		// Check if CoCart is ready to use a salt key.
-		if ( ! defined( 'COCART_READY' ) || defined( 'COCART_READY' ) && COCART_READY !== true ) {
+		/*if ( ! defined( 'COCART_READY' ) || defined( 'COCART_READY' ) && COCART_READY !== true ) {
 			return '';
-		}
+		}*/
 
 		// Check if the salt key is defined.
 		if ( defined( 'COCART_SALT_KEY' ) ) {
