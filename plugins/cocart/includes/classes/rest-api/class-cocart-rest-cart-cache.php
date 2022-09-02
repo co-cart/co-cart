@@ -257,6 +257,14 @@ class CartCache {
 			return md5( COCART_SALT_KEY );
 		}
 
+		$settings = get_option( 'cocart_settings', array() );
+
+		$salt_key = ! empty( $settings['general']['salt_key'] ) ? $settings['general']['salt_key'] : '';
+	
+		if ( ! empty( $salt_key ) ) {
+			return $salt_key;
+		}
+
 		return false;
 	} // END maybe_cocart_require_salt()
 
