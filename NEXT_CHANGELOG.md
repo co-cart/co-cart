@@ -4,6 +4,9 @@
 
 ## What's New?
 
+* New settings page:
+ * * Set the front-end site URL for product permalinks for the Products API.
+ * * Set a Secret Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
 * Session manager now initiates lighter for the use of CoCart's API while leaving the original initiation for the native WooCommerce intact for the frontend.
 * Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
 * Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
@@ -17,12 +20,6 @@
 When the WordPress login cookies are set, they are not available until the next page reload. For CoCart specifically for returning updated carts, we need this to be available immediately so now they are forced to be available without reload. This is only to help with frameworks that have issues with or lack of support for Cookies.
 
 * [RateLimiter for the API.](#ratelimiter-for-the-api)
-
-## Working on
-
-* New settings page: 
- * * Set the front-end site URL for product permalinks for the Products API.
- * * Set a Secret Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
 
 ## Experimental
 
