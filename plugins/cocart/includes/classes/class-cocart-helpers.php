@@ -864,15 +864,16 @@ class Help {
 	/**
 	 * Gets the number of days the plugin has been active.
 	 *
-	 * @access private
+	 * @access public
 	 *
 	 * @static
 	 *
 	 * @since 2.7.2 Introduced.
+	 * @since 4.0.0 Changed from "private" access to "public" access.
 	 *
 	 * @return int The number of days the plugin is active.
 	 */
-	private static function get_days_active() {
+	public static function get_days_active() {
 		$date_activated = get_option( 'cocart_install_date', time() );
 		$datediff       = ( time() - $date_activated );
 		$days           = (int) round( $datediff / DAY_IN_SECONDS );
@@ -883,15 +884,16 @@ class Help {
 	/**
 	 * Gets the user's language.
 	 *
-	 * @access private
+	 * @access public
 	 *
 	 * @static
 	 *
 	 * @since 2.7.2 Introduced.
+	 * @since 4.0.0 Changed from "private" access to "public" access.
 	 *
 	 * @return string The user's language.
 	 */
-	private static function get_user_language() {
+	public static function get_user_language() {
 		if ( function_exists( 'get_user_locale' ) ) {
 			return get_user_locale();
 		}
