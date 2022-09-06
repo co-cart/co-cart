@@ -47,7 +47,7 @@ class Status {
 		 *
 		 * @param bool $offline_mode Is CoCart's offline mode active.
 		 */
-		$offline_mode = (bool) apply_filters( 'cocart_offline_mode', $offline_mode );
+		$offline_mode = (bool) apply_filters( 'cocart_' . __FUNCTION__, $offline_mode );
 
 		return $offline_mode;
 	} // END is_offline_mode()
@@ -94,7 +94,11 @@ class Status {
 		$site_url = site_url();
 
 		// Check for localhost and sites using an IP only first.
-		$is_local = $site_url && false === strpos( $site_url, '.' );
+		if ( in_array( $_SERVER['REMOTE_ADDR'], array( '127.0.0.1', '::1' ) ) ) {
+			$is_local = true;
+		} else {
+			$is_local = $site_url && false === strpos( $site_url, '.' );
+		}
 
 		// Use Core's environment check, if available.
 		if ( 'local' === wp_get_environment_type() ) {
@@ -126,7 +130,7 @@ class Status {
 		 *
 		 * @param bool $is_local If the current site is a local site.
 		 */
-		$is_local = apply_filters( 'cocart_is_local_site', $is_local );
+		$is_local = apply_filters( 'cocart_' . __FUNCTION__, $is_local );
 
 		return $is_local;
 	} // END is_local_site()
