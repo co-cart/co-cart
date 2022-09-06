@@ -668,7 +668,7 @@ class Help {
 	 * @since   2.3.0 Introduced.
 	 * @version 2.8.3
 	 *
-	 * @param int $seconds - Time in seconds to check.
+	 * @param int $seconds Time in seconds to check.
 	 *
 	 * @return boolean|int Whether or not CoCart has been active for $seconds.
 	 */
