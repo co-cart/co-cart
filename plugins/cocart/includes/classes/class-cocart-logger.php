@@ -42,13 +42,13 @@ class Logger {
 	 * @static
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 *
 	 * @param string $message - The message of the log.
 	 * @param string $type    - The type of log to record.
 	 * @param string $plugin  - The CoCart plugin being logged.
 	 */
-	public static function log( $message, $type, $plugin = 'cocart-lite' ) {
+	public static function log( $message, $type, $plugin = 'cocart' ) {
 		if ( ! class_exists( 'WC_Logger' ) ) {
 			return;
 		}
@@ -58,9 +58,9 @@ class Logger {
 				self::$logger = wc_get_logger();
 			}
 
-			if ( 'cocart-lite' === $plugin ) {
+			if ( 'cocart' === $plugin ) {
 				$log_entry = "\n" . '====CoCart Version: ' . COCART_VERSION . '====' . "\n";
-				$context   = array( 'source' => 'cocart-lite' );
+				$context   = array( 'source' => 'cocart' );
 			} elseif ( 'cocart-pro' === $plugin ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-pro' );
