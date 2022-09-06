@@ -533,17 +533,26 @@ class Help {
 	 *
 	 * @static
 	 *
-	 * @since 3.0.3 Introduced.
+	 * @since   3.0.3 Introduced.
+	 * @since   4.0.0 Added check if tracking is allowed.
+	 * @version 4.0.0
 	 *
 	 * @param array $args Passed arguments.
 	 *
 	 * @return array The CoCart Campaign.
 	 */
 	public static function cocart_campaign( $args = array() ) {
+		$client   = self::appsero_client();
+		$insights = $client->insights();
+
+		if ( ! $insights->tracking_allowed() ) {
+			return array();
+		}
+
 		$defaults = array(
-			'utm_medium'   => 'cocart-lite',
+			'utm_medium'   => 'cocart',
 			'utm_source'   => 'WordPress',
-			'utm_campaign' => 'liteplugin',
+			'utm_campaign' => 'coreplugin',
 			'utm_content'  => '',
 		);
 
@@ -801,13 +810,22 @@ class Help {
 	 *
 	 * @static
 	 *
-	 * @since 2.7.2 Introduced.
+	 * @since   2.7.2 Introduced.
+	 * @since   4.0.0 Added check if tracking is allowed.
+	 * @version 4.0.0
 	 *
 	 * @param string $url The URL to build upon.
 	 *
 	 * @return string The final URL.
 	 */
 	public static function build_shortlink( $url ) {
+		$client   = self::appsero_client();
+		$insights = $client->insights();
+
+		if ( ! $insights->tracking_allowed() ) {
+			return $url;
+		}
+
 		return add_query_arg( self::collect_additional_shortlink_data(), $url );
 	} // END build_shortlink()
 
@@ -928,6 +946,21 @@ class Help {
 
 		return self::$is_wc_admin_enabled;
 	} // END is_wc_admin_enabled()
+
+	/**
+	 * Sets the Appsero Client and returns the class object.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return object
+	 */
+	public static function appsero_client() {
+		return new \Appsero\Client( '3898b319-80b0-4f93-bc96-1809486b15fd', 'CoCart - Headless ecommerce', COCART_FILE );
+	} // END appsero_client()
 
 } // END class
 
