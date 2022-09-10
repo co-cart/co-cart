@@ -148,6 +148,7 @@ class Handler extends Session {
 
 				// Set new user ID.
 				$this->_cart_user_id = strval( get_current_user_id() );
+				$this->_customer_id  = strval( get_current_user_id() );
 
 				// Save cart data for user and destroy previous cart session.
 				$this->save_cart( $guest_cart_key );
@@ -167,8 +168,8 @@ class Handler extends Session {
 		} else {
 			// New guest customer.
 			$this->set_session_expiration();
-			$this->_cart_user_id = 0;
-			$this->_customer_id  = 0;
+			$this->_cart_user_id = strval( get_current_user_id() );
+			$this->_customer_id  = strval( get_current_user_id() );
 			$this->_cart_key     = $this->generate_key();
 			$this->_data         = $this->get_cart_data();
 		}
@@ -287,13 +288,13 @@ class Handler extends Session {
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @return string Customer ID.
+	 * @return int Customer ID.
 	 */
 	public function get_requested_customer() {
 		$customer_id = ''; // Leave blank to start.
 
 		if ( ! empty( $_SERVER['HTTP_COCART_API_CUSTOMER'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$customer_id = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CUSTOMER'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$customer_id = (int) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CUSTOMER'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		return $customer_id;
