@@ -128,10 +128,10 @@ class Handler extends Session {
 		if ( $cookie ) {
 			// Get cookie details.
 			$this->_cart_key        = $cookie[0];
-			$this->_cart_user_id    = $cookie[1];
-			$this->_customer_id     = $cookie[2];
-			$this->_cart_expiration = $cookie[3];
-			$this->_cart_expiring   = $cookie[4];
+			$this->_cart_expiration = $cookie[1];
+			$this->_cart_expiring   = $cookie[2];
+			$this->_cart_user_id    = $cookie[4];
+			$this->_customer_id     = $cookie[5];
 			$this->_has_cookie      = true;
 			$this->_data            = $this->get_cart_data();
 
@@ -332,10 +332,10 @@ class Handler extends Session {
 		if ( $set ) {
 			$to_hash           = $this->_cart_key . '|' . $this->_cart_expiration;
 			$cookie_hash       = hash_hmac( 'md5', $to_hash, wp_hash( $to_hash ) );
-			$cookie_value      = $this->_cart_key . '||' . $this->_cart_user_id . '||' . $this->_customer_id . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash;
+			$cookie_value      = $this->_cart_key . '||' . $this->_cart_expiration . '||' . $this->_cart_expiring . '||' . $cookie_hash . '||' . $this->_cart_user_id . '||' . $this->_customer_id;
 			$this->_has_cookie = true;
 
-			// If no cookie exists then create a new.
+			// If no cookie exists or does not match the value then create a new.
 			if ( ! isset( $_COOKIE[ $this->_cookie ] ) || $_COOKIE[ $this->_cookie ] !== $cookie_value ) {
 				cocart_setcookie( $this->_cookie, $cookie_value, $this->_cart_expiration, $this->use_secure_cookie(), true );
 			}
@@ -572,12 +572,12 @@ class Handler extends Session {
 	/**
 	 * Get the cart cookie, if set. Otherwise return false.
 	 *
-	 * Cart cookies without a cart key and customer ID are invalid.
+	 * Cart cookies without a cart key are invalid.
 	 *
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Added $cart_key to return from cookie value.
+	 * @since   4.0.0 Added $cart_key, $user_id, $customer_id to return from cookie value.
 	 * @version 4.0.0
 	 *
 	 * @return bool|array
@@ -589,7 +589,16 @@ class Handler extends Session {
 			return false;
 		}
 
-		list( $cart_key, $user_id, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash ) = explode( '||', $cookie_value );
+		/**
+		 * Check the cookie value is more than what WooCommerce normally sets.
+		 *
+		 * Will return false if the cookie value is missing data CoCart requires for it's session handling.
+		 */
+		if ( explode( '||', $cookie_value ) > 4 ) {
+			list( $cart_key, $cart_expiration, $cart_expiring, $cookie_hash, $user_id, $customer_id ) = explode( '||', $cookie_value );
+		} else {
+			return false;
+		}
 
 		if ( empty( $cart_key ) ) {
 			return false;
@@ -603,7 +612,7 @@ class Handler extends Session {
 			return false;
 		}
 
-		return array( $cart_key, $user_id, $customer_id, $cart_expiration, $cart_expiring, $cookie_hash );
+		return array( $cart_key, $cart_expiration, $cart_expiring, $cookie_hash, $user_id, $customer_id );
 	} // END get_session_cookie()
 
 	/**
