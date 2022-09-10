@@ -50,7 +50,10 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
 				header( 'Access-Control-Expose-Headers: CoCart-Timestamp' );
 				header( 'Access-Control-Expose-Headers: CoCart-Version' );
+				header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Key' );
 				header( 'Access-Control-Expose-Headers: CoCart-API-Customer' );
+				header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Expiring' );
+				header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Expiration' );
 			}
 
 			return $served;
@@ -111,6 +114,14 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 				// Add version of CoCart.
 				$response->header( 'CoCart-Version', COCART_VERSION );
+
+				if ( 'cart' === $rest_base ) {
+					$cart_expiring   = WC()->session->get_cart_is_expiring();
+					$cart_expiration = WC()->session->get_carts_expiration();
+			
+					$response->header( 'CoCart-API-Cart-Expiring', $cart_expiring );
+					$response->header( 'CoCart-API-Cart-Expiration', $cart_expiration );
+				}
 
 				return $response;
 			} catch ( \CoCart_Data_Exception $e ) {

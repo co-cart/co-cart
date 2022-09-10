@@ -135,6 +135,32 @@ abstract class Session extends \WC_Session {
 	}
 
 	/**
+	 * Get cart is expiring.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_cart_is_expiring() {
+		return $this->_cart_expiring;
+	}
+
+	/**
+	 * Get carts expiration.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_carts_expiration() {
+		return $this->_cart_expiration;
+	}
+
+	/**
 	 * Get session data
 	 *
 	 * @access public
