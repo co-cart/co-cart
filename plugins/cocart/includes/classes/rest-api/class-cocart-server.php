@@ -17,6 +17,9 @@ use CoCart\Logger;
 use CoCart\Help;
 use CoCart\Session\Handler;
 
+use \WC_Customer as Customer;
+use \WC_Cart as Cart;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -277,20 +280,21 @@ class Server {
 	 *
 	 * @access public
 	 *
-	 * @since 2.1.0 Introduced.
+	 * @since   2.1.0 Introduced.
+	 * @version 4.0.0
 	 */
 	public function initialize_cart() {
-		if ( is_null( WC()->customer ) || ! WC()->customer instanceof WC_Customer ) {
+		if ( is_null( WC()->customer ) || ! WC()->customer instanceof Customer ) {
 			$customer_id = strval( get_current_user_id() );
 
-			WC()->customer = new WC_Customer( $customer_id, true );
+			WC()->customer = new Customer( $customer_id, true );
 
 			// Customer should be saved during shutdown.
 			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
 		}
 
-		if ( is_null( WC()->cart ) || ! WC()->cart instanceof WC_Cart ) {
-			WC()->cart = new WC_Cart();
+		if ( is_null( WC()->cart ) || ! WC()->cart instanceof Cart ) {
+			WC()->cart = new Cart();
 		}
 	} // END initialize_cart()
 
