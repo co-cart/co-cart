@@ -22,7 +22,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since  3.1.0 Introduced
+		 * @since 3.1.0 Introduced
 		 */
 		public function __construct() {
 			// Expose custom headers.
@@ -64,7 +64,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 *
 		 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 		 *
-		 * @access  public
+		 * @access public
 		 *
 		 * @since   3.0.0  Introduced.
 		 * @since   3.1.0  Added two response headers; a timestamp and the version of CoCart.
@@ -72,11 +72,11 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @since   4.0.0  Removed old custom headers with the prefix `X-`
 		 * @version 4.0.0
 		 *
-		 * @param   mixed  $data      The original data response of the API requested.
-		 * @param   string $namespace The namespace of the API requested.
-		 * @param   string $rest_base The rest base of the API requested.
+		 * @param mixed  $data      The original data response of the API requested.
+		 * @param string $namespace The namespace of the API requested.
+		 * @param string $rest_base The rest base of the API requested.
 		 *
-		 * @return  WP_REST_Response  - The returned response.
+		 * @return WP_REST_Response  - The returned response.
 		 */
 		public static function get_response( $data, $namespace = '', $rest_base = '' ) {
 			if ( empty( $rest_base ) ) {
