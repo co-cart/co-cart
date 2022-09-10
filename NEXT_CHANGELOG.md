@@ -107,6 +107,7 @@ Introduced new filter `cocart_validate_ip` that can be used to validate if the I
 Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
 Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
 
+Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration`. These two new headers can help developers use the timestamps of the cart in session for when it is going to expire and how long until it does expire completely.
 ## Database Changes
 
 As we now store the user ID and customer ID as a separate unique value to the cart session. We have to update the database structure in order to save it so an upgrade will be required.
