@@ -415,7 +415,7 @@ class Authentication {
 				'CoCart-API-Cart-Key',
 				'CoCart-API-Customer',
 				'CoCart-API-Cart-Expiring',
-				'CoCart-API-Cart-Expiration'
+				'CoCart-API-Cart-Expiration',
 			);
 
 			header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );

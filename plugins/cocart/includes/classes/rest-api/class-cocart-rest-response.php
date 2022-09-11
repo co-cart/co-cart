@@ -118,7 +118,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 				if ( 'cart' === $rest_base ) {
 					$cart_expiring   = WC()->session->get_cart_is_expiring();
 					$cart_expiration = WC()->session->get_carts_expiration();
-			
+
 					$response->header( 'CoCart-API-Cart-Expiring', $cart_expiring );
 					$response->header( 'CoCart-API-Cart-Expiration', $cart_expiration );
 				}
