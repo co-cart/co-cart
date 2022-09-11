@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart 4.0.0-alpha.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2022-09-10 18:36:25+00:00\n"
+"POT-Creation-Date: 2022-09-11 18:52:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -404,12 +404,12 @@ msgid "%s is no longer used. No replacement."
 msgstr ""
 
 #: includes/classes/class-cocart-session-handler-legacy.php:634
-#: includes/classes/class-cocart-session-handler.php:698
+#: includes/classes/class-cocart-session-handler.php:707
 #. translators: %s: filter name
 msgid "This filter \"%s\" is no longer required and has been deprecated."
 msgstr ""
 
-#: includes/classes/class-cocart-session-handler.php:711
+#: includes/classes/class-cocart-session-handler.php:720
 msgid ""
 "Cart data not valid or the session had not loaded during a request. No "
 "session saved."
@@ -483,23 +483,23 @@ msgid ""
 "connection."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-authentication.php:470
-#: includes/classes/rest-api/class-cocart-rest-authentication.php:489
-#: includes/classes/rest-api/class-cocart-rest-authentication.php:505
+#: includes/classes/rest-api/class-cocart-rest-authentication.php:472
+#: includes/classes/rest-api/class-cocart-rest-authentication.php:491
+#: includes/classes/rest-api/class-cocart-rest-authentication.php:507
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-authentication.php:519
+#: includes/classes/rest-api/class-cocart-rest-authentication.php:521
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-authentication.php:560
+#: includes/classes/rest-api/class-cocart-rest-authentication.php:562
 msgid "Bad request. Client IP address cannot be determined."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-authentication.php:585
+#: includes/classes/rest-api/class-cocart-rest-authentication.php:587
 msgid "Too many requests. Please wait %d seconds before trying again."
 msgstr ""
 
@@ -550,14 +550,14 @@ msgstr ""
 msgid "Variation for \"%s\" is not purchasable."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-response.php:95
+#: includes/classes/rest-api/class-cocart-rest-response.php:98
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-rest-cart-v1-controller.php:923
 #. translators: %s: REST API URL
 #. translators: %s: api route
 msgid "Request returned nothing for \"%s\"! Please seek assistance."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-server.php:230
+#: includes/classes/rest-api/class-cocart-server.php:233
 #. translators: %1$s is previous ID, %2$s is current ID.
 msgid "User has changed! Was %1$s before and is now %2$s"
 msgstr ""
@@ -2227,11 +2227,11 @@ msgstr ""
 
 #: packages/admin/includes/class-cocart-admin-plugin-action-links.php:120
 #. translators: %s: CoCart
-msgid "View %s documentation"
+msgid "View %s API Reference"
 msgstr ""
 
 #: packages/admin/includes/class-cocart-admin-plugin-action-links.php:122
-msgid "Documentation"
+msgid "API Reference"
 msgstr ""
 
 #: packages/admin/includes/class-cocart-admin-plugin-action-links.php:125
@@ -2430,6 +2430,7 @@ msgid "Welcome to %s"
 msgstr ""
 
 #: packages/admin/includes/class-cocart-admin-setup-wizard.php:327
+#: packages/admin/includes/views/html-getting-started.php:51
 #. translators: 1: CoCart, 2: WooCommerce
 msgid ""
 "Thank you for choosing %1$s - the #1 customizable WordPress REST API for "
@@ -2527,124 +2528,128 @@ msgstr ""
 msgid "You're ready!"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:591
-#: packages/admin/includes/views/html-getting-started.php:71
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:592
+#: packages/admin/includes/views/html-getting-started.php:84
 #. translators: %s: CoCart
 msgid ""
-"Now that you have %1$s installed, your ready to start developing your "
-"headless store."
+"Now that you have %s installed your ready to start developing your headless "
+"store. We recommend that you have <code>WP_DEBUG</code> enabled to help you "
+"while testing."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:597
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:599
+#: packages/admin/includes/views/html-getting-started.php:91
 msgid ""
 "In the API reference you will find the API routes available with examples "
 "in a few languages."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:604
-#. translators: %1$s: Developers Hub link
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:606
+#. translators: 1: Developers Hub link, 2: CoCart
 msgid ""
 "At the <a href=\"%1$s\" target=\"_blank\">developers hub</a> you can find "
-"all the resources you need to be productive with CoCart and keep track of "
+"all the resources you need to be productive with %2$s and keep track of "
 "everything that is happening with the plugin including development "
 "decisions and scoping of future versions."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:613
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:616
+#: packages/admin/includes/views/html-getting-started.php:108
 msgid ""
 "It also provides answers to most common questions should you find that you "
-"need help and is the best place to look at first before contacting for "
-"support."
+"need help and is the best place to look first before contacting support."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:621
-#: packages/admin/includes/views/html-getting-started.php:108
-#. translators: %s: CoCart
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:624
+#: packages/admin/includes/views/html-getting-started.php:116
+#. translators: 1: CoCart, 2: WooCommerce
 msgid ""
 "If you do need support or simply want to talk to other developers about "
-"taking your WooCommerce store headless, come join the %s community."
+"taking your %2$s store headless, come join the %s community."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:627
-#: packages/admin/includes/views/html-getting-started.php:114
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:631
+#: packages/admin/includes/views/html-getting-started.php:123
 msgid "Thank you and enjoy!"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:629
-#: packages/admin/includes/views/html-getting-started.php:116
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:633
+#: packages/admin/includes/views/html-getting-started.php:125
 msgid "regards,"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:641
-#: packages/admin/includes/views/html-getting-started.php:124
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:645
+#: packages/admin/includes/views/html-getting-started.php:133
 #. translators: %s: CoCart
 msgid "Founder of %s"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:650
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:654
 msgid "Get product updates, tutorials and more straight to your inbox."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:658
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:662
 msgid "Email address"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:664
 #: packages/admin/includes/class-cocart-admin-setup-wizard.php:668
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:672
 msgid "Yes please!"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:677
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:681
 msgid "Next step"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:678
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:682
 msgid "Start Developing"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:679
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:683
 msgid "You're ready to develop your headless store."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:684
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:688
+#: packages/admin/includes/notes/class-cocart-wc-admin-note-thanks-install.php:99
+#: packages/admin/includes/views/html-getting-started.php:138
 msgid "View API Reference"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:691
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:695
 msgid "Need something else?"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:692
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:696
 msgid "Install Plugins"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:693
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:697
 msgid "Checkout plugin suggestions by CoCart."
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:698
-#: packages/admin/includes/views/html-getting-started.php:139
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:702
+#: packages/admin/includes/views/html-getting-started.php:148
 msgid "View Plugin Suggestions"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:705
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:709
 msgid "You can also"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:710
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:714
 msgid "Visit Dashboard"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:713
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:717
 msgid "Download CoCart JS"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:716
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:720
 msgid "Install CoCart VSCode Extension"
 msgstr ""
 
-#: packages/admin/includes/class-cocart-admin-setup-wizard.php:719
-#: packages/admin/includes/views/html-getting-started.php:130
+#: packages/admin/includes/class-cocart-admin-setup-wizard.php:723
+#: packages/admin/includes/views/html-getting-started.php:139
 msgid "Join Community"
 msgstr ""
 
@@ -2711,25 +2716,22 @@ msgstr ""
 
 #: packages/admin/includes/notes/class-cocart-wc-admin-note-need-help.php:82
 msgid ""
-"You can ask a question on the support forum, discuss with other CoCart "
-"developers in the Slack community or get priority support."
+"You can ask a question on the support forum or discuss with other CoCart "
+"developers in the Slack community."
 msgstr ""
 
-#: packages/admin/includes/notes/class-cocart-wc-admin-note-thanks-install.php:94
+#: packages/admin/includes/notes/class-cocart-wc-admin-note-thanks-install.php:85
 #. translators: %s: CoCart
 msgid "Thank you for installing %s!"
 msgstr ""
 
-#: packages/admin/includes/notes/class-cocart-wc-admin-note-thanks-install.php:97
+#: packages/admin/includes/notes/class-cocart-wc-admin-note-thanks-install.php:91
+#. translators: %s: CoCart
 msgid ""
-"Now you are ready to start developing your headless store. Visit the "
-"documentation site to learn how to access the API, view examples and find "
-"many action hooks and filters and more."
-msgstr ""
-
-#: packages/admin/includes/notes/class-cocart-wc-admin-note-thanks-install.php:102
-#: packages/admin/includes/views/html-getting-started.php:129
-msgid "View Documentation"
+"Now that you have %s installed your ready to start developing your headless "
+"store. We recommend that you have <code>WP_DEBUG</code> enabled to help you "
+"while testing. In the API reference you will find the API routes available "
+"with examples in a few languages."
 msgstr ""
 
 #: packages/admin/includes/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:98
@@ -2780,50 +2782,39 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: packages/admin/includes/views/html-getting-started.php:40
+#: packages/admin/includes/views/html-getting-started.php:41
 #. translators: 1: CoCart
 msgid "Welcome to %s."
 msgstr ""
 
-#: packages/admin/includes/views/html-getting-started.php:50
+#: packages/admin/includes/views/html-getting-started.php:62
 #. translators: 1: CoCart, 2: WooCommerce
 msgid ""
-"Thank you for choosing %1$s - the #1 REST API that handles the frontend of "
-"%2$s."
+"%1$s provides support for managing the user session, alternative options "
+"for doing this task do exist; however, their usage can be limited to "
+"applications of the same origin as the WordPress installation. This is due "
+"to %2$s using cookies to store user session tokens."
 msgstr ""
 
-#: packages/admin/includes/views/html-getting-started.php:61
-#. translators: 1: CoCart
-msgid ""
-"%s focuses on the front-end of the store helping you to manage shopping "
-"carts and allows developers to build a headless store in any framework of "
-"their choosing. No local storing required."
-msgstr ""
-
-#: packages/admin/includes/views/html-getting-started.php:81
+#: packages/admin/includes/views/html-getting-started.php:73
 #. translators: %s: CoCart
 msgid ""
-"In the documentation you will find the API routes available along with over "
-"100+ action hooks and filters for developers to customise API responses or "
-"change how %1$s operates."
+"%s provides the utilities to change this behavior during any cart request "
+"and passes the required information to HTTP Header so it can be cached "
+"client-side. The use of an HTTP Authorization header is optional allowing "
+"users to shop as a guest."
 msgstr ""
 
-#: packages/admin/includes/views/html-getting-started.php:91
+#: packages/admin/includes/views/html-getting-started.php:98
+#. translators: 1: Developers Hub link, 2: CoCart
 msgid ""
-"There is also a <a href=\"%1$s\" target=\"_blank\">developers hub</a> where "
-"you can find all the resources you need to be productive with CoCart and "
-"keep track of everything that is happening with the plugin including "
-"development decisions and scoping of future versions."
+"At the <a href=\"%s\" target=\"_blank\">developers hub</a> you can find all "
+"the resources you need to be productive with %2$s and keep track of "
+"everything that is happening with the plugin including development "
+"decisions and scoping of future versions."
 msgstr ""
 
-#: packages/admin/includes/views/html-getting-started.php:100
-msgid ""
-"It also provides answers to most common questions should you find that you "
-"need help. This is best place to look at first before contacting for "
-"support."
-msgstr ""
-
-#: packages/admin/includes/views/html-getting-started.php:136
+#: packages/admin/includes/views/html-getting-started.php:145
 msgid ""
 "Want to find compatible plugins or extensions for CoCart. Checkout our "
 "plugin suggestions that can help enhance your development and your "
