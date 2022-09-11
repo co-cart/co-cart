@@ -34,6 +34,12 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 <br>
 
+## What does it provide?
+
+CoCart provides support for managing the user session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
+
+CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
+
 ## Quick Start
 
 📢 This repo is not package ready and must be **built** in order to activate the plugin.
@@ -95,6 +101,10 @@ This repository is not suitable for support. Please don't use our issue tracker 
 Support requests in issues on this repository will be closed on sight.
 
 > CoCart is not supported via the WooCommerce help desk as the plugin is not sold via WooCommerce.com, the support team at WooCommerce.com is not familiar with it and may not be able to assist.
+
+## Roadmap
+
+Check out the [roadmap](https://cocart.dev/roadmap/) to get informed of the latest features released and the upcoming ones.
 
 ---
 
