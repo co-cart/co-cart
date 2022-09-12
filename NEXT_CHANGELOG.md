@@ -7,7 +7,7 @@
 * New settings page:
  * * Set the front-end site URL for product permalinks for the Products API.
  * * Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
-* Session manager now initiates lighter for the use of CoCart's API while leaving the original initiation for the native WooCommerce intact for the frontend.
+* [Session handler](#session-handler) now initiates lighter for the use of CoCart's API while leaving the original handling for the native WooCommerce intact for the frontend.
 * Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
 * Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
 * Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
@@ -82,12 +82,26 @@ function only_override_these_product_prices( $cart_item ) {
 }
 ```
 
+## Session handler
+
+The session handler is a big part of what makes CoCart work. Without it, decoupling WooCommerce would be a problem as it relies heavily using cookies to store user session tokens that is fixed on the same origin as the WordPress installation.
+
+Our handler had to change in order to remove that limitation and has gone through a number of changes over many releases. While most of the changes were made to help support how CoCart is handled via the REST API, it took away some of the compatibility with it for extensions, third party plugins and custom functions developed for a client who are using the public functions within the original session handler developed by WooCommerce.
+
+After more research and testing, we found that due to the limits of the session handler in WooCommerce. Many popular extensions and third party plugins have created hacky workarounds to compensate. One piece of data we found to be used the most to help identify the user session is the WooCommerce cookie, which we had replaced with our own.
+
+While the main goal is to make CoCart the best headless API, we understand now that we have to leave these limitations in while still making CoCart run at it's best without breaking core features in WooCommerce.
+
+So the session handler has been updated and improved to handle both WooCommerce extensions and third party plugins even better than before while still supporting CoCart for what it needs. The original WooCommerce session cookie is put back for the frontend while the API doesn't use it at all.
+
+Instead the user session data is returned during any cart request and passes the required information to HTTP Header so it can be cached client-side.
+
 ## Deprecations and Replacements
 
 * Legacy API that extended `wc/v2` when CoCart was only a prototype.
 * Session cookie is now reverted back to original WooCommerce session cookie.
 * Filter `cocart_customer_id` no longer used to override the customer ID for the session.
-* Filter `cocart_cookie` no longer used.
+* Filter `cocart_cookie` no longer used as the session cookie has been reverted back to default.
 * Function `WC()->session->use_httponly()` no longer used.
 * Function `WC()->session->cocart_setcookie()` no longer used. Replaced with `cocart_setcookie()`.
 * Function `WC()->session->get_cart_created()` no longer used. Replaced with `cocart_get_timestamp()`.
