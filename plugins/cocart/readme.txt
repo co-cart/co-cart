@@ -22,21 +22,23 @@ Also while API v1 can still be used it will no longer be supported.
 
 ### CoCart: The #1 ecommerce RESTful API built for WooCommerce that scales for headless development.
 
-Take your **WooCommerce** business to the next level with **headless ecommerce**.
+Take your **WooCommerce** business to the next level with **headless ecommerce** using CoCart.
 
-Get started fast with [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce and build headless ecommerce using your favorite technologies.
+[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce allows you to separate your CMS from your presentation layer, while developers can use the frameworks and tools they love.
 
 ## The API
 
-CoCart provides the basic needs to help you get started with **headless ecommerce**.
+CoCart provides support for managing the user session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
 
-#### Products API
-
-Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
+CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
 
 #### Cart API
 
 Add **simple, variable** and **grouped products** to the cart by **product ID** or **SKU ID**, update cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your **UX/UI**.
+
+#### Products API
+
+Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
 
 #### Extras
 
@@ -65,7 +67,7 @@ CoCart also provides built in features to:
 * Supports guest customers.
 * Supports basic authentication including the use of email as the username.
 * Support [authentication via WooCommerce's method](https://cocart.dev/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
-* Supports multi-sites.
+* Supports multi-site network.
 * Does **NOT Cache** the CART API so responses are **fresh** every time.
 * Works across multiple domains, CORS ready! **So you can have multiple frontends connected to one backend.**
 * Allows you to filter CoCart to be white-labelled.
@@ -143,6 +145,20 @@ For a logged in customer:
 
 We aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that we do prioritize support for our premium customers. Communication is handled one-on-one via direct messaging in [Slack](https://app.slack.com/client/TD85PLSMA/) and is available to people who purchased [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
+### Upgrading
+
+It is recommended that anytime you want to update CoCart that you get familiar with what's changed in the release.
+
+CoCart publishes [release notes via the changelog](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#developers).
+
+CoCart uses Semver practices. The summary of Semver versioning is as follows:
+
+- *MAJOR* version when you make incompatible API changes.
+- *MINOR* version when you add functionality in a backwards compatible manner.
+- *PATCH* version when you make backwards compatible bug fixes.
+
+You can read more about the details of Semver at [semver.org](https://semver.org/)
+
 #### Add-ons to further enhance CoCart
 
 We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
@@ -218,6 +234,8 @@ The manual installation method involves downloading the plugin and uploading it 
 = Upgrading =
 
 It is recommended that anytime you want to update CoCart that you get familiar with what's changed in the release.
+
+CoCart publishes [release notes via the changelog](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#developers).
 
 CoCart uses Semver practices. The summary of Semver versioning is as follows:
 
@@ -369,6 +387,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 1. Get Products (API v2)
 2. Get Individual Product (API v2)
 3. Add Item to Cart (API v2)
+4. Settings page
 
 == Contributors & Developers ==
 
