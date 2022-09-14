@@ -8,7 +8,7 @@
  * @category API
  * @package  CoCart\API\Products\v1
  * @since    3.1.0
- * @version  3.4.1
+ * @version  3.7.5
  * @license  GPL-2.0+
  */
 
@@ -633,7 +633,9 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		}
 
 		// Filter by Product Rating
-		if ( ! empty( $request['rating'] ) ) {
+		$rating = ! empty( $request['rating'] ) ? $request['rating'] : array();
+
+		if ( $rating ) {
 			$rating_terms = array();
 
 			foreach ( $rating as $value ) {
@@ -1162,7 +1164,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'description' => __( 'Catalog visibility.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'visible',
-					'enum'        => array( 'visible', 'catalog', 'search', 'hidden' ),
+					'enum'        => array( 'any', 'visible', 'catalog', 'search', 'hidden' ),
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
