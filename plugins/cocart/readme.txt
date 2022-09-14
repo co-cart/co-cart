@@ -4,9 +4,9 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.0
-Stable tag: 3.7.4
+Stable tag: 3.7.5
 WC requires at least: 6.4
-WC tested up to: 6.8
+WC tested up to: 6.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,7 +16,7 @@ Customizable REST API that lets you build headless ecommerce without limits powe
 
 **Important**
 
-Updates for the CoCart plugin on WordPress.org on **?? ?? 2022** will not be getting any further major updates for a long while in order to focus on the paid CoCart Pro version of the plugin. Only minor fixes for bugs will be updated. Don't worry, you'll still be able to use this plugin forever.
+Updates for the CoCart plugin on WordPress.org starting on **5th October 2022** will not be getting any further major updates for a long while in order to focus on the paid CoCart Pro version of the plugin. Only minor fixes for bugs will be updated. Don't worry, you'll still be able to use this plugin forever.
 
 Also while API v1 can still be used it will no longer be supported.
 
@@ -218,7 +218,7 @@ Learn more about how [Appsero collects and uses this data](https://appsero.com/p
 = Recommended Requirements =
 
 * WordPress v6.0 or higher.
-* WooCommerce v6.8 or higher.
+* WooCommerce v6.9 or higher.
 * PHP v7.4
 
 = Automatic installation =
@@ -401,308 +401,11 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
-= v3.7.3 - 23rd June, 2022 =
+[View the full changelog](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md) for previous releases.
 
-### What's New
+= 4.0.0 - ?? ??, 2022 =
 
-* Added `get_session_data()` function to the session handler. Some plugins appear to be accessing it (though I don't recommend it).
-
-= v3.7.2 - 20th June, 2022 =
-
-### Improvements
-
-* Adjusted WooCommerce detection when installing CoCart on a completely fresh WordPress install. Related to [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
-* Removed "Turn off CoCart" button from admin notice as the plugin already deactivates if WooCommerce not detected.
-* Prevent plugin action links from showing if CoCart is not active.
-* Tested: ✔️ Compatible with WooCommerce v6.6
-
-= v3.7.1 - 13th June, 2022 =
-
-### What's New
-
-* 🚀 You can now limit the results set to products assigned a specific category or tag via their slug names instead of ID.
-
-Example of limiting products via category and tag. `wp-json/cocart/v2/products/?category=accessories&tag=hats`
-
-> There was some confusion with this as the documentation said (query by ID) but the API schema said (query by slug). Now you can do either. This adjustment affects both API versions.
-
-= v3.7.0 - 31st May, 2022 =
-
-### What's New
-
-* Improved: CoCart does not proceed with any installation when activated unless WooCommerce is active first. Solves [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
-* Tested: ✔️ Compatible with WooCommerce v6.5
-* Tested: ✔️ Compatible with WordPress v6.0
-
-= v3.6.3 - 11th May, 2022 =
-
-**🔥 This is a HOTFIX!**
-
-### Bug Fix
-
-* Undone change made to `cocart_prepare_money_response()` function. Another WC extension using the filter `cocart_cart_item_price` confused me and was overriding the format returned.
-
-> This reverts partially back to v3.6.1
-
-= v3.6.2 - 10th May, 2022 =
-
-### Improvements
-
-* Improved `cocart_prepare_money_response()` function. Cleans up string values better.
-* Additional decimals gone for item price.
-
-### Tweaks
-
-* Item price and subtotal now returns correct money response.
-
-= v3.6.1 - 6th May, 2022 =
-
-### Bug Fixes
-
-* Fixed calling `update_plugin_suggestions()` function the non-static method. For WordPress Dashboard > Plugins > Add New.
-* Fixed undefined `$variations` for `get_variations()` function. For Products API v2 thanks to [@jnz31](https://github.com/jnz31)
-* Improved `get_connected_products()` function to validate product ID's before returning. For Products API v2. Solves [[issue #336](https://github.com/co-cart/co-cart/issues/336)]
-
-= v3.6.0 - 24th April, 2022 =
-
-### What's New?
-
-* Added support to prevent CoCart from being cached with [WP Super Cache](https://wordpress.org/plugins/wp-super-cache/) plugin.
-* Added support to prevent CoCart from being cached with specific web hosts like [Pantheon](https://pantheon.io/docs/cache-control).
-
-### For Developers
-
-* Introduced new filter `cocart_send_cache_control_patterns` that allows you to control which routes will not be cached in the browser.
-
-= v3.5.0 - 21st April, 2022 =
-
-### What's New?
-
-* Improved: Plugin suggestions now fetches data from a JSON file and is cached once a week.
-* Tweak: Quality of life update for Cart API v1. Should item added to cart not have an image it will fallback to the placeholder image.
-* Tested: ✔️ Compatible with WooCommerce v6.4
-
-### Bug Fix
-
-* Fixed Products API v2 Schema for Images.
-
-> Related to a change made in v3.2.0
-
-= v3.4.1 - 4th April, 2022 =
-
-### Bug Fix
-
-* Fixed: An uncaught undefined function `add_meta_query` which allows you to query products by meta. Thanks to [@jnz31](https://wordpress.org/support/topic/uncaught-error-call-to-undefined-method-cocart_products_v2_controlleradd_meta/) for reporting the error.
-
-> Dev note: I'm an idiot for not finding this issue sooner. The function `add_meta_query` was not committed when the products API add-on was merged with the core of CoCart. 🤦‍♂️ Please accept my apologies for the issue caused. 🙏
-
-### Deprecated & Replacement
-
-* Deprecated use of `wc_get_min_max_price_meta_query` function. Although it was *deprecated* in WooCommerce since **v3.6** there was never a replacement provided and it was still working. Now the function has just been copied into a new function `cocart_get_min_max_price_meta_query` and will no longer provide the debug warning. It can be improved in the future if needed.
-
-= v3.4.0 - 28th March, 2022 =
-
-### What's New?
-
-* Tweak: Unregistered rest field `yoast_head` from the Products API to keep the JSON response valid and increase performance.
-
-> The rest field `yoast_head_json` still remains.
-
-= v3.3.0 - 24th March, 2022 =
-
-### What's New?
-
-* Enhancement: Appends the cart query (Load Cart from Session) to the checkout URL so when a user proceeds to the native checkout page from the native cart, it forces to load that same cart. - **Guest Customers ONLY**
-
-> This was added due to some circumstances the cart failed to load then after on the checkout page via normal means.
-
-### Tweaks
-
-All custom headers introduced by CoCart with `X-` prefixes (no longer a recommended practice) now have a replacement. Please use the new headers listed below instead.
-
-> 📢 All current `X-` prefixed headers will be removed in a future release of CoCart.
-
-| Previous Header        | New Header           |
-| ---------------------- | -------------------- |
-| X-CoCart-API           | CoCart-API-Cart-Key  |
-| X-CoCart-API-Timestamp | CoCart-Timestamp     |
-| X-CoCart-API-Version   | CoCart-Version       |
-
-### For Developers
-
-* Introduced new filter `cocart_use_cookie_monster` to prevent destroying a previous guest cart and cookie before loading a new one via Load Cart from Session. Thanks to [Alberto Abruzzo](https://github.com/AlbertoAbruzzo) for contributing further feedback.
-
-> Dev note: Helps should you find the web browser is displaying the "Cookie was rejected because it is already expired." in the console log and the cart did not load again on refresh despite the session still being valid.
-
-= v3.2.0 - 17th March, 2022 =
-
-### What's New?
-
-* Enhancement: Moved products array to it's own object and returned pagination information in the response. - **Products API v2 ONLY!**
-* Tested: ✔️ Compatible with WooCommerce v6.3
-
-> Dev note: A small break but a good one thanks to the feedback from **[Alberto Abruzzo](https://profiles.wordpress.org/albertoabruzzo/)**. This only affects when accessing all products with or without arguments set. Just need to access the array of products from an object not just from the response. What's also great about this enhancement is that any arguments set will also be appended to the pagination links making it easy for developers.
-
-### Bug Fix
-
-* Fixed: Plugin review notice reappearing even after it has been dismissed.
-
-### Deprecated
-
-* Support for WooCommerce less than version 4.8 or legacy versions of WooCommerce Admin before it was packaged with the core of WooCommerce.
-
-### Enhancements
-
-* Better detection of WooCommerce Admin. Now checks if the feature is enabled.
-
-### For Developers
-
-* Introduced new filter `cocart_prevent_wc_admin_note_created` to prevent WooCommerce Admin notes from being created.
-
-= v3.1.2 - 10th March, 2022 =
-
-### Bug Fixes
-
-* Fixed an Undefined index: Items for shipping packages in the cart response. Caused the JSON response to not return valid even if the response status was `200`.
-* Fixed a fatal error. Uncaught Error: Class `CoCart_Session_Handler` when cron job runs in the background.
-* Fixed Yoda conditions.
-* Removed calculating totals once cart has been loaded from session as it caused the cart not to show.
-
-### Tweaks
-
-* Cleaning up expired carts function has changed to a global task function. This also fixes the cron job error mentioned above.
-* Added more translation notes to clarify meaning of placeholders.
-
-= v3.1.1 - 2nd March, 2022 =
-
-**🔥 This is a HOTFIX!**
-
-### Bug Fix
-
-* When updating an individual item in cart, the product data is not passed when validating the quantity and was causing a fatal error. [[issue #319](https://github.com/co-cart/co-cart/issues/319)]
-
-> Developer note: This is because an improvement was made when adding items to the cart using the same function that is used to validate the quantity and I forgot to update the parameters for when it's used to update an item. My bad.
-
-= v3.1.0 - 28th February, 2022 =
-
-### What's New?
-
-* Setup wizard introduced to help identify if the store is new and prepare the environment for headless setup.
-* Introduced a new Cart API route that allows developers to add custom callbacks to update the cart for any possibility. - [See example](https://github.com/co-cart/cocart-cart-callback-example).
-* CoCart Products add-on now merged with the core and introduces API v2 with a new option to view single products by SKU and many improved tweaks to the response.
-* No cache control added to help prevent CoCart from being cached at all so results return quicker.
-* Added the ability to set the customers billing email address while adding item/s to cart. Great for capturing email addresses for cart abandonment.
-* Added the ability to return only requested fields for the cart response before fetching data. Similar to GraphQL. Powerful speed performance if you don't want everything.
-* Added the ability to set the price of the item you add to the cart with new cart cache system. - Simple Products and Variations ONLY!
-* Added the ability to update the quantity of items in the cart in bulk using the new update callback API.
-* Prevented certain routes from initializing the session and cart as they are not needed. Small performance boost.
-* Timestamp of each REST API request is returned in the response headers. `X-CoCart-API-Timestamp`
-* Plugin version of CoCart is returned in the response headers. `X-CoCart-API-Version`
-* Added to the login response the users avatar URLS and email address.
-* Added Schema to the following cart routes: item and items.
-* Added Schema to the following other routes: login, sessions, session and store.
-
-> ⚠️ If you have been using CoCart Products add-on, make sure you have the latest version of it installed before updating CoCart to prevent crashing your site. Otherwise best to deactivate the add-on first. Subscription support will remain in CoCart Products add-on until next CoCart Pro update. ⚠️
-
-### Plugin Suggestions
-
-* Added [Flexible Shipping](https://wordpress.org/plugins/flexible-shipping/)
-* Added [TaxJar for WooCommerce](http://www.taxjar.com/woocommerce-sales-tax-plugin/)
-* Added [Follow Up Emails](https://woocommerce.com/products/follow-up-emails/) - **Still requires testing with**
-* Removed CoCart Products Add-on now the products API is merged with core of CoCart.
-* Optimized the results for better performance and cached once a day.
-
-### Bug Fixes
-
-* Coupons duplicating on each REST API request.
-* `$item_key` was not passed in `validate_item_quantity()` function to validate the quantity allowed for the item.
-* Redirect to the "Getting Started" page should no longer happen on every activation.
-* Plugin review notice dismiss action.
-* Requesting `OPTIONS` for any endpoint to return arguments and schema.
-* Log time for error logs recorded.
-* Fixed any undefined index for loading a cart for guest customers.
-* Fixed an attempt trying to access array offset on value of type float.
-* Clearing the cart now **100%** clears.
-* The use of WooCommerce API consumer key and consumer secret for authentication is now working again. Changed the priority of authentication to allow WooCommerce to check authentication first.
-* Detection of [WooCommerce Advanced Shipping Packages](https://woocommerce.com/products/woocommerce-advanced-shipping-packages/) extension.
-
-### Deprecated & Replacements
-
-* Function `get_store_currency()` is replaced with a global function `cocart_get_store_currency()`.
-* Function `prepare_money_response()` is replaced with a global function `cocart_prepare_money_response()`.
-* Function `wc_deprecated_hook()` is replaced with our version of that function `cocart_deprecated_hook()`.
-* Function `is_ajax()` ìs replaced with `wp_doing_ajax()`.
-* Timezone `get_option( 'timezone_string' )` is replaced with `wp_timezone_string()` function to return proper timezone string on the store route.
-* Replaced `wc_rest_prepare_date_response()` function with `cocart_prepare_date_response()` function.
-
-### Enhancements
-
-* Deprecated the upgrade warning notice. Dev note: Just keep an eye for major updates on [CoCart.dev](https://cocart.dev)
-* Shipping rates now return meta data if any. Thanks to [@gabrielandujar](https://github.com/gabrielandujar) for contributing.
-* Stock check improved when adding item by checking the remaining stock instead.
-* Load Cart from Session to allow registered customers to merge a guest cart. - Thanks to [@ashtarcommunications](https://github.com/ashtarcommunications) for contributing.
-* Should CoCart session table creation fail during install, ask user if they have privileges to do so.
-* Removed items (if any) now returns in the cart response even if the cart is empty.
-* Exposed WordPress headers for product route support.
-* To help support the ability to set a custom price for an item once added, the totals are recalculated before the cart response returns so it is up to date on the first callback.
-* Allow count items endpoint to return `0` if no items are in the cart.
-* Re-worked session endpoint to get data from the session and not the cart object.
-
-### Tweaks
-
-> 📢 Warning: Some tweaks have been made in this release that will introduce breaking changes to the API response so please review the changelog and test on a staging environment before updating on production.
-
-* CoCart cron job for cleanup sessions improved.
-* Removed WooCommerce cron job for cleanup sessions as it is not needed.
-* Session abstract now extends `WC_Session` abstract for plugin compatibility for those that strong types.
-* Added `get_session()` function for plugin compatibility to session handler.
-* When you uninstall CoCart, the original WooCommerce cron job for cleanup sessions will be rescheduled.
-* Notice for when item is removed now returns in the first response.
-* Added notice for when item is restored.
-* Cross sell prices now returns with formatted decimals.
-* Cart tax total now returns with formatted decimals.
-* Removed last raw WooCommerce cart data `tax_data` object from under cart items as the `totals` object provides a better data for each item.
-* Item price in the cart now returns unformatted to be consistent with other monetary values such as taxes and totals.
-* Shipping cost now returns unformatted with formatted decimals to be consistent with other monetary values such as taxes and totals.
-* Shipping tax now returns as a `string` not `object` with just the tax cost unformatted with formatted decimals to be consistent with other monetary values such as taxes and totals.
-* Moved validating product up so it can be validated first and allows us to pass the product object when validate the quantity.
-
-### Compatibility and Requirements
-
-* Added more compatibility for next update of CoCart Pro.
-* Minimum requirement for WordPress is now v5.6
-* Tested: ✔️ Compatible with WooCommerce v6.2
-* Tested: ✔️ Compatible with WordPress v5.9
-
-### For Developers
-
-* Introduced new filter `cocart_secure_registered_users` to disable security check for using a registered users ID as the cart key.
-* Introduced new filter `cocart_override_cart_item` to override cart item for anything extra.
-* Introduced new filter `cocart_products_variable_empty_price` to provide a custom price range for variable products should none exist yet.
-* Introduced new filter `cocart_products_get_price_range` to alter the price range for variable products.
-* Introduced new filter `cocart_products_add_to_cart_rest_url` for quick easy direct access to POST item to cart for other product types.
-* Introduced new filter `cocart_add_item_query_parameters` to allow developers to extend the query parameters for adding an item.
-* Introduced new filter `cocart_add_items_query_parameters` to allow developers to extend the query parameters for adding items.
-* Introduced new filter `cocart_cart_query_parameters` to allow developers to extend the query parameters for getting the cart.
-* Introduced new filter `cocart_cart_item_restored_title` to allow developers to change the title of the product restored for the notice.
-* Introduced new filter `cocart_cart_item_restored_message` to allow developers to change the message of the restored item notice.
-* Introduced new filter `cocart_update_cart_validation` to allow developers to change the validation for updating a specific item in the cart.
-* Introduced new action `cocart_cart_updated` to allow developers to hook in once the cart has updated.
-* Introduced new filter `cocart_cart_item_subtotal_tax` to allow developers to change the item subtotal tax.
-* Introduced new filter `cocart_cart_item_total` to allow developers to change the item total.
-* Introduced new filter `cocart_cart_item_tax` to allow developers to change the item tax.
-* Introduced new filter `cocart_prepare_money_disable_decimals` that allows you to disable the decimals used when returning the monetary value.
-* Introduced new filter `cocart_quantity_maximum_allowed` that allows control over the maximum quantity a customer is able to add said item to the cart.
-* Introduced new filter `cocart_product_not_enough_stock_message` that allows you to change the message about product not having enough stock.
-* Added `$product` object as a parameter for `cocart_quantity_minimum_requirement` filter so you have more control on which products we want to alter the minimum requirement if not all.
-
-> The following filters are affected on Products API v2 ONLY should you have used the filters for API v1!
-
-* Renamed filter `cocart_category_thumbnail` to `cocart_products_category_thumbnail`.
-* Renamed filter `cocart_category_thumbnail_size` to `cocart_products_category_thumbnail_size`.
-* Renamed filter `cocart_category_thumbnail_src` to `cocart_products_category_thumbnail_src`.
-
-[View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
+> Add changelog here one ready! Don't forget to update the release data too.
 
 == Upgrade Notice ==
 
