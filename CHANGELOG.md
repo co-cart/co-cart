@@ -1,4 +1,15 @@
-# Changelog for CoCart Lite
+# Changelog for CoCart
+
+## v3.7.5 -14th September, 2022
+
+### What's New
+
+* Tested: ✔️ Compatible with WooCommerce v6.9
+
+### Bug Fixes
+
+* Fix undefined value for querying products via review ratings.
+* Fixed issue with identifying screen ID when using the "Setup Wizard" with WooCommerce 6.9+
 
 ## v3.7.4 - 13th July, 2022
 

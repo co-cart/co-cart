@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.1.0
+ * @version 3.7.5
  * @license GPL-2.0+
  */
 
@@ -178,14 +179,20 @@ class CoCart_Admin_Setup_Wizard {
 		);
 		$store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
 
-		set_current_screen();
+		set_current_screen( 'cocart-setup-wizard' );
 		?>
 		<!DOCTYPE html>
 		<html <?php language_attributes(); ?>>
 		<head>
 			<meta name="viewport" content="width=device-width" />
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<title><?php esc_html_e( 'CoCart &rsaquo; Setup Wizard', 'cart-rest-api-for-woocommerce' ); ?></title>
+			<title><?php
+			printf(
+				/* translators: %s: CoCart */
+				esc_html__( '%s &rsaquo; Setup Wizard', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			);
+			?></title>
 			<?php do_action( 'admin_enqueue_scripts' ); ?>
 			<?php do_action( 'admin_print_styles' ); ?>
 			<?php do_action( 'admin_head' ); ?>

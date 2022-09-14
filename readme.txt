@@ -4,9 +4,9 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 6.0
-Stable tag: 3.7.4
+Stable tag: 3.7.5
 WC requires at least: 4.3
-WC tested up to: 6.7
+WC tested up to: 6.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,23 +14,31 @@ Customizable REST API that lets you build headless ecommerce without limits powe
 
 == Description ==
 
+**Important**
+
+Updates for the CoCart plugin on WordPress.org starting on **5th October 2022** will not be getting any further major updates for a long while in order to focus on the paid CoCart Pro version of the plugin. Only minor fixes for bugs will be updated. Don't worry, you'll still be able to use this plugin forever.
+
+Also while API v1 can still be used it will no longer be supported.
+
 ### CoCart: The #1 ecommerce RESTful API built for WooCommerce that scales for headless development.
 
-Take your **WooCommerce** business to the next level with **headless ecommerce**.
+Take your **WooCommerce** business to the next level with **headless ecommerce** using CoCart.
 
-Get started fast with [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce and build headless ecommerce using your favorite technologies.
+[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce allows you to separate your CMS from your presentation layer, while developers can use the frameworks and tools they love.
 
 ## The API
 
-CoCart Lite provides the basic needs to help you get started with **headless ecommerce**.
+CoCart provides support for managing the user session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
 
-#### Products API
-
-Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
+CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
 
 #### Cart API
 
 Add **simple, variable** and **grouped products** to the cart by **product ID** or **SKU ID**, update cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your **UX/UI**.
+
+#### Products API
+
+Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
 
 #### Extras
 
@@ -39,7 +47,7 @@ Add **simple, variable** and **grouped products** to the cart by **product ID** 
 * Logout the customer/user.
 * Empty the cart.
 
-As an added bonus for administrators, CoCart Lite also provides the capabilities to:
+As an added bonus for administrators, CoCart also provides the capabilities to:
 
 * Get Carts in Session.
 * Get details of a cart in session.
@@ -56,8 +64,8 @@ CoCart also provides built in features to:
 * Supports **guest customers**.
 * Supports **basic authentication** including the use of email as the username.
 * Support [authentication via WooCommerce's method](https://cocart.dev/authenticating-with-woocommerce-heres-how-you-can-do-it/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
-* Supports multi-sites.
-* Does **not cache** so API responses are **fast**.
+* Supports multi-site network.
+* Does **NOT Cache** the API so responses are **fresh** every time.
 * Works across multiple domains, CORS ready! **So you can have multiple frontends connected to one backend.**
 * Allows you to filter CoCart to be white-labelled.
 
@@ -65,7 +73,7 @@ Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#
 
 ## Tools and Libraries
 
-* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to easily update to prerelease versions of CoCart Lite for testing and development purposes.
+* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to easily update to prerelease versions of CoCart for testing and development purposes.
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
 * **[CoCart Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product types to add to the cart with validation including adding your own parameters.
@@ -75,7 +83,7 @@ Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#
 
 ### CoCart Pro
 
-CoCart Lite is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) extends with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
+CoCart is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) extends with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 
 * **Plugin Updates** for 1 year.
 * **Priority Support** for [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) users via Slack.
@@ -112,6 +120,9 @@ For a logged in customer:
 ## Testimonials - Developers love it
 
 ★★★★★
+> An excellent plugin, which makes building a headless WooCommerce experience a breeze. Easy to use, nearly zero setup time. [Harald Schneider](https://wordpress.org/support/topic/excellent-plugin-8062/)
+
+★★★★★
 > Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
 
 ★★★★★
@@ -130,6 +141,20 @@ For a logged in customer:
 ### Priority support
 
 We aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that we do prioritize support for our premium customers. Communication is handled one-on-one via direct messaging in [Slack](https://app.slack.com/client/TD85PLSMA/) and is available to people who purchased [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+
+### Upgrading
+
+It is recommended that anytime you want to update CoCart that you get familiar with what's changed in the release.
+
+CoCart publishes [release notes via the changelog](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#developers).
+
+CoCart uses Semver practices. The summary of Semver versioning is as follows:
+
+- *MAJOR* version when you make incompatible API changes.
+- *MINOR* version when you add functionality in a backwards compatible manner.
+- *PATCH* version when you make backwards compatible bug fixes.
+
+You can read more about the details of Semver at [semver.org](https://semver.org/)
 
 #### Add-ons to further enhance CoCart
 
@@ -179,8 +204,8 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 
 = Recommended Requirements =
 
-* WordPress v5.8 or higher.
-* WooCommerce v5.2 or higher.
+* WordPress v6.0 or higher.
+* WooCommerce v6.9 or higher.
 * PHP v7.4
 
 = Automatic installation =
@@ -196,6 +221,8 @@ The manual installation method involves downloading the plugin and uploading it 
 = Upgrading =
 
 It is recommended that anytime you want to update CoCart that you get familiar with what's changed in the release.
+
+CoCart publishes [release notes via the changelog](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/#developers).
 
 CoCart uses Semver practices. The summary of Semver versioning is as follows:
 
@@ -350,7 +377,7 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 == Contributors & Developers ==
 
-"CoCart Lite" has **not** yet been translated in other languages. You can [translate "CoCart Lite" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
+"CoCart" has **not** yet been translated in other languages. You can [translate "CoCart" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
 
 **INTERESTED IN DEVELOPMENT?**
 
@@ -359,6 +386,17 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.7.5 - 14th September, 2022 =
+
+### What's New
+
+* Tested: ✔️ Compatible with WooCommerce v6.9
+
+### Bug Fixes
+
+* Fix undefined value for querying products via review ratings.
+* Fixed issue with identifying screen ID when using the "Setup Wizard" with WooCommerce 6.9+
 
 = v3.7.4 - 13th July, 2022 =
 
@@ -679,6 +717,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.4 =
+= 3.7.5 =
 
-* This minor release is related to Yoast SEO support.
+* Fix for querying products via review ratings.
