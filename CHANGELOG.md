@@ -337,7 +337,7 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 * Getting a single item with `cart/item` route now includes the `cart` route parameters so you can use all available.
 * Validation of item key used to remove, update or restore an item.
-* Weight does not forcefully round up the value. Shows the correct weight based on the quantity of item in cart. The weight is normalised unifying to "kg" then converted to the wanted unit set by the store settings. Reported by Miguel Peixe Aldeias.
+* Weight does not forcefully round up the value. Shows the correct weight based on the quantity of item in cart. The weight is normalized unifying to "kg" then converted to the wanted unit set by the store settings. Reported by Miguel Peixe Aldeias.
 
 ### Tweaks
 
@@ -510,7 +510,7 @@ This major release brings a lot more support for developers including those who 
 * Dev: Introduced `cocart_store_address` filter for filtering the store address.
 * Dev: Introduced `cocart_routes` filter for filtering the CoCart routes returned.
 * Dev: Introduced `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
-* Dev: Introduced `cocart_before_get_cart` filter for modifying the cart data in any capcity before the cart response is returned.
+* Dev: Introduced `cocart_before_get_cart` filter for modifying the cart data in any capacity before the cart response is returned.
 * Dev: Introduced `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
 * Dev: Introduced `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: Introduced `cocart_shipping_package_name` filter for renaming the package name.
