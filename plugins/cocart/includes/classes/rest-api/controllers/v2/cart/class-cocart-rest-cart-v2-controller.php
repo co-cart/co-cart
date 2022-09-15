@@ -302,7 +302,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		// Parse cart data to template.
 		$cart = wp_parse_args( $cart, $cart_template );
 
-		return apply_filters( 'cocart_cart', $cart, $from_session );
+		/**
+		 * Filter allows to change the cart contents before it is returned.
+		 *
+		 * @since 3.0.0 Introduced.
+		 * @since 4.0.0 Deprecated $from_session parameter.
+		 * @since 4.0.0 Added $this parameter.
+		 *
+		 * @param array $cart The whole cart.
+		 * @param object $this The cart controller.
+		 */
+		$cart = apply_filters( 'cocart_cart', $cart, $this );
+
+		return $cart;
 	} // END return_cart_contents()
 
 	/**
