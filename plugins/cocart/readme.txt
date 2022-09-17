@@ -26,21 +26,21 @@ Take your **WooCommerce** business to the next level with **headless ecommerce**
 
 [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce allows you to separate your CMS from your presentation layer, while developers can use the frameworks and tools they love.
 
-## The API
+## 🥪 The API
 
 CoCart provides support for managing the user session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
 
 CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
 
-#### Cart API
+#### 🛒 Cart API
 
 Add **simple, variable** and **grouped products** to the cart by **product ID** or **SKU ID**, update cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your **UX/UI**.
 
-#### Products API
+#### 🛍️ Products API
 
 Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
 
-#### Extras
+#### ➕ Extras
 
 * Get store information.
 * Login the customer/user.
@@ -54,7 +54,7 @@ As an added bonus for administrators, CoCart also provides the capabilities to:
 * View items added in a cart in session.
 * Delete a Cart in Session.
 
-## Features
+## ✨ Features
 
 CoCart also provides built in features to:
 
@@ -74,7 +74,7 @@ CoCart also provides built in features to:
 
 Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers to customize API responses or change how CoCart operates with our extensive documentation.
 
-## Tools and Libraries
+## 🧰 Tools and Libraries
 
 * **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to easily update to prerelease versions of CoCart for testing and development purposes.
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
@@ -84,7 +84,7 @@ Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 * **[Official Node.js Library](https://www.npmjs.com/package/@cocart/cocart-rest-api)** provides a JavaScript wrapper supporting CommonJS (CJS) and ECMAScript Modules (ESM).
 
-### CoCart Pro
+### 📦 CoCart Pro
 
 CoCart is just the tip of the iceberg. [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) extends with the following [features](https://cocart.xyz/features/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart):
 
@@ -120,7 +120,7 @@ For a logged in customer:
 
 [View list of the WooCommerce extensions](https://cocart.xyz/woocommerce-extensions/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) that support CoCart or are supported in [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
-## Testimonials - Developers love it
+## 📢 Testimonials - Developers love it
 
 ★★★★★
 > An excellent plugin, which makes building a headless WooCommerce experience a breeze. Easy to use, nearly zero setup time. [Harald Schneider](https://wordpress.org/support/topic/excellent-plugin-8062/)
@@ -141,11 +141,11 @@ For a logged in customer:
 
 [See the wall of love](https://cocart.xyz/wall-of-love/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
-### Priority support
+### 😍 Priority support
 
 We aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that we do prioritize support for our premium customers. Communication is handled one-on-one via direct messaging in [Slack](https://app.slack.com/client/TD85PLSMA/) and is available to people who purchased [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
-### Upgrading
+### ☀️ Upgrading
 
 It is recommended that anytime you want to update CoCart that you get familiar with what's changed in the release.
 
@@ -159,7 +159,7 @@ CoCart uses Semver practices. The summary of Semver versioning is as follows:
 
 You can read more about the details of Semver at [semver.org](https://semver.org/)
 
-#### Add-ons to further enhance CoCart
+#### 👍 Add-ons to further enhance CoCart
 
 We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
 
@@ -170,7 +170,7 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 
 They work with the FREE version of CoCart already, and these add-ons of course come with support too.
 
-### Join our growing community
+### ⌨️ Join our growing community
 
 A Slack community for developers, WordPress agencies and shop owners building the fastest and best headless WooCommerce stores with CoCart.
 
@@ -182,7 +182,7 @@ Extensible, adaptable, and open source — CoCart is created with developers in 
 
 Check out [open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen) and join the [#core channel](https://cocart.slack.com/messages/C014C4581NE) on Slack. If you don’t have a Slack account yet, you can sign up at [https://cocart.xyz/community/](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
-### Bug reports
+### 🐞 Bug reports
 
 Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https://github.com/co-cart/co-cart). Please note that GitHub is not a support forum, and that issues that aren’t properly qualified as bugs will be closed.
 
@@ -193,11 +193,11 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
 * Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
 
-#### Credits
+#### 💯 Credits
 
 This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
-## Privacy Policy 
+## 📡 Privacy Policy
 
 CoCart uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
 
@@ -299,6 +299,17 @@ Yes of course. You just need to enable CORS. You can do that easily with [the CO
 = Can I add "WooCommerce Subscriptions" product to the cart? =
 
 Absolutely you can. Any WooCommerce Subscriptions product can be added to the cart the same way a simple or variable product is added to the cart.
+
+= Why can I not add the same item to the cart with a different price? =
+
+Each item added to the cart is assigned a cart item key which is made of four key values: **Product ID**, **Variation ID**, **Variation attributes** and **Cart item data**.
+
+The price and quantity is not taken into account to make this key.
+
+So if you add the same item to the cart but with a different price, the cart will look up the cart item key to see if it's already added to the cart before deciding to either:
+
+    1. Add it as a new item.
+    2. Update the quantity of the previous item, in your case the price.
 
 = Is "WooCommerce Shipping and Tax" plugin supported? =
 
