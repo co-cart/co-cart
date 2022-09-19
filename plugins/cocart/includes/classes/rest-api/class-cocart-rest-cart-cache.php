@@ -68,7 +68,7 @@ class CartCache {
 		if ( ! empty( self::maybe_cocart_require_salt() ) ) {
 			$default = true;
 
-			if ( $request->get_param( 'csaltk' ) !== self::maybe_cocart_require_salt() ) {
+			if ( $request->get_header( 'csaltk' ) !== self::maybe_cocart_require_salt() ) {
 				Logger::log( __( 'An attempt was made to override the price of an item but the salt key did not match.', 'cart-rest-api-for-woocommerce' ), 'alert' );
 			} else {
 				$default = false;
