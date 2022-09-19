@@ -130,8 +130,8 @@ class Handler extends Session {
 			$this->_cart_key        = $cookie[0];
 			$this->_cart_expiration = $cookie[1];
 			$this->_cart_expiring   = $cookie[2];
-			$this->_cart_user_id    = $cookie[4];
-			$this->_customer_id     = $cookie[5];
+			$this->_cart_user_id    = ! empty( $cookie[4] ) ? $cookie[4] : strval( get_current_user_id() );
+			$this->_customer_id     = ! empty( $cookie[5] ) ? $cookie[5] : strval( get_current_user_id() );
 			$this->_has_cookie      = true;
 			$this->_data            = $this->get_cart_data();
 
