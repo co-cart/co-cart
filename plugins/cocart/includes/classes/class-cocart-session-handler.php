@@ -595,7 +595,7 @@ class Handler extends Session {
 		 *
 		 * Will return false if the cookie value is missing data CoCart requires for it's session handling.
 		 */
-		if ( explode( '||', $cookie_value ) > 4 ) {
+		if ( count( explode( '||', $cookie_value ) ) > 4 ) {
 			list( $cart_key, $cart_expiration, $cart_expiring, $cookie_hash, $user_id, $customer_id ) = explode( '||', $cookie_value );
 		} else {
 			return false;
