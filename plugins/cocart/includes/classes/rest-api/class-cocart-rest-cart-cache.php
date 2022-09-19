@@ -247,19 +247,17 @@ class CartCache {
 	 * @return mixed The salt key for CoCart or false if not defined.
 	 */
 	protected function maybe_cocart_require_salt() {
-		// Check if CoCart is ready to use a salt key.
-		/*if ( ! defined( 'COCART_READY' ) || defined( 'COCART_READY' ) && COCART_READY !== true ) {
-			return '';
-		}*/
-
-		// Check if the salt key is defined.
+		/**
+		 * Check if the salt key is defined.
+		 * Should be hashed already to remain secure.
+		 */
 		if ( defined( 'COCART_SALT_KEY' ) ) {
-			return md5( COCART_SALT_KEY );
+			return COCART_SALT_KEY;
 		}
 
 		$settings = get_option( 'cocart_settings', array() );
 
-		$salt_key = ! empty( $settings['general']['salt_key'] ) ? md5( $settings['general']['salt_key'] ) : '';
+		$salt_key = ! empty( $settings['general']['salt_key'] ) ? $settings['general']['salt_key'] : '';
 
 		if ( ! empty( $salt_key ) ) {
 			return $salt_key;
