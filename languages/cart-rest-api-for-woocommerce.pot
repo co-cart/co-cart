@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart - Headless ecommerce 3.7.5\n"
+"Project-Id-Version: CoCart - Headless ecommerce 3.7.6\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2022-09-14 19:46:49+00:00\n"
+"POT-Creation-Date: 2022-09-23 15:35:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1418,7 +1418,7 @@ msgstr ""
 
 #: includes/api/cocart/v1/cart/class-cocart-item-controller.php:110
 #: includes/api/cocart/v1/cart/class-cocart-item-controller.php:266
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:97
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:102
 msgid "Item specified does not exist in cart."
 msgstr ""
 
@@ -1463,27 +1463,27 @@ msgid "You can only have 1 %s in your cart."
 msgstr ""
 
 #: includes/api/cocart/v1/cart/class-cocart-item-controller.php:353
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:180
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:185
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:475
 msgid "Unable to update item quantity in cart."
 msgstr ""
 
 #: includes/api/cocart/v1/cart/class-cocart-item-controller.php:381
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:204
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:209
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:468
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has increased to \"%2$s\"."
 msgstr ""
 
 #: includes/api/cocart/v1/cart/class-cocart-item-controller.php:387
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:214
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:219
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:470
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has decreased to \"%2$s\"."
 msgstr ""
 
 #: includes/api/cocart/v1/cart/class-cocart-item-controller.php:393
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:224
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:229
 #: includes/api/legacy/wc-v2/class-wc-rest-cart-controller.php:472
 #. translators: %s: product name
 msgid "The quantity for \"%s\" has not changed."
@@ -1493,7 +1493,7 @@ msgstr ""
 #: includes/api/cocart/v2/cart/class-cocart-item-controller.php:101
 #: includes/api/cocart/v2/cart/class-cocart-remove-item-controller.php:180
 #: includes/api/cocart/v2/cart/class-cocart-restore-item-controller.php:168
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:265
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:270
 msgid "Unique identifier for the item in the cart."
 msgstr ""
 
@@ -3510,16 +3510,16 @@ msgstr ""
 msgid "Additional data to pass."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:145
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:150
 #. translators: %s Product name.
 msgid "You can only have 1 \"%s\" in your cart."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:271
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:276
 msgid "Set the quantity you wish to update the item to."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:279
+#: includes/api/cocart/v2/cart/class-cocart-update-item-controller.php:284
 msgid "Returns a message and quantity value after updating item in cart."
 msgstr ""
 

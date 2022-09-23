@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.1.1
+ * @version 3.7.6
  * @license GPL-2.0+
  */
 
@@ -58,7 +58,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.1.1
+	 * @version 3.7.6
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -79,7 +79,12 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 			// Check item exists in cart before fetching the cart item data to update.
 			$current_data = $this->get_cart_item( $item_key, 'container' );
 
-			$_product = $current_data['data'];
+			$_product = ! is_null( $current_data['data'] ) ? $current_data['data'] : null;
+
+			// If product data is somehow not there on a rare occasion then we need to get that product data to validate it.
+			if ( is_null( $_product ) ) {
+				$_product = wc_get_product( $current_data['variation_id'] ? $current_data['variation_id'] : $current_data['product_id'] );
+			}
 
 			$quantity = $this->validate_quantity( $quantity, $_product );
 

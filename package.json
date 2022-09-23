@@ -1,7 +1,7 @@
 {
 	"title": "CoCart - Headless ecommerce",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "3.7.5",
+	"version": "3.7.6",
 	"private": false,
 	"contributors": [
 		"sebd86",
