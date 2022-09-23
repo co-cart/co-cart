@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.0
-Stable tag: 3.7.5
+Stable tag: 3.7.6
 WC requires at least: 6.4
 WC tested up to: 6.9
 License: GPLv3
@@ -307,7 +307,6 @@ Each item added to the cart is assigned a cart item key which is made of four ke
 The price and quantity is not taken into account to make this key.
 
 So if you add the same item to the cart but with a different price, the cart will look up the cart item key to see if it's already added to the cart before deciding to either:
-
     1. Add it as a new item.
     2. Update the quantity of the previous item, in your case the price.
 

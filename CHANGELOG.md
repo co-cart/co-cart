@@ -1,6 +1,13 @@
 # Changelog for CoCart
 
-## v3.7.5 -14th September, 2022
+## v3.7.6 - 23rd September, 2022
+
+### Bug Fixes
+
+* Fixed an issue were on a rare occasion, the product data is somehow not there when updating an item in cart. [issue #355](https://github.com/co-cart/co-cart/issues/355)
+* Fixed an issue were you add more than one item to the cart with a custom price and then increase the quantity of one of those items after. All other items with a custom price would reset to the original price.
+
+## v3.7.5 - 14th September, 2022
 
 ### What's New
 
@@ -8,7 +15,7 @@
 
 ### Bug Fixes
 
-* Fix undefined value for querying products via review ratings.
+* Fixed undefined value for querying products via review ratings.
 * Fixed issue with identifying screen ID when using the "Setup Wizard" with WooCommerce 6.9+
 
 ## v3.7.4 - 13th July, 2022

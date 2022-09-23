@@ -197,15 +197,23 @@ class CartCache {
 	 *
 	 * @static
 	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @version 3.7.6
+	 *
 	 * @param string $item_key Key to item in cart.
 	 * @param mixed  $value    Value to set.
 	 */
 	public static function set_cached_item( $item_key, $value ) {
+		self::$_cart_contents_cached = maybe_unserialize( WC()->session->get( 'cart_cached' ) );
+
 		if ( self::get_cached_item( $item_key ) !== $value ) {
 			self::$_cart_contents_cached[ sanitize_key( $item_key ) ] = $value;
 		}
 
-		WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+		if ( ! empty( self::$_cart_contents_cached ) ) {
+			WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+		}
 	} // END set_cached_item()
 
 	/**
