@@ -15,8 +15,9 @@ output() {
 	echo "$(tput setaf "$1")$2$(tput sgr0)"
 }
 
-if [ ! -d "plugins/cocart/packages/" ]; then
-	output 1 "./plugins/cocart/packages doesn't exist!"
+# Checks if the packages folder exist and is not empty.
+if [ -z "$(ls -A "plugins/cocart/packages/")" ]; then
+	output 1 "./plugins/cocart/packages doesn't exist or empty!"
 	output 1 "run \"composer install\" before proceed."
 fi
 
@@ -63,3 +64,6 @@ npm run packages:fix:textdomain
 
 output 2 "Updated textdomains!"
 output 6 "Packages updated!"
+
+output 3 "Preparing plugin for testing..."
+composer ready-build

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Session handler class.
  */
-class Handler extends Session {
+class LegacyHandler extends Session {
 
 	/**
 	 * Cookie name used for the cart.

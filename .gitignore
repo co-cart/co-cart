@@ -1,44 +1,30 @@
-# Editors
-.vscode
+# Operating System files
+.DS_Store
+Thumbs.db
 
-# Grunt
+# Editors
+.idea
+.vscode/*
+project.xml
+project.properties
+.project
+.settings*
+*.sublime-project
+*.sublime-workspace
+.sublimelinterrc
+
+# Project files
 /node_modules/
 npm-debug.log
 
-# OS X metadata
-.DS_Store
-
-# Windows junk
-Thumbs.db
-
 # Composer
-!/plugins/cocart/composer.json
-!/plugins/cocart/src/
-!/plugins/cocart/vendor/
 /vendor/
-composer.lock
 contributors.html
-
-# Assets
-!/plugins/cocart/assets/js/admin/
-/plugins/cocart/assets/*/admin/*.min.*
-/plugins/cocart/assets/css/
-
-# Languages
-/plugins/cocart/languages/*
-!/plugins/cocart/languages/*.pot
-!/plugins/cocart/languages/README.md
-
-# Packages
-/plugins/cocart/packages/*
-!/plugins/cocart/packages/README.md
 
 # Build & Releases
 /build/
 /fire-build/
 /releases/
-
-# SVN
 /cart-rest-api-for-woocommerce-svn/
 /prepping-release/
 
@@ -47,6 +33,9 @@ contributors.html
 
 # Code Reference
 /plugins/cocart-ref/
+
+# Support .gitkeep Files
+!.gitkeep
 
 # Various file types to ignore when exporting.
 *.sh

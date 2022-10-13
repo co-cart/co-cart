@@ -27,6 +27,7 @@ require __DIR__ . '/src/autoloader.php';
 require __DIR__ . '/src/packages.php';
 
 if ( ! CoCart\Autoloader::init() ) {
+	error_log( 'CoCart Autoloader not found. Please run "npm install" followed by "composer install".' );
 	return;
 }
 
