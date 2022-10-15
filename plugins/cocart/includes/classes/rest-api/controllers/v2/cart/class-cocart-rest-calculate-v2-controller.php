@@ -70,7 +70,7 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 */
 	public function calculate_totals( $request = array() ) {
 		try {
-			$controller = new CoCart_REST_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_v2_Controller();
 
 			$controller->get_cart_instance()->calculate_totals();
 
@@ -100,7 +100,7 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * @return array $params Query parameters for calculating totals.
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_REST_Cart_V2_Controller();
+		$controller = new CoCart_REST_Cart_v2_Controller();
 
 		// Cart query parameters.
 		$params = $controller->get_collection_params();

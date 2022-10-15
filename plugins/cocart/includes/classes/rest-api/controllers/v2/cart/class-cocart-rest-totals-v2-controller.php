@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_V2_Controller {
+class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
 	/**
 	 * Route base.
@@ -62,7 +62,7 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_V2_Controller {
 		try {
 			$pre_formatted = isset( $request['html'] ) ? $request['html'] : false;
 
-			$controller = new CoCart_REST_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_v2_Controller();
 
 			$totals            = $controller->get_cart_instance()->get_totals();
 			$totals_calculated = false;

@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart_REST_Cart_V2_Controller class.
+ * REST API: CoCart_REST_Cart_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\Cart\v2
@@ -26,7 +26,7 @@ use \Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
  * @since 3.0.0 Introduced.
  * @extends CoCart_API_Controller
  */
-class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
+class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 	/**
 	 * Endpoint namespace.

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package CoCart\API
  * @extends CoCart_REST_Cart_v2_Controller
  */
-class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_V2_Controller {
+class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
 	/**
 	 * Endpoint namespace.

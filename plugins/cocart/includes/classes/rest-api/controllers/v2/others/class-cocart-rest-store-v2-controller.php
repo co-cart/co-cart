@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart REST API/API
  */
-class CoCart_REST_Store_V2_Controller {
+class CoCart_REST_Store_v2_Controller {
 
 	/**
 	 * Endpoint namespace.

@@ -142,8 +142,8 @@ class Server {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'cocart-v2-store'             => 'CoCart_REST_Store_V2_Controller',
-			'cocart-v2-cart'              => 'CoCart_REST_Cart_V2_Controller',
+			'cocart-v2-store'             => 'CoCart_REST_Store_v2_Controller',
+			'cocart-v2-cart'              => 'CoCart_REST_Cart_v2_Controller',
 			'cocart-v2-cart-add-item'     => 'CoCart_REST_Add_Item_v2_Controller',
 			'cocart-v2-cart-add-items'    => 'CoCart_REST_Add_Items_v2_Controller',
 			'cocart-v2-cart-item'         => 'CoCart_REST_Item_v2_Controller',

@@ -18,9 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * CoCart REST API v2 - Clear Cart controller class.
  *
  * @package CoCart\API
- * @extends CoCart_REST_Cart_V2_Controller
+ * @extends CoCart_REST_Cart_v2_Controller
  */
-class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_V2_Controller {
+class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -145,7 +145,7 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_V2_Controlle
 				wc_add_notice( $message );
 
 				// Return cart response.
-				$controller = new CoCart_REST_Cart_V2_Controller();
+				$controller = new CoCart_REST_Cart_v2_Controller();
 				$response   = $controller->get_cart_contents( $request );
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
