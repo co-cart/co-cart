@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart_Totals_Controller class.
+ * REST API: CoCart_Totals_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v1
@@ -13,11 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Totals controller class.
+ * Returns the cart totals (API v1).
  *
  * Handles the request to get the totals of the cart with /totals endpoint.
  *
  * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Totals_Controller extends CoCart_API_Controller {
 

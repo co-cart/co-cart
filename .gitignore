@@ -33,6 +33,7 @@ contributors.html
 
 # Code Reference
 /plugins/cocart-ref/
+/plugins/cocart-ref-source/
 
 # Support .gitkeep Files
 !.gitkeep

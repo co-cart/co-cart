@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Handles the request to calculate the cart totals via /calculate endpoint.
  *
  * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Calculate_Controller extends CoCart_API_Controller {
 

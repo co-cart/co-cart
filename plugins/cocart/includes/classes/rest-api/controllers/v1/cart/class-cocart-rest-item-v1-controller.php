@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart_Item_Controller class.
+ * REST API: CoCart_Item_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v1
@@ -13,11 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Item controller class.
+ * Allows the option to update, delete and restore items. (API v1)
  *
  * Handles the request to update, delete and restore items in the cart with /item endpoint.
  *
  * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Item_Controller extends CoCart_API_Controller {
 

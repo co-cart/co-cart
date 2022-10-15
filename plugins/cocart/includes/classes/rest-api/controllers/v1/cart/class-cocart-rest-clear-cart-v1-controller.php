@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart_Clear_Cart_Controller class.
+ * REST API: CoCart_Clear_Cart_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v1
@@ -13,11 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Clears the customers cart.
+ * Clears the customers cart. (API v1)
  *
  * Handles the request to clear the cart with /clear endpoint.
  *
  * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 

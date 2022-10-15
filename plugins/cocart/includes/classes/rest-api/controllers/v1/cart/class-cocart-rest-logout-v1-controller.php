@@ -1,11 +1,11 @@
 <?php
 /**
- * REST API: CoCart_Logout_Controller class.
+ * REST API: CoCart_Logout_Controller class
  *
- * @author  Sébastien Dumont
- * @package CoCart\RESTAPI\v1
- * @since   2.1.0 Introduced.
- * @version 2.5.0
+ * @author     Sébastien Dumont
+ * @package    CoCart\RESTAPI\v1
+ * @since      2.1.0 Introduced.
+ * @version    2.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,11 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Logs out the user from the WordPress instance.
+ * Logs out the user from the WordPress instance. (API v1)
  *
  * Handles the request to logout the user via the /logout endpoint.
  *
  * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Logout_Controller extends CoCart_API_Controller {
 

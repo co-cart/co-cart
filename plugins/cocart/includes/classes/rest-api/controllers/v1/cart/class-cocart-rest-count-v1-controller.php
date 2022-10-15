@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart_Count_Controller class.
+ * REST API: CoCart_Count_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v1
@@ -13,11 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Count Items controller class.
+ * Counts the items in the cart. (API v1)
  *
  * Handles the request to count the items in the cart with /count-items endpoint.
  *
  * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 
