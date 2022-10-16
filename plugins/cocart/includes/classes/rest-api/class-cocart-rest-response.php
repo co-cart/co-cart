@@ -103,7 +103,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 
 				if ( ! $default_response ) {
 					// This filter can be used as a final straw for changing the response to what ever needs.
-					$data = apply_filters( 'cocart_' . $rest_base . '_response', $data );
+					$data = apply_filters( 'cocart_{$rest_base}_response', $data );
 				}
 
 				// Return response.

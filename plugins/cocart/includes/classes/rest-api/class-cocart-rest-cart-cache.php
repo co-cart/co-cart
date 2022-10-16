@@ -240,7 +240,7 @@ class CartCache {
 	 * @return bool True if the cart item can be allowed to override the price.
 	 */
 	protected function is_allowed_to_override_price( $cart_item, $request ) {
-		return apply_filters( 'cocart_' . __FUNCTION__, true, $cart_item, $request );
+		return apply_filters( 'cocart_is_allowed_to_override_price', true, $cart_item, $request );
 	} // END is_allowed_to_override_price()
 
 	/**

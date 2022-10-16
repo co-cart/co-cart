@@ -54,7 +54,7 @@ function cocart_prepare_date_response( $date, $utc = true ) {
  */
 function cocart_allowed_image_mime_types() {
 	return apply_filters(
-		__FUNCTION__,
+		'cocart_allowed_image_mime_types',
 		array(
 			'jpg|jpeg|jpe' => 'image/jpeg',
 			'gif'          => 'image/gif',
@@ -85,7 +85,7 @@ function cocart_upload_dir( $pathdata ) {
 		$pathdata['subdir'] = str_replace( $pathdata['subdir'], $subdir, $pathdata['subdir'] );
 	}
 
-	return apply_filters( __FUNCTION__, $pathdata );
+	return apply_filters( 'cocart_upload_dir', $pathdata );
 } // END cocart_upload_dir()
 
 /**
@@ -322,7 +322,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	 * @param float        $unformatted_price Price as float to allow plugins custom formatting. Since 3.2.0.
 	 * @param float|string $original_price    Original price as float, or empty string. Since 5.0.0.
 	 */
-	return apply_filters( __FUNCTION__, $return, $price, $args, $unformatted_price, $original_price );
+	return apply_filters( 'cocart_price_no_html', $return, $price, $args, $unformatted_price, $original_price );
 } // END cocart_price_no_html()
 
 /**

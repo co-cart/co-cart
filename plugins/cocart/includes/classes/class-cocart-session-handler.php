@@ -274,7 +274,7 @@ class Handler extends Session {
 			$cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
-		$cart_key = apply_filters( 'cocart_' . __FUNCTION__, $cart_key );
+		$cart_key = apply_filters( 'cocart_get_requested_cart', $cart_key );
 
 		return $cart_key;
 	} // END get_requested_cart()
@@ -377,7 +377,7 @@ class Handler extends Session {
 	 * @return bool
 	 */
 	protected function use_secure_cookie() {
-		return apply_filters( 'cocart_cart_' . __FUNCTION__, wc_site_is_https() && is_ssl() );
+		return apply_filters( 'cocart_cart_use_secure_cookie', wc_site_is_https() && is_ssl() );
 	} // END use_secure_cookie()
 
 	/**
@@ -511,7 +511,7 @@ class Handler extends Session {
 		require_once ABSPATH . 'wp-includes/class-phpass.php';
 
 		$hasher      = new \PasswordHash( 8, false );
-		$customer_id = apply_filters( 'cocart_' . __FUNCTION__, md5( $hasher->get_random_bytes( 32 ) ), $hasher );
+		$customer_id = apply_filters( 'cocart_generate_key', md5( $hasher->get_random_bytes( 32 ) ), $hasher );
 
 		return $customer_id;
 	} // END generate_key()
@@ -738,7 +738,7 @@ class Handler extends Session {
 			 * @param int $cart_expiration Cart expiration.
 			 * @param string $cart_source Cart source.
 			 */
-			do_action( 'cocart_' . __FUNCTION__, $this->_cart_key, $this->_cart_user_id, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );
+			do_action( 'cocart_save_cart', $this->_cart_key, $this->_cart_user_id, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );
 
 			// Previous cart session is no longer used so we delete it to prevent duplication.
 			if ( $this->_cart_key !== $old_cart_key ) {
@@ -1155,7 +1155,7 @@ class Handler extends Session {
 			}
 		}
 
-		$data = apply_filters( 'cocart_' . __FUNCTION__, $data );
+		$data = apply_filters( 'cocart_is_cart_data_valid', $data );
 
 		return $data;
 	} // END is_cart_data_valid()

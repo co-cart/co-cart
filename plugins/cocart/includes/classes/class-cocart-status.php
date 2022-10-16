@@ -47,7 +47,7 @@ class Status {
 		 *
 		 * @param bool $offline_mode Is CoCart's offline mode active.
 		 */
-		$offline_mode = (bool) apply_filters( 'cocart_' . __FUNCTION__, $offline_mode );
+		$offline_mode = (bool) apply_filters( 'cocart_is_offline_mode', $offline_mode );
 
 		return $offline_mode;
 	} // END is_offline_mode()
@@ -130,7 +130,7 @@ class Status {
 		 *
 		 * @param bool $is_local If the current site is a local site.
 		 */
-		$is_local = apply_filters( 'cocart_' . __FUNCTION__, $is_local );
+		$is_local = apply_filters( 'cocart_is_local_site', $is_local );
 
 		return $is_local;
 	} // END is_local_site()
@@ -181,6 +181,7 @@ class Status {
 		 *
 		 * @param array $known_staging {
 		 *     An array of arrays that each are used to check if the current site is staging.
+		 *
 		 *     @type array $urls      URLs of staging sites in regex to check against site_url.
 		 *     @type array $constants PHP constants of known staging/development environments.
 		 *  }
@@ -211,7 +212,7 @@ class Status {
 		 *
 		 * @param bool $is_staging If the current site is a staging site.
 		 */
-		$is_staging = apply_filters( 'cocart_' . __FUNCTION__, $is_staging );
+		$is_staging = apply_filters( 'cocart_is_staging_site', $is_staging );
 
 		return $is_staging;
 	} // END is_staging_site()

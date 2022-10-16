@@ -135,7 +135,7 @@ class Authentication {
 		$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-		return apply_filters( 'cocart_' . __FUNCTION__, $is_rest_api_request );
+		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()
 
 	/**
@@ -185,7 +185,7 @@ class Authentication {
 		 * @param int  $user_id The user ID returned if authentication was successful.
 		 * @param bool          Determines if the site is secure.
 		 */
-		$user_id = apply_filters( 'cocart_' . __FUNCTION__, $user_id, is_ssl() );
+		$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl() );
 
 		return $user_id;
 	} // END authenticate()
@@ -700,7 +700,7 @@ class Authentication {
 			array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
 		);
 
-		return apply_filters( 'cocart_' . __FUNCTION__, $ip );
+		return apply_filters( 'cocart_validate_ip', $ip );
 	} // END validate_ip()
 
 } // END class.

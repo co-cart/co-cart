@@ -1161,7 +1161,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return $request
 	 */
 	public function filter_request_data( $request ) {
-		return apply_filters( 'cocart_' . __FUNCTION__, $request );
+		return apply_filters( 'cocart_filter_request_data', $request );
 	} // END filter_request_data()
 
 	/**

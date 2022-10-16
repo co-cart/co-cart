@@ -257,7 +257,7 @@ class LegacyHandler extends Session {
 			$cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
-		$cart_key = apply_filters( 'cocart_' . __FUNCTION__, $cart_key );
+		$cart_key = apply_filters( 'cocart_get_requested_cart', $cart_key );
 
 		return $cart_key;
 	} // END get_requested_cart()
@@ -477,7 +477,7 @@ class LegacyHandler extends Session {
 		require_once ABSPATH . 'wp-includes/class-phpass.php';
 
 		$hasher      = new \PasswordHash( 8, false );
-		$customer_id = apply_filters( 'cocart_' . __FUNCTION__, md5( $hasher->get_random_bytes( 32 ) ), $hasher );
+		$customer_id = apply_filters( 'cocart_generate_key', md5( $hasher->get_random_bytes( 32 ) ), $hasher );
 
 		return $customer_id;
 	} // END generate_key()
@@ -1056,7 +1056,7 @@ class LegacyHandler extends Session {
 			}
 		}
 
-		$data = apply_filters( 'cocart_' . __FUNCTION__, $data );
+		$data = apply_filters( 'cocart_is_cart_data_valid', $data );
 
 		return $data;
 	} // END is_cart_data_valid()
