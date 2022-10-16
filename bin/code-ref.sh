@@ -29,6 +29,13 @@ if [ -d "plugins/cocart-ref" ]; then
 	output 2 "Previous CoCart code reference build removed."
 fi
 
+# Remove previous CoCart code reference source.
+if [ -d "plugins/cocart-ref-source" ]; then
+	output 1 "Removing previous CoCart code reference source..."
+	rm -Rf "plugins/cocart-ref-source";
+	output 2 "Previous CoCart code reference source removed."
+fi
+
 output 3 "Copying CoCart plugin to cocart-ref..."
 cp -r ./plugins/cocart ./plugins/cocart-ref
 output 2 "CoCart plugin copied."
