@@ -1291,8 +1291,6 @@ class Handler extends Session {
 		return $cart_key;
 	} // END get_cart_key_for_customer_id()
 
-
-
 	/**
 	 * Updates the customer ID to the cart.
 	 *
