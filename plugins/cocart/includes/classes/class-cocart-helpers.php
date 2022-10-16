@@ -539,6 +539,8 @@ class Help {
 	 *
 	 * @param array $args Passed arguments.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return array The CoCart Campaign.
 	 */
 	public static function cocart_campaign( $args = array() ) {
@@ -590,6 +592,8 @@ class Help {
 	 * @static
 	 *
 	 * @param string $seconds Seconds in time.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 *
 	 * @return string The time in words.
 	 */
@@ -670,6 +674,8 @@ class Help {
 	 *
 	 * @param int $seconds Time in seconds to check.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return boolean|int Whether or not CoCart has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {
@@ -723,6 +729,8 @@ class Help {
 	 *
 	 * @param string $required_php Required PHP version.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return boolean True if the server environment is compatible. False otherwise.
 	 */
 	public static function is_environment_compatible( $required_php = '' ) {
@@ -746,6 +754,8 @@ class Help {
 	 * @param string $plugin_name Plugin name.
 	 * @param string $required_php Required PHP version.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The message for display when the environment is incompatible with this plugin.
 	 */
 	public static function get_environment_message( $plugin_name = 'CoCart', $required_php = '' ) {
@@ -767,6 +777,8 @@ class Help {
 	 * @since   2.7.2 Introduced.
 	 * @since   4.0.0 Added statues of the site.
 	 * @version 4.0.0
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 *
 	 * @return array The shortlink data.
 	 */
@@ -816,6 +828,8 @@ class Help {
 	 *
 	 * @param string $url The URL to build upon.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The final URL.
 	 */
 	public static function build_shortlink( $url ) {
@@ -838,6 +852,8 @@ class Help {
 	 *
 	 * @since 2.7.2 Introduced.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The PHP version.
 	 */
 	private static function get_php_version() {
@@ -855,6 +871,8 @@ class Help {
 	 *
 	 * @since 2.7.2 Introduced.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The wp_version.
 	 */
 	protected static function get_wordpress_version() {
@@ -870,6 +888,8 @@ class Help {
 	 *
 	 * @since 2.7.2 Introduced.
 	 * @since 4.0.0 Changed from "private" access to "public" access.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 *
 	 * @return int The number of days the plugin is active.
 	 */
@@ -890,6 +910,8 @@ class Help {
 	 *
 	 * @since 2.7.2 Introduced.
 	 * @since 4.0.0 Changed from "private" access to "public" access.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 *
 	 * @return string The user's language.
 	 */
