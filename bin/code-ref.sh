@@ -104,6 +104,7 @@ find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\W
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Cache_Helper/WC_Cache_Helper/g' {} \;
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Customer/WC_Customer/g' {} \;
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Data_Store/WC_Data_Store/g' {} \;
+find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Product/WC_Product/g' {} \;
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Rate_Limiter/WC_Rate_Limiter/g' {} \;
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Session/WC_Session/g' {} \;
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Validation/WC_Validation/g' {} \;
