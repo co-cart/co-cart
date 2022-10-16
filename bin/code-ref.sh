@@ -109,6 +109,7 @@ find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\W
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\WC_Validation/WC_Validation/g' {} \;
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\Automattic\\WooCommerce\\Checkout\\Helpers\\ReserveStock/Automattic_WooCommerce_Checkout_Helpers_ReserveStock/g' {} \;
 find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\Automattic\\WooCommerce\\Utilities\\StringUtil/Automattic_WooCommerce_Utilities_StringUtil/g' {} \;
+find ./plugins/cocart-ref/includes/ -name '*.php' -type f -exec sed -i -e 's/\\Appsero\Client/Appsero_Client/g' {} \;
 output 3 "Strings replaced."
 
 output 7 "Code reference can now be imported!"
