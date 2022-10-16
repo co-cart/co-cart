@@ -445,24 +445,35 @@ class Authentication {
 	 * @return mixed
 	 */
 	public function check_api_permissions( $result, $server, $request ) {
-		$method = $request->get_method();
+		$method = strtolower( $request->get_method() );
 		$path   = $request->get_route();
 		$prefix = 'cocart/';
 
 		/**
-		 * API permissions check.
+		 * Filters API permissions check.
 		 *
-		 * Should the developer choose to restrict any of CoCart's API routes for any method,
-		 * they can set the requested API and method to enforce authentication by not allowing
-		 * it permission to the public.
+		 * Should you choose to restrict any of CoCart's API routes for any method,
+		 * you can set the requested API and method to enforce authentication by 
+		 * not allowing it permission to be used by the public.
+		 *
+		 * Methods you can use to filter the permissions check.
+		 *
+		 * - `get`
+		 * - `post`
+		 * - `put`
+		 * - `patch`
+		 * - `delete`
+		 * - `options`
+		 *
+		 * @since 3.0.0 Introduced.
 		 */
-		$api_not_allowed = apply_filters( 'cocart_api_permission_check_' . strtolower( $method ), array() );
+		$api_not_allowed = apply_filters( 'cocart_api_permission_check_{$method}', array() );
 
 		try {
 			// If no user is logged in then just return.
 			if ( ! is_user_logged_in() ) {
 				switch ( $method ) {
-					case 'GET':
+					case 'get':
 						foreach ( $api_not_allowed as $route ) {
 							if ( preg_match( '!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
 								throw new CoCart_Data_Exception(
@@ -478,10 +489,10 @@ class Authentication {
 							}
 						}
 						break;
-					case 'POST':
-					case 'PUT':
-					case 'PATCH':
-					case 'DELETE':
+					case 'post':
+					case 'put':
+					case 'patch':
+					case 'delete':
 						foreach ( $api_not_allowed as $route ) {
 							if ( preg_match( '!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
 								throw new CoCart_Data_Exception(
@@ -497,7 +508,7 @@ class Authentication {
 							}
 						}
 						break;
-					case 'OPTIONS':
+					case 'options':
 						foreach ( $api_not_allowed as $route ) {
 							if ( preg_match( '!^/' . $prefix . $route . '(?:$|/)!', $path ) ) {
 								throw new CoCart_Data_Exception(
