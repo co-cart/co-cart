@@ -127,7 +127,7 @@ class Help {
 	 *
 	 * @static
 	 *
-	 * @param sstring $version The version to compare.
+	 * @param string $version The version to compare.
 	 *
 	 * @return boolean
 	 */
@@ -957,6 +957,8 @@ class Help {
 	 * @static
 	 *
 	 * @since 4.0.0 Introduced.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 *
 	 * @return object
 	 */
