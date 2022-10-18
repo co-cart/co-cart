@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles data for the cart.
+ * Handles data for the cart (Legacy).
  *
  * Forked from WC_Session_Handler, changed default variables,
  * database table used, filters and made adjustments to accommodate
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Session handler class.
  */
-class LegacyHandler extends Session {
+class Handler extends Session {
 
 	/**
 	 * Cookie name used for the cart.

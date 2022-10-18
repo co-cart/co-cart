@@ -150,10 +150,12 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get cart.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request       Full details about the request.
 	 * @param string          $cart_item_key Originally the cart item key.
@@ -161,40 +163,49 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return WP_REST_Response $response The response data.
 	 */
 	public function get_cart( $request = array(), $cart_item_key = null ) {
-		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
-		$cart_contents = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+		try {
+			// Checks that we are using CoCart session handler. If not detected, throw error response.
+			if ( ! WC()->session instanceof Handler ) {
+				throw new CoCart_Data_Exception( 'cocart_session_handler_not_found', __( 'CoCart session handler was not detected. Another plugin or third party code most likely is using `woocommerce_session_handler` filter to place another session handler in place.', 'cart-rest-api-for-woocommerce' ), 404 );
+			}
 
-		/**
-		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
-		 *
-		 * @since 3.0.0 Introduced.
-		 *
-		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart         Cart object.
-		 * @param WP_REST_Request $request       Full details about the request.
-		 */
-		$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+			$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
+			$cart_contents = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
-		// Return cart contents raw if requested.
-		if ( $show_raw ) {
-			return $cart_contents;
+			/**
+			 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array           $cart_contents Cart contents.
+			 * @param WC_Cart         Cart object.
+			 * @param WP_REST_Request $request       Full details about the request.
+			 */
+			$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+
+			// Return cart contents raw if requested.
+			if ( $show_raw ) {
+				return $cart_contents;
+			}
+
+			/**
+			 * Deprecated action hook `cocart_get_cart`.
+			 *
+			 * @deprecated 3.0.0 Use `cocart_cart` hook instead.
+			 *
+			 * @see cocart_cart
+			 */
+			cocart_deprecated_hook( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
+
+			// Ensures the cart totals are calculated before an API response is returned.
+			$this->calculate_totals();
+
+			$cart_contents = $this->return_cart_contents( $request, $cart_contents );
+
+			return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
-
-		/**
-		 * Deprecated action hook `cocart_get_cart`.
-		 *
-		 * @deprecated 3.0.0 Use `cocart_cart` hook instead.
-		 *
-		 * @see cocart_cart
-		 */
-		cocart_deprecated_hook( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
-
-		// Ensures the cart totals are calculated before an API response is returned.
-		$this->calculate_totals();
-
-		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
-
-		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
 	} // END get_cart()
 
 	/**
@@ -800,8 +811,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 */
 	public function get_cart_key( $request ) {
 		try {
-			if ( ! class_exists( 'CoCart\Session\Handler' ) || ! WC()->session instanceof Handler ) {
-				throw new CoCart_Data_Exception( 'cocart_session_handler_not_found', __( 'Handler not detected in API controller.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			if ( ! method_exists( WC()->session, 'get_cart_key' ) ) {
+				return '';
 			}
 
 			return WC()->session->get_cart_key();

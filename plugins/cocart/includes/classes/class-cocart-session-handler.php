@@ -2,7 +2,7 @@
 /**
  * Handles data for the cart.
  *
- * Forked from WC_Session_Handler, changed default variables,
+ * Forked from WC_Session_Handler class, changed default variables,
  * database table used, filters and made adjustments to accommodate
  * support for guest customers as well as registered customers via the REST API.
  *
@@ -63,6 +63,8 @@ class Handler extends Session {
 	 * Constructor for the session class.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		$this->_cookie = apply_filters( 'woocommerce_cookie', 'wp_woocommerce_session_' . COOKIEHASH );
@@ -1299,6 +1301,8 @@ class Handler extends Session {
 	 * @since 4.0.0 Introduced.
 	 *
 	 * @param int $customer_id The customer ID.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */

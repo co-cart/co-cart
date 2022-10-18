@@ -3,6 +3,9 @@
 !/languages/*.pot
 !/languages/README.md
 
+# Composer
+/vendor/
+
 # Packages
 /packages/*
 !/packages/README.md

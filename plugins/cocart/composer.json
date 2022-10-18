@@ -26,6 +26,7 @@
 	},
 	"autoload": {
 		"exclude-from-classmap": [
+			"includes/classes/legacy",
 			"includes/classes/rest-api/legacy"
 		],
 		"classmap": [
