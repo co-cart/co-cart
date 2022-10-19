@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v3.7.7 - 20th October, 2022
+
+### Enhancement
+
+* Moved item validation further up to identify sooner if the product no longer exists when attempting to update an item's quantity. [issue #356](https://github.com/co-cart/co-cart/issues/356)
+
 ## v3.7.6 - 23rd September, 2022
 
 ### Bug Fixes

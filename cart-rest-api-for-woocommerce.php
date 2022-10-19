@@ -5,13 +5,13 @@
  * Description: Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     3.7.6
+ * Version:     3.7.7
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.6
  * Requires PHP: 7.3
  * WC requires at least: 4.3
- * WC tested up to: 6.9
+ * WC tested up to: 7.0
  *
  * @package CoCart
  */

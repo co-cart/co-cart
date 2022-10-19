@@ -3,10 +3,10 @@ Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdab
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.3
-Tested up to: 6.0
-Stable tag: 3.7.6
+Tested up to: 6.1
+Stable tag: 3.7.7
 WC requires at least: 4.3
-WC tested up to: 6.9
+WC tested up to: 7.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -205,7 +205,7 @@ This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_m
 = Recommended Requirements =
 
 * WordPress v6.0 or higher.
-* WooCommerce v6.9 or higher.
+* WooCommerce v7.0 or higher.
 * PHP v7.4
 
 = Automatic installation =
@@ -396,6 +396,12 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.7.7 - 20th October, 2022 =
+
+### Enhancement
+
+Moved item validation further up to identify sooner if the product no longer exists when attempting to update an item's quantity. [issue #356](https://github.com/co-cart/co-cart/issues/356)
 
 = v3.7.6 - 23rd September, 2022 =
 
@@ -734,6 +740,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.6 =
+= 3.7.7 =
 
-* Fixed a couple of bugs that happen on rare occasion.
+* Enhanced item validation to identify sooner if the product no longer exists when updating it in cart.
