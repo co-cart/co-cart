@@ -691,7 +691,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
 				$message = sprintf( __( 'You cannot add a quantity of (%1$s) for "%2$s" to the cart because there is not enough stock. - only (%3$s remaining)!', 'cart-rest-api-for-woocommerce' ), $quantity, $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) );
 
-				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
+				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 404 );
 			}
 
 			return true;
