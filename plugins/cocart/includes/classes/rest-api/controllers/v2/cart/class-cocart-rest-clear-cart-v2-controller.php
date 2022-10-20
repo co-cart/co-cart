@@ -160,7 +160,7 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 				 */
 				$message = apply_filters( 'cocart_clear_cart_failed_message', $message );
 
-				throw new CoCart_Data_Exception( 'cocart_clear_cart_failed', $message, 404 );
+				throw new CoCart_Data_Exception( 'cocart_clear_cart_failed', $message, 406 );
 			}
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );

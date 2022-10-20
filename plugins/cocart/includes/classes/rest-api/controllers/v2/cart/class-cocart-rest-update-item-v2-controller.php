@@ -157,7 +157,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 				 */
 				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $_product );
 
-				throw new CoCart_Data_Exception( 'cocart_can_not_increase_quantity', $message, 403 );
+				throw new CoCart_Data_Exception( 'cocart_can_not_increase_quantity', $message, 405 );
 			}
 
 			// Only update cart item quantity if passed validation.
@@ -192,7 +192,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
 
-					throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, array( 'status' => 403 ) );
+					throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, 400 );
 				}
 
 				$response = $this->get_cart_contents( $request );

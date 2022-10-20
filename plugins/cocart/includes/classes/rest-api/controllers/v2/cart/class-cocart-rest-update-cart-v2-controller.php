@@ -94,7 +94,7 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 					/* translators: %s: Namespace */
 					__( 'There is no valid callback registered for: %s.', 'cart-rest-api-for-woocommerce' ),
 					$namespace
-				), 400 );
+				), 404 );
 			}
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );

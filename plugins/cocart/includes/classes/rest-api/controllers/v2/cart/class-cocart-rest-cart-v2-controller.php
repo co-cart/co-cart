@@ -79,7 +79,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$cart = WC()->cart;
 
 		if ( ! $cart || ! $cart instanceof \WC_Cart ) {
-			throw new CoCart_Data_Exception( 'cocart_cart_error', __( 'Unable to retrieve cart.', 'cart-rest-api-for-woocommerce' ), 500 );
+			throw new CoCart_Data_Exception( 'cocart_cart_error', __( 'Unable to retrieve cart.', 'cart-rest-api-for-woocommerce' ), 404 );
 		}
 
 		return $cart;
@@ -353,7 +353,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				} else {
 					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
 
-					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 500 );
+					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
 				}
 			}
 
@@ -586,7 +586,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			if ( ! $product || 'trash' === $product->get_status() ) {
 				$message = __( 'This product cannot be added to the cart.', 'cart-rest-api-for-woocommerce' );
 
-				throw new CoCart_Data_Exception( 'cocart_cart_invalid_parent_product', $message, 403 );
+				throw new CoCart_Data_Exception( 'cocart_cart_invalid_parent_product', $message, 404 );
 			}
 
 			return $product->get_attributes();
@@ -682,7 +682,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
 
-				throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 500 );
+				throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 400 );
 			}
 
 			// Add cart item data - may be added by other plugins.
@@ -771,7 +771,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
 				$message = sprintf( __( 'You cannot add a quantity of (%1$s) for "%2$s" to the cart because there is not enough stock. - only (%3$s remaining)!', 'cart-rest-api-for-woocommerce' ), $quantity, $current_product->get_name(), wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product ) );
 
-				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, array( 'status' => 403 ) );
+				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 404 );
 			}
 
 			return true;
@@ -1134,7 +1134,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_not_enough_stock_message', $message, $product, $stock_quantity );
 
-				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 403 );
+				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 404 );
 			}
 
 			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
@@ -1151,7 +1151,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 						wc_format_stock_quantity_for_display( $qty_in_cart, $product )
 					);
 
-					throw new CoCart_Data_Exception( 'cocart_not_enough_stock_remaining', $message, 403 );
+					throw new CoCart_Data_Exception( 'cocart_not_enough_stock_remaining', $message, 404 );
 				}
 			}
 
@@ -2003,7 +2003,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 */
 		$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
 
-		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 403 );
+		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 400 );
 	} // END throw_product_not_purchasable()
 
 	/**
