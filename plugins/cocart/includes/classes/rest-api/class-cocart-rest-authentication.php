@@ -393,11 +393,17 @@ class Authentication {
 	 */
 	public function cors_headers( $served, $result, $request, $server ) {
 		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-			$origin = get_http_origin();
+			$origin     = get_http_origin();
+			$origin_arg = $origin;
 
 			// Requests from file:// and data: URLs send "Origin: null".
 			if ( 'null' !== $origin ) {
 				$origin = esc_url_raw( $origin );
+			}
+
+			// Check the origin against a list of allowed HTTP origins.
+			if ( $origin && ! in_array( $origin, get_allowed_http_origins(), true ) ) {
+				$origin = '';
 			}
 
 			$allow_headers = array(
