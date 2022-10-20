@@ -372,39 +372,52 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
 } // END cocart_add_to_cart_message()
 
 /**
- * Convert monetary values from WooCommerce to string based integers, using
+ * Convert monetary values from store settings to string based integers, using
  * the smallest unit of a currency.
  *
- * @since 3.1.0 Introduced.
+ * @since  3.1.0 Introduced.
+ * @since  4.0.0 Dropped `$decimals` and `$rounding_mode` in favor of a new array parameter `$options`.
  *
- * @param string|float $amount        Monetary amount with decimals.
- * @param int          $decimals      Number of decimals the amount is formatted with.
- * @param int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
+ * @param mixed $value   Value to format.
+ * @param array $options Options that influence the formatting.
  *
- * @return string The new amount.
+ * @return mixed Formatted value.
  */
-function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+function cocart_prepare_money_response( $amount, array $options = array() ) {
+	$default_options = array(
+		'decimals'      => wc_get_price_decimals(),
+		'rounding_mode' => PHP_ROUND_HALF_UP,
+	);
+
+	if ( ! empty( $options ) ) {
+		$options = wp_parse_args( $options, $default_options );
+	} else {
+		$options = $default_options;
+	}
+
 	// If string, clean it first.
 	if ( is_string( $amount ) ) {
-		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
-		$amount = (float) $amount;
+		$amount = html_entity_decode( wp_strip_all_tags( $amount ) );
 	}
 
 	/**
-	 * This filter allows you to disable the decimals.
-	 * If set to "True" the decimals will be set to "Zero".
+	 * Filter allows you to disable the decimals.
+	 *
+	 * If set to "True" the decimals will be forced to "Zero".
+	 *
+	 * @param bool false False by default.
 	 */
 	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
 
 	if ( $disable_decimals ) {
-		$decimals = 0;
+		$options['decimals'] = 0;
 	}
 
 	return (string) intval(
 		round(
-			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
+			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $options['decimals'] ) ),
 			0,
-			absint( $rounding_mode )
+			absint( $options['rounding_mode'] )
 		)
 	);
 } // END cocart_prepare_money_response()
