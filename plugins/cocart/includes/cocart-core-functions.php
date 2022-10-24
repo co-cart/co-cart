@@ -15,6 +15,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Define a constant if it is not already defined.
+ *
+ * @since 4.0.0 Introduced.
+ *
+ * @param string $name  Constant name.
+ * @param mixed  $value Value.
+ */
+function cocart_maybe_define_constant( $name, $value ) {
+	if ( ! defined( $name ) ) {
+		define( $name, $value );
+	}
+} // END cocart_maybe_define_constant()
+
+/**
  * Set a cookie - wrapper for setcookie using WP constants.
  *
  * @since 4.0.0 Introduced.
