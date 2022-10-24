@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Update CoCart session database structure.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return void
  */
 function cocart_update_400_db_structure() {
@@ -37,6 +38,7 @@ function cocart_update_400_db_structure() {
  * Update CoCart sessions for registered customers.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return void
  */
 function cocart_update_400_db_sessions() {
@@ -66,13 +68,6 @@ function cocart_update_400_db_sessions() {
 }
 
 /**
- * Update database version to 4.0.0
- */
-function cocart_update_400_db_version() {
-	Install::update_db_version( '4.0.0' );
-}
-
-/**
  * Update the status of the session upgrade.
  *
  * Sets a database version to compare a match.
@@ -85,6 +80,7 @@ function cocart_update_400_session_upgraded() {
  * Update CoCart session database structure.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return void
  */
 function cocart_update_300_db_structure() {

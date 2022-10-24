@@ -33,7 +33,6 @@ class Install {
 		'4.0.0' => array(
 			'cocart_update_400_db_structure',
 			'cocart_update_400_db_sessions',
-			'cocart_update_400_db_version',
 			'cocart_update_400_session_upgraded',
 		),
 	);
@@ -46,13 +45,14 @@ class Install {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 */
 	public static function init() {
 		// Checks version of CoCart and install/update if needed.
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'init', array( __CLASS__, 'manual_database_update' ), 20 );
 		add_action( 'cocart_run_update_callback', array( __CLASS__, 'run_update_callback' ) );
+		add_action( 'cocart_update_db_to_current_version', array( __CLASS__, 'update_db_version' ) );
 		add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
 
 		// Redirect to Getting Started page once activated.
@@ -76,10 +76,20 @@ class Install {
 
 		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( $cocart_version, COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 			self::install();
+			/**
+			 * Runs after CoCart has been updated.
+			 *
+			 * @since 1.2.0 Introduced.
+			 */
 			do_action( 'cocart_updated' );
 
-			// If there is no cocart_version option, consider it as a new install.
+			// If there is no "cocart_version" option, consider it as a new install.
 			if ( ! $cocart_version ) {
+				/**
+				 * Runs after CoCart is installed for the first time.
+				 *
+				 * @since 4.0.0 Introduced.
+				 */
 				do_action( 'cocart_newly_installed' );
 			}
 		}
@@ -147,7 +157,7 @@ class Install {
 	 * @param string $callback Callback name.
 	 */
 	protected static function run_update_callback_start( $callback ) {
-		define( 'COCART_UPDATING', true );
+		cocart_maybe_define_constant( 'COCART_UPDATING', true );
 
 		remove_action( 'shutdown', array( WC()->session, 'save_cart' ), 20 );
 	} // END run_update_callback_start()
@@ -206,7 +216,7 @@ class Install {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 3.7.2
+	 * @version 4.0.0
 	 */
 	public static function install() {
 		if ( ! is_blog_installed() ) {
@@ -232,9 +242,7 @@ class Install {
 
 		// If we made it till here nothing is running yet, lets set the transient now for five minutes.
 		set_transient( 'cocart_installing', 'yes', MINUTE_IN_SECONDS * 5 );
-		if ( ! defined( 'COCART_INSTALLING' ) ) {
-			define( 'COCART_INSTALLING', true );
-		}
+		cocart_maybe_define_constant( 'COCART_INSTALLING', true );
 
 		// Remove all admin notices.
 		self::remove_admin_notices();
@@ -263,6 +271,11 @@ class Install {
 
 		delete_transient( 'cocart_installing' );
 
+		/**
+		 * Runs after CoCart has been installed.
+		 *
+		 * @since 1.2.0 Introduced.
+		 */
 		do_action( 'cocart_installed' );
 	} // END install()
 
@@ -469,6 +482,20 @@ class Install {
 					$loop++;
 				}
 			}
+		}
+
+		// After the callbacks finish, update the db version to the current CoCart version.
+		$current_cocart_version = COCART_DB_VERSION;
+		if ( version_compare( $current_db_version, $current_cocart_version, '<' ) &&
+			! WC()->queue()->get_next( 'cocart_update_db_to_current_version' ) ) {
+			WC()->queue()->schedule_single(
+				time() + $loop,
+				'cocart_update_db_to_current_version',
+				array(
+					'version' => $current_cocart_version,
+				),
+				'cocart-db-updates'
+			);
 		}
 	} // END update()
 
