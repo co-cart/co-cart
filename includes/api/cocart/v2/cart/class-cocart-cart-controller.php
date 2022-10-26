@@ -2946,7 +2946,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * @deprecated 3.1.0
 		 */
-		cocart_deprecated_filter( 'cocart_cart_schema', array(), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
+		cocart_deprecated_filter( 'cocart_cart_schema', $schema['properties'], '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
 
 		/**
 		 * Extend the cart schema properties for items.
