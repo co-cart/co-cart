@@ -1366,7 +1366,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.0.17
+	 * @version 3.7.8
 	 *
 	 * @param array   $removed_items The removed cart contents passed.
 	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
@@ -1383,6 +1383,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			}
 
 			$_product = $cart_item['data'];
+
+			// If the product no longer exists then remove it from the cart completely.
+			if ( ! $_product || ! $_product->exists() || 'trash' === $_product->get_status() ) {
+				unset( $this->get_cart_instance()->removed_cart_contents[ $item_key ] );
+				unset( $removed_items[ $item_key ] );
+				continue;
+			}
 
 			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb, true );
 
@@ -3096,7 +3103,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 *
 		 * @see cocart_cart_items_schema
 		 */
-		cocart_deprecated_filter( 'cocart_cart_schema', array(), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
+		cocart_deprecated_filter( 'cocart_cart_schema', array( $schema['properties'] ), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
 
 		/**
 		 * Extend the cart schema properties for items.

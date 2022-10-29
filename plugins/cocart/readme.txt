@@ -1,5 +1,5 @@
 === CoCart - Headless ecommerce === 
-Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31
+Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31, douglasjohnson, antondrob2
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
@@ -218,7 +218,7 @@ Learn more about how [Appsero collects and uses this data](https://appsero.com/p
 = Recommended Requirements =
 
 * WordPress v6.0 or higher.
-* WooCommerce v6.9 or higher.
+* WooCommerce v7.0 or higher.
 * PHP v7.4
 
 = Automatic installation =

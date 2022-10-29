@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
  * @since   3.0.0
- * @version 3.7.6
+ * @version 3.7.7
  * @license GPL-2.0+
  */
 
@@ -58,7 +58,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.7.6
+	 * @version 3.7.7
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
@@ -79,6 +79,21 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 			// Check item exists in cart before fetching the cart item data to update.
 			$current_data = $this->get_cart_item( $item_key, 'container' );
 
+			// If item does not exist in cart return response.
+			if ( empty( $current_data ) ) {
+				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+
+				/**
+				 * Filters message about cart item key required.
+				 *
+				 * @since 2.1.0 Introduced.
+				 * @param string $message Message.
+				 */
+				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
+
+				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
+			}
+
 			$_product = ! is_null( $current_data['data'] ) ? $current_data['data'] : null;
 
 			// If product data is somehow not there on a rare occasion then we need to get that product data to validate it.
@@ -95,21 +110,6 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 			 */
 			if ( is_wp_error( $quantity ) ) {
 				return $quantity;
-			}
-
-			// If item does not exist in cart return response.
-			if ( empty( $current_data ) ) {
-				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
-
-				/**
-				 * Filters message about cart item key required.
-				 *
-				 * @since 2.1.0 Introduced.
-				 * @param string $message Message.
-				 */
-				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
-
-				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
 			$has_stock = $this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.

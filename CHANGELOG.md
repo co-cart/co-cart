@@ -1,5 +1,23 @@
 # Changelog for CoCart
 
+## v3.7.8 - 29th October, 2022
+
+### Tweaks
+
+* Improved getting request parameters for delete method endpoints.
+* Reordered some filtering when passing data via parameters.
+
+### Bug Fixes
+
+* Fixed a undefined array key warning related to use of `apply_filters_deprecated`. Reported by [@douglasjohnson](https://profiles.wordpress.org/douglasjohnson/) [Bug Report](https://wordpress.org/support/topic/undefined-array-key-warning-realted-to-use-of-apply_filters_deprecated/)
+* Fixed a fatal error when returning removed items that no longer exists. Now it's removed from the cart completely should the item not be found. Reported by [@antondrob2](https://profiles.wordpress.org/antondrob2/) [Bug Report](https://wordpress.org/support/topic/php-fatal-error-uncaught-error-17/)
+
+## v3.7.7 - 20th October, 2022
+
+### Enhancement
+
+* Moved item validation further up to identify sooner if the product no longer exists when attempting to update an item's quantity. [issue #356](https://github.com/co-cart/co-cart/issues/356)
+
 ## v3.7.6 - 23rd September, 2022
 
 ### Bug Fixes
