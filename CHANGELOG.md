@@ -2,6 +2,10 @@
 
 ## v3.7.8 - 29th October, 2022
 
+### What's New
+
+* Tested: ✔️ Compatible with WooCommerce v7.0
+
 ### Tweaks
 
 * Improved getting request parameters for delete method endpoints.
