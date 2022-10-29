@@ -1264,7 +1264,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access  public
 	 * @since   3.0.0
-	 * @version 3.0.17
+	 * @version 3.7.8
 	 * @param   array   $removed_items The removed cart contents passed.
 	 * @param   boolean $show_thumb    Determines if requested to return the item featured thumbnail.
 	 * @return  array   $items         Returns all removed items in the cart.
@@ -1279,6 +1279,13 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 
 			$_product = $cart_item['data'];
+
+			// If the product no longer exists then remove it from the cart completely.
+			if ( ! $_product || ! $_product->exists() || 'trash' === $_product->get_status() ) {
+				unset( $this->get_cart_instance()->removed_cart_contents[ $item_key ] );
+				unset( $removed_items[ $item_key ] );
+				continue;
+			}
 
 			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb, true );
 

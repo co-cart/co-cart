@@ -428,7 +428,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 	// If string, clean it first.
-	if ( is_string( $amount) ) {
+	if ( is_string( $amount ) ) {
 		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
 		$amount = (float) $amount;
 	}

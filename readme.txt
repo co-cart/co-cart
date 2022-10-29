@@ -1,5 +1,5 @@
 === CoCart - Headless ecommerce === 
-Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31
+Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31, douglasjohnson, antondrob2
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.3
@@ -397,6 +397,18 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.7.8 - 29th October, 2022 =
+
+### Tweaks
+
+* Improved getting request parameters for delete method endpoints.
+* Reordered some filtering when passing data via parameters.
+
+### Bug Fixes
+
+* Fixed a undefined array key warning related to use of `apply_filters_deprecated`. Reported by [@douglasjohnson](https://profiles.wordpress.org/douglasjohnson/) [Bug Report](https://wordpress.org/support/topic/undefined-array-key-warning-realted-to-use-of-apply_filters_deprecated/)
+* Fixed a fatal error when returning removed items that no longer exists. Now it's removed from the cart completely should the item not be found. Reported by [@antondrob2](https://profiles.wordpress.org/antondrob2/) [Bug Report](https://wordpress.org/support/topic/php-fatal-error-uncaught-error-17/)
+
 = v3.7.7 - 20th October, 2022 =
 
 ### Enhancement
@@ -740,6 +752,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.7 =
+= 3.7.8 =
 
-* Enhanced item validation to identify sooner if the product no longer exists when updating it in cart.
+* Fixed a couple of bugs and applied a couple of tweaks. See changelog for details.
