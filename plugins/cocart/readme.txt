@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.1
-Stable tag: 3.7.6
+Stable tag: 3.7.8
 WC requires at least: 6.4
 WC tested up to: 7.0
 License: GPLv3
