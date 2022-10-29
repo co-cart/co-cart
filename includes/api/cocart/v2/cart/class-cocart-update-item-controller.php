@@ -58,13 +58,13 @@ class CoCart_Update_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @access  public
 	 * @since   1.0.0
-	 * @version 3.7.7
+	 * @version 3.7.8
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function update_item( $request = array() ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? 0 : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
+			$item_key = ! isset( $request['item_key'] ) ? 0 : wc_clean( wp_unslash( sanitize_text_field( $request['item_key'] ) ) );
 			$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
 
 			$item_key = $this->throw_missing_item_key( $item_key, 'update' );
