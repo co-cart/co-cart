@@ -58,7 +58,7 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.1.0
+	 * @version 3.7.8
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -66,7 +66,8 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 */
 	public function remove_item( $request = array() ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
+			$request_params = $request->get_params();
+			$item_key       = ! isset( $request_params['item_key'] ) ? '0' : wc_clean( wp_unslash( sanitize_text_field( $request_params['item_key'] ) ) );
 
 			$item_key = $this->throw_missing_item_key( $item_key, 'remove' );
 

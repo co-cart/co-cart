@@ -60,7 +60,7 @@ class CoCart_REST_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 * @access public
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @version 3.7.8
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -68,7 +68,7 @@ class CoCart_REST_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 */
 	public function view_item( $request = array() ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? '' : sanitize_text_field( wp_unslash( wc_clean( $request['item_key'] ) ) );
+			$item_key = ! isset( $request['item_key'] ) ? '' : wc_clean( wp_unslash( sanitize_text_field( $request['item_key'] ) ) );
 
 			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
