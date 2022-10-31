@@ -42,6 +42,7 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 * Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
 * Plugin Suggestions now returns results better the first time it's viewed.
 * Sub-menus in the WordPress dashboard now load faster. No redirects.
+* Error responses are now softer to prevent fatal networking when a request fails.
 
 ## Security
 
@@ -116,12 +117,11 @@ Instead the user session data is returned during any cart request and passes the
 
 ## Developers
 
-Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
-Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
-Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
-Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
-
-Added new parameter to filter `cocart_cart` so you can access the cart controller.
+* Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
+* Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
+* Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
+* Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
+* Added new parameter to filter `cocart_cart` so you can access the cart controller.
 
 Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration`. These two new headers can help developers use the timestamps of the cart in session for when it is going to expire and how long until it does expire completely.
 
