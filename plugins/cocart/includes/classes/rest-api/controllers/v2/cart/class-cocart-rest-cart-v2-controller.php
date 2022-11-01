@@ -299,7 +299,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				} else {
 					$cart['taxes'] = array(
 						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-						'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $this->get_cart_instance()->get_taxes_total() ) ),
+						'total' => apply_filters( 'cocart_cart_totals_taxes_total', $this->get_cart_instance()->get_taxes_total() ),
 					);
 				}
 			}
@@ -1204,7 +1204,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.6.2
+	 * @version 4.0.0
 	 *
 	 * @param WC_Product $_product     The product data of the item in the cart.
 	 * @param array      $cart_item    The item in the cart containing the default cart item data.
@@ -1215,22 +1215,24 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
+		$quantity = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item );
+
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
 			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
 			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $this->get_cart_instance()->get_product_price( $_product ) ), $cart_item, $item_key ),
+			'price'          => (float) apply_filters( 'cocart_cart_item_price', $this->get_cart_instance()->get_product_price( $_product ), $cart_item, $item_key ),
 			'quantity'       => array(
-				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
+				'value'        => (float) $quantity,
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
 			'totals'         => array(
-				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', cocart_prepare_money_response( $cart_item['line_subtotal'] ), $cart_item, $item_key ),
-				'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key ),
-				'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key ),
-				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
+				'subtotal'     => (float) apply_filters( 'cocart_cart_item_subtotal', $this->get_cart_instance()->get_product_subtotal( $_product, $quantity ), $cart_item, $item_key ),
+				'subtotal_tax' => (float) apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key ),
+				'total'        => (float) apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key ),
+				'tax'          => (float) apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
 			),
 			'slug'           => $this->get_product_slug( $_product ),
 			'meta'           => array(
@@ -1432,7 +1434,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 3.1.0 Prices now return with formatted decimals.
+	 * @since 3.1.0 Prices now return as monetary values.
 	 *
 	 * @return array $cross_sells Returns cross sells.
 	 */
@@ -1461,9 +1463,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				'name'           => $cross_sell->get_name(),
 				'title'          => $cross_sell->get_title(),
 				'slug'           => $this->get_product_slug( $cross_sell ),
-				'price'          => cocart_prepare_money_response( $cross_sell->get_price() ),
-				'regular_price'  => cocart_prepare_money_response( $cross_sell->get_regular_price() ),
-				'sale_price'     => cocart_prepare_money_response( $cross_sell->get_sale_price() ),
+				'price'          => (float) cocart_prepare_money_response( $cross_sell->get_price() ),
+				'regular_price'  => (float) cocart_prepare_money_response( $cross_sell->get_regular_price() ),
+				'sale_price'     => (float) cocart_prepare_money_response( $cross_sell->get_sale_price() ),
 				'image'          => esc_url( $thumbnail_src ),
 				'average_rating' => $cross_sell->get_average_rating() > 0 ? sprintf(
 					/* translators: %s: average rating */
