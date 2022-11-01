@@ -37,12 +37,13 @@ By default, a maximum of 25 requests can be made within a 10-second time frame. 
 
 More extensive information can be found on the [Rate Limit Guide](https://github.com/co-cart/co-cart/blob/dev/docs/rate-limit-guide.md) along with a test guide.
 
-## Improved
+## Improved and Tweaks
 
 * Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
 * Plugin Suggestions now returns results better the first time it's viewed.
 * Sub-menus in the WordPress dashboard now load faster. No redirects.
 * Error responses are now softer to prevent fatal networking when a request fails.
+* Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
 
 ## Security
 
@@ -125,11 +126,20 @@ Instead the user session data is returned during any cart request and passes the
 
 Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration`. These two new headers can help developers use the timestamps of the cart in session for when it is going to expire and how long until it does expire completely.
 
+All monetary values are formatted after giving 3rd party plugins or extensions a chance to manipulate them first and all return as a float value. This includes using the following filters at priority `99`.
+
+* `cocart_cart_item_price`
+* `cocart_cart_item_subtotal`
+* `cocart_cart_item_subtotal_tax`
+* `cocart_cart_item_total`
+* `cocart_cart_item_tax`
+* `cocart_cart_totals_taxes_total`
+
 ## Database Changes
 
-As we now store the user ID and customer ID as a separate unique value to the cart session. We have to update the database structure in order to save it so an upgrade will be required.
+We now store the user ID and customer ID as a separate unique value to the cart session. We have to update the database structure in order to save it so an upgrade will be required.
 
-As this is a big change, until your WordPress site has processed the update for CoCart it will fallback on a legacy session handler to not disrupt your store from working.
+This is a big change, so until your WordPress site has processed the update for CoCart it will fallback on a legacy session handler to not disrupt your store from working.
 
 As always it is best to back-up before any database changes are made. When proceeding with the update, the cart session will not be active again until the upgrade is complete.
 
