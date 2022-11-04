@@ -1,5 +1,12 @@
 # Changelog for CoCart
 
+## v3.7.9 - 4th November, 2022
+
+### Bug Fixes
+
+* Fixed item custom price not being applied from cart cache when loaded from session.
+* Fixed a uncaught `array_merge()` fatal error where a **null** value was given instead of an **array**.
+
 ## v3.7.8 - 29th October, 2022
 
 ### What's New
