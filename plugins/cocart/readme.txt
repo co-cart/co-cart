@@ -213,13 +213,13 @@ Learn more about how [Appsero collects and uses this data](https://appsero.com/p
 
 * WordPress v5.6
 * WooCommerce v6.4
-* PHP v7.3
+* PHP v7.4
 
 = Recommended Requirements =
 
 * WordPress v6.0 or higher.
 * WooCommerce v7.0 or higher.
-* PHP v7.4
+* PHP v8.0 or higher.
 
 = Automatic installation =
 
