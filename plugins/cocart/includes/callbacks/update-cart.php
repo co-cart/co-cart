@@ -6,8 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Callback
- * @since   3.1.0
- * @license GPL-2.0+
+ * @since   3.1.0 Introduced.
  */
 
 namespace CoCart\RestApi\Callbacks;
@@ -27,7 +26,8 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 	 * Callback name.
 	 *
 	 * @access protected
-	 * @var    string
+	 *
+	 * @var string
 	 */
 	protected $name = 'update-cart';
 
@@ -37,7 +37,8 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
 	 */
 	public function callback( $request ) {
 		try {
@@ -78,6 +79,14 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 			}
 
 			if ( $cart_updated ) {
+				/**
+				 * Fires after the cart has updated via a callback.
+				 *
+				 * @since 3.1.0 Introduced.
+				 *
+				 * @param WP_REST_Request $request    Full details about the request.
+				 * @param object          $controller The cart controller.
+				 */
 				do_action( 'cocart_cart_updated', $request, $controller );
 
 				$controller->calculate_totals();

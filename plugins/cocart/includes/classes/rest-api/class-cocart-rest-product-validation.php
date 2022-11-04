@@ -1,10 +1,10 @@
 <?php
 /**
- * Handles product validation.
+ * REST API: CoCart\RestApi\ProductValidation.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   2.1.0
+ * @since   2.1.0 Introduced.
  * @version 4.0.0
  */
 
@@ -17,15 +17,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Handles product validation.
+ *
+ * Prevents products that are not purchasable or password protected from being added to the cart.
+ * Corrects product names for missing variation attributes.
+ *
+ * @since 2.1.0 Introduced.
+ *
+ * @see Logger
+ */
 class ProductValidation {
 
 	/**
 	 * Constructor.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @since   2.7.2 Prevents variations that are not purchasable from being added to the cart.
 	 * @version 2.7.2
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		// Prevent certain product types from being added to the cart.
@@ -45,19 +58,22 @@ class ProductValidation {
 		// Correct product name for missing variation attributes.
 		add_filter( 'cocart_product_name', array( $this, 'validate_variation_product_name' ), 0, 3 );
 		add_filter( 'cocart_item_added_product_name', array( $this, 'validate_variation_product_name' ), 0, 3 );
-	}
+	} // END __construct()
 
 	/**
 	 * Error response for product types that are not allowed to be added to the cart.
 	 *
-	 * @throws  CoCart_Data_Exception Exception if invalid data is detected.
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
-	 * @param   WC_Product      $product_data Passes the product data we are attempting to add to cart.
-	 * @param   WP_REST_Request $request      Request used to generate the response.
-	 * @return  WP_Error
+	 *
+	 * @param WC_Product      $product_data Passes the product data we are attempting to add to cart.
+	 * @param WP_REST_Request $request      Request used to generate the response.
+	 *
+	 * @return WP_Error
 	 */
 	public function product_not_allowed_to_add( $product_data, $request = array() ) {
 		try {
@@ -94,13 +110,16 @@ class ProductValidation {
 	 *
 	 * If variation details are missing then return the product title instead.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 2.2.0
-	 * @param   string $product_name - Product name before change.
-	 * @param   object $_product     - Product data.
-	 * @param   array  $cart_item    - Item details of the product in cart.
-	 * @return  string $product_name - Product name after change.
+	 *
+	 * @param string $product_name Product name before change.
+	 * @param object $_product     Product data.
+	 * @param array  $cart_item    Item details of the product in cart.
+	 *
+	 * @return string $product_name Product name after change.
 	 */
 	public function validate_variation_product_name( $product_name, $_product, $cart_item ) {
 		if ( $_product->is_type( 'variation' ) ) {
@@ -118,12 +137,17 @@ class ProductValidation {
 	/**
 	 * Prevent password protected products being added to the cart.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   2.1.2 Introduced.
 	 * @version 2.7.2
-	 * @param   bool $passed     Result before validating.
-	 * @param   int  $product_id Product ID.
-	 * @return  bool $passed     Result after validating.
+	 *
+	 * @uses Logger::log()
+	 *
+	 * @param bool $passed     Result before validating.
+	 * @param int  $product_id Product ID.
+	 *
+	 * @return bool $passed Result after validating.
 	 */
 	public function protected_product_add_to_cart( $passed, $product_id ) {
 		if ( post_password_required( $product_id ) ) {
@@ -141,13 +165,18 @@ class ProductValidation {
 	 * Prevents variations that are not purchasable from being added to the cart.
 	 *
 	 * @access public
-	 * @since  2.7.2 Introduced.
-	 * @param  bool  $passed       Result before validating.
-	 * @param  int   $product_id   Product ID.
-	 * @param  int   $quantity     Quantity of item.
-	 * @param  int   $variation_id Variation ID.
-	 * @param  array $variation    Attributes of the variation.
-	 * @return bool  $passed       Result after validating.
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
+	 * @uses Logger::log()
+	 *
+	 * @param bool  $passed       Result before validating.
+	 * @param int   $product_id   Product ID.
+	 * @param int   $quantity     Quantity of item.
+	 * @param int   $variation_id Variation ID.
+	 * @param array $variation    Attributes of the variation.
+	 *
+	 * @return bool $passed Result after validating.
 	 */
 	public function variation_not_purchasable( $passed, $product_id, $quantity, $variation_id, $variation ) {
 		$product = wc_get_product( $product_id );

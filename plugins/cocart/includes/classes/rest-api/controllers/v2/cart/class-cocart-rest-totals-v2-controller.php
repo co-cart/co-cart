@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API v2 - Totals controller class.
  *
- * @package CoCart\API
+ * @see CoCart_REST_Cart_v2_Controller
  */
 class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 

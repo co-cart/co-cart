@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
- * @since   3.1.0
+ * @since   3.1.0 Introduced.
  * @version 4.0.0
  */
 
@@ -17,8 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API v2 - Update Cart controller class.
  *
- * @package CoCart\API
- * @extends CoCart_REST_Cart_v2_Controller
+ * @see CoCart_REST_Cart_v2_Controller
  */
 class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
@@ -40,6 +39,8 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Update Cart - cocart/v2/cart/update (POST).
@@ -63,7 +64,9 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return boolean
 	 */
 	public function get_permissions_check( $request ) {
@@ -109,7 +112,9 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response
 	 */
 	public function update_cart( $request ) {
@@ -145,6 +150,7 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 * Get the query params for updating cart.
 	 *
 	 * @access public
+	 *
 	 * @return array $params
 	 */
 	public function get_collection_params() {

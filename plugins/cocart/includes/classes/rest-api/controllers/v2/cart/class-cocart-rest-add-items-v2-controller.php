@@ -1,14 +1,11 @@
 <?php
 /**
- * REST API: Add Items controller
- *
- * Handles the request to add items to the cart with /cart/add-items endpoint.
+ * REST API: CoCart_REST_Add_Items_v2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 3.1.0
- * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,11 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Add Items controller class.
+ * Controller for adding items to cart via the REST API. (API v2)
  *
- * @package CoCart\API
+ * This REST API controller handles requests to add grouped items or
+ * custom multiple handler to the cart via "cocart/v2/cart/add-items" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_Add_Item_Controller
  */
-class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
+class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -40,6 +42,8 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Add Items - cocart/v2/cart/add-items (POST).

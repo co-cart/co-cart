@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Functions
- * @since   4.0.0
+ * @since   4.0.0 Introduced.
  */
 
 // Exit if accessed directly.

@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce System Status
- * @since   2.1.0
+ * @since   2.1.0 Introduced.
  * @version 4.0.0
  */
 

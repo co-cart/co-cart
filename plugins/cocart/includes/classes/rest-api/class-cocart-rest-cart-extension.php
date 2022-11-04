@@ -1,12 +1,10 @@
 <?php
 /**
- * CoCart - Cart Extension.
- *
- * Allows developers to extend CoCart by allowing to update the cart via custom callback.
+ * REST API: CoCart\RestApi\CartExtension.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   3.1.0
+ * @since   3.1.0 Introduced.
  * @version 4.0.0
  */
 
@@ -17,7 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart Cart Extension class.
+ * CoCart Cart Extension.
+ *
+ * Allows developers to extend CoCart by allowing to update the cart via custom callback.
+ *
+ * @since 3.1.0 Introduced.
  */
 class CartExtension {
 
@@ -25,7 +27,8 @@ class CartExtension {
 	 * Registered Callbacks.
 	 *
 	 * @access protected
-	 * @var    array $registered_callbacks - Registered callbacks.
+	 *
+	 * @var array $registered_callbacks Registered callbacks.
 	 */
 	protected $registered_callbacks = array();
 
@@ -33,6 +36,8 @@ class CartExtension {
 	 * Setup class.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		$this->init();
@@ -56,7 +61,9 @@ class CartExtension {
 	 * Registers a callback.
 	 *
 	 * @access public
-	 * @param  string $callback An instance of the callback class.
+	 *
+	 * @param string $callback An instance of the callback class.
+	 *
 	 * @return boolean True means registered successfully.
 	 */
 	public function register( $callback ) {
@@ -77,8 +84,10 @@ class CartExtension {
 	 * Checks if a callback is already registered.
 	 *
 	 * @access public
-	 * @param  string $name Callback name.
-	 * @return bool   True if the callback is registered, false otherwise.
+	 *
+	 * @param string $name Callback name.
+	 *
+	 * @return bool True if the callback is registered, false otherwise.
 	 */
 	public function is_registered( $name ) {
 		return isset( $this->registered_callbacks[ $name ] );
@@ -88,6 +97,7 @@ class CartExtension {
 	 * Retrieves all registered callbacks.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_all_registered_callbacks() {

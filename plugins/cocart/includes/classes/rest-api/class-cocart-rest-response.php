@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -22,12 +22,14 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 3.1.0 Introduced
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @ignore Function ignored when parsed into Code Reference.
 		 */
 		public function __construct() {
 			// Expose custom headers.
 			add_action( 'rest_pre_serve_request', array( $this, 'expose_custom_headers' ), 11, 4 );
-		}
+		} // END __construct()
 
 		/**
 		 * Expose CoCart Headers.
@@ -76,7 +78,7 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @param string $namespace The namespace of the API requested.
 		 * @param string $rest_base The rest base of the API requested.
 		 *
-		 * @return WP_REST_Response  - The returned response.
+		 * @return WP_REST_Response The returned response.
 		 */
 		public static function get_response( $data, $namespace = '', $rest_base = '' ) {
 			if ( empty( $rest_base ) ) {

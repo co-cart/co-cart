@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   4.0.0
+ * @since   4.0.0 Introduced.
  */
 
 namespace CoCart;
@@ -28,7 +28,9 @@ class Status {
 	 * Is CoCart in offline mode?
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return bool Whether CoCart's offline mode is active.
 	 */
 	public static function is_offline_mode() {
@@ -61,8 +63,11 @@ class Status {
 	 * Forked from: https://github.com/Automattic/jetpack/blob/master/projects/packages/status/src/class-status.php
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return boolean True if this is a multi-network system.
 	 */
 	public static function is_multi_network() {
@@ -87,7 +92,9 @@ class Status {
 	 * Forked from: https://github.com/Automattic/jetpack/blob/master/projects/packages/status/src/class-status.php
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return bool
 	 */
 	public static function is_local_site() {
@@ -141,7 +148,9 @@ class Status {
 	 * Forked from: https://github.com/Automattic/jetpack/blob/master/projects/packages/status/src/class-status.php
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return bool
 	 */
 	public static function is_staging_site() {
@@ -221,7 +230,9 @@ class Status {
 	 * Determine if this is a WP VIP-hosted site.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return bool
 	 */
 	public static function is_vip_site() {

@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Utilities
- * @since   4.0.0
+ * @since   4.0.0 Introduced.
  */
 
 namespace CoCart\Utilities;
@@ -228,8 +228,9 @@ class RateLimits extends Limiter {
 			/**
 			 * Filters options for Rate Limits.
 			 *
-			 * @param array $rate_limit_options Array of option values.
-			 * @return array
+			 * @param array $default_options Array of default option values.
+			 *
+			 * @return array $rate_limit_options Array of option values after filter.
 			 */
 			apply_filters(
 				'cocart_api_rate_limit_options',

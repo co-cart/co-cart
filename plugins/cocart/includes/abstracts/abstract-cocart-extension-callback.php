@@ -4,8 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Abstracts
- * @since   3.1.0
- * @license GPL-2.0+
+ * @since   3.1.0 Introduced.
  */
 
 namespace CoCart\Abstracts;
@@ -20,7 +19,8 @@ abstract class CoCart_Cart_Extension_Callback {
 	 * Extension Callback name defined by extending this class.
 	 *
 	 * @access protected
-	 * @var    string
+	 *
+	 * @var string
 	 */
 	protected $name = '';
 
@@ -28,6 +28,7 @@ abstract class CoCart_Cart_Extension_Callback {
 	 * Returns the name of the extension callback.
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function get_name() {
@@ -40,7 +41,8 @@ abstract class CoCart_Cart_Extension_Callback {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
 	 */
 	public function callback( $request ) {
 		try {

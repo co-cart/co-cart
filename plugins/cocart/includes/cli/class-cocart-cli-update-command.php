@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\CLI
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 

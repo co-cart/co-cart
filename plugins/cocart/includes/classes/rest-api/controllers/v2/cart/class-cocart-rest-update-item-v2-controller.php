@@ -6,9 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 3.7.7
- * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,8 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API v2 - Item controller class.
  *
- * @package CoCart\API
- * @extends CoCart_REST_Cart_v2_Controller
+ * @see CoCart_REST_Cart_v2_Controller
  */
 class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
@@ -34,6 +32,8 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Update Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (POST).
@@ -56,11 +56,14 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.7.8
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response
 	 */
 	public function update_item( $request = array() ) {
 		try {
@@ -87,6 +90,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 				 * Filters message about cart item key required.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
@@ -128,10 +132,11 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 			 *
 			 * @since   2.1.0 Introduced.
 			 * @version 2.6.2
-			 * @param   bool
-			 * @param   string $item_key     Item key.
-			 * @param   array  $current_data Product data of the item in cart.
-			 * @param   float  $quantity     The requested quantity to change to.
+			 *
+			 * @param bool
+			 * @param string $item_key     Item key.
+			 * @param array  $current_data Product data of the item in cart.
+			 * @param float  $quantity     The requested quantity to change to.
 			 */
 			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $current_data, $quantity );
 
@@ -188,6 +193,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 					 * Filters message about can not update item.
 					 *
 					 * @since 2.1.0 Introduced.
+					 *
 					 * @param string $message Message.
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
@@ -237,6 +243,7 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 					 * Filters the update status.
 					 *
 					 * @since 2.0.1 Introduced.
+					 *
 					 * @param array      $response Status response.
 					 * @param array      $new_data Cart item.
 					 * @param int        $quantity Quantity.
@@ -255,10 +262,12 @@ class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	/**
 	 * Get the query params for updating an item.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array $params
+	 *
+	 * @return array $params
 	 */
 	public function get_collection_params() {
 		// Cart query parameters.

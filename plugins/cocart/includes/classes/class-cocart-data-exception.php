@@ -5,10 +5,9 @@
  * Extends exception to provide additional data.
  *
  * @author  Sébastien Dumont
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
-
 
 use CoCart\Logger;
 
@@ -44,8 +43,8 @@ class CoCart_Data_Exception extends Exception {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0  Introduced.
-	 * @since   3.1.0  Passed plugin slug used to identify error logs for.
+	 * @since   3.0.0 Introduced.
+	 * @since   3.1.0 Passed plugin slug used to identify error logs for.
 	 * @version 3.1.0
 	 *
 	 * @param string $error_code       Machine-readable error code, e.g `cocart_invalid_product_id`.
@@ -68,6 +67,7 @@ class CoCart_Data_Exception extends Exception {
 	 * Returns the error code.
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function getErrorCode() {
@@ -76,6 +76,8 @@ class CoCart_Data_Exception extends Exception {
 
 	/**
 	 * Returns additional error data.
+	 *
+	 * @access public
 	 *
 	 * @return array
 	 */

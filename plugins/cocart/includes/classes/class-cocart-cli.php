@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -25,9 +25,9 @@ class CLI {
 	/**
 	 * Registers CLI commands where needed for CoCart.
 	 *
-	 * @access public
+	 * Uses "WP_CLI::add_command()"
 	 *
-	 * @uses WP_CLI::add_command()
+	 * @access public
 	 */
 	public function __construct() {
 		\WP_CLI::add_command( 'cocart', 'CoCart\CLI\Status' );
@@ -38,7 +38,7 @@ class CLI {
 	/**
 	 * Sets up and hooks WP CLI to CoCart CLI code.
 	 *
-	 * @uses WP_CLI::add_hook()
+	 * Uses "WP_CLI::add_hook()"
 	 *
 	 * @access private
 	 */

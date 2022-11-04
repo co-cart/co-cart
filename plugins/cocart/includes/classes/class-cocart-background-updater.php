@@ -4,9 +4,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 3.0.5
- * @license GPL-2.0+
  */
 
 namespace CoCart;

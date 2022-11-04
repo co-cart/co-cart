@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -17,8 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API v2 - Restore Item controller class.
  *
- * @package CoCart\API
- * @extends CoCart_REST_Cart_v2_Controller
+ * @see CoCart_REST_Cart_v2_Controller
  */
 class CoCart_REST_Restore_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
@@ -33,6 +32,8 @@ class CoCart_REST_Restore_Item_v2_Controller extends CoCart_REST_Cart_v2_Control
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Restore Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (PUT).
@@ -55,11 +56,14 @@ class CoCart_REST_Restore_Item_v2_Controller extends CoCart_REST_Cart_v2_Control
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.7.8
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response
 	 */
 	public function restore_item( $request = array() ) {
 		try {
@@ -138,6 +142,7 @@ class CoCart_REST_Restore_Item_v2_Controller extends CoCart_REST_Cart_v2_Control
 				 * Filters message about can not restore item.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_restore_item_message', $message );
@@ -152,10 +157,12 @@ class CoCart_REST_Restore_Item_v2_Controller extends CoCart_REST_Cart_v2_Control
 	/**
 	 * Get the query params for restoring an item.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array $params
+	 *
+	 * @return array $params
 	 */
 	public function get_collection_params() {
 		// Cart query parameters.

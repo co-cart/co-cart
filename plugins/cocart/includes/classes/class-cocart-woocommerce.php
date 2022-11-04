@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   2.1.2
+ * @since   2.1.2 Introduced.
  * @version 4.0.0
  */
 
@@ -32,7 +32,7 @@ class WooCommerce {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.2
+	 * @since   2.1.2 Introduced.
 	 * @version 3.0.3
 	 */
 	public function __construct() {
@@ -50,7 +50,7 @@ class WooCommerce {
 
 		// Delete user data.
 		add_action( 'delete_user', array( $this, 'delete_user_data' ) );
-	}
+	} // END __construct()
 
 	/**
 	 * Force WooCommerce to accept CoCart API requests when authenticating.
@@ -59,7 +59,7 @@ class WooCommerce {
 	 *
 	 * @static
 	 *
-	 * @since   2.0.5
+	 * @since   2.0.5 Introduced.
 	 * @version 2.6.0
 	 *
 	 * @param bool $request Current status of allowing WooCommerce request.
@@ -97,7 +97,7 @@ class WooCommerce {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.0
+	 * @since   2.1.0 Introduced.
 	 * @version 4.0.0
 	 */
 	public static function load_cart_from_session() {
@@ -107,7 +107,7 @@ class WooCommerce {
 		}
 
 		// Check the CoCart session handler is used but is NOT a CoCart REST API request.
-		if ( WC()->session instanceof Handler && ! Authentication::is_rest_api_request() ) {
+		if ( ! WC()->session instanceof Handler || WC()->session instanceof Handler && ! Authentication::is_rest_api_request() ) {
 			return;
 		}
 
@@ -226,7 +226,7 @@ class WooCommerce {
 	 *
 	 * @static
 	 *
-	 * @since 2.9.1
+	 * @since 2.9.1 Introduced.
 	 *
 	 * @return array
 	 */

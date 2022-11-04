@@ -1,10 +1,10 @@
 <?php
 /**
- * REST API:Cart Cache class.
+ * REST API: CoCart\RestApi\CartCache.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   3.1.0
+ * @since   3.1.0 Introduced.
  * @version 4.0.0
  */
 
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * This handles the cart data in cache before the totals are calculated.
  *
- * @since 3.1.0
+ * @since 3.1.0 Introduced.
  */
 class CartCache {
 
@@ -29,7 +29,8 @@ class CartCache {
 	 * Contains an array of cart items cached.
 	 *
 	 * @access protected
-	 * @var    array $_cart_contents_cached Stores cached cart items.
+	 *
+	 * @var array $_cart_contents_cached Stores cached cart items.
 	 */
 	protected static $_cart_contents_cached = array();
 
@@ -37,6 +38,8 @@ class CartCache {
 	 * Initiate calculate totals for cached items.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		add_filter( 'cocart_override_cart_item', array( $this, 'set_new_price' ), 1, 2 );
@@ -44,7 +47,7 @@ class CartCache {
 		add_action( 'cocart_before_cart_emptied', array( $this, 'clear_cart_cached' ), 0 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_cached_items' ), 99, 1 );
-	}
+	} // END __construct()
 
 	/**
 	 * Add new price to item if one is requested.
@@ -101,12 +104,10 @@ class CartCache {
 	} // END set_new_price()
 
 	/**
-	 * Removes item from cache to prevent it from
-	 * calculating wrong the next time it's added to the cart.
-	 * Or clears all cached items when the cart is cleared.
+	 * Removes item from cache to prevent it from calculating
+	 * wrong the next time it's added to the cart.
 	 *
-	 * @uses WC()->session->set()
-	 * @uses WC()->session->__unset()
+	 * Or clears all cached items when the cart is cleared. Uses "WC()->session->set()" and "WC()->session->__unset()"
 	 *
 	 * @access public
 	 *
@@ -161,7 +162,7 @@ class CartCache {
 	/**
 	 * Gets cart contents cached.
 	 *
-	 * @uses WC()->session->get()
+	 * Uses "WC()->session->get()"
 	 *
 	 * @access public
 	 *
@@ -191,7 +192,7 @@ class CartCache {
 	/**
 	 * Set a cart item to cache.
 	 *
-	 * @uses WC()->session->set()
+	 * Uses "WC()->session->set()"
 	 *
 	 * @access public
 	 *
@@ -219,7 +220,7 @@ class CartCache {
 	/**
 	 * Clear cart cached.
 	 *
-	 * @uses WC()->session->__unset()
+	 * Uses "WC()->session->__unset()"
 	 *
 	 * @access public
 	 */
@@ -234,12 +235,21 @@ class CartCache {
 	 *
 	 * @access protected
 	 *
+	 * @since 4.0.0 Introduced.
+	 *
 	 * @param array           $cart_item Cart item.
 	 * @param WP_REST_Request $request   Full details about the request.
 	 *
 	 * @return bool True if the cart item can be allowed to override the price.
 	 */
 	protected function is_allowed_to_override_price( $cart_item, $request ) {
+		/**
+		 * Filter which products that can be allowed to override the price if not all.
+		 *
+		 * @param bool
+		 * @param array           $cart_item Cart item.
+		 * @param WP_REST_Request $request Full details about the request.
+		 */
 		return apply_filters( 'cocart_is_allowed_to_override_price', true, $cart_item, $request );
 	} // END is_allowed_to_override_price()
 

@@ -1,16 +1,10 @@
 <?php
 /**
- * Handles REST API authentication.
- *
- * Our built in support for authenticating users with CoCart is basic
- * but secure. When you authenticate CoCart as the customer you are
- * logging them in with their account. If you are using WooCommerce
- * API consumer key and secret you will need a secure connection for
- * authentication to be valid.
+ * REST API: CoCart\RestApi\Authentication.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   2.6.0
+ * @since   2.6.0 Introduced.
  * @version 4.0.0
  */
 
@@ -23,14 +17,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Handles REST API authentication for CoCart.
+ *
+ * Basic and secure authentication is supported.
+ *
+ * Note: When you authenticate CoCart as the customer you are logging
+ * them in with their account.
+ *
+ * If you are using WooCommerce API consumer key and secret,
+ * a secure connection is required.
+ *
+ * @since 2.6.0 Introduced.
+ *
+ * @see Utilities::RateLimits
+ */
 class Authentication {
 
 	/**
 	 * Authentication error.
 	 *
 	 * @access protected
-	 * @since  3.0.0
-	 * @var    WP_Error
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @var WP_Error
 	 */
 	protected $error = null;
 
@@ -38,8 +49,10 @@ class Authentication {
 	 * Logged in user data.
 	 *
 	 * @access protected
-	 * @since  3.0.0
-	 * @var    stdClass
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @var stdClass
 	 */
 	protected $user = null;
 
@@ -47,17 +60,23 @@ class Authentication {
 	 * Current auth method.
 	 *
 	 * @access protected
-	 * @since  3.0.0
-	 * @var    string
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @var string
 	 */
 	protected $auth_method = '';
 
 	/**
 	 * Constructor.
 	 *
-	 * @access  public
-	 * @since   2.6.0 Introduced.
+	 * @access public
+	 *
+	 * @since 2.6.0 Introduced.
+	 *
 	 * @version 4.0.0
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		// Check that we are only authenticating for our API.
@@ -89,7 +108,7 @@ class Authentication {
 			// Allow all cross origin requests.
 			add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
 		}
-	}
+	} // END __construct()
 
 	/**
 	 * Triggers saved cart after login and updates user activity.
@@ -135,6 +154,13 @@ class Authentication {
 		$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
+		/**
+		 * Filters the REST API requested.
+		 *
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @param string $is_rest_api_request REST API uri requested.
+		 */
 		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()
 
@@ -180,7 +206,9 @@ class Authentication {
 		}
 
 		/**
-		 * Should you need to authenticate as another user instead of the one returned.
+		 * Filters the authenticated user ID returned.
+		 *
+		 * WARNING: Use with caution.
 		 *
 		 * @param int  $user_id The user ID returned if authentication was successful.
 		 * @param bool          Determines if the site is secure.
@@ -276,7 +304,7 @@ class Authentication {
 	 * attacks, so the request can be authenticated by simply looking up the user
 	 * associated with the given username and password provided that it is valid.
 	 *
-	 * @uses wp_authenticate()
+	 * @link https://developer.wordpress.org/reference/functions/wp_authenticate/
 	 *
 	 * @access private
 	 *
@@ -360,7 +388,13 @@ class Authentication {
 	 * @version 3.0.0
 	 */
 	public function allow_all_cors() {
-		// If not enabled via filter then return.
+		/**
+		 * Modifies if the "Cross Origin Headers" are allowed.
+		 *
+		 * Set as false to enable support.
+		 *
+		 * @since 2.2.0 Introduced.
+		 */
 		if ( apply_filters( 'cocart_disable_all_cors', true ) ) {
 			return;
 		}
@@ -378,11 +412,15 @@ class Authentication {
 	 * For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts.
 	 * This overrides that by providing access should the request be for CoCart.
 	 *
+	 * @link https://developer.wordpress.org/reference/functions/get_http_origin/
+	 * @link https://developer.wordpress.org/reference/functions/get_allowed_http_origins/
+	 *
 	 * @access public
 	 *
 	 * @since   2.2.0 Introduced.
 	 * @since   3.3.0 Added new custom headers without the prefix `X-`
-	 * @version 3.3.0
+	 * @since   4.0.0 Added a check against a list of allowed HTTP origins.
+	 * @version 4.0.0
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
 	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
@@ -470,7 +508,7 @@ class Authentication {
 		 * Filters API permissions check.
 		 *
 		 * Should you choose to restrict any of CoCart's API routes for any method,
-		 * you can set the requested API and method to enforce authentication by 
+		 * you can set the requested API and method to enforce authentication by
 		 * not allowing it permission to be used by the public.
 		 *
 		 * Methods you can use to filter the permissions check.
@@ -606,6 +644,13 @@ class Authentication {
 
 				$ip_address = $ip_address ?? self::get_ip_address( $rate_limiting_options->proxy_support );
 				if ( $ip_address ) {
+					/**
+					 * Fires after the rate limit exceeded.
+					 *
+					 * @since 4.0.0 Introduced.
+					 *
+					 * @param string $ip_address IP address the rate limit exceeded on.
+					 */
 					do_action( 'cocart_api_rate_limit_exceeded', $ip_address );
 				}
 
@@ -717,6 +762,13 @@ class Authentication {
 			array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
 		);
 
+		/**
+		 * Filters the IP address validated.
+		 *
+		 * @since 4.0.0 Introduced.
+		 *
+		 * @param string $ip ipv4 or ipv6 ip string.
+		 */
 		return apply_filters( 'cocart_validate_ip', $ip );
 	} // END validate_ip()
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * Handles cart validation.
+ * REST API: CoCart\RestApi\CartValidation
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -15,27 +15,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Handles cart validation.
+ *
+ * @since 3.0.0 Introduced.
+ */
 class CartValidation {
 
 	/**
 	 * Constructor.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_item_stock' ), 10, 2 );
 		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_coupons' ), 15, 2 );
-	}
+	} // END __construct()
 
 	/**
 	 * Looks through the cart to check each item is in stock. If not, add error notice.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.0.4
-	 * @param   array  $cart_contents Cart contents before cart changes.
-	 * @param   object $cart          Cart object.
-	 * @return  array  $cart_contents Cart contents after cart changes.
+	 *
+	 * @param array  $cart_contents Cart contents before cart changes.
+	 * @param object $cart          Cart object.
+	 *
+	 * @return array  $cart_contents Cart contents after cart changes.
 	 */
 	public function check_cart_item_stock( $cart_contents, $cart ) {
 		$qty_in_cart              = $cart->get_cart_item_quantities();
@@ -87,9 +97,11 @@ class CartValidation {
 	 * Check cart coupons for errors.
 	 *
 	 * @access public
-	 * @param  array  $cart_contents Cart contents before cart changes.
-	 * @param  object $cart          Cart object.
-	 * @return array  $cart_contents Cart contents after cart changes.
+	 *
+	 * @param array  $cart_contents Cart contents before cart changes.
+	 * @param object $cart          Cart object.
+	 *
+	 * @return array $cart_contents Cart contents after cart changes.
 	 */
 	public function check_cart_coupons( $cart_contents, $cart ) {
 		foreach ( $cart->get_applied_coupons() as $code ) {

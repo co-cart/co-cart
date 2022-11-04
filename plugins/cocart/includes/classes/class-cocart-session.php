@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   2.1.0
+ * @since   2.1.0 Introduced.
  * @version 4.0.0
  */
 
@@ -42,9 +42,9 @@ class LoadCart {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
+	 * @since      2.1.0 Introduced.
 	 * @deprecated 4.0.0 No replacement.
-	 * @version 4.0.0
+	 * @version    4.0.0
 	 *
 	 * @param string $cart_key Requested cart key.
 	 *
@@ -108,9 +108,7 @@ class LoadCart {
 	 * Unless specified not to override, the carts will merge the current cart
 	 * and the loaded cart items together.
 	 *
-	 * @uses wc_nocache_headers()
-	 * @uses wc_add_notice()
-	 * @uses WC()->session->get()
+	 * Uses "wc_nocache_headers()", "wc_add_notice()", "WC()->session->get()"
 	 *
 	 * @see Logger::log()
 	 *

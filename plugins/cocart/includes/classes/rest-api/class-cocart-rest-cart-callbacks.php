@@ -1,10 +1,10 @@
 <?php
 /**
- * Registers all core cart callbacks.
+ * REST API: CoCart\RestApi\Callback.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   3.1.0
+ * @since   3.1.0 Introduced.
  * @version 4.0.0
  */
 
@@ -17,7 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart Cart Callbacks class.
+ * Registers all core cart callbacks.
+ *
+ * @since 3.1.0 Introduced.
  */
 class Callback {
 
@@ -25,6 +27,8 @@ class Callback {
 	 * Register callbacks.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		add_action( 'cocart_register_extension_callback', array( $this, 'register_callback_update_cart' ) );
@@ -34,6 +38,7 @@ class Callback {
 	 * Registers callback to update cart.
 	 *
 	 * @access public
+	 *
 	 * @param CoCart_Cart_Extension $callback Instance of the CoCart_Cart_Extension class.
 	 */
 	public function register_callback_update_cart( $callback ) {

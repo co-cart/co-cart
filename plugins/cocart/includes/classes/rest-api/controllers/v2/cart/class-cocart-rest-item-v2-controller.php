@@ -6,9 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 3.1.0
- * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,8 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API v2 - View individual item controller class.
  *
- * @package CoCart\API
- * @extends CoCart_REST_Cart_v2_Controller
+ * @see CoCart_REST_Cart_v2_Controller
  */
 class CoCart_REST_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
@@ -34,6 +32,8 @@ class CoCart_REST_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Get Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (GET).

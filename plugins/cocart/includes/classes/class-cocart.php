@@ -90,7 +90,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since   1.0.0
+	 * @since   1.0.0 Introduced.
 	 * @version 3.1.2
 	 */
 	public static function init() {
@@ -114,7 +114,11 @@ final class Core {
 		// Load REST API.
 		add_action( 'init', array( __CLASS__, 'load_rest_api' ) );
 
-		// Initialize action.
+		/**
+		 * Initialize after CoCart has loaded.
+		 *
+		 * @since 1.0.0 Introduced.
+		 */
 		do_action( 'cocart_init' );
 	} // END init()
 
@@ -163,7 +167,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since  3.0.8 Introduced.
+	 * @since 3.0.8 Introduced.
 	 *
 	 * @return string
 	 */
@@ -178,7 +182,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since  3.0.8 Introduced.
+	 * @since 3.0.8 Introduced.
 	 *
 	 * @return string
 	 */
@@ -262,7 +266,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since 3.0.0
+	 * @since 3.0.0 Introduced.
 	 *
 	 * @return void
 	 */
@@ -408,7 +412,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.2
+	 * @since   2.1.2 Introduced.
 	 * @version 4.0.0
 	 *
 	 * @return void

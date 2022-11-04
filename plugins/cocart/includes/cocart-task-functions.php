@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Functions
- * @since   3.1.2
+ * @since   3.1.2 Introduced.
  * @version 4.0.0
  */
 

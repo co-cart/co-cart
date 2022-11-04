@@ -24,7 +24,8 @@ use \Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
  * Handles requests to the /cart endpoint.
  *
  * @since 3.0.0 Introduced.
- * @extends CoCart_API_Controller
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
@@ -46,6 +47,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * Register the routes for cart.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Get Cart - cocart/v2/cart (GET).
@@ -96,7 +99,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @param string $item_id   The item we are looking up in the cart.
 	 * @param string $condition Default is 'add', other conditions are: container, update, remove, restore.
 	 *
-	 * @return array  $item      Returns details of the item in the cart if it exists.
+	 * @return array $item Returns details of the item in the cart if it exists.
 	 */
 	public function get_cart_item( $item_id, $condition = 'add' ) {
 		$item = isset( $this->get_cart_instance()->cart_contents[ $item_id ] ) ? $this->get_cart_instance()->cart_contents[ $item_id ] : array();
@@ -238,14 +241,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 		// If the cart is empty then return nothing.
 		if ( empty( $cart_contents ) ) {
+
 			/**
 			 * Deprecated filter response for empty cart.
 			 *
 			 * @since      2.0.8 Introduced.
 			 * @deprecated 3.0.0 Use `cocart_empty_cart` hook instead.
 			 * @version    3.0.0
-			 *
-			 * @see cocart_empty_cart
 			 */
 			cocart_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
 
@@ -314,7 +316,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$cart = wp_parse_args( $cart, $cart_template );
 
 		/**
-		 * Filter allows to change the cart contents before it is returned.
+		 * Filters the cart contents before it is returned.
 		 *
 		 * @since 3.0.0 Introduced.
 		 * @since 4.0.0 Deprecated $from_session parameter.
@@ -1309,7 +1311,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.0.17
+	 * @version 4.0.0
 	 *
 	 * @param array   $cart_contents The cart contents passed.
 	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
@@ -1336,7 +1338,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			// If product is no longer purchasable then don't return it and notify customer.
 			if ( ! $_product->is_purchasable() ) {
 				/* translators: %s: product name */
-				$message = sprintf( __( '%s has been removed from your cart because it can no longer be purchased. Please contact us if you need assistance.', 'cart-rest-api-for-woocommerce' ), $_product->get_name() );
+				$message = sprintf( __( '%s has been removed from your cart because it can no longer be purchased.', 'cart-rest-api-for-woocommerce' ), $_product->get_name() );
 
 				/**
 				 * Filter message about item removed from the cart.
@@ -1696,7 +1698,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	/**
 	 * Cache cart item.
 	 *
-	 * @uses CartCache::set_cached_item()
+	 * @see CartCache::set_cached_item()
 	 *
 	 * @access public
 	 *
@@ -2071,7 +2073,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$item_key = (string) $item_key; // Make sure the item key is a string value.
 
 		if ( '0' === $item_key ) {
-			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'Missing cart item key is required!', 'cart-rest-api-for-woocommerce' );
 
 			/**
 			 * Filters message about cart item key required.

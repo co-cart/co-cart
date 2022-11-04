@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Functions
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -43,6 +43,8 @@ function cocart_allowed_image_mime_types() {
 /**
  * CoCart upload directory.
  *
+ * @since 3.0.0 Introduced.
+ *
  * @param array $pathdata Array of paths.
  *
  * @return array Array of paths.
@@ -65,7 +67,9 @@ function cocart_upload_dir( $pathdata ) {
 /**
  * Upload a file.
  *
- * @uses wp_handle_upload() to upload the file.
+ * Uses "wp_handle_upload()" to upload the file.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @param files $file The file to upload.
  *
@@ -91,7 +95,9 @@ function cocart_upload_file( $file ) {
 /**
  * Upload image from URL.
  *
- * @uses wp_parse_url() to parse the URL.
+ * Uses "wp_parse_url()" to parse the URL.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @param string $image_url Image URL.
  *
@@ -153,6 +159,14 @@ function cocart_upload_image_from_url( $image_url ) {
 		return new WP_Error( 'cocart_invalid_image', sprintf( __( 'Invalid image: %s', 'cart-rest-api-for-woocommerce' ), $file['error'] ), array( 'status' => 400 ) );
 	}
 
+	/**
+	 * Fires after an image has been uploaded via a URL.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param array  $file Uploaded file.
+	 * @param string $image_url Image URL.
+	 */
 	do_action( 'cocart_uploaded_image_from_url', $file, $image_url );
 
 	return $file;
@@ -161,7 +175,9 @@ function cocart_upload_image_from_url( $image_url ) {
 /**
  * Set uploaded image as attachment.
  *
- * @param array $upload Upload information from wp_upload_bits.
+ * @since 3.0.0 Introduced.
+ *
+ * @param array $upload Upload information from "wp_upload_bits()".
  * @param int   $id     Post ID. Default to 0.
  *
  * @return int $attachment_id Attachment ID.
@@ -204,11 +220,13 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 /**
  * Add to cart messages.
  *
- * Forked wc_add_to_cart_message() function and altered to remove HTML context
+ * Forked "wc_add_to_cart_message()" function and altered to remove HTML context
  * for the use of the REST API returning clean notices once products have
  * been added to cart.
  *
- * @param int|array $products Product ID list or single product ID.
+ * @since 3.0.0 Introduced.
+ *
+ * @param array|int $products Product ID list or single product ID.
  * @param bool      $show_qty Should qty's be shown.
  * @param bool      $return   Return message rather than add it.
  *
@@ -238,6 +256,11 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
 	/* translators: %s: product name */
 	$added_text = sprintf( _n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cart-rest-api-for-woocommerce' ), wc_format_list_of_items( $titles ) );
 
+	/**
+	 * Filters the "Add to Cart" message without HTML.
+	 *
+	 * @since 3.0.0 Introduced.
+	 */
 	$message = apply_filters( 'cocart_add_to_cart_message_html', esc_html( $added_text ), $products, $show_qty );
 
 	if ( $return ) {
@@ -295,8 +318,10 @@ function cocart_get_store_currency() {
  *
  * @global array $wp_rest_additional_fields Holds registered fields, organized by object type.
  *
- * @param string|array $object_type               Object(s) the field is being registered to, "post"|"term"|"comment" etc.
- * @param string       $attribute                 The attribute name.
+ * @param string|array $object_type Object(s) the field is being registered to, "post"|"term"|"comment" etc.
+ * @param string       $attribute   The attribute name.
+ *
+ * @ignore Function ignored when parsed into Code Reference.
  */
 if ( ! function_exists( 'unregister_rest_field' ) ) {
 	function unregister_rest_field( $object_type, $attribute ) {

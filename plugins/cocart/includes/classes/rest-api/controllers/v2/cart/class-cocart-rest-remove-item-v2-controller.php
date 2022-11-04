@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
- * @since   3.0.0
+ * @since   3.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -17,8 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CoCart REST API v2 - Remove Item controller class.
  *
- * @package CoCart\API
- * @extends CoCart_REST_Cart_v2_Controller
+ * @see CoCart_REST_Cart_v2_Controller
  */
 class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
@@ -33,6 +32,8 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Remove Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (DELETE).
@@ -79,6 +80,7 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 				 * Filters message about no items in cart.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_no_items_message', $message );
@@ -154,6 +156,7 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 				 * Filters message about can not remove item.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_remove_item_message', $message );
@@ -168,10 +171,12 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array $params
+	 *
+	 * @return array $params
 	 */
 	public function get_collection_params() {
 		// Cart query parameters.

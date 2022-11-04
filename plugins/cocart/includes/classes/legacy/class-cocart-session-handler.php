@@ -12,7 +12,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   4.0.0
+ * @since   4.0.0 Introduced.
  */
 
 namespace CoCart\Session;
@@ -34,7 +34,8 @@ class Handler extends Session {
 	 * Cookie name used for the cart.
 	 *
 	 * @access protected
-	 * @var    string cookie name
+	 *
+	 * @var string cookie name
 	 */
 	protected $_cookie;
 
@@ -42,7 +43,8 @@ class Handler extends Session {
 	 * True when the cookie exists.
 	 *
 	 * @access protected
-	 * @var    bool Based on whether a cookie exists.
+	 *
+	 * @var bool Based on whether a cookie exists.
 	 */
 	protected $_has_cookie = false;
 
@@ -50,7 +52,8 @@ class Handler extends Session {
 	 * Table name for cart data.
 	 *
 	 * @access protected
-	 * @var    string Custom cart table name
+	 *
+	 * @var string Custom cart table name
 	 */
 	protected $_table;
 
@@ -62,7 +65,7 @@ class Handler extends Session {
 	public function __construct() {
 		$this->_cookie = apply_filters( 'woocommerce_cookie', 'wp_cocart_session_' . COOKIEHASH );
 		$this->_table  = $GLOBALS['wpdb']->prefix . 'cocart_carts';
-	}
+	} // END __construct()
 
 	/**
 	 * Init hooks and cart data.
@@ -95,7 +98,7 @@ class Handler extends Session {
 		/**
 		 * When a user is logged out, ensure they have a unique nonce by using the customer ID.
 		 *
-		 * @since   2.1.2
+		 * @since   2.1.2 Introduced.
 		 * @since   4.0.0 No longer needed for API requests.
 		 * @version 4.0.0
 		 */
@@ -269,7 +272,7 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since 2.1.0 Introduced.
+	 * @since      2.1.0 Introduced.
 	 * @deprecated 4.0.0 No replacement.
 	 *
 	 * @return bool
@@ -543,6 +546,7 @@ class Handler extends Session {
 	 * Cart cookies without a cart key and customer ID are invalid.
 	 *
 	 * @access public
+	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.3
 	 *
@@ -587,6 +591,7 @@ class Handler extends Session {
 	 * Get session data.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_session_data() {
@@ -602,7 +607,7 @@ class Handler extends Session {
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public function get_cache_prefix() {
 		return \WC_Cache_Helper::get_cache_prefix( COCART_CART_CACHE_GROUP );
@@ -928,14 +933,18 @@ class Handler extends Session {
 	 * Create a blank new cart and returns cart key if successful.
 	 *
 	 * @access  public
-	 * @since   2.1.0
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
-	 * @param   string $cart_key        - The cart key passed to create the cart.
-	 * @param   array  $cart_value      - The cart data.
-	 * @param   string $cart_expiration - Timestamp of cart expiration.
-	 * @param   string $cart_source     - Cart source.
-	 * @global  $wpdb
-	 * @return  $cart_key
+	 *
+	 * @param string $cart_key        The cart key passed to create the cart.
+	 * @param array  $cart_value      The cart data.
+	 * @param string $cart_expiration Timestamp of cart expiration.
+	 * @param string $cart_source     Cart source.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return $cart_key
 	 */
 	public function create_new_cart( $cart_key = '', $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
 		global $wpdb;
@@ -1069,7 +1078,7 @@ class Handler extends Session {
 	 *
 	 * @access protected
 	 *
-	 * @since 2.7.2 Introduced.
+	 * @since      2.7.2 Introduced.
 	 * @deprecated 4.0.0 No longer used.
 	 *
 	 * @return boolean

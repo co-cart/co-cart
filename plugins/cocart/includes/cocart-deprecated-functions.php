@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Functions
- * @since   4.0.0
+ * @since   4.0.0 Introduced.
  */
 
 use CoCart\RestApi\Authentication;
@@ -20,11 +20,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Wrapper for deprecated hook so we can apply some extra logic.
  *
+ * Uses "wp_doing_ajax()" to check if the request is an AJAX request.
+ *
  * @since   3.0.7 Introduced.
  * @since   3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
  * @version 4.0.0
  *
- * @uses wp_doing_ajax() to check if the request is an AJAX request.
  * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
  * @uses Logger::log() to log the deprecation.
  *
@@ -52,11 +53,12 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
 /**
  * Wrapper for deprecated filter so we can apply some extra logic.
  *
+ * Uses "wp_doing_ajax()" to check if the request is AJAX.
+ *
  * @since   3.0.0 Introduced.
  * @since   3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
  * @version 3.1.0
  *
- * @uses wp_doing_ajax() to check if the request is AJAX.
  * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
  * @uses Logger::log() to log the deprecation.
  *
@@ -65,6 +67,8 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
  * @param string $version     The version of WordPress that deprecated the filter.
  * @param string $replacement The filter that should have been used.
  * @param string $message     A message regarding the change.
+ *
+ * @return string $filter The filtered value after all hooked functions are applied to it.
  */
 function cocart_deprecated_filter( $filter, $args = array(), $version = '', $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || Authentication::is_rest_api_request() ) {
@@ -85,9 +89,10 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 /**
  * Wrapper for deprecated functions so we can apply some extra logic.
  *
+ * Uses "wp_doing_ajax()" to check if the request is an AJAX request.
+ *
  * @since 4.0.0 Introduced.
  *
- * @uses wp_doing_ajax() to check if the request is AJAX.
  * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
  * @uses Logger::log() to log the deprecation.
  *
