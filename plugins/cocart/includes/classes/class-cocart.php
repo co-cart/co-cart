@@ -380,11 +380,11 @@ final class Core {
 
 			if ( version_compare( $current_db_version, COCART_DB_VERSION, '==' ) && $session_upgraded === COCART_DB_VERSION ) {
 				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler.php';
-				$handler = '\CoCart\Session\Handler';
 			} else {
-				include_once COCART_ABSPATH . 'includes/classes/class-cocart-session-handler-legacy.php';
-				$handler = '\CoCart\Session\LegacyHandler';
+				include_once COCART_ABSPATH . 'includes/classes/legacy/class-cocart-session-handler.php';
 			}
+
+			$handler = '\CoCart\Session\Handler';
 		}
 
 		return $handler;
