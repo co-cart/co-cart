@@ -94,7 +94,7 @@ class CoCart_Load_Cart {
 	 * @access  public
 	 * @static
 	 * @since   2.1.0 Introduced.
-	 * @version 3.1.2
+	 * @version 3.7.9
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
@@ -162,7 +162,7 @@ class CoCart_Load_Cart {
 			}
 
 			// Get the cart currently in session if any.
-			$cart_in_session = WC()->session->get( 'cart', null );
+			$cart_in_session = WC()->session->get( 'cart', array() );
 
 			$new_cart = array();
 
@@ -180,6 +180,11 @@ class CoCart_Load_Cart {
 				$new_cart['cart_fees'] = maybe_unserialize( $stored_cart['cart_fees'] );
 			}
 
+			// Checks for any items cached.
+			if ( ! empty( $stored_cart['cart_cached'] ) ) {
+				$new_cart['cart_cached'] = maybe_unserialize( $stored_cart['cart_cached'] );
+			}
+
 			// Check if we are overriding the cart currently in session via the web.
 			if ( $override_cart ) {
 				// Only clear the cart if it's not already empty.
@@ -189,7 +194,7 @@ class CoCart_Load_Cart {
 					do_action( 'cocart_load_cart_override', $new_cart, $stored_cart );
 				}
 			} else {
-				$new_cart_content                       = array_merge( $new_cart['cart'], $cart_in_session );
+				$new_cart_content                       = array_merge( $new_cart['cart'], maybe_unserialize( $cart_in_session ) );
 				$new_cart['cart']                       = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
 				$new_cart['applied_coupons']            = array_unique( array_merge( $new_cart['applied_coupons'], WC()->cart->get_applied_coupons() ) );
 				$new_cart['coupon_discount_totals']     = array_merge( $new_cart['coupon_discount_totals'], WC()->cart->get_coupon_discount_totals() );
@@ -211,6 +216,7 @@ class CoCart_Load_Cart {
 			WC()->session->set( 'coupon_discount_totals', $new_cart['coupon_discount_totals'] );
 			WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
 			WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
+			WC()->session->set( 'cart_cached', $new_cart['cart_cached'] );
 
 			if ( ! empty( $new_cart['chosen_shipping_methods'] ) ) {
 				WC()->session->set( 'chosen_shipping_methods', $new_cart['chosen_shipping_methods'] );

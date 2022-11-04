@@ -4,7 +4,7 @@ Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 6.1
-Stable tag: 3.7.8
+Stable tag: 3.7.9
 WC requires at least: 4.3
 WC tested up to: 7.0
 License: GPLv3
@@ -396,6 +396,13 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.7.9 - 4th November, 2022 =
+
+### Bug Fixes
+
+* Fixed item custom price not being applied from cart cache when loaded from session.
+* Fixed a uncaught `array_merge()` fatal error where a **null** value was given instead of an **array**.
 
 = v3.7.8 - 29th October, 2022 =
 
