@@ -127,9 +127,13 @@ Instead the user session data is returned during any cart request and passes the
 * Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
 * Added new parameter to filter `cocart_cart` so you can access the cart controller.
 
+### Response Headers
+
 Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration`. These two new headers can help developers use the timestamps of the cart in session for when it is going to expire and how long until it does expire completely.
 
-All monetary values are formatted after giving 3rd party plugins or extensions a chance to manipulate them first and all return as a float value. This includes using the following filters at priority `99`.
+### Monetary values
+
+All monetary values are formatted after giving 3rd party plugins or extensions a chance to manipulate them first and all return as a *float* value. This includes using the following filters at priority `99`.
 
 * `cocart_cart_item_price`
 * `cocart_cart_item_subtotal`
@@ -137,6 +141,8 @@ All monetary values are formatted after giving 3rd party plugins or extensions a
 * `cocart_cart_item_total`
 * `cocart_cart_item_tax`
 * `cocart_cart_totals_taxes_total`
+
+Now developers have consistent format that can be used with the likes of WooCommerce's [Number](https://www.npmjs.com/package/@woocommerce/number) and [Currency](https://www.npmjs.com/package/@woocommerce/currency) modules.
 
 ## Database Changes
 
