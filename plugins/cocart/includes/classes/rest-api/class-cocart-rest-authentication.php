@@ -622,14 +622,6 @@ class Authentication {
 			} else {
 				$ip_address = self::get_ip_address( $rate_limiting_options->proxy_support );
 
-				if ( ! $ip_address ) {
-					return new \WP_Error(
-						'ip_address_cannot_be_determined',
-						__( 'Bad request. Client IP address cannot be determined.', 'cart-rest-api-for-woocommerce' ),
-						array( 'status' => 400 )
-					);
-				}
-
 				$action_id .= md5( $ip_address );
 			}
 
@@ -643,16 +635,15 @@ class Authentication {
 				$server->send_header( 'RateLimit-Reset', time() + $retry );
 
 				$ip_address = $ip_address ?? self::get_ip_address( $rate_limiting_options->proxy_support );
-				if ( $ip_address ) {
-					/**
-					 * Fires after the rate limit exceeded.
-					 *
-					 * @since 4.0.0 Introduced.
-					 *
-					 * @param string $ip_address IP address the rate limit exceeded on.
-					 */
-					do_action( 'cocart_api_rate_limit_exceeded', $ip_address );
-				}
+
+				/**
+				 * Fires after the rate limit exceeded.
+				 *
+				 * @since 4.0.0 Introduced.
+				 *
+				 * @param string $ip_address IP address the rate limit exceeded on.
+				 */
+				do_action( 'cocart_api_rate_limit_exceeded', $ip_address );
 
 				return new \WP_Error(
 					'rate_limit_exceeded',
@@ -695,13 +686,11 @@ class Authentication {
 	 *
 	 * @param boolean $proxy_support Enables/disables proxy support.
 	 *
-	 * @return string|false
+	 * @return string
 	 */
-	protected static function get_ip_address( $proxy_support = false ) {
+	protected static function get_ip_address( bool $proxy_support = false ) {
 		if ( ! $proxy_support ) {
-			if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
-				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) );
-			}
+			return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? 'unresolved_ip' ) ) );
 		}
 
 		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
@@ -741,11 +730,13 @@ class Authentication {
 			}
 		}
 
-		return false;
+		return '0.0.0.0';
 	} // END get_ip_address()
 
 	/**
-	 * Uses filter_var() to validate and return ipv4 and ipv6 addresses
+	 * Uses filter_var() to validate and return ipv4 and ipv6 addresses.
+	 *
+	 * Will return 0.0.0.0 if the ip is not valid. This is done to group and still rate limit invalid ips.
 	 *
 	 * @access protected
 	 *
@@ -753,7 +744,7 @@ class Authentication {
 	 *
 	 * @param string $ip ipv4 or ipv6 ip string.
 	 *
-	 * @return string|bool
+	 * @return string
 	 */
 	protected static function validate_ip( $ip ) {
 		$ip = filter_var(
@@ -762,14 +753,7 @@ class Authentication {
 			array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
 		);
 
-		/**
-		 * Filters the IP address validated.
-		 *
-		 * @since 4.0.0 Introduced.
-		 *
-		 * @param string $ip ipv4 or ipv6 ip string.
-		 */
-		return apply_filters( 'cocart_validate_ip', $ip );
+		return $ip ?: '0.0.0.0';
 	} // END validate_ip()
 
 } // END class.

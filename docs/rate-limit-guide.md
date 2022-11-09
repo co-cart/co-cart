@@ -12,11 +12,13 @@
     - [Custom tracking usage example](#custom-tracking-usage-example)
 - [Testing Guide](#testing-guide)
 
-Rate Limiting can now be enabled for CoCart.
+Rate Limiting is available for CoCart. This is optional and disabled by default. It can be enabled by following [these instructions](#rate-limiting-options-filter).
 
-This was designed to prevent abuse of endpoints from excessive calls and performance degradation on the machine running the store.
+The main purpose was to prevent abuse on endpoints from excessive calls and performance degradation on the machine running the store.
 
-It is unauthenticated, rate limits are keyed by either `USER ID` (logged in) or `IP ADDRESS` (guest user), and standard support for running behind a proxy, load balancer, etc. for unauthenticated users can be enabled.
+Rate limit tracking is controlled by either `USER ID` (logged in) or `IP ADDRESS` (unauthenticated requests).
+
+It also offers standard support for running behind a proxy, load balancer, etc. This also optional and disabled by default.
 
 ## Limit information
 

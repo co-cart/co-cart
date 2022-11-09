@@ -25,6 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class RateLimits extends Limiter {
 
 	/**
+	 * Cache group.
+	 */
+	const CACHE_GROUP = 'cocart_api_rate_limit';
+
+	/**
 	 * Rate limiting enabled default value.
 	 *
 	 * @var boolean
@@ -79,7 +84,7 @@ class RateLimits extends Limiter {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return object|null Object containing reset and remaining.
+	 * @return object Object containing reset and remaining.
 	 */
 	protected static function get_rate_limit_row( $action_id ) {
 		global $wpdb;
@@ -98,10 +103,19 @@ class RateLimits extends Limiter {
 			'OBJECT'
 		);
 
-		return $row ? (object) array(
+		if ( empty( $row ) ) {
+			$options = self::get_options();
+
+			return (object) [
+				'reset'     => (int) $options->seconds + time(),
+				'remaining' => (int) $options->limit,
+			];
+		}
+
+		return (object) [
 			'reset'     => (int) $row->reset,
 			'remaining' => (int) $row->remaining,
-		) : null;
+		];
 	} // END get_rate_limit_row()
 
 	/**
@@ -140,19 +154,35 @@ class RateLimits extends Limiter {
 	public static function is_exceeded_retry_after( $action_id ) {
 		$current_limit = self::get_rate_limit( $action_id );
 
-		// No record of action running, so action is allowed to run.
-		if ( null === $current_limit ) {
-			return false;
-		}
-
 		// Before the next run is allowed, retry forbidden.
-		if ( time() <= $current_limit->reset && $current_limit->remaining <= 0 ) {
+		if ( time() <= $current_limit->reset && 0 === $current_limit->remaining ) {
 			return (int) $current_limit->reset - time();
 		}
 
 		// After the next run is allowed, retry allowed.
 		return false;
 	} // END is_exceeded_retry_after()
+
+	/**
+	 * Retrieve a cached store api rate limit.
+	 *
+	 * @param string $action_id Identifier of the action.
+	 * @return bool|object
+	 */
+	protected static function get_cached( $action_id ) {
+		return wp_cache_get( self::get_cache_key( $action_id ), self::CACHE_GROUP );
+	}
+
+	/**
+	 * Cache a rate limit.
+	 *
+	 * @param string $action_id Identifier of the action.
+	 * @param object $current_limit Current limit object with expiry and retries remaining.
+	 * @return bool
+	 */
+	protected static function set_cache( $action_id, $current_limit ) {
+		return wp_cache_set( self::get_cache_key( $action_id ), $current_limit, self::CACHE_GROUP );
+	}
 
 	/**
 	 * Sets the rate limit delay in seconds for action with identifier $id.
