@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @see CoCart_REST_Cart_v2_Controller
  */
-class CoCart_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
+class CoCart_REST_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
 	/**
 	 * Route base.
