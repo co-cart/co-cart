@@ -66,6 +66,7 @@ find ./plugins/cocart-ref/includes/classes -name "class-cocart.php" -type f -del
 find ./plugins/cocart-ref/includes -name "cocart-background-functions.php" -type f -delete
 find ./plugins/cocart-ref/includes -name "cocart-task-functions.php" -type f -delete
 find ./plugins/cocart-ref/includes -name "cocart-update-functions.php" -type f -delete
+find ./plugins/cocart-ref/includes -name "abstracts" -type d -exec rm -rf {} +
 find ./plugins/cocart-ref/includes/classes -name "admin" -type d -exec rm -rf {} +
 find ./plugins/cocart-ref/includes/classes -name "legacy" -type d -exec rm -rf {} +
 find ./plugins/cocart-ref/includes -name "cli" -type d -exec rm -rf {} +
