@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart\RestApi\Callback.
+ * REST API: CoCart\RestApi\Callbacks\Callback.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi

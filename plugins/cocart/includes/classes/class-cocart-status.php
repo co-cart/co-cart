@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart status.
+ * Class: CoCart\Status.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -16,11 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart status class.
+ * CoCart status.
  *
  * Provides functions that help identify the status of the plugin.
  *
- * @package CoCart/Status
+ * @since 4.0.0 Introduced.
  */
 class Status {
 

@@ -1,18 +1,10 @@
 <?php
 /**
- * Handles data for the cart.
- *
- * Forked from WC_Session_Handler class, changed default variables,
- * database table used, filters and made adjustments to accommodate
- * support for guest customers as well as registered customers via the REST API.
- *
- * All native uses still work as normal.
- *
- * @link https://github.com/woocommerce/woocommerce/blob/master/includes/class-wc-session-handler.php
+ * Class: CoCart\Session\Handler.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   2.1.0
+ * @since   2.1.0 Introduced.
  * @version 4.0.0
  */
 
@@ -28,7 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Session handler class.
+ * Handles session data for the cart.
+ *
+ * Our session handler is forked from "WC_Session_Handler" class with our added
+ * variables and adjustments to accommodate the required support for handling
+ * customers cart sessions via the REST API for a true headless experience.
+ *
+ * All native session functionality works as normal on the frontend.
+ *
+ * @since 2.1.0 Introduced.
  */
 class Handler extends Session {
 

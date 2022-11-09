@@ -1,12 +1,10 @@
 <?php
 /**
- * CoCart helpers.
- *
- * Provides functions that provide helpful data for the plugin.
+ * Class: CoCart\Help.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   2.3.0
+ * @since   2.3.0 Introduced.
  * @version 4.0.0
  */
 
@@ -20,9 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart helper class.
+ * Helps CoCart gather data.
  *
- * @package CoCart/Helpers
+ * Provides functions that provide helpful data for the plugin.
+ *
+ * @since 2.3.0 Introduced.
  */
 class Help {
 

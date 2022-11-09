@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Count Items controller
- *
- * Handles the request to count the items in the cart with /cart/items/count endpoint.
+ * REST API: CoCart_REST_Count_Items_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Count Items controller class.
+ * Controller for counting items in the cart (API v2).
+ *
+ * This REST API controller handles the request to count the items
+ * in the cart via "cocart/v2/cart/items/count" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_v2_Controller
  */
@@ -55,17 +58,17 @@ class CoCart_REST_Count_Items_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	/**
 	 * Get cart contents count.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.1.0
-	 *
-	 * @see Logger::log()
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request       Full details about the request.
 	 * @param array           $cart_contents Cart contents to count items.
 	 *
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_cart_contents_count( $request = array(), $cart_contents = array() ) {
 		$return        = ! empty( $request['return'] ) ? $request['return'] : '';
@@ -133,10 +136,12 @@ class CoCart_REST_Count_Items_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	/**
 	 * Get the query params for counting items.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array $params
+	 *
+	 * @return array $params
 	 */
 	public function get_collection_params() {
 		// Cart query parameters.

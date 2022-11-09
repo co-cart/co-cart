@@ -1,8 +1,6 @@
 <?php
 /**
- * CoCart - Update Cart Callback.
- *
- * Allows you to update the cart items in bulk.
+ * Callback: CoCart\RestApi\Callbacks\UpdateCart.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Callback
@@ -18,7 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Update cart callback class.
+ * Update cart callback.
+ *
+ * Allows you to update the cart items in bulk.
+ *
+ * @since 3.1.0 Introduced.
  */
 class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 

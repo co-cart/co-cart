@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles loading cart from session.
+ * Class: CoCart\LoadCart.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -18,9 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart load cart class.
+ * Load cart from Session.
  *
- * @package CoCart/Load Cart
+ * Handles loading cart from session.
+ *
+ * @since 2.1.2 Introduced.
  */
 class LoadCart {
 
@@ -28,6 +30,8 @@ class LoadCart {
 	 * Setup class.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		// Loads a cart in session if still valid.

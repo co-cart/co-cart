@@ -1,6 +1,6 @@
 <?php
 /**
- * Enables CoCart, via the WP-CLI command line.
+ * Class: CoCart\CLI.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -18,7 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CLI class.
+ * Enables CoCart, via the WP-CLI command line.
+ *
+ * @since 3.0.0 Introduced.
  */
 class CLI {
 
@@ -28,6 +30,8 @@ class CLI {
 	 * Uses "WP_CLI::add_command()"
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		\WP_CLI::add_command( 'cocart', 'CoCart\CLI\Status' );

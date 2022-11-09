@@ -21,7 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Cleans up carts from the database that have expired.
  *
- * @uses Handler->cleanup_sessions()
+ * @see Handler::cleanup_sessions() to cleanup sessions.
+ * @uses Logger::log() to log failure.
  *
  * @since 3.1.2 Introduced
  */

@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Update Cart controller.
- *
- * Handles the request to update the cart with /cart/update endpoint.
+ * REST API: CoCart_REST_Update_Cart_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Update Cart controller class.
+ * Controller for updating the cart via a registered callback (API v2).
+ *
+ * This REST API controller handles the request to update the cart
+ * via "cocart/v2/cart/update" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_v2_Controller
  */

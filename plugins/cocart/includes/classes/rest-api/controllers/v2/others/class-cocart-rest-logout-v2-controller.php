@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Logout controller
- *
- * Handles the request to logout the user /logout endpoint.
+ * REST API: CoCart_REST_Logout_v2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,9 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Logout controller class.
+ * Controller for logging out users via the REST API (API v2).
  *
- * @package CoCart\API
+ * This REST API controller handles requests to logout the user
+ * via "cocart/v2/logout" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  */
 class CoCart_REST_Logout_v2_Controller extends CoCart_Logout_Controller {
 
@@ -39,6 +40,8 @@ class CoCart_REST_Logout_v2_Controller extends CoCart_Logout_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Logout user - cocart/v2/logout (POST).

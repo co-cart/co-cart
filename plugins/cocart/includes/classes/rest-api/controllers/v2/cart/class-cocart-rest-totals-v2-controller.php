@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Totals controller
- *
- * Handles the request to get the totals of the cart with /cart/totals endpoint.
+ * REST API: CoCart_REST_Totals_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Totals controller class.
+ * Controller for getting the cart totals (API v2).
+ *
+ * This REST API controller handles the request to get the totals of the cart
+ * via "cocart/v2/cart/totals" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_v2_Controller
  */
@@ -32,6 +35,8 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Get Cart Totals - cocart/v2/cart/totals (GET).
@@ -52,11 +57,14 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 3.0.4
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
+	 * @version 4.0.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_totals( $request = array() ) {
 		try {
@@ -112,6 +120,7 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 * Get the query params for cart totals.
 	 *
 	 * @access public
+	 *
 	 * @return array $params
 	 */
 	public function get_collection_params() {

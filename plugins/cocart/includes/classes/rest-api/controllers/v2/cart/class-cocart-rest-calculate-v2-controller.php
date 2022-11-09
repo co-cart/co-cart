@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Calculate v2 controller.
- *
- * Handles the request to calculate the cart with /cart/calculate endpoint.
+ * REST API: CoCart_REST_Calculate_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,9 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Calculate controller class.
+ * Controller for calculating cart totals, tax, fees and shipping (API v2).
  *
- * @see CoCart_Calculate_Controller
+ * This REST API controller handles the request to calculate the cart 
+ * via "cocart/v2/cart/calculate" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_REST_Cart_v2_Controller
  */
 class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 

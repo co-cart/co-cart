@@ -18,10 +18,12 @@ use CoCart\RestApi\CartCache;
 use \Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 
 /**
- * Gets the requested cart in session containing customers information,
- * items added, shipping options (if any), totals and more. (API v2)
+ * Main cart controller that gets the requested cart in session
+ * containing customers information, items added,
+ * shipping options (if any), totals and more. (API v2)
  *
- * Handles requests to the /cart endpoint.
+ * This REST API controller handles the request to get the cart
+ * via "cocart/v2/cart" endpoint.
  *
  * @since 3.0.0 Introduced.
  *
@@ -219,10 +221,10 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since   2.0.0 Introduced.
 	 * @version 3.1.0
 	 *
-	 * @param  WP_REST_Request $request       Full details about the request.
-	 * @param  array           $cart_contents Cart content.
-	 * @param  array           $cart_item_key Originally the cart item key.
-	 * @param  bool            $from_session  Identifies if the cart is called from a session.
+	 * @param WP_REST_Request $request       Full details about the request.
+	 * @param array           $cart_contents Cart content.
+	 * @param array           $cart_item_key Originally the cart item key.
+	 * @param bool            $from_session  Identifies if the cart is called from a session.
 	 *
 	 * @return array $cart Returns cart contents.
 	 */
@@ -322,7 +324,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 * @since 4.0.0 Deprecated $from_session parameter.
 		 * @since 4.0.0 Added $this parameter.
 		 *
-		 * @param array $cart The whole cart.
+		 * @param array  $cart The whole cart.
 		 * @param object $this The cart controller.
 		 */
 		$cart = apply_filters( 'cocart_cart', $cart, $this );
@@ -1853,7 +1855,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since 3.1.0 Introduced.
+	 * @since   3.1.0 Introduced.
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *

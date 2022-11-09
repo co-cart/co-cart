@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Login controller
- *
- * Handles the request to login the user /login endpoint.
+ * REST API: CoCart_REST_Login_v2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,9 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Login controller class.
+ * Controller for logging in users via the REST API (API v2).
  *
- * @package CoCart\API
+ * This REST API controller handles requests to login the user
+ * via "cocart/v2/login" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  */
 class CoCart_REST_Login_v2_Controller {
 
@@ -39,9 +40,12 @@ class CoCart_REST_Login_v2_Controller {
 	 * Register routes.
 	 *
 	 * @access  public
+	 *
 	 * @since   3.0.0 Introduced.
 	 * @since   3.1.0 Added schema information.
 	 * @version 3.1.0
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Login user - cocart/v2/login (POST).
@@ -63,6 +67,7 @@ class CoCart_REST_Login_v2_Controller {
 	 * Check whether a given request has permission to read site data.
 	 *
 	 * @access public
+	 *
 	 * @return WP_Error|boolean
 	 */
 	public function get_permission_callback() {
@@ -77,10 +82,12 @@ class CoCart_REST_Login_v2_Controller {
 	 * Login user.
 	 *
 	 * @access  public
+	 *
 	 * @since   3.0.0 Introduced.
 	 * @since   3.1.0 Added avatar URLS and users email address.
 	 * @version 3.1.0
-	 * @return  WP_REST_Response
+	 *
+	 * @return WP_REST_Response
 	 */
 	public function login() {
 		$current_user = get_userdata( get_current_user_id() );
@@ -109,7 +116,9 @@ class CoCart_REST_Login_v2_Controller {
 	 * Get the schema for returning the login.
 	 *
 	 * @access public
-	 * @since  3.1.0 Introduced.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @return array
 	 */
 	public function get_public_object_schema() {

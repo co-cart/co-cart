@@ -1,8 +1,6 @@
 <?php
 /**
- * CoCart REST API Store controller.
- *
- * Returns store details and all public routes.
+ * REST API: CoCart_REST_Store_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,9 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Store controller class.
+ * Controller for returning store details.
  *
- * @package CoCart REST API/API
+ * This REST API controller handles the request to return store details 
+ * and all public routes via "cocart/v2/store" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  */
 class CoCart_REST_Store_v2_Controller {
 
@@ -39,9 +40,12 @@ class CoCart_REST_Store_v2_Controller {
 	 * Register routes.
 	 *
 	 * @access  public
+	 *
 	 * @since   3.0.0 Introduced
 	 * @since   3.1.0 Added schema information.
 	 * @version 3.1.0
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Get Store - cocart/v2/store (GET).
@@ -65,10 +69,13 @@ class CoCart_REST_Store_v2_Controller {
 	 * This endpoint describes the general store details.
 	 *
 	 * @access  public
+	 *
 	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response The API root index data.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response The API root index data.
 	 */
 	public function get_store( $request ) {
 		// General store data.
@@ -104,6 +111,7 @@ class CoCart_REST_Store_v2_Controller {
 	 * Returns the store address.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_store_address() {
@@ -122,11 +130,13 @@ class CoCart_REST_Store_v2_Controller {
 	/**
 	 * Returns the list of all public CoCart API routes.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @since   3.0.0 Introduced.
 	 * @since   3.1.0 Added login, logout, cart update and product routes.
 	 * @version 3.1.0
-	 * @return  array
+	 *
+	 * @return array
 	 */
 	public function get_routes() {
 		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' );
@@ -159,7 +169,9 @@ class CoCart_REST_Store_v2_Controller {
 	 * Get the schema for returning the store.
 	 *
 	 * @access public
-	 * @since  3.1.0 Introduced.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @return array
 	 */
 	public function get_public_object_schema() {

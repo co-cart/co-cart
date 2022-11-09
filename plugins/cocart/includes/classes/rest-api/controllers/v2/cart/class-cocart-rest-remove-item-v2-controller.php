@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Remove Item controller
- *
- * Handles the request to remove items in the cart with /cart/item endpoint.
+ * REST API: CoCart_REST_Remove_Item_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Remove Item controller class.
+ * Controller for removing items from the cart (API v2).
+ *
+ * This REST API controller handles the request to remove items
+ * in the cart via "cocart/v2/cart/item" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_v2_Controller
  */
@@ -59,11 +62,11 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.7.8
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function remove_item( $request = array() ) {
 		try {

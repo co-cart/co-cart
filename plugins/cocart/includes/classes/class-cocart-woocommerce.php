@@ -1,6 +1,6 @@
 <?php
 /**
- * Woocommerce Tweaks
+ * Class: CoCart\WooCommerce.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -19,11 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart WooCommerce class.
+ * Woocommerce Tweaks.
  *
- * Handles tweaks made to WooCommerce to support CoCart.
+ * This class handles tweaks made to WooCommerce to support CoCart.
  *
- * @package CoCart/WooCommerce
+ * @since 2.1.2 Introduced.
  */
 class WooCommerce {
 
@@ -34,6 +34,8 @@ class WooCommerce {
 	 *
 	 * @since   2.1.2 Introduced.
 	 * @version 3.0.3
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		// Removes WooCommerce filter that validates the quantity value to be an integer.

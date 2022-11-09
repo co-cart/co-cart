@@ -1,13 +1,11 @@
 <?php
 /**
- * REST API: Items controller
- *
- * Handles the request to view just the items in the cart with /cart/items endpoint.
+ * REST API: CoCart_REST_Items_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
  * @since   3.0.0 Introduced.
- * @version 3.1.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - View Items controller class.
+ * Controller for viewing items in the cart (API v2).
+ *
+ * This REST API controller handles the request to view just the items
+ * in the cart via "cocart/v2/cart/items" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_v2_Controller
  */
@@ -55,9 +58,14 @@ class CoCart_REST_Items_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	/**
 	 * Returns all items in the cart.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 *
-	 * @return WP_REST_Response
+	 * @since   3.0.0 Introduced.
+	 * @version 4.0.0
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function view_items() {
 		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();

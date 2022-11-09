@@ -1,13 +1,11 @@
 <?php
 /**
- * REST API: Item controller
- *
- * Handles the request to view a single item in the cart with /cart/item endpoint.
+ * REST API: CoCart_REST_Item_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
  * @since   3.0.0 Introduced.
- * @version 3.1.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - View individual item controller class.
+ * Controller for viewing an individual item in the cart (API v2).
+ *
+ * This REST API controller handles the request to view a single item
+ * in the cart via "cocart/v2/cart/item" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_v2_Controller
  */

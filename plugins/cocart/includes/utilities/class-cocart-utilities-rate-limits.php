@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles the RateLimits for using the API.
+ * Utilities: RateLimits class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Utilities
@@ -17,6 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Handles the RateLimits for using the API.
+ *
+ * @since 4.0.0 Introduced.
+ */
 class RateLimits extends Limiter {
 
 	/**
@@ -63,7 +68,8 @@ class RateLimits extends Limiter {
 	} // END get_cache_key()
 
 	/**
-	 * Get current rate limit row from DB and normalize types. This query is not cached.
+	 * Get current rate limit row from DB and normalize types. This query is not cached, 
+	 * and returns a new rate limit row if none exists.
 	 *
 	 * @access protected
 	 *

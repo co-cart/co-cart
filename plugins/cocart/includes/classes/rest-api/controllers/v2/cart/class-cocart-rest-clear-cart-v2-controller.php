@@ -1,8 +1,6 @@
 <?php
 /**
- * REST API: Clear Cart controller
- *
- * Handles the request to clear the cart with /cart/clear endpoint.
+ * REST API: CoCart_REST_Clear_Cart_v2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Clear Cart controller class.
+ * Controller for clearing the cart (API v2).
+ *
+ * This REST API controller handles the request to clear the cart
+ * via "cocart/v2/cart/clear" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  *
  * @see CoCart_REST_Cart_v2_Controller
  */

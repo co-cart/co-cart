@@ -1,12 +1,10 @@
 <?php
 /**
- * CoCart Rest API Server.
- *
- * Responsible for loading the REST API, cache handling and headers.
+ * REST API: CoCart\RESTApi\Server.
  *
  * @author  Sébastien Dumont
  * @package CoCart\RestApi
- * @since   1.0.0
+ * @since   1.0.0 Introduced.
  * @version 4.0.0
  */
 
@@ -25,7 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API class.
+ * Responsible for loading the REST API, cache handling and headers.
+ *
+ * @since 1.0.0 Introduced.
  */
 class Server {
 
@@ -43,6 +43,8 @@ class Server {
 	 *
 	 * @since   1.0.0 Introduced.
 	 * @version 4.0.0
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		// REST API was included starting WordPress 4.4.
@@ -94,7 +96,7 @@ class Server {
 				}
 			}
 		}
-	}
+	} // END register_rest_routes()
 
 	/**
 	 * Get API namespaces - new namespaces should be registered here.
@@ -111,7 +113,7 @@ class Server {
 				'cocart/v2' => $this->get_v2_controllers(),
 			)
 		);
-	}
+	} // END get_rest_namespaces()
 
 	/**
 	 * List of controllers in the cocart/v1 namespace.
@@ -131,7 +133,7 @@ class Server {
 			'cocart-v1-logout'      => 'CoCart_Logout_Controller',
 			'cocart-v1-totals'      => 'CoCart_Totals_Controller',
 		);
-	}
+	} // END get_v1_controllers()
 
 	/**
 	 * List of controllers in the cocart/v2 namespace.
@@ -159,7 +161,7 @@ class Server {
 			'cocart-v2-login'             => 'CoCart_REST_Login_v2_Controller',
 			'cocart-v2-logout'            => 'CoCart_REST_Logout_v2_Controller',
 		);
-	}
+	} // END get_v2_controllers()
 
 	/**
 	 * Loads the cart, session and notices should it be required.
@@ -308,7 +310,7 @@ class Server {
 	 */
 	public function rest_api_includes() {
 		do_action( 'cocart_rest_api_controllers' );
-	} // rest_api_includes()
+	} // END rest_api_includes()
 
 	/**
 	 * Prevents certain routes from being cached.

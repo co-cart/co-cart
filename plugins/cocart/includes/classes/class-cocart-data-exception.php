@@ -1,8 +1,6 @@
 <?php
 /**
- * CoCart Data Exception Class
- *
- * Extends exception to provide additional data.
+ * Class: CoCart_Data_Exception class.
  *
  * @author  Sébastien Dumont
  * @since   3.0.0 Introduced.
@@ -16,7 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Data exception class.
+ * Data exception.
+ *
+ * Extends exception to provide additional data.
+ *
+ * @since 3.0.0 Introduced.
  */
 class CoCart_Data_Exception extends Exception {
 
@@ -24,7 +26,8 @@ class CoCart_Data_Exception extends Exception {
 	 * Sanitized error code.
 	 *
 	 * @access public
-	 * @var    string
+	 *
+	 * @var string
 	 */
 	public $error_code;
 
@@ -32,7 +35,8 @@ class CoCart_Data_Exception extends Exception {
 	 * Error extra data.
 	 *
 	 * @access public
-	 * @var    array $additional_data - Additional error data.
+	 *
+	 * @var array $additional_data - Additional error data.
 	 */
 	public $additional_data = array();
 
@@ -51,6 +55,8 @@ class CoCart_Data_Exception extends Exception {
 	 * @param string $message          User-friendly translated error message, e.g. 'Product ID is invalid'.
 	 * @param int    $http_status_code Proper HTTP status code to respond with, e.g. 400.
 	 * @param array  $additional_data  Extra error data.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct( $error_code, $message, $http_status_code = 400, $additional_data = array() ) {
 		$this->error_code      = $error_code;
@@ -61,7 +67,7 @@ class CoCart_Data_Exception extends Exception {
 		Logger::log( $message, 'error', $plugin );
 
 		parent::__construct( $message, $http_status_code );
-	}
+	} // END __construct()
 
 	/**
 	 * Returns the error code.
@@ -72,7 +78,7 @@ class CoCart_Data_Exception extends Exception {
 	 */
 	public function getErrorCode() {
 		return $this->error_code;
-	}
+	} // END getErrorCode()
 
 	/**
 	 * Returns additional error data.
@@ -83,6 +89,6 @@ class CoCart_Data_Exception extends Exception {
 	 */
 	public function getAdditionalData() {
 		return $this->additional_data;
-	}
+	} // END getAdditionalData()
 
 } // END class

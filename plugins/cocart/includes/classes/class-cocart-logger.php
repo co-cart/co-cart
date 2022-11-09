@@ -1,8 +1,6 @@
 <?php
 /**
- * CoCart logger.
- *
- * Handles logging errors.
+ * Class: CoCart\Logger.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
@@ -17,9 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart logger class.
+ * CoCart logger.
  *
- * @package CoCart/Logger
+ * Handles logging errors.
+ *
+ * @since 2.1.0 Introduced.
  */
 class Logger {
 
@@ -27,7 +27,9 @@ class Logger {
 	 * Log Handler Interface.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @var object $logger Log Handler Interface.
 	 */
 	public static $logger;
