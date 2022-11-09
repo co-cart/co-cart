@@ -77,7 +77,7 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 
 			// Checks to see if the cart contains item before attempting to remove it.
 			if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
-				$message = __( 'No items in cart.', 'cart-rest-api-for-woocommerce' );
+				cocart_deprecated_filter( 'cocart_no_items_message', array(), '4.0.0', null, null );
 
 				/**
 				 * Filters message about no items in cart.
@@ -86,7 +86,7 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 				 *
 				 * @param string $message Message.
 				 */
-				$message = apply_filters( 'cocart_no_items_message', $message );
+				$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
 
 				throw new CoCart_Data_Exception( 'cocart_no_items', $message, 404 );
 			}

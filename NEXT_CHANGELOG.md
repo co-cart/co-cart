@@ -106,6 +106,7 @@ Instead the user session data is returned during any cart request and passes the
 * Session cookie is now reverted back to original WooCommerce session cookie.
 * Filter `cocart_customer_id` no longer used to override the customer ID for the session.
 * Filter `cocart_cookie` no longer used as the session cookie has been reverted back to default.
+* Filter `cocart_no_items_message` replaced with another filter `cocart_no_items_in_cart_message` that is shared in other endpoints.
 * Function `WC()->session->use_httponly()` no longer used.
 * Function `WC()->session->cocart_setcookie()` no longer used. Replaced with `cocart_setcookie()`.
 * Function `WC()->session->get_cart_created()` no longer used. Replaced with `cocart_get_timestamp()`.
