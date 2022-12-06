@@ -14,12 +14,17 @@
 * Added package information of each plugin module to WooCommerce System Status.
 * New WP-CLI command `wp cocart status` shows the status of carts in session.
 * New ability to set customers billing phone number while adding item to the cart.
+* Enhancements made to [authentication](#authentication).
 
 ## Authentication
 
-When the WordPress login cookies are set, they are not available until the next page reload. For CoCart specifically for returning updated carts, we need this to be available immediately so now they are forced to be available without reload. This is only to help with frameworks that have issues with or lack of support for Cookies.
+A few enhancements have been made for authentication.
 
-* [RateLimiter for the API.](#ratelimiter-for-the-api)
+First is when the WordPress login cookies are set, they are not available until the next page reload. For CoCart specifically for returning updated carts, we need this to be available immediately so now they are forced to be available without reload. This is only to help with frameworks that have issues with or lack of support for Cookies.
+
+Second is customers can now authenticate with their billing phone number and password. This is helpful for certain countries where the customer logins with their phone number instead of username or email address.
+
+Third is a new [RateLimiter for the API.](#ratelimiter-for-the-api)
 
 ## Experimental
 
