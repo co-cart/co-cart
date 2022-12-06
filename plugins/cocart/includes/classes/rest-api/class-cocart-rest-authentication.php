@@ -11,6 +11,7 @@
 namespace CoCart\RestApi;
 
 use CoCart\Utilities\RateLimits;
+use WC_Validation;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -234,7 +235,7 @@ class Authentication {
 	 */
 	public function authentication_fallback( $error ) {
 		if ( ! empty( $error ) ) {
-			// Another plugin has already declared a failure.
+			// Another error has already declared a failure.
 			return $error;
 		}
 
@@ -247,6 +248,7 @@ class Authentication {
 				return true;
 			}
 		}
+
 		return $error;
 	} // END authentication_fallback()
 
@@ -309,7 +311,8 @@ class Authentication {
 	 * @access private
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.0.7
+	 * @since   4.0.0 Added ability to authenticate via billing phone number as username.
+	 * @version 4.0.0
 	 *
 	 * @return int|bool
 	 */
@@ -318,21 +321,31 @@ class Authentication {
 
 		// Check that we're trying to authenticate via headers.
 		if ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
-			$username = trim( sanitize_user( $_SERVER['PHP_AUTH_USER'] ) );
+			$username = sanitize_user( $_SERVER['PHP_AUTH_USER'] );
 			$password = trim( sanitize_text_field( $_SERVER['PHP_AUTH_PW'] ) );
 
+			// Check if the username provided is a billing phone number and get the username if true.
+			if ( WC_Validation::is_phone( trim( $_SERVER['PHP_AUTH_USER'] ) ) ) {
+				$username = self::get_user_by_phone( trim( $_SERVER['PHP_AUTH_USER'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			}
+
 			// Check if the username provided was an email address and get the username if true.
-			if ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
+			else if ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
 				$user     = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
 				$username = $user->user_login;
 			}
 		} elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			// Fallback to check if the username and password was passed via URL.
-			$username = trim( sanitize_user( $_REQUEST['username'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$username = sanitize_user( $_REQUEST['username'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$password = trim( sanitize_text_field( $_REQUEST['password'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
+			// Check if the username provided is a billing phone number and get the username if true.
+			if ( WC_Validation::is_phone( trim( $_REQUEST['username'] ) ) ) {
+				$username = self::get_user_by_phone( trim( $_REQUEST['username'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			}
+
 			// Check if the username provided was an email address and get the username if true.
-			if ( is_email( $_REQUEST['username'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			else if ( is_email( $_REQUEST['username'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$user     = get_user_by( 'email', $_REQUEST['username'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$username = $user->user_login; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
@@ -755,6 +768,31 @@ class Authentication {
 
 		return $ip ?: '0.0.0.0';
 	} // END validate_ip()
+
+	/**
+	 * Finds a user based on a matching billing phone number.
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @since 4.0.0 Introduced.
+	 * 
+	 * @param numeric $phone The billing phone number to check.
+	 *
+	 * @return string The username returned if found.
+	 */
+	protected static function get_user_by_phone( $phone ) {
+		$matchingUsers = get_users( array(
+			'meta_key'     => 'billing_phone',
+			'meta_value'   => $phone,
+			'meta_compare' => '='
+		) );
+
+		$username = ! empty( $matchingUsers ) && is_array( $matchingUsers ) ? $matchingUsers[0]->user_login : $phone;
+
+		return $username;
+	} // END get_user_by_phone()
 
 } // END class.
 
