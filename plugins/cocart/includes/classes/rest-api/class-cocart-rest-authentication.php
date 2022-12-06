@@ -81,9 +81,6 @@ class Authentication {
 	public function __construct() {
 		// Check that we are only authenticating for our API.
 		if ( $this->is_rest_api_request() ) {
-			// Check API rate limit.
-			add_filter( 'rest_authentication_errors', array( $this, 'check_rate_limits' ), 0 );
-
 			// Authenticate user.
 			add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 			add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
@@ -93,6 +90,9 @@ class Authentication {
 
 			// Check authentication errors.
 			add_filter( 'rest_authentication_errors', array( $this, 'check_authentication_error' ), 15 );
+
+			// Check API rate limit.
+			add_filter( 'rest_authentication_errors', array( $this, 'check_rate_limits' ), 20 );
 
 			// Disable cookie authentication REST check.
 			if ( is_ssl() || $this->is_wp_environment_local() ) {
