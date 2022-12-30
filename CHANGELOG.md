@@ -1,5 +1,16 @@
 # Changelog for CoCart
 
+## v3.7.10 - 30th December, 2022
+
+### What's New
+
+* Tested: ✔️ Compatible with WooCommerce v7.2
+* Tested: ✔️ Compatible with WordPress v6.1
+
+### Bug Fix
+
+* Fixed viewing an individual session that has coupons.
+
 ## v3.7.9 - 4th November, 2022
 
 ### Bug Fixes

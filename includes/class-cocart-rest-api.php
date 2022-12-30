@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0
- * @version 3.6.0
+ * @version 3.7.10
  * @license GPL-2.0+
  */
 
@@ -491,7 +491,6 @@ class CoCart_REST_API {
 			'cocart/v1/products',
 			'cocart/v2/products',
 			'cocart/v2/sessions',
-			'cocart/v2/session',
 			'cocart/v2/store',
 		);
 

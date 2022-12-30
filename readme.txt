@@ -6,7 +6,7 @@ Requires PHP: 7.3
 Tested up to: 6.1
 Stable tag: 3.7.9
 WC requires at least: 4.3
-WC tested up to: 7.0
+WC tested up to: 7.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -186,13 +186,14 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 ### More information
 
 * The [CoCart plugin](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) official website.
-* The CoCart [Documentation](https://docs.cocart.xyz/)
+* [CoCart for Developers](https://cocart.dev/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) official hub for resources you need to be productive with CoCart and keep track of everything that is happening with the plugin.
+* [CoCart API Reference](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
 * Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
 
 #### 💯 Credits
 
-This plugin is created by [Sébastien Dumont](https://sebastiendumont.com/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+This plugin is created by [Sébastien Dumont](https://twitter.com/sebd86).
 
 == Installation ==
 
@@ -396,6 +397,17 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.7.10 - 30th December, 2022 =
+
+### What's New
+
+* Tested: ✔️ Compatible with WooCommerce v7.2
+* Tested: ✔️ Compatible with WordPress v6.1
+
+### Bug Fix
+
+* Fixed viewing an individual session that has coupons.
 
 = v3.7.9 - 4th November, 2022 =
 
@@ -763,6 +775,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.8 =
+= 3.7.10 =
 
-* Fixed a couple of bugs and applied a couple of tweaks. See changelog for details.
+* Fixed viewing an individual session that has coupons.
