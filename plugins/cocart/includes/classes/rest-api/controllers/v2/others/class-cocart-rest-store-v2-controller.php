@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart_REST_Store_v2_Controller class.
+ * REST API: CoCart_REST_Store_v2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Controller for returning store details.
  *
- * This REST API controller handles the request to return store details 
+ * This REST API controller handles the request to return store details
  * and all public routes via "cocart/v2/store" endpoint.
  *
  * @since 3.0.0 Introduced.

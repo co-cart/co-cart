@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: CoCart_REST_Restore_Item_v2_Controller class.
+ * REST API: CoCart_REST_Restore_Item_v2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
