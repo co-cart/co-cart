@@ -218,8 +218,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   2.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 2.0.0 Introduced.
+	 * @since 4.0.0 Deprecated use of `get_cart_template()` function and replaced by filtering the requested fields.
 	 *
 	 * @param WP_REST_Request $request       Full details about the request.
 	 * @param array           $cart_contents Cart content.
@@ -238,40 +238,53 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			return $cart_contents;
 		}
 
-		// Get cart template.
-		$cart_template = $this->get_cart_template( $request );
-
-		// If the cart is empty then return nothing.
-		if ( empty( $cart_contents ) ) {
-
-			/**
-			 * Deprecated filter response for empty cart.
-			 *
-			 * @since      2.0.8 Introduced.
-			 * @deprecated 3.0.0 Use `cocart_empty_cart` hook instead.
-			 * @version    3.0.0
-			 */
-			cocart_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
-
-			/**
-			 * Filter response for empty cart.
-			 *
-			 * @since 3.0.0 Introduced.
-			 *
-			 * @param array $cart_template Cart template.
-			 */
-			$cart_template = apply_filters( 'cocart_empty_cart', $cart_template );
-
-			return $cart_template;
-		}
+		/**
+		 * Gets requested fields to return in the response.
+		 *
+		 * @since 4.0.0 Introduced.
+		 */
+		$fields = $this->get_fields_for_response( $request );
 
 		// Other Requested conditions.
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
-		// Defines an empty cart template.
+		// Cart response container.
 		$cart = array();
 
-		if ( array_key_exists( 'coupons', $cart_template ) ) {
+		if ( rest_is_field_included( 'cart_hash', $fields ) ) {
+			$cart['cart_hash'] = ! empty( $this->get_cart_instance()->get_cart_hash() ) ? $this->get_cart_instance()->get_cart_hash() : __( 'No items in cart so no hash', 'cart-rest-api-for-woocommerce' );
+		}
+
+		if ( rest_is_field_included( 'cart_key', $fields ) ) {
+			$cart['cart_key'] = $this->get_cart_key( $request );
+		}
+
+		if ( rest_is_field_included( 'currency', $fields ) ) {
+			$cart['currency'] = cocart_get_store_currency();
+		}
+
+		if ( rest_is_field_included( 'customer', $fields ) ) {
+			$cart['customer'] = array(
+				'billing_address'  => $this->get_customer_fields( 'billing' ),
+				'shipping_address' => $this->get_customer_fields( 'shipping' ),
+			);
+		}
+
+		if ( rest_is_field_included( 'items', $fields ) ) {
+			$cart['items'] = $this->get_items( $cart_contents, $show_thumb );
+		}
+
+		if ( rest_is_field_included( 'item_count', $fields ) ) {
+			$cart['item_count'] = $this->get_cart_instance()->get_cart_contents_count();
+		}
+
+		if ( rest_is_field_included( 'items_weight', $fields ) ) {
+			$cart['items_weight'] = wc_get_weight( (float) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
+		}
+
+		if ( rest_is_field_included( 'coupons', $fields ) ) {
+			$cart['coupons'] = array();
+
 			// Returns each coupon applied and coupon total applied if store has coupons enabled.
 			$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
 
@@ -287,7 +300,25 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			}
 		}
 
-		if ( array_key_exists( 'taxes', $cart_template ) ) {
+		if ( rest_is_field_included( 'needs_payment', $fields ) ) {
+			$cart['needs_payment'] = $this->get_cart_instance()->needs_payment();
+		}
+
+		if ( rest_is_field_included( 'needs_shipping', $fields ) ) {
+			$cart['needs_shipping'] = $this->get_cart_instance()->needs_shipping();
+		}
+
+		if ( rest_is_field_included( 'shipping', $fields ) ) {
+			$cart['shipping'] = $this->get_shipping_details();
+		}
+
+		if ( rest_is_field_included( 'fees', $fields ) ) {
+			$cart['fees'] = $this->get_fees( $this->get_cart_instance() );
+		}
+
+		if ( rest_is_field_included( 'taxes', $fields ) ) {
+			$cart['taxes'] = array();
+
 			// Return calculated tax based on store settings and customer details.
 			if ( wc_tax_enabled() && ! $this->get_cart_instance()->display_prices_including_tax() ) {
 				$taxable_address = WC()->customer->get_taxable_address();
@@ -309,13 +340,34 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			}
 		}
 
-		// Returns items.
-		if ( array_key_exists( 'items', $cart_template ) ) {
-			$cart['items'] = $this->get_items( $cart_contents, $show_thumb );
+		if ( rest_is_field_included( 'totals', $fields ) ) {
+			$cart['totals'] = $this->get_cart_totals( $this->get_cart_instance() );
 		}
 
-		// Parse cart data to template.
-		$cart = wp_parse_args( $cart, $cart_template );
+		if ( rest_is_field_included( 'removed_items', $fields ) ) {
+			$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
+		}
+
+		if ( rest_is_field_included( 'cross_sells', $fields ) ) {
+			$cart['cross_sells'] = $this->get_cross_sells();
+		}
+
+		if ( rest_is_field_included( 'notices', $fields ) ) {
+			$cart['notices'] = $this->maybe_return_notices();
+		}
+
+		// If the cart is empty then return nothing.
+		if ( empty( $cart_contents ) ) {
+
+			/**
+			 * Filters the response for empty cart.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array $cart The whole cart.
+			 */
+			return apply_filters( 'cocart_empty_cart', $cart );
+		}
 
 		/**
 		 * Filters the cart contents before it is returned.
@@ -1794,16 +1846,21 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * Used as a base even if the cart is empty along with
 	 * customer information should the user be logged in.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @access protected
 	 *
-	 * @since   3.0.3 Introduced.
-	 * @version 3.1.0
+	 * @since      3.0.3 Introduced.
+	 * @version    3.1.0
+	 * @deprecated 4.0.0 No longer used. `return_cart_contents()` function has been improved.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return array Returns the default cart response.
 	 */
 	protected function get_cart_template( $request = array() ) {
+		cocart_deprecated_function( __FUNCTION__, '4.0' );
+
 		$fields = ! empty( $request['fields'] ) ? $request['fields'] : '';
 
 		if ( ! empty( $fields ) ) {
@@ -1853,16 +1910,21 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * Same as original cart template only it returns the fields requested.
 	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @access protected
 	 *
 	 * @since   3.1.0 Introduced.
 	 * @version 4.0.0
+	 * @deprecated 4.0.0 No longer used. `return_cart_contents()` function has been improved.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return array $template Returns requested cart response.
 	 */
 	protected function get_cart_template_limited( $request = array() ) {
+		cocart_deprecated_function( __FUNCTION__, '4.0' );
+
 		$fields     = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
@@ -2105,6 +2167,64 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$this->get_cart_instance()->calculate_shipping();
 		$this->get_cart_instance()->calculate_totals();
 	} // END calculate_totals()
+
+	/**
+	 * Gets an array of fields to be included on the response.
+	 *
+	 * Included fields are based on item schema and `fields=` request argument.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return string Fields to be included in the response.
+	 */
+	public function get_fields_for_response( $request ) {
+		$schema     = $this->get_public_item_schema();
+		$properties = isset( $schema['properties'] ) ? $schema['properties'] : array();
+
+		$fields = array_unique( array_keys( $properties ) );
+
+		if ( ! isset( $request['fields'] ) ) {
+			return $fields;
+		}
+
+		$requested_fields = wp_parse_list( $request['fields'] );
+
+		// Return all fields if no fields specified.
+		if ( 0 === count( $requested_fields ) ) {
+			return $fields;
+		}
+
+		// Trim off outside whitespace from the comma delimited list.
+		$requested_fields = array_map( 'trim', $requested_fields );
+
+		// Return the list of all requested fields which appear in the schema.
+		return array_reduce(
+			$requested_fields,
+			static function( $response_fields, $field ) use ( $fields ) {
+				if ( in_array( $field, $fields, true ) ) {
+					$response_fields[] = $field;
+
+					return $response_fields;
+				}
+
+				// Check for nested fields if $field is not a direct match.
+				$nested_fields = explode( ':', $field );
+
+				// A nested field is included so long as its top-level property
+				// is present in the schema.
+				if ( in_array( $nested_fields[0], $fields, true ) ) {
+					$response_fields[] = $field;
+				}
+
+				return $response_fields;
+			},
+			array()
+		);
+	} // END get_fields_for_response()
 
 	/**
 	 * Get the schema for returning the cart.
