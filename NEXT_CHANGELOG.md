@@ -54,6 +54,7 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 * Sub-menus in the WordPress dashboard now load faster. No redirects.
 * Error responses are now softer to prevent fatal networking when a request fails.
 * Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
+* Optimized products API response and updated schema.
 
 ## Security
 
@@ -133,7 +134,9 @@ Instead the user session data is returned during any cart request and passes the
 * Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
 * Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
 * Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
-* Added new parameter to filter `cocart_cart` so you can access the cart controller.
+* Added new parameters to filter `cocart_cart` so you can access the cart controller and requested data.
+* Introduced new action hook `cocart_added_item_to_cart` that allows for additional requested data to be processed via a third party once item is added to the cart.
+* Introduced new action hook `cocart_added_items_to_cart` that allows for additional requested data to be processed via a third party once items are added to the cart.
 
 ### Response Headers
 
