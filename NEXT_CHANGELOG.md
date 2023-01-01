@@ -13,8 +13,11 @@
 * Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
 * Added package information of each plugin module to WooCommerce System Status.
 * New WP-CLI command `wp cocart status` shows the status of carts in session.
-* New ability to set customers billing phone number while adding item to the cart.
 * Enhancements made to [authentication](#authentication).
+* Added ability to set customers billing phone number while adding item to the cart.
+* Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
+* Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
+* Added ability to filter the fields you request before they return making the response faster.
 
 ## Authentication
 
