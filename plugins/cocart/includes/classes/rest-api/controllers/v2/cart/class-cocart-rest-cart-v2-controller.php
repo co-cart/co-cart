@@ -990,6 +990,35 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	} // END get_fees()
 
 	/**
+	 * Get cart totals.
+	 *
+	 * Returns the cart subtotal, fees, discounted total, shipping total
+	 * and total of the cart.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param WC_Cart $cart Cart class instance.
+	 *
+	 * @return array Cart totals.
+	 */
+	public function get_cart_totals( $cart ) {
+		return array(
+			'subtotal'       => $cart->get_subtotal(),
+			'subtotal_tax'   => $cart->get_subtotal_tax(),
+			'fee_total'      => $cart->get_fee_total(),
+			'fee_tax'        => $cart->get_fee_tax(),
+			'discount_total' => $cart->get_discount_total(),
+			'discount_tax'   => $cart->get_discount_tax(),
+			'shipping_total' => $cart->get_shipping_total(),
+			'shipping_tax'   => $cart->get_shipping_tax(),
+			'total'          => $cart->get_total( 'edit' ),
+			'total_tax'      => $cart->get_total_tax(),
+		);
+	} // END get_cart_totals()
+
+	/**
 	 * Get coupon in HTML.
 	 *
 	 * @access public
