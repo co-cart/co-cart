@@ -57,7 +57,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
-				'schema' => array( $this, 'get_item_schema' ),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	} // register_routes()
@@ -405,12 +405,17 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.2 Introduced.
-	 * @version 3.1.0
+	 * @since      2.1.2 Introduced.
+	 * @version    3.1.0
+	 * @deprecated 4.0.0 Replaced with `get_public_item_schema()`.
+	 *
+	 * @see get_public_item_schema()
 	 *
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		cocart_deprecated_function( __FUNCTION__, '4.0', 'get_public_item_schema' );
+
 		$schema = array(
 			'schema'     => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
@@ -462,13 +467,30 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	} // END get_item_schema()
 
 	/**
+	 * Retrieves the item schema for adding an item.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return array Item schema data.
+	 */
+	public function get_public_item_schema() {
+		$controller = new CoCart_REST_Cart_v2_Controller();
+
+		// Cart schema.
+		$schema = $controller->get_public_item_schema();
+
+		return $schema;
+	} // END get_public_item_schema()
+
+	/**
 	 * Get the query params for adding items.
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Added phone number parameter.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Added phone number parameter.
 	 *
 	 * @return array $params Query parameters for the endpoint.
 	 */
@@ -533,9 +555,9 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		);
 
 		/**
-		 * Filter to extend the query parameters.
+		 * Filter to extend the query parameters for adding item to cart.
 		 *
-		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default parameters.
+		 * This filter allows you to extend the query parameters without removing any default parameters.
 		 *
 		 * @since 3.1.0 Introduced.
 		 */

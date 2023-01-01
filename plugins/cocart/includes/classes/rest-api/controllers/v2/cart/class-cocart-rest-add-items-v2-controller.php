@@ -57,7 +57,7 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
-				'schema' => array( $this, 'get_item_schema' ),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	} // register_routes()
@@ -262,16 +262,19 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @since   4.0.0 Added phone number
-	 * @version 4.0.0
+	 * @since      3.0.0 Introduced.
+	 * @deprecated 4.0.0 Replaced with `get_public_item_schema()`.
+	 *
+	 * @see get_public_item_schema()
 	 *
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		cocart_deprecated_function( __FUNCTION__, '4.0', 'get_public_item_schema' );
+
 		$schema = array(
 			'schema'     => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Add Items', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_cart_add_items',
 			'type'       => 'object',
 			'properties' => array(
 				'id'           => array(
@@ -307,6 +310,24 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 
 		return $schema;
 	} // END get_item_schema()
+
+	/**
+	 * Retrieves the item schema for adding an item.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return array Item schema data.
+	 */
+	public function get_public_item_schema() {
+		$controller = new CoCart_REST_Cart_v2_Controller();
+
+		// Cart schema.
+		$schema = $controller->get_public_item_schema();
+
+		return $schema;
+	} // END get_public_item_schema()
 
 	/**
 	 * Get the query params for adding items.
