@@ -374,12 +374,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 *
 		 * @since 3.0.0 Introduced.
 		 * @since 4.0.0 Deprecated $from_session parameter.
-		 * @since 4.0.0 Added $this parameter.
+		 * @since 4.0.0 Added `$request` (REST API request) and `$this` (cart controller class) as parameters.
 		 *
-		 * @param array  $cart The whole cart.
-		 * @param object $this The cart controller.
+		 * @param array           $cart    The whole cart before it's returned.
+		 * @param WP_REST_Request $request Full details about the request.
+		 * @param object          $this    The cart controller.
 		 */
-		$cart = apply_filters( 'cocart_cart', $cart, $this );
+		$cart = apply_filters( 'cocart_cart', $cart, $request, $this );
 
 		return $cart;
 	} // END return_cart_contents()
