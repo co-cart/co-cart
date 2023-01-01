@@ -64,7 +64,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
-				'schema' => array( $this, 'get_public_cart_schema' ),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	} // register_routes()
@@ -2266,10 +2266,10 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_public_cart_schema() {
+	public function get_public_item_schema() {
 		$schema = array(
 			'schema'     => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Cart', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_cart',
 			'type'       => 'object',
 			'properties' => array(
 				'cart_hash'      => array(
@@ -2512,7 +2512,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 							),
 							'price'          => array(
 								'description' => __( 'The price of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'float',
 								'context'     => array( 'view' ),
 								'readonly'    => true,
 							),
@@ -3019,7 +3019,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 							),
 							'price'          => array(
 								'description' => __( 'The price of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'float',
 								'context'     => array( 'view' ),
 								'readonly'    => true,
 							),
@@ -3240,6 +3240,15 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 								'type' => 'string',
 							),
 						),
+						'info'    => array(
+							'description' => __( 'Notices for informational actions.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'array',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+							'items'       => array(
+								'type' => 'string',
+							),
+						),
 						'error'   => array(
 							'description' => __( 'Notices for error actions.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'array',
@@ -3266,14 +3275,14 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		/**
 		 * Extend the cart schema properties for items.
 		 *
-		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default properties.
+		 * This filter allows you to extend the cart schema properties for items without removing any default properties.
 		 *
 		 * @since 3.1.0 Introduced.
 		 */
 		$schema['properties']['items']['items']['properties'] += apply_filters( 'cocart_cart_items_schema', array() );
 
 		return $schema;
-	} // END get_public_cart_schema()
+	} // END get_public_item_schema()
 
 	/**
 	 * Get the query params for getting the cart.
@@ -3281,14 +3290,14 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 *
 	 * @return array $params The query params.
 	 */
 	public function get_collection_params() {
 		$params = array(
 			'cart_key' => array(
-				'description' => __( 'Unique identifier for the cart or customer.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Unique identifier for the cart.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 				'required'    => false,
 			),
@@ -3312,9 +3321,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		);
 
 		/**
-		 * Extend the query parameters.
+		 * Extend the query parameters for the cart.
 		 *
-		 * Dev Note: Nothing needs to pass so your safe if you think you will remove any default parameters.
+		 * This filter allows you to extend the query parameters without removing any default parameters.
 		 *
 		 * @since 3.1.0 Introduced.
 		 */
