@@ -41,6 +41,10 @@ class CartFormatting {
 		add_filter( 'cocart_cart_item_total', array( $this, 'convert_money_response' ), 99 );
 		add_filter( 'cocart_cart_item_tax', array( $this, 'convert_money_response' ), 99 );
 		add_filter( 'cocart_cart_totals_taxes_total', array( $this, 'convert_money_response' ), 99 );
+		add_filter( 'cocart_cart_cross_item_price', array( $this, 'convert_money_response' ), 99 );
+		add_filter( 'cocart_cart_cross_item_regular_price', array( $this, 'convert_money_response' ), 99 );
+		add_filter( 'cocart_cart_cross_item_sale_price', array( $this, 'convert_money_response' ), 99 );
+		add_filter( 'cocart_cart', array( $this, 'convert_totals_response' ), 99, 2 );
 
 		// Remove any empty cart item data objects.
 		add_filter( 'cocart_cart_item_data', array( $this, 'clean_empty_cart_item_data' ), 0 );
@@ -110,11 +114,42 @@ class CartFormatting {
 	 *
 	 * @param float|string $value Money value before formatted.
 	 *
-	 * @return float|string Money value formatted.
+	 * @return float Money value formatted.
 	 */
 	public function convert_money_response( $value ) {
-		return cocart_prepare_money_response( $value );
+		return (float) cocart_prepare_money_response( $value );
 	} // END convert_money_response()
+
+	/**
+	 * Formats cart totals to return as a float or preformatted.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param array           $cart    The whole cart before it's returned.
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return float Formatted totals.
+	 */
+	public function convert_totals_response( $cart, $request ) {
+		if ( array_key_exists( 'totals', $cart ) ) {
+			$totals           = $cart['totals'];
+			$totals_converted = array();
+
+			foreach ( $totals as $key => $value ) {
+				if ( ! empty( $request['config']['prices'] ) && $request['config']['prices'] === 'preformatted' ) {
+					$totals_converted[ $key ] = cocart_price_no_html( $value );
+				} else {
+					$totals_converted[ $key ] = (float) cocart_prepare_money_response( $value );
+				}
+			}
+
+			$cart['totals'] = $totals_converted;
+		}
+
+		return $cart;
+	} // END convert_totals_response()
 
 	/**
 	 * Remove any empty cart item data objects.
