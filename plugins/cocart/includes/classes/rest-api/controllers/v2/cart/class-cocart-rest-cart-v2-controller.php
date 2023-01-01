@@ -2258,7 +2258,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	} // END get_fields_for_response()
 
 	/**
-	 * Get the schema for returning the cart.
+	 * Retrieves the item schema for returning the cart.
 	 *
 	 * @access public
 	 *
