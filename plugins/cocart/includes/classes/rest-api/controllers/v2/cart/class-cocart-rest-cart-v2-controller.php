@@ -850,7 +850,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return array
 	 */
 	public function get_store_currency() {
-		_deprecated_function( __FUNCTION__, '3.1', 'cocart_get_store_currency' );
+		cocart_deprecated_function( __FUNCTION__, '3.1', 'cocart_get_store_currency' );
 
 		return cocart_get_store_currency();
 	} // END get_store_currency()
@@ -919,7 +919,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return string The new amount.
 	 */
 	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-		_deprecated_function( __FUNCTION__, '3.1', 'cocart_prepare_money_response' );
+		cocart_deprecated_function( __FUNCTION__, '3.1', 'cocart_prepare_money_response' );
 
 		return cocart_prepare_money_response( $amount );
 	} // END prepare_money_response()
