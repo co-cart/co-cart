@@ -77,6 +77,8 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 
 			// Checks to see if the cart contains item before attempting to remove it.
 			if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {
+				$message = __( 'No items in the cart.', 'cart-rest-api-for-woocommerce' );
+
 				cocart_deprecated_filter( 'cocart_no_items_message', array(), '4.0.0', null, null );
 
 				/**
@@ -88,7 +90,7 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 				 */
 				$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
 
-				throw new CoCart_Data_Exception( 'cocart_no_items', $message, 404 );
+				throw new CoCart_Data_Exception( 'cocart_no_items_in_cart', $message, 404 );
 			}
 
 			// Check item exists in cart before fetching the cart item data to update.

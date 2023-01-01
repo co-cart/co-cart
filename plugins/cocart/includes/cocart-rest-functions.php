@@ -10,10 +10,6 @@
  * @version 4.0.0
  */
 
-use CoCart\RestApi\Authentication;
-use CoCart\Logger;
-use CoCart\ProductsAPI\DateTime as ProductDateTime;
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

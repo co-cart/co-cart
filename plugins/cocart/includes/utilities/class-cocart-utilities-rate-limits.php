@@ -73,7 +73,7 @@ class RateLimits extends Limiter {
 	} // END get_cache_key()
 
 	/**
-	 * Get current rate limit row from DB and normalize types. This query is not cached, 
+	 * Get current rate limit row from DB and normalize types. This query is not cached,
 	 * and returns a new rate limit row if none exists.
 	 *
 	 * @access protected
@@ -106,16 +106,16 @@ class RateLimits extends Limiter {
 		if ( empty( $row ) ) {
 			$options = self::get_options();
 
-			return (object) [
+			return (object) array(
 				'reset'     => (int) $options->seconds + time(),
 				'remaining' => (int) $options->limit,
-			];
+			);
 		}
 
-		return (object) [
+		return (object) array(
 			'reset'     => (int) $row->reset,
 			'remaining' => (int) $row->remaining,
-		];
+		);
 	} // END get_rate_limit_row()
 
 	/**

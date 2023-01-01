@@ -105,7 +105,7 @@ class CartValidation {
 	 */
 	public function check_cart_coupons( $cart_contents, $cart ) {
 		foreach ( $cart->get_applied_coupons() as $code ) {
-			$coupon = new WC_Coupon( $code );
+			$coupon = new \WC_Coupon( $code );
 
 			if ( ! $coupon->is_valid() ) {
 				$coupon->add_coupon_message( 101 );

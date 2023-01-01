@@ -330,7 +330,7 @@ class Authentication {
 			}
 
 			// Check if the username provided was an email address and get the username if true.
-			else if ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
+			elseif ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
 				$user     = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
 				$username = $user->user_login;
 			}
@@ -345,7 +345,7 @@ class Authentication {
 			}
 
 			// Check if the username provided was an email address and get the username if true.
-			else if ( is_email( $_REQUEST['username'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			elseif ( is_email( $_REQUEST['username'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$user     = get_user_by( 'email', $_REQUEST['username'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$username = $user->user_login; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
@@ -777,7 +777,7 @@ class Authentication {
 	 * @static
 	 *
 	 * @since 4.0.0 Introduced.
-	 * 
+	 *
 	 * @param numeric $phone The billing phone number to check.
 	 *
 	 * @return string The username returned if found.
@@ -786,7 +786,7 @@ class Authentication {
 		$matchingUsers = get_users( array(
 			'meta_key'     => 'billing_phone',
 			'meta_value'   => $phone,
-			'meta_compare' => '='
+			'meta_compare' => '=',
 		) );
 
 		$username = ! empty( $matchingUsers ) && is_array( $matchingUsers ) ? $matchingUsers[0]->user_login : $phone;
