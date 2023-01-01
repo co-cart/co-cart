@@ -894,7 +894,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		foreach ( $cart_tax_totals as $code => $tax ) {
 			$tax_lines[ $code ] = array(
 				'name'  => $tax->label,
-				'price' => cocart_prepare_money_response( $tax->amount ),
+				'price' => (float) cocart_prepare_money_response( $tax->amount ),
 			);
 		}
 
@@ -981,7 +981,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			foreach ( $cart_fees as $key => $fee ) {
 				$fees[ $key ] = array(
 					'name' => esc_html( $fee->name ),
-					'fee'  => cocart_prepare_money_response( $this->fee_html( $cart, $fee ) ),
+					'fee'  => (float) cocart_prepare_money_response( $this->fee_html( $cart, $fee ) ),
 				);
 			}
 		}
@@ -1012,7 +1012,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		if ( $formatted ) {
 			$savings = html_entity_decode( wp_strip_all_tags( wc_price( $amount ) ) );
 		} else {
-			$savings = cocart_prepare_money_response( $amount );
+			$savings = (float) cocart_prepare_money_response( $amount );
 		}
 
 		$discount_amount_html = '-' . $savings;
@@ -1605,7 +1605,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 						'method_id'     => $method->get_method_id(),
 						'instance_id'   => $method->instance_id,
 						'label'         => $method->get_label(),
-						'cost'          => cocart_prepare_money_response( $method->cost ),
+						'cost'          => (float) cocart_prepare_money_response( $method->cost ),
 						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => '',
 						'chosen_method' => ( $chosen_method === $key ),
@@ -1613,7 +1613,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					);
 
 					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
-						$rates[ $key ]['taxes'] = cocart_prepare_money_response( $tax_cost );
+						$rates[ $key ]['taxes'] = (float) cocart_prepare_money_response( $tax_cost );
 					}
 				}
 
