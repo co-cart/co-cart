@@ -70,7 +70,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -116,14 +116,14 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 			if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
-				$was_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
+				$item_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
 			} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
-				$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+				$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 			} else {
-				$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
+				$item_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
 			}
 
-			if ( ! is_wp_error( $was_added_to_cart ) ) {
+			if ( ! is_wp_error( $item_added_to_cart ) ) {
 				/**
 				 * Set customers billing email address.
 				 *
@@ -158,7 +158,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					}
 				}
 
-				cocart_add_to_cart_message( array( $was_added_to_cart['product_id'] => $was_added_to_cart['quantity'] ) );
+				cocart_add_to_cart_message( array( $item_added_to_cart['product_id'] => $item_added_to_cart['quantity'] ) );
 
 				/**
 				 * Override cart item for anything extra.
@@ -167,27 +167,28 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				 *
 				 * @since 3.1.0 Introduced.
 				 */
-				$was_added_to_cart = apply_filters( 'cocart_override_cart_item', $was_added_to_cart, $request );
+				$item_added_to_cart = apply_filters( 'cocart_override_cart_item', $item_added_to_cart, $request );
 
 				/**
-				 * Was added to cart hook.
+				 * Added item to cart hook.
 				 *
-				 * Allows for additional requested data to be processed via a third party once an item has been added to the cart.
+				 * Allows for additional requested data to be processed via a third party once item is added to the cart.
 				 *
 				 * @since 4.0.0 Introduced.
 				 *
 				 * @param WP_REST_Request $request Full details about the request.
+				 * @param object          $controller The Cart controller class.
 				 * @param string          $add_to_cart_handler The product type added to cart.
-				 * @param array $was_added_to_cart The product added to cart.
+				 * @param array           $item_added_to_cart The product added to cart.
 				 */
-				do_action( 'cocart_was_added_to_cart', $request, $add_to_cart_handler, $was_added_to_cart );
+				do_action( 'cocart_added_item_to_cart', $request, $controller, $add_to_cart_handler, $item_added_to_cart );
 
 				/**
 				 * Cache cart item.
 				 *
 				 * @since 3.1.0 Introduced.
 				 */
-				$controller->cache_cart_item( $was_added_to_cart );
+				$controller->cache_cart_item( $item_added_to_cart );
 
 				/**
 				 * Calculate the totals again here incase of custom data applied
@@ -200,7 +201,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
-					$response = $controller->get_item( $was_added_to_cart['data'], $was_added_to_cart, $was_added_to_cart['key'], true );
+					$response = $controller->get_item( $item_added_to_cart['data'], $item_added_to_cart, $item_added_to_cart['key'], true );
 				} else {
 					$response = $controller->get_cart_contents( $request );
 				}
@@ -208,7 +209,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			}
 
-			return $was_added_to_cart;
+			return $item_added_to_cart;
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

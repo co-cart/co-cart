@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\v2
  * @since   3.0.0 Introduced.
- * @version 3.1.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -70,7 +70,7 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 *
 	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -107,12 +107,12 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 			if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
-				$was_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+				$items_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 			} else {
-				$was_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
+				$items_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
 			}
 
-			if ( ! is_wp_error( $was_added_to_cart ) ) {
+			if ( ! is_wp_error( $items_added_to_cart ) ) {
 				/**
 				 * Set customers billing email address.
 				 *
@@ -147,11 +147,25 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					}
 				}
 
+				/**
+				 * Added items to cart hook.
+				 *
+				 * Allows for additional requested data to be processed via a third party once items are added to the cart.
+				 *
+				 * @since 4.0.0 Introduced.
+				 *
+				 * @param WP_REST_Request $request Full details about the request.
+				 * @param object          $controller The Cart controller class.
+				 * @param string          $add_items_to_cart_handler The product type added to cart.
+				 * @param array           $items_added_to_cart The products added to cart.
+				 */
+				do_action( 'cocart_added_items_to_cart', $request, $controller, $add_items_to_cart_handler, $items_added_to_cart );
+
 				// Was it requested to return the items details after being added?
 				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
 					$response = array();
 
-					foreach ( $was_added_to_cart as $id => $item ) {
+					foreach ( $items_added_to_cart as $id => $item ) {
 						$response[] = $controller->get_item( $item['data'], $item, $item['key'], true );
 					}
 				} else {
@@ -161,7 +175,7 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			}
 
-			return $was_added_to_cart;
+			return $items_added_to_cart;
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
