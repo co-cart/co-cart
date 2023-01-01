@@ -482,10 +482,10 @@ class Server {
 			'cocart/settings/get',
 			'cocart/settings/save',
 			'cocart/v2/login',
+			'cocart/v2/logout',
 			'cocart/v1/products',
 			'cocart/v2/products',
 			'cocart/v2/sessions',
-			'cocart/v2/session',
 			'cocart/v2/store',
 		);
 
