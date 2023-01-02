@@ -249,7 +249,7 @@ function cocart_let_to_num( $size ) {
 } // END cocart_let_to_num()
 
 /**
- * Formats product attribute data.
+ * Formats the product attributes for a variation.
  *
  * Converts slugs such as "attribute_pa_size" to "Size".
  *
@@ -260,12 +260,8 @@ function cocart_let_to_num( $size ) {
  *
  * @return array Formatted attribute data.
  */
-function cocart_format_attribute_data( $attributes, $product ) {
+function cocart_format_variation_data( $attributes, $product ) {
 	$return = array();
-
-	if ( empty( $attributes ) ) {
-		return $return;
-	}
 
 	foreach ( $attributes as $key => $value ) {
 		$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $key ) ) );
@@ -288,3 +284,46 @@ function cocart_format_attribute_data( $attributes, $product ) {
 
 	return $return;
 } // END cocart_format_variation_data()
+
+/**
+ * Formats product attribute data.
+ *
+ * Converts slugs such as "attribute_pa_size" to "Size".
+ *
+ * @since 4.0.0 Introduced.
+ *
+ * @param WC_Product $product Product data.
+ *
+ * @return array Formatted attribute data.
+ */
+function cocart_format_attribute_data( $product ) {
+	$return = array();
+
+	$attributes = array_filter( $product->get_attributes(), 'wc_attributes_array_filter_visible' );
+
+	foreach ( $attributes as $attribute ) {
+		$values = array();
+
+		if ( $attribute->is_taxonomy() ) {
+			$attribute_taxonomy = $attribute->get_taxonomy_object();
+			$attribute_values   = wc_get_product_terms( $product->get_id(), $attribute->get_name(), array( 'fields' => 'all' ) );
+
+			foreach ( $attribute_values as $attribute_value ) {
+				$value_name = esc_html( $attribute_value->name );
+
+				$values[] = $value_name;
+			}
+		} else {
+			$values = $attribute->get_options();
+
+			// If this is a custom option slug, get each options name.
+			$values = apply_filters( 'cocart_attribute_option_name', $attribute, $values, $product );
+		}
+
+		$label = wc_attribute_label( $attribute->get_name() );
+
+		$return[ $label ] = wptexturize( implode( ', ', $values ) );
+	}
+
+	return $return;
+} // END cocart_format_attribute_data()
