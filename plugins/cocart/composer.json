@@ -30,11 +30,10 @@
 			"includes/classes/rest-api/legacy"
 		],
 		"classmap": [
-			"includes/classes/rest-api",
-			"includes/cli",
+			"includes",
 			"packages/admin/includes",
 			"packages/compatibility/includes/modules",
-			"packages/products-api/includes/rest-api",
+			"packages/products-api/includes",
 			"packages/session-api/includes/rest-api",
 			"packages/third-party/includes"
 		],
