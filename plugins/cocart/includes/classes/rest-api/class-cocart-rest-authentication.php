@@ -614,7 +614,8 @@ class Authentication {
 	} // END check_api_permissions()
 
 	/**
-	 * Checks the rate limit has not exceeded before proceeding with the request.
+	 * Checks the rate limit has not exceeded before proceeding with the request,
+	 * and passes through any errors from other authentication methods used before this one..
 	 *
 	 * @access public
 	 *
@@ -625,6 +626,11 @@ class Authentication {
 	 * @return \WP_Error|null|bool
 	 */
 	public function check_rate_limits( $result ) {
+		// Disable Rate Limiting for logged-in users with 'edit posts' capability.
+		if ( current_user_can( 'edit_posts' ) ) {
+			return $result;
+		}
+
 		$rate_limiting_options = RateLimits::get_options();
 
 		if ( $rate_limiting_options->enabled ) {
