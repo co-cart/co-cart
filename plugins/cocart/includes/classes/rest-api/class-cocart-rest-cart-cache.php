@@ -68,10 +68,10 @@ class CartCache {
 		 *
 		 * @since 4.0.0 Introduced.
 		 */
-		if ( ! empty( self::maybe_cocart_require_salt() ) ) {
+		if ( ! empty( maybe_cocart_require_salt() ) ) {
 			$default = true;
 
-			if ( $request->get_header( 'csaltk' ) !== self::maybe_cocart_require_salt() ) {
+			if ( $request->get_header( 'csaltk' ) !== maybe_cocart_require_salt() ) {
 				Logger::log( __( 'An attempt was made to override the price of an item but the salt key did not match.', 'cart-rest-api-for-woocommerce' ), 'alert' );
 			} else {
 				$default = false;
@@ -252,37 +252,6 @@ class CartCache {
 		 */
 		return apply_filters( 'cocart_is_allowed_to_override_price', true, $cart_item, $request );
 	} // END is_allowed_to_override_price()
-
-	/**
-	 * Returns the salt key for CoCart if defined.
-	 *
-	 * Used to help prevent session hijacking.
-	 *
-	 * @access protected
-	 *
-	 * @since 4.0.0 Introduced.
-	 *
-	 * @return mixed The salt key for CoCart or false if not defined.
-	 */
-	protected function maybe_cocart_require_salt() {
-		/**
-		 * Check if the salt key is defined.
-		 * Should be hashed already to remain secure.
-		 */
-		if ( defined( 'COCART_SALT_KEY' ) ) {
-			return COCART_SALT_KEY;
-		}
-
-		$settings = get_option( 'cocart_settings', array() );
-
-		$salt_key = ! empty( $settings['general']['salt_key'] ) ? $settings['general']['salt_key'] : '';
-
-		if ( ! empty( $salt_key ) ) {
-			return $salt_key;
-		}
-
-		return false;
-	} // END maybe_cocart_require_salt()
 
 } // END class
 

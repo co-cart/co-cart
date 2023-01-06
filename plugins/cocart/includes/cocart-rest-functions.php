@@ -373,3 +373,32 @@ function cocart_get_permalink( $url ) {
 
 	return str_replace( home_url(), $frontend_url, $url );
 } // END cocart_get_permalink()
+
+/**
+ * Returns the salt key for CoCart if defined.
+ *
+ * Used to help prevent session hijacking.
+ *
+ * @since 4.0.0 Introduced.
+ *
+ * @return mixed The salt key for CoCart or false if not defined.
+ */
+function maybe_cocart_require_salt() {
+	/**
+	 * Check if the salt key is defined.
+	 * Should be hashed already to remain secure.
+	 */
+	if ( defined( 'COCART_SALT_KEY' ) ) {
+		return COCART_SALT_KEY;
+	}
+
+	$settings = get_option( 'cocart_settings', array() );
+
+	$salt_key = ! empty( $settings['general']['salt_key'] ) ? $settings['general']['salt_key'] : '';
+
+	if ( ! empty( $salt_key ) ) {
+		return $salt_key;
+	}
+
+	return false;
+} // END maybe_cocart_require_salt()
