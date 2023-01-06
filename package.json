@@ -39,9 +39,9 @@
 	"requires_php": "7.4",
 	"tested_up_to": "6.1",
 	"wc_requires": "6.4",
-	"wc_tested_up_to": "7.0",
+	"wc_tested_up_to": "7.2",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2022, Sébastien Dumont",
+	"copyright": "Copyright (c) 2023, Sébastien Dumont",
 	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
 	"tags": "",
 	"keywords": [
