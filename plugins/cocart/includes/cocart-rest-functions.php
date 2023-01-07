@@ -61,31 +61,86 @@ function cocart_upload_dir( $pathdata ) {
 } // END cocart_upload_dir()
 
 /**
- * Upload a file.
+ * Change filename to append random text.
  *
- * Uses "wp_handle_upload()" to upload the file.
+ * @since 4.0.0 Introduced.
+ *
+ * @param string $full_filename Original filename with extension.
+ * @param string $ext           File Extension.
+ *
+ * @return string Modified filename.
+ */
+function cocart_unique_filename( $full_filename, $ext ) {
+	$ideal_random_char_length = 6;   // Not going with a larger length because then downloaded filename will not be pretty.
+	$max_filename_length      = 255; // Max file name length for most file systems.
+	$length_to_prepend        = min( $ideal_random_char_length, $max_filename_length - strlen( $full_filename ) - 1 );
+
+	if ( 1 > $length_to_prepend ) {
+		return $full_filename;
+	}
+
+	$suffix   = strtolower( wp_generate_password( $length_to_prepend, false, false ) );
+	$filename = $full_filename;
+
+	if ( strlen( $ext ) > 0 ) {
+		$filename = substr( $filename, 0, strlen( $filename ) - strlen( $ext ) );
+	}
+
+	$full_filename = str_replace(
+		$filename,
+		"$filename-$suffix",
+		$full_filename
+	);
+
+	return $full_filename;
+} // END cocart_unique_filename()
+
+/**
+ * Handles an upload via multipart/form-data ($_FILES).
+ *
+ * Uses "wp_handle_sideload()" to upload the file.
  *
  * @since 3.0.0 Introduced.
+ * @since 4.0.0 Added unique file name append.
  *
  * @param files $file The file to upload.
  *
- * @return array|WP_Error File data or error message.
+ * @return array|WP_Error Data from wp_handle_upload().
  */
 function cocart_upload_file( $file ) {
-	// wp_handle_upload function is part of wp-admin.
-	if ( ! function_exists( 'wp_handle_upload' ) ) {
+	if ( empty( $file['name'] ) ) {
+		return new WP_Error( 'cocart_no_file_data', __( 'No file data', 'cart-rest-api-for-woocommerce' ), array( 'status' => 40 ) );
+	}
+
+	// wp_handle_sideload function is part of wp-admin.
+	if ( ! function_exists( 'wp_handle_sideload' ) ) {
 		include_once ABSPATH . 'wp-admin/includes/file.php';
 	}
 
 	include_once ABSPATH . 'wp-admin/includes/media.php';
 
 	add_filter( 'upload_dir', 'cocart_upload_dir' );
+	add_filter( 'wp_unique_filename', 'cocart_unique_filename', 10, 2 );
 
-	$upload = wp_handle_upload( $file, array( 'test_form' => false ) );
+	// Now, sideload it in.
+	$file_data = array(
+		'error'    => null,
+		'tmp_name' => $file['tmp_name'],
+		'name'     => $file['name'],
+		'type'     => $file['type'],
+	);
+
+	$file = wp_handle_sideload(
+		$file_data,
+		array(
+			'test_form' => false,
+		),
+		current_time( 'Y/m' )
+	);
 
 	remove_filter( 'upload_dir', 'cocart_upload_dir' );
 
-	return $upload;
+	return $file;
 } // END cocart_upload_file()
 
 /**
@@ -94,6 +149,7 @@ function cocart_upload_file( $file ) {
  * Uses "wp_parse_url()" to parse the URL.
  *
  * @since 3.0.0 Introduced.
+ * @since 4.0.0 Added unique file name append.
  *
  * @param string $image_url Image URL.
  *
@@ -135,6 +191,7 @@ function cocart_upload_image_from_url( $image_url ) {
 	}
 
 	add_filter( 'upload_dir', 'cocart_upload_dir' );
+	add_filter( 'wp_unique_filename', 'cocart_unique_filename', 10, 2 );
 
 	// Do the validation and storage stuff.
 	$file = wp_handle_sideload(
