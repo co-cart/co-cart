@@ -1,4 +1,4 @@
-=== CoCart - Headless ecommerce === 
+=== CoCart - Headless ecommerce ===
 Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31, douglasjohnson, antondrob2
 Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
 Requires at least: 5.6
@@ -26,10 +26,6 @@ Take your **WooCommerce** business to the next level with **headless ecommerce**
 
 [CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce allows you to separate your CMS from your presentation layer, while developers can use the frameworks and tools they love.
 
-## Filter what you need. Get exactly that.
-
-With CoCart, the client can limit the fields, asking for the exact data needed for the response, nothing more. This allows the client have control over their application, and allows the CoCart server to perform more efficiently by only fetching the resources requested.
-
 ## 🥪 The API
 
 CoCart provides support for managing the users session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
@@ -43,6 +39,10 @@ Add **simple, variable** and **grouped products** to the cart by **product ID** 
 #### 🛍️ Products API
 
 Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your **UX/UI** development is all provided ready for you.
+
+## Filter what you need. Get exactly that.
+
+With CoCart, the client can limit the fields, asking for the exact data needed for the response, nothing more. This allows the client have control over their application, and allows the CoCart server to perform more efficiently by only fetching the resources requested.
 
 #### ➕ Extras
 
@@ -166,12 +166,13 @@ You can read more about the details of Semver at [semver.org](https://semver.org
 
 We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
 
-* **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** enables support for CORS to allow CoCart to work across multiple domains.
-* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it.
+* **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** enables support for CORS to allow CoCart to work across multiple domains. - **FREE**
+* **[CoCart - Rate Limiting](https://wordpress.org/plugins/cocart-rate-limiting)** enables the rate limiting feature available in version **4.0** an up. - **FREE**
+* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it. - **FREE**
 * **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends the products API by returning all your advanced custom fields for products.
 * and more add-ons in development.
 
-They work with the FREE version of CoCart already, and these add-ons of course come with support too.
+They work with the core of CoCart already, and these add-ons of course come with support too.
 
 ### ⌨️ Join our growing community
 

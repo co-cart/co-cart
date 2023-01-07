@@ -14,13 +14,28 @@ CoCart provides support for managing the user session, alternative options for d
 
 CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
 
-#### Cart API
+### Cart API
 
 Add **simple, variable** and **grouped products** to the cart by **product ID** or **SKU ID**, update cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your **UX/UI**.
 
-#### Products API
+### Products API
 
 Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
+
+## Filter what you need. Get exactly that.
+
+With CoCart, the client can limit the fields, asking for the exact data needed for the response, nothing more. This allows the client have control over their application, and allows the CoCart server to perform more efficiently by only fetching the resources requested.
+
+### 👍 Add-ons to further enhance CoCart
+
+We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
+
+* **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** enables support for CORS to allow CoCart to work across multiple domains. - **FREE**
+* **[CoCart - Rate Limiting](https://wordpress.org/plugins/cocart-rate-limiting)** enables the rate limiting feature available in version **4.0** an up. - **FREE**
+* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it. - **FREE**
+* and more add-ons in development.
+
+They work with the core of CoCart already, and these add-ons of course come with support too.
 
 ---
 
