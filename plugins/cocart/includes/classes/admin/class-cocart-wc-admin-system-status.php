@@ -12,6 +12,7 @@
 
 namespace CoCart\Admin;
 
+use CoCart\Help;
 use CoCart\Packages;
 use CoCart\Install;
 
@@ -32,7 +33,7 @@ class WC_System_Status {
 	 */
 	public function __construct() {
 		// Provide CoCart details to System Status Report.
-		if ( ! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL ) {
+		if ( ! Help::is_white_labelled() ) {
 			add_filter( 'woocommerce_system_status_report', array( $this, 'render_system_status_items' ) );
 		}
 
@@ -43,7 +44,7 @@ class WC_System_Status {
 		add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_verify_database' ), 10, 2 );
 		add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_update_database' ), 10, 2 );
 
-		if ( defined( 'COCART_WHITE_LABEL' ) && false !== COCART_WHITE_LABEL ) {
+		if ( Help::is_white_labelled() ) {
 			add_filter( 'woocommerce_debug_tools', array( $this, 'cocart_tools' ) );
 		}
 	} // END __construct()

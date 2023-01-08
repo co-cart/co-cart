@@ -251,7 +251,7 @@ final class Core {
 		 * Load backend features only if COCART_WHITE_LABEL constant is
 		 * NOT set or IS set to false in user's wp-config.php file.
 		 */
-		if ( defined( 'COCART_WHITE_LABEL' ) && COCART_WHITE_LABEL && is_admin() ) {
+		if ( Help::is_white_labelled() && is_admin() ) {
 			include_once COCART_ABSPATH . 'includes/classes/admin/class-cocart-wc-admin-system-status.php';
 		}
 	} // END includes()
