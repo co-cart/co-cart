@@ -32,8 +32,8 @@ class WooCommerce {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.2 Introduced.
-	 * @version 3.0.3
+	 * @since 2.1.2 Introduced.
+	 * @since 4.0.0 Declared support for High-Performance Order Storage.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -52,6 +52,13 @@ class WooCommerce {
 
 		// Delete user data.
 		add_action( 'delete_user', array( $this, 'delete_user_data' ) );
+
+		// Declares support for High-Performance Order Storage.
+		add_action( 'before_woocommerce_init', function() {
+			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', COCART_FILE, true );
+			}
+		} );
 	} // END __construct()
 
 	/**
