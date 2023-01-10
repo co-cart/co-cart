@@ -106,6 +106,16 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	public function get_cart_item( $item_id, $condition = 'add' ) {
 		$item = isset( $this->get_cart_instance()->cart_contents[ $item_id ] ) ? $this->get_cart_instance()->cart_contents[ $item_id ] : array();
 
+		/**
+		 * Filters the cart item before it is returned.
+		 *
+		 * Condition options: add, remove, restore and update.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array  $item      Details of the item in the cart if it exists.
+		 * @param string $condition Condition of item. Default: add
+		 */
 		return apply_filters( 'cocart_get_cart_item', $item, $condition );
 	} // EMD get_cart_item()
 
@@ -474,15 +484,17 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				), 405 );
 			}
 
+			$maximum_quantity = ( ( $product->get_max_purchase_quantity() < 0 ) ) ? '' : $product->get_max_purchase_quantity(); // We replace -1 with a blank if stock management is not used.
+
 			/**
-			 * This filter allows control over the maximum quantity a customer is able to add said item to the cart.
+			 * Filter allows control over the maximum quantity a customer
+			 * is able to add said item to the cart.
 			 *
 			 * @since 3.1.0 Introduced.
 			 *
 			 * @param int|float  Maximum quantity to validate with.
 			 * @param WC_Product Product object.
 			 */
-			$maximum_quantity = ( ( $product->get_max_purchase_quantity() < 0 ) ) ? '' : $product->get_max_purchase_quantity(); // We replace -1 with a blank if stock management is not used.
 			$maximum_quantity = apply_filters( 'cocart_quantity_maximum_allowed', $maximum_quantity, $product );
 
 			if ( ! empty( $maximum_quantity ) && $quantity > $maximum_quantity ) {
@@ -716,6 +728,19 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				return $variation;
 			}
 
+			/**
+			 * Filters add to cart validation.
+			 *
+			 * @since 1.0.0 Introduced.
+			 *
+			 * @param bool   true          Default is true to allow the product to pass validation.
+			 * @param int    $product_id   Contains the ID of the product.
+			 * @param int    $quantity     Contains the quantity of the item.
+			 * @param int    $variation_id Used to pass the variation id of the product to add to the cart.
+			 * @param array  $variation    Contains the selected attributes.
+			 * @param object $item_data    Extra cart item data we want to pass into the item.
+			 * @param string $product_type The product type.
+			 */
 			$passed_validation = apply_filters( 'cocart_add_to_cart_validation', true, $product_id, $quantity, $variation_id, $variation, $item_data, $product_type, $request );
 
 			/**
@@ -734,6 +759,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				/**
 				 * Filters message about product failing validation.
 				 *
+				 * @since 1.0.0 Introduced.
+				 *
 				 * @param string     $message Message.
 				 * @param WC_Product $product Product data.
 				 */
@@ -742,7 +769,18 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 400 );
 			}
 
-			// Add cart item data - may be added by other plugins.
+			/**
+			 * Filter allows other plugins to add their own cart item data.
+			 *
+			 * @since 1.0.0 Introduced.
+			 *
+			 * @param array           $item_data    Extra cart item data we want to pass into the item.
+			 * @param int             $product_id   Contains the ID of the product.
+			 * @param null            $variation_id Used to pass the variation id of the product to add to the cart.
+			 * @param int|float       $quantity     Contains the quantity of the item.
+			 * @param string          $product_type The product type.
+			 * @param WP_REST_Request $request      Full details about the request.
+			 */
 			$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
 
 			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
@@ -753,6 +791,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 			/**
 			 * Filters the quantity for specified products.
+			 *
+			 * @since 1.0.0 Introduced.
 			 *
 			 * @param int|float $quantity     The original quantity of the item.
 			 * @param int       $product_id   The product ID.
@@ -1152,6 +1192,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					/**
 					 * Filters message about product not being allowed to add another.
 					 *
+					 * @since 3.0.0 Introduced.
+					 *
 					 * @param string     $message Message.
 					 * @param WC_Product $product Product data.
 					 */
@@ -1194,6 +1236,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 				/**
 				 * Filters message about product is out of stock.
+				 *
+				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string     $message Message.
 				 * @param WC_Product $product Product data.
@@ -1263,6 +1307,11 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return $request
 	 */
 	public function filter_request_data( $request ) {
+		/**
+		 * Filters additional requested data.
+		 *
+		 * @since 3.0.0 Introduced.
+		 */
 		return apply_filters( 'cocart_filter_request_data', $request );
 	} // END filter_request_data()
 
@@ -1361,13 +1410,31 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 		// Collect all cart item data if any thing is left.
 		if ( ! empty( $cart_item ) ) {
-			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $cart_item );
+			/**
+			 * Filter allows you to alter the remaining cart item data.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array  $cart_item Remaining cart item data.
+			 * @param string $item_key  Item key of the item in the cart.
+			 */
+			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
 		}
 
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
 			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
 
+			/**
+			 * Filter allows you to change the thumbnail ID of the item in cart.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param int     $thumbnail_id Thumbnail ID of the image.
+			 * @param array   $cart_item    The item in the cart containing the default cart item data.
+			 * @param string  $item_key     The item key generated based on the details of the item.
+			 * @param boolean $removed_item Determines if the item in the cart is removed.
+			 */
 			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
 
 			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
@@ -1375,7 +1442,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
 
 			/**
-			 * Filters the source of the product thumbnail.
+			 * Filters the source of the product thumbnail of the item in cart.
 			 *
 			 * @since   2.1.0 Introduced.
 			 * @version 3.0.0
@@ -1396,8 +1463,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 3.0.0 Introduced.
 	 *
 	 * @param array   $cart_contents The cart contents passed.
 	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
@@ -1442,7 +1508,17 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			} else {
 				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
 
-				// This filter allows additional data to be returned for a specific item in cart.
+				/**
+				 * Filter allows additional data to be returned for a specific item in cart.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param array           $items     Array of items in the cart.
+				 * @param string          $item_key  The item key currently looped.
+				 * @param array           $cart_item The item in the cart containing the default cart item data.
+				 * @param WC_Product      $_product  Product data.
+				 * @param WP_REST_Request $request   Full details about the request.
+				 */
 				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
 			}
 		}
