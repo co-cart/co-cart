@@ -1333,7 +1333,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 			$product_slug = $product->get_slug();
 		} else {
-			$product_slug = $product->get_slug();
+			$product_slug = $_product->get_slug();
 		}
 
 		return $product_slug;
