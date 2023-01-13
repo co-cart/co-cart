@@ -60,9 +60,12 @@ class Server {
 		// Do not cache specific routes.
 		$this->do_not_cache();
 
+		// Initialize cart.
+		$this->initialize_cart_session();
 		$this->maybe_load_cart();
-		$this->rest_api_includes();
 
+		// Register API namespaces.
+		$this->rest_api_includes();
 		$this->_namespaces = $this->get_rest_namespaces();
 
 		// Hook into WordPress ready to init the REST API as needed.
@@ -164,6 +167,39 @@ class Server {
 	} // END get_v2_controllers()
 
 	/**
+	 * Controls the hooks that should be initialized for the current cart session.
+	 *
+	 * Thanks to a PR submitted to WooCommerce we now have more control on what is
+	 * initialized for the cart session to improve performance.
+	 *
+	 * We prioritize the filter at "100" to make sure we don't interfere with
+	 * any other plugins that may have already done the same at a lower priority.
+	 *
+	 * @link https://github.com/woocommerce/woocommerce/pull/34156
+	 *
+	 * @access private
+	 *
+	 * @since 4.0.0 Introduced.
+	 */
+	private function initialize_cart_session() {
+		add_filter( 'woocommerce_cart_session_initialize', function( $must_initialize, $session ) {
+			add_action( 'wp_loaded', array( $session, 'get_cart_from_session' ) );
+			add_action( 'woocommerce_cart_emptied', array( $session, 'destroy_cart_session' ) );
+			add_action( 'woocommerce_after_calculate_totals', array( $session, 'set_session' ), 1000 );
+			add_action( 'woocommerce_cart_loaded_from_session', array( $session, 'set_session' ) );
+			add_action( 'woocommerce_removed_coupon', array( $session, 'set_session' ) );
+
+			// Persistent cart stored to usermeta.
+			add_action( 'woocommerce_add_to_cart', array( $session, 'persistent_cart_update' ) );
+			add_action( 'woocommerce_cart_item_removed', array( $session, 'persistent_cart_update' ) );
+			add_action( 'woocommerce_cart_item_restored', array( $session, 'persistent_cart_update' ) );
+			add_action( 'woocommerce_cart_item_set_quantity', array( $session, 'persistent_cart_update' ) );
+
+			return false;
+		}, 100, 2);
+	} // END initialize_cart_session()
+
+	/**
 	 * Loads the cart, session and notices should it be required.
 	 *
 	 * @access private
@@ -208,7 +244,6 @@ class Server {
 	 *
 	 * @since      2.1.0 Introduced.
 	 * @deprecated 4.0.0 No replacement.
-	 * @version    4.0.0
 	 *
 	 * @return null|boolean
 	 */
