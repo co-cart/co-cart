@@ -5,8 +5,8 @@ Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.1
 Stable tag: 3.7.9
-WC requires at least: 6.4
-WC tested up to: 7.2
+WC requires at least: 6.9
+WC tested up to: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,7 +216,7 @@ Learn more about how [Appsero collects and uses this data](https://appsero.com/p
 = Minimum Requirements =
 
 * WordPress v5.6
-* WooCommerce v6.4
+* WooCommerce v6.9
 * PHP v7.4
 
 = Recommended Requirements =
