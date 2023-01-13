@@ -1141,7 +1141,6 @@ class Handler extends Session {
 	 *
 	 * @since   2.7.2 Introduced.
 	 * @since   4.0.0 Added $cart_key parameter.
-	 * @version 4.0.0
 	 *
 	 * @param array  $data        The cart data to validate.
 	 * @param string $cart_key    The cart key.

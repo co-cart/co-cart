@@ -112,12 +112,34 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				return $quantity;
 			}
 
-			// Add to cart handlers.
+			/**
+			 * Filters the add to cart handler.
+			 *
+			 * Allows you to identify which handler to use for the product
+			 * type attempting to add to the cart using it's own validation method.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param string     $adding_to_cart_handler The product type to identify handler.
+			 * @param WC_Product $adding_to_cart         Product object.
+			 */
 			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 			if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
 				$item_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
 			} elseif ( has_filter( 'cocart_add_to_cart_handler_' . $add_to_cart_handler ) ) {
+				/**
+				 * Filter allows to use a custom add to cart handler.
+				 *
+				 * Allows you to specify the handlers validation method for
+				 * adding item to the cart.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param string          $adding_to_cart_handler The product type to identify handler.
+				 * @param WC_Product      $adding_to_cart         Product object.
+				 * @param WP_REST_Request $request                Full details about the request.
+				 */
 				$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 			} else {
 				$item_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
@@ -161,7 +183,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				cocart_add_to_cart_message( array( $item_added_to_cart['product_id'] => $item_added_to_cart['quantity'] ) );
 
 				/**
-				 * Override cart item for anything extra.
+				 * Filter overrides the cart item for anything extra.
 				 *
 				 * DEVELOPER WARNING: THIS FILTER CAN CAUSE HAVOC SO BE CAREFUL WHEN USING IT!
 				 *
@@ -170,16 +192,16 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				$item_added_to_cart = apply_filters( 'cocart_override_cart_item', $item_added_to_cart, $request );
 
 				/**
-				 * Added item to cart hook.
+				 * Fires once an item has been added to cart.
 				 *
 				 * Allows for additional requested data to be processed via a third party once item is added to the cart.
 				 *
 				 * @since 4.0.0 Introduced.
 				 *
-				 * @param WP_REST_Request $request Full details about the request.
-				 * @param object          $controller The Cart controller class.
+				 * @param WP_REST_Request $request             Full details about the request.
+				 * @param object          $controller          The Cart controller class.
 				 * @param string          $add_to_cart_handler The product type added to cart.
-				 * @param array           $item_added_to_cart The product added to cart.
+				 * @param array           $item_added_to_cart  The product added to cart.
 				 */
 				do_action( 'cocart_added_item_to_cart', $request, $controller, $add_to_cart_handler, $item_added_to_cart );
 
@@ -325,12 +347,12 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				$item_added = $controller->get_cart_item( $item_key, 'add' );
 
 				/**
-				 * Fires if item was added again to the cart but updated the quantity.
+				 * Fires if item was added again to the cart with the quantity increased.
 				 *
 				 * @since 2.1.0 Introduced.
 				 * @since 3.0.0 Added $request parameter.
 				 *
-				 * @param string $item_key Item key of the item added again.
+				 * @param string $item_key      Item key of the item added again.
 				 * @param array  $item_added    Item added to cart again.
 				 * @param int    $new_quantity  New quantity of the item.
 				 * @param array  $request       Full details about the request.
@@ -338,13 +360,13 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				do_action( 'cocart_item_added_updated_in_cart', $item_key, $item_added, $new_quantity, $request );
 			} else {
 				/**
-				 * Add item to cart without WC product validation.
+				 * Filter the item to skip product validation as it is added to cart.
 				 *
 				 * @since 3.0.0 Introduced.
 				 *
-				 * @param bool $validate_product Whether to validate the product or not.
-				 * @param array $product_data Contains the product data of the product to add to cart.
-				 * @param int $product_id Contains the id of the product to add to the cart.
+				 * @param bool  $validate_product Whether to validate the product or not.
+				 * @param array $product_data     Contains the product data of the product to add to cart.
+				 * @param int   $product_id       Contains the id of the product to add to the cart.
 				 */
 				if ( apply_filters( 'cocart_skip_woocommerce_item_validation', false, $product_data, $product_id ) ) {
 					$item_key = $controller->add_cart_item( $product_id, $quantity, $variation_id, $variation, $item_data, $product_data );
@@ -361,14 +383,14 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					$item_added = $controller->get_cart_item( $item_key, 'add' );
 
 					/**
-					 * Action hook will trigger if the item was added.
+					 * Fires if the item was added to cart.
 					 *
 					 * @since   2.1.0 Introduced.
 					 * @version 3.0.0
 					 *
-					 * @param string $item_key Item key of the item added.
-					 * @param array $item_added Item added to cart.
-					 * @param WP_REST_Request $request Full details about the request.
+					 * @param string          $item_key   Item key of the item added.
+					 * @param array           $item_added Item added to cart.
+					 * @param WP_REST_Request $request    Full details about the request.
 					 */
 					do_action( 'cocart_item_added_to_cart', $item_key, $item_added, $request );
 				} else {
@@ -386,7 +408,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 					 * Filters message about product cannot be added to cart.
 					 *
 					 * @param string     $message      Message.
-					 * @param WC_Product $product_data Product data.
+					 * @param WC_Product $product_data Product object.
 					 */
 					$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
 
@@ -473,7 +495,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @return array Item schema data.
+	 * @return array Public item schema data.
 	 */
 	public function get_public_item_schema() {
 		$controller = new CoCart_REST_Cart_v2_Controller();
@@ -555,7 +577,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		);
 
 		/**
-		 * Filter to extend the query parameters for adding item to cart.
+		 * Filters the query parameters for adding item to cart.
 		 *
 		 * This filter allows you to extend the query parameters without removing any default parameters.
 		 *

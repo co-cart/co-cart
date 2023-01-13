@@ -39,11 +39,10 @@ class CoCart_REST_Login_v2_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
+	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @since   3.1.0 Added schema information.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 * @since 3.1.0 Added schema information.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -58,7 +57,7 @@ class CoCart_REST_Login_v2_Controller {
 					'callback'            => array( $this, 'login' ),
 					'permission_callback' => array( $this, 'get_permission_callback' ),
 				),
-				'schema' => array( $this, 'get_public_object_schema' ),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			),
 		);
 	} // register_routes()
@@ -81,11 +80,10 @@ class CoCart_REST_Login_v2_Controller {
 	/**
 	 * Login user.
 	 *
-	 * @access  public
+	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @since   3.1.0 Added avatar URLS and users email address.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 * @since 3.1.0 Added avatar URLS and users email address.
 	 *
 	 * @return WP_REST_Response
 	 */
@@ -121,7 +119,7 @@ class CoCart_REST_Login_v2_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_public_object_schema() {
+	public function get_public_item_schema() {
 		return array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'CoCart - ' . __( 'Login', 'cart-rest-api-for-woocommerce' ),
@@ -165,6 +163,6 @@ class CoCart_REST_Login_v2_Controller {
 				),
 			),
 		);
-	} // END get_public_object_schema()
+	} // END get_public_item_schema()
 
 } // END class

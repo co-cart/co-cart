@@ -39,11 +39,10 @@ class CoCart_REST_Store_v2_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
+	 * @access public
 	 *
-	 * @since   3.0.0 Introduced
-	 * @since   3.1.0 Added schema information.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced
+	 * @since 3.1.0 Added schema information.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -58,7 +57,7 @@ class CoCart_REST_Store_v2_Controller {
 					'callback'            => array( $this, 'get_store' ),
 					'permission_callback' => '__return_true',
 				),
-				'schema' => array( $this, 'get_public_object_schema' ),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			),
 		);
 	} // register_routes()
@@ -68,7 +67,7 @@ class CoCart_REST_Store_v2_Controller {
 	 *
 	 * This endpoint describes the general store details.
 	 *
-	 * @access  public
+	 * @access public
 	 *
 	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
@@ -132,9 +131,8 @@ class CoCart_REST_Store_v2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @since   3.1.0 Added login, logout, cart update and product routes.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 * @since 3.1.0 Added login, logout, cart update and product routes.
 	 *
 	 * @return array
 	 */
@@ -166,18 +164,18 @@ class CoCart_REST_Store_v2_Controller {
 	} // END get_routes()
 
 	/**
-	 * Get the schema for returning the store.
+	 * Retrieves the item schema for returning the store.
 	 *
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @return array
+	 * @return array Public item schema data.
 	 */
-	public function get_public_object_schema() {
+	public function get_public_item_schema() {
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Store Information', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_store',
 			'type'       => 'object',
 			'properties' => array(
 				'version'         => array(
@@ -294,6 +292,6 @@ class CoCart_REST_Store_v2_Controller {
 		}
 
 		return $schema;
-	} // END get_public_object_schema()
+	} // END get_public_item_schema()
 
 } // END class

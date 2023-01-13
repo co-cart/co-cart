@@ -103,10 +103,32 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 			// Filters additional requested data.
 			$request = $controller->filter_request_data( $request );
 
-			// Add to cart handlers.
+			/**
+			 * Filters the add to cart handler.
+			 *
+			 * Allows you to identify which handler to use for the product
+			 * type attempting to add to the cart using it's own validation method.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param string     $adding_to_cart_handler The product type to identify handler.
+			 * @param WC_Product $adding_to_cart         Product object.
+			 */
 			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 			if ( has_filter( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler ) ) {
+				/**
+				 * Filter allows to use a custom add to cart handler.
+				 *
+				 * Allows you to specify the handlers validation method for
+				 * adding item to the cart.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param string          $adding_to_cart_handler The product type to identify handler.
+				 * @param WC_Product      $adding_to_cart         Product object.
+				 * @param WP_REST_Request $request                Full details about the request.
+				 */
 				$items_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 			} else {
 				$items_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
@@ -318,7 +340,7 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @return array Item schema data.
+	 * @return array Public item schema data.
 	 */
 	public function get_public_item_schema() {
 		$controller = new CoCart_REST_Cart_v2_Controller();

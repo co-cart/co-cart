@@ -188,7 +188,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			$cart_contents = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 			/**
-			 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
+			 * Filter allows you to modify the cart contents before it is returned.
+			 *
+			 * Useful for add-ons or 3rd party plugins.
 			 *
 			 * @since 3.0.0 Introduced.
 			 *
@@ -452,12 +454,11 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @since   3.1.0 Added product object as parameter and validation for maximum quantity allowed to add to cart.
-	 * @version 3.1.0
+	 * @since 1.0.0 Introduced.
+	 * @since 3.1.0 Added product object as parameter and validation for maximum quantity allowed to add to cart.
 	 *
 	 * @param int|float  $quantity The quantity to validate.
-	 * @param WC_Product $product Product object.
+	 * @param WC_Product $product  Product object.
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product = null ) {
 		try {
@@ -466,7 +467,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			}
 
 			/**
-			 * This filter allows control over the minimum quantity a customer must add to purchase said item.
+			 * Filter allows control over the minimum quantity a customer must add to purchase said item.
 			 *
 			 * @since 3.0.17 Introduced.
 			 * @since 3.1.0 Added product object as parameter.
@@ -523,7 +524,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @param int        $variation_id ID of the variation.
 	 * @param array      $variation    Attribute values.
-	 * @param WC_Product $product      Product data.
+	 * @param WC_Product $product      Product object.
 	 *
 	 * @return array $variation_id ID of the variation and attribute values.
 	 */
@@ -601,7 +602,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	} // END validate_variable_product()
 
 	/**
-	 * Try to match variation data to a variation ID and return the ID.
+	 * Tries to match variation attributes passed to a variation ID and return the ID.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
@@ -611,7 +612,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @version 3.0.0
 	 *
 	 * @param array      $variation Submitted attributes.
-	 * @param WC_Product $product   Product being added to the cart.
+	 * @param WC_Product $product   Product object.
 	 *
 	 * @return int $variation_id Matching variation ID.
 	 */
@@ -642,7 +643,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since   2.1.2 Introduced.
 	 * @version 3.0.0
 	 *
-	 * @param WC_Product $product Product being added to the cart.
+	 * @param WC_Product $product Product object.
 	 *
 	 * @return array $attributes Product attributes.
 	 */
@@ -672,7 +673,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access protected
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @since   3.0.0 Deprecated $variation_id param is no longer used.
+	 * @since   3.0.0 Deprecated $variation_id parameter is no longer used.
 	 * @version 3.1.0
 	 *
 	 * @param int             $product_id   Contains the ID of the product.
@@ -762,7 +763,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 * @since 1.0.0 Introduced.
 				 *
 				 * @param string     $message Message.
-				 * @param WC_Product $product Product data.
+				 * @param WC_Product $product Product object.
 				 */
 				$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
 
@@ -973,7 +974,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @deprecated 4.0.0 Replaced with a global function `cocart_format_variation_data()`
 	 *
 	 * @param array      $variation_data Array of data from the cart.
-	 * @param WC_Product $product        Product data.
+	 * @param WC_Product $product        Product object.
 	 *
 	 * @return array Formatted variation data.
 	 */
@@ -1123,7 +1124,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @param WC_Product $product Passes the product object if valid.
+	 * @param WC_Product $product Product object.
 	 *
 	 * @return WC_Product $product Returns a product object if purchasable.
 	 */
@@ -1137,7 +1138,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 * Filters message about product that cannot be added to cart.
 				 *
 				 * @param string     $message Message.
-				 * @param WC_Product $product Product data.
+				 * @param WC_Product $product Product object.
 				 */
 				$message = apply_filters( 'cocart_product_cannot_be_added_message', $message, $product );
 
@@ -1160,7 +1161,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
 	 *
-	 * @param WC_Product $product      Product object associated with the cart item.
+	 * @param WC_Product $product      Product object.
 	 * @param int|float  $quantity     The quantity to validate.
 	 * @param int        $product_id   The product ID.
 	 * @param int        $variation_id The variation ID.
@@ -1195,7 +1196,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					 * @since 3.0.0 Introduced.
 					 *
 					 * @param string     $message Message.
-					 * @param WC_Product $product Product data.
+					 * @param WC_Product $product Product object.
 					 */
 					$message = apply_filters( 'cocart_product_can_not_add_another_message', $message, $product );
 
@@ -1219,7 +1220,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
 	 *
-	 * @param WC_Product $product  Product object associated with the cart item.
+	 * @param WC_Product $product  Product object.
 	 * @param int|float  $quantity Quantity of product to validate availability.
 	 */
 	public function validate_add_to_cart( $product, $quantity ) {
@@ -1240,7 +1241,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string     $message Message.
-				 * @param WC_Product $product Product data.
+				 * @param WC_Product $product Product object.
 				 */
 				$message = apply_filters( 'cocart_product_is_out_of_stock_message', $message, $product );
 
@@ -1264,7 +1265,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 * @since 3.1.0 Introduced.
 				 *
 				 * @param string     $message        Message.
-				 * @param WC_Product $product        Product data.
+				 * @param WC_Product $product        Product object.
 				 * @param int        $stock_quantity Quantity remaining.
 				 */
 				$message = apply_filters( 'cocart_product_not_enough_stock_message', $message, $product, $stock_quantity );
@@ -1320,19 +1321,19 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @param WC_Product $object The product object.
+	 * @param WC_Product $_product Product object.
 	 *
 	 * @return string The product slug.
 	 */
-	public function get_product_slug( $object ) {
-		$product_type = $object->get_type();
+	public function get_product_slug( $_product ) {
+		$product_type = $_product->get_type();
 
 		if ( 'variation' === $product_type ) {
-			$product = wc_get_product( $object->get_parent_id() );
+			$product = wc_get_product( $_product->get_parent_id() );
 
 			$product_slug = $product->get_slug();
 		} else {
-			$product_slug = $object->get_slug();
+			$product_slug = $product->get_slug();
 		}
 
 		return $product_slug;
@@ -1346,7 +1347,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since   3.0.0 Introduced.
 	 * @version 4.0.0
 	 *
-	 * @param WC_Product $_product     The product data of the item in the cart.
+	 * @param WC_Product $_product     Product object.
 	 * @param array      $cart_item    The item in the cart containing the default cart item data.
 	 * @param string     $item_key     The item key generated based on the details of the item.
 	 * @param boolean    $show_thumb   Determines if requested to return the item featured thumbnail.
@@ -1355,7 +1356,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
-		$quantity = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item );
+		$quantity   = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item );
+		$dimensions = $_product->get_dimensions( false );
 
 		$item = array(
 			'item_key'       => $item_key,
@@ -1378,27 +1380,19 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			'meta'           => array(
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
-				'dimensions'   => array(),
+				'dimensions'   => ! empty( $dimensions ) ? array(
+					'length' => $dimensions['length'],
+					'width'  => $dimensions['width'],
+					'height' => $dimensions['height'],
+					'unit'   => get_option( 'woocommerce_dimension_unit' ),
+				) : array(),
 				'weight'       => wc_get_weight( (float) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
+				'variation'    => isset( $cart_item['variation'] ) ? cocart_format_variation_data( $cart_item['variation'], $_product ) : array(),
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
 			'featured_image' => '',
 		);
-
-		// Item dimensions.
-		$dimensions = $_product->get_dimensions( false );
-		if ( ! empty( $dimensions ) ) {
-			$item['meta']['dimensions'] = array(
-				'length' => $dimensions['length'],
-				'width'  => $dimensions['width'],
-				'height' => $dimensions['height'],
-				'unit'   => get_option( 'woocommerce_dimension_unit' ),
-			);
-		}
-
-		// Variation data.
-		$item['meta']['variation'] = isset( $cart_item['variation'] ) ? cocart_format_variation_data( $cart_item['variation'], $_product ) : array();
 
 		// Backorder notification.
 		if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
@@ -1498,7 +1492,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string     $message  Message.
-				 * @param WC_Product $_product Product data.
+				 * @param WC_Product $_product Product object.
 				 */
 				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
 
@@ -1516,7 +1510,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 * @param array           $items     Array of items in the cart.
 				 * @param string          $item_key  The item key currently looped.
 				 * @param array           $cart_item The item in the cart containing the default cart item data.
-				 * @param WC_Product      $_product  Product data.
+				 * @param WC_Product      $_product  Product object.
 				 * @param WP_REST_Request $request   Full details about the request.
 				 */
 				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
@@ -1821,7 +1815,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @param int        $variation_id   ID of the variation being added to the cart.
 	 * @param array      $variation      Attribute values.
 	 * @param array      $cart_item_data Extra cart item data we want to pass into the item.
-	 * @param WC_Product $product_data   Product data.
+	 * @param WC_Product $product_data   Product object.
 	 *
 	 * @return string|boolean $item_key Cart item key or false if error.
 	 */
@@ -1960,7 +1954,6 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access protected
 	 *
 	 * @since      3.0.3 Introduced.
-	 * @version    3.1.0
 	 * @deprecated 4.0.0 No longer used. `return_cart_contents()` function has been improved.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
@@ -2023,8 +2016,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since   3.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since      3.1.0 Introduced.
 	 * @deprecated 4.0.0 No longer used. `return_cart_contents()` function has been improved.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
@@ -2171,7 +2163,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.4 Introduced.
 	 *
-	 * @param WC_Product $product Product object associated with the cart item.
+	 * @param WC_Product $product Product object.
 	 */
 	protected function throw_product_not_purchasable( $product ) {
 		$message = sprintf(
@@ -2184,7 +2176,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 * Filters message about product unable to be purchased.
 		 *
 		 * @param string     $message Message.
-		 * @param WC_Product $product Product data.
+		 * @param WC_Product $product Product object.
 		 */
 		$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
 
@@ -2336,13 +2328,202 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	} // END get_fields_for_response()
 
 	/**
+	 * Retrieves the cart items schema properties.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return array Public cart items schema properties.
+	 */
+	public function get_public_cart_items_schema_properties() {
+		return array(
+			'item_key'       => array(
+				'description' => __( 'Unique ID of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+			'id'             => array(
+				'description' => __( 'Product ID or Variation ID of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'integer',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+			'name'           => array(
+				'description' => __( 'The name of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+			'title'          => array(
+				'description' => __( 'The title of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+			'price'          => array(
+				'description' => __( 'The price of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'float',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+			'quantity'       => array(
+				'description' => __( 'The quantity of the item in the cart and minimum and maximum purchase capability.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'object',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+				'properties'  => array(
+					'value'        => array(
+						'description' => __( 'The quantity of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'min_purchase' => array(
+						'description' => __( 'The minimum purchase amount required.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'max_purchase' => array(
+						'description' => __( 'The maximum purchase amount allowed. If -1 the item has an unlimited purchase amount.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+				),
+			),
+			'totals'         => array(
+				'description' => __( 'The totals of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'object',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+				'properties'  => array(
+					'subtotal'     => array(
+						'description' => __( 'The subtotal of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'subtotal_tax' => array(
+						'description' => __( 'The subtotal tax of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'total'        => array(
+						'description' => __( 'The total of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'total_tax'    => array(
+						'description' => __( 'The total tax of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+				),
+			),
+			'slug'           => array(
+				'description' => __( 'The product slug of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+			'meta'           => array(
+				'description' => __( 'The meta data of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'object',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+				'properties'  => array(
+					'product_type' => array(
+						'description' => __( 'The product type of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'string',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'sku'          => array(
+						'description' => __( 'The SKU of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'string',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'dimensions'   => array(
+						'description' => __( 'The dimensions of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'object',
+						'context'     => array( 'view' ),
+						'properties'  => array(
+							'length' => array(
+								'description' => __( 'The length of the item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'width'  => array(
+								'description' => __( 'The width of the item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'height' => array(
+								'description' => __( 'The height of the item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'unit'   => array(
+								'description' => __( 'The unit measurement of the item.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+						),
+					),
+					'weight'       => array(
+						'description' => __( 'The weight of the item.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'float',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'variation'    => array(
+						'description' => __( 'The variation attributes of the item (if item is a variation of a variable product).', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'object',
+						'context'     => array( 'view' ),
+						'properties'  => array(),
+					),
+				),
+			),
+			'backorders'     => array(
+				'description' => __( 'The price of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+			'cart_item_data' => array(
+				'description' => __( 'Custom item data applied to the item (if any).', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'object',
+				'context'     => array( 'view' ),
+				'properties'  => array(),
+			),
+			'featured_image' => array(
+				'description' => __( 'The featured image of the item.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'readonly'    => true,
+			),
+		);
+	} // END get_public_cart_items_schema_properties()
+
+	/**
 	 * Retrieves the item schema for returning the cart.
 	 *
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @return array
+	 * @return array Public item schema data.
 	 */
 	public function get_public_item_schema() {
 		$schema = array(
@@ -2351,13 +2532,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'cart_hash'      => array(
-					'description' => __( 'The cart hash.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'A Unique hash key of the carts contents.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_key'       => array(
-					'description' => __( 'The cart key.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The cart key identifying the cart in session.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
@@ -2563,183 +2744,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					'readonly'    => true,
 					'items'       => array(
 						'type'       => 'object',
-						'properties' => array(
-							'item_key'       => array(
-								'description' => __( 'Unique ID of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'id'             => array(
-								'description' => __( 'Product ID or Variation ID of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'integer',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'name'           => array(
-								'description' => __( 'The name of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'title'          => array(
-								'description' => __( 'The title of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'price'          => array(
-								'description' => __( 'The price of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'float',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'quantity'       => array(
-								'description' => __( 'The quantity of the item in the cart and minimum and maximum purchase capability.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'object',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-								'properties'  => array(
-									'value'        => array(
-										'description' => __( 'The quantity of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'min_purchase' => array(
-										'description' => __( 'The minimum purchase amount required.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'max_purchase' => array(
-										'description' => __( 'The maximum purchase amount allowed. If -1 the item has an unlimited purchase amount.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-								),
-							),
-							'totals'         => array(
-								'description' => __( 'The totals of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'object',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-								'properties'  => array(
-									'subtotal'     => array(
-										'description' => __( 'The subtotal of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'subtotal_tax' => array(
-										'description' => __( 'The subtotal tax of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'total'        => array(
-										'description' => __( 'The total of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'total_tax'    => array(
-										'description' => __( 'The total tax of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-								),
-							),
-							'slug'           => array(
-								'description' => __( 'The product slug of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'meta'           => array(
-								'description' => __( 'The meta data of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'object',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-								'properties'  => array(
-									'product_type' => array(
-										'description' => __( 'The product type of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'string',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'sku'          => array(
-										'description' => __( 'The SKU of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'string',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'dimensions'   => array(
-										'description' => __( 'The dimensions of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'object',
-										'context'     => array( 'view' ),
-										'properties'  => array(
-											'length' => array(
-												'description' => __( 'The length of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-											'width'  => array(
-												'description' => __( 'The width of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-											'height' => array(
-												'description' => __( 'The height of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-											'unit'   => array(
-												'description' => __( 'The unit measurement of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-										),
-									),
-									'weight'       => array(
-										'description' => __( 'The weight of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'variation'    => array(
-										'description' => __( 'The variation attributes of the item in the cart (if item is a variation of a variable product).', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'object',
-										'context'     => array( 'view' ),
-										'properties'  => array(),
-									),
-								),
-							),
-							'backorders'     => array(
-								'description' => __( 'The price of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'cart_item_data' => array(
-								'description' => __( 'Custom item data applied to the item in the cart (if any).', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'object',
-								'context'     => array( 'view' ),
-								'properties'  => array(),
-							),
-							'featured_image' => array(
-								'description' => __( 'The featured image of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-						),
+						'properties' => $this->get_public_cart_items_schema_properties(),
 					),
 				),
 				'item_count'     => array(
@@ -3070,163 +3075,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					'readonly'    => true,
 					'items'       => array(
 						'type'       => 'object',
-						'properties' => array(
-							'item_key'       => array(
-								'description' => __( 'Unique ID of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'id'             => array(
-								'description' => __( 'Product ID or Variation ID of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'integer',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'name'           => array(
-								'description' => __( 'The name of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'title'          => array(
-								'description' => __( 'The title of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'price'          => array(
-								'description' => __( 'The price of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'float',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'quantity'       => array(
-								'description' => __( 'The quantity of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'float',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'totals'         => array(
-								'description' => __( 'The totals of the item.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'object',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-								'properties'  => array(
-									'subtotal'     => array(
-										'description' => __( 'The subtotal of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'subtotal_tax' => array(
-										'description' => __( 'The subtotal tax of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'total'        => array(
-										'description' => __( 'The total of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'total_tax'    => array(
-										'description' => __( 'The total tax of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-								),
-							),
-							'slug'           => array(
-								'description' => __( 'The product slug of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'meta'           => array(
-								'description' => __( 'The meta data of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'object',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-								'properties'  => array(
-									'product_type' => array(
-										'description' => __( 'The product type of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'string',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'sku'          => array(
-										'description' => __( 'The SKU of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'string',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'dimensions'   => array(
-										'description' => __( 'The dimensions of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'object',
-										'context'     => array( 'view' ),
-										'properties'  => array(
-											'length' => array(
-												'description' => __( 'The length of the item.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-											'width'  => array(
-												'description' => __( 'The width of the item.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-											'height' => array(
-												'description' => __( 'The height of the item.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-											'unit'   => array(
-												'description' => __( 'The unit measurement of the item.', 'cart-rest-api-for-woocommerce' ),
-												'type'     => 'string',
-												'context'  => array( 'view' ),
-												'readonly' => true,
-											),
-										),
-									),
-									'weight'       => array(
-										'description' => __( 'The weight of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
-										'context'     => array( 'view' ),
-										'readonly'    => true,
-									),
-									'variation'    => array(
-										'description' => __( 'The variation attributes of the item (if item is a variation of a variable product).', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'object',
-										'context'     => array( 'view' ),
-										'properties'  => array(),
-									),
-								),
-							),
-							'backorders'     => array(
-								'description' => __( 'The price of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-							'cart_item_data' => array(
-								'description' => __( 'Custom item data applied to the item (if any).', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'object',
-								'context'     => array( 'view' ),
-								'properties'  => array(),
-							),
-							'featured_image' => array(
-								'description' => __( 'The featured image of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-								'type'        => 'string',
-								'context'     => array( 'view' ),
-								'readonly'    => true,
-							),
-						),
+						'properties' => $this->get_public_cart_items_schema_properties(),
 					),
 				),
 				'cross_sells'    => array(

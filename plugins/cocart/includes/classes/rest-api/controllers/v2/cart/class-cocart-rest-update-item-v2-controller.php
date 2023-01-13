@@ -131,7 +131,7 @@ class CoCart_REST_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 			}
 
 			/**
-			 * Update cart validation.
+			 * Filter allows you to determine if the updated item in cart passed validation.
 			 *
 			 * @since   2.1.0 Introduced.
 			 * @version 2.6.2
@@ -159,6 +159,8 @@ class CoCart_REST_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 
 				/**
 				 * Filters message about product not being allowed to increase quantity.
+				 *
+				 * @since 1.0.0 Introduced.
 				 *
 				 * @param string     $message  Message.
 				 * @param WC_Product $_product Product data.
