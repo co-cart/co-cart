@@ -244,6 +244,9 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				$attachments[ $size ] = current( wp_get_attachment_image_src( $featured_image_id, $size ) );
 			}
 
+			$date_on_sale_from = $variation->get_date_on_sale_from( 'view' );
+			$date_on_sale_to   = $variation->get_date_on_sale_to( 'view' );
+
 			$variations[] = array(
 				'id'             => $variation_id,
 				'sku'            => $variation->get_sku( 'view' ),
@@ -256,10 +259,10 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ), wc_get_price_decimals() ) : '',
 					'on_sale'       => $variation->is_on_sale( 'view' ),
 					'date_on_sale'  => array(
-						'from'     => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_from( 'view' ) ), false ),
-						'from_gmt' => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_from( 'view' ) ) ),
-						'to'       => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_to( 'view' ) ), false ),
-						'to_gmt'   => cocart_prepare_date_response( strtotime( $variation->get_date_on_sale_to( 'view' ) ) ),
+						'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
+						'from_gmt' => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ) ) : null,
+						'to'       => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ), false ) : null,
+						'to_gmt'   => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ) ) : null,
 					),
 					'currency'      => cocart_get_store_currency(),
 				),
@@ -421,6 +424,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			);
 		}
 
+		$date_created      = $product->get_date_created( 'view' );
+		$date_modified     = $product->get_date_modified( 'view' );
+		$date_on_sale_from = $product->get_date_on_sale_from( 'view' );
+		$date_on_sale_to   = $product->get_date_on_sale_to( 'view' );
+
 		$data = array(
 			'id'                 => $product->get_id(),
 			'parent_id'          => $product->get_parent_id( 'view' ),
@@ -432,10 +440,10 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			'description'        => $product->get_description( 'view' ),
 			'short_description'  => $product->get_short_description( 'view' ),
 			'dates'              => array(
-				'created'      => cocart_prepare_date_response( strtotime( $product->get_date_created( 'view' ) ), false ),
-				'created_gmt'  => cocart_prepare_date_response( strtotime( $product->get_date_created( 'view' ) ) ),
-				'modified'     => cocart_prepare_date_response( strtotime( $product->get_date_modified( 'view' ) ), false ),
-				'modified_gmt' => cocart_prepare_date_response( strtotime( $product->get_date_modified( 'view' ) ) ),
+				'created'      => cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ), false ),
+				'created_gmt'  => cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ) ),
+				'modified'     => cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ), false ),
+				'modified_gmt' => cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ) ),
 			),
 			'featured'           => $product->is_featured(),
 			'prices'             => array(
@@ -445,10 +453,10 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				'price_range'   => $this->get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
-					'from'     => cocart_prepare_date_response( strtotime( $product->get_date_on_sale_from( 'view' ) ), false ),
-					'from_gmt' => cocart_prepare_date_response( strtotime( $product->get_date_on_sale_from( 'view' ) ) ),
-					'to'       => cocart_prepare_date_response( strtotime( $product->get_date_on_sale_to( 'view' ) ), false ),
-					'to_gmt'   => cocart_prepare_date_response( strtotime( $product->get_date_on_sale_to( 'view' ) ) ),
+					'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
+					'from_gmt' => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ) ) : null,
+					'to'       => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ), false ) : null,
+					'to_gmt'   => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ) ) : null,
 				),
 				'currency'      => cocart_get_store_currency(),
 			),

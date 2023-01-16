@@ -1,15 +1,13 @@
 <?php
 /**
- * CoCart - Products controller
+ * REST API: Products v1 controller.
  *
  * Handles requests to the /products/ endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @version  3.7.5
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\RESTAPI\Products\v1
+ * @since   3.1.0
+ * @version 3.7.11
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -337,8 +335,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function prepare_objects_query( $request ) {
 		$args = array(
 			'offset'              => $request['offset'],
-			'order'               => strtoupper( $request['order'] ),
-			'orderby'             => strtolower( $request['orderby'] ),
+			'order'               => ! empty( $request['order'] ) ? strtoupper( $request['order'] ) : 'DESC',
+			'orderby'             => ! empty( $request['orderby'] ) ? strtolower( $request['orderby'] ) : get_option( 'woocommerce_default_catalog_orderby' ),
 			'paged'               => $request['page'],
 			'post__in'            => $request['include'],
 			'post__not_in'        => $request['exclude'],
@@ -616,7 +614,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		}
 
 		// Filter by Catalog Visibility
-		$catalog_visibility = $request['catalog_visibility'];
+		$catalog_visibility = $request->get_param( 'catalog_visibility' );
 		$visibility_options = wc_get_product_visibility_options();
 
 		if ( in_array( $catalog_visibility, array_keys( $visibility_options ), true ) ) {
@@ -633,9 +631,9 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		}
 
 		// Filter by Product Rating
-		$rating = ! empty( $request['rating'] ) ? $request['rating'] : array();
+		$rating = $request->get_param( 'rating' );
 
-		if ( $rating ) {
+		if ( ! empty( $rating ) ) {
 			$rating_terms = array();
 
 			foreach ( $rating as $value ) {
