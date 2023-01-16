@@ -40,7 +40,7 @@ function cocart_prepare_date_response( $date, $utc = true ) {
 		$date->setTimezone( new DateTimeZone( wc_timezone_string() ) );
 	}
 
-	if ( ! is_a( $date, 'ProductDateTime' ) ) {
+	if ( ! is_a( $date, 'CoCart\ProductsAPI\DateTime' ) ) {
 		return null;
 	}
 
