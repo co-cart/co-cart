@@ -1,5 +1,12 @@
 # Changelog for CoCart
 
+## v3.7.11 - 16th January, 2023
+
+### What's New
+
+* Improved compatibility with PHP 8.1+
+* Tested: ✔️ Compatible with WooCommerce v7.3
+
 ## v3.7.10 - 30th December, 2022
 
 ### What's New

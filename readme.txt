@@ -1,12 +1,12 @@
 === CoCart - Headless ecommerce === 
 Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31, douglasjohnson, antondrob2
-Tags: woocommerce, cart, rest-api, decoupled, headless, session, api, json, http
+Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 6.1
-Stable tag: 3.7.10
+Stable tag: 3.7.11
 WC requires at least: 4.3
-WC tested up to: 7.2
+WC tested up to: 7.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -398,6 +398,13 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.7.11 - 16th January, 2023 =
+
+### What's New
+
+* Improved compatibility with PHP 8.1+
+* Tested: ✔️ Compatible with WooCommerce v7.3
+
 = v3.7.10 - 30th December, 2022 =
 
 ### What's New
@@ -775,6 +782,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.7.10 =
+= 3.7.11 =
 
-* Fixed viewing an individual session that has coupons.
+* Improved compatibility with PHP 8.1+
