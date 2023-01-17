@@ -334,25 +334,9 @@ Save yourself 80% of a headache and hours of development time.
 
 Yes you can. Use your preferred tools and favorite modern technologies like [NextJS](https://nextjs.org/), [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Ember](https://emberjs.com/) and more giving you endless flexibility and customization. Any client that can make http requests to the REST API endpoint can be used to interact with CoCart.
 
-= Why CoCart and not WooCommerce Store API? =
+= Why use CoCart and not WooCommerce Store API? =
 
-Both API’s are unique for their individual purposes.
-
-WooCommerce's Store API is designed for their [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) which only requires a fixed format and is still prone to be used on native storefronts.
-
-It also only works with *Nonces* when you are on the site so for mobile apps or headless ecommerce, you will run into issues. It is also missing a lot of valuable information that developers require to help them.
-
-CoCart's API is designed for decoupling away from WordPress and lets you build headless ecommerce using your favorite technologies. **No Nonces, no cookies.**
-
-CoCart is packed full of powerful features that are completely customizable making it possible for businesses to build a complete custom storefront how they want.
-
-No matter the type of store you are running, CoCart helps you grow.
-
-It’s made by and for developers and immediately allows you to create sophisticated experiences fast with unlimited possibilities with it’s plug and play solution that just works out of the box.
-
-So even if you are new to building a headless ecommerce or already have a WooCommerce store and been wanting to go headless, nows the time to start.
-
-Don't take my word for it. Checkout the testimonials left by startups, freelancers, agencies and many more.
+Checkout the [comparison](https://cocart.xyz/cocart-vs-woocommerces-store-api/) for a detailed look at what CoCart can do.
 
 = Do you have a JavaScript Library? =
 
