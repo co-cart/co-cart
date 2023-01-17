@@ -75,7 +75,7 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	public function get_permissions_check( $request ) {
 		$namespace = wc_clean( wp_unslash( $request['namespace'] ) );
 
-		$extension_class  = new CoCart_Cart_Extension();
+		$extension_class  = new CoCart\RestApi\CartExtension();
 		$callback_methods = $extension_class->get_all_registered_callbacks();
 
 		try {
@@ -125,7 +125,7 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 			$namespace = wc_clean( wp_unslash( $request['namespace'] ) );
 			$callback  = null;
 
-			$extension_class  = new CoCart_Cart_Extension();
+			$extension_class  = new CoCart\RestApi\CartExtension();
 			$callback_methods = $extension_class->get_all_registered_callbacks();
 
 			$update_cart = $callback_methods[ $namespace ]->callback( $request );
