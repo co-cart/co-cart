@@ -253,9 +253,20 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		/**
 		 * Gets requested fields to return in the response.
 		 *
+		 * Note: Pre-configured fields take priority over specified fields.
+		 *
 		 * @since 4.0.0 Introduced.
 		 */
-		$fields = $this->get_fields_for_response( $request );
+		if ( ! empty( $request['config']['fields'] ) ) {
+			/**
+			 * Returns fields in the response based on the configuration requested.
+			 * They don't include any additional fields added to the cart by
+			 * extending the schema from third-party plugins.
+			 */
+			$fields = $this->get_fields_configuration( $request );
+		} else {
+			$fields = $this->get_fields_for_response( $request );
+		}
 
 		// Other Requested conditions.
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
@@ -353,7 +364,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'totals', $fields ) ) {
-			$cart['totals'] = $this->get_cart_totals( $this->get_cart_instance() );
+			$cart['totals'] = $this->get_cart_totals( $this->get_cart_instance(), $fields );
 		}
 
 		if ( rest_is_field_included( 'removed_items', $fields ) ) {
@@ -1045,12 +1056,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @param WC_Cart $cart Cart class instance.
+	 * @param WC_Cart $cart   Cart class instance.
+	 * @param array   $fields An array of requested fields for the cart response to return.
 	 *
 	 * @return array Cart totals.
 	 */
-	public function get_cart_totals( $cart ) {
-		return array(
+	public function get_cart_totals( $cart, $fields ) {
+		$totals = array(
 			'subtotal'       => $cart->get_subtotal(),
 			'subtotal_tax'   => $cart->get_subtotal_tax(),
 			'fee_total'      => $cart->get_fee_total(),
@@ -1062,6 +1074,18 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			'total'          => $cart->get_total( 'edit' ),
 			'total_tax'      => $cart->get_total_tax(),
 		);
+
+		if ( ! in_array( 'fees', $fields ) ) {
+			unset( $totals['fee_total'] );
+			unset( $totals['fee_tax'] );
+		}
+
+		if ( ! in_array( 'shipping', $fields ) ) {
+			unset( $totals['shipping_total'] );
+			unset( $totals['shipping_tax'] );
+		}
+
+		return $totals;
 	} // END get_cart_totals()
 
 	/**
@@ -2268,6 +2292,47 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$this->get_cart_instance()->calculate_shipping();
 		$this->get_cart_instance()->calculate_totals();
 	} // END calculate_totals()
+
+	/**
+	 * Returns an array of fields based on the configuration requested.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return array
+	 */
+	public function get_fields_configuration( $request ) {
+		$config = trim( $request['config']['fields'] );
+
+		switch( $config ) {
+			case 'digital':
+				$fields = array( 'currency', 'customer', 'items', 'coupons', 'needs_payment', 'taxes', 'totals', 'notices' );
+				break;
+			case 'digital_fees':
+				$fields = array( 'currency', 'customer', 'items', 'coupons', 'needs_payment', 'fees', 'taxes', 'totals', 'notices' );
+				break;
+			case 'shipping':
+				$fields = array( 'currency', 'customer', 'items', 'items_weight', 'coupons', 'needs_payment', 'needs_shipping', 'shipping', 'taxes', 'totals', 'notices' );
+				break;
+			case 'shipping_fees':
+				$fields = array( 'currency', 'customer', 'items', 'items_weight', 'coupons', 'needs_payment', 'needs_shipping', 'shipping', 'fees', 'taxes', 'totals', 'notices' );
+				break;
+			case 'removed_items':
+				$fields = array( 'currency', 'removed_items', 'notices' );
+				break;
+			case 'cross_sells':
+				$fields = array( 'currency', 'cross_sells', 'notices' );
+				break;
+			default:
+				$fields = $this->get_fields_for_response( $request );
+				break;
+		}
+
+		return $fields;
+	} // END get_fields_configuration()
 
 	/**
 	 * Gets an array of fields to be included on the response.
