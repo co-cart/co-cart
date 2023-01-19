@@ -17,7 +17,8 @@
 * Added ability to set customers billing phone number while adding item to the cart.
 * Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
 * Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
-* Added ability to filter the fields you request before they return making the response faster.
+* Added ability to filter the fields of the endpoint you request before they return, making the response faster.
+* Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
 
 ## Authentication
 
@@ -55,6 +56,8 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 * Error responses are now softer to prevent fatal networking when a request fails.
 * Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
 * Optimized products API response and updated schema.
+* All endpoints with schema now have proper schema title for proper identification.
+* The callback for cart update endpoint now passes the controller class so we don't have to call it a new.
 
 ## Security
 
@@ -165,4 +168,5 @@ As always it is best to back-up before any database changes are made. When proce
 
 ## Support
 
-No longer supporting API v1. Only bug or security fixes will be provided if any.
+* In order for CoCart to continue working you need to be using WooCommerce 6.9 minimum or higher.
+* No longer supporting CoCart API v1. Only bug or security fixes will be provided if any.
