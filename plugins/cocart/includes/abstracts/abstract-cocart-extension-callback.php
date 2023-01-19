@@ -42,9 +42,13 @@ abstract class CoCart_Cart_Extension_Callback {
 	 *
 	 * @access public
 	 *
-	 * @param WP_REST_Request $request Full details about the request.
+	 * @since 3.1.0 Introduced.
+	 * @since 4.0.0 Added the cart $controller as a parameter.
+	 *
+	 * @param WP_REST_Request $request    Full details about the request.
+	 * @param object          $controller The cart controller.
 	 */
-	public function callback( $request ) {
+	public function callback( $request, $controller ) {
 		try {
 			throw new CoCart_Data_Exception( 'cocart_no_callback_found', sprintf(
 				/* translators: %s: Class name */
