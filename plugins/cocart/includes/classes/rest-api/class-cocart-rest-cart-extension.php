@@ -52,7 +52,7 @@ class CartExtension {
 		/**
 		 * Hook: cocart_register_extension_callback.
 		 *
-		 * @param CartExtension $this Instance of the CoCart\CartExtension class which exposes the CoCart\CartExtension::register() method.
+		 * @param CartExtension $this Instance of the CoCart\RestApi\CartExtension class which exposes the CoCart\RestApi\CartExtension::register() method.
 		 */
 		do_action( 'cocart_register_extension_callback', $this );
 	} // END init()

@@ -39,7 +39,7 @@ class Callback {
 	 *
 	 * @access public
 	 *
-	 * @param CoCart_Cart_Extension $callback Instance of the CoCart_Cart_Extension class.
+	 * @param CoCart\RestApi\CartExtension $callback Instance of the CoCart\RestApi\CartExtension class.
 	 */
 	public function register_callback_update_cart( $callback ) {
 		include_once COCART_ABSPATH . 'includes/callbacks/update-cart.php';
