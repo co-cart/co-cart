@@ -56,6 +56,11 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 				foreach ( $items as $item_key => $quantity ) {
 					$cart_item = $controller->get_cart_item( $item_key, 'update' );
 
+					// If item does not exist then continue to the next item.
+					if ( empty( $cart_item ) ) {
+						continue;
+					}
+
 					$_product = $cart_item['data'];
 
 					$quantity = wc_stock_amount( preg_replace( '/[^0-9\.]/', '', $quantity ) );
