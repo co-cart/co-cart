@@ -14,31 +14,27 @@ Customizable REST API that lets you build headless ecommerce without limits powe
 
 == Description ==
 
-**Important**
-
-Updates for the CoCart plugin on WordPress.org starting on **5th October 2022** will not be getting any further major updates for a long while in order to focus on the paid CoCart Pro version of the plugin. Only minor fixes for bugs will be updated. Don't worry, you'll still be able to use this plugin forever.
-
-Also while API v1 can still be used it will no longer be supported.
-
 ### CoCart: The #1 ecommerce RESTful API built for WooCommerce that scales for headless development.
 
 Take your **WooCommerce** business to the next level with **headless ecommerce** using CoCart.
 
-[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable REST API for WooCommerce allows you to separate your CMS from your presentation layer, while developers can use the frameworks and tools they love.
+[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)'s customizable **frontend** REST API for WooCommerce allows you to separate your CMS from your presentation layer, while developers can use the frameworks and tools they love.
 
 ## 🥪 The API
 
-CoCart provides support for managing the users session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
+CoCart provides support for managing the users session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens. CoCart does not use cookies and is not restricted to using [cookie authentication](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/#cookie-authentication).
 
 CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
 
 #### 🛒 Cart API
 
-Add **simple, variable** and **grouped products** to the cart by **product ID** or **SKU ID**, update cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your **UX/UI** based on the results.
+Add **simple, simple subscription, variable, variable subscriptions** and **grouped products** to the cart either by a **product ID** or **SKU ID**. Update quantities individually or in bulk, add or update customer details and more. The flow is simple and returns an updated cart response every time with all the totals calculated. Coupon and stock checks are done automatically making it easier to simply update your **UX/UI** based on the response.
 
 #### 🛍️ Products API
 
-Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your **UX/UI** development is all provided ready for you.
+CoCart allows unauthenticated access to your store products and allows you to filter the queries by product categories, tags, attributes and more. Return even posted reviews and variations as single products.
+
+All the information you need about a product and it's conditions are provided ready to help you with your **UX/UI** development.
 
 ## Filter what you need. Get exactly that.
 
@@ -51,18 +47,18 @@ With CoCart, the client can limit the fields, asking for the exact data needed f
 * Logout the customer/user.
 * Empty the cart.
 
-As an added bonus for administrators, CoCart also provides the capabilities to:
+As an added bonus for **administrators only**, CoCart also provides the capabilities to:
 
-* Get Carts in Session.
-* Get details of a cart in session.
-* View items added in a cart in session.
-* Delete a Cart in Session.
+* Get all carts in session.
+* Get details of an individual cart in session.
+* View only items added in a cart in session.
+* Delete a cart in session.
 
 ## ✨ Features
 
 CoCart also provides built in features to:
 
-* **EXPERIMENT**: RateLimit for the API. See [Rate Limit Guide](https://github.com/co-cart/co-cart/blob/dev/docs/rate-limit-guide.md).
+* **NEW**: RateLimit for the API. See [Rate Limit Guide](https://github.com/co-cart/co-cart/blob/dev/docs/rate-limit-guide.md).
 * **NEW**: PRODUCTS API can be cached to get faster response times.
 * **NEW**: Attach customers phone number while adding an item to the cart. (Useful for abandoned cart situations.)
 * Attach customers email address while adding an item to the cart. (Useful for abandoned cart situations.)
@@ -76,7 +72,7 @@ CoCart also provides built in features to:
 * Works across multiple domains, CORS ready! **So you can have multiple frontends connected to one backend.**
 * Allows you to filter CoCart to be white-labelled.
 
-Included with these features are **over 100+ [filters](https://docs.cocart.xyz/#filters)** and **[action hooks](https://docs.cocart.xyz/#hooks)** for developers to customize API responses or change how CoCart operates with our extensive documentation.
+Included with these features are **over 100+ filters** and **action hooks** for developers to customize API responses or change how CoCart operates with our [code reference](https://coderef.cocart.dev/reference/hooks/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 ## 🧰 Tools and Libraries
 
@@ -275,7 +271,7 @@ You can find the documentation for CoCart on the [CoCart REST API Docs](https://
 
 = Can I add or change details to the responses? =
 
-You certainly can. There are over 100+ filters available to do just that. [Checkout the tweaks plugin](https://github.com/co-cart/co-cart-tweaks) to view or maybe use the examples provided. [View the documentation](https://docs.cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) for more.
+You certainly can. There are over 100+ filters and action hooks available to do just that. [Checkout the code reference](https://coderef.cocart.dev/reference/hooks/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 = Why does CoCart use a custom session handler in the first place? =
 
@@ -401,7 +397,7 @@ If you like CoCart, please take a moment to [provide a review](https://wordpress
 
 = 4.0.0 - ?? ??, 2023 =
 
-> Add changelog here one ready! Don't forget to update the release data too.
+> Add changelog here once ready! Don't forget to update the release data too.
 
 == Upgrade Notice ==
 
