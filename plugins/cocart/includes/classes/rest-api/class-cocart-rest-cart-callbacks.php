@@ -32,6 +32,7 @@ class Callback {
 	 */
 	public function __construct() {
 		add_action( 'cocart_register_extension_callback', array( $this, 'register_callback_update_cart' ) );
+		add_action( 'cocart_register_extension_callback', array( $this, 'register_callback_update_customer' ) );
 	} // END __construct()
 
 	/**
@@ -46,6 +47,21 @@ class Callback {
 
 		$callback->register( new UpdateCart() );
 	} // END register_callback_update_cart()
+
+	/**
+	 * Registers callback to update customer.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param CoCart\RestApi\CartExtension $callback Instance of the CoCart\RestApi\CartExtension class.
+	 */
+	public function register_callback_update_customer( $callback ) {
+		include_once COCART_ABSPATH . 'includes/callbacks/update-customer.php';
+
+		$callback->register( new UpdateCustomer() );
+	} // END register_callback_update_customer()
 
 } // END class
 
