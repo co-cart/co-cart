@@ -14,6 +14,7 @@
 * Added package information of each plugin module to WooCommerce System Status.
 * New WP-CLI command `wp cocart status` shows the status of carts in session.
 * Enhancements made to [authentication](#authentication).
+* Finally added the ability to add/update customer details to the cart with validation. [See guide for example](#).
 * Added ability to set customers billing phone number while adding item to the cart.
 * Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
 * Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
