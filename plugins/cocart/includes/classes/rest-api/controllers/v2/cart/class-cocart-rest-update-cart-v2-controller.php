@@ -128,7 +128,7 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 			$extension_class  = new CoCart\RestApi\CartExtension();
 			$callback_methods = $extension_class->get_all_registered_callbacks();
 
-			$update_cart = $callback_methods[ $namespace ]->callback( $request );
+			$update_cart = $callback_methods[ $namespace ]->callback( $request, $this );
 
 			// Proceed with requested callback.
 			if ( is_callable( array( $callback_methods[ $namespace ], 'callback' ) ) ) {
