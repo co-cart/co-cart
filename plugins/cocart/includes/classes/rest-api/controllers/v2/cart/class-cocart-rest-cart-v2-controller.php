@@ -1212,7 +1212,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 				if ( $found_in_cart ) {
 					/* translators: %s: Product Name */
-					$message = sprintf( __( 'You cannot add another "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product->get_name() );
+					$message = sprintf( __( "You cannot add another '%s' to your cart.", "cart-rest-api-for-woocommerce" ), $product->get_name() );
 
 					/**
 					 * Filters message about product not being allowed to add another.
@@ -1256,8 +1256,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 			// Stock check - only check if we're managing stock and backorders are not allowed.
 			if ( ! $product->is_in_stock() ) {
-				/* translators: 1: Product name */
-				$message = sprintf( __( 'You cannot add "%1$s" to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product->get_name() );
+				/* translators: %s: Product name */
+				$message = sprintf( __( 'You cannot add "%s" to the cart because the product is out of stock.', 'cart-rest-api-for-woocommerce' ), $product->get_name() );
 
 				/**
 				 * Filters message about product is out of stock.
@@ -2192,7 +2192,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	protected function throw_product_not_purchasable( $product ) {
 		$message = sprintf(
 			/* translators: %s: product name */
-			__( '"%s" is not available for purchase.', 'cart-rest-api-for-woocommerce' ),
+			__( "'%s' is not available for purchase.", "cart-rest-api-for-woocommerce" ),
 			$product->get_name()
 		);
 
