@@ -45,6 +45,8 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 	 *
 	 * @param WP_REST_Request $request    Full details about the request.
 	 * @param object          $controller The cart controller.
+	 *
+	 * @return bool Returns true.
 	 */
 	public function callback( $request, $controller ) {
 		try {

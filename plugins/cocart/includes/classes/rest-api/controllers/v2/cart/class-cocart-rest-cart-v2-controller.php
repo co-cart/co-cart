@@ -1212,7 +1212,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 				if ( $found_in_cart ) {
 					/* translators: %s: Product Name */
-					$message = sprintf( __( "You cannot add another '%s' to your cart.", "cart-rest-api-for-woocommerce" ), $product->get_name() );
+					$message = sprintf( __( "You cannot add another '%s' to your cart.", 'cart-rest-api-for-woocommerce' ), $product->get_name() );
 
 					/**
 					 * Filters message about product not being allowed to add another.
@@ -1901,7 +1901,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
 	 *
-	 * @param string      $fields The customer fields to return.
+	 * @param string      $fields   The customer fields to return.
 	 * @param WC_Customer $customer The customer object or ID.
 	 *
 	 * @return array Returns the customer details based on the field requested.
@@ -2192,7 +2192,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	protected function throw_product_not_purchasable( $product ) {
 		$message = sprintf(
 			/* translators: %s: product name */
-			__( "'%s' is not available for purchase.", "cart-rest-api-for-woocommerce" ),
+			__( "'%s' is not available for purchase.", 'cart-rest-api-for-woocommerce' ),
 			$product->get_name()
 		);
 
@@ -2307,7 +2307,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	public function get_fields_configuration( $request ) {
 		$config = trim( $request['config']['fields'] );
 
-		switch( $config ) {
+		switch ( $config ) {
 			case 'digital':
 				$fields = array( 'currency', 'customer', 'items', 'coupons', 'needs_payment', 'taxes', 'totals', 'notices' );
 				break;

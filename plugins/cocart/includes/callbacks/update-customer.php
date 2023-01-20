@@ -85,40 +85,40 @@ class UpdateCustomer extends Abstracts\CoCart_Cart_Extension_Callback {
 				'city',
 				'state',
 				'country',
-				'postcode'
+				'postcode',
 			);
 
 			// Get current details of the customer if any.
 			$customer = $controller->get_cart_instance()->get_customer();
 
-			foreach( $fields as $key ) {
+			foreach ( $fields as $key ) {
 				in_array( $key, $params ) ? $billing_details[ 'billing_' . $key ] = wc_clean( wp_unslash( $request[ $key ] ) ) : '';
 
-				if ( 'email' === $key && ! empty( $billing_details[ 'billing_email' ] ) ) {
-					if ( ! \WC_Validation::is_email( $billing_details[ 'billing_email' ] ) ) {
-						unset( $billing_details[ 'billing_email' ] );
-						$billing_details[ 'billing_email' ] = $customer->get_billing_email();
+				if ( 'email' === $key && ! empty( $billing_details['billing_email'] ) ) {
+					if ( ! \WC_Validation::is_email( $billing_details['billing_email'] ) ) {
+						unset( $billing_details['billing_email'] );
+						$billing_details['billing_email'] = $customer->get_billing_email();
 					}
 				}
 
-				if ( 'phone' === $key && ! empty( $billing_details[ 'billing_phone' ] ) ) {
-					if ( ! \WC_Validation::is_phone( $billing_details[ 'billing_phone' ] ) ) {
-						unset( $billing_details[ 'billing_phone' ] );
-						$billing_details[ 'billing_phone' ] = $customer->get_billing_phone();
+				if ( 'phone' === $key && ! empty( $billing_details['billing_phone'] ) ) {
+					if ( ! \WC_Validation::is_phone( $billing_details['billing_phone'] ) ) {
+						unset( $billing_details['billing_phone'] );
+						$billing_details['billing_phone'] = $customer->get_billing_phone();
 					}
 				}
 
-				if ( 'country' === $key && ! empty( $billing_details[ 'billing_country' ] ) ) {
+				if ( 'country' === $key && ! empty( $billing_details['billing_country'] ) ) {
 					if ( ! $this->validate_country( $request ) ) {
-						unset( $billing_details[ 'billing_country' ] );
-						$billing_details[ 'billing_country' ] = $customer->get_billing_country();
+						unset( $billing_details['billing_country'] );
+						$billing_details['billing_country'] = $customer->get_billing_country();
 					}
 				}
 
-				if ( 'postcode' === $key && ! empty( $billing_details[ 'billing_postcode' ] ) ) {
+				if ( 'postcode' === $key && ! empty( $billing_details['billing_postcode'] ) ) {
 					if ( ! $this->validate_postcode( $request ) ) {
-						unset( $billing_details[ 'billing_postcode' ] );
-						$billing_details[ 'billing_postcode' ] = $customer->get_billing_postcode();
+						unset( $billing_details['billing_postcode'] );
+						$billing_details['billing_postcode'] = $customer->get_billing_postcode();
 					}
 				}
 
@@ -127,24 +127,24 @@ class UpdateCustomer extends Abstracts\CoCart_Cart_Extension_Callback {
 				} else {
 					in_array( $key, $params ) ? $shipping_details[ 'shipping_' . $key ] = wc_clean( wp_unslash( $request[ 's_' . $key ] ) ) : '';
 
-					if ( 'country' === $key && ! empty( $shipping_details[ 'shipping_country' ] ) ) {
+					if ( 'country' === $key && ! empty( $shipping_details['shipping_country'] ) ) {
 						if ( ! $this->validate_country( $request, 'shipping' ) ) {
-							unset( $shipping_details[ 'shipping_country' ] );
-							$shipping_details[ 'shipping_country' ] = $customer->get_shipping_country();
+							unset( $shipping_details['shipping_country'] );
+							$shipping_details['shipping_country'] = $customer->get_shipping_country();
 						}
 					}
 
-					if ( 'postcode' === $key && ! empty( $shipping_details[ 'shipping_postcode' ] ) ) {
+					if ( 'postcode' === $key && ! empty( $shipping_details['shipping_postcode'] ) ) {
 						if ( ! $this->validate_postcode( $request, 'shipping' ) ) {
-							unset( $shipping_details[ 'shipping_postcode' ] );
-							$shipping_details[ 'shipping_postcode' ] = $customer->get_shipping_postcode();
+							unset( $shipping_details['shipping_postcode'] );
+							$shipping_details['shipping_postcode'] = $customer->get_shipping_postcode();
 						}
 					}
 
-					if ( 'phone' === $key && ! empty( $shipping_details[ 'shipping_phone' ] ) ) {
-						if ( ! \WC_Validation::is_phone( $shipping_details[ 'shipping_phone' ] ) ) {
-							unset( $shipping_details[ 'shipping_phone' ] );
-							$shipping_details[ 'shipping_phone' ] = $customer->get_shipping_phone();
+					if ( 'phone' === $key && ! empty( $shipping_details['shipping_phone'] ) ) {
+						if ( ! \WC_Validation::is_phone( $shipping_details['shipping_phone'] ) ) {
+							unset( $shipping_details['shipping_phone'] );
+							$shipping_details['shipping_phone'] = $customer->get_shipping_phone();
 						}
 					}
 				}
@@ -152,11 +152,9 @@ class UpdateCustomer extends Abstracts\CoCart_Cart_Extension_Callback {
 
 			if ( ! empty( $billing_details ) && ! empty( $shipping_details ) ) {
 				$details = array_merge( $billing_details, $shipping_details );
-			}
-			else if ( ! empty( $billing_details ) ) {
+			} elseif ( ! empty( $billing_details ) ) {
 				$details = $billing_details;
-			}
-			else if ( ! empty( $shipping_details ) ) {
+			} elseif ( ! empty( $shipping_details ) ) {
 				$details = $shipping_details;
 			}
 
@@ -182,13 +180,13 @@ class UpdateCustomer extends Abstracts\CoCart_Cart_Extension_Callback {
 	protected function validate_country( $request, $fieldset_key = 'billing' ) {
 		switch ( $fieldset_key ) {
 			case 'shipping':
-				$country  = isset( $request[ 's_country' ] ) ? $request[ 's_country' ] : '';
+				$country  = isset( $request['s_country'] ) ? $request['s_country'] : '';
 				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
 				$fieldset = esc_html__( 'Shipping', 'cart-rest-api-for-woocommerce' );
 				break;
 			case 'billing':
 			default:
-				$country  = isset( $request[ 'country' ] ) ? $request[ 'country' ] : '';
+				$country  = isset( $request['country'] ) ? $request['country'] : '';
 				$fieldset = esc_html__( 'Billing', 'cart-rest-api-for-woocommerce' );
 				break;
 		}
@@ -229,15 +227,15 @@ class UpdateCustomer extends Abstracts\CoCart_Cart_Extension_Callback {
 	protected function validate_postcode( $request, $fieldset_key = 'billing' ) {
 		switch ( $fieldset_key ) {
 			case 'shipping':
-				$country    = isset( $request[ 's_country' ] ) ? $request[ 's_country' ] : '';
+				$country    = isset( $request['s_country'] ) ? $request['s_country'] : '';
 				$country    = empty( $country ) ? \WC()->countries->get_base_country() : $country;
-				$postcode   = wc_format_postcode( $request[ 's_postcode' ], $country );
+				$postcode   = wc_format_postcode( $request['s_postcode'], $country );
 				$field_name = esc_html__( 'Shipping postcode', 'cart-rest-api-for-woocommerce' );
 				break;
 			case 'billing':
 			default:
-				$country    = isset( $request[ 'country' ] ) ? $request[ 'country' ] : '';
-				$postcode   = wc_format_postcode( $request[ 'postcode' ], $country );
+				$country    = isset( $request['country'] ) ? $request['country'] : '';
+				$postcode   = wc_format_postcode( $request['postcode'], $country );
 				$field_name = esc_html__( 'Billing postcode', 'cart-rest-api-for-woocommerce' );
 				break;
 		}

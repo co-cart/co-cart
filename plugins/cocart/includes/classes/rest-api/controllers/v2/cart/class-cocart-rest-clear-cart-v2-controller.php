@@ -78,6 +78,11 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 			// We need the cart key to force a session save later.
 			$cart_key = WC()->session->get_customer_unique_id();
 
+			/**
+			 * Triggers before the cart emptied.
+			 *
+			 * @since 1.0.0 Introduced.
+			 */
 			do_action( 'cocart_before_cart_emptied' );
 
 			// Clear all cart fees via session as we cant do it via the fee api.
@@ -123,6 +128,11 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 				delete_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id() );
 			}
 
+			/**
+			 * Triggers as the cart is emptied.
+			 *
+			 * @since 1.0.0 Introduced.
+			 */
 			do_action( 'cocart_cart_emptied' );
 
 			/**
@@ -133,14 +143,21 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 			WC()->session->update_cart( $cart_key );
 
 			if ( WC()->cart->is_empty() ) {
+				/**
+				 * Triggers once the cart is cleared.
+				 *
+				 * @since 1.0.0 Introduced.
+				 */
 				do_action( 'cocart_cart_cleared' );
 
+				// Notice message.
 				$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
 
 				/**
 				 * Filters message about the cart being cleared.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_cart_cleared_message', $message );
@@ -154,12 +171,14 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			} else {
+				// Notice message.
 				$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
 
 				/**
 				 * Filters message about the cart failing to clear.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_clear_cart_failed_message', $message );

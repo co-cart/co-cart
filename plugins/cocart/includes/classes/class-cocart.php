@@ -44,7 +44,7 @@ final class Core {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @var    string
+	 * @var string
 	 */
 	public static $db_version = '4.0.0';
 
@@ -115,7 +115,7 @@ final class Core {
 		add_action( 'init', array( __CLASS__, 'load_rest_api' ) );
 
 		/**
-		 * Initialize after CoCart has loaded.
+		 * Fires once CoCart has finished loading.
 		 *
 		 * @since 1.0.0 Introduced.
 		 */
@@ -229,7 +229,6 @@ final class Core {
 		include_once COCART_ABSPATH . 'includes/cocart-core-functions.php';
 		include_once COCART_ABSPATH . 'includes/cocart-deprecated-functions.php';
 		include_once COCART_ABSPATH . 'includes/cocart-formatting-functions.php';
-		// include_once COCART_ABSPATH . 'includes/cocart-register-functions.php';
 
 		// Core classes.
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-authentication.php';
@@ -281,9 +280,8 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @since   3.7.0 Added skip check parameter. Default is false.
-	 * @version 3.7.2
+	 * @since 3.0.0 Introduced.
+	 * @since 3.7.0 Added skip check parameter. Default is false.
 	 *
 	 * @param bool $skip_check Whether to skip the activation check. Default is false.
 	 */
@@ -302,8 +300,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since   2.6.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.6.0 Introduced.
 	 */
 	public static function activation_check() {
 		if ( ! Help::is_environment_compatible( self::$required_php ) ) {
@@ -343,8 +340,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since   2.6.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.6.0 Introduced.
 	 */
 	public static function load_rest_api() {
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-cache.php';
@@ -364,8 +360,8 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.2 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.2 Introduced.
+	 * @since 4.0.0 Added session upgrade check to determine the type of session handler to use.
 	 *
 	 * @param string $handler WooCommerce Session Handler.
 	 *
@@ -412,8 +408,7 @@ final class Core {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.2 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.2 Introduced.
 	 *
 	 * @return void
 	 */
