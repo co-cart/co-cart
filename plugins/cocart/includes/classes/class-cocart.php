@@ -70,7 +70,7 @@ final class Core {
 	 *
 	 * @var string
 	 */
-	public static $required_woo = '6.4';
+	public static $required_woo = '6.9';
 
 	/**
 	 * Required PHP Version
