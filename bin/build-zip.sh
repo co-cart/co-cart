@@ -2,7 +2,7 @@
 
 PLUGIN_SLUG="cocart"
 PROJECT_PATH=$(pwd)
-BUILD_PATH="${PROJECT_PATH}/build"
+BUILD_PATH="${PROJECT_PATH}/plugins"
 DEST_PATH="$BUILD_PATH/$PLUGIN_SLUG"
 
 echo "Generating build directory..."
