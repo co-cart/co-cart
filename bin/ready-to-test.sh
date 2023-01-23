@@ -12,7 +12,7 @@
 # 6 - cian
 # 7 - white
 output() {
-	echo "$(tput setaf "$1")$2$(tput sgr0)"
+	echo "$(tput -T xterm setaf "$1")$2$(tput -T xterm sgr0)"
 }
 
 # Checks if the packages folder exist and is not empty.
