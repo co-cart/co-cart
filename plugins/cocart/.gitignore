@@ -11,7 +11,6 @@
 !/packages/README.md
 
 # Various file types to ignore when exporting.
-*.sh
 .gitconfig
 *.zip
 *.yml

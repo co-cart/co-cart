@@ -43,7 +43,6 @@ contributors.html
 !.gitkeep
 
 # Various file types to ignore when exporting.
-*.sh
 .gitconfig
 *.zip
 *.yml
