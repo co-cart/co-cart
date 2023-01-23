@@ -24,7 +24,7 @@ jobs:
           ref: ${{ matrix.build }}
 
       - name: Build zip
-        working-directory: plugins/cocart
+        working-directory: 
         run: bash bin/build-zip.sh
 
       - name: Deploy nightly build
