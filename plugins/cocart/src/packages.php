@@ -172,7 +172,7 @@ class Packages {
 					/* Translators: %s package name. */
 					__( 'Your missing the following CoCart packages: %s', 'cart-rest-api-for-woocommerce' ),
 					'<code>' . $packages . '</code>'
-				) . ' - ' . esc_html__( 'Your installation of CoCart is incomplete from GitHub, please refer to this document to config your packages: #LINK GOES HERE#', 'cart-rest-api-for-woocommerce' )
+				) . ' - ' . esc_html__( 'Your installation of CoCart is incomplete. If you installed CoCart from GitHub, please refer to this document to config your packages: https://github.com/co-cart/co-cart#quick-start', 'cart-rest-api-for-woocommerce' )
 			);
 		}
 		add_action(
@@ -194,8 +194,8 @@ class Packages {
 						<?php
 						printf(
 							/* translators: 1: is a link to a support document. 2: closing link */
-							esc_html__( 'Your installation of CoCart is incomplete from GitHub, %1$splease refer to this document%2$s to config your packages.', 'cart-rest-api-for-woocommerce' ),
-							'<a href="' . esc_url( '#' ) . '" target="_blank" rel="noopener noreferrer">',
+							esc_html__( 'Your installation of CoCart is incomplete. If you installed CoCart from GitHub, %1$splease refer to this document%2$s to config your packages.', 'cart-rest-api-for-woocommerce' ),
+							'<a href="' . esc_url( 'https://github.com/co-cart/co-cart#quick-start' ) . '" target="_blank" rel="noopener noreferrer">',
 							'</a>'
 						);
 						?>
