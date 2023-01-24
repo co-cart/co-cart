@@ -211,6 +211,7 @@ class WooCommerce {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Changed to delete based on `cart_user_id` instead of `cart_key`.
 	 *
 	 * @param int $user_id User ID being deleted.
 	 *
@@ -223,7 +224,7 @@ class WooCommerce {
 		$wpdb->delete(
 			$wpdb->prefix . 'cocart_carts',
 			array(
-				'cart_key' => $user_id,
+				'cart_user_id' => $user_id,
 			)
 		);
 	} // END delete_user_data()
