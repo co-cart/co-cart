@@ -24,44 +24,44 @@ composer install
 
 output 3 "Cleaning up packages..."
 
-rsync -rc --exclude-from="$DEST_PATH/.distignore" "$PROJECT_PATH/" "$DEST_PATH/" --delete --delete-excluded
+#rsync -rc --exclude-from="$DEST_PATH/.distignore" "$PROJECT_PATH/" "$DEST_PATH/" --delete --delete-excluded
 
 # Remove dependencies from packages.
-#find "$DEST_PATH"/packages -name ".distignore" -type f -delete
-#find "$DEST_PATH"/packages -name ".editorconfig" -type f -delete
-#find "$DEST_PATH"/packages -name ".gitattributes" -type f -delete
-#find "$DEST_PATH"/packages -name ".gitignore" -type f -delete
-#find "$DEST_PATH"/packages -name ".stylelintrc" -type f -delete
-#find "$DEST_PATH"/packages -name ".stylelintignore" -type f -delete
-#find "$DEST_PATH"/packages -name "Gruntfile.js" -type f -delete
-#find "$DEST_PATH"/packages -name "package.json" -type f -delete
-#find "$DEST_PATH"/packages -name "package-lock.json" -type f -delete
-#find "$DEST_PATH"/packages -name "phpcs.xml" -type f -delete
-#find "$DEST_PATH"/packages -name "phpunit.xml" -type f -delete
-#find "$DEST_PATH"/packages -name "composer.json" -type f -delete
-#find "$DEST_PATH"/packages -name "composer.lock" -type f -delete
-#find "$DEST_PATH"/packages -name "renovate.json" -type f -delete
+find "$DEST_PATH"/packages -name ".distignore" -type f -delete
+find "$DEST_PATH"/packages -name ".editorconfig" -type f -delete
+find "$DEST_PATH"/packages -name ".gitattributes" -type f -delete
+find "$DEST_PATH"/packages -name ".gitignore" -type f -delete
+find "$DEST_PATH"/packages -name ".stylelintrc" -type f -delete
+find "$DEST_PATH"/packages -name ".stylelintignore" -type f -delete
+find "$DEST_PATH"/packages -name "Gruntfile.js" -type f -delete
+find "$DEST_PATH"/packages -name "package.json" -type f -delete
+find "$DEST_PATH"/packages -name "package-lock.json" -type f -delete
+find "$DEST_PATH"/packages -name "phpcs.xml" -type f -delete
+find "$DEST_PATH"/packages -name "phpunit.xml" -type f -delete
+find "$DEST_PATH"/packages -name "composer.json" -type f -delete
+find "$DEST_PATH"/packages -name "composer.lock" -type f -delete
+find "$DEST_PATH"/packages -name "renovate.json" -type f -delete
 
 # Remove Source files
-#find "$DEST_PATH"/packages -name "src" -type d -exec rm -rf {} +
+find "$DEST_PATH"/packages -name "src" -type d -exec rm -rf {} +
 
 # Remove POT files
-#find "$DEST_PATH"/packages -name "languages" -type d -exec rm -rf {} +
+find "$DEST_PATH"/packages -name "languages" -type d -exec rm -rf {} +
 
 # Remove licence files
-#find "$DEST_PATH"/packages -name "LICENSE.*" -type f -delete
-#find "$DEST_PATH"/packages -name "license.*" -type f -delete
+find "$DEST_PATH"/packages -name "LICENSE.*" -type f -delete
+find "$DEST_PATH"/packages -name "license.*" -type f -delete
 
 # Remove readme files
-#find "$DEST_PATH"/packages -name "README.md" -type f -delete
-#find "$DEST_PATH"/packages -name "readme.txt" -type f -delete
+find "$DEST_PATH"/packages -name "README.md" -type f -delete
+find "$DEST_PATH"/packages -name "readme.txt" -type f -delete
 
 # Remove uninstall files
-#find "$DEST_PATH"/packages -name "uninstall.php" -type f -delete
+find "$DEST_PATH"/packages -name "uninstall.php" -type f -delete
 
 # Remove remaining files
-#find "$DEST_PATH" -name ".git" -type d -exec rm -rf {} +
-#find "$DEST_PATH" -name "README.md" -type f -delete
+find "$DEST_PATH" -name ".git" -type d -exec rm -rf {} +
+find "$DEST_PATH" -name "README.md" -type f -delete
 
 output 2 "Package cleaning complete!"
 
@@ -78,10 +78,6 @@ cd "$BUILD_PATH" || exit
 zip -q -r "${PLUGIN_SLUG}.zip" "$PLUGIN_SLUG/" || output 5 "Unable to generate zip file!" exit
 
 cd "$PROJECT_PATH" || exit
-if [ mv "$BUILD_PATH/${PLUGIN_SLUG}.zip" "$PROJECT_PATH" ]; then
-	output 3 "${PLUGIN_SLUG}.zip file generated!"
-else
-	output 4 "Unable to move zip file!"
-fi
+output 3 "${PLUGIN_SLUG}.zip file generated!"
 
 output 2 "Build done!"
