@@ -1,8 +1,7 @@
 name: Nightly builds
 on:
   schedule:
-    #- cron: '0 0 * * *' # Run at 12 AM UTC.
-    - cron: '5/5 * * * *'
+    - cron: '0 21 * * *' # Run at 9 PM UTC.
   workflow_dispatch:
 
 permissions: {}
