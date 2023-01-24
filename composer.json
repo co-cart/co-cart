@@ -93,10 +93,10 @@
 		"phpcbf": [
 			"phpcbf . -p"
 		],
-		"post-install-cmd": [
+		"install-cocart": [
 			"sh ./bin/package-update.sh"
 		],
-		"post-update-cmd": [
+		"update-cocart": [
 			"sh ./bin/package-update.sh"
 		],
 		"ready-build": [
