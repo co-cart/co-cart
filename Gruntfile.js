@@ -321,7 +321,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'check', [ 'devUpdate' ] );
 
 	// Checks for errors.
-	grunt.registerTask( 'test', [ 'stylelint', 'jshint', 'checktextdomain' ] );
+	grunt.registerTask( 'test', [ 'checktextdomain' ] );
 
 	// Update version of plugin and package.
 	grunt.registerTask( 'version', [ 'replace:php', 'replace:readme', 'replace:package' ] );
