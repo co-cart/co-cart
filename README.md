@@ -26,7 +26,9 @@
 
 ⚠️ This is the development branch for future version of CoCart. For current stable branch [browse trunk](https://github.com/co-cart/co-cart/tree/trunk). ⚠️
 
-Welcome to the CoCart repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
+Welcome to the CoCart repository on GitHub. Here you can browse the source of the plugin and packages used in the development of the core of CoCart plugin. You can [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue), contribute code and keep track of ongoing development.
+
+We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)
 
@@ -75,6 +77,8 @@ composer update
 composer ready-build
 ```
 
+This will pull the `master` branch of each package which is the development branch unless a tag is specified instead.
+
 ## External Packages
 
 [Are you looking to build your own package?](https://github.com/co-cart/co-cart/blob/dev/plugins/cocart/packages/README.md)
@@ -97,6 +101,8 @@ This repository is not suitable for support. Please don't use our issue tracker 
 
 * [Our community forum on wp.org](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/) which is available for all CoCart users.
 * [Our community Slack chat room](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) on the **#support** channel.
+* [Our community group on Facebook](https://www.facebook.com/groups/cocart/)
+* [Our community on Reddit](https://www.reddit.com/r/cocartheadless/)
 
 Support requests in issues on this repository will be closed on sight.
 
