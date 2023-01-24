@@ -15,8 +15,8 @@ output() {
 	echo "$(tput setaf "$1")$2$(tput sgr0)"
 }
 
-# Checks if the packages folder exist and is not empty.
-if [ -z "$(ls -A "plugins/cocart/packages/")" ]; then
+# Checks if the "packages" folder exists.
+if [ -z "$(ls -la "plugins/cocart/packages/")" ]; then
 	output 1 "./plugins/cocart/packages doesn't exist or empty!"
 	output 1 "run \"composer install\" before proceed."
 	exit;
@@ -62,7 +62,7 @@ find ./plugins/cocart-ref -name "uninstall.php" -type f -delete
 find ./plugins/cocart-ref/includes/classes -name "class-cocart-autoloader.php" -type f -delete
 find ./plugins/cocart-ref/includes/classes -name "class-cocart-cli.php" -type f -delete
 find ./plugins/cocart-ref/includes/classes -name "class-cocart-install.php" -type f -delete
-find ./plugins/cocart-ref/includes/classes -name "class-cocart.php" -type f -delete
+#find ./plugins/cocart-ref/includes/classes -name "class-cocart.php" -type f -delete
 find ./plugins/cocart-ref/includes -name "cocart-background-functions.php" -type f -delete
 find ./plugins/cocart-ref/includes -name "cocart-task-functions.php" -type f -delete
 find ./plugins/cocart-ref/includes -name "cocart-update-functions.php" -type f -delete

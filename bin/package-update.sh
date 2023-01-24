@@ -15,8 +15,8 @@ output() {
 	echo "$(tput -T xterm setaf "$1")$2$(tput -T xterm sgr0)"
 }
 
-# Checks if the packages folder exist and is not empty.
-if [ -z "$(ls -A "plugins/cocart/packages/")" ]; then
+# Checks if the "packages" folder exists.
+if [ -z "$(ls -la "plugins/cocart/packages/")" ]; then
 	output 1 "./plugins/cocart/packages doesn't exist or empty!"
 	output 1 "run \"composer install\" before proceed."
 fi
