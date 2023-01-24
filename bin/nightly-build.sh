@@ -26,7 +26,6 @@ output 3 "Cleaning up packages..."
 
 #rsync -rc --exclude-from="$DEST_PATH/.distignore" "$PROJECT_PATH/" "$DEST_PATH/" --delete --delete-excluded
 
-# Remove dependencies from packages.
 find "$DEST_PATH"/packages -name ".distignore" -type f -delete
 find "$DEST_PATH"/packages -name ".editorconfig" -type f -delete
 find "$DEST_PATH"/packages -name ".gitattributes" -type f -delete
@@ -41,25 +40,14 @@ find "$DEST_PATH"/packages -name "phpunit.xml" -type f -delete
 find "$DEST_PATH"/packages -name "composer.json" -type f -delete
 find "$DEST_PATH"/packages -name "composer.lock" -type f -delete
 find "$DEST_PATH"/packages -name "renovate.json" -type f -delete
-
-# Remove Source files
 find "$DEST_PATH"/packages -name "src" -type d -exec rm -rf {} +
-
-# Remove POT files
 find "$DEST_PATH"/packages -name "languages" -type d -exec rm -rf {} +
-
-# Remove licence files
 find "$DEST_PATH"/packages -name "LICENSE.*" -type f -delete
 find "$DEST_PATH"/packages -name "license.*" -type f -delete
-
-# Remove readme files
 find "$DEST_PATH"/packages -name "README.md" -type f -delete
 find "$DEST_PATH"/packages -name "readme.txt" -type f -delete
-
-# Remove uninstall files
 find "$DEST_PATH"/packages -name "uninstall.php" -type f -delete
-
-# Remove remaining files
+find "$DEST_PATH" -name ".github" -type d -exec rm -rf {} +
 find "$DEST_PATH" -name ".git" -type d -exec rm -rf {} +
 find "$DEST_PATH" -name "README.md" -type f -delete
 
@@ -70,6 +58,11 @@ cd "$DEST_PATH"
 composer install
 composer dump-autoload
 output 2 "Autoloader classmap ready!"
+
+# Remove remaining files
+find "$DEST_PATH" -name ".distignore" -type f -delete
+find "$DEST_PATH" -name ".gitignore" -type f -delete
+find "$DEST_PATH" -name "composer.json" -type f -delete
 
 cd -
 
