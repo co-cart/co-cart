@@ -163,7 +163,7 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 				$message = apply_filters( 'cocart_cart_cleared_message', $message );
 
 				// Add notice.
-				wc_add_notice( $message );
+				wc_add_notice( $message, 'notice' );
 
 				// Return cart response.
 				$controller = new CoCart_REST_Cart_v2_Controller();
