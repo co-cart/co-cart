@@ -356,9 +356,8 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @since   4.0.0 Added phone number parameter.
-	 * @version 4.0.0
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added phone number parameter.
 	 *
 	 * @return array $params Query parameters for the endpoint.
 	 */

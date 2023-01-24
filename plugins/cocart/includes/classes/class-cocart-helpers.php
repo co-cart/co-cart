@@ -533,9 +533,8 @@ class Help {
 	 *
 	 * @static
 	 *
-	 * @since   3.0.3 Introduced.
-	 * @since   4.0.0 Added check if tracking is allowed.
-	 * @version 4.0.0
+	 * @since 3.0.3 Introduced.
+	 * @since 4.0.0 Added check if tracking is allowed.
 	 *
 	 * @param array $args Passed arguments.
 	 *
@@ -774,9 +773,8 @@ class Help {
 	 *
 	 * @static
 	 *
-	 * @since   2.7.2 Introduced.
-	 * @since   4.0.0 Added statues of the site.
-	 * @version 4.0.0
+	 * @since 2.7.2 Introduced.
+	 * @since 4.0.0 Added statues of the site.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 *
@@ -822,9 +820,8 @@ class Help {
 	 *
 	 * @static
 	 *
-	 * @since   2.7.2 Introduced.
-	 * @since   4.0.0 Added check if tracking is allowed.
-	 * @version 4.0.0
+	 * @since 2.7.2 Introduced.
+	 * @since 4.0.0 Added check if tracking is allowed.
 	 *
 	 * @param string $url The URL to build upon.
 	 *

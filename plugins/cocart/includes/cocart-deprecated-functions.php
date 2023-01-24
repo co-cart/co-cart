@@ -22,9 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Uses "wp_doing_ajax()" to check if the request is an AJAX request.
  *
- * @since   3.0.7 Introduced.
- * @since   3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
- * @version 4.0.0
+ * @since 3.0.7 Introduced.
+ * @since 3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
+ * @since 4.0.0 Updated to use functions via Namespace.
  *
  * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
  * @uses Logger::log() to log the deprecation.
@@ -55,9 +55,8 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
  *
  * Uses "wp_doing_ajax()" to check if the request is AJAX.
  *
- * @since   3.0.0 Introduced.
- * @since   3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
- * @version 3.1.0
+ * @since 3.0.0 Introduced.
+ * @since 3.1.0 Changed function `is_ajax()` to `wp_doing_ajax()`.
  *
  * @uses Authentication::is_rest_api_request() to check if the request is a REST API request.
  * @uses Logger::log() to log the deprecation.

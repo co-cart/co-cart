@@ -120,8 +120,8 @@ class LoadCart {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Added check if CoCart Database has been updated before fetching the user.
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {

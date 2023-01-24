@@ -215,8 +215,8 @@ class Install {
 	 *
 	 * @static
 	 *
-	 * @since   1.2.0 Introduced.
-	 * @version 4.0.0
+	 * @since 1.2.0 Introduced.
+	 * @since 4.0.0 Updated to use functions via Namespace.
 	 */
 	public static function install() {
 		if ( ! is_blog_installed() ) {
@@ -643,8 +643,8 @@ class Install {
 	 *
 	 * @static
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added new table columns for `cart_user_id` and `cart_customer`.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *

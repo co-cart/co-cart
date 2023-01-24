@@ -74,8 +74,7 @@ class Authentication {
 	 * @access public
 	 *
 	 * @since 2.6.0 Introduced.
-	 *
-	 * @version 4.0.0
+	 * @since 4.0.0 Added API rate limits, set logged in cookie to return immediately.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -310,9 +309,8 @@ class Authentication {
 	 *
 	 * @access private
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @since   4.0.0 Added ability to authenticate via billing phone number as username.
-	 * @version 4.0.0
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added ability to authenticate via billing phone number as username.
 	 *
 	 * @return int|bool
 	 */
@@ -430,10 +428,9 @@ class Authentication {
 	 *
 	 * @access public
 	 *
-	 * @since   2.2.0 Introduced.
-	 * @since   3.3.0 Added new custom headers without the prefix `X-`
-	 * @since   4.0.0 Added a check against a list of allowed HTTP origins.
-	 * @version 4.0.0
+	 * @since 2.2.0 Introduced.
+	 * @since 3.3.0 Added new custom headers without the prefix `X-`
+	 * @since 4.0.0 Added a check against a list of allowed HTTP origins.
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
 	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.

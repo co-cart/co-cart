@@ -39,10 +39,9 @@ class CoCart_Response {
 	 *
 	 * @access public
 	 *
-	 * @since   3.1.0 Introduced.
-	 * @since   3.3.0 Added new custom headers without the prefix `X-`
-	 * @since   4.0.0 Removed old custom headers with the prefix `X-`
-	 * @version 4.0.0
+	 * @since 3.1.0 Introduced.
+	 * @since 3.3.0 Added new custom headers without the prefix `X-`
+	 * @since 4.0.0 Removed old custom headers with the prefix `X-`
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
 	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
@@ -71,11 +70,10 @@ class CoCart_Response {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0  Introduced.
-	 * @since   3.1.0  Added two response headers; a timestamp and the version of CoCart.
-	 * @since   3.3.0  Added new custom headers without the prefix `X-`
-	 * @since   4.0.0  Removed old custom headers with the prefix `X-`
-	 * @version 4.0.0
+	 * @since 3.0.0 Introduced.
+	 * @since 3.1.0 Added two response headers; a timestamp and the version of CoCart.
+	 * @since 3.3.0 Added new custom headers without the prefix `X-`
+	 * @since 4.0.0 Removed old custom headers with the prefix `X-`
 	 *
 	 * @param mixed  $data      The original data response of the API requested.
 	 * @param string $namespace The namespace of the API requested.

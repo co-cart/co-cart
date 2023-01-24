@@ -74,9 +74,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Rest requests don't require the use of cookies as backup.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Rest requests don't require the use of cookies as backup.
 	 */
 	public function init() {
 		if ( Authentication::is_rest_api_request() ) {
@@ -98,9 +97,8 @@ class Handler extends Session {
 		/**
 		 * When a user is logged out, ensure they have a unique nonce by using the customer ID.
 		 *
-		 * @since   2.1.2 Introduced.
-		 * @since   4.0.0 No longer needed for API requests.
-		 * @version 4.0.0
+		 * @since 2.1.2 Introduced.
+		 * @since 4.0.0 No longer needed for API requests.
 		 */
 		if ( ! Authentication::is_rest_api_request() && ! is_user_logged_in() ) {
 			add_filter( 'nonce_user_logged_out', array( $this, 'maybe_update_nonce_user_logged_out' ), 10, 2 );
@@ -114,9 +112,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Removed parameter $current_user_id
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Removed parameter $current_user_id
 	 */
 	public function init_session_cookie() {
 		// Get cart cookie... if any.
@@ -444,9 +441,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.6.0 Introduced.
-	 * @since   4.0.0 Now uses `generate_key()` if customer ID is empty.
-	 * @version 4.0.0
+	 * @since 2.6.0 Introduced.
+	 * @since 4.0.0 Now uses `generate_key()` if customer ID is empty.
 	 *
 	 * @return string
 	 */

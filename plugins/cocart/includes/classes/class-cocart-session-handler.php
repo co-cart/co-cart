@@ -78,9 +78,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Rest requests don't require the use of cookies as backup.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Rest requests don't require the use of cookies as backup.
 	 */
 	public function init() {
 		if ( Authentication::is_rest_api_request() ) {
@@ -102,9 +101,8 @@ class Handler extends Session {
 		/**
 		 * When a user is logged out, ensure they have a unique nonce by using the customer ID.
 		 *
-		 * @since   2.1.2
-		 * @since   4.0.0 No longer needed for API requests.
-		 * @version 4.0.0
+		 * @since 2.1.2 Introduced.
+		 * @since 4.0.0 No longer needed for API requests.
 		 */
 		if ( ! Authentication::is_rest_api_request() && ! is_user_logged_in() ) {
 			add_filter( 'nonce_user_logged_out', array( $this, 'maybe_update_nonce_user_logged_out' ), 10, 2 );
@@ -118,9 +116,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Removed parameter $current_user_id
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Removed parameter $current_user_id
 	 */
 	public function init_session_cookie() {
 		// Get cart cookie... if any.
@@ -315,7 +312,7 @@ class Handler extends Session {
 	 * @return bool
 	 */
 	public function is_cookie_supported() {
-		cocart_deprecated_hook( 'cocart_cookie_supported', '4.0.0', null, sprintf( __( '%s is no longer used. No replacement.', 'cart-rest-api-for-woocommerce' ), __FUNCTION__ ) );
+		cocart_deprecated_hook( 'cocart_cookie_supported', '4.0.0', null, sprintf( __( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ), __FUNCTION__ ) );
 
 		return apply_filters( 'cocart_cookie_supported', true );
 	} // END is_cookie_supported()
@@ -327,7 +324,7 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @version 4.0.0
+	 * @since 4.0.0 Added cart user ID and customer ID as additional values at the end.
 	 *
 	 * @param bool $set Should the cart cookie be set.
 	 */
@@ -477,9 +474,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.6.0 Introduced.
-	 * @since   4.0.0 Now uses `generate_key()` if customer ID is empty.
-	 * @version 4.0.0
+	 * @since 2.6.0 Introduced.
+	 * @since 4.0.0 Now uses `generate_key()` if customer ID is empty.
 	 *
 	 * @return string
 	 */
@@ -659,8 +655,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Saves the new `cart_user_id` and `cart_customer` data to the cart session.
 	 *
 	 * @param int $old_cart_key Cart key used before.
 	 *
@@ -676,9 +672,7 @@ class Handler extends Session {
 			 * @deprecated 2.7.2 No replacement.
 			 */
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
-				/* translators: %s: filter name */
-				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
-				cocart_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
+				cocart_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null );
 			}
 
 			/**
@@ -802,8 +796,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Added default values for `_cart_user_id` and `_customer_id`.
 	 */
 	public function forget_cart() {
 		$this->destroy_cookie();

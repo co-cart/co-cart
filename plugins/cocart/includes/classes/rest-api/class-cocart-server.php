@@ -41,8 +41,8 @@ class Server {
 	 *
 	 * @access public
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 1.0.0 Introduced.
+	 * @since 4.0.0 Added customer ID to send to the header.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -204,8 +204,8 @@ class Server {
 	 *
 	 * @access private
 	 *
-	 * @since   2.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.0.0 Introduced.
+	 * @since 4.0.0 Updated to use functions via Namespace.
 	 */
 	private function maybe_load_cart() {
 		if ( Authentication::is_rest_api_request() ) {
@@ -317,8 +317,8 @@ class Server {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Updated to use functions via Namespace.
 	 */
 	public function initialize_cart() {
 		if ( is_null( WC()->customer ) || ! WC()->customer instanceof Customer ) {
@@ -379,8 +379,8 @@ class Server {
 	 *
 	 * @access public
 	 *
-	 * @since   2.7.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.7.0 Introduced.
+	 * @since 4.0.0 Updated to use functions via Namespace.
 	 *
 	 * @param WP_Error|null|true $result WP_Error if authentication error, null if authentication
 	 *                                    method wasn't used, true if authentication succeeded.
