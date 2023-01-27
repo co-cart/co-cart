@@ -35,15 +35,15 @@ class CartFormatting {
 		add_filter( 'cocart_cart', array( $this, 'remove_removed_items_parent_item_key' ), 0 );
 
 		// Format money values after giving 3rd party plugins or extensions a chance to manipulate them first.
-		add_filter( 'cocart_cart_item_price', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_item_subtotal', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_item_subtotal_tax', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_item_total', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_item_tax', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_totals_taxes_total', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_cross_item_price', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_cross_item_regular_price', array( $this, 'convert_money_response' ), 99 );
-		add_filter( 'cocart_cart_cross_item_sale_price', array( $this, 'convert_money_response' ), 99 );
+		add_filter( 'cocart_cart_item_price', array( $this, 'convert_money_response' ), 99, 4 );
+		add_filter( 'cocart_cart_item_subtotal', array( $this, 'convert_money_response' ), 99, 4 );
+		add_filter( 'cocart_cart_item_subtotal_tax', array( $this, 'convert_money_response' ), 99, 4 );
+		add_filter( 'cocart_cart_item_total', array( $this, 'convert_money_response' ), 99, 4 );
+		add_filter( 'cocart_cart_item_tax', array( $this, 'convert_money_response' ), 99, 4 );
+		add_filter( 'cocart_cart_totals_taxes_total', array( $this, 'convert_money_response' ), 99, 2 );
+		add_filter( 'cocart_cart_cross_item_price', array( $this, 'convert_money_response' ), 99, 2 );
+		add_filter( 'cocart_cart_cross_item_regular_price', array( $this, 'convert_money_response' ), 99, 2 );
+		add_filter( 'cocart_cart_cross_item_sale_price', array( $this, 'convert_money_response' ), 99, 2 );
 		add_filter( 'cocart_cart', array( $this, 'convert_totals_response' ), 99, 2 );
 
 		// Remove any empty cart item data objects.
@@ -116,8 +116,12 @@ class CartFormatting {
 	 *
 	 * @return float Money value formatted.
 	 */
-	public function convert_money_response( $value ) {
-		return (float) cocart_prepare_money_response( $value );
+	public function convert_money_response( $value, $cart_item, $item_key, $request ) {
+		if ( ! empty( $request['config']['prices'] ) && $request['config']['prices'] === 'preformatted' ) {
+			return cocart_price_no_html( $value );
+		} else {
+			return (float) cocart_prepare_money_response( $value );
+		}
 	} // END convert_money_response()
 
 	/**
