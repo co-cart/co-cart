@@ -268,9 +268,6 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			$fields = $this->get_fields_for_response( $request );
 		}
 
-		// Other Requested conditions.
-		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
-
 		// Cart response container.
 		$cart = array();
 
@@ -294,7 +291,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'items', $fields ) ) {
-			$cart['items'] = $this->get_items( $cart_contents, $show_thumb );
+			$cart['items'] = $this->get_items( $cart_contents, $request );
 		}
 
 		if ( rest_is_field_included( 'item_count', $fields ) ) {
@@ -357,7 +354,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				} else {
 					$cart['taxes'] = array(
 						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-						'total' => apply_filters( 'cocart_cart_totals_taxes_total', $this->get_cart_instance()->get_taxes_total() ),
+						'total' => apply_filters( 'cocart_cart_totals_taxes_total', $this->get_cart_instance()->get_taxes_total(), $request ),
 					);
 				}
 			}
@@ -368,7 +365,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'removed_items', $fields ) ) {
-			$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
+			$cart['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $request );
 		}
 
 		if ( rest_is_field_included( 'cross_sells', $fields ) ) {
@@ -396,8 +393,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 * Filters the cart contents before it is returned.
 		 *
 		 * @since 3.0.0 Introduced.
-		 * @since 4.0.0 Deprecated $from_session parameter.
 		 * @since 4.0.0 Added `$request` (REST API request) and `$this` (cart controller class) as parameters.
+		 *
+		 * @deprecated 4.0.0 No longer use `$from_session` parameter.
 		 *
 		 * @param array           $cart    The whole cart before it's returned.
 		 * @param WP_REST_Request $request Full details about the request.
@@ -1366,39 +1364,43 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get a single item from the cart and present the data required.
 	 *
-	 * @access public
+	 * @access protected
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Changed access to protected and added new parameter `$request` (REST API request)
+	 *              to allow more arguments to be passed.
 	 *
-	 * @param WC_Product $_product     Product object.
-	 * @param array      $cart_item    The item in the cart containing the default cart item data.
-	 * @param string     $item_key     The item key generated based on the details of the item.
-	 * @param boolean    $show_thumb   Determines if requested to return the item featured thumbnail.
-	 * @param boolean    $removed_item Determines if the item in the cart is removed.
+	 * @deprecated 4.0.0 No longer use `$show_thumb` as parameter.
+	 *
+	 * @param WC_Product      $_product     Product object.
+	 * @param array           $cart_item    The item in the cart containing the default cart item data.
+	 * @param WP_REST_Request $request      Full details about the request.
+	 * @param boolean         $removed_item Determines if the item in the cart is removed.
 	 *
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
-	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
-		$quantity   = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item );
+	protected function get_item( $_product, $cart_item = array(), $request = array(), $removed_item = false ) {
+		$item_key   = $cart_item['key'];
+		$quantity   = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $request );
 		$dimensions = $_product->get_dimensions( false );
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
 			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
 			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
-			'price'          => apply_filters( 'cocart_cart_item_price', $this->get_cart_instance()->get_product_price( $_product ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', $this->get_cart_instance()->get_product_price( $_product ), $cart_item, $item_key, $request ),
 			'quantity'       => array(
 				'value'        => (float) $quantity,
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
 			'totals'         => array(
-				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $this->get_cart_instance()->get_product_subtotal( $_product, $quantity ), $cart_item, $item_key ),
-				'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key ),
-				'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key ),
-				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
+				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $this->get_cart_instance()->get_product_subtotal( $_product, $quantity ), $cart_item, $item_key, $request ),
+				'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key, $request ),
+				'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key, $request ),
+				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key, $request ),
 			),
 			'slug'           => $this->get_product_slug( $_product ),
 			'meta'           => array(
@@ -1482,13 +1484,16 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added new parameter `$request` (REST API request) to allow more arguments to be passed.
 	 *
-	 * @param array   $cart_contents The cart contents passed.
-	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
+	 * @deprecated 4.0.0 No longer use `$show_thumb` as parameter.
+	 *
+	 * @param array           $cart_contents The cart contents passed.
+	 * @param WP_REST_Request $request       Full details about the request.
 	 *
 	 * @return array $items Returns all items in the cart.
 	 */
-	public function get_items( $cart_contents = array(), $show_thumb = true ) {
+	public function get_items( $cart_contents = array(), $request = array() ) {
 		$items = array();
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
@@ -1498,7 +1503,18 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				$items[ $item_key ]['data'] = $cart_item['data']; // Internal use only!
 			}
 
-			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
+			/**
+			 * Filter allows you to alter the item product data returned.
+			 *
+			 * @since 3.0.0 Introduced.
+			 * @since 4.0.0 Added `$request` (REST API request) as parameter.
+			 *
+			 * @param WC_Product      $_product  Product object.
+			 * @param array           $cart_item The item in the cart containing the default cart item data.
+			 * @param string          $item_key  The item key currently looped.
+			 * @param WP_REST_Request $request   Full details about the request.
+			 */
+			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key, $request );
 
 			if ( ! $_product || ! $_product->exists() || 'trash' === $_product->get_status() ) {
 				$this->get_cart_instance()->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
@@ -1524,12 +1540,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 				wc_add_notice( $message, 'error' );
 			} else {
-				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
+				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $request );
 
 				/**
 				 * Filter allows additional data to be returned for a specific item in cart.
 				 *
 				 * @since 2.1.0 Introduced.
+				 * @since 4.0.0 Added `$request` (REST API request) as parameter.
 				 *
 				 * @param array           $items     Array of items in the cart.
 				 * @param string          $item_key  The item key currently looped.
@@ -1537,7 +1554,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				 * @param WC_Product      $_product  Product object.
 				 * @param WP_REST_Request $request   Full details about the request.
 				 */
-				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
+				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product, $request );
 			}
 		}
 
@@ -1549,15 +1566,17 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.7.8
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added new parameter `$request` (REST API request) to allow more arguments to be passed.
 	 *
-	 * @param array   $removed_items The removed cart contents passed.
-	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
+	 * @deprecated 4.0.0 No longer use `$show_thumb` as parameter.
+	 *
+	 * @param array           $removed_items The removed cart contents passed.
+	 * @param WP_REST_Request $request       Full details about the request.
 	 *
 	 * @return array $items Returns all removed items in the cart.
 	 */
-	public function get_removed_items( $removed_items = array(), $show_thumb = true ) {
+	public function get_removed_items( $removed_items = array(), $request = array() ) {
 		$items = array();
 
 		foreach ( $removed_items as $item_key => $cart_item ) {
@@ -1575,7 +1594,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				continue;
 			}
 
-			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb, true );
+			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $request, true );
 
 			// Move the quantity value to it's parent.
 			$items[ $item_key ]['quantity'] = $items[ $item_key ]['quantity']['value'];
@@ -1618,10 +1637,11 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Prices now return as monetary values.
 	 * @since 4.0.0 Prices now return default values and uses filters instead.
+	 *              Added new parameter `$request` (REST API request) to allow more arguments to be passed.
 	 *
 	 * @return array $cross_sells Returns cross sells.
 	 */
-	public function get_cross_sells() {
+	public function get_cross_sells( $request = array() ) {
 		// Get visible cross sells then sort them at random.
 		$get_cross_sells = array_filter( array_map( 'wc_get_product', $this->get_cart_instance()->get_cross_sells() ), 'wc_products_array_filter_visible' );
 
@@ -1646,9 +1666,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				'name'           => $cross_sell->get_name(),
 				'title'          => $cross_sell->get_title(),
 				'slug'           => $this->get_product_slug( $cross_sell ),
-				'price'          => apply_filters( 'cocart_cart_cross_item_price', $cross_sell->get_price() ),
-				'regular_price'  => apply_filters( 'cocart_cart_cross_item_regular_price', $cross_sell->get_regular_price() ),
-				'sale_price'     => apply_filters( 'cocart_cart_cross_item_sale_price', $cross_sell->get_sale_price() ),
+				'price'          => apply_filters( 'cocart_cart_cross_item_price', $cross_sell->get_price(), $request ),
+				'regular_price'  => apply_filters( 'cocart_cart_cross_item_regular_price', $cross_sell->get_regular_price(), $request ),
+				'sale_price'     => apply_filters( 'cocart_cart_cross_item_sale_price', $cross_sell->get_sale_price(), $request ),
 				'image'          => esc_url( $thumbnail_src ),
 				'average_rating' => $cross_sell->get_average_rating() > 0 ? sprintf(
 					/* translators: %s: average rating */
@@ -1660,7 +1680,15 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			);
 		}
 
-		$cross_sells = apply_filters( 'cocart_cross_sells', $cross_sells );
+		/**
+		 * Filters the cross sell items.
+		 *
+		 * @since 3.0.0 Introduced.
+		 * @since 4.0.0 Added parameter `$request` (REST API request).
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 */
+		$cross_sells = apply_filters( 'cocart_cross_sells', $cross_sells, $request );
 
 		return $cross_sells;
 	} // END get_cross_sells()
@@ -2025,7 +2053,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total() ),
 				'total_tax'      => cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax() ),
 			),
-			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb ),
+			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $request ),
 			'cross_sells'    => $this->get_cross_sells(),
 			'notices'        => $this->maybe_return_notices(),
 		);
@@ -2164,7 +2192,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					}
 					break;
 				case 'removed_items':
-					$template['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb );
+					$template['removed_items'] = $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $request );
 					break;
 				case 'cross_sells':
 					$template['cross_sells'] = $this->get_cross_sells();

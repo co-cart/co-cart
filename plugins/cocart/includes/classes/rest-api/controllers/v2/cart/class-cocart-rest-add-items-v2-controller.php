@@ -188,7 +188,7 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					$response = array();
 
 					foreach ( $items_added_to_cart as $id => $item ) {
-						$response[] = $controller->get_item( $item['data'], $item, $item['key'], true );
+						$response[] = $controller->get_item( $item['data'], $item, $request );
 					}
 				} else {
 					$response = $controller->get_cart_contents( $request );
