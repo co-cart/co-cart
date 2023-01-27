@@ -54,16 +54,15 @@ function cocart_prepare_date_response( $date, $utc = true ) {
  * Forked "wc_price()" function and altered to remove HTML wrappers
  * for the use of the REST API.
  *
- * @since   3.0.0 Introduced.
- * @version 3.0.4
+ * @since 3.0.0 Introduced.
+ * @since 4.0.0 Cleans the price value to remove any HTML and currency symbols.
  *
  * @param float $price Raw price.
  * @param array $args {
  *     Optional. Arguments to format a price.
  *
  *     @type bool   $ex_tax_label       Adds exclude tax label. Defaults to false.
- *     @type string $currency           Currency code. Defaults to empty string.
- *                                      Use the result from `get_woocommerce_currency()`
+ *     @type string $currency           Currency code. Defaults to result from `get_woocommerce_currency()`
  *     @type string $decimal_separator  Decimal separator. Defaults to the result of `wc_get_price_decimal_separator()`.
  *     @type string $thousand_separator Thousand separator. Defaults to the result of `wc_get_price_thousand_separator()`.
  *     @type string $decimals           Number of decimals. Defaults to the result of `wc_get_price_decimals()`.
@@ -78,7 +77,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 			$args,
 			array(
 				'ex_tax_label'       => false,
-				'currency'           => '',
+				'currency'           => get_woocommerce_currency(),
 				'decimal_separator'  => wc_get_price_decimal_separator(),
 				'thousand_separator' => wc_get_price_thousand_separator(),
 				'decimals'           => wc_get_price_decimals(),
@@ -86,6 +85,12 @@ function cocart_price_no_html( $price, $args = array() ) {
 			)
 		)
 	);
+
+	// If $price is a string, clean it first.
+	if ( is_string( $price ) ) {
+		$price = html_entity_decode( wp_strip_all_tags( $price ) ); // Decode html span wrapper, if any.
+		$price = str_replace( html_entity_decode( get_woocommerce_currency_symbol( $args['currency'] ) ), '', $price ); // Remove currency symbol, if any.
+	}
 
 	$original_price = $price;
 
