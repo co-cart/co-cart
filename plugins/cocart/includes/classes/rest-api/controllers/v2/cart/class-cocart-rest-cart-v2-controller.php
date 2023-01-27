@@ -3309,22 +3309,59 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Added `config` parameters.
 	 *
 	 * @return array $params The query params.
 	 */
 	public function get_collection_params() {
 		$params = array(
 			'cart_key' => array(
-				'description' => __( 'Unique identifier for the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'string',
+				'description'       => __( 'Unique identifier for the cart.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_key',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'config'   => array(
+				'description' => __( 'Configure the cart response for each sub-parameter.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'object',
 				'required'    => false,
+				'items'       => array(
+					'type'       => 'object',
+					'properties' => array(
+						'fields' => array(
+							'description'       => __( 'Specify the type of cart response before the data is fetched.', 'cart-rest-api-for-woocommerce' ),
+							'type'              => 'string',
+							'required'          => false,
+							'enum'              => array(
+								'digital',
+								'digital_fees',
+								'shipping',
+								'shipping_fees',
+								'removed_items',
+								'cross_sells',
+							),
+							'sanitize_callback' => 'sanitize_key',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+						'prices' => array(
+							'description'       => __( 'Return the price values in the format you prefer.', 'cart-rest-api-for-woocommerce' ),
+							'type'              => 'string',
+							'required'          => false,
+							'enum'              => array( 'preformatted' ),
+							'sanitize_callback' => 'sanitize_key',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+					),
+				),
 			),
 			'fields'   => array(
-				'description' => __( 'Specify each parent field you want to request separated by (,) in the cart response before the data is fetched.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'string',
-				'required'    => false,
+				'description'       => __( 'Specify each parent field you want to request separated by (,) in the cart response before the data is fetched.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_key',
+				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'thumb'    => array(
 				'description' => __( 'True if you want to return the URL of the featured product image for each item in the cart.', 'cart-rest-api-for-woocommerce' ),
