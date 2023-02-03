@@ -12,6 +12,10 @@ contact_links:
     url: https://github.com/co-cart/cocart-compatibility
     about: If you have a compatibility issue specifically with a certain plugin and WooCommerce extension, please report them to this repository.
 
+  - name: 📂 Third Party Issue
+    url: https://github.com/co-cart/cocart-third-party
+    about: If you have a compatibility issue specifically with support for specific plugins, WooCommerce extensions and web hosts, please report them to this repository.
+
   - name: 📈 Sessions API
     url: https://github.com/co-cart/cocart-session-api
     about: If you have issues related to the Sessions API specifically, please report them to this repository.
