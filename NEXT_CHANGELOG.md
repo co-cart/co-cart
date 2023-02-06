@@ -20,6 +20,7 @@
 * Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
 * Added ability to filter the fields of the endpoint you request before they return, making the response faster.
 * Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
+* Added batch support. Feedback needed. (API v2 ONLY) (Details on this addition needs to be documented.)
 
 ## Authentication
 

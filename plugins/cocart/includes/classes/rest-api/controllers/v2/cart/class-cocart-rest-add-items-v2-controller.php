@@ -43,6 +43,8 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
+	 * @since 4.0.0 Allowed route to be requested in a batch request.
+	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
@@ -57,7 +59,8 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'allow_batch' => array( 'v1' => true ),
+				'schema'      => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	} // register_routes()

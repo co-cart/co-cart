@@ -112,11 +112,27 @@ class Server {
 		return apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
-				'cocart/v1' => $this->get_v1_controllers(),
-				'cocart/v2' => $this->get_v2_controllers(),
+				'cocart/v1'     => $this->get_v1_controllers(),
+				'cocart/v2'     => $this->get_v2_controllers(),
+				'cocart/shared' => $this->get_shared_controllers(),
 			)
 		);
 	} // END get_rest_namespaces()
+
+	/**
+	 * List of controllers that use a none versioned namespace.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return array
+	 */
+	protected function get_shared_controllers() {
+		return array(
+			'cocart-batch-controller' => 'CoCart_REST_Batch_Controller',
+		);
+	} // END get_shared_controllers()
 
 	/**
 	 * List of controllers in the cocart/v1 namespace.

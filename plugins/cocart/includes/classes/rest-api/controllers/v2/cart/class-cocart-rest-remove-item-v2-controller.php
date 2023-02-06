@@ -36,6 +36,8 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 *
 	 * @access public
 	 *
+	 * @since 4.0.0 Allowed route to be requested in a batch request.
+	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
@@ -50,6 +52,7 @@ class CoCart_REST_Remove_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
+				'allow_batch' => array( 'v1' => true ),
 			)
 		);
 	} // register_routes()

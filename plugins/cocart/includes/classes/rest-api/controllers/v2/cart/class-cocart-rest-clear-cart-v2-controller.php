@@ -43,6 +43,8 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 	 *
 	 * @access public
 	 *
+	 * @since 4.0.0 Allowed route to be requested in a batch request.
+	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
@@ -51,10 +53,13 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'clear_cart' ),
-				'permission_callback' => '__return_true',
-				'args'                => $this->get_collection_params(),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'clear_cart' ),
+					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
+				),
+				'allow_batch' => array( 'v1' => true ),
 			)
 		);
 	} // register_routes()
