@@ -1364,11 +1364,10 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	/**
 	 * Get a single item from the cart and present the data required.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 4.0.0 Changed access to protected and added new parameter `$request` (REST API request)
-	 *              to allow more arguments to be passed.
+	 * @since 4.0.0 Added new parameter `$request` (REST API request) to allow more arguments to be passed.
 	 *
 	 * @deprecated 4.0.0 No longer use `$show_thumb` as parameter.
 	 *
@@ -1379,7 +1378,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
-	protected function get_item( $_product, $cart_item = array(), $request = array(), $removed_item = false ) {
+	public function get_item( $_product, $cart_item = array(), $request = array(), $removed_item = false ) {
 		$item_key   = $cart_item['key'];
 		$quantity   = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $request );
 		$dimensions = $_product->get_dimensions( false );
