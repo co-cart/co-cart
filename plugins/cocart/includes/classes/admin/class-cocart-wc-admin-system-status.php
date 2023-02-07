@@ -15,6 +15,7 @@ namespace CoCart\Admin;
 use CoCart\Help;
 use CoCart\Packages;
 use CoCart\Install;
+use CoCart\Status;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,14 +29,17 @@ class WC_System_Status {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Updated to use functions via Namespace.
 	 */
 	public function __construct() {
 		// Provide CoCart details to System Status Report.
 		if ( ! Help::is_white_labelled() ) {
 			add_filter( 'woocommerce_system_status_report', array( $this, 'render_system_status_items' ) );
 		}
+
+		// Adds CoCart fields to WooCommerce System Status response.
+		add_filter( 'woocommerce_rest_prepare_system_status', array( $this, 'add_cocart_fields_to_response' ) );
 
 		// Add debug buttons to System Status.
 		add_filter( 'woocommerce_debug_tools', array( $this, 'debug_buttons' ) );
@@ -79,12 +83,39 @@ class WC_System_Status {
 	} // END render_system_status_items()
 
 	/**
+	 * Adds CoCart fields to WooCommerce System Status response.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param WP_REST_Response $response The base system status response.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function add_cocart_fields_to_response( $response ) {
+		$response->data['cocart'] = array(
+			'cocart_version'    => Help::get_cocart_version(),
+			'days_active'       => Help::get_days_active(),
+			'user_language'     => Help::get_user_language(),
+			'multisite'         => Status::is_multi_network() ? 'Yes' : 'No',
+			'is_offline_mode'   => Status::is_offline_mode() ? 'Yes' : 'No',
+			'is_local_site'     => Status::is_local_site() ? 'Yes' : 'No',
+			'is_staging_site'   => Status::is_staging_site() ? 'Yes' : 'No',
+			'is_vip_site'       => Status::is_vip_site() ? 'Yes' : 'No',
+			'is_white_labelled' => Help::is_white_labelled() ? 'Yes' : 'No',
+		);
+
+		return $response;
+	} // END add_cocart_fields_to_response()
+
+	/**
 	 * Gets the system status data to return.
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Added details of each package inside CoCart.
 	 *
 	 * @return array $data System status data.
 	 */
