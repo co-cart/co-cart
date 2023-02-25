@@ -168,7 +168,7 @@ class Authentication {
 	 * When the login cookies are set, they are not available until the next page reload. For CoCart specifically
 	 * for returning updated carts, we need this to be available immediately.
 	 *
-	 * This is only to help with frameworks that have issues with or lack of support for Cookies.
+	 * This is only to help with the native front and frameworks that have issues with or lack of support for Cookies.
 	 *
 	 * @access public
 	 *
@@ -322,27 +322,28 @@ class Authentication {
 			$username = sanitize_user( $_SERVER['PHP_AUTH_USER'] );
 			$password = trim( sanitize_text_field( $_SERVER['PHP_AUTH_PW'] ) );
 
-			// Check if the username provided is a billing phone number and get the username if true.
+			// Check if the username provided is a billing phone number and return the username if true.
 			if ( WC_Validation::is_phone( trim( $_SERVER['PHP_AUTH_USER'] ) ) ) {
-				$username = self::get_user_by_phone( trim( $_SERVER['PHP_AUTH_USER'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$username = self::get_user_by_phone( sanitize_user( $_SERVER['PHP_AUTH_USER'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
-			// Check if the username provided was an email address and get the username if true.
+			// Check if the username provided was an email address and return the username if true.
 			elseif ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
 				$user     = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
 				$username = $user->user_login;
 			}
-		} elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			// Fallback to check if the username and password was passed via URL.
+		}
+		// Fallback to check if the username and password was passed via URL.
+		elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$username = sanitize_user( $_REQUEST['username'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$password = trim( sanitize_text_field( $_REQUEST['password'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-			// Check if the username provided is a billing phone number and get the username if true.
+			// Check if the username provided is a billing phone number and return the username if true.
 			if ( WC_Validation::is_phone( trim( $_REQUEST['username'] ) ) ) {
-				$username = self::get_user_by_phone( trim( $_REQUEST['username'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$username = self::get_user_by_phone( sanitize_user( $_REQUEST['username'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
-			// Check if the username provided was an email address and get the username if true.
+			// Check if the username provided was an email address and return the username if true.
 			elseif ( is_email( $_REQUEST['username'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$user     = get_user_by( 'email', $_REQUEST['username'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$username = $user->user_login; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
