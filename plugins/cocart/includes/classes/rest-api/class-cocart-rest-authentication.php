@@ -317,8 +317,28 @@ class Authentication {
 	private function perform_basic_authentication() {
 		$this->auth_method = 'basic_auth';
 
-		// Check that we're trying to authenticate via headers.
-		if ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
+		// Look up authorization header and check it's a valid.
+		if ( isset( $_SERVER['HTTP_AUTHORIZATION'] ) && 0 === stripos( $_SERVER['HTTP_AUTHORIZATION'], 'basic ' ) ) {
+			$exploded = explode( ':', base64_decode( substr( $_SERVER['HTTP_AUTHORIZATION'], 6 ) ), 2 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			// If valid return username and password.
+			if ( 2 == \count( $exploded ) ) {
+				list( $username, $password ) = $exploded;
+
+				// Check if the username provided is a billing phone number and return the username if true.
+				if ( WC_Validation::is_phone( $username ) ) {
+					$username = self::get_user_by_phone( $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				}
+
+				// Check if the username provided was an email address and return the username if true.
+				if ( is_email( $username ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					$user     = get_user_by( 'email', $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					$username = $user->user_login; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				}
+			}
+		}
+		// Check that we're trying to authenticate via simple headers.
+		elseif ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
 			$username = sanitize_user( $_SERVER['PHP_AUTH_USER'] );
 			$password = trim( sanitize_text_field( $_SERVER['PHP_AUTH_PW'] ) );
 
