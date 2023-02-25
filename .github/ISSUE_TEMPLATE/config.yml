@@ -16,9 +16,13 @@ contact_links:
     url: https://github.com/co-cart/cocart-third-party
     about: If you have a compatibility issue specifically with support for specific plugins, WooCommerce extensions and web hosts, please report them to this repository.
 
-  - name: 📈 Sessions API
+  - name: 📈 Sessions API Issue
     url: https://github.com/co-cart/cocart-session-api
     about: If you have issues related to the Sessions API specifically, please report them to this repository.
+
+  - name: ✅ CoCart Pro Issue
+    url: https://github.com/co-cart/cocart-pro-reports
+    about: If something isn't working as expected in CoCart Pro, please report them to this repository.
 
   - name: ❓ Support Question
     url: https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/
