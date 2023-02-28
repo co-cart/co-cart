@@ -7,10 +7,13 @@
 - [Rate Limiting options filter](#rate-limiting-options-filter)
 - [Proxy standard support](#proxy-standard-support)
 - [Limit usage information observability](#limit-usage-information-observability)
-    - [Response headers example](#response-headers-example)
+  - [Response headers example](#response-headers-example)
 - [Tracking limit abuses](#tracking-limit-abuses)
-    - [Custom tracking usage example](#custom-tracking-usage-example)
+  - [Custom tracking usage example](#custom-tracking-usage-example)
 - [Testing Guide](#testing-guide)
+  - [Without proxy support](#without-proxy-support)
+  - [With proxy support, do the same as before and](#with-proxy-support-do-the-same-as-before-and)
+  - [User Facing Testing](#user-facing-testing)
 
 Rate Limiting is available for CoCart. This is optional and disabled by default. It can be enabled by following [these instructions](#rate-limiting-options-filter).
 
@@ -73,8 +76,8 @@ RateLimit-Retry-After: 28
 
 ## Tracking limit abuses
 
-This uses a modified wc_rate_limit table with an additional remaining column for tracking the request count in any given request window.
-A custom action `cocart_api_rate_limit_exceeded` was implemented for extendability in tracking such abuses.
+This uses a modified `wc_rate_limit` table with an additional remaining column for tracking the request count in any given request window.
+A custom action `cocart_api_rate_limit_exceeded` was implemented for extendibility in tracking such abuses.
 
 ### Custom tracking usage example
 
@@ -87,25 +90,25 @@ add_action(
 
 ## Testing Guide
 
-### Without proxy support:
+### Without proxy support
 
  1. Enable Rate Limiting by using the [options filter](#rate-limiting-options-filter).
  2. In a short window, keep making API requests.
  3. Check that RateLimit-xxx headers change on each request.
  4. Check that once you've hit the limit, an error response is returned. You can modify the limits using the [options filter](#rate-limiting-options-filter) to make it easier to test.
 
-### With proxy support, do the same as before and:
+### With proxy support, do the same as before and
 
  1. Enable proxy support
  2. Make your requests with one of the following request headers containing always the same IP address:
-    * X-Real-IP or Client-IP
-    * [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
-    * [Fowarded](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded)
+    - X-Real-IP or Client-IP
+    - [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
+    - [Forwarded](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded)
 
 ### User Facing Testing
 
  1. Enable Rate Limiting by using the [options filter](#rate-limiting-options-filter).
- 2. Try to apply a coupon or access /wp-json/cocart/v1/coupon beyond current limits (currently 25 requests under 10 seconds)
+ 2. Try to apply a coupon or access `/wp-json/cocart/v1/coupon` beyond current limits (currently 25 requests under 10 seconds)
  3. Ensure you get presented with an error "Too many requests. Please wait xx seconds before trying again."
 
 🐞 Found a mistake, or have a suggestion? [Leave feedback about this document here.](https://github.com/co-cart/co-cart/issues/new?assignees=&labels=type%3A+documentation&template=doc_feedback.md&title=Feedback+on+./docs/rate-limit-guide.md)
