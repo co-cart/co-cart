@@ -8,3 +8,4 @@ Next to each listed plugin is the reason for incompatibility.
 | :---------: | :----------: | -------------------------- |
 | Smart Coupons For WooCommerce Coupons | [Link](https://wordpress.org/plugins/wt-smart-coupons-for-woocommerce/) | Prevents coupons from being applied to the cart. |
 
+🐞 Found a mistake, or have a suggestion? [Leave feedback about this document here.](https://github.com/co-cart/co-cart/issues/new?assignees=&labels=type%3A+documentation&template=doc_feedback.md&title=Feedback+on+./docs/incompatible-plugins-with-cocart.md)
