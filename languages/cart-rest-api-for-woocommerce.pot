@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart - Headless ecommerce 3.7.11\n"
+"Project-Id-Version: CoCart - Headless ecommerce 3.8.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2023-01-16 12:22:58+00:00\n"
+"POT-Creation-Date: 2023-03-02 21:59:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -105,11 +105,11 @@ msgstr ""
 msgid "CoCart"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-notices.php:198
+#: includes/admin/class-cocart-admin-notices.php:200
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-notices.php:202
+#: includes/admin/class-cocart-admin-notices.php:204
 msgid "You don&#8217;t have permission to do this."
 msgstr ""
 
@@ -121,10 +121,8 @@ msgstr ""
 #: includes/admin/class-cocart-admin-plugin-screen-update.php:196
 #. translators: 1: plugin name, 2: version mentioned, 3: details URL
 msgid ""
-"Because of the great feedback %1$s users have provided, <strong>%1$s "
-"v%2$s</strong> will be introducing a new and improved API in the future. I "
-"am in need of testers and your feedback. <a href=\"%3$s\" "
-"target=\"_blank\">Sign Up to Test</a>."
+"Just to remind you here that %1$s v%2$s will be coming soon so be prepared. "
+"%3$sWhats Coming Next?%4$s"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-plugin-search.php:159
@@ -821,6 +819,7 @@ msgstr ""
 #: includes/admin/views/html-notice-please-review.php:50
 #: includes/admin/views/html-notice-setup-wizard.php:49
 #: includes/admin/views/html-notice-trying-beta.php:61
+#: includes/admin/views/html-notice-upgrade-warning.php:32
 msgid "Hide this notice forever."
 msgstr ""
 
@@ -961,6 +960,25 @@ msgstr ""
 msgid ""
 "Note: WP CRON has been disabled on your install which may prevent this "
 "update from completing."
+msgstr ""
+
+#: includes/admin/views/html-notice-upgrade-warning.php:25
+msgid "Bigger, better and more awesome"
+msgstr ""
+
+#: includes/admin/views/html-notice-upgrade-warning.php:27
+msgid ""
+"Just thought you might like to know that a new version of %3$s %1$s%4$s%2$s "
+"is coming soon with many improvements, options, a new settings page and "
+"more action and filter hooks for developers."
+msgstr ""
+
+#: includes/admin/views/html-notice-upgrade-warning.php:31
+msgid "What's Coming Next?"
+msgstr ""
+
+#: includes/admin/views/html-notice-upgrade-warning.php:32
+msgid "Don't show me again"
 msgstr ""
 
 #: includes/admin/views/html-notice-wc-not-installed.php:28

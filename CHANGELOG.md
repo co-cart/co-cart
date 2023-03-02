@@ -1,5 +1,15 @@
 # Changelog for CoCart
 
+## v3.8.0 - 3rd March, 2023
+
+### What's New?
+
+* Tested: ✔️ Compatible with WooCommerce v7.4
+
+### For Developers
+
+Introduced a new hook `cocart_cart_loaded` which could be used to trigger a webhook once a cart has been loaded from session.
+
 ## v3.7.11 - 16th January, 2023
 
 ### What's New

@@ -147,7 +147,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.3
-		 * @version 3.0.0
+		 * @version 4.0.0
 		 * @param   string $file        Plugin basename.
 		 * @param   array  $plugin_data Plugin information.
 		 * @return  false|void
@@ -193,10 +193,11 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 
 				printf(
 					/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
-					__( 'Because of the great feedback %1$s users have provided, <strong>%1$s v%2$s</strong> will be introducing a new and improved API in the future. I am in need of testers and your feedback. <a href="%3$s" target="_blank">Sign Up to Test</a>.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					esc_attr( $plugin_name ),
+					__( 'Just to remind you here that %1$s v%2$s will be coming soon so be prepared. %3$sWhats Coming Next?%4$s', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'CoCart',
 					esc_attr( COCART_NEXT_VERSION ),
-					esc_url( COCART_STORE_URL . 'contact/' )
+					'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ) . '" target="_blank">',
+					'</a>'
 				);
 
 				echo '</p></div></td></tr>';
