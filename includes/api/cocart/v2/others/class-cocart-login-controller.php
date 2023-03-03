@@ -80,7 +80,8 @@ class CoCart_Login_v2_Controller {
 	 * @access  public
 	 * @since   3.0.0 Introduced.
 	 * @since   3.1.0 Added avatar URLS and users email address.
-	 * @version 3.1.0
+	 * @since   3.8.1 Added users first and last name.
+	 * @version 3.8.1
 	 * @return  WP_REST_Response
 	 */
 	public function login() {
@@ -96,10 +97,20 @@ class CoCart_Login_v2_Controller {
 
 		$response = array(
 			'user_id'      => strval( get_current_user_id() ),
+			'first_name'   => $current_user->first_name,
+			'last_name'    => $current_user->last_name,
 			'display_name' => esc_html( $current_user->display_name ),
 			'role'         => implode( ', ', $display_user_roles ),
 			'avatar_urls'  => rest_get_avatar_urls( trim( $current_user->user_email ) ),
 			'email'        => trim( $current_user->user_email ),
+			/**
+			 * Filter allows you to add extra information based on the current user.
+			 *
+			 * @since 3.8.1
+			 *
+			 * @param object $current_user The current user.
+			 */
+			'extras'       => apply_filters( 'cocart_login_extras', array(), $current_user ),
 			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cart-rest-api-for-woocommerce' ),
 		);
 
