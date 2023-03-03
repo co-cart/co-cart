@@ -145,12 +145,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			}
 
 			/**
-			 * Should you need to authenticate as another user instead of the one returned.
+			 * Filters the user ID returned and allows for third party to
+			 * include another authentication method.
 			 *
-			 * @param int  $user_id The user ID returned if authentication was successful.
-			 * @param bool          Determines if the site is secure.
+			 * @param int    $user_id The user ID returned if authentication was successful.
+			 * @param bool            Determines if the site is secure.
+			 * @param object $this    The Authentication class.
 			 */
-			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl() );
+			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl(), $this );
 
 			return $user_id;
 		} // END authenticate()
