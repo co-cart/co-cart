@@ -226,6 +226,17 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		} // END get_error()
 
 		/**
+		 * Set authentication method.
+		 *
+		 * @access protected
+		 * @since  3.8.1
+		 * @param  WP_Error $error Authentication error data.
+		 */
+		public function set_method( $auth_method ) {
+			$this->auth_method = $auth_method;
+		} // END set_method()
+
+		/**
 		 * Basic Authentication.
 		 *
 		 * SSL-encrypted requests are not subject to sniffing or man-in-the-middle
