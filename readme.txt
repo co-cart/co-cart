@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 6.1
-Stable tag: 3.8.0
+Stable tag: 3.8.1
 WC requires at least: 4.3
 WC tested up to: 7.4
 License: GPLv3
@@ -397,6 +397,17 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.8.1 - 4th March, 2023 =
+
+### What's New?
+
+* Added the Authentication class as parameter to `cocart_authenticate` filter.
+* Added `set_method()` function to authentication class.
+
+### For Developers
+
+Introduced a new filter `cocart_login_extras` to allow developers to extend the login response.
 
 = v3.8.0 - 3rd March, 2023 =
 
@@ -792,6 +803,6 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 == Upgrade Notice ==
 
-= 3.8.0 =
+= 3.8.1 =
 
-* Introduced a new hook `cocart_cart_loaded`.
+* Introduced a new filter `cocart_login_extras`.

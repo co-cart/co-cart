@@ -1,5 +1,16 @@
 # Changelog for CoCart
 
+## v3.8.1 - 4th March, 2023
+
+### What's New?
+
+* Added the Authentication class as parameter to `cocart_authenticate` filter.
+* Added `set_method()` function to authentication class.
+
+### For Developers
+
+Introduced a new filter `cocart_login_extras` to allow developers to extend the login response.
+
 ## v3.8.0 - 3rd March, 2023
 
 ### What's New?

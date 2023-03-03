@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart - Headless ecommerce 3.8.0\n"
+"Project-Id-Version: CoCart - Headless ecommerce 3.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2023-03-02 21:59:01+00:00\n"
+"POT-Creation-Date: 2023-03-03 23:37:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3545,37 +3545,37 @@ msgstr ""
 msgid "Sorry, you are not authorized."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:103
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:114
 msgid ""
 "Don't forget to store the users login information in order to authenticate "
 "all other routes with CoCart."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:119
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:130
 msgid "Login"
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:123
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:134
 msgid "Unique ID to the user on the site."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:129
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:140
 msgid "The display name of the user (if any)."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:135
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:146
 msgid "The role type assigned to the user."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:141
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:152
 msgid "The avatar URLs of the user for each avatar size registered."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:147
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:158
 msgid "The email address of the user."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-login-controller.php:153
+#: includes/api/cocart/v2/others/class-cocart-login-controller.php:164
 msgid "A message to developers."
 msgstr ""
 
@@ -3907,21 +3907,21 @@ msgstr ""
 msgid "Cart updated."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:273
+#: includes/class-cocart-authentication.php:286
 msgid ""
 "Authentication is invalid. Please check the authentication information is "
 "correct and try again. Authentication may also only work on a secure "
 "connection."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:407
-#: includes/class-cocart-authentication.php:418
-#: includes/class-cocart-authentication.php:426
+#: includes/class-cocart-authentication.php:420
+#: includes/class-cocart-authentication.php:431
+#: includes/class-cocart-authentication.php:439
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:432
+#: includes/class-cocart-authentication.php:445
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
