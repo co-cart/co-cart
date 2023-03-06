@@ -133,7 +133,8 @@ class CoCart_REST_Batch_Controller {
 		}
 
 		$response->header( 'CoCart-Timestamp', time() );
-		$response->header( 'User-ID', get_current_user_id() );
+
+
 
 		return $response;
 	} // END get_response()

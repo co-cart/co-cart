@@ -55,10 +55,10 @@ function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponl
 				 * @see https://www.php.net/manual/en/function.setcookie.php
 				 *
 				 * @param bool   $httponly If the cookie should only be accessible via the HTTP protocol.
-				 * @param string $name   Cookie name.
-				 * @param string $value  Cookie value.
-				 * @param int    $expire When the cookie should expire.
-				 * @param bool   $secure If the cookie should only be served over HTTPS.
+				 * @param string $name     Cookie name.
+				 * @param string $value    Cookie value.
+				 * @param int    $expire   When the cookie should expire.
+				 * @param bool   $secure   If the cookie should only be served over HTTPS.
 				 */
 				'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ),
 				/**

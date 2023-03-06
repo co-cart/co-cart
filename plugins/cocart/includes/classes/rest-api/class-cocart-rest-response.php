@@ -122,7 +122,7 @@ class CoCart_Response {
 				'cart/items',
 				'cart/items/count',
 			);
-	
+
 			foreach ( $endpoints as $route ) {
 				if ( $route !== $endpoint && empty( $data ) ) {
 					/* translators: %s: REST API URL */
@@ -183,14 +183,14 @@ class CoCart_Response {
 
 		foreach ( (array) $error->errors as $code => $messages ) {
 			foreach ( (array) $messages as $message ) {
-				$errors[$code] = array(
+				$errors[ $code ] = array(
 					'code'    => $code,
 					'message' => $message,
 					'data'    => $error->get_error_data( $code ),
 				);
 
 				if ( function_exists( 'debug_backtrace' ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					$errors[$code]['trace'] = debug_backtrace();
+					$errors[ $code ]['trace'] = debug_backtrace();
 				}
 			}
 		}
