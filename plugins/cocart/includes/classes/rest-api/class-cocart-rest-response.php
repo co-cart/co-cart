@@ -147,6 +147,9 @@ class CoCart_Response {
 	 *
 	 * @static
 	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added debug backtrace if WP_DEBUG is true.
+	 *
 	 * @param WP_Error $error WP_Error instance.
 	 *
 	 * @return WP_REST_Response List of associative arrays with code and message keys.
@@ -158,11 +161,15 @@ class CoCart_Response {
 
 		foreach ( (array) $error->errors as $code => $messages ) {
 			foreach ( (array) $messages as $message ) {
-				$errors[] = array(
+				$errors[$code] = array(
 					'code'    => $code,
 					'message' => $message,
 					'data'    => $error->get_error_data( $code ),
 				);
+
+				if ( function_exists( 'debug_backtrace' ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					$errors[$code]['trace'] = debug_backtrace();
+				}
 			}
 		}
 
