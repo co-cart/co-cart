@@ -172,6 +172,7 @@ class Server {
 			'cocart-v2-cart-items-count'  => 'CoCart_REST_Count_Items_v2_Controller',
 			'cocart-v2-cart-update-item'  => 'CoCart_REST_Update_Item_v2_Controller',
 			'cocart-v2-cart-remove-item'  => 'CoCart_REST_Remove_Item_v2_Controller',
+			'cocart-v2-cart-remove-items' => 'CoCart_REST_Remove_Items_v2_Controller',
 			'cocart-v2-cart-restore-item' => 'CoCart_REST_Restore_Item_v2_Controller',
 			'cocart-v2-cart-calculate'    => 'CoCart_REST_Calculate_v2_Controller',
 			'cocart-v2-cart-clear'        => 'CoCart_REST_Clear_Cart_v2_Controller',
