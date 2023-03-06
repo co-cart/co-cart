@@ -49,9 +49,11 @@ class CoCart_REST_Logout_v2_Controller extends CoCart_Logout_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'logout' ),
-				'permission_callback' => '__return_true',
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'logout' ),
+					'permission_callback' => '__return_true',
+				),
 			)
 		);
 	} // register_routes()

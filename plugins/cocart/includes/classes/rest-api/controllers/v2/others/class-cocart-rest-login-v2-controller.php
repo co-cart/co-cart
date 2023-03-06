@@ -122,7 +122,7 @@ class CoCart_REST_Login_v2_Controller {
 	public function get_public_item_schema() {
 		return array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Login', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_login',
 			'type'       => 'object',
 			'properties' => array(
 				'user_id'      => array(

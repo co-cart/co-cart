@@ -171,8 +171,7 @@ class CoCart_REST_Clear_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controlle
 				wc_add_notice( $message, 'notice' );
 
 				// Return cart response.
-				$controller = new CoCart_REST_Cart_v2_Controller();
-				$response   = $controller->get_cart_contents( $request );
+				$response = $this->get_cart_contents( $request );
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			} else {
