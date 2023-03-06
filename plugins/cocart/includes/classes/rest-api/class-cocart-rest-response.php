@@ -90,6 +90,26 @@ class CoCart_Response {
 
 		try {
 			/**
+			 * Filter decides if the responses return as default or
+			 * use the modified response which is filtered by the rest base.
+			 *
+			 * @see cocart_{$endpoint}_response
+			 *
+			 * @since 3.0.0 Introduced.
+			 */
+			$default_response = apply_filters( 'cocart_return_default_response', true );
+
+			if ( ! $default_response ) {
+				/**
+				 * Filter is to be used as a final straw for changing the response
+				 * based on the endpoint.
+				 *
+				 * @since 3.0.0 Introduced.
+				 */
+				$data = apply_filters( 'cocart_{$endpoint}_response', $data );
+			}
+
+			/**
 			 * Data can only return empty if:
 			 *
 			 * 1. Something seriously has gone wrong server side and no data could be provided.
