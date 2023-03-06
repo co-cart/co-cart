@@ -90,23 +90,24 @@ class CoCart_Response {
 
 		try {
 			/**
-			 * The data can only return empty based on a few things.
+			 * Data can only return empty if:
 			 *
 			 * 1. Something seriously has gone wrong server side and no data could be provided.
 			 * 2. The response returned nothing because the cart is empty.
 			 * 3. The developer filtered the response incorrectly and returned nothing.
 			 */
-			if ( 'cart' !== $rest_base && 'session' !== $rest_base && 'cart/items/count' !== $rest_base && empty( $data ) ) {
-				/* translators: %s: REST API URL */
-				throw new CoCart_Data_Exception( 'cocart_response_returned_empty', sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $namespace, $rest_base ) ) ) );
-			}
-
-			// Set as true by default until store is ready to go to production.
-			$default_response = apply_filters( 'cocart_return_default_response', true );
-
-			if ( ! $default_response ) {
-				// This filter can be used as a final straw for changing the response to what ever needs.
-				$data = apply_filters( 'cocart_{$rest_base}_response', $data );
+			$endpoints = array(
+				'cart',
+				'session',
+				'cart/items',
+				'cart/items/count',
+			);
+	
+			foreach ( $endpoints as $route ) {
+				if ( $route !== $endpoint && empty( $data ) ) {
+					/* translators: %s: REST API URL */
+					throw new CoCart_Data_Exception( 'cocart_response_returned_empty', sprintf( __( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ), rest_url( sprintf( '/%s/%s/', $namespace, $endpoint ) ) ) );
+				}
 			}
 
 			// Return response.
