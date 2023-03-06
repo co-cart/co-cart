@@ -77,16 +77,16 @@ class CoCart_Response {
 	 *
 	 * @param mixed  $data      The original data response of the API requested.
 	 * @param string $namespace The namespace of the API requested.
-	 * @param string $rest_base The rest base of the API requested.
+	 * @param string $endpoint  The endpoint of the API requested.
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public static function get_response( $data, $namespace = '', $rest_base = '' ) {
-		if ( empty( $rest_base ) ) {
-			$rest_base = 'cart';
+	public static function get_response( $data, $namespace = '', $endpoint = '' ) {
+		if ( empty( $endpoint ) ) {
+			$endpoint = 'cart';
 		}
 
-		$rest_base = str_replace( '-', '_', $rest_base );
+		$endpoint = str_replace( '-', '_', $endpoint );
 
 		try {
 			/**
@@ -118,7 +118,8 @@ class CoCart_Response {
 			// Add version of CoCart.
 			$response->header( 'CoCart-Version', COCART_VERSION );
 
-			if ( 'cart' === $rest_base ) {
+			// Returns additional headers for the cart endpoint.
+			if ( 'cart' === $endpoint ) {
 				$cart_expiring   = WC()->session->get_cart_is_expiring();
 				$cart_expiration = WC()->session->get_carts_expiration();
 
