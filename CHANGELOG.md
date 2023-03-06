@@ -1,5 +1,44 @@
 # Changelog for CoCart
 
+## v3.8.1 - 4th March, 2023
+
+### What's New?
+
+* Added the Authentication class as parameter to `cocart_authenticate` filter.
+* Added `set_method()` function to authentication class.
+
+### For Developers
+
+Introduced a new filter `cocart_login_extras` to allow developers to extend the login response.
+
+## v3.8.0 - 3rd March, 2023
+
+### What's New?
+
+* Tested: ✔️ Compatible with WooCommerce v7.4
+
+### For Developers
+
+Introduced a new hook `cocart_cart_loaded` which could be used to trigger a webhook once a cart has been loaded from session.
+
+## v3.7.11 - 16th January, 2023
+
+### What's New
+
+* Improved compatibility with PHP 8.1+
+* Tested: ✔️ Compatible with WooCommerce v7.3
+
+## v3.7.10 - 30th December, 2022
+
+### What's New
+
+* Tested: ✔️ Compatible with WooCommerce v7.2
+* Tested: ✔️ Compatible with WordPress v6.1
+
+### Bug Fix
+
+* Fixed viewing an individual session that has coupons.
+
 ## v3.7.9 - 4th November, 2022
 
 ### Bug Fixes

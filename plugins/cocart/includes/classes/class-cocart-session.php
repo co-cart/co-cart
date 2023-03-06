@@ -276,6 +276,17 @@ class LoadCart {
 				/* translators: %1$s: Start of link to Shop archive. %2$s: Start of link to checkout page. %3$s: Closing link tag. */
 				wc_add_notice( apply_filters( 'cocart_cart_loaded_successful_message', sprintf( __( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . wc_get_page_permalink( 'shop' ) . '">', '<a href="' . wc_get_checkout_url() . '">', '</a>' ) ), 'notice' );
 			}
+
+			/**
+			 * Fires once a cart has loaded.
+			 *
+			 * Can be used to trigger a webhook.
+			 *
+			 * @since 3.8.0 Introduced.
+			 *
+			 * @param string $cart_key The cart key.
+			 */
+			do_action( 'cocart_cart_loaded', $cart_key );
 		}
 	} // END load_cart_action()
 
