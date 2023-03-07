@@ -1,27 +1,47 @@
-# Next Changelog for CoCart
+# Next Changelog for CoCart <!-- omit in toc -->
 
 📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
+## Table of Contents <!-- omit in toc -->
+
+- [What's New?](#whats-new)
+- [Authentication](#authentication)
+- [Experimental](#experimental)
+  - [RateLimiter for the API](#ratelimiter-for-the-api)
+- [Improved and Tweaks](#improved-and-tweaks)
+- [Security](#security)
+  - [FAQ](#faq)
+    - [Wont a developer be still be able find the salt key?](#wont-a-developer-be-still-be-able-find-the-salt-key)
+    - [Can I only allow specific products to be overridden?](#can-i-only-allow-specific-products-to-be-overridden)
+- [Session handler](#session-handler)
+- [Deprecations and Replacements](#deprecations-and-replacements)
+- [Internal Changes](#internal-changes)
+- [Developers](#developers)
+  - [Response Headers](#response-headers)
+  - [Monetary values](#monetary-values)
+- [Database Changes](#database-changes)
+- [Support](#support)
+
 ## What's New?
 
-* New settings page:
- * * Set the front-end site URL for product permalinks for the Products API.
- * * Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
-* [Session handler](#session-handler) now initiates lighter for the use of CoCart's API while leaving the original handling for the native WooCommerce intact for the frontend.
-* Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
-* Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
-* Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
-* Added package information of each plugin module to WooCommerce System Status.
-* New WP-CLI command `wp cocart status` shows the status of carts in session.
-* Enhancements made to [authentication](#authentication).
-* Finally added the ability to add/update customer details to the cart with validation. [See guide for example](#).
-* Added ability to set customers billing phone number while adding item to the cart.
-* Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
-* Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
-* Added ability to filter the fields of the endpoint you request before they return, making the response faster.
-* Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
-* Added batch support. Feedback needed. (API v2 supported ONLY) (Details on this addition needs to be documented.)
-* Added new endpoint to delete all items (only) in the cart.
+- New settings page:
+  - Set the front-end site URL for product permalinks for the Products API.
+  - Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
+- [Session handler](#session-handler) now initiates lighter for the use of CoCart's API while leaving the original handling for the native WooCommerce intact for the frontend.
+- Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
+- Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
+- Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
+- Added package information of each plugin module to WooCommerce System Status.
+- New WP-CLI command `wp cocart status` shows the status of carts in session.
+- Enhancements made to [authentication](#authentication).
+- Finally added the ability to add/update customer details to the cart with validation. [See guide for example](#).
+- Added ability to set customers billing phone number while adding item to the cart.
+- Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
+- Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
+- Added ability to filter the fields of the endpoint you request before they return, making the response faster.
+- Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
+- Added batch support. Feedback needed. (API v2 supported ONLY) (Details on this addition needs to be documented.)
+- Added new endpoint to delete all items (only) in the cart.
 
 ## Authentication
 
@@ -37,9 +57,9 @@ Third is a new [RateLimiter for the API.](#ratelimiter-for-the-api)
 
 _The first feature experiment has been added in the hopes to provide more control on who/what has access to CoCart' REST API and requires your feedback._
 
-### RateLimiter for the API.
+### RateLimiter for the API
 
-**This is optional and disabled by Default**
+> This is optional and disabled by Default
 
 The main purpose was to prevent abuse on endpoints from excessive calls and performance degradation on the machine running the store.
 
@@ -53,14 +73,14 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 
 ## Improved and Tweaks
 
-* Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
-* Plugin Suggestions now returns results better the first time it's viewed.
-* Sub-menus in the WordPress dashboard now load faster. No redirects.
-* Error responses are now softer to prevent fatal networking when a request fails.
-* Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
-* Optimized products API response and updated schema.
-* All endpoints with schema now have proper schema title for proper identification.
-* The callback for cart update endpoint now passes the controller class so we don't have to call it a new.
+- Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
+- Plugin Suggestions now returns results better the first time it's viewed.
+- Sub-menus in the WordPress dashboard now load faster. No redirects.
+- Error responses are now softer to prevent fatal networking when a request fails.
+- Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
+- Optimized products API response and updated schema.
+- All endpoints with schema now have proper schema title for proper identification.
+- The callback for cart update endpoint now passes the controller class so we don't have to call it a new.
 
 ## Security
 
@@ -82,6 +102,7 @@ To help with hijacking the price, a salt key can be set via the new settings pag
 
 - [Wont a developer be still be able find the salt key?](#wont-a-developer-be-still-be-able-find-the-salt-key)
 - [Can I only allow specific products to be overridden?](#can-i-only-allow-specific-products-to-be-overridden)
+
 #### Wont a developer be still be able find the salt key?
 
 Possibly. It all depends on how well you have minified your code to hide the fact that you are allowing price override. This is only a means to help slow down the possibility of a session hijack.
@@ -117,32 +138,32 @@ Instead the user session data is returned during any cart request and passes the
 
 ## Deprecations and Replacements
 
-* Legacy API that extended `wc/v2` when CoCart was only a prototype.
-* Session cookie is now reverted back to original WooCommerce session cookie.
-* Filter `cocart_customer_id` no longer used to override the customer ID for the session.
-* Filter `cocart_cookie` no longer used as the session cookie has been reverted back to default.
-* Filter `cocart_no_items_message` replaced with another filter `cocart_no_items_in_cart_message` that is shared in other endpoints.
-* Function `WC()->session->use_httponly()` no longer used.
-* Function `WC()->session->cocart_setcookie()` no longer used. Replaced with `cocart_setcookie()`.
-* Function `WC()->session->get_cart_created()` no longer used. Replaced with `cocart_get_timestamp()`.
-* Function `WC()->session->get_cart_expiration()` no longer used. Replaced with `cocart_get_timestamp()`.
-* Function `WC()->session->get_cart_source()` no longer used. Replaced with `cocart_get_source()`.
+- Legacy API that extended `wc/v2` when CoCart was only a prototype.
+- Session cookie is now reverted back to original WooCommerce session cookie.
+- Filter `cocart_customer_id` no longer used to override the customer ID for the session.
+- Filter `cocart_cookie` no longer used as the session cookie has been reverted back to default.
+- Filter `cocart_no_items_message` replaced with another filter `cocart_no_items_in_cart_message` that is shared in other endpoints.
+- Function `WC()->session->use_httponly()` no longer used.
+- Function `WC()->session->cocart_setcookie()` no longer used. Replaced with `cocart_setcookie()`.
+- Function `WC()->session->get_cart_created()` no longer used. Replaced with `cocart_get_timestamp()`.
+- Function `WC()->session->get_cart_expiration()` no longer used. Replaced with `cocart_get_timestamp()`.
+- Function `WC()->session->get_cart_source()` no longer used. Replaced with `cocart_get_source()`.
 
 ## Internal Changes
 
-* Autoload via Composer is now used to help load all modules of the plugin and specific class files without the need to manually include them.
-* Moved deprecated functions to it's own file.
-* Inline documentation much improved. Allows for a code reference to be generated per release for developers.
+- Autoload via Composer is now used to help load all modules of the plugin and specific class files without the need to manually include them.
+- Moved deprecated functions to it's own file.
+- Inline documentation much improved. Allows for a code reference to be generated per release for developers.
 
 ## Developers
 
-* Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
-* Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
-* Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
-* Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
-* Added new parameters to filter `cocart_cart` so you can access the cart controller and requested data.
-* Introduced new action hook `cocart_added_item_to_cart` that allows for additional requested data to be processed via a third party once item is added to the cart.
-* Introduced new action hook `cocart_added_items_to_cart` that allows for additional requested data to be processed via a third party once items are added to the cart.
+- Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
+- Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
+- Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
+- Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
+- Added new parameters to filter `cocart_cart` so you can access the cart controller and requested data.
+- Introduced new action hook `cocart_added_item_to_cart` that allows for additional requested data to be processed via a third party once item is added to the cart.
+- Introduced new action hook `cocart_added_items_to_cart` that allows for additional requested data to be processed via a third party once items are added to the cart.
 
 ### Response Headers
 
@@ -150,14 +171,14 @@ Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `
 
 ### Monetary values
 
-All monetary values are formatted after giving 3rd party plugins or extensions a chance to manipulate them first and all return as a *float* value. This includes using the following filters at priority `99`.
+All monetary values are formatted after giving 3rd party plugins or extensions a chance to manipulate them first and all return as a _float_ value. This includes using the following filters at priority `99`.
 
-* `cocart_cart_item_price`
-* `cocart_cart_item_subtotal`
-* `cocart_cart_item_subtotal_tax`
-* `cocart_cart_item_total`
-* `cocart_cart_item_tax`
-* `cocart_cart_totals_taxes_total`
+- `cocart_cart_item_price`
+- `cocart_cart_item_subtotal`
+- `cocart_cart_item_subtotal_tax`
+- `cocart_cart_item_total`
+- `cocart_cart_item_tax`
+- `cocart_cart_totals_taxes_total`
 
 Now developers have consistent format that can be used with the likes of WooCommerce's [Number](https://www.npmjs.com/package/@woocommerce/number) and [Currency](https://www.npmjs.com/package/@woocommerce/currency) modules.
 
@@ -171,5 +192,5 @@ As always it is best to back-up before any database changes are made. When proce
 
 ## Support
 
-* In order for CoCart to continue working you need to be using WooCommerce 6.9 minimum or higher.
-* No longer supporting CoCart API v1. Only bug or security fixes will be provided if any.
+- In order for CoCart to continue working you need to be using WooCommerce 6.9 minimum or higher.
+- No longer supporting CoCart API v1. Only bug or security fixes will be provided if any.
