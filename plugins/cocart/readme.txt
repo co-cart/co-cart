@@ -1,6 +1,6 @@
 === CoCart - Headless ecommerce ===
 Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31, douglasjohnson, antondrob2
-Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
+Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session, rate-limit
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.1
@@ -163,7 +163,8 @@ You can read more about the details of Semver at [semver.org](https://semver.org
 We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
 
 * **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** enables support for CORS to allow CoCart to work across multiple domains. - **FREE**
-* **[CoCart - Rate Limiting](https://wordpress.org/plugins/cocart-rate-limiting)** enables the rate limiting feature available in version **4.0** an up. - **FREE**
+* **[CoCart - Rate Limiting](https://wordpress.org/plugins/cocart-rate-limiting)** enables the rate limiting feature. - **FREE**
+* **[CoCart - JWT Authentication](https://wordpress.org/plugins/cocart-jwt-authentication)** allows you to authenticate via a simple JWT Token. - **FREE**
 * **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it. - **FREE**
 * **[Advanced Custom Fields](https://cocart.xyz/add-ons/advanced-custom-fields/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart)** extends the products API by returning all your advanced custom fields for products.
 * and more add-ons in development.
