@@ -158,6 +158,7 @@ Instead the user session data is returned during any cart request and passes the
 ## Developers
 
 - Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
+- Introduced new filter `cocart_cart_totals` that can be used to change the values returned.
 - Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
 - Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
 - Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
@@ -171,7 +172,7 @@ Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `
 
 ### Monetary values
 
-All monetary values are formatted after giving 3rd party plugins or extensions a chance to manipulate them first and all return as a _float_ value. This includes using the following filters at priority `99`.
+All monetary values in the cart are formatted after giving 3rd party plugins or extensions a chance to manipulate them first and all return as a _float_ value. This includes using the following filters at priority `99`.
 
 - `cocart_cart_item_price`
 - `cocart_cart_item_subtotal`
@@ -179,6 +180,7 @@ All monetary values are formatted after giving 3rd party plugins or extensions a
 - `cocart_cart_item_total`
 - `cocart_cart_item_tax`
 - `cocart_cart_totals_taxes_total`
+- `cocart_cart_totals`
 
 Now developers have consistent format that can be used with the likes of WooCommerce's [Number](https://www.npmjs.com/package/@woocommerce/number) and [Currency](https://www.npmjs.com/package/@woocommerce/currency) modules.
 
