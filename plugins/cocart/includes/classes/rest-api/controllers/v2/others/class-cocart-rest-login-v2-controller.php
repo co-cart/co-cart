@@ -142,13 +142,13 @@ class CoCart_REST_Login_v2_Controller {
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
-				'first_name' => array(
+				'first_name'   => array(
 					'description' => __( 'The first name of the user (if any).', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
-				'last_name' => array(
+				'last_name'    => array(
 					'description' => __( 'The last name of the user (if any).', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
@@ -179,7 +179,7 @@ class CoCart_REST_Login_v2_Controller {
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
-				'extras'        => array(
+				'extras'       => array(
 					'description' => __( 'Extra details added via the filter.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),

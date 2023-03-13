@@ -71,7 +71,7 @@ class CoCart_REST_Remove_Items_v2_Controller extends CoCart_REST_Cart_v2_Control
 
 			$items = $this->get_items( $cart_contents );
 
-			foreach( $items as $item_key => $item ) {
+			foreach ( $items as $item_key => $item ) {
 				$this->get_cart_instance()->remove_cart_item( $item_key );
 			}
 

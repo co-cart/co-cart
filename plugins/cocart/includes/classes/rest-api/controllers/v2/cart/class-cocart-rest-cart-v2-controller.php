@@ -187,6 +187,11 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 			$cart_contents = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
+			// Return cart contents raw if requested.
+			if ( $show_raw ) {
+				return $cart_contents;
+			}
+
 			/**
 			 * Filter allows you to modify the cart contents before it is returned.
 			 *
@@ -199,11 +204,6 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			 * @param WP_REST_Request $request       Full details about the request.
 			 */
 			$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
-
-			// Return cart contents raw if requested.
-			if ( $show_raw ) {
-				return $cart_contents;
-			}
 
 			/**
 			 * Deprecated action hook `cocart_get_cart`.
