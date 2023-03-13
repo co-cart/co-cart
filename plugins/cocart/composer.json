@@ -52,6 +52,6 @@
 	},
 	"require-dev": {
 		"php": "^7 || ^8",
-		"composer/installers": "2.1.1"
+		"composer/installers": "2.2.0"
 	}
 }
