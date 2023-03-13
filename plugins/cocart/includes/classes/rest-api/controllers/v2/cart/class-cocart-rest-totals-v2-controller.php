@@ -44,11 +44,13 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_totals' ),
-				'permission_callback' => '__return_true',
-				'args'                => $this->get_collection_params(),
-			)
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_totals' ),
+					'permission_callback' => '__return_true',
+					'args'                => $this->get_collection_params(),
+				),
+			),
 		);
 	} // register_routes()
 

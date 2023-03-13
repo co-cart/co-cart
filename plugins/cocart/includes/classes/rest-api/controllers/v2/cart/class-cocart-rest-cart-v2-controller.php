@@ -361,7 +361,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'totals', $fields ) ) {
-			$cart['totals'] = $this->get_cart_totals( $this->get_cart_instance(), $fields );
+			$cart['totals'] = $this->get_cart_totals( $request, $this->get_cart_instance(), $fields );
 		}
 
 		if ( rest_is_field_included( 'removed_items', $fields ) ) {
@@ -1054,12 +1054,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @param WC_Cart $cart   Cart class instance.
-	 * @param array   $fields An array of requested fields for the cart response to return.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param WC_Cart         $cart    Cart class instance.
+	 * @param array           $fields  An array of requested fields for the cart response to return.
 	 *
 	 * @return array Cart totals.
 	 */
-	public function get_cart_totals( $cart, $fields ) {
+	public function get_cart_totals( $request = array(), $cart, $fields ) {
 		$totals = array(
 			'subtotal'       => $cart->get_subtotal(),
 			'subtotal_tax'   => $cart->get_subtotal_tax(),
@@ -1083,7 +1084,17 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			unset( $totals['shipping_tax'] );
 		}
 
-		return $totals;
+		/**
+		 * Filters the cart totals.
+		 *
+		 * @since 4.0.0 Introduced.
+		 *
+		 * @param array           $totals  Cart totals.
+		 * @param WP_REST_Request $request Full details about the request.
+		 * @param WC_Cart         $cart    Cart class instance.
+		 * @param array           $fields  An array of requested fields for the cart response to return.
+		 */
+		return apply_filters( 'cocart_cart_totals', $totals, $request, $cart, $fields );
 	} // END get_cart_totals()
 
 	/**

@@ -44,7 +44,7 @@ class CartFormatting {
 		add_filter( 'cocart_cart_cross_item_price', array( $this, 'convert_money_response' ), 99, 2 );
 		add_filter( 'cocart_cart_cross_item_regular_price', array( $this, 'convert_money_response' ), 99, 2 );
 		add_filter( 'cocart_cart_cross_item_sale_price', array( $this, 'convert_money_response' ), 99, 2 );
-		add_filter( 'cocart_cart', array( $this, 'convert_totals_response' ), 99, 2 );
+		add_filter( 'cocart_cart_totals', array( $this, 'convert_totals_response' ), 99, 2 );
 
 		// Remove any empty cart item data objects.
 		add_filter( 'cocart_cart_item_data', array( $this, 'clean_empty_cart_item_data' ), 0 );
@@ -131,28 +131,25 @@ class CartFormatting {
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @param array           $cart    The whole cart before it's returned.
+	 * @param array           $totals  Cart totals.
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return float Formatted totals.
+	 * @return array An array of formatted totals.
 	 */
-	public function convert_totals_response( $cart, $request ) {
-		if ( array_key_exists( 'totals', $cart ) ) {
-			$totals           = $cart['totals'];
-			$totals_converted = array();
+	public function convert_totals_response( $totals, $request ) {
+		$totals_converted = array();
 
-			foreach ( $totals as $key => $value ) {
-				if ( ! empty( $request['config']['prices'] ) && $request['config']['prices'] === 'preformatted' ) {
-					$totals_converted[ $key ] = cocart_price_no_html( $value );
-				} else {
-					$totals_converted[ $key ] = (float) cocart_prepare_money_response( $value );
-				}
+		foreach ( $totals as $key => $value ) {
+			if ( ! empty( $request['config']['prices'] ) && $request['config']['prices'] === 'preformatted' ) {
+				$totals_converted[ $key ] = cocart_price_no_html( $value );
+			} else {
+				$totals_converted[ $key ] = (float) cocart_prepare_money_response( $value );
 			}
-
-			$cart['totals'] = $totals_converted;
 		}
 
-		return $cart;
+		$totals = $totals_converted;
+
+		return $totals;
 	} // END convert_totals_response()
 
 	/**
