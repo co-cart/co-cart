@@ -1373,6 +1373,53 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	} // END get_product_slug()
 
 	/**
+	 * Returns the item thumbnail from the requested product in cart.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param WC_Product $product      Product object.
+	 * @param array      $cart_item    The item in the cart containing the default cart item data.
+	 * @param string     $item_key     The item key generated based on the details of the item.
+	 * @param boolean    $removed_item Determines if the item in the cart is removed.
+	 *
+	 * @return string
+	 */
+	public function get_item_thumbnail( $product, $cart_item, $item_key, $removed_item ) {
+		$thumbnail_id = ! empty( $product->get_image_id() ) ? $product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
+
+		/**
+		 * Filter allows you to change the thumbnail ID of the item in cart.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param int     $thumbnail_id Thumbnail ID of the image.
+		 * @param array   $cart_item    The item in the cart containing the default cart item data.
+		 * @param string  $item_key     The item key generated based on the details of the item.
+		 * @param boolean $removed_item Determines if the item in the cart is removed.
+		 */
+		$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
+
+		$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
+
+		$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
+
+		/**
+		 * Filters the source of the product thumbnail of the item in cart.
+		 *
+		 * @since   2.1.0 Introduced.
+		 * @version 3.0.0
+		 *
+		 * @param string $thumbnail_src URL of the product thumbnail.
+		 */
+		$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
+
+		// Return main featured image.
+		return esc_url( $thumbnail_src );
+	} // END get_item_thumbnail()
+
+	/**
 	 * Get a single item from the cart and present the data required.
 	 *
 	 * @access public
@@ -1453,36 +1500,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
-			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
-
-			/**
-			 * Filter allows you to change the thumbnail ID of the item in cart.
-			 *
-			 * @since 3.0.0 Introduced.
-			 *
-			 * @param int     $thumbnail_id Thumbnail ID of the image.
-			 * @param array   $cart_item    The item in the cart containing the default cart item data.
-			 * @param string  $item_key     The item key generated based on the details of the item.
-			 * @param boolean $removed_item Determines if the item in the cart is removed.
-			 */
-			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
-
-			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
-
-			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
-
-			/**
-			 * Filters the source of the product thumbnail of the item in cart.
-			 *
-			 * @since   2.1.0 Introduced.
-			 * @version 3.0.0
-			 *
-			 * @param string $thumbnail_src URL of the product thumbnail.
-			 */
-			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
-
-			// Add main featured image.
-			$item['featured_image'] = esc_url( $thumbnail_src );
+			$item['featured_image'] = $this->get_item_thumbnail( $_product, $cart_item, $item_key, $removed_item );
 		}
 
 		return $item;
