@@ -127,7 +127,7 @@ class CoCart_REST_Count_Items_v2_Controller extends CoCart_REST_Cart_v2_Controll
 	 */
 	public function get_public_item_schema() {
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'     => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_cart_count_items',
 			'type'       => 'object',
 			'properties' => array(

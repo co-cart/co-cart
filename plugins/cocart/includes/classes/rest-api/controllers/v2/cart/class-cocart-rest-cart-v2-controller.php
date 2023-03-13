@@ -2630,7 +2630,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 */
 	public function get_public_item_schema() {
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'     => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_cart',
 			'type'       => 'object',
 			'properties' => array(
