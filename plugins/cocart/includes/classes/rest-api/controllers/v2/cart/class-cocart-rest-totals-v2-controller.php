@@ -61,55 +61,22 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 1.0.0 Introduced.
+	 * @since 4.0.0 Accesses the cart totals from the cart controller.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
-	public function get_totals( $request = array() ) {
+	public function get_totals( $request ) {
 		try {
-			$pre_formatted = isset( $request['html'] ) ? $request['html'] : false;
+			$fields = $this->get_fields_for_response( $request );
+			$totals = $this->get_cart_totals( $request, $this->get_cart_instance(), $fields );
 
-			$controller = new CoCart_REST_Cart_v2_Controller();
-
-			$totals            = $controller->get_cart_instance()->get_totals();
-			$totals_calculated = false;
-
-			if ( ! empty( $totals['total'] ) ) {
-				$totals_calculated = true;
-			}
-
-			if ( ! $totals_calculated ) {
+			if ( empty( $totals['total'] ) ) {
 				$message = esc_html__( 'This cart either has no items or was not calculated.', 'cart-rest-api-for-woocommerce' );
 
 				throw new CoCart_Data_Exception( 'cocart_cart_totals_empty', $message, 404 );
-			}
-
-			$ignore_convert = array(
-				'shipping_taxes',
-				'cart_contents_taxes',
-				'fee_taxes',
-			);
-
-			// Was it requested to have the totals preformatted?
-			if ( $pre_formatted ) {
-				$new_totals = array();
-
-				foreach ( $totals as $type => $total ) {
-					if ( in_array( $type, $ignore_convert ) ) {
-						$new_totals[ $type ] = $total;
-					} else {
-						if ( is_string( $total ) ) {
-							$new_totals[ $type ] = cocart_price_no_html( $total );
-						} else {
-							$new_totals[ $type ] = cocart_price_no_html( strval( $total ) );
-						}
-					}
-				}
-
-				$totals = $new_totals;
 			}
 
 			return CoCart_Response::get_response( $totals, $this->namespace, $this->rest_base );
@@ -117,30 +84,5 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END get_totals()
-
-	/**
-	 * Get the query params for cart totals.
-	 *
-	 * @access public
-	 *
-	 * @return array $params
-	 */
-	public function get_collection_params() {
-		// Cart query parameters.
-		$params = parent::get_collection_params();
-
-		// Add to cart query parameters.
-		$params += array(
-			'html' => array(
-				'required'          => false,
-				'default'           => false,
-				'description'       => __( 'Returns the totals pre-formatted.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'boolean',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-		);
-
-		return $params;
-	} // END get_collection_params()
 
 } // END class
