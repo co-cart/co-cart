@@ -39,7 +39,7 @@
 	"requires_php": "7.4",
 	"tested_up_to": "6.1",
 	"wc_requires": "6.9",
-	"wc_tested_up_to": "7.3",
+	"wc_tested_up_to": "7.4",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2023, Sébastien Dumont",
 	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
@@ -79,7 +79,7 @@
 		"packages:fix:textdomain": "node ./bin/package-update-textdomain.js"
 	},
 	"devDependencies": {
-		"grunt": "1.5.3",
+		"grunt": "1.6.1",
 		"grunt-checktextdomain": "1.0.1",
 		"grunt-contrib-clean": "2.0.1",
 		"grunt-contrib-compress": "2.0.0",
