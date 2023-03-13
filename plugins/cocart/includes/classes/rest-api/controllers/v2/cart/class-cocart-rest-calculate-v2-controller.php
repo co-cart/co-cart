@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @see CoCart_REST_Cart_v2_Controller
  */
-class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
+class CoCart_REST_Calculate_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -72,7 +72,7 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.0.0
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -80,19 +80,16 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 */
 	public function calculate_totals( $request = array() ) {
 		try {
-			$controller = new CoCart_REST_Cart_v2_Controller();
-
-			$controller->get_cart_instance()->calculate_totals();
+			$this->get_cart_instance()->calculate_totals();
 
 			// Was it requested to return all totals once calculated?
 			if ( isset( $request['return_totals'] ) && is_bool( $request['return_totals'] ) && $request['return_totals'] ) {
-				$response = CoCart_Totals_Controller::get_totals( $request );
+				$fields   = $this->get_fields_for_response( $request );
+				$response = $this->get_cart_totals( $request, $this->get_cart_instance(), $fields );
+			} else {
+				// Get cart contents.
+				$response = $this->get_cart_contents( $request );
 			}
-
-			cocart_deprecated_filter( 'cocart_totals_calculated_message', array(), '3.0.0', null, null );
-
-			// Get cart contents.
-			$response = $controller->get_cart_contents( $request );
 
 			return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 		} catch ( CoCart_Data_Exception $e ) {
@@ -110,10 +107,8 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * @return array $params Query parameters for calculating totals.
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_REST_Cart_v2_Controller();
-
 		// Cart query parameters.
-		$params = $controller->get_collection_params();
+		$params = parent::get_collection_params();
 
 		// Add to cart query parameters.
 		$params += array(
