@@ -442,7 +442,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 		cocart_deprecated_function( __FUNCTION__, '4.0', 'get_public_item_schema' );
 
 		$schema = array(
-			'$schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_add_item',
 			'type'       => 'object',
 			'properties' => array(

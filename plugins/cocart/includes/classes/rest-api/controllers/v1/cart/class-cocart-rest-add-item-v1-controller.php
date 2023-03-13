@@ -335,7 +335,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 */
 	public function get_item_schema() {
 		$schema = array(
-			'$schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(

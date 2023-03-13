@@ -2612,6 +2612,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 						'description' => __( 'The variation attributes of the item (if item is a variation of a variable product).', 'cart-rest-api-for-woocommerce' ),
 						'type'        => 'object',
 						'context'     => array( 'view' ),
+						'readonly'    => true,
 						'properties'  => array(),
 					),
 				),
@@ -2626,6 +2627,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				'description' => __( 'Custom item data applied to the item (if any).', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'object',
 				'context'     => array( 'view' ),
+				'readonly'    => true,
 				'properties'  => array(),
 			),
 			'featured_image' => array(
