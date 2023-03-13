@@ -1442,65 +1442,61 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$dimensions = $_product->get_dimensions( false );
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
-		$item = array(
-			'item_key'       => $item_key,
-			'id'             => $_product->get_id(),
-			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
-			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
-			'price'          => apply_filters( 'cocart_cart_item_price', $this->get_cart_instance()->get_product_price( $_product ), $cart_item, $item_key, $request ),
-			'quantity'       => array(
-				'value'        => (float) $quantity,
-				'min_purchase' => $_product->get_min_purchase_quantity(),
-				'max_purchase' => $_product->get_max_purchase_quantity(),
-			),
-			'totals'         => array(
-				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $this->get_cart_instance()->get_product_subtotal( $_product, $quantity ), $cart_item, $item_key, $request ),
-				'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key, $request ),
-				'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key, $request ),
-				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key, $request ),
-			),
-			'slug'           => $this->get_product_slug( $_product ),
-			'meta'           => array(
-				'product_type' => $_product->get_type(),
-				'sku'          => $_product->get_sku(),
-				'dimensions'   => ! empty( $dimensions ) ? array(
-					'length' => $dimensions['length'],
-					'width'  => $dimensions['width'],
-					'height' => $dimensions['height'],
-					'unit'   => get_option( 'woocommerce_dimension_unit' ),
-				) : array(),
-				'weight'       => wc_get_weight( (float) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
-				'variation'    => isset( $cart_item['variation'] ) ? cocart_format_variation_data( $cart_item['variation'], $_product ) : array(),
-			),
-			'backorders'     => '',
-			'cart_item_data' => array(),
-			'featured_image' => '',
+		// Item container.
+		$item = array();
+
+		$item['item_key'] = $item_key;
+		$item['id']       = $_product->get_id();
+		$item['name']     = apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key );
+		$item['title']    = apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key );
+		$item['price']    = apply_filters( 'cocart_cart_item_price', $this->get_cart_instance()->get_product_price( $_product ), $cart_item, $item_key, $request );
+		$item['quantity'] = array(
+			'value'        => (float) $quantity,
+			'min_purchase' => $_product->get_min_purchase_quantity(),
+			'max_purchase' => $_product->get_max_purchase_quantity(),
+		);
+		$item['totals']   = array(
+			'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', $this->get_cart_instance()->get_product_subtotal( $_product, $quantity ), $cart_item, $item_key, $request ),
+			'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key, $request ),
+			'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key, $request ),
+			'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key, $request ),
+		);
+		$item['slug']     = $this->get_product_slug( $_product );
+		$item['meta']     = array(
+			'product_type' => $_product->get_type(),
+			'sku'          => $_product->get_sku(),
+			'dimensions'   => ! empty( $dimensions ) ? array(
+				'length' => $dimensions['length'],
+				'width'  => $dimensions['width'],
+				'height' => $dimensions['height'],
+				'unit'   => get_option( 'woocommerce_dimension_unit' ),
+			) : array(),
+			'weight'       => wc_get_weight( (float) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
+			'variation'    => isset( $cart_item['variation'] ) ? cocart_format_variation_data( $cart_item['variation'], $_product ) : array(),
 		);
 
 		// Backorder notification.
-		if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-			$item['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) );
-		}
+		$item['backorders'] = $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ? wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) ) : '';
 
 		// Prepares the remaining cart item data.
 		$cart_item = $this->prepare_item( $cart_item );
 
-		// Collect all cart item data if any thing is left.
-		if ( ! empty( $cart_item ) ) {
-			/**
-			 * Filter allows you to alter the remaining cart item data.
-			 *
-			 * @since 3.0.0 Introduced.
-			 *
-			 * @param array  $cart_item Remaining cart item data.
-			 * @param string $item_key  Item key of the item in the cart.
-			 */
-			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
-		}
+		/**
+		 * Filter allows you to alter the remaining cart item data.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array  $cart_item Remaining cart item data.
+		 * @param string $item_key  Item key of the item in the cart.
+		 */
+		$cart_item_data = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
+
+		// Returns remaining cart item data.
+		$item['cart_item_data'] = ! empty( $cart_item ) ? $cart_item_data : array();
 
 		// If thumbnail is requested then add it to each item in cart.
-		if ( $show_thumb ) {
-			$item['featured_image'] = $this->get_item_thumbnail( $_product, $cart_item, $item_key, $removed_item );
+		$item['featured_image'] = $show_thumb ? $this->get_item_thumbnail( $_product, $cart_item, $item_key, $removed_item ) : '';
+
 		}
 
 		return $item;
