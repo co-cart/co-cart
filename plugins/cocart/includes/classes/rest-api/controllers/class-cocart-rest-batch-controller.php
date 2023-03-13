@@ -134,8 +134,6 @@ class CoCart_REST_Batch_Controller {
 
 		$response->header( 'CoCart-Timestamp', time() );
 
-
-
 		return $response;
 	} // END get_response()
 
