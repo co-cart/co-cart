@@ -227,11 +227,14 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 			if ( ! empty( $coupons ) ) {
 				foreach ( $coupons as $coupon ) {
+					$data = new WC_Coupon( $coupon );
+
 					$cart['coupons'][] = array(
-						'coupon'      => wc_format_coupon_code( wp_unslash( $coupon ) ),
-						'label'       => esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ),
-						'saving'      => $this->coupon_html( $coupon, false ),
-						'saving_html' => $this->coupon_html( $coupon ),
+						'coupon'        => wc_format_coupon_code( wp_unslash( $coupon ) ),
+						'label'         => esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ),
+						'discount_type' => $data->get_discount_type(),
+						'saving'        => $this->coupon_html( $coupon, false ),
+						'saving_html'   => $this->coupon_html( $coupon ),
 					);
 				}
 			}
