@@ -1437,10 +1437,22 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $request = array(), $removed_item = false ) {
-		$item_key   = $cart_item['key'];
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
+
+		$item_key = $cart_item['key'];
+
+		/**
+		 * Filter allows the item quantity to be changed.
+		 *
+		 * The quantity may need to show as a different quantity depending on the product added.
+		 *
+		 * @param float                      Original Quantity
+		 * @param string          $item_key  Item key of the item in the cart.
+		 * @param array           $cart_item The item in the cart containing the default cart item data.
+		 * @param WP_REST_Request $request   Full details about the request.
+		 */
 		$quantity   = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $request );
 		$dimensions = $_product->get_dimensions( false );
-		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		// Item container.
 		$item = array();
@@ -1486,13 +1498,14 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @param array  $cart_item Remaining cart item data.
+		 * @param array  $cart_item Cart item data.
 		 * @param string $item_key  Item key of the item in the cart.
 		 */
 		$cart_item_data = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
 
 		// Returns remaining cart item data.
-		$item['cart_item_data'] = ! empty( $cart_item ) ? $cart_item_data : array();
+		$cart_item_data = ! empty( $cart_item ) ? $cart_item_data : array();
+		$item['cart_item_data'] = $cart_item_data;
 
 		// If thumbnail is requested then add it to each item in cart.
 		$item['featured_image'] = $show_thumb ? $this->get_item_thumbnail( $_product, $cart_item, $item_key, $removed_item ) : '';
