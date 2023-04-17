@@ -151,7 +151,7 @@ const CoCart = new CoCartAPI({
 });
 ```
 
-If you are using the [JWT authentication](#) plugin then you need to pass the token in the library options as so.
+If you are using [CoCart's JWT Authentication](https://wordpress.org/plugins/cocart-jwt-authentication/) plugin then you need to pass the token in the library options as so.
 
 ```js
 // import CoCartAPI from "@cocart/cocart-rest-api"; // Supports ESM
@@ -173,7 +173,7 @@ Other methods require passing **Authorization Headers**.
 
 If you have the _base64_ string of the login credentials already you can put it as is instead of generating the _base64_ encoded string. - **Requires CoCart v4 or above**.
 
-- **JWT Authentication** - [Requires JWT Authentication](#) plugin.
+- **JWT Authentication** - [Requires CoCart JWT Authentication](https://wordpress.org/plugins/cocart-jwt-authentication/) plugin.
 
 ```php
 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOlwvXC9jb2NhcnQtcGx1Z2luLXRydW5rLmxvY2FsIiwiaWF0IjoxNjc3ODg0ODQyLCJleHAiOjE2NzgwNTc2NDIsImRhdGEiOnsidXNlciI6eyJpZCI6MSwidXNlcm5hbWUiOiJzZWJhc3RpZW4iLCJwYXNzd29yZCI6ImRhcmtQYW5kYTI2TWF5In0sInNlY3JldF9rZXkiOiJ0aGlzaXN0aGV3YXkifX0.tGW-wGKIv_BnLz6rfQPMx3pvBKnxB9UwyT2IYK2BoKg'
