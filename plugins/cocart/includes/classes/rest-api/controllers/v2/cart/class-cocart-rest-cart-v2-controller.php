@@ -1510,7 +1510,16 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		// If thumbnail is requested then add it to each item in cart.
 		$item['featured_image'] = $show_thumb ? $this->get_item_thumbnail( $_product, $cart_item, $item_key, $removed_item ) : '';
 
-		}
+		/**
+		 * Filter allows plugin extensions to apply additional information.
+		 *
+		 * @since 4.0.0 Introduced.
+		 *
+		 * @param array           $cart_item Cart item data.
+		 * @param string          $item_key  Item key of the item in the cart.
+		 * @param WP_REST_Request $request   Full details about the request.
+		 */
+		$item['extensions'] = apply_filters( 'cocart_cart_item_extensions', array(), $cart_item_data, $item_key, $request );
 
 		return $item;
 	} // END get_item()
