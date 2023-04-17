@@ -65,7 +65,8 @@ class Install {
 	/**
 	 * Check plugin version and run the updater if necessary.
 	 *
-	 * This check is done on all requests and runs if the versions do not match.
+	 * This check is done on all page loads except for iFrame and REST requests.
+	 * Runs if the versions do not match.
 	 *
 	 * @access public
 	 *
@@ -74,7 +75,7 @@ class Install {
 	public static function check_version() {
 		$cocart_version = get_option( 'cocart_version' );
 
-		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( $cocart_version, COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+		if ( ! defined( 'IFRAME_REQUEST' ) && ! defined( 'REST_REQUEST' ) && version_compare( $cocart_version, COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
 			self::install();
 			/**
 			 * Runs after CoCart has been updated.

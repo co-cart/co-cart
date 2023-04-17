@@ -59,6 +59,7 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 					'permission_callback' => array( $this, 'get_permissions_check' ),
 					'args'                => $this->get_collection_params(),
 				),
+				'schema'      => array( $this, 'get_public_item_schema' ),
 				'allow_batch' => array( 'v1' => true ),
 			)
 		);
@@ -106,7 +107,7 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 				), 404 );
 			}
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return $this->get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 
 		return true;
@@ -146,9 +147,9 @@ class CoCart_REST_Update_Cart_v2_Controller extends CoCart_REST_Cart_v2_Controll
 			// Returns updated cart if callback was successful.
 			$cart = $this->get_cart_contents( $request );
 
-			return CoCart_Response::get_response( $cart, $this->namespace, $this->rest_base );
+			return $this->get_response( $cart, $this->namespace, $this->rest_base );
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return $this->get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END update_cart()
 

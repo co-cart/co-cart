@@ -30,11 +30,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Server {
 
 	/**
-	 * REST API namespaces and endpoints.
+	 * REST API routes.
+	 *
+	 * @access protected
 	 *
 	 * @var array
 	 */
-	protected $_namespaces = array();
+	protected $routes = array();
 
 	/**
 	 * Setup class.
@@ -64,9 +66,9 @@ class Server {
 		$this->initialize_cart_session();
 		$this->maybe_load_cart();
 
-		// Register API namespaces.
+		// Register REST API namespaces.
 		$this->rest_api_includes();
-		$this->_namespaces = $this->get_rest_namespaces();
+		$this->routes = $this->get_rest_namespaces();
 
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
@@ -80,6 +82,9 @@ class Server {
 		// Cache Control.
 		add_filter( 'rest_pre_serve_request', array( $this, 'cache_control' ), 0, 4 );
 
+		// Expose custom headers.
+		add_action( 'rest_pre_serve_request', array( $this, 'expose_custom_headers' ), 11, 4 );
+
 		// Sends the cart key and customer ID to the header.
 		add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 20, 1 );
 		add_filter( 'rest_authentication_errors', array( $this, 'cocart_requested_customer_header' ), 20, 1 );
@@ -91,48 +96,80 @@ class Server {
 	 * @access public
 	 */
 	public function register_rest_routes() {
-		foreach ( $this->_namespaces as $namespace => $controllers ) {
-			foreach ( $controllers as $controller_name => $controller_class ) {
-				if ( class_exists( $controller_class ) ) {
-					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
-					$this->controllers[ $namespace ][ $controller_name ]->register_routes();
-				}
-			}
-		}
+		$this->register_routes( 'v1' );
+		$this->register_routes( 'v2' );
 	} // END register_rest_routes()
 
 	/**
-	 * Get API namespaces - new namespaces should be registered here.
+	 * Get a route class instance.
 	 *
-	 * @access protected
+	 * Each route class is checked and initialized.
 	 *
-	 * @return array List of Namespaces and Main controller classes.
+	 * @throws \Exception If the route does not exist.
+	 *
+	 * @param string $name    Name of route.
+	 * @param string $version API Version being requested.
+	 *
+	 * @return CoCart_REST_Controller
 	 */
-	protected function get_rest_namespaces() {
-		return apply_filters(
-			'cocart_rest_api_get_rest_namespaces',
-			array(
-				'cocart/v1'     => $this->get_v1_controllers(),
-				'cocart/v2'     => $this->get_v2_controllers(),
-				'cocart/shared' => $this->get_shared_controllers(),
-			)
-		);
-	} // END get_rest_namespaces()
+	public function get_route( $name, $version = 'v2' ) {
+		$route = class_exists( $this->routes[ $version ][ $name ] ) ? new $this->routes[ $version ][ $name ] : false;
+
+		if ( ! $route ) {
+			throw new \Exception( "{$name} {$version} route does not exist" );
+		}
+
+		return $route;
+	} // END get_route()
 
 	/**
-	 * List of controllers that use a none versioned namespace.
+	 * Register defined list of routes with WordPress.
 	 *
 	 * @access protected
 	 *
 	 * @since 4.0.0 Introduced.
 	 *
-	 * @return array
+	 * @param string $version API Version being registered.
 	 */
-	protected function get_shared_controllers() {
-		return array(
-			'cocart-batch-controller' => 'CoCart_REST_Batch_Controller',
+	protected function register_routes( $version = 'v2' ) {
+		if ( ! isset( $this->routes[ $version ] ) ) {
+			return;
+		}
+
+		$route_identifiers = array_keys( $this->routes[ $version ] );
+
+		foreach ( $route_identifiers as $route ) {
+			$route_instance = $this->get_route( $route, $version );
+
+			if ( $version === 'v1' ) {
+				$route_instance->register_routes();
+			} else {
+				register_rest_route(
+					$route_instance->get_namespace(),
+					$route_instance->get_path(),
+					$route_instance->get_args()
+				);
+			}
+		}
+	} // END register_routes()
+
+	/**
+	 * Get REST API namespaces - new namespaces should be registered here.
+	 *
+	 * @access protected
+	 *
+	 * @return array List of Namespaces classes.
+	 */
+	protected function get_rest_namespaces() {
+		return apply_filters(
+			'cocart_rest_api_get_rest_namespaces',
+			array(
+				'v1'     => $this->get_v1_controllers(),
+				'v2'     => $this->get_v2_controllers(),
+				'shared' => $this->get_shared_controllers(),
+			)
 		);
-	} // END get_shared_controllers()
+	} // END get_rest_namespaces()
 
 	/**
 	 * List of controllers in the cocart/v1 namespace.
@@ -182,6 +219,21 @@ class Server {
 			'cocart-v2-logout'            => 'CoCart_REST_Logout_v2_Controller',
 		);
 	} // END get_v2_controllers()
+
+	/**
+	 * List of controllers that use a none versioned namespace.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return array
+	 */
+	protected function get_shared_controllers() {
+		return array(
+			'cocart-batch-controller' => 'CoCart_REST_Batch_Controller',
+		);
+	} // END get_shared_controllers()
 
 	/**
 	 * Controls the hooks that should be initialized for the current cart session.
@@ -516,6 +568,35 @@ class Server {
 
 		return $served;
 	} // END cache_control()
+
+	/**
+	 * Expose CoCart Headers.
+	 *
+	 * @access public
+	 *
+	 * @since 3.1.0 Introduced.
+	 * @since 3.3.0 Added new custom headers without the prefix `X-`
+	 * @since 4.0.0 Removed old custom headers with the prefix `X-`
+	 *
+	 * @param bool             $served  Whether the request has already been served. Default false.
+	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param WP_REST_Request  $request Request used to generate the response.
+	 * @param WP_REST_Server   $server  Server instance.
+	 *
+	 * @return bool Whether the request has already been served.
+	 */
+	public function expose_custom_headers( $served, $result, $request, $server ) {
+		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
+			header( 'Access-Control-Expose-Headers: CoCart-Timestamp' );
+			header( 'Access-Control-Expose-Headers: CoCart-Version' );
+			header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Key' );
+			header( 'Access-Control-Expose-Headers: CoCart-API-Customer' );
+			header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Expiring' );
+			header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Expiration' );
+		}
+
+		return $served;
+	} // END expose_custom_headers()
 
 	/**
 	 * Prevents certain routes from initializing the session and cart.

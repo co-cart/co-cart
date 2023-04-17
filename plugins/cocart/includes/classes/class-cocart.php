@@ -343,10 +343,16 @@ final class Core {
 	 * @since 2.6.0 Introduced.
 	 */
 	public static function load_rest_api() {
+		// Abstracts.
+		include_once COCART_ABSPATH . 'includes/classes/rest-api/schemas/abstract-cocart-schema.php';
+		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-rest-controller.php';
+		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-cart-rest-controller.php';
+
+		// CoCart REST API.
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-cache.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-callbacks.php';
+		// include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-callbacks.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-extension.php';
-		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-response.php';
+		//include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-response.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-formatting.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-cart-validation.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-product-validation.php';
