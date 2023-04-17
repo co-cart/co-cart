@@ -53,4 +53,10 @@ Example: https://example.com/cart/?cocart-load-cart=bbfa8e97ac9cff4c861d62a109e8
 
 If you are merging two cart sessions together and they both contain the same item, that item will not change. It will not increase or decrease the quantity either.
 
+<!-- FEEDBACK -->
+
+---
+
 🐞 Found a mistake, or have a suggestion? [Leave feedback about this document here.](https://github.com/co-cart/co-cart/issues/new?assignees=&labels=type%3A+documentation&template=doc_feedback.md&title=Feedback+on+./docs/load-cart-from-session.md)
+
+<!-- /FEEDBACK -->
