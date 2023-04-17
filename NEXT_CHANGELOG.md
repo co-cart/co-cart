@@ -8,7 +8,7 @@
 - [Authentication](#authentication)
 - [Experimental](#experimental)
   - [RateLimiter for the API](#ratelimiter-for-the-api)
-- [Improved and Tweaks](#improved-and-tweaks)
+- [Improvements and Tweaks](#improvements-and-tweaks)
 - [Security](#security)
   - [FAQ](#faq)
     - [Wont a developer be still be able find the salt key?](#wont-a-developer-be-still-be-able-find-the-salt-key)
@@ -71,10 +71,10 @@ By default, a maximum of 25 requests can be made within a 10-second time frame. 
 
 More extensive information can be found on the [Rate Limit Guide](https://github.com/co-cart/co-cart/blob/dev/docs/rate-limit-guide.md) along with a test guide.
 
-## Improved and Tweaks
+## Improvements and Tweaks
 
 - Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
-- Plugin Suggestions now returns results better the first time it's viewed.
+- Plugin Suggestions now returns results better the first time it's viewed. **(Needs reviewing)**
 - Sub-menus in the WordPress dashboard now load faster. No redirects.
 - Error responses are now softer to prevent fatal networking when a request fails.
 - Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
@@ -157,6 +157,7 @@ Instead the user session data is returned during any cart request and passes the
 
 ## Developers
 
+- Introduced new filter `cocart_cart_item_extensions` to allow plugin extensions to apply additional information.
 - Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
 - Introduced new filter `cocart_cart_totals` that can be used to change the values returned.
 - Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
