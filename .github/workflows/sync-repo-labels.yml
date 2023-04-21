@@ -1,0 +1,15 @@
+# Sync Repository Labels Action.
+#
+# This action syncs the CoCart standard labels set for this CoCart repository.
+name: Sync repository labels
+
+on: [issues, pull_request]
+
+jobs:
+  sync-labels:
+    runs-on: ubuntu-latest
+    name: Sync repository labels
+    steps:
+      - uses: co-cart/repo-labels@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
