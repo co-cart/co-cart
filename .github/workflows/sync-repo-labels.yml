@@ -12,4 +12,5 @@ jobs:
     steps:
       - uses: co-cart/repo-labels@v1
         with:
+          labels-path: /home/runner/work/_actions/co-cart/repo-labels/v1/labels.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
