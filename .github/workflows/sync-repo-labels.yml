@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: co-cart/repo-labels@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
