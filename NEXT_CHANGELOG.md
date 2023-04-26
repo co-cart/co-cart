@@ -27,6 +27,9 @@
 - New settings page:
   - Set the front-end site URL for product permalinks for the Products API.
   - Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
+
+<p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/dev/docs/images/cocart-settings.png" alt="CoCart Plugin Settings" /></p>
+
 - [Session handler](#session-handler) now initiates lighter for the use of CoCart's API while leaving the original handling for the native WooCommerce intact for the frontend.
 - Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
 - Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
