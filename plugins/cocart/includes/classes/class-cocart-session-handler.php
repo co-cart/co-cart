@@ -85,7 +85,7 @@ class Handler extends Session {
 		if ( Authentication::is_rest_api_request() ) {
 			$this->_cart_source = 'cocart';
 
-			$this->init_decoupled_session();
+			$this->init_session_cocart();
 
 			$this->set_cart_hash();
 		} else {
@@ -209,7 +209,7 @@ class Handler extends Session {
 	 *
 	 * @since 4.0.0 Introduced.
 	 */
-	public function init_decoupled_session() {
+	public function init_session_cocart() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
 		$current_user_id     = get_current_user_id();
 		$this->_cart_user_id = $current_user_id > 0 ? $current_user_id : 0;
