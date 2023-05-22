@@ -110,9 +110,9 @@ class Handler extends Session {
 	} // END init()
 
 	/**
-	 * Setup cart.
+	 * Setup cart session.
 	 *
-	 * This is the native session setup.
+	 * This is the native session setup that relies on a cookie.
 	 *
 	 * @access public
 	 *
@@ -203,7 +203,13 @@ class Handler extends Session {
 	} // END is_session_cookie_valid()
 
 	/**
-	 * Setup cart without cookie.
+	 * Setup cart session.
+	 *
+	 * Cart session is decoupled without the use of a cookie.
+	 *
+	 * Supports customers guest and registered. It also allows
+	 * administrators to create a cart session and associate a
+	 * registered customer.
 	 *
 	 * @access public
 	 *
@@ -299,7 +305,7 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since 2.1.0 Introduced.
+	 * @since      2.1.0 Introduced.
 	 * @deprecated 4.0.0 No replacement.
 	 *
 	 * @return bool
@@ -379,7 +385,6 @@ class Handler extends Session {
 	 *
 	 * @since      2.1.0 Introduced.
 	 * @deprecated 4.0.0 Uses cocart_setcookie() instead.
-	 * @version    4.0.0
 	 *
 	 * @param string  $name Name of the cookie being set.
 	 * @param string  $value Value of the cookie.
@@ -568,9 +573,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Added $cart_key, $user_id, $customer_id to return from cookie value.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Added $cart_key, $user_id, $customer_id to return from cookie value.
 	 *
 	 * @return bool|array
 	 */
@@ -626,7 +630,7 @@ class Handler extends Session {
 	 */
 	public function get_session_data() {
 		return $this->get_cart_data();
-	}
+	} // END get_session_data()
 
 	/**
 	 * Gets a cache prefix. This is used in cart names so the entire
@@ -637,7 +641,7 @@ class Handler extends Session {
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.0
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public function get_cache_prefix() {
 		return \WC_Cache_Helper::get_cache_prefix( COCART_CART_CACHE_GROUP );
@@ -822,8 +826,7 @@ class Handler extends Session {
 	 * @access public
 	 *
 	 * @since      2.1.2 Introduced.
-	 * @deprecated 4.0.0
-	 * @version    4.0.0
+	 * @deprecated 4.0.0 Use CoCart\Session\Handler::maybe_update_nonce_user_logged_out() instead.
 	 *
 	 * @param int $uid User ID.
 	 *
@@ -1007,9 +1010,8 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @since   4.0.0 Added cart customer.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 4.0.0 Added cart customer.
 	 *
 	 * @param string $cart_key        The cart key passed to create the cart.
 	 * @param int    $cart_customer   The customer ID.
