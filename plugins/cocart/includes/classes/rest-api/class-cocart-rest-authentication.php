@@ -644,8 +644,8 @@ class Authentication {
 	 * @return \WP_Error|null|bool
 	 */
 	public function check_rate_limits( $result ) {
-		// Disable Rate Limiting for logged-in users with 'edit posts' capability.
-		if ( current_user_can( 'edit_posts' ) ) {
+		// Disable Rate Limiting for logged-in users with 'manage options' capability.
+		if ( current_user_can( 'manage_options' ) ) {
 			return $result;
 		}
 
