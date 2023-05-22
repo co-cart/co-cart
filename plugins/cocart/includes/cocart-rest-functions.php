@@ -446,7 +446,7 @@ function maybe_cocart_require_salt() {
 	 * Should be hashed already to remain secure.
 	 */
 	if ( defined( 'COCART_SALT_KEY' ) ) {
-		return COCART_SALT_KEY;
+		return md5( COCART_SALT_KEY );
 	}
 
 	$settings = get_option( 'cocart_settings', array() );
