@@ -221,13 +221,17 @@ class Handler extends Session {
 		$this->_cart_user_id = $current_user_id > 0 ? $current_user_id : 0;
 
 		// Get cart key.
-		$this->_cart_key = $this->_cart_user_id > 0 ? $this->get_cart_key_by_user_id( $this->_cart_user_id ) : $this->get_requested_cart();
+		if ( ! $this->is_user_customer( $this->_cart_user_id ) ) {
+			$this->_cart_key = $this->get_requested_cart();
+		} else {
+			$this->_cart_key = $this->_cart_user_id > 0 ? $this->get_cart_key_by_user_id( $this->_cart_user_id ) : $this->get_requested_cart();
+		}
 
 		// Get customer ID.
 		if ( $this->_cart_user_id > 0 && ! $this->is_user_customer( $this->_cart_user_id ) ) {
 			$this->_customer_id = $this->get_requested_customer();
 		} else {
-			$this->_customer_id = $this->get_customer_id_from_cart_key( $this->_cart_key );
+			$this->_customer_id = $this->_cart_user_id > 0 ? $this->_cart_user_id : $this->get_customer_id_from_cart_key( $this->_cart_key );
 		}
 
 		// If a cart was requested then update it if needed.
@@ -241,7 +245,7 @@ class Handler extends Session {
 				$this->update_cart_timestamp( $this->_cart_key, $this->_cart_expiration );
 			}
 		} else {
-			// New guest customer.
+			// New cart session created.
 			$this->set_cart_expiration();
 			$this->_cart_key = $this->generate_key();
 			$this->_data     = $this->get_cart_data();
