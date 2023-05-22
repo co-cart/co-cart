@@ -211,30 +211,23 @@ class Handler extends Session {
 	 */
 	public function init_decoupled_session() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
-		$current_user_id     = strval( get_current_user_id() );
+		$current_user_id     = get_current_user_id();
 		$this->_cart_user_id = $current_user_id > 0 ? $current_user_id : 0;
 
-		// Customer ID is zero until we say otherwise.
-		$this->_customer_id = 0;
+		// Get cart key.
+		$this->_cart_key = $this->_cart_user_id > 0 ? $this->get_cart_key_by_user_id( $this->_cart_user_id ) : $this->get_requested_cart();
 
-		// Check if we requested to load a specific cart.
-		$this->_cart_key = $this->get_requested_cart();
+		// Get customer ID.
+		if ( $this->_cart_user_id > 0 && ! $this->is_user_customer( $this->_cart_user_id ) ) {
+			$this->_customer_id = $this->get_requested_customer();
+		} else {
+			$this->_customer_id = $this->get_customer_id_from_cart_key( $this->_cart_key );
+		}
 
 		// If a cart was requested then update it if needed.
 		if ( ! empty( $this->_cart_key ) ) {
+			// Get cart.
 			$this->_data = $this->get_cart_data();
-
-			// Is customer logged in?
-			if ( is_numeric( $current_user_id ) && $current_user_id > 0 && $current_user_id !== $this->_cart_user_id ) {
-				$customer = new Customer( $current_user_id );
-
-				// If customer is valid, set customer ID.
-				if ( 0 !== $customer->get_id() ) {
-					$this->_cart_user_id = $current_user_id;
-					$this->_customer_id  = $current_user_id;
-					$this->update_customer_id( $this->_cart_user_id );
-				}
-			}
 
 			// Update cart if its close to expiring.
 			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
@@ -247,7 +240,7 @@ class Handler extends Session {
 			$this->_cart_key = $this->generate_key();
 			$this->_data     = $this->get_cart_data();
 		}
-	} // END init_session_without_cookie()
+	} // END init_session_cocart()
 
 	/**
 	 * Get requested cart.
@@ -290,7 +283,7 @@ class Handler extends Session {
 	 * @return int Customer ID.
 	 */
 	public function get_requested_customer() {
-		$customer_id = ''; // Leave blank to start.
+		$customer_id = 0;
 
 		if ( ! empty( $_SERVER['HTTP_COCART_API_CUSTOMER'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$customer_id = (int) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CUSTOMER'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -1233,6 +1226,32 @@ class Handler extends Session {
 	} // END get_user_id_by_cart_key()
 
 	/**
+	 * Get the customer ID by looking up the cart key.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param string $cart_key The cart key.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return int Returns the customer ID.
+	 */
+	public function get_customer_id_from_cart_key( $cart_key ) {
+		global $wpdb;
+
+		$customer_id = $wpdb->get_var( $wpdb->prepare( "SELECT cart_customer FROM $this->_table WHERE cart_key = %d", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		// Return zero if we can't find an ID.
+		if ( is_null( $customer_id ) ) {
+			return 0;
+		}
+
+		return $customer_id;
+	} // END get_customer_id_from_cart_key()
+
+	/**
 	 * Get the cart key by looking up the user ID.
 	 *
 	 * @access public
@@ -1319,5 +1338,26 @@ class Handler extends Session {
 			array( '%s' )
 		);
 	} // END update_customer_id()
+
+	/**
+	 * Detect if the user is a customer.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @return bool Returns true if user is a customer, otherwise false.
+	 */
+	public function is_user_customer( $user_id ) {
+		$current_user = get_userdata( $user_id );
+
+		$user_roles = $current_user->roles;
+
+		if ( in_array( 'customer', $user_roles ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_user_customer()
 
 } // END class
