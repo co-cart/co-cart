@@ -1216,6 +1216,8 @@ class Handler extends Session {
 	 * @return bool|int Returns the user ID or false if not found.
 	 */
 	public function get_user_id_by_cart_key( $cart_key ) {
+		global $wpdb;
+
 		$user_id = $wpdb->get_var( $wpdb->prepare( "SELECT cart_user_id FROM $this->_table WHERE cart_key = %d", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( is_null( $user_id ) ) {
@@ -1269,6 +1271,8 @@ class Handler extends Session {
 			return false;
 		}
 
+		global $wpdb;
+
 		$cart_key = $wpdb->get_var( $wpdb->prepare( "SELECT cart_key FROM $this->_table WHERE cart_user_id = %d", $user_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( is_null( $cart_key ) ) {
@@ -1295,6 +1299,8 @@ class Handler extends Session {
 		if ( ! is_int( $customer_id ) || $customer_id === 0 ) {
 			return false;
 		}
+
+		global $wpdb;
 
 		$cart_key = $wpdb->get_var( $wpdb->prepare( "SELECT cart_key FROM $this->_table WHERE customer_id = %d", $customer_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
