@@ -41,7 +41,7 @@
 - Added ability to set customers billing phone number while adding item to the cart.
 - Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
 - Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
-- Added ability to filter the fields of the endpoint you request before they return, making the response faster.
+- Added ability to filter the fields of the endpoint you request before they return, making the response faster. - Excludes Sessions API.
 - Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
 - Added batch support. Feedback needed. (API v2 supported ONLY) (Details on this addition needs to be documented.)
 - Added new endpoint to delete all items (only) in the cart.
@@ -84,6 +84,7 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 - Optimized products API response and updated schema.
 - All endpoints with schema now have proper schema title for proper identification.
 - The callback for cart update endpoint now passes the controller class so we don't have to call it a new.
+- Caching of same item added to cart no longer loses previous custom price set before and has not changed.
 
 ## Security
 
@@ -133,9 +134,9 @@ Our handler had to change in order to remove that limitation and has gone throug
 
 After more research and testing, we found that due to the limits of the session handler in WooCommerce. Many popular extensions and third party plugins have created hacky workarounds to compensate. One piece of data we found to be used the most to help identify the user session is the WooCommerce cookie, which we had replaced with our own.
 
-While the main goal is to make CoCart the best headless API, we understand now that we have to leave these limitations in while still making CoCart run at it's best without breaking core features in WooCommerce.
+While the main goal is to make CoCart the best headless API, we understand now that we have to leave these limitations in while still making CoCart run at it's best without breaking core features in WooCommerce which are being used in other third party plugin.
 
-So the session handler has been updated and improved to handle both WooCommerce extensions and third party plugins even better than before while still supporting CoCart for what it needs. The original WooCommerce session cookie is put back for the frontend while the API doesn't use it at all.
+So the session handler has been updated and improved to handle both WooCommerce extensions and third party plugins even better than before while still supporting CoCart for what it needs. The original WooCommerce session cookie is put back for the frontend while the CoCart API doesn't use it at all.
 
 Instead the user session data is returned during any cart request and passes the required information to HTTP Header so it can be cached client-side.
 
