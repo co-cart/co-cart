@@ -72,8 +72,8 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 1.0.0 Introduced.
+	 * @since 4.0.0 Price query is added to determine if we need to cache the item for calculating totals.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -85,6 +85,7 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 			$quantity   = ! isset( $request['quantity'] ) ? 1 : wc_clean( wp_unslash( $request['quantity'] ) );
 			$variation  = ! isset( $request['variation'] ) ? array() : $request['variation'];
 			$item_data  = ! isset( $request['item_data'] ) ? array() : $request['item_data'];
+			$price      = ! isset( $request['price'] ) ? '' : wc_clean( wp_unslash( $request['price'] ) );
 
 			$controller = new CoCart_REST_Cart_v2_Controller();
 
@@ -211,9 +212,14 @@ class CoCart_REST_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 				/**
 				 * Cache cart item.
 				 *
+				 * This allows us to calculate the overridden price later if one was set.
+				 *
 				 * @since 3.1.0 Introduced.
+				 * @since 4.0.0 Now checks if the price parameter is used and a salt key is provided.
 				 */
-				$controller->cache_cart_item( $item_added_to_cart );
+				if ( ! empty( $price ) && ( maybe_cocart_require_salt() === $request->get_header( 'csaltk' ) ) ) {
+					$controller->cache_cart_item( $item_added_to_cart );
+				}
 
 				/**
 				 * Calculate the totals again here incase of custom data applied
