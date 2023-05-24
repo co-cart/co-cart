@@ -378,15 +378,19 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 		// If the cart is empty then return nothing.
 		if ( empty( $cart_contents ) ) {
-
 			/**
 			 * Filters the response for empty cart.
 			 *
 			 * @since 3.0.0 Introduced.
 			 *
+			 * @deprecated 4.0.0 Use `cocart_cart` filter with this function `$this->is_completely_empty()`
+			 *                   if you wish to detect if the cart is empty to change the response.
+			 *
+			 * @see CoCart_REST_Cart_v2_Controller::is_completely_empty()
+			 *
 			 * @param array $cart The whole cart.
 			 */
-			return apply_filters( 'cocart_empty_cart', $cart );
+			cocart_deprecated_filter( 'cocart_empty_cart', array(), '4.0.0', 'cocart_cart', __( 'Filter `cocart_cart` with this function `$this->is_completely_empty()`', 'cart-rest-api-for-woocommerce' ) );
 		}
 
 		/**
