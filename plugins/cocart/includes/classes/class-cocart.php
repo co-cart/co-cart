@@ -100,6 +100,9 @@ final class Core {
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
 
+		// User allowed WP access?
+		add_action( 'template_redirect', array( __CLASS__, 'maybe_disable_wp_access' ), -10 );
+
 		// Setup CoCart Session Handler.
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
 
@@ -352,6 +355,52 @@ final class Core {
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-rest-product-validation.php';
 		include_once COCART_ABSPATH . 'includes/classes/rest-api/class-cocart-server.php';
 	} // END load_rest_api()
+
+	/**
+	 * Redirects to front-end site if set or simply dies with an error message.
+	 *
+	 * Only administrators will still have access to the WordPress site.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.0.0 Introduced.
+	 */
+	public static function maybe_disable_wp_access() {
+		$cocart_settings = get_option( 'cocart_settings', array() );
+
+		if ( empty( $cocart_settings ) ) { return; }
+
+		nocache_headers();
+
+		$location = ! empty( $cocart_settings['general']['frontend_url'] ) ? $cocart_settings['general']['frontend_url'] : '';
+		$disable  = ! empty( $cocart_settings['general']['disable_wp_access'] ) ? $cocart_settings['general']['disable_wp_access'] : 'no';
+
+		if ( $disable === 'no' ) { return; }
+
+		// Check if user is not administrator.
+		$current_user = get_userdata( get_current_user_id() );
+
+		if ( ! empty( $current_user ) ) {
+			$user_roles = $current_user->roles;
+
+			if ( in_array( 'administrator', $user_roles ) ) { return; }
+		}
+
+		// Redirect if new location provided and disabled.
+		if ( ! empty( $location ) && $disable === 'yes' ) {
+			header( "X-Redirect-By: CoCart" );
+			header( "Location: $location", true, 301 );
+			exit;
+		}
+
+		// Return just error message if disabled only.
+		$error = new \WP_Error( 'access_denied', __( "You don't have permission to access the site.", 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+
+		wp_send_json( $error->get_error_message() );
+		exit;
+	} // END maybe_disable_wp_access()
 
 	/**
 	 * Filters the session handler to replace with our own.
