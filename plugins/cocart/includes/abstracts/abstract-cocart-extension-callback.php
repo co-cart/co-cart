@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles default cart extension callback.
+ * Abstract: CoCart\Abstracts\ExtensionCallback
  *
  * @author  Sébastien Dumont
  * @package CoCart\Abstracts
@@ -13,7 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-abstract class CoCart_Cart_Extension_Callback {
+/**
+ * Handles default cart extension callback.
+ *
+ * @extends CoCart_Cart_REST_Controller
+ */
+abstract class ExtensionCallback extends \CoCart_Cart_REST_Controller {
 
 	/**
 	 * Extension Callback name defined by extending this class.
@@ -22,7 +27,7 @@ abstract class CoCart_Cart_Extension_Callback {
 	 *
 	 * @var string
 	 */
-	protected $name = '';
+	protected $callback_name = '';
 
 	/**
 	 * Returns the name of the extension callback.
@@ -32,7 +37,7 @@ abstract class CoCart_Cart_Extension_Callback {
 	 * @return string
 	 */
 	public function get_name() {
-		return $this->name;
+		return $this->callback_name;
 	} // END get_name()
 
 	/**
@@ -56,8 +61,8 @@ abstract class CoCart_Cart_Extension_Callback {
 				__CLASS__
 			), 400 );
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return $this->get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END callback()
 
-}
+} // END class

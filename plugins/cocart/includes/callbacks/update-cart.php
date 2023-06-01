@@ -22,7 +22,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.1.0 Introduced.
  */
-class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
+class UpdateCart extends Abstracts\ExtensionCallback {
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		add_action( 'cocart_register_extension_callback', array( $this, 'register_callback' ) );
+	}
 
 	/**
 	 * Callback name.
@@ -32,6 +39,17 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 	 * @var string
 	 */
 	protected $name = 'update-cart';
+
+	/**
+	 * Registers callback to update cart.
+	 *
+	 * @access public
+	 *
+	 * @param CoCart\RestApi\CartExtension $callback Instance of the CoCart\RestApi\CartExtension class.
+	 */
+	public function register_callback( $callback ) {
+		$callback->register( new $this() );
+	} // END register_callback()
 
 	/**
 	 * Callback to update the cart.
@@ -107,10 +125,8 @@ class UpdateCart extends Abstracts\CoCart_Cart_Extension_Callback {
 
 			return true;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return $this->get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END callback()
 
 } // END class
-
-return new UpdateCart();
