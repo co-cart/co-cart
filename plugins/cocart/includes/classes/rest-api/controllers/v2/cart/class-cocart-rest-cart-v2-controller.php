@@ -333,7 +333,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'fees', $fields ) ) {
-			$cart['fees'] = $this->get_fees( $this->get_cart_instance() );
+			$cart['fees'] = $this->get_fees();
 		}
 
 		if ( rest_is_field_included( 'taxes', $fields ) ) {
@@ -1027,12 +1027,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @param WC_Cart $cart Cart class instance.
+	 * @since      3.0.0 Introduced.
+	 * @deprecated 4.0.0 Removed passing cart object as a parameter.
 	 *
 	 * @return array Cart fees.
 	 */
-	public function get_fees( $cart ) {
-		$cart_fees = $cart->get_fees();
+	public function get_fees() {
+		$cart_fees = $this->get_cart_instance()->get_fees();
 
 		$fees = array();
 
@@ -1040,7 +1041,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			foreach ( $cart_fees as $key => $fee ) {
 				$fees[ $key ] = array(
 					'name' => esc_html( $fee->name ),
-					'fee'  => (float) cocart_prepare_money_response( $this->fee_html( $cart, $fee ) ),
+					'fee'  => (float) cocart_prepare_money_response( $this->fee_html( $fee ) ),
 				);
 			}
 		}
@@ -1143,13 +1144,15 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @param object $cart Cart instance.
-	 * @param object $fee  Fee data.
+	 * @since      3.0.0 Introduced.
+	 * @deprecated 4.0.0 Removed passing cart object as a parameter.
+	 *
+	 * @param object $fee Fee data.
 	 *
 	 * @return string Returns the fee value.
 	 */
-	public function fee_html( $cart, $fee ) {
-		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
+	public function fee_html( $fee ) {
+		$cart_totals_fee_html = $this->get_cart_instance()->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
 
 		return apply_filters( 'cocart_cart_totals_fee_html', $cart_totals_fee_html, $fee );
 	} // END fee_html()
@@ -2089,7 +2092,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
 			'shipping'       => $this->get_shipping_details(),
-			'fees'           => $this->get_fees( $this->get_cart_instance() ),
+			'fees'           => $this->get_fees(),
 			'taxes'          => array(),
 			'totals'         => array(
 				'subtotal'       => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal() ),
@@ -2185,7 +2188,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 					$template['shipping'] = $this->get_shipping_details();
 					break;
 				case 'fees':
-					$template['fees'] = $this->get_fees( $this->get_cart_instance() );
+					$template['fees'] = $this->get_fees();
 					break;
 				case 'taxes':
 					$template['taxes'] = array();
