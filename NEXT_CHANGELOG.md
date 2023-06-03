@@ -10,6 +10,8 @@
   - [RateLimiter for the API](#ratelimiter-for-the-api)
 - [Improvements and Tweaks](#improvements-and-tweaks)
 - [Security](#security)
+  - [Disable WordPress Access](#disable-wordpress-access)
+  - [Override Price Hijacking](#override-price-hijacking)
   - [FAQ](#faq)
     - [Wont a developer be still be able find the salt key?](#wont-a-developer-be-still-be-able-find-the-salt-key)
     - [Can I only allow specific products to be overridden?](#can-i-only-allow-specific-products-to-be-overridden)
@@ -88,6 +90,12 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 
 ## Security
 
+### Disable WordPress Access
+
+With the new settings page added in this release you can disable access to WordPress with a simple checkbox. You can even redirect to your headless site if you use the "Front-end URL" field which is also used to re-write your permalinks.
+
+### Override Price Hijacking
+
 This is new and is needed to help prevent session hijacking for someone tech-savvy in manipulating the API.
 
 Since adding the most requested option to override the price of the item, there hasn't been an option to disable it or prevent any bad use of the API should someone with knowledge manipulate the item in the cart to set the price outside of the stores initial design.
@@ -141,6 +149,8 @@ So the session handler has been updated and improved to handle both WooCommerce 
 Instead the user session data is returned during any cart request and passes the required information to HTTP Header so it can be cached client-side.
 
 ## Deprecations and Replacements
+
+There are many deprecations made with this release but nothing that should affect you unless you were using certain functions directly within your code. Here is a list of the most important ones.
 
 - Legacy API that extended `wc/v2` when CoCart was only a prototype.
 - Session cookie is now reverted back to original WooCommerce session cookie.
