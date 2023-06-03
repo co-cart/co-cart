@@ -71,7 +71,7 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	public function get_totals( $request ) {
 		try {
 			$fields = $this->get_fields_for_response( $request );
-			$totals = $this->get_cart_totals( $request, $this->get_cart_instance(), $fields );
+			$totals = $this->get_cart_totals( $request, $fields );
 
 			if ( empty( $totals['total'] ) ) {
 				$message = esc_html__( 'This cart either has no items or was not calculated.', 'cart-rest-api-for-woocommerce' );

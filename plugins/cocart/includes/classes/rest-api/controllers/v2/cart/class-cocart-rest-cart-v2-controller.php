@@ -361,7 +361,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'totals', $fields ) ) {
-			$cart['totals'] = $this->get_cart_totals( $request, $this->get_cart_instance(), $fields );
+			$cart['totals'] = $this->get_cart_totals( $request, $fields );
 		}
 
 		if ( rest_is_field_included( 'removed_items', $fields ) ) {
@@ -1060,23 +1060,22 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since 4.0.0 Introduced.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @param WC_Cart         $cart    Cart class instance.
 	 * @param array           $fields  An array of requested fields for the cart response to return.
 	 *
 	 * @return array Cart totals.
 	 */
-	public function get_cart_totals( $request = array(), $cart, $fields ) {
+	public function get_cart_totals( $request = array(), $fields ) {
 		$totals = array(
-			'subtotal'       => $cart->get_subtotal(),
-			'subtotal_tax'   => $cart->get_subtotal_tax(),
-			'fee_total'      => $cart->get_fee_total(),
-			'fee_tax'        => $cart->get_fee_tax(),
-			'discount_total' => $cart->get_discount_total(),
-			'discount_tax'   => $cart->get_discount_tax(),
-			'shipping_total' => $cart->get_shipping_total(),
-			'shipping_tax'   => $cart->get_shipping_tax(),
-			'total'          => $cart->get_total( 'edit' ),
-			'total_tax'      => $cart->get_total_tax(),
+			'subtotal'       => $this->get_cart_instance()->get_subtotal(),
+			'subtotal_tax'   => $this->get_cart_instance()->get_subtotal_tax(),
+			'fee_total'      => $this->get_cart_instance()->get_fee_total(),
+			'fee_tax'        => $this->get_cart_instance()->get_fee_tax(),
+			'discount_total' => $this->get_cart_instance()->get_discount_total(),
+			'discount_tax'   => $this->get_cart_instance()->get_discount_tax(),
+			'shipping_total' => $this->get_cart_instance()->get_shipping_total(),
+			'shipping_tax'   => $this->get_cart_instance()->get_shipping_tax(),
+			'total'          => $this->get_cart_instance()->get_total( 'edit' ),
+			'total_tax'      => $this->get_cart_instance()->get_total_tax(),
 		);
 
 		if ( ! in_array( 'fees', $fields ) ) {
@@ -1096,10 +1095,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 *
 		 * @param array           $totals  Cart totals.
 		 * @param WP_REST_Request $request Full details about the request.
-		 * @param WC_Cart         $cart    Cart class instance.
 		 * @param array           $fields  An array of requested fields for the cart response to return.
 		 */
-		return apply_filters( 'cocart_cart_totals', $totals, $request, $cart, $fields );
+		return apply_filters( 'cocart_cart_totals', $totals, $request, $fields );
 	} // END get_cart_totals()
 
 	/**
