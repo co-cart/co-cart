@@ -1508,7 +1508,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$cart_item_data = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
 
 		// Returns remaining cart item data.
-		$cart_item_data = ! empty( $cart_item ) ? $cart_item_data : array();
+		$cart_item_data         = ! empty( $cart_item ) ? $cart_item_data : array();
 		$item['cart_item_data'] = $cart_item_data;
 
 		// If thumbnail is requested then add it to each item in cart.
@@ -2297,8 +2297,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return int Quantity of the product.
 	 */
 	protected function get_product_quantity_in_cart( $product ) {
-		$cart               = $this->get_cart_instance();
-		$product_quantities = $cart->get_cart_item_quantities();
+		$product_quantities = $this->get_cart_instance()->get_cart_item_quantities();
 		$product_id         = $product->get_stock_managed_by_id();
 
 		return isset( $product_quantities[ $product_id ] ) ? $product_quantities[ $product_id ] : 0;

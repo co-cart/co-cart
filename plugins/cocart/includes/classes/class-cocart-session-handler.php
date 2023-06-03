@@ -234,7 +234,6 @@ class Handler extends Session {
 			$this->_customer_id = $this->_cart_user_id > 0 ? $this->_cart_user_id : $this->get_customer_id_from_cart_key( $this->_cart_key );
 		}
 
-		// If a cart was requested then update it if needed.
 		if ( ! empty( $this->_cart_key ) ) {
 			// Get cart.
 			$this->_data = $this->get_cart_data();
@@ -390,10 +389,10 @@ class Handler extends Session {
 	 * @since      2.1.0 Introduced.
 	 * @deprecated 4.0.0 Uses cocart_setcookie() instead.
 	 *
-	 * @param string  $name Name of the cookie being set.
-	 * @param string  $value Value of the cookie.
-	 * @param integer $expire Expiry of the cookie.
-	 * @param bool    $secure Whether the cookie should be served only over https.
+	 * @param string  $name     Name of the cookie being set.
+	 * @param string  $value    Value of the cookie.
+	 * @param integer $expire   Expiry of the cookie.
+	 * @param bool    $secure   Whether the cookie should be served only over https.
 	 * @param bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
@@ -679,7 +678,7 @@ class Handler extends Session {
 			/**
 			 * Checks if data is still validated to create a cart or update a cart in session.
 			 *
-			 * @since 2.7.2
+			 * @since 2.7.2 Introduced.
 			 * @since 4.0.0 Passed _cart_key before _cart_user_id. Added log error if cart is not valid.
 			 */
 			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_cart_key, $this->_cart_user_id );
@@ -693,7 +692,8 @@ class Handler extends Session {
 			/**
 			 * Filter source of cart.
 			 *
-			 * @since 3.0.0
+			 * @since 3.0.0 Introduced.
+			 *
 			 * @param string $cart_source
 			 */
 			$cart_source = apply_filters( 'cocart_cart_source', $this->_cart_source );
@@ -701,7 +701,7 @@ class Handler extends Session {
 			/**
 			 * Set the cart hash.
 			 *
-			 * @since 3.0.0
+			 * @since 3.0.0 Introduced.
 			 */
 			$this->set_cart_hash();
 
@@ -728,11 +728,11 @@ class Handler extends Session {
 			 *
 			 * @since 4.0.0 Introduced.
 			 *
-			 * @param int $cart_key Cart ID.
-			 * @param int $cart_user_id User ID.
-			 * @param int $customer_id Customer ID.
-			 * @param array $data Cart data.
-			 * @param int $cart_expiration Cart expiration.
+			 * @param int    $cart_key Cart ID.
+			 * @param int    $cart_user_id User ID.
+			 * @param int    $customer_id Customer ID.
+			 * @param array  $data Cart data.
+			 * @param int    $cart_expiration Cart expiration.
 			 * @param string $cart_source Cart source.
 			 */
 			do_action( 'cocart_save_cart', $this->_cart_key, $this->_cart_user_id, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );

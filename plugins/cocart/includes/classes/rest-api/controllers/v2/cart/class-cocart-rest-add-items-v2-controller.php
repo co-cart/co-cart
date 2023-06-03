@@ -77,7 +77,7 @@ class CoCart_REST_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_REST_Response | WP_Error
+	 * @return WP_REST_Response|WP_Error
 	 */
 	public function add_items_to_cart( $request = array() ) {
 		try {

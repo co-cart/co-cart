@@ -73,8 +73,7 @@ class CartCache {
 
 			if ( ! array_key_exists( 'csaltk', $request->get_headers() ) ) {
 				Logger::log( __( 'An attempt was made to override the price of an item but the salt key was not provided.', 'cart-rest-api-for-woocommerce' ), 'alert' );
-			}
-			else if ( ( maybe_cocart_require_salt() !== $request->get_header( 'csaltk' ) ) ) {
+			} elseif ( ( maybe_cocart_require_salt() !== $request->get_header( 'csaltk' ) ) ) {
 				Logger::log( __( 'An attempt was made to override the price of an item but the salt key did not match.', 'cart-rest-api-for-woocommerce' ), 'alert' );
 			} else {
 				$default = false;
@@ -110,7 +109,8 @@ class CartCache {
 	 * Removes item from cache to prevent it from calculating
 	 * wrong the next time it's added to the cart.
 	 *
-	 * Or clears all cached items when the cart is cleared. Uses "WC()->session->set()" and "WC()->session->__unset()"
+	 * Or clears all cached items when the cart is cleared.
+	 * Uses "WC()->session->set()" and "WC()->session->__unset()"
 	 *
 	 * @access public
 	 *
