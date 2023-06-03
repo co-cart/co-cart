@@ -1249,7 +1249,7 @@ class Handler extends Session {
 	public function get_customer_id_from_cart_key( $cart_key ) {
 		global $wpdb;
 
-		$customer_id = $wpdb->get_var( $wpdb->prepare( "SELECT cart_customer FROM $this->_table WHERE cart_key = %d", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$customer_id = $wpdb->get_var( $wpdb->prepare( "SELECT cart_customer FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Return zero if we can't find an ID.
 		if ( is_null( $customer_id ) ) {
