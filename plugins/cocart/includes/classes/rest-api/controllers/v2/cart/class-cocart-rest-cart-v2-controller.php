@@ -333,7 +333,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'fees', $fields ) ) {
-			$cart['fees'] = $this->get_fees();
+			$cart['fees'] = $this->get_fees( $request );
 		}
 
 		if ( rest_is_field_included( 'taxes', $fields ) ) {
@@ -1027,12 +1027,16 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since      3.0.0 Introduced.
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added `$request` (REST API request) as a parameter.
+	 *
 	 * @deprecated 4.0.0 Removed passing cart object as a parameter.
+	 *
+	 * @see cocart_prepare_money_response()
 	 *
 	 * @return array Cart fees.
 	 */
-	public function get_fees() {
+	public function get_fees( $request = array() ) {
 		$cart_fees = $this->get_cart_instance()->get_fees();
 
 		$fees = array();
