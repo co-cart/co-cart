@@ -11,7 +11,7 @@
  * Requires at least: 5.6
  * Requires PHP: 7.4
  * WC requires at least: 6.9
- * WC tested up to: 7.3
+ * WC tested up to: 7.7
  *
  * @package CoCart
  */
