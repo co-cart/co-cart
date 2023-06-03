@@ -100,7 +100,7 @@ Here are a few other resources you may find helpful.
 This repository is not suitable for support. Please don't use our issue tracker for support requests, but for core CoCart issues only. Support can take place through the appropriate channels:
 
 * [Our community forum on wp.org](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/) which is available for all CoCart users.
-* [Our community Slack chat room](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) on the **#support** channel.
+* [Our community on Discord](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) on the **#support** channel.
 * [Our community group on Facebook](https://www.facebook.com/groups/cocart/)
 * [Our community on Reddit](https://www.reddit.com/r/cocartheadless/)
 
