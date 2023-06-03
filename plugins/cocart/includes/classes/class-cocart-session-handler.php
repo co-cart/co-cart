@@ -1363,10 +1363,12 @@ class Handler extends Session {
 	public function is_user_customer( $user_id ) {
 		$current_user = get_userdata( $user_id );
 
-		$user_roles = $current_user->roles;
+		if ( ! empty( $current_user ) ) {
+			$user_roles = $current_user->roles;
 
-		if ( in_array( 'customer', $user_roles ) ) {
-			return true;
+			if ( in_array( 'customer', $user_roles ) ) {
+				return true;
+			}
 		}
 
 		return false;
