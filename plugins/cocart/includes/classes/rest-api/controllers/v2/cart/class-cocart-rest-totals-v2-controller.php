@@ -70,6 +70,7 @@ class CoCart_REST_Totals_v2_Controller extends CoCart_REST_Cart_v2_Controller {
 	 */
 	public function get_totals( $request ) {
 		try {
+			$this->calculate_totals();
 			$fields = $this->get_fields_for_response( $request );
 			$totals = $this->get_cart_totals( $request, $fields );
 
