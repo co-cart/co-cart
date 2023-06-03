@@ -537,6 +537,7 @@ class Server {
 			'cocart/v2/logout',
 			'cocart/v1/products',
 			'cocart/v2/products',
+			'cocart/v2/session',
 			'cocart/v2/sessions',
 			'cocart/v2/store',
 		);
