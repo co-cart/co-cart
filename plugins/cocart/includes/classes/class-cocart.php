@@ -370,14 +370,18 @@ final class Core {
 	public static function maybe_disable_wp_access() {
 		$cocart_settings = get_option( 'cocart_settings', array() );
 
-		if ( empty( $cocart_settings ) ) { return; }
+		if ( empty( $cocart_settings ) ) {
+			return;
+		}
 
 		nocache_headers();
 
 		$location = ! empty( $cocart_settings['general']['frontend_url'] ) ? $cocart_settings['general']['frontend_url'] : '';
 		$disable  = ! empty( $cocart_settings['general']['disable_wp_access'] ) ? $cocart_settings['general']['disable_wp_access'] : 'no';
 
-		if ( $disable === 'no' ) { return; }
+		if ( $disable === 'no' ) {
+			return;
+		}
 
 		// Check if user is not administrator.
 		$current_user = get_userdata( get_current_user_id() );
@@ -385,12 +389,14 @@ final class Core {
 		if ( ! empty( $current_user ) ) {
 			$user_roles = $current_user->roles;
 
-			if ( in_array( 'administrator', $user_roles ) ) { return; }
+			if ( in_array( 'administrator', $user_roles ) ) {
+				return;
+			}
 		}
 
 		// Redirect if new location provided and disabled.
 		if ( ! empty( $location ) && $disable === 'yes' ) {
-			header( "X-Redirect-By: CoCart" );
+			header( 'X-Redirect-By: CoCart' );
 			header( "Location: $location", true, 301 );
 			exit;
 		}
@@ -398,7 +404,7 @@ final class Core {
 		// Return just error message if disabled only.
 		$error = new \WP_Error( 'access_denied', __( "You don't have permission to access the site.", 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 
-		wp_send_json( $error->get_error_message() );
+		wp_send_json( $error->get_error_message(), 403 );
 		exit;
 	} // END maybe_disable_wp_access()
 
