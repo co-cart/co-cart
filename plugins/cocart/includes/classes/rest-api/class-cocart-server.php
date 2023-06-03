@@ -217,12 +217,14 @@ class Server {
 	} // END initialize_cart_session()
 
 	/**
-	 * Loads the cart, session and notices should it be required.
+	 * Loads the session, customer and cart in that order.
+	 *
+	 * Prevents initializing if none are required for the requested API endpoint.
 	 *
 	 * @access private
 	 *
 	 * @since 2.0.0 Introduced.
-	 * @since 4.0.0 Updated to use functions via Namespace.
+	 * @since 4.0.0 Updated to use functions via Namespace and initialize customer.
 	 */
 	private function maybe_load_cart() {
 		if ( Authentication::is_rest_api_request() ) {
@@ -232,24 +234,18 @@ class Server {
 				return;
 			}
 
-			// WooCommerce is greater than v3.6 or less than v4.5.
-			if ( Help::is_wc_version_gte( '3.6' ) && Help::is_wc_version_lt( '4.5' ) ) {
-				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
-				require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
+			// Require WooCommerce functions.
+			require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+			require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
 
-				// Initialize session.
-				$this->initialize_session();
+			// Initialize session.
+			$this->initialize_session();
 
-				// Initialize cart.
-				$this->initialize_cart();
-			}
+			// Initialize customer.
+			$this->initialize_customer();
 
-			// WooCommerce is greater than v4.5 or equal.
-			if ( Help::is_wc_version_gte( '4.5' ) ) {
-				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart' ) ) {
-					wc_load_cart();
-				}
-			}
+			// Initialize cart.
+			$this->initialize_cart();
 		}
 	} // END maybe_load_cart()
 
@@ -318,16 +314,31 @@ class Server {
 	 */
 	public function initialize_session() {
 		if ( is_null( WC()->session ) || ! WC()->session instanceof Handler ) {
-			// Prefix session class with global namespace if not already namespaced.
-			if ( false === strpos( $session_class, '\\' ) ) {
-				$session_class = '\\' . $session_class;
-			}
-
-			// Initialize new session.
-			WC()->session = new $session_class();
+			WC()->session = new Handler();
 			WC()->session->init();
 		}
 	} // END initialize_session()
+
+	/**
+	 * Initialize customer.
+	 *
+	 * This allows us to control which customer is assigned to the session.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 */
+	public function initialize_customer() {
+		if ( is_null( WC()->customer ) || ! WC()->customer instanceof Customer ) {
+			$current_user_id = get_current_user_id();
+			$customer_id     = WC()->session->is_user_customer( $current_user_id ) ? strval( $current_user_id ) : WC()->session->get_customer_id_from_cart_key( WC()->session->get_cart_key() );
+
+			WC()->customer = new Customer( $customer_id, true );
+
+			// Customer should be saved during shutdown.
+			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
+		}
+	} // END initialize_customer()
 
 	/**
 	 * Initialize cart.
@@ -338,15 +349,6 @@ class Server {
 	 * @since 4.0.0 Updated to use functions via Namespace.
 	 */
 	public function initialize_cart() {
-		if ( is_null( WC()->customer ) || ! WC()->customer instanceof Customer ) {
-			$customer_id = strval( get_current_user_id() );
-
-			WC()->customer = new Customer( $customer_id, true );
-
-			// Customer should be saved during shutdown.
-			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
-		}
-
 		if ( is_null( WC()->cart ) || ! WC()->cart instanceof Cart ) {
 			WC()->cart = new Cart();
 		}
