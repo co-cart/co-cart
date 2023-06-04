@@ -1129,13 +1129,16 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.0.4
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Now use `cocart_price_no_html()` function for formatted return.
+	 *
+	 * @see cocart_price_no_html()
+	 * @see cocart_prepare_money_response()
 	 *
 	 * @param string|WC_Coupon $coupon    Coupon data or code.
 	 * @param boolean          $formatted Formats the saving amount.
 	 *
-	 * @return string The coupon in HTML.
+	 * @return string Returns coupon amount.
 	 */
 	public function coupon_html( $coupon, $formatted = true ) {
 		if ( is_string( $coupon ) ) {
@@ -1145,7 +1148,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$amount = $this->get_cart_instance()->get_coupon_discount_amount( $coupon->get_code(), $this->get_cart_instance()->display_cart_ex_tax );
 
 		if ( $formatted ) {
-			$savings = html_entity_decode( wp_strip_all_tags( wc_price( $amount ) ) );
+			$savings = cocart_price_no_html( $amount );
 		} else {
 			$savings = (float) cocart_prepare_money_response( $amount );
 		}
