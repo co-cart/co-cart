@@ -194,6 +194,8 @@ All monetary values in the cart are formatted after giving 3rd party plugins or 
 - `cocart_cart_item_subtotal_tax`
 - `cocart_cart_item_total`
 - `cocart_cart_item_tax`
+- `cocart_cart_fee_amount`
+- `cocart_cart_tax_line_amount`
 - `cocart_cart_totals_taxes_total`
 - `cocart_cart_totals`
 
