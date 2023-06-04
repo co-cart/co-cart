@@ -955,12 +955,19 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @param WC_Cart $cart Cart class instance.
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added parameter `$request` (REST API request).
+	 *
+	 * @deprecated 4.0.0 Removed passing cart object as a parameter.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @see cocart_prepare_money_response()
 	 *
 	 * @return array Tax lines.
 	 */
-	protected function get_tax_lines( $cart ) {
-		$cart_tax_totals = $cart->get_tax_totals();
+	protected function get_tax_lines( $request = array() ) {
+		$cart_tax_totals = $this->get_cart_instance()->get_tax_totals();
 		$tax_lines       = array();
 
 		foreach ( $cart_tax_totals as $code => $tax ) {
