@@ -1072,7 +1072,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			foreach ( $cart_fees as $key => $fee ) {
 				$fees[ $key ] = array(
 					'name' => esc_html( $fee->name ),
-					'fee'  => (float) cocart_prepare_money_response( $this->fee_html( $fee ) ),
+					'fee'  => apply_filters( 'cocart_cart_fee_amount', $this->fee_html( $fee ), $request ),
 				);
 			}
 		}
