@@ -973,7 +973,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		foreach ( $cart_tax_totals as $code => $tax ) {
 			$tax_lines[ $code ] = array(
 				'name'  => $tax->label,
-				'price' => (float) cocart_prepare_money_response( $tax->amount ),
+				'price' => apply_filters( 'cocart_cart_tax_line_amount', $tax->amount, $request ),
 			);
 		}
 
