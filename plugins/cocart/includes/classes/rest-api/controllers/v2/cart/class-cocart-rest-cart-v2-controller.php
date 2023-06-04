@@ -1061,6 +1061,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @see cocart_prepare_money_response()
 	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return array Cart fees.
 	 */
 	public function get_fees( $request = array() ) {
@@ -1733,6 +1735,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @since 3.1.0 Prices now return as monetary values.
 	 * @since 4.0.0 Prices now return default values and uses filters instead.
 	 *              Added new parameter `$request` (REST API request) to allow more arguments to be passed.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return array $cross_sells Returns cross sells.
 	 */
