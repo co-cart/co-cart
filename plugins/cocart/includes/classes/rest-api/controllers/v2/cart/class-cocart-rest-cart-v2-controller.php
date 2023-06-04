@@ -231,7 +231,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 2.0.0 Introduced.
-	 * @since 4.0.0 Deprecated use of `get_cart_template()` function and replaced by filtering the requested fields.
+	 *
+	 * @deprecated 4.0.0 Deprecated use of `get_cart_template()` function and replaced by filtering the requested fields.
 	 *
 	 * @param WP_REST_Request $request       Full details about the request.
 	 * @param array           $cart_contents Cart content.
@@ -463,7 +464,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			 * Filter allows control over the minimum quantity a customer must add to purchase said item.
 			 *
 			 * @since 3.0.17 Introduced.
-			 * @since 3.1.0 Added product object as parameter.
+			 * @since 3.1.0  Added product object as parameter.
 			 *
 			 * @param int|float  Minimum quantity to validate with.
 			 * @param WC_Product Product object.
@@ -666,8 +667,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access protected
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @since   3.0.0 Deprecated $variation_id parameter is no longer used.
 	 * @version 3.1.0
+	 *
+	 * @deprecated 3.0.0 `$variation_id` parameter is no longer used.
 	 *
 	 * @param int             $product_id   Contains the ID of the product.
 	 * @param int|float       $quantity     Contains the quantity of the item.
@@ -876,7 +878,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since      3.0.0 Introduced.
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @deprecated 3.1.0 Use `cocart_get_store_currency()` instead.
 	 *
 	 * @see cocart_get_store_currency()
@@ -976,7 +979,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since      3.0.0 Introduced.
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @deprecated 3.1.0 Use `cocart_prepare_money_response()` function instead.
 	 *
 	 * @see cocart_prepare_money_response()
@@ -998,7 +1002,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since      3.0.0 Introduced.
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @deprecated 4.0.0 Replaced with a global function `cocart_format_variation_data()`
 	 *
 	 * @param array      $variation_data Array of data from the cart.
@@ -1161,7 +1166,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since      3.0.0 Introduced.
+	 * @since 3.0.0 Introduced.
+	 *
 	 * @deprecated 4.0.0 Removed passing cart object as a parameter.
 	 *
 	 * @param object $fee Fee data.
@@ -1425,7 +1431,16 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 */
 		$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
 
-		$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
+		/**
+		 * Filter allows you to change the thumbnail size of the item in cart.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param boolean $removed_item Determines if the item in the cart is removed.
+		 */
+		$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item );
+
+		$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size );
 
 		$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
 
@@ -1966,6 +1981,18 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 			$this->get_cart_instance()->cart_contents = apply_filters( 'cocart_cart_contents_changed', $this->get_cart_instance()->cart_contents );
 
+			/**
+			 * Fires after item has been added to cart.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $item_key       Generated ID based on the product information provided.
+			 * @param int    $product_id     Contains the id of the product to add to the cart.
+			 * @param int    $quantity       Contains the quantity of the item to add.
+			 * @param int    $variation_id   ID of the variation being added to the cart.
+			 * @param array  $variation      Attribute values.
+			 * @param array  $cart_item_data Extra cart item data we want to pass into the item.
+			 */
 			do_action( 'cocart_add_to_cart', $item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data );
 
 			return $item_key;
@@ -2075,7 +2102,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since      3.0.3 Introduced.
+	 * @since 3.0.3 Introduced.
+	 *
 	 * @deprecated 4.0.0 No longer used. `return_cart_contents()` function has been improved.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
@@ -2138,7 +2166,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since      3.1.0 Introduced.
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @deprecated 4.0.0 No longer used. `return_cart_contents()` function has been improved.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
