@@ -169,8 +169,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Added a check to see if the CoCart session handler is detected.
 	 *
 	 * @param WP_REST_Request $request       Full details about the request.
 	 * @param string          $cart_item_key Originally the cart item key.
