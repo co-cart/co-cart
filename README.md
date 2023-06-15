@@ -8,7 +8,7 @@
 		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+6.2&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=6.9+-+7.7&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=6.9+-+7.8&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.4+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -101,7 +101,7 @@ Here are a few other resources you may find helpful.
 This repository is not suitable for support. Please don't use our issue tracker for support requests, but for core CoCart issues only. Support can take place through the appropriate channels:
 
 * [Our community forum on wp.org](https://wordpress.org/plugins/cart-rest-api-for-woocommerce/) which is available for all CoCart users.
-* [Our community on Discord](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart) on the **#support** channel.
+* [Our community on Discord](https://cocartapi.com/discord) on the **#support** channel.
 * [Our community group on Facebook](https://www.facebook.com/groups/cocart/)
 * [Our community on Reddit](https://www.reddit.com/r/cocartheadless/)
 
@@ -138,7 +138,7 @@ If you have a patch or have stumbled upon an issue with CoCart (Core), you can c
 
 ### Join the Community
 
-Do you like the idea of creating a headless e-commerce with WooCommerce? Have questions or feedback? We'd love to hear from you. Come join the CoCart [community](https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart)! ❤️
+Do you like the idea of creating a headless e-commerce with WooCommerce? Have questions or feedback? We'd love to hear from you. Come join the CoCart [community](https://cocartapi.com/discord/)! ❤️
 
 ---
 
