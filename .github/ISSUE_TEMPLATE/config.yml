@@ -1,5 +1,9 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
+  - name: ☀️ Core Issue
+    url: https://github.com/co-cart/cocart-core
+    about: Have a bug to report because something isn't working as expected in the core of CoCart, please report them to this repository.
+
   - name: 🖥️ Admin Issue
     url: https://github.com/co-cart/cocart-admin
     about: If you have issues related to CoCart in the WordPress Dashboard, please report them to this repository.

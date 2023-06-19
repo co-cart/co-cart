@@ -1,6 +1,6 @@
 ---
 name: '📖 Feedback – Documentation'
-about: Submit feedback or report an issue about some documentation.
+about: Submit feedback or report an issue about some documentation on this GitHub repository.
 title: "Feedback on "
 labels: 'type: documentation'
 assignees: ""
