@@ -31,3 +31,7 @@ contact_links:
   - name: ❓ Support Question
     url: https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/
     about: If you have a question please use the support forum!
+
+  - name: 😄 Discord
+    url: https://cocart.xyz/community
+    about: Join the official community for CoCart on Discord.
