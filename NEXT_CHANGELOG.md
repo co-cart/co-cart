@@ -29,6 +29,7 @@
 - New settings page:
   - Set the front-end site URL for product permalinks for the Products API.
   - Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
+  - Set default configurations for the default behaviour when accessing the products API.
 
 <p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/dev/docs/images/cocart-settings.png" alt="CoCart Plugin Settings" /></p>
 
@@ -157,6 +158,7 @@ There are many deprecations made with this release but nothing that should affec
 - Filter `cocart_customer_id` no longer used to override the customer ID for the session.
 - Filter `cocart_cookie` no longer used as the session cookie has been reverted back to default.
 - Filter `cocart_no_items_message` replaced with another filter `cocart_no_items_in_cart_message` that is shared in other endpoints.
+- Filter `cocart_empty_cart` no longer used. If you wish to detect if the cart is empty to change the response, use `cocart_cart` with function `$this->is_completely_empty()`.
 - Function `WC()->session->use_httponly()` no longer used.
 - Function `WC()->session->cocart_setcookie()` no longer used. Replaced with `cocart_setcookie()`.
 - Function `WC()->session->get_cart_created()` no longer used. Replaced with `cocart_get_timestamp()`.
