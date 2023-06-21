@@ -1,7 +1,7 @@
 {
 	"title": "CoCart",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "4.0.0-alpha.4",
+	"version": "4.0.0-beta.1",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -70,7 +70,6 @@
 		"test": "grunt",
 		"build": "grunt build",
 		"ready": "grunt ready",
-		"makepot": "composer run-script makepot",
 		"update:version": "grunt version",
 		"update:pot": "grunt update-pot",
 		"update:stable": "grunt stable",
