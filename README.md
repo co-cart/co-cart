@@ -58,9 +58,12 @@ git clone https://github.com/co-cart/co-cart.git cocart-dev
 
 Then go into the cloned folder `cd cocart-dev` and proceed with the following commands.
 
+> ⚠️ It's important that you run the first command correctly as is otherwise it ruins the rest of the process and you will have to start again.
+
 ```
-composer install
+composer install --no-autoloader
 npm install
+composer install-cocart
 composer ready-build
 ```
 
@@ -73,7 +76,8 @@ If you have made changes to the core of CoCart and want to test those changes lo
 As CoCart is now built modular, to keep up to date with all the development changes in all the default set modules you will need to pull them from their individual repositories.
 
 ```
-composer update
+composer update --no-autoloader
+composer update-cocart
 composer ready-build
 ```
 
