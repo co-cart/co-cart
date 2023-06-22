@@ -33,22 +33,22 @@ output 3 "Copying CoCart build to wp-content/plugins/..."
 cp -r ./plugins/cocart ./../cocart
 output 2 "CoCart build copied."
 
-output 3 "Cleaning remaining dev files..."
-find ./../cocart -name ".git" -type d -exec rm -rf {} +
-find ./../cocart -name ".github" -type d -exec rm -rf {} +
-find ./../cocart -name "README.md" -type f -delete
-output 2 "CoCart can now be activated from your WordPress dashboard."
-
 output 4 "Changing directory to wp-content/plugins/cocart..."
 cd "../cocart"
 
 output 3 "Installing Composer..."
-composer install
+composer install --no-autoloader
+composer require appsero/client
 
-output 3 "Updating autoloader classmaps..."
+output 3 "Creating autoloader..."
 composer dump-autoload
+
+output 3 "Cleaning remaining dev files..."
+find ./../cocart -name ".git" -type d -exec rm -rf {} +
+find ./../cocart -name ".github" -type d -exec rm -rf {} +
+find ./../cocart -name "README.md" -type f -delete
 output 2 "Done!"
 
 output 4 "Returning to developement folder."
 cd -
-output 2 "Done!"
+output 2 "CoCart can now be activated from your WordPress dashboard."
