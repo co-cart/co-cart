@@ -35,6 +35,7 @@ output 2 "CoCart build copied."
 
 output 3 "Cleaning remaining dev files..."
 find ./../cocart -name ".git" -type d -exec rm -rf {} +
+find ./../cocart -name ".github" -type d -exec rm -rf {} +
 find ./../cocart -name "README.md" -type f -delete
 output 2 "CoCart can now be activated from your WordPress dashboard."
 

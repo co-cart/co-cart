@@ -8,6 +8,7 @@ packages/*/.distignore
 packages/*/.editorconfig
 packages/*/.gitattributes
 packages/*/.gitignore
+packages/*/.jshintrc
 packages/*/.stylelintrc
 packages/*/.stylelintignore
 packages/*/composer.*

@@ -1,6 +1,6 @@
 CoCart - Build headless stores, without building an API
 
-Copyright 2018 - 2022 by the contributors.
+Copyright 2018 - 2023 by the contributors.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ permission notices:
 
   CoCart - Build headless stores, without building an API
 
-  CoCart is Copyright (c) 2018 - 2022 Sébastien Dumont
+  CoCart is Copyright (c) 2018 - 2023 Sébastien Dumont
 
   CoCart is released under the GPL
 

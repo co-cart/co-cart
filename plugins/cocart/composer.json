@@ -1,11 +1,11 @@
 {
-	"name": "co-cart/co-cart",
+	"name": "co-cart/cocart-core",
 	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
 	"homepage": "https://cocart.xyz",
 	"type": "wordpress-plugin",
 	"license": "GPL-3.0-or-later",
 	"prefer-stable": true,
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
 	"authors": [
 		{
 			"name": "CoCart",
@@ -14,11 +14,12 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/co-cart/co-cart/issues",
-		"source": "https://github.com/co-cart/co-cart"
+		"issues": "https://github.com/co-cart/cocart-core/issues",
+		"source": "https://github.com/co-cart/cocart-core"
 	},
 	"config": {
 		"sort-packages": true,
+		"optimize-autoloader": true,
 		"allow-plugins": {
 			"composer/installers": true,
 			"dealerdirect/phpcodesniffer-composer-installer": true

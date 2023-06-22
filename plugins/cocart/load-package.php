@@ -2,7 +2,7 @@
 /**
  * This file is designed to be used to load as package NOT a WP plugin!
  *
- * @version 4.0.0-alpha.4
+ * @version 4.0.0-beta.1
  * @package CoCart
  */
 

@@ -10,7 +10,8 @@
 /packages/*
 !/packages/README.md
 
-# Various file types to ignore when exporting.
+# Various folders and file types to ignore when exporting.
+.github/*
 .gitconfig
 *.zip
 *.yml
