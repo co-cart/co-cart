@@ -111,11 +111,11 @@
 	"extra": {
 		"installer-paths": {
 			"plugins/cocart": ["co-cart/cocart-core"],
-			"plugins/cocart/packages/admin": ["co-cart/cocart-admin"],
-			"plugins/cocart/packages/compatibility": ["co-cart/cocart-compatibility"],
-			"plugins/cocart/packages/products-api": ["co-cart/cocart-products-api"],
-			"plugins/cocart/packages/third-party": ["co-cart/cocart-third-party"],
-			"plugins/cocart/packages/session-api": ["co-cart/cocart-session-api"]
+			"packages/admin": ["co-cart/cocart-admin"],
+			"packages/compatibility": ["co-cart/cocart-compatibility"],
+			"packages/products-api": ["co-cart/cocart-products-api"],
+			"packages/third-party": ["co-cart/cocart-third-party"],
+			"packages/session-api": ["co-cart/cocart-session-api"]
 		},
 		"scripts-description": {
 			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
