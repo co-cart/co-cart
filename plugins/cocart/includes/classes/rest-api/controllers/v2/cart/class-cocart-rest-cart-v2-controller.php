@@ -927,19 +927,21 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return array
 	 */
 	protected function get_taxes( $request = array() ) {
+		$taxes          = array();
+		$estimated_text = '';
+
 		// Return calculated tax based on store settings and customer details.
 		if ( wc_tax_enabled() && ! $this->get_cart_instance()->display_prices_including_tax() ) {
 			$taxable_address = WC()->customer->get_taxable_address();
-			$estimated_text  = '';
-
-			if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
-				/* translators: %s location. */
-				$estimated_text = sprintf( ' ' . esc_html__( '(estimated for %s)', 'cart-rest-api-for-woocommerce' ), WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ] );
-			}
 
 			if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
 				$taxes = $this->get_tax_lines( $request );
 			} else {
+				if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
+					/* translators: %s location. */
+					$estimated_text = sprintf( ' ' . esc_html__( '(estimated for %s)', 'cart-rest-api-for-woocommerce' ), WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ] );
+				}
+
 				$taxes = array(
 					'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
 					'total' => apply_filters( 'cocart_cart_totals_taxes_total', $this->get_cart_instance()->get_taxes_total(), $request ),
