@@ -1,78 +1,56 @@
-# CoCart Plugin
+<h1 align="center">CoCart - Core</h1>
 
-**Important**
+<p align="center"><img src="https://cocart.xyz/wp-content/uploads/2021/11/cocart-home-default.png.webp" alt="CoCart Logo" /></p>
 
-Updates for the CoCart plugin on WordPress.org starting on **5th October 2022** will not be getting any further major updates for a long while in order to focus on the paid CoCart Pro version of the plugin. Only minor fixes for bugs will be updated. Don't worry, you'll still be able to use this plugin forever.
+<br>
 
-Also while API v1 can still be used it will no longer be supported.
+This is the core of CoCart that provides support for managing the user session and decouples WooCommerce.
 
-**The #1 ecommerce RESTful API built for WooCommerce that scales for headless development.**
+It is designed to be pulled in via Composer when CoCart is compiled for a plugin build release for CoCart Lite or CoCart Pro.
 
-## 🥪 The API
+Any core features are controlled and maintained in this package.
 
-CoCart provides support for managing the user session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
+## License
 
-CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
-
-### 🛒 Cart API
-
-Add **simple, variable** and **grouped products** to the cart by **product ID** or **SKU ID**, update cart items individually or in bulk and more. The flow is simple and returns an updated cart response every time with all the totals calculated and stock checks done for you making it easier to simply update your **UX/UI**.
-
-### 🛍️ Products API
-
-Access products from your store to display how you like including a number of queries to help you filter by product categories, tags, attributes and more. You can even get posted reviews all without the need to authenticate. All the information you need about a product and it's conditions to help you with your UX/UI development is all provided ready for you.
-
-## Filter what you need. Get exactly that.
-
-With CoCart, the client can limit the fields, asking for the exact data needed for the response, nothing more. This allows the client have control over their application, and allows the CoCart server to perform more efficiently by only fetching the resources requested.
-
-### 👍 Add-ons to further enhance CoCart
-
-We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
-
-* **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** enables support for CORS to allow CoCart to work across multiple domains. - **FREE**
-* **[CoCart - Rate Limiting](https://wordpress.org/plugins/cocart-rate-limiting)** enables the rate limiting feature available in version **4.0** an up. - **FREE**
-* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced/)** enhances the data returned for the cart and the items added to it. - **FREE**
-* and more add-ons in development.
-
-They work with the core of CoCart already, and these add-ons of course come with support too.
+Released under [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.html).
 
 ---
 
-## For Developers
+## CoCart Channels
 
-Here are a few other resources you may find helpful.
+We have different channels at your disposal where you can find information about the CoCart project, discuss it and get involved:
 
-* **[CoCart Beta Tester](https://github.com/co-cart/cocart-beta-tester)** allows you to test with bleeding edge versions of CoCart Core from the GitHub repo.
-* **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
-* **[CoCart Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
-* **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
-* **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
-* **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
-* **[Node.js Library](https://www.npmjs.com/package/@cocart/cocart-rest-api)** provides a JavaScript wrapper supporting CommonJS (CJS) and ECMAScript Modules (ESM).
+[![Twitter: cocartapi](https://img.shields.io/twitter/follow/cocartapi?style=social)](https://twitter.com/cocartapi) [![CoCart GitHub Stars](https://img.shields.io/github/stars/co-cart/co-cart?style=social)](https://github.com/co-cart/co-cart)
 
-## Priority support
-
-We aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that we do prioritize support for our premium customers. Communication is handled one-on-one via direct messaging in [Slack](https://app.slack.com/client/TD85PLSMA/) and is available to people who purchased [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
-
-## Privacy Policy 
-
-CoCart uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
-
-Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure a great user experience for all our users. 
-
-Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
-
-Learn more about how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).
+<ul>
+  <li>📖 <strong>Docs</strong>: this is the place to learn how to use CoCart API. <a href="https://docs.cocart.xyz/#getting-started">Get started!</a></li>
+  <li>🧰 <strong>Resources</strong>: this is the hub of all CoCart resources to help you build a headless store. <a href="https://cocart.dev/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart">Get resources!</a></li>
+  <li>👪 <strong>Community</strong>: use our Discord chat room to share any doubts, feedback and meet great people. This is your place too to share <a href="https://cocart.xyz/community/?utm_medium=gh&utm_source=github&utm_campaign=readme&utm_content=cocart">how are you planning to use CoCart!</a></li>
+  <li>🐞 <strong>GitHub</strong>: we use GitHub for bugs and pull requests, doubts are solved with the community.</li>
+  <li>🐦 <strong>Social media</strong>: a more informal place to interact with CoCart users, reach out to us on <a href="https://twitter.com/cocartapi">Twitter.</a></li>
+  <li>💌 <strong>Newsletter</strong>: do you want to receive the latest plugin updates and news? Subscribe <a href="https://twitter.com/cocartapi">here.</a></li>
+</ul>
 
 ---
 
-### More information
+## Contributing to CoCart
 
-* The [CoCart plugin](https://cocart.xyz/) official website.
-* The CoCart [Documentation](https://docs.cocart.xyz/)
-* [Join the CoCart community](https://cocart.xyz/community/).
-* [Subscribe to updates](http://eepurl.com/dKIYXE)
-* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/co_cart/) and [GitHub](https://github.com/co-cart/co-cart)
+If you have a patch or have stumbled upon an issue with CoCart (Core), you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/co-cart/cocart-core/blob/master/.github/CONTRIBUTING.md) for more information how you can do this.
 
-🐞 Found a mistake, or have a suggestion? [Leave feedback about this document here.](https://github.com/co-cart/co-cart/issues/new?assignees=&labels=type%3A+documentation&template=doc_feedback.md&title=Feedback+on+./plugins/cocart/README.md)
+---
+
+## Credits
+
+CoCart Core Package is developed and maintained by [Sébastien Dumont](https://github.com/seb86).
+
+Founder of CoCart - [Sébastien Dumont](https://github.com/seb86).
+
+---
+
+Website [sebastiendumont.com](https://sebastiendumont.com) &nbsp;&middot;&nbsp;
+GitHub [@seb86](https://github.com/seb86) &nbsp;&middot;&nbsp;
+Twitter [@sebd86](https://twitter.com/sebd86)
+
+<p align="center">
+    <img src="https://raw.githubusercontent.com/seb86/my-open-source-readme-template/master/a-sebastien-dumont-production.png" width="353">
+</p>
