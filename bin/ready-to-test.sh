@@ -41,6 +41,7 @@ composer install --no-autoloader
 composer require appsero/client
 
 output 3 "Creating autoloader..."
+composer prep-autoload
 composer dump-autoload
 
 output 3 "Cleaning remaining dev files..."
