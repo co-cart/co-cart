@@ -33,7 +33,7 @@ final class Core {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.0.0-alpha.4';
+	public static $version = '4.0.0-beta.1';
 
 	/**
 	 * CoCart Database Schema version.
