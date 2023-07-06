@@ -86,7 +86,7 @@ CoCart can run under it's own route. e.g. `https://api.myawesomestore.com/cocart
 
 You can filter the prefix `cocart-api` using this filter `cocart_rest_get_url_prefix` to name it whatever you want. For example you could use the filter to change the prefix to today in milliseconds e.g. `https://api.myawesomestore.com/1688656002096/cocart/v2/cart`
 
-Just a small why of hiding use of `wp-json` or if you want to prefix `wp-json` for all other WordPress endpoints you use and use `cocart-api` differently from it.
+Just a small way of hiding the use of `wp-json` or if you want to prefix `wp-json` for all other WordPress endpoints you use and use `cocart-api` differently from it.
 
 ## Improvements and Tweaks
 
