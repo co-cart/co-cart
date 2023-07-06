@@ -30,6 +30,7 @@
 - New settings page:
   - Set the front-end site URL for product permalinks for the Products API.
   - Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
+  - Disable WordPress Access if enabled. Users who are not administrators cannot access the WordPress site and are redirected to "Front-end site URL" instead.
   - Set default configurations for the default behaviour when accessing the products API.
 
 <p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/dev/docs/images/cocart-settings.png" alt="CoCart Plugin Settings" /></p>
@@ -99,6 +100,7 @@ Just a small way of hiding the use of `wp-json` or if you want to prefix `wp-jso
 - All endpoints with schema now have proper schema title for proper identification.
 - The callback for cart update endpoint now passes the controller class so we don't have to call it a new.
 - Caching of same item added to cart no longer loses previous custom price set before and has not changed.
+- Store API only returns the version, routes and link to documentation if "WP_DEBUG" is true.
 
 ## Security
 
