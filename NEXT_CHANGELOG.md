@@ -108,6 +108,8 @@ Just a small way of hiding the use of `wp-json` or if you want to prefix `wp-jso
 
 With the new settings page added in this release you can disable access to WordPress with a simple checkbox. You can even redirect to your headless site if you use the "Front-end URL" field which is also used to re-write your permalinks.
 
+By default, both the cart and checkout pages are still accessible to support the feature "Load cart from session" and you can filter the accessible pages using `cocart_accessible_page_ids`.
+
 ### Override Price Hijacking
 
 This is new and is needed to help prevent session hijacking for someone tech-savvy in manipulating the API.
@@ -189,6 +191,7 @@ There are many deprecations made with this release but nothing that should affec
 - Introduced new filter `cocart_cart_item_extensions` to allow plugin extensions to apply additional information.
 - Introduced new filter `cocart_is_allowed_to_override_price` that by default will always allow overriding the price unless stated otherwise when an item/s is added to the cart.
 - Introduced new filter `cocart_cart_totals` that can be used to change the values returned.
+- Introduced new filter `cocart_accessible_page_ids` to allow you to set the page ID's that are still accessible when you block access to WordPress.
 - Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
 - Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
 - Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
