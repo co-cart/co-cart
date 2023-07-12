@@ -54,7 +54,7 @@ CoCart's core features provides everything you need to use with any modern frame
 * Supports **basic authentication** including the use of email as username.
 * Supports multi-sites.
 * Does not cache API so responses are fast.
-* Works across multiple domains, CORS ready (so you can have multiple frontends connected to one backend).
+* Works across multiple domains, CORS ready **so you can have multiple front-ends connected to one backend**.
 * Can be white-labelled for your clients.
 
 ## The API
@@ -78,7 +78,7 @@ All the information you need about a product and it’s conditions to help you w
 Additional API's are provided to help with your user actions as well as debugging.
 
  - Get store information.
- - Login the user. (Required if you are using the JWT Authentication Addon)
+ - Login the user. **Required if you are using the JWT Authentication Addon**
  - Logout the user.
  - Empty the cart.
 

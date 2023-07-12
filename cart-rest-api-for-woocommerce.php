@@ -1,17 +1,17 @@
 <?php
 /**
- * Plugin Name: CoCart - Headless ecommerce
+ * Plugin Name: CoCart - Decoupling WooCommerce Made Easy
  * Plugin URI:  https://cocart.xyz
- * Description: Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.
+ * Description: CoCart brings everything you need to build fast and flexible headless stores.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     3.8.1
+ * Version:     3.8.2
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.6
  * Requires PHP: 7.3
  * WC requires at least: 4.3
- * WC tested up to: 7.4
+ * WC tested up to: 7.8
  *
  * @package CoCart
  */
