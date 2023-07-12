@@ -343,6 +343,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'posts_per_page'      => $request['per_page'],
 			'post_parent__in'     => $request['parent'],
 			'post_parent__not_in' => $request['parent_exclude'],
+			's'                   => $request['search'],
 			'name'                => $request['slug'],
 			'fields'              => 'ids',
 			'ignore_sticky_posts' => true,
