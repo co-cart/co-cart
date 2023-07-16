@@ -1,22 +1,22 @@
 # Contributing to CoCart ✨
 
-CoCart helps power many headless stores across the internet, and your help making it even more awesome will be greatly appreciated :)
+CoCart helps power many headless stores across the internet, and with your help making it even more awesome will be greatly appreciated. 😃
 
 There are many ways to contribute to the project!
 
 - [Translating strings into your language](#translating-cocart).
 - Answering questions on the various CoCart communities like the [WP.org support forums](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
 - Testing open [issues](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) or [pull requests](https://github.com/co-cart/co-cart/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc) and sharing your findings in a comment.
-- Testing [CoCart beta versions and release candidates](https://github.com/co-cart/cocart-beta-tester). Those are announced in the [CoCart development blog](https://cocart.xyz/news/).
+- Testing [CoCart beta versions and release candidates](https://github.com/co-cart/cocart-beta-tester). Those are announced in the [CoCart development blog](https://cocart.dev/news/).
 - Submitting fixes, improvements, and enhancements.
 
-If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) CoCart, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
+If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) the correct module for CoCart, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
 
-I use the `good first issue` label to mark issues that are suitable for new contributors. You can find all the issues with this label [here](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22).
+I use the `good first issue` label to mark issues that are suitable for new contributors.
 
 CoCart is licensed under the GPLv3+, and all contributions to the project will be released under the same license. You maintain copyright over any contribution you make, and by submitting a pull request, you are agreeing to release that contribution under the GPLv3+ license.
 
-If you have questions about the process to contribute code or want to discuss details of your contribution, you can contact CoCart core developers on the #core channel in the [CoCart community Slack](https://cocart.xyz/community/).
+If you have questions about the process to contribute code or want to discuss details of your contribution, you can ask in the #support channel in the [CoCart community Discord](https://cocart.xyz/community/).
 
 ## Getting started
 
