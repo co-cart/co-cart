@@ -33,7 +33,9 @@ class Packages {
 	 * DO NOT EDIT!
 	 *
 	 * @access protected
+	 *
 	 * @static
+	 *
 	 * @var    array
 	 */
 	protected static $default_packages = array(
@@ -41,13 +43,16 @@ class Packages {
 		'compatibility',
 		'products-api',
 		'third-party',
+		'session-api'
 	);
 
 	/**
 	 * Array of package names and their main package classes.
 	 *
 	 * @access protected
+	 *
 	 * @static
+	 *
 	 * @var    array Key is the package name/directory, value is the main package class which handles init.
 	 */
 	protected static $packages = array(
@@ -62,6 +67,7 @@ class Packages {
 	 * Init the package loader.
 	 *
 	 * @access public
+	 *
 	 * @static
 	 */
 	public static function init() {
@@ -72,6 +78,7 @@ class Packages {
 	 * Callback for WordPress init hook.
 	 *
 	 * @access public
+	 *
 	 * @static
 	 */
 	public static function on_init() {
@@ -83,8 +90,11 @@ class Packages {
 	 * Checks a package exists by looking for it's directory.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @param  string $package Package name.
+	 *
+	 * @param string $package Package name.
+	 *
 	 * @return boolean
 	 */
 	public static function package_exists( $package ) {
@@ -95,7 +105,9 @@ class Packages {
 	 * Returns the default packages that should be available.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return array
 	 */
 	public static function get_default_packages() {
@@ -106,7 +118,9 @@ class Packages {
 	 * Returns the packages available.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return array
 	 */
 	public static function get_packages() {
@@ -117,6 +131,7 @@ class Packages {
 	 * Checks packages after plugins_loaded hook.
 	 *
 	 * @access protected
+	 *
 	 * @static
 	 */
 	protected static function check_packages() {
@@ -140,6 +155,7 @@ class Packages {
 	 * Each package should include an init file which loads the package so it can be used by core.
 	 *
 	 * @access protected
+	 *
 	 * @static
 	 */
 	protected static function load_packages() {
@@ -161,7 +177,8 @@ class Packages {
 	 * If a package is missing, add an admin notice.
 	 *
 	 * @access protected
-	 * @param  string $packages Package names.
+	 *
+	 * @param string $packages Package names.
 	 */
 	protected static function missing_packages( $packages ) {
 		$packages = implode( '</code>, <code>', $packages );
@@ -210,8 +227,11 @@ class Packages {
 	 * Returns the package version.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @param  string $package_name - Package name.
+	 *
+	 * @param string $package_name Package name.
+	 *
 	 * @return string $version
 	 */
 	public static function get_package_version( $package_name ) {
