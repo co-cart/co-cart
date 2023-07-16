@@ -18,6 +18,7 @@ project.properties
 npm-debug.log
 
 # Composer
+/packages/
 /vendor/
 contributors.html
 

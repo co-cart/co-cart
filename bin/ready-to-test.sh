@@ -29,13 +29,7 @@ if [ -d "../cocart" ]; then
 	output 2 "Previous CoCart build removed."
 fi
 
-output 3 "Copying CoCart build to wp-content/plugins/..."
-cp -r ./plugins/cocart ./../cocart
-output 2 "CoCart build copied."
-
-output 4 "Changing directory to wp-content/plugins/cocart..."
-cd "../cocart"
-
+cd "./plugins/cocart"
 output 3 "Installing Composer..."
 composer install --no-autoloader
 composer require appsero/client
@@ -43,6 +37,14 @@ composer require appsero/client
 output 3 "Creating autoloader..."
 composer prep-autoload
 composer dump-autoload
+cd -
+
+output 3 "Copying CoCart build to wp-content/plugins/..."
+cp -r ./plugins/cocart ./../cocart
+output 2 "CoCart build copied."
+
+output 4 "Changing directory to wp-content/plugins/cocart..."
+cd "../cocart"
 
 output 3 "Cleaning remaining dev files..."
 find ./../cocart -name ".git" -type d -exec rm -rf {} +

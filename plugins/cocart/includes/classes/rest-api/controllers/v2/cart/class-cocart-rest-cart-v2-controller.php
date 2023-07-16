@@ -1943,7 +1943,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		foreach ( $notice_types as $notice_type ) {
 			if ( wc_notice_count( $notice_type ) > 0 ) {
 				foreach ( $all_notices[ $notice_type ] as $key => $notice ) {
-					$notices[ $notice_type ][ $key ] = wc_kses_notice( $notice['notice'] );
+					$notices[ $notice_type ][ $key ] = html_entity_decode( wc_kses_notice( $notice['notice'] ) );
 				}
 			}
 		}

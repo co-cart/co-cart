@@ -69,17 +69,21 @@ class CoCart_REST_Store_v2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Version and routes are only shown if "WP_DEBUG" is true.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_REST_Response The API root index data.
 	 */
 	public function get_store( $request ) {
+		$debug = array(
+			'version' => COCART_VERSION,
+			'routes'  => $this->get_routes(),
+		);
+
 		// General store data.
-		$available = array(
-			'version'         => COCART_VERSION,
+		$store = array(
 			'title'           => get_option( 'blogname' ),
 			'description'     => get_option( 'blogdescription' ),
 			'home_url'        => home_url(),
@@ -87,12 +91,18 @@ class CoCart_REST_Store_v2_Controller {
 			'gmt_offset'      => get_option( 'gmt_offset' ),
 			'timezone_string' => wp_timezone_string(),
 			'store_address'   => $this->get_store_address(),
-			'routes'          => $this->get_routes(),
 		);
 
-		$response = new WP_REST_Response( $available );
+		if ( WP_DEBUG ) {
+			$store = array_merge( $debug, $store );
+		}
 
-		$response->add_link( 'help', 'https://docs.cocart.xyz/' );
+		$response = new WP_REST_Response( $store );
+
+		// Add link to documentation.
+		if ( WP_DEBUG ) {
+			$response->add_link( 'help', COCART_DOC_URL );
+		}
 
 		/**
 		 * Filters the API store index data.

@@ -122,6 +122,48 @@ class CoCart_REST_Batch_Controller {
 			}
 
 			$response = rest_get_server()->serve_batch_request_v1( $request );
+			$results  = $response->get_data();
+
+			$cart_requests = true;
+
+			// Check that we are only doing cart requests to return a singular cart response.
+			foreach ( $request['requests'] as $args ) {
+				// If path is not for cart then return response for batch as normal.
+				if ( ! stristr( $args['path'], 'cocart/v2/cart' ) ) {
+					$cart_requests = false;
+				}
+			}
+
+			// If only cart requests and nothing failed then only return the body of the last request for cart response.
+			if ( $cart_requests && ! array_key_exists( 'failed', $results ) ) {
+				$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
+
+				$notices = array();
+				$key = 0;
+
+				// Merge all response notices together if they exist.
+				foreach ( $results['responses'] as $result ) {
+					$all_notices = ! empty( $result['body']['notices'] ) ? $result['body']['notices'] : array();
+
+					foreach ( $notice_types as $notice_type ) {
+						if ( ! empty( $all_notices[ $notice_type ] ) && count( $all_notices[ $notice_type ] ) > 0 ) {
+							foreach ( $all_notices[ $notice_type ] as $notice ) {
+								$notices[ $notice_type ][ $key ] = $notice;
+								$key++;
+							}
+						}
+					}
+				}
+
+				// Get last response only.
+				$response = end( $results['responses'] );
+				$response = $response['body'];
+
+				// Merge all notices into the last response if they exist.
+				if ( ! empty( $notices ) && ! empty( $response['notices'] ) ) {
+					$response['notices'] = $notices;
+				}
+			}
 		} catch ( \CoCart_Data_Exception $error ) {
 			$response = CoCart_Response::get_error_response( $error->getErrorCode(), $error->getMessage(), $error->getCode(), $error->getAdditionalData() );
 		} catch ( \Exception $error ) {
@@ -131,8 +173,6 @@ class CoCart_REST_Batch_Controller {
 		if ( is_wp_error( $response ) ) {
 			$response = \CoCart_Response::error_to_response( $response );
 		}
-
-		$response->header( 'CoCart-Timestamp', time() );
 
 		return $response;
 	} // END get_response()

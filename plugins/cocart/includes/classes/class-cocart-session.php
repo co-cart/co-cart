@@ -301,7 +301,13 @@ class LoadCart {
 	 * @return boolean
 	 */
 	public static function maybe_load_cart() {
-		// Check that "Load Cart from Session" feature is disabled.
+		/**
+		 * Filter checks if "Load Cart from Session" feature is disabled.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @return bool
+		 */
 		if ( apply_filters( 'cocart_disable_load_cart', false ) ) {
 			return false;
 		}

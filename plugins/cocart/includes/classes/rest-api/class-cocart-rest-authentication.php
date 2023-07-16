@@ -206,14 +206,17 @@ class Authentication {
 		}
 
 		/**
-		 * Filters the authenticated user ID returned.
+		 * Filters the user ID returned and allows for third party to
+		 * include another authentication method.
 		 *
-		 * WARNING: Use with caution.
+		 * @since 2.6.0 Introduced.
+		 * @since 3.8.1 Passed the authentication class as parameter.
 		 *
-		 * @param int  $user_id The user ID returned if authentication was successful.
-		 * @param bool          Determines if the site is secure.
+		 * @param int    $user_id The user ID returned if authentication was successful.
+		 * @param bool            Determines if the site is secure.
+		 * @param object $this    The Authentication class.
 		 */
-		$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl() );
+		$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl(), $this );
 
 		return $user_id;
 	} // END authenticate()
@@ -297,6 +300,19 @@ class Authentication {
 	protected function get_error() {
 		return $this->error;
 	} // END get_error()
+
+	/**
+	 * Set authentication method.
+	 *
+	 * @access public
+	 *
+	 * @since 3.8.1 Introduced.
+	 *
+	 * @param WP_Error $error Authentication error data.
+	 */
+	public function set_method( $auth_method ) {
+		$this->auth_method = $auth_method;
+	} // END set_method()
 
 	/**
 	 * Basic Authentication.

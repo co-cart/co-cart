@@ -142,6 +142,7 @@ final class Core {
 		self::define( 'COCART_DB_VERSION', self::$db_version );
 		self::define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_CART_CACHE_GROUP', 'cocart_cart_id' );
+		self::define( 'COCART_DOC_URL', 'https://docs.cocart.xyz/' );
 		self::define( 'COCART_NEXT_VERSION', '5.0.0' );
 	} // END setup_constants()
 
@@ -243,6 +244,7 @@ final class Core {
 
 		// REST API functions.
 		include_once COCART_ABSPATH . 'includes/cocart-rest-functions.php';
+		include_once COCART_ABSPATH . 'includes/classes/class-cocart-rest.php';
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -380,6 +382,27 @@ final class Core {
 		$disable  = ! empty( $cocart_settings['general']['disable_wp_access'] ) ? $cocart_settings['general']['disable_wp_access'] : 'no';
 
 		if ( $disable === 'no' ) {
+			return;
+		}
+
+		// Check which pages are still accessible.
+		$cart_id     = get_option( 'woocommerce_cart_page_id' );
+		$checkout_id = get_option( 'woocommerce_checkout_page_id' );
+
+		$current_page_id = get_the_ID();
+
+		/**
+		 * Filter controls which pages are accessible when WordPress is denied access.
+		 *
+		 * Both the cart and checkout pages are accessible by default.
+		 *
+		 * @since 4.0.0 Introduced.
+		 *
+		 * @return array Page ID's that are accessible.
+		 */
+		$accessible_pages = apply_filters( 'cocart_accessible_page_ids', array( $cart_id, $checkout_id ) );
+
+		if ( $current_page_id > 0 && in_array( $current_page_id, $accessible_pages ) ) {
 			return;
 		}
 

@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-admin.git",
-                "reference": "de6bf0fe4785a98fa1dccfd792e895c0adc9b09a"
+                "reference": "0f4d97e7c9d9ce0f3465d2211581f3fc643bf088"
             },
             "require": {
                 "composer/installers": "2.2.0"
@@ -62,7 +62,7 @@
             "support": {
                 "issues": "https://github.com/co-cart/cocart-admin/issues"
             },
-            "time": "2023-06-21T23:26:44+00:00"
+            "time": "2023-07-11T14:51:47+00:00"
         },
         {
             "name": "co-cart/cocart-compatibility",
@@ -127,7 +127,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-core.git",
-                "reference": "2969be2a770b35a10f903f9532d6962d9752ec5c"
+                "reference": "e7e119c9eb74d3d70383c4da8807c52ef0267246"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0",
@@ -139,27 +139,10 @@
             },
             "default-branch": true,
             "type": "wordpress-plugin",
-            "autoload": {
-                "exclude-from-classmap": [
-                    "includes/classes/legacy",
-                    "includes/classes/rest-api/legacy"
-                ],
-                "classmap": [
-                    "includes",
-                    "packages/admin/includes",
-                    "packages/compatibility/includes",
-                    "packages/products-api/includes",
-                    "packages/session-api/includes",
-                    "packages/third-party/includes"
-                ],
-                "psr-4": {
-                    "CoCart\\": "src/",
-                    "CoCart\\Admin\\": "packages/admin/includes/",
-                    "CoCart\\Compatibility\\Modules\\": "packages/compatibility/includes/modules/",
-                    "CoCart\\ProductsAPI\\": "packages/products-api/includes/",
-                    "CoCart\\SessionAPI\\": "packages/session-api/includes/",
-                    "CoCart\\ThirdParty\\": "packages/third-party/includes/"
-                }
+            "scripts": {
+                "prep-autoload": [
+                    "sh ./bin/autoload-composer.sh"
+                ]
             },
             "license": [
                 "GPL-3.0-or-later"
@@ -177,7 +160,7 @@
                 "issues": "https://github.com/co-cart/cocart-core/issues",
                 "source": "https://github.com/co-cart/cocart-core"
             },
-            "time": "2023-06-21T17:39:14+00:00"
+            "time": "2023-07-16T16:00:04+00:00"
         },
         {
             "name": "co-cart/cocart-products-api",
