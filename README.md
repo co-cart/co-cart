@@ -43,7 +43,7 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 [Click here to download](https://downloads.wordpress.org/plugin/cart-rest-api-for-woocommerce.zip) the latest release package of CoCart Lite.
 
-✨ Core Features
+## ✨ Core Features
 
 CoCart's core features provides everything you need to use with any modern framework you desire.
 
@@ -89,7 +89,6 @@ Administrators have the capabilities to:
  - View all carts in session.
  - Get details of a cart in session.
  - View items in a cart session.
- - Delete a cart session.
 
 ## CoCart Pro
 
