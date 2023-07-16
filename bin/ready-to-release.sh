@@ -23,18 +23,20 @@ if [ -z "$(ls -la "plugins/cocart/packages/")" ]; then
 fi
 
 # Remove previous CoCart build
-if [ -d "../cocart" ]; then
+if [ -d "../build" ]; then
 	output 1 "Removing previous CoCart build..."
-	rm -Rf "../cocart";
+	rm -Rf "../build";
 	output 2 "Previous CoCart build removed."
 fi
 
-output 3 "Copying CoCart build to wp-content/plugins/..."
-cp -r ./plugins/cocart ./../cocart
+output 3 "Copying CoCart for build..."
+cp -r ./plugins/cocart ./plugins/build
 output 2 "CoCart build copied."
 
-output 4 "Changing directory to wp-content/plugins/cocart..."
-cd "../cocart"
+composer clean-packages
+
+output 4 "Changing directory to build..."
+cd "./plugins/build"
 
 output 3 "Installing Composer..."
 composer install --no-autoloader
@@ -45,9 +47,14 @@ composer prep-autoload
 composer dump-autoload
 
 output 3 "Cleaning remaining dev files..."
-find ./../cocart -name ".git" -type d -exec rm -rf {} +
-find ./../cocart -name ".github" -type d -exec rm -rf {} +
-find ./../cocart -name "README.md" -type f -delete
+find ./ -name ".git" -type d -exec rm -rf {} +
+find ./ -name ".github" -type d -exec rm -rf {} +
+find ./ -name "bin" -type d -exec rm -rf {} +
+find ./ -name ".distignore" -type f -delete
+find ./ -name ".gitignore" -type f -delete
+find ./ -name "composer.json" -type f -delete
+find ./ -name "composer.lock" -type f -delete
+find ./ -name "README.md" -type f -delete
 output 2 "Done!"
 
 output 4 "Returning to developement folder."

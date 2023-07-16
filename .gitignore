@@ -21,12 +21,10 @@ npm-debug.log
 /vendor/
 contributors.html
 
-# Build & Releases
-/build/
+# Builds & Releases
+/plugins/build/
 /fire-build/
 /releases/
-/cart-rest-api-for-woocommerce-svn/
-/prepping-release/
 
 # SVN
 /cart-rest-api-for-woocommerce-svn/

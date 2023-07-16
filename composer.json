@@ -101,8 +101,14 @@
 		"update-cocart": [
 			"sh ./bin/package-update.sh"
 		],
-		"ready-build": [
+		"prep-test-build": [
 			"sh ./bin/ready-to-test.sh"
+		],
+		"prep-release-build": [
+			"sh ./bin/ready-to-release.sh"
+		],
+		"clean-packages": [
+			"sh ./bin/clean-packages.sh"
 		],
 		"code-ref": [
 			"sh ./bin/code-ref.sh"
