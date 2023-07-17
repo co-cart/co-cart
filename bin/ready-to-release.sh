@@ -23,9 +23,9 @@ if [ -z "$(ls -la "plugins/cocart/packages/")" ]; then
 fi
 
 # Remove previous CoCart build
-if [ -d "../build" ]; then
+if [ -d "./plugins/build" ]; then
 	output 1 "Removing previous CoCart build..."
-	rm -Rf "../build";
+	rm -Rf "./plugins/build";
 	output 2 "Previous CoCart build removed."
 fi
 
