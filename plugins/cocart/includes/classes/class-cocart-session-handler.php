@@ -314,7 +314,7 @@ class Handler extends Session {
 	 * @return bool
 	 */
 	public function is_cookie_supported() {
-		cocart_deprecated_hook( 'cocart_cookie_supported', '4.0.0', null, sprintf( __( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ), __FUNCTION__ ) );
+		cocart_do_deprecated_action( 'cocart_cookie_supported', '4.0.0', null, sprintf( __( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ), __FUNCTION__ ) );
 
 		return apply_filters( 'cocart_cookie_supported', true );
 	} // END is_cookie_supported()
@@ -671,9 +671,7 @@ class Handler extends Session {
 			 *
 			 * @deprecated 2.7.2 No replacement.
 			 */
-			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
-				cocart_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null );
-			}
+			cocart_do_deprecated_action( 'cocart_empty_cart_expiration', '2.7.2', null );
 
 			/**
 			 * Checks if data is still validated to create a cart or update a cart in session.

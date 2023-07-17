@@ -275,7 +275,7 @@ class Handler extends Session {
 	 * @return bool
 	 */
 	public function is_cookie_supported() {
-		cocart_deprecated_hook( 'cocart_cookie_supported', '4.0.0', null, sprintf( __( '%s is no longer used. No replacement.', 'cart-rest-api-for-woocommerce' ), __FUNCTION__ ) );
+		cocart_do_deprecated_action( 'cocart_cookie_supported', '4.0.0', null, sprintf( __( '%s is no longer used. No replacement.', 'cart-rest-api-for-woocommerce' ), __FUNCTION__ ) );
 
 		return apply_filters( 'cocart_cookie_supported', true );
 	} // END is_cookie_supported()
@@ -630,11 +630,9 @@ class Handler extends Session {
 			 *
 			 * @deprecated 2.7.2 No replacement.
 			 */
-			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
-				/* translators: %s: filter name */
-				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
-				cocart_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
-			}
+			/* translators: %s: filter name */
+			$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
+			cocart_do_deprecated_action( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
 
 			/**
 			 * Checks if data is still validated to create a cart or update a cart in session.

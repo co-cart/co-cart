@@ -212,7 +212,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			 *
 			 * @see cocart_cart
 			 */
-			cocart_deprecated_hook( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
+			cocart_do_deprecated_action( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
 
 			// Ensures the cart totals are calculated before an API response is returned.
 			$this->calculate_totals();
@@ -371,7 +371,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			 *
 			 * @param array $cart The whole cart.
 			 */
-			cocart_deprecated_filter( 'cocart_empty_cart', array(), '4.0.0', 'cocart_cart', __( 'Filter `cocart_cart` with this function `$this->is_completely_empty()`', 'cart-rest-api-for-woocommerce' ) );
+			cocart_do_deprecated_filter( 'cocart_empty_cart', array(), '4.0.0', 'cocart_cart', __( 'Filter `cocart_cart` with this function `$this->is_completely_empty()`', 'cart-rest-api-for-woocommerce' ) );
 		}
 
 		/**
@@ -1368,8 +1368,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				}
 			}
 
-			cocart_deprecated_hook( 'cocart_ok_to_add_response', '3.0.0', null, 'This filter is no longer used in the API.' );
-			cocart_deprecated_hook( 'cocart_ok_to_add', '3.0.0', null, 'This filter is no longer used in the API.' );
+			cocart_do_deprecated_action( 'cocart_ok_to_add_response', '3.0.0', null, 'This filter is no longer used in the API.' );
+			cocart_do_deprecated_action( 'cocart_ok_to_add', '3.0.0', null, 'This filter is no longer used in the API.' );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
@@ -3406,7 +3406,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		 *
 		 * @see cocart_cart_items_schema
 		 */
-		cocart_deprecated_filter( 'cocart_cart_schema', array( $schema['properties'] ), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
+		cocart_do_deprecated_filter( 'cocart_cart_schema', array( $schema['properties'] ), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
 
 		/**
 		 * Extend the cart schema properties for items.
