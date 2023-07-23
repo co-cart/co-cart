@@ -22,6 +22,10 @@ npm-debug.log
 /vendor/
 contributors.html
 
+# Package
+/plugins/cocart/packages/
+/plugins/cocart/vendor/
+
 # Builds & Releases
 /plugins/build/
 /fire-build/
