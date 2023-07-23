@@ -20,16 +20,29 @@ PROJECT_PATH=$(pwd)
 BUILD_PATH="${PROJECT_PATH}/plugins"
 DEST_PATH="$BUILD_PATH/$PLUGIN_SLUG"
 
+output 3 "Installing dependancies";
+npm install
+
+output 3 "Installing packages";
 composer install
 
+cp -R ./packages/* ./plugins/cocart/packages/
+
+cd "./plugins/cocart"
+composer install --no-autoloader
+composer require appsero/client
+
+output 3 "Creating autoloader..."
+composer prep-autoload
+composer dump-autoload
+cd -
+
 output 3 "Cleaning up packages..."
-
-#rsync -rc --exclude-from="$DEST_PATH/.distignore" "$PROJECT_PATH/" "$DEST_PATH/" --delete --delete-excluded
-
 find "$DEST_PATH"/packages -name ".distignore" -type f -delete
 find "$DEST_PATH"/packages -name ".editorconfig" -type f -delete
 find "$DEST_PATH"/packages -name ".gitattributes" -type f -delete
 find "$DEST_PATH"/packages -name ".gitignore" -type f -delete
+find "$DEST_PATH"/packages -name ".jshintrc" -type f -delete
 find "$DEST_PATH"/packages -name ".stylelintrc" -type f -delete
 find "$DEST_PATH"/packages -name ".stylelintignore" -type f -delete
 find "$DEST_PATH"/packages -name "Gruntfile.js" -type f -delete
@@ -49,22 +62,14 @@ find "$DEST_PATH"/packages -name "readme.txt" -type f -delete
 find "$DEST_PATH"/packages -name "uninstall.php" -type f -delete
 find "$DEST_PATH" -name ".github" -type d -exec rm -rf {} +
 find "$DEST_PATH" -name ".git" -type d -exec rm -rf {} +
+find "$DEST_PATH" -name "bin" -type d -exec rm -rf {} +
 find "$DEST_PATH" -name "README.md" -type f -delete
-
-output 2 "Package cleaning complete!"
-
-output 3 "Updating autoloader classmaps..."
-cd "$DEST_PATH"
-composer install
-composer dump-autoload
-output 2 "Autoloader classmap ready!"
-
-# Remove remaining files
 find "$DEST_PATH" -name ".distignore" -type f -delete
 find "$DEST_PATH" -name ".gitignore" -type f -delete
 find "$DEST_PATH" -name "composer.json" -type f -delete
+find "$DEST_PATH" -name "composer.lock" -type f -delete
 
-cd -
+output 2 "Package cleaning complete!"
 
 output 3 "Generating zip file..."
 cd "$BUILD_PATH" || exit
