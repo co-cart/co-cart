@@ -74,7 +74,7 @@ class Install {
 	public static function check_version() {
 		$cocart_version = get_option( 'cocart_version' );
 
-		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( $cocart_version, COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( $cocart_version, COCART_VERSION, '<' ) ) {
 			self::install();
 			/**
 			 * Runs after CoCart has been updated.
