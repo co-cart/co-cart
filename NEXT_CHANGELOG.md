@@ -36,7 +36,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/dev/docs/images/cocart-settings.png" alt="CoCart Plugin Settings" /></p>
 
 - [Session handler](#session-handler) now initiates lighter for the use of CoCart's API while leaving the original handling for the native WooCommerce intact for the frontend.
-- Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on this change needs to be documented.)
+- Session now logs user ID, customer ID and cart key separately. Allowing more options for the cart to be managed how you like via the REST API. (Details on these changes need to be documented.)
 - Use of Namespaces has now been applied to help extend CoCart, easier to manage and identify for developers.
 - Re-organized what routes are allowed to be cached i.e products API rather than prevent all CoCart routes from being cached.
 - Added package information of each plugin module to WooCommerce System Status.
@@ -45,10 +45,9 @@
 - Finally added the ability to add/update customer details to the cart with validation. [See guide for example](#).
 - Added ability to set customers billing phone number while adding item to the cart.
 - Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
-- Added ability to search products by title. - Solves issue [[issue 7](https://github.com/co-cart/cocart-products-api/issues/7)]
-- Added ability to filter the fields of the endpoint you request before they return, making the response faster. - Excludes Sessions API.
+- Added ability to filter the fields of the endpoint you request before they return, making the response faster. (Excludes Sessions API).
 - Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
-- Added batch support. Feedback needed. (API v2 supported ONLY) (Details on this addition needs to be documented.)
+- Added batch support and new batch endpoint to handle multiple cart requests to return a single cart response. (API v2 supported ONLY) [See guide for example](#).
 - Added new endpoint to delete all items (only) in the cart.
 
 ## Authentication
@@ -87,12 +86,12 @@ CoCart can run under it's own route. e.g. `https://api.myawesomestore.com/cocart
 
 You can filter the prefix `cocart-api` using this filter `cocart_rest_get_url_prefix` to name it whatever you want. For example you could use the filter to change the prefix to today in milliseconds e.g. `https://api.myawesomestore.com/1688656002096/cocart/v2/cart`
 
-Just a small way of hiding the use of `wp-json` or if you want to prefix `wp-json` for all other WordPress endpoints you use and use `cocart-api` differently from it.
+Just a small way of hiding the use of `wp-json` or if you want to prefix `wp-json` for all other WordPress endpoints and use `cocart-api` differently from it.
 
 ## Improvements and Tweaks
 
 - Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
-- Plugin Suggestions now returns results better the first time it's viewed. **(Needs reviewing)**
+- Plugin Suggestions now returns results better the first time it's viewed.
 - Sub-menus in the WordPress dashboard now load faster. No redirects.
 - Error responses are now softer to prevent fatal networking when a request fails.
 - Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
@@ -101,6 +100,7 @@ Just a small way of hiding the use of `wp-json` or if you want to prefix `wp-jso
 - The callback for cart update endpoint now passes the controller class so we don't have to call it a new.
 - Caching of same item added to cart no longer loses previous custom price set before and has not changed.
 - Store API only returns the version, routes and link to documentation if "WP_DEBUG" is true.
+- Deprecated action hooks and filters return messages if actually triggered.
 
 ## Security
 
@@ -194,6 +194,7 @@ There are many deprecations made with this release but nothing that should affec
 - Introduced new filter `cocart_accessible_page_ids` to allow you to set the page ID's that are still accessible when you block access to WordPress.
 - Introduced new filter `cocart_validate_ip` that can be used to validate if the IP address can access the API.
 - Introduced new filter `cocart_api_rate_limit_options` to set the rate limit options.
+- Introduced new filter `cocart_after_get_cart` to allow you to modify the cart contents after it has calculated totals.
 - Introduced new action hook `cocart_api_rate_limit_exceeded` to allow you to include your own custom tracking usage.
 - Added new parameters to filter `cocart_cart` so you can access the cart controller and requested data.
 - Introduced new action hook `cocart_added_item_to_cart` that allows for additional requested data to be processed via a third party once item is added to the cart.
