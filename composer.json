@@ -1,6 +1,6 @@
 {
 	"name": "co-cart/co-cart",
-	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
+	"description": "CoCart brings everything you need to build fast and flexible headless stores.",
 	"homepage": "https://cocart.xyz",
 	"type": "wordpress-plugin",
 	"keywords": [
