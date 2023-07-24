@@ -39,19 +39,24 @@ class CartValidation {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.0.4
+	 * @since 3.0.0 Introduced.
+	 * @since 4.0.0 Fetch product data if missing.
 	 *
 	 * @param array  $cart_contents Cart contents before cart changes.
 	 * @param object $cart          Cart object.
 	 *
-	 * @return array  $cart_contents Cart contents after cart changes.
+	 * @return array $cart_contents Cart contents after cart changes.
 	 */
 	public function check_cart_item_stock( $cart_contents, $cart ) {
 		$qty_in_cart              = $cart->get_cart_item_quantities();
 		$current_session_order_id = isset( WC()->session->order_awaiting_payment ) ? absint( WC()->session->order_awaiting_payment ) : 0;
 
 		foreach ( $cart_contents as $item_key => $values ) {
+			// If product data is missing then get product data and apply.
+			if ( empty( $values['data'] ) ) {
+				$values['data'] = wc_get_product( $values['variation_id'] ? $values['variation_id'] : $values['product_id'] );
+			}
+
 			$product = $values['data'];
 
 			$item_has_error = false;

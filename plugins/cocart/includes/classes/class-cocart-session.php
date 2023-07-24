@@ -48,7 +48,6 @@ class LoadCart {
 	 *
 	 * @since      2.1.0 Introduced.
 	 * @deprecated 4.0.0 No replacement.
-	 * @version    4.0.0
 	 *
 	 * @param string $cart_key Requested cart key.
 	 *

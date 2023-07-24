@@ -622,7 +622,7 @@ class Handler extends Session {
 	 * @return array
 	 */
 	public function get_cart_data() {
-		return $this->has_session() ? (array) $this->get_cart( $this->_cart_key, $this->_cart_user_id, $this->_customer_id ) : array();
+		return $this->has_session() ? (array) $this->get_cart( $this->_cart_key ) : array();
 	} // END get_cart_data()
 
 	/**
@@ -677,9 +677,9 @@ class Handler extends Session {
 			 * Checks if data is still validated to create a cart or update a cart in session.
 			 *
 			 * @since 2.7.2 Introduced.
-			 * @since 4.0.0 Passed _cart_key before _cart_user_id. Added log error if cart is not valid.
+			 * @since 4.0.0 Replaced `_cart_user_id` with `_cart_key`. Added log error if cart is not valid.
 			 */
-			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_cart_key, $this->_cart_user_id );
+			$this->_data = $this->is_cart_data_valid( $this->_data, $this->_cart_key );
 
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
 				Logger::log( __( 'Cart data not valid or the session had not loaded during a request. No session saved.', 'cart-rest-api-for-woocommerce' ), 'info' );
@@ -882,27 +882,21 @@ class Handler extends Session {
 	 *
 	 * @access public
 	 *
-	 * @param string $cart_key    The cart key.
-	 * @param int    $user_id     The user ID.
-	 * @param int    $customer_id The customer ID.
-	 * @param mixed  $default     Default cart value.
+	 * @param string $cart_key The cart key.
+	 * @param mixed  $default  Default cart value.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return string|array
 	 */
-	public function get_cart( string $cart_key, int $user_id = 0, int $customer_id = 0, $default = false ) {
+	public function get_cart( string $cart_key, $default = false ) {
 		global $wpdb;
 
 		// Try to get it from the cache, it will return false if not present or if object cache not in use.
 		$value = wp_cache_get( $this->get_cache_prefix() . $cart_key, COCART_CART_CACHE_GROUP );
 
 		if ( false === $value ) {
-			if ( ! empty( $customer_id ) ) {
-				$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM $this->_table WHERE cart_key = %s AND cart_customer = %s", $cart_key, $customer_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			} else {
-				$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			}
+			$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			if ( is_null( $value ) ) {
 				$value = $default;
@@ -930,7 +924,7 @@ class Handler extends Session {
 	 * @return string|array
 	 */
 	public function get_session( $cart_key, $default = false ) {
-		return $this->get_cart( $cart_key, 0, 0, $default );
+		return $this->get_cart( $cart_key, $default );
 	} // END get_session()
 
 	/**
@@ -1133,14 +1127,13 @@ class Handler extends Session {
 	 * @since 2.7.2 Introduced.
 	 * @since 4.0.0 Added $cart_key parameter.
 	 *
-	 * @param array  $data        The cart data to validate.
-	 * @param string $cart_key    The cart key.
-	 * @param int    $customer_id The customer ID.
+	 * @param array  $data     The cart data to validate.
+	 * @param string $cart_key The cart key.
 	 *
 	 * @return array $data Returns the original cart data or a boolean value.
 	 */
-	protected function is_cart_data_valid( $data, $cart_key, $customer_id ) {
-		if ( ! empty( $data ) && empty( $this->get_cart( $cart_key, $customer_id ) ) ) {
+	protected function is_cart_data_valid( $data, $cart_key ) {
+		if ( ! empty( $data ) && empty( $this->get_cart( $cart_key ) ) ) {
 			// If the cart value is empty then the cart data is not valid.
 			if ( ! isset( $data['cart'] ) || empty( maybe_unserialize( $data['cart'] ) ) ) {
 				$data = false;

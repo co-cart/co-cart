@@ -170,7 +170,9 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 4.0.0 Added a check to see if the CoCart session handler is detected.
+	 * @since 4.0.0 Added check if the CoCart session handler is detected.
+	 * @since 4.0.0 Added check for requested cart is in session.
+	 * @since 4.0.0 Added check for requested cart if it belongs to customer.
 	 *
 	 * @param WP_REST_Request $request       Full details about the request.
 	 * @param string          $cart_item_key Originally the cart item key.
@@ -182,6 +184,16 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 			// Checks that we are using CoCart session handler. If not detected, throw error response.
 			if ( ! WC()->session instanceof Handler ) {
 				throw new CoCart_Data_Exception( 'cocart_session_handler_not_found', __( 'CoCart session handler was not detected. Another plugin or third party code most likely is using `woocommerce_session_handler` filter to place another session handler in place.', 'cart-rest-api-for-woocommerce' ), 404 );
+			}
+
+			// If requested cart returned empty then throw error.
+			if ( ! empty( WC()->session->get_requested_cart() ) && empty( WC()->session->get_cart( WC()->session->get_requested_cart() ) ) ) {
+				throw new CoCart_Data_Exception( 'cocart_cart_not_found', __( 'Cart not found. The provided cart key is not in session. Try adding an item first.', 'cart-rest-api-for-woocommerce' ), 404 );
+			}
+
+			// If requested cart belongs to customer throw error.
+			if ( ! empty( WC()->session->get_requested_cart() ) && WC()->session->get_customer_id_from_cart_key( WC()->session->get_requested_cart() ) > 0 ) {
+				throw new CoCart_Data_Exception( 'cocart_cart_needs_authenticating', __( 'Cart belongs to customer. You need to authenticate as customer without cart key passed.', 'cart-rest-api-for-woocommerce' ), 403 );
 			}
 
 			$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
@@ -216,6 +228,19 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 			// Ensures the cart totals are calculated before an API response is returned.
 			$this->calculate_totals();
+
+			/**
+			 * Filter allows you to modify the cart contents after it has calculated totals.
+			 *
+			 * Useful for add-ons or 3rd party plugins.
+			 *
+			 * @since 4.0.0 Introduced.
+			 *
+			 * @param array           $cart_contents Cart contents.
+			 * @param WC_Cart         Cart object.
+			 * @param WP_REST_Request $request       Full details about the request.
+			 */
+			$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
 
 			$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
@@ -273,7 +298,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		$cart = array();
 
 		if ( rest_is_field_included( 'cart_hash', $fields ) ) {
-			$cart['cart_hash'] = ! empty( $this->get_cart_instance()->get_cart_hash() ) ? $this->get_cart_instance()->get_cart_hash() : __( 'No items in cart so no hash', 'cart-rest-api-for-woocommerce' );
+			$cart['cart_hash'] = ! empty( $this->get_cart_instance()->get_cart_hash() ) ? $this->get_cart_instance()->get_cart_hash() : '';
 		}
 
 		if ( rest_is_field_included( 'cart_key', $fields ) ) {
