@@ -79,7 +79,7 @@ class Handler extends Session {
 	 * @access public
 	 *
 	 * @since 2.1.0 Introduced.
-	 * @since 4.0.0 Rest requests don't require the use of cookies as backup.
+	 * @since 4.0.0 Rest requests don't require the use of cookies.
 	 */
 	public function init() {
 		if ( Authentication::is_rest_api_request() ) {
@@ -88,14 +88,17 @@ class Handler extends Session {
 			$this->init_session_cocart();
 
 			$this->set_cart_hash();
+
+			add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
 		} else {
 			$this->_cart_source = 'woocommerce';
 
 			$this->init_session_cookie();
-			add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 20 );
+
+			add_action( 'woocommerce_set_cart_cookies', array( $this, 'set_customer_cart_cookie' ), 10 );
+			add_action( 'shutdown', array( $this, 'save_data' ), 20 );
 		}
 
-		add_action( 'shutdown', array( $this, 'save_cart' ), 20 );
 		add_action( 'wp_logout', array( $this, 'destroy_cart' ) );
 
 		/**
@@ -149,8 +152,10 @@ class Handler extends Session {
 				$this->_cart_user_id = strval( get_current_user_id() );
 				$this->_customer_id  = strval( get_current_user_id() );
 
+				$this->_dirty = true;
+
 				// Save cart data for user and destroy previous cart session.
-				$this->save_cart( $guest_cart_key );
+				$this->save_data( $guest_cart_key );
 
 				// Update customer ID details.
 				$this->update_customer_id( $this->_cart_user_id );
@@ -160,7 +165,7 @@ class Handler extends Session {
 			}
 
 			// Update cart if its close to expiring.
-			if ( time() > $this->_cart_expiring || empty( $this->_cart_expiring ) ) {
+			if ( time() > $this->_cart_expiring ) {
 				$this->set_session_expiration();
 				$this->update_cart_timestamp( $this->_cart_key, $this->_cart_expiration );
 			}
@@ -246,7 +251,7 @@ class Handler extends Session {
 		} else {
 			// New cart session created.
 			$this->set_cart_expiration();
-			$this->_cart_key = $this->generate_key();
+			$this->_cart_key = empty( $this->_cart_key ) && $this->_cart_user_id > 0 && ! $this->is_user_customer( $this->_cart_user_id ) ? $this->get_cart_key_last_used_by_user_id( $this->_cart_user_id ) : $this->generate_key();
 			$this->_data     = $this->get_cart_data();
 		}
 	} // END init_session_cocart()
@@ -735,6 +740,8 @@ class Handler extends Session {
 			 */
 			do_action( 'cocart_save_cart', $this->_cart_key, $this->_cart_user_id, $this->_customer_id, $this->_data, $this->_cart_expiration, $cart_source );
 
+			$this->_dirty = false;
+
 			// Previous cart session is no longer used so we delete it to prevent duplication.
 			if ( $this->_cart_key !== $old_cart_key ) {
 				$this->delete_cart( $old_cart_key );
@@ -749,11 +756,14 @@ class Handler extends Session {
 	 * @access public
 	 *
 	 * @since 3.0.13 Introduced.
+	 * @since 4.0.0 Added dirty when the session needs saving.
 	 *
 	 * @param int $old_session_key session ID before user logs in.
 	 */
 	public function save_data( $old_session_key = 0 ) {
-		$this->save_cart( $old_cart_key );
+		if ( $this->_dirty && $this->has_session() ) {
+			$this->save_cart( $old_cart_key );
+		}
 	} // END save_data()
 
 	/**
@@ -799,10 +809,14 @@ class Handler extends Session {
 	 * @since 4.0.0 Added default values for `_cart_user_id` and `_customer_id`.
 	 */
 	public function forget_cart() {
-		$this->destroy_cookie();
+		if ( ! is_admin() ) {
+			include_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+		}
 
 		// Empty cart.
-		wc_empty_cart();
+		if ( function_exists( 'wc_empty_cart' ) ) {
+			wc_empty_cart();
+		}
 
 		$this->_data         = array();
 		$this->_cart_key     = $this->generate_key();
@@ -819,7 +833,11 @@ class Handler extends Session {
 	 * @since 3.0.0 Introduced.
 	 */
 	public function forget_session() {
+		$this->destroy_cookie();
+
 		$this->forget_cart();
+
+		$this->_dirty = false;
 	} // END forget_session()
 
 	/**
@@ -1278,6 +1296,35 @@ class Handler extends Session {
 
 		return $cart_key;
 	} // END get_cart_key_by_user_id()
+
+	/**
+	 * Get the cart key last used by the user ID.
+	 *
+	 * @access public
+	 *
+	 * @since 4.0.0 Introduced.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return bool|string Returns the cart key or false if not found.
+	 */
+	public function get_cart_key_last_used_by_user_id( $user_id = 0 ) {
+		if ( ! is_int( $user_id ) || $user_id === 0 ) {
+			return false;
+		}
+
+		global $wpdb;
+
+		$cart_key = $wpdb->get_var( $wpdb->prepare( "SELECT cart_key FROM $this->_table WHERE cart_user_id = %d ORDER BY cart_expiry DESC", $user_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		if ( is_null( $cart_key ) ) {
+			return false;
+		}
+
+		return $cart_key;
+	} // END get_cart_key_last_used_by_user_id()
 
 	/**
 	 * Get the cart key by looking up the customer ID.
