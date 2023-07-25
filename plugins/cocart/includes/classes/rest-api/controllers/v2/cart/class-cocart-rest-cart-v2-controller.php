@@ -1124,7 +1124,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @return array Cart totals.
 	 */
-	public function get_cart_totals( $request = array(), $fields ) {
+	public function get_cart_totals( $request = array(), $fields = array() ) {
 		$totals = array(
 			'subtotal'       => $this->get_cart_instance()->get_subtotal(),
 			'subtotal_tax'   => $this->get_cart_instance()->get_subtotal_tax(),

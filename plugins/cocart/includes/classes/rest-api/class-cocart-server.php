@@ -37,6 +37,13 @@ class Server {
 	protected $_namespaces = array();
 
 	/**
+	 * Controllers registered.
+	 *
+	 * @var array
+	 */
+	protected $_controllers = array();
+
+	/**
 	 * Setup class.
 	 *
 	 * @access public
@@ -94,8 +101,8 @@ class Server {
 		foreach ( $this->_namespaces as $namespace => $controllers ) {
 			foreach ( $controllers as $controller_name => $controller_class ) {
 				if ( class_exists( $controller_class ) ) {
-					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
-					$this->controllers[ $namespace ][ $controller_name ]->register_routes();
+					$this->_controllers[ $namespace ][ $controller_name ] = new $controller_class();
+					$this->_controllers[ $namespace ][ $controller_name ]->register_routes();
 				}
 			}
 		}
