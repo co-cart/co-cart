@@ -762,7 +762,7 @@ class Handler extends Session {
 	 */
 	public function save_data( $old_session_key = 0 ) {
 		if ( $this->_dirty && $this->has_session() ) {
-			$this->save_cart( $old_cart_key );
+			$this->save_cart( $old_session_key );
 		}
 	} // END save_data()
 
