@@ -310,10 +310,13 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 		}
 
 		if ( rest_is_field_included( 'customer', $fields ) ) {
-			$cart['customer'] = array(
-				'billing_address'  => $this->get_customer_fields( 'billing' ),
-				'shipping_address' => $this->get_customer_fields( 'shipping' ),
-			);
+			$cart['customer'] = array();
+		}
+		if ( rest_is_field_included( 'customer.billing_address', $fields ) ) {
+			$cart['customer']['billing_address'] = $this->get_customer_fields( 'billing' );
+		}
+		if ( rest_is_field_included( 'customer.shipping_address', $fields ) ) {
+			$cart['customer']['shipping_address'] = $this->get_customer_fields( 'shipping' );
 		}
 
 		if ( rest_is_field_included( 'items', $fields ) ) {
@@ -1125,18 +1128,38 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 * @return array Cart totals.
 	 */
 	public function get_cart_totals( $request = array(), $fields = array() ) {
-		$totals = array(
-			'subtotal'       => $this->get_cart_instance()->get_subtotal(),
-			'subtotal_tax'   => $this->get_cart_instance()->get_subtotal_tax(),
-			'fee_total'      => $this->get_cart_instance()->get_fee_total(),
-			'fee_tax'        => $this->get_cart_instance()->get_fee_tax(),
-			'discount_total' => $this->get_cart_instance()->get_discount_total(),
-			'discount_tax'   => $this->get_cart_instance()->get_discount_tax(),
-			'shipping_total' => $this->get_cart_instance()->get_shipping_total(),
-			'shipping_tax'   => $this->get_cart_instance()->get_shipping_tax(),
-			'total'          => $this->get_cart_instance()->get_total( 'edit' ),
-			'total_tax'      => $this->get_cart_instance()->get_total_tax(),
-		);
+		$totals = array();
+
+		if ( rest_is_field_included( 'totals.subtotal', $fields ) ) {
+			$totals['subtotal'] = $this->get_cart_instance()->get_subtotal();
+		}
+		if ( rest_is_field_included( 'totals.subtotal_tax', $fields ) ) {
+			$totals['subtotal_tax'] = $this->get_cart_instance()->get_subtotal_tax();
+		}
+		if ( rest_is_field_included( 'totals.fee_total', $fields ) ) {
+			$totals['fee_total'] = $this->get_cart_instance()->get_fee_total();
+		}
+		if ( rest_is_field_included( 'totals.fee_tax', $fields ) ) {
+			$totals['fee_tax'] = $this->get_cart_instance()->get_fee_tax();
+		}
+		if ( rest_is_field_included( 'totals.discount_total', $fields ) ) {
+			$totals['discount_total'] = $this->get_cart_instance()->get_discount_total();
+		}
+		if ( rest_is_field_included( 'totals.discount_tax', $fields ) ) {
+			$totals['discount_tax'] = $this->get_cart_instance()->get_discount_tax();
+		}
+		if ( rest_is_field_included( 'totals.shipping_total', $fields ) ) {
+			$totals['shipping_total'] = $this->get_cart_instance()->get_shipping_total();
+		}
+		if ( rest_is_field_included( 'totals.shipping_tax', $fields ) ) {
+			$totals['shipping_tax'] = $this->get_cart_instance()->get_shipping_tax();
+		}
+		if ( rest_is_field_included( 'totals.total', $fields ) ) {
+			$totals['total'] = $this->get_cart_instance()->get_total( 'edit' );
+		}
+		if ( rest_is_field_included( 'totals.total_tax', $fields ) ) {
+			$totals['total_tax'] = $this->get_cart_instance()->get_total_tax();
+		}
 
 		if ( ! in_array( 'fees', $fields ) ) {
 			unset( $totals['fee_total'] );
@@ -2476,10 +2499,10 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 
 		switch ( $config ) {
 			case 'digital':
-				$fields = array( 'currency', 'customer', 'items', 'coupons', 'needs_payment', 'taxes', 'totals', 'notices' );
+				$fields = array( 'currency', 'customer.billing_address', 'items', 'coupons', 'needs_payment', 'taxes', 'totals', 'notices' );
 				break;
 			case 'digital_fees':
-				$fields = array( 'currency', 'customer', 'items', 'coupons', 'needs_payment', 'fees', 'taxes', 'totals', 'notices' );
+				$fields = array( 'currency', 'customer.billing_address', 'items', 'coupons', 'needs_payment', 'fees', 'taxes', 'totals', 'notices' );
 				break;
 			case 'shipping':
 				$fields = array( 'currency', 'customer', 'items', 'items_weight', 'coupons', 'needs_payment', 'needs_shipping', 'shipping', 'taxes', 'totals', 'notices' );
@@ -2545,7 +2568,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				}
 
 				// Check for nested fields if $field is not a direct match.
-				$nested_fields = explode( ':', $field );
+				$nested_fields = explode( '.', $field );
 
 				// A nested field is included so long as its top-level property
 				// is present in the schema.
