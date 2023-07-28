@@ -3483,7 +3483,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 								'removed_items',
 								'cross_sells',
 							),
-							'sanitize_callback' => 'sanitize_key',
+							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						),
 						'prices' => array(
@@ -3491,7 +3491,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 							'type'              => 'string',
 							'required'          => false,
 							'enum'              => array( 'preformatted' ),
-							'sanitize_callback' => 'sanitize_key',
+							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => 'rest_validate_request_arg',
 						),
 					),
@@ -3501,7 +3501,7 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 				'description'       => __( 'Specify each parent field you want to request separated by (,) in the cart response before the data is fetched.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'required'          => false,
-				'sanitize_callback' => 'sanitize_key',
+				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'thumb'    => array(
