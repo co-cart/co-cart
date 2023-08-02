@@ -4,13 +4,13 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.3
 Tested up to: 6.2.2
-Stable tag: 3.8.2
+Stable tag: 3.9.0
 WC requires at least: 4.3
-WC tested up to: 7.8
+WC tested up to: 7.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-CoCart brings everything you need to build fast and flexible headless stores.
+CoCart makes it easy to decouple your WooCommerce store via a customizable REST API.
 
 == Description ==
 
@@ -18,7 +18,7 @@ CoCart brings everything you need to build fast and flexible headless stores.
 
 CoCart v4.0.0 is coming soon. Follow the [development blog](https://cocart.dev/) for updates.
 
-[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) brings everything you need to build fast and flexible headless stores – the only customizable REST API collection for WooCommerce that takes the pain out of developing.
+[CoCart](https://cocart.xyz/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) makes it **easy to decouple your WooCommerce store** via a customizable **REST API** that takes the pain out of developing – allowing you to **build fast and flexible headless stores**.
 
 #### Why developers choose (and love) CoCart
 
@@ -322,13 +322,9 @@ No matter the type of store you are running, CoCart helps you grow.
 
 It’s made by and for developers and immediately allows you to create sophisticated experiences fast with unlimited possibilities with it’s plug and play solution that just works out of the box.
 
-So even if you are new to building a headless ecommerce or already have a WooCommerce store and been wanting to go headless, nows the time to start.
+So even if you are new to building a headless ecommerce or already have a WooCommerce store and been wanting to go headless, now is the time to start.
 
 Don't take my word for it. Checkout the testimonials left by startups, freelancers, agencies and many more.
-
-= Do you have a JavaScript Library? =
-
-Yes we do. You can [find it here](https://www.npmjs.com/package/@cocart/cocart-rest-api). It doesn't require authentication for guest customers. It supports CommonJS (CJS) and ECMAScript Modules (ESM). Requests are made with [Axios library](https://github.com/axios/axios) with [support to promises](https://github.com/axios/axios#promises).
 
 = Can I install/update CoCart via Composer? =
 
@@ -356,7 +352,7 @@ Yes! CoCart is deployed with full translation and localization support via the �
 
 = Where can I get help or talk other users about CoCart core? =
 
-If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) or [join the CoCart Community on Slack](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) where you will find like minded developers who help each other out. If you are in need of priority support, it will be provided by either purchasing [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
+If you get stuck, you can ask for help in the [CoCart support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) or [join the CoCart Community on Discord](https://cocart.xyz/community/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart) where you will find like minded developers who help each other out. If you are in need of priority support, it will be provided by either purchasing [CoCart Pro](https://cocart.xyz/pro/?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=cocart).
 
 = Where can I find out about the pricing of CoCart Pro? =
 
@@ -383,6 +379,18 @@ Check out [Frequently Asked Questions](https://cocart.xyz/faq/?utm_medium=wp.org
 == Changelog ==
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.9.0 - 2nd August, 2023 =
+
+### What's New?
+
+* Removed WooCommerce plugin headers to prevent incompatibility warning message when using "HPOS" feature.
+* Updated "What's Coming Next?" link on plugins page to inform users about v4.0
+* Tested with WooCommerce v7.9
+
+### Bug Fix
+
+* Fixed Products API where a product has no featured image or gallery images and is unable to determine the placeholder image.
 
 = v3.8.2 - 12th July, 2023 =
 
@@ -416,6 +424,6 @@ Introduced a new filter `cocart_login_extras` to allow developers to extend the 
 
 == Upgrade Notice ==
 
-= 3.8.2 =
+= 3.9.0 =
 
-* Fixed searching products by name.
+* Removed WooCommerce plugin headers to prevent incompatibility warning message when using "HPOS" feature.

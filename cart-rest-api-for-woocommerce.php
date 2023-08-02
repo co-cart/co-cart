@@ -2,10 +2,10 @@
 /**
  * Plugin Name: CoCart - Decoupling WooCommerce Made Easy
  * Plugin URI:  https://cocart.xyz
- * Description: CoCart brings everything you need to build fast and flexible headless stores.
+ * Description: CoCart makes it easy to decouple your WooCommerce store via a customizable REST API.
  * Author:      Sébastien Dumont
  * Author URI:  https://sebastiendumont.com
- * Version:     3.8.2
+ * Version:     3.9.0
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.6
