@@ -374,7 +374,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		if ( empty( $images ) ) {
 			// Get each image size of the attachment.
 			foreach ( $attachment_sizes as $size ) {
-				$attachments[ $size ] = current( wp_get_attachment_image_src( get_option( 'woocommerce_placeholder_image', 0 ), $size ) );
+				$attachments[ $size ] = wc_placeholder_img_src( $size );
 			}
 
 			$images[] = array(
