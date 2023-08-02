@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   2.0.12
- * @version 3.0.10
+ * @version 3.9.0
  * @license GPL-2.0+
  */
 
@@ -147,7 +147,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.3
-		 * @version 4.0.0
+		 * @version 3.9.0
 		 * @param   string $file        Plugin basename.
 		 * @param   array  $plugin_data Plugin information.
 		 * @return  false|void
@@ -193,10 +193,10 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 
 				printf(
 					/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
-					__( 'Just to remind you here that %1$s v%2$s will be coming soon so be prepared. %3$sWhats Coming Next?%4$s', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					__( 'Reminding you that %1$s v%2$s will be coming soon and is ready to beta test. %3$sWhat\'s Coming Next?%4$s', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					'CoCart',
 					esc_attr( COCART_NEXT_VERSION ),
-					'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ) . '" target="_blank">',
+					'<a href="' . esc_url( 'https://cocart.dev/whats-coming-to-cocart-v4/' ) . '" target="_blank">',
 					'</a>'
 				);
 
