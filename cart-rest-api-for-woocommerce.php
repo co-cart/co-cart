@@ -10,8 +10,6 @@
  * Domain Path: /languages/
  * Requires at least: 5.6
  * Requires PHP: 7.3
- * WC requires at least: 4.3
- * WC tested up to: 7.8
  *
  * @package CoCart
  */
