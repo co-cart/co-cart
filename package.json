@@ -1,7 +1,7 @@
 {
-	"title": "CoCart - Headless eCommerce",
+	"title": "CoCart - Decoupling WooCommerce Made Easy",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "3.8.1",
+	"version": "3.8.2",
 	"private": false,
 	"contributors": [
 		"sebd86",
@@ -37,12 +37,12 @@
 	},
 	"requires": "5.6",
 	"requires_php": "7.3",
-	"tested_up_to": "6.1",
+	"tested_up_to": "6.2.2",
 	"wc_requires": "4.3",
-	"wc_tested_up_to": "7.4",
+	"wc_tested_up_to": "7.8",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2023, Sébastien Dumont",
-	"description": "Customizable REST API for WooCommerce that lets you build headless ecommerce using your favorite technologies.",
+	"description": "CoCart brings everything you need to build fast and flexible headless stores.",
 	"tags": "",
 	"keywords": [
 		"wordpress",

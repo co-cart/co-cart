@@ -1,5 +1,16 @@
 # Changelog for CoCart
 
+## v3.8.2 - 12th July, 2023
+
+### What's New?
+
+* Tested with WooCommerce v7.8
+* Tested with WordPress v6.2
+
+### Bug Fix
+
+* Fixed searching products by name.
+
 ## v3.8.1 - 4th March, 2023
 
 ### What's New?
