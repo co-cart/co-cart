@@ -8,7 +8,7 @@
 		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+6.2&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
 	</a>
 	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=6.9+-+7.8&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
+		<img src="https://img.shields.io/static/v1?label=&message=6.9+-+7.9&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
 	</a>
 	<a href="https://www.php.net/" target="_blank">
 		<img src="https://img.shields.io/static/v1?label=&message=7.4+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
@@ -24,11 +24,11 @@
 	</a>
 </p>
 
-⚠️ This is the development branch for future version of CoCart. For current stable branch [browse trunk](https://github.com/co-cart/co-cart/tree/trunk). ⚠️
+⚠️ This is the development branch of CoCart. For current stable branch [browse trunk](https://github.com/co-cart/co-cart/tree/trunk). ⚠️
 
-Welcome to the CoCart repository on GitHub. Here you can browse the source of the plugin and packages used in the development of the core of CoCart plugin. You can [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue), contribute code and keep track of ongoing development.
+Welcome to the CoCart repository on GitHub. Here you can browse the source of the plugin and packages used in the development of the core of CoCart plugin.
 
-We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
+We recommend all developers to follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocart)
 
@@ -40,15 +40,13 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 CoCart provides support for managing the user session, alternative options for doing this task do exist; however, their usage can be limited to applications of the same origin as the WordPress installation. This is due to WooCommerce using cookies to store user session tokens.
 
-CoCart provides the utilities to change this behavior during any cart request and passes the required information to HTTP Header so it can be cached client-side. The use of an HTTP Authorization header is optional allowing users to shop as a guest.
+## Getting Started
 
-## Quick Start
-
-📢 This repo is not package ready and must be **built** in order to activate the plugin.
+📢 This repo is not package ready and must be **built** in order to activate the plugin. To begin you will need to make sure that you have installed all of the modules.
 
 ### Step 1
 
-Clone the repo to your WordPress development `wp-content/plugins` folder. Don't forget the folder name `"cocart-dev"` at the end of the command.
+Clone the repo to your WordPress development `wp-content/plugins` folder. Don't forget the folder name `"cocart-dev"` at the end of the command. This will keep your development build separate from the plugin build.
 
 ```
 git clone https://github.com/co-cart/co-cart.git cocart-dev
@@ -61,24 +59,24 @@ Then go into the cloned folder `cd cocart-dev` and proceed with the following co
 > ⚠️ It's important that you run the first command correctly as is otherwise it ruins the rest of the process and you will have to start again.
 
 ```
-composer install --no-autoloader
 npm install
+composer install
 composer install-cocart
-composer ready-build
 ```
+
+At this point you are now ready to begin developing and testing.
 
 Now you will have another folder `cocart` within your plugins folder. This makes CoCart package ready. You will then be able to activate it from your `WordPress Dashboard > Plugins`.
 
-If you have made changes to the core of CoCart and want to test those changes locally, simply run `composer ready-build` and CoCart will be packaged together for you again.
+If you have contributed changes to any part of CoCart, make sure that you have kept a backup copy before running any composer command and if you want to test those changes locally, simply run `composer prep-test-build` and CoCart will be packaged together for you again.
 
 ## Updating CoCart Packages
 
 As CoCart is now built modular, to keep up to date with all the development changes in all the default set modules you will need to pull them from their individual repositories.
 
 ```
-composer update --no-autoloader
+composer update
 composer update-cocart
-composer ready-build
 ```
 
 This will pull the `master` branch of each package which is the development branch unless a tag is specified instead.
@@ -98,7 +96,6 @@ Here are a few other resources you may find helpful.
 * **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 * **[CoCart Settings Example](https://github.com/co-cart/cocart-settings-example)** provides an example of adding your own settings to CoCart. Requires CoCart 4.0+ 
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
-* **[Node.js Library](https://www.npmjs.com/package/@cocart/cocart-rest-api)** provides a JavaScript wrapper supporting CommonJS (CJS) and ECMAScript Modules (ESM).
 
 ## Support
 
@@ -138,7 +135,7 @@ We have different channels at your disposal where you can find information about
 
 ## Contributing to CoCart
 
-If you have a patch or have stumbled upon an issue with CoCart (Core), you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) for more information how you can do this.
+If you have a patch or have stumbled upon an issue with CoCart, you can contribute this back to the code. Please read our [contributor guidelines](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) for more information how you can do this.
 
 ### Join the Community
 
