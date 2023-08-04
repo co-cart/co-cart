@@ -57,6 +57,6 @@ find ./ -name "composer.lock" -type f -delete
 find ./ -name "README.md" -type f -delete
 output 2 "Done!"
 
-output 4 "Returning to developement folder."
+output 4 "Returning to development folder."
 cd -
 output 2 "CoCart can now be activated from your WordPress dashboard."

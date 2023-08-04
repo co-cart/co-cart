@@ -20,7 +20,7 @@ PROJECT_PATH=$(pwd)
 BUILD_PATH="${PROJECT_PATH}/plugins"
 DEST_PATH="$BUILD_PATH/$PLUGIN_SLUG"
 
-output 3 "Installing dependancies";
+output 3 "Installing dependencies";
 npm install
 
 output 3 "Installing packages";
