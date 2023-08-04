@@ -7,4 +7,6 @@ Changes must be committed to the correct package repository listed below.
 * [CoCart Core](https://github.com/co-cart/cocart-core) ( This is the core of CoCart that provides support for managing the user session and decouples WooCommerce. )
 * [Products API](https://github.com/co-cart/cocart-products-api) ( Provides a public view of the products on store for CoCart. )
 * [Sessions API](https://github.com/co-cart/cocart-session-api) ( Provides administrators the ability to view and delete cart sessions with CoCart. )
-* [Admin](https://github.com/co-cart/cocart-admin) ( Package contains all the core admin features of CoCart. )
+* [Admin](https://github.com/co-cart/cocart-admin) ( Package contains all the core admin features of CoCart including the settings page. )
+* [Compatibility](https://github.com/co-cart/cocart-compatibility) ( Provides compatibility for certain plugins and WooCommerce extensions. )
+* [Third Party](https://github.com/co-cart/cocart-third-party) ( Provides support for specific plugins, WooCommerce extensions and web hosts. )
