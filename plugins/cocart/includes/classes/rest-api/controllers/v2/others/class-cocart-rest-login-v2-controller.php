@@ -112,6 +112,7 @@ class CoCart_REST_Login_v2_Controller {
 			 *
 			 * @since 3.8.1 Introduced.
 			 *
+			 * @param array $extra_information The extra information.
 			 * @param object $current_user The current user.
 			 */
 			'extras'       => apply_filters( 'cocart_login_extras', array(), $current_user ),

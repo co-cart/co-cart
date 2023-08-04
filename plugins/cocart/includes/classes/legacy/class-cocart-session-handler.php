@@ -20,6 +20,7 @@ namespace CoCart\Session;
 use CoCart\RestApi\Authentication;
 use CoCart\Abstracts\Session;
 use CoCart\Logger;
+use WC_Customer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

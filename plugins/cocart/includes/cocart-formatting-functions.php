@@ -111,7 +111,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	/**
 	 * Filter formatted price.
 	 *
-	 * @param float        $formatted_price    Formatted price.
+	 * @param string       $formatted_price    Formatted price.
 	 * @param float        $price              Unformatted price.
 	 * @param int          $decimals           Number of decimals.
 	 * @param string       $decimal_separator  Decimal separator.
@@ -194,7 +194,7 @@ function cocart_prepare_money_response( $amount, array $options = array() ) {
 	 *
 	 * If set to "True" the decimals will be forced to "Zero".
 	 *
-	 * @param bool false False by default.
+	 * @param bool $disable_decimals False by default.
 	 */
 	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
 
@@ -274,7 +274,7 @@ function cocart_format_variation_data( $attributes, $product ) {
 		if ( taxonomy_exists( $taxonomy ) ) {
 			// If this is a term slug, get the term's nice name.
 			$term = get_term_by( 'slug', $value, $taxonomy );
-			if ( ! is_wp_error( $term ) && $term && $term->name ) {
+			if ( $term && $term->name ) {
 				$value = $term->name;
 			}
 			$label = wc_attribute_label( $taxonomy );

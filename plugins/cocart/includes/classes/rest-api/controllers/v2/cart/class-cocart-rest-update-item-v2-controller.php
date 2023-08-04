@@ -98,6 +98,7 @@ class CoCart_REST_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string $message Message.
+				 * @param string $method Method.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
 
@@ -115,8 +116,6 @@ class CoCart_REST_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 
 			/**
 			 * If validation returned an error return error response.
-			 *
-			 * @param $quantity
 			 */
 			if ( is_wp_error( $quantity ) ) {
 				return $quantity;
@@ -126,8 +125,6 @@ class CoCart_REST_Update_Item_v2_Controller extends CoCart_REST_Cart_v2_Controll
 
 			/**
 			 * If not true, return error response.
-			 *
-			 * @param $has_stock
 			 */
 			if ( is_wp_error( $has_stock ) ) {
 				return $has_stock;

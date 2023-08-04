@@ -45,7 +45,7 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 	require_once dirname( __FILE__ ) . '/includes/classes/class-cocart-helpers.php';
 
 	// Delete WooCommerce Admin Notes.
-	if ( CoCart\Helpers::is_wc_admin_enabled() ) {
+	if ( CoCart\Help::is_wc_admin_enabled() ) {
 		\Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-activate-pro' );
 		\Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-do-with-products' );
 		\Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-help-improve' );

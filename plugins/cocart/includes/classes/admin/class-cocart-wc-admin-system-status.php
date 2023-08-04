@@ -45,8 +45,8 @@ class WC_System_Status {
 		add_filter( 'woocommerce_debug_tools', array( $this, 'debug_buttons' ) );
 
 		// Add tools to REST System Status tool.
-		add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_verify_database' ), 10, 2 );
-		add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_update_database' ), 10, 2 );
+		add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_verify_database' ) );
+		add_filter( 'woocommerce_rest_insert_system_status_tool', array( $this, 'maybe_update_database' ) );
 
 		if ( Help::is_white_labelled() ) {
 			add_filter( 'woocommerce_debug_tools', array( $this, 'cocart_tools' ) );

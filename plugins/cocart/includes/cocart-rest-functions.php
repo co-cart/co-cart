@@ -262,7 +262,7 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 		'post_content'   => $content,
 	);
 
-	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id );
+	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id, true );
 	if ( ! is_wp_error( $attachment_id ) ) {
 		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 	}

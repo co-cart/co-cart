@@ -10,6 +10,8 @@
 namespace CoCart\RestApi\Callbacks;
 
 use CoCart\Abstracts;
+use CoCart_Data_Exception;
+use CoCart_Response;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

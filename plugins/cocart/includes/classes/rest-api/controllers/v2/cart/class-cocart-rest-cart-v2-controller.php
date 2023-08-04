@@ -481,6 +481,8 @@ class CoCart_REST_Cart_v2_Controller extends CoCart_API_Controller {
 	 *
 	 * @param int|float  $quantity The quantity to validate.
 	 * @param WC_Product $product  Product object.
+	 *
+	 * @return int|float|\WP_Error
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product = null ) {
 		try {
