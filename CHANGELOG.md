@@ -1,5 +1,28 @@
 # Changelog for CoCart
 
+## v3.9.0 - 2nd August, 2023
+
+### What's New?
+
+* Removed WooCommerce plugin headers to prevent incompatibility warning message when using "HPOS" feature.
+* Updated "What's Coming Next?" link on plugins page to inform users about v4.0
+* Tested with WooCommerce v7.9
+
+### Bug Fix
+
+* Fixed Products API where a product has no featured image or gallery images and is unable to determine the placeholder image. [Solves issue 12](https://github.com/co-cart/cocart-products-api/issues/12)
+
+## v3.8.2 - 12th July, 2023
+
+### What's New?
+
+* Tested with WooCommerce v7.8
+* Tested with WordPress v6.2
+
+### Bug Fix
+
+* Fixed searching products by name.
+
 ## v3.8.1 - 4th March, 2023
 
 ### What's New?
