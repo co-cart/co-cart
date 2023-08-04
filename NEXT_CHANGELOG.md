@@ -124,7 +124,7 @@ add_filter( 'cocart_is_allowed_to_override_price', function() {
 });
 ```
 
-To help with hijacking the price, a salt key can be set via the new settings page or by defining a new constant `COCART_SALT_KEY` in your `wp-config.php` file. This can be anything you wish it to be as long as it's not rememberable. It will be encrypted later with **md5** when validated. Once a salt key is set, any request to add item/s to the cart with a new price CoCart will check if the salt key was also passed along. If the salt key does not match then the price will remain the same.
+To help with hijacking the price, a salt key can be set via the new settings page or by defining a new constant `COCART_SALT_KEY` in your `wp-config.php` file. This can be anything you wish it to be as long as it's not memorable. It will be encrypted later with **md5** when validated. Once a salt key is set, any request to add item/s to the cart with a new price CoCart will check if the salt key was also passed along. If the salt key does not match then the price will remain the same.
 
 ### FAQ
 
