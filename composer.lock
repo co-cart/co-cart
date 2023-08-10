@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-admin.git",
-                "reference": "35ebd4aa24a6ee6f92db13b6c04c224f458808a7"
+                "reference": "cce3c47d952adca1ef2e625b1675f336b2b35008"
             },
             "require": {
                 "composer/installers": "2.2.0"
@@ -62,7 +62,7 @@
             "support": {
                 "issues": "https://github.com/co-cart/cocart-admin/issues"
             },
-            "time": "2023-07-24T20:45:10+00:00"
+            "time": "2023-08-10T03:34:37+00:00"
         },
         {
             "name": "co-cart/cocart-compatibility",
@@ -127,7 +127,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-core.git",
-                "reference": "568a3e3777a22f095433a6c1d978e9000eb21611"
+                "reference": "7caaa7493767b57ca0d1daef2ecdf806cd533621"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0",
@@ -160,7 +160,7 @@
                 "issues": "https://github.com/co-cart/cocart-core/issues",
                 "source": "https://github.com/co-cart/cocart-core"
             },
-            "time": "2023-07-28T19:40:08+00:00"
+            "time": "2023-08-10T03:17:00+00:00"
         },
         {
             "name": "co-cart/cocart-products-api",
@@ -168,7 +168,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-products-api.git",
-                "reference": "b301657704bdeec2f7418d29ffb9642ca33e7dc7"
+                "reference": "d07e741c1cf91ae87dc822116fd3176f0ed0341a"
             },
             "require": {
                 "composer/installers": "2.2.0"
@@ -218,7 +218,7 @@
             "support": {
                 "issues": "https://github.com/co-cart/cocart-products-api/issues"
             },
-            "time": "2023-07-23T16:23:02+00:00"
+            "time": "2023-08-10T03:33:56+00:00"
         },
         {
             "name": "co-cart/cocart-session-api",
