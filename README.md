@@ -4,15 +4,6 @@
 	<a href="https://github.com/co-cart/co-cart/blob/trunk/LICENSE.md" target="_blank">
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-blue.svg" alt="Licence">
 	</a>
-	<a href="https://wordpress.org/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+6.2&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
-	</a>
-	<a href="https://woocommerce.com/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=6.9+-+7.9&color=96588A&style=flat-square&logo=woocommerce&logoColor=white" alt="WooCommerce Versions">
-	</a>
-	<a href="https://www.php.net/" target="_blank">
-		<img src="https://img.shields.io/static/v1?label=&message=7.4+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
-	</a>
 	<a href="https://wordpress.org/plugins/cart-rest-api-for-woocommerce/">
 		<img src="https://poser.pugx.org/co-cart/co-cart/v/stable" alt="Latest Stable Version">
 	</a>
@@ -94,7 +85,7 @@ Here are a few other resources you may find helpful.
 * **[CoCart Carts in Session](https://github.com/co-cart/cocart-carts-in-session)** allows you to view all the carts in session via the WordPress admin.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
-* **[CoCart Settings Example](https://github.com/co-cart/cocart-settings-example)** provides an example of adding your own settings to CoCart. Requires CoCart 4.0+ 
+* **[CoCart Settings Example](https://github.com/co-cart/cocart-settings-example)** provides an example of adding your own settings to CoCart. Requires CoCart 4.0+
 * **[CoCart Tweaks](https://github.com/co-cart/co-cart-tweaks)** provides a starting point for developers to tweak CoCart to their needs.
 
 ## Support
