@@ -127,7 +127,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-core.git",
-                "reference": "7caaa7493767b57ca0d1daef2ecdf806cd533621"
+                "reference": "6b0e7c65c8950c1aabd89845e0d0b7dc91070350"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0",
@@ -160,7 +160,7 @@
                 "issues": "https://github.com/co-cart/cocart-core/issues",
                 "source": "https://github.com/co-cart/cocart-core"
             },
-            "time": "2023-08-10T03:17:00+00:00"
+            "time": "2023-08-10T03:48:19+00:00"
         },
         {
             "name": "co-cart/cocart-products-api",
@@ -226,7 +226,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-session-api.git",
-                "reference": "e8bf1cff4ed0befe777394a7035b6b630d331991"
+                "reference": "705975acfb87b1284f3c90a4857c45873d78c546"
             },
             "require": {
                 "composer/installers": "2.2.0"
@@ -280,7 +280,7 @@
             "support": {
                 "issues": "https://github.com/co-cart/cocart-session-api/issues"
             },
-            "time": "2023-07-25T11:34:50+00:00"
+            "time": "2023-08-10T04:02:52+00:00"
         },
         {
             "name": "co-cart/cocart-third-party",
