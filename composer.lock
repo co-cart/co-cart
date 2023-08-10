@@ -226,7 +226,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/co-cart/cocart-session-api.git",
-                "reference": "705975acfb87b1284f3c90a4857c45873d78c546"
+                "reference": "284ec95e32337ba492ce1bb119e7d73b64491069"
             },
             "require": {
                 "composer/installers": "2.2.0"
@@ -280,7 +280,7 @@
             "support": {
                 "issues": "https://github.com/co-cart/cocart-session-api/issues"
             },
-            "time": "2023-08-10T04:02:52+00:00"
+            "time": "2023-08-10T04:16:20+00:00"
         },
         {
             "name": "co-cart/cocart-third-party",
