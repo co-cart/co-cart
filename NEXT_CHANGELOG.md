@@ -31,7 +31,7 @@
   - Set the front-end site URL for product permalinks for the Products API.
   - Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
   - Disable WordPress Access if enabled. Users who are not administrators cannot access the WordPress site and are redirected to "Front-end site URL" instead.
-  - Set default configurations for the default behaviour when accessing the products API.
+  - Set default configurations for the default behaviour when accessing the cart, products and sessions API.
 
 <p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/dev/docs/images/cocart-settings.png" alt="CoCart Plugin Settings" /></p>
 
@@ -45,8 +45,8 @@
 - Finally added the ability to add/update customer details to the cart with validation. [See guide for example](#).
 - Added ability to set customers billing phone number while adding item to the cart.
 - Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
-- Added ability to filter the fields of the endpoint you request before they return, making the response faster. (Excludes Sessions API).
-- Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
+- Added ability to filter the fields of the endpoint you request before they return, making the response faster.
+- Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `mini`, `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
 - Added batch support and new batch endpoint to handle multiple cart requests to return a single cart response. (API v2 supported ONLY) [See guide for example](#).
 - Added new endpoint to delete all items (only) in the cart.
 
@@ -59,6 +59,8 @@ First is when the WordPress login cookies are set, they are not available until 
 Second is customers can now authenticate with their billing phone number and password. This is helpful for certain countries where the customer logins with their phone number instead of username or email address.
 
 Third is a new [RateLimiter for the API.](#ratelimiter-for-the-api)
+
+Two new filters have also been introduced to allow a custom authentication header and control the allowed headers to pass when CORS is in use.
 
 ## Experimental
 
