@@ -1,0 +1,29 @@
+name: 📄 Request for New Document
+description: Suggest the creation of a new documentation topic that doesn't exist yet.
+title: "[DOC-REQUEST]: "
+labels: ["type: documentation"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+        label: Description of the Document Requested
+        description: Provide a detailed description of the topic you'd like to see documented.
+    validations:
+        required: true
+  - type: textarea
+    id: important
+    attributes:
+        label: Why is this Document Important?
+        description: Explain why this topic is crucial and how it can benefit the CoCart community.
+  - type: textarea
+    id: potential
+    attributes:
+        label: Potential Content
+        description: If you have an idea about what the new document should cover, list the points or sub-topics here.
+    validations:
+        required: true
+  - type: textarea
+    id: additional
+    attributes:
+        label: Additional Context
+        description: Add any other context, references, or information that can help in the creation of this new document.

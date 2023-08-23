@@ -1,0 +1,29 @@
+name: 📝 Suggestion for Documentation Improvement/Correction
+description: Propose a specific improvement or correction for an existing document.
+title: "[DOC-BUG]: "
+labels: ["type: documentation"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+        label: Link to the Page/Section
+        description: Provide a link to the specific page or section that you're referring to.
+    validations:
+        required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+        label: Description of the Suggestion
+        description: Describe the changes you suggest to improve or correct the documentation. Be specific about any errors or areas of confusion you've identified.
+    validations:
+        required: true
+  - type: textarea
+    id: reason
+    attributes:
+        label: Reason for the Suggestion
+        description: Why do you believe this change will make the documentation clearer or more accurate?
+  - type: textarea
+    id: additional
+    attributes:
+        label: Additional Context
+        description: Add any other context, references, or screenshots that support your suggestion.
