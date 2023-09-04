@@ -80,16 +80,6 @@ By default, a maximum of 25 requests can be made within a 10-second time frame. 
 
 More extensive information can be found on the [Rate Limit Guide](https://github.com/co-cart/co-cart/blob/dev/docs/rate-limit-guide.md) along with a test guide.
 
-### CoCart Route instead of WP-JSON
-
-> This is optional, disabled by default and will not be documented. It's more of an easter egg should you choose to find it and will not be part of the changelogs until more experimenting on this route has happened over time.
-
-CoCart can run under it's own route. e.g. `https://api.myawesomestore.com/cocart-api/cocart/v2/cart`
-
-You can filter the prefix `cocart-api` using this filter `cocart_rest_get_url_prefix` to name it whatever you want. For example you could use the filter to change the prefix to today in milliseconds e.g. `https://api.myawesomestore.com/1688656002096/cocart/v2/cart`
-
-Just a small way of hiding the use of `wp-json` or if you want to prefix `wp-json` for all other WordPress endpoints and use `cocart-api` differently from it.
-
 ## Improvements and Tweaks
 
 - Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
