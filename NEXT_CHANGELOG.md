@@ -8,12 +8,14 @@
 - [Authentication](#authentication)
 - [Experimental](#experimental)
   - [RateLimiter for the API](#ratelimiter-for-the-api)
-  - [CoCart Route instead of WP-JSON](#cocart-route-instead-of-wp-json)
 - [Improvements and Tweaks](#improvements-and-tweaks)
 - [Security](#security)
   - [Disable WordPress Access](#disable-wordpress-access)
-  - [Override Price Hijacking](#override-price-hijacking)
+- [API Access](#api-access)
   - [FAQ](#faq)
+    - [Why is there a checkbox to enable this feature?](#why-is-there-a-checkbox-to-enable-this-feature)
+  - [Override Price Hijacking](#override-price-hijacking)
+  - [FAQ](#faq-1)
     - [Wont a developer be still be able find the salt key?](#wont-a-developer-be-still-be-able-find-the-salt-key)
     - [Can I only allow specific products to be overridden?](#can-i-only-allow-specific-products-to-be-overridden)
 - [Session handler](#session-handler)
@@ -29,8 +31,9 @@
 
 - New settings page:
   - Set the front-end site URL for product permalinks for the Products API.
-  - Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
   - Disable WordPress Access if enabled. Users who are not administrators cannot access the WordPress site and are redirected to "Front-end site URL" instead.
+  - Set an Access Token to protect the API's from any unauthorized access unless provided in the headers.
+  - Set a Salt Key to secure specific features from outside tampering. If salt key is already set in `wp-config.php` then that will take priority.
   - Set default configurations for the default behaviour when accessing the cart, products and sessions API.
 
 <p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/dev/docs/images/cocart-settings.png" alt="CoCart Plugin Settings" /></p>
@@ -101,6 +104,22 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 With the new settings page added in this release you can disable access to WordPress with a simple checkbox. You can even redirect to your headless site if you use the "Front-end URL" field which is also used to re-write your permalinks.
 
 By default, both the cart and checkout pages are still accessible to support the feature "Load cart from session" and you can filter the accessible pages using `cocart_accessible_page_ids`.
+
+## API Access
+
+Even though CoCart is an API with public access, outside access can still be an issue. Now you can force the API to be accessible with an "Access Token" which protects the API's from any unauthorized access unless the access token is provided in the headers.
+
+This will help prevent spamming multiple guest carts created if someone has the know how, saving you bandwidth and data resource.
+
+The access token can be generated via the settings page with a confirmation window.
+
+### FAQ
+
+#### Why is there a checkbox to enable this feature?
+
+The reason is so that users have the option of requiring the access token when in production and blocking access when any request is made directly in the browser or REST API tool like Postman without it.
+
+In the future, any SDK's CoCart provides will require the access token. Validating the token requirement will be done within the SDK but the require option still allows users control outside the SDK.
 
 ### Override Price Hijacking
 
