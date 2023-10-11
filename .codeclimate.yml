@@ -14,8 +14,8 @@ engines:
       - php
 ratings:
   paths:
-   - "includes/*"
+   - "plugins/cocart/includes/*"
 exclude_paths:
-- "includes/api/cocart/v1/"
-- "includes/api/legacy/"
-- "languages/"
+- "plugins/cocart/includes/api/cocart/v1/"
+- "plugins/cocart/includes/api/legacy/"
+- "plugins/cocart/languages/"
