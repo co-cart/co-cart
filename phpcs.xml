@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<ruleset name="CoCart Coding Standards">
+	<description>CoCart Code Standards</description>
+
+	<file>.</file>
+
+	<!-- Exclude paths -->
+	<exclude-pattern>assets/*</exclude-pattern>
+	<exclude-pattern>plugins/build/*</exclude-pattern>
+	<exclude-pattern>plugins/cocart-ref/*</exclude-pattern>
+	<exclude-pattern>plugins/cocart-ref-source/*</exclude-pattern>
+	<exclude-pattern>plugins/cocart/includes/classes/rest-api/controllers/v1/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/tests/</exclude-pattern>
+	<exclude-pattern>Gruntfile.js</exclude-pattern>
+
+	<!-- Show progress, show the error codes for each message (source). -->
+	<arg value="ps" />
+
+	<!-- Strip the filepaths in reports down to the relevant bit. -->
+	<arg name="basepath" value="./" />
+
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8" />
+
+	<!-- Configs -->
+	<config name="minimum_supported_wp_version" value="5.6" />
+	<config name="testVersion" value="7.4-" />
+
+	<!-- Rules -->
+	<rule ref="CoCart-Core">
+		<exclude name="Core.Commenting.CommentTags.AuthorTag" />
+		<exclude name="WordPress.PHP.DontExtract" />
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="cart-rest-api-for-woocommerce" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>plugins/cocart/languages/</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>plugins/cocart/packages/compatibility/**</exclude-pattern>
+		<exclude-pattern>plugins/cocart/packages/compatibility/*.php</exclude-pattern>
+		<exclude-pattern>plugins/cocart/packages/products-api/**</exclude-pattern>
+		<exclude-pattern>plugins/cocart/packages/products-api/*.php</exclude-pattern>
+		<exclude-pattern>plugins/cocart/packages/session-api/**</exclude-pattern>
+		<exclude-pattern>plugins/cocart/packages/session-api/*.php</exclude-pattern>
+		<exclude-pattern>plugins/cocart/packages/third-party/**</exclude-pattern>
+		<exclude-pattern>plugins/cocart/packages/third-party/*.php</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.PHP.StrictInArray.MissingTrueStrict">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="WordPress.PHP.PregQuoteDelimiter.Missing">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.ValidHookName.UseUnderscores">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="PHPCompatibility">
+		<include-pattern>*\.php$</include-pattern>
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FunctionComment.ParamNameNoMatch">
+		<severity>0</severity>
+	</rule>
+</ruleset>

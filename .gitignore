@@ -48,4 +48,3 @@ contributors.html
 # Various file types to ignore when exporting.
 .gitconfig
 *.zip
-*.xml
