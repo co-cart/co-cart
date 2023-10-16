@@ -52,6 +52,7 @@
 - Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `mini`, `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
 - Added batch support and new batch endpoint to handle multiple cart requests to return a single cart response. (API v2 supported ONLY) [See guide for example](#).
 - Added new endpoint to delete all items (only) in the cart.
+- Added new endpoint to generate cart key.
 
 ## Authentication
 
