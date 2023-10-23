@@ -111,4 +111,10 @@ add_action(
  2. Try to apply a coupon or access `/wp-json/cocart/v1/coupon` beyond current limits (currently 25 requests under 10 seconds)
  3. Ensure you get presented with an error "Too many requests. Please wait xx seconds before trying again."
 
+<!-- FEEDBACK -->
+
+---
+
 🐞 Found a mistake, or have a suggestion? [Leave feedback about this document here.](https://github.com/co-cart/co-cart/issues/new?assignees=&labels=type%3A+documentation&template=doc_feedback.md&title=Feedback+on+./docs/rate-limit-guide.md)
+
+<!-- /FEEDBACK -->
