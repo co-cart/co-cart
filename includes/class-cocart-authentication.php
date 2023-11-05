@@ -96,7 +96,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		public function cocart_user_logged_in( $error ) {
 			global $current_user;
 
-			if ( $current_user->ID > 0 ) {
+			if ( $current_user instanceof WP_User && $current_user->exists() ) {
 				wc_update_user_last_active( $current_user->ID );
 				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
