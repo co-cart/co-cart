@@ -248,11 +248,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				return;
 			}
 
-			// Notice should only show on specific pages.
-			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
-				return;
-			}
-
 			foreach ( $notices as $notice ) {
 				if ( ! empty( self::$core_notices[ $notice ] ) && apply_filters( 'cocart_show_admin_notice', true, $notice ) ) {
 					add_action( 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
