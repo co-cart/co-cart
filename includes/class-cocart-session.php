@@ -216,7 +216,6 @@ class CoCart_Load_Cart {
 			WC()->session->set( 'coupon_discount_totals', $new_cart['coupon_discount_totals'] );
 			WC()->session->set( 'coupon_discount_tax_totals', $new_cart['coupon_discount_tax_totals'] );
 			WC()->session->set( 'removed_cart_contents', $new_cart['removed_cart_contents'] );
-			WC()->session->set( 'cart_cached', $new_cart['cart_cached'] );
 
 			if ( ! empty( $new_cart['chosen_shipping_methods'] ) ) {
 				WC()->session->set( 'chosen_shipping_methods', $new_cart['chosen_shipping_methods'] );
@@ -224,6 +223,10 @@ class CoCart_Load_Cart {
 
 			if ( ! empty( $new_cart['cart_fees'] ) ) {
 				WC()->session->set( 'cart_fees', $new_cart['cart_fees'] );
+			}
+
+			if ( ! empty( $new_cart['cart_cached'] ) ) {
+				WC()->session->set( 'cart_cached', $new_cart['cart_cached'] );
 			}
 
 			// Set loaded cart for guest customer.
