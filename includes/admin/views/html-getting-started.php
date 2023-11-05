@@ -125,9 +125,9 @@ $pro_url       = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args,
 					<p>Sébastien Dumont<br>
 					<?php
 					echo sprintf(
-						/* translators: %s: CoCart */
+						/* translators: %s: CoCart Headless, LLC */
 						esc_html__( 'Founder of %s', 'cart-rest-api-for-woocommerce' ),
-						'CoCart'
+						'CoCart Headless, LLC'
 					);
 					?>
 					</p>
