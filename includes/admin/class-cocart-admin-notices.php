@@ -232,6 +232,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				return;
 			}
 
+			// Notices should only show on specific pages.
+			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
+				return;
+			}
+
 			// Don't show notices if on WordPress Playground.
 			if ( CoCart_Helpers::is_on_wordpress_playground() ) {
 				return;
