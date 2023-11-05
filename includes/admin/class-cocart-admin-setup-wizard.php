@@ -612,9 +612,6 @@ class CoCart_Admin_Setup_Wizard {
 						<a class="button" href="<?php echo esc_url( admin_url() ); ?>">
 							<?php esc_html_e( 'Visit Dashboard', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
-						<a class="button" href="<?php echo esc_url( 'https://www.npmjs.com/package/@cocart/cocart-rest-api' ); ?>" target="_blank">
-							<?php esc_html_e( 'Download CoCart JS', 'cart-rest-api-for-woocommerce' ); ?>
-						</a>
 						<a class="button" href="<?php echo esc_url( 'https://marketplace.visualstudio.com/items?itemName=sebastien-dumont.cocart-vscode' ); ?>" target="_blank">
 							<?php esc_html_e( 'Install CoCart VSCode Extension', 'cart-rest-api-for-woocommerce' ); ?>
 						</a>
