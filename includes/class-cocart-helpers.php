@@ -778,6 +778,29 @@ class CoCart_Helpers {
 		return self::$is_wc_admin_enabled;
 	} // END is_wc_admin_enabled()
 
+	/**
+	 * Returns true if plugin is accessed from WordPress Playground.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.10.0 Introduced.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
+	 * @return bool
+	 */
+	public static function is_on_wordpress_playground() {
+		$site_url = get_site_url();
+
+		if ( strpos( $site_url, 'playground.wordpress.net' ) !== false ) {
+			return true;
+		}
+
+		return false;
+	} // END is_on_wordpress_playground()
+
 } // END class
 
 return new CoCart_Helpers();

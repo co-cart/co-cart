@@ -81,6 +81,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( CoCart_Helpers::user_has_capabilities() ) {
 				add_action( 'admin_print_styles', array( $this, 'add_notices' ) );
 			}
+
+			add_action( 'admin_notices', array( $this, 'wordpress_playground_notice' ) );
 		} // END __construct()
 
 		/**
@@ -227,6 +229,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function add_notices() {
 			// Prevent notices from loading on the frontend.
 			if ( ! is_admin() ) {
+				return;
+			}
+
+			// Don't show notices if on WordPress Playground.
+			if ( CoCart_Helpers::is_on_wordpress_playground() ) {
 				return;
 			}
 
@@ -475,6 +482,21 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function setup_wizard_notice() {
 			include_once COCART_ABSPATH . 'includes/admin/views/html-notice-setup-wizard.php';
 		} // END setup_wizard_notice()
+
+		/**
+		 * Displays a notice if the user installed CoCart on WordPress Playground.
+		 *
+		 * @access public
+		 *
+		 * @since 3.10.0 Introduced.
+		 *
+		 * @return void
+		 */
+		public function wordpress_playground_notice() {
+			if ( CoCart_Helpers::is_on_wordpress_playground() ) {
+				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-playground.php';
+			}
+		} // END wordpress_playground_notice()
 
 	} // END class.
 
