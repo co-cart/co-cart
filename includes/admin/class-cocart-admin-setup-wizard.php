@@ -324,11 +324,12 @@ class CoCart_Admin_Setup_Wizard {
 			</select>
 			<?php } ?>
 
-			<label for="multiple_domains"><?php esc_html_e( 'Will your headless setup use multiple domains?', 'cart-rest-api-for-woocommerce' ); ?></label>
-			<select id="multiple_domains" name="multiple_domains" aria-label="<?php esc_attr_e( 'Multiple Domains', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
+			<label for="multiple_domains"><?php esc_html_e( 'Setup support for CORS?', 'cart-rest-api-for-woocommerce' ); ?></label>
+			<select id="multiple_domains" name="multiple_domains" aria-label="<?php esc_attr_e( 'CORS support', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
 				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
 				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
 			</select>
+			<span><?php _e( 'If you are using multiple domains for your headless setup, installing support for CORS is recommended.', 'cart-rest-api-for-woocommerce' ); ?> <a href="<?php echo esc_url( 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS'); ?>" target="_blank"><?php _e( 'What is CORS?', 'cart-rest-api-for-woocommerce' ); ?></a></span>
 
 			<p class="cocart-setup-wizard-actions step">
 				<button class="button button-primary button-large" value="<?php esc_attr_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?></button>
