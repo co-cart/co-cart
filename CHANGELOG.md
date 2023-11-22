@@ -4,8 +4,6 @@
 
 ### What's New?
 
-* Fixed undefined `cart_cached` if price change feature not used. [commit fb472fc](https://github.com/co-cart/co-cart/commit/fb472fc6bb5b1d87eaf46d724207458e0e00e045)
-* Fixed Authentication failing to identify current user if authentication is not provided. [commit f6fb7a4](https://github.com/co-cart/co-cart/commit/f6fb7a4eb809a80144e75c33b4cc35435663661d)
 * Added WP Playground notice. [commit 912ebb2](https://github.com/co-cart/co-cart/commit/912ebb24cf096de12aaa6c2aeeab9c59bf4dff5a)
 * Moved validation earlier to check if we are on a CoCart page before displaying admin notices.
 * Updated from product name to business name in Setup Wizard and Getting Started page. [commit eede727](https://github.com/co-cart/co-cart/commit/eede727188784d373346d992d164d07591b6bd67)
@@ -13,9 +11,14 @@
 * Improved the explanation of "Mulitple Domain" option in Setup Wizard. [commit e54e31b](https://github.com/co-cart/co-cart/commit/e54e31b5aef0475afcd365fadc934ec2d9fc7100)
 * Updated license.txt [commit f6b0acb](https://github.com/co-cart/co-cart/commit/f6b0acb07190bd45d6e8b8371a78a2f1102e4dba)
 
+## Bug Fixes
+
+* Fixed undefined `cart_cached` if price change feature not used. [commit fb472fc](https://github.com/co-cart/co-cart/commit/fb472fc6bb5b1d87eaf46d724207458e0e00e045)
+* Fixed Authentication failing to identify current user if authentication is not provided. [commit f6fb7a4](https://github.com/co-cart/co-cart/commit/f6fb7a4eb809a80144e75c33b4cc35435663661d)
+
 #### Requirements and Compatibility
 
-* Bumped PHP to 7.4
+* Bumped PHP requirement to v7.4
 * Tested with WordPress v6.4
 * Tested with WooCommerce v8.3
 
