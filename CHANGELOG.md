@@ -8,7 +8,7 @@
 * Moved validation earlier to check if we are on a CoCart page before displaying admin notices.
 * Updated from product name to business name in Setup Wizard and Getting Started page. [commit eede727](https://github.com/co-cart/co-cart/commit/eede727188784d373346d992d164d07591b6bd67)
 * Removed link to deprecated project. [commit ab973ca](https://github.com/co-cart/co-cart/commit/ab973ca5591bc7bb3d699ed0d62f48683ffd47d1)
-* Improved the explanation of "Mulitple Domain" option in Setup Wizard. [commit e54e31b](https://github.com/co-cart/co-cart/commit/e54e31b5aef0475afcd365fadc934ec2d9fc7100)
+* Improved the explanation of "Multiple Domain" option in Setup Wizard. [commit e54e31b](https://github.com/co-cart/co-cart/commit/e54e31b5aef0475afcd365fadc934ec2d9fc7100)
 * Updated license.txt [commit f6b0acb](https://github.com/co-cart/co-cart/commit/f6b0acb07190bd45d6e8b8371a78a2f1102e4dba)
 
 ## Bug Fixes
