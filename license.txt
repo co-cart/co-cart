@@ -1,6 +1,4 @@
-CoCart - Build headless stores, without building an API
-
-Copyright 2018 by the contributors.
+CoCart - Decoupling WooCommerce Made Easy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,9 +19,9 @@ permission notices:
 
   CoCart - Build headless stores, without building an API
 
-  CoCart is Copyright (c) 2018 Sébastien Dumont
+  CoCart is Copyright (c) 2023 CoCart Headless, LLC
 
-  CoCart Lite is released under the GPL
+  CoCart Core is released under the GPL
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
