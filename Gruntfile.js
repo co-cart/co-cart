@@ -5,10 +5,7 @@
  */
 
 module.exports = function(grunt) {
-	'use strict';
-
 	var sass = require( 'node-sass' );
-
 	require( 'load-grunt-tasks' )( grunt );
 
 	// Project configuration.
@@ -23,34 +20,19 @@ module.exports = function(grunt) {
 			scss: 'assets/scss'
 		},
 
-		// Update developer dependencies
-		devUpdate: {
-			packages: {
-				options: {
-					packageJson: null,
-					packages: {
-						devDependencies: true,
-						dependencies: false
-					},
-					reportOnlyPkgs: [],
-					reportUpdated: false,
-					semver: true,
-					updateType: 'force'
-				}
-			}
-		},
-
 		// SASS to CSS
 		sass: {
-			options: {
-				implementation: sass,
-				sourcemap: 'none'
-			},
-			dist: {
-				files: {
-					'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin/admin.scss',
-					'<%= dirs.css %>/admin/cocart-setup.css' : '<%= dirs.scss %>/admin/cocart-setup.scss',
-					'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/admin/plugin-search.scss'
+			compile: {
+				options: {
+					implementation: sass,
+					sourcemap: 'none'
+				},
+				dist: {
+					files: {
+						'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin/admin.scss',
+						'<%= dirs.css %>/admin/cocart-setup.css' : '<%= dirs.scss %>/admin/cocart-setup.scss',
+						'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/admin/plugin-search.scss'
+					}
 				}
 			}
 		},
@@ -72,10 +54,10 @@ module.exports = function(grunt) {
 		postcss: {
 			options: {
 				processors: [
-					require('autoprefixer')
+					require( 'autoprefixer' )
 				]
 			},
-			dist: {
+		dist: {
 				src: [
 					'!<%= dirs.css %>/admin/*.min.css',
 					'<%= dirs.css %>/admin/*.css'
@@ -86,13 +68,13 @@ module.exports = function(grunt) {
 		// Minify JavaScript
 		uglify: {
 			options: {
-				compress: {
-					global_defs: {
-						"EO_SCRIPT_DEBUG": false
-					},
-					dead_code: true
+				banner: '/*! <%= pkg.title %> v<%= pkg.version %> <%= grunt.template.today("dddd dS mmmm yyyy HH:MM:ss TT Z") %> */',
+				parse: {
+					strict: false
 				},
-				banner: '/*! <%= pkg.title %> v<%= pkg.version %> <%= grunt.template.today("dddd dS mmmm yyyy HH:MM:ss TT Z") %> */'
+				output: {
+					comments : /@license|@preserve|^!/
+				}
 			},
 			build: {
 				files: [{
@@ -118,12 +100,10 @@ module.exports = function(grunt) {
 			target: {
 				files: [{
 					expand: true,
-					cwd: '<%= dirs.css %>/admin',
 					src: [
-						'*.css',
-						'!*.min.css'
+						'<%= dirs.css %>/admin/*.css',
+						'!<%= dirs.css %>/admin/*.min.css'
 					],
-					dest: '<%= dirs.css %>/admin',
 					ext: '.min.css'
 				}]
 			}
@@ -183,13 +163,13 @@ module.exports = function(grunt) {
 						'vendor'
 					],
 					mainFile: '<%= pkg.name %>.php', // Main project file.
-					potComments: 'Copyright (c) {year} Sébastien Dumont\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
+					potComments: 'Copyright (c) {year} CoCart Headless, LLC\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					potHeaders: {
 						'poedit': true,                                       // Includes common Poedit headers.
 						'x-poedit-keywordslist': true,                        // Include a list of all possible gettext functions.
 						'Report-Msgid-Bugs-To': 'https://github.com/co-cart/co-cart/issues',
-						'language-team': 'Sébastien Dumont <translate@cocart.xyz>',
+						'language-team': 'CoCart Headless, LLC <translate@cocart.xyz>',
 						'language': 'en_US'
 					},
 					processPot: function( pot ) {
@@ -249,22 +229,6 @@ module.exports = function(grunt) {
 				],
 				expand: true
 			},
-		},
-
-		potomo: {
-			dist: {
-				options: {
-					poDel: false
-				},
-				files: [{
-					expand: true,
-					cwd: 'languages',
-					src: ['*.po'],
-					dest: 'languages',
-					ext: '.mo',
-					nonull: false
-				}]
-			}
 		},
 
 		// Bump version numbers (replace with version in package.json)
@@ -464,16 +428,13 @@ module.exports = function(grunt) {
 	}); // END of Grunt modules.
 
 	// Set the default grunt command to run test cases.
-	grunt.registerTask( 'default', [ 'test' ] );
-
-	// Checks for developer dependencies updates.
-	grunt.registerTask( 'check', [ 'devUpdate' ] );
+	grunt.registerTask( 'default', [ 'check' ] );
 
 	// Checks for errors.
-	grunt.registerTask( 'test', [ 'stylelint', 'jshint', 'checktextdomain' ] );
+	grunt.registerTask( 'check', [ 'stylelint', 'jshint', 'checktextdomain' ] );
 
 	// Build CSS ONLY!
-	grunt.registerTask( 'css', [ 'stylelint', 'sass', 'rtlcss', 'postcss', 'cssmin' ] );
+	grunt.registerTask( 'css', [ 'sass', 'rtlcss', 'postcss', 'cssmin' ] );
 
 	// Build JS ONLY!
 	grunt.registerTask( 'js', [ 'jshint', 'uglify' ] );

@@ -1,8 +1,17 @@
 {
+	"extends": [
+		"stylelint-config-standard-scss",
+		"@wordpress/stylelint-config"
+	],
 	"rules": {
+		"at-rule-empty-line-before": null,
 		"indentation": "tab",
 		"color-hex-case": "lower",
 		"color-no-invalid-hex": true,
+
+		"font-family-name-quotes": null,
+		"font-family-no-missing-generic-family-keyword": null,
+		"font-weight-notation": null,
 
 		"function-calc-no-unspaced-operator": true,
 		"function-comma-space-after": "always-single-line",
@@ -11,9 +20,13 @@
 		"function-url-quotes": "always",
 		"function-whitespace-after": "always",
 
+		"no-descending-specificity": null,
+		"no-duplicate-selectors": null,
 		"number-leading-zero": "always",
 		"number-no-trailing-zeros": true,
 		"length-zero-no-unit": true,
+
+		"rule-empty-line-before": null,
 
 		"string-no-newline": true,
 		"string-quotes": "single",

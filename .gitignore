@@ -13,7 +13,6 @@ Thumbs.db
 
 # Composer
 /vendor/
-composer.lock
 contributors.html
 
 # Languages
@@ -36,5 +35,4 @@ contributors.html
 *.sh
 .gitconfig
 *.zip
-*.json
 *.yml
