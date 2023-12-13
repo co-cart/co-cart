@@ -250,8 +250,13 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			$max_pages = ceil( $total_terms / $per_page );
 			$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
-			$base = str_replace( '(?P<attribute_id>[\d]+)', $request['attribute_id'], $this->rest_base );
-			$base = add_query_arg( $request->get_query_params(), rest_url( '/' . $this->namespace . '/' . $base ) );
+			$base = '/' . $this->namespace . '/' . $this->rest_base;
+
+			if ( ! empty( $request['attribute_id'] ) ) {
+				$base = str_replace( '(?P<attribute_id>[\d]+)', $request['attribute_id'], $base );
+			}
+
+			$base = add_query_arg( $request->get_query_params(), rest_url( $base ) );
 
 			if ( $page > 1 ) {
 				$prev_page = $page - 1;
