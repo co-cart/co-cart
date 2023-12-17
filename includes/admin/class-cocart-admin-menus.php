@@ -46,11 +46,6 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			switch ( $section ) {
-				case 'getting-started':
-					/* translators: %s: CoCart */
-					$title      = sprintf( esc_attr__( 'Getting Started with %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' );
-					$breadcrumb = esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' );
-					break;
 				default:
 					$title      = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
 					$breadcrumb = apply_filters( 'cocart_page_wc_bar_breadcrumb_' . strtolower( str_replace( '-', '_', $section ) ), '' );
@@ -127,17 +122,6 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 						'parent' => 'woocommerce',
 					)
 				);
-
-				// Add Page.
-				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_item(
-					array(
-						'id'         => 'cocart',
-						'title'      => esc_attr__( 'Getting Started', 'cart-rest-api-for-woocommerce' ),
-						'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
-						'url'        => 'cocart',
-						'parent'     => 'cocart-category',
-					)
-				);
 			}
 		} // END admin_menu()
 
@@ -153,27 +137,11 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			switch ( $section ) {
-				case 'getting-started':
-					self::getting_started_content();
-					break;
-
 				default:
 					do_action( 'cocart_page_section_' . strtolower( str_replace( '-', '_', $section ) ) );
 					break;
 			}
 		} // END cocart_page()
-
-		/**
-		 * Getting Started content.
-		 *
-		 * @access  public
-		 * @static
-		 * @since   2.0.0
-		 * @version 2.6.0
-		 */
-		public static function getting_started_content() {
-			include_once dirname( __FILE__ ) . '/views/html-getting-started.php';
-		} // END getting_started_content()
 
 		/**
 		 * Upgrade CoCart content.
