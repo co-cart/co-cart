@@ -42,6 +42,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 */
 		public function includes() {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';             // Admin Assets.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-footer.php';             // Admin Footer.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';              // Admin Menus.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';            // Plugin Notices.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
