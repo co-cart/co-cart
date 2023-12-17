@@ -337,10 +337,11 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   2.6.0
-	 * @version 3.0.0
+	 * @version 3.10.0
 	 */
 	public static function load_rest_api() {
 		include_once COCART_ABSPATH . 'includes/class-cocart-rest-api.php';
+		include_once COCART_ABSPATH . 'includes/class-cocart-security.php';
 	} // END load_rest_api()
 
 	/**
