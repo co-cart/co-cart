@@ -45,9 +45,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 			add_action( 'cocart_run_update_callback', array( __CLASS__, 'run_update_callback' ) );
 			add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
 
-			// Redirect to Getting Started page once activated.
-			add_action( 'activated_plugin', array( __CLASS__, 'redirect_getting_started' ), 10 );
-
 			// Drop tables when MU blog is deleted.
 			add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
 		} // END init()
