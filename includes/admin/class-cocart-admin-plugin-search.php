@@ -167,12 +167,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				<div class="cocart-plugin-install-dashboard">
 					<p>
 						<?php
-						echo sprintf(
-							/* translators: %1$s: https://cocart.xyz/add-ons/, %2$s: https://cocart.xyz/woocommerce-extensions/ */
-							__( 'These plugins are supported, extend and expand the functionality of CoCart. You may learn more about each of the <a href="%1$s" target="_blank">CoCart add-ons</a> and <a href="%2$s" target="_blank">WooCommerce extensions</a> from CoCart.xyz', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-							esc_url( COCART_STORE_URL . 'add-ons/' ),
-							esc_url( COCART_STORE_URL . 'woocommerce-extensions/' )
-						);
+						_e( 'These plugins support or extend and expand the functionality of CoCart. Press "learn more" for more information about each of the <strong>CoCart add-ons</strong> and <strong>WooCommerce extensions</strong>', 'cart-rest-api-for-woocommerce' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						?>
 					</p>
 
@@ -333,7 +328,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				'slug'              => empty( $data['third_party'] ) ? 'cocart-' . $data['slug'] : $data['slug'],
 				'version'           => '',
 				'author'            => ! empty( $data['author'] ) ? esc_html( $data['author'] ) : 'CoCart',
-				'author_profile'    => 'https://cocart.xyz',
+				'author_profile'    => 'https://cocartapi.com',
 				'short_description' => $data['short_description'],
 				'requirement'       => ! empty( $data['requirement'] ) ? $data['requirement'] : '',
 				'requires'          => ! empty( $inject['requires'] ) ? $inject['requires'] : $data['requires'],
@@ -570,7 +565,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				return $links;
 			}
 
-			// Add link pointing to a relevant doc page in CoCart.xyz.
+			// Add link pointing to a relevant doc page in CoCartAPI.com.
 			if ( ! empty( $plugin['learn_more'] ) ) {
 				$links['cocart-learn-more'] = '<a
 					class="cocart-plugin-search__learn-more button"
