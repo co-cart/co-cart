@@ -17,6 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 
 	class CoCart_Admin_Menus {
+		/**
+		 * A list with the objects that handle submenu pages
+		 *
+		 * @access public
+		 * @var    array
+		 */
+		public $submenu_pages = array();
 
 		/**
 		 * Constructor
@@ -24,105 +31,94 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			// Add and remove main plugin page.
+			add_action( 'admin_menu', array( $this, 'add_main_menu_page' ), 10 );
+			add_action( 'admin_menu', array( $this, 'remove_main_menu_page' ), 11 );
+
+			// Add submenu pages.
+			add_action( 'admin_menu', array( $this, 'load_admin_submenu_pages' ), 9 );
 		} // END __construct()
 
 		/**
-		 * Add CoCart to the menu and register WooCommerce admin bar.
+		 * Add CoCart to the menu.
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 3.1.0
+		 * @version 3.10.0
 		 */
-		public function admin_menu() {
-			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-			switch ( $section ) {
-				default:
-					$title      = apply_filters( 'cocart_page_title_' . strtolower( str_replace( '-', '_', $section ) ), 'CoCart' );
-					$breadcrumb = apply_filters( 'cocart_page_wc_bar_breadcrumb_' . strtolower( str_replace( '-', '_', $section ) ), '' );
-					break;
-			}
-
-			$page = admin_url( 'admin.php' );
-
-			// Add CoCart page.
-			add_menu_page(
-				$title,
-				'CoCart',
-				apply_filters( 'cocart_screen_capability', 'manage_options' ),
-				'cocart',
-				array( $this, 'cocart_page' ),
-				'dashicons-cart'
-			);
-
-			// Add Setup Wizard as sub-menu.
-			if ( apply_filters( 'cocart_enable_setup_wizard', true ) ) {
-				add_submenu_page(
-					'cocart',
-					'',
-					esc_attr__( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
-					apply_filters( 'cocart_screen_capability', 'manage_options' ),
-					admin_url( 'admin.php?page=cocart-setup' )
-				);
-			}
-
-			// Register WooCommerce Admin Bar.
-			if ( CoCart_Helpers::is_wc_version_gte( '4.0' ) && function_exists( 'wc_admin_connect_page' ) ) {
-				wc_admin_connect_page(
-					array(
-						'id'        => 'cocart-getting-started',
-						'screen_id' => 'toplevel_page_cocart',
-						'title'     => array(
-							esc_html__( 'CoCart', 'cart-rest-api-for-woocommerce' ),
-							$breadcrumb,
-						),
-						'path'      => add_query_arg(
-							array(
-								'page'    => 'cocart',
-								'section' => $section,
-							),
-							$page
-						),
-					)
-				);
-			}
-
-			/**
-			 * Moves CoCart menu to the new WooCommerce Navigation Menu if it exists.
-			 *
-			 * @since 3.0.0
-			 */
-			if ( class_exists( '\Automattic\WooCommerce\Admin\Features\Navigation\Menu' ) && apply_filters( 'cocart_wc_navigation', true ) ) {
-				// Add Category.
-				Automattic\WooCommerce\Admin\Features\Navigation\Menu::add_plugin_category(
-					array(
-						'id'     => 'cocart-category',
-						'title'  => 'CoCart',
-						'parent' => 'woocommerce',
-					)
-				);
-			}
-		} // END admin_menu()
+		public function add_main_menu_page() {
+			add_menu_page( 'CoCart', 'CoCart', apply_filters( 'cocart_screen_capability', 'manage_options' ), 'cocart', function() {
+				return '';
+			}, 'dashicons-cart' );
+		} // END add_main_menu_page()
 
 		/**
-		 * CoCart Page
+		 * Remove the main menu page as we will rely only on submenu pages.
 		 *
-		 * @access  public
-		 * @static
-		 * @since   2.0.1
-		 * @version 2.6.0
+		 * @access public
+		 *
+		 * @since 3.10.0 Introduced.
 		 */
-		public static function cocart_page() {
-			$section = ! isset( $_GET['section'] ) ? 'getting-started' : trim( sanitize_key( wp_unslash( $_GET['section'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		public function remove_main_menu_page() {
+			remove_submenu_page( 'cocart', 'cocart' );
+		} // END remove_main_menu_page()
 
-			switch ( $section ) {
-				default:
-					do_action( 'cocart_page_section_' . strtolower( str_replace( '-', '_', $section ) ) );
-					break;
+		/**
+		 * Sets up all objects that handle submenu pages and adds them to the
+		 * $submenu_pages property of the plugin.
+		 *
+		 * @access public
+		 *
+		 * @since 3.10.0 Introduced.
+		 */
+		public function load_admin_submenu_pages() {
+			/**
+			 * Hook to register submenu_pages class handlers
+			 * The array element should be 'submenu_page_slug' => array( 'class_name' => array(), 'data' => array() )
+			 *
+			 * @since 3.10.0 Introduced.
+			 *
+			 * @param array
+			 */
+			$submenu_pages = apply_filters( 'cocart_register_submenu_page', array() );
+
+			if ( empty( $submenu_pages ) ) {
+				return;
 			}
-		} // END cocart_page()
 
+			foreach ( $submenu_pages as $submenu_page_slug => $submenu_page ) {
+				if ( empty( $submenu_page['data'] ) ) {
+					continue;
+				}
+
+				if ( empty( $submenu_page['data']['page_title'] ) || empty( $submenu_page['data']['menu_title'] ) || empty( $submenu_page['data']['capability'] ) || empty( $submenu_page['data']['menu_slug'] ) ) {
+					continue;
+				}
+
+				$this->submenu_pages[ $submenu_page['data']['menu_slug'] ] = new $submenu_page['class_name']( $submenu_page['data']['page_title'], $submenu_page['data']['menu_title'], $submenu_page['data']['capability'], $submenu_page['data']['menu_slug'] );
+
+				if ( CoCart_Helpers::is_wc_version_gte( '4.0' ) && function_exists( 'wc_admin_connect_page' ) ) {
+					if ( 'cocart-setup' !== $submenu_page['data']['menu_slug'] ) {
+						wc_admin_connect_page(
+							array(
+								'id'        => 'cocart',
+								'screen_id' => 'cocart_page_' . $submenu_page['data']['menu_slug'],
+								'title'     => array(
+									'CoCart',
+									$submenu_page['data']['menu_title'],
+								),
+								'path'      => add_query_arg(
+									array(
+										'page' => $submenu_page['data']['menu_slug'],
+									),
+									'admin.php'
+								),
+							)
+						);
+					}
+				}
+			}
+		} // END load_admin_submenu_pages()
 
 	} // END class
 
