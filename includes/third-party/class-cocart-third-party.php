@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Third Party
  * @since   2.8.1
- * @version 3.4.0
+ * @version 3.10.0
  * @license GPL-2.0+
  */
 
@@ -48,7 +48,6 @@ if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 		public function include_plugins() {
 			include_once COCART_ABSPATH . 'includes/third-party/plugin/jwt-auth-by-useful-team/class-cocart-plugin-jwt-auth.php'; // JWT Auth.
 			include_once COCART_ABSPATH . 'includes/third-party/plugin/taxjar/class-cocart-plugin-taxjar.php'; // TaxJar.
-			include_once COCART_ABSPATH . 'includes/third-party/plugin/yoast-seo/class-cocart-plugin-yoast-seo.php'; // Yoast SEO.
 		}
 
 	} // END class.
