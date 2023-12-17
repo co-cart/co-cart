@@ -1,22 +1,5 @@
-// Variables
-@import '../variables';
-
-// Engage
-@import 'engage';
-
-body {
-	margin: 65px auto 24px;
-	box-shadow: none;
-	background: #f1f1f1;
-	padding: 0;
-}
-
-.cocart-logo {
-	border: 0;
-	margin: 0;
-	padding: 0;
-	text-align: center;
-}
+// CoCart
+@import 'cocart';
 
 .cocart-setup-wizard {
 	text-align: center;
@@ -26,15 +9,7 @@ body {
 	}
 }
 
-.cocart-setup-wizard-content {
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-	padding: 2em;
-	margin: 0 0 20px;
-	background: $white;
-	overflow: hidden;
-	zoom: 1;
-	text-align: left;
-
+.cocart-content {
 	h1,
 	h2,
 	h3,
@@ -208,7 +183,7 @@ body {
 	}
 }
 
-.cocart-setup-wizard .cocart-setup-wizard-actions {
+.cocart-setup-wizard .cocart-actions {
 	overflow: hidden;
 	margin: 20px 0 0;
 	position: relative;
@@ -283,34 +258,6 @@ label {
 	}
 }
 
-.newsletter-form-container {
-	display: flex;
-
-	.newsletter-form-email {
-		border: 1px solid #aaa;
-		border-color: #ddd;
-		border-radius: 4px;
-		height: 42px;
-		padding: 0 8px;
-		font-size: 16px;
-		color: #666;
-		background-color: $white;
-		display: inline-block;
-		margin-right: 6px;
-		flex-grow: 1;
-	}
-
-	.newsletter-form-button-container {
-		flex-grow: 0;
-	}
-}
-
-.cocart-setup-wizard .cocart-setup-wizard-actions .button.newsletter-form-button {
-	height: 42px;
-	padding: 0 1em;
-	margin: 0;
-}
-
 .cocart-error {
 	background: #ffe6e5;
 	border-color: #ffc5c2;
@@ -327,16 +274,12 @@ label {
 		color: #ff645c;
 	}
 
-	.cocart-setup-wizard-actions .button {
+	.cocart-actions .button {
 		font-size: 14px;
 	}
 }
 
 @media only screen and (max-width: 400px) {
-	.cocart-logo img {
-		max-width: 80%;
-	}
-
 	.cocart-setup-wizard-steps {
 		display: none;
 	}

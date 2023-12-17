@@ -1,0 +1,507 @@
+// Variables
+@import '../variables';
+
+// Common
+body.cocart-pagestyles { background: #fcfaff; }
+body.cocart-pagestyles .wp-header-end { clear: both; }
+
+.cocart-wrapped {
+	margin: 0 auto;
+	max-width: 700px;
+	padding: 60px 0;
+
+	.cocart-logo {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+	}
+
+	.cocart-content {
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		padding: 2em;
+		margin: 0 0 20px;
+		background: $white;
+		overflow: hidden;
+		zoom: 1;
+		text-align: left;
+	}
+}
+
+.cocart-pagestyles {
+
+	/*#wpcontent,
+	#wpbody-content {
+		padding: 0;
+		overflow-x: hidden !important;
+		min-height: calc(100vh - 32px);
+	}*/
+
+	#wpfooter {
+		display: initial;
+	}
+
+	.woocommerce-layout__header-breadcrumbs {
+		margin :0;
+	}
+
+	.woocommerce-layout__header-breadcrumbs span:first-child {
+		display: none;
+	}
+
+	.woocommerce-layout__header-breadcrumbs span:nth-child( 2 )::before {
+		content: none;
+	}
+
+	.container {
+		background-color: $white;
+		border: 1px solid $lightgrey;
+		box-shadow: 0 2px 30px $shadow;
+		-webkit-box-shadow: 0 2px 30px $shadow;
+		color: $black;
+		margin: 20px auto 40px;
+		max-width: 700px;
+		text-align: left;
+		width: calc(100% - 20px);
+
+		.content {
+			padding: 40px;
+
+			.logo {
+				background-color: $cocart;
+				margin: -40px -40px 30px;
+				text-align: center;
+			}
+
+			h1 {
+				color: #23282d;
+				font-size: 1.7em;
+				font-weight: 700;
+				line-height: 1.48;
+				margin-bottom: 28px;
+				margin-top: 0;
+			}
+
+			p {
+				color: #333;
+				font-size: 16px;
+				font-weight: 400;
+				line-height: 1.6;
+				margin-bottom: 20px;
+			}
+
+			ul {
+				list-style: disc;
+			}
+
+			li {
+				margin-left: 12px;
+			}
+
+			a.button.button-large,
+			button.button-large {
+				font-size: 24px;
+				line-height: 54px;
+				height: 60px;
+				padding: 0 20px;
+			}
+
+			a.button.button-medium,
+			button.button-medium {
+				font-size: 18px;
+				font-weight: 600;
+				line-height: 36px;
+				height: 40px;
+			}
+
+			a.button.upgrade {
+				background-color: $cocart;
+				border-color: $cocart;
+				color: $white;
+			}
+			a.button.upgrade:hover,
+			a.button.upgrade:focus {
+				background-color: $cocart_hovered;
+				border-color: $cocart_hovered;
+			}
+
+			p.price-tag {
+				font-size: 69px;
+				color: $cocart;
+				line-height: 66px;
+				font-weight: 700;
+				margin: 20px auto;
+				text-align: center;
+
+				sub {
+					margin-top: 18px;
+					display: inline-block;
+					font-size: 30px;
+					line-height: 8px;
+					vertical-align: top;
+					margin-right: 2px;
+				}
+
+				sup {
+					display: inline-block;
+					font-size: 18px;
+					line-height: 16px;
+					vertical-align: bottom;
+					margin-left: 2px;
+				}
+			}
+
+			img.emoji {
+				display: inline !important;
+				border: none !important;
+				height: auto;
+				width: 1em;
+				margin: 0 0.07em !important;
+				vertical-align: -0.1em !important;
+				background: none !important;
+				padding: 0 !important;
+				-webkit-box-shadow: none !important;
+				box-shadow: none !important;
+			}
+
+		}
+	}
+}
+
+// Admin Notices
+.notice {
+
+	&.inline.notice-cocart {
+		border-color: $cocart;
+
+		p.cart::before {
+			color: $cocart;
+			content: '\f174';
+			display: inline-block;
+			font: normal 20px/1 'dashicons';
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			vertical-align: top;
+		}
+	}
+
+	&.cocart-notice {
+		border-color: $cocart;
+		padding: 20px !important;
+	}
+
+	&.cocart-notice {
+		.no-thanks {
+			display: block;
+			margin-top: 10px;
+
+			a {
+				color: #72777c;
+				text-decoration: none;
+			}
+
+			a:hover {
+				color: #444;
+			}
+		}
+
+		p {
+			padding: 0;
+			margin: 0;
+		}
+
+		h3 {
+			margin: 0 0 5px;
+		}
+
+		.cocart-action {
+			float: right;
+			text-align: center;
+		}
+
+		.cocart-action .cocart-button {
+			height: auto;
+			line-height: 20px;
+			padding: 6px 50px;
+		}
+
+		.cocart-notice-inner {
+			display: table;
+			width: 100%;
+
+			.cocart-notice-icon,
+			.cocart-notice-content,
+			.cocart-review-now,
+			.cocart-send-feedback {
+				display: table-cell;
+				vertical-align: middle;
+			}
+		}
+
+		.cocart-notice-content {
+			padding: 0 6% 0 20px;
+		}
+	}
+
+	.cocart-notice-icon {
+		color: #509ed2;
+		font-size: 50px;
+		width: 60px;
+
+		img {
+			font-size: 0;
+			width: 64px;
+		}
+	}
+}
+
+body.cocart .notice,
+body.cocart .updated,
+body.cocart .error {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.notice.cocart-notice .cocart-notice-inner {
+		display: block;
+	}
+
+	.notice.cocart-notice {
+		padding: 20px !important;
+	}
+
+	.notice.cocart-notice .cocart-notice-inner .cocart-notice-content {
+		display: block;
+		padding: 0;
+	}
+
+	.notice.cocart-notice .cocart-notice-inner .cocart-notice-icon {
+		display: none;
+	}
+
+	.notice.cocart-notice .cocart-notice-inner .cocart-action {
+		margin-top: 20px;
+		display: block;
+		text-align: left;
+	}
+
+	.notice.cocart-notice .cocart-notice-inner .no-thanks {
+		display: inline-block;
+		margin-left: 15px;
+	}
+}
+
+// Engage
+.founder-row {
+	height: 60px;
+	margin-bottom: 2rem;
+
+	.founder-image {
+		width: 4.6rem;
+		float: left;
+	}
+
+	.founder-details {
+		float: left;
+		width: calc( 100% - 4.6rem );
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+.cocart-newsletter {
+	padding: 24px 24px 0;
+	overflow: hidden;
+	background: #f5f5f5;
+	clear: both;
+
+	p {
+		padding: 0;
+		margin: 0 0 12px;
+	}
+
+	form,
+	p:last-child {
+		margin: 0 0 24px;
+	}
+
+	.newsletter-form-container {
+		display: flex;
+	
+		.newsletter-form-email {
+			border: 1px solid #aaa;
+			border-color: #ddd;
+			border-radius: 4px;
+			height: 42px;
+			padding: 0 8px;
+			font-size: 16px;
+			color: #666;
+			background-color: $white;
+			display: inline-block;
+			margin-right: 6px;
+			flex-grow: 1;
+		}
+	
+		.newsletter-form-button-container {
+			flex-grow: 0;
+
+			.button.newsletter-form-button {
+				height: 42px;
+				padding: 0 1em;
+				margin: 0;
+			}
+		}
+	}
+}
+
+p {
+	&.next-steps-help-text {
+		color: #9f9f9f !important;
+		padding: 0 2em;
+		text-align: center;
+		font-size: 0.9em !important;
+	}
+
+	&.next-step-heading {
+		margin: 0 !important;
+		font-size: 0.95em;
+		font-weight: 400;
+		font-variant: all-petite-caps;
+	}
+
+	&.next-step-extra-info {
+		margin: 0 !important;
+	}
+}
+
+ul.cocart-next-steps {
+	border: 1px solid #eee;
+	border-radius: 4px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	list-style: none outside;
+
+	h2 {
+		margin-bottom: 12px;
+	}
+
+	h3 {
+		&.next-step-description {
+			margin: 0;
+			font-size: 16px;
+			font-weight: 600;
+		}
+	}
+
+	li {
+		padding: 0;
+
+		a {
+			display: block;
+			padding: 0 0 0.75em;
+		}
+
+		a::before {
+			color: #82878c;
+			font: 400 20px/1 dashicons; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+			speak: none;
+			display: inline-block;
+			padding: 0 10px 0 0;
+			top: 1px;
+			position: relative;
+			text-decoration: none !important;
+			vertical-align: top;
+		}
+	}
+
+	.cocart-next-step-item {
+		display: flex;
+		border-top: 1px solid #eee;
+
+		&:first-child {
+			border-top: 0;
+		}
+	}
+
+	.cocart-next-step-description {
+		flex-grow: 1;
+		margin: 1.5em;
+	}
+
+	.cocart-next-step-action {
+		flex-grow: 0;
+		display: flex;
+		align-items: center;
+
+		.button {
+			margin: 1em 1.5em !important;
+		}
+	}
+
+	.cocart-additional-steps {
+		border-top: 1px solid #eee;
+
+		.cocart-next-step-description {
+			margin-bottom: 0;
+		}
+
+		.cocart-actions {
+			margin: 0 0 1.5em;
+
+			.button {
+				font-size: 15px;
+				margin: 1em 0 1em 1.5em;
+			}
+		}
+	}
+}
+
+.tweet-share {
+	display: flex;
+	padding: 0;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+	flex-wrap: nowrap;
+}
+
+@media only screen and (max-width: 400px) {
+	.cocart-logo img {
+		max-width: 80%;
+	}
+
+	.cocart-newsletter {
+		.newsletter-form-container {
+			display: block;
+
+			.newsletter-form-email {
+				display: block;
+				box-sizing: border-box;
+				width: 100%;
+				margin-bottom: 10px;
+			}
+
+			.button.newsletter-form-button {
+				float: left;
+			}
+		}
+	}
+
+	.cocart-next-steps .cocart-next-step-item {
+		flex-wrap: wrap;
+
+		.cocart-next-step-description {
+			margin-bottom: 0;
+		}
+
+		.cocart-next-step-action {
+			p {
+				margin: 0;
+			}
+		}
+	}
+}

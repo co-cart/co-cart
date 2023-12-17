@@ -27,13 +27,15 @@ module.exports = function(grunt) {
 					implementation: sass,
 					sourcemap: 'none'
 				},
-				dist: {
-					files: {
-						'<%= dirs.css %>/admin/cocart.css' : '<%= dirs.scss %>/admin/admin.scss',
-						'<%= dirs.css %>/admin/cocart-setup.css' : '<%= dirs.scss %>/admin/cocart-setup.scss',
-						'<%= dirs.css %>/admin/plugin-search.css' : '<%= dirs.scss %>/admin/plugin-search.scss'
-					}
-				}
+				files: [
+					{
+						expand: true,
+						cwd: '<%= dirs.scss %>/admin/',
+						src: ['**/*.scss'],
+						dest: '<%= dirs.css %>/admin/',
+						ext: '.css'
+					},
+				],
 			}
 		},
 
