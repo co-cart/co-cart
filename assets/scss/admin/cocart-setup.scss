@@ -37,6 +37,39 @@
 		margin-bottom: 0;
 	}
 
+	label {
+		color: #666;
+		font-size: 14px;
+		font-weight: 600;
+		margin-bottom: 0.5em;
+		margin-top: 0.85em;
+		display: inline-block;
+	}
+
+	.select-input {
+		border: 1px solid #aaa;
+		border-color: #ddd;
+		border-radius: 4px;
+		height: 30px;
+		width: calc(100% - 8px - 8px - 2px);
+		padding-left: 8px;
+		padding-right: 8px;
+		font-size: 16px;
+		color: #444;
+		background-color: $white;
+		display: block;
+
+		&.dropdown {
+			width: 100%;
+			max-width: 100%;
+		}
+	}
+
+	span {
+		display: inline-block;
+		margin-top: 1rem;
+	}
+
 	table {
 		font-size: 1em;
 		line-height: 1.75;
@@ -183,6 +216,12 @@
 	}
 }
 
+@media only screen and (max-width: 400px) {
+	.cocart-setup-wizard-steps {
+		display: none;
+	}
+}
+
 .cocart-setup-wizard .cocart-actions {
 	overflow: hidden;
 	margin: 20px 0 0;
@@ -230,34 +269,6 @@
 	text-align: center;
 }
 
-label {
-	color: #666;
-	font-size: 13px;
-	font-weight: 500;
-	margin-bottom: 0.5em;
-	margin-top: 0.85em;
-	display: inline-block;
-}
-
-.select-input {
-	border: 1px solid #aaa;
-	border-color: #ddd;
-	border-radius: 4px;
-	height: 30px;
-	width: calc(100% - 8px - 8px - 2px);
-	padding-left: 8px;
-	padding-right: 8px;
-	font-size: 16px;
-	color: #444;
-	background-color: $white;
-	display: block;
-
-	&.dropdown {
-		width: 100%;
-		max-width: 100%;
-	}
-}
-
 .cocart-error {
 	background: #ffe6e5;
 	border-color: #ffc5c2;
@@ -276,11 +287,5 @@ label {
 
 	.cocart-actions .button {
 		font-size: 14px;
-	}
-}
-
-@media only screen and (max-width: 400px) {
-	.cocart-setup-wizard-steps {
-		display: none;
 	}
 }
