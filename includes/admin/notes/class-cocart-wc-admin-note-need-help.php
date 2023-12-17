@@ -75,7 +75,7 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 
 		$args = array(
 			'title'   => __( 'Need help with CoCart?', 'cart-rest-api-for-woocommerce' ),
-			'content' => __( 'You can ask a question on the support forum, discuss with other CoCart developers in the Slack community or get priority support.', 'cart-rest-api-for-woocommerce' ),
+			'content' => __( 'You can ask for help on the support forum at WordPress.org or join the CoCart Discord community and ask for help there.', 'cart-rest-api-for-woocommerce' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
