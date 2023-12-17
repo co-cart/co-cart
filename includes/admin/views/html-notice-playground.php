@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin View: Required WooCommerce Notice.
+ * Admin View: WordPress Playground Notice.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Views
@@ -12,6 +12,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$campaign_args['utm_source']   = 'wordpress-admin';
+$campaign_args['utm_medium']   = 'wordpress-admin';
+$campaign_args['utm_campaign'] = 'admin-notice';
+$campaign_args['utm_content']  = 'plugin-link';
 ?>
 <div class="notice notice-error cocart-notice is-dismissible">
 	<div class="cocart-notice-inner">
@@ -23,17 +28,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p>
 				<?php
 				echo sprintf(
-					/* translators: 1: CoCart, 2: InstaWP */
-					esc_html__( 'WordPress Playground is not compatible with the %1$s plugin. Recommend creating a sandbox site with %2$s instead.', 'cart-rest-api-for-woocommerce' ),
-					'CoCart',
-					'InstaWP'
+					/* translators: %s: CoCart */
+					esc_html__( 'WordPress Playground is not compatible with the %s plugin. Recommend requesting a demo instead.', 'cart-rest-api-for-woocommerce' ),
+					'CoCart'
 				);
 				?>
 			</p>
 		</div>
 
 		<div class="cocart-action">
-			<a href="<?php echo esc_url( 'https://app.instawp.io/onboard?launch_slug=true&plugins=cart-rest-api-for-woocommerce' ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Setup Sandbox', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Setup Sandbox', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo add_query_arg( $campaign_args, esc_url( 'https://cocartapi.com/try-free-demo/' ) ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Request Demo', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Request Demo', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>
 </div>
