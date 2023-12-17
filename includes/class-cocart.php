@@ -122,10 +122,11 @@ final class CoCart {
 		self::define( 'COCART_URL_PATH', untrailingslashit( plugins_url( '/', COCART_FILE ) ) );
 		self::define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( COCART_FILE ) ) );
 		self::define( 'COCART_CART_CACHE_GROUP', 'cocart_cart_id' );
-		self::define( 'COCART_STORE_URL', 'https://cocart.xyz/' );
+		self::define( 'COCART_STORE_URL', 'https://cocartapi.com/' );
 		self::define( 'COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/' );
 		self::define( 'COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/' );
+		self::define( 'COCART_COMMUNITY_URL', 'https://cocartapi.com/community/' );
 		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz' );
 		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/' );
 		self::define( 'COCART_NEXT_VERSION', '4.0.0' );
