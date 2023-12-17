@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
  * @since   1.2.0
- * @version 3.2.0
+ * @version 3.10.0
  * @license GPL-2.0+
  */
 
@@ -378,6 +378,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				}
 			} else {
 				include COCART_ABSPATH . 'includes/admin/views/html-notice-updated.php';
+				self::remove_notice( 'update_db', true );
+				update_user_meta( get_current_user_id(), 'dismissed_cocart_update_db_notice', true );
 			}
 		} // END update_db_notice()
 
