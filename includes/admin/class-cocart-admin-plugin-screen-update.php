@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   2.0.12
- * @version 3.9.0
+ * @version 3.10.0
  * @license GPL-2.0+
  */
 
@@ -147,7 +147,7 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.3
-		 * @version 3.9.0
+		 * @version 3.10.0
 		 * @param   string $file        Plugin basename.
 		 * @param   array  $plugin_data Plugin information.
 		 * @return  false|void
@@ -189,6 +189,17 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 					return;
 				}
 
+				echo '<style type="text/css">.notice.inline.notice-cocart {
+					border-color: #6032b0; }
+					.notice.inline.notice-cocart p.cart::before {
+						color: #6032b0;
+						content: "\f174";
+						display: inline-block;
+						font: normal 20px/1 "dashicons";
+						-webkit-font-smoothing: antialiased;
+						-moz-osx-font-smoothing: grayscale;
+						vertical-align: top; }
+				</style>';
 				echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				printf(
