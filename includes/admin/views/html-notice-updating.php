@@ -1,11 +1,11 @@
 <?php
 /**
- * Admin View: Notice - Updating
+ * Admin View: Updating Database Notice.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Views
  * @since   3.0.0
- * @version 3.0.7
+ * @version 3.10.0
  * @license GPL-2.0+
  */
 
@@ -18,17 +18,8 @@ $pending_actions_url = admin_url( 'admin.php?page=wc-status&tab=action-scheduler
 $cron_disabled       = ! defined( 'DISABLE_WP_CRON' ) ? false : true;
 $cron_cta            = $cron_disabled ? __( 'You can manually run queued updates here.', 'cart-rest-api-for-woocommerce' ) : __( 'View progress &rarr;', 'cart-rest-api-for-woocommerce' );
 ?>
-<div class="notice notice-info cocart-notice">
+<div class="notice notice-info cocart-notice is-dismissible">
 	<p>
-		<strong>
-			<?php
-			echo sprintf(
-				/* translators: %s: CoCart */
-				esc_html__( '%s database update', 'cart-rest-api-for-woocommerce' ),
-				'CoCart'
-			);
-			?>
-		</strong><br>
 		<?php
 		echo sprintf(
 			/* translators: %s: CoCart */
