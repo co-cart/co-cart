@@ -58,7 +58,10 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 */
 		public static function check_version() {
-			if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) && current_user_can( 'install_plugins' ) ) {
+			$cocart_version      = get_option( 'cocart_version' );
+			$cocart_code_version = COCART_VERSION;
+			$requires_update     = version_compare( $cocart_version, $cocart_code_version, '<' );
+			if ( ! defined( 'IFRAME_REQUEST' ) && $requires_update ) {
 				self::install();
 				do_action( 'cocart_updated' );
 			}
