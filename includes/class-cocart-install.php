@@ -419,54 +419,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		} // END set_install_date()
 
 		/**
-		 * Redirects to the Getting Started page upon plugin activation.
-		 *
-		 * @access  public
-		 * @static
-		 * @since   1.2.0
-		 * @version 3.1.0
-		 * @param   string $plugin - Activate plugin file.
-		 */
-		public static function redirect_getting_started( $plugin ) {
-			// Prevent redirect if plugin name does not match or multiple plugins are being activated.
-			if ( plugin_basename( COCART_FILE ) !== $plugin || isset( $_GET['activate-multi'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				return;
-			}
-
-			// Don't redirect to getting started page if CoCart is not a new install.
-			if ( ! get_transient( '_cocart_activation_redirect' ) ) {
-				return;
-			}
-
-			$page = admin_url( 'admin.php' );
-
-			$getting_started = add_query_arg(
-				array(
-					'page'    => 'cocart',
-					'section' => 'getting-started',
-				),
-				$page
-			);
-
-			/**
-			 * Should CoCart be installed via WP-CLI,
-			 * display a link to the Getting Started page.
-			 */
-			if ( defined( 'WP_CLI' ) && WP_CLI ) {
-				WP_CLI::log(
-					WP_CLI::colorize(
-						/* translators: %1$s: message, %2$s: URL, %3$s: CoCart */
-						'%y' . sprintf( '🎉 %1$s %2$s', __( 'Get started with %3$s here:', 'cart-rest-api-for-woocommerce' ), $getting_started, 'CoCart' ) . '%n'
-					)
-				);
-				return;
-			}
-
-			wp_safe_redirect( $getting_started );
-			exit;
-		} // END redirect_getting_started()
-
-		/**
 		 * Create cron jobs (clear them first).
 		 *
 		 * @access  private
