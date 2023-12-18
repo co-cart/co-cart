@@ -635,6 +635,11 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_cart( $cart_key, $default = false ) {
 		global $wpdb;
 
+		// There will be no sessions retrieved while WordPress setup is due.
+		if ( defined( 'WP_SETUP_CONFIG' ) ) {
+			return false;
+		}
+
 		// Try to get it from the cache, it will return false if not present or if object cache not in use.
 		$value = wp_cache_get( $this->get_cache_prefix() . $cart_key, COCART_CART_CACHE_GROUP );
 
