@@ -33,9 +33,9 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			$this->campaign_args['utm_source']   = 'action-links';
-			$this->campaign_args['utm_medium']   = 'plugin-admin';
-			$this->campaign_args['utm_campaign'] = 'CoCartCore';
+			$this->campaign_args['utm_source']  = 'CoCartCore';
+			$this->campaign_args['utm_medium']  = 'plugin-admin';
+			$this->campaign_args['utm_content'] = 'action-links';
 
 			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );

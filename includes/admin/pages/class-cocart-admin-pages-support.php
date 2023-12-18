@@ -25,7 +25,7 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 	} // END init()
 
 	/**
-	 * Callback for the HTML output for the Dashboard page
+	 * Callback for the HTML output for the support page
 	 *
 	 * @access public
 	 *
@@ -34,7 +34,7 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 	public function output() {
 		$campaign_args = CoCart_Helpers::cocart_campaign(
 			array(
-				'utm_content' => 'setup-wizard',
+				'utm_content' => 'support-page',
 			)
 		);
 		$store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   1.2.0
- * @version 3.5.0
+ * @version 3.10.0
  * @license GPL-2.0+
  */
 
@@ -25,8 +25,13 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'init', array( $this, 'includes' ) );
+
+			// Admin screens.
 			add_action( 'current_screen', array( $this, 'conditional_includes' ) );
 			add_action( 'admin_init', array( $this, 'admin_redirects' ) );
+
+			// Adds a class to the admin body to tell plugin pages apart.
+			add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 
 			// Install CoCart Plugins Action.
 			add_action( 'update-custom_install-cocart-plugin', array( $this, 'install_cocart_plugin' ) );
@@ -38,11 +43,13 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access  public
 		 * @since   1.2.0
-		 * @version 3.5.0
+		 * @version 3.10.0
 		 */
 		public function includes() {
+			include_once COCART_ABSPATH . 'includes/admin/abstract/abstract-class-submenu-page.php';  // Admin Abstracts.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';             // Admin Assets.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-footer.php';             // Admin Footer.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-help-tab.php';           // Admin Help Tab.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';              // Admin Menus.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';            // Plugin Notices.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
@@ -50,14 +57,9 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';         // WooCommerce Admin Notices.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';   // WooCommerce System Status.
 
-			// Setup Wizard.
-			if ( ! empty( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				switch ( $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					case 'cocart-setup':
-						include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';
-						break;
-				}
-			}
+			// Pages
+			include_once COCART_ABSPATH . 'includes/admin/pages/class-cocart-admin-pages-support.php'; // Support.
+			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';        // Setup Wizard.
 		} // END includes()
 
 		/**
@@ -214,6 +216,27 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			return $install_actions;
 		} // END install_plugin_complete_actions()
+
+		/**
+		 * Adds a class to the admin body to tell plugin pages apart.
+		 *
+		 * @access public
+		 *
+		 * @param string $classes Current classes.
+		 *
+		 * @return string New classes.
+		 */
+		public function admin_body_class( $classes ) {
+			if ( empty( $_GET['page'] ) ) {
+				return $classes;
+			}
+
+			if ( false === strpos( $_GET['page'], 'cocart-' ) ) {
+				return $classes;
+			}
+
+			return $classes . ' cocart-pagestyles ';
+		} // END admin_body_class()
 
 	} // END class
 
