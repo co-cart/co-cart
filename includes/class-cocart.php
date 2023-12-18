@@ -71,6 +71,18 @@ final class CoCart {
 	public static $required_php = '7.4';
 
 	/**
+	 * Cloning is forbidden.
+	 *
+	 * @access public
+	 *
+	 * @since 3.10.0 Introduced.
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+	} // END __clone()
+
+
+	/**
 	 * Initiate CoCart.
 	 *
 	 * @access  public
