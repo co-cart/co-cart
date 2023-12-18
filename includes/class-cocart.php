@@ -81,6 +81,16 @@ final class CoCart {
 		_doing_it_wrong( __FUNCTION__, __( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
 	} // END __clone()
 
+	/**
+	 * Unserializing instances of this class is forbidden.
+	 *
+	 * @access public
+	 *
+	 * @since 3.10.0 Introduced.
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+	} // END __wakeup()
 
 	/**
 	 * Initiate CoCart.
