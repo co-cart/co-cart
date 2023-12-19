@@ -1,26 +1,44 @@
 # Changelog for CoCart
 
-## v3.10.0 - 22nd November, 2023
+## v3.10.0 - 19th December, 2023
 
 ### What's New?
 
-* Added WP Playground notice. [commit 912ebb2](https://github.com/co-cart/co-cart/commit/912ebb24cf096de12aaa6c2aeeab9c59bf4dff5a)
-* Moved validation earlier to check if we are on a CoCart page before displaying admin notices.
-* Updated from product name to business name in Setup Wizard and Getting Started page. [commit eede727](https://github.com/co-cart/co-cart/commit/eede727188784d373346d992d164d07591b6bd67)
-* Removed link to deprecated project. [commit ab973ca](https://github.com/co-cart/co-cart/commit/ab973ca5591bc7bb3d699ed0d62f48683ffd47d1)
-* Improved the explanation of "Multiple Domain" option in Setup Wizard. [commit e54e31b](https://github.com/co-cart/co-cart/commit/e54e31b5aef0475afcd365fadc934ec2d9fc7100)
+* Added WordPress Playground notice. [commit 912ebb2](https://github.com/co-cart/co-cart/commit/912ebb24cf096de12aaa6c2aeeab9c59bf4dff5a)
+* Added new admin support page.
+* Added new help tab available on any CoCart admin page.
+* Filtered the WordPress REST API Index to hide CoCart namespaces and routes unless you have debug enabled. This helps a little with anyone trying to lookup what REST API's you have outside your store setup.
 * Updated license.txt [commit f6b0acb](https://github.com/co-cart/co-cart/commit/f6b0acb07190bd45d6e8b8371a78a2f1102e4dba)
 
 ## Bug Fixes
 
 * Fixed undefined `cart_cached` if price change feature not used. [commit fb472fc](https://github.com/co-cart/co-cart/commit/fb472fc6bb5b1d87eaf46d724207458e0e00e045)
 * Fixed Authentication failing to identify current user if authentication is not provided. [commit f6fb7a4](https://github.com/co-cart/co-cart/commit/f6fb7a4eb809a80144e75c33b4cc35435663661d)
+* Fixed PHP Deprecated: str_replace(): Passing null to parameter 2 (PHP 8.1) [commit 4ebeafd](https://github.com/co-cart/co-cart/commit/4ebeafdb4910248eef16b11bf50c44d019549c89)
+
+## Improvements
+
+* Setup Wizard no longer blocks access to the WordPress dashboard.
+* Moved validation earlier to check if we are on a CoCart page before displaying admin notices.
+* Updated from product name to business name in Setup Wizard page. [commit eede727](https://github.com/co-cart/co-cart/commit/eede727188784d373346d992d164d07591b6bd67)
+* Removed link to deprecated project. [commit ab973ca](https://github.com/co-cart/co-cart/commit/ab973ca5591bc7bb3d699ed0d62f48683ffd47d1)
+* Improved the explanation of "Multiple Domain" option in Setup Wizard. [commit e54e31b](https://github.com/co-cart/co-cart/commit/e54e31b5aef0475afcd365fadc934ec2d9fc7100)
+* Rewrote the admin menu system for a much better page management.
+* Simplified the admin notices when the database requires updating and has updated with a dismissible action.
+* When database has updated, the notice is unset, so further page loads without dismissing the admin notice first will no long keep the admin notice from showing.
+* There will be no sessions retrieved while WordPress setup is due.
+
+## Deprecations
+
+* Removed "Getting Started" page.
+* Removed "Upgrade" page.
+* No longer redirect to getting started page upon plugin activation now that the page is removed.
 
 #### Requirements and Compatibility
 
 * Bumped PHP requirement to v7.4
 * Tested with WordPress v6.4
-* Tested with WooCommerce v8.3
+* Tested with WooCommerce v8.4
 
 ## v3.9.0 - 2nd August, 2023
 
