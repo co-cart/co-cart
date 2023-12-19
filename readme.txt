@@ -60,7 +60,7 @@ We invest our time into fully abstracting our API so you can focus on building a
 
 Try out more features and unlock your stores potential. Upgrade to complete the API with additional features that help make your store more awesome.
 
-See what [CoCart Plus](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) has in store.
+[See what we have in store](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
 ★★★★★
 > This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
@@ -69,7 +69,7 @@ See what [CoCart Plus](https://cocartapi.com/pricing/?utm_medium=website&utm_sou
 
 We aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that we do prioritize support for our paying customers. Support can also be requested with the [community on Discord](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
-## 🧰 Tools and Libraries
+## 🧰 Developer Tools
 
 * **[CoCart Beta Tester](https://github.com/cocart-headless/cocart-beta-tester)** allows you to easily update to pre-release versions of CoCart for testing and development purposes.
 * **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes and hooks.
@@ -137,7 +137,8 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 
 #### 💯 Credits
 
-This plugin is developed by [CoCart Headless, LLC](https://twitter.com/cocartheadless).
+This plugin is developed and maintained by [Sébastien Dumont](https://twitter.com/sebd86).
+Founder of [CoCart Headless, LLC](https://twitter.com/cocartheadless).
 
 == Installation ==
 
