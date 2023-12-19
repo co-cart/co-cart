@@ -68,8 +68,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 			$action_links['support'] = '<a href="' . add_query_arg(
 				array(
-					'page'    => 'cocart',
-					'section' => 'support',
+					'page' => 'cocart-support',
 				),
 				$page
 				/* translators: %s: CoCart */
