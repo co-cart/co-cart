@@ -1,22 +1,22 @@
-# Contributing to CoCart Lite ✨
+# Contributing to CoCart Core ✨
 
-CoCart Lite helps power many headless stores across the internet, and your help making it even more awesome will be greatly appreciated :)
+CoCart Core helps power many headless stores across the internet, and with your help making it even more awesome will be greatly appreciated. 😃
 
 There are many ways to contribute to the project!
 
 - [Translating strings into your language](#translating-cocart).
 - Answering questions on the various CoCart communities like the [WP.org support forums](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/).
-- Testing open [issues](https://github.com/co-cart/co-cart/issues) or [pull requests](https://github.com/co-cart/co-cart/pulls) and sharing your findings in a comment.
-- Testing CoCart beta versions and release candidates. Those are announced in the [CoCart development blog](https://cocart.xyz/news/).
+- Testing open [issues](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) or [pull requests](https://github.com/co-cart/co-cart/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc) and sharing your findings in a comment.
+- Testing [CoCart beta versions and release candidates](https://github.com/co-cart/cocart-beta-tester). Those are announced in the [CoCart development blog](https://cocart.dev/news/).
 - Submitting fixes, improvements, and enhancements.
 
-If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) CoCart Lite, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
+If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) the correct module for CoCart, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
 
-I use the `good first issue` label to mark issues that are suitable for new contributors. You can find all the issues with this label [here](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22).
+Use the `good first issue` label to mark your issue as new contributor.
 
-CoCart Lite is licensed under the GPLv3+, and all contributions to the project will be released under the same license. You maintain copyright over any contribution you make, and by submitting a pull request, you are agreeing to release that contribution under the GPLv3+ license.
+CoCart Core is licensed under the GPLv3+, and all contributions to the project will be released under the same license. You maintain copyright over any contribution you make, and by submitting a pull request, you are agreeing to release that contribution under the GPLv3+ license.
 
-If you have questions about the process to contribute code or want to discuss details of your contribution, you can contact CoCart core developers on the #core channel in the [CoCart community Slack](https://cocart.xyz/community/).
+If you have questions about the process to contribute code or want to discuss details of your contribution, you can ask in the #support channel in the [CoCart community Discord](https://cocartapi.com/community/).
 
 ## Getting started
 
@@ -29,17 +29,17 @@ If you have questions about the process to contribute code or want to discuss de
 - Ensure you use LF line endings in your code editor. Use [EditorConfig](http://editorconfig.org/) if your editor supports it so that indentation, line endings and other settings are auto configured.
 - When committing, reference your issue number (#1234) and include a note about the fix.
 - Ensure that your code supports the minimum supported versions of PHP and WordPress; this is shown at the top of the `readme.txt` file.
-- Push the changes to your fork and submit a pull request on the master branch of the CoCart Lite repository.
+- Push the changes to your fork and submit a pull request on the master branch of the CoCart repository you forked.
 - Make sure to write good and detailed commit messages (see [this post](https://chris.beams.io/posts/git-commit/) for more on this) and follow all the applicable sections of the pull request template.
 - Please avoid modifying the changelog directly or updating the .pot files. These will be updated by the CoCart team.
 
 ## Translating CoCart
 
-CoCart can be translated in two areas. For CoCart Lite it is recommended to translate via the [project on translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce/). You can join the localization team of your language and help by translating CoCart Lite there. [Find more about using joining a language team and using GlotPress](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/).
+CoCart Core can be translated in two areas. It is recommended to translate via the [project on translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce/). You can join the localization team of your language and help by translating CoCart there. [Find more about using joining a language team and using GlotPress](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/).
 
-The alternative is to translate CoCart Lite on [translate.cocart.xyz](https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/)
+The alternative is to translate CoCart at [translate.cocart.xyz](https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/)
 
-If CoCart Lite is already 100% translated for your language, join the team anyway! I regularly update the language files, and new strings that need translation will likely be added soon.
+If CoCart is already 100% translated for your language, join the team anyway! The language files are regularly updated with new strings that need translation and will likely be added soon.
 
 ## String localization guidelines
 
