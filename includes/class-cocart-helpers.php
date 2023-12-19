@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.3.0
- * @version 3.2.0
+ * @version 3.10.0
  * @license GPL-2.0+
  */
 
@@ -376,7 +376,7 @@ class CoCart_Helpers {
 	 * @access  public
 	 * @static
 	 * @since   2.0.0
-	 * @version 3.0.3
+	 * @version 3.10.0
 	 * @return  array
 	 */
 	public static function cocart_get_admin_screens() {
@@ -390,6 +390,7 @@ class CoCart_Helpers {
 				'woocommerce_page_wc-status',
 				'toplevel_page_cocart',
 				'toplevel_page_cocart-network',
+				'cocart_page_cocart-support',
 			)
 		);
 	} // END cocart_get_admin_screens()
