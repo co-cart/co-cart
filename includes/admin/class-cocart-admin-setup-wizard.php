@@ -196,7 +196,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	public function setup_wizard_footer() {
 		$current_step = $this->step;
 
-		if ( 'sessions' === $current_step ) : ?>
+		if ( 'sessions' === $current_step ) :
+			?>
 			<a class="cocart-setup-wizard-footer-links" href="<?php echo esc_url( $this->get_next_step_link() ); ?>"><?php esc_html_e( 'Skip this step', 'cart-rest-api-for-woocommerce' ); ?></a>
 		<?php endif; ?>
 
@@ -301,13 +302,13 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
 			</select>
 			<span>
-			<?php
-			printf(
+				<?php
+				printf(
 				/* translators: %s: CoCart */
-				esc_html__( 'If yes, %s will transfer all cart sessions to our database table to prevent duplicate cart session data.', 'cart-rest-api-for-woocommerce' ),
-				'CoCart'
-			);
-			?>
+					esc_html__( 'If yes, %s will transfer all cart sessions to our database table to prevent duplicate cart session data.', 'cart-rest-api-for-woocommerce' ),
+					'CoCart'
+				);
+				?>
 			</span>
 			<?php } ?>
 

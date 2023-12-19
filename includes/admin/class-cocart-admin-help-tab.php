@@ -38,9 +38,9 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 
 				$campaign_args = CoCart_Helpers::cocart_campaign(
 					array(
-						'utm_source'   => 'CoCartCore',
-						'utm_medium'   => 'plugin-admin',
-						'utm_content'  => 'help-tab',
+						'utm_source'  => 'CoCartCore',
+						'utm_medium'  => 'plugin-admin',
+						'utm_content' => 'help-tab',
 					)
 				);
 
@@ -82,7 +82,7 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 
 					'<p><span class="dashicons dashicons-admin-plugins"></span> ' . esc_html__( 'Version', 'cart-rest-api-for-woocommerce' ) . ' ' . COCART_VERSION . '</p>' .
 
-					'<p><span class="dashicons dashicons-admin-home"></span> <a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL ) ) ) ). '" target="_blank">' . esc_html__( 'Visit website', 'cart-rest-api-for-woocommerce' ) . '</a></p>' .
+					'<p><span class="dashicons dashicons-admin-home"></span> <a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL ) ) ) ) . '" target="_blank">' . esc_html__( 'Visit website', 'cart-rest-api-for-woocommerce' ) . '</a></p>' .
 
 					'<p><span class="dashicons dashicons-wordpress"></span> <a href="' . esc_url( COCART_PLUGIN_URL ) . '" target="_blank">' . esc_html__( 'View details', 'cart-rest-api-for-woocommerce' ) . '</a></p>' .
 
