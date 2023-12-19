@@ -349,13 +349,13 @@ If you like CoCart and it has helped with your development, please take a moment
 * Filtered the WordPress REST API Index to hide CoCart namespaces and routes unless you have debug enabled. This helps a little with anyone trying to lookup what REST API's you have outside your store setup. [commit 45723d9](https://github.com/co-cart/co-cart/commit/45723d97422b498dbf8c252ea95c0b5029f7e437)
 * Updated license.txt [commit f6b0acb](https://github.com/co-cart/co-cart/commit/f6b0acb07190bd45d6e8b8371a78a2f1102e4dba)
 
-## Bug Fixes
+### Bug Fixes
 
 * Fixed undefined `cart_cached` if price change feature not used. [commit fb472fc](https://github.com/co-cart/co-cart/commit/fb472fc6bb5b1d87eaf46d724207458e0e00e045)
 * Fixed Authentication failing to identify current user if authentication is not provided. [commit f6fb7a4](https://github.com/co-cart/co-cart/commit/f6fb7a4eb809a80144e75c33b4cc35435663661d)
 * Fixed PHP Deprecated: str_replace(): Passing null to parameter 2 (PHP 8.1) [commit 4ebeafd](https://github.com/co-cart/co-cart/commit/4ebeafdb4910248eef16b11bf50c44d019549c89)
 
-## Improvements
+### Improvements
 
 * Setup Wizard no longer blocks access to the WordPress dashboard. [commit 00a158e](https://github.com/co-cart/co-cart/commit/00a158ee038550f2d24bdef6184fdc97f203ecc1)
 * Moved validation earlier to check if we are on a CoCart page before displaying admin notices.
@@ -367,12 +367,12 @@ If you like CoCart and it has helped with your development, please take a moment
 * When database has updated, the notice is unset. This prevents the admin notice from showing again even without dismissing the admin notice first on next page load. [commit c90e320](https://github.com/co-cart/co-cart/commit/c90e320581616cedfa43833b27fbbb054fd3c918)
 * There will be no sessions retrieved while WordPress setup is due. [commit fce7910](https://github.com/co-cart/co-cart/commit/fce7910d8849633dc6e55acaa005f3e43d0d4646)
 
-## Deprecations
+### Deprecations
 
 * Removed "Getting Started" page. [commit ea397e4](https://github.com/co-cart/co-cart/commit/ea397e4bf5a7ec8f1b59a73e5723185e9993b666)
 * Removed "Upgrade" page. [commit 5f9f48c](https://github.com/co-cart/co-cart/commit/5f9f48c9d48fcef135013700f138aae53d98f96e)
 
-#### Requirements and Compatibility
+### Requirements and Compatibility
 
 * Bumped PHP requirement to v7.4
 * Tested with WordPress v6.4
