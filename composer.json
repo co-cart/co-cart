@@ -1,7 +1,7 @@
 {
 	"name": "co-cart/co-cart",
-	"description": "CoCart is a REST API for WooCommerce. It focuses on the front-end of the store to manage the shopping cart allowing developers to build a headless store.",
-	"homepage": "https://cocart.xyz",
+	"description": "Make your WooCommerce store headless with CoCart, a REST API designed for decoupling.",
+	"homepage": "https://cocartapi.com",
 	"type": "wordpress-plugin",
 	"keywords": [
 		"wordpress",
