@@ -45,15 +45,17 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			if ( strpos( $hook_suffix, 'cocart' ) !== false || ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				wp_register_style( COCART_SLUG . '_admin', COCART_URL_PATH . '/assets/css/admin/cocart' . $suffix . '.css', array(), COCART_VERSION );
-				wp_enqueue_style( COCART_SLUG . '_admin' );
-				wp_style_add_data( COCART_SLUG . '_admin', 'rtl', 'replace' );
+				$style_path = 'assets/css/admin/cocart.css';
+
+				wp_register_style( COCART_SLUG . '-admin', COCART_URL_PATH . '/' . $style_path, array(), CoCart::get_file_version( COCART_ABSPATH . $style_path ) );
+				wp_enqueue_style( COCART_SLUG . '-admin' );
+				wp_style_add_data( COCART_SLUG . '-admin', 'rtl', 'replace' );
 				if ( $suffix ) {
-					wp_style_add_data( COCART_SLUG . '_admin', 'suffix', '.min' );
+					wp_style_add_data( COCART_SLUG . '-admin', 'suffix', '.min' );
 				}
 			}
 			if ( $suffix ) {
-				wp_style_add_data( COCART_SLUG . '_admin', 'suffix', '.min' );
+				wp_style_add_data( COCART_SLUG . '-admin', 'suffix', '.min' );
 			}
 		} // END admin_styles()
 

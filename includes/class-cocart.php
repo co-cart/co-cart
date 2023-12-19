@@ -206,6 +206,28 @@ final class CoCart {
 	} // END get_path()
 
 	/**
+	 * Get the file modified time as a cache buster if we're in dev mode.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.10.0 Introduced.
+	 *
+	 * @param string $file    The file we are getting the modified time from.
+	 * @param string $version A version number, handy for plugins to make use of this method.
+	 *
+	 * @return string
+	 */
+	public static function get_file_version( $file, $version = '' ) {
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG && file_exists( $file ) ) {
+			return filemtime( $file );
+		}
+
+		return $version ? $version : self::$version;
+	} // END get_file_version()
+
+	/**
 	 * Includes required core files.
 	 *
 	 * @access  public

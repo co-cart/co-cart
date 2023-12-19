@@ -85,10 +85,10 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 */
 	public function enqueue_scripts( $hook ) {
 		if ( strpos( $hook, 'cocart-setup' ) !== false || ( isset( $_GET['page'] ) && strpos( $_GET['page'], 'cocart-setup' ) === 0 ) ) {
-			$suffix  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			$version = COCART_VERSION;
+			$suffix     = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			$style_path = 'assets/css/admin/cocart-setup.css';
 
-			wp_enqueue_style( 'cocart-setup', COCART_URL_PATH . '/assets/css/admin/cocart-setup.css', array( 'dashicons' ), $version );
+			wp_enqueue_style( 'cocart-setup', COCART_URL_PATH . '/' . $style_path, array( 'dashicons' ), CoCart::get_file_version( COCART_ABSPATH . $style_path ) );
 			wp_style_add_data( 'cocart-setup', 'rtl', 'replace' );
 			if ( $suffix ) {
 				wp_style_add_data( 'cocart-setup', 'suffix', '.min' );
