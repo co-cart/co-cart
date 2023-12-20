@@ -261,6 +261,20 @@ body.cocart .error {
 	display: none;
 }
 
+body.cocart-pagestyles {
+	.cocart-notice-icon {
+		display: none !important;
+	}
+
+	.cocart-notice-content {
+		padding: 0 6% 0 0 !important;
+	}
+
+	.notice:not(.cocart-notice) {
+		display: none;
+	}
+}
+
 @media (max-width: 767px) {
 	.notice.cocart-notice .cocart-notice-inner {
 		display: block;

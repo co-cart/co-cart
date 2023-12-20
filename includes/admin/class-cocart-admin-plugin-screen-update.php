@@ -189,17 +189,6 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 					return;
 				}
 
-				echo '<style type="text/css">.notice.inline.notice-cocart {
-					border-color: #6032b0; }
-					.notice.inline.notice-cocart p.cart::before {
-						color: #6032b0;
-						content: "\f174";
-						display: inline-block;
-						font: normal 20px/1 "dashicons";
-						-webkit-font-smoothing: antialiased;
-						-moz-osx-font-smoothing: grayscale;
-						vertical-align: top; }
-				</style>';
 				echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				printf(

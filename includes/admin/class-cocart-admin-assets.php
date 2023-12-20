@@ -38,13 +38,12 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 *
 		 * @since 1.2.0 Introduced.
 		 * @since 3.10.0 Use of $hook_suffix parameter was added instead of using the current screen.
-		 *
-		 * @param string $hook_suffix The current admin page.
+		 * @since 3.10.1 Deprecated $hook_suffix parameter already and use `is_cocart_admin_page` helper function instead of $hook_suffix.
 		 */
-		public function admin_styles( $hook_suffix ) {
+		public function admin_styles() {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			if ( strpos( $hook_suffix, 'cocart' ) !== false || ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( CoCart_Helpers::is_cocart_admin_page() ) {
 				$style_path = 'assets/css/admin/cocart.css';
 
 				wp_register_style( COCART_SLUG . '-admin', COCART_URL_PATH . '/' . $style_path, array(), CoCart::get_file_version( COCART_ABSPATH . $style_path ) );

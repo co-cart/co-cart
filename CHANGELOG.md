@@ -1,5 +1,9 @@
 # Changelog for CoCart
 
+## v3.10.1 - 20th December, 2023
+
+Forgot to update WordPress tested up to tag and a little CSS tweak.
+
 ## v3.10.0 - 19th December, 2023
 
 ### What's New?

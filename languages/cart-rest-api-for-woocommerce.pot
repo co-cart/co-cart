@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.0\n"
+"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2023-12-19 16:02:59+00:00\n"
+"POT-Creation-Date: 2023-12-20 13:46:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,60 +39,60 @@ msgstr ""
 msgid "Setup Wizard"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:76
+#: includes/admin/class-cocart-admin-action-links.php:75
 #. translators: %s: CoCart
 msgid "Support for %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:76
+#: includes/admin/class-cocart-admin-action-links.php:75
 #: includes/admin/pages/class-cocart-admin-pages-support.php:72
 #: includes/admin/pages/class-cocart-admin-pages-support.php:73
 msgid "Support"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:83
+#: includes/admin/class-cocart-admin-action-links.php:82
 #. translators: %s: CoCart
 msgid "Upgrade %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:111
-#: includes/admin/class-cocart-admin-action-links.php:115
+#: includes/admin/class-cocart-admin-action-links.php:110
+#: includes/admin/class-cocart-admin-action-links.php:114
 #. translators: %1$s: CoCart, %2$s :Discord
 msgid "Join %1$s Community on %2$s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:117
+#: includes/admin/class-cocart-admin-action-links.php:116
 #: includes/admin/views/html-next-steps.php:111
 msgid "Join Community"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:120
-#: includes/admin/class-cocart-admin-action-links.php:124
+#: includes/admin/class-cocart-admin-action-links.php:119
+#: includes/admin/class-cocart-admin-action-links.php:123
 #. translators: %s: CoCart
 msgid "View %s Documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:126
+#: includes/admin/class-cocart-admin-action-links.php:125
 msgid "Documentation"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:129
-#: includes/admin/class-cocart-admin-action-links.php:133
+#: includes/admin/class-cocart-admin-action-links.php:128
+#: includes/admin/class-cocart-admin-action-links.php:132
 #. translators: %s: CoCart
 msgid "Translate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:135
+#: includes/admin/class-cocart-admin-action-links.php:134
 msgid "Translate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:138
-#: includes/admin/class-cocart-admin-action-links.php:142
+#: includes/admin/class-cocart-admin-action-links.php:137
+#: includes/admin/class-cocart-admin-action-links.php:141
 #. translators: %s: CoCart
 msgid "Review %s on WordPress.org"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-action-links.php:144
+#: includes/admin/class-cocart-admin-action-links.php:143
 #: includes/admin/views/html-notice-please-review.php:49
 msgid "Leave a Review"
 msgstr ""
@@ -219,7 +219,7 @@ msgstr ""
 msgid "%s Upgrade Notice"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-screen-update.php:207
+#: includes/admin/class-cocart-admin-plugin-screen-update.php:196
 #. translators: 1: plugin name, 2: version mentioned, 3: details URL
 msgid ""
 "Reminding you that %1$s v%2$s will be coming soon and is ready to beta "
@@ -3918,70 +3918,70 @@ msgid ""
 "available). We apologize for any inconvenience caused."
 msgstr ""
 
-#: includes/class-cocart-helpers.php:498
+#: includes/class-cocart-helpers.php:499
 #. translators: %s: Number of years
 msgid "%s years"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:500
+#: includes/class-cocart-helpers.php:501
 msgid "a year"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:507
+#: includes/class-cocart-helpers.php:508
 #. translators: %s: Number of months
 msgid "%s months"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:509
+#: includes/class-cocart-helpers.php:510
 msgid "1 month"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:516
+#: includes/class-cocart-helpers.php:517
 #. translators: %s: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:518
+#: includes/class-cocart-helpers.php:519
 msgid "a week"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:525
+#: includes/class-cocart-helpers.php:526
 #. translators: %s: Number of days
 msgid "%s days"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:527
+#: includes/class-cocart-helpers.php:528
 msgid "a day"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:534
+#: includes/class-cocart-helpers.php:535
 #. translators: %s: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:536
+#: includes/class-cocart-helpers.php:537
 msgid "an hour"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:543
+#: includes/class-cocart-helpers.php:544
 #. translators: %s: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:545
+#: includes/class-cocart-helpers.php:546
 msgid "a minute"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:552
+#: includes/class-cocart-helpers.php:553
 #. translators: %s: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:554
+#: includes/class-cocart-helpers.php:555
 msgid "a second"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:628
+#: includes/class-cocart-helpers.php:629
 #. translators: 1: CoCart, 2: Required PHP version
 msgid "The minimum PHP version required for %1$s is %2$s. You are running %3$s."
 msgstr ""

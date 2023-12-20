@@ -3,8 +3,8 @@ Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdab
 Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.4
-Tested up to: 6.3
-Stable tag: 3.10.0
+Tested up to: 6.4
+Stable tag: 3.10.1
 WC requires at least: 4.3
 WC tested up to: 8.4
 License: GPLv3
@@ -338,6 +338,10 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 == Changelog ==
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.10.1 - 20th December, 2023 =
+
+Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 = v3.10.0 - 19th December, 2023 =
 
