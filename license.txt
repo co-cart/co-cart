@@ -19,7 +19,7 @@ permission notices:
 
   CoCart - Build headless stores, without building an API
 
-  CoCart is Copyright (c) 2023 CoCart Headless, LLC
+  CoCart is Copyright (c) 2024 CoCart Headless, LLC
 
   CoCart Core is released under the GPL
 
