@@ -1,14 +1,14 @@
-# Copyright (c) 2023 CoCart Headless, LLC
+# Copyright (c) 2024 CoCart Headless, LLC
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.1\n"
+"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2023-12-20 13:46:14+00:00\n"
+"POT-Creation-Date: 2024-01-15 17:44:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CoCart Headless, LLC <translate@cocart.xyz>\n"
 "Language: en_US\n"
@@ -407,7 +407,7 @@ msgstr ""
 #: includes/admin/class-cocart-admin-setup-wizard.php:308
 #. translators: %s: CoCart
 msgid ""
-"If yes, %s will transfer all cart sessions to our database table to prevent "
+"If no, %s will transfer all cart sessions to our database table to prevent "
 "duplicate cart session data."
 msgstr ""
 
@@ -1785,7 +1785,7 @@ msgid "Limit result set to specific IDs."
 msgstr ""
 
 #: includes/api/cocart/v1/products/class-cocart-product-reviews-controller.php:761
-#: includes/api/cocart/v1/products/class-cocart-products-controller.php:1902
+#: includes/api/cocart/v1/products/class-cocart-products-controller.php:1903
 msgid "Sort collection by object attribute."
 msgstr ""
 
@@ -2407,7 +2407,7 @@ msgstr ""
 msgid "Determines if hidden or visible catalog products are shown."
 msgstr ""
 
-#: includes/api/cocart/v1/products/class-cocart-products-controller.php:1892
+#: includes/api/cocart/v1/products/class-cocart-products-controller.php:1893
 msgid "Limit result set to products with a certain average rating."
 msgstr ""
 
@@ -3851,21 +3851,21 @@ msgstr ""
 msgid "Cart updated."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:286
+#: includes/class-cocart-authentication.php:281
 msgid ""
 "Authentication is invalid. Please check the authentication information is "
 "correct and try again. Authentication may also only work on a secure "
 "connection."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:420
-#: includes/class-cocart-authentication.php:431
-#: includes/class-cocart-authentication.php:439
+#: includes/class-cocart-authentication.php:415
+#: includes/class-cocart-authentication.php:426
+#: includes/class-cocart-authentication.php:434
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/class-cocart-authentication.php:445
+#: includes/class-cocart-authentication.php:440
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""

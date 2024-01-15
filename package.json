@@ -1,11 +1,11 @@
 {
 	"title": "CoCart API - Decoupling WooCommerce Made Easy",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "3.10.1",
+	"version": "3.10.2",
 	"private": false,
 	"contributors": [
-		"sebd86",
 		"cocartforwc",
+		"sebd86",
 		"ajayghaghretiya",
 		"skunkbad",
 		"sefid-par",
@@ -39,9 +39,9 @@
 	"requires_php": "7.4",
 	"tested_up_to": "6.4",
 	"wc_requires": "4.3",
-	"wc_tested_up_to": "8.4",
+	"wc_tested_up_to": "8.5",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2023, CoCart Headless, LLC",
+	"copyright": "Copyright (c) 2024, CoCart Headless, LLC",
 	"description": "Make your WooCommerce store headless with CoCart, a REST API designed for decoupling.",
 	"tags": "",
 	"keywords": [
