@@ -71,11 +71,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				// Check authentication errors.
 				add_filter( 'rest_authentication_errors', array( $this, 'check_authentication_error' ), 15 );
 
-				// Disable cookie authentication REST check.
-				if ( is_ssl() || $this->is_wp_environment_local() ) {
-					remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
-				}
-
 				// Check API permissions.
 				add_filter( 'rest_pre_dispatch', array( $this, 'check_api_permissions' ), 10, 3 );
 
