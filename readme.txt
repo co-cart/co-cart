@@ -339,6 +339,21 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.10.2 - 15th January, 2024 =
+
+### What's new?
+
+* Removed the need to disable cookie authentication check since it's ignored anyway.
+
+### Bug Fixes
+
+* Fixed a typo in the Setup Wizard.
+* Products API - Default Catalogue Visibility parameter was missing.
+
+### Compatibility
+
+* Tested with WooCommerce v8.5
+
 = v3.10.1 - 20th December, 2023 =
 
 Forgot to update WordPress tested up to tag and a little CSS tweak.
@@ -426,6 +441,6 @@ Introduced a new filter `cocart_login_extras` to allow developers to extend the 
 
 == Upgrade Notice ==
 
-= 3.10.0 =
+= 3.10.2 =
 
-* Fixed a few important bugs and applied some improvements.
+* Light maintenance. See changelog for details.

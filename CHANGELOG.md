@@ -1,5 +1,20 @@
 # Changelog for CoCart
 
+## v3.10.2 - 15th January, 2024
+
+### What's new?
+
+* Removed the need to disable cookie authentication check since it's ignored anyway.
+
+### Bug Fixes
+
+* Fixed a typo in the Setup Wizard.
+* Products API - Default Catalogue Visibility parameter was missing.
+
+### Compatibility
+
+* Tested with WooCommerce v8.5
+
 ## v3.10.1 - 20th December, 2023
 
 Forgot to update WordPress tested up to tag and a little CSS tweak.
