@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.1.0
- * @version 3.10.0
+ * @version 3.10.2
  * @license GPL-2.0+
  */
 
@@ -305,7 +305,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 				<?php
 				printf(
 				/* translators: %s: CoCart */
-					esc_html__( 'If yes, %s will transfer all cart sessions to our database table to prevent duplicate cart session data.', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'If no, %s will transfer all cart sessions to our database table to prevent duplicate cart session data.', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'
 				);
 				?>
