@@ -1884,6 +1884,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$params['catalog_visibility'] = array(
 			'description'       => __( 'Determines if hidden or visible catalog products are shown.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
+			'default'           => 'visible',
 			'enum'              => array( 'any', 'visible', 'catalog', 'search', 'hidden' ),
 			'sanitize_callback' => 'sanitize_key',
 			'validate_callback' => 'rest_validate_request_arg',
