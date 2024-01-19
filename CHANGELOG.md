@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v3.10.3 - 19th January, 2024
+
+### Bug Fix
+
+* Fixed: Fatal error with `version_compare()` when activating the plugin with the [TaxJar plugin](https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/) active with PHP 8.1 or plus.
+
 ## v3.10.2 - 15th January, 2024
 
 ### What's new?

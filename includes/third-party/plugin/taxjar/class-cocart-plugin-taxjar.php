@@ -26,7 +26,7 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			if ( class_exists( 'WC_Taxjar' ) && version_compare( WC_Taxjar::$version, '3.2.5', '=>' ) ) {
+			if ( class_exists( 'WC_Taxjar' ) && version_compare( WC_Taxjar::$version, '3.2.5', '>=' ) ) {
 				add_filter( 'taxjar_should_calculate_cart_tax', array( $this, 'maybe_calculate_tax' ) );
 			}
 		}

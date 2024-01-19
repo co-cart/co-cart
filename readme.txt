@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.10.2
+Stable tag: 3.10.3
 WC requires at least: 4.3
 WC tested up to: 8.5
 License: GPLv3
@@ -338,6 +338,12 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 == Changelog ==
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.10.3 - 19th January, 2024 =
+
+### Bug Fix
+
+* Fixed: Fatal error with `version_compare()` when activating the plugin with the [TaxJar plugin](https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/) active with PHP 8.1 or plus.
 
 = v3.10.2 - 15th January, 2024 =
 
