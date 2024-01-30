@@ -342,10 +342,10 @@ final class CoCart {
 	/**
 	 * Checks the server environment and other factors and deactivates the plugin if necessary.
 	 *
-	 * @access  public
+	 * @access public
 	 * @static
-	 * @since   2.6.0
-	 * @version 2.6.2
+	 * @since  2.6.0
+	 * @since  3.10.4 Added a check for CoCart Plus.
 	 */
 	public static function activation_check() {
 		if ( ! CoCart_Helpers::is_environment_compatible() ) {
@@ -354,10 +354,16 @@ final class CoCart {
 			wp_die( sprintf( esc_html__( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart_Helpers::get_environment_message() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
+		if ( CoCart_Helpers::is_cocart_plus_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {
+			self::deactivate_plugin();
+			/* translators: %1$s: CoCart Core, %2$s: CoCart Plus */
+			wp_die( sprintf( esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'CoCart Plus' ) );
+		}
+
 		if ( CoCart_Helpers::is_cocart_pro_installed() && defined( 'COCART_PACKAGE_VERSION' ) && version_compare( COCART_VERSION, COCART_PACKAGE_VERSION, '>=' ) ) {
 			self::deactivate_plugin();
-			/* translators: %1$s: CoCart Lite, %2$s: CoCart Pro */
-			wp_die( sprintf( esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart Lite', 'CoCart Pro' ) );
+			/* translators: %1$s: CoCart Core, %2$s: CoCart Pro */
+			wp_die( sprintf( esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', 'CoCart Pro' ) );
 		}
 	} // END activation_check()
 

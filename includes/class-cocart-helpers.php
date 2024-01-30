@@ -337,6 +337,26 @@ class CoCart_Helpers {
 	} // END is_cocart_rc()
 
 	/**
+	 * Checks if CoCart Plus is installed.
+	 *
+	 * ? Maybe a temporary helper function until v4
+	 *
+	 * @access public
+	 * @static
+	 * @since 3.10.5 Introduced.
+	 * @return array
+	 */
+	public static function is_cocart_plus_installed() {
+		$active_plugins = (array) get_option( 'active_plugins', array() );
+
+		if ( is_multisite() ) {
+			$active_plugins = array_merge( $active_plugins, get_option( 'active_sitewide_plugins', array() ) );
+		}
+
+		return in_array( 'cocart-plus/cocart-plus.php', $active_plugins ) || array_key_exists( 'cocart-plus/cocart-plus.php', $active_plugins ); // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+	} // END is_cocart_plus_installed()
+
+	/**
 	 * Checks if CoCart Pro is installed.
 	 *
 	 * @access public
