@@ -21,6 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_REST_API {
 
 	/**
+	 * Stores the controllers registered.
+	 *
+	 * @var array
+	 */
+	protected $controllers = array();
+
+	/**
 	 * Setup class.
 	 *
 	 * @access  public
