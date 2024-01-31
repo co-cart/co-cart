@@ -167,7 +167,8 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				<div class="cocart-plugin-install-dashboard">
 					<p>
 						<?php
-						_e( 'These plugins support or extend and expand the functionality of CoCart. Press "learn more" for more information about each of the <strong>CoCart add-ons</strong> and <strong>WooCommerce extensions</strong>', 'cart-rest-api-for-woocommerce' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						/* translators: %1$s <strong>, %2$s </strong> */
+						echo sprintf( __( 'These plugins support or extend and expand the functionality of CoCart. Press "learn more" for more information about each of the %1$sCoCart add-ons%2$s and %1$sWooCommerce extensions%2$s', 'cart-rest-api-for-woocommerce' ), '<strong>', '</strong>' );
 						?>
 					</p>
 
