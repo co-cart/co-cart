@@ -343,7 +343,7 @@ class CoCart_Helpers {
 	 *
 	 * @access public
 	 * @static
-	 * @since 3.10.5 Introduced.
+	 * @since 3.10.4 Introduced.
 	 * @return array
 	 */
 	public static function is_cocart_plus_installed() {
