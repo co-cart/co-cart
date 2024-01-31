@@ -451,7 +451,7 @@ class CoCart_REST_API {
 		) );
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
-			if ( preg_match( $regex_path_pattern, $_SERVER['REQUEST_URI'] ) ) {
+			if ( ! empty( $_SERVER['REQUEST_URI'] ) && preg_match( $regex_path_pattern, sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) {
 				$server->send_header( 'Cache-Control', 'no-cache, must-revalidate, max-age=0' );
 			}
 		}

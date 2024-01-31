@@ -27,14 +27,13 @@ $tweets = array(
 
 $tweet = array_rand( $tweets );
 
-$current_user = wp_get_current_user();
-$user_email   = $current_user->user_email;
+$current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+$user_email   = $current_user->user_email; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 
-$campaign_args = CoCart_Helpers::cocart_campaign(
-	array(
-		'utm_source'   => 'CoCartCore',
-		'utm_medium'   => 'plugin-admin',
-		'utm_content'  => 'next-steps',
+$campaign_args = CoCart_Helpers::cocart_campaign( array(
+	'utm_source'  => 'CoCartCore',
+	'utm_medium'  => 'plugin-admin',
+	'utm_content' => 'next-steps',
 ) );
 
 $docs_url  = 'https://cocart.dev/';

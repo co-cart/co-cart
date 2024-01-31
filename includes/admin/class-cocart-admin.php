@@ -57,7 +57,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';         // WooCommerce Admin Notices.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';   // WooCommerce System Status.
 
-			// Pages
+			// Pages.
 			include_once COCART_ABSPATH . 'includes/admin/pages/class-cocart-admin-pages-support.php'; // Support.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';        // Setup Wizard.
 		} // END includes()
@@ -227,11 +227,11 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @return string New classes.
 		 */
 		public function admin_body_class( $classes ) {
-			if ( empty( $_GET['page'] ) ) {
+			if ( empty( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				return $classes;
 			}
 
-			if ( false === strpos( $_GET['page'], 'cocart-' ) ) {
+			if ( false === strpos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'cocart-' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				return $classes;
 			}
 
