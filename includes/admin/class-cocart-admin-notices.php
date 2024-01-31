@@ -339,10 +339,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Shows an upgrade warning notice if the installed version is less
 		 * than the new release coming soon.
 		 *
-		 * @access  public
-		 * @since   1.2.3
-		 * @version 3.0.0
-		 * @return  void
+		 * @access public
+		 * @since  1.2.3 Introduced.
+		 * @since  3.10.4 Check how long CoCart has been installed before showing.
+		 * @return void
 		 */
 		public function upgrade_warning_notice() {
 			$version = strstr( COCART_VERSION, '-', true );
@@ -350,6 +350,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			// If version returns empty then just set as the current plugin version.
 			if ( empty( $version ) ) {
 				$version = COCART_VERSION;
+			}
+
+			// If CoCart has only been installed for less than 4 weeks then do not show this notice.
+			if ( ( intval( time() - self::$install_date ) ) < WEEK_IN_SECONDS * 4 ) {
+				return;
 			}
 
 			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( $version, COCART_NEXT_VERSION, '<' ) ) {
