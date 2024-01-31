@@ -67,7 +67,7 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 
 		$args = array(
 			'title'   => __( 'Help improve CoCart', 'cart-rest-api-for-woocommerce' ),
-			'content' => __( 'I\'d love your input to shape the future of CoCart together. Feel free to share any feedback, ideas or suggestions that you have.', 'cart-rest-api-for-woocommerce' ),
+			'content' => __( 'We love your input to shape the future of CoCart together. Feel free to share any feedback, ideas or suggestions that you have.', 'cart-rest-api-for-woocommerce' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(

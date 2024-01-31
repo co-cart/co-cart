@@ -1,13 +1,12 @@
 <?php
 /**
- * CoCart - WooCommerce Admin: Upgrade to CoCart Pro.
+ * CoCart - WooCommerce Admin: Upgrade CoCart.
  *
- * Adds a note to ask the client if they are ready to upgrade to CoCart Pro.
+ * Adds a note to ask the client if they are ready to upgrade to CoCart.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
- * @since   2.3.0
- * @version 3.2.0
+ * @since   3.10.4
  * @license GPL-2.0+
  */
 
@@ -16,12 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
+class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 
 	/**
 	 * Name of the note for use in the database.
 	 */
-	const NOTE_NAME = 'cocart-wc-admin-upgrade-pro';
+	const NOTE_NAME = 'cocart-wc-admin-upgrade';
 
 	/**
 	 * Name of the plugin file.
@@ -42,7 +41,6 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 * @static
 	 * @since   2.3.0 Introduced.
 	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @version 3.2.0
 	 * @param   string $note_name Note name.
 	 * @param   string $seconds   How many seconds since CoCart was installed before the notice is shown.
 	 * @param   string $source    Source of the note.
@@ -77,7 +75,6 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 	 * @static
 	 * @since   2.3.0 Introduced.
 	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @version 3.2.0
 	 * @return  array
 	 */
 	public static function get_note_args() {
@@ -93,16 +90,16 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 		$args = array(
 			'title'   => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),
 			'content' => sprintf(
-				/* translators: %s: CoCart Pro. */
-				esc_attr__( 'Upgrade to %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ),
-				'CoCart Pro'
+				/* translators: %s: CoCart. */
+				esc_attr__( 'Upgrade %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
 			),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
-					'name'    => 'cocart-pro-learn-more',
+					'name'    => 'cocart-learn-more',
 					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pro/' ) ) ),
+					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ),
 					'status'  => $status,
 					'primary' => true,
 				),
@@ -114,4 +111,4 @@ class CoCart_WC_Admin_Upgrade_Pro_Note extends CoCart_WC_Admin_Notes {
 
 } // END class
 
-return new CoCart_WC_Admin_Upgrade_Pro_Note();
+return new CoCart_WC_Admin_Upgrade();

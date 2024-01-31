@@ -58,10 +58,10 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 	 *
 	 * @access  public
 	 * @static
-	 * @since   2.3.0 Introduced.
-	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @version 3.2.0
-	 * @return  array
+	 * @since   2.3.0  Introduced.
+	 * @since   3.2.0  Dropped support for WooCommerce less than version 4.8
+	 * @since   3.10.4 Updated action buttons.
+	 * @return  array $args Note arguments.
 	 */
 	public static function get_note_args() {
 		$status = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED;
@@ -79,11 +79,18 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
-					'name'    => 'cocart-learn-more-support',
-					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
-					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'support/' ) ) ),
+					'name'    => 'cocart-forum-support',
+					'label'   => esc_attr__( 'Support Forum', 'cart-rest-api-for-woocommerce' ),
+					'url'     => esc_url( COCART_SUPPORT_URL ),
 					'status'  => $status,
 					'primary' => true,
+				),
+				array(
+					'name'    => 'cocart-community',
+					'label'   => __( 'Join Community', 'cart-rest-api-for-woocommerce' ),
+					'url'     => esc_url( COCART_COMMUNITY_URL ),
+					'status'  => $status,
+					'primary' => false,
 				),
 			),
 		);

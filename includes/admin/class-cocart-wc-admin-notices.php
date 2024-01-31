@@ -47,12 +47,11 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 				return;
 			}
 
-			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-activate-pro.php';
-			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-do-with-products.php';
+			/*include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-do-with-products.php';*/
 			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-help-improve.php';
 			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-need-help.php';
 			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-thanks-install.php';
-			include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-upgrade-to-pro.php';
+			/*include_once dirname( __FILE__ ) . '/notes/class-cocart-wc-admin-note-upgrade.php';*/
 		} // END include_notes()
 
 		/**
