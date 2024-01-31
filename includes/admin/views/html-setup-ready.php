@@ -1,5 +1,17 @@
 <?php
-$docs_url  = 'https://cocart.dev/';
+/**
+ * Admin View: Setup Ready.
+ *
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin\Views
+ * @since   3.10.0
+ * @license GPL-2.0+
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $help_text = sprintf(
 	/* translators: %1$s: link to developers resources */
 	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),

@@ -8,7 +8,7 @@
  * @license GPL-2.0+
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -60,6 +60,10 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 	 * @access public
 	 *
 	 * @since 3.10.0 Introduced.
+	 *
+	 * @param array $submenu_pages Currently registered submenu pages.
+	 *
+	 * @return array $submenu_pages All registered submenu pages.
 	 */
 	public function register_submenu_page( $submenu_pages ) {
 		if ( ! is_array( $submenu_pages ) ) {

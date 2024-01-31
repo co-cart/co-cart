@@ -490,18 +490,18 @@ function cocart_get_store_currency() {
 	);
 } // END cocart_get_store_currency()
 
-/**
- * Unregister's a field on an existing WordPress object type.
- *
- * @todo Submit a ticket to have this part of WordPress.
- *
- * @since 3.4.0
- *
- * @global array        $wp_rest_additional_fields Holds registered fields, organized by object type.
- * @param  string|array $object_type               Object(s) the field is being registered to, "post"|"term"|"comment" etc.
- * @param  string       $attribute                 The attribute name.
- */
 if ( ! function_exists( 'unregister_rest_field' ) ) {
+	/**
+	 * Unregister's a field on an existing WordPress object type.
+	 *
+	 * @todo Submit a ticket to have this part of WordPress.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @global array        $wp_rest_additional_fields Holds registered fields, organized by object type.
+	 * @param  string|array $object_type               Object(s) the field is being registered to, "post"|"term"|"comment" etc.
+	 * @param  string       $attribute                 The attribute name.
+	 */
 	function unregister_rest_field( $object_type, $attribute ) {
 		global $wp_rest_additional_fields;
 

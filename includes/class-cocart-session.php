@@ -308,6 +308,7 @@ class CoCart_Load_Cart {
 	 * @access public
 	 * @static
 	 * @since  3.3.0 Introduced.
+	 * @param string $checkout_url Checkout URL.
 	 * @return string
 	 */
 	public static function proceed_to_checkout( $checkout_url ) {

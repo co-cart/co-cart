@@ -227,7 +227,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access protected
 		 * @since  3.8.1
-		 * @param  WP_Error $error Authentication error data.
+		 * @param string $auth_method Authentication Method.
 		 */
 		public function set_method( $auth_method ) {
 			$this->auth_method = $auth_method;

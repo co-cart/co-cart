@@ -60,7 +60,6 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 	 * @static
 	 * @since   2.3.0 Introduced.
 	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @version 3.2.0
 	 * @return array
 	 */
 	public static function get_note_args() {

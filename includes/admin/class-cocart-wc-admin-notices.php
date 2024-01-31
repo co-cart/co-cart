@@ -35,7 +35,6 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 * @access  public
 		 * @since   2.3.0
 		 * @since   3.2.0 Check if WC Admin is enabled or available.
-		 * @version 3.2.0
 		 */
 		public function include_notes() {
 			// Don't include notes if WC v4.0 or greater is not installed.

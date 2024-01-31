@@ -3,10 +3,9 @@
  * Admin View: Upgrade Warning Notice.
  *
  * @author   Sébastien Dumont
- * @category Admin
  * @package  CoCart\Admin\Views
  * @since    1.2.3
- * @version  3.0.0
+ * @version  3.10.4
  * @license  GPL-2.0+
  */
 

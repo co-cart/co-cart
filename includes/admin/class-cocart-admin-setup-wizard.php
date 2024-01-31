@@ -55,6 +55,14 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 
 	/**
 	 * Register the admin submenu page.
+	 *
+	 * @access public
+	 *
+	 * @since 3.10.0 Introduced.
+	 *
+	 * @param array $submenu_pages Currently registered submenu pages.
+	 *
+	 * @return array $submenu_pages All registered submenu pages.
 	 */
 	public function register_submenu_page( $submenu_pages ) {
 		if ( ! is_array( $submenu_pages ) ) {
@@ -82,6 +90,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * Hooked onto 'admin_enqueue_scripts'.
 	 *
 	 * @access public
+	 *
+	 * @param string $hook The current admin page.
 	 */
 	public function enqueue_scripts( $hook ) {
 		if ( strpos( $hook, 'cocart-setup' ) !== false || ( isset( $_GET['page'] ) && strpos( $_GET['page'], 'cocart-setup' ) === 0 ) ) {
@@ -466,6 +476,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * @access public
 	 *
 	 * @since 3.10.0 Introduced.
+	 *
+	 * @param string $classes Previous body classes.
 	 *
 	 * @return string
 	 */
