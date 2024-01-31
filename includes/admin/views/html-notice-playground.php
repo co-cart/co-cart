@@ -37,7 +37,7 @@ $campaign_args['utm_content']  = 'plugin-link';
 		</div>
 
 		<div class="cocart-action">
-			<a href="<?php echo add_query_arg( $campaign_args, esc_url( 'https://cocartapi.com/try-free-demo/' ) ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Request Demo', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Request Demo', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( add_query_arg( $campaign_args, 'https://cocartapi.com/try-free-demo/' ) ); ?>" class="button button-primary cocart-button" aria-label="<?php echo esc_html__( 'Request Demo', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Request Demo', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>
 </div>

@@ -68,7 +68,7 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 				) );
 
 				// Show only if we are not on the Setup Wizard page.
-				if ( strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart-setup' ) !== 0 ) {
+				if ( strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart-setup' ) !== 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					$screen->add_help_tab( array(
 						'id'      => 'cocart_wizard_tab',
 						'title'   => esc_html__( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),

@@ -94,7 +94,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * @param string $hook The current admin page.
 	 */
 	public function enqueue_scripts( $hook ) {
-		if ( strpos( $hook, 'cocart-setup' ) !== false || ( isset( $_GET['page'] ) && strpos( $_GET['page'], 'cocart-setup' ) === 0 ) ) {
+		if ( strpos( $hook, 'cocart-setup' ) !== false || ( isset( $_GET['page'] ) && strpos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'cocart-setup' ) === 0 ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$suffix     = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			$style_path = 'assets/css/admin/cocart-setup.css';
 
@@ -306,7 +306,15 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<p><?php esc_html_e( 'The following wizard will help you configure CoCart for your headless store.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 			<?php if ( ! $sessions_transferred ) { ?>
-			<label for="store_new"><?php printf( esc_html__( 'Is this a new %s store?', 'cart-rest-api-for-woocommerce' ), 'WooCommerce' ); ?></label>
+			<label for="store_new">
+				<?php
+				printf(
+					/* translators: %s WooCommerce */
+					esc_html__( 'Is this a new %s store?', 'cart-rest-api-for-woocommerce' ),
+					'WooCommerce'
+				);
+				?>
+			</label>
 			<select id="store_new" name="store_new" aria-label="<?php esc_attr_e( 'New Store', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
 				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
 				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
@@ -327,7 +335,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
 				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
 			</select>
-			<span><?php _e( 'If you are using multiple domains for your headless setup, installing support for CORS is recommended.', 'cart-rest-api-for-woocommerce' ); ?> <a href="<?php echo esc_url( 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS' ); ?>" target="_blank"><?php _e( 'What is CORS?', 'cart-rest-api-for-woocommerce' ); ?></a></span>
+			<span><?php esc_html_e( 'If you are using multiple domains for your headless setup, installing support for CORS is recommended.', 'cart-rest-api-for-woocommerce' ); ?> <a href="<?php echo esc_url( 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS' ); ?>" target="_blank"><?php esc_html_e( 'What is CORS?', 'cart-rest-api-for-woocommerce' ); ?></a></span>
 
 			<p class="cocart-actions step">
 				<button class="button button-primary button-large" value="<?php esc_attr_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?></button>
@@ -482,7 +490,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * @return string
 	 */
 	public function cocart_admin_body_class_setup_wizard( $classes ) {
-		if ( empty( $_GET['page'] ) || $_GET['page'] != 'cocart-setup' ) {
+		if ( empty( $_GET['page'] ) || 'cocart-setup' !== sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return $classes;
 		}
 

@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.10.3';
+	public static $version = '3.10.4';
 
 	/**
 	 * CoCart Database Schema version.
@@ -78,7 +78,7 @@ final class CoCart {
 	 * @since 3.10.0 Introduced.
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+		_doing_it_wrong( __FUNCTION__, esc_attr__( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
 	} // END __clone()
 
 	/**
@@ -89,7 +89,7 @@ final class CoCart {
 	 * @since 3.10.0 Introduced.
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+		_doing_it_wrong( __FUNCTION__, esc_attr__( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
 	} // END __wakeup()
 
 	/**

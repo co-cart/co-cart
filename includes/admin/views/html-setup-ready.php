@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$docs_url  = esc_url( 'https://cocart.dev/' );
 $help_text = sprintf(
 	/* translators: %1$s: link to developers resources */
 	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),
@@ -74,7 +75,7 @@ printf(
 
 <div class="founder-row">
 	<div class="founder-image">
-		<img src="<?php echo 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( 'mailme@sebastiendumont.com' ) ) ) . '?d=mp&s=60'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" width="60px" height="60px" alt="Photo of Founder" />
+		<img src="<?php echo esc_url( 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( 'mailme@sebastiendumont.com' ) ) ) . '?d=mp&s=60' ); ?>" width="60px" height="60px" alt="Photo of Founder" />
 	</div>
 
 	<div class="founder-details">

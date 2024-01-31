@@ -105,7 +105,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 			if ( plugin_basename( COCART_FILE ) === $file ) {
 				$row_meta = array(
-					'community' => '<a href="' . COCART_COMMUNITY_URL . '" title="' . sprintf(
+					'community' => '<a href="' . esc_url( COCART_COMMUNITY_URL ) . '" title="' . sprintf(
 						/* translators: %1$s: CoCart, %2$s :Discord */
 						esc_attr__( 'Join %1$s Community on %2$s', 'cart-rest-api-for-woocommerce' ),
 						'CoCart', 'Discord'
@@ -114,7 +114,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 						esc_attr__( 'Join %1$s Community on %2$s', 'cart-rest-api-for-woocommerce' ),
 						'CoCart', 'Discord'
 					) . '" target="_blank">' . esc_attr__( 'Join Community', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'docs'      => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_DOCUMENTATION_URL ) ) . '" title="' . sprintf(
+					'docs'      => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_DOCUMENTATION_URL ) ) ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */
 						esc_attr__( 'View %s Documentation', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
@@ -123,7 +123,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 						esc_attr__( 'View %s Documentation', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
 					) . '" target="_blank">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'translate' => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_TRANSLATION_URL ) ) . '" title="' . sprintf(
+					'translate' => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_TRANSLATION_URL ) ) ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */
 						esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
@@ -132,7 +132,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 						esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
 					) . '" target="_blank">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
-					'review'    => '<a href="' . COCART_REVIEW_URL . '" title="' . sprintf(
+					'review'    => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */
 						esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
