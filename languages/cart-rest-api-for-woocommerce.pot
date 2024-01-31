@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.3\n"
+"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-01-19 21:51:59+00:00\n"
+"POT-Creation-Date: 2024-01-31 17:32:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,11 +30,11 @@ msgid "A \"callback\" function must be registered when extending class \"%s\""
 msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:66
-#: includes/admin/class-cocart-admin-help-tab.php:68
-#: includes/admin/class-cocart-admin-help-tab.php:70
+#: includes/admin/class-cocart-admin-help-tab.php:74
 #: includes/admin/class-cocart-admin-help-tab.php:76
-#: includes/admin/class-cocart-admin-setup-wizard.php:68
-#: includes/admin/class-cocart-admin-setup-wizard.php:69
+#: includes/admin/class-cocart-admin-help-tab.php:84
+#: includes/admin/class-cocart-admin-setup-wizard.php:76
+#: includes/admin/class-cocart-admin-setup-wizard.php:77
 #: includes/admin/views/html-notice-setup-wizard.php:47
 msgid "Setup Wizard"
 msgstr ""
@@ -45,8 +45,8 @@ msgid "Support for %s"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:75
-#: includes/admin/pages/class-cocart-admin-pages-support.php:72
-#: includes/admin/pages/class-cocart-admin-pages-support.php:73
+#: includes/admin/pages/class-cocart-admin-pages-support.php:76
+#: includes/admin/pages/class-cocart-admin-pages-support.php:77
 msgid "Support"
 msgstr ""
 
@@ -62,7 +62,8 @@ msgid "Join %1$s Community on %2$s"
 msgstr ""
 
 #: includes/admin/class-cocart-admin-action-links.php:116
-#: includes/admin/views/html-next-steps.php:111
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:90
+#: includes/admin/views/html-next-steps.php:110
 msgid "Join Community"
 msgstr ""
 
@@ -122,31 +123,35 @@ msgstr ""
 msgid "Help & Support"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:53
+#: includes/admin/class-cocart-admin-help-tab.php:54
+#. translators: %s CoCart
 msgid ""
 "We are fanatical about support, and want you to get the best out of our "
 "REST API with %s. If you run into any difficulties, there are several "
 "places you can find help:"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:56
+#: includes/admin/class-cocart-admin-help-tab.php:58
+#. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing
 msgid ""
 "%1$sDocumentation%2$s. Our extensive documentation contains the API "
 "reference and some examples."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:56
-#: includes/admin/class-cocart-admin-help-tab.php:57
+#: includes/admin/class-cocart-admin-help-tab.php:58
+#: includes/admin/class-cocart-admin-help-tab.php:60
 msgid "View API Reference"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:57
+#: includes/admin/class-cocart-admin-help-tab.php:60
+#. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing
 msgid ""
 "%1$sDiscussions%2$s. We have an active and friendly community on our %3$s "
 "server who may be able to help you figure out the how-tos of %4$s."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:58
+#: includes/admin/class-cocart-admin-help-tab.php:62
+#. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing
 msgid ""
 "%1$sTranslate%2$s. %3$s is in need of translations. Is the plugin not "
 "translated in your language or do you spot errors with the current "
@@ -154,21 +159,23 @@ msgid ""
 "WordPress.org and click %1$sTranslate %3$s%2$s."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:58
+#: includes/admin/class-cocart-admin-help-tab.php:62
 msgid "Help translate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:59
+#: includes/admin/class-cocart-admin-help-tab.php:64
+#. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing
 msgid ""
 "%1$sCommunity Forum%2$s. If you prefer, you can request for help on the "
 "WordPress Forum."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:59
+#: includes/admin/class-cocart-admin-help-tab.php:64
 msgid "Community Forum"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:60
+#: includes/admin/class-cocart-admin-help-tab.php:66
+#. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing
 msgid ""
 "%2$sFound a bug?%4$s If you find a bug within %1$s core, please create a "
 "bug report on the %2$sGithub repository%4$s. Ensure you read the "
@@ -177,32 +184,33 @@ msgid ""
 "filling in the template provided as requested."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:72
+#: includes/admin/class-cocart-admin-help-tab.php:78
 msgid "Need to access the setup wizard again? Press on the button below."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:76
+#: includes/admin/class-cocart-admin-help-tab.php:84
+#. translators: %s CoCart
 msgid "View %s setup wizard"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:81
+#: includes/admin/class-cocart-admin-help-tab.php:89
 msgid "Information"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:83
+#: includes/admin/class-cocart-admin-help-tab.php:91
 #: includes/admin/class-cocart-wc-admin-system-status.php:89
 msgid "Version"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:85
+#: includes/admin/class-cocart-admin-help-tab.php:93
 msgid "Visit website"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:87
+#: includes/admin/class-cocart-admin-help-tab.php:95
 msgid "View details"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-help-tab.php:89
+#: includes/admin/class-cocart-admin-help-tab.php:97
 msgid "GitHub"
 msgstr ""
 
@@ -233,148 +241,146 @@ msgid ""
 "%s. Please disable Airplane Mode to view results."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:170
+#: includes/admin/class-cocart-admin-plugin-search.php:171
+#. translators: %1$s <strong>, %2$s </strong>
 msgid ""
 "These plugins support or extend and expand the functionality of CoCart. "
-"Press \"learn more\" for more information about each of the <strong>CoCart "
-"add-ons</strong> and <strong>WooCommerce extensions</strong>"
+"Press \"learn more\" for more information about each of the %1$sCoCart "
+"add-ons%2$s and %1$sWooCommerce extensions%2$s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:175
+#: includes/admin/class-cocart-admin-plugin-search.php:176
 msgid ""
 "Some of these plugins require a 3rd party plugin or extension to support "
 "it’s features. See plugin requirement at the bottom of each plugin card."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:188
+#: includes/admin/class-cocart-admin-plugin-search.php:189
 msgid "Currently only provide suggestions in English."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:215
+#: includes/admin/class-cocart-admin-plugin-search.php:216
 #. translators: %s: CoCart
 msgid ""
 "This suggestion was made by %s, the awesome REST API plugin already "
 "installed on your site."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:221
+#: includes/admin/class-cocart-admin-plugin-search.php:222
 msgid "Learn more about these suggestions."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:327
+#: includes/admin/class-cocart-admin-plugin-search.php:328
 #. translators: %1$s: Add-on name
 msgid "%1$s Add-on"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:348
+#: includes/admin/class-cocart-admin-plugin-search.php:349
 msgid "Requires"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:419
+#: includes/admin/class-cocart-admin-plugin-search.php:420
 #. translators: %s: Plugin author
 msgid "by %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:576
+#: includes/admin/class-cocart-admin-plugin-search.php:577
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:108
-#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:83
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:104
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade.php:101
 msgid "Learn more"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:584
+#: includes/admin/class-cocart-admin-plugin-search.php:585
 #. translators: %4$s: plugin does, %3$s: requirement
 msgid "%1$sPlugin %4$s %2$s%3$s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:667
+#: includes/admin/class-cocart-admin-plugin-search.php:668
 #. translators: %s: Plugin name
 msgid "Purchase %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:669
+#: includes/admin/class-cocart-admin-plugin-search.php:670
 msgid "Purchase Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:679
+#: includes/admin/class-cocart-admin-plugin-search.php:680
 #. translators: %s: Plugin name and version.
 msgid "Install %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:681
+#: includes/admin/class-cocart-admin-plugin-search.php:682
 msgid "Install Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:687
-#: includes/admin/class-cocart-admin-plugin-search.php:754
+#: includes/admin/class-cocart-admin-plugin-search.php:688
+#: includes/admin/class-cocart-admin-plugin-search.php:755
 msgid "Not Compatible"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:703
+#: includes/admin/class-cocart-admin-plugin-search.php:704
 #. translators: %s: Plugin name
 msgid "Update %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:705
+#: includes/admin/class-cocart-admin-plugin-search.php:706
 msgid "Update Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:710
+#: includes/admin/class-cocart-admin-plugin-search.php:711
 msgid "Cannot Update"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:722
+#: includes/admin/class-cocart-admin-plugin-search.php:723
 msgid "Installed & Active"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:726
+#: includes/admin/class-cocart-admin-plugin-search.php:727
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:728
-#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:131
+#: includes/admin/class-cocart-admin-plugin-search.php:729
 #. translators: %s: Plugin name.
-#. translators: %s: CoCart Pro
 msgid "Activate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:739
+#: includes/admin/class-cocart-admin-plugin-search.php:740
 msgid "Network Activate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:741
+#: includes/admin/class-cocart-admin-plugin-search.php:742
 #. translators: %s: Plugin name.
 msgid "Network Activate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:760
+#: includes/admin/class-cocart-admin-plugin-search.php:761
 msgid "Installed"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:107
+#: includes/admin/class-cocart-admin-setup-wizard.php:117
 msgid "Store setup"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:112
+#: includes/admin/class-cocart-admin-setup-wizard.php:122
 msgid "Sessions"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:117
+#: includes/admin/class-cocart-admin-setup-wizard.php:127
 msgid "Ready!"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:201
+#: includes/admin/class-cocart-admin-setup-wizard.php:211
 msgid "Skip this step"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:279
+#: includes/admin/class-cocart-admin-setup-wizard.php:289
 #. translators: 1: CoCart, 2: WooCommerce
 msgid ""
 "Thank you for choosing %1$s - the #1 REST API that handles the frontend of "
 "%2$s."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:290
+#: includes/admin/class-cocart-admin-setup-wizard.php:300
 #. translators: %s: CoCart
 msgid ""
 "%s cuts down your development time, handling server-side tasks and "
@@ -382,65 +388,66 @@ msgid ""
 "WooCommerce store is ready to decouple away from WordPress."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:296
+#: includes/admin/class-cocart-admin-setup-wizard.php:306
 msgid "The following wizard will help you configure CoCart for your headless store."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:299
+#: includes/admin/class-cocart-admin-setup-wizard.php:313
+#. translators: %s WooCommerce
 msgid "Is this a new %s store?"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:300
+#: includes/admin/class-cocart-admin-setup-wizard.php:318
 msgid "New Store"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:301
-#: includes/admin/class-cocart-admin-setup-wizard.php:317
+#: includes/admin/class-cocart-admin-setup-wizard.php:319
+#: includes/admin/class-cocart-admin-setup-wizard.php:335
 msgid "No"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:302
-#: includes/admin/class-cocart-admin-setup-wizard.php:318
+#: includes/admin/class-cocart-admin-setup-wizard.php:320
+#: includes/admin/class-cocart-admin-setup-wizard.php:336
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:308
+#: includes/admin/class-cocart-admin-setup-wizard.php:326
 #. translators: %s: CoCart
 msgid ""
 "If no, %s will transfer all cart sessions to our database table to prevent "
 "duplicate cart session data."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:315
+#: includes/admin/class-cocart-admin-setup-wizard.php:333
 msgid "Setup support for CORS?"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:316
+#: includes/admin/class-cocart-admin-setup-wizard.php:334
 msgid "CORS support"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:320
+#: includes/admin/class-cocart-admin-setup-wizard.php:338
 msgid ""
 "If you are using multiple domains for your headless setup, installing "
 "support for CORS is recommended."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:320
+#: includes/admin/class-cocart-admin-setup-wizard.php:338
 msgid "What is CORS?"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:323
+#: includes/admin/class-cocart-admin-setup-wizard.php:341
 msgid "Let's go!"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:372
+#: includes/admin/class-cocart-admin-setup-wizard.php:390
 msgid ""
 "Your current WooCommerce sessions will be transferred over to CoCart "
 "session table. This will run in the background until completed. Once "
 "transferred, all customers carts will be accessible again."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-setup-wizard.php:375
+#: includes/admin/class-cocart-admin-setup-wizard.php:393
 msgid "Transfer Sessions"
 msgstr ""
 
@@ -653,19 +660,6 @@ msgstr ""
 msgid "Verifying database: "
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:117
-#. translators: %s: CoCart Pro
-msgid "%s is not Activated!"
-msgstr ""
-
-#: includes/admin/notes/class-cocart-wc-admin-note-activate-pro.php:122
-#. translators: %s: CoCart Pro
-msgid ""
-"You have %1$s installed but it's not activated yet. Activate %1$s to unlock "
-"the full cart experience and support for WooCommerce extensions like "
-"subscriptions now."
-msgstr ""
-
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:95
 msgid "6 things you can do with Products REST API"
 msgstr ""
@@ -678,17 +672,17 @@ msgid ""
 "%s."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:70
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:69
 msgid "Help improve CoCart"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:71
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:70
 msgid ""
-"I'd love your input to shape the future of CoCart together. Feel free to "
+"We love your input to shape the future of CoCart together. Feel free to "
 "share any feedback, ideas or suggestions that you have."
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:76
+#: includes/admin/notes/class-cocart-wc-admin-note-help-improve.php:75
 msgid "Share feedback"
 msgstr ""
 
@@ -700,6 +694,10 @@ msgstr ""
 msgid ""
 "You can ask for help on the support forum at WordPress.org or join the "
 "CoCart Discord community and ask for help there."
+msgstr ""
+
+#: includes/admin/notes/class-cocart-wc-admin-note-need-help.php:83
+msgid "Support Forum"
 msgstr ""
 
 #: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:90
@@ -715,23 +713,23 @@ msgid ""
 msgstr ""
 
 #: includes/admin/notes/class-cocart-wc-admin-note-thanks-install.php:98
-#: includes/admin/views/html-next-steps.php:82
+#: includes/admin/views/html-next-steps.php:81
 msgid "View Documentation"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:94
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade.php:91
 msgid "Ready to take your headless store to the next level?"
 msgstr ""
 
-#: includes/admin/notes/class-cocart-wc-admin-note-upgrade-to-pro.php:97
-#. translators: %s: CoCart Pro.
+#: includes/admin/notes/class-cocart-wc-admin-note-upgrade.php:94
+#. translators: %s: CoCart.
 msgid ""
-"Upgrade to %s and unlock more cart features and supported WooCommerce "
+"Upgrade %s and unlock more cart features and supported WooCommerce "
 "extensions."
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:43
-#: includes/admin/views/html-setup-ready.php:5
+#: includes/admin/views/html-next-steps.php:42
+#: includes/admin/views/html-setup-ready.php:18
 #. translators: %1$s: link to docs
 #. translators: %1$s: link to developers resources
 msgid ""
@@ -739,52 +737,52 @@ msgid ""
 "resources</a>."
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:48
+#: includes/admin/views/html-next-steps.php:47
 msgid "Get product updates, tutorials and more straight to your inbox."
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:56
+#: includes/admin/views/html-next-steps.php:55
 msgid "Email address"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:62
-#: includes/admin/views/html-next-steps.php:66
+#: includes/admin/views/html-next-steps.php:61
+#: includes/admin/views/html-next-steps.php:65
 msgid "Yes please!"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:75
+#: includes/admin/views/html-next-steps.php:74
 msgid "Next step"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:76
+#: includes/admin/views/html-next-steps.php:75
 msgid "Start Developing"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:77
+#: includes/admin/views/html-next-steps.php:76
 msgid "You're ready to develop your headless store."
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:89
+#: includes/admin/views/html-next-steps.php:88
 msgid "Need something else?"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:90
+#: includes/admin/views/html-next-steps.php:89
 msgid "Install Plugins"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:91
+#: includes/admin/views/html-next-steps.php:90
 msgid "Checkout plugin suggestions by CoCart."
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:96
+#: includes/admin/views/html-next-steps.php:95
 msgid "View Plugin Suggestions"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:103
+#: includes/admin/views/html-next-steps.php:102
 msgid "You can also"
 msgstr ""
 
-#: includes/admin/views/html-next-steps.php:108
+#: includes/admin/views/html-next-steps.php:107
 msgid "Install CoCart VSCode Extension"
 msgstr ""
 
@@ -840,7 +838,6 @@ msgstr ""
 #: includes/admin/views/html-notice-please-review.php:50
 #: includes/admin/views/html-notice-setup-wizard.php:49
 #: includes/admin/views/html-notice-trying-beta.php:61
-#: includes/admin/views/html-notice-upgrade-warning.php:32
 msgid "Hide this notice forever."
 msgstr ""
 
@@ -974,23 +971,30 @@ msgid ""
 "update from completing."
 msgstr ""
 
-#: includes/admin/views/html-notice-upgrade-warning.php:25
-msgid "Bigger, better and more awesome"
+#: includes/admin/views/html-notice-upgrade-warning.php:24
+msgid "What is next for %s?"
 msgstr ""
 
-#: includes/admin/views/html-notice-upgrade-warning.php:27
+#: includes/admin/views/html-notice-upgrade-warning.php:30
+#. translators: %1$s: CoCart, %2$s: CoCart's Next Version
 msgid ""
-"Just thought you might like to know that a new version of %3$s %1$s%4$s%2$s "
-"is coming soon with many improvements, options, a new settings page and "
-"more action and filter hooks for developers."
+"Version %2$s of %1$s is in the works and is going to be better than ever "
+"with many improvements and options including batch support, rate limiter, "
+"and improved security. A newly added settings page will allow you to "
+"quickly configure %1$s as you need and many more action hooks and filters "
+"for developers. It is currently in the beta testing stages."
 msgstr ""
 
-#: includes/admin/views/html-notice-upgrade-warning.php:31
+#: includes/admin/views/html-notice-upgrade-warning.php:38
 msgid "What's Coming Next?"
 msgstr ""
 
-#: includes/admin/views/html-notice-upgrade-warning.php:32
-msgid "Don't show me again"
+#: includes/admin/views/html-notice-upgrade-warning.php:39
+msgid "Hide this notice."
+msgstr ""
+
+#: includes/admin/views/html-notice-upgrade-warning.php:39
+msgid "Remind me another time"
 msgstr ""
 
 #: includes/admin/views/html-notice-wc-not-installed.php:28
@@ -1012,18 +1016,18 @@ msgstr ""
 msgid "Install WooCommerce"
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:9
+#: includes/admin/views/html-setup-ready.php:22
 msgid "You're ready!"
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:15
+#: includes/admin/views/html-setup-ready.php:28
 #. translators: %s: CoCart
 msgid ""
 "Now that you have %1$s installed, your ready to start developing your "
 "headless store."
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:25
+#: includes/admin/views/html-setup-ready.php:38
 #. translators: %s: CoCart
 msgid ""
 "In the documentation you will find the API routes available along with over "
@@ -1031,7 +1035,7 @@ msgid ""
 "change how %1$s operates."
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:36
+#: includes/admin/views/html-setup-ready.php:49
 #. translators: %1$s: Developers Hub link
 msgid ""
 "There is also a <a href=\"%1$s\" target=\"_blank\">developers hub</a> where "
@@ -1040,29 +1044,29 @@ msgid ""
 "development decisions and scoping of future versions."
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:45
+#: includes/admin/views/html-setup-ready.php:58
 msgid ""
 "It also provides answers to most common questions should you find that you "
 "need help. This is best place to look at first before contacting for "
 "support."
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:53
+#: includes/admin/views/html-setup-ready.php:66
 #. translators: %s: CoCart
 msgid ""
 "If you do need support or simply want to talk to other developers about "
 "taking your WooCommerce store headless, come join the %s community."
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:59
+#: includes/admin/views/html-setup-ready.php:72
 msgid "Thank you and enjoy!"
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:61
+#: includes/admin/views/html-setup-ready.php:74
 msgid "regards,"
 msgstr ""
 
-#: includes/admin/views/html-setup-ready.php:73
+#: includes/admin/views/html-setup-ready.php:86
 #. translators: %s: CoCart Headless, LLC
 msgid "Founder of %s"
 msgstr ""
@@ -3918,70 +3922,70 @@ msgid ""
 "available). We apologize for any inconvenience caused."
 msgstr ""
 
-#: includes/class-cocart-helpers.php:499
+#: includes/class-cocart-helpers.php:519
 #. translators: %s: Number of years
 msgid "%s years"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:501
+#: includes/class-cocart-helpers.php:521
 msgid "a year"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:508
+#: includes/class-cocart-helpers.php:528
 #. translators: %s: Number of months
 msgid "%s months"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:510
+#: includes/class-cocart-helpers.php:530
 msgid "1 month"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:517
+#: includes/class-cocart-helpers.php:537
 #. translators: %s: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:519
+#: includes/class-cocart-helpers.php:539
 msgid "a week"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:526
+#: includes/class-cocart-helpers.php:546
 #. translators: %s: Number of days
 msgid "%s days"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:528
+#: includes/class-cocart-helpers.php:548
 msgid "a day"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:535
+#: includes/class-cocart-helpers.php:555
 #. translators: %s: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:537
+#: includes/class-cocart-helpers.php:557
 msgid "an hour"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:544
+#: includes/class-cocart-helpers.php:564
 #. translators: %s: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:546
+#: includes/class-cocart-helpers.php:566
 msgid "a minute"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:553
-#. translators: %s: Number of seconds
+#: includes/class-cocart-helpers.php:573
+#. translators: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:555
+#: includes/class-cocart-helpers.php:575
 msgid "a second"
 msgstr ""
 
-#: includes/class-cocart-helpers.php:629
+#: includes/class-cocart-helpers.php:649
 #. translators: 1: CoCart, 2: Required PHP version
 msgid "The minimum PHP version required for %1$s is %2$s. You are running %3$s."
 msgstr ""
@@ -4020,7 +4024,7 @@ msgstr ""
 msgid "Variation for \"%s\" is not purchasable."
 msgstr ""
 
-#: includes/class-cocart-rest-api.php:239
+#: includes/class-cocart-rest-api.php:246
 #. translators: %1$s is previous ID, %2$s is current ID.
 msgid "User has changed! Was %1$s before and is now %2$s"
 msgstr ""
@@ -4094,8 +4098,9 @@ msgstr ""
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:360
-#. translators: %1$s: CoCart Lite, %2$s: CoCart Pro
+#: includes/class-cocart.php:360 includes/class-cocart.php:366
+#. translators: %1$s: CoCart Core, %2$s: CoCart Plus
+#. translators: %1$s: CoCart Core, %2$s: CoCart Pro
 msgid "%1$s is not required as it is already packaged within %2$s"
 msgstr ""
 

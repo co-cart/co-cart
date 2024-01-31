@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.10.3
+Stable tag: 3.10.4
 WC requires at least: 4.3
 WC tested up to: 8.5
 License: GPLv3
@@ -338,6 +338,22 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 == Changelog ==
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+
+= v3.10.4 - 31st January, 2024 =
+
+### What's New?
+
+* Added support for CoCart Plus.
+* Updated WooCommerce Notes.
+
+### Bug Fixes
+
+* Fixed: PHP Deprecation for implicit conversion from float to int.
+* Fixed: PHP Deprecation for creation of dynamic property.
+
+### Compatibility
+
+* Tested up to PHP v8.2.10
 
 = v3.10.3 - 19th January, 2024 =
 

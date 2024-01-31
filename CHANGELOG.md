@@ -1,5 +1,21 @@
 # Changelog for CoCart
 
+## v3.10.4 - 31st January, 2024
+
+### What's New?
+
+* Added support for CoCart Plus.
+* Updated WooCommerce Notes.
+
+### Bug Fixes
+
+* Fixed: PHP Deprecation for implicit conversion from float to int.
+* Fixed: PHP Deprecation for creation of dynamic property.
+
+### Compatibility
+
+* Tested up to PHP v8.2.10
+
 ## v3.10.3 - 19th January, 2024
 
 ### Bug Fix
