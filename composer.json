@@ -47,7 +47,6 @@
 		"co-cart/cocart-sniffs": "0.0.2"
 	},
 	"require-dev": {
-		"wp-cli/i18n-command": "2.2.9",
 		"squizlabs/php_codesniffer": "3.6.2"
 	},
 	"scripts": {
@@ -59,20 +58,12 @@
 		],
 		"phpcbf": [
 			"phpcbf . -p"
-		],
-		"makepot-audit": [
-			"wp --allow-root i18n make-pot . --exclude=\".github,.wordpress-org,bin,node_modules,tests\" --slug=cart-rest-api-for-woocommerce"
-		],
-		"makepot": [
-			"@makepot-audit --skip-audit"
 		]
 	},
 	"extra": {
 		"scripts-description": {
 			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
-			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
-			"makepot-audit": "Generate langauges/cart-rest-api-for-woocommerce.pot file and run audit",
-			"makepot": "Generate langauges/cart-rest-api-for-woocommerce.pot file"
+			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
 		}
 	},
 	"config": {
