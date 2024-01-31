@@ -74,8 +74,8 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				/* translators: %s: CoCart */
 			) . '" aria-label="' . sprintf( esc_attr__( 'Support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '" title="' . sprintf( esc_attr__( 'Support for %s', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . '">' . esc_attr__( 'Support', 'cart-rest-api-for-woocommerce' ) . '</a>';
 
-			// Only show upgrade option if CoCart Plus or Pro is not found.
-			if ( ! CoCart_Helpers::is_cocart_plus_installed() && ! CoCart_Helpers::is_cocart_pro_installed() ) {
+			// Only show upgrade option if neither CoCart Plus, Pro or above is found.
+			if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
 				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'pricing/' ) );
 
 				/* translators: %s: CoCart */
