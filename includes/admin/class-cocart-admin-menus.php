@@ -44,12 +44,12 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 *
 		 * @access  public
 		 * @since   2.0.0
-		 * @version 3.10.0
+		 * @version 3.10.5
 		 */
 		public function add_main_menu_page() {
 			add_menu_page( 'CoCart', 'CoCart', apply_filters( 'cocart_screen_capability', 'manage_options' ), 'cocart', function() {
 				return '';
-			}, 'dashicons-cart' );
+			}, 'dashicons-cart', 80 );
 		} // END add_main_menu_page()
 
 		/**
