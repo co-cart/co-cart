@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.10.4
+Stable tag: 3.10.5
 WC requires at least: 4.3
 WC tested up to: 8.5
 License: GPLv3
@@ -339,6 +339,12 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.10.5 - 8th February, 2024 =
+
+### Bug Fix
+
+* Fixed: Blank submenu pages from registering when activated on a multisite.
+
 = v3.10.4 - 31st January, 2024 =
 
 ### What's New?
@@ -463,6 +469,6 @@ Introduced a new filter `cocart_login_extras` to allow developers to extend the 
 
 == Upgrade Notice ==
 
-= 3.10.2 =
+= 3.10.5 =
 
-* Light maintenance. See changelog for details.
+* Fixed: Blank submenu pages from registering when activated on a multisite.

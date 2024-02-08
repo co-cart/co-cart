@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v3.10.5 - 8th February, 2024
+
+### Bug Fix
+
+* Fixed: Blank submenu pages from registering when activated on a multisite.
+
 ## v3.10.4 - 31st January, 2024
 
 ### What's New?
