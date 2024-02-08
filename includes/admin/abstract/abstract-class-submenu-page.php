@@ -130,6 +130,10 @@ abstract class CoCart_Submenu_Page {
 	 * @access public
 	 */
 	public function add_submenu_page() {
+		if ( empty( $this->page_title ) || empty( $this->menu_title ) || empty( $this->capability ) || empty( $this->menu_slug ) ) {
+			return;
+		}
+
 		$hook_sufix = add_submenu_page( $this->parent_slug, 'CoCart - ' . $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $this, 'output' ) );
 	} // END add_submenu_page()
 
