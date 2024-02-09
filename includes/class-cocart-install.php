@@ -404,7 +404,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @static
 		 * @since   2.9.0
 		 * @version 3.0.0
-		 * @param   string|null $version New WooCommerce DB version or null.
+		 * @param   string|null $version New CoCart DB version or null.
 		 */
 		public static function update_db_version( $version = null ) {
 			delete_option( 'cocart_db_version' );
