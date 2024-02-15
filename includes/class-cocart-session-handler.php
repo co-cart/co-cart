@@ -532,7 +532,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @param  int $old_session_key session ID before user logs in.
 	 */
 	public function save_data( $old_session_key = 0 ) {
-		$this->save_cart( $old_cart_key );
+		$this->save_cart( $old_session_key );
 	} // END save_data()
 
 	/**
