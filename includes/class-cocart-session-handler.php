@@ -11,7 +11,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0
- * @version 3.1.0
+ * @version 3.10.6
  * @license GPL-2.0+
  */
 
