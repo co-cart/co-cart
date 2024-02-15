@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v3.10.6 - 15th February, 2024
+
+### Bug Fix
+
+* Fixed: `$old_cart_key` is undefined in session handler.
+
 ## v3.10.5 - 8th February, 2024
 
 ### Bug Fix

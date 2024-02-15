@@ -339,6 +339,12 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.10.6 - 15th February, 2024 =
+
+### Bug Fix
+
+* Fixed: `$old_cart_key` is undefined in session handler.
+
 = v3.10.5 - 8th February, 2024 =
 
 ### Bug Fix
@@ -433,42 +439,10 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 * Updated "What's Coming Next?" link on plugins page to inform users about v4.0
 * Tested with WooCommerce v7.9
 
-### Bug Fix
-
-* Fixed Products API where a product has no featured image or gallery images and is unable to determine the placeholder image.
-
-= v3.8.2 - 12th July, 2023 =
-
-### What's New?
-
-* Tested with WooCommerce v7.8
-* Tested with WordPress v6.2
-
-### Bug Fix
-
-* Fixed searching products by name.
-
-= v3.8.1 - 4th March, 2023 =
-
-### What's New?
-
-* Added the Authentication class as parameter to `cocart_authenticate` filter.
-* Added `set_method()` function to authentication class.
-
-### For Developers
-
-Introduced a new filter `cocart_login_extras` to allow developers to extend the login response.
-
-= v3.8.0 - 3rd March, 2023 =
-
-### What's New?
-
-* Tested: ✔️ Compatible with WooCommerce v7.4
-
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 3.10.5 =
+= 3.10.6 =
 
-* Fixed: Blank submenu pages from registering when activated on a multisite.
+* Fixed: `$old_cart_key` is undefined in session handler.
