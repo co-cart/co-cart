@@ -629,22 +629,25 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					continue;
 				}
 
-				// Taxonomy-based attributes are prefixed with `pa_`, otherwise simply `attribute_`.
-				if ( 0 === strpos( $attribute_name, 'attribute_pa_' ) ) {
+				// Taxonomy-based attributes are prefixed with `attribute_pa_`, otherwise simply `attribute_`.
+				$attribute_prefix = 0 === strpos( $attribute_name, 'attribute_pa_' ) ? 'attribute_pa_' : 'attribute_';
+
+				// Determine the attribute option.
+				$option = array( $attribute => $attribute );
+
+				if ( $attribute_prefix === 'attribute_pa_' ) {
+					// If the attribute is taxonomy-based, fetch the term.
 					$option_term = get_term_by( 'slug', $attribute, $name );
 
-					$attributes[ 'attribute_' . $name ] = array(
-						'id'     => wc_attribute_taxonomy_id_by_name( $name ),
-						'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
-						'option' => $option_term && ! is_wp_error( $option_term ) ? array( $option_term->slug => $option_term->name ) : array( $attribute => $attribute ),
-					);
-				} else {
-					$attributes[ 'attribute_' . $name ] = array(
-						'id'     => 0,
-						'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
-						'option' => array( $attribute => $attribute ),
-					);
+					// Set the option accordingly.
+					$option = $option_term && ! is_wp_error( $option_term ) ? array( $option_term->slug => $option_term->name ) : $option;
 				}
+
+				$attributes[ 'attribute_' . $name ] = array(
+					'id'     => $attribute_prefix === 'attribute_pa_' ? wc_attribute_taxonomy_id_by_name( $name ) : 0,
+					'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
+					'option' => $option,
+				);
 			}
 		} else {
 			foreach ( $product->get_attributes() as $attribute ) {
