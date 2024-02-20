@@ -1,5 +1,20 @@
 # Changelog for CoCart
 
+## v3.10.7 - 20th February, 2024
+
+### What's New?
+
+* Introduced new filter `cocart_products_get_related_products_exclude_ids` to exclude products from related products.
+* Added missing parameters for products API.
+
+### Bug Fix
+
+* Fixed: Calling `retry()` non-static for plugin suggestions when searching.
+
+### Compatibility
+
+* Tested with WooCommerce v8.6
+
 ## v3.10.6 - 15th February, 2024
 
 ### Bug Fix

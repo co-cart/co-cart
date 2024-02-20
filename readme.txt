@@ -4,9 +4,9 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.10.6
+Stable tag: 3.10.7
 WC requires at least: 4.3
-WC tested up to: 8.5
+WC tested up to: 8.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -339,6 +339,21 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+= v3.10.7 - 20th February, 2024 =
+
+### What's New?
+
+* Introduced new filter `cocart_products_get_related_products_exclude_ids` to exclude products from related products.
+* Added missing parameters for products API.
+
+### Bug Fix
+
+* Fixed: Calling `retry()` non-static for plugin suggestions when searching.
+
+### Compatibility
+
+* Tested with WooCommerce v8.6
+
 = v3.10.6 - 15th February, 2024 =
 
 ### Bug Fix
@@ -443,6 +458,6 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 == Upgrade Notice ==
 
-= 3.10.6 =
+= 3.10.7 =
 
-* Fixed: `$old_cart_key` is undefined in session handler.
+* Fixed: Calling `retry()` non-static for plugin suggestions when searching.
