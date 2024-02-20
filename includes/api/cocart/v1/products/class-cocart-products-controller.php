@@ -211,11 +211,10 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WC_Product      $product Product object.
-	 * @param  WP_REST_Request $request Request object.
+	 * @param  WC_Product $product Product object.
 	 * @return array Links for the given product.
 	 */
-	protected function prepare_links( $product, $request ) {
+	protected function prepare_links( $product ) {
 		$links = array(
 			'self'       => array(
 				'permalink' => get_permalink( $product->get_id() ),
@@ -293,7 +292,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$data     = $this->add_additional_fields_to_object( $data, $request );
 		$data     = $this->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $object, $request ) );
+		$response->add_links( $this->prepare_links( $product ) );
 
 		/**
 		 * Filter the data for a response.
