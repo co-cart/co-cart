@@ -123,9 +123,10 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function get_objects( $query_args ) {
 		$query       = new WP_Query();
 		$result      = $query->query( $query_args );
+		$page        = (int) $query_args['paged'];
 		$total_posts = $query->found_posts;
 
-		if ( $total_posts < 1 ) {
+		if ( $total_posts < 1 && $page > 1 ) {
 			// Out-of-bounds, run the query again without LIMIT for total count.
 			unset( $query_args['paged'] );
 
@@ -134,10 +135,21 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$total_posts = $count_query->found_posts;
 		}
 
+		$max_pages = (int) ceil( $total_posts / (int) $query->query_vars['posts_per_page'] );
+
+		if ( $page > $max_pages && $total_posts > 0 ) {
+			return new WP_Error(
+				'cocart_products_invalid_page_number',
+				__( 'The page number requested is larger than the number of products available.', 'cart-rest-api-for-woocommerce' ),
+				array( 'status' => 400 )
+			);
+		}
+
 		return array(
 			'objects' => array_map( array( $this, 'get_object' ), $result ),
 			'total'   => (int) $total_posts,
-			'pages'   => (int) ceil( $total_posts / (int) $query->query_vars['posts_per_page'] ),
+			'paged'   => $page,
+			'pages'   => $max_pages,
 		);
 	} // END get_objects()
 
@@ -145,12 +157,17 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 * Get a collection of products.
 	 *
 	 * @access public
+	 * @since  3.10.7 Checks if query results return as an error.
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_items( $request ) {
 		$query_args    = $this->prepare_objects_query( $request );
 		$query_results = $this->get_objects( $query_args );
+
+		if ( is_wp_error( $query_results ) ) {
+			return $query_results;
+		}
 
 		$objects = array();
 
@@ -159,11 +176,12 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$objects[] = $this->prepare_response_for_collection( $data );
 		}
 
-		$page      = (int) $query_args['paged'];
+		$page      = $query_results['paged'];
 		$max_pages = $query_results['pages'];
 
 		$response = rest_ensure_response( $objects );
-		$response->header( 'X-WP-Total', $query_results['total'] );
+
+		$response->header( 'X-WP-Total', (int) $query_results['total'] );
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
 		$base          = $this->rest_base;
@@ -252,26 +270,26 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 * Prepare a single product output for response.
 	 *
 	 * @access public
-	 * @param  WC_Data         $object  Object data.
+	 * @param  WC_Product      $product Product object.
 	 * @param  WP_REST_Request $request Request object.
 	 * @return WP_REST_Response
 	 */
-	public function prepare_object_for_response( $object, $request ) {
+	public function prepare_object_for_response( $product, $request ) {
 		// Check what product type before returning product data.
-		if ( $object->get_type() !== 'variation' ) {
-			$data = $this->get_product_data( $object );
+		if ( $product->get_type() !== 'variation' ) {
+			$data = $this->get_product_data( $product );
 		} else {
-			$data = $this->get_variation_product_data( $object );
+			$data = $this->get_variation_product_data( $product );
 		}
 
 		// Add review data to products if requested.
 		if ( $request['show_reviews'] ) {
-			$data['reviews'] = $this->get_reviews( $object );
+			$data['reviews'] = $this->get_reviews( $product );
 		}
 
 		// Add variations to variable products. Returns just IDs by default.
-		if ( $object->is_type( 'variable' ) && $object->has_child() ) {
-			$variations = $object->get_children();
+		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
+			$variations = $product->get_children();
 
 			foreach ( $variations as $variation_product ) {
 				$data['variations'][ $variation_product ] = array( 'id' => $variation_product );
@@ -285,8 +303,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		}
 
 		// Add grouped products data.
-		if ( $object->is_type( 'grouped' ) && $object->has_child() ) {
-			$data['grouped_products'] = $object->get_children();
+		if ( $product->is_type( 'grouped' ) && $product->has_child() ) {
+			$data['grouped_products'] = $product->get_children();
 		}
 
 		$data     = $this->add_additional_fields_to_object( $data, $request );
@@ -298,10 +316,10 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		 * Filter the data for a response.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Data          $object   Object data.
+		 * @param WC_Product       $product  Product data.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
-		return apply_filters( 'cocart_prepare_product_object', $response, $object, $request );
+		return apply_filters( 'cocart_prepare_product_object', $response, $product, $request );
 	} // END prepare_object_for_response()
 
 	/**
@@ -470,12 +488,12 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		// Set before into date query. Date query must be specified as an array of an array.
 		if ( isset( $request['before'] ) ) {
-			$args['date_query'][0]['before'] = $request['before'];
+			$args['date_query'][]['before'] = $request['before'];
 		}
 
 		// Set after into date query. Date query must be specified as an array of an array.
 		if ( isset( $request['after'] ) ) {
-			$args['date_query'][0]['after'] = $request['after'];
+			$args['date_query'][]['after'] = $request['after'];
 		}
 
 		$operator_mapping = array(

@@ -84,15 +84,19 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get a collection of products.
 	 *
 	 * @access  public
-	 * @since   3.1.0 Introduced.
-	 * @since   3.2.0 Moved products to it's own object and returned also pagination information.
-	 * @version 3.2.0
+	 * @since   3.1.0  Introduced.
+	 * @since   3.2.0  Moved products to it's own object and returned also pagination information.
+	 * @since   3.10.7 Checks if query results return as an error.
 	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function get_items( $request ) {
 		$query_args    = $this->prepare_objects_query( $request );
 		$query_results = $this->get_objects( $query_args );
+
+		if ( is_wp_error( $query_results ) ) {
+			return $query_results;
+		}
 
 		$objects = array();
 
