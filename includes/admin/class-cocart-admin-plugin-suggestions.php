@@ -36,7 +36,7 @@ class CoCart_Plugin_Suggestions_Updater {
 	 */
 	public function init() {
 		add_action( 'cocart_update_plugin_suggestions', array( $this, 'update_plugin_suggestions' ) );
-	}
+	} // END init()
 
 	/**
 	 * Fetches new plugin data, updates CoCart plugin suggestions.
@@ -78,19 +78,20 @@ class CoCart_Plugin_Suggestions_Updater {
 
 		$data['suggestions'] = $body;
 		return update_option( 'cocart_plugin_suggestions', $data, false );
-	}
+	} // END update_plugin_suggestions()
 
 	/**
 	 * Used when an error has occurred when fetching suggestions.
 	 * Re-schedules the job earlier than the main weekly one.
 	 *
 	 * @access public
+	 * @static
 	 */
-	public function retry() {
+	public static function retry() {
 		WC()->queue()->cancel_all( 'cocart_update_plugin_suggestions' );
 		WC()->queue()->schedule_single( time() + DAY_IN_SECONDS, 'cocart_update_plugin_suggestions' );
-	}
+	} // END retry()
 
-}
+} // END class
 
 return new CoCart_Plugin_Suggestions_Updater();
