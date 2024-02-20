@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.10.6';
+	public static $version = '3.10.7';
 
 	/**
 	 * CoCart Database Schema version.
@@ -248,26 +248,26 @@ final class CoCart {
 		include_once COCART_ABSPATH . 'includes/cocart-formatting-functions.php';
 
 		// Core classes.
-		include_once COCART_ABSPATH . 'includes/class-cocart-api.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-cart-cache.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-cart-callbacks.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-cart-extension.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-install.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-response.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-cart-formatting.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-cart-validation.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-session.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-api.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-authentication.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-cart-cache.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-cart-callbacks.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-cart-extension.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-helpers.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-install.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-logger.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-response.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-cart-formatting.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-cart-validation.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-product-validation.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-session.php';
 
 		// REST API functions.
 		include_once COCART_ABSPATH . 'includes/cocart-rest-functions.php';
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			include_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
+			require_once COCART_ABSPATH . 'includes/class-cocart-cli.php';
 		}
 
 		/**
@@ -279,9 +279,9 @@ final class CoCart {
 			false === COCART_WHITE_LABEL && is_admin() ||
 			( defined( 'WP_CLI' ) && WP_CLI )
 		) {
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin.php';
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin.php';
 		} else {
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';
 		}
 	} // END includes()
 
@@ -297,7 +297,7 @@ final class CoCart {
 	 * @return void
 	 */
 	public static function background_updater() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-background-updater.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-background-updater.php';
 	} // END background_updater()
 
 	/**
@@ -308,7 +308,7 @@ final class CoCart {
 	 * @since  3.0.0
 	 */
 	public static function include_extension_compatibility() {
-		include_once COCART_ABSPATH . 'includes/compatibility/class-cocart-compatibility.php';
+		require_once COCART_ABSPATH . 'includes/compatibility/class-cocart-compatibility.php';
 	} // END include_extension_compatibility()
 
 	/**
@@ -319,7 +319,7 @@ final class CoCart {
 	 * @since  2.8.1
 	 */
 	public static function include_third_party() {
-		include_once COCART_ABSPATH . 'includes/third-party/class-cocart-third-party.php';
+		require_once COCART_ABSPATH . 'includes/third-party/class-cocart-third-party.php';
 	} // END include_third_party()
 
 	/**
@@ -391,8 +391,8 @@ final class CoCart {
 	 * @version 3.10.0
 	 */
 	public static function load_rest_api() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-rest-api.php';
-		include_once COCART_ABSPATH . 'includes/class-cocart-security.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-rest-api.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-security.php';
 	} // END load_rest_api()
 
 	/**
@@ -408,7 +408,7 @@ final class CoCart {
 	public static function session_handler( $handler ) {
 		if ( class_exists( 'WC_Session' ) ) {
 			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
+			require_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 			$handler = 'CoCart_Session_Handler';
 		}
 
@@ -437,7 +437,7 @@ final class CoCart {
 	 * @return  void
 	 */
 	public static function woocommerce() {
-		include_once COCART_ABSPATH . 'includes/class-cocart-woocommerce.php';
+		require_once COCART_ABSPATH . 'includes/class-cocart-woocommerce.php';
 	} // END woocommerce()
 
 	/**

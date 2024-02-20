@@ -47,19 +47,19 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 */
 		public function includes() {
 			include_once COCART_ABSPATH . 'includes/admin/abstract/abstract-class-submenu-page.php';  // Admin Abstracts.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';             // Admin Assets.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-footer.php';             // Admin Footer.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-help-tab.php';           // Admin Help Tab.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';              // Admin Menus.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';            // Plugin Notices.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';      // Plugin Search.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';             // Admin Assets.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-footer.php';             // Admin Footer.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-help-tab.php';           // Admin Help Tab.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';              // Admin Menus.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';            // Plugin Notices.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';      // Plugin Search.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';         // WooCommerce Admin Notices.
 			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';   // WooCommerce System Status.
 
 			// Pages.
-			include_once COCART_ABSPATH . 'includes/admin/pages/class-cocart-admin-pages-support.php'; // Support.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';        // Setup Wizard.
+			require_once COCART_ABSPATH . 'includes/admin/pages/class-cocart-admin-pages-support.php'; // Support.
+			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';        // Setup Wizard.
 		} // END includes()
 
 		/**
@@ -77,8 +77,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			switch ( $screen->id ) {
 				case 'plugins':
-					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Plugin Action Links.
-					include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
+					require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Plugin Action Links.
+					require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
 					break;
 			}
 		} // END conditional_includes()
