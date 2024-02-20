@@ -684,7 +684,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				break;
 			case 'related':
 			default:
-				$ids = array_map( 'absint', array_values( wc_get_related_products( $product->get_id(), apply_filters( 'cocart_products_get_related_products_limit', 5 ) ) ) );
+				$ids = array_map( 'absint', array_values( wc_get_related_products( $product->get_id(), apply_filters( 'cocart_products_get_related_products_limit', 5 ), apply_filters( 'cocart_products_get_related_products_exclude_ids', array() ) ) ) );
 				break;
 		}
 
