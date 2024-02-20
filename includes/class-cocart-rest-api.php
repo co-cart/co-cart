@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0
- * @version 3.7.10
+ * @version 3.10.7
  * @license GPL-2.0+
  */
 
@@ -35,11 +35,6 @@ class CoCart_REST_API {
 	 * @version 3.6.0
 	 */
 	public function __construct() {
-		// REST API was included starting WordPress 4.4.
-		if ( ! class_exists( 'WP_REST_Server' ) ) {
-			return;
-		}
-
 		// If WooCommerce does not exists then do nothing!
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return;
@@ -435,10 +430,11 @@ class CoCart_REST_API {
 	 *
 	 * @access public
 	 *
-	 * @since  3.6.0 Introduced.
+	 * @since 3.6.0 Introduced.
 	 *
-	 * @param  WP_REST_Response $response The response object.
-	 * @param  object           $server The REST server.
+	 * @param WP_REST_Response $response The response object.
+	 * @param object           $server   The REST server.
+	 *
 	 * @return WP_REST_Response $response The response object.
 	 **/
 	public function send_cache_control( $response, $server ) {
@@ -452,7 +448,9 @@ class CoCart_REST_API {
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
 			if ( ! empty( $_SERVER['REQUEST_URI'] ) && preg_match( $regex_path_pattern, sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) {
-				$server->send_header( 'Cache-Control', 'no-cache, must-revalidate, max-age=0' );
+				if ( method_exists( $server, 'send_header' ) ) {
+					$server->send_header( 'Cache-Control', 'no-cache, must-revalidate, max-age=0' );
+				}
 			}
 		}
 
@@ -472,11 +470,15 @@ class CoCart_REST_API {
 	 */
 	public function cache_control( $served, $result, $request, $server ) {
 		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-			header( 'Expires: Thu, 01-Jan-70 00:00:01 GMT' );
-			header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-			header( 'Cache-Control: no-store, no-cache, must-revalidate' );
-			header( 'Cache-Control: post-check=0, pre-check=0', false );
-			header( 'Pragma: no-cache' );
+			if ( method_exists( $server, 'send_headers' ) ) {
+				$headers['Expires']       = 'Thu, 01-Jan-70 00:00:01 GMT';
+				$headers['Last-Modified'] = gmdate( 'D, d M Y H:i:s' ) . ' GMT';
+				$headers['Cache-Control'] = 'post-check=0, pre-check=0';
+				$headers['Cache-Control'] = 'no-store, no-cache, must-revalidate';
+				$headers['Pragma']        = 'no-cache';
+
+				$server->send_headers( $headers );
+			}
 		}
 
 		return $served;

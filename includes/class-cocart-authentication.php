@@ -370,11 +370,13 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					'CoCart-API-Cart-Key',
 				);
 
-				header( 'Access-Control-Allow-Origin: ' . apply_filters( 'cocart_allow_origin', $origin ) );
-				header( 'Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE' );
-				header( 'Access-Control-Allow-Credentials: true' );
-				header( 'Access-Control-Allow-Headers: ' . implode( ', ', $allow_headers ) );
-				header( 'Access-Control-Expose-Headers: ' . implode( ', ', $expose_headers ) );
+				if ( method_exists( $server, 'send_header' ) ) {
+					$server->send_header( 'Access-Control-Allow-Origin', apply_filters( 'cocart_allow_origin', $origin ) );
+					$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
+					$server->send_header( 'Access-Control-Allow-Credentials', true );
+					$server->send_header( 'Access-Control-Allow-Headers', implode( ', ', $allow_headers ) );
+					$server->send_header( 'Access-Control-Expose-Headers', implode( ', ', $expose_headers ) );
+				}
 			}
 
 			return $served;
