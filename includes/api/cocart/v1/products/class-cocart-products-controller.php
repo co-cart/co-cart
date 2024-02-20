@@ -1916,8 +1916,18 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'default'           => array(),
 			'sanitize_callback' => 'wp_parse_id_list',
 		);
+		$params['offset'] = array(
+			'description' => __( 'Offset the result set by a specific number of items.', 'cart-rest-api-for-woocommerce' ),
+			'type'        => 'integer',
+		);
+		$params['order'] = array(
+			'description' => __( 'Order sort attribute ascending or descending.', 'cart-rest-api-for-woocommerce' ),
+			'type'        => 'string',
+			'default'     => 'desc',
+			'enum'        => array( 'asc', 'desc' ),
+		);
 		$params['orderby']            = array(
-			'description'       => __( 'Sort collection by object attribute.', 'cart-rest-api-for-woocommerce' ),
+			'description'       => __( 'Sort collection by product attribute.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
 			'enum'              => array(
 				'date',
@@ -1940,6 +1950,38 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'rating',
 			),
 			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['exclude'] = array(
+			'description' => __( 'Ensure result set excludes specific IDs.', 'cart-rest-api-for-woocommerce' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+		$params['include'] = array(
+			'description' => __( 'Limit result set to specific IDs.', 'cart-rest-api-for-woocommerce' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+		$params['parent']         = array(
+			'description' => __( 'Limit result set to products with particular parent IDs.', 'cart-rest-api-for-woocommerce' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+		$params['parent_exclude'] = array(
+			'description' => __( 'Limit result set to all products except those of a particular parent ID.', 'cart-rest-api-for-woocommerce' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
 		);
 
 		return $params;
