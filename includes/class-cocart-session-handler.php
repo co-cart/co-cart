@@ -470,7 +470,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
 				/* translators: %s: filter name */
 				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
-				cocart_deprecated_hook( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
+				cocart_do_deprecated_action( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
 			}
 
 			/**

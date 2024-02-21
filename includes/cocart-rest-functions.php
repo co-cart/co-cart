@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 3.1.0
+ * @version 3.10.8
  * @license GPL-2.0+
  */
 
@@ -15,6 +15,50 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+/**
+ * Runs a deprecated action with notice only if used.
+ *
+ * @since 3.10.8 Introduced.
+ *
+ * @uses cocart_deprecated_hook()
+ *
+ * @param string $tag         The name of the action hook.
+ * @param string $version     The version of CoCart that deprecated the hook.
+ * @param string $replacement The hook that should have been used.
+ * @param string $message     A message regarding the change.
+ * @param array  $args        Array of additional function arguments to be passed to do_action().
+ */
+function cocart_do_deprecated_action( $tag, $version = '', $replacement = null, $message = null, $args = array() ) {
+	if ( ! has_action( $tag ) ) {
+		return;
+	}
+
+	cocart_deprecated_hook( $tag, $version, $replacement, $message );
+	do_action_ref_array( $tag, $args );
+} // END cocart_do_deprecated_action()
+
+/**
+ * Runs a deprecated filter with notice only if used.
+ *
+ * @since 3.10.8 Introduced.
+ *
+ * @uses cocart_deprecated_filter()
+ *
+ * @param string $tag         The name of the filter.
+ * @param string $version     The version of CoCart that deprecated the filter.
+ * @param string $replacement The filter that should have been used.
+ * @param string $message     A message regarding the change.
+ * @param array  $args        Array of additional function arguments to be passed to do_action().
+ */
+function cocart_do_deprecated_filter( $tag, $version = '', $replacement = null, $message = null, $args = array() ) {
+	if ( ! has_filter( $tag ) ) {
+		return;
+	}
+
+	cocart_deprecated_filter( $tag, $args, $version, $replacement, $message );
+	apply_filters_ref_array( $tag, $args );
+} // END cocart_do_deprecated_filter()
 
 /**
  * Wrapper for deprecated hook so we can apply some extra logic.
@@ -72,6 +116,33 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 		return apply_filters_deprecated( $filter, $args, $version, $replacement, $message );
 	}
 } // END cocart_deprecated_filter()
+
+/**
+ * Wrapper for deprecated functions so we can apply some extra logic.
+ *
+ * Uses "wp_doing_ajax()" to check if the request is an AJAX request.
+ *
+ * @since 3.10.8 Introduced.
+ *
+ * @uses CoCart_Authentication::is_rest_api_request() to check if the request is a REST API request.
+ * @uses CoCart_Logger::log() to log the deprecation.
+ *
+ * @param string $function    Function used.
+ * @param string $version     The version of CoCart the message was added in.
+ * @param string $replacement Replacement for the called function.
+ */
+function cocart_deprecated_function( $function, $version = '', $replacement = null ) {
+	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+		do_action( 'deprecated_function_run', $function, $replacement, $version );
+
+		$log_string  = sprintf( esc_html__( 'The %1$s function is deprecated since version %2$s.', 'cart-rest-api-for-woocommerce' ), $function, $version );
+		$log_string .= $replacement ? sprintf( esc_html__( ' Replace with %s.', 'cart-rest-api-for-woocommerce' ), $replacement ) : '';
+
+		CoCart_Logger::log( $log_string, 'debug' );
+	} else {
+		_deprecated_function( $function, $version, $replacement );
+	}
+} // END cocart_deprecated_function()
 
 /**
  * Parses and formats a date for ISO8601/RFC3339.

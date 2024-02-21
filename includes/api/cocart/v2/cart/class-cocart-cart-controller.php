@@ -167,7 +167,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * @reason Better filtering for cart contents later on.
 		 */
-		cocart_deprecated_hook( 'cocart_get_cart', '3.0.0', null, null );
+		cocart_do_deprecated_action( 'cocart_get_cart', '3.0.0', null, null );
 
 		// Ensures the cart totals are calculated before an API response is returned.
 		$this->calculate_totals();
@@ -210,7 +210,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @since   2.0.8
 			 * @version 3.0.0
 			 */
-			cocart_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
+			cocart_do_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
 
 			return apply_filters( 'cocart_empty_cart', $cart_template );
 		}
@@ -714,7 +714,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return  array
 	 */
 	public function get_store_currency() {
-		_deprecated_function( __FUNCTION__, '3.1', 'cocart_get_store_currency' );
+		cocart_deprecated_function( __FUNCTION__, '3.1', 'cocart_get_store_currency' );
 
 		return cocart_get_store_currency();
 	} // END get_store_currency()
@@ -791,7 +791,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return  string       The new amount.
 	 */
 	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-		_deprecated_function( __FUNCTION__, '3.1', 'cocart_prepare_money_response' );
+		cocart_deprecated_function( __FUNCTION__, '3.1', 'cocart_prepare_money_response' );
 
 		return cocart_prepare_money_response( $amount, $decimals, $rounding_mode );
 	} // END prepare_money_response()
@@ -1067,8 +1067,8 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				}
 			}
 
-			cocart_deprecated_hook( 'cocart_ok_to_add_response', '3.0.0', null, 'This filter is no longer used in the API.' );
-			cocart_deprecated_hook( 'cocart_ok_to_add', '3.0.0', null, 'This filter is no longer used in the API.' );
+			cocart_do_deprecated_action( 'cocart_ok_to_add_response', '3.0.0', null, 'This filter is no longer used in the API.' );
+			cocart_do_deprecated_action( 'cocart_ok_to_add', '3.0.0', null, 'This filter is no longer used in the API.' );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
@@ -2956,7 +2956,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * @deprecated 3.1.0
 		 */
-		cocart_deprecated_filter( 'cocart_cart_schema', array( $schema['properties'] ), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
+		cocart_do_deprecated_filter( 'cocart_cart_schema', array( $schema['properties'] ), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
 
 		/**
 		 * Extend the cart schema properties for items.
