@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.7\n"
+"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.10.8\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-02-20 18:44:11+00:00\n"
+"POT-Creation-Date: 2024-02-21 20:32:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -234,126 +234,127 @@ msgid ""
 "test. %3$sWhat's Coming Next?%4$s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:159
+#: includes/admin/class-cocart-admin-plugin-search.php:167
 #. translators: %s: CoCart
 msgid ""
 "Airplane Mode is Enabled so we're unable to return plugin suggestions for "
 "%s. Please disable Airplane Mode to view results."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:171
-#. translators: %1$s <strong>, %2$s </strong>
+#: includes/admin/class-cocart-admin-plugin-search.php:177
 msgid ""
-"These plugins support or extend and expand the functionality of CoCart. "
-"Press \"learn more\" for more information about each of the %1$sCoCart "
-"add-ons%2$s and %1$sWooCommerce extensions%2$s"
+"These plugins suggestions are provided to help with decoupling your store "
+"for headless needs. Some plugins may or may not support or extend the "
+"functionality of CoCart. You may learn more about each of them via their "
+"card listed below."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:176
+#: includes/admin/class-cocart-admin-plugin-search.php:181
 msgid ""
-"Some of these plugins require a 3rd party plugin or extension to support "
-"it’s features. See plugin requirement at the bottom of each plugin card."
+"Please note: Other than CoCart, we do not provide support for any "
+"WooCommerce extension or third party plugin unless stated otherwise. See "
+"plugin requirements at the bottom of each plugin card."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:189
+#: includes/admin/class-cocart-admin-plugin-search.php:194
 msgid "Currently only provide suggestions in English."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:216
+#: includes/admin/class-cocart-admin-plugin-search.php:222
 #. translators: %s: CoCart
 msgid ""
 "This suggestion was made by %s, the awesome REST API plugin already "
 "installed on your site."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:222
+#: includes/admin/class-cocart-admin-plugin-search.php:228
 msgid "Learn more about these suggestions."
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:328
+#: includes/admin/class-cocart-admin-plugin-search.php:350
 #. translators: %1$s: Add-on name
 msgid "%1$s Add-on"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:349
+#: includes/admin/class-cocart-admin-plugin-search.php:371
 msgid "Requires"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:420
+#: includes/admin/class-cocart-admin-plugin-search.php:445
 #. translators: %s: Plugin author
 msgid "by %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:577
+#: includes/admin/class-cocart-admin-plugin-search.php:611
 #: includes/admin/notes/class-cocart-wc-admin-note-do-with-products.php:108
 #: includes/admin/notes/class-cocart-wc-admin-note-upgrade.php:101
 msgid "Learn more"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:585
+#: includes/admin/class-cocart-admin-plugin-search.php:619
 #. translators: %4$s: plugin does, %3$s: requirement
 msgid "%1$sPlugin %4$s %2$s%3$s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:668
+#: includes/admin/class-cocart-admin-plugin-search.php:711
 #. translators: %s: Plugin name
 msgid "Purchase %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:670
+#: includes/admin/class-cocart-admin-plugin-search.php:713
 msgid "Purchase Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:680
+#: includes/admin/class-cocart-admin-plugin-search.php:723
 #. translators: %s: Plugin name and version.
 msgid "Install %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:682
+#: includes/admin/class-cocart-admin-plugin-search.php:725
 msgid "Install Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:688
-#: includes/admin/class-cocart-admin-plugin-search.php:755
+#: includes/admin/class-cocart-admin-plugin-search.php:731
+#: includes/admin/class-cocart-admin-plugin-search.php:798
 msgid "Not Compatible"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:704
+#: includes/admin/class-cocart-admin-plugin-search.php:747
 #. translators: %s: Plugin name
 msgid "Update %s now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:706
+#: includes/admin/class-cocart-admin-plugin-search.php:749
 msgid "Update Now"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:711
+#: includes/admin/class-cocart-admin-plugin-search.php:754
 msgid "Cannot Update"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:723
+#: includes/admin/class-cocart-admin-plugin-search.php:766
 msgid "Installed & Active"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:727
+#: includes/admin/class-cocart-admin-plugin-search.php:770
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:729
+#: includes/admin/class-cocart-admin-plugin-search.php:772
 #. translators: %s: Plugin name.
 msgid "Activate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:740
+#: includes/admin/class-cocart-admin-plugin-search.php:783
 msgid "Network Activate"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:742
+#: includes/admin/class-cocart-admin-plugin-search.php:785
 #. translators: %s: Plugin name.
 msgid "Network Activate %s"
 msgstr ""
 
-#: includes/admin/class-cocart-admin-plugin-search.php:761
+#: includes/admin/class-cocart-admin-plugin-search.php:804
 msgid "Installed"
 msgstr ""
 
@@ -1063,7 +1064,7 @@ msgid "Thank you and enjoy!"
 msgstr ""
 
 #: includes/admin/views/html-setup-ready.php:74
-msgid "regards,"
+msgid "Regards,"
 msgstr ""
 
 #: includes/admin/views/html-setup-ready.php:86
@@ -3546,68 +3547,64 @@ msgstr ""
 msgid "A message to developers."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:169
-msgid "Store Information"
-msgstr ""
-
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:175
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:201
 #. translators: %s: CoCart
 msgid "Version of the %s (core) plugin."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:183
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:209
+msgid "The routes of CoCart."
+msgstr ""
+
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:215
 msgid "Title of the site."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:189
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:221
 msgid "The site tag line."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:195
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:227
 msgid "The site home URL."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:201
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:233
 msgid "The site language, by default."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:207
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:239
 msgid "The time offset for the timezone."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:213
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:245
 msgid "The timezone from site settings as a string."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:219
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:251
 msgid "The full store address."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:224
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:256
 msgid "The store address line one."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:230
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:262
 msgid "The store address line two."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:236
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:268
 msgid "The store address city."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:242
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:274
 msgid "The store address country."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:248
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:280
 msgid "The store address postcode or zip."
 msgstr ""
 
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:256
-msgid "The public routes of CoCart."
-msgstr ""
-
-#: includes/api/cocart/v2/others/class-cocart-store-controller.php:272
+#: includes/api/cocart/v2/others/class-cocart-store-controller.php:298
 #. translators: %s: Route URL
 msgid "The \"%s\" route URL."
 msgstr ""
@@ -4165,41 +4162,49 @@ msgstr ""
 msgid "%1$s Database Version is %2$s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:37 includes/cocart-rest-functions.php:66
+#: includes/cocart-rest-functions.php:81 includes/cocart-rest-functions.php:110
 #. translators: %1$s: filter name, %2$s: version
 msgid "%1$s is deprecated since version %2$s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:39 includes/cocart-rest-functions.php:68
+#: includes/cocart-rest-functions.php:83 includes/cocart-rest-functions.php:112
 #. translators: %s: filter name
 msgid "! Use %s instead."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:39 includes/cocart-rest-functions.php:68
+#: includes/cocart-rest-functions.php:83 includes/cocart-rest-functions.php:112
 msgid " with no alternative available."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:178
+#: includes/cocart-rest-functions.php:138
+msgid "The %1$s function is deprecated since version %2$s."
+msgstr ""
+
+#: includes/cocart-rest-functions.php:139
+msgid " Replace with %s."
+msgstr ""
+
+#: includes/cocart-rest-functions.php:249
 #. translators: %s: image URL
 msgid "Invalid URL %s."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:200
+#: includes/cocart-rest-functions.php:271
 #. translators: %s: image URL
 msgid "Error getting remote image %s."
 msgstr ""
 
-#: includes/cocart-rest-functions.php:202
+#: includes/cocart-rest-functions.php:273
 #. translators: %s: error message
 msgid "Error: %s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:225
+#: includes/cocart-rest-functions.php:296
 #. translators: %s: error message
 msgid "Invalid image: %s"
 msgstr ""
 
-#: includes/cocart-rest-functions.php:407
+#: includes/cocart-rest-functions.php:478
 #. translators: %s: product name
 msgid "%s has been added to your cart."
 msgid_plural "%s have been added to your cart."
@@ -4289,7 +4294,7 @@ msgctxt "Item name in quotes"
 msgid "\"%s\""
 msgstr ""
 
-#: includes/cocart-rest-functions.php:400
+#: includes/cocart-rest-functions.php:471
 #. translators: %s: product name
 msgctxt "Item name in quotes"
 msgid "&ldquo;%s&rdquo;"

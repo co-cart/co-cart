@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.10.7
+Stable tag: 3.10.8
 WC requires at least: 4.3
 WC tested up to: 8.6
 License: GPLv3
@@ -335,16 +335,33 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 
 [Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
 
-== Changelog ==
+**Please review your experience**
 
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
+== Changelog ==
+
+= v3.10.8 - 21st February, 2024 =
+
+### Improvements
+
+* Plugin suggestions now returns results much better the first time they are viewed.
+* Store API only returns the version, routes and link to documentation if "WP_DEBUG" is true.
+* Deprecated action hooks and filters return messages if actually triggered.
+
+### Compatibility
+
+* Tested up to PHP v8.3.0
+
 = v3.10.7 - 20th February, 2024 =
 
-### What's New?
+### For Developers
 
 * Introduced new filter `cocart_products_get_related_products_exclude_ids` to exclude products from related products.
-* Added missing parameters for products API.
+
+### Improvements
+
+* Added missing arguments for Products API when viewing the OPTIONS.
 
 ### Bug Fix
 
@@ -452,12 +469,19 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 * Removed WooCommerce plugin headers to prevent incompatibility warning message when using "HPOS" feature.
 * Updated "What's Coming Next?" link on plugins page to inform users about v4.0
+
+### Bug Fix
+
+* Fixed Products API where a product has no featured image or gallery images and is unable to determine the placeholder image. [Solves issue 12](https://github.com/co-cart/cocart-products-api/issues/12)
+
+### Compatibility
+
 * Tested with WooCommerce v7.9
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
 
-= 3.10.7 =
+= 3.10.8 =
 
-* Fixed: Calling `retry()` non-static for plugin suggestions when searching.
+Deprecated action hooks and filters return messages if actually triggered.
