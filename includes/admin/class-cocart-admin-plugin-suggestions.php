@@ -21,28 +21,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_Plugin_Suggestions_Updater {
 
 	/**
-	 * Constructor
+	 * Setup.
 	 *
 	 * @access public
+	 *
+	 * @static
 	 */
-	public function __construct() {
-		add_action( 'init', array( $this, 'init' ) );
-	}
+	public static function load() {
+		add_action( 'admin_init', array( __CLASS__, 'init' ) );
+	} // END load()
 
 	/**
 	 * Schedule events and hook appropriate actions.
 	 *
 	 * @access public
+	 *
+	 * @static
 	 */
-	public function init() {
-		add_action( 'cocart_update_plugin_suggestions', array( $this, 'update_plugin_suggestions' ) );
+	public static function init() {
+		if ( ! defined( 'REST_REQUEST' ) ) {
+			add_action( 'cocart_update_plugin_suggestions', array( __CLASS__, 'update_plugin_suggestions' ) );
+		}
 	} // END init()
 
 	/**
 	 * Fetches new plugin data, updates CoCart plugin suggestions.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return array
 	 */
 	public static function update_plugin_suggestions() {
@@ -77,7 +85,10 @@ class CoCart_Plugin_Suggestions_Updater {
 		}
 
 		$data['suggestions'] = $body;
-		return update_option( 'cocart_plugin_suggestions', $data, false );
+
+		update_option( 'cocart_plugin_suggestions', $data, false );
+
+		return $data;
 	} // END update_plugin_suggestions()
 
 	/**
@@ -85,13 +96,19 @@ class CoCart_Plugin_Suggestions_Updater {
 	 * Re-schedules the job earlier than the main weekly one.
 	 *
 	 * @access public
+	 *
 	 * @static
 	 */
 	public static function retry() {
+		if ( ! method_exists( '\ActionScheduler', 'is_initialized' ) ) {
+			return;
+		}
+
 		WC()->queue()->cancel_all( 'cocart_update_plugin_suggestions' );
 		WC()->queue()->schedule_single( time() + DAY_IN_SECONDS, 'cocart_update_plugin_suggestions' );
 	} // END retry()
 
 } // END class
 
-return new CoCart_Plugin_Suggestions_Updater();
+$suggestions = new CoCart_Plugin_Suggestions_Updater();
+$suggestions::load();
