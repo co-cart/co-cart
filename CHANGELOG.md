@@ -1,11 +1,26 @@
 # Changelog for CoCart
 
+## v3.10.8 - 21st February, 2024
+
+### Improvements
+
+* Plugin suggestions now returns results much better the first time they are viewed.
+* Store API only returns the version, routes and link to documentation if "WP_DEBUG" is true.
+* Deprecated action hooks and filters return messages if actually triggered.
+
+### Compatibility
+
+* Tested up to PHP v8.3.0
+
 ## v3.10.7 - 20th February, 2024
 
-### What's New?
+### For Developers
 
 * Introduced new filter `cocart_products_get_related_products_exclude_ids` to exclude products from related products.
-* Added missing parameters for products API.
+
+### Improvements
+
+* Added missing arguments for Products API when viewing the OPTIONS.
 
 ### Bug Fix
 
@@ -113,22 +128,25 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 * Removed WooCommerce plugin headers to prevent incompatibility warning message when using "HPOS" feature.
 * Updated "What's Coming Next?" link on plugins page to inform users about v4.0
-* Tested with WooCommerce v7.9
 
 ### Bug Fix
 
 * Fixed Products API where a product has no featured image or gallery images and is unable to determine the placeholder image. [Solves issue 12](https://github.com/co-cart/cocart-products-api/issues/12)
 
+### Compatibility
+
+* Tested with WooCommerce v7.9
+
 ## v3.8.2 - 12th July, 2023
-
-### What's New?
-
-* Tested with WooCommerce v7.8
-* Tested with WordPress v6.2
 
 ### Bug Fix
 
 * Fixed searching products by name.
+
+### Compatibility
+
+* Tested with WooCommerce v7.8
+* Tested with WordPress v6.2
 
 ## v3.8.1 - 4th March, 2023
 
@@ -143,9 +161,9 @@ Introduced a new filter `cocart_login_extras` to allow developers to extend the 
 
 ## v3.8.0 - 3rd March, 2023
 
-### What's New?
+### Compatibility
 
-* Tested: ✔️ Compatible with WooCommerce v7.4
+* Tested with WooCommerce v7.4
 
 ### For Developers
 
@@ -153,17 +171,20 @@ Introduced a new hook `cocart_cart_loaded` which could be used to trigger a webh
 
 ## v3.7.11 - 16th January, 2023
 
-### What's New
+### Enhancement
 
 * Improved compatibility with PHP 8.1+
-* Tested: ✔️ Compatible with WooCommerce v7.3
+
+### Compatibility
+
+* Tested with WooCommerce v7.3
 
 ## v3.7.10 - 30th December, 2022
 
-### What's New
+### Compatibility
 
-* Tested: ✔️ Compatible with WooCommerce v7.2
-* Tested: ✔️ Compatible with WordPress v6.1
+* Tested with WooCommerce v7.2
+* Tested with WordPress v6.1
 
 ### Bug Fix
 
@@ -178,11 +199,7 @@ Introduced a new hook `cocart_cart_loaded` which could be used to trigger a webh
 
 ## v3.7.8 - 29th October, 2022
 
-### What's New
-
-* Tested: ✔️ Compatible with WooCommerce v7.0
-
-### Tweaks
+### Enhancements
 
 * Improved getting request parameters for delete method endpoints.
 * Reordered some filtering when passing data via parameters.
@@ -191,6 +208,10 @@ Introduced a new hook `cocart_cart_loaded` which could be used to trigger a webh
 
 * Fixed a undefined array key warning related to use of `apply_filters_deprecated`. Reported by [@douglasjohnson](https://profiles.wordpress.org/douglasjohnson/) [Bug Report](https://wordpress.org/support/topic/undefined-array-key-warning-realted-to-use-of-apply_filters_deprecated/)
 * Fixed a fatal error when returning removed items that no longer exists. Now it's removed from the cart completely should the item not be found. Reported by [@antondrob2](https://profiles.wordpress.org/antondrob2/) [Bug Report](https://wordpress.org/support/topic/php-fatal-error-uncaught-error-17/)
+
+### Compatibility
+
+* Tested with WooCommerce v7.0
 
 ## v3.7.7 - 20th October, 2022
 
@@ -207,14 +228,14 @@ Introduced a new hook `cocart_cart_loaded` which could be used to trigger a webh
 
 ## v3.7.5 - 14th September, 2022
 
-### What's New
-
-* Tested: ✔️ Compatible with WooCommerce v6.9
-
 ### Bug Fixes
 
 * Fixed undefined value for querying products via review ratings.
 * Fixed issue with identifying screen ID when using the "Setup Wizard" with WooCommerce 6.9+
+
+### Compatibility
+
+* Tested with WooCommerce v6.9
 
 ## v3.7.4 - 13th July, 2022
 
@@ -243,7 +264,10 @@ If you want to discuss supporting a third party plugin, [start a discussion](htt
 * Adjusted WooCommerce detection when installing CoCart on a completely fresh WordPress install. Related to [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
 * Removed "Turn off CoCart" button from admin notice as the plugin already deactivates if WooCommerce not detected.
 * Prevent plugin action links from showing if CoCart is not active.
-* Tested: ✔️ Compatible with WooCommerce v6.6
+
+### Compatibility
+
+* Tested with WooCommerce v6.6
 
 ## v3.7.1 - 13th June, 2022
 
@@ -260,8 +284,11 @@ Example of limiting products via category and tag. `wp-json/cocart/v2/products/?
 ### What's New
 
 * Improved: CoCart does not proceed with any installation when activated unless WooCommerce is active first. Solves [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
-* Tested: ✔️ Compatible with WooCommerce v6.5
-* Tested: ✔️ Compatible with WordPress v6.0
+
+### Compatibility
+
+* Tested with WooCommerce v6.5
+* Tested with WordPress v6.0
 
 ## v3.6.3 - 11th May, 2022
 
@@ -309,7 +336,10 @@ Example of limiting products via category and tag. `wp-json/cocart/v2/products/?
 
 * Improved: Plugin suggestions now fetches data from a JSON file and is cached once a week.
 * Tweak: Quality of life update for Cart API v1. Should item added to cart not have an image it will fallback to the placeholder image.
-* Tested: ✔️ Compatible with WooCommerce v6.4
+
+### Compatibility
+
+* Tested with WooCommerce v6.4
 
 ### Bug Fix
 
@@ -379,7 +409,7 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 * Support for WooCommerce less than version 4.8 or legacy versions of WooCommerce Admin before it was packaged with the core of WooCommerce.
 
-### Enhancements
+### Enhancement
 
 * Better detection of WooCommerce Admin. Now checks if the feature is enabled.
 
@@ -499,8 +529,8 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 * Added more compatibility for next update of CoCart Pro.
 * Minimum requirement for WordPress is now v5.6
-* Tested: ✔️ Compatible with WooCommerce v6.2
-* Tested: ✔️ Compatible with WordPress v5.9
+* Tested with WooCommerce v6.2
+* Tested with WordPress v5.9
 
 ### For Developers
 
@@ -552,7 +582,7 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 ### Compatibility
 
-* Tested: ✔️ Compatible with WooCommerce v5.9
+* Tested with WooCommerce v5.9
 
 ### For Developers
 
@@ -565,15 +595,26 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 * Fixed: Loading of RTL stylesheet if SCRIPT_DEBUG is not enabled.
 * Fixed: Can no longer remove item by updating quantity to zero.
 * Fixed: Returning error responses when updating an item fails.
-* Tested: ✔️ Compatible with WooCommerce v5.9
+
+### Compatibility
+
+* Tested with WooCommerce v5.9
 
 ## v3.0.15 - 8th November, 2021
 
+### What's New?
+
 * Added: Recommended requirements to the installation section of the readme.txt file.
 * Added: Support for RTL.
+
+### Bug Fixes
+
 * Fixed: Undefined function for `wp_get_environment_type()` introduced in WordPress 5.5 should the site be running a lower version of WordPress. Reported by [Mohib Salahuddin Ayubi](https://profiles.wordpress.org/mohib007/).
 * Fixed: JS bug identifying the parent node for plugin suggestions page.
-* Tested: ✔️ Compatible with WooCommerce v5.8
+
+### Compatibility
+
+* Tested with WooCommerce v5.8
 
 ### Recommended Requirements
 
@@ -582,6 +623,8 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 * PHP v7.4
 
 ## v3.0.14 - 18th October, 2021
+
+### Bug Fix
 
 * Fixed: Undefined index: `cart` that rarely happens. Reported by [@AlceoMazza](https://github.com/AlceoMazza)
 
@@ -700,7 +743,7 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 * Tweaked: Cart session now stores when the cart was created, it's source and hash.
 * Tweaked: WooCommerce System Status Tools are made available even if `COCART_WHITE_LABEL` is set to true.
 * Deprecated: Redirect to cart after using load cart from session.
-* Tested: ✔️ Compatible with WooCommerce v5.3
+* Tested with WooCommerce v5.3
 * Dev: 🐸 **NEW** Update database manually for CoCart via WP-CLI.
 * Dev: 🐸 **NEW** Get the current version of CoCart via WP-CLI.
 * Dev: Forked `get_customer_unique_id()` from WooCommerce session handler for backwards compatibility. Introduced to help with unit tests in WooCommerce since version 5.3. Not needed for CoCart.
@@ -796,7 +839,7 @@ The following filters match filters used in WooCommerce add to cart success noti
 
 * Fixed: Cart not clearing when you specify a cart key. Set the cart empty instead of using WooCommerce internal function `WC()->cart->empty()` as it was not consistent.
 * Dev: Introduced two new action hooks before and after clearing the cart. `cocart_before_cart_emptied` and `cocart_cart_emptied`.
-* Tested: ✔️ Compatible with WooCommerce v5.2
+* Tested with WooCommerce v5.2
 
 ## v2.9.2 - 31st March, 2021
 
@@ -818,8 +861,8 @@ The following filters match filters used in WooCommerce add to cart success noti
 
 * **NEW**: Now supports multi-sites. 🥳
 * Dev: **NEW** Added database version during install in preparation for updating to CoCart v3.
-* Tested: ✔️ Compatible with WooCommerce v5.1
-* Tested: ✔️ Compatible with WordPress v5.7
+* Tested with WooCommerce v5.1
+* Tested with WordPress v5.7
 
 > 📢 Important patch in preparation for CoCart v3. If you have large stores and you update CoCart directly to v3 ignoring this patch, then the database upgrade will run automatically in the background without notice. So please update in order.
 
@@ -852,8 +895,8 @@ The following filters match filters used in WooCommerce add to cart success noti
 ## v2.8.0 - 9th December, 2020
 
 * Enhanced: 📦 Load chosen shipping method when loading cart from session.
-* Tested: ✔️ Compatible with WooCommerce v4.8 and WooCommerce Admin v1.7
-* Tested: ✔️ Compatible with WordPress v5.6
+* Tested with WooCommerce v4.8 and WooCommerce Admin v1.7
+* Tested with WordPress v5.6
 
 ### Minimum requirement changes
 
@@ -865,7 +908,7 @@ The following filters match filters used in WooCommerce add to cart success noti
 ## v2.7.4 - 18th November, 2020
 
 * Enhanced: 🤯 **Access-Control-Expose-Headers** to allow `X-CoCart-API` to be exposed allowing frameworks like **React** to fetch them.
-* Tested: ✔️ Compatible with WooCommerce v4.7
+* Tested with WooCommerce v4.7
 
 > This is a community release by [@saulable](https://github.com/saulable)
 
