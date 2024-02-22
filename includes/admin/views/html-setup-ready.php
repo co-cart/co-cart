@@ -71,7 +71,7 @@ printf(
 
 <p><?php esc_html_e( 'Thank you and enjoy!', 'cart-rest-api-for-woocommerce' ); ?></p>
 
-<p><?php esc_html_e( 'regards,', 'cart-rest-api-for-woocommerce' ); ?></p>
+<p><?php esc_html_e( 'Regards,', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 <div class="founder-row">
 	<div class="founder-image">

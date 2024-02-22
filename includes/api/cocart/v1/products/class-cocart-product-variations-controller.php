@@ -144,7 +144,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		$data     = $this->add_additional_fields_to_object( $data, $request );
 		$data     = $this->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $object, $request ) );
+		$response->add_links( $this->prepare_links( $object ) );
 
 		/**
 		 * Filter the data for a response.
@@ -204,18 +204,17 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WC_Data         $object  Object data.
-	 * @param  WP_REST_Request $request Request object.
-	 * @return array                   Links for the given post.
+	 * @param  WC_Product $product Product object.
+	 * @return array Links for the given post.
 	 */
-	protected function prepare_links( $object, $request ) {
-		$product_id = (int) $request['product_id'];
+	protected function prepare_links( $product ) {
+		$product_id = $product->get_parent_id();
 
 		$base = str_replace( '(?P<product_id>[\d]+)', $product_id, $this->rest_base );
 
 		$links = array(
 			'self'           => array(
-				'href' => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $base, $object->get_id() ) ),
+				'href' => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $base, $product->get_id() ) ),
 			),
 			'collection'     => array(
 				'href' => rest_url( sprintf( '/%s/%s', $this->namespace, $base ) ),

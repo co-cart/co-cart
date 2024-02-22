@@ -64,7 +64,7 @@ class CoCart_Load_Cart {
 	 * @version 3.1.2
 	 */
 	public static function clear_carts() {
-		_deprecated_function( 'clear_carts', '3.1.2', 'cocart_task_clear_carts' );
+		cocart_deprecated_function( 'clear_carts', '3.1.2', 'cocart_task_clear_carts' );
 
 		cocart_task_clear_carts();
 	} // END clear_cart()
@@ -79,7 +79,7 @@ class CoCart_Load_Cart {
 	 * @version 3.1.2
 	 */
 	public static function cleanup_carts() {
-		_deprecated_function( 'cleanup_carts', '3.1.2', 'cocart_task_cleanup_carts' );
+		cocart_deprecated_function( 'cleanup_carts', '3.1.2', 'cocart_task_cleanup_carts' );
 
 		cocart_task_cleanup_carts();
 	} // END cleanup_carts()

@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0
- * @version 3.1.0
+ * @version 3.10.8
  * @license GPL-2.0+
  */
 
@@ -39,10 +39,12 @@ class CoCart_Store_V2_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   3.0.0 Introduced
-	 * @since   3.1.0 Added schema information.
-	 * @version 3.1.0
+	 * @access public
+	 *
+	 * @since 3.0.0 Introduced
+	 * @since 3.1.0 Added schema information.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Get Store - cocart/v2/store (GET).
@@ -55,7 +57,7 @@ class CoCart_Store_V2_Controller {
 					'callback'            => array( $this, 'get_store' ),
 					'permission_callback' => '__return_true',
 				),
-				'schema' => array( $this, 'get_public_object_schema' ),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			),
 		);
 	} // register_routes()
@@ -65,16 +67,23 @@ class CoCart_Store_V2_Controller {
 	 *
 	 * This endpoint describes the general store details.
 	 *
-	 * @access  public
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
-	 * @param   WP_REST_Request $request - Full details about the request.
-	 * @return  WP_REST_Response The API root index data.
+	 * @access public
+	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 3.10.8 Version and routes are only shown if "WP_DEBUG" is true.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The API root index data.
 	 */
 	public function get_store( $request ) {
+		$debug = array(
+			'version' => COCART_VERSION,
+			'routes'  => $this->get_routes(),
+		);
+
 		// General store data.
-		$available = array(
-			'version'         => COCART_VERSION,
+		$store = array(
 			'title'           => get_option( 'blogname' ),
 			'description'     => get_option( 'blogdescription' ),
 			'home_url'        => home_url(),
@@ -82,12 +91,18 @@ class CoCart_Store_V2_Controller {
 			'gmt_offset'      => get_option( 'gmt_offset' ),
 			'timezone_string' => wp_timezone_string(),
 			'store_address'   => $this->get_store_address(),
-			'routes'          => $this->get_routes(),
 		);
 
-		$response = new WP_REST_Response( $available );
+		if ( WP_DEBUG ) {
+			$store = array_merge( $debug, $store );
+		}
 
-		$response->add_link( 'help', 'https://docs.cocart.xyz/' );
+		$response = new WP_REST_Response( $store );
+
+		// Add link to documentation.
+		if ( WP_DEBUG ) {
+			$response->add_link( 'help', COCART_DOC_URL );
+		}
 
 		/**
 		 * Filters the API store index data.
@@ -105,6 +120,7 @@ class CoCart_Store_V2_Controller {
 	 * Returns the store address.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_store_address() {
@@ -123,11 +139,13 @@ class CoCart_Store_V2_Controller {
 	/**
 	 * Returns the list of all public CoCart API routes.
 	 *
-	 * @access  public
-	 * @since   3.0.0 Introduced.
-	 * @since   3.1.0 Added login, logout, cart update and product routes.
-	 * @version 3.1.0
-	 * @return  array
+	 * @access public
+	 *
+	 * @since 3.0.0  Introduced.
+	 * @since 3.1.0  Added login, logout, cart update and product routes.
+	 * @since 3.10.8 Added session routes.
+	 *
+	 * @return array
 	 */
 	public function get_routes() {
 		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' );
@@ -135,38 +153,46 @@ class CoCart_Store_V2_Controller {
 		return apply_filters(
 			'cocart_routes',
 			array(
-				'cart'                => $prefix . 'cart',
-				'cart-add-item'       => $prefix . 'cart/add-item',
-				'cart-add-items'      => $prefix . 'cart/add-items',
-				'cart-item'           => $prefix . 'cart/item',
-				'cart-items'          => $prefix . 'cart/items',
-				'cart-items-count'    => $prefix . 'cart/items/count',
-				'cart-calculate'      => $prefix . 'cart/calculate',
-				'cart-clear'          => $prefix . 'cart/clear',
-				'cart-totals'         => $prefix . 'cart/totals',
-				'cart-update'         => $prefix . 'cart/update',
-				'login'               => $prefix . 'login',
-				'logout'              => $prefix . 'logout',
-				'products'            => $prefix . 'products',
-				'products-attributes' => $prefix . 'products/attributes',
-				'products-categories' => $prefix . 'products/categories',
-				'products-reviews'    => $prefix . 'products/reviews',
-				'products-tags'       => $prefix . 'products/tags',
+				'cart'                    => $prefix . 'cart',
+				'cart-add-item'           => $prefix . 'cart/add-item',
+				'cart-add-items'          => $prefix . 'cart/add-items',
+				'cart-item'               => $prefix . 'cart/item/{item_key}',
+				'cart-items'              => $prefix . 'cart/items',
+				'cart-items-count'        => $prefix . 'cart/items/count',
+				'cart-calculate'          => $prefix . 'cart/calculate',
+				'cart-clear'              => $prefix . 'cart/clear',
+				'cart-totals'             => $prefix . 'cart/totals',
+				'cart-update'             => $prefix . 'cart/update',
+				'login'                   => $prefix . 'login',
+				'logout'                  => $prefix . 'logout',
+				'products'                => $prefix . 'products',
+				'products-attributes'     => $prefix . 'products/attributes',
+				'products-categories'     => $prefix . 'products/categories',
+				'products-reviews'        => $prefix . 'products/reviews',
+				'products-tags'           => $prefix . 'products/tags',
+				'products-variations'     => $prefix . 'products/{product_id}/variations',
+				'products-variation'      => $prefix . 'products/{product_id}/variations/{variation_id}',
+				'sessions'                => $prefix . 'sessions',
+				'sessions-view-session'   => $prefix . 'sessions/{session_id}',
+				'sessions-view-items'     => $prefix . 'sessions/{session_id}/items',
+				'sessions-delete-session' => $prefix . 'sessions/{session_id}',
 			)
 		);
 	} // END get_routes()
 
 	/**
-	 * Get the schema for returning the store.
+	 * Retrieves the item schema for returning the store.
 	 *
 	 * @access public
-	 * @since  3.1.0 Introduced.
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return array Public item schema data.
 	 */
-	public function get_public_object_schema() {
+	public function get_public_item_schema() {
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Store Information', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_store',
 			'type'       => 'object',
 			'properties' => array(
 				'version'         => array(
@@ -178,6 +204,12 @@ class CoCart_Store_V2_Controller {
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
+				),
+				'routes'          => array(
+					'description' => __( 'The routes of CoCart.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+					'context'     => array( 'view' ),
+					'properties'  => array(),
 				),
 				'title'           => array(
 					'description' => __( 'Title of the site.', 'cart-rest-api-for-woocommerce' ),
@@ -252,12 +284,6 @@ class CoCart_Store_V2_Controller {
 						),
 					),
 				),
-				'routes'          => array(
-					'description' => __( 'The public routes of CoCart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'object',
-					'context'     => array( 'view' ),
-					'properties'  => array(),
-				),
 			),
 		);
 
@@ -283,6 +309,6 @@ class CoCart_Store_V2_Controller {
 		}
 
 		return $schema;
-	} // END get_public_object_schema()
+	} // END get_public_item_schema()
 
 } // END class

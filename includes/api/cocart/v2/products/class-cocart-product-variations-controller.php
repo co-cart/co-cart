@@ -156,14 +156,13 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WC_Product      $product Product object.
-	 * @param  WP_REST_Request $request Request object.
-	 * @return array           $links   Links for the given product.
+	 * @param  WC_Product $product Product object.
+	 * @return array $links Links for the given product.
 	 */
-	protected function prepare_links( $product, $request ) {
-		$controller = new CoCart_Products_V2_Controller();
+	protected function prepare_links( $product ) {
+		// $controller = new CoCart_Products_V2_Controller();
 
-		$links = $controller->prepare_links( $product, $request );
+		$links = parent::prepare_links( $product );
 
 		$rest_base = str_replace( '(?P<product_id>[\d]+)', $product->get_parent_id(), $this->rest_base );
 
