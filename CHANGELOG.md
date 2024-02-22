@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v3.10.9 - 22nd February, 2024
+
+### Compatibility
+
+* Removed "DONOTCACHEPAGE" constant.
+
 ## v3.10.8 - 21st February, 2024
 
 ### Improvements

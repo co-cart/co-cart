@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, api, decoupled, headless, cart, products, session
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.10.8
+Stable tag: 3.10.9
 WC requires at least: 4.3
 WC tested up to: 8.6
 License: GPLv3
@@ -341,6 +341,12 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v3.10.9 - 22nd February, 2024 =
+
+### Compatibility
+
+* Removed "DONOTCACHEPAGE" constant.
+
 = v3.10.8 - 21st February, 2024 =
 
 ### Improvements
@@ -482,6 +488,6 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 == Upgrade Notice ==
 
-= 3.10.8 =
+= 3.10.9 =
 
-Deprecated action hooks and filters return messages if actually triggered.
+Removed "DONOTCACHEPAGE" constant.
