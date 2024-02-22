@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0
- * @version 3.10.7
+ * @version 3.10.9
  * @license GPL-2.0+
  */
 
@@ -38,10 +38,6 @@ class CoCart_REST_API {
 		// If WooCommerce does not exists then do nothing!
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return;
-		}
-
-		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true ); // Play nice with WP-Super-Cache plugin (https://wordpress.org/plugins/wp-super-cache/).
 		}
 
 		$this->maybe_load_cart();
