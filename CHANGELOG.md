@@ -2,6 +2,11 @@
 
 ## v3.10.9 - 22nd February, 2024
 
+### Improvements
+
+* Uses less memory.
+* Sends headers with `send_headers()` instead of `header()`
+
 ### Compatibility
 
 * Removed "DONOTCACHEPAGE" constant.
