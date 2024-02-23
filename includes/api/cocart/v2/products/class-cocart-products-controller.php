@@ -517,7 +517,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				'purchase_quantity' => $purchase_quantity,
 				'rest_url'          => $this->add_to_cart_rest_url( $product, $type ),
 			),
-			'meta_data'          => $product->get_meta_data(),
+			'meta_data'          => $this->get_meta_data( $product ),
 		);
 
 		return $data;
@@ -893,6 +893,58 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 		return apply_filters( 'cocart_products_get_price_range', $price, $product );
 	} // END get_price_range()
+
+	/**
+	 * Gets the product meta data.
+	 *
+	 * @access public
+	 *
+	 * @since 3.11.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
+	 * @return array
+	 */
+	public function get_meta_data( $product ) {
+		$meta_data = $product->get_meta_data();
+		$safe_meta = array();
+
+		/**
+		 * Filter allows you to ignore private meta data for the product to return.
+		 *
+		 * When filtering, only list the meta key!
+		 *
+		 * @since 3.11.0 Introduced.
+		 *
+		 * @param WC_Product $product The product object.
+		 */
+		$ignore_private_meta_keys = apply_filters( 'cocart_products_ignore_private_meta_keys', array(), $product );
+
+		foreach ( $meta_data as $meta ) {
+			$ignore_meta = false;
+
+			foreach ( $ignore_private_meta_keys as $ignore ) {
+				if ( str_starts_with( $meta->key, $ignore ) ) {
+					$ignore_meta = true;
+					break; // Exit the inner loop once a match is found.
+				}
+			}
+
+			// Add meta data only if it's not ignored.
+			if ( ! $ignore_meta ) {
+				$safe_meta[ $meta->key ] = $meta;
+			}
+		}
+
+		/**
+		 * Filter allows you to control what remaining product meta data is safe to return.
+		 *
+		 * @since 3.11.0 Introduced.
+		 *
+		 * @param WC_Product $product The product object.
+		 */
+		return array_values( apply_filters( 'cocart_products_get_safe_meta_data', $safe_meta, $product ) );
+	} // END get_meta_data()
 
 	/**
 	 * Get the Products Schema.

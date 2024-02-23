@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart
  * @since   2.6.0
- * @version 3.1.0
+ * @version 3.11.0
  * @license GPL-2.0+
  */
 
@@ -27,7 +27,7 @@ final class CoCart {
 	 * @static
 	 * @var string
 	 */
-	public static $version = '3.10.9';
+	public static $version = '3.11.0';
 
 	/**
 	 * CoCart Database Schema version.
@@ -233,12 +233,15 @@ final class CoCart {
 	 * @access  public
 	 * @static
 	 * @since   1.0.0
-	 * @version 3.7.0
+	 * @version 3.11.0
 	 * @return  void
 	 */
 	public static function includes() {
 		// Class autoloader.
 		include_once COCART_ABSPATH . 'includes/class-cocart-autoloader.php';
+
+		// Polyfill Functions - Must be included before everything else.
+		include_once COCART_ABSPATH . 'includes/cocart-polyfill-functions.php';
 
 		// Abstracts.
 		include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-extension-callback.php';
