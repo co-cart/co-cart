@@ -1811,6 +1811,18 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
+		$params['after'] = array(
+			'description'       => __( 'Limit response to products created after a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'string',
+			'format'            => 'date-time',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+		$params['before'] = array(
+			'description'       => __( 'Limit response to products created before a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'string',
+			'format'            => 'date-time',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
 		$params['type']               = array(
 			'description'       => __( 'Limit result set to products assigned a specific type.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
