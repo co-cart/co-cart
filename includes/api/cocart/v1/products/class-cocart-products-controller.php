@@ -352,8 +352,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function prepare_objects_query( $request ) {
 		$args = array(
 			'offset'              => $request['offset'],
-			'order'               => ! empty( $request['order'] ) ? strtoupper( $request['order'] ) : 'DESC',
-			'orderby'             => ! empty( $request['orderby'] ) ? strtolower( $request['orderby'] ) : get_option( 'woocommerce_default_catalog_orderby' ),
+			'order'               => strtoupper( $request['order'] ),
+			'orderby'             => strtolower( $request['orderby'] ),
 			'paged'               => $request['page'],
 			'post__in'            => $request['include'],
 			'post__not_in'        => $request['exclude'],
@@ -372,11 +372,6 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		// If searching for a specific SKU, allow any post type.
 		if ( ! empty( $request['sku'] ) ) {
 			$args['post_type'] = $this->get_post_types();
-		}
-
-		// If order by is not set then use WooCommerce default catalog setting.
-		if ( empty( $args['orderby'] ) ) {
-			$args['orderby'] = get_option( 'woocommerce_default_catalog_orderby' );
 		}
 
 		switch ( $args['orderby'] ) {
@@ -1975,12 +1970,14 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$params['order'] = array(
 			'description' => __( 'Order sort attribute ascending or descending.', 'cart-rest-api-for-woocommerce' ),
 			'type'        => 'string',
-			'default'     => 'desc',
-			'enum'        => array( 'asc', 'desc' ),
+			'default'     => 'DESC',
+			'enum'        => array( 'ASC', 'DESC' ),
+			'sanitize_callback' => 'sanitize_text_field',
 		);
 		$params['orderby']            = array(
 			'description'       => __( 'Sort collection by product attribute.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
+			'default'           => get_option( 'woocommerce_default_catalog_orderby', 'date' ),
 			'enum'              => array(
 				'date',
 				'id',
