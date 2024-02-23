@@ -347,16 +347,16 @@ If you like CoCart and it has helped with your development, please take a moment
 
 * Products API: Gets all registered product taxonomies.
 * Products API: Added support to query `product_variations` by attribute slugs.
-* Products API: Product meta data is now filterable. See below for notes.
+* Products API: Product meta data is now filterable. (API v2 ONLY) See below for notes.
 
 ### For Developers
 
-* Products API: Filter introduced `cocart_products_ignore_private_meta_keys` allows you to prevent meta data for the product to return. (v2 ONLY)
+* Products API: Filter introduced `cocart_products_ignore_private_meta_keys` allows you to prevent meta data for the product to return. (API v2 ONLY)
 
 > This can be useful should a 3rd party plugin expose private data that should not be made available to the public.
 > For example a plugin that is designed to use web push notifications and exposes an email address.
 
-* Products API: Filter introduced `cocart_products_get_safe_meta_data` to control what product meta is returned. (v2 ONLY)
+* Products API: Filter introduced `cocart_products_get_safe_meta_data` to control what product meta is returned. (API v2 ONLY)
 
 ### Improvements
 
@@ -518,6 +518,6 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 == Upgrade Notice ==
 
-= 3.10.9 =
+= 3.11.0 =
 
-Removed "DONOTCACHEPAGE" constant.
+Cart API: Small performance improvement returning the items.
