@@ -483,12 +483,17 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		// Set before into date query. Date query must be specified as an array of an array.
 		if ( isset( $request['before'] ) ) {
-			$args['date_query'][]['before'] = $request['before'];
+			$args['date_query'][0]['before'] = $request['before'];
 		}
 
 		// Set after into date query. Date query must be specified as an array of an array.
 		if ( isset( $request['after'] ) ) {
-			$args['date_query'][]['after'] = $request['after'];
+			$args['date_query'][0]['after'] = $request['after'];
+		}
+
+		// Set date query column.
+		if ( ! empty( $request['after'] ) || ! empty( $request['before'] ) ) {
+			$args['date_query'][0]['column'] = 'post_date';
 		}
 
 		$operator_mapping = array(
