@@ -1,5 +1,30 @@
 # Changelog for CoCart
 
+## v3.11.0 - 23rd February, 2024
+
+### What's New?
+
+* Products API: Gets all registered product taxonomies.
+* Products API: Added support to query `product_variations` by attribute slugs.
+* Products API: Product meta data is now filterable. See below for notes.
+
+### For Developers
+
+* Products API: Filter introduced `cocart_products_ignore_private_meta_keys` allows you to prevent meta data for the product to return. (v2 ONLY)
+
+> This can be useful should a 3rd party plugin expose private data that should not be made available to the public.
+> For example a plugin that is designed to use web push notifications and exposes an email address.
+
+* Products API: Filter introduced `cocart_products_get_safe_meta_data` to control what product meta is returned. (v2 ONLY)
+
+### Improvements
+
+* Cart API: Small performance improvement returning the items.
+* Products API: Set date query column to `post_date` if `after` and `before` date query is set.
+* Products API: Added missing date `after` and date `before` arguments.
+* Products API: Added sanitize callbacks missing from a few arguments.
+* Products API: Set default `orderby` to date should WooCommerce not have a default catalogue value set.
+
 ## v3.10.9 - 22nd February, 2024
 
 ### Improvements
@@ -15,9 +40,9 @@
 
 ### Improvements
 
-* Plugin suggestions now returns results much better the first time they are viewed.
-* Store API only returns the version, routes and link to documentation if "WP_DEBUG" is true.
-* Deprecated action hooks and filters return messages if actually triggered.
+* WordPress Dashboard: Plugin suggestions now returns results much better the first time they are viewed.
+* Store API: Only returns the version of the plugin, routes and link to documentation if "WP_DEBUG" is true.
+* REST API: Deprecated action hooks and filters return messages if actually triggered.
 
 ### Compatibility
 
