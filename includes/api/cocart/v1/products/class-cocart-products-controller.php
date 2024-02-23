@@ -1998,6 +1998,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'sales',
 				'rating',
 			),
+			'sanitize_callback' => 'sanitize_text_field',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['exclude'] = array(
@@ -2007,6 +2008,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'type' => 'integer',
 			),
 			'default'     => array(),
+			'sanitize_callback' => 'wp_parse_id_list',
 		);
 		$params['include'] = array(
 			'description' => __( 'Limit result set to specific IDs.', 'cart-rest-api-for-woocommerce' ),
@@ -2015,6 +2017,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'type' => 'integer',
 			),
 			'default'     => array(),
+			'sanitize_callback' => 'wp_parse_id_list',
 		);
 		$params['parent']         = array(
 			'description' => __( 'Limit result set to products with particular parent IDs.', 'cart-rest-api-for-woocommerce' ),
@@ -2023,6 +2026,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'type' => 'integer',
 			),
 			'default'     => array(),
+			'sanitize_callback' => 'wp_parse_id_list',
 		);
 		$params['parent_exclude'] = array(
 			'description' => __( 'Limit result set to all products except those of a particular parent ID.', 'cart-rest-api-for-woocommerce' ),
@@ -2031,6 +2035,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'type' => 'integer',
 			),
 			'default'     => array(),
+			'sanitize_callback' => 'wp_parse_id_list',
 		);
 
 		return $params;
