@@ -210,7 +210,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @since   2.0.8
 			 * @version 3.0.0
 			 */
-			cocart_do_deprecated_filter( 'cocart_return_empty_cart', array(), '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
+			cocart_do_deprecated_filter( 'cocart_return_empty_cart', '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
 
 			return apply_filters( 'cocart_empty_cart', $cart_template );
 		}
@@ -2955,8 +2955,10 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 * This filter is now deprecated and is replaced with `cocart_cart_items_schema`.
 		 *
 		 * @deprecated 3.1.0
+		 *
+		 * @see cocart_cart_items_schema
 		 */
-		cocart_do_deprecated_filter( 'cocart_cart_schema', array( $schema['properties'] ), '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ) );
+		cocart_do_deprecated_filter( 'cocart_cart_schema', '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ), array( $schema['properties'] ) );
 
 		/**
 		 * Extend the cart schema properties for items.
