@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v3.11.1 - 27th February, 2024
+
+### Bug Fix
+
+* Fixed: Passing arguments for `cocart_do_deprecated_filter` incorrectly.
+
 ## v3.11.0 - 23rd February, 2024
 
 ### What's New?

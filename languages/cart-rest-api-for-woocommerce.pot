@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.11.0\n"
+"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.11.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-02-23 19:38:26+00:00\n"
+"POT-Creation-Date: 2024-02-27 14:39:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3295,27 +3295,27 @@ msgstr ""
 msgid "Notices for error actions."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2959
+#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2961
 msgid "Changed for the purpose of not overriding default properties."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2984
+#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2986
 msgid "Unique identifier for the cart or customer."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2989
+#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2991
 msgid ""
 "Specify each parent field you want to request separated by (,) in the cart "
 "response before the data is fetched."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2994
+#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:2996
 msgid ""
 "True if you want to return the URL of the featured product image for each "
 "item in the cart."
 msgstr ""
 
-#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:3000
+#: includes/api/cocart/v2/cart/class-cocart-cart-controller.php:3002
 msgid "Return the default cart data if set to true."
 msgstr ""
 

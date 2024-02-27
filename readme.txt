@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.11.0
+Stable tag: 3.11.1
 WC requires at least: 4.3
 WC tested up to: 8.6
 License: GPLv3
@@ -340,6 +340,12 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v3.11.1 - 27th February, 2024 =
+
+### Bug Fix
+
+* Fixed: Passing arguments for `cocart_do_deprecated_filter` incorrectly.
 
 = v3.11.0 - 23rd February, 2024 =
 
