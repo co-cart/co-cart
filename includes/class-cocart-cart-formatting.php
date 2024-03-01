@@ -42,7 +42,9 @@ if ( ! class_exists( 'CoCart_Cart_Formatting' ) ) {
 		 * @return  array $cart The cart data after modifying.
 		 */
 		public function remove_items_parent_item_key( $cart ) {
-			$cart['items'] = array_values( $cart['items'] );
+			if ( isset( $cart['items'] ) ) {
+				$cart['items'] = array_values( $cart['items'] );
+			}
 
 			return $cart;
 		} // END remove_items_parent_item_key()
@@ -57,7 +59,9 @@ if ( ! class_exists( 'CoCart_Cart_Formatting' ) ) {
 		 * @return  array $cart The cart data after modifying.
 		 */
 		public function remove_removed_items_parent_item_key( $cart ) {
-			$cart['removed_items'] = array_values( $cart['removed_items'] );
+			if ( isset( $cart['removed_items'] ) ) {
+				$cart['removed_items'] = array_values( $cart['removed_items'] );
+			}
 
 			return $cart;
 		} // END remove_removed_items_parent_item_key()
