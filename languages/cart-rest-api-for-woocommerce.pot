@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.11.1\n"
+"Project-Id-Version: CoCart API - Decoupling WooCommerce Made Easy 3.11.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-02-27 14:39:44+00:00\n"
+"POT-Creation-Date: 2024-03-01 13:53:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -832,8 +832,8 @@ msgstr ""
 #: includes/admin/views/html-notice-please-review.php:42
 #. translators: 1: CoCart 2: Time since installed.
 msgid ""
-"You have been using %1$s for %2$s now! Mind leaving a review and let me "
-"know know what you think of the plugin? I'd really appreciate it!"
+"You have been using %1$s for %2$s now! Mind leaving a review and let us "
+"know what you think of the plugin? We really appreciate it!"
 msgstr ""
 
 #: includes/admin/views/html-notice-please-review.php:50

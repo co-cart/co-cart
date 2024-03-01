@@ -1,5 +1,15 @@
 # Changelog for CoCart
 
+## v3.11.2 - 1st March, 2024
+
+### Bug Fix
+
+* Fixed: PHP warning for `array_values()` when filtering the fields to return for the Cart API.
+
+### Improvement
+
+* Corrected a spelling error with plugin review notice.
+
 ## v3.11.1 - 27th February, 2024
 
 ### Bug Fix

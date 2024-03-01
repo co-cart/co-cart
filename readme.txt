@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.4
-Stable tag: 3.11.1
+Stable tag: 3.11.2
 WC requires at least: 4.3
 WC tested up to: 8.6
 License: GPLv3
@@ -341,6 +341,16 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v3.11.2 - 1st March, 2024 =
+
+### Bug Fix
+
+* Fixed: PHP warning for `array_values()` when filtering the fields to return for the Cart API.
+
+### Improvement
+
+* Corrected a spelling error with plugin review notice.
+
 = v3.11.1 - 27th February, 2024 =
 
 ### Bug Fix
@@ -524,6 +534,6 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 == Upgrade Notice ==
 
-= 3.11.0 =
+= 3.11.2 =
 
-Cart API: Small performance improvement returning the items.
+Fixed: PHP warning for `array_values()` when filtering the fields to return for the Cart API.
