@@ -1777,6 +1777,24 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			),
 		);
 
+		// Fetch each image size.
+		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
+
+		foreach ( $attachment_sizes as $size ) {
+			// Generate the product featured image URL properties for each attachment size.
+			$schema['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
+				'description' => sprintf(
+					/* translators: %s: Product image URL */
+					__( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
+					$size
+				),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'format'      => 'uri',
+				'readonly'    => true,
+			);
+		}
+
 		return $this->add_additional_fields_schema( $schema );
 	} // END get_item_schema()
 
