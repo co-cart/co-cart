@@ -1398,8 +1398,20 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'weight'                => array(
 					/* translators: %s: weight unit */
 					'description' => sprintf( __( 'Product weight (%s).', 'cart-rest-api-for-woocommerce' ), $weight_unit ),
-					'type'        => 'string',
+					'type'        => 'object',
 					'context'     => array( 'view' ),
+					'properties'  => array(
+						'value' => array(
+							'description' => __( 'Product weight value.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+						),
+						'unit'  => array(
+							'description' => __( 'Product weight unit.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+						),
+					),
 					'readonly'    => true,
 				),
 				'dimensions'            => array(
