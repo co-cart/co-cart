@@ -1217,7 +1217,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'description' => __( 'Product type.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'simple',
-					'enum'        => array_keys( wc_get_product_types() ),
+					'enum'        => array_merge( array_keys( wc_get_product_types() ), array( 'variation' ) ),
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
