@@ -1612,6 +1612,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'type'        => 'array',
 								'format'      => 'uri',
 								'context'     => array( 'view' ),
+								'properties'  => array(),
+								'readonly'    => true,
 							),
 							'name'              => array(
 								'description' => __( 'Image name.', 'cart-rest-api-for-woocommerce' ),
