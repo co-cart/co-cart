@@ -315,7 +315,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 			$_product = wc_get_product( $product_id );
 
-			if ( ! $_product || 0 === $_product->get_id() ) {
+			if ( ! $_product || 0 === $_product->get_id() || 'publish' !== $object->get_status() ) {
 				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 

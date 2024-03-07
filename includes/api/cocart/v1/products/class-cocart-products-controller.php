@@ -332,7 +332,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	public function get_item( $request ) {
 		$object = $this->get_object( (int) $request['id'] );
 
-		if ( ! $object || 0 === $object->get_id() ) {
+		if ( ! $object || 0 === $object->get_id() || 'publish' !== $object->get_status() ) {
 			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
