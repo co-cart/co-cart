@@ -1,5 +1,17 @@
 # Changelog for CoCart
 
+## v3.12.0 - 7th March, 2024
+
+### Security Patch
+
+📢 This release solves a validation issue for both versions of the Products API when accessing an individual product. It is important that you update to this release asap to keep your store secure.
+
+### Bug Fixes
+
+* Corrected: Products API v1 Schema for weight object.
+* Added: Missing Products API v1 Schema for Image sizes.
+* Fixed: Schema product type options to match with parameters.
+
 ## v3.11.2 - 1st March, 2024
 
 ### Bug Fix
