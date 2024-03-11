@@ -100,7 +100,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 		 * @param  string $callback Callback name.
 		 */
 		public static function run_update_callback( $callback ) {
-			include_once dirname( __FILE__ ) . '/cocart-update-functions.php';
+			include_once __DIR__ . '/cocart-update-functions.php';
 
 			if ( is_callable( $callback ) ) {
 				self::run_update_callback_start( $callback );

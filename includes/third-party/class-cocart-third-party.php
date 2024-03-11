@@ -37,7 +37,7 @@ if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 		 * @access public
 		 */
 		public function include_hosts() {
-			include_once COCART_ABSPATH . 'includes/third-party/hosting/pantheon/class-cocart-host-pantheon.php'; // Pantheon.io.
+			include_once __DIR__ . '/hosting/pantheon/class-cocart-host-pantheon.php'; // Pantheon.io.
 		}
 
 		/**
@@ -46,8 +46,8 @@ if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 		 * @access public
 		 */
 		public function include_plugins() {
-			include_once COCART_ABSPATH . 'includes/third-party/plugin/jwt-auth-by-useful-team/class-cocart-plugin-jwt-auth.php'; // JWT Auth.
-			include_once COCART_ABSPATH . 'includes/third-party/plugin/taxjar/class-cocart-plugin-taxjar.php'; // TaxJar.
+			include_once __DIR__ . '/plugin/jwt-auth-by-useful-team/class-cocart-plugin-jwt-auth.php'; // JWT Auth.
+			include_once __DIR__ . '/plugin/taxjar/class-cocart-plugin-taxjar.php'; // TaxJar.
 		}
 
 	} // END class.

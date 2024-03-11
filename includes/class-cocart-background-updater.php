@@ -121,7 +121,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 
 			$logger = new CoCart_Logger();
 
-			include_once dirname( __FILE__ ) . '/cocart-update-functions.php';
+			include_once __DIR__ . '/cocart-update-functions.php';
 
 			$result = false;
 

@@ -69,7 +69,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				$section_tooltip = $section['tooltip'];
 				$debug_data      = $section['data'];
 
-				include dirname( __FILE__ ) . '/views/html-wc-system-status.php';
+				include __DIR__ . '/views/html-wc-system-status.php';
 			}
 		} // END render_system_status_items()
 
