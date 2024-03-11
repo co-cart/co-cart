@@ -13,6 +13,9 @@
 	<exclude-pattern>*/tests/</exclude-pattern>
 	<exclude-pattern>Gruntfile.js</exclude-pattern>
 
+	<!-- Enable colors in report -->
+	<arg name="colors"/>
+
 	<!-- Show progress, show the error codes for each message (source). -->
 	<arg value="ps" />
 
