@@ -119,7 +119,6 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 				}
 			}
 		} // END load_admin_submenu_pages()
-
 	} // END class
 
 } // END if class exists

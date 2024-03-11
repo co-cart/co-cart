@@ -164,7 +164,6 @@ class CoCart_Cart_Cache {
 	public function clear_cart_cached() {
 		WC()->session->__unset( 'cart_cached' );
 	} // END clear_cart_cached()
-
 } // END class
 
 return new CoCart_Cart_Cache();

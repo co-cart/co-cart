@@ -639,7 +639,6 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 				}
 			}
 		} // create_files()
-
 	} // END class.
 
 } // END if class exists.

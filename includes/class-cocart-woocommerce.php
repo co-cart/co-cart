@@ -227,7 +227,6 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 
 			return $saved_cart;
 		} // END get_saved_cart()
-
 	} // END class
 
 } // END if class exists.

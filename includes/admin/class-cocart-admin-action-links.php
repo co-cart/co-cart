@@ -148,7 +148,6 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 			return $metadata;
 		} // END plugin_row_meta()
-
 	} // END class
 
 } // END if class exists

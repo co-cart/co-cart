@@ -166,7 +166,6 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		public static function get_error_response( $error_code, $error_message, $http_status_code = 500, $additional_data = array() ) {
 			return new \WP_Error( $error_code, $error_message, array_merge( $additional_data, array( 'status' => $http_status_code ) ) );
 		}
-
 	} // END class
 
 } // END if class exists

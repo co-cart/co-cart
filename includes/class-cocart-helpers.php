@@ -821,7 +821,6 @@ class CoCart_Helpers {
 
 		return false;
 	} // END is_on_wordpress_playground()
-
 } // END class
 
 return new CoCart_Helpers();

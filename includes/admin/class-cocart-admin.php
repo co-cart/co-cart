@@ -237,7 +237,6 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			return $classes . ' cocart-pagestyles ';
 		} // END admin_body_class()
-
 	} // END class
 
 } // END if class exists

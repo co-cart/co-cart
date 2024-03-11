@@ -88,7 +88,6 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 
 			return $classes;
 		} // END admin_body_class()
-
 	} // END class
 
 } // END if class exists

@@ -203,7 +203,6 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 				echo '</p></div></td></tr>';
 			}
 		} // END plugin_row()
-
 	} // END class
 
 } // END if class exists

@@ -449,7 +449,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
 		} // END check_api_permissions()
-
 	} // END class.
 
 } // END if class exists.

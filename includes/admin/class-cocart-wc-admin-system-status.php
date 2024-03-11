@@ -646,7 +646,6 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 
 			return $message;
 		} // END verify_database()
-
 	} // END class
 
 } // END if class

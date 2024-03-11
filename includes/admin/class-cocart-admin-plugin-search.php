@@ -488,7 +488,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 			// If saved results don't exist then use the new results and add our suggestions.
 			if ( false === $saved_results || is_wp_error( $saved_results ) ) {
-
 				$suggestions = self::get_suggestions();
 
 				$total_items = $result->info['results'];
@@ -809,7 +808,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 						} // END switch
 
 						$links = apply_filters( 'cocart_plugin_search_action_links', $links, $status, $plugin, $name );
-
 					} // END if user can install or update plugins.
 				} // END if plugin matches.
 			} // END foreach cocart plugin.
@@ -905,7 +903,6 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				}
 			}
 		} // END get_suggestions_api_data()
-
 	} // END class
 
 } // END if class exists

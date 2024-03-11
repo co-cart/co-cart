@@ -37,7 +37,6 @@ class CoCart_Cart_Callbacks {
 
 		$callback->register( new CoCart_Cart_Update_Callback() );
 	} // END register_callback_update_cart()
-
 } // END class
 
 return new CoCart_Cart_Callbacks();

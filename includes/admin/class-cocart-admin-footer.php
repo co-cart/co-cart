@@ -69,7 +69,6 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 
 			return $text;
 		} // END update_footer()
-
 	} // END class
 
 } // END if class exists

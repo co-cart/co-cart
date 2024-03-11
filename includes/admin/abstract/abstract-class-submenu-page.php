@@ -143,5 +143,4 @@ abstract class CoCart_Submenu_Page {
 	 * @access public
 	 */
 	public function output() {}
-
 } // END class

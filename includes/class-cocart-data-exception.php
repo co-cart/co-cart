@@ -76,5 +76,4 @@ class CoCart_Data_Exception extends Exception {
 	public function getAdditionalData() {
 		return $this->additional_data;
 	}
-
 }

@@ -90,7 +90,6 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 				$this->load_file( $this->include_path . $file );
 			}
 		} // END autoload()
-
 	} // END class.
 
 } // END if class exists.

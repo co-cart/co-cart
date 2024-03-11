@@ -177,7 +177,6 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 
 			return $note;
 		} // END create_new_note()
-
 	} // END class
 
 } // END if class exists

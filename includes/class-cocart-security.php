@@ -57,7 +57,6 @@ class CoCart_Security {
 
 		return $response;
 	} // END hide_from_rest_index()
-
 } // END class
 
 return new CoCart_Security();

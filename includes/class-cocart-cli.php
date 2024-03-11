@@ -54,7 +54,6 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Version_Command::register_commands' );
 			WP_CLI::add_hook( 'after_wp_load', 'CoCart_CLI_Update_Command::register_commands' );
 		}
-
 	} // END class
 
 } // END if class exists

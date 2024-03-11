@@ -169,7 +169,6 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 		public function is_memory_exceeded() {
 			return $this->memory_exceeded();
 		}
-
 	} // END class.
 
 } // END if class exists.

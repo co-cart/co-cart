@@ -504,7 +504,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				include_once COCART_ABSPATH . 'includes/admin/views/html-notice-playground.php';
 			}
 		} // END wordpress_playground_notice()
-
 	} // END class.
 
 } // END if class exists.

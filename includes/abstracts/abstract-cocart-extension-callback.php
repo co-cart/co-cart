@@ -51,5 +51,4 @@ abstract class CoCart_Cart_Extension_Callback {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END callback()
-
 }

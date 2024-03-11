@@ -67,5 +67,4 @@ abstract class CoCart_Session extends WC_Session {
 	public function get_cart_hash() {
 		return $this->_cart_hash;
 	}
-
 }

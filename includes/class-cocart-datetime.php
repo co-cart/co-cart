@@ -125,5 +125,4 @@ class CoCart_DateTime extends DateTime {
 	public function date_i18n( $format = 'Y-m-d' ) {
 		return date_i18n( $format, $this->getOffsetTimestamp() );
 	}
-
 } // END class

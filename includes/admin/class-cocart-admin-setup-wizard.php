@@ -496,7 +496,6 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 
 		return $classes . ' cocart-setup ';
 	} // END cocart_admin_body_class_setup_wizard()
-
 } // END class
 
 return new CoCart_Admin_Setup_Wizard();

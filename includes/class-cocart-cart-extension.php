@@ -91,7 +91,6 @@ class CoCart_Cart_Extension {
 	public function get_all_registered_callbacks() {
 		return $this->registered_callbacks;
 	} // END get_all_registered_callbacks()
-
 } // END class
 
 return new CoCart_Cart_Extension();

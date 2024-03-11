@@ -892,5 +892,4 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_table_name() {
 		return $this->_table;
 	} // END get_table_name()
-
 } // END class

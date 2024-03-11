@@ -98,7 +98,6 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 				);
 			}
 		} // END add_help_tabs()
-
 	} // END class.
 
 } // END if class exists.

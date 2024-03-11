@@ -82,7 +82,6 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 
 		return $submenu_pages;
 	} // END register_submenu_page()
-
 } // END class
 
 return new CoCart_Admin_Support_Page();

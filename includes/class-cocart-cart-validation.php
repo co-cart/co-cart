@@ -106,7 +106,6 @@ if ( ! class_exists( 'CoCart_Cart_Validation' ) ) {
 
 			return $cart_contents;
 		} // END check_cart_coupons()
-
 	} // END class.
 
 } // END if class exists.

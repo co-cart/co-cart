@@ -166,7 +166,6 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 
 			return $passed;
 		} // END variation_not_purchasable()
-
 	} // END class.
 
 } // END if class exists.

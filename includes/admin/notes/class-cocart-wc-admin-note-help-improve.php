@@ -81,7 +81,6 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 
 		return $args;
 	} // END get_note_args()
-
 } // END class
 
 return new CoCart_WC_Admin_Help_Improve_Note();

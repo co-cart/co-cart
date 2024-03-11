@@ -82,7 +82,6 @@ if ( ! class_exists( 'CoCart_Cart_Formatting' ) ) {
 
 			return $cart_item_data;
 		} // END clean_empty_cart_item_data()
-
 	} // END class.
 
 } // END if class exists.

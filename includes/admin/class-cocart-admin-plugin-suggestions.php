@@ -107,7 +107,6 @@ class CoCart_Plugin_Suggestions_Updater {
 		WC()->queue()->cancel_all( 'cocart_update_plugin_suggestions' );
 		WC()->queue()->schedule_single( time() + DAY_IN_SECONDS, 'cocart_update_plugin_suggestions' );
 	} // END retry()
-
 } // END class
 
 $suggestions = new CoCart_Plugin_Suggestions_Updater();

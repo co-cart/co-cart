@@ -336,7 +336,6 @@ class CoCart_Load_Cart {
 	protected static function maybe_use_cookie_monster() {
 		return apply_filters( 'cocart_use_cookie_monster', true );
 	} // END maybe_use_cookie_monster()
-
 } // END class
 
 return new CoCart_Load_Cart();

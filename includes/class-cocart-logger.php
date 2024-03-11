@@ -106,5 +106,4 @@ class CoCart_Logger {
 			}
 		}
 	} // END log()
-
 } // END class

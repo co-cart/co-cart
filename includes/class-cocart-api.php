@@ -120,7 +120,6 @@ class CoCart_API {
 			die( '-1' );
 		}
 	} // END handle_api_requests()
-
 } // END class
 
 return new CoCart_API();
