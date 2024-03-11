@@ -28,5 +28,4 @@ class CoCart_Product_Tags_V2_Controller extends CoCart_Product_Tags_Controller {
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
-
 }

@@ -70,7 +70,6 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
 		} // END update_cart_validation()
-
 	} // END class.
 
 } // END if class exists.

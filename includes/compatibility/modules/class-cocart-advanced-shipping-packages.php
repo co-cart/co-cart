@@ -54,7 +54,6 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 
 			return $name;
 		}
-
 	} // END class.
 
 } // END if class exists.

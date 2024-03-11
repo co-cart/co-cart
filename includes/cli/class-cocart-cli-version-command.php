@@ -79,7 +79,6 @@ class CoCart_CLI_Version_Command {
 			)
 		);
 	} // END db_version()
-
 } // END class
 
 new CoCart_CLI_Version_Command();

@@ -3017,5 +3017,4 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

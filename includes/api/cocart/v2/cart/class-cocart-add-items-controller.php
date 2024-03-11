@@ -308,5 +308,4 @@ class CoCart_Add_Items_v2_Controller extends CoCart_Add_Item_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

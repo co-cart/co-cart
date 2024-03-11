@@ -46,7 +46,6 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 
 			return $should_calculate;
 		}
-
 	} // END class.
 
 } // END if class exists.

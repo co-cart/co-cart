@@ -28,5 +28,4 @@ class CoCart_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_Contro
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
-
 }

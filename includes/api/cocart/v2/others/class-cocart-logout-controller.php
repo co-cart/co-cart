@@ -52,5 +52,4 @@ class CoCart_Logout_v2_Controller extends CoCart_Logout_Controller {
 			)
 		);
 	} // register_routes()
-
 } // END class

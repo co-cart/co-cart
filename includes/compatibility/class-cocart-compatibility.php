@@ -35,7 +35,6 @@ if ( ! class_exists( 'CoCart_Compatibility' ) ) {
 			include_once __DIR__ . '/modules/class-cocart-advanced-shipping-packages.php'; // Advanced Shipping Packages.
 			include_once __DIR__ . '/modules/class-cocart-free-gift-coupons.php'; // Free Gift Coupons.
 		}
-
 	} // END class.
 
 } // END if class exists.

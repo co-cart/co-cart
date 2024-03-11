@@ -310,5 +310,4 @@ class CoCart_Store_V2_Controller {
 
 		return $schema;
 	} // END get_public_item_schema()
-
 } // END class

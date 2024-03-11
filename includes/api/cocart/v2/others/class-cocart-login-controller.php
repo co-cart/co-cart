@@ -169,5 +169,4 @@ class CoCart_Login_v2_Controller {
 			),
 		);
 	} // END get_public_object_schema()
-
 } // END class

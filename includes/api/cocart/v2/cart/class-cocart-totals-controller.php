@@ -132,5 +132,4 @@ class CoCart_Totals_v2_Controller extends CoCart_Cart_V2_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

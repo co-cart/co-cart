@@ -113,5 +113,4 @@ class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

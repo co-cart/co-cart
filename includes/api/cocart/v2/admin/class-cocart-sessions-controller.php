@@ -201,5 +201,4 @@ class CoCart_Sessions_V2_Controller {
 			),
 		);
 	} // END get_public_object_schema()
-
 } // END class

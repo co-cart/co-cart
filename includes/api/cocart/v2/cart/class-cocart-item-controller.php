@@ -296,5 +296,4 @@ class CoCart_Item_v2_Controller extends CoCart_Cart_V2_Controller {
 			),
 		);
 	} // END get_public_item_schema()
-
 } // END class

@@ -1997,5 +1997,4 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 		return $this->add_additional_fields_schema( $schema );
 	} // END get_item_schema()
-
 } // END class

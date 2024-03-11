@@ -41,7 +41,6 @@ if ( ! class_exists( 'CoCart_Host_Pantheon' ) ) {
 		public function pantheon_cocart_cookie_name() {
 			return 'wp-cocartpantheon';
 		}
-
 	} // END class.
 
 } // END if class exists.

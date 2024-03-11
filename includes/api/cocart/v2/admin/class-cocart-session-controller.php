@@ -764,5 +764,4 @@ class CoCart_Session_V2_Controller extends CoCart_Cart_V2_Controller {
 	public function get_removed_cart_contents( $session_data = array() ) {
 		return (array) maybe_unserialize( $session_data['removed_cart_contents'] );
 	} // END get_removed_cart_contents()
-
 } // END class

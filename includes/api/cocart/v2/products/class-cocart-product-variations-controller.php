@@ -179,5 +179,4 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 
 		return $links;
 	} // END prepare_links()
-
 }

@@ -95,5 +95,4 @@ class CoCart_Product_Categories_V2_Controller extends CoCart_Product_Categories_
 		 */
 		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request );
 	}
-
 }

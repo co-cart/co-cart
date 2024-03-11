@@ -88,5 +88,4 @@ class CoCart_CLI_Update_Command {
 		/* translators: 1: Number of database updates performed 2: Database version number */
 		WP_CLI::success( sprintf( __( '%1$d update functions completed. Database version is %2$s', 'cart-rest-api-for-woocommerce' ), absint( $update_count ), get_option( 'cocart_db_version' ) ) );
 	} // END update()
-
 } // END class

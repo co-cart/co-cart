@@ -496,5 +496,4 @@ class CoCart_Add_Item_v2_Controller extends CoCart_Add_Item_Controller {
 
 		return false;
 	} // END rest_validate_quantity_arg()
-
 } // END class
