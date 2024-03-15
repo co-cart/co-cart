@@ -966,7 +966,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			}
 		} else {
 			foreach ( $product->get_attributes() as $attribute ) {
-				$attribute_id = 'attribute_' . str_replace( ' ', '-', strtolower( $attribute['name'] ) );
+				$attribute_id = 'attribute_' . str_replace( ' ', '-', strtolower( sanitize_title( $attribute->get_name() ) ) );
 
 				$attributes[ $attribute_id ] = array(
 					'id'                   => $attribute['is_taxonomy'] ? wc_attribute_taxonomy_id_by_name( $attribute['name'] ) : 0,
