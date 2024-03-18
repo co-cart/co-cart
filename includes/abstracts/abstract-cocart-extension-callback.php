@@ -42,11 +42,15 @@ abstract class CoCart_Cart_Extension_Callback {
 	 */
 	public function callback( $request ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		try {
-			throw new CoCart_Data_Exception( 'cocart_no_callback_found', sprintf(
-				/* translators: %s: Class name */
-				esc_html__( 'A "callback" function must be registered when extending class "%s"', 'cart-rest-api-for-woocommerce' ),
-				__CLASS__
-			), 400 );
+			throw new CoCart_Data_Exception(
+				'cocart_no_callback_found',
+				sprintf(
+					/* translators: %s: Class name */
+					esc_html__( 'A "callback" function must be registered when extending class "%s"', 'cart-rest-api-for-woocommerce' ),
+					__CLASS__
+				),
+				400
+			);
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

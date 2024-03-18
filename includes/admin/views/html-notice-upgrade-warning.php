@@ -21,7 +21,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-notice-content">
-			<h3><?php echo sprintf( esc_html__( 'What is next for %s?', 'cart-rest-api-for-woocommerce' ), 'CoCart' ); ?></h3>
+			<h3>
+			<?php
+			printf(
+				/* translators: %s: CoCart */
+				esc_html__( 'What is next for %s?', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			);
+			?>
+			</h3>
 
 			<p>
 			<?php

@@ -74,27 +74,39 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 
 		try {
 			if ( ! is_string( $namespace ) ) {
-				throw new CoCart_Data_Exception( 'cocart_update_cart_namespace_error', sprintf(
-					/* translators: %s: Available namespaces */
-					__( 'You must provide a namespace when extending the cart endpoint. Available namespaces: (%s)', 'cart-rest-api-for-woocommerce' ),
-					implode( ', ', array_keys( $callback_methods ) )
-				), 404 );
+				throw new CoCart_Data_Exception(
+					'cocart_update_cart_namespace_error',
+					sprintf(
+						/* translators: %s: Available namespaces */
+						__( 'You must provide a namespace when extending the cart endpoint. Available namespaces: (%s)', 'cart-rest-api-for-woocommerce' ),
+						implode( ', ', array_keys( $callback_methods ) )
+					),
+					404
+				);
 			}
 
 			if ( ! array_key_exists( $namespace, $callback_methods ) ) {
-				throw new CoCart_Data_Exception( 'cocart_update_cart_no_namespace_error', sprintf(
-					/* translators: %s: Namespace */
-					__( 'There is no such namespace registered: %s.', 'cart-rest-api-for-woocommerce' ),
-					$namespace
-				), 404 );
+				throw new CoCart_Data_Exception(
+					'cocart_update_cart_no_namespace_error',
+					sprintf(
+						/* translators: %s: Namespace */
+						__( 'There is no such namespace registered: %s.', 'cart-rest-api-for-woocommerce' ),
+						$namespace
+					),
+					404
+				);
 			}
 
 			if ( ! is_callable( array( $callback_methods[ $namespace ], 'callback' ) ) ) {
-				throw new CoCart_Data_Exception( 'cocart_update_cart_invalid_callback_error', sprintf(
-					/* translators: %s: Namespace */
-					__( 'There is no valid callback registered for: %s.', 'cart-rest-api-for-woocommerce' ),
-					$namespace
-				), 400 );
+				throw new CoCart_Data_Exception(
+					'cocart_update_cart_invalid_callback_error',
+					sprintf(
+						/* translators: %s: Namespace */
+						__( 'There is no valid callback registered for: %s.', 'cart-rest-api-for-woocommerce' ),
+						$namespace
+					),
+					400
+				);
 			}
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );

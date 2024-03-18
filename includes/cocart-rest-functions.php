@@ -135,8 +135,17 @@ function cocart_deprecated_function( $function_name, $version = '', $replacement
 	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
 		do_action( 'deprecated_function_run', $function_name, $replacement, $version ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-		$log_string  = sprintf( esc_html__( 'The %1$s function is deprecated since version %2$s.', 'cart-rest-api-for-woocommerce' ), $function, $version );
-		$log_string .= $replacement ? sprintf( esc_html__( ' Replace with %s.', 'cart-rest-api-for-woocommerce' ), $replacement ) : '';
+		$log_string = sprintf(
+			/* translators: %1$s: Function name, %2$s: Version */
+			esc_html__( 'The %1$s function is deprecated since version %2$s.', 'cart-rest-api-for-woocommerce' ),
+			$function_name,
+			$version
+		);
+		$log_string .= $replacement ? sprintf(
+			/* translators: %s: Function name */
+			esc_html__( ' Replace with %s.', 'cart-rest-api-for-woocommerce' ),
+			$replacement
+		) : '';
 
 		CoCart_Logger::log( $log_string, 'debug' );
 	} else {
