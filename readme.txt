@@ -3,7 +3,7 @@ Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdab
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: 3.12.0
 WC requires at least: 4.3
 WC tested up to: 8.6
