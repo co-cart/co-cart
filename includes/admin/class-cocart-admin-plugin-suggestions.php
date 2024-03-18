@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin Suggestions Updater
  */
-class CoCart_Plugin_Suggestions_Updater {
+class CoCart_Admin_Plugin_Suggestions_Updater {
 
 	/**
 	 * Setup.
@@ -109,5 +109,5 @@ class CoCart_Plugin_Suggestions_Updater {
 	} // END retry()
 } // END class
 
-$suggestions = new CoCart_Plugin_Suggestions_Updater();
+$suggestions = new CoCart_Admin_Plugin_Suggestions_Updater(); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $suggestions::load();

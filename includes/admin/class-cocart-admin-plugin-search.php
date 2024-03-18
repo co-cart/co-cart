@@ -15,20 +15,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
+if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 
-	class CoCart_Plugin_Search {
+	class CoCart_Admin_Plugin_Search {
 
 		/**
 		 * Singleton constructor.
 		 *
-		 * @return CoCart_Plugin_Search
+		 * @return CoCart_Admin_Plugin_Search
 		 */
 		public static function init() {
 			static $instance = null;
 
 			if ( ! $instance ) {
-				$instance = new CoCart_Plugin_Search();
+				$instance = new CoCart_Admin_Plugin_Search();
 			}
 
 			return $instance;
@@ -162,7 +162,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 				?>
 				<p>
 					<?php
-					echo sprintf(
+					printf(
 						/* translators: %s: CoCart */
 						esc_html__( "Airplane Mode is Enabled so we're unable to return plugin suggestions for %s. Please disable Airplane Mode to view results.", 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
@@ -325,7 +325,7 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
 
 			// If the options have never been updated, or were updated over a week ago, request suggestions.
 			if ( empty( $data['updated'] ) || ( time() - WEEK_IN_SECONDS ) > $data['updated'] ) {
-				$data = CoCart_Plugin_Suggestions_Updater::update_plugin_suggestions();
+				$data = CoCart_Admin_Plugin_Suggestions_Updater::update_plugin_suggestions();
 			}
 
 			return ! empty( $data['suggestions'] ) ? $data['suggestions'] : array();
@@ -912,5 +912,5 @@ if ( ! class_exists( 'CoCart_Plugin_Search' ) ) {
  * the plugin search suggestions will not show on the plugin install page.
  */
 if ( is_admin() && CoCart_Helpers::is_cocart_ps_active() ) {
-	CoCart_Plugin_Search::init();
+	CoCart_Admin_Plugin_Search::init();
 }
