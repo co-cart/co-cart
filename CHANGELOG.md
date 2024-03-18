@@ -1,6 +1,6 @@
 # Changelog for CoCart
 
-## v3.12.0 - 7th March, 2024
+## v3.12.0 - 18th March, 2024
 
 ### Security Patch
 
@@ -12,6 +12,11 @@
 * Added: Missing Products API v1 Schema for Image sizes.
 * Fixed: Schema product type options to match with parameters.
 * Fixed: Products API returning custom attributes with special characters incorrectly. [Solves issue 401](https://github.com/co-cart/co-cart/issues/401)
+* Fixed: Some requested data was not sanitized.
+
+### Compatibility
+
+* Tested with WordPress v6.5
 
 ## v3.11.2 - 1st March, 2024
 
