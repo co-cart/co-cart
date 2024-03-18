@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package CoCart\API
  * @extends CoCart_Cart_V2_Controller
  */
-class CoCart_Count_Items_v2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_Count_Items_V2_Controller extends CoCart_Cart_V2_Controller {
 
 	/**
 	 * Route base.

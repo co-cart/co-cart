@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Calculate_v2_Controller extends CoCart_Calculate_Controller {
+class CoCart_Calculate_V2_Controller extends CoCart_Calculate_Controller {
 
 	/**
 	 * Endpoint namespace.

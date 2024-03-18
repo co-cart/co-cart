@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Login_v2_Controller {
+class CoCart_Login_V2_Controller {
 
 	/**
 	 * Endpoint namespace.

@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package CoCart\API
  */
-class CoCart_Logout_v2_Controller extends CoCart_Logout_Controller {
+class CoCart_Logout_V2_Controller extends CoCart_Logout_Controller {
 
 	/**
 	 * Endpoint namespace.
