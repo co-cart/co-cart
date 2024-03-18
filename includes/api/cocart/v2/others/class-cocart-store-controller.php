@@ -101,7 +101,7 @@ class CoCart_Store_V2_Controller {
 
 		// Add link to documentation.
 		if ( WP_DEBUG ) {
-			$response->add_link( 'help', COCART_DOC_URL );
+			$response->add_link( 'help', COCART_DOCUMENTATION_URL );
 		}
 
 		/**
