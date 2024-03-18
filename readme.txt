@@ -341,7 +341,7 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
-= v3.12.0 - 7th March, 2024 =
+= v3.12.0 - 18th March, 2024 =
 
 ### Security Patch
 
