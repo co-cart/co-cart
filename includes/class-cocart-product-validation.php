@@ -96,10 +96,10 @@ if ( ! class_exists( 'CoCart_Product_Validation' ) ) {
 		 * @access  public
 		 * @since   2.1.0 Introduced.
 		 * @version 2.2.0
-		 * @param   string $product_name - Product name before change.
-		 * @param   object $_product     - Product data.
-		 * @param   array  $cart_item    - Item details of the product in cart.
-		 * @return  string $product_name - Product name after change.
+		 * @param   string $product_name Product name before change.
+		 * @param   object $_product     Product data.
+		 * @param   array  $cart_item    Item details of the product in cart.
+		 * @return  string $product_name Product name after change.
 		 */
 		public function validate_variation_product_name( $product_name, $_product, $cart_item ) {
 			if ( $_product->is_type( 'variation' ) ) {

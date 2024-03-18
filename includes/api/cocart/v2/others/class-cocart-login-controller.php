@@ -56,7 +56,7 @@ class CoCart_Login_V2_Controller {
 					'permission_callback' => array( $this, 'get_permission_callback' ),
 				),
 				'schema' => array( $this, 'get_public_object_schema' ),
-			),
+			)
 		);
 	} // register_routes()
 

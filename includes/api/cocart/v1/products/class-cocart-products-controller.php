@@ -49,7 +49,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Products - cocart/v1/products (GET)
+		// Get Products - cocart/v1/products (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -64,7 +64,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			)
 		);
 
-		// Get a single product - cocart/v1/products/32 (GET)
+		// Get a single product - cocart/v1/products/32 (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<id>[\d]+)',
@@ -513,10 +513,10 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		);
 
 		// Map between taxonomy name and arg key.
-		$default_taxonomies = [
+		$default_taxonomies = array(
 			'product_cat' => 'category',
 			'product_tag' => 'tag',
-		];
+		);
 
 		$taxonomies = array_merge( $all_product_taxonomies, $default_taxonomies );
 
@@ -650,7 +650,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$args[ $on_sale_key ] = $on_sale_ids;
 		}
 
-		// Filter by Catalog Visibility
+		// Filter by Catalog Visibility.
 		$catalog_visibility = $request->get_param( 'catalog_visibility' );
 		$visibility_options = wc_get_product_visibility_options();
 
@@ -667,7 +667,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			);
 		}
 
-		// Filter by Product Rating
+		// Filter by Product Rating.
 		$rating = $request->get_param( 'rating' );
 
 		if ( ! empty( $rating ) ) {
@@ -937,7 +937,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function get_attributes( $product ) {
 		$attributes = array();
 
-		if ( $product->is_type( 'variation' ) ) {
+		if ( $product->is_type( 'variation' ) || $product->is_type( 'subscription_variation' ) ) {
 			$_product = wc_get_product( $product->get_parent_id() );
 
 			foreach ( $product->get_variation_attributes() as $attribute_name => $attribute ) {
@@ -2089,5 +2089,4 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

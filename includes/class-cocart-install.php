@@ -391,7 +391,7 @@ if ( ! class_exists( 'CoCart_Install' ) ) {
 							),
 							'cocart-db-updates'
 						);
-						$loop++;
+						++$loop;
 					}
 				}
 			}

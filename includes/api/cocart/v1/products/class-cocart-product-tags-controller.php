@@ -4,11 +4,10 @@
  *
  * Handles requests to the products/tags endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\Products\v1
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -41,9 +40,9 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 	 * Prepare a single product tag output for response.
 	 *
 	 * @access public
-	 * @param  obj             $item Term object.
-	 * @param  WP_REST_Request $request
-	 * @return WP_REST_Response $response
+	 * @param obj             $item    Term object.
+	 * @param WP_REST_Request $request Request used to generate the response.
+	 * @return WP_REST_Response $response The response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		$data = array(
@@ -66,12 +65,12 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 		 *
 		 * Allows modification of the term data right before it is returned.
 		 *
-		 * @param WP_REST_Response  $response  The response object.
-		 * @param object            $item      The original term object.
-		 * @param WP_REST_Request   $request   Request used to generate the response.
+		 * @param WP_REST_Response $response The response object.
+		 * @param object           $item     The original term object.
+		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
 		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request );
-	}
+	} // END prepare_item_for_response()
 
 	/**
 	 * Get the Tag's schema, conforming to JSON Schema.
@@ -125,5 +124,5 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 		);
 
 		return $this->add_additional_fields_schema( $schema );
-	}
-}
+	} // END get_item_schema()
+} // END class

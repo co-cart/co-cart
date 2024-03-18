@@ -2,11 +2,10 @@
 /**
  * CoCart - Abstract Rest Terms Controller
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\Products\v1
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -80,7 +79,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 					'schema' => array( $this, 'get_public_item_schema' ),
 				)
 			);
-		}
+		} // END register_routes()
 
 		/**
 		 * Check if a given request has access to read the terms.
@@ -101,7 +100,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			return true;
-		}
+		} // END get_items_permissions_check()
 
 		/**
 		 * Check if a given request has access to read a term.
@@ -122,7 +121,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			return true;
-		}
+		} // END get_item_permissions_check()
 
 		/**
 		 * Check permissions.
@@ -153,7 +152,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			return true;
-		}
+		} // END check_permissions()
 
 		/**
 		 * Get terms associated with a taxonomy.
@@ -189,10 +188,8 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				if ( 0 === $request['parent'] ) {
 					// Only query top-level terms.
 					$prepared_args['parent'] = 0;
-				} else {
-					if ( $request['parent'] ) {
-						$prepared_args['parent'] = $request['parent'];
-					}
+				} elseif ( $request['parent'] ) {
+					$prepared_args['parent'] = $request['parent'];
 				}
 			}
 
@@ -214,12 +211,12 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				$query_result = $this->get_terms_for_product( $prepared_args, $request );
 				$total_terms  = $this->total_terms;
 			} else {
-				$query_result = get_terms( $taxonomy, $prepared_args );
+				$query_result = get_terms( $taxonomy, $prepared_args ); // todo: Update first parameter to merge with second parameter.
 
 				$count_args = $prepared_args;
 				unset( $count_args['number'] );
 				unset( $count_args['offset'] );
-				$total_terms = wp_count_terms( $taxonomy, $count_args );
+				$total_terms = wp_count_terms( $taxonomy, $count_args ); // todo: Update first parameter to merge with second parameter.
 
 				// Ensure we don't return results when offset is out of bounds.
 				// See https://core.trac.wordpress.org/ticket/35935.
@@ -273,7 +270,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			return $response;
-		}
+		} // END get_items()
 
 		/**
 		 * Get a single term from a taxonomy.
@@ -293,7 +290,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			$response = $this->prepare_item_for_response( $term, $request );
 
 			return rest_ensure_response( $response );
-		}
+		} // END get_item()
 
 		/**
 		 * Prepare links for the request.
@@ -329,7 +326,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			return $links;
-		}
+		} // END prepare_links()
 
 		/**
 		 * Get the terms attached to a product.
@@ -380,7 +377,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			$query_result      = array_slice( $query_result, $prepared_args['offset'], $prepared_args['number'] );
 
 			return $query_result;
-		}
+		} // END get_terms_for_product()
 
 		/**
 		 * Comparison function for sorting terms by a column.
@@ -402,7 +399,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			return strcmp( $left_val, $right_val );
-		}
+		} // END compare_terms()
 
 		/**
 		 * Get the query params for collections
@@ -502,7 +499,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			);
 
 			return $params;
-		}
+		} // END get_collection_params()
 
 		/**
 		 * Get taxonomy.
@@ -525,8 +522,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			}
 
 			return $this->taxonomy;
-		}
-
-	}
+		} // END get_taxonomy()
+	} // END abstract
 
 }

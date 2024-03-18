@@ -627,12 +627,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * Returns the cart.
 	 *
 	 * @access public
-	 * @param  string $cart_key The customer ID or cart key.
-	 * @param  mixed  $default  Default cart value.
+	 * @param  string $cart_key      The customer ID or cart key.
+	 * @param  mixed  $default_value Default cart value.
 	 * @global $wpdb
 	 * @return string|array
 	 */
-	public function get_cart( $cart_key, $default = false ) {
+	public function get_cart( $cart_key, $default_value = false ) {
 		global $wpdb;
 
 		// There will be no sessions retrieved while WordPress setup is due.
@@ -647,7 +647,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			if ( is_null( $value ) ) {
-				$value = $default;
+				$value = $default_value;
 			}
 
 			$cache_duration = $this->_cart_expiration - time();
@@ -664,12 +664,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 *
 	 * @access public
 	 * @since  3.1.0
-	 * @param  string $cart_key The customer ID or cart key.
-	 * @param  mixed  $default  Default cart value.
+	 * @param  string $cart_key      The customer ID or cart key.
+	 * @param  mixed  $default_value Default cart value.
 	 * @return string|array
 	 */
-	public function get_session( $cart_key, $default = false ) {
-		return $this->get_cart( $cart_key, $default );
+	public function get_session( $cart_key, $default_value = false ) {
+		return $this->get_cart( $cart_key, $default_value );
 	} // END get_session()
 
 	/**
@@ -726,10 +726,10 @@ class CoCart_Session_Handler extends CoCart_Session {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   string $cart_key        - The cart key passed to create the cart.
-	 * @param   array  $cart_value      - The cart data.
-	 * @param   string $cart_expiration - Timestamp of cart expiration.
-	 * @param   string $cart_source     - Cart source.
+	 * @param   string $cart_key        The cart key passed to create the cart.
+	 * @param   array  $cart_value      The cart data.
+	 * @param   string $cart_expiration Timestamp of cart expiration.
+	 * @param   string $cart_source     Cart source.
 	 * @global  $wpdb
 	 * @return  $cart_key
 	 */

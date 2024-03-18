@@ -38,7 +38,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 * @version 2.7.0
 	 */
 	public function register_routes() {
-		// Calculate Cart Total - cocart/v1/calculate (POST)
+		// Calculate Cart Total - cocart/v1/calculate (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -90,5 +90,4 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 
 		return $this->get_response( $message, $this->rest_base );
 	} // END calculate_totals()
-
 } // END class

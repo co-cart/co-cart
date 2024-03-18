@@ -42,11 +42,11 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 		 * Take a class name and turn it into a file name.
 		 *
 		 * @access private
-		 * @param  string $class Class name.
+		 * @param  string $class_name Class name.
 		 * @return string
 		 */
-		private function get_file_name_from_class( $class ) {
-			return 'class-' . str_replace( '_', '-', $class ) . '.php';
+		private function get_file_name_from_class( $class_name ) {
+			return 'class-' . str_replace( '_', '-', $class_name ) . '.php';
 		} // END get_file_name_from_class()
 
 		/**
@@ -68,10 +68,10 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 		 * Auto-load CoCart classes on demand to reduce memory consumption.
 		 *
 		 * @access public
-		 * @param  string $class Class name.
+		 * @param  string $class_name Class name.
 		 */
-		public function autoload( $class ) {
-			$class = strtolower( $class );
+		public function autoload( $class_name ) {
+			$class = strtolower( $class_name );
 
 			if ( 0 !== strpos( $class, 'cocart_' ) ) {
 				return;

@@ -56,7 +56,7 @@ class CoCart_Sessions_V2_Controller {
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
 				'schema' => array( $this, 'get_public_object_schema' ),
-			),
+			)
 		);
 	} // register_routes()
 

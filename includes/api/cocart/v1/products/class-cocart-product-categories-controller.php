@@ -4,11 +4,10 @@
  *
  * Handles requests to the products/categories endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\Products\v1
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -43,7 +42,7 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 	 * @access public
 	 * @param  WP_Term         $item    Term object.
 	 * @param  WP_REST_Request $request Request instance.
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response $response The response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		// Get category display type.
@@ -87,7 +86,7 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $item, $request ) );
+		$response->add_links( $this->prepare_links( $item ) );
 
 		/**
 		 * Filter a term item returned from the API.
@@ -99,7 +98,7 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 		 * @param WP_REST_Request   $request   Request used to generate the response.
 		 */
 		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request );
-	}
+	} // END prepare_item_for_response()
 
 	/**
 	 * Get the Category schema, conforming to JSON Schema.
@@ -222,6 +221,5 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 		);
 
 		return $this->add_additional_fields_schema( $schema );
-	}
-
-}
+	} // END get_item_schema()
+} // END class

@@ -60,7 +60,7 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   3.0.0
 	 * @version 3.7.8
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function view_item( $request = array() ) {

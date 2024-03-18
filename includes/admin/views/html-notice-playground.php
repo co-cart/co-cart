@@ -13,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$campaign_args['utm_source']   = 'wordpress-admin';
-$campaign_args['utm_medium']   = 'wordpress-admin';
-$campaign_args['utm_campaign'] = 'admin-notice';
-$campaign_args['utm_content']  = 'plugin-link';
+$campaign_args['utm_source']   = 'wordpress-admin'; // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$campaign_args['utm_medium']   = 'wordpress-admin'; // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$campaign_args['utm_campaign'] = 'admin-notice'; // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$campaign_args['utm_content']  = 'plugin-link'; // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 ?>
 <div class="notice notice-error cocart-notice is-dismissible">
 	<div class="cocart-notice-inner">
@@ -27,7 +27,7 @@ $campaign_args['utm_content']  = 'plugin-link';
 		<div class="cocart-notice-content">
 			<p>
 				<?php
-				echo sprintf(
+				printf(
 					/* translators: %s: CoCart */
 					esc_html__( 'WordPress Playground is not compatible with the %s plugin. Recommend requesting a demo instead.', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'

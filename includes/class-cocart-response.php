@@ -38,10 +38,9 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @param  bool             $served  Whether the request has already been served. Default false.
 		 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param  WP_REST_Request  $request Request used to generate the response.
-		 * @param  WP_REST_Server   $server  Server instance.
 		 * @return bool
 		 */
-		public function expose_custom_headers( $served, $result, $request, $server ) {
+		public function expose_custom_headers( $served, $result, $request ) {
 			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
 				header( 'Access-Control-Expose-Headers: X-CoCart-API-Timestamp' ); // @todo Deprecate in v4.0
 				header( 'Access-Control-Expose-Headers: X-CoCart-API-Version' ); // @todo Deprecate in v4.0
@@ -62,12 +61,12 @@ if ( ! class_exists( 'CoCart_Response' ) ) {
 		 * @since   3.1.0  Added two response headers; a timestamp and the version of CoCart.
 		 * @since   3.3.0  Added new custom headers without the prefix `X-`
 		 * @version 3.3.0
-		 * @param   mixed  $data      - The original data response of the API requested.
-		 * @param   string $namespace - The namespace of the API requested.
-		 * @param   string $rest_base - The rest base of the API requested.
-		 * @return  WP_REST_Response  - The returned response.
+		 * @param   mixed  $data       The original data response of the API requested.
+		 * @param   string $name_space The namespace of the API requested.
+		 * @param   string $rest_base  The rest base of the API requested.
+		 * @return  WP_REST_Response   The returned response.
 		 */
-		public static function get_response( $data, $namespace = '', $rest_base = '' ) {
+		public static function get_response( $data, $name_space = '', $rest_base = '' ) {
 			if ( empty( $rest_base ) ) {
 				$rest_base = 'cart';
 			}

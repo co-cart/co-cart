@@ -42,7 +42,7 @@ class CoCart_DateTime extends DateTime {
 	}
 
 	/**
-	 * Set UTC offset - this is a fixed offset instead of a timezone.
+	 * Set UTC offset this is a fixed offset instead of a timezone.
 	 *
 	 * @access public
 	 *

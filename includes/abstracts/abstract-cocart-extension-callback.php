@@ -40,7 +40,7 @@ abstract class CoCart_Cart_Extension_Callback {
 	 * @access public
 	 * @param  WP_REST_Request $request Full details about the request.
 	 */
-	public function callback( $request ) {
+	public function callback( $request ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		try {
 			throw new CoCart_Data_Exception( 'cocart_no_callback_found', sprintf(
 				/* translators: %s: Class name */

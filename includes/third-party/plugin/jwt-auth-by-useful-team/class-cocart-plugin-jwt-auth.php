@@ -28,7 +28,7 @@ if ( ! class_exists( 'CoCart_Plugin_JWT_Auth' ) ) {
 		public function __construct() {
 			add_filter(
 				'jwt_auth_whitelist',
-				function( $endpoints ) {
+				function ( $endpoints ) {
 					return array_merge(
 						$endpoints,
 						array(
@@ -39,7 +39,6 @@ if ( ! class_exists( 'CoCart_Plugin_JWT_Auth' ) ) {
 				}
 			);
 		}
-
 	} // END class.
 
 } // END if class exists.

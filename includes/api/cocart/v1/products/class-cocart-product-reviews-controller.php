@@ -4,11 +4,10 @@
  *
  * Handles requests to the /products/reviews/ endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\Products\v1
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -118,7 +117,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-	}
+	} // END register_routes()
 
 	/**
 	 * Check if the requested product review exists before returning.
@@ -144,7 +143,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return true;
-	}
+	} // END check_review_exists()
 
 	/**
 	 * Check if the user has permission to create a new product review.
@@ -167,7 +166,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return true;
-	}
+	} // END create_item_permissions_check()
 
 	/**
 	 * Get all reviews.
@@ -307,7 +306,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return $response;
-	}
+	} // END get_items()
 
 	/**
 	 * Create a single review.
@@ -439,7 +438,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$response->header( 'Location', rest_url( sprintf( '%s/%s/%d', $this->namespace, $this->rest_base, $review_id ) ) );
 
 		return $response;
-	}
+	} // END create_item()
 
 	/**
 	 * Get a single product review.
@@ -458,7 +457,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$response = rest_ensure_response( $data );
 
 		return $response;
-	}
+	} // END get_item()
 
 	/**
 	 * Prepare a single product review output for response.
@@ -520,7 +519,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( 'cocart_prepare_product_review', $response, $review, $request );
-	}
+	} // END prepare_item_for_response()
 
 	/**
 	 * Prepare a single product review to be inserted into the database.
@@ -573,7 +572,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * @param WP_REST_Request $request         The current request.
 		 */
 		return apply_filters( 'cocart_preprocess_product_review', $prepared_review, $request );
-	}
+	} // END prepare_item_for_database()
 
 	/**
 	 * Prepare links for the request.
@@ -607,7 +606,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return $links;
-	}
+	} // END prepare_links()
 
 	/**
 	 * Get the Product Review's schema, conforming to JSON Schema.
@@ -705,7 +704,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		);
 
 		return $this->add_additional_fields_schema( $schema );
-	}
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for collections.
@@ -797,12 +796,12 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 *
 		 * This filter registers the collection parameter, but does not map the
 		 * collection parameter to an internal WP_Comment_Query parameter. Use the
-		 * `wc_rest_review_query` filter to set WP_Comment_Query parameters.
+		 * `cocart_product_review_query` filter to set WP_Comment_Query parameters.
 		 *
 		 * @param array $params JSON Schema-formatted collection parameters.
 		 */
 		return apply_filters( 'cocart_product_review_collection_params', $params );
-	}
+	} // END get_collection_params()
 
 	/**
 	 * Get the review, if the ID is valid.
@@ -833,7 +832,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return $review;
-	}
+	} // END get_review()
 
 	/**
 	 * Prepends internal property prefix to query parameters to match our response fields.
@@ -861,7 +860,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return $normalized;
-	}
+	} // END normalize_query_param()
 
 	/**
 	 * Checks comment_approved to set comment status for single comment output.
@@ -888,7 +887,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return $status;
-	}
+	} // END prepare_status_response()
 
 	/**
 	 * Sets the comment_status of a given review object when creating a review.
@@ -933,6 +932,5 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		return $changed;
-	}
-
-}
+	} // END handle_status_param()
+} // END class

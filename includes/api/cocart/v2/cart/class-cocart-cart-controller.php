@@ -74,7 +74,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		$cart = WC()->cart;
 
 		if ( ! $cart || ! $cart instanceof \WC_Cart ) {
-			throw new CoCart_Data_Exception( 'cocart_cart_error', __( 'Unable to retrieve cart.', 'cart-rest-api-for-woocommerce' ), 500 );
+			throw new CoCart_Data_Exception( 'cocart_cart_error', esc_html__( 'Unable to retrieve cart.', 'cart-rest-api-for-woocommerce' ), 500 );
 		}
 
 		return $cart;
@@ -367,11 +367,15 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			$maximum_quantity = apply_filters( 'cocart_quantity_maximum_allowed', $maximum_quantity, $product );
 
 			if ( ! empty( $maximum_quantity ) && $quantity > $maximum_quantity ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_invalid_amount', sprintf(
-					/* translators: %s: Maximum quantity. */
-					__( 'Quantity must be %s or lower.', 'cart-rest-api-for-woocommerce' ),
-					$maximum_quantity
-				), 405 );
+				throw new CoCart_Data_Exception(
+					'cocart_quantity_invalid_amount',
+					sprintf(
+						/* translators: %s: Maximum quantity. */
+						__( 'Quantity must be %s or lower.', 'cart-rest-api-for-woocommerce' ),
+						$maximum_quantity
+					),
+					405
+				);
 			}
 
 			return wc_stock_amount( $quantity );
@@ -1089,18 +1093,18 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Get the main product slug even if the product type is a variation.
 	 *
 	 * @access public
-	 * @param  WC_Product $object The product object.
+	 * @param  WC_Product $product The product object.
 	 * @return string
 	 */
-	public function get_product_slug( $object ) {
-		$product_type = $object->get_type();
+	public function get_product_slug( $product ) {
+		$product_type = $product->get_type();
 
 		if ( 'variation' === $product_type ) {
-			$product = wc_get_product( $object->get_parent_id() );
+			$product = wc_get_product( $product->get_parent_id() );
 
 			$product_slug = $product->get_slug();
 		} else {
-			$product_slug = $object->get_slug();
+			$product_slug = $product->get_slug();
 		}
 
 		return $product_slug;
@@ -1454,7 +1458,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 				$details['packages'][ $package_key ]['rates'] = $rates;
 			}
 
-			$package_key++; // Update package key for next inline if any.
+			++$package_key; // Update package key for next inline if any.
 		}
 
 		return $details;
@@ -1640,7 +1644,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 * @static
-	 * @since  3.0.1
+	 * @since  3.0.1 Introduced.
 	 * @param  string $error_code Error code for the thrown exceptions.
 	 */
 	public static function convert_notices_to_exceptions( $error_code = 'unknown_server_error' ) {
@@ -1654,7 +1658,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		wc_clear_notices();
 
 		foreach ( $error_notices as $error_notice ) {
-			throw new CoCart_Data_Exception( $error_code, wp_strip_all_tags( $error_notice['notice'] ), 400 );
+			throw new CoCart_Data_Exception( esc_html( $error_code ), esc_html( wp_strip_all_tags( $error_notice['notice'] ) ), 400 );
 		}
 	} // END convert_notices_to_exceptions()
 
@@ -1878,7 +1882,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 		 */
 		$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
 
-		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', $message, 403 );
+		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', esc_html( $message ), 403 );
 	} // END throw_product_not_purchasable()
 
 	/**
@@ -1938,7 +1942,7 @@ class CoCart_Cart_V2_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
 
-			throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', $message, 404 );
+			throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', esc_html( $message ), 404 );
 		}
 
 		return $item_key;

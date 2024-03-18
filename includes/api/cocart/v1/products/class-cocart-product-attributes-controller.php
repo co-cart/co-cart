@@ -4,11 +4,10 @@
  *
  * Handles requests to the products/attributes endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\Products\v1
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -46,7 +45,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 	 */
 	public function get_items_permissions_check( $request ) {
 		return true;
-	}
+	} // END get_items_permissions_check()
 
 	/**
 	 * Check if a given request has access to read a attribute.
@@ -61,13 +60,13 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		}
 
 		return true;
-	}
+	} // END get_item_permissions_check()
 
 	/**
 	 * Get all attributes.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request
+	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return array
 	 */
 	public function get_items( $request ) {
@@ -87,7 +86,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		$response->header( 'X-WP-TotalPages', 1 );
 
 		return $response;
-	}
+	} // END get_items()
 
 	/**
 	 * Get a single attribute.
@@ -106,15 +105,15 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		$response = $this->prepare_item_for_response( $attribute, $request );
 
 		return rest_ensure_response( $response );
-	}
+	} // END get_item()
 
 	/**
 	 * Prepare a single product attribute output for response.
 	 *
 	 * @access public
 	 * @param  obj             $item Term object.
-	 * @param  WP_REST_Request $request
-	 * @return WP_REST_Response $response
+	 * @param  WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response $response The response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		$data = array(
@@ -143,12 +142,13 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		 * @param WP_REST_Request   $request   Request used to generate the response.
 		 */
 		return apply_filters( 'cocart_prepare_product_attribute', $response, $item, $request );
-	}
+	} // END prepare_item_for_response()
 
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @param object $attribute Attribute object.
+	 * @param object          $attribute Attribute object.
+	 * @param WP_REST_Request $request   Request used to generate the response.
 	 * @return array Links for the given attribute.
 	 */
 	protected function prepare_links( $attribute, $request = array() ) {
@@ -163,7 +163,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		);
 
 		return $links;
-	}
+	} // END prepare_links()
 
 	/**
 	 * Get the Attribute's schema, conforming to JSON Schema.
@@ -223,7 +223,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		);
 
 		return $this->add_additional_fields_schema( $schema );
-	}
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for collections
@@ -236,7 +236,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		$params['context'] = $this->get_context_param( array( 'default' => 'view' ) );
 
 		return $params;
-	}
+	} // END get_collection_params()
 
 	/**
 	 * Get attribute name.
@@ -257,7 +257,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		}
 
 		return $this->attribute;
-	}
+	} // END get_taxonomy()
 
 	/**
 	 * Get attribute data.
@@ -275,7 +275,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 				"
 			SELECT * FROM {$wpdb->prefix}woocommerce_attribute_taxonomies
 			WHERE attribute_id = %d
-		 ",
+		",
 				$id
 			)
 		);
@@ -285,6 +285,5 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 		}
 
 		return $attribute;
-	}
-
-}
+	} // END get_attribute()
+} // END class

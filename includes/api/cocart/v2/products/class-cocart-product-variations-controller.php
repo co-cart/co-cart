@@ -111,7 +111,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 *
 	 * @access public
 	 * @param  WC_Product      $product Product instance.
-	 * @param  WP_REST_Request $request - Full details about the request.
+	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $product, $request ) {
@@ -121,7 +121,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 		$data     = $controller->add_additional_fields_to_object( $data, $request );
 		$data     = $controller->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $product, $request ) );
+		$response->add_links( $this->prepare_links( $product ) );
 
 		/**
 		 * Filter the data for a response.
@@ -131,7 +131,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param WC_Product       $product   Product object.
-		 * @param WP_REST_Request  $request - Full details about the request.
+		 * @param WP_REST_Request  $request Full details about the request.
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()
@@ -160,8 +160,6 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 * @return array $links Links for the given product.
 	 */
 	protected function prepare_links( $product ) {
-		// $controller = new CoCart_Products_V2_Controller();
-
 		$links = parent::prepare_links( $product );
 
 		$rest_base = str_replace( '(?P<product_id>[\d]+)', $product->get_parent_id(), $this->rest_base );

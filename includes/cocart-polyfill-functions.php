@@ -21,10 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! function_exists( 'str_starts_with' ) ) {
 
 	/**
-	 * @param string $haystack
-	 * @param string $needle
+	 * Checks if a string starts with a given substring.
+	 *
+	 * Performs a case-sensitive check indicating if haystack begins with needle.
+	 *
+	 * @param string $haystack The string to search in.
+	 * @param string $needle   The substring to search for in the haystack.
 	 */
-	function str_starts_with( string $haystack, string $needle ): bool {
+	function str_starts_with( string $haystack, string $needle ): bool { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 		return 0 === strncmp( $haystack, $needle, strlen( $needle ) );
 	}
 }

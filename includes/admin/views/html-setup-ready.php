@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$docs_url  = esc_url( 'https://cocart.dev/' );
-$help_text = sprintf(
+$docs_url  = esc_url( 'https://cocart.dev/' ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	/* translators: %1$s: link to developers resources */
 	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),
 	$docs_url
@@ -81,7 +81,7 @@ printf(
 	<div class="founder-details">
 		<p>Sébastien Dumont<br>
 		<?php
-		echo sprintf(
+		printf(
 			/* translators: %s: CoCart Headless, LLC */
 			esc_html__( 'Founder of %s', 'cart-rest-api-for-woocommerce' ),
 			'CoCart Headless, LLC'

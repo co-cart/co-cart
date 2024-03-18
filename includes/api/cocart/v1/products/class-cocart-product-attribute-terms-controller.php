@@ -4,11 +4,10 @@
  *
  * Handles requests to the products/attributes/<attributes_id> endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\Products\v1
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,7 +80,7 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-	}
+	} // END register_routes()
 
 	/**
 	 * Prepare a single product attribute term output for response.
@@ -121,7 +120,7 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 		 * @param WP_REST_Request   $request   Request used to generate the response.
 		 */
 		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request );
-	}
+	} // END prepare_item_for_response()
 
 	/**
 	 * Get the Attribute Term's schema, conforming to JSON Schema.
@@ -180,6 +179,5 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 		);
 
 		return $this->add_additional_fields_schema( $schema );
-	}
-
-}
+	} // END get_item_schema()
+} // END class

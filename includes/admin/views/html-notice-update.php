@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$update_url = wp_nonce_url(
+$update_url = wp_nonce_url( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	add_query_arg( 'do_update_cocart', 'true', CoCart_Helpers::cocart_get_current_admin_url() ),
 	'cocart_db_update',
 	'cocart_db_update_nonce'
@@ -30,7 +30,7 @@ $update_url = wp_nonce_url(
 			<h3>
 				<strong>
 					<?php
-					echo sprintf(
+					printf(
 						/* translators: %s: CoCart */
 						esc_html__( '%s database update required', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
@@ -40,7 +40,7 @@ $update_url = wp_nonce_url(
 			</h3>
 			<p>
 				<?php
-				echo sprintf(
+				printf(
 					/* translators: %s: CoCart */
 					esc_html__( '%s has been updated! To keep things running smoothly, we have to update your database to the newest version.', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'
@@ -55,7 +55,7 @@ $update_url = wp_nonce_url(
 		<div class="cocart-action">
 			<a href="<?php echo esc_url( $update_url ); ?>" class="button button-primary cocart-button">
 				<?php
-				echo sprintf(
+				printf(
 					/* translators: %s: CoCart */
 					esc_html__( 'Update %s Database', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'

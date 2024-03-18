@@ -196,9 +196,9 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 *
 		 * @access public
 		 * @since  3.1.0
-		 * @param array  $install_actions - Array of install actions.
-		 * @param string $api - The API URL.
-		 * @param string $plugin_file - Plugin file name.
+		 * @param array  $install_actions Array of install actions.
+		 * @param string $api The API URL.
+		 * @param string $plugin_file Plugin file name.
 		 */
 		public function install_plugin_complete_actions( $install_actions, $api, $plugin_file ) {
 			if ( strstr( $plugin_file, 'cocart-' ) ) {

@@ -95,10 +95,9 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		 * @version 3.10.0
 		 * @param   array  $metadata An array of the plugin's metadata.
 		 * @param   string $file     Path to the plugin file.
-		 * @param   array  $data     Plugin Information.
 		 * @return  array  $metadata
 		 */
-		public function plugin_row_meta( $metadata, $file, $data ) {
+		public function plugin_row_meta( $metadata, $file ) {
 			if ( version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {
 				return $metadata;
 			}
@@ -108,11 +107,13 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 					'community' => '<a href="' . esc_url( COCART_COMMUNITY_URL ) . '" title="' . sprintf(
 						/* translators: %1$s: CoCart, %2$s :Discord */
 						esc_attr__( 'Join %1$s Community on %2$s', 'cart-rest-api-for-woocommerce' ),
-						'CoCart', 'Discord'
+						'CoCart',
+						'Discord'
 					) . '" aria-label="' . sprintf(
 						/* translators: %1$s: CoCart, %2$s :Discord */
 						esc_attr__( 'Join %1$s Community on %2$s', 'cart-rest-api-for-woocommerce' ),
-						'CoCart', 'Discord'
+						'CoCart',
+						'Discord'
 					) . '" target="_blank">' . esc_attr__( 'Join Community', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'docs'      => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_DOCUMENTATION_URL ) ) ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */

@@ -18,26 +18,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var array
  */
-$tweets = array(
+$tweets = array( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	'Cha ching. I just set up a headless store with @cocartapi!',
 	'Someone give me high five, I just set up a headless store with @cocartapi!',
 	'Want to build a fast headless store like mine? Checkout @cocartapi and decouple in days, not months.',
 	'Build headless stores, without building an API. Checkout @cocartapi - Designed for @WooCommerce.',
 );
 
-$tweet = array_rand( $tweets );
+$tweet = array_rand( $tweets ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 $user_email   = $current_user->user_email; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 
-$campaign_args = CoCart_Helpers::cocart_campaign( array(
-	'utm_source'  => 'CoCartCore',
-	'utm_medium'  => 'plugin-admin',
-	'utm_content' => 'next-steps',
-) );
+$campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+	array(
+		'utm_source'  => 'CoCartCore',
+		'utm_medium'  => 'plugin-admin',
+		'utm_content' => 'next-steps',
+	)
+);
 
-$docs_url  = 'https://cocart.dev/';
-$help_text = sprintf(
+$docs_url  = 'https://cocart.dev/'; // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	/* translators: %1$s: link to docs */
 	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),
 	$docs_url

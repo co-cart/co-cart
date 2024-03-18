@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 
-$time = CoCart_Helpers::cocart_seconds_to_words( time() - self::$install_date );
+$time = CoCart_Helpers::cocart_seconds_to_words( time() - self::$install_date ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 ?>
 <div class="notice notice-info cocart-notice">
 	<div class="cocart-notice-inner">
@@ -39,7 +39,9 @@ $time = CoCart_Helpers::cocart_seconds_to_words( time() - self::$install_date );
 				<?php
 				printf(
 					/* translators: 1: CoCart 2: Time since installed. */
-					esc_html__( 'You have been using %1$s for %2$s now! Mind leaving a review and let us know what you think of the plugin? We really appreciate it!', 'cart-rest-api-for-woocommerce' ), 'CoCart', esc_html( $time )
+					esc_html__( 'You have been using %1$s for %2$s now! Mind leaving a review and let us know what you think of the plugin? We really appreciate it!', 'cart-rest-api-for-woocommerce' ),
+					'CoCart',
+					esc_html( $time )
 				);
 				?>
 			</p>

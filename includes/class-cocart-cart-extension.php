@@ -23,7 +23,7 @@ class CoCart_Cart_Extension {
 	 * Registered Callbacks.
 	 *
 	 * @access protected
-	 * @var    array $registered_callbacks - Registered callbacks.
+	 * @var    array $registered_callbacks Registered callbacks.
 	 */
 	protected $registered_callbacks = array();
 

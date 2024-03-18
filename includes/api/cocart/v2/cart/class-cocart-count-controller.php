@@ -58,8 +58,8 @@ class CoCart_Count_Items_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.1.0
-	 * @param   WP_REST_Request $request       - Full details about the request.
-	 * @param   array           $cart_contents - Cart contents to count items.
+	 * @param   WP_REST_Request $request       Full details about the request.
+	 * @param   array           $cart_contents Cart contents to count items.
 	 * @return  WP_REST_Response
 	 */
 	public function get_cart_contents_count( $request = array(), $cart_contents = array() ) {

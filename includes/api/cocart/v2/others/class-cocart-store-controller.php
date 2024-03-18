@@ -72,11 +72,9 @@ class CoCart_Store_V2_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 3.10.8 Version and routes are only shown if "WP_DEBUG" is true.
 	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
 	 * @return WP_REST_Response The API root index data.
 	 */
-	public function get_store( $request ) {
+	public function get_store() {
 		$debug = array(
 			'version' => COCART_VERSION,
 			'routes'  => $this->get_routes(),

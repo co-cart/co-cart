@@ -220,9 +220,9 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * Counts how many carts are currently in session.
 		 *
 		 * @access public
-		 * @param  string $session - Session table to count.
+		 * @param  string $session Session table to count.
 		 * @global $wpdb
-		 * @return int - Number of carts in session.
+		 * @return int Number of carts in session.
 		 */
 		public static function carts_in_session( $session = '' ) {
 			global $wpdb;
@@ -256,7 +256,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @access public
 		 * @since  2.7.2
 		 * @global $wpdb
-		 * @return int - Number of carts expiring.
+		 * @return int Number of carts expiring.
 		 */
 		public static function count_carts_expiring() {
 			global $wpdb;
@@ -286,7 +286,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @access public
 		 * @since  3.0.0
 		 * @global $wpdb
-		 * @return int - Number of carts active.
+		 * @return int Number of carts active.
 		 */
 		public static function count_carts_active() {
 			global $wpdb;
@@ -314,7 +314,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @global $wpdb
-		 * @return int - Number of carts expired.
+		 * @return int Number of carts expired.
 		 */
 		public static function count_carts_expired() {
 			global $wpdb;
@@ -342,7 +342,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @global $wpdb
-		 * @return int - Number of carts created via the web.
+		 * @return int Number of carts created via the web.
 		 */
 		public function carts_source_web() {
 			global $wpdb;
@@ -370,7 +370,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @global $wpdb
-		 * @return int - Number of carts created via CoCart API.
+		 * @return int Number of carts created via CoCart API.
 		 */
 		public function carts_source_headless() {
 			global $wpdb;
@@ -398,7 +398,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @global $wpdb
-		 * @return int - Number of carts created via other or unknown.
+		 * @return int Number of carts created via other or unknown.
 		 */
 		public function carts_source_other() {
 			global $wpdb;
@@ -428,8 +428,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @access  public
 		 * @since   2.1.0
 		 * @version 3.0.0
-		 * @param   array $tools - All tools before adding ours.
-		 * @return  array $tools - All tools after adding ours.
+		 * @param   array $tools All tools before adding ours.
+		 * @return  array $tools All tools after adding ours.
 		 */
 		public function debug_button( $tools ) {
 			$tools['cocart_clear_carts'] = array(
@@ -513,8 +513,8 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 * @access  public
 		 * @since   3.0.0
 		 * @version 3.1.0
-		 * @param   array $tools - All tools before.
-		 * @return  array $tools - All tools after modifications.
+		 * @param   array $tools All tools before.
+		 * @return  array $tools All tools after modifications.
 		 */
 		public function cocart_tools( $tools ) {
 			unset( $tools['clear_sessions'] );
@@ -588,7 +588,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @since  3.0.0
-		 * @param  array $tool - The system tool that is being run.
+		 * @param  array $tool The system tool that is being run.
 		 */
 		public function maybe_update_database( $tool ) {
 			if ( 'cocart_update_db' === $tool['id'] && $tool['success'] ) {
@@ -618,7 +618,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		 *
 		 * @access public
 		 * @since  3.0.0
-		 * @param  array $tool - The system tool that is being run.
+		 * @param  array $tool The system tool that is being run.
 		 */
 		public function maybe_verify_database( $tool ) {
 			if ( 'cocart_verify_db_tables' === $tool['id'] && $tool['success'] ) {

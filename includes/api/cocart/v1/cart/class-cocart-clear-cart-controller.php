@@ -38,7 +38,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 * @version 2.5.0
 	 */
 	public function register_routes() {
-		// Clear Cart - cocart/v1/clear (POST)
+		// Clear Cart - cocart/v1/clear (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -131,5 +131,4 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 404 ) );
 		}
 	} // END clear_cart()
-
 } // END class

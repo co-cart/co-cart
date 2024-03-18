@@ -77,7 +77,7 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 		 *
 		 * @access  public
 		 * @static
-		 * @param   array $args - Arguments to create the note.
+		 * @param   array $args Arguments to create the note.
 		 * @since   2.3.0
 		 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
 		 * @since   3.2.0 Added filter to prevent note from being created.

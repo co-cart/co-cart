@@ -22,7 +22,7 @@ class CoCart_Cart_Cache {
 	 * Contains an array of cart items cached.
 	 *
 	 * @access protected
-	 * @var    array $_cart_contents_cached - Stores cached cart items.
+	 * @var    array $_cart_contents_cached Stores cached cart items.
 	 */
 	protected static $_cart_contents_cached = array();
 
@@ -43,9 +43,9 @@ class CoCart_Cart_Cache {
 	 * Add new price to item if one is requested.
 	 *
 	 * @access public
-	 * @param  array           $cart_item - Before cart item modified.
-	 * @param  WP_REST_Request $request - Full details about the request.
-	 * @return array $cart_item - After cart item modified.
+	 * @param  array           $cart_item Before cart item modified.
+	 * @param  WP_REST_Request $request Full details about the request.
+	 * @return array $cart_item After cart item modified.
 	 */
 	public function set_new_price( $cart_item, $request ) {
 		$price = isset( $request['price'] ) ? wc_clean( wp_unslash( $request['price'] ) ) : '';
@@ -63,7 +63,7 @@ class CoCart_Cart_Cache {
 	 * Or clears all cached items when the cart is cleared.
 	 *
 	 * @access public
-	 * @param  array|string $cart_item_key - Cart item key to remove from the cart cache.
+	 * @param  array|string $cart_item_key Cart item key to remove from the cart cache.
 	 */
 	public function remove_cached_item( $cart_item_key ) {
 		if ( is_array( $cart_item_key ) ) {

@@ -24,8 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h3><?php esc_html_e( 'Database table missing', 'cart-rest-api-for-woocommerce' ); ?></h3>
 			<p>
 				<?php
-				$verify_db_tool_available = array_key_exists( 'cocart_verify_db_tables', WC_Admin_Status::get_tools() );
-				$missing_tables           = get_option( 'cocart_schema_missing_tables' );
+				$verify_db_tool_available = array_key_exists( 'cocart_verify_db_tables', WC_Admin_Status::get_tools() ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+				$missing_tables           = get_option( 'cocart_schema_missing_tables' ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 				if ( $verify_db_tool_available ) {
 					echo wp_kses_post(
 						sprintf(

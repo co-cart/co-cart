@@ -79,7 +79,7 @@ class CoCart_CLI_Update_Command {
 			while ( $result ) {
 				$result = (bool) call_user_func( $update_callback );
 			}
-			$update_count ++;
+			++$update_count;
 			$progress->tick();
 		}
 

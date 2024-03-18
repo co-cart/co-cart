@@ -4,11 +4,10 @@
  *
  * Handles requests to the /products/variations endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\Products\v1
- * @since    3.1.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\Products\v1
+ * @since   3.1.0
+ * @license GPL-2.0+
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,7 +47,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 */
 	public function register_routes() {
-		// Get Products - cocart/v1/products/32/variations (GET)
+		// Get Products - cocart/v1/products/32/variations (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -69,7 +68,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 			)
 		);
 
-		// Get Products - cocart/v1/products/32/variations/148 (GET)
+		// Get Products - cocart/v1/products/32/variations/148 (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/(?P<id>[\d]+)',
@@ -92,7 +91,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-	}
+	} // END register_routes()
 
 	/**
 	 * Prepare a single variation output for response.
@@ -157,7 +156,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object", $response, $object, $request );
-	}
+	} // END prepare_object_for_response()
 
 	/**
 	 * Get the image for a product variation.
@@ -198,7 +197,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 				'alt'               => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
 			);
 		}
-	}
+	} // END get_image()
 
 	/**
 	 * Prepare links for the request.
@@ -225,7 +224,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 			),
 		);
 		return $links;
-	}
+	} // END prepare_links()
 
 	/**
 	 * Get the Variation's schema, conforming to JSON Schema.
@@ -516,7 +515,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 			),
 		);
 		return $this->add_additional_fields_schema( $schema );
-	}
+	} // END get_item_schema()
 
 	/**
 	 * Prepare objects query.
@@ -587,7 +586,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		$args['post_parent'] = $request['product_id'];
 
 		return $args;
-	}
+	} // END prepare_objects_query()
 
 	/**
 	 * Get the query params for collections of attachments.
@@ -617,6 +616,5 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		);
 
 		return $params;
-	}
-
-}
+	} // END get_collection_params()
+} // END class

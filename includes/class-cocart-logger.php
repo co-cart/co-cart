@@ -38,9 +38,9 @@ class CoCart_Logger {
 	 * @static
 	 * @since   2.1.0
 	 * @version 3.1.0
-	 * @param   string $message - The message of the log.
-	 * @param   string $type    - The type of log to record.
-	 * @param   string $plugin  - The CoCart plugin being logged.
+	 * @param   string $message The message of the log.
+	 * @param   string $type    The type of log to record.
+	 * @param   string $plugin  The CoCart plugin being logged.
 	 */
 	public static function log( $message, $type, $plugin = 'cocart-lite' ) {
 		if ( ! class_exists( 'WC_Logger' ) ) {

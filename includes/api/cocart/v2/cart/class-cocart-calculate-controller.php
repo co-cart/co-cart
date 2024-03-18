@@ -62,7 +62,7 @@ class CoCart_Calculate_V2_Controller extends CoCart_Calculate_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.0.0
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function calculate_totals( $request = array() ) {

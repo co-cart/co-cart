@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="cocart-notice-content">
 			<h3>
 				<?php
-				echo sprintf(
+				printf(
 					/* translators: 1: CoCart, 2: WooCommerce */
 					esc_html__( '%1$s requires %2$s to be installed and activated.', 'cart-rest-api-for-woocommerce' ),
 					'CoCart',
@@ -36,15 +36,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) && file_exists( WP_PLUGIN_DIR . '/woocommerce/woocommerce.php' ) ) :
 				if ( current_user_can( 'activate_plugin', 'woocommerce/woocommerce.php' ) ) :
-					echo sprintf( '<a href="%1$s" class="button button-primary" aria-label="%2$s">%2$s</a>', esc_url( wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php&plugin_status=active' ), 'activate-plugin_woocommerce/woocommerce.php' ) ), esc_html__( 'Activate WooCommerce', 'cart-rest-api-for-woocommerce' ) );
+					printf( '<a href="%1$s" class="button button-primary" aria-label="%2$s">%2$s</a>', esc_url( wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=woocommerce/woocommerce.php&plugin_status=active' ), 'activate-plugin_woocommerce/woocommerce.php' ) ), esc_html__( 'Activate WooCommerce', 'cart-rest-api-for-woocommerce' ) );
 				else :
 					echo esc_html__( 'As you do not have permission to activate a plugin. Please ask a site administrator to activate WooCommerce for you.', 'cart-rest-api-for-woocommerce' );
 				endif;
 			else :
 				if ( current_user_can( 'install_plugins' ) ) {
-					$url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ), 'install-plugin_woocommerce' );
+					$url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=woocommerce' ), 'install-plugin_woocommerce' ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 				} else {
-					$url = 'https://wordpress.org/plugins/woocommerce/';
+					$url = 'https://wordpress.org/plugins/woocommerce/'; // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 				}
 
 				echo '<a href="' . esc_url( $url ) . '" class="button button-primary" aria-label="' . esc_html__( 'Install WooCommerce', 'cart-rest-api-for-woocommerce' ) . '">' . esc_html__( 'Install WooCommerce', 'cart-rest-api-for-woocommerce' ) . '</a>';

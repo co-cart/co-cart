@@ -35,7 +35,7 @@ function cocart_do_deprecated_action( $tag, $version = '', $replacement = null, 
 	}
 
 	cocart_deprecated_hook( $tag, $version, $replacement, $message );
-	do_action_ref_array( $tag, $args );
+	do_action_ref_array( $tag, $args ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 } // END cocart_do_deprecated_action()
 
 /**
@@ -57,7 +57,7 @@ function cocart_do_deprecated_filter( $tag, $version = '', $replacement = null, 
 	}
 
 	cocart_deprecated_filter( $tag, $args, $version, $replacement, $message );
-	apply_filters_ref_array( $tag, $args );
+	apply_filters_ref_array( $tag, $args ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
 } // END cocart_do_deprecated_filter()
 
 /**
@@ -74,7 +74,7 @@ function cocart_do_deprecated_filter( $tag, $version = '', $replacement = null, 
  */
 function cocart_deprecated_hook( $hook, $version, $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
-		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
+		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
 		/* translators: %1$s: filter name, %2$s: version */
@@ -103,7 +103,7 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
  */
 function cocart_deprecated_filter( $filter, $args = array(), $version = '', $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
-		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message );
+		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
 		/* translators: %1$s: filter name, %2$s: version */
@@ -127,20 +127,20 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
  * @uses CoCart_Authentication::is_rest_api_request() to check if the request is a REST API request.
  * @uses CoCart_Logger::log() to log the deprecation.
  *
- * @param string $function    Function used.
- * @param string $version     The version of CoCart the message was added in.
- * @param string $replacement Replacement for the called function.
+ * @param string $function_name Function used.
+ * @param string $version       The version of CoCart the message was added in.
+ * @param string $replacement   Replacement for the called function.
  */
-function cocart_deprecated_function( $function, $version = '', $replacement = null ) {
+function cocart_deprecated_function( $function_name, $version = '', $replacement = null ) {
 	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
-		do_action( 'deprecated_function_run', $function, $replacement, $version );
+		do_action( 'deprecated_function_run', $function_name, $replacement, $version ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$log_string  = sprintf( esc_html__( 'The %1$s function is deprecated since version %2$s.', 'cart-rest-api-for-woocommerce' ), $function, $version );
 		$log_string .= $replacement ? sprintf( esc_html__( ' Replace with %s.', 'cart-rest-api-for-woocommerce' ), $replacement ) : '';
 
 		CoCart_Logger::log( $log_string, 'debug' );
 	} else {
-		_deprecated_function( $function, $version, $replacement );
+		_deprecated_function( esc_html( $function_name ), esc_html( $version ), esc_html( $replacement ) );
 	}
 } // END cocart_deprecated_function()
 
@@ -401,7 +401,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	 * @param float        $raw_price      Raw price.
 	 * @param float|string $original_price Original price as float, or empty string. Since 5.0.0.
 	 */
-	$price = apply_filters( 'raw_woocommerce_price', $negative ? $price * -1 : $price, $original_price );
+	$price = apply_filters( 'raw_woocommerce_price', $negative ? $price * -1 : $price, $original_price ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 	/**
 	 * Filter formatted price.
@@ -413,9 +413,9 @@ function cocart_price_no_html( $price, $args = array() ) {
 	 * @param string       $thousand_separator Thousand separator.
 	 * @param float|string $original_price     Original price as float, or empty string. Since 5.0.0.
 	 */
-	$price = apply_filters( 'formatted_woocommerce_price', number_format( $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'] ), $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'], $original_price );
+	$price = apply_filters( 'formatted_woocommerce_price', number_format( $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'] ), $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'], $original_price ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-	if ( apply_filters( 'woocommerce_price_trim_zeros', false ) && $args['decimals'] > 0 ) {
+	if ( apply_filters( 'woocommerce_price_trim_zeros', false ) && $args['decimals'] > 0 ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$price = wc_trim_zeros( $price );
 	}
 
@@ -449,11 +449,11 @@ function cocart_price_no_html( $price, $args = array() ) {
  *
  * @param int|array $products Product ID list or single product ID.
  * @param bool      $show_qty Should qty's be shown.
- * @param bool      $return   Return message rather than add it.
+ * @param bool      $return_msg   Return message rather than add it.
  *
  * @return mixed
  */
-function cocart_add_to_cart_message( $products, $show_qty = false, $return = false ) {
+function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg = false ) {
 	$titles = array();
 	$count  = 0;
 
@@ -479,7 +479,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
 
 	$message = apply_filters( 'cocart_add_to_cart_message_html', esc_html( $added_text ), $products, $show_qty );
 
-	if ( $return ) {
+	if ( $return_msg ) {
 		return $message;
 	} else {
 		wc_add_notice( $message, 'success' );
@@ -492,9 +492,9 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return = fal
  *
  * @since  3.1.0 Introduced.
  *
- * @param  string|float $amount        - Monetary amount with decimals.
- * @param  int          $decimals      - Number of decimals the amount is formatted with.
- * @param  int          $rounding_mode - Defaults to the PHP_ROUND_HALF_UP constant.
+ * @param  string|float $amount        Monetary amount with decimals.
+ * @param  int          $decimals      Number of decimals the amount is formatted with.
+ * @param  int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
  * @return string       The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
@@ -596,7 +596,7 @@ function cocart_get_min_max_price_meta_query( $args ) {
 	$current_max_price = isset( $args['max_price'] ) ? floatval( $args['max_price'] ) : PHP_INT_MAX;
 
 	return apply_filters(
-		'woocommerce_get_min_max_price_meta_query',
+		'woocommerce_get_min_max_price_meta_query', // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		array(
 			'key'     => '_price',
 			'value'   => array( $current_min_price, $current_max_price ),

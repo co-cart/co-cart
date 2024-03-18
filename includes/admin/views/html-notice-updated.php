@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="notice notice-info cocart-notice is-dismissible">
 	<p>
 		<?php
-		echo sprintf(
+		printf(
 			/* translators: %s: CoCart */
 			esc_html__( '%s database update complete. Thank you for updating to the latest version!', 'cart-rest-api-for-woocommerce' ),
 			'CoCart'

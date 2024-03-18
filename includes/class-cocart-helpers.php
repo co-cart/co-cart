@@ -583,7 +583,7 @@ class CoCart_Helpers {
 	 * @since   2.3.0
 	 * @version 2.8.3
 	 * @static
-	 * @param   int $seconds - Time in seconds to check.
+	 * @param   int $seconds Time in seconds to check.
 	 * @return  boolean|int Whether or not WooCommerce admin has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {

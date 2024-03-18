@@ -71,7 +71,7 @@ class CoCart_Update_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 
 			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 			if ( 0 === $quantity ) {
-				$controller = new CoCart_Remove_Item_v2_Controller();
+				$controller = new CoCart_Remove_Item_V2_Controller();
 
 				return $controller->remove_item( $request );
 			}
@@ -276,7 +276,7 @@ class CoCart_Update_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				'description'       => __( 'Set the quantity you wish to update the item to.', 'cart-rest-api-for-woocommerce' ),
 				'default'           => 1,
 				'type'              => 'float',
-				'validate_callback' => function( $value, $request, $param ) {
+				'validate_callback' => function ( $value ) {
 					return is_numeric( $value );
 				},
 			),

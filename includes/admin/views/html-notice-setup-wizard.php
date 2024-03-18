@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h3>
 				<strong>
 				<?php
-				echo sprintf(
+				printf(
 					/* translators: %s: CoCart */
 					esc_html__( 'Welcome to %s!', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</h3>
 			<p>
 				<?php
-					echo sprintf(
+					printf(
 						/* translators: %s: CoCart */
 						esc_html__( 'To help prepare %s running smoothly, we would like to guide you with a setup wizard.', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'

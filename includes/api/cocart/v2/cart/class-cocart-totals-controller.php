@@ -56,7 +56,7 @@ class CoCart_Totals_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 3.0.4
-	 * @param   WP_REST_Request $request - Full details about the request.
+	 * @param   WP_REST_Request $request Full details about the request.
 	 * @return  WP_REST_Response
 	 */
 	public function get_totals( $request = array() ) {
@@ -91,12 +91,10 @@ class CoCart_Totals_V2_Controller extends CoCart_Cart_V2_Controller {
 				foreach ( $totals as $type => $total ) {
 					if ( in_array( $type, $ignore_convert ) ) {
 						$new_totals[ $type ] = $total;
-					} else {
-						if ( is_string( $total ) ) {
+					} elseif ( is_string( $total ) ) {
 							$new_totals[ $type ] = cocart_price_no_html( $total );
-						} else {
-							$new_totals[ $type ] = cocart_price_no_html( strval( $total ) );
-						}
+					} else {
+						$new_totals[ $type ] = cocart_price_no_html( strval( $total ) );
 					}
 				}
 

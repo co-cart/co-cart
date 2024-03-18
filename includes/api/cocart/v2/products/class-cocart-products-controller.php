@@ -147,18 +147,22 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 
 			$prev_link = add_query_arg( 'page', $prev_page, $base );
-			$response->add_links( array(
-				'prev' => array( 'href' => $prev_link ),
-			) );
+			$response->add_links(
+				array(
+					'prev' => array( 'href' => $prev_link ),
+				)
+			);
 			$response->link_header( 'prev', $prev_link );
 		}
 
 		if ( $max_pages > $page ) {
 			$next_page = $page + 1;
 			$next_link = add_query_arg( 'page', $next_page, $base );
-			$response->add_links( array(
-				'next' => array( 'href' => $next_link ),
-			) );
+			$response->add_links(
+				array(
+					'next' => array( 'href' => $next_link ),
+				)
+			);
 			$response->link_header( 'next', $next_link );
 		}
 
@@ -315,7 +319,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 			$_product = wc_get_product( $product_id );
 
-			if ( ! $_product || 0 === $_product->get_id() || 'publish' !== $object->get_status() ) {
+			if ( ! $_product || 0 === $_product->get_id() || 'publish' !== $_product->get_status() ) {
 				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
@@ -639,7 +643,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				// Determine the attribute option.
 				$option = array( $attribute => $attribute );
 
-				if ( $attribute_prefix === 'attribute_pa_' ) {
+				if ( 'attribute_pa_' === $attribute_prefix ) {
 					// If the attribute is taxonomy-based, fetch the term.
 					$option_term = get_term_by( 'slug', $attribute, $name );
 
@@ -648,7 +652,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				}
 
 				$attributes[ 'attribute_' . $name ] = array(
-					'id'     => $attribute_prefix === 'attribute_pa_' ? wc_attribute_taxonomy_id_by_name( $name ) : 0,
+					'id'     => 'attribute_pa_' === $attribute_prefix ? wc_attribute_taxonomy_id_by_name( $name ) : 0,
 					'name'   => $this->get_attribute_taxonomy_name( $name, $_product ),
 					'option' => $option,
 				);
@@ -790,9 +794,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 						continue;
 					}
 
-					$rest_url = add_query_arg( array(
-						"variation[attribute_$name]" => $attribute,
-					), $rest_url );
+					$rest_url = add_query_arg(
+						array(
+							"variation[attribute_$name]" => $attribute,
+						),
+						$rest_url
+					);
 				}
 
 				$rest_url = urldecode( html_entity_decode( $rest_url ) );

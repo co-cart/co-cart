@@ -105,7 +105,14 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				return $quantity;
 			}
 
-			// Add to cart handlers.
+			/**
+			 * Add to cart handlers.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $product_type Product type
+			 * @param WC_Product $product_data Product data.
+			 */
 			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
 			if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
@@ -137,7 +144,10 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				 *
 				 * DEVELOPER WARNING: THIS FILTER CAN CAUSE HAVOC SO BE CAREFUL WHEN USING IT!
 				 *
-				 * @since 3.1.0
+				 * @since 3.1.0 Introduced.
+				 *
+				 * @param array           $was_added_to_cart Item details added to cart.
+				 * @param WP_REST_Request $request           Full details about the request.
 				 */
 				$was_added_to_cart = apply_filters( 'cocart_override_cart_item', $was_added_to_cart, $request );
 
@@ -179,10 +189,10 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.0.0
-	 * @param   string          $product_id - Contains the id of the product to add to the cart.
-	 * @param   float           $quantity   - Contains the quantity of the item to add to the cart.
-	 * @param   array           $item_data  - Contains extra cart item data we want to pass into the item.
-	 * @param   WP_REST_Request $request    - Full details about the request.
+	 * @param   string          $product_id Contains the id of the product to add to the cart.
+	 * @param   float           $quantity   Contains the quantity of the item to add to the cart.
+	 * @param   array           $item_data  Contains extra cart item data we want to pass into the item.
+	 * @param   WP_REST_Request $request    Full details about the request.
 	 * @return  bool            success or not
 	 */
 	public function add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request = array() ) {
@@ -211,12 +221,12 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.1.0
-	 * @param   string          $product_id - Contains the id of the product to add to the cart.
-	 * @param   float           $quantity   - Contains the quantity of the item to add to the cart.
-	 * @param   null            $deprecated - Used to pass the variation id of the product to add to the cart.
-	 * @param   array           $variation  - Contains the selected attributes of a variation.
-	 * @param   array           $item_data  - Contains extra cart item data we want to pass into the item.
-	 * @param   WP_REST_Request $request    - Full details about the request.
+	 * @param   string          $product_id Contains the id of the product to add to the cart.
+	 * @param   float           $quantity   Contains the quantity of the item to add to the cart.
+	 * @param   null            $deprecated Used to pass the variation id of the product to add to the cart.
+	 * @param   array           $variation  Contains the selected attributes of a variation.
+	 * @param   array           $item_data  Contains extra cart item data we want to pass into the item.
+	 * @param   WP_REST_Request $request    Full details about the request.
 	 * @return  bool            success or not
 	 */
 	public function add_to_cart_handler_variable( $product_id, $quantity, $deprecated, $variation, $item_data, $request = array() ) {
@@ -247,8 +257,8 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 3.1.0
-	 * @param   array $product_to_add - Passes details of the item ready to add to the cart.
-	 * @return  array $item_added     - Returns details of the added item in the cart.
+	 * @param   array $product_to_add Passes details of the item ready to add to the cart.
+	 * @return  array $item_added     Returns details of the added item in the cart.
 	 */
 	public function add_item_to_cart( $product_to_add = array() ) {
 		$product_id   = $product_to_add['product_id'];
@@ -276,19 +286,21 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				/**
 				 * Action hook will trigger if item was added again but updated in cart.
 				 *
-				 * @since   2.1.0
+				 * @since   2.1.0 Introduced.
 				 * @version 3.0.0
-				 * @param   string $item_key
-				 * @param   array  $item_added
-				 * @param   int    $new_quantity
-				 * @param   array  $request
+				 *
+				 * @param string          $item_key
+				 * @param array           $item_added
+				 * @param int             $new_quantity
+				 * @param WP_REST_Request $request Full details about the request.
 				 */
 				do_action( 'cocart_item_added_updated_in_cart', $item_key, $item_added, $new_quantity, $request );
 			} else {
 				/**
 				 * Add item to cart without WC product validation.
 				 *
-				 * @since 3.0.0
+				 * @since 3.0.0 Introduced.
+				 *
 				 * @param bool
 				 * @param $product_data Contains the product data of the product to add to cart.
 				 * @param $product_id   Contains the id of the product to add to the cart.
@@ -310,18 +322,19 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 					/**
 					 * Action hook will trigger if the item was added.
 					 *
-					 * @since   2.1.0
+					 * @since   2.1.0 Introduced.
 					 * @version 3.0.0
-					 * @param   $item_key
-					 * @param   $item_added
-					 * @param   $request
+					 *
+					 * @param string          $item_key
+					 * @param array           $item_added
+					 * @param WP_REST_Request $request Full details about the request.
 					 */
 					do_action( 'cocart_item_added_to_cart', $item_key, $item_added, $request );
 				} else {
 					/**
 					 * If WooCommerce can provide a reason for the error then let that error message return first.
 					 *
-					 * @since 3.0.1
+					 * @since 3.0.1 Introduced.
 					 */
 					$controller->convert_notices_to_exceptions( 'cocart_add_to_cart_error' );
 
@@ -484,9 +497,9 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 * @since  3.0.0
-	 * @param int|float       $value   - Number of quantity to validate.
-	 * @param WP_REST_Request $request - Full details about the request.
-	 * @param string          $param   - Argument parameters.
+	 * @param int|float       $value   Number of quantity to validate.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param string          $param   Argument parameters.
 	 * @return bool
 	 */
 	public function rest_validate_quantity_arg( $value, $request, $param ) {

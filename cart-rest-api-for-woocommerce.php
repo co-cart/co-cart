@@ -36,7 +36,7 @@ if ( ! function_exists( 'CoCart' ) ) {
 	/**
 	 * Initialize CoCart.
 	 */
-	function CoCart() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+	function CoCart() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 		return CoCart::init();
 	}
 
