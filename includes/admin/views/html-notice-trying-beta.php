@@ -51,9 +51,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="cocart-action">
 			<?php
-				/* translators: 1: Feedback URL, 2: CoCart, 3: Button Text */
-				printf( '<a href="%1$s" class="button button-primary cocart-button" aria-label="' . esc_html__( 'Give Feedback for %2$s', 'cart-rest-api-for-woocommerce' ) . '" target="_blank">%3$s</a>',
-					esc_url( COCART_STORE_URL . 'feedback/?wpf674_3=CoCart v' . COCART_VERSION ),
+				printf(
+					/* translators: 1: Feedback URL, 2: CoCart, 3: Button Text */
+					'<a href="%1$s" class="button button-primary cocart-button" aria-label="' . esc_html__( 'Give Feedback for %2$s', 'cart-rest-api-for-woocommerce' ) . '" target="_blank">%3$s</a>',
+					esc_url( 'https://github.com/co-cart/co-cart/issues/new?assignees=&labels=needs%3A+developer+feedback&&title=[v' . COCART_VERSION . ']:%20Title%20of%20the%20issue' ),
 					'CoCart',
 					esc_html__( 'Give Feedback', 'cart-rest-api-for-woocommerce' )
 				);
