@@ -353,8 +353,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 		check_admin_referer( 'cocart-setup' );
 
 		$is_store_new     = get_transient( 'cocart_setup_wizard_store_new' );
-		$store_new        = isset( $_POST['store_new'] ) ? ( 'yes' === wc_clean( wp_unslash( $_POST['store_new'] ) ) ) : $is_store_new;
-		$multiple_domains = isset( $_POST['multiple_domains'] ) && ( 'yes' === wc_clean( wp_unslash( $_POST['multiple_domains'] ) ) );
+		$store_new        = isset( $_POST['store_new'] ) ? ( 'yes' === wc_clean( sanitize_text_field( wp_unslash( $_POST['store_new'] ) ) ) ) : $is_store_new;
+		$multiple_domains = isset( $_POST['multiple_domains'] ) && ( 'yes' === wc_clean( sanitize_text_field( wp_unslash( $_POST['multiple_domains'] ) ) ) );
 
 		$next_step = ''; // Next step.
 

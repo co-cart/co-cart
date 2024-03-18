@@ -98,7 +98,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			}
 
 			if ( ! empty( $_GET['cocart-install-plugin-redirect'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$plugin_slug = wc_clean( wp_unslash( $_GET['cocart-install-plugin-redirect'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$plugin_slug = wc_clean( sanitize_text_field( wp_unslash( $_GET['cocart-install-plugin-redirect'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, CoCart_Helpers::get_wporg_cocart_plugins(), true ) ) {
 					$nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin_slug );
@@ -119,7 +119,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			// Setup wizard redirect.
 			if ( get_transient( '_cocart_activation_redirect' ) && apply_filters( 'cocart_enable_setup_wizard', true ) ) {
 				$do_redirect  = true;
-				$current_page = isset( $_GET['page'] ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$current_page = isset( $_GET['page'] ) ? wc_clean( sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				// On these pages, or during these events, postpone the redirect.
 				if ( wp_doing_ajax() || is_network_admin() || ! current_user_can( 'manage_options' ) ) {

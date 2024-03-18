@@ -64,7 +64,7 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 */
 	public function restore_item( $request = array() ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? '0' : wc_clean( wp_unslash( sanitize_text_field( $request['item_key'] ) ) );
+			$item_key = ! isset( $request['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
 
 			$item_key = $this->throw_missing_item_key( $item_key, 'restore' );
 

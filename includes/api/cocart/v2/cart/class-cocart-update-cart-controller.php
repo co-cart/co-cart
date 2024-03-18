@@ -67,7 +67,7 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @return boolean
 	 */
 	public function get_permissions_check( $request ) {
-		$namespace = wc_clean( wp_unslash( $request['namespace'] ) );
+		$namespace = wc_clean( sanitize_text_field( wp_unslash( $request['namespace'] ) ) );
 
 		$extension_class  = new CoCart_Cart_Extension();
 		$callback_methods = $extension_class->get_all_registered_callbacks();
@@ -114,7 +114,7 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 	 */
 	public function update_cart( $request ) {
 		try {
-			$namespace = wc_clean( wp_unslash( $request['namespace'] ) );
+			$namespace = wc_clean( sanitize_text_field( wp_unslash( $request['namespace'] ) ) );
 			$callback  = null;
 
 			$extension_class  = new CoCart_Cart_Extension();

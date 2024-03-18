@@ -65,7 +65,7 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 */
 	public function view_item( $request = array() ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? '' : wc_clean( wp_unslash( sanitize_text_field( $request['item_key'] ) ) );
+			$item_key = ! isset( $request['item_key'] ) ? '' : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
 
 			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 

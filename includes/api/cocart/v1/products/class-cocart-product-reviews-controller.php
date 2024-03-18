@@ -346,8 +346,8 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			$prepared_review['comment_date_gmt'] = current_time( 'mysql', true );
 		}
 
-		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) && rest_is_ip_address( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) ) {
-			$prepared_review['comment_author_IP'] = wc_clean( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) && rest_is_ip_address( esc_url_raw( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) ) ) {
+			$prepared_review['comment_author_IP'] = wc_clean( esc_url_raw( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) );
 		} else {
 			$prepared_review['comment_author_IP'] = '127.0.0.1';
 		}

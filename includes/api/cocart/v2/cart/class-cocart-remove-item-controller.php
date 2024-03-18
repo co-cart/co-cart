@@ -65,7 +65,7 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	public function remove_item( $request = array() ) {
 		try {
 			$request_params = $request->get_params();
-			$item_key       = ! isset( $request_params['item_key'] ) ? '0' : wc_clean( wp_unslash( sanitize_text_field( $request_params['item_key'] ) ) );
+			$item_key       = ! isset( $request_params['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request_params['item_key'] ) ) );
 
 			$item_key = $this->throw_missing_item_key( $item_key, 'remove' );
 
