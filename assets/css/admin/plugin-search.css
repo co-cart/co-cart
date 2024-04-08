@@ -4,8 +4,6 @@ body.cocart-plugin-install .plugin-card {
     margin: 0 0 4px; }
   body.cocart-plugin-install .plugin-card .plugin-card-top {
     min-height: 150px; }
-  body.cocart-plugin-install .plugin-card .name, body.cocart-plugin-install .plugin-card .desc {
-    margin-right: 120px !important; }
   body.cocart-plugin-install .plugin-card .plugin-card-bottom {
     min-height: 36px; }
 
