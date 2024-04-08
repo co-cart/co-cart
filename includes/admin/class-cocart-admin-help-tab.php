@@ -38,9 +38,10 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 
 				$campaign_args = CoCart_Helpers::cocart_campaign(
 					array(
-						'utm_source'  => 'CoCartCore',
-						'utm_medium'  => 'plugin-admin',
-						'utm_content' => 'help-tab',
+						'utm_source'   => 'CoCartCore',
+						'utm_medium'   => 'plugin-admin',
+						'utm_campaign' => 'help-tab',
+						'utm_content'  => 'help-tab',
 					)
 				);
 
