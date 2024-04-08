@@ -63,27 +63,32 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since   1.2.0 Introduced.
-		 * @version 3.0.7
+		 * @since 1.2.0  Introduced.
+		 * @since 3.13.0 Merged other body classes.
 		 *
-		 * @param string $classes Classes already registered.
+		 * @param string $classes Current classes.
 		 *
-		 * @return string $classes All classes registered.
+		 * @return string New classes.
 		 */
 		public function admin_body_class( $classes ) {
 			$screen    = get_current_screen();
 			$screen_id = $screen ? $screen->id : '';
+
+			// Add special body class for plugin install page.
+			if ( 'plugin-install' === $screen_id || 'plugin-install-network' === $screen_id ) {
+				if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					return $classes . ' cocart-plugin-install ';
+				}
+			}
 
 			// Add body class for CoCart page.
 			if ( 'toplevel_page_cocart' === $screen_id || 'toplevel_page_cocart-network' === $screen_id ) {
 				$classes = ' cocart ';
 			}
 
-			// Add special body class for plugin install page.
-			if ( 'plugin-install' === $screen_id || 'plugin-install-network' === $screen_id ) {
-				if ( isset( $_GET['tab'] ) && 'cocart' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					$classes = ' cocart-plugin-install ';
-				}
+			// Return current classes including CoCart page style.
+			if ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) {
+				return $classes . ' cocart-pagestyles ';
 			}
 
 			return $classes;
