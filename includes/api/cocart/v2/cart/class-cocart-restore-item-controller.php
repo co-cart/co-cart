@@ -47,6 +47,7 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
+				'allow_batch' => array( 'v1' => true ),
 			)
 		);
 	} // END register_routes()
