@@ -63,8 +63,26 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 		 */
 		public function update_footer( $text ) {
 			if ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$campaign_args = CoCart_Helpers::cocart_campaign(
+					array(
+						'utm_source'   => 'CoCartCore',
+						'utm_medium'   => 'plugin-admin',
+						'utm_campaign' => 'footer',
+						'utm_content'  => 'footer',
+					)
+				);
+
+				$changelog = sprintf(
+					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
+					__( '%1$sChangelog%2$s', 'cart-rest-api-for-woocommerce' ),
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://cocart.dev/changelog/' ) ) ) ) . '" target="_blank">',
+					'</a>'
+				);
+
 				/* translators: %s: CoCart */
-				return sprintf( __( '%s Version', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . ' ' . esc_attr( COCART_VERSION );
+				$version = sprintf( __( '%s Version', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . ' ' . esc_attr( COCART_VERSION );
+
+				return $changelog . ' | ' . $version;
 			}
 
 			return $text;
