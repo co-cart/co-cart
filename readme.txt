@@ -16,7 +16,7 @@ Make your WooCommerce store headless with CoCart, a REST API designed for decoup
 
 ### Speed up your WooCommerce store by going headless
 
-**Is your store slow? Looking to decouple away from WordPress?** With [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)'s customizable REST API for WooCommerce, you can make your store headless in days, not months, **using the frameworks and tools you love**. Unlock your stores potential for an extraordinary online shopping experience.
+**Is your store slow? Looking to decouple away from WordPress?** [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) saves you countless hours of developing your own REST API to decouple WooCommerce. It provides a developer-friendly, out the box solution that is customizable to your requirements allowing you to build a headless store without limitations imposed by a WordPress theme—it's that simple.
 
 #### What is WooCommerce?
 
@@ -24,11 +24,11 @@ WooCommerce is a **flexible, open-source commerce solution** built on WordPress,
 
 #### Why CoCart?
 
-Are you **agonizing trying** to develop your own REST API for WooCommerce? With CoCart, it's ready to use, customizable to your needs and more importantly, it saves **you development time**. Once installed, your WooCommerce store is ready to decouple away from WordPress, allowing you to design without limitations imposed by a WordPress theme that is harder to modify and optimize. **Utilize faster, familiar frameworks you know and love**—it's that simple.
+With CoCart, we have already done the hard part for you. The API. Once installed, your WooCommerce store is ready to decouple away from WordPress, allowing you to design without limitations imposed by a WordPress theme that is harder to modify and optimize. **Utilize faster, familiar frameworks you know and love**—it's that simple.
 
 ## ✨ What do you get with the core of CoCart?
 
-**Everything you need to try** and see if making your store headless is right for you. Promise you wont be disappointed.
+**Everything you need to try** and see if making your store headless is right for you.
 
 * **No Blocks** - The API is designed for the purpose of decoupling. Not blocks for Gutenberg.
 * **Enhanced Session Handler** - Our session handler adds support to allow our API the power it requires for any decoupled situation.
@@ -41,6 +41,7 @@ Are you **agonizing trying** to develop your own REST API for WooCommerce? With 
 * **Your Inventory** - Search by Name, ID or SKU, filter and return product data you need without authentication. REST shortcuts are readily provided for your next requests.
 * **Want to track your customers?** - Keep watch of all cart sessions, even the ones that are starting to expire.
 * **Name Your Price Built In** - Give your customers control of the price they pay. Encourage your audience to support you with payment flexibility that widens your paying audience.
+* **Bulk Requests** - Combine many cart requests in bulk to save time.
 
 And this is just the tip of the iceberg.
 
