@@ -338,7 +338,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 					$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
-					if ( $quantity != $current_data['quantity'] ) {
+					if ( $current_data['quantity'] !== $quantity ) {
 						do_action( 'cocart_item_quantity_changed', $cart_item_key, $new_data );
 
 						/**

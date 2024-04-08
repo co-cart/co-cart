@@ -606,7 +606,7 @@ class CoCart_API_Controller {
 			}
 
 			// If variation validated, get variation ID to secure it if not already set.
-			if ( $variation_id == 0 ) {
+			if ( 0 === $variation_id ) {
 				$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
 			}
 		}
@@ -741,7 +741,7 @@ class CoCart_API_Controller {
 			if ( isset( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
 				$message = sprintf(
 					/* translators: 1: Quantity in Stock, 2: Quantity in Cart */
-				__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
+					__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
 					wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),
 					wc_format_stock_quantity_for_display( $products_qty_in_cart[ $product->get_stock_managed_by_id() ], $product )
 				);
