@@ -188,7 +188,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$parameter_mappings = array(
 			'reviewer'         => 'author__in',
 			'reviewer_exclude' => 'author__not_in',
-			'exclude'          => 'comment__not_in',
+			'exclude'          => 'comment__not_in', // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 			'include'          => 'comment__in',
 			'offset'           => 'offset',
 			'order'            => 'order',
@@ -727,7 +727,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			'type'        => 'string',
 			'format'      => 'date-time',
 		);
-		$params['exclude']          = array(
+		$params['exclude']          = array( // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 			'description' => __( 'Ensure result set excludes specific IDs.', 'cart-rest-api-for-woocommerce' ),
 			'type'        => 'array',
 			'items'       => array(

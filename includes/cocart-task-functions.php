@@ -49,15 +49,21 @@ add_action( 'cocart_cleanup_carts', 'cocart_task_cleanup_carts' );
 function cocart_task_clear_carts( $return_results = false ) {
 	global $wpdb;
 
-	$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" );
+	$wpdb->query( "TRUNCATE {$wpdb->prefix}cocart_carts" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 
 	/**
 	 * Clear all persistent carts.
 	 */
-	$results = absint( $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key='_woocommerce_persistent_cart_" . get_current_blog_id() . "';" ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+	$results = $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->prepare(
+			"DELETE FROM {$wpdb->usermeta} WHERE meta_key = %s",
+			'_woocommerce_persistent_cart_' . get_current_blog_id()
+		)
+	);
+
 	wp_cache_flush();
 
 	if ( $return_results ) {
-		return $results;
+		return absint( $results );
 	}
 } // END cocart_task_clear_carts()

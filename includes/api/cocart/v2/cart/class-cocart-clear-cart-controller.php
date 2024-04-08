@@ -54,7 +54,7 @@ class CoCart_Clear_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 				'args'                => $this->get_collection_params(),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Clears the cart.

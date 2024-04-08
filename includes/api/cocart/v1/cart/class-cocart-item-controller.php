@@ -4,12 +4,11 @@
  *
  * Handles the request to update, delete and restore items in the cart with /item endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v1
- * @since    2.1.0
- * @version  2.8.4
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v1
+ * @since   2.1.0 Introduced.
+ * @version 2.8.4
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -38,7 +37,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 * @version 2.5.0
 	 */
 	public function register_routes() {
-		// Update, Remove or Restore Item - cocart/v1/item (GET, POST, DELETE)
+		// Update, Remove or Restore Item - cocart/v1/item (GET, POST, DELETE).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -57,7 +56,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 						'quantity' => array(
 							'default'           => 1,
 							'type'              => 'float',
-							'validate_callback' => function( $value, $request, $param ) {
+							'validate_callback' => function ( $value ) {
 								return is_numeric( $value );
 							},
 						),
@@ -70,7 +69,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Remove Item in Cart.
@@ -101,7 +100,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			return new WP_Error( 'cocart_no_items', $message, array( 'status' => 404 ) );
 		}
 
-		if ( $cart_item_key != '0' ) {
+		if ( '0' !== $cart_item_key ) {
 			// Check item exists in cart before fetching the cart item data to update.
 			$current_data = $this->get_cart_item( $cart_item_key, 'remove' );
 
@@ -184,7 +183,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	public function restore_item( $data = array() ) {
 		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
 
-		if ( $cart_item_key != '0' ) {
+		if ( '0' !== $cart_item_key ) {
 			if ( WC()->cart->restore_cart_item( $cart_item_key ) ) {
 				$current_data = $this->get_cart_item( $cart_item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
@@ -251,13 +250,13 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 		$quantity      = ! isset( $data['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $data['quantity'] ) );
 
 		// Allows removing of items if quantity is zero should for example the item was with a product bundle.
-		if ( $quantity === 0 ) {
+		if ( 0 === $quantity ) {
 			return $this->remove_item( $data );
 		}
 
 		$this->validate_quantity( $quantity );
 
-		if ( $cart_item_key != '0' ) {
+		if ( '0' !== $cart_item_key ) {
 			// Check item exists in cart before fetching the cart item data to update.
 			$current_data = $this->get_cart_item( $cart_item_key, 'container' );
 
@@ -376,21 +375,32 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 				// Return response based on product quantity increment.
 				if ( $quantity > $current_data['quantity'] ) {
-					/* translators: 1: product name, 2: new quantity */
 					$response = array(
-						'message'  => sprintf( __( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
+						'message'  => sprintf(
+							/* translators: 1: product name, 2: new quantity */
+							__( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+							$product_data->get_name(),
+							$new_data['quantity']
+						),
 						'quantity' => $new_data['quantity'],
 					);
 				} elseif ( $quantity < $current_data['quantity'] ) {
-					/* translators: 1: product name, 2: new quantity */
 					$response = array(
-						'message'  => sprintf( __( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ), $product_data->get_name(), $new_data['quantity'] ),
+						'message'  => sprintf(
+							/* translators: 1: product name, 2: new quantity */
+							__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+							$product_data->get_name(),
+							$new_data['quantity']
+						),
 						'quantity' => $new_data['quantity'],
 					);
 				} else {
-					/* translators: %s: product name */
 					$response = array(
-						'message'  => sprintf( __( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() ),
+						'message'  => sprintf(
+							/* translators: %s: product name */
+							__( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ),
+							$product_data->get_name()
+						),
 						'quantity' => $quantity,
 					);
 				}
@@ -442,5 +452,4 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

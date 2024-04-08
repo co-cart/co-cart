@@ -4,12 +4,11 @@
  *
  * Handles the request to count the items in the cart with /count-items endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v1
- * @since    2.1.0
- * @version  2.7.2
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v1
+ * @since   2.1.0 Introduced.
+ * @version 2.7.2
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

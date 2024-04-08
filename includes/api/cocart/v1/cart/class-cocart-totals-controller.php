@@ -92,9 +92,9 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 					$new_totals[ $type ] = $sum;
 				} else {
 					if ( is_string( $sum ) ) {
-						$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( $sum ) ) );
+						$new_totals[ $type ] = html_entity_decode( wp_strip_all_tags( wc_price( $sum ) ) );
 					} else {
-						$new_totals[ $type ] = html_entity_decode( strip_tags( wc_price( strval( $sum ) ) ) );
+						$new_totals[ $type ] = html_entity_decode( wp_strip_all_tags( wc_price( strval( $sum ) ) ) );
 					}
 				}
 			}

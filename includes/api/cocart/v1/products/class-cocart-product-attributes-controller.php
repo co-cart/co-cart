@@ -270,7 +270,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 	protected function get_attribute( $id ) {
 		global $wpdb;
 
-		$attribute = $wpdb->get_row(
+		$attribute = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"
 			SELECT * FROM {$wpdb->prefix}woocommerce_attribute_taxonomies

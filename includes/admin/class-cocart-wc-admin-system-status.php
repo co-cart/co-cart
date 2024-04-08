@@ -209,7 +209,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public static function maybe_show_results() {
 			global $wpdb;
 
-			if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}cocart_carts';" ) ) {
+			if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}cocart_carts';" ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				return true;
 			}
 
@@ -232,14 +232,14 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 			}
 
 			if ( empty( $session ) ) {
-				$results = $wpdb->get_results(
+				$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 					"
 					SELECT COUNT(cart_id) as count 
 					FROM {$wpdb->prefix}cocart_carts",
 					ARRAY_A
 				);
 			} else {
-				$results = $wpdb->get_results(
+				$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 					"
 					SELECT COUNT(session_id) as count 
 					FROM {$wpdb->prefix}woocommerce_sessions",
@@ -265,7 +265,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				return 0;
 			}
 
-			$results = $wpdb->get_results(
+			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					SELECT COUNT(cart_id) as count
@@ -295,7 +295,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				return 0;
 			}
 
-			$results = $wpdb->get_results(
+			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					SELECT COUNT(cart_id) as count
@@ -323,7 +323,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				return 0;
 			}
 
-			$results = $wpdb->get_results(
+			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					SELECT COUNT(cart_id) as count
@@ -351,7 +351,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
 			}
 
-			$results = $wpdb->get_results(
+			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					SELECT COUNT(cart_id) as count
@@ -379,7 +379,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
 			}
 
-			$results = $wpdb->get_results(
+			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					SELECT COUNT(cart_id) as count
@@ -407,7 +407,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
 			}
 
-			$results = $wpdb->get_results(
+			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"
 					SELECT COUNT(cart_id) as count
@@ -573,7 +573,7 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function synchronize_carts() {
 			global $wpdb;
 
-			$wpdb->query(
+			$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`)
 				SELECT t1.session_key, t1.session_value, t1.session_expiry
 				FROM {$wpdb->prefix}woocommerce_sessions t1

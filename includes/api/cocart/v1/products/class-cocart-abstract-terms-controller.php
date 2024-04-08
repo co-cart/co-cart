@@ -165,7 +165,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			$taxonomy = $this->get_taxonomy( $request );
 
 			$prepared_args = array(
-				'exclude'    => $request['exclude'],
+				'exclude'    => $request['exclude'], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 				'include'    => $request['include'],
 				'order'      => $request['order'],
 				'orderby'    => $request['orderby'],
@@ -211,12 +211,12 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 				$query_result = $this->get_terms_for_product( $prepared_args, $request );
 				$total_terms  = $this->total_terms;
 			} else {
-				$query_result = get_terms( $taxonomy, $prepared_args ); // todo: Update first parameter to merge with second parameter.
+				$query_result = get_terms( $taxonomy, $prepared_args ); // phpcs:ignore WordPress.WP.DeprecatedParameters.Get_termsParam2Found, todo: Update first parameter to merge with second parameter.
 
 				$count_args = $prepared_args;
 				unset( $count_args['number'] );
 				unset( $count_args['offset'] );
-				$total_terms = wp_count_terms( $taxonomy, $count_args ); // todo: Update first parameter to merge with second parameter.
+				$total_terms = wp_count_terms( $taxonomy, $count_args ); // phpcs:ignore WordPress.WP.DeprecatedParameters.Wp_count_termsParam2Found, todo: Update first parameter to merge with second parameter.
 
 				// Ensure we don't return results when offset is out of bounds.
 				// See https://core.trac.wordpress.org/ticket/35935.
@@ -419,7 +419,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 
 			$params['context']['default'] = 'view';
 
-			$params['exclude'] = array(
+			$params['exclude'] = array( // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 				'description'       => __( 'Ensure result set excludes specific IDs.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'array',
 				'items'             => array(

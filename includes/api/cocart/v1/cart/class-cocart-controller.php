@@ -4,12 +4,11 @@
  *
  * Handles requests to the cart endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v1
- * @since    2.0.0
- * @version  3.5.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v1
+ * @since   2.0.0 Introduced.
+ * @version 3.5.0
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -86,7 +85,7 @@ class CoCart_API_Controller {
 				'args'                => $this->get_collection_params(),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Check if a given request can read the cart.
@@ -234,7 +233,7 @@ class CoCart_API_Controller {
 				$cart_contents[ $item_key ]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
 
 				// Add product price as a new variable.
-				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
+				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( wp_strip_all_tags( wc_price( $_product->get_price() ) ) );
 
 				// If product thumbnail is requested then add it to each item in cart.
 				if ( $show_thumb ) {
@@ -740,9 +739,9 @@ class CoCart_API_Controller {
 			$products_qty_in_cart = WC()->cart->get_cart_item_quantities();
 
 			if ( isset( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
-				/* translators: 1: Quantity in Stock, 2: Quantity in Cart */
 				$message = sprintf(
-					__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
+					/* translators: 1: Quantity in Stock, 2: Quantity in Cart */
+				__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
 					wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),
 					wc_format_stock_quantity_for_display( $products_qty_in_cart[ $product->get_stock_managed_by_id() ], $product )
 				);

@@ -50,7 +50,7 @@ class CoCart_Count_Items_V2_Controller extends CoCart_Cart_V2_Controller {
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Get cart contents count.

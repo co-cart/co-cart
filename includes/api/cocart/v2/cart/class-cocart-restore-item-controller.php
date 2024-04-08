@@ -49,7 +49,7 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Restores an Item in Cart.

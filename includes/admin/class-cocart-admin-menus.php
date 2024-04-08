@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 
 	class CoCart_Admin_Menus {
+
 		/**
 		 * A list with the objects that handle submenu pages
 		 *

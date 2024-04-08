@@ -356,7 +356,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'orderby'             => strtolower( $request['orderby'] ),
 			'paged'               => $request['page'],
 			'post__in'            => $request['include'],
-			'post__not_in'        => $request['exclude'],
+			'post__not_in'        => $request['exclude'], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in 
 			'posts_per_page'      => $request['per_page'],
 			'post_parent__in'     => $request['parent'],
 			'post_parent__not_in' => $request['parent_exclude'],
@@ -391,12 +391,12 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			case 'alphabetical':
 				$args['orderby']  = 'title';
 				$args['order']    = 'ASC';
-				$args['meta_key'] = '';
+				$args['meta_key'] = ''; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'reverse_alpha':
 				$args['orderby']  = 'title';
 				$args['order']    = 'DESC';
-				$args['meta_key'] = '';
+				$args['meta_key'] = ''; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'title':
 				$args['orderby'] = 'title';
@@ -418,50 +418,50 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'meta_value_num' => 'DESC',
 					'title'          => 'ASC',
 				);
-				$args['meta_key'] = '_stock';
+				$args['meta_key'] = '_stock'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'review_count':
 				$args['orderby']  = array(
 					'meta_value_num' => 'DESC',
 					'title'          => 'ASC',
 				);
-				$args['meta_key'] = '_wc_review_count';
+				$args['meta_key'] = '_wc_review_count'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'on_sale_first':
 				$args['orderby']      = array(
 					'meta_value_num' => 'DESC',
 					'title'          => 'ASC',
 				);
-				$args['meta_key']     = '_sale_price';
-				$args['meta_value']   = 0;
+				$args['meta_key']     = '_sale_price'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
+				$args['meta_value']   = 0; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value, WPCS: slow query ok.
 				$args['meta_compare'] = '>=';
 				$args['meta_type']    = 'NUMERIC';
 				break;
 			case 'featured_first':
 				$args['orderby']  = array(
-					'meta_value' => 'DESC',
+					'meta_value' => 'DESC', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value, WPCS: slow query ok.
 					'title'      => 'ASC',
 				);
-				$args['meta_key'] = '_featured';
+				$args['meta_key'] = '_featured'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'price_asc':
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'ASC';
-				$args['meta_key'] = '_price';
+				$args['meta_key'] = '_price'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'price_desc':
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
-				$args['meta_key'] = '_price';
+				$args['meta_key'] = '_price'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'sales':
 				$args['orderby']  = 'meta_value_num';
-				$args['meta_key'] = 'total_sales';
+				$args['meta_key'] = 'total_sales'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 			case 'rating':
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
-				$args['meta_key'] = '_wc_average_rating';
+				$args['meta_key'] = '_wc_average_rating'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WPCS: slow query ok.
 				break;
 		}
 
@@ -583,7 +583,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		// Hide free products.
 		if ( ! empty( $request['hide_free'] ) ) {
-			$args['meta_query'] = $this->add_meta_query(
+			$args['meta_query'] = $this->add_meta_query( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				$args,
 				array(
 					'key'     => '_price',
@@ -613,7 +613,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				$skus[] = $request['sku'];
 			}
 
-			$args['meta_query'] = $this->add_meta_query( // WPCS: slow query ok.
+			$args['meta_query'] = $this->add_meta_query( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
 				$args,
 				array(
 					'key'     => '_sku',
@@ -625,12 +625,12 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		// Price filter.
 		if ( ! empty( $request['min_price'] ) || ! empty( $request['max_price'] ) ) {
-			$args['meta_query'] = $this->add_meta_query( $args, cocart_get_min_max_price_meta_query( $request ) ); // WPCS: slow query ok.
+			$args['meta_query'] = $this->add_meta_query( $args, cocart_get_min_max_price_meta_query( $request ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
 		}
 
 		// Filter product in stock or out of stock.
 		if ( is_bool( $request['stock_status'] ) ) {
-			$args['meta_query'] = $this->add_meta_query( // WPCS: slow query ok.
+			$args['meta_query'] = $this->add_meta_query( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
 				$args,
 				array(
 					'key'   => '_stock_status',
@@ -1009,9 +1009,9 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'description'           => $product->get_description( 'view' ),
 			'short_description'     => $product->get_short_description( 'view' ),
 			'sku'                   => $product->get_sku( 'view' ),
-			'price'                 => html_entity_decode( strip_tags( wc_price( $product->get_price( 'view' ) ) ) ),
-			'regular_price'         => html_entity_decode( strip_tags( wc_price( $product->get_regular_price( 'view' ) ) ) ),
-			'sale_price'            => $product->get_sale_price( 'view' ) ? html_entity_decode( strip_tags( wc_price( $product->get_sale_price( 'view' ) ) ) ) : '',
+			'price'                 => html_entity_decode( wp_strip_all_tags( wc_price( $product->get_price( 'view' ) ) ) ),
+			'regular_price'         => html_entity_decode( wp_strip_all_tags( wc_price( $product->get_regular_price( 'view' ) ) ) ),
+			'sale_price'            => $product->get_sale_price( 'view' ) ? html_entity_decode( wp_strip_all_tags( wc_price( $product->get_sale_price( 'view' ) ) ) ) : '',
 			'date_on_sale_from'     => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ), false ),
 			'date_on_sale_from_gmt' => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ) ),
 			'date_on_sale_to'       => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
@@ -1048,7 +1048,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'average_rating'        => $average,
 			'rating_count'          => $rating_count,
 			'review_count'          => $review_count,
-			'rating_html'           => html_entity_decode( strip_tags( wc_get_rating_html( $average, $rating_count ) ) ),
+			'rating_html'           => html_entity_decode( wp_strip_all_tags( wc_get_rating_html( $average, $rating_count ) ) ),
 			'reviews'               => array(),
 			'related_ids'           => array_map( 'absint', array_values( wc_get_related_products( $product->get_id(), apply_filters( 'cocart_products_get_related_products_limit', 5 ) ) ) ),
 			'upsell_ids'            => array_map( 'absint', $product->get_upsell_ids( 'view' ) ),
@@ -1091,9 +1091,9 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'date_modified_gmt'     => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ) ),
 			'description'           => $product->get_description( 'view' ),
 			'sku'                   => $product->get_sku( 'view' ),
-			'price'                 => html_entity_decode( strip_tags( wc_price( $product->get_price( 'view' ) ) ) ),
-			'regular_price'         => html_entity_decode( strip_tags( wc_price( $product->get_regular_price( 'view' ) ) ) ),
-			'sale_price'            => $product->get_sale_price( 'view' ) ? html_entity_decode( strip_tags( wc_price( $product->get_sale_price( 'view' ) ) ) ) : '',
+			'price'                 => html_entity_decode( wp_strip_all_tags( wc_price( $product->get_price( 'view' ) ) ) ),
+			'regular_price'         => html_entity_decode( wp_strip_all_tags( wc_price( $product->get_regular_price( 'view' ) ) ) ),
+			'sale_price'            => $product->get_sale_price( 'view' ) ? html_entity_decode( wp_strip_all_tags( wc_price( $product->get_sale_price( 'view' ) ) ) ) : '',
 			'date_on_sale_from'     => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ), false ),
 			'date_on_sale_from_gmt' => wc_rest_prepare_date_response( $product->get_date_on_sale_from( 'view' ) ),
 			'date_on_sale_to'       => wc_rest_prepare_date_response( $product->get_date_on_sale_to( 'view' ), false ),
@@ -1142,7 +1142,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 */
 	protected function add_meta_query( $args, $meta_query ) {
 		if ( empty( $args['meta_query'] ) ) {
-			$args['meta_query'] = array();
+			$args['meta_query'] = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
 		}
 
 		$args['meta_query'][] = $meta_query;
@@ -1848,13 +1848,13 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'type'              => 'string',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['after'] = array(
+		$params['after']              = array(
 			'description'       => __( 'Limit response to products created after a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
 			'format'            => 'date-time',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['before'] = array(
+		$params['before']             = array(
 			'description'       => __( 'Limit response to products created before a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
 			'type'              => 'string',
 			'format'            => 'date-time',
@@ -2012,15 +2012,15 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'default'           => array(),
 			'sanitize_callback' => 'wp_parse_id_list',
 		);
-		$params['offset'] = array(
+		$params['offset']             = array(
 			'description' => __( 'Offset the result set by a specific number of items.', 'cart-rest-api-for-woocommerce' ),
 			'type'        => 'integer',
 		);
-		$params['order'] = array(
-			'description' => __( 'Order sort attribute ascending or descending.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'string',
-			'default'     => 'DESC',
-			'enum'        => array( 'ASC', 'DESC' ),
+		$params['order']              = array(
+			'description'       => __( 'Order sort attribute ascending or descending.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'string',
+			'default'           => 'DESC',
+			'enum'              => array( 'ASC', 'DESC' ),
 			'sanitize_callback' => 'sanitize_text_field',
 		);
 		$params['orderby']            = array(
@@ -2050,40 +2050,40 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'sanitize_callback' => 'sanitize_text_field',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['exclude'] = array(
-			'description' => __( 'Ensure result set excludes specific IDs.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'array',
-			'items'       => array(
+		$params['exclude']            = array( // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+			'description'       => __( 'Ensure result set excludes specific IDs.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'array',
+			'items'             => array(
 				'type' => 'integer',
 			),
-			'default'     => array(),
+			'default'           => array(),
 			'sanitize_callback' => 'wp_parse_id_list',
 		);
-		$params['include'] = array(
-			'description' => __( 'Limit result set to specific IDs.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'array',
-			'items'       => array(
+		$params['include']            = array(
+			'description'       => __( 'Limit result set to specific IDs.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'array',
+			'items'             => array(
 				'type' => 'integer',
 			),
-			'default'     => array(),
+			'default'           => array(),
 			'sanitize_callback' => 'wp_parse_id_list',
 		);
-		$params['parent']         = array(
-			'description' => __( 'Limit result set to products with particular parent IDs.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'array',
-			'items'       => array(
+		$params['parent']             = array(
+			'description'       => __( 'Limit result set to products with particular parent IDs.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'array',
+			'items'             => array(
 				'type' => 'integer',
 			),
-			'default'     => array(),
+			'default'           => array(),
 			'sanitize_callback' => 'wp_parse_id_list',
 		);
-		$params['parent_exclude'] = array(
-			'description' => __( 'Limit result set to all products except those of a particular parent ID.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'array',
-			'items'       => array(
+		$params['parent_exclude']     = array(
+			'description'       => __( 'Limit result set to all products except those of a particular parent ID.', 'cart-rest-api-for-woocommerce' ),
+			'type'              => 'array',
+			'items'             => array(
 				'type' => 'integer',
 			),
-			'default'     => array(),
+			'default'           => array(),
 			'sanitize_callback' => 'wp_parse_id_list',
 		);
 

@@ -55,7 +55,7 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 				),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Check whether a given request has permission to read site data.

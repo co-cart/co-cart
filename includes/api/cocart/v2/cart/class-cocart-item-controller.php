@@ -50,7 +50,7 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * View Item in Cart.

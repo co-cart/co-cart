@@ -32,14 +32,14 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 	CoCart_Install::drop_tables();
 
 	// Delete options.
-	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'cocart\_%';" );
+	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'cocart\_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	// Delete usermeta.
-	$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE 'cocart\_%';" );
+	$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE 'cocart\_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	// Delete sitemeta. Multi-site only!
 	if ( is_multisite() ) {
-		$wpdb->query( "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE 'cocart\_%';" );
+		$wpdb->query( "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE 'cocart\_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	require_once __DIR__ . '/includes/class-cocart-helpers.php';

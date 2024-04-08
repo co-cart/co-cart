@@ -4,12 +4,11 @@
  *
  * Handles the request to add items to the cart with /add-item endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v1
- * @since    2.1.0
- * @version  2.7.2
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v1
+ * @since   2.1.0 Introduced.
+ * @version 2.7.2
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -52,7 +51,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Add to Cart.
@@ -268,7 +267,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		$item_added['product_title'] = apply_filters( 'cocart_item_added_product_title', $_product->get_title(), $_product, $item_key );
 
 		// Add product price.
-		$item_added['product_price'] = html_entity_decode( strip_tags( wc_price( $_product->get_price() ) ) );
+		$item_added['product_price'] = html_entity_decode( wp_strip_all_tags( wc_price( $_product->get_price() ) ) );
 
 		// This filter allows additional data to be returned.
 		$item_added = apply_filters( 'cocart_item_added', $item_added, $item_key );
@@ -385,5 +384,4 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

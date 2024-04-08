@@ -4,12 +4,11 @@
  *
  * Handles the request to clear the cart with /clear endpoint.
  *
- * @author   Sébastien Dumont
- * @category API
- * @package  CoCart\API\v1
- * @since    2.1.0
- * @version  2.9.3
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v1
+ * @since   2.1.0 Introduced.
+ * @version 2.9.3
+ * @license GPL-2.0+
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -48,7 +47,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 				'permission_callback' => '__return_true',
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Clear cart.

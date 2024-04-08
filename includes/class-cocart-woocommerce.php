@@ -198,7 +198,7 @@ if ( ! class_exists( 'CoCart_WooCommerce' ) ) {
 			global $wpdb;
 
 			// Clean up cart in session.
-			$wpdb->delete(
+			$wpdb->delete( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prefix . 'cocart_carts',
 				array(
 					'cart_key' => $user_id,

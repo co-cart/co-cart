@@ -75,7 +75,7 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 							'<li>' . sprintf(
 								/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing, %3$s: CoCart */
 								__( '%1$sTranslate%2$s. %3$s is in need of translations. Is the plugin not translated in your language or do you spot errors with the current translations? Helping out is easy! Head over to the project on WordPress.org and click %1$sTranslate %3$s%2$s.', 'cart-rest-api-for-woocommerce' ),
-								'<a href="' . COCART_TRANSLATION_URL . '" aria-label="' . esc_html__( 'Help translate', 'cart-rest-api-for-woocommerce' ) . '" title="' . esc_html__( 'Help translate', 'cart-rest-api-for-woocommerce' ) . ' "target="_blank">',
+								'<a href="' . esc_url( COCART_TRANSLATION_URL ) . '" aria-label="' . esc_html__( 'Help translate', 'cart-rest-api-for-woocommerce' ) . '" title="' . esc_html__( 'Help translate', 'cart-rest-api-for-woocommerce' ) . ' "target="_blank">',
 								'</a>',
 								'CoCart'
 							) . '</li>' .

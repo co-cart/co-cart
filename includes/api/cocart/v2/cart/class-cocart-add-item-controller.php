@@ -56,7 +56,7 @@ class CoCart_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Add to Cart.

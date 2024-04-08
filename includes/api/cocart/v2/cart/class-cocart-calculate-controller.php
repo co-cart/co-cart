@@ -52,7 +52,7 @@ class CoCart_Calculate_V2_Controller extends CoCart_Calculate_Controller {
 				'args'                => $this->get_collection_params(),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Calculate Cart Totals.

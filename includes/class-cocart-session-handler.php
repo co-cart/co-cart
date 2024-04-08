@@ -501,7 +501,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			$this->set_cart_hash();
 
 			// Save or update cart data.
-			$wpdb->query(
+			$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$wpdb->prepare(
 					"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_created`, `cart_expiry`, `cart_source`, `cart_hash`) VALUES (%s, %s, %d, %d, %s, %s)
  					ON DUPLICATE KEY UPDATE `cart_value` = VALUES(`cart_value`), `cart_expiry` = VALUES(`cart_expiry`), `cart_hash` = VALUES(`cart_hash`)",
@@ -615,7 +615,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function cleanup_sessions() {
 		global $wpdb;
 
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $this->_table WHERE cart_expiry < %d", time() ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"DELETE FROM $this->_table WHERE cart_expiry < %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				time()
+			)
+		);
 
 		// Invalidate cache group.
 		if ( class_exists( 'WC_Cache_Helper' ) ) {
@@ -644,7 +649,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 		$value = wp_cache_get( $this->get_cache_prefix() . $cart_key, COCART_CART_CACHE_GROUP );
 
 		if ( false === $value ) {
-			$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_value FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$wpdb->prepare(
+					"SELECT cart_value FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$cart_key
+				)
+			);
 
 			if ( is_null( $value ) ) {
 				$value = $default_value;
@@ -683,7 +693,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_cart_created( $cart_key ) {
 		global $wpdb;
 
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_created FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT cart_created FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$cart_key
+			)
+		);
 
 		return $value;
 	} // END get_cart_created()
@@ -699,7 +714,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_cart_expiration( $cart_key ) {
 		global $wpdb;
 
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_expiry FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT cart_expiry FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$cart_key
+			)
+		);
 
 		return $value;
 	} // END get_cart_expiration()
@@ -715,7 +735,12 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function get_cart_source( $cart_key ) {
 		global $wpdb;
 
-		$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_source FROM $this->_table WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare(
+				"SELECT cart_source FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$cart_key
+			)
+		);
 
 		return $value;
 	} // END get_cart_source()
@@ -748,7 +773,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 			$cart_source = apply_filters( 'cocart_cart_source', $this->_cart_source );
 		}
 
-		$result = $wpdb->insert(
+		$result = $wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$this->_table,
 			array(
 				'cart_key'     => $cart_key,
@@ -776,7 +801,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function update_cart( $cart_key ) {
 		global $wpdb;
 
-		$wpdb->update(
+		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
@@ -802,7 +827,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 		wp_cache_delete( $this->get_cache_prefix() . $cart_key, COCART_CART_CACHE_GROUP );
 
 		// Delete cart from database.
-		$wpdb->delete( $this->_table, array( 'cart_key' => $cart_key ), array( '%s' ) );
+		$wpdb->delete( $this->_table, array( 'cart_key' => $cart_key ), array( '%s' ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 	} // END delete_cart()
 
 	/**
@@ -816,7 +841,7 @@ class CoCart_Session_Handler extends CoCart_Session {
 	public function update_cart_timestamp( $cart_key, $timestamp ) {
 		global $wpdb;
 
-		$wpdb->update(
+		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$this->_table,
 			array( 'cart_expiry' => $timestamp ),
 			array( 'cart_key' => $cart_key ),

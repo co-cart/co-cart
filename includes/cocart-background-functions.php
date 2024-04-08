@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function cocart_transfer_sessions() {
 	global $wpdb;
 
-	$wpdb->query(
+	$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		"INSERT INTO {$wpdb->prefix}cocart_carts (`cart_key`, `cart_value`, `cart_expiry`)
 		SELECT t1.session_key, t1.session_value, t1.session_expiry
 		FROM {$wpdb->prefix}woocommerce_sessions t1

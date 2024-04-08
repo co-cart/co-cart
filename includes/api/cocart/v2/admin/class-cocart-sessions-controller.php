@@ -58,7 +58,7 @@ class CoCart_Sessions_V2_Controller {
 				'schema' => array( $this, 'get_public_object_schema' ),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Check whether a given request has permission to read site data.
@@ -88,7 +88,7 @@ class CoCart_Sessions_V2_Controller {
 		try {
 			global $wpdb;
 
-			$results = $wpdb->get_results(
+			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				"
 				SELECT * 
 				FROM {$wpdb->prefix}cocart_carts",
