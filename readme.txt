@@ -14,7 +14,7 @@ Make your WooCommerce store headless with CoCart, a REST API designed for decoup
 
 == Description ==
 
-### Supercharge your WooCommerce store by going headless
+### Speed up your WooCommerce store by going headless
 
 **Is your store slow? Looking to decouple away from WordPress?** With [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)'s customizable REST API for WooCommerce, you can make your store headless in days, not months, **using the frameworks and tools you love**. Unlock your stores potential for an extraordinary online shopping experience.
 
