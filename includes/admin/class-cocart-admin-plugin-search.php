@@ -490,7 +490,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 			if ( false === $saved_results || is_wp_error( $saved_results ) ) {
 				$suggestions = self::get_suggestions();
 
-				$total_items = $result->info['results'];
+				$total_items = $result->info['results'] - 1;
 
 				// Get each add-on and see if we should suggest it to the user.
 				foreach ( $suggestions as $slug => $data ) {
