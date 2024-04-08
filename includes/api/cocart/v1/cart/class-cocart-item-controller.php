@@ -77,7 +77,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.7.0
-	 * @param   array $data
+	 * @param   array $data Passed parameters.
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function remove_item( $data = array() ) {
@@ -177,7 +177,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.7.0
-	 * @param   array $data
+	 * @param   array $data Passed parameters.
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function restore_item( $data = array() ) {
@@ -242,7 +242,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.8.4
-	 * @param   array $data
+	 * @param   array $data Passed parameters.
 	 * @return  WP_Error|WP_REST_Response
 	 */
 	public function update_item( $data = array() ) {

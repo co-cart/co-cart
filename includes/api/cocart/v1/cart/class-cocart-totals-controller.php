@@ -5,9 +5,8 @@
  * Handles the request to get the totals of the cart with /totals endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v1
- * @since    2.1.0
+ * @since    2.1.0 Introduced.
  * @version  2.7.0
  * @license  GPL-2.0+
  */
@@ -38,7 +37,7 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	 * @version 2.7.0
 	 */
 	public function register_routes() {
-		// Get Cart Totals - cocart/v1/totals (GET)
+		// Get Cart Totals - cocart/v1/totals (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -57,7 +56,7 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 				),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Returns all calculated totals.
@@ -66,7 +65,7 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	 * @static
 	 * @since   1.0.0
 	 * @version 2.1.2
-	 * @param   array $data
+	 * @param   array $data Passed parameters.
 	 * @return  WP_REST_Response
 	 */
 	public static function get_totals( $data = array() ) {
@@ -104,5 +103,4 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 
 		return new WP_REST_Response( $totals, 200 );
 	} // END get_totals()
-
 } // END class

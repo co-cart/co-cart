@@ -109,7 +109,7 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.8.4
-	 * @param   array  $data
+	 * @param   array  $data Passed parameters.
 	 * @param   string $cart_item_key
 	 * @return  array|WP_REST_Response
 	 */
@@ -134,7 +134,7 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 2.1.0
-	 * @param   array $data
+	 * @param   array $data Passed parameters.
 	 * @return  array|WP_Error
 	 */
 	public function get_cart_customer( $data = array() ) {
@@ -158,7 +158,7 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 2.1.2
-	 * @param   array  $data
+	 * @param   array  $data Passed parameters.
 	 * @param   string $cart_item_key
 	 * @return  array  $cart_contents
 	 */
@@ -174,7 +174,7 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 3.5.0
-	 * @param   array  $data
+	 * @param   array  $data Passed parameters.
 	 * @param   array  $cart_contents
 	 * @param   string $cart_item_key
 	 * @param   bool   $from_session
@@ -303,13 +303,13 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.0.0
 	 * @version 2.0.9
-	 * @param   array $data       The customer ID is a required variable.
+	 * @param   array $data       Passed parameters.
 	 * @return  array $saved_cart Returns the cart content from the database.
 	 */
 	public function get_saved_cart( $data = array() ) {
 		$saved_cart = array();
 
-		$customer_id = ! empty( $data['id'] ) ? $data['id'] : 0;
+		$customer_id = ! empty( $data['id'] ) ? $data['id'] : 0; // The customer ID is a required variable.
 
 		if ( $customer_id > 0 ) {
 			$saved_cart_meta = get_user_meta( $customer_id, '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
@@ -328,7 +328,7 @@ class CoCart_API_Controller {
 	 * @access  public
 	 * @since   2.1.0
 	 * @version 2.7.0
-	 * @param   array $data   The cart key is a required variable.
+	 * @param   array $data   Passed parameters.
 	 * @return  array $cart   Returns the cart data from the database.
 	 */
 	public function get_cart_in_session( $data = array() ) {
@@ -1039,5 +1039,4 @@ class CoCart_API_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
 } // END class

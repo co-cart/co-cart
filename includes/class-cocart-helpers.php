@@ -788,7 +788,7 @@ class CoCart_Helpers {
 			if ( function_exists( 'wc_admin_connect_page' ) ) {
 				$enabled = true;
 
-				if ( apply_filters( 'woocommerce_admin_disabled', false ) ) {
+				if ( apply_filters( 'woocommerce_admin_disabled', false ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 					$enabled = false;
 				}
 			}

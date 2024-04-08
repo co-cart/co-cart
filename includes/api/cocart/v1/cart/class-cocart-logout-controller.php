@@ -5,9 +5,8 @@
  * Handles the request to logout the user /logout endpoint.
  *
  * @author   Sébastien Dumont
- * @category API
  * @package  CoCart\API\v1
- * @since    2.1.0
+ * @since    2.1.0 Introduced.
  * @version  2.7.0
  * @license  GPL-2.0+
  */
@@ -38,7 +37,7 @@ class CoCart_Logout_Controller extends CoCart_API_Controller {
 	 * @version 2.5.0
 	 */
 	public function register_routes() {
-		// Logout user - cocart/v1/logout (POST)
+		// Logout user - cocart/v1/logout (POST).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -48,7 +47,7 @@ class CoCart_Logout_Controller extends CoCart_API_Controller {
 				'permission_callback' => '__return_true',
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Logout user.
@@ -63,5 +62,4 @@ class CoCart_Logout_Controller extends CoCart_API_Controller {
 
 		return new WP_REST_Response( true, 200 );
 	} // END logout()
-
 } // END class

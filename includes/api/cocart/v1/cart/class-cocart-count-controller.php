@@ -37,7 +37,7 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 * @version 2.7.2
 	 */
 	public function register_routes() {
-		// Count Items in Cart - cocart/v1/count-items (GET)
+		// Count Items in Cart - cocart/v1/count-items (GET).
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
@@ -61,7 +61,7 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 * @access public
 	 * @static
 	 * @since  2.7.2
-	 * @param  array $data
+	 * @param  array $data Passed parameters.
 	 * @param  array $cart_contents
 	 * @return string|WP_REST_Response
 	 */
@@ -83,7 +83,7 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 	 * @static
 	 * @since   1.0.0
 	 * @version 2.7.2
-	 * @param   array $data
+	 * @param   array $data Passed parameters.
 	 * @param   array $cart_contents
 	 * @return  string|WP_REST_Response
 	 */
@@ -91,7 +91,7 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 		$return = ! empty( $data['return'] ) ? $data['return'] : '';
 		$count  = self::count_items( $data, $cart_contents );
 
-		if ( $return != 'numeric' && $count <= 0 ) {
+		if ( 'numeric' !== $return && $count <= 0 ) {
 			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
 
 			CoCart_Logger::log( $message, 'notice' );
@@ -109,5 +109,4 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 
 		return $count;
 	} // END get_cart_contents_count()
-
 } // END class

@@ -116,7 +116,7 @@ class CoCart_Clear_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 			 * If the user is authorized and `woocommerce_persistent_cart_enabled` filter is left enabled
 			 * then we will delete the persistent cart as well.
 			 */
-			if ( get_current_user_id() && apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
+			if ( get_current_user_id() && apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				delete_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id() );
 			}
 

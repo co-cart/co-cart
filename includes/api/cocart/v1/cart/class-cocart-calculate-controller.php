@@ -56,7 +56,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 				),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Calculate Cart Totals.
@@ -64,7 +64,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	 * @access  public
 	 * @since   1.0.0
 	 * @version 2.7.0
-	 * @param   array $data
+	 * @param   array $data Passed parameters.
 	 * @return  WP_REST_Response
 	 */
 	public function calculate_totals( $data = array() ) {

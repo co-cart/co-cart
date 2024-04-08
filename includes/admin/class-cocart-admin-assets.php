@@ -87,7 +87,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			}
 
 			// Return current classes including CoCart page style.
-			if ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) {
+			if ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				return $classes . ' cocart-pagestyles ';
 			}
 
