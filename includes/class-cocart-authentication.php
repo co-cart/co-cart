@@ -373,7 +373,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				if ( method_exists( $server, 'send_header' ) ) {
 					$server->send_header( 'Access-Control-Allow-Origin', apply_filters( 'cocart_allow_origin', $origin ) );
 					$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
-					$server->send_header( 'Access-Control-Allow-Credentials', true );
+					$server->send_header( 'Access-Control-Allow-Credentials', 'true' );
 					$server->send_header( 'Access-Control-Allow-Headers', implode( ', ', $allow_headers ) );
 					$server->send_header( 'Access-Control-Expose-Headers', implode( ', ', $expose_headers ) );
 				}
