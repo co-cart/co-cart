@@ -43,10 +43,11 @@
 		]
 	},
 	"require": {
-		"composer/installers": "1.12.0"
+		"composer/installers": "^2.0"
 	},
 	"require-dev": {
-		"cocart-headless/cocart-sniffs": "0.0.3"
+		"cocart-headless/cocart-sniffs": "0.0.3",
+		"automattic/vipwpcs": "^3.0"
 	},
 	"scripts": {
 		"phpcs": [
