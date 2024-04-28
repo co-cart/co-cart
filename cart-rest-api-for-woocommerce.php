@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: CoCart API - Decoupling WooCommerce Made Easy
+ * Plugin Name: CoCart API - Decoupling Made Easy for WooCommerce
  * Plugin URI:  https://cocartapi.com
  * Description: Make your WooCommerce store headless with CoCart, a REST API designed for decoupling.
  * Author:      CoCart Headless, LLC

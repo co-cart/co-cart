@@ -1,4 +1,4 @@
-=== CoCart - Decoupling WooCommerce Made Easy === 
+=== CoCart - Decoupling Made Easy for WooCommerce ===
 Contributors: cocartforwc, sebd86, ajayghaghretiya, skunkbad, sefid-par, mattdabell, joshuaiz, dmchale, JPPdesigns, inspiredagency, darkchris, mohib007, rozaliastoilova, ashtarcommunications, albertoabruzzo, jnz31, douglasjohnson, antondrob2
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
