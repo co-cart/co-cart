@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart REST API Store controller.
- *
- * Returns store details and all public routes.
+ * REST API: CoCart_REST_Store_V2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
- * @since   3.0.0
- * @version 3.10.8
- * @license GPL-2.0+
+ * @since   3.0.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,11 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Store controller class.
+ * Controller for returning store details.
  *
- * @package CoCart REST API/API
+ * This REST API controller handles the request to return store details
+ * and all public routes via "cocart/v2/store" endpoint.
+ *
+ * @since 3.0.0 Introduced.
  */
-class CoCart_Store_V2_Controller {
+class CoCart_REST_Store_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -58,9 +58,9 @@ class CoCart_Store_V2_Controller {
 					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
-			),
+			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Retrieves the store index.

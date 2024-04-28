@@ -1,13 +1,11 @@
 <?php
 /**
- * CoCart - Update Cart controller.
- *
- * Handles the request to update the cart with /cart/update endpoint.
+ * REST API: CoCart_REST_Update_Cart_V2_Controller class.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
- * @since   3.1.0
- * @license GPL-2.0+
+ * @package CoCart\API\Cart\v2
+ * @since   3.1.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,12 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Update Cart controller class.
+ * Controller for updating the cart via a registered callback (API v2).
  *
- * @package CoCart\API
- * @extends CoCart_Cart_V2_Controller
+ * This REST API controller handles the request to update the cart
+ * via "cocart/v2/cart/update" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -40,6 +42,10 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Update Cart - cocart/v2/cart/update (POST).
@@ -64,7 +70,9 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return boolean
 	 */
 	public function get_permissions_check( $request ) {
@@ -122,8 +130,10 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The returned response.
 	 */
 	public function update_cart( $request ) {
 		try {
@@ -133,7 +143,7 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 			$extension_class  = new CoCart_Cart_Extension();
 			$callback_methods = $extension_class->get_all_registered_callbacks();
 
-			$update_cart = $callback_methods[ $namespace ]->callback( $request );
+			$update_cart = $callback_methods[ $namespace ]->callback( $request, $this );
 
 			// Proceed with requested callback.
 			if ( is_callable( array( $callback_methods[ $namespace ], 'callback' ) ) ) {
@@ -158,6 +168,7 @@ class CoCart_Update_Cart_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Get the query params for updating cart.
 	 *
 	 * @access public
+	 *
 	 * @return array $params
 	 */
 	public function get_collection_params() {

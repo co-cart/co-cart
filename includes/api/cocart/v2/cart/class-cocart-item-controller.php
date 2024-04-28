@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Item controller
- *
- * Handles the request to view a single item in the cart with /cart/item endpoint.
+ * REST API: CoCart_REST_Item_V2_Controller class
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
- * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @package CoCart\API\Cart\v2
+ * @since   3.0.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,12 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - View individual item controller class.
+ * Controller for viewing an individual item in the cart (API v2).
  *
- * @package CoCart\API
- * @extends CoCart_Cart_V2_Controller
+ * This REST API controller handles the request to view a single item
+ * in the cart via "cocart/v2/cart/item" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -34,6 +35,8 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Get Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (GET).
@@ -57,11 +60,14 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.7.8
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The returned response.
 	 */
 	public function view_item( $request = array() ) {
 		try {
@@ -87,9 +93,11 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access  public
-	 * @since   3.1.0
-	 * @return  array $params
+	 * @access public
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return array $params
 	 */
 	public function get_collection_params() {
 		// Cart query parameters.
@@ -112,13 +120,15 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Get the schema for returning a cart item.
 	 *
 	 * @access public
-	 * @since  3.1.0 Introduced.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @return array
 	 */
 	public function get_public_item_schema() {
 		return array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Item in Cart', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_cart_item',
 			'type'       => 'object',
 			'properties' => array(
 				'item_key'       => array(
@@ -128,36 +138,36 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 					'readonly'    => true,
 				),
 				'id'             => array(
-					'description' => __( 'Product ID or Variation ID of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Product ID or Variation ID of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'name'           => array(
-					'description' => __( 'The name of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The name of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'title'          => array(
-					'description' => __( 'The title of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The title of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'price'          => array(
-					'description' => __( 'The price of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The price of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'quantity'       => array(
-					'description' => __( 'The quantity of the item in the cart and minimum and maximum purchase capability.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The quantity of the item and minimum and maximum purchase capability.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'value'        => array(
-							'description' => __( 'The quantity of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The quantity of the item.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'float',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
@@ -177,7 +187,7 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 					),
 				),
 				'totals'         => array(
-					'description' => __( 'The totals of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The totals of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
@@ -208,13 +218,13 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 					),
 				),
 				'slug'           => array(
-					'description' => __( 'The product slug of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The product slug of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'meta'           => array(
-					'description' => __( 'The meta data of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The meta data of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
@@ -276,7 +286,7 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 					),
 				),
 				'backorders'     => array(
-					'description' => __( 'The price of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The price of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
@@ -288,7 +298,7 @@ class CoCart_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 					'properties'  => array(),
 				),
 				'featured_image' => array(
-					'description' => __( 'The featured image of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The featured image of the item.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

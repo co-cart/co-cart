@@ -70,8 +70,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			switch ( $screen->id ) {
 				case 'plugins':
-					require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-action-links.php';         // Plugin Action Links.
-					require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
+					require_once __DIR__ . '/class-cocart-admin-action-links.php';         // Plugin Action Links.
+					require_once __DIR__ . '/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
 					break;
 			}
 		} // END conditional_includes()

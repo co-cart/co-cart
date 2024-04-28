@@ -42,6 +42,10 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Add Item - cocart/v2/cart/add-item (POST).
@@ -56,7 +60,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 					'args'                => $this->get_collection_params(),
 				),
 				'allow_batch' => array( 'v1' => true ),
-				'schema'      => array( $this, 'get_item_schema' ),
+				'schema'      => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	} // END register_routes()
@@ -548,25 +552,4 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 
 		return $params;
 	} // END get_collection_params()
-
-	/**
-	 * Validates the quantity argument.
-	 *
-	 * @access public
-	 *
-	 * @since  3.0.0 Introduced.
-	 *
-	 * @param int|float       $value   Number of quantity to validate.
-	 * @param WP_REST_Request $request Full details about the request.
-	 * @param string          $param   Argument parameters.
-	 *
-	 * @return bool
-	 */
-	public function rest_validate_quantity_arg( $value, $request, $param ) {
-		if ( is_numeric( $value ) || is_float( $value ) ) {
-			return true;
-		}
-
-		return false;
-	} // END rest_validate_quantity_arg()
 } // END class

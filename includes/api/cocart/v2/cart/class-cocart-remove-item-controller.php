@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Remove Item controller
- *
- * Handles the request to remove items in the cart with /cart/item endpoint.
+ * REST API: CoCart_REST_Remove_Item_V2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
- * @since   3.0.0
- * @version 3.0.17
- * @license GPL-2.0+
+ * @since   3.0.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,12 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Remove Item controller class.
+ * Controller for removing items from the cart (API v2).
  *
- * @package CoCart\API
- * @extends CoCart_Cart_V2_Controller
+ * This REST API controller handles the request to remove items
+ * in the cart via "cocart/v2/cart/item" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -34,6 +35,10 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Remove Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (DELETE).
@@ -57,11 +62,13 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 3.7.8
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 * @access public
+	 *
+	 * @since 1.0.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function remove_item( $request = array() ) {
 		try {
@@ -77,7 +84,8 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about no items in cart.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_no_items_message', $message );
@@ -90,8 +98,11 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 
 			$product = wc_get_product( $current_data['product_id'] );
 
-			/* translators: %s: Item name. */
-			$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ), $current_data );
+			$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', $product ? sprintf(
+				/* translators: %s: Item name. */
+				_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+				$product->get_name()
+			) : __( 'Item', 'cart-rest-api-for-woocommerce' ), $current_data );
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -101,14 +112,23 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				if ( isset( $removed_contents[ $item_key ] ) ) {
 					$product = wc_get_product( $removed_contents[ $item_key ]['product_id'] );
 
-					/* translators: %s: Item name. */
-					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf(
+						/* translators: %s: Item name. */
+						_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+						$product->get_name()
+					) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
 
-					/* translators: %s: Item name. */
-					$message = sprintf( __( '%s has already been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_already_removed_title );
+					$message = sprintf(
+						/* translators: %s: Item name. */
+						__( '%s has already been removed from cart.', 'cart-rest-api-for-woocommerce' ),
+						$item_already_removed_title
+					);
 				} else {
-					/* translators: %s: Item name. */
-					$message = sprintf( __( '%s does not exist in cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );
+					$message = sprintf(
+						/* translators: %s: Item name. */
+						__( '%s does not exist in cart.', 'cart-rest-api-for-woocommerce' ),
+						$item_removed_title
+					);
 				}
 
 				/**
@@ -127,12 +147,15 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Calculates the cart totals now an item has been removed.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 */
 				$this->get_cart_instance()->calculate_totals();
 
-				/* translators: %s: Item name. */
-				$message = sprintf( __( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $item_removed_title );
+				$message = sprintf(
+					/* translators: %s: Item name. */
+					__( '%s has been removed from cart.', 'cart-rest-api-for-woocommerce' ),
+					$item_removed_title
+				);
 
 				// Add notice.
 				wc_add_notice( $message );
@@ -152,7 +175,8 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about can not remove item.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_remove_item_message', $message );
@@ -167,10 +191,12 @@ class CoCart_Remove_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array $params
+	 *
+	 * @return array $params
 	 */
 	public function get_collection_params() {
 		// Cart query parameters.

@@ -1,13 +1,10 @@
 <?php
 /**
- * CoCart - Calculate controller
- *
- * Handles the request to calculate the cart with /cart/calculate endpoint.
+ * REST API: CoCart_REST_Calculate_v2_Controller class
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
- * @since   3.0.0
- * @license GPL-2.0+
+ * @package CoCart\API\Cart\v2
+ * @since   3.0.0 Introduced.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,11 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Calculate controller class.
+ * Controller for calculating cart totals, tax, fees and shipping (API v2).
  *
- * @package CoCart\API
+ * This REST API controller handles the request to calculate the cart
+ * via "cocart/v2/cart/calculate" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_Calculate_Controller
  */
-class CoCart_Calculate_V2_Controller extends CoCart_Calculate_Controller {
+class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -39,6 +41,10 @@ class CoCart_Calculate_V2_Controller extends CoCart_Calculate_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Calculate Cart Total - cocart/v2/cart/calculate (POST).
@@ -62,15 +68,18 @@ class CoCart_Calculate_V2_Controller extends CoCart_Calculate_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.0.0
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The returned response.
 	 */
 	public function calculate_totals( $request = array() ) {
 		try {
-			$controller = new CoCart_Cart_V2_Controller();
+			$controller = new CoCart_REST_Cart_V2_Controller();
 
 			$controller->get_cart_instance()->calculate_totals();
 
@@ -94,11 +103,13 @@ class CoCart_Calculate_V2_Controller extends CoCart_Calculate_Controller {
 	 * Get the query params for calculating totals.
 	 *
 	 * @access public
-	 * @since  3.1.0
-	 * @return array $params
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return array $params Query parameters for calculating totals.
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_Cart_V2_Controller();
+		$controller = new CoCart_REST_Cart_V2_Controller();
 
 		// Cart query parameters.
 		$params = $controller->get_collection_params();

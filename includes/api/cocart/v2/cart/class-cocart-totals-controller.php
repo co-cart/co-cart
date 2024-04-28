@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Totals controller
- *
- * Handles the request to get the totals of the cart with /cart/totals endpoint.
+ * REST API: CoCart_REST_Totals_V2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
- * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @since   3.0.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,11 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Totals controller class.
+ * Controller for getting the cart totals (API v2).
  *
- * @package CoCart\API
+ * This REST API controller handles the request to get the totals of the cart
+ * via "cocart/v2/cart/totals" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Totals_V2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -33,6 +35,8 @@ class CoCart_Totals_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Get Cart Totals - cocart/v2/cart/totals (GET).
@@ -46,26 +50,27 @@ class CoCart_Totals_V2_Controller extends CoCart_Cart_V2_Controller {
 				'args'                => $this->get_collection_params(),
 			)
 		);
-	} // register_routes()
+	} // END register_routes()
 
 	/**
 	 * Returns all calculated totals.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 3.0.4
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
+	 * @version 3.13.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response The returned response.
 	 */
 	public function get_totals( $request = array() ) {
 		try {
 			$pre_formatted = isset( $request['html'] ) ? $request['html'] : false;
 
-			$controller = new CoCart_Cart_V2_Controller();
-
-			$totals            = $controller->get_cart_instance()->get_totals();
+			$totals            = $this->get_cart_instance()->get_totals();
 			$totals_calculated = false;
 
 			if ( ! empty( $totals['total'] ) ) {
@@ -111,6 +116,7 @@ class CoCart_Totals_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Get the query params for cart totals.
 	 *
 	 * @access public
+	 *
 	 * @return array $params
 	 */
 	public function get_collection_params() {

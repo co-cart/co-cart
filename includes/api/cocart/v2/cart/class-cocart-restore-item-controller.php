@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Restore Item controller
- *
- * Handles the request to restore items in the cart with /cart/item endpoint.
+ * REST API: CoCart_REST_Restore_Item_V2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
- * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @since   3.0.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,12 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Restore Item controller class.
+ * Controller for restoring an item to the cart (API v2).
  *
- * @package CoCart\API
- * @extends CoCart_Cart_V2_Controller
+ * This REST API controller handles the request to restore items in the cart
+ * via "cocart/v2/cart/item" endpoint.
+ *
+ * @since 3.0.0 Introduced.
+ *
+ * @see CoCart_REST_Cart_V2_Controller
  */
-class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
+class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Route base.
@@ -34,6 +35,10 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 * Register routes.
 	 *
 	 * @access public
+	 *
+	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
 		// Restore Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (PUT).
@@ -57,11 +62,14 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 3.7.8
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The returned response.
 	 */
 	public function restore_item( $request = array() ) {
 		try {
@@ -109,7 +117,7 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Calculates the cart totals now an item has been restored.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 */
 				$this->get_cart_instance()->calculate_totals();
 
@@ -139,7 +147,8 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 				/**
 				 * Filters message about can not restore item.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_restore_item_message', $message );
@@ -154,10 +163,12 @@ class CoCart_Restore_Item_V2_Controller extends CoCart_Cart_V2_Controller {
 	/**
 	 * Get the query params for restoring an item.
 	 *
-	 * @access  public
-	 * @since   3.0.0
+	 * @access public
+	 *
+	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
-	 * @return  array $params
+	 *
+	 * @return array $params
 	 */
 	public function get_collection_params() {
 		// Cart query parameters.

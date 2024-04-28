@@ -35,7 +35,7 @@ class CoCart_Product_Categories_V2_Controller extends CoCart_Product_Categories_
 	 * @access public
 	 * @param  WP_Term         $item    Term object.
 	 * @param  WP_REST_Request $request Request instance.
-	 * @return WP_REST_Response
+	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 		// Get category display type.

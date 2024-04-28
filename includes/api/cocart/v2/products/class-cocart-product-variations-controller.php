@@ -83,7 +83,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 * Validate the variation exists and is part of the variable product.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param  WP_REST_Request $request The request object.
 	 * @return WP_Error|bool
 	 */
 	public function validate_variation( $request ) {
@@ -111,8 +111,8 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 *
 	 * @access public
 	 * @param  WC_Product      $product Product instance.
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response
+	 * @param  WP_REST_Request $request The request object.
+	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_object_for_response( $product, $request ) {
 		$controller = new CoCart_Products_V2_Controller();
@@ -131,7 +131,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param WC_Product       $product   Product object.
-		 * @param WP_REST_Request  $request Full details about the request.
+		 * @param WP_REST_Request  $request The request object.
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()
@@ -140,7 +140,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 * Get a single item.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param  WP_REST_Request $request The request object.
 	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_item( $request ) {

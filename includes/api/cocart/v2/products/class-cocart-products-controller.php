@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Products controller
- *
- * Handles requests to the /products/ endpoint.
+ * REST API: CoCart_REST_Products_V2_Controller class
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
- * @since   3.1.0
- * @version 3.2.0
- * @license GPL-2.0+
+ * @since   3.1.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,12 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Product controller class.
+ * Controller for returning products via the REST API (API v2).
  *
- * @package CoCart Products/API
- * @extends CoCart_Products_Controller
+ * This REST API controller handles requests to return product details
+ * via "cocart/v2/products" endpoint.
+ *
+ * @since 3.1.0 Introduced.
  */
-class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
+class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -29,6 +28,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
+
+	/**
+	 * Schema.
+	 *
+	 * @var array
+	 */
+	protected $schema = array();
 
 	/**
 	 * Register routes.
@@ -47,7 +53,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 					'args'                => $this->get_collection_params(),
 					'permission_callback' => '__return_true',
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_public_items_schema' ),
 			)
 		);
 
@@ -83,12 +89,14 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	/**
 	 * Get a collection of products.
 	 *
-	 * @access  public
-	 * @since   3.1.0  Introduced.
-	 * @since   3.2.0  Moved products to it's own object and returned also pagination information.
-	 * @since   3.10.7 Checks if query results return as an error.
-	 * @param   WP_REST_Request $request Full details about the request.
-	 * @return  WP_Error|WP_REST_Response
+	 * @access public
+	 *
+	 * @since 3.1.0 Introduced.
+	 * @since 3.2.0 Moved products to it's own object and returned also pagination information.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_items( $request ) {
 		$query_args    = $this->prepare_objects_query( $request );
@@ -173,8 +181,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Prepare a single product output for response.
 	 *
 	 * @access public
-	 * @param  WC_Product      $product Product instance.
-	 * @param  WP_REST_Request $request Request object.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product      $product The product object.
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $product, $request ) {
@@ -208,9 +220,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 		/**
 		 * Filter the data for a response.
 		 *
+		 * @since 3.1.0 Introduced.
+		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Product       $product  Product instance.
-		 * @param WP_REST_Request  $request  Request object.
+		 * @param WC_Product       $product  The product object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()
@@ -220,8 +234,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * for developers with their UI/UX.
 	 *
 	 * @access public
-	 * @param  WC_Product $product    Product instance.
-	 * @return array      $variations Returns the variations.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
+	 * @return array $variations Returns the variations.
 	 */
 	public function get_variations( $product ) {
 		$variation_ids    = $product->get_children();
@@ -291,10 +309,14 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	/**
 	 * Get a single item.
 	 *
-	 * @throws  CoCart_Data_Exception Exception if invalid data is detected.
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_REST_Response
 	 */
 	public function get_item( $request ) {
@@ -310,7 +332,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				} else {
 					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
 
-					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 500 );
+					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
 				}
 			}
 
@@ -336,7 +358,9 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get the images for a product or product variation.
 	 *
 	 * @access protected
-	 * @param  WC_Product|WC_Product_Variation $product Product instance.
+	 *
+	 * @param WC_Product|WC_Product_Variation $product The product object.
+	 *
 	 * @return array $images
 	 */
 	protected function get_images( $product ) {
@@ -402,8 +426,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get product data.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product Product instance.
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
+	 * @return array $data Product data.
 	 */
 	protected function get_product_data( $product ) {
 		$type         = $product->get_type();
@@ -531,30 +559,46 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get variation product data.
 	 *
 	 * @access protected
-	 * @param  WC_Variation_Product $product Product instance.
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Variation_Product $product The product object.
+	 *
+	 * @return array $data Product data.
 	 */
 	protected function get_variation_product_data( $product ) {
 		$data = self::get_product_data( $product );
 
+		$fields_not_required = array(
+			'type',
+			'short_description',
+			'hidden_conditions' => array( 'reviews_allowed' ),
+			'average_rating',
+			'review_count',
+			'rating_count',
+			'rated_out_of',
+			'reviews',
+			'default_attributes',
+			'variations',
+			'grouped_products',
+			'related',
+			'upsells',
+			'cross_sells',
+			'external_url',
+			'button_text',
+			'add_to_cart'       => array( 'has_options' ),
+		);
+
 		// Remove fields not required for a variation.
-		unset( $data['type'] );
-		unset( $data['short_description'] );
-		unset( $data['hidden_conditions']['reviews_allowed'] );
-		unset( $data['average_rating'] );
-		unset( $data['review_count'] );
-		unset( $data['rating_count'] );
-		unset( $data['rated_out_of'] );
-		unset( $data['reviews'] );
-		unset( $data['default_attributes'] );
-		unset( $data['variations'] );
-		unset( $data['grouped_products'] );
-		unset( $data['related'] );
-		unset( $data['upsells'] );
-		unset( $data['cross_sells'] );
-		unset( $data['external_url'] );
-		unset( $data['button_text'] );
-		unset( $data['add_to_cart']['has_options'] );
+		foreach ( $fields_not_required as $key => $field ) {
+			if ( is_array( $field ) && ! empty( $field ) ) {
+				foreach ( $field as $child_field ) {
+					unset( $data[ $key ][ $child_field ] );
+				}
+			} else {
+				unset( $data[ $field ] );
+			}
+		}
 
 		return $data;
 	} // END get_variation_product_data()
@@ -563,9 +607,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get taxonomy terms.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product  Product instance.
-	 * @param  string     $taxonomy Taxonomy slug.
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product  The product object.
+	 * @param string     $taxonomy Taxonomy slug.
+	 *
+	 * @return array $terms Taxonomy terms.
 	 */
 	protected function get_taxonomy_terms( $product, $taxonomy = 'cat' ) {
 		$terms = array();
@@ -586,9 +634,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get attribute options.
 	 *
 	 * @access protected
-	 * @param  int   $product_id Product ID.
-	 * @param  array $attribute  Attribute data.
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param int   $product_id Product ID.
+	 * @param array $attribute  Attribute data.
+	 *
+	 * @return array $attributes Attribute options.
 	 */
 	protected function get_attribute_options( $product_id, $attribute ) {
 		$attributes = array();
@@ -621,8 +673,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get the attributes for a product or product variation.
 	 *
 	 * @access protected
-	 * @param  WC_Product|WC_Product_Variation $product Product instance.
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product|WC_Product_Variation $product The product object.
+	 *
+	 * @return array $attributes Attributes data.
 	 */
 	protected function get_attributes( $product ) {
 		$attributes = array();
@@ -679,8 +735,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Get minimum details on connected products.
 	 *
 	 * @access public
-	 * @param  WC_Product $product Product Object.
-	 * @param  string     $type    Type of products to return.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 * @param string     $type    Type of products to return.
+	 *
+	 * @return array $connected_products Product data.
 	 */
 	public function get_connected_products( $product, $type ) {
 		switch ( $type ) {
@@ -730,8 +791,12 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns the REST URL for a specific product or taxonomy.
 	 *
 	 * @access public
-	 * @param  int    $id       Product ID or Taxonomy ID.
-	 * @param  string $taxonomy Taxonomy type.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param int    $id       Product ID or Taxonomy ID.
+	 * @param string $taxonomy Taxonomy type.
+	 *
 	 * @return string
 	 */
 	public function product_rest_url( $id, $taxonomy = '' ) {
@@ -752,11 +817,15 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END product_rest_url()
 
 	/**
-	 * Returns an array of REST URLs for each ID.
+	 * Returns an Array of REST URLs for each ID.
 	 *
 	 * @access public
-	 * @param  array $ids Product ID's.
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param array $ids Product ID's.
+	 *
+	 * @return array $urls Array of REST URLs.
 	 */
 	public function product_rest_urls( $ids = array() ) {
 		$rest_urls = array();
@@ -772,9 +841,13 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns the REST URL for adding product to the cart.
 	 *
 	 * @access public
-	 * @param  WC_Product $product Product Object.
-	 * @param  string     $type    Product type.
-	 * @return string
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 * @param string     $type    Product type.
+	 *
+	 * @return string $rest_url REST URL for adding product to the cart.
 	 */
 	public function add_to_cart_rest_url( $product, $type ) {
 		$id = $product->get_id();
@@ -811,6 +884,16 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 				$rest_url = ''; // Return nothing for these product types.
 				break;
 			default:
+				/**
+				 * Filters the REST URL shortcut for adding the product to cart.
+				 *
+				 * @since 3.1.0 Introduced.
+				 *
+				 * @param string     $rest_url REST URL for adding product to the cart.
+				 * @param WC_Product $product  The product object.
+				 * @param string     $type     Product type.
+				 * @param int        $id       Product ID.
+				 */
 				$rest_url = apply_filters( 'cocart_products_add_to_cart_rest_url', $rest_url, $product, $type, $id );
 				break;
 		}
@@ -823,7 +906,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Choose the correct method based on tax display mode.
 	 *
 	 * @access protected
-	 * @param  string $tax_display_mode - Provided tax display mode.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param string $tax_display_mode Provided tax display mode.
+	 *
 	 * @return string Valid tax display mode.
 	 */
 	protected function get_tax_display_mode( $tax_display_mode = '' ) {
@@ -835,7 +922,11 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Choose the correct method based on tax display mode.
 	 *
 	 * @access protected
-	 * @param  string $tax_display_mode - If returned prices are incl or excl of tax.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param string $tax_display_mode If returned prices are incl or excl of tax.
+	 *
 	 * @return string Function name.
 	 */
 	protected function get_price_from_tax_display_mode( $tax_display_mode ) {
@@ -954,22 +1045,29 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END get_meta_data()
 
 	/**
-	 * Get the Products Schema.
+	 * Retrieves the item’s schema, conforming to JSON Schema.
 	 *
 	 * @access public
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return array Product schema data.
 	 */
 	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
 		$weight_unit    = get_option( 'woocommerce_weight_unit' );
 		$dimension_unit = get_option( 'woocommerce_dimension_unit' );
 
-		$schema = array(
-			'schema' => 'http://json-schema.org/draft-04/schema#',
-			'title'  => $this->post_type,
-			'type'   => 'object',
+		$this->schema = array(
+			'$schema' => 'http://json-schema.org/draft-04/schema#',
+			'title'   => $this->post_type,
+			'type'    => 'object',
 		);
 
-		$schema['properties'] = array(
+		$this->schema['properties'] = array(
 			'products'       => array(
 				'description' => __( 'Returned products based on result criteria.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'object',
@@ -1974,7 +2072,7 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 
 		foreach ( $attachment_sizes as $size ) {
 			// Generate the product featured image URL properties for each attachment size.
-			$schema['properties']['products']['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
+			$this->schema['properties']['products']['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
 				'description' => sprintf(
 					/* translators: %s: Product image URL */
 					__( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
@@ -1987,8 +2085,8 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			);
 
 			// Generate the variation product featured image URL properties for each attachment size.
-			if ( isset( $schema['properties']['products']['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
-				$schema['properties']['products']['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
+			if ( isset( $this->schema['properties']['products']['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
+				$this->schema['properties']['products']['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
 					'description' => sprintf(
 						/* translators: %s: Product image URL */
 						__( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
@@ -2002,6 +2100,54 @@ class CoCart_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 		}
 
-		return $this->add_additional_fields_schema( $schema );
+		return $this->add_additional_fields_schema( $this->schema );
 	} // END get_item_schema()
+
+	/**
+	 * Retrieves the item's schema for display / public consumption purposes
+	 * for the product archive.
+	 *
+	 * @access public
+	 *
+	 * @since 3.13.0 Introduced.
+	 *
+	 * @return array Products archive schema data.
+	 */
+	public function get_public_items_schema() {
+		$product_schema = $this->get_item_schema();
+
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'cocart_products_archive',
+			'type'       => 'object',
+			'properties' => array(
+				'products'       => array(
+					'description' => __( 'Returned products based on result criteria.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'object',
+					'context'     => array( 'view' ),
+					'properties'  => $product_schema['properties'],
+				),
+				'page'           => array(
+					'description' => __( 'Current page of pagination.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'total_pages'    => array(
+					'description' => __( 'Total number of pages based on result criteria.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'total_products' => array(
+					'description' => __( 'Total of available products in store.', 'cart-rest-api-for-woocommerce' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+			),
+		);
+
+		return $schema;
+	} // END get_public_items_schema()
 } // END class
