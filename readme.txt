@@ -31,7 +31,7 @@ With CoCart, we have already done the hard part for you. The API. Once installed
 **Everything you need to try** and see if making your store headless is right for you.
 
 * **No Blocks** - The API is designed for the purpose of decoupling. Not blocks for Gutenberg.
-* **Enhanced Session Handler** - Our session handler adds support to allow our API the power it requires for any decoupled situation.
+* **Enhanced Session Handler** - Our session handler provides the support needed for any decoupled situation.
 * **Basic Authentication** - No Admin API Keys required. Customers have full control, either as a guest or authenticated with their login details.
 * **Domain dominance** - CORS can be an issue when decoupling. Don’t sweat the small stuff. We got you.
 * **No Headless Checkout?** - Load any cart session via the native site, if you feel more comfortable using WooCommerce’s built in payment system.
@@ -553,6 +553,6 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 == Upgrade Notice ==
 
-= 3.12.0 =
+= 3.13.0 =
 
-Security Patch: Fixed a validation issue for both versions of the Products API.
+Added batch support for cart endpoints. See changelog for more.
