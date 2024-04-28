@@ -70,6 +70,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			switch ( $screen->id ) {
 				case 'plugins':
+					require_once __DIR__ . '/class-cocart-admin-addon-update-watcher.php'; // Update Watcher.
 					require_once __DIR__ . '/class-cocart-admin-action-links.php';         // Plugin Action Links.
 					require_once __DIR__ . '/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
 					break;
