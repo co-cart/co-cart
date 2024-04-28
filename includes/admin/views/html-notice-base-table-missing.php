@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				if ( $verify_db_tool_available ) {
 					echo wp_kses_post(
 						sprintf(
-						/* translators: %1%s: Missing table (separated by ",") %2$s: Link to check again */
+							/* translators: %1%s: Missing table (separated by ",") %2$s: Link to check again */
 							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: <code>%1$s</code> <a href="%2$s">Check again.</a>', 'cart-rest-api-for-woocommerce' ),
 							esc_html( implode( ', ', $missing_tables ) ),
 							wp_nonce_url( admin_url( 'admin.php?page=wc-status&tab=tools&action=cocart_verify_db_tables' ), 'debug_action' )
@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				} else {
 					echo wp_kses_post(
 						sprintf(
-						/* translators: %1%s: Missing table (separated by ",") */
+							/* translators: %1%s: Missing table (separated by ",") */
 							__( 'One table is required for CoCart to function is missing and will not work as expected. Missing table: <code>%1$s</code>', 'cart-rest-api-for-woocommerce' ),
 							esc_html( implode( ', ', $missing_tables ) )
 						)

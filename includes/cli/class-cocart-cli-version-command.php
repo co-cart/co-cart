@@ -52,8 +52,12 @@ class CoCart_CLI_Version_Command {
 
 		WP_CLI::log(
 			WP_CLI::colorize(
-				/* translators: 2: Version of CoCart */
-				'%y' . sprintf( __( '%1$s Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $current_version )
+				'%y' . sprintf(
+					/* translators: 2: Version of CoCart */
+					__( '%1$s Version is %2$s', 'cart-rest-api-for-woocommerce' ),
+					'CoCart',
+					$current_version
+				)
 			)
 		);
 	} // END version()
@@ -74,8 +78,12 @@ class CoCart_CLI_Version_Command {
 
 		WP_CLI::log(
 			WP_CLI::colorize(
-				/* translators: 2: Database Version of CoCart */
-				'%y' . sprintf( __( '%1$s Database Version is %2$s', 'cart-rest-api-for-woocommerce' ), 'CoCart', $db_version )
+				'%y' . sprintf(
+					/* translators: 2: Database Version of CoCart */
+					__( '%1$s Database Version is %2$s', 'cart-rest-api-for-woocommerce' ),
+					'CoCart',
+					$db_version
+				)
 			)
 		);
 	} // END db_version()

@@ -41,8 +41,8 @@ if ( ! class_exists( 'CoCart_CLI' ) ) {
 		 * @access private
 		 */
 		private function includes() {
-			require_once COCART_ABSPATH . 'includes/cli/class-cocart-cli-update-command.php';
-			require_once COCART_ABSPATH . 'includes/cli/class-cocart-cli-version-command.php';
+			require_once __DIR__ . '/cli/class-cocart-cli-update-command.php';
+			require_once __DIR__ . '/cli/class-cocart-cli-version-command.php';
 		}
 
 		/**

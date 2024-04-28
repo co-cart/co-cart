@@ -5,9 +5,9 @@
  * Allows you to update the cart items in bulk.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Callback
- * @since   3.1.0
- * @license GPL-2.0+
+ * @package CoCart\Callbacks
+ * @since   3.1.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Update cart callback class.
+ * Update cart callback.
+ *
+ * Allows you to update the cart items in bulk.
+ *
+ * @since 3.1.0 Introduced.
  */
 class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 
@@ -23,7 +27,8 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 	 * Callback name.
 	 *
 	 * @access protected
-	 * @var    string
+	 *
+	 * @var string
 	 */
 	protected $name = 'update-cart';
 
@@ -33,24 +38,29 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @since 3.1.0 Introduced.
+	 * @since 3.13.0 Added the cart controller as a parameter.
+	 *
+	 * @param WP_REST_Request $request    The request object.
+	 * @param object          $controller The cart controller.
+	 *
+	 * @return bool Returns true.
 	 */
-	public function callback( $request ) {
+	public function callback( $request, $controller ) {
 		try {
 			$items = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
-
-			$controller = new CoCart_Cart_V2_Controller();
 
 			$cart_updated = false;
 
 			if ( ! empty( $items ) ) {
 				foreach ( $items as $item_key => $quantity ) {
-					$data = array(
-						'item_key' => $item_key,
-						'quantity' => wc_stock_amount( preg_replace( '/[^0-9\.]/', '', $quantity ) ),
-					);
-
 					$cart_item = $controller->get_cart_item( $item_key, 'update' );
+
+					// If item does not exist then continue to the next item.
+					if ( empty( $cart_item ) ) {
+						continue;
+					}
 
 					$_product = $cart_item['data'];
 
@@ -61,7 +71,16 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 						continue;
 					}
 
-					// Update cart validation.
+					/**
+					 * Filters the cart validation when updating the cart.
+					 *
+					 * @since 3.1.0 Introduced.
+					 *
+					 * @param bool              True by default.
+					 * @param string $item_key  Item key of the item updated.
+					 * @param array  $cart_item Cart item after updated.
+					 * @param int    $quantity  New quantity amount.
+					 */
 					$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $cart_item, $quantity );
 
 					// Is sold individually.
@@ -83,7 +102,10 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 
 				$controller->calculate_totals();
 
-				wc_add_notice( __( 'Cart updated.', 'cart-rest-api-for-woocommerce' ), 'success' );
+				// Only returns success notice if there are no error notices.
+				if ( 0 === wc_notice_count( 'error' ) ) {
+					wc_add_notice( __( 'Cart updated.', 'cart-rest-api-for-woocommerce' ), 'success' );
+				}
 			}
 
 			return true;

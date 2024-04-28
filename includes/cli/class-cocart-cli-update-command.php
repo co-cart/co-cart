@@ -63,13 +63,24 @@ class CoCart_CLI_Update_Command {
 			// Ensure DB version is set to the current WC version to match WP-Admin update routine.
 			CoCart_Install::update_db_version();
 
-			/* translators: %s Database version number */
-			WP_CLI::success( sprintf( __( 'No updates required. Database version is %s', 'cart-rest-api-for-woocommerce' ), get_option( 'cocart_db_version' ) ) );
+			WP_CLI::success(
+				sprintf(
+					/* translators: %s Database version number */
+					__( 'No updates required. Database version is %s', 'cart-rest-api-for-woocommerce' ),
+					get_option( 'cocart_db_version' )
+				)
+			);
 			return;
 		}
 
-		/* translators: 1: Number of database updates 2: List of update callbacks */
-		WP_CLI::log( sprintf( __( 'Found %1$d updates (%2$s)', 'cart-rest-api-for-woocommerce' ), count( $callbacks_to_run ), implode( ', ', $callbacks_to_run ) ) );
+		WP_CLI::log(
+			sprintf(
+				/* translators: 1: Number of database updates 2: List of update callbacks */
+				__( 'Found %1$d updates (%2$s)', 'cart-rest-api-for-woocommerce' ),
+				count( $callbacks_to_run ),
+				implode( ', ', $callbacks_to_run )
+			)
+		);
 
 		$progress = \WP_CLI\Utils\make_progress_bar( __( 'Updating database', 'cart-rest-api-for-woocommerce' ), count( $callbacks_to_run ) );
 
@@ -85,7 +96,13 @@ class CoCart_CLI_Update_Command {
 
 		$progress->finish();
 
-		/* translators: 1: Number of database updates performed 2: Database version number */
-		WP_CLI::success( sprintf( __( '%1$d update functions completed. Database version is %2$s', 'cart-rest-api-for-woocommerce' ), absint( $update_count ), get_option( 'cocart_db_version' ) ) );
+		WP_CLI::success(
+			sprintf(
+				/* translators: 1: Number of database updates performed 2: Database version number */
+				__( '%1$d update functions completed. Database version is %2$s', 'cart-rest-api-for-woocommerce' ),
+				absint( $update_count ),
+				get_option( 'cocart_db_version' )
+			)
+		);
 	} // END update()
 } // END class

@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart logger.
- *
- * Handles logging errors.
+ * Class: CoCart_Logger
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   2.1.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @since   2.1.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart logger class.
+ * CoCart logger.
  *
- * @package CoCart/Logger
+ * Handles logging errors.
+ *
+ * @since 2.1.0 Introduced.
  */
 class CoCart_Logger {
 
@@ -26,7 +25,9 @@ class CoCart_Logger {
 	 * Log Handler Interface.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @var object $logger Log Handler Interface.
 	 */
 	public static $logger;
@@ -35,14 +36,20 @@ class CoCart_Logger {
 	 * Log issues or errors within CoCart.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since   2.1.0
-	 * @version 3.1.0
-	 * @param   string $message The message of the log.
-	 * @param   string $type    The type of log to record.
-	 * @param   string $plugin  The CoCart plugin being logged.
+	 *
+	 * @since   2.1.0 Introduced.
+	 * @version 3.13.0
+	 *
+	 * @uses date_i18n()
+	 * @uses wc_get_logger()
+	 *
+	 * @param string $message The message of the log.
+	 * @param string $type    The type of log to record.
+	 * @param string $plugin  The CoCart plugin being logged.
 	 */
-	public static function log( $message, $type, $plugin = 'cocart-lite' ) {
+	public static function log( $message, $type, $plugin = 'cocart' ) {
 		if ( ! class_exists( 'WC_Logger' ) ) {
 			return;
 		}
@@ -52,16 +59,20 @@ class CoCart_Logger {
 				self::$logger = wc_get_logger();
 			}
 
-			if ( 'cocart-lite' === $plugin ) {
+			if ( 'cocart' === $plugin ) {
 				$log_entry = "\n" . '====CoCart Core Version: ' . COCART_VERSION . '====' . "\n";
-				$context   = array( 'source' => 'cocart-lite' );
+				$context   = array( 'source' => 'cocart' );
 			} elseif ( 'cocart-pro' === $plugin ) {
 				$log_entry = "\n" . '====CoCart Pro Version: ' . COCART_PRO_VERSION . '====' . "\n";
 				$context   = array( 'source' => 'cocart-pro' );
 			} else {
-				/* translators: %1$s: Log entry name, %2$s: log entry version */
-				$log_entry = "\n" . sprintf( esc_html__( '====%1$s Version: %2$s====', 'cart-rest-api-for-woocommerce' ), apply_filters( 'cocart_log_entry_name', '', $plugin ), apply_filters( 'cocart_log_entry_version', '', $plugin ) ) . "\n";
-				$context   = array( 'source' => apply_filters( 'cocart_log_entry_source', '' ) );
+				$log_entry = "\n" . sprintf(
+					/* translators: %1$s: Log entry name, %2$s: log entry version */
+					esc_html__( '====%1$s Version: %2$s====', 'cart-rest-api-for-woocommerce' ),
+					apply_filters( 'cocart_log_entry_name', '', $plugin ),
+					apply_filters( 'cocart_log_entry_version', '', $plugin )
+				) . "\n";
+				$context = array( 'source' => apply_filters( 'cocart_log_entry_source', '' ) );
 			}
 
 			$log_time = date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ) . ' @ ' . date_i18n( get_option( 'time_format' ), current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested

@@ -57,8 +57,11 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 				array(
 					array(
 						'title'   => 'CoCart',
-						/* translators: %s: CoCart */
-						'tooltip' => sprintf( esc_html__( 'This section shows any information about %s.', 'cart-rest-api-for-woocommerce' ), 'CoCart' ),
+						'tooltip' => sprintf(
+							/* translators: %s: CoCart */
+							esc_html__( 'This section shows any information about %s.', 'cart-rest-api-for-woocommerce' ),
+							'CoCart'
+						),
 						'data'    => apply_filters( 'cocart_system_status_data', $data ),
 					),
 				)
@@ -542,8 +545,11 @@ if ( ! class_exists( 'CoCart_Admin_WC_System_Status' ) ) {
 		public function debug_clear_carts() {
 			$results = cocart_task_clear_carts( true );
 
-			/* translators: %s: results */
-			return sprintf( esc_html__( 'All active carts have been cleared and %s saved carts.', 'cart-rest-api-for-woocommerce' ), absint( $results ) );
+			return sprintf(
+				/* translators: %s: results */
+				esc_html__( 'All active carts have been cleared and %s saved carts.', 'cart-rest-api-for-woocommerce' ),
+				absint( $results )
+			);
 		} // END debug_clear_carts()
 
 		/**

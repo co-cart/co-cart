@@ -1,14 +1,13 @@
 <?php
 /**
- * Handle data for the current customers session.
+ * Handles data for the cart session.
  *
  * Extends WC_Session and added a few tweaks to support our features.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Abstracts
- * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @since   3.0.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,10 +20,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class CoCart_Session extends WC_Session {
 
 	/**
+	 * Stores cart expiry.
+	 *
+	 * @access protected
+	 *
+	 * @since 3.13.0 Introduced.
+	 *
+	 * @var string Cart due to expire timestamp.
+	 */
+	protected $_cart_expiring;
+
+	/**
+	 * Stores cart due to expire timestamp.
+	 *
+	 * @access protected
+	 *
+	 * @since 3.13.0 Introduced.
+	 *
+	 * @var string Cart expiration timestamp.
+	 */
+	protected $_cart_expiration;
+
+	/**
 	 * Stores cart hash.
 	 *
 	 * @access protected
-	 * @var    string $_cart_hash cart hash
+	 *
+	 * @var string $_cart_hash cart hash
 	 */
 	protected $_cart_hash;
 
@@ -32,6 +54,7 @@ abstract class CoCart_Session extends WC_Session {
 	 * Get customer ID.
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function get_customer_id() {
@@ -42,16 +65,44 @@ abstract class CoCart_Session extends WC_Session {
 	 * Set customer ID.
 	 *
 	 * @access public
-	 * @param  string $customer_id Customer ID.
+	 *
+	 * @param string $customer_id Customer ID.
 	 */
 	public function set_customer_id( $customer_id ) {
 		$this->_customer_id = $customer_id;
 	}
 
 	/**
+	 * Get cart is expiring.
+	 *
+	 * @access public
+	 *
+	 * @since 3.13.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_cart_is_expiring() {
+		return $this->_cart_expiring;
+	}
+
+	/**
+	 * Get carts expiration.
+	 *
+	 * @access public
+	 *
+	 * @since 3.13.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_carts_expiration() {
+		return $this->_cart_expiration;
+	}
+
+	/**
 	 * Get session data
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_data() {
@@ -62,9 +113,10 @@ abstract class CoCart_Session extends WC_Session {
 	 * Get cart hash
 	 *
 	 * @access public
+	 *
 	 * @return string
 	 */
 	public function get_cart_hash() {
 		return $this->_cart_hash;
 	}
-}
+} // END class

@@ -46,6 +46,8 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 		 * Updater will still run via cron job if this fails for any reason.
 		 *
 		 * @access public
+		 *
+		 * @uses CoCart_Logger()->error()
 		 */
 		public function dispatch() {
 			$dispatched = parent::dispatch();
@@ -113,7 +115,13 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 		 * item from the queue.
 		 *
 		 * @access protected
-		 * @param  string $callback Update callback function.
+		 *
+		 * @uses CoCart_Logger()->info()
+		 * @uses CoCart_Logger()->error()
+		 * @uses CoCart_Logger()->notice()
+		 *
+		 * @param string $callback Update callback function.
+		 *
 		 * @return string|false
 		 */
 		protected function task( $callback ) {
@@ -126,20 +134,44 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 			$result = false;
 
 			if ( is_callable( $callback ) ) {
-				/* translators: %s: callback function */
-				$logger->info( sprintf( __( 'Running %s callback', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
+				$logger->info(
+					sprintf(
+						/* translators: %s: callback function */
+						__( 'Running %s callback', 'cart-rest-api-for-woocommerce' ),
+						$callback
+					),
+					array( 'source' => 'cocart_db_updates' )
+				);
 				$result = (bool) call_user_func( $callback, $this );
 
 				if ( $result ) {
-					/* translators: %s: callback function */
-					$logger->info( sprintf( __( '%s callback needs to run again', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
+					$logger->info(
+						sprintf(
+							/* translators: %s: callback function */
+							__( '%s callback needs to run again', 'cart-rest-api-for-woocommerce' ),
+							$callback
+						),
+						array( 'source' => 'cocart_db_updates' )
+					);
 				} else {
-					/* translators: %s: callback function */
-					$logger->info( sprintf( __( 'Finished running %s callback', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
+					$logger->info(
+						sprintf(
+							/* translators: %s: callback function */
+							__( 'Finished running %s callback', 'cart-rest-api-for-woocommerce' ),
+							$callback
+						),
+						array( 'source' => 'cocart_db_updates' )
+					);
 				}
 			} else {
-				/* translators: %s: callback function */
-				$logger->notice( sprintf( __( 'Could not find %s callback', 'cart-rest-api-for-woocommerce' ), $callback ), array( 'source' => 'cocart_db_updates' ) );
+				$logger->notice(
+					sprintf(
+						/* translators: %s: callback function */
+						__( 'Could not find %s callback', 'cart-rest-api-for-woocommerce' ),
+						$callback
+					),
+					array( 'source' => 'cocart_db_updates' )
+				);
 			}
 
 			return $result ? $callback : false;
@@ -152,6 +184,8 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 		 * performed, or, call parent::complete().
 		 *
 		 * @access protected
+		 *
+		 * @uses CoCart_Logger()->info()
 		 */
 		protected function complete() {
 			$logger = new CoCart_Logger();

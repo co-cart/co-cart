@@ -374,8 +374,11 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 					'readonly'    => true,
 				),
 				'weight'                => array(
-					/* translators: %s: weight unit */
-					'description' => sprintf( __( 'Variation weight (%s).', 'cart-rest-api-for-woocommerce' ), $weight_unit ),
+					'description' => sprintf(
+						/* translators: %s: weight unit */
+						__( 'Variation weight (%s).', 'cart-rest-api-for-woocommerce' ),
+						$weight_unit
+					),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
@@ -385,20 +388,29 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'length' => array(
-							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Variation length (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+							'description' => sprintf(
+								/* translators: %s: dimension unit */
+								__( 'Variation length (%s).', 'cart-rest-api-for-woocommerce' ),
+								$dimension_unit
+							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'width'  => array(
-							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Variation width (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+							'description' => sprintf(
+								/* translators: %s: dimension unit */
+								__( 'Variation width (%s).', 'cart-rest-api-for-woocommerce' ),
+								$dimension_unit
+							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'height' => array(
-							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Variation height (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+							'description' => sprintf(
+								/* translators: %s: dimension unit */
+								__( 'Variation height (%s).', 'cart-rest-api-for-woocommerce' ),
+								$dimension_unit
+							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),

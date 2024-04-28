@@ -688,8 +688,11 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 
 		foreach ( $avatar_sizes as $size ) {
 			$avatar_properties[ $size ] = array(
-				/* translators: %d: avatar image size in pixels */
-				'description' => sprintf( __( 'Avatar URL with image size of %d pixels.', 'cart-rest-api-for-woocommerce' ), $size ),
+				'description' => sprintf(
+					/* translators: %d: avatar image size in pixels */
+					__( 'Avatar URL with image size of %d pixels.', 'cart-rest-api-for-woocommerce' ),
+					$size
+				),
 				'type'        => 'string',
 				'format'      => 'uri',
 				'context'     => array( 'embed', 'view', 'edit' ),

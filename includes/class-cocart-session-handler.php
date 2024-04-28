@@ -463,14 +463,14 @@ class CoCart_Session_Handler extends CoCart_Session {
 			global $wpdb;
 
 			/**
-			 * Deprecated filter: `cocart_empty_cart_expiration` as it is no longer needed.
+			 * Filter is used to set an empty cart expiration.
 			 *
-			 * @since 2.7.2
+			 * @since 2.10 Introduced.
+			 *
+			 * @deprecated 2.7.2
 			 */
 			if ( has_filter( 'cocart_empty_cart_expiration' ) ) {
-				/* translators: %s: filter name */
-				$message = sprintf( __( 'This filter "%s" is no longer required and has been deprecated.', 'cart-rest-api-for-woocommerce' ), 'cocart_empty_cart_expiration' );
-				cocart_do_deprecated_action( 'cocart_empty_cart_expiration', '2.7.2', null, $message );
+				cocart_do_deprecated_action( 'cocart_empty_cart_expiration', '2.7.2' );
 			}
 
 			/**

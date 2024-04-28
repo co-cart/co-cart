@@ -77,10 +77,18 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
-		/* translators: %1$s: filter name, %2$s: version */
-		$log_string = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $hook, $version );
-		/* translators: %s: filter name */
-		$log_string .= $replacement ? sprintf( esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ), $replacement ) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
+
+		$log_string = sprintf(
+			/* translators: %1$s: filter name, %2$s: version */
+			esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ),
+			$hook,
+			$version
+		);
+		$log_string .= $replacement ? sprintf(
+			/* translators: %s: filter name */
+			esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ),
+			$replacement
+		) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );
 	} else {
@@ -106,10 +114,18 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
-		/* translators: %1$s: filter name, %2$s: version */
-		$log_string = sprintf( esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ), $filter, $version );
-		/* translators: %s: filter name */
-		$log_string .= $replacement ? sprintf( esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ), $replacement ) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
+
+		$log_string = sprintf(
+			/* translators: %1$s: filter name, %2$s: version */
+			esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ),
+			$filter,
+			$version
+		);
+		$log_string .= $replacement ? sprintf(
+			/* translators: %s: filter name */
+			esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ),
+			$replacement
+		) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );
 	} else {
@@ -254,8 +270,15 @@ function cocart_upload_image_from_url( $image_url ) {
 
 	// Check parsed URL.
 	if ( ! $parsed_url || ! is_array( $parsed_url ) ) {
-		/* translators: %s: image URL */
-		return new WP_Error( 'cocart_invalid_image_url', sprintf( __( 'Invalid URL %s.', 'cart-rest-api-for-woocommerce' ), $image_url ), array( 'status' => 400 ) );
+		return new WP_Error(
+			'cocart_invalid_image_url',
+			sprintf(
+				/* translators: %s: image URL */
+				__( 'Invalid URL %s.', 'cart-rest-api-for-woocommerce' ),
+				$image_url
+			),
+			array( 'status' => 400 )
+		);
 	}
 
 	// Ensure url is valid.
@@ -276,10 +299,16 @@ function cocart_upload_image_from_url( $image_url ) {
 	if ( is_wp_error( $file_array['tmp_name'] ) ) {
 		return new WP_Error(
 			'cocart_invalid_remote_image_url',
-			/* translators: %s: image URL */
-			sprintf( __( 'Error getting remote image %s.', 'cart-rest-api-for-woocommerce' ), $image_url ) . ' '
-			/* translators: %s: error message */
-			. sprintf( __( 'Error: %s', 'cart-rest-api-for-woocommerce' ), $file_array['tmp_name']->get_error_message() ),
+			sprintf(
+				/* translators: %s: image URL */
+				__( 'Error getting remote image %s.', 'cart-rest-api-for-woocommerce' ),
+				$image_url
+			) . ' '
+			. sprintf(
+				/* translators: %s: error message */
+				__( 'Error: %s', 'cart-rest-api-for-woocommerce' ),
+				$file_array['tmp_name']->get_error_message()
+			),
 			array( 'status' => 400 )
 		);
 	}
@@ -301,8 +330,15 @@ function cocart_upload_image_from_url( $image_url ) {
 	if ( isset( $file['error'] ) ) {
 		@unlink( $file_array['tmp_name'] ); // @codingStandardsIgnoreLine.
 
-		/* translators: %s: error message */
-		return new WP_Error( 'cocart_invalid_image', sprintf( __( 'Invalid image: %s', 'cart-rest-api-for-woocommerce' ), $file['error'] ), array( 'status' => 400 ) );
+		return new WP_Error(
+			'cocart_invalid_image',
+			sprintf(
+				/* translators: %s: error message */
+				__( 'Invalid image: %s', 'cart-rest-api-for-woocommerce' ),
+				$file['error']
+			),
+			array( 'status' => 400 )
+		);
 	}
 
 	do_action( 'cocart_uploaded_image_from_url', $file, $image_url );
@@ -476,15 +512,29 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 	}
 
 	foreach ( $products as $product_id => $qty ) {
-		/* translators: %s: product name */
-		$titles[] = apply_filters( 'cocart_add_to_cart_qty_html', ( $qty > 1 ? $qty . ' &times; ' : '' ), $product_id ) . apply_filters( 'cocart_add_to_cart_item_name_in_quotes', sprintf( _x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), wp_strip_all_tags( get_the_title( $product_id ) ) ), $product_id );
-		$count   += $qty;
+		$titles[] = apply_filters(
+			'cocart_add_to_cart_qty_html',
+			( $qty > 1 ? $qty . ' &times; ' : '' ),
+			$product_id
+		) . apply_filters(
+			'cocart_add_to_cart_item_name_in_quotes',
+			sprintf(
+				/* translators: %s: product name */
+				_x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+				wp_strip_all_tags( get_the_title( $product_id ) )
+			),
+			$product_id
+		);
+		$count += $qty;
 	}
 
 	$titles = array_filter( $titles );
 
-	/* translators: %s: product name */
-	$added_text = sprintf( _n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cart-rest-api-for-woocommerce' ), wc_format_list_of_items( $titles ) );
+	$added_text = sprintf(
+		/* translators: %s: product name */
+		_n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cart-rest-api-for-woocommerce' ),
+		wc_format_list_of_items( $titles )
+	);
 
 	$message = apply_filters( 'cocart_add_to_cart_message_html', esc_html( $added_text ), $products, $show_qty );
 

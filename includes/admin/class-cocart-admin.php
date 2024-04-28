@@ -39,20 +39,20 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @version 3.10.0
 		 */
 		public function includes() {
-			include_once COCART_ABSPATH . 'includes/admin/abstract/abstract-class-submenu-page.php';  // Admin Abstracts.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-assets.php';             // Admin Assets.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-footer.php';             // Admin Footer.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-help-tab.php';           // Admin Help Tab.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-menus.php';              // Admin Menus.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';            // Plugin Notices.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-plugin-search.php';      // Plugin Search.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-notices.php';         // WooCommerce Admin Notices.
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-wc-admin-system-status.php';   // WooCommerce System Status.
+			include_once __DIR__ . '/abstract/abstract-class-submenu-page.php';  // Admin Abstracts.
+			require_once __DIR__ . '/class-cocart-admin-assets.php';             // Admin Assets.
+			require_once __DIR__ . '/class-cocart-admin-footer.php';             // Admin Footer.
+			require_once __DIR__ . '/class-cocart-admin-help-tab.php';           // Admin Help Tab.
+			require_once __DIR__ . '/class-cocart-admin-menus.php';              // Admin Menus.
+			require_once __DIR__ . '/class-cocart-admin-notices.php';            // Plugin Notices.
+			require_once __DIR__ . '/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
+			require_once __DIR__ . '/class-cocart-admin-plugin-search.php';      // Plugin Search.
+			include_once __DIR__ . '/class-cocart-wc-admin-notices.php';         // WooCommerce Admin Notices.
+			include_once __DIR__ . '/class-cocart-wc-admin-system-status.php';   // WooCommerce System Status.
 
 			// Pages.
-			require_once COCART_ABSPATH . 'includes/admin/pages/class-cocart-admin-pages-support.php'; // Support.
-			require_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-setup-wizard.php';        // Setup Wizard.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php'; // Support.
+			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';        // Setup Wizard.
 		} // END includes()
 
 		/**

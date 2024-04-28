@@ -346,8 +346,11 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 */
 		public function get_inject_data( $inject, $data ) {
 			return array(
-				/* translators: %1$s: Add-on name */
-				'name'              => empty( $data['third_party'] ) ? sprintf( esc_html__( '%1$s Add-on', 'cart-rest-api-for-woocommerce' ), $data['name'] ) : $data['name'],
+				'name'              => empty( $data['third_party'] ) ? sprintf(
+					/* translators: %1$s: Add-on name */
+					esc_html__( '%1$s Add-on', 'cart-rest-api-for-woocommerce' ),
+					$data['name']
+				) : $data['name'],
 				'slug'              => empty( $data['third_party'] ) ? 'cocart-' . $data['slug'] : $data['slug'],
 				'version'           => '',
 				'author'            => ! empty( $data['author'] ) ? esc_html( $data['author'] ) : 'CoCart',
@@ -706,8 +709,13 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
 												esc_attr( $plugin['slug'] ),
 												esc_url( $plugin['purchase'] ),
-												/* translators: %s: Plugin name */
-												esc_attr( sprintf( __( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
+												esc_attr(
+													sprintf(
+														/* translators: %s: Plugin name */
+														__( 'Purchase %s now', 'cart-rest-api-for-woocommerce' ),
+														$name
+													)
+												),
 												esc_attr( $name ),
 												__( 'Purchase Now', 'cart-rest-api-for-woocommerce' )
 											);
@@ -718,8 +726,13 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 												'<a class="install-now button" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
 												esc_attr( $plugin['slug'] ),
 												esc_url( $url ),
-												/* translators: %s: Plugin name and version. */
-												esc_attr( sprintf( __( 'Install %s now', 'cart-rest-api-for-woocommerce' ), $name ) ),
+												esc_attr(
+													sprintf(
+														/* translators: %s: Plugin name and version. */
+														__( 'Install %s now', 'cart-rest-api-for-woocommerce' ),
+														$name
+													)
+												),
 												esc_attr( $name ),
 												__( 'Install Now', 'cart-rest-api-for-woocommerce' )
 											);

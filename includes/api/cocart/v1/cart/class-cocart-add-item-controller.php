@@ -200,7 +200,8 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Action hook will trigger if item was added again but updated in cart.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $cart_item_key
 			 * @param array  $item_added
 			 * @param int    $new_quantity
@@ -218,10 +219,18 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				// Return item details.
 				$item_added = $this->return_additional_item_data( $this->get_cart_item( $item_key, 'add' ), $item_key );
 
+				/**
+				 * Action hook will trigger if item was added to cart.
+				 *
+				 * @since 2.1.0 Introduced.
+				 */
 				do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
 			} else {
-				/* translators: %s: product name */
-				$message = sprintf( __( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ), $product_data->get_name() );
+				$message = sprintf(
+					/* translators: %s: product name */
+					__( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ),
+					$product_data->get_name()
+				);
 
 				CoCart_Logger::log( $message, 'error' );
 

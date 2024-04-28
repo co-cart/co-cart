@@ -1,11 +1,11 @@
 <?php
 /**
- * Registers all core cart callbacks.
+ * Class: CoCart_Cart_Callbacks
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   3.1.0
- * @license GPL-2.0+
+ * @since   3.1.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,7 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart Cart Callbacks class.
+ * Registers all core cart callbacks.
+ *
+ * @since 3.1.0 Introduced.
  */
 class CoCart_Cart_Callbacks {
 
@@ -21,6 +23,8 @@ class CoCart_Cart_Callbacks {
 	 * Register callbacks.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		add_action( 'cocart_register_extension_callback', array( $this, 'register_callback_update_cart' ) );
@@ -30,6 +34,7 @@ class CoCart_Cart_Callbacks {
 	 * Registers callback to update cart.
 	 *
 	 * @access public
+	 *
 	 * @param CoCart_Cart_Extension $callback Instance of the CoCart_Cart_Extension class.
 	 */
 	public function register_callback_update_cart( $callback ) {

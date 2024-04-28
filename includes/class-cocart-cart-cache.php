@@ -1,12 +1,11 @@
 <?php
 /**
- * Handles cart data in cache before totals are calculated.
+ * Class: CoCart_Cart_Cache
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   3.1.0
- * @version 3.7.6
- * @license GPL-2.0+
+ * @since   3.1.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,7 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart_Cart_Cache
+ * Cart Cache for Cart REST API.
+ *
+ * This handles the cart data in cache before the totals are calculated.
+ *
+ * @since 3.1.0 Introduced.
  */
 class CoCart_Cart_Cache {
 
@@ -22,14 +25,17 @@ class CoCart_Cart_Cache {
 	 * Contains an array of cart items cached.
 	 *
 	 * @access protected
-	 * @var    array $_cart_contents_cached Stores cached cart items.
+	 *
+	 * @var array $cart_contents_cached Stores cached cart items.
 	 */
-	protected static $_cart_contents_cached = array();
+	protected static $cart_contents_cached = array();
 
 	/**
 	 * Initiate calculate totals for cached items.
 	 *
 	 * @access public
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		add_filter( 'cocart_override_cart_item', array( $this, 'set_new_price' ), 1, 2 );
@@ -37,14 +43,18 @@ class CoCart_Cart_Cache {
 		add_action( 'cocart_before_cart_emptied', array( $this, 'clear_cart_cached' ), 0 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_cached_items' ), 99, 1 );
-	}
+	} // END __construct()
 
 	/**
 	 * Add new price to item if one is requested.
 	 *
 	 * @access public
-	 * @param  array           $cart_item Before cart item modified.
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param array           $cart_item Before cart item modified.
+	 * @param WP_REST_Request $request   The request object.
+	 *
 	 * @return array $cart_item After cart item modified.
 	 */
 	public function set_new_price( $cart_item, $request ) {
@@ -58,12 +68,15 @@ class CoCart_Cart_Cache {
 	} // END set_new_price()
 
 	/**
-	 * Removes item from cache to prevent it from
-	 * calculating wrong the next time it's added to the cart.
+	 * Removes item from cache to prevent it from calculating
+	 * wrong the next time it's added to the cart.
+	 *
 	 * Or clears all cached items when the cart is cleared.
+	 * Uses "WC()->session->set()" and "WC()->session->__unset()"
 	 *
 	 * @access public
-	 * @param  array|string $cart_item_key Cart item key to remove from the cart cache.
+	 *
+	 * @param array|string $cart_item_key Cart item key to remove from the cart cache.
 	 */
 	public function remove_cached_item( $cart_item_key ) {
 		if ( is_array( $cart_item_key ) ) {
@@ -72,11 +85,11 @@ class CoCart_Cart_Cache {
 
 		if ( ! empty( $cart_item_key ) ) {
 			// Remove item from cache.
-			unset( self::$_cart_contents_cached[ $cart_item_key ] );
+			unset( self::$cart_contents_cached[ $cart_item_key ] );
 
 			// Update session.
-			if ( ! empty( self::$_cart_contents_cached ) ) {
-				WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+			if ( ! empty( self::$cart_contents_cached ) ) {
+				WC()->session->set( 'cart_cached', maybe_serialize( self::$cart_contents_cached ) );
 			} else {
 				WC()->session->__unset( 'cart_cached' );
 			}
@@ -90,7 +103,8 @@ class CoCart_Cart_Cache {
 	 * Calculate cached items.
 	 *
 	 * @access public
-	 * @param  WC_Cart $cart Cart object.
+	 *
+	 * @param WC_Cart $cart Cart object.
 	 */
 	public function calculate_cached_items( $cart ) {
 		$cart_contents_cached = $this->get_cart_contents_cached();
@@ -114,7 +128,10 @@ class CoCart_Cart_Cache {
 	 * Gets cart contents cached.
 	 *
 	 * @access public
-	 * @return array of cart items
+	 *
+	 * @uses WC()->session->get()
+	 *
+	 * @return array Cart items cached.
 	 */
 	public function get_cart_contents_cached() {
 		return maybe_unserialize( WC()->session->get( 'cart_cached' ) );
@@ -124,35 +141,43 @@ class CoCart_Cart_Cache {
 	 * Get a cached cart item.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @param  string $item_key Item key to get.
+	 *
+	 * @param string $item_key Item key to get.
+	 *
 	 * @return array Value of cart data.
 	 */
 	public static function get_cached_item( $item_key ) {
 		$item_key = sanitize_key( $item_key );
 
-		return isset( self::$_cart_contents_cached[ $item_key ] ) ? self::$_cart_contents_cached[ $item_key ] : null;
+		return isset( self::$cart_contents_cached[ $item_key ] ) ? self::$cart_contents_cached[ $item_key ] : null;
 	} // END get_cached_item()
 
 	/**
 	 * Set a cart item to cache.
 	 *
-	 * @access  public
+	 * @access public
+	 *
+	 * @static
+	 *
 	 * @since   3.1.0 Introduced.
 	 * @version 3.7.6
-	 * @static
-	 * @param   string $item_key Key to item in cart.
-	 * @param   mixed  $value Value to set.
+	 *
+	 * @uses WC()->session->set()
+	 *
+	 * @param string $item_key Key to item in cart.
+	 * @param mixed  $value    Value to set.
 	 */
 	public static function set_cached_item( $item_key, $value ) {
-		self::$_cart_contents_cached = maybe_unserialize( WC()->session->get( 'cart_cached' ) );
+		self::$cart_contents_cached = maybe_unserialize( WC()->session->get( 'cart_cached' ) );
 
 		if ( self::get_cached_item( $item_key ) !== $value ) {
-			self::$_cart_contents_cached[ sanitize_key( $item_key ) ] = $value;
+			self::$cart_contents_cached[ sanitize_key( $item_key ) ] = $value;
 		}
 
-		if ( ! empty( self::$_cart_contents_cached ) ) {
-			WC()->session->set( 'cart_cached', maybe_serialize( self::$_cart_contents_cached ) );
+		if ( ! empty( self::$cart_contents_cached ) ) {
+			WC()->session->set( 'cart_cached', maybe_serialize( self::$cart_contents_cached ) );
 		}
 	} // END set_cached_item()
 
@@ -160,6 +185,8 @@ class CoCart_Cart_Cache {
 	 * Clear cart cached.
 	 *
 	 * @access public
+	 *
+	 * @uses WC()->session->__unset()
 	 */
 	public function clear_cart_cached() {
 		WC()->session->__unset( 'cart_cached' );

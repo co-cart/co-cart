@@ -645,8 +645,13 @@ class CoCart_Helpers {
 	 * @return  string
 	 */
 	public static function get_environment_message() {
-		/* translators: 1: CoCart, 2: Required PHP version */
-		return sprintf( esc_html__( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ), 'CoCart', CoCart::$required_php, self::get_php_version() );
+		return sprintf(
+			/* translators: 1: CoCart, 2: Required PHP version */
+			esc_html__( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ),
+			'CoCart',
+			CoCart::$required_php,
+			self::get_php_version()
+		);
 	} // END get_environment_message()
 
 	/**

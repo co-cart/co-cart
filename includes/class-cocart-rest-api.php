@@ -138,31 +138,31 @@ class CoCart_REST_API {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'cocart-v2-store'                   => 'CoCart_Store_V2_Controller',
-			'cocart-v2-cart'                    => 'CoCart_Cart_V2_Controller',
-			'cocart-v2-cart-add-item'           => 'CoCart_Add_Item_V2_Controller',
-			'cocart-v2-cart-add-items'          => 'CoCart_Add_Items_V2_Controller',
-			'cocart-v2-cart-item'               => 'CoCart_Item_V2_Controller',
-			'cocart-v2-cart-items'              => 'CoCart_Items_V2_Controller',
-			'cocart-v2-cart-items-count'        => 'CoCart_Count_Items_V2_Controller',
-			'cocart-v2-cart-update-item'        => 'CoCart_Update_Item_V2_Controller',
-			'cocart-v2-cart-remove-item'        => 'CoCart_Remove_Item_V2_Controller',
-			'cocart-v2-cart-restore-item'       => 'CoCart_Restore_Item_V2_Controller',
-			'cocart-v2-cart-calculate'          => 'CoCart_Calculate_V2_Controller',
-			'cocart-v2-cart-clear'              => 'CoCart_Clear_Cart_V2_Controller',
-			'cocart-v2-cart-update'             => 'CoCart_Update_Cart_V2_Controller',
-			'cocart-v2-cart-totals'             => 'CoCart_Totals_V2_Controller',
-			'cocart-v2-login'                   => 'CoCart_Login_V2_Controller',
-			'cocart-v2-logout'                  => 'CoCart_Logout_V2_Controller',
-			'cocart-v2-session'                 => 'CoCart_Session_V2_Controller',
-			'cocart-v2-sessions'                => 'CoCart_Sessions_V2_Controller',
-			'cocart-v2-product-attributes'      => 'CoCart_Product_Attributes_V2_Controller',
-			'cocart-v2-product-attribute-terms' => 'CoCart_Product_Attribute_Terms_V2_Controller',
-			'cocart-v2-product-categories'      => 'CoCart_Product_Categories_V2_Controller',
-			'cocart-v2-product-reviews'         => 'CoCart_Product_Reviews_V2_Controller',
-			'cocart-v2-product-tags'            => 'CoCart_Product_Tags_V2_Controller',
-			'cocart-v2-products'                => 'CoCart_Products_V2_Controller',
-			'cocart-v2-product-variations'      => 'CoCart_Product_Variations_V2_Controller',
+			'cocart-v2-store'                   => 'CoCart_REST_Store_V2_Controller',
+			'cocart-v2-cart'                    => 'CoCart_REST_Cart_V2_Controller',
+			'cocart-v2-cart-add-item'           => 'CoCart_REST_Add_Item_V2_Controller',
+			'cocart-v2-cart-add-items'          => 'CoCart_REST_Add_Items_V2_Controller',
+			'cocart-v2-cart-item'               => 'CoCart_REST_Item_V2_Controller',
+			'cocart-v2-cart-items'              => 'CoCart_REST_Items_V2_Controller',
+			'cocart-v2-cart-items-count'        => 'CoCart_REST_Count_Items_V2_Controller',
+			'cocart-v2-cart-update-item'        => 'CoCart_REST_Update_Item_V2_Controller',
+			'cocart-v2-cart-remove-item'        => 'CoCart_REST_Remove_Item_V2_Controller',
+			'cocart-v2-cart-restore-item'       => 'CoCart_REST_Restore_Item_V2_Controller',
+			'cocart-v2-cart-calculate'          => 'CoCart_REST_Calculate_V2_Controller',
+			'cocart-v2-cart-clear'              => 'CoCart_REST_Clear_Cart_V2_Controller',
+			'cocart-v2-cart-update'             => 'CoCart_REST_Update_Cart_V2_Controller',
+			'cocart-v2-cart-totals'             => 'CoCart_REST_Totals_V2_Controller',
+			'cocart-v2-login'                   => 'CoCart_REST_Login_V2_Controller',
+			'cocart-v2-logout'                  => 'CoCart_REST_Logout_V2_Controller',
+			'cocart-v2-session'                 => 'CoCart_REST_Session_V2_Controller',
+			'cocart-v2-sessions'                => 'CoCart_REST_Sessions_V2_Controller',
+			'cocart-v2-product-attributes'      => 'CoCart_REST_Product_Attributes_V2_Controller',
+			'cocart-v2-product-attribute-terms' => 'CoCart_REST_Product_Attribute_Terms_V2_Controller',
+			'cocart-v2-product-categories'      => 'CoCart_REST_Product_Categories_V2_Controller',
+			'cocart-v2-product-reviews'         => 'CoCart_REST_Product_Reviews_V2_Controller',
+			'cocart-v2-product-tags'            => 'CoCart_REST_Product_Tags_V2_Controller',
+			'cocart-v2-products'                => 'CoCart_REST_Products_V2_Controller',
+			'cocart-v2-product-variations'      => 'CoCart_REST_Product_Variations_V2_Controller',
 		);
 	}
 
@@ -233,8 +233,15 @@ class CoCart_REST_API {
 
 			// If the user is logged in and does not match ID in cookie then user has switched.
 			if ( $customer_id !== $current_user_id && 0 !== $current_user_id ) {
-				/* translators: %1$s is previous ID, %2$s is current ID. */
-				CoCart_Logger::log( sprintf( __( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ), $customer_id, $current_user_id ), 'info' );
+				CoCart_Logger::log(
+					sprintf(
+						/* translators: %1$s is previous ID, %2$s is current ID. */
+						__( 'User has changed! Was %1$s before and is now %2$s', 'cart-rest-api-for-woocommerce' ),
+						$customer_id,
+						$current_user_id
+					),
+					'info'
+				);
 
 				return true;
 			}

@@ -1396,8 +1396,11 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 				),
 				'weight'                => array(
-					/* translators: %s: weight unit */
-					'description' => sprintf( __( 'Product weight (%s).', 'cart-rest-api-for-woocommerce' ), $weight_unit ),
+					'description' => sprintf(
+						/* translators: %s: weight unit */
+						__( 'Product weight (%s).', 'cart-rest-api-for-woocommerce' ),
+						$weight_unit
+					),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
@@ -1420,20 +1423,29 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'length' => array(
-							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Product length (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+							'description' => sprintf(
+								/* translators: %s: dimension unit */
+								__( 'Product length (%s).', 'cart-rest-api-for-woocommerce' ),
+								$dimension_unit
+							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'width'  => array(
-							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Product width (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+							'description' => sprintf(
+								/* translators: %s: dimension unit */
+								__( 'Product width (%s).', 'cart-rest-api-for-woocommerce' ),
+								$dimension_unit
+							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
 						'height' => array(
-							/* translators: %s: dimension unit */
-							'description' => sprintf( __( 'Product height (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+							'description' => sprintf(
+								/* translators: %s: dimension unit */
+								__( 'Product height (%s).', 'cart-rest-api-for-woocommerce' ),
+								$dimension_unit
+							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 						),
