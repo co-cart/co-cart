@@ -36,7 +36,9 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 		 * when CoCart API is requested.
 		 *
 		 * @access public
+		 *
 		 * @param bool $should_calculate Determines whether TaxJar should calculate tax on the cart.
+		 *
 		 * @return bool
 		 */
 		public function maybe_calculate_tax( $should_calculate ) {
@@ -45,7 +47,7 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 			}
 
 			return $should_calculate;
-		}
+		} // END maybe_calculate_tax()
 	} // END class.
 
 } // END if class exists.

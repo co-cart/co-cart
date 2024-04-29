@@ -1,11 +1,10 @@
 <?php
 /**
- * Allows you to update CoCart via CLI.
+ * WP-CLI: CoCart Update command class file.
  *
  * @author  Sébastien Dumont
  * @package CoCart\CLI
- * @since   3.0.0
- * @license GPL-2.0+
+ * @since   3.0.0 Introduced.
  */
 
 // Exit if accessed directly.
@@ -13,12 +12,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Allows you to update CoCart via CLI.
+ *
+ * @version 3.13.0
+ * @package CoCart\CLI
+ */
 class CoCart_CLI_Update_Command {
 
 	/**
 	 * Registers the update command.
 	 *
 	 * @access public
+	 *
 	 * @static
 	 */
 	public static function register_commands() {
@@ -29,14 +35,16 @@ class CoCart_CLI_Update_Command {
 				'shortdesc' => __( 'Updates the CoCart database.', 'cart-rest-api-for-woocommerce' ),
 			)
 		);
-	}
+	} // END register_commands()
 
 	/**
 	 * Runs all pending CoCart database updates.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @global $wpdb
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public static function update() {
 		global $wpdb;
@@ -70,6 +78,7 @@ class CoCart_CLI_Update_Command {
 					get_option( 'cocart_db_version' )
 				)
 			);
+
 			return;
 		}
 
@@ -82,7 +91,10 @@ class CoCart_CLI_Update_Command {
 			)
 		);
 
-		$progress = \WP_CLI\Utils\make_progress_bar( __( 'Updating database', 'cart-rest-api-for-woocommerce' ), count( $callbacks_to_run ) );
+		$progress = \WP_CLI\Utils\make_progress_bar(
+			__( 'Updating database', 'cart-rest-api-for-woocommerce' ),
+			count( $callbacks_to_run )
+		);
 
 		foreach ( $callbacks_to_run as $update_callback ) {
 			call_user_func( $update_callback );
@@ -95,6 +107,9 @@ class CoCart_CLI_Update_Command {
 		}
 
 		$progress->finish();
+
+		include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php'; // @todo Remove line in v4.0
+		CoCart_Admin_Notices::remove_notice( 'update_db', true );
 
 		WP_CLI::success(
 			sprintf(

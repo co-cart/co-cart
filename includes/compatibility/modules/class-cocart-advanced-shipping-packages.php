@@ -37,10 +37,12 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 		 * Set the shipping package name accordingly.
 		 *
 		 * @access public
-		 * @param  string $name    Original shipping package name.
-		 * @param  int    $i       Shipping package index.
-		 * @param  array  $package Package list.
-		 * @return string          Modified shipping package name.
+		 *
+		 * @param string $name    Original shipping package name.
+		 * @param int    $i       Shipping package index.
+		 * @param array  $package Package list.
+		 *
+		 * @return string Modified shipping package name.
 		 */
 		public function cocart_asp_shipping_package_name( $name, $i, $package ) {
 			if ( is_numeric( $i ) && 'shipping_package' === get_post_type( $i ) ) {
@@ -53,7 +55,7 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 			}
 
 			return $name;
-		}
+		} // END cocart_asp_shipping_package_name()
 	} // END class.
 
 } // END if class exists.

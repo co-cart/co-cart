@@ -46,11 +46,14 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 		 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @param  bool   $passed_validation Whether or not this product is valid.
-		 * @param  string $cart_item_key     The unique key in the cart array.
-		 * @param  array  $values            The cart item data values.
-		 * @param  int    $quantity          The cart quantity.
+		 *
+		 * @param bool   $passed_validation Whether or not this product is valid.
+		 * @param string $cart_item_key     The unique key in the cart array.
+		 * @param array  $values            The cart item data values.
+		 * @param int    $quantity          The cart quantity.
+		 *
 		 * @return bool
 		 */
 		public static function update_cart_validation( $passed_validation, $cart_item_key, $values, $quantity ) {
