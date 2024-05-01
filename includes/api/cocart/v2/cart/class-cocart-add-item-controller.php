@@ -165,7 +165,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 					}
 				}
 
-				cocart_add_to_cart_message( array( $was_added_to_cart['product_id'] => $was_added_to_cart['quantity'] ) );
+				cocart_add_to_cart_message( array( $item_added_to_cart['product_id'] => $item_added_to_cart['quantity'] ) );
 
 				/**
 				 * Filter overrides the cart item for anything extra.
@@ -174,10 +174,10 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				 *
 				 * @since 3.1.0 Introduced.
 				 *
-				 * @param array           $was_added_to_cart Item details added to cart.
-				 * @param WP_REST_Request $request           The request object.
+				 * @param array           $item_added_to_cart Item details added to cart.
+				 * @param WP_REST_Request $request            The request object.
 				 */
-				$was_added_to_cart = apply_filters( 'cocart_override_cart_item', $was_added_to_cart, $request );
+				$item_added_to_cart = apply_filters( 'cocart_override_cart_item', $item_added_to_cart, $request );
 
 				/**
 				 * Cache cart item.

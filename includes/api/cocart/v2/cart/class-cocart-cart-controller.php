@@ -1832,12 +1832,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @param array $was_added_to_cart Cart item to cache.
+	 * @param array $item_added_to_cart Cart item to cache.
 	 */
-	public function cache_cart_item( $was_added_to_cart ) {
-		$item_key = $was_added_to_cart['key'];
+	public function cache_cart_item( $item_added_to_cart ) {
+		$item_key = $item_added_to_cart['key'];
 
-		CoCart_Cart_Cache::set_cached_item( $item_key, $was_added_to_cart );
+		CoCart_Cart_Cache::set_cached_item( $item_key, $item_added_to_cart );
 	} // END cache_cart_item()
 
 	/**
