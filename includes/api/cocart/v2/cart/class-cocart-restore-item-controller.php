@@ -65,7 +65,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.7.8
+	 * @version 3.13.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -88,11 +88,17 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				if ( ! empty( $restored_item ) ) {
 					$product = wc_get_product( $restored_item['product_id'] );
 
-					/* translators: %s: Item name. */
-					$item_already_restored_title = apply_filters( 'cocart_cart_item_already_restored_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+					$item_already_restored_title = apply_filters( 'cocart_cart_item_already_restored_title', $product ? sprintf(
+						/* translators: %s: Item name. */
+						_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+						$product->get_name()
+					) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
 
-					/* translators: %s: Item name. */
-					$message       = sprintf( __( '%s has already been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $item_already_restored_title );
+					$message = sprintf(
+						/* translators: %s: Item name. */
+						__( '%s has already been restored to the cart.', 'cart-rest-api-for-woocommerce' ),
+						$item_already_restored_title
+					);
 					$response_code = 405;
 				} else {
 					$message       = __( 'Item does not exist in cart.', 'cart-rest-api-for-woocommerce' );
@@ -110,9 +116,16 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 			}
 
 			if ( $this->get_cart_instance()->restore_cart_item( $item_key ) ) {
-				$restored_item = $this->get_cart_item( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
+				$current_data = $this->get_cart_item( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
-				do_action( 'cocart_item_restored', $restored_item );
+				/**
+				 * Hook: cocart_item_restored
+				 *
+				 * @since 2.0.0 Introduced.
+				 *
+				 * @param WC_Product $current_data Product data.
+				 */
+				do_action( 'cocart_item_restored', $current_data );
 
 				/**
 				 * Calculates the cart totals now an item has been restored.
@@ -121,23 +134,38 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				 */
 				$this->get_cart_instance()->calculate_totals();
 
-				$product = wc_get_product( $restored_item['product_id'] );
+				$product = wc_get_product( $current_data['product_id'] );
 
-				/* translators: %s: Item name. */
-				$item_restored_title = apply_filters( 'cocart_cart_item_restored_title', $product ? sprintf( _x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ), $product->get_name() ) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
+				$item_restored_title = apply_filters( 'cocart_cart_item_restored_title', $product ? sprintf(
+					/* translators: %s: Item name. */
+					_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+					$product->get_name()
+				) : __( 'Item', 'cart-rest-api-for-woocommerce' ) );
 
-				/* translators: %s: product name */
-				$restored_message = sprintf( __( '%s has been added back to your cart.', 'cart-rest-api-for-woocommerce' ), $item_restored_title );
+				$restored_message = sprintf(
+					/* translators: %s: product name */
+					__( '%s has been added back to your cart.', 'cart-rest-api-for-woocommerce' ),
+					$item_restored_title
+				);
+
+				/**
+				 * Filters message about item restored.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param string $restored_message Message.
+				 */
+				$restored_message = apply_filters( 'cocart_cart_item_restored_message', $restored_message );
 
 				// Add notice.
-				wc_add_notice( apply_filters( 'cocart_cart_item_restored_message', $restored_message ), 'success' );
+				wc_add_notice( $restored_message, 'success' );
 
 				// Get cart contents.
 				$response = $this->get_cart_contents( $request );
 
 				// Was it requested to return just the restored item?
 				if ( $request['return_item'] ) {
-					$response = $this->get_item( $restored_item['data'], $restored_item, $restored_item['key'], true );
+					$response = $this->get_item( $current_data['data'], $current_data, $current_data['key'], true );
 				}
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );

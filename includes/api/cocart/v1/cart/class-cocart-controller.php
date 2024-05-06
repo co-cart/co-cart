@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart REST API controller
- *
- * Handles requests to the cart endpoint.
+ * REST API: CoCart_API_Controller class.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v1
+ * @package CoCart\API\Cart\v1
  * @since   2.0.0 Introduced.
- * @version 3.5.0
- * @license GPL-2.0+
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API controller class.
+ * Gets the items added to the cart. (API v1)
  *
- * @package CoCart REST API/API
+ * Handles the requests to get the cart via /get-cart endpoint.
+ *
+ * @since 2.0.0 Introduced.
  */
 class CoCart_API_Controller {
 
@@ -34,20 +33,21 @@ class CoCart_API_Controller {
 	 *
 	 * @var string
 	 */
-	protected $rest_base = '';
+	protected $rest_base = 'get-cart';
 
 	/**
 	 * Register the routes for cart.
 	 *
-	 * @access  public
-	 * @since   2.0.0
+	 * @access public
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 2.5.0
 	 */
 	public function register_routes() {
 		// Get Cart - cocart/v1/get-cart (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/get-cart',
+			'/' . $this->rest_base,
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -62,7 +62,7 @@ class CoCart_API_Controller {
 		// Get Cart in Session - cocart/v1/get-cart/1654654321 (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/get-cart/(?P<id>[\w]+)',
+			'/' . $this->rest_base . '/(?P<id>[\w]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -77,7 +77,7 @@ class CoCart_API_Controller {
 		// Get Customers Cart saved via Persistent Cart - cocart/v1/get-cart/customer/1 (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/get-cart/customer/(?P<id>[\d]+)',
+			'/' . $this->rest_base . '/customer/(?P<id>[\d]+)',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_cart_customer' ),
@@ -90,13 +90,15 @@ class CoCart_API_Controller {
 	/**
 	 * Check if a given request can read the cart.
 	 *
-	 * @access  public
-	 * @since   2.0.0
+	 * @access public
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 2.6.2
-	 * @return  bool|WP_Error
+	 *
+	 * @return bool|WP_Error
 	 */
 	public function get_permission_check() {
-		if ( ! current_user_can( 'administrator' ) ) {
+		if ( ! current_user_can( 'administrator' ) ) { // phpcs:ignore WordPress.WP.Capabilities.RoleFound
 			return new WP_Error( 'cocart_cannot_read_cart', __( 'Cannot read cart!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) );
 		}
 
@@ -106,19 +108,29 @@ class CoCart_API_Controller {
 	/**
 	 * Get cart.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.8.4
-	 * @param   array  $data Passed parameters.
-	 * @param   string $cart_item_key
-	 * @return  array|WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request       The request object.
+	 * @param string          $cart_item_key Cart item key.
+	 *
+	 * @return array|WP_REST_Response
 	 */
-	public function get_cart( $data = array(), $cart_item_key = '' ) {
-		$cart_contents = $this->get_cart_contents( $data, $cart_item_key );
+	public function get_cart( $request = array(), $cart_item_key = '' ) {
+		$cart_contents = $this->get_cart_contents( $request, $cart_item_key );
 
+		/**
+		 * Hook: cocart_get_cart.
+		 *
+		 * @since 2.0.0 Introduced.
+		 *
+		 * @param array $cart_contents Cart contents.
+		 */
 		do_action( 'cocart_get_cart', $cart_contents );
 
-		$show_raw = ! empty( $data['raw'] ) ? $data['raw'] : false;
+		$show_raw = ! empty( $request['raw'] ) ? $request['raw'] : false;
 
 		// Return cart contents raw if requested.
 		if ( $show_raw ) {
@@ -131,68 +143,77 @@ class CoCart_API_Controller {
 	/**
 	 * Get cart for a specific customer.
 	 *
-	 * @access  public
-	 * @since   2.0.0
+	 * @access public
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 2.1.0
-	 * @param   array $data Passed parameters.
-	 * @return  array|WP_Error
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return array|WP_Error Response data.
 	 */
-	public function get_cart_customer( $data = array() ) {
-		if ( empty( $data['id'] ) ) {
+	public function get_cart_customer( $request = array() ) {
+		if ( empty( $request['id'] ) ) {
 			return new WP_Error( 'cocart_customer_missing', __( 'Customer ID is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
-		$saved_cart = $this->get_saved_cart( $data );
+		$saved_cart = $this->get_saved_cart( $request );
 
 		// If a saved cart exists then replace the carts content.
 		if ( ! empty( $saved_cart ) ) {
-			return $this->return_cart_contents( $data, $saved_cart, '' );
+			return $this->return_cart_contents( $request, $saved_cart, '' );
 		}
 
-		return $this->get_cart_contents( $data, '' );
+		return $this->get_cart_contents( $request, '' );
 	} // END get_cart_customer()
 
 	/**
 	 * Gets the cart contents.
 	 *
-	 * @access  public
-	 * @since   2.0.0
+	 * @access public
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 2.1.2
-	 * @param   array  $data Passed parameters.
-	 * @param   string $cart_item_key
-	 * @return  array  $cart_contents
+	 *
+	 * @param WP_REST_Request $request       The request object.
+	 * @param string          $cart_item_key Cart item key.
+	 *
+	 * @return array $cart_contents Cart contents.
 	 */
-	public function get_cart_contents( $data = array(), $cart_item_key = '' ) {
+	public function get_cart_contents( $request = array(), $cart_item_key = '' ) {
 		$cart_contents = isset( WC()->cart ) ? array_filter( WC()->cart->get_cart() ) : array();
 
-		return $this->return_cart_contents( $data, $cart_contents, $cart_item_key );
+		return $this->return_cart_contents( $request, $cart_contents, $cart_item_key );
 	} // END get_cart_contents()
 
 	/**
 	 * Return cart contents.
 	 *
-	 * @access  public
-	 * @since   2.0.0
+	 * @access public
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 3.5.0
-	 * @param   array  $data Passed parameters.
-	 * @param   array  $cart_contents
-	 * @param   string $cart_item_key
-	 * @param   bool   $from_session
-	 * @return  array  $cart_contents
+	 *
+	 * @param WP_REST_Request $request       The request object.
+	 * @param array           $cart_contents Cart contents.
+	 * @param string          $cart_item_key Cart item key.
+	 * @param bool            $from_session  Whether the cart contents are from the session.
+	 *
+	 * @return array $cart_contents Cart contents.
 	 */
-	public function return_cart_contents( $data = array(), $cart_contents = array(), $cart_item_key = '', $from_session = false ) {
+	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = '', $from_session = false ) {
 		if ( CoCart_Count_Items_Controller::get_cart_contents_count( array( 'return' => 'numeric' ), $cart_contents ) <= 0 || empty( $cart_contents ) ) {
 			/**
 			 * Filter response for empty cart.
 			 *
-			 * @since 2.0.8
+			 * @since 2.0.8 Introduced.
 			 */
 			$empty_cart = apply_filters( 'cocart_return_empty_cart', array() );
 
 			return $empty_cart;
 		}
 
-		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		// Find the cart item key in the existing cart.
 		if ( ! empty( $cart_item_key ) ) {
@@ -208,6 +229,15 @@ class CoCart_API_Controller {
 				$cart_contents[ $item_key ]['data'] = $cart_item['data'];
 			}
 
+			/**
+			 * Filters the item data.
+			 *
+			 * @since 2.0.0 Introduced.
+			 *
+			 * @param WC_Product $cart_item['data'] Product data.
+			 * @param array      $cart_item         Cart item.
+			 * @param string     $item_key          Item key.
+			 */
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
 
 			// If product is no longer purchasable then don't return it and notify customer.
@@ -221,8 +251,9 @@ class CoCart_API_Controller {
 				/**
 				 * Filter message about item removed from the cart.
 				 *
-				 * @since 2.1.0
-				 * @param string     $message Message.
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param string     $message  Message.
 				 * @param WC_Product $_product Product data.
 				 */
 				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
@@ -231,8 +262,30 @@ class CoCart_API_Controller {
 
 				wc_add_notice( $message, 'error' );
 			} else {
-				// Adds the product name and title as new variables.
-				$cart_contents[ $item_key ]['product_name']  = apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key );
+				/**
+				 * Filters the product name in cart.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @hooked: validate_variation_product_name - 10
+				 *
+				 * @param string     $product_name Product name.
+				 * @param WC_Product $_product     Product data.
+				 * @param array      $cart_item    Cart item.
+				 * @param string     $item_key     Item key.
+				 */
+				$cart_contents[ $item_key ]['product_name'] = apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key );
+
+				/**
+				 * Filters the product title in cart.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param string     $product_title Product title.
+				 * @param WC_Product $_product      Product data.
+				 * @param array      $cart_item     Cart item.
+				 * @param string     $item_key      Item key.
+				 */
 				$cart_contents[ $item_key ]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
 
 				// Add product price as a new variable.
@@ -244,11 +297,11 @@ class CoCart_API_Controller {
 					 * Gets the product featured image ID.
 					 * If featured image does not exist then use first gallery image instead.
 					 *
-					 * @since 2.7.2
+					 * @since 2.7.2 Introduced.
 					 */
-					$product_thumbnail_id = $_product->get_image_id();
+					$thumbnail_id = $_product->get_image_id();
 
-					if ( ! $product_thumbnail_id ) {
+					if ( ! $thumbnail_id ) {
 						$parent_product = wc_get_product( $_product->get_parent_id() );
 
 						if ( $parent_product ) {
@@ -257,32 +310,57 @@ class CoCart_API_Controller {
 							$gallery_image_ids = $_product->get_gallery_image_ids();
 
 							if ( ! empty( $gallery_image_ids ) ) {
-								$product_thumbnail_id = array_shift( $gallery_image_ids );
+								$thumbnail_id = array_shift( $gallery_image_ids );
 							}
 						}
 					}
 
-					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $product_thumbnail_id, $cart_item, $item_key );
+					/**
+					 * Filters the item thumbnail ID.
+					 *
+					 * @since 2.0.0 Introduced.
+					 *
+					 * @param int    $thumbnail_id Product thumbnail ID.
+					 * @param array  $cart_item    Cart item.
+					 * @param string $item_key     Item key.
+					 */
+					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key );
 
-					if ( ! empty( $thumbnail_id ) ) {
-						$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) );
+					/**
+					 * Filters the thumbnail size of the product image.
+					 *
+					 * @since 2.0.0 Introduced.
+					 */
+					$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' );
 
-						/**
-						 * Filters the source of the product thumbnail.
-						 *
-						 * @since 2.1.0
-						 * @param string $thumbnail_src URL of the product thumbnail.
-						 */
-						$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0], $cart_item, $item_key );
-					} else {
-						$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', wc_placeholder_img_src( apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' ) ), $cart_item, $item_key );
-					}
+					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size );
+					$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : wc_placeholder_img_src( $thumbnail_size );
+
+					/**
+					 * Filters the source of the product thumbnail.
+					 *
+					 * @since 2.1.0 Introduced.
+					 *
+					 * @param string $thumbnail_src URL of the product thumbnail.
+					 * @param array  $cart_item     Cart item.
+					 * @param string $item_key      Item key.
+					 */
+					$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key );
 
 					// Add main product image as a new variable.
 					$cart_contents[ $item_key ]['product_image'] = esc_url( $thumbnail_src );
 				}
 
-				// This filter allows additional data to be returned for a specific item in cart.
+				/**
+				 * Filter allows additional data to be returned for a specific item in cart.
+				 *
+				 * @since 2.0.0 Introduced.
+				 *
+				 * @param array      $cart_contents Cart contents.
+				 * @param string     $item_key      Item key.
+				 * @param array      $cart_item     Cart item.
+				 * @param WC_Product $_product      Product data.
+				 */
 				$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents, $item_key, $cart_item, $_product );
 			}
 		}
@@ -290,8 +368,9 @@ class CoCart_API_Controller {
 		/**
 		 * Return cart content from session if set.
 		 *
-		 * @since 2.1.0
-		 * @param $cart_contents
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @param $cart_contents Cart content.
 		 */
 		if ( $from_session ) {
 			return apply_filters( 'cocart_return_cart_session_contents', $cart_contents );
@@ -303,16 +382,19 @@ class CoCart_API_Controller {
 	/**
 	 * Returns a customers saved cart from the database if one exists.
 	 *
-	 * @access  public
-	 * @since   2.0.0
+	 * @access public
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 2.0.9
-	 * @param   array $data       Passed parameters.
-	 * @return  array $saved_cart Returns the cart content from the database.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return array $saved_cart Returns the cart content from the database.
 	 */
-	public function get_saved_cart( $data = array() ) {
+	public function get_saved_cart( $request = array() ) {
 		$saved_cart = array();
 
-		$customer_id = ! empty( $data['id'] ) ? $data['id'] : 0; // The customer ID is a required variable.
+		$customer_id = ! empty( $request['id'] ) ? $request['id'] : 0; // The customer ID is a required variable.
 
 		if ( $customer_id > 0 ) {
 			$saved_cart_meta = get_user_meta( $customer_id, '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
@@ -328,14 +410,17 @@ class CoCart_API_Controller {
 	/**
 	 * Returns a saved cart in session if one exists.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 2.7.0
-	 * @param   array $data   Passed parameters.
-	 * @return  array $cart   Returns the cart data from the database.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return array $cart Returns the cart data from the database.
 	 */
-	public function get_cart_in_session( $data = array() ) {
-		$cart_key = ! empty( $data['id'] ) ? $data['id'] : '';
+	public function get_cart_in_session( $request = array() ) {
+		$cart_key = ! empty( $request['id'] ) ? $request['id'] : ''; // The cart key is a required variable.
 
 		if ( empty( $cart_key ) ) {
 			return new WP_Error( 'cocart_cart_key_missing', __( 'Cart Key is required!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
@@ -350,17 +435,20 @@ class CoCart_API_Controller {
 			return new WP_Error( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
-		return $this->return_cart_contents( $data, maybe_unserialize( $cart['cart'] ), '', true );
+		return $this->return_cart_contents( $request, maybe_unserialize( $cart['cart'] ), '', true );
 	} // END get_cart_in_session()
 
 	/**
 	 * Validate the product ID or SKU ID.
 	 *
-	 * @access  protected
-	 * @since   1.0.0
+	 * @access protected
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.7.0
-	 * @param   int|string $product_id
-	 * @return  int|WP_Error
+	 *
+	 * @param int|string $product_id The product ID or SKU ID.
+	 *
+	 * @return int|WP_Error $product_id The product ID or WP_Error if not valid.
 	 */
 	protected function validate_product_id( $product_id ) {
 		// If the product ID was used by a SKU ID, then look up the product ID and return it.
@@ -393,11 +481,14 @@ class CoCart_API_Controller {
 	/**
 	 * Validate the product quantity.
 	 *
-	 * @access  protected
-	 * @since   1.0.0
+	 * @access protected
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.6.2
-	 * @param   int $quantity
-	 * @return  WP_Error
+	 *
+	 * @param int $quantity The product quantity.
+	 *
+	 * @return WP_Error WP_Error if not valid.
 	 */
 	protected function validate_quantity( $quantity ) {
 		if ( ! is_numeric( $quantity ) ) {
@@ -408,15 +499,18 @@ class CoCart_API_Controller {
 	/**
 	 * Validate variable product.
 	 *
-	 * @access  protected
-	 * @since   2.1.0
+	 * @access protected
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
-	 * @param   int        $variation_id ID of the variation.
-	 * @param   array      $variation    Attribute values.
-	 * @param   WC_Product $product      The product data.
-	 * @return  array|WP_Error
+	 *
+	 * @param int        $variation_id ID of the variation.
+	 * @param array      $variation    Attribute values.
+	 * @param WC_Product $product      The product data.
+	 *
+	 * @return array|WP_Error $variation_id ID of the variation or WP_Error if not valid.
 	 */
-	protected function validate_variable_product( int $variation_id, array $variation, \WC_Product $product ) {
+	protected function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
 		// Flatten data and format posted values.
 		$variable_product_attributes = $this->get_variable_product_attributes( $product );
 
@@ -505,10 +599,13 @@ class CoCart_API_Controller {
 	 * Try to match variation data to a variation ID and return the ID.
 	 *
 	 * @access protected
-	 * @since  2.1.2
-	 * @param  array      $variation    Submitted attributes.
-	 * @param  WC_Product $product      Product being added to the cart.
-	 * @return int        $variation_id Matching variation ID.
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param array      $variation Submitted attributes.
+	 * @param WC_Product $product   Product being added to the cart.
+	 *
+	 * @return int $variation_id Matching variation ID.
 	 */
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
 		$data_store   = \WC_Data_Store::load( 'product' );
@@ -529,9 +626,12 @@ class CoCart_API_Controller {
 	 * Get product attributes from the variable product (which may be the parent if the product object is a variation).
 	 *
 	 * @access protected
-	 * @since  2.1.2
-	 * @param  WC_Product $product Product being added to the cart.
-	 * @return array
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param WC_Product $product Product being added to the cart.
+	 *
+	 * @return array $attributes List of attributes.
 	 */
 	protected function get_variable_product_attributes( $product ) {
 		if ( $product->is_type( 'variation' ) ) {
@@ -552,16 +652,19 @@ class CoCart_API_Controller {
 	/**
 	 * Validate product before it is added to the cart, updated or removed.
 	 *
-	 * @access  protected
-	 * @since   1.0.0
+	 * @access protected
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.7.2
-	 * @param   int    $product_id     Contains the ID of the product.
-	 * @param   int    $quantity       Contains the quantity of the item.
-	 * @param   int    $variation_id   Contains the ID of the variation.
-	 * @param   array  $variation      Attribute values.
-	 * @param   array  $cart_item_data Extra cart item data we want to pass into the item.
-	 * @param   string $product_type   The product type.
-	 * @return  array|WP_Error
+	 *
+	 * @param int    $product_id     Contains the ID of the product.
+	 * @param int    $quantity       Contains the quantity of the item.
+	 * @param int    $variation_id   Contains the ID of the variation.
+	 * @param array  $variation      Attribute values.
+	 * @param array  $cart_item_data Extra cart item data we want to pass into the item.
+	 * @param string $product_type   The product type.
+	 *
+	 * @return array|WP_Error $cart_item_data|$error Cart item data or error.
 	 */
 	protected function validate_product( $product_id = null, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array(), $product_type = '' ) {
 		$product_id = $this->validate_product_id( $product_id );
@@ -677,7 +780,7 @@ class CoCart_API_Controller {
 			/**
 			 * Quantity for sold individual products can be filtered.
 			 *
-			 * @since 2.0.13
+			 * @since 2.0.13 Introduced.
 			 */
 			$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1 );
 
@@ -806,8 +909,11 @@ class CoCart_API_Controller {
 	 * Cart item key will be unique based on the item and its properties, such as variations.
 	 *
 	 * @access public
-	 * @since  2.0.0
-	 * @param  string $cart_item_key of product to find in the cart.
+	 *
+	 * @since 2.0.0 Introduced.
+	 *
+	 * @param string $cart_item_key of product to find in the cart.
+	 *
 	 * @return string Returns the same cart item key if valid.
 	 */
 	public function find_product_in_cart( $cart_item_key = '' ) {
@@ -824,12 +930,15 @@ class CoCart_API_Controller {
 	 * Checks if the product in the cart has enough stock
 	 * before updating the quantity.
 	 *
-	 * @access  protected
-	 * @since   1.0.6
+	 * @access protected
+	 *
+	 * @since   1.0.6 Introduced.
 	 * @version 2.1.2
-	 * @param   array   $current_data
-	 * @param   integer $quantity
-	 * @return  bool|WP_Error
+	 *
+	 * @param array   $current_data The current cart data.
+	 * @param integer $quantity     The quantity to update to.
+	 *
+	 * @return bool|WP_Error True if has enough stock or error if not.
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
 		$product_id      = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
@@ -857,12 +966,15 @@ class CoCart_API_Controller {
 	 * Look's up an item in the cart and returns it's data
 	 * based on the condition it is being returned for.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 2.1.2
-	 * @param   string $cart_item_key The item we are looking up in the cart.
-	 * @param   string $condition     Default is 'add', other conditions are: container, update, remove, restore
-	 * @return  array  $item
+	 *
+	 * @param string $cart_item_key The item we are looking up in the cart.
+	 * @param string $condition     Default is 'add', other conditions are: container, update, remove, restore.
+	 *
+	 * @return array $item The item data.
 	 */
 	public function get_cart_item( $cart_item_key, $condition = 'add' ) {
 		$item = WC()->cart->get_cart_item( $cart_item_key );
@@ -874,12 +986,15 @@ class CoCart_API_Controller {
 	 * Returns either the default response of the
 	 * API requested or a filtered response.
 	 *
-	 * @access  public
-	 * @since   2.7.0
+	 * @access public
+	 *
+	 * @since   2.7.0 Introduced.
 	 * @version 2.8.4
-	 * @param   mixed  $response  The original response of the API requested.
-	 * @param   string $rest_base The API requested.
-	 * @return  WP_REST_Response  The original or filtered response.
+	 *
+	 * @param mixed  $response  The original response of the API requested.
+	 * @param string $rest_base The API requested.
+	 *
+	 * @return WP_REST_Response The original or filtered response.
 	 */
 	public function get_response( $response, $rest_base = '' ) {
 		if ( empty( $rest_base ) ) {
@@ -892,7 +1007,7 @@ class CoCart_API_Controller {
 		 * If the response is empty then either something seriously has gone wrong
 		 * or the response was already filtered earlier and returned nothing.
 		 */
-		if ( $rest_base !== 'cart' && empty( $response ) ) {
+		if ( 'cart' !== $rest_base && empty( $response ) ) {
 			$response = sprintf(
 				/* translators: %s: api route */
 				__( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ),
@@ -909,18 +1024,20 @@ class CoCart_API_Controller {
 		}
 
 		return new WP_REST_Response( $response, 200 );
-	}
+	} // END get_response()
 
 	/**
 	 * Get the schema for returning the cart, conforming to JSON Schema.
 	 *
 	 * @access public
-	 * @since  2.1.2
-	 * @return array
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'CoCart - ' . __( 'Cart', 'cart-rest-api-for-woocommerce' ),
 			'type'       => 'object',
 			'properties' => array(
@@ -971,7 +1088,7 @@ class CoCart_API_Controller {
 						),
 						'quantity'          => array(
 							'description' => __( 'Quantity of this item in the cart.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'float',
+							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
@@ -1071,4 +1188,26 @@ class CoCart_API_Controller {
 
 		return $params;
 	} // END get_collection_params()
+
+	/**
+	 * Validates the quantity argument.
+	 *
+	 * @access public
+	 *
+	 * @since 3.0.0  Introduced.
+	 * @since 3.13.0 Moved to this controller to share the validation.
+	 *
+	 * @param int|float       $value   Number of quantity to validate.
+	 * @param WP_REST_Request $request The request object.
+	 * @param string          $param   Argument parameters.
+	 *
+	 * @return bool True if the quantity is valid, false otherwise.
+	 */
+	public function rest_validate_quantity_arg( $value, $request, $param ) {
+		if ( is_numeric( $value ) || is_float( $value ) ) {
+			return true;
+		}
+
+		return false;
+	} // END rest_validate_quantity_arg()
 } // END class

@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart REST API Sessions controller.
- *
- * Returns a list of carts in session.
+ * REST API: CoCart_REST_Sessions_V2_Controller class.
  *
  * @author  Sébastien Dumont
- * @package CoCart\API\v2
- * @since   3.0.0
- * @version 3.1.0
- * @license GPL-2.0+
+ * @package CoCart\API\Sessions\v2
+ * @since   3.0.0 Introduced.
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,14 +13,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Sessions controller class.
+ * Returns a list of carts in session.
+ *
+ * This REST API controller handles the request to get sessions
+ * via "cocart/v2/sessions" endpoint.
  *
  * @package CoCart REST API/API
  */
-class CoCart_Sessions_V2_Controller {
+class CoCart_REST_Sessions_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
+	 *
+	 * @access protected
 	 *
 	 * @var string
 	 */
@@ -32,6 +34,8 @@ class CoCart_Sessions_V2_Controller {
 	/**
 	 * Route base.
 	 *
+	 * @access protected
+	 *
 	 * @var string
 	 */
 	protected $rest_base = 'sessions';
@@ -39,10 +43,10 @@ class CoCart_Sessions_V2_Controller {
 	/**
 	 * Register the routes for index.
 	 *
-	 * @access  public
-	 * @since   3.0.0 Introduced
-	 * @since   3.1.0 Added schema information.
-	 * @version 3.1.0
+	 * @access public
+	 *
+	 * @since 3.0.0 Introduced
+	 * @since 3.1.0 Added schema information.
 	 */
 	public function register_routes() {
 		// Get Sessions - cocart/v2/sessions (GET).
@@ -64,6 +68,9 @@ class CoCart_Sessions_V2_Controller {
 	 * Check whether a given request has permission to read site data.
 	 *
 	 * @access public
+	 *
+	 * @since 3.0.0 Introduced
+	 *
 	 * @return WP_Error|boolean
 	 */
 	public function get_items_permissions_check() {
@@ -79,10 +86,11 @@ class CoCart_Sessions_V2_Controller {
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
-	 * @access  public
-	 * @since   3.0.0
-	 * @version 3.1.0
-	 * @return  WP_REST_Response Returns the carts in session from the database.
+	 * @access public
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @return WP_REST_Response Returns the carts in session from the database.
 	 */
 	public function get_carts_in_session() {
 		try {
@@ -99,6 +107,7 @@ class CoCart_Sessions_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_no_carts_in_session', __( 'No carts in session!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
+			// Contains the results of sessions.
 			$sessions = array();
 
 			foreach ( $results as $key => $cart ) {
@@ -115,8 +124,6 @@ class CoCart_Sessions_V2_Controller {
 					$name = '';
 				}
 
-				$cart_source = $cart['cart_source'];
-
 				$sessions[] = array(
 					'cart_id'         => $cart['cart_id'],
 					'cart_key'        => $cart['cart_key'],
@@ -124,7 +131,7 @@ class CoCart_Sessions_V2_Controller {
 					'customers_email' => $email,
 					'cart_created'    => gmdate( 'm/d/Y H:i:s', $cart['cart_created'] ),
 					'cart_expiry'     => gmdate( 'm/d/Y H:i:s', $cart['cart_expiry'] ),
-					'cart_source'     => $cart_source,
+					'cart_source'     => $cart['cart_source'],
 					'link'            => rest_url( sprintf( '/%s/%s', $this->namespace, 'session/' . $cart['cart_key'] ) ),
 				);
 			}
@@ -139,13 +146,15 @@ class CoCart_Sessions_V2_Controller {
 	 * Get the schema for returning the sessions.
 	 *
 	 * @access public
-	 * @since  3.1.0 Introduced
+	 *
+	 * @since 3.1.0 Introduced
+	 *
 	 * @return array
 	 */
 	public function get_public_object_schema() {
 		return array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'View all Sessions', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_sessions_v2',
 			'type'       => 'object',
 			'properties' => array(
 				'cart_id'         => array(

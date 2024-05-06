@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Clear Cart controller
- *
- * Handles the request to clear the cart with /clear endpoint.
+ * REST API: CoCart_Clear_Cart_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
- * @version 2.9.3
- * @license GPL-2.0+
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Clear Cart controller class.
+ * Clears the customers cart. (API v1)
  *
- * @package CoCart\API
+ * Handles the request to clear the cart with /clear endpoint.
+ *
+ * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 
@@ -32,9 +33,10 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 * @since 2.5.0 Added permission callback set to return true due to a change to the REST API in WordPress v5.5
 	 */
 	public function register_routes() {
 		// Clear Cart - cocart/v1/clear (POST).
@@ -52,12 +54,20 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	/**
 	 * Clear cart.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 2.9.3
-	 * @return  WP_Error|WP_REST_Response
+	 * @access public
+	 *
+	 * @since 1.0.0 Introduced.
+	 *
+	 * @see CoCart_Logger::log()
+	 *
+	 * @return WP_Error if failed. or WP_REST_Response if successful.
 	 */
 	public function clear_cart() {
+		/**
+		 * Hook: Triggers before the cart emptied.
+		 *
+		 * @since 1.0.0 Introduced.
+		 */
 		do_action( 'cocart_before_cart_emptied' );
 
 		WC()->session->set( 'cart', array() );
@@ -92,13 +102,23 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 		 * If the user is authorized and `woocommerce_persistent_cart_enabled` filter is left enabled
 		 * then we will delete the persistent cart as well.
 		 */
-		if ( get_current_user_id() && apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
+		if ( get_current_user_id() && apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			delete_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id() );
 		}
 
+		/**
+		 * Hook: Triggers once the cart is emptied.
+		 *
+		 * @since 1.0.0 Introduced.
+		 */
 		do_action( 'cocart_cart_emptied' );
 
 		if ( 0 === count( WC()->cart->get_cart() ) || 0 === count( WC()->session->get( 'cart' ) ) ) {
+			/**
+			 * Hook: Triggers once the cart is cleared.
+			 *
+			 * @since 1.0.0 Introduced.
+			 */
 			do_action( 'cocart_cart_cleared' );
 
 			$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
@@ -108,7 +128,8 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters message about the cart being cleared.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_cart_cleared_message', $message );
@@ -122,12 +143,13 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters message about the cart failing to clear.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_clear_cart_failed_message', $message );
 
-			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 404 ) );
+			return new WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 406 ) );
 		}
 	} // END clear_cart()
 } // END class

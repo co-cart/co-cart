@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Totals controller
+ * REST API: CoCart_Totals_Controller class.
  *
- * Handles the request to get the totals of the cart with /totals endpoint.
- *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v1
- * @since    2.1.0 Introduced.
- * @version  2.7.0
- * @license  GPL-2.0+
+ * @author  Sébastien Dumont
+ * @package CoCart\API\v1
+ * @since   2.1.0 Introduced.
+ * @version 2.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Totals controller class.
+ * Returns the cart totals (API v1).
  *
- * @package CoCart\API
+ * Handles the request to get the totals of the cart with /totals endpoint.
+ *
+ * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Totals_Controller extends CoCart_API_Controller {
 
@@ -32,8 +33,9 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 2.7.0
 	 */
 	public function register_routes() {
@@ -61,21 +63,24 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	/**
 	 * Returns all calculated totals.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   1.0.0
-	 * @version 2.1.2
-	 * @param   array $data Passed parameters.
-	 * @return  WP_REST_Response
+	 *
+	 * @since 1.0.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response Response data.
 	 */
-	public static function get_totals( $data = array() ) {
+	public static function get_totals( $request = array() ) {
 		if ( ! empty( WC()->cart->totals ) ) {
 			$totals = WC()->cart->get_totals();
 		} else {
 			$totals = WC()->session->get( 'cart_totals' );
 		}
 
-		$pre_formatted = isset( $data['html'] ) ? $data['html'] : false;
+		$pre_formatted = isset( $request['html'] ) ? $request['html'] : false;
 
 		if ( $pre_formatted ) {
 			$new_totals = array();
@@ -90,7 +95,7 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 				if ( in_array( $type, $ignore_convert ) ) {
 					$new_totals[ $type ] = $sum;
 				} elseif ( is_string( $sum ) ) {
-						$new_totals[ $type ] = html_entity_decode( wp_strip_all_tags( wc_price( $sum ) ) );
+					$new_totals[ $type ] = html_entity_decode( wp_strip_all_tags( wc_price( $sum ) ) );
 				} else {
 					$new_totals[ $type ] = html_entity_decode( wp_strip_all_tags( wc_price( strval( $sum ) ) ) );
 				}

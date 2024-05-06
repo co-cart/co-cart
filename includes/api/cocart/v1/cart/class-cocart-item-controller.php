@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Item controller
- *
- * Handles the request to update, delete and restore items in the cart with /item endpoint.
+ * REST API: CoCart_Item_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
- * @version 2.8.4
- * @license GPL-2.0+
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Item controller class.
+ * Allows the option to update, delete and restore items. (API v1)
  *
- * @package CoCart\API
+ * Handles the request to update, delete and restore items in the cart with /item endpoint.
+ *
+ * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Item_Controller extends CoCart_API_Controller {
 
@@ -32,8 +33,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 2.5.0
 	 */
 	public function register_routes() {
@@ -54,11 +56,10 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => array(
 						'quantity' => array(
-							'default'           => 1,
-							'type'              => 'float',
-							'validate_callback' => function ( $value ) {
-								return is_numeric( $value );
-							},
+							'description'       => __( 'Quantity of this item to update to.', 'cart-rest-api-for-woocommerce' ),
+							'type'              => 'string',
+							'required'          => true,
+							'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
 						),
 					),
 				),
@@ -74,14 +75,19 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Remove Item in Cart.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.7.0
-	 * @param   array $data Passed parameters.
-	 * @return  WP_Error|WP_REST_Response
+	 *
+	 * @see CoCart_Logger::log()
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function remove_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
+	public function remove_item( $request = array() ) {
+		$item_key = ! isset( $request['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['cart_item_key'] ) ) );
 
 		// Checks to see if the cart is empty before attempting to remove item.
 		if ( WC()->cart->is_empty() ) {
@@ -92,7 +98,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters message about no items in cart.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_no_items_message', $message );
@@ -100,9 +107,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			return new WP_Error( 'cocart_no_items', $message, array( 'status' => 404 ) );
 		}
 
-		if ( '0' !== $cart_item_key ) {
+		if ( '0' !== $item_key ) {
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = $this->get_cart_item( $cart_item_key, 'remove' );
+			$current_data = $this->get_cart_item( $item_key, 'remove' );
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -113,7 +120,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				/**
 				 * Filters message about item not in cart.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'remove' );
@@ -121,19 +129,24 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				return new WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
 			}
 
-			if ( WC()->cart->remove_cart_item( $cart_item_key ) ) {
+			if ( WC()->cart->remove_cart_item( $item_key ) ) {
+				/**
+				 * Hook: cocart_item_removed
+				 *
+				 * @param WC_Product $current_data Product data.
+				 */
 				do_action( 'cocart_item_removed', $current_data );
 
 				/**
 				 * Calculates the cart totals now an item has been removed.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 */
 				WC()->cart->calculate_totals();
 
 				// Was it requested to return the whole cart once item removed?
-				if ( $data['return_cart'] ) {
-					$cart_contents = $this->get_cart_contents( $data );
+				if ( $request['return_cart'] ) {
+					$cart_contents = $this->get_cart_contents( $request );
 
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
@@ -147,7 +160,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				/**
 				 * Filters message about can not remove item.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_remove_item_message', $message );
@@ -162,7 +176,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters message about cart item key required.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'remove' );
@@ -174,31 +189,39 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Restore Item in Cart.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.7.0
-	 * @param   array $data Passed parameters.
-	 * @return  WP_Error|WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function restore_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
+	public function restore_item( $request = array() ) {
+		$item_key = ! isset( $request['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['cart_item_key'] ) ) );
 
-		if ( '0' !== $cart_item_key ) {
-			if ( WC()->cart->restore_cart_item( $cart_item_key ) ) {
-				$current_data = $this->get_cart_item( $cart_item_key, 'restore' ); // Fetches the cart item data once it is restored.
+		if ( '0' !== $item_key ) {
+			if ( WC()->cart->restore_cart_item( $item_key ) ) {
+				$current_data = $this->get_cart_item( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
+				/**
+				 * Hook: cocart_item_restored
+				 *
+				 * @param WC_Product $current_data Product data.
+				 */
 				do_action( 'cocart_item_restored', $current_data );
 
 				/**
 				 * Calculates the cart totals now an item has been restored.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
 				 */
 				WC()->cart->calculate_totals();
 
 				// Was it requested to return the whole cart once item restored?
-				if ( $data['return_cart'] ) {
-					$cart_contents = $this->get_cart_contents( $data );
+				if ( $request['return_cart'] ) {
+					$cart_contents = $this->get_cart_contents( $request );
 
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
@@ -212,7 +235,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				/**
 				 * Filters message about can not restore item.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_can_not_restore_item_message', $message );
@@ -227,7 +251,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters message about cart item key required.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'restore' );
@@ -239,26 +264,29 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Update Item in Cart.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
 	 * @version 2.8.4
-	 * @param   array $data Passed parameters.
-	 * @return  WP_Error|WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 */
-	public function update_item( $data = array() ) {
-		$cart_item_key = ! isset( $data['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $data['cart_item_key'] ) ) );
-		$quantity      = ! isset( $data['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $data['quantity'] ) );
+	public function update_item( $request = array() ) {
+		$item_key = ! isset( $request['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['cart_item_key'] ) ) );
+		$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
 
 		// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 		if ( 0 === $quantity ) {
-			return $this->remove_item( $data );
+			return $this->remove_item( $request );
 		}
 
 		$this->validate_quantity( $quantity );
 
-		if ( '0' !== $cart_item_key ) {
+		if ( '0' !== $item_key ) {
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = $this->get_cart_item( $cart_item_key, 'container' );
+			$current_data = $this->get_cart_item( $item_key, 'container' );
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -269,7 +297,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				/**
 				 * Filters message about cart item key required.
 				 *
-				 * @since 2.1.0
+				 * @since 2.1.0 Introduced.
+				 *
 				 * @param string $message Message.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
@@ -282,8 +311,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Return error if stock is not enough.
 			 *
-			 * @since 2.7.0
-			 * @param $stock
+			 * @since 2.7.0 Introduced.
+			 *
+			 * @param $stock bool Whether or not the item has enough stock.
 			 */
 			if ( is_wp_error( $stock ) ) {
 				return $stock;
@@ -292,19 +322,20 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Update cart validation.
 			 *
-			 * @since   2.1.0
+			 * @since   2.1.0 Introduced.
 			 * @version 2.6.2
-			 * @param   bool
-			 * @param   string $cart_item_key - Item key.
-			 * @param   array  $current_data  - Product data of the item in cart.
-			 * @param   float  $quantity      - The requested quantity to change to.
+			 *
+			 * @param bool   $valid        Whether or not the cart is valid.
+			 * @param string $item_key     Item key.
+			 * @param array  $current_data Product data of the item in cart.
+			 * @param float  $quantity     Requested quantity to update for item.
 			 */
-			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $cart_item_key, $current_data, $quantity );
+			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $current_data, $quantity );
 
 			/**
 			 * If validation returned an error return error response.
 			 *
-			 * @param $passed_validation
+			 * @param $passed_validation bool Whether or not the cart passed validation.
 			 */
 			if ( is_wp_error( $passed_validation ) ) {
 				return $passed_validation;
@@ -323,8 +354,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				/**
 				 * Filters message about product not being allowed to increase quantity.
 				 *
-				 * @param string     $message      - Message.
-				 * @param WC_Product $current_data - Product data.
+				 * @param string     $message      Message.
+				 * @param WC_Product $current_data Product data.
 				 */
 				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $current_data['data'] );
 
@@ -333,8 +364,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			// Only update cart item quantity if passed validation.
 			if ( $passed_validation ) {
-				if ( WC()->cart->set_quantity( $cart_item_key, $quantity ) ) {
-					$new_data = $this->get_cart_item( $cart_item_key, 'update' );
+				if ( WC()->cart->set_quantity( $item_key, $quantity ) ) {
+					$new_data = $this->get_cart_item( $item_key, 'update' );
 
 					$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
 					$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
@@ -342,12 +373,20 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					$product_data = wc_get_product( $variation_id ? $variation_id : $product_id );
 
 					if ( $current_data['quantity'] !== $quantity ) {
-						do_action( 'cocart_item_quantity_changed', $cart_item_key, $new_data );
+						/**
+						 * Hook: cocart_item_quantity_changed
+						 *
+						 * @since 2.0.0 Introduced.
+						 *
+						 * @param string $item_key Item key.
+						 * @param array  $new_data Item data.
+						 */
+						do_action( 'cocart_item_quantity_changed', $item_key, $new_data );
 
 						/**
 						 * Calculates the cart totals if an item has changed it's quantity.
 						 *
-						 * @since 2.1.0
+						 * @since 2.1.0 Introduced.
 						 */
 						WC()->cart->calculate_totals();
 					}
@@ -359,7 +398,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					/**
 					 * Filters message about can not update item.
 					 *
-					 * @since 2.1.0
+					 * @since 2.1.0 Introduced.
+					 *
 					 * @param string $message Message.
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
@@ -368,8 +408,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				}
 
 				// Was it requested to return the whole cart once item updated?
-				if ( $data['return_cart'] ) {
-					$cart_contents = $this->get_cart_contents( $data );
+				if ( $request['return_cart'] ) {
+					$cart_contents = $this->get_cart_contents( $request );
 
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
@@ -408,6 +448,16 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					);
 				}
 
+				/**
+				 * Filter allows you to alter the returned response once item is updated.
+				 *
+				 * @since 2.0.0 Introduced.
+				 *
+				 * @param array      $response     Response returned.
+				 * @param array      $new_data     Item data.
+				 * @param float      $quantity     Requested quantity to update for item.
+				 * @param WC_Product $product_data Product data.
+				 */
 				$response = apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data );
 
 				return $this->get_response( $response, $this->rest_base );
@@ -420,7 +470,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			/**
 			 * Filters message about cart item key required.
 			 *
-			 * @since 2.1.0
+			 * @since 2.1.0 Introduced.
+			 *
 			 * @param string $message Message.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'update' );
@@ -432,10 +483,12 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	/**
 	 * Get the query params for item.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 2.7.0
-	 * @return  array $params
+	 *
+	 * @return array $params Query parameters for item.
 	 */
 	public function get_collection_params() {
 		$params = array(

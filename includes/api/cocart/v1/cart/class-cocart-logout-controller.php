@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Logout controller
+ * REST API: CoCart_Logout_Controller class.
  *
- * Handles the request to logout the user /logout endpoint.
- *
- * @author   Sébastien Dumont
- * @package  CoCart\API\v1
- * @since    2.1.0 Introduced.
- * @version  2.7.0
- * @license  GPL-2.0+
+ * @author     Sébastien Dumont
+ * @package    CoCart\API\v1
+ * @since      2.1.0 Introduced.
+ * @version    2.5.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Logout controller class.
+ * Logs out the user from the WordPress instance. (API v1)
  *
- * @package CoCart\API
+ * Handles the request to logout the user via the /logout endpoint.
+ *
+ * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Logout_Controller extends CoCart_API_Controller {
 
@@ -32,9 +33,10 @@ class CoCart_Logout_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.5.0
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 * @since 2.5.0 Added permission callback set to return true due to a change to the REST API in WordPress v5.5
 	 */
 	public function register_routes() {
 		// Logout user - cocart/v1/logout (POST).
@@ -52,10 +54,11 @@ class CoCart_Logout_Controller extends CoCart_API_Controller {
 	/**
 	 * Logout user.
 	 *
-	 * @access  public
-	 * @since   2.1.0
-	 * @version 2.5.0
-	 * @return  WP_REST_Response
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @return WP_REST_Response The response object.
 	 */
 	public function logout() {
 		wp_logout();

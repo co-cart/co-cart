@@ -176,6 +176,14 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					$product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
 					if ( $quantity !== $current_data['quantity'] ) {
+						/**
+						 * Hook: cocart_item_quantity_changed
+						 *
+						 * @since 2.0.0 Introduced.
+						 *
+						 * @param string $item_key Item key.
+						 * @param array  $new_data Item data.
+						 */
 						do_action( 'cocart_item_quantity_changed', $item_key, $new_data );
 
 						/**

@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart - Calculate controller
- *
- * Handles the request to calculate the cart with /calculate endpoint.
+ * REST API: CoCart_Calculate_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
- * @version 2.7.0
- * @license GPL-2.0+
+ * @version 3.13.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Calculate controller class.
+ * Calculate cart totals. (API v1)
  *
- * @package CoCart\API
+ * Handles the request to calculate the cart totals via /calculate endpoint.
+ *
+ * @since 2.1.0 Introduced.
+ *
+ * @see CoCart_API_Controller
  */
 class CoCart_Calculate_Controller extends CoCart_API_Controller {
 
@@ -32,8 +33,10 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	/**
 	 * Register routes.
 	 *
-	 * @access  public
-	 * @since   1.0.0
+	 * @access public
+	 *
+	 * @since   1.0.0 Introduced.
+	 * @since   2.5.0 Added permission callback set to return true due to a change to the REST API in WordPress v5.5
 	 * @version 2.7.0
 	 */
 	public function register_routes() {
@@ -61,18 +64,23 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 	/**
 	 * Calculate Cart Totals.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 2.7.0
-	 * @param   array $data Passed parameters.
-	 * @return  WP_REST_Response
+	 * @access public
+	 *
+	 * @since 1.0.0 Introduced.
+	 *
+	 * @see CoCart_Totals_Controller::get_totals()
+	 * @see CoCart_Logger::log()
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response
 	 */
-	public function calculate_totals( $data = array() ) {
+	public function calculate_totals( $request = array() ) {
 		WC()->cart->calculate_totals();
 
 		// Was it requested to return all totals once calculated?
-		if ( $data['return'] ) {
-			return CoCart_Totals_Controller::get_totals( $data );
+		if ( $request['return'] ) {
+			return CoCart_Totals_Controller::get_totals( $request );
 		}
 
 		$message = __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' );
@@ -82,7 +90,8 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 		/**
 		 * Filters message about cart totals have been calculated.
 		 *
-		 * @since 2.1.0
+		 * @since 2.1.0 Introduced.
+		 *
 		 * @param string $message Message.
 		 */
 		$message = apply_filters( 'cocart_totals_calculated_message', $message );

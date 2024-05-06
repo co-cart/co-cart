@@ -142,6 +142,13 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			}
 
 			if ( $this->get_cart_instance()->remove_cart_item( $item_key ) ) {
+				/**
+				 * Hook: cocart_item_removed
+				 *
+				 * @since 2.0.0 Introduced.
+				 *
+				 * @param WC_Product $current_data Product data.
+				 */
 				do_action( 'cocart_item_removed', $current_data );
 
 				/**
