@@ -1,6 +1,6 @@
 # Security Policy
 
-Full details of the CoCart Security Policy can be found on [cocartapi.com/security/](https://cocartapi.com/security/).
+Full details of the CoCart Security Policy can be found on [cocartapi.com/security-policy/](https://cocartapi.com/security-policy/).
 
 ## Supported Versions
 
@@ -10,7 +10,7 @@ Generally, only the latest version of CoCart has continued support. If a critica
 
 [CoCart core](https://wordpress.org/plugins/cart-rest-api-for-woocommerce) is an open-source plugin for WordPress.
 
-**For responsible disclosure of security issues, please submit your report based on instructions found on [cocartapi.com/security/](https://cocartapi.com/security/).**
+**For responsible disclosure of security issues, please submit your report based on instructions found on [cocartapi.com/security-policy/](https://cocartapi.com/security-policy/).**
 
 Our most critical targets are:
 
