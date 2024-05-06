@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -38,7 +38,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 * @since 4.0.0 Allowed route to be requested in a batch request.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -275,7 +275,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 * @access public
 	 *
 	 * @since 3.0.0  Introduced.
-	 * @since 3.13.0 Updated quantity parameter to validate any number values.
+	 * @since 4.0.0 Updated quantity parameter to validate any number values.
 	 *
 	 * @return array $params
 	 */

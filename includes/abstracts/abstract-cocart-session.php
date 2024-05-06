@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Abstracts
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,7 +24,7 @@ abstract class CoCart_Session extends WC_Session {
 	 *
 	 * @access protected
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @var string Cart due to expire timestamp.
 	 */
@@ -35,7 +35,7 @@ abstract class CoCart_Session extends WC_Session {
 	 *
 	 * @access protected
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @var string Cart expiration timestamp.
 	 */
@@ -77,7 +77,7 @@ abstract class CoCart_Session extends WC_Session {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -90,7 +90,7 @@ abstract class CoCart_Session extends WC_Session {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @return string
 	 */

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -72,7 +72,7 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.13.0
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param array           $cart_contents Cart contents to count items.

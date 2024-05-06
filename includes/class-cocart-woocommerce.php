@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.2 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 // Exit if accessed directly.
@@ -94,7 +94,7 @@ class CoCart_WooCommerce {
 	 * @static
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.13.0
+	 * @version 4.0.0
 	 */
 	public static function load_cart_from_session() {
 		// Return nothing if WP-GraphQL is requested.

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 // Exit if accessed directly.
@@ -38,7 +38,7 @@ class CoCart_Cart_Validation {
 	 * @access public
 	 *
 	 * @since 3.0.0  Introduced.
-	 * @since 3.13.0 Fetch product data if missing.
+	 * @since 4.0.0 Fetch product data if missing.
 	 *
 	 * @uses wc_get_product()
 	 * @uses wc_add_notice()

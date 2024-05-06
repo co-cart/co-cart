@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 // Exit if accessed directly.
@@ -176,7 +176,7 @@ class CoCart_Response {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 3.13.0 Added debug backtrace if WP_DEBUG is true.
+	 * @since 4.0.0 Added debug backtrace if WP_DEBUG is true.
 	 *
 	 * @param WP_Error $error WP_Error instance.
 	 *

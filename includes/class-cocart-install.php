@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.2.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 // Exit if accessed directly.
@@ -39,7 +39,7 @@ class CoCart_Install {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 3.13.0
+	 * @version 4.0.0
 	 */
 	public static function init() {
 		// Checks version of CoCart and install/update if needed.

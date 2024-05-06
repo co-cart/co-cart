@@ -44,7 +44,7 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 * @since 4.0.0 Allowed route to be requested in a batch request.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */

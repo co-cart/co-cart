@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,7 +45,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Allowed route to be requested in a batch request.
+	 * @since 4.0.0 Allowed route to be requested in a batch request.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -254,14 +254,14 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 *
 	 * @since      3.0.0 Introduced.
-	 * @deprecated 3.13.0 Replaced with `get_public_item_schema()`.
+	 * @deprecated 4.0.0 Replaced with `get_public_item_schema()`.
 	 *
 	 * @see get_public_item_schema()
 	 *
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
-		cocart_deprecated_function( __FUNCTION__, '3.13.0', 'get_public_item_schema' );
+		cocart_deprecated_function( __FUNCTION__, '4.0.0', 'get_public_item_schema' );
 
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
@@ -302,7 +302,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @return array Public item schema data.
 	 */

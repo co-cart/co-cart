@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Allows you to update CoCart via CLI.
  *
- * @version 3.13.0
+ * @version 4.0.0
  * @package CoCart\CLI
  */
 class CoCart_CLI_Update_Command {

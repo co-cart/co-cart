@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
  * @since   3.1.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -2111,7 +2111,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @return array Products archive schema data.
 	 */

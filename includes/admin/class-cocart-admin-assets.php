@@ -64,7 +64,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 * @access public
 		 *
 		 * @since 1.2.0  Introduced.
-		 * @since 3.13.0 Merged other body classes.
+		 * @since 4.0.0 Merged other body classes.
 		 *
 		 * @param string $classes Current classes.
 		 *

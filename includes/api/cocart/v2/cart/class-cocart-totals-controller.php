@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -62,7 +62,7 @@ class CoCart_REST_Totals_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.13.0
+	 * @version 4.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *

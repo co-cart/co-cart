@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.6.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 // Exit if accessed directly.
@@ -404,7 +404,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access protected
 		 *
-		 * @since 3.13.0 Introduced.
+		 * @since 4.0.0 Introduced.
 		 *
 		 * @return boolean
 		 */
@@ -431,7 +431,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.2.0  Introduced.
 		 * @since 3.3.0  Added new custom headers without the prefix `X-`
-		 * @since 3.13.0 Added a check against a list of allowed HTTP origins.
+		 * @since 4.0.0 Added a check against a list of allowed HTTP origins.
 		 *
 		 * @uses get_http_origin()
 		 * @uses get_allowed_http_origins()

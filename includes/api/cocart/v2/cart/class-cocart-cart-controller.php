@@ -1,11 +1,11 @@
 <?php
 /**
- * REST API: CoCart_REST_Cart_V2_Controller class
+ * REST API: CoCart_REST_Cart_V2_Controller class.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -1090,7 +1090,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 3.13.0 Removed $cart_id parameter as it is the same as $item_key.
+	 * @deprecated 4.0.0 Removed $cart_id parameter as it is the same as $item_key.
 	 *
 	 * @param WC_Product $product      The product object.
 	 * @param int|float  $quantity     The quantity to validate.

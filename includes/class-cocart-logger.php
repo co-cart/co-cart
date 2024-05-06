@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,7 +40,7 @@ class CoCart_Logger {
 	 * @static
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 3.13.0
+	 * @version 4.0.0
 	 *
 	 * @uses date_i18n()
 	 * @uses wc_get_logger()

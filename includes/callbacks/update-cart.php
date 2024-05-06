@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Callbacks
  * @since   3.1.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,7 +40,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
-	 * @since 3.13.0 Added the cart controller as a parameter.
+	 * @since 4.0.0 Added the cart controller as a parameter.
 	 *
 	 * @param WP_REST_Request $request    The request object.
 	 * @param object          $controller The cart controller.

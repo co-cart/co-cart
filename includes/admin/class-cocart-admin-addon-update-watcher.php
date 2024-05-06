@@ -4,7 +4,7 @@
  *
  * Also removes the auto-update toggles from the CoCart add-ons.
  *
- * @since 3.13.0 Introduced.
+ * @since 4.0.0 Introduced.
  */
 class CoCart_Addon_Update_Watcher {
 
@@ -52,7 +52,7 @@ class CoCart_Addon_Update_Watcher {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param string $old_html The old HTML.
 	 * @param string $plugin   The plugin.
@@ -98,7 +98,7 @@ class CoCart_Addon_Update_Watcher {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param string      $option The name of the option that is being created.
 	 * @param array|mixed $value  The new (and first) value of the option that is being created.
@@ -118,7 +118,7 @@ class CoCart_Addon_Update_Watcher {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param string $option    The name of the option that has been updated.
 	 * @param array  $new_value The new value of the `auto_update_plugins` option.
@@ -176,7 +176,7 @@ class CoCart_Addon_Update_Watcher {
 	 *
 	 * @access public
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param string $plugin The plugin that is activated.
 	 *
@@ -198,7 +198,7 @@ class CoCart_Addon_Update_Watcher {
 	 *
 	 * @access protected
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param string $auto_updated_plugins The current list of auto-updated plugins.
 	 *
@@ -214,7 +214,7 @@ class CoCart_Addon_Update_Watcher {
 	 *
 	 * @access protected
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param string $auto_updated_plugins The current list of auto-updated plugins.
 	 *
@@ -230,7 +230,7 @@ class CoCart_Addon_Update_Watcher {
 	 *
 	 * @access protected
 	 *
-	 * @since 3.13.0 Introduced.
+	 * @since 4.0.0 Introduced.
 	 *
 	 * @param string $plugin_id            The plugin ID.
 	 * @param array  $auto_updated_plugins The array of auto updated plugins.

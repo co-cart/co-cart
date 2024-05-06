@@ -1,5 +1,53 @@
 # Changelog for CoCart
 
+## v4.0.0 - 10th May, 2024
+
+### What's New?
+
+In this release, you’ll find various improvements made through out the plugin. [Find out more about what’s new in CoCart 4.0 in our release post!](#)
+
+>> With this release we are happy to provide some of the improvements with the v4 development. These improvements are backwards compatible. We hope you enjoy them.
+
+* REST API: Added batch support for cart endpoints listed below. (API v2 supported ONLY) [See article for batch usage](https://make.wordpress.org/core/2020/11/20/rest-api-batch-framework-in-wordpress-5-6/).
+ * * Add item/s to cart.
+ * * Clear cart.
+ * * Remove item.
+ * * Restore item.
+ * * Update item.
+ * * Update cart.
+
+### Bug Fix
+
+* Plugin: Fixed various text localization issues.
+* REST API: `Access-Control-Allow-Credentials` being outputted as 1 instead of true. [Solves issue 410](https://github.com/co-cart/co-cart/issues/410). Thanks to [@SebastianLamprecht](https://github.com/SebastianLamprecht) for reporting it.
+* REST API: Update cart requests no longer fails and continues to the next item if an item in cart no longer exists.
+
+### Improvements
+
+* REST API: Now checks if the request is a preflight request.
+* REST API: Error responses are now softer to prevent fatal networking when a request fails.
+* REST API: Callback for cart update now passes the cart controller class so we don't have to call it a new.
+* REST API: Cart schema tweaks.
+* REST API: Cart and Product schema are now cached for performance.
+* Plugin: Added more inline documentation for action hooks and filters.
+* Plugin: Improved database queries.
+* Plugin: Updated to latest WordPress Code Standards.
+* WordPress Dashboard: Added CoCart add-on auto updates watcher.
+* WP-CLI: Updating CoCart via command will now remove update database notice.
+
+### Developers
+
+* REST API: Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration`.
+
+> These two new headers can help developers use the timestamps of the cart in session for when it is going to expire and how long until it does expire completely.
+
+* REST API: Error tracking is returned with the error responses when `WP_DEBUG` is set to true to help with any debugging.
+* REST API: Class aliases have been added to API v2 controllers after changing the class names for consistency.
+
+### Compatibility
+
+* Tested with WooCommerce v8.8
+
 ## v3.12.0 - 18th March, 2024
 
 ### Security Patch
