@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Calculate_v2_Controller', 'CoCart_Calculate_V2_Controller' );
+
 /**
  * Controller for calculating cart totals, tax, fees and shipping (API v2).
  *

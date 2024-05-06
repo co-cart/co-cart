@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Item_V2_Controller', 'CoCart_Item_V2_Controller' );
+
 /**
  * Controller for viewing an individual item in the cart (API v2).
  *

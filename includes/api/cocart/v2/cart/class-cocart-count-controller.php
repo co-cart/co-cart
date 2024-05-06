@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Count_Items_V2_Controller', 'CoCart_Count_Items_V2_Controller' );
+
 /**
  * Controller for counting items in the cart (API v2).
  *

@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Sessions_V2_Controller', 'CoCart_Sessions_V2_Controller' );
+
 /**
  * Returns a list of carts in session.
  *

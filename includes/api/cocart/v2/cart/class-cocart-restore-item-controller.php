@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Restore_Item_V2_Controller', 'CoCart_Restore_Item_V2_Controller' );
+
 /**
  * Controller for restoring an item to the cart (API v2).
  *

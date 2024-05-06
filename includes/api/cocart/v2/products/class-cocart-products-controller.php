@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Products_V2_Controller', 'CoCart_Products_V2_Controller' );
+
 /**
  * Controller for returning products via the REST API (API v2).
  *

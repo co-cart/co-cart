@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Totals_V2_Controller', 'CoCart_Totals_V2_Controller' );
+
 /**
  * Controller for getting the cart totals (API v2).
  *

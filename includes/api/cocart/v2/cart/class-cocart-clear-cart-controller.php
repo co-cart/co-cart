@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Clear_Cart_V2_Controller', 'CoCart_Clear_Cart_V2_Controller' );
+
 /**
  * Controller for clearing the cart (API v2).
  *

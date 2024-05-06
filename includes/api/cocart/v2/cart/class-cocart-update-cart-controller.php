@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Update_Cart_V2_Controller', 'CoCart_Update_Cart_V2_Controller' );
+
 /**
  * Controller for updating the cart via a registered callback (API v2).
  *

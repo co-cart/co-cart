@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Login_V2_Controller', 'CoCart_Login_V2_Controller' );
+
 /**
  * Controller for logging in users via the REST API (API v2).
  *

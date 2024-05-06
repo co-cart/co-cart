@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Logout_V2_Controller', 'CoCart_Logout_V2_Controller' );
+
 /**
  * Controller for logging out users via the REST API (API v2).
  *

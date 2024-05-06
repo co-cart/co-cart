@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Session_V2_Controller', 'CoCart_Session_V2_Controller' );
+
 /**
  * Controller for returning details of a specific cart via the REST API. (API v2)
  *

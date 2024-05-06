@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Add_Item_V2_Controller', 'CoCart_Add_Item_V2_Controller' );
+
 /**
  * Controller for adding items to cart via the REST API. (API v2)
  *

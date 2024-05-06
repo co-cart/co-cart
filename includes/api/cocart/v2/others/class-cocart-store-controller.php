@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Store_V2_Controller', 'CoCart_Store_V2_Controller' );
+
 /**
  * Controller for returning store details.
  *
