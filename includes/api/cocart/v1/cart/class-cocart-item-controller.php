@@ -133,6 +133,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				/**
 				 * Hook: cocart_item_removed
 				 *
+				 * @since 2.0.0 Introduced.
+				 *
 				 * @param WC_Product $current_data Product data.
 				 */
 				do_action( 'cocart_item_removed', $current_data );
@@ -207,6 +209,8 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 				/**
 				 * Hook: cocart_item_restored
+				 *
+				 * @since 2.0.0 Introduced.
 				 *
 				 * @param WC_Product $current_data Product data.
 				 */
