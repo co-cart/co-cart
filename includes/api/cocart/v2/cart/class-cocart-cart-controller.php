@@ -68,7 +68,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
-				'schema' => array( $this, 'get_public_cart_schema' ),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	} // END register_routes()
