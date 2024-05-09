@@ -50,7 +50,7 @@
 - Added ability to request product variations to return without the parent product. - Solves [[issue 3](https://github.com/co-cart/cocart-products-api/issues/3)]
 - Added ability to filter the fields of the endpoint you request before they return, making the response faster.
 - Added ability to return the fields in the cart response based on a pre-configured option as alternative to filtering the fields individually. Options: `mini`, `digital`, `digital_fees`, `shipping`, `shipping_fees`, `removed_items` and `cross_sells`
-- Added batch support and new batch endpoint to handle multiple cart requests to return a single cart response. (API v2 supported ONLY) [See guide for example](#).
+- Added new batch endpoint to handle multiple cart requests to return a single cart response. (API v2 supported ONLY) [See guide for example](#).
 - Added new endpoint to delete all items (only) in the cart.
 - Added new endpoint to generate cart key.
 
@@ -62,13 +62,11 @@ First is when the WordPress login cookies are set, they are not available until 
 
 Second is customers can now authenticate with their billing phone number and password. This is helpful for certain countries where the customer logins with their phone number instead of username or email address.
 
-Third is a new [RateLimiter for the API.](#ratelimiter-for-the-api)
+Third, two new filters have also been introduced to allow a custom authentication header and control the allowed headers to pass when CORS is in use.
 
-Two new filters have also been introduced to allow a custom authentication header and control the allowed headers to pass when CORS is in use.
+Fourth is a new [RateLimiter for the API.](#ratelimiter-for-the-api)
 
-## Experimental
-
-_The first feature experiment has been added in the hopes to provide more control on who/what has access to CoCart' REST API and requires your feedback._
+> This will now be part of CoCart Plus or higher.
 
 ### RateLimiter for the API
 
@@ -87,16 +85,10 @@ More extensive information can be found on the [Rate Limit Guide](https://github
 ## Improvements and Tweaks
 
 - Fetch total count of all carts in session once when displaying the status under "WooCommerce -> Status".
-- Plugin Suggestions now returns results better the first time it's viewed.
-- Sub-menus in the WordPress dashboard now load faster. No redirects.
-- Error responses are now softer to prevent fatal networking when a request fails.
 - Monetary values improved and return all as a float value for better compatibility with JS frameworks. [See developers section for more](#developers).
 - Optimized products API response and updated schema.
 - All endpoints with schema now have proper schema title for proper identification.
-- The callback for cart update endpoint now passes the controller class so we don't have to call it a new.
 - Caching of same item added to cart no longer loses previous custom price set before and has not changed.
-- Store API only returns the version, routes and link to documentation if "WP_DEBUG" is true.
-- Deprecated action hooks and filters return messages if actually triggered.
 
 ## Security
 
@@ -211,10 +203,6 @@ There are many deprecations made with this release but nothing that should affec
 - Added new parameters to filter `cocart_cart` so you can access the cart controller and requested data.
 - Introduced new action hook `cocart_added_item_to_cart` that allows for additional requested data to be processed via a third party once item is added to the cart.
 - Introduced new action hook `cocart_added_items_to_cart` that allows for additional requested data to be processed via a third party once items are added to the cart.
-
-### Response Headers
-
-Two new headers return for cart responses only. `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration`. These two new headers can help developers use the timestamps of the cart in session for when it is going to expire and how long until it does expire completely.
 
 ### Monetary values
 
