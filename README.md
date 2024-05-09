@@ -20,9 +20,9 @@ If you are looking for documentation, head over here: [https://docs.cocart.xyz](
 
 [Click here to download](https://downloads.wordpress.org/plugin/cart-rest-api-for-woocommerce.zip) the latest release package of CoCart Core.
 
-### Supercharge your WooCommerce store by going headless
+### Speed up your WooCommerce store by going headless
 
-**Is your store slow? Looking to decouple away from WordPress?** With [CoCart](https://cocartapi.com/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)'s customizable REST API for WooCommerce, you can make your store headless in days, not months, **using the frameworks and tools you love**. Unlock your stores potential for an extraordinary online shopping experience.
+**Is your store slow? Looking to decouple away from WordPress?** [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) saves you countless hours of developing your own REST API to decouple WooCommerce. It provides a developer-friendly, out the box solution that is customizable to your requirements allowing you to build a headless store without limitations imposed by a WordPress theme—it's that simple.
 
 #### What is WooCommerce?
 
@@ -30,7 +30,7 @@ WooCommerce is a **flexible, open-source commerce solution** built on WordPress,
 
 #### Why CoCart?
 
-Are you **agonizing trying** to develop your own REST API for WooCommerce? With CoCart, it's ready to use, customizable to your needs and more importantly, it saves **you development time**. Once installed, your WooCommerce store is ready to decouple away from WordPress, allowing you to design without limitations imposed by a WordPress theme that is harder to modify and optimize. **Utilize faster, familiar frameworks you know and love**—it's that simple.
+With CoCart, we have already done the hard part for you. The API. Once installed, your WooCommerce store is ready to decouple away from WordPress, allowing you to design without limitations imposed by a WordPress theme that is harder to modify and optimize. **Utilize faster, familiar frameworks you know and love**—it's that simple.
 
 ## ✨ What do you get with the core of CoCart?
 
