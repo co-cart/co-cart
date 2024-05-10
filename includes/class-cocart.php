@@ -168,7 +168,7 @@ final class CoCart {
 		self::define( 'COCART_COMMUNITY_URL', 'https://cocartapi.com/community/' );
 		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz' );
 		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/' );
-		self::define( 'COCART_NEXT_VERSION', '4.0.0' );
+		self::define( 'COCART_NEXT_VERSION', '5.0.0' );
 	} // END setup_constants()
 
 	/**

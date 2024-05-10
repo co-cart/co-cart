@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			printf(
 				/* translators: %1$s: CoCart, %2$s: CoCart's Next Version */
-				esc_html__( 'Version %2$s of %1$s is in the works and is going to be better than ever with many improvements and options including improved security. A newly added settings page will allow you to quickly configure %1$s as you need and many more action hooks and filters for developers. It is currently in development.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Version %2$s of %1$s is in development with many improvements and options including improved security. A newly added settings page with multiple options to quickly configure %1$s as you need and many more action hooks and filters for developers.', 'cart-rest-api-for-woocommerce' ),
 				'CoCart',
 				esc_attr( COCART_NEXT_VERSION )
 			);
