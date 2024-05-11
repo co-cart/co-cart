@@ -21,6 +21,9 @@ In this release, you’ll find various improvements made through out the plugin.
 * Plugin: Fixed various text localization issues.
 * REST API: `Access-Control-Allow-Credentials` being outputted as 1 instead of true. [Solves issue 410](https://github.com/co-cart/co-cart/issues/410). Thanks to [@SebastianLamprecht](https://github.com/SebastianLamprecht) for reporting it.
 * REST API: Update cart requests no longer fails and continues to the next item if an item in cart no longer exists.
+* REST API: Products API schema has been completed for v1.
+* REST API: Products API schema has been corrected for v2.
+* WordPress Dashboard: Plugin suggestions now lists CoCart JWT Authentication add-on.
 
 ### Improvements
 
