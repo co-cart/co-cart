@@ -292,12 +292,12 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$variations = $product->get_children();
 
 			foreach ( $variations as $variation_product ) {
-				$data['variations'][ $variation_product ] = array( 'id' => $variation_product );
-
 				// If requested to return variations then fetch them.
 				if ( $request['return_variations'] ) {
 					$variation_object                         = new WC_Product_Variation( $variation_product );
 					$data['variations'][ $variation_product ] = $this->get_variation_product_data( $variation_object );
+				} else {
+					$data['variations'][ $variation_product ] = array( 'id' => $variation_product );
 				}
 			}
 		}
@@ -1408,11 +1408,13 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 							'description' => __( 'Product weight value.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
+							'readonly'    => true,
 						),
 						'unit'  => array(
 							'description' => __( 'Product weight unit.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
+							'readonly'    => true,
 						),
 					),
 					'readonly'    => true,
@@ -1430,6 +1432,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
+							'readonly'    => true,
 						),
 						'width'  => array(
 							'description' => sprintf(
@@ -1439,6 +1442,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
+							'readonly'    => true,
 						),
 						'height' => array(
 							'description' => sprintf(
@@ -1448,6 +1452,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 							),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
+							'readonly'    => true,
 						),
 					),
 					'readonly'    => true,
@@ -1538,6 +1543,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'description' => __( 'Category ID.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'name' => array(
 								'description' => __( 'Category name.', 'cart-rest-api-for-woocommerce' ),
@@ -1566,6 +1572,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'description' => __( 'Tag ID.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'name' => array(
 								'description' => __( 'Tag name.', 'cart-rest-api-for-woocommerce' ),
@@ -1594,6 +1601,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'description' => __( 'Image ID.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'date_created'      => array(
 								'description' => __( "The date the image was created, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
@@ -1631,16 +1639,19 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'description' => __( 'Image name.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'alt'               => array(
 								'description' => __( 'Image alternative text.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'position'          => array(
 								'description' => __( 'Image position. 0 means that the image is featured.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 						),
 					),
@@ -1657,28 +1668,33 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'description' => __( 'Attribute ID.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'name'                 => array(
 								'description' => __( 'Attribute name.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'position'             => array(
 								'description' => __( 'Attribute position.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'is_attribute_visible' => array(
 								'description' => __( "Is the attribute visible on the \"Additional information\" tab in the product's page.", 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'boolean',
 								'default'     => false,
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'used_for_variation'   => array(
 								'description' => __( 'Can the attribute be used as variation?', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'boolean',
 								'default'     => false,
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'options'              => array(
 								'description' => __( 'List of available term names of the attribute.', 'cart-rest-api-for-woocommerce' ),
@@ -1687,6 +1703,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'items'       => array(
 									'type' => 'string',
 								),
+								'readonly'    => true,
 							),
 						),
 					),
@@ -1703,27 +1720,351 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'description' => __( 'Attribute ID.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'name'   => array(
 								'description' => __( 'Attribute name.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'option' => array(
 								'description' => __( 'Selected attribute term name.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 						),
 					),
 					'readonly'    => true,
 				),
 				'variations'            => array(
-					'description' => __( 'List of all variations and data.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'List of all variation IDs and data if requested true with `return_variations` parameter.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'array',
 					'context'     => array( 'view' ),
 					'items'       => array(
-						'type' => 'object',
+						'type'       => 'object',
+						'properties' => array(
+							'id'                 => array(
+								'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'integer',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'name'               => array(
+								'description' => __( 'Product name.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'slug'               => array(
+								'description' => __( 'Product slug.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'permalink'          => array(
+								'description' => __( 'Product permalink.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'date_created'       => array(
+								'description' => __( "The date the product was created, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'date-time',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'date_created_gmt'   => array(
+								'description' => __( 'The date the product was created, as GMT.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'date-time',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'date_modified'      => array(
+								'description' => __( "The date the product was last modified, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'date-time',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'date_modified_gmt'  => array(
+								'description' => __( 'The date the product was last modified, as GMT.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'date-time',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'purchasable'        => array(
+								'description' => __( 'Shows if the product can be bought.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'total_sales'        => array(
+								'description' => __( 'Amount of sales.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'integer',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'virtual'            => array(
+								'description' => __( 'If the product is virtual.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'default'     => false,
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'downloadable'       => array(
+								'description' => __( 'If the product is downloadable.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'default'     => false,
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'manage_stock'       => array(
+								'description' => __( 'Stock management at product level.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'default'     => false,
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'stock_quantity'     => array(
+								'description' => __( 'Stock quantity.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'integer',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'in_stock'           => array(
+								'description' => __( 'Determines if product is listed as "in stock" or "out of stock".', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'default'     => true,
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'backorders'         => array(
+								'description' => __( 'If managing stock, this controls if backorders are allowed.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'string',
+								'default'     => 'no',
+								'enum'        => array( 'no', 'notify', 'yes' ),
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'backorders_allowed' => array(
+								'description' => __( 'Are backorders allowed?', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'backordered'        => array(
+								'description' => __( 'Shows if the product is on backordered.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'low_stock_amount'   => array(
+								'description' => __( 'Low stock amount.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'int',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'weight'             => array(
+								'description' => sprintf(
+									/* translators: %s: weight unit */
+									__( 'Product weight (%s).', 'cart-rest-api-for-woocommerce' ),
+									$weight_unit
+								),
+								'type'        => 'object',
+								'context'     => array( 'view' ),
+								'properties'  => array(
+									'value' => array(
+										'description' => __( 'Product weight value.', 'cart-rest-api-for-woocommerce' ),
+										'type'        => 'string',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+									'unit'  => array(
+										'description' => __( 'Product weight unit.', 'cart-rest-api-for-woocommerce' ),
+										'type'        => 'string',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+								),
+								'readonly'    => true,
+							),
+							'dimensions'         => array(
+								'description' => __( 'Product dimensions.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'object',
+								'context'     => array( 'view' ),
+								'properties'  => array(
+									'length' => array(
+										'description' => sprintf(
+											/* translators: %s: dimension unit */
+											__( 'Product length (%s).', 'cart-rest-api-for-woocommerce' ),
+											$dimension_unit
+										),
+										'type'        => 'string',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+									'width'  => array(
+										'description' => sprintf(
+											/* translators: %s: dimension unit */
+											__( 'Product width (%s).', 'cart-rest-api-for-woocommerce' ),
+											$dimension_unit
+										),
+										'type'        => 'string',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+									'height' => array(
+										'description' => sprintf(
+											/* translators: %s: dimension unit */
+											__( 'Product height (%s).', 'cart-rest-api-for-woocommerce' ),
+											$dimension_unit
+										),
+										'type'        => 'string',
+										'context'     => array( 'view' ),
+										'readonly'    => true,
+									),
+								),
+								'readonly'    => true,
+							),
+							'shipping_required'  => array(
+								'description' => __( 'Shows if the product need to be shipped.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'boolean',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'images'             => array(
+								'description' => __( 'List of product images.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'id'               => array(
+											'description' => __( 'Image ID.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'date_created'     => array(
+											'description' => __( "The date the image was created, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'date-time',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'date_created_gmt' => array(
+											'description' => __( 'The date the image was created, as GMT.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'date-time',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'date_modified'    => array(
+											'description' => __( "The date the image was last modified, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'date-time',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'date_modified_gmt' => array(
+											'description' => __( 'The date the image was last modified, as GMT.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'date-time',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'src'              => array(
+											'description' => __( 'Image URL.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'array',
+											'format'      => 'uri',
+											'context'     => array( 'view' ),
+											'properties'  => array(),
+											'readonly'    => true,
+										),
+										'name'             => array(
+											'description' => __( 'Image name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'alt'              => array(
+											'description' => __( 'Image alternative text.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'position'         => array(
+											'description' => __( 'Image position. 0 means that the image is featured.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+									),
+								),
+								'readonly'    => true,
+							),
+							'attributes'         => array(
+								'description' => __( 'List of attributes.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'id'     => array(
+											'description' => __( 'Attribute ID.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'name'   => array(
+											'description' => __( 'Attribute name.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'option' => array(
+											'description' => __( 'Option value of attribute.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+									),
+								),
+								'readonly'    => true,
+							),
+							'menu_order'         => array(
+								'description' => __( 'Menu order, used to custom sort products.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'integer',
+								'context'     => array( 'view' ),
+								'readonly'    => true,
+							),
+							'meta_data'          => array(
+								'description' => __( 'Meta data.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'array',
+								'context'     => array( 'view' ),
+								'items'       => array(
+									'type'       => 'object',
+									'properties' => array(
+										'id'    => array(
+											'description' => __( 'Meta ID.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'integer',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'key'   => array(
+											'description' => __( 'Meta key.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'string',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+										'value' => array(
+											'description' => __( 'Meta value.', 'cart-rest-api-for-woocommerce' ),
+											'type'        => 'mixed',
+											'context'     => array( 'view' ),
+											'readonly'    => true,
+										),
+									),
+								),
+								'readonly'    => true,
+							),
+						),
 					),
 					'readonly'    => true,
 				),
@@ -1759,11 +2100,13 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 								'description' => __( 'Meta key.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'string',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 							'value' => array(
 								'description' => __( 'Meta value.', 'cart-rest-api-for-woocommerce' ),
 								'type'        => 'mixed',
 								'context'     => array( 'view' ),
+								'readonly'    => true,
 							),
 						),
 					),
@@ -1779,11 +2122,13 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 							'type'        => 'string',
 							'default'     => __( 'Add to Cart', 'cart-rest-api-for-woocommerce' ),
 							'context'     => array( 'view' ),
+							'readonly'    => true,
 						),
 						'description' => array(
 							'description' => __( 'Description', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
+							'readonly'    => true,
 						),
 					),
 					'readonly'    => true,
@@ -1795,11 +2140,11 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
 
 		foreach ( $attachment_sizes as $size ) {
-			// Generate the product featured image URL properties for each attachment size.
+			// Generate the product image URL properties for each attachment size.
 			$schema['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
 				'description' => sprintf(
 					/* translators: %s: Product image URL */
-					__( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
+					__( 'Product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
 					$size
 				),
 				'type'        => 'string',
@@ -1808,20 +2153,20 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				'readonly'    => true,
 			);
 
-			// Generate the variation product featured image URL properties for each attachment size.
-			// if ( isset( $schema['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
-			// $schema['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
-			// 'description' => sprintf(
-			// * translators: %s: Product image URL */
-			// __( 'The product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
-			// $size
-			// ),
-			// 'type'        => 'string',
-			// 'context'     => array( 'view' ),
-			// 'format'      => 'uri',
-			// 'readonly'    => true,
-			// );
-			// }
+			// Generate the variation product image URL properties for each attachment size.
+			if ( isset( $schema['properties']['variations']['items']['properties']['images']['items']['properties']['src']['properties'] ) ) {
+				$schema['properties']['variations']['items']['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
+					'description' => sprintf(
+						/* translators: %s: Product image URL */
+						__( 'Product image URL for "%s".', 'cart-rest-api-for-woocommerce' ),
+						$size
+					),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'format'      => 'uri',
+					'readonly'    => true,
+				);
+			}
 		}
 
 		return $this->add_additional_fields_schema( $schema );
