@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.5
-Stable tag: 3.12.0
+Stable tag: 4.0.0
 WC requires at least: 4.3
 WC tested up to: 8.8
 License: GPLv3
@@ -342,13 +342,13 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
-= v4.0.0 - 10th May, 2024 =
+= v4.0.0 - 13th May, 2024 =
 
 ### What's New?
 
-In this release, you’ll find various improvements made through out the plugin. [Find out more about what’s new in CoCart 4.0 in our release post!](#)
+In this release, you’ll find various improvements made through out the plugin. [Find out more about what’s new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
 
->> With this release we are happy to provide some of the improvements with the v4 development. These improvements are backwards compatible. We hope you enjoy them.
+>> With this release we are happy to provide some of the improvements from the originally planned v4 release. These improvements are backwards compatible. Hope you enjoy them.
 
 * REST API: Added batch support for cart endpoints listed below. (API v2 supported ONLY) [See article for batch usage](https://make.wordpress.org/core/2020/11/20/rest-api-batch-framework-in-wordpress-5-6/).
  * * Add item/s to cart.
@@ -358,11 +358,14 @@ In this release, you’ll find various improvements made through out the plugin.
  * * Update item.
  * * Update cart.
 
-### Bug Fix
+### Bug Fixes
 
 * Plugin: Fixed various text localization issues.
 * REST API: `Access-Control-Allow-Credentials` being outputted as 1 instead of true. [Solves issue 410](https://github.com/co-cart/co-cart/issues/410). Thanks to [@SebastianLamprecht](https://github.com/SebastianLamprecht) for reporting it.
 * REST API: Update cart requests no longer fails and continues to the next item if an item in cart no longer exists.
+* REST API: Products API schema has been completed for v1.
+* REST API: Products API schema has been corrected for v2.
+* WordPress Dashboard: Plugin suggestions now lists CoCart JWT Authentication add-on.
 
 ### Improvements
 

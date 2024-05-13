@@ -1,12 +1,12 @@
 # Changelog for CoCart
 
-## v4.0.0 - 10th May, 2024
+## v4.0.0 - 13th May, 2024
 
 ### What's New?
 
-In this release, you’ll find various improvements made through out the plugin. [Find out more about what’s new in CoCart 4.0 in our release post!](#)
+In this release, you’ll find various improvements made through out the plugin. [Find out more about what’s new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
 
->> With this release we are happy to provide some of the improvements with the v4 development. These improvements are backwards compatible. We hope you enjoy them.
+>> With this release we are happy to provide some of the improvements from the originally planned v4 release. These improvements are backwards compatible. Hope you enjoy them.
 
 * REST API: Added batch support for cart endpoints listed below. (API v2 supported ONLY) [See article for batch usage](https://make.wordpress.org/core/2020/11/20/rest-api-batch-framework-in-wordpress-5-6/).
  * * Add item/s to cart.
@@ -16,7 +16,7 @@ In this release, you’ll find various improvements made through out the plugin.
  * * Update item.
  * * Update cart.
 
-### Bug Fix
+### Bug Fixes
 
 * Plugin: Fixed various text localization issues.
 * REST API: `Access-Control-Allow-Credentials` being outputted as 1 instead of true. [Solves issue 410](https://github.com/co-cart/co-cart/issues/410). Thanks to [@SebastianLamprecht](https://github.com/SebastianLamprecht) for reporting it.
@@ -30,8 +30,8 @@ In this release, you’ll find various improvements made through out the plugin.
 * REST API: Now checks if the request is a preflight request.
 * REST API: Error responses are now softer to prevent fatal networking when a request fails.
 * REST API: Callback for cart update now passes the cart controller class so we don't have to call it a new.
-* REST API: Cart schema tweaks.
-* REST API: Cart and Product schema are now cached for performance.
+* REST API: Cart schema tweaks for API v2.
+* REST API: Cart and Product schema are now cached for performance for API v2.
 * Plugin: Added more inline documentation for action hooks and filters.
 * Plugin: Improved database queries.
 * Plugin: Updated to latest WordPress Code Standards.

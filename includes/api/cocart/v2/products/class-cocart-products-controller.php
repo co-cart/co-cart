@@ -1830,8 +1830,11 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				),
 			),
 			'weight'             => array(
-				/* translators: %s: weight unit */
-				'description' => sprintf( __( 'Product weight (%s).', 'cart-rest-api-for-woocommerce' ), $weight_unit ),
+				'description' => sprintf(
+					/* translators: %s: weight unit */
+					__( 'Product weight (%s).', 'cart-rest-api-for-woocommerce' ),
+					$weight_unit
+				),
 				'type'        => 'object',
 				'context'     => array( 'view' ),
 				'properties'  => array(
@@ -1857,28 +1860,36 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'context'     => array( 'view' ),
 				'properties'  => array(
 					'length' => array(
-						/* translators: %s: dimension unit */
-						'description' => sprintf( __( 'Product length (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+						'description' => sprintf(
+							/* translators: %s: dimension unit */
+							__( 'Product length (%s).', 'cart-rest-api-for-woocommerce' ),
+							$dimension_unit
+						),
 						'type'        => 'string',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
 					),
 					'width'  => array(
-						/* translators: %s: dimension unit */
-						'description' => sprintf( __( 'Product width (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+						'description' => sprintf(
+							/* translators: %s: dimension unit */
+							__( 'Product width (%s).', 'cart-rest-api-for-woocommerce' ),
+							$dimension_unit
+						),
 						'type'        => 'string',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
 					),
 					'height' => array(
-						/* translators: %s: dimension unit */
-						'description' => sprintf( __( 'Product height (%s).', 'cart-rest-api-for-woocommerce' ), $dimension_unit ),
+						'description' => sprintf(
+							/* translators: %s: dimension unit */
+							__( 'Product height (%s).', 'cart-rest-api-for-woocommerce' ),
+							$dimension_unit
+						),
 						'type'        => 'string',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
 					),
 					'unit'   => array(
-						/* translators: %s: dimension unit */
 						'description' => __( 'Product dimension unit.', 'cart-rest-api-for-woocommerce' ),
 						'type'        => 'string',
 						'context'     => array( 'view' ),

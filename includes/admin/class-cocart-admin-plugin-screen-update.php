@@ -192,12 +192,12 @@ if ( ! class_exists( 'CoCart_Plugins_Screen_Updates' ) ) {
 				echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				printf(
-					/* translators: 1: plugin name, 2: version mentioned, 3: details URL */
-					__( 'Reminding you that %1$s v%2$s will be coming soon and is ready to beta test. %3$sWhat\'s Coming Next?%4$s', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing , %3$s: plugin name, %4$s: version mentioned, */
+					__( '%1$sSee what\'s coming next%2$s in %3$s v%4$s.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ) . '" target="_blank">',
+					'</a>',
 					'CoCart',
-					esc_attr( COCART_NEXT_VERSION ),
-					'<a href="' . esc_url( 'https://cocart.dev/whats-coming-to-cocart-v4/' ) . '" target="_blank">',
-					'</a>'
+					esc_attr( COCART_NEXT_VERSION )
 				);
 
 				echo '</p></div></td></tr>';
