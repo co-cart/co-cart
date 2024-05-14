@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v1
  * @since   2.0.0 Introduced.
- * @version 3.13.0
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -1195,7 +1195,7 @@ class CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0  Introduced.
-	 * @since 3.13.0 Moved to this controller to share the validation.
+	 * @since 4.0.0 Moved to this controller to share the validation.
 	 *
 	 * @param int|float       $value   Number of quantity to validate.
 	 * @param WP_REST_Request $request The request object.
