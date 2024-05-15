@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.5
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 WC requires at least: 4.3
 WC tested up to: 8.8
 License: GPLv3
@@ -342,6 +342,14 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.0.1 - 15th May, 2024 =
+
+### Bug Fix
+
+* REST API: Class `ReserveStock` not found when adding products to cart.
+
+> Developer note: A line was unintentionally removed that calls the class for use.
+
 = v4.0.0 - 13th May, 2024 =
 
 In this release, we are happy to provide some of the various improvements made through out the plugin that were from the originally planned v4 release. These improvements are backwards compatible but one change is not. See the developer note for details.
@@ -608,6 +616,6 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 == Upgrade Notice ==
 
-= 4.0.0 =
+= 4.0.1 =
 
 Added batch support for cart endpoints. See changelog for more before upgrading.

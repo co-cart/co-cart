@@ -1,5 +1,13 @@
 # Changelog for CoCart
 
+## v4.0.1 - 15th May, 2024
+
+### Bug Fix
+
+* REST API: Class `ReserveStock` not found when adding products to cart.
+
+> Developer note: A line was unintentionally removed that calls the class for use.
+
 ## v4.0.0 - 13th May, 2024
 
 In this release, we are happy to provide some of the various improvements made through out the plugin that were from the originally planned v4 release. These improvements are backwards compatible but one change is not. See the developer note for details.
