@@ -344,8 +344,6 @@ If you like CoCart and it has helped with your development, please take a moment
 
 = v4.0.0 - 13th May, 2024 =
 
-### What's New?
-
 In this release, we are happy to provide some of the various improvements made through out the plugin that were from the originally planned v4 release. These improvements are backwards compatible but one change is not. See the developer note for details.
 
 > Developer note: This release requires the quantity parameter to pass the value as a string for both adding items or updating items. If you are not new to CoCart then please update your code to account for this change.
@@ -353,6 +351,8 @@ In this release, we are happy to provide some of the various improvements made t
 [Find out more about what’s new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
 
 Hope you enjoy this release.
+
+### What's New?
 
 * REST API: Added batch support for cart endpoints listed below. (API v2 supported ONLY) [See article for batch usage](https://make.wordpress.org/core/2020/11/20/rest-api-batch-framework-in-wordpress-5-6/).
  * * Add item/s to cart.
