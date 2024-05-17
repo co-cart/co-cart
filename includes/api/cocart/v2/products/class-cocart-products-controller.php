@@ -1899,12 +1899,59 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				),
 				'readonly'    => true,
 			),
-			'reviews'            => array(
-				'description' => __( 'Returns a list of product review IDs', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'array',
+			'reviews'               => array(
+				'description' => __( 'Lists product reviews, when requested.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'object',
 				'context'     => array( 'view' ),
-				'items'       => array(
-					'type' => 'integer',
+				'properties'  => array(
+					'review_id'       => array(
+						'description' => __( 'Review ID.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'integer',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'author_name'     => array(
+						'description' => __( 'Author name.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'string',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'author_url'      => array(
+						'description' => __( 'Author URL.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'string',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'review_comment'  => array(
+						'description' => __( 'Review comment.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'string',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'review_date'     => array(
+						'description' => __( "Review date, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'date-time',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'review_date_gmt' => array(
+						'description' => __( 'Review date, as GMT.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'date-time',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'rating'          => array(
+						'description' => __( 'Rating number.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'integer',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
+					'verified'        => array(
+						'description' => __( 'Shows if the product review is verified.', 'cart-rest-api-for-woocommerce' ),
+						'type'        => 'integer',
+						'context'     => array( 'view' ),
+						'readonly'    => true,
+					),
 				),
 				'readonly'    => true,
 			),

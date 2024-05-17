@@ -1519,7 +1519,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 						),
 						'verified'        => array(
 							'description' => __( 'Shows if the product review is verified.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'boolean',
+							'type'        => 'integer',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
