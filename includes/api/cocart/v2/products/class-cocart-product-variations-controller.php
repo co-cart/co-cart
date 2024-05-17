@@ -141,7 +141,7 @@ class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_
 	 *
 	 * @access public
 	 * @param  WP_REST_Request $request The request object.
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_item( $request ) {
 		$product = wc_get_product( (int) $request['id'] );

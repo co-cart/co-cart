@@ -159,7 +159,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 * @access public
 	 * @since  3.10.7 Checks if query results return as an error.
 	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_items( $request ) {
 		$query_args    = $this->prepare_objects_query( $request );
@@ -327,7 +327,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 *
 	 * @access public
 	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_item( $request ) {
 		$object = $this->get_object( (int) $request['id'] );

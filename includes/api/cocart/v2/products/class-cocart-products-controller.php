@@ -98,7 +98,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_items( $request ) {
 		$query_args    = $this->prepare_objects_query( $request );
