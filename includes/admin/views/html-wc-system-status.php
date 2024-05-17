@@ -21,7 +21,7 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 	<tr>
 		<th colspan="3" data-export-label="<?php echo esc_attr( $section_title ); ?>">
 			<h2><?php echo esc_html( $section_title ); ?>
-				<?php echo esc_html( wc_help_tip( $section_tooltip ) ); ?>
+				<?php echo wc_help_tip( $section_tooltip ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</h2></th>
 	</tr>
 	</thead>
@@ -58,7 +58,7 @@ if ( ! isset( $debug_data ) || ! is_array( $debug_data ) ) {
 				<td class="help">
 					<?php
 					if ( isset( $data['tip'] ) ) {
-						echo esc_html( wc_help_tip( $data['tip'] ) ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+						echo wc_help_tip( $data['tip'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 					}
 					?>
 				</td>
