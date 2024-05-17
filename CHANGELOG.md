@@ -1,5 +1,16 @@
 # Changelog for CoCart
 
+## v4.0.2 - 17th May, 2024
+
+### Bug Fixes
+
+* REST API: Reverted a change that broke the ability to clear the cart. Was falsely notify it cleared when it did not.
+* WordPress Dashboard: WooCommerce System Status was not echoing CoCart tips correctly.
+
+### Improvements
+
+* REST API: Products API, Schema, added properties for reviews section in both API v1 and API v2.
+
 ## v4.0.1 - 15th May, 2024
 
 ### Bug Fix

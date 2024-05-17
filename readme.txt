@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.5
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 WC requires at least: 4.3
 WC tested up to: 8.8
 License: GPLv3
@@ -342,6 +342,17 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.0.2 - 17th May, 2024 =
+
+### Bug Fixes
+
+* REST API: Reverted a change that broke the ability to clear the cart. Was falsely notify it cleared when it did not.
+* WordPress Dashboard: WooCommerce System Status was not echoing CoCart tips correctly.
+
+### Improvements
+
+* REST API: Products API, Schema, added properties for reviews section in both API v1 and API v2.
+
 = v4.0.1 - 15th May, 2024 =
 
 ### Bug Fix
@@ -616,6 +627,6 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 == Upgrade Notice ==
 
-= 4.0.1 =
+= 4.0.2 =
 
 Added batch support for cart endpoints. See changelog for more before upgrading.
