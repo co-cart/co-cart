@@ -96,7 +96,8 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			WC()->session->set( 'cart_fees', array() );
 
 			// Clear cart.
-			$this->get_cart_instance()->set_cart_contents( array() );
+			$this->get_cart_instance()->cart_contents = array();
+			WC()->session->cart                       = array();
 
 			// Clear removed items if not kept.
 			if ( ! $request['keep_removed_items'] ) {
@@ -104,11 +105,27 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			}
 
 			// Reset everything.
-			$this->get_cart_instance()->shipping_methods = array();
-			$this->get_cart_instance()->set_coupon_discount_totals( array() );
-			$this->get_cart_instance()->set_coupon_discount_tax_totals( array() );
-			$this->get_cart_instance()->set_applied_coupons( array() );
-			$this->get_cart_instance()->set_totals( array() );
+			$this->get_cart_instance()->shipping_methods           = array();
+			$this->get_cart_instance()->coupon_discount_totals     = array();
+			$this->get_cart_instance()->coupon_discount_tax_totals = array();
+			$this->get_cart_instance()->applied_coupons            = array();
+			$this->get_cart_instance()->totals                     = array(
+				'subtotal'            => 0,
+				'subtotal_tax'        => 0,
+				'shipping_total'      => 0,
+				'shipping_tax'        => 0,
+				'shipping_taxes'      => array(),
+				'discount_total'      => 0,
+				'discount_tax'        => 0,
+				'cart_contents_total' => 0,
+				'cart_contents_tax'   => 0,
+				'cart_contents_taxes' => array(),
+				'fee_total'           => 0,
+				'fee_tax'             => 0,
+				'fee_taxes'           => array(),
+				'total'               => 0,
+				'total_tax'           => 0,
+			);
 
 			/**
 			 * If the user is authorized and `woocommerce_persistent_cart_enabled` filter is left enabled
