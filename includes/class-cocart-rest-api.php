@@ -181,24 +181,15 @@ class CoCart_REST_API {
 				return;
 			}
 
-			// WooCommerce is greater than v3.6 or less than v4.5.
-			if ( CoCart_Helpers::is_wc_version_gte_3_6() && CoCart_Helpers::is_wc_version_lt_4_5() ) {
-				require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
-				require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
+			// Require WooCommerce functions.
+			require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+			require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
 
-				// Initialize session.
-				$this->initialize_session();
+			// Initialize session.
+			$this->initialize_session();
 
-				// Initialize cart.
-				$this->initialize_cart();
-			}
-
-			// WooCommerce is greater than v4.5 or equal.
-			if ( CoCart_Helpers::is_wc_version_gte_4_5() ) {
-				if ( is_null( WC()->cart ) && function_exists( 'wc_load_cart' ) ) {
-					wc_load_cart();
-				}
-			}
+			// Initialize cart.
+			$this->initialize_cart();
 
 			// Identify if user has switched.
 			if ( $this->has_user_switched() ) {

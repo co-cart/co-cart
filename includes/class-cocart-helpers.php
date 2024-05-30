@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   2.3.0
+ * @since   2.3.0 Introduced.
  * @version 3.10.0
  * @license GPL-2.0+
  */
@@ -91,59 +91,6 @@ class CoCart_Helpers {
 	private static function get_wc_version() {
 		return defined( 'WC_VERSION' ) && WC_VERSION ? WC_VERSION : null;
 	} // END get_wc_version()
-
-	/**
-	 * Returns true if the installed version of WooCommerce is 3.6 or greater.
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	public static function is_wc_version_gte_3_6() {
-		return self::is_wc_version_gte( '3.6' );
-	} // END is_wc_version_gte_3_6()
-
-	/**
-	 * Returns true if the installed version of WooCommerce is 4.0 or greater.
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	public static function is_wc_version_gte_4_0() {
-		return self::is_wc_version_gte( '4.0' );
-	} // END is_wc_version_gte_4_0()
-
-	/**
-	 * Returns true if the installed version of WooCommerce is 4.5 or greater.
-	 *
-	 * @access public
-	 * @since  2.6.0
-	 * @return boolean
-	 */
-	public static function is_wc_version_gte_4_5() {
-		return self::is_wc_version_gte( '4.5' );
-	} // END is_wc_version_gte_4_5()
-
-	/**
-	 * Returns true if the installed version of WooCommerce is lower than 4.5.
-	 *
-	 * @access public
-	 * @since  2.6.0
-	 * @return boolean
-	 */
-	public static function is_wc_version_lt_4_5() {
-		return self::is_wc_version_lt( '4.5' );
-	} // END is_wc_version_lt_4_5()
-
-	/**
-	 * Returns true if the installed version of WooCommerce is 4.8 or greater.
-	 *
-	 * @access public
-	 * @since  2.8.0
-	 * @return boolean
-	 */
-	public static function is_wc_version_gte_4_8() {
-		return self::is_wc_version_gte( '4.8' );
-	} // END is_wc_version_gte_4_5()
 
 	/**
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
