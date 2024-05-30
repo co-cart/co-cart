@@ -151,6 +151,35 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		} // END is_rest_api_request()
 
 		/**
+		 * Get the authorization header.
+		 *
+		 * Returns the value from the authorization header.
+		 *
+		 * @access protected
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @return string $auth_header
+		 */
+		protected function get_auth_header() {
+			$auth_header = isset( $_SERVER['HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) : false;
+
+			// Double check for different auth header string (server dependent).
+			if ( ! $auth_header ) {
+				$auth_header = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) : false;
+			}
+
+			/**
+			 * Filter allows you to change the authorization header.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @param string Authorization header.
+			 */
+			return apply_filters( 'cocart_auth_header', $auth_header );
+		} // END get_auth_header()
+
+		/**
 		 * Authenticate user.
 		 *
 		 * @access public
@@ -300,6 +329,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
+		 * @uses CoCart_Authentication()->get_auth_header()
+		 * @uses CoCart_Authentication()->get_username()
 		 * @uses get_user_by()
 		 * @uses wp_authenticate()
 		 *
@@ -308,26 +339,26 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		private function perform_basic_authentication() {
 			$this->auth_method = 'basic_auth';
 
-			// Check that we're trying to authenticate via headers.
-			if ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
-				$username = trim( sanitize_user( $_SERVER['PHP_AUTH_USER'] ) );
-				$password = trim( sanitize_text_field( $_SERVER['PHP_AUTH_PW'] ) );
+			// Look up authorization header and check it's a valid.
+			if ( ! empty( $this->get_auth_header() ) && 0 === stripos( $this->get_auth_header(), 'basic ' ) ) {
+				$exploded = explode( ':', base64_decode( substr( $this->get_auth_header(), 6 ) ), 2 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 
-				// Check if the username provided was an email address and get the username if true.
-				if ( is_email( $_SERVER['PHP_AUTH_USER'] ) ) {
-					$user     = get_user_by( 'email', $_SERVER['PHP_AUTH_USER'] );
-					$username = $user->user_login;
+				// If valid return username and password.
+				if ( 2 === \count( $exploded ) ) {
+					list( $username, $password ) = $exploded;
+
+					$username = $this->get_username( $username );
 				}
+			} elseif ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
+				// Check that we're trying to authenticate via simple headers.
+				$username = trim( sanitize_user( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$username = $this->get_username( $username );
+				$password = trim( sanitize_text_field( wp_unslash( $_SERVER['PHP_AUTH_PW'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			} elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				// Fallback to check if the username and password was passed via URL.
-				$username = trim( sanitize_user( $_REQUEST['username'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$password = trim( sanitize_text_field( $_REQUEST['password'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-				// Check if the username provided was an email address and get the username if true.
-				if ( is_email( $_REQUEST['username'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					$user     = get_user_by( 'email', $_REQUEST['username'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					$username = $user->user_login; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				}
+				$username = trim( sanitize_user( wp_unslash( $_REQUEST['username'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$username = $this->get_username( $username );
+				$password = trim( sanitize_text_field( wp_unslash( $_REQUEST['password'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
 			// Only authenticate if a username and password is available to check.
@@ -625,6 +656,60 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
 		} // END check_api_permissions()
+
+		/**
+		 * Finds a user based on a matching billing phone number.
+		 *
+		 * @access protected
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param numeric $phone The billing phone number to check.
+		 *
+		 * @return string The username returned if found.
+		 */
+		protected function get_user_by_phone( $phone ) {
+			$matching_users = get_users(
+				array(
+					'meta_key'     => 'billing_phone', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_value'   => $phone, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+					'meta_compare' => '=',
+				)
+			);
+
+			$username = ! empty( $matching_users ) && is_array( $matching_users ) ? $matching_users[0]->user_login : $phone;
+
+			return $username;
+		} // END get_user_by_phone()
+
+		/**
+		 * Checks if the login provided is valid as a phone number or email address and returns the username.
+		 *
+		 * @access protected
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param string $username Either a phone number, email address or username.
+		 *
+		 * @return string $username Username returned if valid.
+		 */
+		protected function get_username( $username ) {
+			// Check if the username provided is a billing phone number and return the username if true.
+			if ( WC_Validation::is_phone( $username ) ) {
+				$username = $this->get_user_by_phone( $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			}
+
+			// Check if the username provided was an email address and return the username if true.
+			if ( is_email( $username ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$user = get_user_by( 'email', $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+				if ( $user ) {
+					$username = $user->user_login; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				}
+			}
+
+			return $username;
+		} // END get_username()
 	} // END class.
 } // END if class exists.
 
