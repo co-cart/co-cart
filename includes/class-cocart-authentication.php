@@ -513,6 +513,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					'Link',
 					'X-CoCart-API', // @todo Deprecate in v5.0
 					'CoCart-API-Cart-Key',
+					'CoCart-API-Cart-Expiring',
+					'CoCart-API-Cart-Expiration',
 				);
 
 				$server = rest_get_server();
