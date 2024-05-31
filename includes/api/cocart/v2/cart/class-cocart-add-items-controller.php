@@ -156,6 +156,24 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 					}
 				}
 
+				/**
+				 * Set customers billing phone number.
+				 *
+				 * @since 4.1.0 Introduced.
+				 */
+				if ( isset( $request['phone'] ) ) {
+					$is_phone = \WC_Validation::is_phone( $request['phone'] );
+
+					if ( $is_phone ) {
+						WC()->customer->set_props(
+							array(
+								'billing_phone' => trim( esc_html( $request['phone'] ) ),
+							)
+						);
+					}
+				}
+
+
 				// Was it requested to return the items details after being added?
 				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
 					$response = array();
@@ -321,6 +339,8 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 3.1.0 Added email parameter.
+	 * @since 4.1.0 Added phone number parameter.
 	 *
 	 * @return array $params Query parameters for the endpoint.
 	 */
@@ -349,6 +369,13 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 				'description'       => __( 'Set the customers billing email address.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_email',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'phone'       => array(
+				'description'       => __( 'Set the customers billing phone number.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_items' => array(
