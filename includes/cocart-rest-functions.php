@@ -665,3 +665,23 @@ function cocart_get_min_max_price_meta_query( $args ) {
 		$args
 	);
 } // END cocart_get_min_max_price_meta_query()
+
+/**
+ * Get notice types for the cart to return.
+ *
+ * @since 4.1.0 Introduced.
+ *
+ * @return array
+ */
+function cocart_get_notice_types() {
+	/**
+	 * Filters the notice types allowed to return.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param array Notice types.
+	 */
+	$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
+
+	return $notice_types;
+} // END cocart_get_notice_types()
