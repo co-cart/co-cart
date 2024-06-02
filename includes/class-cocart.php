@@ -283,18 +283,11 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
 		// Core classes.
-		require_once __DIR__ . '/class-cocart-api.php';
 		require_once __DIR__ . '/class-cocart-authentication.php';
-		require_once __DIR__ . '/class-cocart-cart-cache.php';
-		require_once __DIR__ . '/class-cocart-cart-callbacks.php';
-		require_once __DIR__ . '/class-cocart-cart-extension.php';
+		require_once __DIR__ . '/class-cocart-api.php';
 		require_once __DIR__ . '/class-cocart-helpers.php';
 		require_once __DIR__ . '/class-cocart-install.php';
 		require_once __DIR__ . '/class-cocart-logger.php';
-		require_once __DIR__ . '/class-cocart-response.php';
-		require_once __DIR__ . '/class-cocart-cart-formatting.php';
-		require_once __DIR__ . '/class-cocart-cart-validation.php';
-		require_once __DIR__ . '/class-cocart-product-validation.php';
 		require_once __DIR__ . '/class-cocart-session.php';
 
 		// REST API functions.
@@ -458,8 +451,16 @@ final class CoCart {
 	 *
 	 * @since 2.6.0  Introduced.
 	 * @since 3.10.0 Added security for added protection.
+	 * @since 4.1.0  Moved REST API classes to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
+		require_once __DIR__ . '/class-cocart-cart-cache.php';
+		require_once __DIR__ . '/class-cocart-cart-callbacks.php';
+		require_once __DIR__ . '/class-cocart-cart-extension.php';
+		require_once __DIR__ . '/class-cocart-response.php';
+		require_once __DIR__ . '/class-cocart-cart-formatting.php';
+		require_once __DIR__ . '/class-cocart-cart-validation.php';
+		require_once __DIR__ . '/class-cocart-product-validation.php';
 		require_once __DIR__ . '/class-cocart-rest-api.php';
 		require_once __DIR__ . '/class-cocart-security.php';
 	} // END load_rest_api()
