@@ -165,11 +165,21 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return string $auth_header
 		 */
 		protected function get_auth_header() {
-			$auth_header = isset( $_SERVER['HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) : false;
+			$auth_header = ! empty( $_SERVER['HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) : '';
 
-			// Double check for different auth header string (server dependent).
-			if ( ! $auth_header ) {
-				$auth_header = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) : false;
+			if ( function_exists( 'getallheaders' ) ) {
+				$headers = getallheaders();
+				// Check for the authorization header case-insensitively.
+				foreach ( $headers as $key => $value ) {
+					if ( 'authorization' === strtolower( $key ) ) {
+						$auth_header = $value;
+					}
+				}
+			}
+
+			// Double check for different auth header string if empty (server dependent).
+			if ( empty( $auth_header ) ) {
+				$auth_header = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) : '';
 			}
 
 			/**
