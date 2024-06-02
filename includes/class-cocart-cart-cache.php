@@ -51,6 +51,9 @@ class CoCart_Cart_Cache {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 4.1.0 Check if the requested product allows the price to be changed.
+	 *
+	 * @hook: cocart_after_item_added_to_cart
 	 *
 	 * @param array           $cart_item Before cart item modified.
 	 * @param WP_REST_Request $request   The request object.
@@ -58,6 +61,18 @@ class CoCart_Cart_Cache {
 	 * @return array $cart_item After cart item modified.
 	 */
 	public function set_new_price( $cart_item, $request ) {
+		/**
+		 * Check if the requested product allows the price to be changed.
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param array           $cart_item Cart item.
+		 * @param WP_REST_Request $request   The request object.
+		 */
+		if ( ! $this->does_product_allow_price_change( $cart_item, $request ) ) {
+			return $cart_item;
+		}
+
 		$price = isset( $request['price'] ) ? wc_clean( wp_unslash( $request['price'] ) ) : '';
 
 		if ( ! empty( $price ) ) {
@@ -206,6 +221,33 @@ class CoCart_Cart_Cache {
 
 		WC()->session->__unset( 'cart_cached' );
 	} // END clear_cart_cached()
+
+	/**
+	 * Returns true if the cart item can be allowed to override the price.
+	 *
+	 * By default it will always allow overriding the price unless stated otherwise.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.1.0 Introduced.
+	 *
+	 * @param array           $cart_item Cart item.
+	 * @param WP_REST_Request $request   The request object.
+	 *
+	 * @return bool True if the cart item can be allowed to override the price.
+	 */
+	protected function does_product_allow_price_change( $cart_item, $request ) {
+		/**
+		 * Filter which products that can be allowed to override the price if not all.
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param bool
+		 * @param array           $cart_item Cart item.
+		 * @param WP_REST_Request $request   The request object.
+		 */
+		return apply_filters( 'cocart_does_product_allow_price_change', true, $cart_item, $request );
+	} // END does_product_allow_price_change()
 } // END class
 
 return new CoCart_Cart_Cache();
