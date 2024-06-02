@@ -10,7 +10,11 @@
  * @license GPL-2.0+
  */
 
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class_alias( 'CoCart_REST_Product_Variations_V2_Controller', 'CoCart_Product_Variations_V2_Controller' );
 
 /**
  * CoCart REST API v2 - Product Variations controller class.
@@ -18,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @package CoCart Products/API
  * @extends CoCart_Product_Variations_Controller
  */
-class CoCart_Product_Variations_V2_Controller extends CoCart_Product_Variations_Controller {
+class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variations_Controller {
 
 	/**
 	 * Endpoint namespace.

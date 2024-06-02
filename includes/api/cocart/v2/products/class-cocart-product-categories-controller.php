@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_REST_Product_Categories_V2_Controller', 'CoCart_Product_Categories_V2_Controller' );
+
 /**
  * CoCart REST API v2 - Product Categories controller class.
  *
