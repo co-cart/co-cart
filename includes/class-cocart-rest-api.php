@@ -180,10 +180,6 @@ class CoCart_REST_API {
 			// Initialize cart.
 			$this->initialize_cart();
 
-			// Identify if user has switched.
-			if ( $this->has_user_switched() ) {
-				$this->user_switched();
-			}
 		}
 	} // END maybe_load_cart()
 
@@ -191,12 +187,17 @@ class CoCart_REST_API {
 	 * If the current customer ID in session does not match,
 	 * then the user has switched.
 	 *
-	 * @access  protected
-	 * @since   2.1.0
-	 * @version 2.7.2
-	 * @return  null|boolean
+	 * @access protected
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @deprecated 4.1.0 No replacement.
+	 *
+	 * @return null|boolean
 	 */
 	protected function has_user_switched() {
+		_deprecated_function( __FUNCTION__, 'User switching is now deprecated.', '4.1.0' );
+
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
 			return;
 		}
@@ -234,10 +235,15 @@ class CoCart_REST_API {
 	 * Allows something to happen if a user has switched.
 	 *
 	 * @access public
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @deprecated 4.1.0 No replacement.
 	 */
 	public function user_switched() {
-		do_action( 'cocart_user_switched' );
+		_deprecated_function( __FUNCTION__, 'User switching is now deprecated.', '4.1.0' );
+
+		cocart_do_deprecated_action( 'cocart_user_switched', '4.1.0', null );
 	} // END user_switched()
 
 	/**
