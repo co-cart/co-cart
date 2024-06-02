@@ -347,19 +347,27 @@ class CoCart_REST_API {
 	} // rest_api_includes()
 
 	/**
-	 * Prevents CoCart from being cached.
+	 * Prevents certain routes from being cached.
 	 *
 	 * @access public
-	 * @since  2.1.2
-	 * @param  bool   $skip ( default: WP_DEBUG ).
-	 * @param  string $request_uri Requested REST API.
-	 * @return bool   $skip Results to WP_DEBUG or true if CoCart requested.
+	 *
+	 * @since 2.1.2 Introduced.
+	 * @since 4.1.0 Check against allowed routes to determine if we should cache.
+	 *
+	 * @param bool   $skip ( default: WP_DEBUG ).
+	 * @param string $request_uri Requested REST API.
+	 *
+	 * @return bool $skip Results to WP_DEBUG or true if CoCart requested.
 	 */
 	public function prevent_cache( $skip, $request_uri ) {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
 
-		if ( strpos( $request_uri, $rest_prefix . 'cocart/' ) !== false ) {
-			return true;
+		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
+
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( ! preg_match( $regex_path_pattern, $request_uri ) ) {
+				return true;
+			}
 		}
 
 		return $skip;
@@ -441,26 +449,34 @@ class CoCart_REST_API {
 	} // END send_cache_control()
 
 	/**
-	 * Helps prevent CoCart from being cached at all and returns results quicker.
+	 * Helps prevent CoCart from being cached on most routes and returns results quicker.
 	 *
 	 * @access public
-	 * @since  3.1.0
-	 * @param  bool             $served  Whether the request has already been served. Default false.
-	 * @param  WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-	 * @param  WP_REST_Request  $request Request used to generate the response.
-	 * @param  WP_REST_Server   $server  Server instance.
-	 * @return bool
+	 *
+	 * @since 3.1.0 Introduced.
+	 * @since 4.1.0 Check against allowed routes to determine if we should cache.
+	 *
+	 * @param bool             $served  Whether the request has already been served. Default false.
+	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param WP_REST_Request  $request The request object.
+	 * @param WP_REST_Server   $server  Server instance.
+	 *
+	 * @return null|bool
 	 */
 	public function cache_control( $served, $result, $request, $server ) {
-		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-			if ( method_exists( $server, 'send_headers' ) ) {
-				$headers['Expires']       = 'Thu, 01-Jan-70 00:00:01 GMT';
-				$headers['Last-Modified'] = gmdate( 'D, d M Y H:i:s' ) . ' GMT';
-				$headers['Cache-Control'] = 'post-check=0, pre-check=0';
-				$headers['Cache-Control'] = 'no-store, no-cache, must-revalidate';
-				$headers['Pragma']        = 'no-cache';
+		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
 
-				$server->send_headers( $headers );
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( ! preg_match( $regex_path_pattern, $request->get_route() ) ) {
+				if ( method_exists( $server, 'send_headers' ) ) {
+					$headers['Expires']       = 'Thu, 01-Jan-70 00:00:01 GMT';
+					$headers['Last-Modified'] = gmdate( 'D, d M Y H:i:s' ) . ' GMT';
+					$headers['Cache-Control'] = 'post-check=0, pre-check=0';
+					$headers['Cache-Control'] = 'no-store, no-cache, must-revalidate';
+					$headers['Pragma']        = 'no-cache';
+
+					$server->send_headers( $headers );
+				}
 			}
 		}
 
@@ -492,6 +508,22 @@ class CoCart_REST_API {
 			}
 		}
 	} // END prevent_routes_from_initializing()
+
+	/**
+	 * Returns routes that can be cached as a regex pattern.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.1.0 Introduced.
+	 *
+	 * @return array $routes Routes that can be cached.
+	 */
+	protected function allowed_regex_pattern_routes_to_cache() {
+		return array(
+			'#^/cocart/v2/products?#',
+			'#^/cocart/v1/products?#',
+		);
+	} // END allowed_regex_pattern_routes_to_cache()
 } // END class
 
 return new CoCart_REST_API();
