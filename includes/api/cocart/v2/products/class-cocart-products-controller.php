@@ -1899,7 +1899,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				),
 				'readonly'    => true,
 			),
-			'reviews'               => array(
+			'reviews'            => array(
 				'description' => __( 'Lists product reviews, when requested.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'object',
 				'context'     => array( 'view' ),
