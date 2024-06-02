@@ -79,6 +79,11 @@ class CoCart_Cart_Cache {
 	 * @param array|string $cart_item_key Cart item key to remove from the cart cache.
 	 */
 	public function remove_cached_item( $cart_item_key ) {
+		// Should the session not be initialized, fail safely to prevent fatal error.
+		if ( is_null( WC()->session ) ) {
+			return;
+		}
+
 		if ( is_array( $cart_item_key ) ) {
 			$cart_item_key = $cart_item_key['key'];
 		}
@@ -134,6 +139,11 @@ class CoCart_Cart_Cache {
 	 * @return array Cart items cached.
 	 */
 	public function get_cart_contents_cached() {
+		// Should the session not be initialized, fail safely to prevent fatal error.
+		if ( is_null( WC()->session ) ) {
+			return;
+		}
+
 		return maybe_unserialize( WC()->session->get( 'cart_cached' ) );
 	} // END get_cart_contents_cached()
 
@@ -189,6 +199,11 @@ class CoCart_Cart_Cache {
 	 * @uses WC()->session->__unset()
 	 */
 	public function clear_cart_cached() {
+		// Should the session not be initialized, fail safely to prevent fatal error.
+		if ( is_null( WC()->session ) ) {
+			return;
+		}
+
 		WC()->session->__unset( 'cart_cached' );
 	} // END clear_cart_cached()
 } // END class
