@@ -85,29 +85,17 @@ class CoCart_REST_API {
 		return apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
-				'wc/v2'     => $this->get_legacy_controller(),
 				'cocart/v1' => $this->get_v1_controllers(),
 				'cocart/v2' => $this->get_v2_controllers(),
 			)
 		);
-	}
-
-	/**
-	 * List of controllers in the wc/v2 namespace.
-	 *
-	 * @access protected
-	 * @return array
-	 */
-	protected function get_legacy_controller() {
-		return array(
-			'wc-rest-cart' => 'WC_REST_Cart_Controller',
-		);
-	}
+	} // END get_rest_namespaces()
 
 	/**
 	 * List of controllers in the cocart/v1 namespace.
 	 *
 	 * @access protected
+	 *
 	 * @return array
 	 */
 	protected function get_v1_controllers() {
@@ -128,12 +116,13 @@ class CoCart_REST_API {
 			'cocart-v1-products'                => 'CoCart_Products_Controller',
 			'cocart-v1-product-variations'      => 'CoCart_Product_Variations_Controller',
 		);
-	}
+	} // END get_v1_controllers()
 
 	/**
 	 * List of controllers in the cocart/v2 namespace.
 	 *
 	 * @access protected
+	 *
 	 * @return array
 	 */
 	protected function get_v2_controllers() {
@@ -164,7 +153,7 @@ class CoCart_REST_API {
 			'cocart-v2-products'                => 'CoCart_REST_Products_V2_Controller',
 			'cocart-v2-product-variations'      => 'CoCart_REST_Product_Variations_V2_Controller',
 		);
-	}
+	} // END get_v2_controllers()
 
 	/**
 	 * Loads the cart, session and notices should it be required.
@@ -302,12 +291,6 @@ class CoCart_REST_API {
 	 * @version 3.1.0
 	 */
 	public function rest_api_includes() {
-		// Only include Legacy REST API if WordPress is v5.4.2 or lower.
-		if ( CoCart_Helpers::is_wp_version_lt( '5.4.2' ) ) {
-			// Legacy - WC Cart REST API v2 controller.
-			include_once __DIR__ . '/api/legacy/wc-v2/class-wc-rest-cart-controller.php';
-		}
-
 		// CoCart REST API v1 controllers.
 		require_once __DIR__ . '/api/cocart/v1/cart/class-cocart-controller.php';
 		require_once __DIR__ . '/api/cocart/v1/cart/class-cocart-add-item-controller.php';
