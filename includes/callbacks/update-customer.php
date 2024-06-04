@@ -93,7 +93,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 			foreach ( $fields as $key ) {
 				// Prepares customer billing field.
-				in_array( $key, $params ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.FoundNonStrictFalse
+				in_array( $key, $params ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 
 				// Validates customer billing fields for email, phone, country and postcode.
 				if ( 'email' === $key && ! empty( $details['billing_email'] ) ) {
@@ -123,18 +123,19 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 						$details['billing_postcode'] = $customer->get_billing_postcode();
 					}
 				}
-
-				/**
-				 * Hook: Allows for additional customer fields to be validated and added if supported.
-				 *
-				 * @since 4.1.0 Introduced.
-				 *
-				 * @param WP_REST_Request $request  The request object.
-				 * @param object          $customer The customer object.
-				 * @param string          $key      The field key.
-				 */
-				do_action( 'cocart_update_customer_field', $request, $customer, $key );
 			}
+
+			/**
+			 * Hook: Allows for additional customer fields to be validated and added if supported.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @param WP_REST_Request $request  The request object.
+			 * @param array           $fields   Default customer fields.
+			 * @param object          $customer The customer object.
+			 * @param object          $callback Callback class.
+			 */
+			do_action( 'cocart_update_customer_fields', $params, $fields, $customer, $this );
 
 			// If there are any customer details remaining then set the details, save and return true.
 			if ( ! empty( $details ) ) {
@@ -153,14 +154,14 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	 *
 	 * Returns false and adds an error notice to the cart if not valid else true.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @param WP_REST_Request $request      The request object.
 	 * @param string          $fieldset_key The address type we are validating the country for. Default is `billing` else `shipping`.
 	 *
 	 * @return bool
 	 */
-	protected function validate_country( $request, $fieldset_key = 'billing' ) {
+	public function validate_country( $request, $fieldset_key = 'billing' ) {
 		switch ( $fieldset_key ) {
 			case 'shipping':
 				$country  = isset( $request['s_country'] ) ? $request['s_country'] : '';
@@ -178,7 +179,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 			$country = WC()->customer->{"get_{$fieldset_key}_country"}();
 		}
 
-		$country_exists = \WC()->countries->country_exists( $country );
+		$country_exists = WC()->countries->country_exists( $country );
 
 		if ( empty( $country_exists ) ) {
 			/* translators: ISO 3166-1 alpha-2 country code */
@@ -186,7 +187,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 			return false;
 		}
 
-		$allowed_countries = \WC()->countries->get_shipping_countries();
+		$allowed_countries = WC()->countries->get_shipping_countries();
 
 		if ( ! array_key_exists( $country, $allowed_countries ) ) {
 			/* translators: 1: Country name, 2: Field Set */
@@ -202,14 +203,14 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	 *
 	 * Returns false and adds an error notice to the cart if not valid else true.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @param WP_REST_Request $request      The request object.
 	 * @param string          $fieldset_key The address type we are validating the country for. Default is `billing` else `shipping`.
 	 *
 	 * @return bool
 	 */
-	protected function validate_postcode( $request, $fieldset_key = 'billing' ) {
+	public function validate_postcode( $request, $fieldset_key = 'billing' ) {
 		switch ( $fieldset_key ) {
 			case 'shipping':
 				$country    = isset( $request['s_country'] ) ? $request['s_country'] : '';
