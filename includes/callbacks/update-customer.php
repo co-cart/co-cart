@@ -93,7 +93,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 			foreach ( $fields as $key ) {
 				// Prepares customer billing field.
-				in_array( $key, $params ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+				in_array( $key, $params ) && ! empty( $params[ $key ] ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 
 				// Validates customer billing fields for email, phone, country and postcode.
 				if ( 'email' === $key && ! empty( $details['billing_email'] ) ) {
@@ -126,16 +126,17 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 			}
 
 			/**
-			 * Hook: Allows for additional customer fields to be validated and added if supported.
+			 * Filter allows for additional customer fields to be validated and added if supported.
 			 *
 			 * @since 4.1.0 Introduced.
 			 *
+			 * @param array           $details  Current customer details.
 			 * @param WP_REST_Request $request  The request object.
 			 * @param array           $fields   Default customer fields.
 			 * @param object          $customer The customer object.
 			 * @param object          $callback Callback class.
 			 */
-			do_action( 'cocart_update_customer_fields', $params, $fields, $customer, $this );
+			$details = apply_filters( 'cocart_update_customer_fields', $details, $request, $fields, $customer, $this );
 
 			// If there are any customer details remaining then set the details, save and return true.
 			if ( ! empty( $details ) ) {
