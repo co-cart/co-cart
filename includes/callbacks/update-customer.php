@@ -95,6 +95,11 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 				// Prepares customer billing field.
 				in_array( $key, $params ) && ! empty( $params[ $key ] ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 
+				// If a field has not provided a value then unset it.
+				if ( empty( $details[ $key ] ) ) {
+					unset( $details[ $key ] );
+				}
+
 				// Validates customer billing fields for email, phone, country and postcode.
 				if ( 'email' === $key && ! empty( $details['billing_email'] ) ) {
 					if ( ! \WC_Validation::is_email( $details['billing_email'] ) ) {
