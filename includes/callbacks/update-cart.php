@@ -49,6 +49,10 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 	 */
 	public function callback( $request, $controller ) {
 		try {
+			if ( $controller->is_completely_empty() ) {
+				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cart-rest-api-for-woocommerce' ), 404 );
+			}
+
 			$items = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
 			$cart_updated = false;
