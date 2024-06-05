@@ -376,7 +376,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				} else {
 					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
 
-					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 500 );
+					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
 				}
 			}
 
