@@ -365,10 +365,52 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
+			/**
+			 * Filter allows the product name of the item to change.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $product_name Product name.
+			 * @param WC_Product $_product     The product object.
+			 * @param array      $cart_item    The cart item data.
+			 * @param string     $item_key     The item key generated based on the details of the item.
+			 */
 			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
+			/**
+			 * Filter allows the product title of the item to change.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $product_title Product title.
+			 * @param WC_Product $_product      The product object.
+			 * @param array      $cart_item     The cart item data.
+			 * @param string     $item_key      The item key generated based on the details of the item.
+			 */
 			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
-			'price'          => apply_filters( 'cocart_cart_item_price', wc_format_decimal( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+			/**
+			 * Filter allows the price of the item to change.
+			 *
+			 * Warning: This filter does not represent the true value that totals will be calculated on.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $product_price Product price.
+			 * @param array  $cart_item     The cart item data.
+			 * @param string $item_key      The item key generated based on the details of the item.
+			 */
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
 			'quantity'       => array(
+				/**
+				 * Filter allows the quantity of the item to change.
+				 *
+				 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string $item_quantity Item quantity.
+				 * @param string $item_key      The item key generated based on the details of the item.
+				 * @param array  $cart_item     The cart item data.
+				 */
 				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
@@ -432,18 +474,42 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		if ( $show_thumb ) {
 			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
 
+			/**
+			 * Filters the item thumbnail ID.
+			 *
+			 * @since 2.0.0 Introduced.
+			 * @since 3.0.0 Added $removed_item parameter.
+			 *
+			 * @param int    $thumbnail_id Product thumbnail ID.
+			 * @param array  $cart_item    Cart item.
+			 * @param string $item_key     Item key.
+			 * @param bool   $removed_item Determines if the item in the cart is removed.
+			 */
 			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
 
-			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item ) );
+			/**
+			 * Filters the thumbnail size of the product image.
+			 *
+			 * @since 2.0.0 Introduced.
+			 * @since 3.0.0 Added $removed_item parameter.
+			 *
+			 * @param bool $removed_item Determines if the item in the cart is removed.
+			 */
+			$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item );
 
+			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size );
 			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
 
 			/**
 			 * Filters the source of the product thumbnail.
 			 *
-			 * @since   2.1.0
-			 * @version 3.0.0
-			 * @param   string $thumbnail_src URL of the product thumbnail.
+			 * @since 2.1.0 Introduced.
+			 * @since 3.0.0 Added parameter $removed_item.
+			 *
+			 * @param string $thumbnail_src URL of the product thumbnail.
+			 * @param array  $cart_item     Cart item.
+			 * @param string $item_key      Item key.
+			 * @param bool   $removed_item  Determines if the item in the cart is removed.
 			 */
 			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
 

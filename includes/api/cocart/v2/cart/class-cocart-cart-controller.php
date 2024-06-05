@@ -1067,10 +1067,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param  object $cart Cart instance.
-	 * @param  object $fee  Fee data.
+	 * @param object $cart Cart instance.
+	 * @param object $fee  Fee data.
 	 *
-	 * @return string       Returns the fee value.
+	 * @return string Returns the fee value.
 	 */
 	public function fee_html( $cart, $fee ) {
 		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
@@ -2036,8 +2036,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
 	 *
-	 * @param string      $fields   The customer fields to return.
-	 * @param WC_Customer $customer The customer object or ID.
+	 * @param string           $fields   The customer fields to return.
+	 * @param WC_Customer|null $customer The customer object or nothing.
 	 *
 	 * @return array Returns the customer details based on the field requested.
 	 */
