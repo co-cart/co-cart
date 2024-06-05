@@ -173,6 +173,21 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 					}
 				}
 
+				/**
+				 * Hook: Fires once items have been added to cart.
+				 *
+				 * Allows for additional requested data to be processed such as modifying the price of the item.
+				 *
+				 * @since 4.1.0 Introduced.
+				 *
+				 * @hooked: set_new_price - 1
+				 *
+				 * @param array           $items_added_to_cart       The product added to cart.
+				 * @param WP_REST_Request $request                   The request object.
+				 * @param string          $add_items_to_cart_handler The product type added to cart.
+				 * @param object          $controller                The cart controller.
+				 */
+				do_action( 'cocart_after_items_added_to_cart', $items_added_to_cart, $request, $add_items_to_cart_handler, $controller );
 
 				// Was it requested to return the items details after being added?
 				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
