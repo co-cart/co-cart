@@ -102,9 +102,18 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 			}
 
 			if ( $cart_updated ) {
-				do_action( 'cocart_cart_updated', $request, $controller );
+				/**
+				 * Fires after the cart has updated via a callback.
+				 *
+				 * @since 3.1.0 Introduced.
+				 *
+				 * @deprecated 4.1.0 Replaced with `cocart_update_cart_before_totals` hook.
+				 *
+				 * @see cocart_update_cart_before_totals
+				 */
+				cocart_do_deprecated_action( 'cocart_cart_updated', '4.1.0', 'cocart_update_cart_before_totals', '', array( $request, $controller ) );
 
-				$controller->calculate_totals();
+				$this->recalculate_totals( $request, $controller );
 
 				// Only returns success notice if there are no error notices.
 				if ( 0 === wc_notice_count( 'error' ) ) {

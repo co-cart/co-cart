@@ -61,4 +61,40 @@ abstract class CoCart_Cart_Extension_Callback {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
 	} // END callback()
+
+	/**
+	 * Recalculates the cart totals when called.
+	 *
+	 * @access public
+	 *
+	 * @since 4.1.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request    The request object.
+	 * @param object          $controller The cart controller.
+	 */
+	public function recalculate_totals( $request, $controller ) {
+		/**
+		 * Hook: Fires before the cart has updated via a callback,
+		 * but before cart totals are re-calculated.
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param WP_REST_Request $request    The request object.
+		 * @param object          $controller The cart controller.
+		 */
+		do_action( 'cocart_update_cart_before_totals', $request, $controller );
+
+		$controller->calculate_totals();
+
+		/**
+		 * Hook: Fires after the cart has updated via a callback and
+		 * the cart totals are re-calculated.
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param WP_REST_Request $request    The request object.
+		 * @param object          $controller The cart controller.
+		 */
+		do_action( 'cocart_update_cart_after_totals', $request, $controller );
+	} // END recalculate_totals()
 }
