@@ -67,9 +67,6 @@ class CoCart_REST_API {
 
 		// Cache Control.
 		add_filter( 'rest_pre_serve_request', array( $this, 'cache_control' ), 0, 4 );
-
-		// Sends the cart key to the header.
-		add_filter( 'rest_authentication_errors', array( $this, 'cocart_key_header' ), 20, 1 );
 	} // END __construct()
 
 	/**
@@ -388,50 +385,7 @@ class CoCart_REST_API {
 	} // END prevent_cache()
 
 	/**
-	 * Sends the cart key to the header if a cart exists.
-	 *
-	 * @access  public
-	 * @since   2.7.0
-	 * @version 3.0.0
-	 * @param   WP_Error|null|true $result WP_Error if authentication error, null if authentication
-	 *                                      method wasn't used, true if authentication succeeded.
-	 * @return  WP_Error|true $result WP_Error if authentication error, true if authentication succeeded.
-	 */
-	public function cocart_key_header( $result ) {
-		if ( ! empty( $result ) ) {
-			return $result;
-		}
-
-		// Check that the CoCart session handler has loaded.
-		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
-			return $result;
-		}
-
-		// Customer ID used as the cart key by default.
-		$cart_key = WC()->session->get_customer_id();
-
-		// Get cart cookie... if any.
-		$cookie = WC()->session->get_session_cookie();
-
-		// If a cookie exist, override cart key.
-		if ( $cookie ) {
-			$cart_key = $cookie[0];
-		}
-
-		// Check if we requested to load a specific cart.
-		$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-		// Send cart key in the header if it's not empty or ZERO.
-		if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
-			rest_get_server()->send_header( 'X-CoCart-API', $cart_key ); // @todo Deprecate in v5.0
-			rest_get_server()->send_header( 'CoCart-API-Cart-Key', $cart_key );
-		}
-
-		return true;
-	} // END cocart_key_header()
-
-	/**
-	 * Helps prevent CoCart from being added to browser cache.
+	 * Helps prevent certain routes from being added to browser cache.
 	 *
 	 * @access public
 	 *
