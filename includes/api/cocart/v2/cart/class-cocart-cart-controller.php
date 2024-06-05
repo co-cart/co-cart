@@ -214,6 +214,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		// Ensures the cart totals are calculated before an API response is returned.
 		$this->calculate_totals();
 
+		/**
+		 * Filter allows you to modify the cart contents after it has calculated totals.
+		 *
+		 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param array           $cart_contents Cart contents.
+		 * @param WC_Cart         Cart object.
+		 * @param WP_REST_Request $request       The request object.
+		 */
+		$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
 		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
