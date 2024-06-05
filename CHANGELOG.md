@@ -1,5 +1,57 @@
 # Changelog for CoCart
 
+## v4.1.0 - ?? June, 2024
+
+In this release we are adding some quality of life improvements.
+
+### What's New?
+
+* REST API: Added new cart callback that allows you to set the customers billing details. [See guide on how to use](#)
+* REST API: Basic Authentication now accepts a customers billing phone number as their username. Password is still required when authenticating.
+* REST API: Added the ability to set the customers billing phone number while adding item/s to cart.
+
+### Improvements
+
+* Plugin: Added more inline documentation for action hooks and filters.
+* Plugin: Should the session not be initialized when called, it now fails safely.
+* REST API: Authentication now detectable by authorization headers `HTTP_AUTHORIZATION`, `REDIRECT_HTTP_AUTHORIZATION` or `getallheaders()` function.
+* REST API: Re-calculating cart totals has moved to the abstract cart callback so it can be shared.
+* REST API: Setting a custom price for an item will now return that price for the item not just the subtotals and totals.
+* REST API: Stock details now return when requesting variation details at the parent level. - TODO
+* REST API: When adding an item to cart with a custom price, check if the product allows it to change. Set via filter `cocart_does_product_allow_price_change`.
+* REST API: Added headers `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration` to be exposed with CORS.
+* REST API: Browser cache has been improved.
+
+## Bug Fixes
+
+* REST API: Most product endpoints for API v2 where suddenly not registering since v4.0.
+
+## Deprecations
+
+* Removed the legacy API that CoCart started with.
+* Removed support for stores running lower than WooCommerce version 4.5
+* User switching removed. Never worked 100%. Mainly added for internal debugging purposes.
+* No longer use `cocart_override_cart_item` filter. Recommend using `cocart_item_added_to_cart` action hook instead.
+* No longer user `cocart_cart_updated` hook. Replaced with `cocart_update_cart_before_totals` hook.
+
+### Developers
+
+* Introduced new filter `cocart_auth_header` that allows you to change the authorization header.
+* Introduced new filter `cocart_set_customer_id` that allows to set the customer ID before initialized.
+* Introduced new filter `cocart_available_shipping_packages` that allows you to alter the shipping packages returned.
+* Introduced new filter `cocart_does_product_allow_price_change` that allows you to deny all custom prices or on specific items.
+* Introduced new filter `cocart_update_customer_fields` that allows for additional customer fields to be validated and added if supported.
+* Introduced new action hook `cocart_after_item_added_to_cart` that allows for additional requested data to be processed once item has added to the cart.
+* Introduced new action hook `cocart_after_items_added_to_cart` that allows for additional requested data to be processed once items are added to the cart.
+* Introduced new action hook `cocart_update_cart_before_totals` fires before the cart has updated via a callback.
+* Introduced new action hook `cocart_update_cart_after_totals` fires after the cart has updated via a callback.
+
+* Added the request object and the cart object as parameters for filter `cocart_cart`. No longer use `$from_session` parameter.
+
+### Compatibility
+
+* Tested with WooCommerce v8.9
+
 ## v4.0.2 - 17th May, 2024
 
 ### Bug Fixes
