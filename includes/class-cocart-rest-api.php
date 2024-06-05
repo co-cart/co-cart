@@ -261,9 +261,15 @@ class CoCart_REST_API {
 	 * Initialize session.
 	 *
 	 * @access public
-	 * @since  2.1.0
+	 *
+	 * @since 2.1.0 Introduced.
 	 */
 	public function initialize_session() {
+		if ( class_exists( 'WC_Session' ) ) {
+			include_once __DIR__ . '/abstracts/abstract-cocart-session.php';
+			require_once __DIR__ . '/class-cocart-session-handler.php';
+		}
+
 		// CoCart session handler class.
 		$session_class = 'CoCart_Session_Handler';
 
