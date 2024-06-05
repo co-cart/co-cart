@@ -21,7 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_REST_API {
 
 	/**
-	 * Stores the controllers registered.
+	 * REST API namespaces and endpoints.
+	 *
+	 * @var array
+	 */
+	protected $namespaces = array();
+
+	/**
+	 * Controllers registered.
 	 *
 	 * @var array
 	 */
@@ -30,9 +37,11 @@ class CoCart_REST_API {
 	/**
 	 * Setup class.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 3.6.0
+	 * @access public
+	 *
+	 * @since 1.0.0 Introduced.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
 		// If WooCommerce does not exists then do nothing!
@@ -40,16 +49,20 @@ class CoCart_REST_API {
 			return;
 		}
 
-		$this->maybe_load_cart();
+		// Register API namespaces.
 		$this->rest_api_includes();
+		$this->namespaces = $this->get_rest_namespaces();
+
+		// Initialize cart.
+		$this->maybe_load_cart();
 
 		// Hook into WordPress ready to init the REST API as needed.
 		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
 
-		// Prevent CoCart from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
+		// Prevents certain routes from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
-		// Prevent CoCart cart responses from being added to browser cache.
+		// Prevent certain routes from being added to browser cache.
 		add_filter( 'rest_post_dispatch', array( $this, 'send_cache_control' ), 12, 2 );
 
 		// Cache Control.
@@ -65,7 +78,7 @@ class CoCart_REST_API {
 	 * @access public
 	 */
 	public function register_rest_routes() {
-		foreach ( $this->get_rest_namespaces() as $namespace => $controllers ) {
+		foreach ( $this->namespaces as $namespace => $controllers ) {
 			foreach ( $controllers as $controller_name => $controller_class ) {
 				if ( class_exists( $controller_class ) ) {
 					$this->controllers[ $namespace ][ $controller_name ] = new $controller_class();
@@ -73,12 +86,13 @@ class CoCart_REST_API {
 				}
 			}
 		}
-	}
+	} // END register_rest_routes()
 
 	/**
 	 * Get API namespaces - new namespaces should be registered here.
 	 *
 	 * @access protected
+	 *
 	 * @return array List of Namespaces and Main controller classes.
 	 */
 	protected function get_rest_namespaces() {
@@ -344,7 +358,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/api/cocart/v2/products/class-cocart-product-variations-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
-	} // rest_api_includes()
+	} // END rest_api_includes()
 
 	/**
 	 * Prevents certain routes from being cached.
@@ -429,13 +443,23 @@ class CoCart_REST_API {
 	 * @return WP_REST_Response $response The response object.
 	 **/
 	public function send_cache_control( $response, $server ) {
-		$regex_path_patterns = apply_filters( 'cocart_send_cache_control_patterns', array(
-			'#^/cocart/v2/cart?#',
-			'#^/cocart/v2/logout?#',
-			'#^/cocart/v2/store?#',
-			'#^/cocart/v1/get-cart?#',
-			'#^/cocart/v1/logout?#',
-		) );
+		/**
+		 * Filter allows you set a path to which will prevent from being added to browser cache.
+		 *
+		 * @since 3.6.0 Introduced.
+		 *
+		 * @param array Default patterns.
+		 */
+		$regex_path_patterns = apply_filters(
+			'cocart_send_cache_control_patterns',
+			array(
+				'#^/cocart/v2/cart?#',
+				'#^/cocart/v2/logout?#',
+				'#^/cocart/v2/store?#',
+				'#^/cocart/v1/get-cart?#',
+				'#^/cocart/v1/logout?#',
+			)
+		);
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
 			if ( ! empty( $_SERVER['REQUEST_URI'] ) && preg_match( $regex_path_pattern, sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) {
@@ -487,7 +511,10 @@ class CoCart_REST_API {
 	 * Prevents certain routes from initializing the session and cart.
 	 *
 	 * @access protected
-	 * @since  3.1.0
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return bool
 	 */
 	protected function prevent_routes_from_initializing() {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );

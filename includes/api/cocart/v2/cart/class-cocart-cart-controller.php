@@ -84,7 +84,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @return WC_Cart
+	 * @return WC_Cart The cart object.
 	 */
 	public function get_cart_instance() {
 		$cart = WC()->cart;
@@ -188,14 +188,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		/**
-		 * Filter allows you to modify the cart contents before it is returned.
+		 * Filter allows you to modify the cart contents before it calculate totals.
 		 *
-		 * Useful for add-ons or 3rd party plugins.
+		 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
 		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart         Cart object.
+		 * @param WC_Cart                        The cart object.
 		 * @param WP_REST_Request $request       The request object.
 		 */
 		$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
@@ -232,6 +232,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array $cart Returns cart contents.
 	 */
 	public function return_cart_contents( $request = array(), $cart_contents = array(), $cart_item_key = null, $from_session = false ) {
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
+
 		/**
 		 * Return the default cart data if set to true.
 		 *
@@ -249,23 +251,23 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			/**
 			 * Filter response for empty cart.
 			 *
-			 * @since   2.0.8 Introduced.
-			 * @version 3.0.0
+			 * @since 2.0.8 Introduced.
+			 *
+			 * @deprecated 3.0.0 Replaced with `cocart_empty_cart` filter.
 			 */
 			cocart_do_deprecated_filter( 'cocart_return_empty_cart', '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
 
 			return apply_filters( 'cocart_empty_cart', $cart_template );
 		}
 
-		// Other Requested conditions.
-		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
+		$cart_instance = $this->get_cart_instance();
 
 		// Defines an empty cart template.
 		$cart = array();
 
 		if ( array_key_exists( 'coupons', $cart_template ) ) {
 			// Returns each coupon applied and coupon total applied if store has coupons enabled.
-			$coupons = wc_coupons_enabled() ? $this->get_cart_instance()->get_applied_coupons() : array();
+			$coupons = wc_coupons_enabled() ? $cart_instance->get_applied_coupons() : array();
 
 			if ( ! empty( $coupons ) ) {
 				foreach ( $coupons as $coupon ) {
@@ -284,7 +286,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 		if ( array_key_exists( 'taxes', $cart_template ) ) {
 			// Return calculated tax based on store settings and customer details.
-			if ( wc_tax_enabled() && ! $this->get_cart_instance()->display_prices_including_tax() ) {
+			if ( wc_tax_enabled() && ! $cart_instance->display_prices_including_tax() ) {
 				$taxable_address = WC()->customer->get_taxable_address();
 				$estimated_text  = '';
 
@@ -297,11 +299,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				}
 
 				if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
-					$cart['taxes'] = $this->get_tax_lines( $this->get_cart_instance() );
+					$cart['taxes'] = $this->get_tax_lines( $cart_instance );
 				} else {
 					$cart['taxes'] = array(
 						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-						'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $this->get_cart_instance()->get_taxes_total(), wc_get_price_decimals() ) ),
+						'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $cart_instance->get_taxes_total(), wc_get_price_decimals() ) ),
 					);
 				}
 			}
@@ -1304,18 +1306,104 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
+			/**
+			 * Filter allows the product name of the item to change.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $product_name Product name.
+			 * @param WC_Product $_product     The product object.
+			 * @param array      $cart_item    The cart item data.
+			 * @param string     $item_key     The item key generated based on the details of the item.
+			 */
 			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
+			/**
+			 * Filter allows the product title of the item to change.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $product_title Product title.
+			 * @param WC_Product $_product      The product object.
+			 * @param array      $cart_item     The cart item data.
+			 * @param string     $item_key      The item key generated based on the details of the item.
+			 */
 			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
+			/**
+			 * Filter allows the price of the item to change.
+			 *
+			 * Warning: This filter does not represent the true value that totals will be calculated on.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $product_price Product price.
+			 * @param array  $cart_item     The cart item data.
+			 * @param string $item_key      The item key generated based on the details of the item.
+			 */
 			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $this->get_cart_instance()->get_product_price( $_product ), wc_get_price_decimals() ), $cart_item, $item_key ),
 			'quantity'       => array(
+				/**
+				 * Filter allows the quantity of the item to change.
+				 *
+				 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string $item_quantity Item quantity.
+				 * @param string $item_key      The item key generated based on the details of the item.
+				 * @param array  $cart_item     The cart item data.
+				 */
 				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
 			'totals'         => array(
+				/**
+				 * Filter allows the subtotal of the item to change.
+				 *
+				 * Warning: This filter does not represent the true value that totals will be calculated on.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string $item_subtotal Item subtotal.
+				 * @param array  $cart_item     The cart item data.
+				 * @param string $item_key      The item key generated based on the details of the item.
+				 */
 				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', cocart_prepare_money_response( $cart_item['line_subtotal'], wc_get_price_decimals() ), $cart_item, $item_key ),
+				/**
+				 * Filter allows the subtotal tax of the item to change.
+				 *
+				 * Warning: This filter does not represent the true value that totals will be calculated on.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string $item_subtotal_tax Item subtotal tax.
+				 * @param array  $cart_item         The cart item data.
+				 * @param string $item_key          The item key generated based on the details of the item.
+				 */
 				'subtotal_tax' => apply_filters( 'cocart_cart_item_subtotal_tax', $cart_item['line_subtotal_tax'], $cart_item, $item_key ),
+				/**
+				 * Filter allows the total of the item to change.
+				 *
+				 * Warning: This filter does not represent the true value that totals will be calculated on.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string $item_total Item total.
+				 * @param array  $cart_item  The cart item data.
+				 * @param string $item_key   The item key generated based on the details of the item.
+				 */
 				'total'        => apply_filters( 'cocart_cart_item_total', $cart_item['line_total'], $cart_item, $item_key ),
+				/**
+				 * Filter allows the tax of the item to change.
+				 *
+				 * Warning: This filter does not represent the true value that totals will be calculated on.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string $item_tax  Item tax.
+				 * @param array  $cart_item The cart item data.
+				 * @param string $item_key  The item key generated based on the details of the item.
+				 */
 				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
 			),
 			'slug'           => $this->get_product_slug( $_product ),
@@ -1765,13 +1853,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
+	 * @uses cocart_get_notice_types()
+	 *
 	 * @param array $all_notices Return notices already fetched.
 	 *
 	 * @return array
 	 */
 	protected function print_notices( $all_notices = array() ) {
 		$all_notices  = empty( $all_notices ) ? WC()->session->get( 'wc_notices', array() ) : $all_notices;
-		$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
+		$notice_types = cocart_get_notice_types();
 		$notices      = array();
 
 		foreach ( $notice_types as $notice_type ) {

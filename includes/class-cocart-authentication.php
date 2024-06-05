@@ -158,6 +158,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * Returns the value from the authorization header.
 		 *
+		 * On certain systems and configurations, the Authorization header will be
+		 * stripped out by the server or PHP. Typically this is then used to
+		 * generate `PHP_AUTH_USER`/`PHP_AUTH_PASS` but not passed on. We use
+		 * `getallheaders` here to try and grab it out instead.
+		 *
 		 * @access protected
 		 *
 		 * @since 4.1.0 Introduced.
@@ -351,6 +356,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 */
 		private function perform_basic_authentication() {
 			$this->auth_method = 'basic_auth';
+			$username          = '';
+			$password          = '';
 
 			// Look up authorization header and check it's a valid.
 			if ( ! empty( $this->get_auth_header() ) && 0 === stripos( $this->get_auth_header(), 'basic ' ) ) {
@@ -473,8 +480,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 2.2.0  Introduced.
-		 * @since 3.3.0  Added new custom headers without the prefix `X-`
+		 * @since 2.2.0 Introduced.
+		 * @since 3.3.0 Added new custom headers without the prefix `X-`
 		 * @since 4.0.0 Added a check against a list of allowed HTTP origins.
 		 *
 		 * @uses get_http_origin()

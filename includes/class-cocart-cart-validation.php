@@ -47,7 +47,7 @@ class CoCart_Cart_Validation {
 	 * @uses WC_Cart()->get_cart()
 	 *
 	 * @param array  $cart_contents Cart contents before cart changes.
-	 * @param object $cart          Cart object.
+	 * @param object $cart          The cart object.
 	 *
 	 * @return array $cart_contents Cart contents after cart changes.
 	 */
@@ -125,7 +125,7 @@ class CoCart_Cart_Validation {
 	 * @uses WC_Cart()->get_cart()
 	 *
 	 * @param array  $cart_contents Cart contents before cart changes.
-	 * @param object $cart          Cart object.
+	 * @param object $cart          The cart object.
 	 *
 	 * @return array $cart_contents Cart contents after cart changes.
 	 */

@@ -208,9 +208,9 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				$controller->cache_cart_item( $item_added_to_cart );
 
 				/**
-				 * Calculate the totals again here incase of custom data applied
-				 * like a change of price for example so the response is upto date
-				 * when returned.
+				 * Calculate the totals.
+				 *
+				 * Updates the totals once the item is added including any modifications to the item after.
 				 *
 				 * @since 3.1.0 Introduced.
 				 */

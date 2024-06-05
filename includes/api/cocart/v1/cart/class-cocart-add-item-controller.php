@@ -270,9 +270,12 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				$item_added = $this->return_additional_item_data( $this->get_cart_item( $item_key, 'add' ), $item_key );
 
 				/**
-				 * Action hook will trigger if item was added to cart.
+				 * Hook: Fires once an item has been added to cart.
 				 *
 				 * @since 2.1.0 Introduced.
+				 *
+				 * @param string $item_key   Item key of the item added.
+				 * @param array  $item_added Item added to cart.
 				 */
 				do_action( 'cocart_item_added_to_cart', $item_key, $item_added );
 			} else {

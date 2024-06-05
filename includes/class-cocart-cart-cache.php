@@ -124,7 +124,7 @@ class CoCart_Cart_Cache {
 	 *
 	 * @access public
 	 *
-	 * @param WC_Cart $cart Cart object.
+	 * @param WC_Cart $cart The cart object.
 	 */
 	public function calculate_cached_items( $cart ) {
 		$cart_contents_cached = $this->get_cart_contents_cached();
@@ -184,9 +184,8 @@ class CoCart_Cart_Cache {
 	 *
 	 * @access public
 	 *
-	 * @static
+	 * @since 3.1.0 Introduced.
 	 *
-	 * @since   3.1.0 Introduced.
 	 * @version 3.7.6
 	 *
 	 * @uses WC()->session->set()
