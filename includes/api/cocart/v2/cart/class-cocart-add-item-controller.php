@@ -193,10 +193,22 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				 *
 				 * @since 3.1.0 Introduced.
 				 *
+				 * @deprecated 4.1.0 Use hook `cocart_after_item_added_to_cart` instead.
+				 *
 				 * @param array           $item_added_to_cart Item details added to cart.
 				 * @param WP_REST_Request $request            The request object.
 				 */
-				$item_added_to_cart = apply_filters( 'cocart_override_cart_item', $item_added_to_cart, $request );
+				cocart_do_deprecated_filter(
+					'cocart_override_cart_item',
+					'4.1',
+					null,
+					sprintf(
+						/* translators: %s: action hook name */
+						__( 'This filter is no longer used. Recommend using action hook "%s" instead.', 'cart-rest-api-for-woocommerce' ),
+						'cocart_after_item_added_to_cart'
+					),
+					array( $item_added_to_cart, $request )
+				);
 
 				/**
 				 * Cache cart item.
