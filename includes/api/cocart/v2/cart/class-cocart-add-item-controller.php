@@ -211,13 +211,20 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				);
 
 				/**
-				 * Cache cart item.
+				 * Hook: Fires after an item has been added to cart.
 				 *
-				 * This allows us to calculate the overridden price later if one was set.
+				 * Allows for additional requested data to be processed such as modifying the price of the item.
 				 *
-				 * @since 3.1.0 Introduced.
+				 * @since 4.1.0 Introduced.
+				 *
+				 * @hooked: set_new_price - 1
+				 *
+				 * @param array           $item_added_to_cart  The product added to cart.
+				 * @param WP_REST_Request $request             The request object.
+				 * @param string          $add_to_cart_handler The product type added to cart.
+				 * @param object          $controller          The cart controller.
 				 */
-				$controller->cache_cart_item( $item_added_to_cart );
+				do_action( 'cocart_after_item_added_to_cart', $item_added_to_cart, $request, $add_to_cart_handler, $controller );
 
 				/**
 				 * Calculate the totals.
