@@ -5,7 +5,7 @@
  * Description: Make your WooCommerce store headless with CoCart, a REST API designed for decoupling.
  * Author:      CoCart Headless, LLC
  * Author URI:  https://cocartapi.com
- * Version:     4.0.2
+ * Version:     4.1.0
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 5.6
