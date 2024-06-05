@@ -1853,6 +1853,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			++$package_key; // Update package key for next inline if any.
 		}
 
+		/**
+		 * Filter allows you to alter the shipping packages returned.
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param array   $packages      Available shipping packages.
+		 * @param array   $chosen_method Chosen shipping method.
+		 * @param WC_Cart                The cart object.
+		 */
+		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $this->get_cart_instance() );
+
 		return $details;
 	} // END get_shipping_details()
 
