@@ -17,7 +17,7 @@ In this release we are adding some quality of life improvements.
 * REST API: Authentication now detectable by authorization headers `HTTP_AUTHORIZATION`, `REDIRECT_HTTP_AUTHORIZATION` or `getallheaders()` function.
 * REST API: Re-calculating cart totals has moved to the abstract cart callback so it can be shared.
 * REST API: Setting a custom price for an item will now return that price for the item not just the subtotals and totals.
-* REST API: Stock details now return when requesting variation details at the parent level. - TODO
+* REST API: Stock details now return for variations in the Products API (V2 Only). Schema updated to match.
 * REST API: When adding an item to cart with a custom price, check if the product allows it to change. Set via filter `cocart_does_product_allow_price_change`.
 * REST API: Added headers `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration` to be exposed with CORS.
 * REST API: Browser cache has been improved.

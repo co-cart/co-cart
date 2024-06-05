@@ -294,6 +294,15 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 					),
 					'currency'      => cocart_get_store_currency(),
 				),
+				'stock'          => array(
+					'is_in_stock'        => $variation->is_in_stock(),
+					'stock_quantity'     => $variation->managing_stock() ? $variation->get_stock_quantity( 'view' ) : null,
+					'stock_status'       => $variation->get_stock_status( 'view' ),
+					'backorders'         => $variation->get_backorders( 'view' ),
+					'backorders_allowed' => $variation->backorders_allowed(),
+					'backordered'        => $variation->is_on_backorder(),
+					'low_stock_amount'   => $variation->get_low_stock_amount( 'view' ),
+				),
 				'add_to_cart'    => array(
 					'is_purchasable'    => $variation->is_purchasable(),
 					'purchase_quantity' => array(
@@ -1722,6 +1731,56 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 							),
 							'readonly'    => true,
 						),
+						'stock'              => array(
+							'description' => __( 'Product stock details.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'object',
+							'context'     => array( 'view' ),
+							'properties'  => array(
+								'is_in_stock'        => array(
+									'description' => __( 'Determines if product is listed as "in stock" or "out of stock".', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'boolean',
+									'context'     => array( 'view' ),
+									'default'     => true,
+									'readonly'    => true,
+								),
+								'stock_quantity'     => array(
+									'description' => __( 'Stock quantity. Returns "null" if not set.', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'integer',
+									'context'     => array( 'view' ),
+									'readonly'    => true,
+								),
+								'stock_status'       => array(
+									'description' => __( 'Stock status.', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'string',
+									'context'     => array( 'view' ),
+									'default'     => 'instock',
+									'enum'        => wc_get_product_stock_status_options(),
+									'readonly'    => true,
+								),
+								'backorders'         => array(
+									'description' => __( 'If managing stock, this tells us if backorders are allowed.', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'string',
+									'context'     => array( 'view' ),
+									'default'     => 'no',
+									'enum'        => wc_get_product_backorder_options(),
+									'readonly'    => true,
+								),
+								'backorders_allowed' => array(
+									'description' => __( 'Are backorders allowed?', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'boolean',
+									'context'     => array( 'view' ),
+									'default'     => false,
+									'readonly'    => true,
+								),
+								'backordered'        => array(
+									'description' => __( 'Do we show if the product is on backorder?', 'cart-rest-api-for-woocommerce' ),
+									'type'        => 'boolean',
+									'context'     => array( 'view' ),
+									'default'     => false,
+									'readonly'    => true,
+								),
+							),
+						),
 						'add_to_cart'    => array(
 							'description' => __( 'Add to Cart button.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'object',
@@ -1792,7 +1851,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 						'readonly'    => true,
 					),
 					'stock_quantity'     => array(
-						'description' => __( 'Stock quantity.', 'cart-rest-api-for-woocommerce' ),
+						'description' => __( 'Stock quantity. Returns "null" if not set.', 'cart-rest-api-for-woocommerce' ),
 						'type'        => 'integer',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
