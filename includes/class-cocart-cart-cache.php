@@ -38,7 +38,8 @@ class CoCart_Cart_Cache {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
-		add_filter( 'cocart_override_cart_item', array( $this, 'set_new_price' ), 1, 2 );
+		add_action( 'cocart_after_item_added_to_cart', array( $this, 'set_new_price' ), 1, 2 );
+		add_action( 'cocart_after_items_added_to_cart', array( $this, 'set_new_price' ), 1, 2 );
 		add_action( 'cocart_item_removed', array( $this, 'remove_cached_item' ), 0, 1 );
 		add_action( 'cocart_before_cart_emptied', array( $this, 'clear_cart_cached' ), 0 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
@@ -54,6 +55,7 @@ class CoCart_Cart_Cache {
 	 * @since 4.1.0 Check if the requested product allows the price to be changed.
 	 *
 	 * @hook: cocart_after_item_added_to_cart
+	 * @hook: cocart_after_items_added_to_cart
 	 *
 	 * @param array           $cart_item Before cart item modified.
 	 * @param WP_REST_Request $request   The request object.
@@ -78,6 +80,8 @@ class CoCart_Cart_Cache {
 		if ( ! empty( $price ) ) {
 			$cart_item['price'] = $price;
 		}
+
+		self::set_cached_item( $cart_item['key'], $cart_item );
 
 		return $cart_item;
 	} // END set_new_price()

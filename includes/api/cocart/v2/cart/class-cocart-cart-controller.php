@@ -1950,9 +1950,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @deprecated 4.1.0 No longer used here.
+	 *
 	 * @param array $item_added_to_cart Cart item to cache.
 	 */
 	public function cache_cart_item( $item_added_to_cart ) {
+		cocart_deprecated_function( __FUNCTION__, '4.1' );
+
 		$item_key = $item_added_to_cart['key'];
 
 		CoCart_Cart_Cache::set_cached_item( $item_key, $item_added_to_cart );
