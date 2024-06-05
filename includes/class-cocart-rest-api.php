@@ -11,6 +11,9 @@
  * @license GPL-2.0+
  */
 
+use WC_Customer as Customer;
+use WC_Cart as Cart;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -167,11 +170,14 @@ class CoCart_REST_API {
 	} // END get_v2_controllers()
 
 	/**
-	 * Loads the cart, session and notices should it be required.
+	 * Loads the session, cart and customer.
 	 *
-	 * @access  private
-	 * @since   2.0.0
-	 * @version 3.1.0
+	 * Prevents initializing if none are required for the requested API endpoint.
+	 *
+	 * @access private
+	 *
+	 * @since 2.0.0 Introduced.
+	 * @since 4.1.0 Initialize customer separately.
 	 */
 	private function maybe_load_cart() {
 		if ( CoCart_Authentication::is_rest_api_request() ) {
@@ -191,6 +197,8 @@ class CoCart_REST_API {
 			// Initialize cart.
 			$this->initialize_cart();
 
+			// Initialize customer.
+			$this->initialize_customer();
 		}
 	} // END maybe_load_cart()
 
@@ -286,23 +294,42 @@ class CoCart_REST_API {
 	} // END initialize_session()
 
 	/**
-	 * Initialize cart.
+	 * Initialize customer.
+	 *
+	 * This allows us to control which customer is assigned to the session.
 	 *
 	 * @access public
-	 * @since  2.1.0
+	 *
+	 * @since 4.1.0 Introduced.
 	 */
-	public function initialize_cart() {
-		if ( is_null( WC()->customer ) || ! WC()->customer instanceof WC_Customer ) {
-			$customer_id = strval( get_current_user_id() );
+	public function initialize_customer() {
+		if ( is_null( WC()->customer ) || ! WC()->customer instanceof Customer ) {
+			/**
+			 * Filter allows to set the customer ID.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @param int Current user ID.
+			 */
+			$customer_id = apply_filters( 'cocart_set_customer_id', get_current_user_id() );
 
-			WC()->customer = new WC_Customer( $customer_id, true );
+			WC()->customer = new Customer( $customer_id, true );
 
 			// Customer should be saved during shutdown.
 			add_action( 'shutdown', array( WC()->customer, 'save' ), 10 );
 		}
+	} // END initialize_customer()
 
-		if ( is_null( WC()->cart ) || ! WC()->cart instanceof WC_Cart ) {
-			WC()->cart = new WC_Cart();
+	/**
+	 * Initialize cart.
+	 *
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 */
+	public function initialize_cart() {
+		if ( is_null( WC()->cart ) || ! WC()->cart instanceof Cart ) {
+			WC()->cart = new Cart();
 		}
 	} // END initialize_cart()
 
