@@ -389,7 +389,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 					$item_added = $controller->get_cart_item( $item_key, 'add' );
 
 					/**
-					 * Fires if the item was added to cart.
+					 * Hook: Fires once an item has been added to cart.
 					 *
 					 * @since 2.1.0 Introduced.
 					 * @since 3.0.0 Added the request object as parameter.
@@ -436,8 +436,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since      2.1.2 Introduced.
-	 * @version    3.1.0
+	 * @since 2.1.2 Introduced.
+	 *
 	 * @deprecated 4.0.0 Replaced with `get_public_item_schema()`.
 	 *
 	 * @see get_public_item_schema()
@@ -449,7 +449,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'cocart_add_item',
 			'type'       => 'object',
 			'properties' => array(
 				'id'          => array(

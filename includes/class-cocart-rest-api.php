@@ -19,7 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API class.
+ * Responsible for loading the REST API and cache handling.
+ *
+ * @since 1.0.0 Introduced.
  */
 class CoCart_REST_API {
 

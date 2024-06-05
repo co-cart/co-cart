@@ -173,6 +173,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @deprecated 3.0.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
+	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param string          $cart_item_key Originally the cart item key.
 	 *
@@ -223,6 +225,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 2.0.0 Introduced.
+	 *
+	 * @deprecated 3.0.0 No longer use `$cart_item_key` and `$from_session` parameters. Left for declaration compatibility.
 	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param array           $cart_contents Cart content.
@@ -1730,18 +1734,20 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		// Get shipping packages.
-		$packages = WC()->shipping->get_packages();
+		$available_packages = WC()->shipping->get_packages();
 
 		$details = array(
-			'total_packages'          => count( (array) $packages ),
-			'show_package_details'    => count( (array) $packages ) > 1,
+			'total_packages'          => count( (array) $available_packages ),
+			'show_package_details'    => count( (array) $available_packages ) > 1,
 			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
 			'packages'                => array(),
 		);
 
-		$package_key = 1;
+		$packages      = array();
+		$package_key   = 1;
+		$chosen_method = ''; // Leave blank until a method has been selected.
 
-		foreach ( $packages as $i => $package ) {
+		foreach ( $available_packages as $i => $package ) {
 			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
 			$product_names = array();
 
@@ -1750,6 +1756,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
 				}
 
+				/**
+				 * Filter allows you to change the package details.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param array $product_names Product names.
+				 * @param array $package       Package details.
+				 */
 				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
 			}
 
@@ -1759,9 +1773,23 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Check that there are rates available for the package.
 			if ( count( (array) $package['rates'] ) > 0 ) {
-				$details['packages'][ $package_key ] = array(
+				$shipping_name = ( ( $i + 1 ) > 1 ) ? sprintf(
 					/* translators: %d: shipping package number */
-					'package_name'          => apply_filters( 'cocart_shipping_package_name', ( ( $i + 1 ) > 1 ) ? sprintf( _x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ), ( $i + 1 ) ) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' ), $i, $package ),
+					_x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ),
+					( $i + 1 )
+				) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' );
+
+				$packages[ $package_key ] = array(
+					/**
+					 * Filters the package name for the shipping method.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $shipping_name Shipping name.
+					 * @param int    $i
+					 * @param array  $package
+					 */
+					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $i, $package ),
 					'rates'                 => array(),
 					'package_details'       => implode( ', ', $product_names ),
 					'index'                 => $i, // Shipping package number.
@@ -1792,7 +1820,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					}
 				}
 
-				$details['packages'][ $package_key ]['rates'] = $rates;
+				$packages[ $package_key ]['rates'] = $rates;
 			}
 
 			++$package_key; // Update package key for next inline if any.

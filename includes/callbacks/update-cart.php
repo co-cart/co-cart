@@ -5,9 +5,9 @@
  * Allows you to update the cart items in bulk.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Callbacks
+ * @package CoCart\Callback
  * @since   3.1.0 Introduced.
- * @version 4.0.0
+ * @version 4.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
