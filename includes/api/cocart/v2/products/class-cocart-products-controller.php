@@ -1731,7 +1731,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 							),
 							'readonly'    => true,
 						),
-						'stock'              => array(
+						'stock'          => array(
 							'description' => __( 'Product stock details.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'object',
 							'context'     => array( 'view' ),

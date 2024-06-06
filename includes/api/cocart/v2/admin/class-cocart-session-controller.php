@@ -614,7 +614,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		if ( ! empty( $cart_fees ) ) {
 			foreach ( $cart_fees as $key => $fee ) {
 				$fees[ $key ] = array(
-					'name' => esc_html( $fee->name ),
+					'name' => esc_html( $fee['name'] ),
 					'fee'  => cocart_prepare_money_response( $this->fee_html( $session_data, $fee ), wc_get_price_decimals() ),
 				);
 			}
@@ -630,8 +630,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @param array  $session_data Session data.
-	 * @param object $fee          Fee data.
+	 * @param array $session_data Session data.
+	 * @param array $fee          Fee data.
 	 *
 	 * @return string Returns the fee value.
 	 */
