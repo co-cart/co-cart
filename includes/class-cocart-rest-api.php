@@ -6,9 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
- * @since   1.0.0
- * @version 3.10.9
- * @license GPL-2.0+
+ * @since   1.0.0 Introduced.
+ * @version 4.1.0
  */
 
 use WC_Customer as Customer;
