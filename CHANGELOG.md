@@ -1,12 +1,12 @@
 # Changelog for CoCart
 
-## v4.1.0 - ?? June, 2024
+## v4.1.0 - 6th June, 2024
 
 In this release we are adding some quality of life improvements.
 
 ### What's New?
 
-* REST API: Added new cart callback that allows you to set the customers billing details. [See guide on how to use](#)
+* REST API: Added new cart callback that allows you to set the customers billing details. [See guide on how to use](https://cocart.dev/guide/how-to-add-customer-details-to-the-cart/).
 * REST API: Basic Authentication now accepts a customers billing phone number as their username. Password is still required when authenticating.
 * REST API: Added the ability to set the customers billing phone number while adding item/s to cart.
 
@@ -17,8 +17,8 @@ In this release we are adding some quality of life improvements.
 * REST API: Authentication now detectable by authorization headers `HTTP_AUTHORIZATION`, `REDIRECT_HTTP_AUTHORIZATION` or `getallheaders()` function.
 * REST API: Re-calculating cart totals has moved to the abstract cart callback so it can be shared.
 * REST API: Setting a custom price for an item will now return that price for the item not just update the subtotals and totals.
+* REST API: When adding an item to cart with a custom price, checks if the product allows it to change. Set via filter `cocart_does_product_allow_price_change`.
 * REST API: Stock details now return for variations in the Products API (V2 Only). Schema updated to match.
-* REST API: When adding an item to cart with a custom price, check if the product allows it to change. Set via filter `cocart_does_product_allow_price_change`.
 * REST API: Added headers `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration` to be exposed with CORS.
 * REST API: Browser cache has been improved.
 
@@ -37,7 +37,7 @@ In this release we are adding some quality of life improvements.
 ### Developers
 
 * Introduced new filter `cocart_auth_header` that allows you to change the authorization header.
-* Introduced new filter `cocart_set_customer_id` that allows to set the customer ID before initialized.
+* Introduced new filter `cocart_set_customer_id` that allows you to set the customer ID before initialized.
 * Introduced new filter `cocart_available_shipping_packages` that allows you to alter the shipping packages returned.
 * Introduced new filter `cocart_does_product_allow_price_change` that allows you to deny all custom prices or on specific items.
 * Introduced new filter `cocart_update_customer_fields` that allows for additional customer fields to be validated and added if supported.
