@@ -22,11 +22,11 @@ In this release we are adding some quality of life improvements.
 * REST API: Added headers `CoCart-API-Cart-Expiring` and `CoCart-API-Cart-Expiration` to be exposed with CORS.
 * REST API: Browser cache has been improved.
 
-## Bug Fixes
+### Bug Fixes
 
 * REST API: Most product endpoints for API v2 where suddenly not registering since v4.0.
 
-## Deprecations
+### Deprecations
 
 * Removed the legacy API that CoCart started with.
 * Removed support for stores running lower than WooCommerce version 4.5
