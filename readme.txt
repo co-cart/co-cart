@@ -14,9 +14,9 @@ Make your WooCommerce store headless with CoCart, a REST API designed for decoup
 
 == Description ==
 
-### Speed up your WooCommerce store by going headless
+### Decoupling Made Easy for WooCommerce
 
-**Is your store slow? Looking to decouple away from WordPress?** [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) saves you countless hours of developing your own REST API to decouple WooCommerce. It provides a developer-friendly, out the box solution that is customizable to your requirements allowing you to build a headless store without limitations imposed by a WordPress theme—it's that simple.
+**Is your store slow? Looking to decouple away from WordPress?** [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) is a free REST API with all you need to decouple your WooCommerce store, build in any web framework, literally everything can be customized and saves you countless hours.
 
 #### What is WooCommerce?
 
@@ -24,7 +24,7 @@ WooCommerce is a **flexible, open-source commerce solution** built on WordPress,
 
 #### Why CoCart?
 
-With CoCart, we have already done the hard part for you. The API. Once installed, your WooCommerce store is ready to decouple away from WordPress, allowing you to design without limitations imposed by a WordPress theme that is harder to modify and optimize. **Utilize faster, familiar frameworks you know and love**—it's that simple.
+With CoCart, we have already done the hard part for you. The API. Once installed, your WooCommerce store is ready to decouple away from WordPress, allowing you to design without limitations imposed by a WordPress theme that is harder to modify and optimize. **Utilize faster and familiar web frameworks you know and love**—it's that simple.
 
 ## ✨ What do you get with the core of CoCart?
 
@@ -59,9 +59,9 @@ We invest our time into fully abstracting our API so you can focus on building a
 
 ### 📦 Serious about going headless?
 
-Try out more features and unlock your stores potential. Upgrade to complete the API with additional features that help make your store more awesome.
+Try out more features and unlock your stores potential. Upgrade to complete the API with additional features that help you develop your store to it's full potential.
 
-[See what we have in store](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+[See what else we have in store](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
 ★★★★★
 > This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
