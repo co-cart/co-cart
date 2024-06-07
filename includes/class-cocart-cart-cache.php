@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.1.0 Introduced.
- * @version 4.0.0
+ * @version 4.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,6 +44,7 @@ class CoCart_Cart_Cache {
 		add_action( 'cocart_before_cart_emptied', array( $this, 'clear_cart_cached' ), 0 );
 		add_action( 'woocommerce_cart_item_removed', array( $this, 'remove_cached_item' ), 99, 1 );
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'calculate_cached_items' ), 99, 1 );
+		add_filter( 'cocart_cart_item_price', array( $this, 'maybe_return_cached_price' ), 99, 3 );
 	} // END __construct()
 
 	/**
@@ -147,6 +148,36 @@ class CoCart_Cart_Cache {
 			}
 		}
 	} // END calculate_cached_items()
+
+	/**
+	 * Returns the cached price if different,
+	 * otherwise simply returns the original value.
+	 *
+	 * @access public
+	 *
+	 * @since 4.1.0 Introduced.
+	 *
+	 * @param string|int $price     Product price.
+	 * @param array      $cart_item Cart item data.
+	 * @param string     $item_key  Item key.
+	 *
+	 * @return string|int $price Product price
+	 */
+	public function maybe_return_cached_price( $price, $cart_item, $item_key ) {
+		$cart_contents_cached = $this->get_cart_contents_cached();
+
+		// If cart contents is cached, proceed.
+		if ( ! empty( $cart_contents_cached ) && is_array( $cart_contents_cached ) ) {
+			$product = $cart_item['data']; // Get original product data.
+
+			// If this item is cached then return the new price.
+			if ( ! empty( $cart_contents_cached[ $item_key ]['price'] ) ) {
+				$price = cocart_prepare_money_response( $cart_contents_cached[ $item_key ]['price'], wc_get_price_decimals() );
+			}
+		}
+
+		return $price;
+	} // END maybe_return_cached_price()
 
 	/**
 	 * Gets cart contents cached.
