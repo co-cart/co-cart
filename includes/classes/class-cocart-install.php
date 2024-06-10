@@ -317,7 +317,7 @@ class CoCart_Install {
 	 */
 	private static function remove_admin_notices() {
 		if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
-			include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php';
+			include_once COCART_ABSPATH . 'includes/classes/admin/class-cocart-admin-notices.php';
 		}
 		CoCart_Admin_Notices::remove_all_notices();
 	} // END remove_admin_notices()

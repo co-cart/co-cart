@@ -283,19 +283,18 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
 		// Core classes.
-		require_once __DIR__ . '/class-cocart-authentication.php';
-		require_once __DIR__ . '/class-cocart-api.php';
-		require_once __DIR__ . '/class-cocart-helpers.php';
-		require_once __DIR__ . '/class-cocart-install.php';
-		require_once __DIR__ . '/class-cocart-logger.php';
-		require_once __DIR__ . '/class-cocart-session.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-authentication.php';
+		require_once __DIR__ . '/classes/class-cocart-helpers.php';
+		require_once __DIR__ . '/classes/class-cocart-install.php';
+		require_once __DIR__ . '/classes/class-cocart-logger.php';
+		require_once __DIR__ . '/classes/class-cocart-session.php';
 
 		// REST API functions.
 		include_once __DIR__ . '/cocart-rest-functions.php';
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			require_once __DIR__ . '/class-cocart-cli.php';
+			require_once __DIR__ . '/classes/cocart-cli.php';
 		}
 
 		/**
@@ -307,9 +306,9 @@ final class CoCart {
 			false === COCART_WHITE_LABEL && is_admin() ||
 			( defined( 'WP_CLI' ) && WP_CLI )
 		) {
-			require_once __DIR__ . '/admin/class-cocart-admin.php';
+			require_once __DIR__ . '/classes/admin/class-cocart-admin.php';
 		} else {
-			require_once __DIR__ . '/admin/class-cocart-wc-admin-system-status.php';
+			require_once __DIR__ . '/classes/admin/class-cocart-wc-admin-system-status.php';
 		}
 	} // END includes()
 
@@ -328,7 +327,7 @@ final class CoCart {
 	 * @return void
 	 */
 	public static function background_updater() {
-		require_once __DIR__ . '/class-cocart-background-updater.php';
+		require_once __DIR__ . '/classes/class-cocart-background-updater.php';
 	} // END background_updater()
 
 	/**
@@ -454,15 +453,15 @@ final class CoCart {
 	 * @since 4.1.0  Moved REST API classes to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
-		require_once __DIR__ . '/class-cocart-cart-cache.php';
-		require_once __DIR__ . '/class-cocart-cart-callbacks.php';
-		require_once __DIR__ . '/class-cocart-cart-extension.php';
-		require_once __DIR__ . '/class-cocart-response.php';
-		require_once __DIR__ . '/class-cocart-cart-formatting.php';
-		require_once __DIR__ . '/class-cocart-cart-validation.php';
-		require_once __DIR__ . '/class-cocart-product-validation.php';
-		require_once __DIR__ . '/class-cocart-rest-api.php';
-		require_once __DIR__ . '/class-cocart-security.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-cache.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-extension.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-response.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-formatting.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-validation.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-product-validation.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-rest-api.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-security.php';
 	} // END load_rest_api()
 
 	/**
@@ -481,7 +480,7 @@ final class CoCart {
 	public static function session_handler( $handler ) {
 		if ( class_exists( 'WC_Session' ) ) {
 			include_once __DIR__ . '/abstracts/abstract-cocart-session.php';
-			require_once __DIR__ . '/class-cocart-session-handler.php';
+			require_once __DIR__ . '/classes/class-cocart-session-handler.php';
 			$handler = 'CoCart_Session_Handler';
 		}
 
@@ -515,7 +514,7 @@ final class CoCart {
 	 * @return void
 	 */
 	public static function woocommerce() {
-		require_once __DIR__ . '/class-cocart-woocommerce.php';
+		require_once __DIR__ . '/classes/class-cocart-woocommerce.php';
 	} // END woocommerce()
 
 	/**

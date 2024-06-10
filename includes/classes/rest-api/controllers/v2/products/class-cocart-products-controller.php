@@ -1098,11 +1098,11 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'readonly'    => true,
 			),
 			'type'               => array(
-				'description' => __( 'Product type.', 'cart-rest-api-for-woocommerce' ),
+				'description' => __( 'Product type. Default values are `simple | variable | variation` but other types maybe available with other product type extensions.', 'cart-rest-api-for-woocommerce' ),
 				'type'        => 'string',
 				'context'     => array( 'view' ),
 				'default'     => 'simple',
-				'enum'        => array_keys( wc_get_product_types() ),
+				'enum'        => array_merge( array_keys( wc_get_product_types() ), array( 'variation' ) ),
 				'readonly'    => true,
 			),
 			'slug'               => array(

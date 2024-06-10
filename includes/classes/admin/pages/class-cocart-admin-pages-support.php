@@ -47,7 +47,7 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 			</h1>
 			<div class="cocart-content">
 			<?php
-			include_once COCART_ABSPATH . 'includes/admin/views/html-next-steps.php';
+			include_once COCART_ABSPATH . 'includes/classes/admin/views/html-next-steps.php';
 			?>
 			</div>
 		</div>

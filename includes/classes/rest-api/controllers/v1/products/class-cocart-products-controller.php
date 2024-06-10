@@ -1214,9 +1214,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 				),
 				'type'                  => array(
-					'description' => __( 'Product type.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Product type. Default values are `simple | variable | variation` but other types maybe also be available with other product type extensions.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
-					'default'     => 'simple',
 					'enum'        => array_merge( array_keys( wc_get_product_types() ), array( 'variation' ) ),
 					'context'     => array( 'view' ),
 					'readonly'    => true,
@@ -1229,7 +1228,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 				),
 				'catalog_visibility'    => array(
-					'description' => __( 'Catalog visibility.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Catalog visibility. Default is visible. Other values are `any | catalog | search and hidden`.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'default'     => 'visible',
 					'enum'        => array( 'any', 'visible', 'catalog', 'search', 'hidden' ),
@@ -1255,19 +1254,19 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 				),
 				'price'                 => array(
-					'description' => __( 'Current product price.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The current price of the product. Returns formatted.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'regular_price'         => array(
-					'description' => __( 'Product regular price.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The regular price of the product. Returns formatted.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'sale_price'            => array(
-					'description' => __( 'Product sale price.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The sale price of the product. Returns formatted.', 'cart-rest-api-for-woocommerce' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

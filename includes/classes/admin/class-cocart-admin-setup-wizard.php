@@ -474,8 +474,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			)
 		);
 
-		include_once COCART_ABSPATH . 'includes/admin/views/html-setup-ready.php';
-		include_once COCART_ABSPATH . 'includes/admin/views/html-next-steps.php';
+		include_once COCART_ABSPATH . 'includes/classes/admin/views/html-setup-ready.php';
+		include_once COCART_ABSPATH . 'includes/classes/admin/views/html-next-steps.php';
 	} // END cocart_setup_wizard_ready()
 
 	/**

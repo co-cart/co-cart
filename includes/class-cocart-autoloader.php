@@ -35,7 +35,7 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 
 			spl_autoload_register( array( $this, 'autoload' ) );
 
-			$this->include_path = untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/';
+			$this->include_path = __DIR__;
 		}
 
 		/**

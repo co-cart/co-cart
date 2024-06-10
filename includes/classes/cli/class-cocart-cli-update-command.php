@@ -108,7 +108,7 @@ class CoCart_CLI_Update_Command {
 
 		$progress->finish();
 
-		include_once COCART_ABSPATH . 'includes/admin/class-cocart-admin-notices.php'; // @todo Remove line in v4.0
+		include_once COCART_ABSPATH . 'includes/classes/admin/class-cocart-admin-notices.php'; // @todo Remove line in future.
 		CoCart_Admin_Notices::remove_notice( 'update_db', true );
 
 		WP_CLI::success(
