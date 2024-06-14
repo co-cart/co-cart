@@ -281,6 +281,7 @@ final class CoCart {
 		// Important functions.
 		include_once __DIR__ . '/cocart-background-functions.php';
 		include_once __DIR__ . '/cocart-core-functions.php';
+		include_once __DIR__ . '/cocart-deprecated-functions.php';
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
 		// Core classes.
