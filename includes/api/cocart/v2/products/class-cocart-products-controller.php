@@ -246,8 +246,10 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	public function get_variations( $product ) {
 		$variation_ids    = $product->get_children();
 		$tax_display_mode = $this->get_tax_display_mode();
-		$price_function   = $this->get_price_from_tax_display_mode( $tax_display_mode );
+		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 		$variations       = array();
+
+		$attachment_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
 
 		foreach ( $variation_ids as $variation_id ) {
 			$variation = wc_get_product( $variation_id );
@@ -454,7 +456,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		$average      = $product->get_average_rating( 'view' );
 
 		$tax_display_mode = $this->get_tax_display_mode();
-		$price_function   = $this->get_price_from_tax_display_mode( $tax_display_mode );
+		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 		// If we have a variable product, get the price from the variations (this will use the min value).
 		if ( $product->is_type( 'variable' ) ) {
@@ -940,6 +942,10 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode()
+	 *
 	 * @param string $tax_display_mode If returned prices are incl or excl of tax.
 	 *
 	 * @return string Function name.
@@ -988,7 +994,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 		if ( $product->is_type( 'grouped' ) ) {
 			$children       = array_filter( array_map( 'wc_get_product', $product->get_children() ), 'wc_products_array_filter_visible_grouped' );
-			$price_function = $this->get_price_from_tax_display_mode( $tax_display_mode );
+			$price_function = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 			foreach ( $children as $child ) {
 				if ( '' !== $child->get_price() ) {
@@ -2166,7 +2172,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		);
 
 		// Fetch each image size.
-		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
+		$attachment_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
 
 		foreach ( $attachment_sizes as $size ) {
 			// Generate the product image URL properties for each attachment size.

@@ -2188,7 +2188,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		);
 
 		// Fetch each image size.
-		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
+		$attachment_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
 
 		foreach ( $attachment_sizes as $size ) {
 			// Generate the product image URL properties for each attachment size.
