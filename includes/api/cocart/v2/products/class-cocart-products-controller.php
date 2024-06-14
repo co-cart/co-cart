@@ -958,8 +958,10 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * Returns the price range for variable or grouped product.
 	 *
 	 * @access public
-	 * @param  \WC_Product $product Product object.
-	 * @param  string      $tax_display_mode If returned prices are incl or excl of tax.
+	 *
+	 * @param \WC_Product $product Product object.
+	 * @param string      $tax_display_mode If returned prices are incl or excl of tax.
+	 *
 	 * @return array
 	 */
 	public function get_price_range( $product, $tax_display_mode = '' ) {
@@ -971,6 +973,14 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$prices = $product->get_variation_prices( true );
 
 			if ( empty( $prices['price'] ) ) {
+				/**
+				 * Filter the variable products empty prices.
+				 *
+				 * @since 3.1.0 Introduced.
+				 *
+				 * @param array      Empty array.
+				 * @param WC_Product The project object.
+				 */
 				$price = apply_filters( 'cocart_products_variable_empty_price', array(), $product );
 			} else {
 				$min_price     = current( $prices['price'] );
@@ -1010,6 +1020,14 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 		}
 
+		/**
+		 * Filters the products price range.
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @param array      $price   The current product price range.
+		 * @param WC_Product $product The product object.
+		 */
 		return apply_filters( 'cocart_products_get_price_range', $price, $product );
 	} // END get_price_range()
 
