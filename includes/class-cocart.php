@@ -283,7 +283,6 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
 		// Core classes.
-		require_once __DIR__ . '/class-cocart-authentication.php';
 		require_once __DIR__ . '/class-cocart-api.php';
 		require_once __DIR__ . '/class-cocart-helpers.php';
 		require_once __DIR__ . '/class-cocart-install.php';
@@ -462,6 +461,7 @@ final class CoCart {
 		require_once __DIR__ . '/class-cocart-cart-validation.php';
 		require_once __DIR__ . '/class-cocart-product-validation.php';
 		require_once __DIR__ . '/class-cocart-rest-api.php';
+		require_once __DIR__ . '/class-cocart-authentication.php';
 		require_once __DIR__ . '/class-cocart-security.php';
 	} // END load_rest_api()
 
