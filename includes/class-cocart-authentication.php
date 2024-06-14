@@ -718,17 +718,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			// Customer ID used as the cart key by default.
 			$cart_key = WC()->session->get_customer_id();
 
-			// Get cart cookie... if any.
-			$cookie = WC()->session->get_session_cookie();
-
-			// If a cookie exist, override cart key.
-			if ( $cookie ) {
-				$cart_key = $cookie[0];
-			}
-
-			// Check if we requested to load a specific cart.
-			$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
 			// Send cart key in the header if it's not empty or ZERO.
 			if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
 				rest_get_server()->send_header( 'CoCart-API-Cart-Key', $cart_key );
