@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v4.1.1 - 14th June, 2024
+
+### Bug Fix
+
+* Uncaught error with no featured image for a variation of a variable product. [Solves issue 416](https://github.com/co-cart/co-cart/issues/416)
+
 ## v4.1.0 - 6th June, 2024
 
 In this release we are adding some quality of life improvements.
