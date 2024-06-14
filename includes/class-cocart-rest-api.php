@@ -216,7 +216,7 @@ class CoCart_REST_API {
 	 * @return null|boolean
 	 */
 	protected function has_user_switched() {
-		_deprecated_function( __FUNCTION__, 'User switching is now deprecated.', '4.1.0' );
+		cocart_deprecated_function( 'CoCart_REST_API::has_user_switched', __( 'User switching is now deprecated.', 'cart-rest-api-for-woocommerce' ), '4.1.0' );
 
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
 			return;
@@ -261,7 +261,7 @@ class CoCart_REST_API {
 	 * @deprecated 4.1.0 No replacement.
 	 */
 	public function user_switched() {
-		_deprecated_function( __FUNCTION__, 'User switching is now deprecated.', '4.1.0' );
+		cocart_deprecated_function( 'CoCart_REST_API::user_switched', __( 'User switching is now deprecated.', 'cart-rest-api-for-woocommerce' ), '4.1.0' );
 
 		cocart_do_deprecated_action( 'cocart_user_switched', '4.1.0', null );
 	} // END user_switched()
