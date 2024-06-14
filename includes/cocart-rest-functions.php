@@ -73,7 +73,7 @@ function cocart_do_deprecated_filter( $tag, $version = '', $replacement = null, 
  * @param   string $message     A message regarding the change.
  */
 function cocart_deprecated_hook( $hook, $version, $replacement = null, $message = null ) {
-	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+	if ( wp_doing_ajax() || CoCart::is_rest_api_request() ) {
 		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
@@ -110,7 +110,7 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
  * @param   string $message     A message regarding the change.
  */
 function cocart_deprecated_filter( $filter, $args = array(), $version = '', $replacement = null, $message = null ) {
-	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+	if ( wp_doing_ajax() || CoCart::is_rest_api_request() ) {
 		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
@@ -140,7 +140,7 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
  *
  * @since 3.10.8 Introduced.
  *
- * @uses CoCart_Authentication::is_rest_api_request() to check if the request is a REST API request.
+ * @uses CoCart::is_rest_api_request() to check if the request is a REST API request.
  * @uses CoCart_Logger::log() to log the deprecation.
  *
  * @param string $function_name Function used.
@@ -148,7 +148,7 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
  * @param string $replacement   Replacement for the called function.
  */
 function cocart_deprecated_function( $function_name, $version = '', $replacement = null ) {
-	if ( wp_doing_ajax() || CoCart_Authentication::is_rest_api_request() ) {
+	if ( wp_doing_ajax() || CoCart::is_rest_api_request() ) {
 		do_action( 'deprecated_function_run', $function_name, $replacement, $version ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$log_string = sprintf(

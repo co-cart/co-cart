@@ -181,7 +181,7 @@ class CoCart_REST_API {
 	 * @since 4.1.0 Initialize customer separately.
 	 */
 	private function maybe_load_cart() {
-		if ( CoCart_Authentication::is_rest_api_request() ) {
+		if ( CoCart::is_rest_api_request() ) {
 
 			// Check if we should prevent the requested route from initializing the session and cart.
 			if ( $this->prevent_routes_from_initializing() ) {

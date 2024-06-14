@@ -74,7 +74,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 */
 		public function __construct() {
 			// Check that we are only authenticating for our API.
-			if ( $this->is_rest_api_request() ) {
+			if ( CoCart::is_rest_api_request() ) {
 				// Authenticate user.
 				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 				add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
@@ -119,39 +119,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				wc_update_user_last_active( $current_user->ID );
 				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
-
-			return $error;
 		} // END cocart_user_logged_in()
-
-		/**
-		 * Returns true if we are making a REST API request for CoCart.
-		 *
-		 * @access public
-		 *
-		 * @static
-		 *
-		 * @since 2.1.0 Introduced.
-		 *
-		 * @return bool
-		 */
-		public static function is_rest_api_request() {
-			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
-				return false;
-			}
-
-			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-			$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
-			/**
-			 * Filters the REST API requested.
-			 *
-			 * @since 2.1.0 Introduced.
-			 *
-			 * @param string $is_rest_api_request REST API uri requested.
-			 */
-			return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
-		} // END is_rest_api_request()
 
 		/**
 		 * Get the authorization header.

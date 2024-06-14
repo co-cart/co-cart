@@ -42,7 +42,7 @@ if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {
 		 * @return bool
 		 */
 		public function maybe_calculate_tax( $should_calculate ) {
-			if ( CoCart_Authentication::is_rest_api_request() ) {
+			if ( CoCart::is_rest_api_request() ) {
 				$should_calculate = true;
 			}
 

@@ -466,6 +466,38 @@ final class CoCart {
 	} // END load_rest_api()
 
 	/**
+	 * Returns true if we are making a REST API request for CoCart.
+	 *
+	 * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @return bool
+	 */
+	public static function is_rest_api_request() {
+		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+			return false;
+		}
+
+		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
+		$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		/**
+		 * Filters the REST API requested.
+		 *
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @param string $is_rest_api_request REST API uri requested.
+		 */
+		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
+	} // END is_rest_api_request()
+
+	/**
 	 * Filters the session handler to replace with our own.
 	 *
 	 * @access public
