@@ -138,11 +138,9 @@ class CoCart_Response {
 			$response = rest_ensure_response( $data );
 
 			// Add timestamp of response.
-			$response->header( 'X-CoCart-API-Timestamp', time() ); // @todo Deprecate in v5.0
 			$response->header( 'CoCart-Timestamp', time() );
 
 			// Add version of CoCart.
-			$response->header( 'X-CoCart-API-Version', COCART_VERSION ); // @todo Deprecate in v5.0
 			$response->header( 'CoCart-Version', COCART_VERSION );
 
 			// Returns additional headers for the cart endpoint.

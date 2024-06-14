@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.5
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 WC requires at least: 4.3
 WC tested up to: 8.9
 License: GPLv3
@@ -342,6 +342,12 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.1.1 - 14th June, 2024 =
+
+### Bug Fix
+
+* Uncaught error with no featured image for a variation of a variable product. [Solves issue 416](https://github.com/co-cart/co-cart/issues/416)
+
 = v4.1.0 - 6th June, 2024 =
 
 In this release we are adding some quality of life improvements.
@@ -490,6 +496,6 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
-= 4.1.0 =
+= 4.1.1 =
 
-Most product endpoints for API v2 where suddenly not registering since v4.0.
+Fixed uncaught error with no featured image for a variation of a variable product.

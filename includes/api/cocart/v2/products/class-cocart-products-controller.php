@@ -265,10 +265,14 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$expected_attributes = wc_get_product_variation_attributes( $variation_id );
 			$featured_image_id   = $variation->get_image_id();
 			$attachment_post     = get_post( $featured_image_id );
-			$attachment_sizes    = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
+			$attachments         = array();
 
 			// Get each image size of the attachment.
 			foreach ( $attachment_sizes as $size ) {
+				if ( is_null( $attachment_post ) ) {
+					continue;
+				}
+
 				$attachments[ $size ] = current( wp_get_attachment_image_src( $featured_image_id, $size ) );
 			}
 
