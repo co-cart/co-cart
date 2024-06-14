@@ -171,7 +171,7 @@ class CoCart_REST_API {
 	} // END get_v2_controllers()
 
 	/**
-	 * Loads the session, cart and customer.
+	 * Loads the session, customer and cart.
 	 *
 	 * Prevents initializing if none are required for the requested API endpoint.
 	 *
@@ -195,11 +195,11 @@ class CoCart_REST_API {
 			// Initialize session.
 			$this->initialize_session();
 
-			// Initialize cart.
-			$this->initialize_cart();
-
 			// Initialize customer.
 			$this->initialize_customer();
+
+			// Initialize cart.
+			$this->initialize_cart();
 		}
 	} // END maybe_load_cart()
 
