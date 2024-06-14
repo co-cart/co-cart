@@ -874,37 +874,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
 	 * @return string Cart key.
 	 */
-	public function get_cart_key( $request ) {
-		if ( ! class_exists( 'CoCart_Session_Handler' ) || ! WC()->session instanceof CoCart_Session_Handler ) {
-			return;
+	public function get_cart_key() {
+		if ( ! method_exists( WC()->session, 'get_customer_id' ) ) {
+			return '';
 		}
 
-		// Current user ID.
-		$current_user_id = strval( get_current_user_id() );
-
-		if ( $current_user_id > 0 ) {
-			return $current_user_id;
-		}
-
-		// Customer ID used as the cart key by default.
-		$cart_key = WC()->session->get_customer_id();
-
-		// Get cart cookie... if any.
-		$cookie = WC()->session->get_session_cookie();
-
-		// Does a cookie exist?
-		if ( $cookie ) {
-			$cart_key = $cookie[0];
-		}
-
-		// Check if we requested to load a specific cart.
-		$cart_key = ! empty( $request['cart_key'] ) ? $request['cart_key'] : $cart_key;
-
-		return $cart_key;
+		return (string) WC()->session->get_customer_id();
 	} // END get_cart_key()
 
 	/**

@@ -274,8 +274,7 @@ class CoCart_REST_API {
 	 * @since 2.1.0 Introduced.
 	 */
 	public function initialize_session() {
-		if ( class_exists( 'WC_Session' ) ) {
-			include_once __DIR__ . '/abstracts/abstract-cocart-session.php';
+		if ( class_exists( 'WC_Session_Handler' ) ) {
 			require_once __DIR__ . '/class-cocart-session-handler.php';
 		}
 

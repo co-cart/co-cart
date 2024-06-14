@@ -280,6 +280,7 @@ final class CoCart {
 
 		// Important functions.
 		include_once __DIR__ . '/cocart-background-functions.php';
+		include_once __DIR__ . '/cocart-core-functions.php';
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
 		// Core classes.
@@ -479,8 +480,7 @@ final class CoCart {
 	 * @return string $handler CoCart Session Handler.
 	 */
 	public static function session_handler( $handler ) {
-		if ( class_exists( 'WC_Session' ) ) {
-			include_once __DIR__ . '/abstracts/abstract-cocart-session.php';
+		if ( class_exists( 'WC_Session_Handler' ) ) {
 			require_once __DIR__ . '/class-cocart-session-handler.php';
 			$handler = 'CoCart_Session_Handler';
 		}
