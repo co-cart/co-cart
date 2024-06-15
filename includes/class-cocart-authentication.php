@@ -505,7 +505,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					'X-WP-Total',
 					'X-WP-TotalPages',
 					'Link',
-					'X-CoCart-API', // @todo Deprecate in v5.0
 					'CoCart-API-Cart-Key',
 					'CoCart-API-Cart-Expiring',
 					'CoCart-API-Cart-Expiration',
