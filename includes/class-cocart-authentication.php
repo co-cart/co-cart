@@ -102,15 +102,16 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @access public
 		 *
 		 * @since 2.9.1 Introduced.
-		 * @since 4.x.x Checks the user logged in is not a customer to prevent persistent cart.
 		 *
-		 * @uses WC()->session->is_user_customer()
+		 * @deprecated 4.x.x No replacement. Not needed anymore.
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
 		 * @return WP_Error|null|bool
 		 */
 		public function cocart_user_logged_in( $error ) {
+			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.x.x', null );
+
 			// Pass through errors from other authentication error checks used before this one.
 			if ( ! empty( $error ) ) {
 				return $error;
