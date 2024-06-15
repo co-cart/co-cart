@@ -312,8 +312,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'add_to_cart'    => array(
 					'is_purchasable'    => $variation->is_purchasable(),
 					'purchase_quantity' => array(
-						'min_purchase' => apply_filters( 'cocart_quantity_minimum_requirement', $variation->get_min_purchase_quantity(), $variation ),
-						'max_purchase' => apply_filters( 'cocart_quantity_maximum_allowed', $variation->get_max_purchase_quantity(), $variation ),
+						'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $variation ),
+						'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $variation ),
 					),
 					'rest_url'          => $this->add_to_cart_rest_url( $variation, $variation->get_type() ),
 				),
@@ -472,8 +472,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 		if ( ! $product->is_type( 'variable' ) && ! $product->is_type( 'external' ) ) {
 			$purchase_quantity = array(
-				'min_purchase' => apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product ),
-				'max_purchase' => apply_filters( 'cocart_quantity_maximum_allowed', $product->get_max_purchase_quantity(), $product ),
+				'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
+				'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
 			);
 		}
 

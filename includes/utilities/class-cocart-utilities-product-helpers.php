@@ -39,6 +39,51 @@ class CoCart_Utilities_Product_Helpers {
 	// ** Product Details **//
 
 	/**
+	 * Returns the product quantity minimum requirement.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @param WC_Product The product object.
+	 *
+	 * @return int Quantity
+	 */
+	public static function get_quantity_minimum_requirement( $product ) {
+		/**
+		 * Filters the minimum quantity requirement the product allows to be purchased.
+		 *
+		 * @since 3.1.0 Introduced.
+		 */
+		return (int) apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
+	} // END get_quantity_minimum_requirement()
+
+	/**
+	 * Returns the product maximum quantity allowed.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @param WC_Product The product object.
+	 *
+	 * @return int Quantity
+	 */
+	public static function get_quantity_maximum_allowed( $product ) {
+		/**
+		 * Filters the products maximum quantity allowed to be purchased.
+		 *
+		 * @since 3.1.0 Introduced.
+		 */
+		return apply_filters( 'cocart_quantity_maximum_allowed', $product->get_max_purchase_quantity(), $product );
+	} // END get_quantity_maximum_allowed()
+
+
+	/**
 	 * WooCommerce can return prices including or excluding tax.
 	 * Choose the correct method based on tax display mode.
 	 *
