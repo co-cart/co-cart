@@ -118,21 +118,12 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			global $current_user;
 
-			// Set the user last active timestamp to now.
-			wc_update_user_last_active( $current_user->ID );
-
-			// Check that the CoCart session handler has loaded.
-			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
-				return $error;
-			}
-
-			/**
-			 * Only load saved cart if user is a customer. This prevents persistent cart
-			 * cache issue when managing a fresh session for the customer.
-			*/
-			if ( WC()->session->is_user_customer( $current_user->ID ) ) {
+			if ( $current_user instanceof WP_User && $current_user->exists() ) {
+				wc_update_user_last_active( $current_user->ID );
 				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
+
+			return $error;
 		} // END cocart_user_logged_in()
 
 		/**
