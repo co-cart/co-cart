@@ -153,7 +153,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			$this->_data = $this->get_session_data();
 
 			// If the user logs in, update session.
-			if ( is_user_logged_in() && $current_user_id !== $this->_customer_id ) {
+			if ( is_user_logged_in() && $this->is_user_customer( $current_user_id ) && $current_user_id !== $this->_customer_id ) {
 				$guest_session_id   = $this->_customer_id;
 				$this->_customer_id = $current_user_id;
 				$this->save_data( $guest_session_id );
@@ -171,6 +171,33 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			$this->_data        = $this->get_session_data();
 		}
 	} // END init_session_cocart()
+
+	/**
+	 * Detect if the user is a customer.
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @param int $user_id The user ID.
+	 *
+	 * @return bool Returns true if user is a customer, otherwise false.
+	 */
+	public function is_user_customer( $user_id ) {
+		if ( ! is_int( $user_id ) || 0 === $user_id ) {
+			return false;
+		}
+
+		$current_user = get_userdata( $user_id );
+
+		if ( ! empty( $current_user ) ) {
+			$user_roles = $current_user->roles;
+
+			if ( in_array( 'customer', $user_roles, true ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	} // END is_user_customer()
 
 	/**
 	 * Return true if the current customer has an active cart.
