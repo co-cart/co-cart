@@ -79,9 +79,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 				add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
 
-				// Triggers saved cart after login and updates user activity.
-				add_filter( 'rest_authentication_errors', array( $this, 'cocart_user_logged_in' ), 10 );
-
 				// Check authentication errors.
 				add_filter( 'rest_authentication_errors', array( $this, 'check_authentication_error' ), 15 );
 
