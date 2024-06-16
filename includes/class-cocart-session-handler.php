@@ -121,7 +121,17 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			$cart_key = (string) trim( sanitize_key( wp_unslash( $_SERVER['HTTP_COCART_API_CART_KEY'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
-		return $cart_key;
+		/**
+		 * Filter allows the cart key to be overridden.
+		 *
+		 * Developer Note: Really only here so I don't have to create
+		 * a new session handler to inject a customer ID with the POS Support Add-on.
+		 *
+		 * @since 4.x.x Introduced.
+		 *
+		 * @ignore Function ignored when parsed into Code Reference.
+		 */
+		return apply_filters( 'cocart_requested_cart_key', $cart_key );
 	} // END get_requested_cart()
 
 	/**
