@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Product Variations controller
+ * REST API: Product Variations controller
  *
  * Handles requests to the /products/variations endpoint.
  *

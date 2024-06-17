@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Product Categories controller
+ * REST API: Product Categories controller
  *
  * Handles requests to the products/categories endpoint.
  *

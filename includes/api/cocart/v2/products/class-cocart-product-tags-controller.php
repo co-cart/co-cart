@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Product Tags controller
+ * REST API: Product Tags controller
  *
  * Handles requests to the products/tags endpoint.
  *
