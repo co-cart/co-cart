@@ -79,9 +79,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 				add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
 
-				// Triggers saved cart after login and updates user activity.
-				add_filter( 'rest_authentication_errors', array( $this, 'cocart_user_logged_in' ), 10 );
-
 				// Check authentication errors.
 				add_filter( 'rest_authentication_errors', array( $this, 'check_authentication_error' ), 15 );
 
@@ -102,15 +99,16 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @access public
 		 *
 		 * @since 2.9.1 Introduced.
-		 * @since 4.x.x Checks the user logged in is not a customer to prevent persistent cart.
 		 *
-		 * @uses WC()->session->is_user_customer()
+		 * @deprecated 4.x.x No replacement. Not needed anymore.
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
 		 * @return WP_Error|null|bool
 		 */
 		public function cocart_user_logged_in( $error ) {
+			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.x.x', null );
+
 			// Pass through errors from other authentication error checks used before this one.
 			if ( ! empty( $error ) ) {
 				return $error;
@@ -118,21 +116,12 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			global $current_user;
 
-			// Set the user last active timestamp to now.
-			wc_update_user_last_active( $current_user->ID );
-
-			// Check that the CoCart session handler has loaded.
-			if ( ! WC()->session instanceof CoCart_Session_Handler ) {
-				return $error;
-			}
-
-			/**
-			 * Only load saved cart if user is a customer. This prevents persistent cart
-			 * cache issue when managing a fresh session for the customer.
-			*/
-			if ( WC()->session->is_user_customer( $current_user->ID ) ) {
+			if ( $current_user instanceof WP_User && $current_user->exists() ) {
+				wc_update_user_last_active( $current_user->ID );
 				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
 			}
+
+			return $error;
 		} // END cocart_user_logged_in()
 
 		/**
@@ -513,7 +502,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					'X-WP-Total',
 					'X-WP-TotalPages',
 					'Link',
-					'X-CoCart-API', // @todo Deprecate in v5.0
 					'CoCart-API-Cart-Key',
 					'CoCart-API-Cart-Expiring',
 					'CoCart-API-Cart-Expiration',

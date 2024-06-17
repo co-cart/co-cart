@@ -10,13 +10,14 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 ### What's New?
 
-* Can now request a cart session via a requested header `HTTP_COCART_API_CART_KEY`.
+* Can now request a cart session via a requested header `cocart-api-cart-key`.
 
 ### Improvements
 
 * Improved session handling for headless.
 * Reverted back to WooCommerce cookie name which also deprecates filter `cocart_cookie`.
 * Moved `is_rest_api_request()` function to the main class so it can be utilized more outside of CoCart plugin.
+* Added new function `is_user_customer()` to check the user role is a customer when authenticated before migrating cart from guest.
 
 ### Deprecations
 
