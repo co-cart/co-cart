@@ -293,11 +293,7 @@ class CoCart_Helpers {
 	 * @return boolean
 	 */
 	public static function is_cocart_pre_release() {
-		$version = self::get_cocart_version();
-
-		if ( strpos( $version, 'beta' ) ||
-			strpos( $version, 'rc' )
-		) {
+		if ( self::is_pre_release( self::get_cocart_version() ) ) {
 			return true;
 		}
 
@@ -316,9 +312,7 @@ class CoCart_Helpers {
 	 * @return boolean
 	 */
 	public static function is_cocart_beta() {
-		$version = self::get_cocart_version();
-
-		if ( strpos( $version, 'beta' ) ) {
+		if ( self::is_beta_release( self::get_cocart_version() ) ) {
 			return true;
 		}
 
@@ -337,14 +331,89 @@ class CoCart_Helpers {
 	 * @return boolean
 	 */
 	public static function is_cocart_rc() {
-		$version = self::get_cocart_version();
+		if ( self::is_rc_release( self::get_cocart_version() ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_cocart_rc()
+
+	/**
+	 * Returns true if version is a Beta release.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 *
+	 * @return boolean
+	 */
+	public static function is_beta_release( $version = '' ) {
+		if ( empty( $version ) ) {
+			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+		}
+
+		if ( strpos( $version, 'beta' ) ) {
+			return true;
+		}
+
+		return false;
+	} // END is_beta_release()
+
+	/**
+	 * Returns true if version is a Release Candidate.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 *
+	 * @return boolean
+	 */
+	public static function is_rc_release( $version = '' ) {
+		if ( empty( $version ) ) {
+			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+		}
 
 		if ( strpos( $version, 'rc' ) ) {
 			return true;
 		}
 
 		return false;
-	} // END is_cocart_rc()
+	} // END is_rc_release()
+
+	/**
+	 * Returns true if version is a pre-release.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 *
+	 * @return boolean
+	 */
+	public static function is_pre_release( $version = '' ) {
+		if ( empty( $version ) ) {
+			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+		}
+
+		if (
+			strpos( $version, 'beta' ) || strpos( $version, 'rc' )
+		) {
+			return true;
+		}
+
+		return false;
+	} // END is_pre_release()
 
 	/**
 	 * Checks if CoCart Plus is installed.
