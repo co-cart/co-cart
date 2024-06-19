@@ -620,6 +620,8 @@ class CoCart_Helpers {
 		return array(
 			'cocart-cors',
 			'cocart-get-cart-enhanced',
+			'cocart-jwt-authentication',
+			'cocart-rate-limiting',
 			'cocart-carts-in-session',
 		);
 	} // ENF get_wporg_cocart_plugins()
