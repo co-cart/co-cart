@@ -645,8 +645,11 @@ class CoCart_Helpers {
 		// Get the years.
 		$years = (int) ( $seconds / YEAR_IN_SECONDS ) % 100;
 		if ( $years > 1 ) {
-			/* translators: %s: Number of years */
-			return sprintf( __( '%s years', 'cart-rest-api-for-woocommerce' ), $years );
+			return sprintf(
+				/* translators: %s: Number of years */
+				__( '%s years', 'cart-rest-api-for-woocommerce' ),
+				$years
+			);
 		} elseif ( $years > 0 ) {
 			return __( 'a year', 'cart-rest-api-for-woocommerce' );
 		}
@@ -654,8 +657,11 @@ class CoCart_Helpers {
 		// Get the months.
 		$months = (int) ( $seconds / MONTH_IN_SECONDS ) % 52;
 		if ( $months > 1 ) {
-			/* translators: %s: Number of months */
-			return sprintf( __( '%s months', 'cart-rest-api-for-woocommerce' ), $months );
+			return sprintf(
+				/* translators: %s: Number of months */
+				__( '%s months', 'cart-rest-api-for-woocommerce' ),
+				$months
+			);
 		} elseif ( $months > 0 ) {
 			return __( '1 month', 'cart-rest-api-for-woocommerce' );
 		}
@@ -663,8 +669,11 @@ class CoCart_Helpers {
 		// Get the weeks.
 		$weeks = (int) ( $seconds / WEEK_IN_SECONDS ) % 52;
 		if ( $weeks > 1 ) {
-			/* translators: %s: Number of weeks */
-			return sprintf( __( '%s weeks', 'cart-rest-api-for-woocommerce' ), $weeks );
+			return sprintf(
+				/* translators: %s: Number of weeks */
+				__( '%s weeks', 'cart-rest-api-for-woocommerce' ),
+				$weeks
+			);
 		} elseif ( $weeks > 0 ) {
 			return __( 'a week', 'cart-rest-api-for-woocommerce' );
 		}
@@ -672,8 +681,11 @@ class CoCart_Helpers {
 		// Get the days.
 		$days = (int) ( $seconds / DAY_IN_SECONDS ) % 7;
 		if ( $days > 1 ) {
-			/* translators: %s: Number of days */
-			return sprintf( __( '%s days', 'cart-rest-api-for-woocommerce' ), $days );
+			return sprintf(
+				/* translators: %s: Number of days */
+				__( '%s days', 'cart-rest-api-for-woocommerce' ),
+				$days
+			);
 		} elseif ( $days > 0 ) {
 			return __( 'a day', 'cart-rest-api-for-woocommerce' );
 		}
@@ -681,8 +693,11 @@ class CoCart_Helpers {
 		// Get the hours.
 		$hours = (int) ( $seconds / HOUR_IN_SECONDS ) % 24;
 		if ( $hours > 1 ) {
-			/* translators: %s: Number of hours */
-			return sprintf( __( '%s hours', 'cart-rest-api-for-woocommerce' ), $hours );
+			return sprintf(
+				/* translators: %s: Number of hours */
+				__( '%s hours', 'cart-rest-api-for-woocommerce' ),
+				$hours
+			);
 		} elseif ( $hours > 0 ) {
 			return __( 'an hour', 'cart-rest-api-for-woocommerce' );
 		}
