@@ -761,6 +761,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @deprecated 4.x.x Use `cocart_get_timestamp()` instead.
 	 *
+	 * @see cocart_get_timestamp()
+	 *
 	 * @param string $cart_key The cart key.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
@@ -791,6 +793,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @deprecated 4.x.x Use `cocart_get_timestamp()` instead.
 	 *
+	 * @see cocart_get_timestamp()
+	 *
 	 * @param string $cart_key The cart key.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
@@ -820,6 +824,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @since 3.1.0 Introduced.
 	 *
 	 * @deprecated 4.x.x Use `cocart_get_source()` instead.
+	 *
+	 * @see cocart_get_source()
 	 *
 	 * @param string $cart_key The cart key.
 	 *
