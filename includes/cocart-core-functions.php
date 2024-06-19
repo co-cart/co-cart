@@ -49,7 +49,9 @@ function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) {
 		$value = 'cart_expiry';
 	}
 
-	$result = $wpdb->get_var( $wpdb->prepare( "SELECT $value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$result = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->prepare( "SELECT $value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	);
 
 	return $result;
 } // END cocart_get_timestamp()
@@ -68,7 +70,9 @@ function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) {
 function cocart_get_source( $cart_key ) {
 	global $wpdb;
 
-	$value = $wpdb->get_var( $wpdb->prepare( "SELECT cart_source FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->prepare( "SELECT cart_source FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	);
 
 	return $value;
 } // END cocart_get_source()
@@ -86,7 +90,7 @@ function cocart_get_source( $cart_key ) {
 function cocart_maybe_show_results() {
 	global $wpdb;
 
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}cocart_carts';" ) ) {
+	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}cocart_carts';" ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return true;
 	}
 
@@ -112,14 +116,14 @@ function cocart_carts_in_session( $session = '' ) {
 	}
 
 	if ( empty( $session ) ) {
-		$results = $wpdb->get_results(
+		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			"
 			SELECT COUNT(cart_id) as count 
 			FROM {$wpdb->prefix}cocart_carts",
 			ARRAY_A
 		);
 	} else {
-		$results = $wpdb->get_results(
+		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			"
 			SELECT COUNT(session_id) as count 
 			FROM {$wpdb->prefix}woocommerce_sessions",
@@ -146,7 +150,7 @@ function cocart_count_carts_expiring() {
 		return 0;
 	}
 
-	$results = $wpdb->get_results(
+	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"
 			SELECT COUNT(cart_id) as count
@@ -177,7 +181,7 @@ function cocart_count_carts_active() {
 		return 0;
 	}
 
-	$results = $wpdb->get_results(
+	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"
 			SELECT COUNT(cart_id) as count
@@ -207,7 +211,7 @@ function cocart_count_carts_expired() {
 		return 0;
 	}
 
-	$results = $wpdb->get_results(
+	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"
 			SELECT COUNT(cart_id) as count
@@ -237,7 +241,7 @@ function cocart_carts_source_web() {
 		return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
 	}
 
-	$results = $wpdb->get_results(
+	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"
 			SELECT COUNT(cart_id) as count
@@ -267,7 +271,7 @@ function cocart_carts_source_headless() {
 		return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
 	}
 
-	$results = $wpdb->get_results(
+	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"
 			SELECT COUNT(cart_id) as count
@@ -297,7 +301,7 @@ function cocart_carts_source_other() {
 		return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
 	}
 
-	$results = $wpdb->get_results(
+	$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->prepare(
 			"
 			SELECT COUNT(cart_id) as count
