@@ -572,7 +572,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 *
 			 * @since 3.0.0 Introduced.
 			 */
-			$api_not_allowed = apply_filters( 'cocart_api_permission_check_{$method}', array() );
+			$api_not_allowed = apply_filters( 'cocart_api_permission_check_' . $method, array() );
 
 			try {
 				// If no user is logged in then just return.
