@@ -1,14 +1,11 @@
 <?php
 /**
- * CoCart helpers.
- *
- * Provides functions that provide helpful data for the plugin.
+ * Class: CoCart_Helpers.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.3.0 Introduced.
- * @version 3.10.0
- * @license GPL-2.0+
+ * @version 4.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,9 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart helper class.
+ * Helps CoCart gather data.
  *
- * @package CoCart/Helpers
+ * Provides functions that provide helpful data for the plugin.
+ *
+ * @since 2.3.0 Introduced.
  */
 class CoCart_Helpers {
 
@@ -39,16 +38,18 @@ class CoCart_Helpers {
 	/**
 	 * Cache 'lte' comparison results for WooCommerce version.
 	 *
-	 * @since 2.6.0
-	 * @var   array
+	 * @since 2.6.0 Introduced.
+	 *
+	 * @var array
 	 */
 	private static $is_wc_version_lte = array();
 
 	/**
 	 * Cache 'lt' comparison results for WooCommerce version.
 	 *
-	 * @since 2.6.0
-	 * @var   array
+	 * @since 2.6.0 Introduced.
+	 *
+	 * @var array
 	 */
 	private static $is_wc_version_lt = array();
 
@@ -69,16 +70,18 @@ class CoCart_Helpers {
 	/**
 	 * Cache 'lt' comparison results for WP version.
 	 *
-	 * @since 2.5.0
-	 * @var   array
+	 * @since 2.5.0 Introduced.
+	 *
+	 * @var array
 	 */
 	private static $is_wp_version_lt = array();
 
 	/**
 	 * Cache WC Admin status result.
 	 *
-	 * @since 3.2.0
-	 * @var   bool
+	 * @since 3.2.0 Introduced.
+	 *
+	 * @var bool
 	 */
 	private static $is_wc_admin_enabled = null;
 
@@ -86,6 +89,9 @@ class CoCart_Helpers {
 	 * Helper method to get the version of the currently installed WooCommerce.
 	 *
 	 * @access private
+	 *
+	 * @static
+	 *
 	 * @return string
 	 */
 	private static function get_wc_version() {
@@ -96,7 +102,13 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is greater than or equal to $version.
 	 *
 	 * @access public
-	 * @param  string $version The version to compare.
+	 *
+	 * @static
+	 *
+	 * @see get_wc_version()
+	 *
+	 * @param string $version The version to compare.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wc_version_gte( $version ) {
@@ -110,7 +122,13 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is greater than $version.
 	 *
 	 * @access public
-	 * @param  string $version The version to compare.
+	 *
+	 * @static
+	 *
+	 * @see get_wc_version()
+	 *
+	 * @param string $version The version to compare.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wc_version_gt( $version ) {
@@ -125,8 +143,15 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is lower than or equal to $version.
 	 *
 	 * @access public
-	 * @since  2.6.0
-	 * @param  string $version The version to compare.
+	 *
+	 * @static
+	 *
+	 * @see get_wc_version()
+	 *
+	 * @since 2.6.0 Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wc_version_lte( $version ) {
@@ -140,8 +165,15 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WooCommerce is less than $version.
 	 *
 	 * @access public
-	 * @since  2.6.0
-	 * @param  string $version The version to compare.
+	 *
+	 * @static
+	 *
+	 * @see get_wc_version()
+	 *
+	 * @since 2.6.0 Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wc_version_lt( $version ) {
@@ -156,7 +188,11 @@ class CoCart_Helpers {
 	 * Returns true if the WooCommerce version does not meet CoCart requirements.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
+	 * @see get_wc_version()
+	 *
 	 * @return boolean
 	 */
 	public static function is_not_wc_version_required() {
@@ -171,7 +207,11 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WordPress is greater than $version.
 	 *
 	 * @access public
-	 * @param  string $version The version to compare.
+	 *
+	 * @static
+	 *
+	 * @param string $version The version to compare.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wp_version_gt( $version ) {
@@ -188,7 +228,11 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WordPress is greater than or equal to $version.
 	 *
 	 * @access public
-	 * @param  string $version The version to compare.
+	 *
+	 * @static
+	 *
+	 * @param string $version The version to compare.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wp_version_gte( $version ) {
@@ -205,8 +249,13 @@ class CoCart_Helpers {
 	 * Returns true if the installed version of WordPress is less than $version.
 	 *
 	 * @access public
-	 * @since  2.5.0
-	 * @param  string $version The version to compare.
+	 *
+	 * @static
+	 *
+	 * @since 2.5.0 Introduced.
+	 *
+	 * @param string $version The version to compare.
+	 *
 	 * @return boolean
 	 */
 	public static function is_wp_version_lt( $version ) {
@@ -223,7 +272,9 @@ class CoCart_Helpers {
 	 * Helper method to get the version of the currently installed CoCart.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return string
 	 */
 	public static function get_cocart_version() {
@@ -234,7 +285,11 @@ class CoCart_Helpers {
 	 * Returns true if CoCart is a pre-release.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
+	 * @see get_cocart_version()
+	 *
 	 * @return boolean
 	 */
 	public static function is_cocart_pre_release() {
@@ -253,7 +308,11 @@ class CoCart_Helpers {
 	 * Returns true if CoCart is a Beta release.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
+	 * @see get_cocart_version()
+	 *
 	 * @return boolean
 	 */
 	public static function is_cocart_beta() {
@@ -270,7 +329,11 @@ class CoCart_Helpers {
 	 * Returns true if CoCart is a Release Candidate.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
+	 * @see get_cocart_version()
+	 *
 	 * @return boolean
 	 */
 	public static function is_cocart_rc() {
@@ -307,7 +370,9 @@ class CoCart_Helpers {
 	 * Checks if CoCart Pro is installed.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @return array
 	 */
 	public static function is_cocart_pro_installed() {
@@ -324,8 +389,11 @@ class CoCart_Helpers {
 	 * Check if CoCart Pro is activated.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.3
+	 *
+	 * @since 3.0.3 Introduced.
+	 *
 	 * @return boolean
 	 */
 	public static function is_cocart_pro_activated() {
@@ -340,11 +408,14 @@ class CoCart_Helpers {
 	 * These are the only screens CoCart will focus
 	 * on displaying notices or enqueue scripts/styles.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.0.0
+	 *
+	 * @since   2.0.0 Introduced.
 	 * @version 3.10.0
-	 * @return  array
+	 *
+	 * @return array The screen IDs.
 	 */
 	public static function cocart_get_admin_screens() {
 		return apply_filters(
@@ -366,9 +437,16 @@ class CoCart_Helpers {
 	 * Returns true|false if the user is on a CoCart page.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.3.0
-	 * @return boolean
+	 *
+	 * @uses get_current_screen()
+	 *
+	 * @see cocart_get_admin_screens()
+	 *
+	 * @since 2.3.0 Introduced.
+	 *
+	 * @return boolean True if on a CoCart page.
 	 */
 	public static function is_cocart_admin_page() {
 		$screen    = get_current_screen();
@@ -385,11 +463,21 @@ class CoCart_Helpers {
 	 * Checks if the current user has the capabilities to install a plugin.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.1.0
-	 * @return boolean
+	 *
+	 * @uses current_user_can()
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @return boolean True if the user has the capabilities.
 	 */
 	public static function user_has_capabilities() {
+		/**
+		 * Filter the current users capabilities to install a CoCart plugin.
+		 *
+		 * @param string Capability level.
+		 */
 		if ( current_user_can( apply_filters( 'cocart_install_capability', 'install_plugins' ) ) ) {
 			return true;
 		}
@@ -402,11 +490,19 @@ class CoCart_Helpers {
 	 * Is CoCart Plugin Suggestions active?
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.0
-	 * @return boolean
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @return boolean True if CoCart Plugin Suggestions is active.
 	 */
 	public static function is_cocart_ps_active() {
+		/**
+		 * Filter if CoCart Plugin Suggestions should be active.
+		 *
+		 * @param bool True if CoCart Plugin Suggestions is active.
+		 */
 		return apply_filters( 'cocart_show_plugin_search', true );
 	} // END is_cocart_ps_active()
 
@@ -414,10 +510,18 @@ class CoCart_Helpers {
 	 * Returns CoCart Campaign for plugin identification.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.3
-	 * @param  array $args Passed arguments.
-	 * @return array
+	 *
+	 * @uses wp_parse_args()
+	 *
+	 * @since 3.0.3 Introduced.
+	 *
+	 * @param array $args Passed arguments.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
+	 * @return array The CoCart Campaign.
 	 */
 	public static function cocart_campaign( $args = array() ) {
 		$defaults = array(
@@ -436,9 +540,12 @@ class CoCart_Helpers {
 	 * Returns an array of CoCart add-ons listed on WordPress.org
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.1.0
-	 * @return array
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @return array The CoCart add-ons.
 	 */
 	public static function get_wporg_cocart_plugins() {
 		return array(
@@ -454,9 +561,14 @@ class CoCart_Helpers {
 	 * Forked from: https://github.com/thatplugincompany/login-designer/blob/master/includes/admin/class-login-designer-feedback.php
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @param  string $seconds Seconds in time.
-	 * @return string
+	 *
+	 * @param string $seconds Seconds in time.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
+	 * @return string The time in words.
 	 */
 	public static function cocart_seconds_to_words( $seconds ) {
 		// Get the years.
@@ -526,12 +638,18 @@ class CoCart_Helpers {
 	/**
 	 * Check how long CoCart has been active for.
 	 *
-	 * @access  public
-	 * @since   2.3.0
-	 * @version 2.8.3
+	 * @access public
+	 *
 	 * @static
-	 * @param   int $seconds Time in seconds to check.
-	 * @return  boolean|int Whether or not WooCommerce admin has been active for $seconds.
+	 *
+	 * @since   2.3.0 Introduced.
+	 * @version 2.8.3
+	 *
+	 * @param int $seconds Time in seconds to check.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
+	 * @return boolean|int Whether or not CoCart has been active for $seconds.
 	 */
 	public static function cocart_active_for( $seconds = '' ) {
 		if ( empty( $seconds ) ) {
@@ -553,11 +671,14 @@ class CoCart_Helpers {
 	 *
 	 * Returns an empty string if it cannot generate a URL.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.6.0
+	 *
+	 * @since   2.6.0 Introduced.
 	 * @version 3.0.0
-	 * @return  string
+	 *
+	 * @return string The current admin page URL.
 	 */
 	public static function cocart_get_current_admin_url() {
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
@@ -604,11 +725,15 @@ class CoCart_Helpers {
 	/**
 	 * Collects the additional data necessary for the shortlink.
 	 *
-	 * @access  protected
+	 * @access protected
+	 *
 	 * @static
-	 * @since   2.7.2
-	 * @version 3.7.0
-	 * @return  array The shortlink data.
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
+	 * @return array The shortlink data.
 	 */
 	protected static function collect_additional_shortlink_data() {
 		$memory = cocart_let_to_num( WP_MEMORY_LIMIT );
@@ -642,9 +767,15 @@ class CoCart_Helpers {
 	 * Builds a URL to use in the plugin as shortlink.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  2.7.2
-	 * @param  string $url The URL to build upon.
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
+	 * @param string $url The URL to build upon.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The final URL.
 	 */
 	public static function build_shortlink( $url ) {
@@ -655,8 +786,13 @@ class CoCart_Helpers {
 	 * Gets the current site's PHP version, without the extra info.
 	 *
 	 * @access private
+	 *
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The PHP version.
 	 */
 	private static function get_php_version() {
@@ -669,8 +805,13 @@ class CoCart_Helpers {
 	 * Gets the current site's WordPress version.
 	 *
 	 * @access protected
+	 *
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The wp_version.
 	 */
 	protected static function get_wordpress_version() {
@@ -713,9 +854,12 @@ class CoCart_Helpers {
 	 * Checks if CoCart is white labelled.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.0.12
-	 * @return boolean
+	 *
+	 * @since 3.0.12 Introduced.
+	 *
+	 * @return boolean True if white labelled, false otherwise.
 	 */
 	public static function is_white_labelled() {
 		if ( ! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL ) {
@@ -729,9 +873,12 @@ class CoCart_Helpers {
 	 * Returns true if the WC Admin feature is installed and enabled.
 	 *
 	 * @access public
+	 *
 	 * @static
-	 * @since  3.2.0 Introduced.
-	 * @return boolean
+	 *
+	 * @since 3.2.0 Introduced.
+	 *
+	 * @return boolean True if the WC Admin feature is installed and enabled, false otherwise.
 	 */
 	public static function is_wc_admin_enabled() {
 		if ( is_null( self::$is_wc_admin_enabled ) ) {
