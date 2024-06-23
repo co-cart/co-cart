@@ -643,7 +643,7 @@ class CoCart_Helpers {
 	 */
 	public static function cocart_seconds_to_words( $seconds ) {
 		// Get the years.
-		$years = (int) ( $seconds / YEAR_IN_SECONDS ) % 100;
+		$years = ( intval( $seconds ) / YEAR_IN_SECONDS ) % 100;
 		if ( $years > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of years */
@@ -655,7 +655,7 @@ class CoCart_Helpers {
 		}
 
 		// Get the months.
-		$months = (int) ( $seconds / MONTH_IN_SECONDS ) % 52;
+		$months = ( intval( $seconds ) / MONTH_IN_SECONDS ) % 52;
 		if ( $months > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of months */
@@ -667,7 +667,7 @@ class CoCart_Helpers {
 		}
 
 		// Get the weeks.
-		$weeks = (int) ( $seconds / WEEK_IN_SECONDS ) % 52;
+		$weeks = ( intval( $seconds ) / WEEK_IN_SECONDS ) % 52;
 		if ( $weeks > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of weeks */
@@ -679,7 +679,7 @@ class CoCart_Helpers {
 		}
 
 		// Get the days.
-		$days = (int) ( $seconds / DAY_IN_SECONDS ) % 7;
+		$days = ( intval( $seconds ) / DAY_IN_SECONDS ) % 7;
 		if ( $days > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of days */
@@ -691,7 +691,7 @@ class CoCart_Helpers {
 		}
 
 		// Get the hours.
-		$hours = (int) ( $seconds / HOUR_IN_SECONDS ) % 24;
+		$hours = ( intval( $seconds ) / HOUR_IN_SECONDS ) % 24;
 		if ( $hours > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of hours */
@@ -703,7 +703,7 @@ class CoCart_Helpers {
 		}
 
 		// Get the minutes.
-		$minutes = (int) ( $seconds / MINUTE_IN_SECONDS ) % 60;
+		$minutes = ( intval( $seconds ) / MINUTE_IN_SECONDS ) % 60;
 		if ( $minutes > 1 ) {
 			/* translators: %s: Number of minutes */
 			return sprintf( __( '%s minutes', 'cart-rest-api-for-woocommerce' ), $minutes );
