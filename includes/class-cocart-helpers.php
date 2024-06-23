@@ -714,8 +714,11 @@ class CoCart_Helpers {
 		// Get the seconds.
 		$seconds = intval( $seconds ) % 60;
 		if ( $seconds > 1 ) {
-			/* translators: %s: Number of seconds */
-			return sprintf( __( '%s seconds', 'cart-rest-api-for-woocommerce' ), $seconds );
+			return sprintf(
+				/* translators: %s: Number of seconds */
+				__( '%s seconds', 'cart-rest-api-for-woocommerce' ),
+				$seconds
+			);
 		} elseif ( $seconds > 0 ) {
 			return __( 'a second', 'cart-rest-api-for-woocommerce' );
 		}
