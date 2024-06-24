@@ -149,8 +149,36 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 			// If there are any customer details remaining then set the details, save and return true.
 			if ( ! empty( $details ) ) {
-				WC()->customer->set_props( $details );
-				WC()->customer->save();
+				foreach ( $params as $key => $value ) {
+					// Rename the key so we can use the callable functions to set customer data.
+					if ( 0 === stripos( $key, 's_' ) ) {
+						$key = str_replace( 's_', 'shipping_', $key );
+					}
+
+					// If the prefix is not for shipping, then assume the field is for billing.
+					if ( 0 !== stripos( $key, 'shipping_' ) ) {
+						// By default if the prefix `billing_` is missing then add the prefix for the key.
+						if ( 0 !== stripos( $key, 'billing_' ) ) {
+							$key = 'billing_' . $key;
+						}
+					}
+
+					// Use setters where available.
+					if ( is_callable( array( $customer, "set_{$key}" ) ) ) {
+						$customer->{"set_{$key}"}( $details[ $key ] );
+
+						// Store custom fields prefixed with either `billing_` or `shipping_`.
+					} elseif ( 0 === stripos( $key, 'billing_' ) || 0 === stripos( $key, 'shipping_' ) ) {
+						$customer->update_meta_data( $key, wc_clean( wp_unslash( $value ) ) );
+					}
+				}
+
+				// Sees if the customer has entered enough data to calculate shipping yet.
+				if ( ! $customer->get_shipping_country() || ( ! $customer->get_shipping_state() && ! $customer->get_shipping_postcode() ) ) {
+					$customer->set_calculated_shipping( true );
+				}
+
+				$customer->save();
 
 				return true;
 			}
