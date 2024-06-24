@@ -109,10 +109,13 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 					if ( ! \WC_Validation::is_email( $details['billing_email'] ) ) {
 						unset( $details['billing_email'] );
 						$details['billing_email'] = $customer->get_billing_email();
+					} else {
+						$details['billing_email'] = sanitize_email( $details['billing_email'] );
 					}
 				}
 
 				if ( 'phone' === $key && ! empty( $details['billing_phone'] ) ) {
+					$details['billing_phone'] = wc_sanitize_phone_number( $details['billing_phone'] );
 					if ( ! \WC_Validation::is_phone( $details['billing_phone'] ) ) {
 						unset( $details['billing_phone'] );
 						$details['billing_phone'] = $customer->get_billing_phone();
