@@ -63,6 +63,24 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	} // END callback()
 
 	/**
+	 * Return route parameters so we can Ignore them,
+	 * as we don't want to save them as meta data for the customer.
+	 *
+	 * @access public
+	 *
+	 * @param object $controller The cart controller.
+	 *
+	 * @return array Default parameters.
+	 */
+	public function ignore_default_params( $controller ) {
+		if ( empty( $controller ) ) {
+			return array();
+		}
+
+		return $controller->get_collection_params();
+	} // END ignore_default_params()
+
+	/**
 	 * For each field the customer passes validation, it will be applied to the cart.
 	 *
 	 * @access protected
@@ -158,6 +176,11 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 			// If there are any customer details remaining then set the details, save and return true.
 			if ( ! empty( $details ) ) {
 				foreach ( $params as $key => $value ) {
+					// Ignore default parameters as we don't want to save those as meta data.
+					if ( array_key_exists( $key, $this->ignore_default_params( $controller ) ) ) {
+						continue;
+					}
+
 					// Rename the key so we can use the callable functions to set customer data.
 					if ( 0 === stripos( $key, 's_' ) ) {
 						$key = str_replace( 's_', 'shipping_', $key );
