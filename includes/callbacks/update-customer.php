@@ -116,6 +116,8 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 					if ( ! \WC_Validation::is_phone( $details['billing_phone'] ) ) {
 						unset( $details['billing_phone'] );
 						$details['billing_phone'] = $customer->get_billing_phone();
+					} else {
+						$details['billing_phone'] = wc_format_phone_number( $details['billing_phone'] );
 					}
 				}
 
@@ -130,6 +132,9 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 					if ( ! $this->validate_postcode( $request ) ) {
 						unset( $details['billing_postcode'] );
 						$details['billing_postcode'] = $customer->get_billing_postcode();
+					} else {
+						$country                     = empty( $details['billing_country'] ) ? \WC()->countries->get_base_country() : $details['billing_country'];
+						$details['billing_postcode'] = wc_format_postcode( $details['billing_postcode'], $country );
 					}
 				}
 			}
