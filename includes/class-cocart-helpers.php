@@ -910,12 +910,18 @@ class CoCart_Helpers {
 	/**
 	 * Gets the number of days the plugin has been active.
 	 *
-	 * @access private
+	 * @access public
+	 *
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 * @since 4.x.x Changed from "private" access to "public" access.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return int The number of days the plugin is active.
 	 */
-	private static function get_days_active() {
+	public static function get_days_active() {
 		$date_activated = get_option( 'cocart_install_date', time() );
 		$datediff       = ( time() - $date_activated );
 		$days           = (int) round( $datediff / DAY_IN_SECONDS );
@@ -926,12 +932,18 @@ class CoCart_Helpers {
 	/**
 	 * Gets the user's language.
 	 *
-	 * @access private
+	 * @access public
+	 *
 	 * @static
-	 * @since  2.7.2
+	 *
+	 * @since 2.7.2 Introduced.
+	 * @since 4.x.x Changed from "private" access to "public" access.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
 	 * @return string The user's language.
 	 */
-	private static function get_user_language() {
+	public static function get_user_language() {
 		if ( function_exists( 'get_user_locale' ) ) {
 			return get_user_locale();
 		}
