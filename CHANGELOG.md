@@ -44,6 +44,10 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 * Introduced new action hook `cocart_after_session_saved_data` fires after the session is saved.
 
+### Compatibility
+
+* Tested with WooCommerce v9.0
+
 ## v4.1.1 - 14th June, 2024
 
 ### Bug Fix
