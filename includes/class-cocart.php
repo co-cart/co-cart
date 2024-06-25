@@ -289,6 +289,7 @@ final class CoCart {
 		require_once __DIR__ . '/classes/class-cocart-install.php';
 		require_once __DIR__ . '/classes/class-cocart-logger.php';
 		require_once __DIR__ . '/classes/class-cocart-session.php';
+		require_once __DIR__ . '/classes/class-cocart-datetime.php';
 
 		// REST API functions.
 		include_once __DIR__ . '/cocart-rest-functions.php';
