@@ -304,7 +304,7 @@ class CoCart_REST_API {
 	 */
 	public function initialize_session() {
 		if ( class_exists( 'WC_Session_Handler' ) ) {
-			require_once __DIR__ . '/class-cocart-session-handler.php';
+			require_once COCART_FILE_PATH . '/includes/classes/class-cocart-session-handler.php';
 		}
 
 		// CoCart session handler class.
