@@ -267,7 +267,6 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$expected_attributes = wc_get_product_variation_attributes( $variation_id );
 			$featured_image_id   = $variation->get_image_id();
 			$attachment_post     = get_post( $featured_image_id );
-			$attachment_sizes    = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
 			$attachments         = array();
 
 			// Get each image size of the attachment.
@@ -377,11 +376,17 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access protected
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_images()
+	 *
 	 * @param WC_Product|WC_Product_Variation $product The product object.
 	 *
 	 * @return array $images
 	 */
 	protected function get_images( $product ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_images' );
+
 		$images           = array();
 		$attachment_ids   = array();
 		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
@@ -526,7 +531,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			'review_count'       => $product->get_review_count( 'view' ),
 			'rating_count'       => $rating_count,
 			'rated_out_of'       => html_entity_decode( wp_strip_all_tags( wc_get_rating_html( $average, $rating_count ) ) ),
-			'images'             => $this->get_images( $product ),
+			'images'             => CoCart_Utilities_Product_Helpers::get_images( $product ),
 			'categories'         => $this->get_taxonomy_terms( $product ),
 			'tags'               => $this->get_taxonomy_terms( $product, 'tag' ),
 			'attributes'         => $this->get_attributes( $product ),
@@ -952,6 +957,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return string Function name.
 	 */
 	protected function get_price_from_tax_display_mode( $tax_display_mode ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_from_tax_display_mode', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode' );
+
 		return 'incl' === $tax_display_mode ? 'wc_get_price_including_tax' : 'wc_get_price_excluding_tax';
 	} // END get_price_from_tax_display_mode()
 
@@ -960,12 +967,18 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access public
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_REST_Products_V2_Controller::get_price_range()
+	 *
 	 * @param \WC_Product $product Product object.
 	 * @param string      $tax_display_mode If returned prices are incl or excl of tax.
 	 *
 	 * @return array
 	 */
 	public function get_price_range( $product, $tax_display_mode = '' ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_range', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_price_range' );
+
 		$tax_display_mode = $this->get_tax_display_mode( $tax_display_mode );
 
 		$price = array();
