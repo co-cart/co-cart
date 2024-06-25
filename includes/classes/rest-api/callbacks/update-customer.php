@@ -63,6 +63,24 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	} // END callback()
 
 	/**
+	 * Return route parameters so we can Ignore them,
+	 * as we don't want to save them as meta data for the customer.
+	 *
+	 * @access public
+	 *
+	 * @param object $controller The cart controller.
+	 *
+	 * @return array Default parameters.
+	 */
+	public function ignore_default_params( $controller ) {
+		if ( empty( $controller ) ) {
+			return array();
+		}
+
+		return $controller->get_collection_params();
+	} // END ignore_default_params()
+
+	/**
 	 * For each field the customer passes validation, it will be applied to the cart.
 	 *
 	 * @access protected
@@ -97,11 +115,11 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 			foreach ( $fields as $key ) {
 				// Prepares customer billing field.
-				in_array( $key, $params ) && ! empty( $params[ $key ] ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+				array_key_exists( $key, $params ) && ! empty( $params[ $key ] ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 
-				// If a field has not provided a value then unset it.
-				if ( empty( $details[ $key ] ) ) {
-					unset( $details[ $key ] );
+				// If a field has not provided a value, then unset it.
+				if ( empty( $details[ 'billing_' . $key ] ) ) {
+					unset( $details[ 'billing_' . $key ] );
 				}
 
 				// Validates customer billing fields for email, phone, country and postcode.
@@ -109,13 +127,18 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 					if ( ! \WC_Validation::is_email( $details['billing_email'] ) ) {
 						unset( $details['billing_email'] );
 						$details['billing_email'] = $customer->get_billing_email();
+					} else {
+						$details['billing_email'] = sanitize_email( $details['billing_email'] );
 					}
 				}
 
 				if ( 'phone' === $key && ! empty( $details['billing_phone'] ) ) {
+					$details['billing_phone'] = wc_sanitize_phone_number( $details['billing_phone'] );
 					if ( ! \WC_Validation::is_phone( $details['billing_phone'] ) ) {
 						unset( $details['billing_phone'] );
 						$details['billing_phone'] = $customer->get_billing_phone();
+					} else {
+						$details['billing_phone'] = wc_format_phone_number( $details['billing_phone'] );
 					}
 				}
 
@@ -130,6 +153,9 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 					if ( ! $this->validate_postcode( $request ) ) {
 						unset( $details['billing_postcode'] );
 						$details['billing_postcode'] = $customer->get_billing_postcode();
+					} else {
+						$country                     = empty( $details['billing_country'] ) ? \WC()->countries->get_base_country() : $details['billing_country'];
+						$details['billing_postcode'] = wc_format_postcode( $details['billing_postcode'], $country );
 					}
 				}
 			}
@@ -149,8 +175,41 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 			// If there are any customer details remaining then set the details, save and return true.
 			if ( ! empty( $details ) ) {
-				WC()->customer->set_props( $details );
-				WC()->customer->save();
+				foreach ( $params as $key => $value ) {
+					// Ignore default parameters as we don't want to save those as meta data.
+					if ( array_key_exists( $key, $this->ignore_default_params( $controller ) ) ) {
+						continue;
+					}
+
+					// Rename the key so we can use the callable functions to set customer data.
+					if ( 0 === stripos( $key, 's_' ) ) {
+						$key = str_replace( 's_', 'shipping_', $key );
+					}
+
+					// If the prefix is not for shipping, then assume the field is for billing.
+					if ( 0 !== stripos( $key, 'shipping_' ) ) {
+						// By default if the prefix `billing_` is missing then add the prefix for the key.
+						if ( 0 !== stripos( $key, 'billing_' ) ) {
+							$key = 'billing_' . $key;
+						}
+					}
+
+					// Use setters where available.
+					if ( is_callable( array( $customer, "set_{$key}" ) ) ) {
+						$customer->{"set_{$key}"}( $details[ $key ] );
+
+						// Store custom fields prefixed with either `billing_` or `shipping_`.
+					} elseif ( 0 === stripos( $key, 'billing_' ) || 0 === stripos( $key, 'shipping_' ) ) {
+						$customer->update_meta_data( $key, wc_clean( wp_unslash( $value ) ) );
+					}
+				}
+
+				// Sees if the customer has entered enough data to calculate shipping yet.
+				if ( ! $customer->get_shipping_country() || ( ! $customer->get_shipping_state() && ! $customer->get_shipping_postcode() ) ) {
+					$customer->set_calculated_shipping( true );
+				}
+
+				$customer->save();
 
 				return true;
 			}

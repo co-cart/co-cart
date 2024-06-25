@@ -1,5 +1,55 @@
 # Changelog for CoCart
 
+## v4.2.0 - 11th July, 2024
+
+In this release we have optimized our backwards compatibility with the session handler. As our session handler has to accommodate both native and headless support we originally forked the session handler to see what we needed to keep everything functional without breaking the core of WooCommerce. Now we have reviewed and noted down the changes made over time and we are happy to provide a refreshed version of our session handler that now provides only what we need while leaving everything else in the original session handler alone. Meaning now our session handler extends the WooCommerce session handler, making this release more compatibility with third party plugins and the new WooCommerce cart and checkout blocks.
+
+We also no longer use cookies as a backup for headless. This should also help with the confusion of needing to pass along the session cookie or reading the cookie to extract the cart key and help with user switching much better. A cart key is provided in both the cart response and returned headers. Saving the cart key in your own cookie or local storage is fairly straight forward.
+
+> We advise that you update on staging or local to check if you have used any of our experimental functions and filters that were added to the session handler to see if any have been deprecated. You can also see the list of deprecations below. If you have any questions about this update please contact us.
+
+### What's New?
+
+* Can now request a cart session via a requested header `cocart-api-cart-key`.
+
+### Improvements
+
+* Improved session handling for headless.
+* Reverted back to WooCommerce cookie name which also deprecates filter `cocart_cookie`.
+* Moved `is_rest_api_request()` function to the main class so it can be utilized more outside of CoCart plugin.
+* Session Handler: Added new function `is_user_customer()` to check the user role is a customer when authenticated before migrating cart from guest.
+* REST API: Updating the customer details in cart will now take additional billing and shipping fields as meta data. Validation is required by the developer using filter `cocart_update_customer_fields`.
+* REST API: Sanitized and formatted customer email address and phone number.
+* REST API: Formatted customer postcode if validated.
+* REST API: Product image sizes are now fetched using utility products class function `get_product_image_sizes()`. Cuts down on the filter `cocart_products_image_sizes` being in multiple places.
+* Plugin: Localization improvements.
+* Plugin: Code files organized better.
+
+### Deprecations
+
+* Removed the need to support web host "Pantheon" by filtering the cookie name.
+* Removed our session abstract `CoCart_Session` that extended `WC_Session`. Any remaining functions have moved to our refreshed session handler.
+* Function `CoCart_Session_Handler::destroy_cookie()` no longer used.
+* Function `CoCart_Session_Handler::cocart_setcookie()` no longer used.
+* Function `CoCart_Session_Handler::get_cart()` no longer used.
+* Filter `cocart_cookie` no longer used. Use `woocommerce_cookie` instead.
+* Filter `cocart_cookie_httponly` no longer used.
+* Filter `cocart_cookie_supported` no longer used.
+* Filter `cocart_set_cookie_options` no longer used.
+* Filter `cocart_cart_use_secure_cookie` no longer used. Use `wc_session_use_secure_cookie` instead.
+* Filter `cocart_is_cart_data_valid` no longer used.
+* Returned headers `X-CoCart-API-Timestamp` and `X-CoCart-API-Version` no longer used.
+
+### Developers
+
+* Introduced new action hook `cocart_after_session_saved_data` fires after the session is saved.
+
+## v4.1.1 - 14th June, 2024
+
+### Bug Fix
+
+* Uncaught error with no featured image for a variation of a variable product. [Solves issue 416](https://github.com/co-cart/co-cart/issues/416)
+
 ## v4.1.0 - 6th June, 2024
 
 In this release we are adding some quality of life improvements.

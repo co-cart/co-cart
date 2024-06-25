@@ -74,13 +74,10 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 */
 		public function __construct() {
 			// Check that we are only authenticating for our API.
-			if ( $this->is_rest_api_request() ) {
+			if ( CoCart::is_rest_api_request() ) {
 				// Authenticate user.
 				add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
 				add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
-
-				// Triggers saved cart after login and updates user activity.
-				add_filter( 'rest_authentication_errors', array( $this, 'cocart_user_logged_in' ), 10 );
 
 				// Check authentication errors.
 				add_filter( 'rest_authentication_errors', array( $this, 'check_authentication_error' ), 15 );
@@ -103,11 +100,15 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.9.1 Introduced.
 		 *
+		 * @deprecated 4.x.x No replacement. Not needed anymore.
+		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
 		 * @return WP_Error|null|bool
 		 */
 		public function cocart_user_logged_in( $error ) {
+			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.x.x', null );
+
 			// Pass through errors from other authentication error checks used before this one.
 			if ( ! empty( $error ) ) {
 				return $error;
@@ -122,36 +123,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return $error;
 		} // END cocart_user_logged_in()
-
-		/**
-		 * Returns true if we are making a REST API request for CoCart.
-		 *
-		 * @access public
-		 *
-		 * @static
-		 *
-		 * @since 2.1.0 Introduced.
-		 *
-		 * @return bool
-		 */
-		public static function is_rest_api_request() {
-			if ( empty( $_SERVER['REQUEST_URI'] ) ) {
-				return false;
-			}
-
-			$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-			$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-
-			/**
-			 * Filters the REST API requested.
-			 *
-			 * @since 2.1.0 Introduced.
-			 *
-			 * @param string $is_rest_api_request REST API uri requested.
-			 */
-			return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
-		} // END is_rest_api_request()
 
 		/**
 		 * Get the authorization header.
@@ -531,7 +502,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					'X-WP-Total',
 					'X-WP-TotalPages',
 					'Link',
-					'X-CoCart-API', // @todo Deprecate in v5.0
 					'CoCart-API-Cart-Key',
 					'CoCart-API-Cart-Expiring',
 					'CoCart-API-Cart-Expiration',
@@ -602,7 +572,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 *
 			 * @since 3.0.0 Introduced.
 			 */
-			$api_not_allowed = apply_filters( 'cocart_api_permission_check_{$method}', array() );
+			$api_not_allowed = apply_filters( 'cocart_api_permission_check_' . $method, array() );
 
 			try {
 				// If no user is logged in then just return.
@@ -703,17 +673,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			// Customer ID used as the cart key by default.
 			$cart_key = WC()->session->get_customer_id();
-
-			// Get cart cookie... if any.
-			$cookie = WC()->session->get_session_cookie();
-
-			// If a cookie exist, override cart key.
-			if ( $cookie ) {
-				$cart_key = $cookie[0];
-			}
-
-			// Check if we requested to load a specific cart.
-			$cart_key = isset( $_REQUEST['cart_key'] ) ? trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ) : $cart_key; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			// Send cart key in the header if it's not empty or ZERO.
 			if ( ! empty( $cart_key ) && '0' !== $cart_key ) {

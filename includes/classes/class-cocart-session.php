@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 3.8.0
+ * @version 4.x.x
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,15 +45,14 @@ class CoCart_Load_Cart {
 	 *
 	 * @since 2.1.0 Introduced.
 	 *
-	 * @uses CoCart_Session_Handler()->get_cart()
+	 * @uses WC()->session->get_session()
 	 *
 	 * @param string $cart_key Requested cart key.
 	 *
 	 * @return boolean
 	 */
 	public function is_cart_saved( $cart_key ) {
-		$handler    = new CoCart_Session_Handler();
-		$cart_saved = $handler->get_cart( $cart_key );
+		$cart_saved = WC()->session->get_session( $cart_key );
 
 		if ( ! empty( $cart_saved ) ) {
 			return true;
@@ -69,8 +68,9 @@ class CoCart_Load_Cart {
 	 *
 	 * @static
 	 *
-	 * @since      2.1.0 Introduced
-	 * @deprecated 3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @since 2.1.0 Introduced
+	 *
+	 * @deprecated 3.1.2 Replaced with `cocart_task_clear_carts()` instead.
 	 *
 	 * @see cocart_task_clear_carts()
 	 */
@@ -87,8 +87,9 @@ class CoCart_Load_Cart {
 	 *
 	 * @static
 	 *
-	 * @since      2.1.0 Introduced
-	 * @deprecated 3.1.2 Deprecated this function in replacement with a global function instead.
+	 * @since 2.1.0 Introduced
+	 *
+	 * @deprecated 3.1.2 Replaced with `cocart_task_cleanup_carts()` instead.
 	 *
 	 * @see cocart_task_cleanup_carts()
 	 */
@@ -110,6 +111,7 @@ class CoCart_Load_Cart {
 	 * @static
 	 *
 	 * @since 2.1.0 Introduced.
+	 * @since 4.x.x Replaced `wc_nocache_headers()` with `cocart_nocache_headers()`.
 	 *
 	 * @uses CoCart_Load_Cart::maybe_load_cart()
 	 * @uses CoCart_Load_Cart::get_action_query()
@@ -118,7 +120,8 @@ class CoCart_Load_Cart {
 	 * @uses is_user_logged_in()
 	 * @uses wp_get_current_user()
 	 * @uses wc_add_notice()
-	 * @uses wc_nocache_headers()
+	 *
+	 * @see cocart_nocache_headers()
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
@@ -127,7 +130,7 @@ class CoCart_Load_Cart {
 			$override_cart   = true;  // Override the cart by default.
 			$notify_customer = false; // Don't notify the customer by default.
 
-			wc_nocache_headers();
+			cocart_nocache_headers();
 
 			// Check the cart doesn't belong to a registered user - only guest carts should be loadable from session.
 			$user = get_user_by( 'id', $cart_key );
@@ -189,8 +192,7 @@ class CoCart_Load_Cart {
 			}
 
 			// Get the cart in the database.
-			$handler     = new CoCart_Session_Handler();
-			$stored_cart = $handler->get_cart( $cart_key );
+			$stored_cart = WC()->session->get_session( $cart_key );
 
 			if ( empty( $stored_cart ) ) {
 				CoCart_Logger::log(
@@ -304,7 +306,7 @@ class CoCart_Load_Cart {
 				WC()->session->set_cart_hash();
 				WC()->session->set_customer_id( $cart_key );
 				WC()->session->set_cart_expiration();
-				WC()->session->set_customer_cart_cookie( true );
+				WC()->session->set_customer_session_cookie( true );
 			}
 
 			// If true, notify the customer that there cart has transferred over via the web.

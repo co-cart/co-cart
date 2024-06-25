@@ -171,7 +171,35 @@ class CoCart_REST_API {
 	} // END get_v2_controllers()
 
 	/**
-	 * Loads the session, cart and customer.
+	 * Controls the hooks that should be initialized for the current cart session.
+	 *
+	 * Thanks to a PR submitted to WooCommerce we now have more control on what is
+	 * initialized for the cart session to improve performance.
+	 *
+	 * We prioritize the filter at "100" to make sure we don't interfere with
+	 * any other plugins that may have already done the same at a lower priority.
+	 *
+	 * We are also filtering only during a CoCart REST API request not natively.
+	 *
+	 * @link https://github.com/woocommerce/woocommerce/pull/34156
+	 *
+	 * @access private
+	 *
+	 * @since 4.x.x Introduced.
+	 */
+	private function initialize_cart_session() {
+		add_filter( 'woocommerce_cart_session_initialize', function ( $must_initialize, $session ) {
+			add_action( 'woocommerce_cart_emptied', array( $session, 'destroy_cart_session' ) );
+			add_action( 'woocommerce_after_calculate_totals', array( $session, 'set_session' ), 1000 );
+			add_action( 'woocommerce_cart_loaded_from_session', array( $session, 'set_session' ) );
+			add_action( 'woocommerce_removed_coupon', array( $session, 'set_session' ) );
+
+			return false;
+		}, 100, 2 );
+	} // END initialize_cart_session()
+
+	/**
+	 * Loads the session, customer and cart.
 	 *
 	 * Prevents initializing if none are required for the requested API endpoint.
 	 *
@@ -181,7 +209,7 @@ class CoCart_REST_API {
 	 * @since 4.1.0 Initialize customer separately.
 	 */
 	private function maybe_load_cart() {
-		if ( CoCart_Authentication::is_rest_api_request() ) {
+		if ( CoCart::is_rest_api_request() ) {
 
 			// Check if we should prevent the requested route from initializing the session and cart.
 			if ( $this->prevent_routes_from_initializing() ) {
@@ -195,11 +223,12 @@ class CoCart_REST_API {
 			// Initialize session.
 			$this->initialize_session();
 
-			// Initialize cart.
-			$this->initialize_cart();
-
 			// Initialize customer.
 			$this->initialize_customer();
+
+			// Initialize cart.
+			$this->initialize_cart_session();
+			$this->initialize_cart();
 		}
 	} // END maybe_load_cart()
 
@@ -216,7 +245,7 @@ class CoCart_REST_API {
 	 * @return null|boolean
 	 */
 	protected function has_user_switched() {
-		_deprecated_function( __FUNCTION__, 'User switching is now deprecated.', '4.1.0' );
+		cocart_deprecated_function( 'CoCart_REST_API::has_user_switched', __( 'User switching is now deprecated.', 'cart-rest-api-for-woocommerce' ), '4.1.0' );
 
 		if ( ! WC()->session instanceof CoCart_Session_Handler ) {
 			return;
@@ -261,7 +290,7 @@ class CoCart_REST_API {
 	 * @deprecated 4.1.0 No replacement.
 	 */
 	public function user_switched() {
-		_deprecated_function( __FUNCTION__, 'User switching is now deprecated.', '4.1.0' );
+		cocart_deprecated_function( 'CoCart_REST_API::user_switched', __( 'User switching is now deprecated.', 'cart-rest-api-for-woocommerce' ), '4.1.0' );
 
 		cocart_do_deprecated_action( 'cocart_user_switched', '4.1.0', null );
 	} // END user_switched()
@@ -274,8 +303,7 @@ class CoCart_REST_API {
 	 * @since 2.1.0 Introduced.
 	 */
 	public function initialize_session() {
-		if ( class_exists( 'WC_Session' ) ) {
-			include_once __DIR__ . '/abstracts/abstract-cocart-session.php';
+		if ( class_exists( 'WC_Session_Handler' ) ) {
 			require_once __DIR__ . '/class-cocart-session-handler.php';
 		}
 

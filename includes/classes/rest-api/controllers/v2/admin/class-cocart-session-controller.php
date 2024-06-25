@@ -154,7 +154,6 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			}
 
 			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 
 			$handler = new CoCart_Session_Handler();
@@ -196,7 +195,6 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			}
 
 			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 
 			$handler = new CoCart_Session_Handler();
@@ -248,7 +246,6 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			}
 
 			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/abstracts/abstract-cocart-session.php';
 			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
 
 			$handler = new CoCart_Session_Handler();
