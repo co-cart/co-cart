@@ -405,7 +405,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 					 *
 					 * @since 3.0.1 Introduced.
 					 */
-					$controller->convert_notices_to_exceptions( 'cocart_add_to_cart_error' );
+					CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions( 'cocart_add_to_cart_error' );
 
 					$message = sprintf(
 						/* translators: %s: product name */

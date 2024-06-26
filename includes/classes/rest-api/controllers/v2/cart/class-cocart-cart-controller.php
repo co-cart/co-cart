@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.x.x
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -284,7 +284,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 		if ( array_key_exists( 'coupons', $cart_template ) ) {
 			// Returns each coupon applied and coupon total applied if store has coupons enabled.
-			$coupons = wc_coupons_enabled() ? $cart_instance->get_applied_coupons() : array();
+			$coupons = CoCart_Utilities_Cart_Helpers::are_coupons_enabled() ? $cart_instance->get_applied_coupons() : array();
 
 			if ( ! empty( $coupons ) ) {
 				foreach ( $coupons as $coupon ) {
@@ -1172,7 +1172,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		try {
 			// Product is purchasable check.
 			if ( ! $product->is_purchasable() ) {
-				$this->throw_product_not_purchasable( $product );
+				CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable( $product );
 			}
 
 			// Stock check - only check if we're managing stock and backorders are not allowed.
@@ -1231,7 +1231,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
 			if ( $product->managing_stock() && ! $product->backorders_allowed() ) {
-				$qty_remaining = $this->get_remaining_stock_for_product( $product );
+				$qty_remaining = CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product( $product );
 				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
 
 				if ( $qty_remaining < $qty_in_cart + $quantity ) {
@@ -1733,7 +1733,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array Shipping details.
 	 */
 	public function get_shipping_details() {
-		if ( ! wc_shipping_enabled() || 0 === wc_get_shipping_method_count( true ) ) {
+		if ( ! CoCart_Utilities_Cart_Helpers::is_shipping_enabled() ) {
 			return array();
 		}
 
@@ -2010,8 +2010,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
 	 *
 	 * @param string           $fields   The customer fields to return.
 	 * @param WC_Customer|null $customer The customer object or nothing.
@@ -2019,6 +2022,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array Returns the customer details based on the field requested.
 	 */
 	protected function get_customer_fields( $fields = 'billing', $customer = '' ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_customer_fields', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_customer_fields' );
+
 		// If no customer is set then get customer from cart.
 		if ( empty( $customer ) ) {
 			$customer = $this->get_cart_instance()->get_customer();
@@ -2063,9 +2068,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.1 Introduced.
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions()
+	 *
 	 * @param string $error_code Error code for the thrown exceptions.
 	 */
 	public static function convert_notices_to_exceptions( $error_code = 'unknown_server_error' ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::convert_notices_to_exceptions', '4.x.x', 'CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions' );
+
 		if ( 0 === wc_notice_count( 'error' ) ) {
 			wc_clear_notices();
 			return;
@@ -2112,8 +2123,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			'cart_key'       => $this->get_cart_key( $request ),
 			'currency'       => cocart_get_store_currency(),
 			'customer'       => array(
-				'billing_address'  => $this->get_customer_fields( 'billing' ),
-				'shipping_address' => $this->get_customer_fields( 'shipping' ),
+				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $this->get_cart_instance()->get_customer() ),
+				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $this->get_cart_instance()->get_customer() ),
 			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
@@ -2181,15 +2192,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				case 'customer':
 					if ( ! empty( $child_field ) ) {
 						if ( 'billing_address' === $child_field ) {
-							$template['customer']['billing_address'] = $this->get_customer_fields( 'billing' );
+							$template['customer']['billing_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $this->get_cart_instance()->get_customer() );
 						}
 						if ( 'shipping_address' === $child_field ) {
-							$template['customer']['shipping_address'] = $this->get_customer_fields( 'shipping' );
+							$template['customer']['shipping_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $this->get_cart_instance()->get_customer() );
 						}
 					} else {
 						$template['customer'] = array(
-							'billing_address'  => $this->get_customer_fields( 'billing' ),
-							'shipping_address' => $this->get_customer_fields( 'shipping' ),
+							'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $this->get_cart_instance()->get_customer() ),
+							'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $this->get_cart_instance()->get_customer() ),
 						);
 					}
 					break;
@@ -2295,9 +2306,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.4 Introduced.
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable()
+	 *
 	 * @param WC_Product $product The product object.
 	 */
 	protected function throw_product_not_purchasable( $product ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_product_not_purchasable', '4.x.x', 'CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable' );
+
 		$message = sprintf(
 			/* translators: %s: product name */
 			__( "'%s' is not available for purchase.", 'cart-rest-api-for-woocommerce' ),
@@ -2340,11 +2357,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product()
+	 *
 	 * @param WC_Product $product The product object.
 	 *
 	 * @return int Remaining stock.
 	 */
 	protected function get_remaining_stock_for_product( $product ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_remaining_stock_for_product', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product' );
+
 		$reserve_stock = new ReserveStock();
 		$draft_order   = WC()->session->get( 'cocart_draft_order', 0 );
 		$qty_reserved  = $reserve_stock->get_reserved_stock( $product, $draft_order );
@@ -2361,12 +2384,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.17 Introduced.
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::throw_missing_item_key()
+	 *
 	 * @param string $item_key Generated ID based on the product information when added to the cart.
 	 * @param string $status   Status of which we are checking the item key.
 	 *
 	 * @return string $item_key Generated ID based on the product information when added to the cart.
 	 */
 	protected function throw_missing_item_key( $item_key, $status ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_missing_item_key', '4.x.x', 'CoCart_Utilities_Cart_Helpers::throw_missing_item_key' );
+
 		$item_key = (string) $item_key; // Make sure the item key is a string value.
 
 		if ( '0' === $item_key ) {

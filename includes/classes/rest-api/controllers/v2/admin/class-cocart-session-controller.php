@@ -291,8 +291,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		$session = array(
 			'cart_key'      => $request['session_key'],
 			'customer'      => array(
-				'billing_address'  => $this->get_customer_fields( 'billing', $this->get_customer( $customer ) ),
-				'shipping_address' => $this->get_customer_fields( 'shipping', $this->get_customer( $customer ) ),
+				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $this->get_customer( $customer ) ),
+				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $this->get_customer( $customer ) ),
 			),
 			'items'         => array(),
 			'item_count'    => $this->get_cart_contents_count( $session_data ),
