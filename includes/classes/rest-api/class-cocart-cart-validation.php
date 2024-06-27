@@ -46,6 +46,8 @@ class CoCart_Cart_Validation {
 	 * @uses wc_format_stock_quantity_for_display()
 	 * @uses WC_Cart()->get_cart()
 	 *
+	 * @hook: cocart_before_get_cart
+	 *
 	 * @param array  $cart_contents Cart contents before cart changes.
 	 * @param object $cart          The cart object.
 	 *
@@ -123,6 +125,8 @@ class CoCart_Cart_Validation {
 	 * @uses WC_Coupon()->add_coupon_message()
 	 * @uses WC_Cart()->remove_coupon()
 	 * @uses WC_Cart()->get_cart()
+	 *
+	 * @hook: cocart_before_get_cart
 	 *
 	 * @param array  $cart_contents Cart contents before cart changes.
 	 * @param object $cart          The cart object.

@@ -196,6 +196,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
+		 * @hooked: check_cart_item_stock - 10
+		 * @hooked: check_cart_coupons - 15
+		 *
 		 * @param array           $cart_contents Cart contents.
 		 * @param WC_Cart                        The cart object.
 		 * @param WP_REST_Request $request       The request object.
@@ -205,7 +208,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		/**
 		 * Deprecated action hook `cocart_get_cart`.
 		 *
-		 * @deprecated 3.0.0 Use `cocart_cart` hook instead.
+		 * @deprecated 3.0.0 Use `cocart_cart` filter instead.
 		 *
 		 * @see cocart_cart
 		 */
