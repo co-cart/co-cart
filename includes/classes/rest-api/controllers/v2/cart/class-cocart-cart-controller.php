@@ -1015,6 +1015,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
+	 *
 	 * @see cocart_prepare_money_response()
 	 *
 	 * @param string|WC_Coupon $coupon    Coupon data or code.
