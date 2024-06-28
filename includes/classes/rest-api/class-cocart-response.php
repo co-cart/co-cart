@@ -21,47 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_Response {
 
 	/**
-	 * Constructor.
-	 *
-	 * @access public
-	 *
-	 * @since 3.1.0 Introduced.
-	 *
-	 * @ignore Function ignored when parsed into Code Reference.
-	 */
-	public function __construct() {
-		// Expose custom headers.
-		add_action( 'rest_pre_serve_request', array( $this, 'expose_custom_headers' ), 11, 3 );
-	} // END __construct()
-
-	/**
-	 * Expose CoCart Headers.
-	 *
-	 * @access public
-	 *
-	 * @since 3.1.0 Introduced.
-	 * @since 3.3.0 Added new custom headers without the prefix `X-`
-	 *
-	 * @param bool             $served  Whether the request has already been served. Default false.
-	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-	 * @param WP_REST_Request  $request The request object.
-	 *
-	 * @return bool Whether the request has already been served.
-	 */
-	public function expose_custom_headers( $served, $result, $request ) {
-		if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-			header( 'Access-Control-Expose-Headers: CoCart-Timestamp' );
-			header( 'Access-Control-Expose-Headers: CoCart-Version' );
-			header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Key' );
-			header( 'Access-Control-Expose-Headers: CoCart-API-Customer' );
-			header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Expiring' );
-			header( 'Access-Control-Expose-Headers: CoCart-API-Cart-Expiration' );
-		}
-
-		return $served;
-	} // END expose_custom_headers()
-
-	/**
 	 * Returns either the default response of the API requested or a filtered response.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
