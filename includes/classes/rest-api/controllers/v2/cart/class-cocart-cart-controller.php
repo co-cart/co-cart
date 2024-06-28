@@ -877,9 +877,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
+	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
+	 *
 	 * @return string Cart key.
 	 */
 	public function get_cart_key() {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_cart_key', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_cart_key' );
+
 		if ( ! method_exists( WC()->session, 'get_customer_id' ) ) {
 			return '';
 		}
@@ -2123,7 +2129,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 		return array(
 			'cart_hash'      => ! empty( $this->get_cart_instance()->get_cart_hash() ) ? $this->get_cart_instance()->get_cart_hash() : __( 'No items in cart so no hash', 'cart-rest-api-for-woocommerce' ),
-			'cart_key'       => $this->get_cart_key( $request ),
+			'cart_key'       => CoCart_Utilities_Cart_Helpers::get_cart_key(),
 			'currency'       => cocart_get_store_currency(),
 			'customer'       => array(
 				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $this->get_cart_instance()->get_customer() ),
@@ -2187,7 +2193,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					$template['cart_hash'] = $this->get_cart_instance()->get_cart_hash();
 					break;
 				case 'cart_key':
-					$template['cart_key'] = $this->get_cart_key( $request );
+					$template['cart_key'] = CoCart_Utilities_Cart_Helpers::get_cart_key();
 					break;
 				case 'currency':
 					$template['currency'] = cocart_get_store_currency();

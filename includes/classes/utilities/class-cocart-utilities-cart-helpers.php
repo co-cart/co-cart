@@ -22,6 +22,25 @@ use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 class CoCart_Utilities_Cart_Helpers {
 
 	/**
+	 * Returns the cart key.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @return string Cart key.
+	 */
+	public static function get_cart_key() {
+		if ( ! method_exists( WC()->session, 'get_customer_id' ) ) {
+			return '';
+		}
+
+		return (string) WC()->session->get_customer_id();
+	} // END get_cart_key()
+
+	/**
 	 * Checks if coupons are enabled in WooCommerce.
 	 *
 	 * @access public
