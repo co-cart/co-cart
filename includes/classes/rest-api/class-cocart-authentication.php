@@ -64,6 +64,33 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		protected $auth_method = '';
 
 		/**
+		 * Allowed headers.
+		 *
+		 * @var array
+		 */
+		const ALLOW_HEADERS = array(
+			'Authorization',
+			'X-Requested-With',
+			'Content-Disposition',
+			'Content-MD5',
+			'Content-Type',
+		);
+
+		/**
+		 * Exposed headers.
+		 *
+		 * @var array
+		 */
+		const EXPOSE_HEADERS = array(
+			'X-WP-Total',
+			'X-WP-TotalPages',
+			'Link',
+			'CoCart-API-Cart-Key',
+			'CoCart-API-Cart-Expiring',
+			'CoCart-API-Cart-Expiration',
+		);
+
+		/**
 		 * Constructor.
 		 *
 		 * @access public
@@ -84,6 +111,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 				// Check API permissions.
 				add_filter( 'rest_pre_dispatch', array( $this, 'check_api_permissions' ), 10, 3 );
+
+				// Send headers.
+				add_filter( 'rest_pre_serve_request', array( $this, 'send_headers' ), 0, 4 );
 
 				// Allow all cross origin requests.
 				add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
@@ -432,6 +462,56 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		} // END is_preflight()
 
 		/**
+		 * Sends headers.
+		 *
+		 * Returns allowed headers and exposes headers that can be used.
+		 * Nocache headers are sent on authenticated requests.
+		 *
+		 * @access public
+		 *
+		 * @since 4.x.x Introduced.
+		 *
+		 * @uses is_user_logged_in()
+		 * @uses wp_get_nocache_headers()
+		 *
+		 * @param bool             $served  Whether the request has already been served. Default false.
+		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+		 * @param WP_REST_Request  $request The request object.
+		 * @param WP_REST_Server   $server  Server instance.
+		 *
+		 * @return bool
+		 */
+		public function send_headers( $served, $result, $request, $server ) {
+			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
+
+				$server->send_header( 'Access-Control-Allow-Headers', implode( ', ', self::ALLOW_HEADERS ) );
+				$server->send_header( 'Access-Control-Expose-Headers', implode( ', ', self::EXPOSE_HEADERS ) );
+
+				/**
+				 * Send nocache headers on authenticated requests.
+				 *
+				 * @param bool $rest_send_nocache_headers Whether to send no-cache headers.
+				 *
+				 * @since 4.x.x Introduced.
+				 */
+				$send_no_cache_headers = apply_filters( 'cocart_send_nocache_headers', is_user_logged_in() );
+				if ( $send_no_cache_headers ) {
+					foreach ( wp_get_nocache_headers() as $no_cache_header_key => $no_cache_header_value ) {
+						$server->send_header( $no_cache_header_key, $no_cache_header_value );
+					}
+				}
+			}
+
+			// Exit early during preflight requests. This is so someone cannot access API data by sending an OPTIONS request
+			// with preflight headers and a _GET property to override the method.
+			if ( $this->is_preflight() ) {
+				exit;
+			}
+
+			return $served;
+		} // END send_headers()
+
+		/**
 		 * Set Cross Origin headers.
 		 *
 		 * For security reasons, browsers restrict cross-origin HTTP requests initiated from scripts.
@@ -454,7 +534,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @uses get_http_origin()
 		 * @uses get_allowed_http_origins()
-		 * @uses rest_get_server()
 		 * @uses is_allowed_http_origin()
 		 *
 		 * @param bool             $served  Whether the request has already been served. Default false.
@@ -487,29 +566,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				 */
 				$origin = apply_filters( 'cocart_allow_origin', $origin );
 
-				$allow_headers = array(
-					'Authorization',
-					'X-Requested-With',
-					'Content-Disposition',
-					'Content-MD5',
-					'Content-Type',
-				);
-
-				$expose_headers = array(
-					'X-WP-Total',
-					'X-WP-TotalPages',
-					'Link',
-					'CoCart-API-Cart-Key',
-					'CoCart-API-Cart-Expiring',
-					'CoCart-API-Cart-Expiration',
-				);
-
-				$server = rest_get_server();
 				$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
 				$server->send_header( 'Access-Control-Allow-Credentials', 'true' );
 				$server->send_header( 'Vary', 'Origin', false );
-				$server->send_header( 'Access-Control-Allow-Headers', implode( ', ', $allow_headers ) );
-				$server->send_header( 'Access-Control-Expose-Headers', implode( ', ', $expose_headers ) );
 				$server->send_header( 'Access-Control-Max-Age', '600' ); // Cache the result of preflight requests (600 is the upper limit for Chromium).
 				$server->send_header( 'X-Robots-Tag', 'noindex' );
 				$server->send_header( 'X-Content-Type-Options', 'nosniff' );
