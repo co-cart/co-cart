@@ -132,7 +132,7 @@ final class CoCart {
 		add_action( 'init', array( __CLASS__, 'load_plugin_textdomain' ), 0 );
 
 		// Load REST API.
-		add_action( 'init', array( __CLASS__, 'load_rest_api' ) );
+		add_action( 'rest_api_init', array( __CLASS__, 'load_rest_api' ) );
 
 		/**
 		 * Hook: Fires once CoCart has finished loading.

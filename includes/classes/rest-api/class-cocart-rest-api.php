@@ -60,8 +60,8 @@ class CoCart_REST_API {
 		// Initialize cart.
 		$this->maybe_load_cart();
 
-		// Hook into WordPress ready to init the REST API as needed.
-		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
+		// Register REST routes.
+		$this->register_rest_routes();
 
 		// Prevents certain routes from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
 		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
