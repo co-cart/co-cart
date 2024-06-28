@@ -107,6 +107,14 @@ class CoCart_Response {
 				$cart_expiring   = WC()->session->get_cart_is_expiring();
 				$cart_expiration = WC()->session->get_carts_expiration();
 
+				// Get cart key.
+				$cart_key = CoCart_Utilities_Cart_Helpers::get_cart_key();
+
+				// Send cart key in the header if it's not empty or ZERO.
+				if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
+					$response->header( 'CoCart-API-Cart-Key', $cart_key );
+				}
+
 				$response->header( 'CoCart-API-Cart-Expiring', $cart_expiring );
 				$response->header( 'CoCart-API-Cart-Expiration', $cart_expiration );
 			}
