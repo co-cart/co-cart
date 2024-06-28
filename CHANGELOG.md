@@ -16,7 +16,7 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 * Improved session handling for headless.
 * Reverted back to WooCommerce cookie name which also deprecates filter `cocart_cookie`.
-* Moved `is_rest_api_request()` function to the main class so it can be utilized more outside of CoCart plugin.
+* Moved `is_rest_api_request()` function to the main class so it can be utilized outside of the plugin.
 * Session Handler: Added new function `is_user_customer()` to check the user role is a customer when authenticated before migrating cart from guest.
 * REST API: Updating the customer details in cart will now take additional billing and shipping fields as meta data. Validation is required by the developer using filter `cocart_update_customer_fields`.
 * REST API: Sanitized and formatted customer email address and phone number.
@@ -43,6 +43,8 @@ We also no longer use cookies as a backup for headless. This should also help wi
 ### Developers
 
 * Introduced new action hook `cocart_after_session_saved_data` fires after the session is saved.
+* Introduced new filter `cocart_send_nocache_headers` to decide if nocache headers are sent.
+* Some functions from the cart and products API v2 have been moved to there own utility class so they can be utilized outside of the plugin.
 
 ### Compatibility
 
