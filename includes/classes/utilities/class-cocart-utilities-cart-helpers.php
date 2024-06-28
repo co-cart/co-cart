@@ -37,6 +37,25 @@ class CoCart_Utilities_Cart_Helpers {
 	} // END are_coupons_enabled()
 
 	/**
+	 * Check given coupon exists.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @param string $coupon_code Coupon code.
+	 *
+	 * @return bool
+	 */
+	public static function coupon_exists( $coupon_code ) {
+		$coupon = new \WC_Coupon( $coupon_code );
+
+		return (bool) $coupon->get_id() || $coupon->get_virtual();
+	} // END coupon_exists()
+
+	/**
 	 * Checks if shipping is enabled and there is at least one method setup.
 	 *
 	 * @access public
