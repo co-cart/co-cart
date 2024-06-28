@@ -295,6 +295,7 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-rest-functions.php';
 
 		// Utilities.
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
 
 		// WP-CLI.
