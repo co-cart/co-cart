@@ -257,13 +257,7 @@ class CoCart_Admin_WC_System_Status {
 	public static function maybe_show_results() {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::maybe_show_results', '4.x.x', 'cocart_maybe_show_results' );
 
-		global $wpdb;
-
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}cocart_carts';" ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			return true;
-		}
-
-		return false;
+		return cocart_maybe_show_results();
 	} // END maybe_show_results()
 
 	/**
@@ -288,29 +282,7 @@ class CoCart_Admin_WC_System_Status {
 	public static function carts_in_session( $session = '' ) {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_in_session', '4.x.x', 'cocart_carts_in_session' );
 
-		global $wpdb;
-
-		if ( ! self::maybe_show_results() ) {
-			return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
-		}
-
-		if ( empty( $session ) ) {
-			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-				"
-					SELECT COUNT(cart_id) as count 
-					FROM {$wpdb->prefix}cocart_carts",
-				ARRAY_A
-			);
-		} else {
-			$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-				"
-					SELECT COUNT(session_id) as count 
-					FROM {$wpdb->prefix}woocommerce_sessions",
-				ARRAY_A
-			);
-		}
-
-		return $results[0]['count'];
+		return cocart_carts_in_session();
 	} // END carts_in_session()
 
 	/**
@@ -333,25 +305,7 @@ class CoCart_Admin_WC_System_Status {
 	public static function count_carts_expiring() {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_expiring', '4.x.x', 'cocart_count_carts_expiring' );
 
-		global $wpdb;
-
-		if ( ! self::maybe_show_results() ) {
-			return 0;
-		}
-
-		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare(
-				"
-					SELECT COUNT(cart_id) as count
-					FROM {$wpdb->prefix}cocart_carts 
-					WHERE cart_expiry BETWEEN %d AND %d",
-				time(),
-				( HOUR_IN_SECONDS * 6 ) + time()
-			),
-			ARRAY_A
-		);
-
-		return $results[0]['count'];
+		return cocart_count_carts_expiring();
 	} // END count_carts_expiring()
 
 	/**
@@ -372,24 +326,7 @@ class CoCart_Admin_WC_System_Status {
 	public static function count_carts_active() {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_active', '4.x.x', 'cocart_count_carts_active' );
 
-		global $wpdb;
-
-		if ( ! self::maybe_show_results() ) {
-			return 0;
-		}
-
-		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare(
-				"
-					SELECT COUNT(cart_id) as count
-					FROM {$wpdb->prefix}cocart_carts 
-					WHERE cart_expiry > %d",
-				time()
-			),
-			ARRAY_A
-		);
-
-		return $results[0]['count'];
+		return cocart_count_carts_active();
 	} // END count_carts_active()
 
 	/**
@@ -408,24 +345,7 @@ class CoCart_Admin_WC_System_Status {
 	public static function count_carts_expired() {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_expired', '4.x.x', 'cocart_count_carts_expired' );
 
-		global $wpdb;
-
-		if ( ! self::maybe_show_results() ) {
-			return 0;
-		}
-
-		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare(
-				"
-					SELECT COUNT(cart_id) as count
-					FROM {$wpdb->prefix}cocart_carts 
-					WHERE cart_expiry < %d",
-				time()
-			),
-			ARRAY_A
-		);
-
-		return $results[0]['count'];
+		return cocart_count_carts_expired();
 	} // END count_carts_expired()
 
 	/**
@@ -444,24 +364,7 @@ class CoCart_Admin_WC_System_Status {
 	public function carts_source_web() {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_web', '4.x.x', 'cocart_carts_source_web' );
 
-		global $wpdb;
-
-		if ( ! self::maybe_show_results() ) {
-			return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
-		}
-
-		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare(
-				"
-					SELECT COUNT(cart_id) as count
-					FROM {$wpdb->prefix}cocart_carts 
-					WHERE cart_source=%s",
-				'woocommerce'
-			),
-			ARRAY_A
-		);
-
-		return $results[0]['count'];
+		return cocart_carts_source_web();
 	} // END carts_source_web()
 
 	/**
@@ -480,24 +383,7 @@ class CoCart_Admin_WC_System_Status {
 	public function carts_source_headless() {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_headless', '4.x.x', 'cocart_carts_source_headless' );
 
-		global $wpdb;
-
-		if ( ! self::maybe_show_results() ) {
-			return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
-		}
-
-		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare(
-				"
-					SELECT COUNT(cart_id) as count
-					FROM {$wpdb->prefix}cocart_carts 
-					WHERE cart_source=%s",
-				'cocart'
-			),
-			ARRAY_A
-		);
-
-		return $results[0]['count'];
+		return cocart_carts_source_headless();
 	} // END carts_source_headless()
 
 	/**
@@ -516,25 +402,7 @@ class CoCart_Admin_WC_System_Status {
 	public function carts_source_other() {
 		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_other', '4.x.x', 'cocart_carts_source_other' );
 
-		global $wpdb;
-
-		if ( ! self::maybe_show_results() ) {
-			return __( 'Missing session table.', 'cart-rest-api-for-woocommerce' );
-		}
-
-		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare(
-				"
-					SELECT COUNT(cart_id) as count
-					FROM {$wpdb->prefix}cocart_carts 
-					WHERE cart_source!=%s AND cart_source!=%s",
-				'cocart',
-				'woocommerce'
-			),
-			ARRAY_A
-		);
-
-		return $results[0]['count'];
+		return cocart_carts_source_other();
 	} // END carts_source_other()
 
 	/**

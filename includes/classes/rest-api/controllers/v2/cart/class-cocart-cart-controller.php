@@ -12,8 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
-
 class_alias( 'CoCart_REST_Cart_V2_Controller', 'CoCart_Cart_V2_Controller' );
 
 /**
@@ -290,15 +288,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			$coupons = CoCart_Utilities_Cart_Helpers::are_coupons_enabled() ? $cart_instance->get_applied_coupons() : array();
 
 			if ( ! empty( $coupons ) ) {
-				foreach ( $coupons as $coupon ) {
-					$data = new WC_Coupon( $coupon );
+				foreach ( $coupons as $code ) {
+					$coupon = new WC_Coupon( $code );
 
 					$cart['coupons'][] = array(
-						'coupon'        => wc_format_coupon_code( wp_unslash( $coupon ) ),
-						'label'         => esc_attr( wc_cart_totals_coupon_label( $coupon, false ) ),
-						'discount_type' => $data->get_discount_type(),
-						'saving'        => $this->coupon_html( $coupon, false ),
-						'saving_html'   => $this->coupon_html( $coupon ),
+						'coupon'        => wc_format_coupon_code( wp_unslash( $code ) ),
+						'label'         => esc_attr( wc_cart_totals_coupon_label( $code, false ) ),
+						'discount_type' => $coupon->get_discount_type(),
+						'saving'        => $this->coupon_html( $code, false ),
+						'saving_html'   => $this->coupon_html( $code ),
 					);
 				}
 			}
@@ -886,11 +884,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	public function get_cart_key() {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_cart_key', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_cart_key' );
 
-		if ( ! method_exists( WC()->session, 'get_customer_id' ) ) {
-			return '';
-		}
-
-		return (string) WC()->session->get_customer_id();
+		return CoCart_Utilities_Cart_Helpers::get_cart_key();
 	} // END get_cart_key()
 
 	/**
@@ -2034,33 +2028,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	protected function get_customer_fields( $fields = 'billing', $customer = '' ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_customer_fields', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_customer_fields' );
 
-		// If no customer is set then get customer from cart.
-		if ( empty( $customer ) ) {
-			$customer = $this->get_cart_instance()->get_customer();
-		}
-
-		/**
-		 * We get the checkout fields so we return the fields the store uses during checkout.
-		 * This is so we ONLY return the customers information for those fields used.
-		 * These fields could be changed either via filter, another plugin or
-		 * based on the conditions of the customers location or cart contents.
-		 */
-		$checkout_fields = WC()->checkout->get_checkout_fields( $fields );
-
-		$results = array();
-
-		/**
-		 * We go through each field and check that we can return it's data as set by default.
-		 * If we can't get the data we rely on getting customer data via a filter for that field.
-		 * Any fields that can not return information will be empty.
-		 */
-		foreach ( $checkout_fields as $key => $value ) {
-			$field_name = 'get_' . $key; // Name of the default field function. e.g. "get_billing_first_name".
-
-			$results[ $key ] = method_exists( $customer, $field_name ) ? $customer->$field_name() : apply_filters( 'cocart_get_customer_' . $key, '' );
-		}
-
-		return $results;
+		return CoCart_Utilities_Cart_Helpers::get_customer_fields( $fields, $customer );
 	} // END get_customer_fields()
 
 	/**
@@ -2087,19 +2055,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	public static function convert_notices_to_exceptions( $error_code = 'unknown_server_error' ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::convert_notices_to_exceptions', '4.x.x', 'CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions' );
 
-		if ( 0 === wc_notice_count( 'error' ) ) {
-			wc_clear_notices();
-			return;
-		}
-
-		$error_notices = wc_get_notices( 'error' );
-
-		// Prevent notices from being output later on.
-		wc_clear_notices();
-
-		foreach ( $error_notices as $error_notice ) {
-			throw new CoCart_Data_Exception( esc_html( $error_code ), esc_html( wp_strip_all_tags( $error_notice['notice'] ) ), 400 );
-		}
+		CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions( $error_code );
 	} // END convert_notices_to_exceptions()
 
 	/**
@@ -2325,21 +2281,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	protected function throw_product_not_purchasable( $product ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_product_not_purchasable', '4.x.x', 'CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable' );
 
-		$message = sprintf(
-			/* translators: %s: product name */
-			__( "'%s' is not available for purchase.", 'cart-rest-api-for-woocommerce' ),
-			$product->get_name()
-		);
-
-		/**
-		 * Filters message about product unable to be purchased.
-		 *
-		 * @param string     $message Message.
-		 * @param WC_Product $product The product object.
-		 */
-		$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
-
-		throw new CoCart_Data_Exception( 'cocart_cannot_be_purchased', esc_html( $message ), 400 );
+		CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable( $product );
 	} // END throw_product_not_purchasable()
 
 	/**
@@ -2378,11 +2320,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	protected function get_remaining_stock_for_product( $product ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_remaining_stock_for_product', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product' );
 
-		$reserve_stock = new ReserveStock();
-		$draft_order   = WC()->session->get( 'cocart_draft_order', 0 );
-		$qty_reserved  = $reserve_stock->get_reserved_stock( $product, $draft_order );
-
-		return $product->get_stock_quantity() - $qty_reserved;
+		return CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product( $product );
 	} // END get_remaining_stock_for_product()
 
 	/**
@@ -2406,24 +2344,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	protected function throw_missing_item_key( $item_key, $status ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_missing_item_key', '4.x.x', 'CoCart_Utilities_Cart_Helpers::throw_missing_item_key' );
 
-		$item_key = (string) $item_key; // Make sure the item key is a string value.
-
-		if ( '0' === $item_key ) {
-			$message = __( 'Missing cart item key is required!', 'cart-rest-api-for-woocommerce' );
-
-			/**
-			 * Filters message about cart item key required.
-			 *
-			 * @since 2.1.0 Introduced.
-			 *
-			 * @param string $message Message.
-			 */
-			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
-
-			throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', esc_html( $message ), 404 );
-		}
-
-		return $item_key;
+		return CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, $status );
 	} // END throw_missing_item_key()
 
 	/**
