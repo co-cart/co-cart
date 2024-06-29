@@ -445,8 +445,9 @@ function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode =
  * @return array
  */
 function cocart_get_store_currency() {
+	$currency = get_woocommerce_currency();
 	$position = get_option( 'woocommerce_currency_pos' );
-	$symbol   = html_entity_decode( get_woocommerce_currency_symbol() );
+	$symbol   = html_entity_decode( get_woocommerce_currency_symbol( $currency ) );
 	$prefix   = '';
 	$suffix   = '';
 
@@ -466,8 +467,9 @@ function cocart_get_store_currency() {
 	}
 
 	return array(
-		'currency_code'               => get_woocommerce_currency(),
+		'currency_code'               => $currency,
 		'currency_symbol'             => $symbol,
+		'currency_symbol_pos'         => str_replace( '_', ' ', $position ),
 		'currency_minor_unit'         => wc_get_price_decimals(),
 		'currency_decimal_separator'  => wc_get_price_decimal_separator(),
 		'currency_thousand_separator' => wc_get_price_thousand_separator(),

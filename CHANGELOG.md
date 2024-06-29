@@ -22,6 +22,7 @@ We also no longer use cookies as a backup for headless. This should also help wi
 * REST API: Sanitized and formatted customer email address and phone number.
 * REST API: Formatted customer postcode if validated.
 * REST API: Product image sizes are now fetched using utility products class function `get_product_image_sizes()`. Cuts down on the filter `cocart_products_image_sizes` being in multiple places.
+* REST API: Currency in cart API v2 now returns `currency_symbol_pos` and the currency symbol will now return based on the set currency without lookup.
 * Plugin: Localization improvements.
 * Plugin: Code files organized better.
 
