@@ -445,31 +445,36 @@ function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode =
  * @return array
  */
 function cocart_get_store_currency() {
-	$currency = get_woocommerce_currency();
-	$position = get_option( 'woocommerce_currency_pos' );
-	$symbol   = html_entity_decode( get_woocommerce_currency_symbol( $currency ) );
-	$prefix   = '';
-	$suffix   = '';
+	$currency     = get_woocommerce_currency();
+	$position     = get_option( 'woocommerce_currency_pos' );
+	$symbol       = html_entity_decode( get_woocommerce_currency_symbol( $currency ) );
+	$use_position = '';
+	$prefix       = '';
+	$suffix       = '';
 
 	switch ( $position ) {
 		case 'left_space':
-			$prefix = $symbol . ' ';
+			$use_position = 'currency_prefix';
+			$prefix       = $symbol . ' ';
 			break;
 		case 'left':
-			$prefix = $symbol;
+			$use_position = 'currency_prefix';
+			$prefix       = $symbol;
 			break;
 		case 'right_space':
-			$suffix = ' ' . $symbol;
+			$use_position = 'currency_suffix';
+			$suffix       = ' ' . $symbol;
 			break;
 		case 'right':
-			$suffix = $symbol;
+			$use_position = 'currency_suffix';
+			$suffix       = $symbol;
 			break;
 	}
 
 	return array(
 		'currency_code'               => $currency,
 		'currency_symbol'             => $symbol,
-		'currency_symbol_pos'         => str_replace( '_', ' ', $position ),
+		'currency_symbol_pos'         => $use_position,
 		'currency_minor_unit'         => wc_get_price_decimals(),
 		'currency_decimal_separator'  => wc_get_price_decimal_separator(),
 		'currency_thousand_separator' => wc_get_price_thousand_separator(),
