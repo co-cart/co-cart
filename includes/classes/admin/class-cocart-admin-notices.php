@@ -6,8 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
- * @since   1.2.0
- * @version 3.10.0
+ * @since   1.2.0 Introduced.
+ * @version 4.x.x
  * @license GPL-2.0+
  */
 
@@ -24,8 +24,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Activation date.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @var    string
+		 *
+		 * @var string
 		 */
 		public static $install_date;
 
@@ -33,9 +35,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Stores notices.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
-		 * @var    array
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @var array
 		 */
 		public static $notices = array();
 
@@ -43,9 +48,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Array of notices - name => callback.
 		 *
 		 * @access private
+		 *
 		 * @static
-		 * @since  3.0.0
-		 * @var    array
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @var array
 		 */
 		private static $core_notices = array(
 			'update_db'           => 'update_db_notice',
@@ -62,9 +70,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Constructor
 		 *
-		 * @access  public
-		 * @since   1.2.0
-		 * @version 3.1.0
+		 * @access public
+		 *
+		 * @since 1.2.0  Introduced.
+		 * @since 3.10.0 Added notice for WordPress Playground
 		 */
 		public function __construct() {
 			self::$install_date = get_option( 'cocart_install_date', time() );
@@ -82,6 +91,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				add_action( 'admin_print_styles', array( $this, 'add_notices' ) );
 			}
 
+			// Notice for WordPress Playground.
 			add_action( 'admin_notices', array( $this, 'wordpress_playground_notice' ) );
 		} // END __construct()
 
@@ -89,8 +99,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Store notices to DB.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
 		 */
 		public static function store_notices() {
 			update_option( 'cocart_admin_notices', self::get_notices() );
@@ -100,8 +112,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Get notices
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
 		 * @return array
 		 */
 		public static function get_notices() {
@@ -112,8 +127,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Remove all notices.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
 		 */
 		public static function remove_all_notices() {
 			self::$notices = array();
@@ -123,7 +140,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Reset notices for when new version of CoCart is installed.
 		 *
 		 * @access public
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
 		 */
 		public function reset_admin_notices() {
 			self::add_notice( 'upgrade_warning' );
@@ -137,10 +155,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Show a notice.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
-		 * @param  string $name Notice name.
-		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $name       Notice name.
+		 * @param bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 		 */
 		public static function add_notice( $name, $force_save = false ) {
 			self::$notices = array_unique( array_merge( self::get_notices(), array( $name ) ) );
@@ -155,10 +176,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Remove a notice from being displayed.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
-		 * @param  string $name Notice name.
-		 * @param  bool   $force_save Force saving inside this method instead of at the 'shutdown'.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $name       Notice name.
+		 * @param bool   $force_save Force saving inside this method instead of at the 'shutdown'.
 		 */
 		public static function remove_notice( $name, $force_save = false ) {
 			$notices = self::get_notices();
@@ -179,12 +203,16 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * See if a notice is being shown.
 		 *
-		 * @access  public
+		 * @access public
+		 *
 		 * @static
-		 * @since   3.0.0
+		 *
+		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
-		 * @param   string $name Notice name.
-		 * @return  boolean
+		 *
+		 * @param string $name Notice name.
+		 *
+		 * @return boolean
 		 */
 		public static function has_notice( $name ) {
 			return in_array( $name, self::get_notices(), true );
@@ -194,7 +222,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Hide a notice if the GET variable is set.
 		 *
 		 * @access public
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
 		 */
 		public function hide_notices() {
 			if ( isset( $_GET['cocart-hide-notice'] ) && isset( $_GET['_cocart_notice_nonce'] ) ) {
@@ -222,18 +251,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Add notices.
 		 *
-		 * @access  public
-		 * @since   3.0.0
-		 * @version 3.0.17
+		 * @access public
+		 *
+		 * @since 3.0.0  Introduced.
+		 * @since 3.10.0 Prevented notices from showing if on WordPress Playground.
 		 */
 		public function add_notices() {
 			// Prevent notices from loading on the frontend.
 			if ( ! is_admin() ) {
-				return;
-			}
-
-			// Notices should only show on specific pages.
-			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
 				return;
 			}
 
@@ -245,6 +270,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			$notices = self::get_notices();
 
 			if ( empty( $notices ) ) {
+				return;
+			}
+
+			// Notice should only show on specific pages.
+			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
 				return;
 			}
 
@@ -261,10 +291,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Add a custom notice.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
-		 * @param  string $name        Notice name.
-		 * @param  string $notice_html Notice HTML.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $name        Notice name.
+		 * @param string $notice_html Notice HTML.
 		 */
 		public static function add_custom_notice( $name, $notice_html ) {
 			self::add_notice( $name );
@@ -275,7 +308,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Output any stored custom notices.
 		 *
 		 * @access public
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
 		 * @return void
 		 */
 		public function output_custom_notices() {
@@ -298,7 +333,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Notice about base tables missing.
 		 *
 		 * @access public
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
 		 * @return void
 		 */
 		public function base_tables_missing_notice() {
@@ -317,10 +354,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Shows a notice asking the user for a review of CoCart.
 		 *
-		 * @access  public
-		 * @since   3.0.0
+		 * @access public
+		 *
+		 * @since   3.0.0 Introduced.
 		 * @version 3.2.0
-		 * @return  void
+		 *
+		 * @return void
 		 */
 		public function timed_notices() {
 			// Add review notice first. We will remove it after if already dismissed.
@@ -340,8 +379,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * than the new release coming soon.
 		 *
 		 * @access public
-		 * @since  1.2.3 Introduced.
-		 * @since  3.10.4 Check how long CoCart has been installed before showing.
+		 *
+		 * @since 1.2.3 Introduced.
+		 * @since 3.10.4 Check how long CoCart has been installed before showing.
+		 *
 		 * @return void
 		 */
 		public function upgrade_warning_notice() {
@@ -366,8 +407,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * If we need to update the database, include a message with the DB update button.
 		 *
 		 * @access public
+		 *
 		 * @static
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
 		 */
 		public static function update_db_notice() {
 			$screen    = get_current_screen();
@@ -393,10 +436,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * Shows the PHP requirement notice if minimum requirement does not meet.
 		 *
-		 * @access  public
-		 * @since   2.6.0
+		 * @access public
+		 *
+		 * @since   2.6.0 Introduced.
 		 * @version 3.0.0
-		 * @return  void
+		 *
+		 * @return void
 		 */
 		public function check_php_notice() {
 			if ( ! CoCart_Helpers::is_environment_compatible() && is_plugin_active( plugin_basename( COCART_FILE ) ) ) {
@@ -410,10 +455,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Checks that the WordPress version meets the plugin requirement before deciding
 		 * to deactivate the plugin and show the WordPress requirement notice if it doesn't meet.
 		 *
-		 * @access  public
-		 * @since   1.2.0
+		 * @access public
+		 *
+		 * @since   1.2.0 Introduced.
 		 * @version 3.0.0
-		 * @return  void
+		 *
+		 * @return void
 		 */
 		public function check_wp_notice() {
 			if ( ! CoCart_Helpers::is_wp_version_gte( CoCart::$required_wp ) ) {
@@ -426,7 +473,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Check WooCommerce Dependency.
 		 *
 		 * @access public
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
 		 * @return void
 		 */
 		public function check_woocommerce_notice() {
@@ -448,10 +497,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		/**
 		 * Displays notice if user is testing pre-release version of the plugin.
 		 *
-		 * @access  public
-		 * @since   1.2.0
+		 * @access public
+		 *
+		 * @since   1.2.0 Introduced.
 		 * @version 3.0.0
-		 * @return  void
+		 *
+		 * @return void
 		 */
 		public function check_beta_notice() {
 			// Is this version of CoCart a pre-release?
@@ -465,10 +516,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * Shown after 2 weeks or more from the time the plugin was installed.
 		 *
-		 * @access  public
-		 * @since   1.2.0
+		 * @access public
+		 *
+		 * @since   1.2.0 Introduced.
 		 * @version 3.0.0
-		 * @return  void
+		 *
+		 * @return void
 		 */
 		public function plugin_review_notice() {
 			// If it has been 2 weeks or more since activating the plugin then display the review notice.
@@ -483,7 +536,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * Shows only for those new to CoCart or setup wizard has not be done.
 		 *
 		 * @access public
-		 * @since  3.1.0
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
 		 * @return void
 		 */
 		public function setup_wizard_notice() {
@@ -505,7 +560,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 		} // END wordpress_playground_notice()
 	} // END class.
-
 } // END if class exists.
 
 return new CoCart_Admin_Notices();
