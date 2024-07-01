@@ -287,7 +287,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 						$notice_html = get_option( 'cocart_admin_notice_' . $notice );
 
 						if ( $notice_html ) {
-							include COCART_ABSPATH . 'includes/classes/admin/views/html-notice-custom.php';
+							include __DIR__ . '/views/html-notice-custom.php';
 						}
 					}
 				}
@@ -311,7 +311,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				self::remove_notice( 'base_tables_missing' );
 			}
 
-			include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-base-table-missing.php';
+			include_once __DIR__ . '/views/html-notice-base-table-missing.php';
 		} // END base_tables_missing_notice()
 
 		/**
@@ -377,12 +377,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$next_scheduled_date = WC()->queue()->get_next( 'cocart_run_update_callback', null, 'cocart-db-updates' );
 
 				if ( $next_scheduled_date || ! empty( $_GET['do_update_cocart'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					include COCART_ABSPATH . 'includes/classes/admin/views/html-notice-updating.php';
+					include __DIR__ . '/views/html-notice-updating.php';
 				} else {
-					include COCART_ABSPATH . 'includes/classes/admin/views/html-notice-update.php';
+					include __DIR__ . '/views/html-notice-update.php';
 				}
 			} else {
-				include COCART_ABSPATH . 'includes/classes/admin/views/html-notice-updated.php';
+				include __DIR__ . '/views/html-notice-updated.php';
 				self::remove_notice( 'update_db', true );
 				update_user_meta( get_current_user_id(), 'dismissed_cocart_update_db_notice', true );
 			}
@@ -402,7 +402,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			if ( ! CoCart_Helpers::is_environment_compatible() && is_plugin_active( plugin_basename( COCART_FILE ) ) ) {
 				CoCart::deactivate_plugin();
 
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-requirement-php.php';
+				include_once __DIR__ . '/views/html-notice-requirement-php.php';
 			}
 		} // END check_php_notice()
 
@@ -418,7 +418,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function check_wp_notice() {
 			if ( ! CoCart_Helpers::is_wp_version_gte( CoCart::$required_wp ) ) {
 				CoCart::deactivate_plugin();
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-requirement-wp.php';
+				include_once __DIR__ . '/views/html-notice-requirement-wp.php';
 			}
 		} // END check_wp_notice()
 
@@ -435,13 +435,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				CoCart::deactivate_plugin();
 
 				// WooCommerce is Not Installed or Activated Notice.
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-wc-not-installed.php';
+				include_once __DIR__ . '/views/html-notice-wc-not-installed.php';
 			} elseif ( version_compare( WC_VERSION, CoCart::$required_woo, '<' ) ) {
 				/**
 				 * Displays a warning message if minimum version of WooCommerce check fails and
 				 * provides an update button if the user has admin capabilities to update the plugin.
 				 */
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-required-wc.php';
+				include_once __DIR__ . '/views/html-notice-required-wc.php';
 			}
 		} // END check_woocommerce_notice()
 
@@ -456,7 +456,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function check_beta_notice() {
 			// Is this version of CoCart a pre-release?
 			if ( CoCart_Helpers::is_cocart_pre_release() ) {
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-trying-beta.php';
+				include_once __DIR__ . '/views/html-notice-trying-beta.php';
 			}
 		} // END check_beta_notice()
 
@@ -473,7 +473,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		public function plugin_review_notice() {
 			// If it has been 2 weeks or more since activating the plugin then display the review notice.
 			if ( ( intval( time() - self::$install_date ) ) > WEEK_IN_SECONDS * 2 ) {
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-please-review.php';
+				include_once __DIR__ . '/views/html-notice-please-review.php';
 			}
 		} // END plugin_review_notice()
 
@@ -487,7 +487,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @return void
 		 */
 		public function setup_wizard_notice() {
-			include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-setup-wizard.php';
+			include_once __DIR__ . '/views/html-notice-setup-wizard.php';
 		} // END setup_wizard_notice()
 
 		/**
@@ -501,7 +501,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 */
 		public function wordpress_playground_notice() {
 			if ( CoCart_Helpers::is_on_wordpress_playground() ) {
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-playground.php';
+				include_once __DIR__ . '/views/html-notice-playground.php';
 			}
 		} // END wordpress_playground_notice()
 	} // END class.
