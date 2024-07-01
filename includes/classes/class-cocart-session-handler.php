@@ -175,7 +175,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				$this->update_cart_timestamp( $this->_customer_id, $this->cart_expiration );
 			}
 		} else {
-			// New cart session created.
+			// New cart session created or authenticated user.
 			$this->set_cart_expiration();
 			$this->_customer_id = 0 === $current_user_id ? $this->generate_key() : $current_user_id;
 			$this->_data        = $this->get_session_data();
@@ -312,7 +312,16 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			 *
 			 * @deprecated 2.7.2 No replacement.
 			 */
-			cocart_do_deprecated_filter( 'cocart_empty_cart_expiration', '2.7.2', null, sprintf( __( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ), __FUNCTION__ ) );
+			cocart_do_deprecated_filter(
+				'cocart_empty_cart_expiration',
+				'2.7.2',
+				null,
+				sprintf(
+					/* translators: %s: Filter name */
+					__( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ),
+					'cocart_empty_cart_expiration'
+				)
+			);
 
 			// Check the data exists before continuing.
 			if ( ! $this->_data || empty( $this->_data ) || is_null( $this->_data ) ) {
@@ -632,7 +641,16 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	public function is_cookie_supported() {
 		cocart_deprecated_function( 'CoCart_Session_Handler::is_cookie_supported', '4.x.x', null );
 
-		return cocart_do_deprecated_filter( 'cocart_cookie_supported', '4.x.x', null, sprintf( __( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ), 'cocart_cookie_supported' ) );
+		return cocart_do_deprecated_filter(
+			'cocart_cookie_supported',
+			'4.x.x',
+			null,
+			sprintf(
+				/* translators: %s: Filter name */
+				__( '%s is no longer used.', 'cart-rest-api-for-woocommerce' ),
+				'cocart_cookie_supported'
+			)
+		);
 	} // END is_cookie_supported()
 
 	/**

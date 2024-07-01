@@ -206,24 +206,48 @@ class CoCart_Admin_WC_System_Status {
 		);
 
 		$data['cocart_carts_source_headless'] = array(
-			'name'      => sprintf( _x( 'Carts Created (%s)', 'label that indicates the number of carts created via CoCart REST API', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by CoCart', 'cart-rest-api-for-woocommerce' ) ),
-			'label'     => sprintf( esc_html__( 'Carts Created (%s)', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by CoCart', 'cart-rest-api-for-woocommerce' ) ),
+			'name'      => sprintf(
+				/* translators: %s: CoCart */
+				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via CoCart REST API', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			),
+			'label'     => sprintf(
+				/* translators: %s: CoCart */
+				esc_html__( 'Carts Created (by %s)', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			),
 			'note'      => cocart_carts_source_headless(),
 			'mark'      => '',
 			'mark_icon' => '',
 		);
 
 		$data['cocart_carts_source_web'] = array(
-			'name'      => sprintf( _x( 'Carts Created (%s)', 'label that indicates the number of carts created via the web', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Web', 'cart-rest-api-for-woocommerce' ) ),
-			'label'     => sprintf( esc_html__( 'Carts Created (%s)', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Web', 'cart-rest-api-for-woocommerce' ) ),
+			'name'      => sprintf(
+				/* translators: %s: Web */
+				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via the web', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Web', 'cart-rest-api-for-woocommerce' )
+			),
+			'label'     => sprintf(
+				/* translators: %s: Web */
+				esc_html__( 'Carts Created (by %s)', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Web', 'cart-rest-api-for-woocommerce' )
+			),
 			'note'      => cocart_carts_source_web(),
 			'mark'      => '',
 			'mark_icon' => '',
 		);
 
 		$data['cocart_carts_source_other'] = array(
-			'name'      => sprintf( _x( 'Carts Created (%s)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Other', 'cart-rest-api-for-woocommerce' ) ),
-			'label'     => sprintf( esc_html__( 'Carts Created (%s)', 'cart-rest-api-for-woocommerce' ), esc_html__( 'by Other', 'cart-rest-api-for-woocommerce' ) ),
+			'name'      => sprintf(
+				/* translators: %s: Other */
+				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Other', 'cart-rest-api-for-woocommerce' )
+			),
+			'label'     => sprintf(
+				/* translators: %s: Other */
+				esc_html__( 'Carts Created (by %s)', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Other', 'cart-rest-api-for-woocommerce' )
+			),
 			'note'      => cocart_carts_source_other(),
 			'tip'       => sprintf(
 				/* translators: 1: CoCart, 2: WooCommerce */
