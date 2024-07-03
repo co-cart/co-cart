@@ -370,6 +370,10 @@ class CoCart_REST_API {
 	 * @version 3.1.0
 	 */
 	public function rest_api_includes() {
+		// CoCart REST API controllers.
+		require_once __DIR__ . '/controllers/class-cocart-rest-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-rest-posts-controller.php';
+
 		// CoCart REST API v1 controllers.
 		require_once __DIR__ . '/controllers/v1/cart/class-cocart-controller.php';
 		require_once __DIR__ . '/controllers/v1/cart/class-cocart-add-item-controller.php';
