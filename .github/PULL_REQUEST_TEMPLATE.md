@@ -15,7 +15,7 @@
 
 ### Checklist:
 - [ ] My code is tested
-- [ ] My code has proper inline documentation <!-- Guidelines: https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/javascript/ -->
+- [ ] My code has proper inline documentation <!-- Guidelines: https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/ -->
 - [ ] I've included any necessary tests <!-- if applicable -->
 - [ ] I've included developer documentation <!-- if applicable -->
 - [ ] I've added proper labels to this pull request <!-- if applicable -->

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Third Party
  * @since   2.8.1
- * @version 3.10.0
+ * @version 4.2.0
  * @license GPL-2.0+
  */
 
@@ -27,17 +27,7 @@ if ( ! class_exists( 'CoCart_Third_Party' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			self::include_hosts();
 			self::include_plugins();
-		}
-
-		/**
-		 * Load support for third-party hosts.
-		 *
-		 * @access public
-		 */
-		public function include_hosts() {
-			include_once __DIR__ . '/hosting/pantheon/class-cocart-host-pantheon.php'; // Pantheon.io.
 		}
 
 		/**
