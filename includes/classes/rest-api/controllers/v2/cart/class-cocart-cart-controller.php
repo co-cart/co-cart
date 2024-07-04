@@ -865,7 +865,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array
 	 */
 	public function get_store_currency() {
-		cocart_deprecated_function( __FUNCTION__, '3.1', 'cocart_get_store_currency' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_store_currency', '3.1', 'cocart_get_store_currency' );
 
 		return cocart_get_store_currency();
 	} // END get_store_currency()
@@ -931,7 +931,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return string The new amount.
 	 */
 	public function prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-		cocart_deprecated_function( __FUNCTION__, '3.1', 'cocart_prepare_money_response' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::prepare_money_response', '3.1', 'cocart_prepare_money_response' );
 
 		return cocart_prepare_money_response( $amount, $decimals, $rounding_mode );
 	} // END prepare_money_response()
@@ -2002,7 +2002,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param array $item_added_to_cart Cart item to cache.
 	 */
 	public function cache_cart_item( $item_added_to_cart ) {
-		cocart_deprecated_function( __FUNCTION__, '4.1' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::cache_cart_item', '4.1' );
 
 		$item_key = $item_added_to_cart['key'];
 
