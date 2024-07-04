@@ -399,7 +399,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			if ( ! CoCart_Helpers::is_cocart_pre_release() && version_compare( $version, COCART_NEXT_VERSION, '<' ) ) {
-				include_once COCART_ABSPATH . 'includes/classes/admin/views/html-notice-upgrade-warning.php';
+				include_once __DIR__ . '/views/html-notice-upgrade-warning.php';
 			}
 		} // END upgrade_warning_notice()
 
