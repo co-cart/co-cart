@@ -185,7 +185,7 @@ class CoCart_REST_API {
 	 *
 	 * @access private
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 */
 	private function initialize_cart_session() {
 		add_filter( 'woocommerce_cart_session_initialize', function ( $must_initialize, $session ) {

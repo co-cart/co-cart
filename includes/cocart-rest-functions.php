@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 4.x.x
+ * @version 4.2.0
  * @license GPL-2.0+
  */
 

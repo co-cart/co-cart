@@ -345,7 +345,7 @@ class CoCart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param string $version The version to compare.
 	 *
@@ -370,7 +370,7 @@ class CoCart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param string $version The version to compare.
 	 *
@@ -395,7 +395,7 @@ class CoCart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param string $version The version to compare.
 	 *
@@ -915,7 +915,7 @@ class CoCart_Helpers {
 	 * @static
 	 *
 	 * @since 2.7.2 Introduced.
-	 * @since 4.x.x Changed from "private" access to "public" access.
+	 * @since 4.2.0 Changed from "private" access to "public" access.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 *
@@ -937,7 +937,7 @@ class CoCart_Helpers {
 	 * @static
 	 *
 	 * @since 2.7.2 Introduced.
-	 * @since 4.x.x Changed from "private" access to "public" access.
+	 * @since 4.2.0 Changed from "private" access to "public" access.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 *

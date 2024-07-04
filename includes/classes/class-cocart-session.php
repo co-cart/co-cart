@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 4.x.x
+ * @version 4.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -111,7 +111,7 @@ class CoCart_Load_Cart {
 	 * @static
 	 *
 	 * @since 2.1.0 Introduced.
-	 * @since 4.x.x Replaced `wc_nocache_headers()` with `cocart_nocache_headers()`.
+	 * @since 4.2.0 Replaced `wc_nocache_headers()` with `cocart_nocache_headers()`.
 	 *
 	 * @uses CoCart_Load_Cart::maybe_load_cart()
 	 * @uses CoCart_Load_Cart::get_action_query()

@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Utilities
- * @since   4.x.x Introduced.
+ * @since   4.2.0 Introduced.
  */
 
 // Exit if accessed directly.
@@ -17,7 +17,7 @@ use Automattic\WooCommerce\Checkout\Helpers\ReserveStock;
 /**
  * Helper class to handle cart functions for the API.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  */
 class CoCart_Utilities_Cart_Helpers {
 
@@ -47,7 +47,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @return bool
 	 */
@@ -62,7 +62,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param string $coupon_code Coupon code.
 	 *
@@ -81,7 +81,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @return bool
 	 */
@@ -97,7 +97,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 4.x.x Customer object is now required.
+	 * @since 4.2.0 Customer object is now required.
 	 *
 	 * @param string           $fields   The customer fields to return.
 	 * @param WC_Customer|null $customer The customer object or nothing.

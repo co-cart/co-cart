@@ -127,14 +127,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.9.1 Introduced.
 		 *
-		 * @deprecated 4.x.x No replacement. Not needed anymore.
+		 * @deprecated 4.2.0 No replacement. Not needed anymore.
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
 		 * @return WP_Error|null|bool
 		 */
 		public function cocart_user_logged_in( $error ) {
-			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.x.x', null );
+			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.2.0', null );
 
 			// Pass through errors from other authentication error checks used before this one.
 			if ( ! empty( $error ) ) {
@@ -469,7 +469,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.x.x Introduced.
+		 * @since 4.2.0 Introduced.
 		 *
 		 * @uses is_user_logged_in()
 		 * @uses wp_get_nocache_headers()
@@ -492,7 +492,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				 *
 				 * @param bool $rest_send_nocache_headers Whether to send no-cache headers.
 				 *
-				 * @since 4.x.x Introduced.
+				 * @since 4.2.0 Introduced.
 				 */
 				$send_no_cache_headers = apply_filters( 'cocart_send_nocache_headers', is_user_logged_in() );
 				if ( $send_no_cache_headers ) {

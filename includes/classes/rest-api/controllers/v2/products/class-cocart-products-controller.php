@@ -376,7 +376,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_images()
 	 *
@@ -385,7 +385,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return array $images
 	 */
 	protected function get_images( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_images' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_images' );
 
 		$images           = array();
 		$attachment_ids   = array();
@@ -948,7 +948,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode()
 	 *
@@ -957,7 +957,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return string Function name.
 	 */
 	protected function get_price_from_tax_display_mode( $tax_display_mode ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_from_tax_display_mode', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_from_tax_display_mode', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode' );
 
 		return 'incl' === $tax_display_mode ? 'wc_get_price_including_tax' : 'wc_get_price_excluding_tax';
 	} // END get_price_from_tax_display_mode()
@@ -967,7 +967,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_REST_Products_V2_Controller::get_price_range()
 	 *
@@ -977,7 +977,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return array
 	 */
 	public function get_price_range( $product, $tax_display_mode = '' ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_range', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_price_range' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_range', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_price_range' );
 
 		$tax_display_mode = $this->get_tax_display_mode( $tax_display_mode );
 

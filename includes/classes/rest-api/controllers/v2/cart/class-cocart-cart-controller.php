@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.x.x
+ * @version 4.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -875,14 +875,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
 	 *
 	 * @return string Cart key.
 	 */
 	public function get_cart_key() {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_cart_key', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_cart_key' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_cart_key', '4.2.0', 'CoCart_Utilities_Cart_Helpers::get_cart_key' );
 
 		return CoCart_Utilities_Cart_Helpers::get_cart_key();
 	} // END get_cart_key()
@@ -2016,7 +2016,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
 	 *
@@ -2026,7 +2026,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array Returns the customer details based on the field requested.
 	 */
 	protected function get_customer_fields( $fields = 'billing', $customer = '' ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_customer_fields', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_customer_fields' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_customer_fields', '4.2.0', 'CoCart_Utilities_Cart_Helpers::get_customer_fields' );
 
 		return CoCart_Utilities_Cart_Helpers::get_customer_fields( $fields, $customer );
 	} // END get_customer_fields()
@@ -2046,14 +2046,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.1 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions()
 	 *
 	 * @param string $error_code Error code for the thrown exceptions.
 	 */
 	public static function convert_notices_to_exceptions( $error_code = 'unknown_server_error' ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::convert_notices_to_exceptions', '4.x.x', 'CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::convert_notices_to_exceptions', '4.2.0', 'CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions' );
 
 		CoCart_Utilities_Cart_Helpers::convert_notices_to_exceptions( $error_code );
 	} // END convert_notices_to_exceptions()
@@ -2272,14 +2272,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.4 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable()
 	 *
 	 * @param WC_Product $product The product object.
 	 */
 	protected function throw_product_not_purchasable( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_product_not_purchasable', '4.x.x', 'CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_product_not_purchasable', '4.2.0', 'CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable' );
 
 		CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable( $product );
 	} // END throw_product_not_purchasable()
@@ -2309,7 +2309,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product()
 	 *
@@ -2318,7 +2318,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return int Remaining stock.
 	 */
 	protected function get_remaining_stock_for_product( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_remaining_stock_for_product', '4.x.x', 'CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_remaining_stock_for_product', '4.2.0', 'CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product' );
 
 		return CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product( $product );
 	} // END get_remaining_stock_for_product()
@@ -2332,7 +2332,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.17 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Cart_Helpers::throw_missing_item_key()
 	 *
@@ -2342,7 +2342,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return string $item_key Generated ID based on the product information when added to the cart.
 	 */
 	protected function throw_missing_item_key( $item_key, $status ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_missing_item_key', '4.x.x', 'CoCart_Utilities_Cart_Helpers::throw_missing_item_key' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::throw_missing_item_key', '4.2.0', 'CoCart_Utilities_Cart_Helpers::throw_missing_item_key' );
 
 		return CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, $status );
 	} // END throw_missing_item_key()

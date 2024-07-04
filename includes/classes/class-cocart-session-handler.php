@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 4.x.x
+ * @version 4.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -79,7 +79,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @access public
 	 *
 	 * @since 2.1.0 Introduced.
-	 * @since 4.x.x Rest requests don't require the use of cookies.
+	 * @since 4.2.0 Rest requests don't require the use of cookies.
 	 */
 	public function init() {
 		// Load the session based on native or decoupled request.
@@ -104,7 +104,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @access public
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @return string Cart key.
 	 */
@@ -127,7 +127,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		 * Developer Note: Really only here so I don't have to create
 		 * a new session handler to inject a customer ID with the POS Support Add-on.
 		 *
-		 * @since 4.x.x Introduced.
+		 * @since 4.2.0 Introduced.
 		 *
 		 * @ignore Function ignored when parsed into Code Reference.
 		 */
@@ -145,7 +145,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @access public
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 */
 	public function init_session_cocart() {
 		// Current user ID. If user is NOT logged in then the customer is a guest.
@@ -185,7 +185,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	/**
 	 * Detect if the user is a customer.
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -264,7 +264,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @access public
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @return string A unique key.
 	 */
@@ -370,7 +370,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			/**
 			 * Hook: Fires after session data is saved.
 			 *
-			 * @since 4.x.x Introduced.
+			 * @since 4.2.0 Introduced.
 			 *
 			 * @param int    $customer_id     Customer ID.
 			 * @param array  $data            Cart data.
@@ -634,16 +634,16 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 2.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 *
 	 * @return bool
 	 */
 	public function is_cookie_supported() {
-		cocart_deprecated_function( 'CoCart_Session_Handler::is_cookie_supported', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::is_cookie_supported', '4.2.0', null );
 
 		return cocart_do_deprecated_filter(
 			'cocart_cookie_supported',
-			'4.x.x',
+			'4.2.0',
 			null,
 			sprintf(
 				/* translators: %s: Filter name */
@@ -658,12 +658,12 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 *
 	 * @return string
 	 */
 	public function get_cookie_name() {
-		cocart_deprecated_function( 'CoCart_Session_Handler::get_cookie_name', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::get_cookie_name', '4.2.0', null );
 
 		return $this->_cookie;
 	} // END get_cookie_name()
@@ -675,7 +675,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 2.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 *
 	 * @param string  $name Name of the cookie being set.
 	 * @param string  $value Value of the cookie.
@@ -684,7 +684,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @param bool    $httponly Whether the cookie is only accessible over HTTP, not scripting languages like JavaScript. @since 2.7.2.
 	 */
 	public function cocart_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::cocart_setcookie', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::cocart_setcookie', '4.2.0', null );
 
 		if ( ! headers_sent() ) {
 			// samesite - Set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1.
@@ -706,12 +706,12 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with original `WC()->session->get_session_data()` function.
+	 * @deprecated 4.2.0 Replaced with original `WC()->session->get_session_data()` function.
 	 *
 	 * @return array
 	 */
 	public function get_cart_data() {
-		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_data', '4.x.x', 'CoCart_Session_Handler::get_session_data' );
+		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_data', '4.2.0', 'CoCart_Session_Handler::get_session_data' );
 
 		return $this->has_session() ? (array) $this->get_cart( $this->_customer_id, array() ) : array();
 	} // END get_cart_data()
@@ -723,14 +723,14 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 2.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Use `WC()->session->save_data()` instead.
+	 * @deprecated 4.2.0 Use `WC()->session->save_data()` instead.
 	 *
 	 * @param int $old_cart_key Cart key used before.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function save_cart( $old_cart_key = 0 ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::save_cart', '4.x.x', 'CoCart_Session_Handler::save_data' );
+		cocart_deprecated_function( 'CoCart_Session_Handler::save_cart', '4.2.0', 'CoCart_Session_Handler::save_data' );
 
 		$this->save_data( $old_cart_key );
 	} // END save_cart()
@@ -742,10 +742,10 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 */
 	public function destroy_cookie() {
-		cocart_deprecated_function( 'CoCart_Session_Handler::destroy_cookie', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::destroy_cookie', '4.2.0', null );
 
 		$this->cocart_setcookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), $this->use_httponly() );
 	} // END destroy_cookie()
@@ -757,7 +757,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Use `WC()->session->get_session()` instead.
+	 * @deprecated 4.2.0 Use `WC()->session->get_session()` instead.
 	 *
 	 * @param string $cart_key The cart key.
 	 * @param mixed  $default  Default cart value.
@@ -765,7 +765,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return string|array
 	 */
 	public function get_cart( $cart_key, $default = false ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart', '4.x.x', 'WC()->session->get_session()' );
+		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart', '4.2.0', 'WC()->session->get_session()' );
 
 		$this->get_session( $cart_key, $default );
 	} // END get_cart()
@@ -777,7 +777,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Use `cocart_get_timestamp()` instead.
+	 * @deprecated 4.2.0 Use `cocart_get_timestamp()` instead.
 	 *
 	 * @see cocart_get_timestamp()
 	 *
@@ -788,7 +788,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return string
 	 */
 	public function get_cart_created( $cart_key ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_created', '4.x.x', 'cocart_get_timestamp' );
+		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_created', '4.2.0', 'cocart_get_timestamp' );
 
 		global $wpdb;
 
@@ -809,7 +809,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Use `cocart_get_timestamp()` instead.
+	 * @deprecated 4.2.0 Use `cocart_get_timestamp()` instead.
 	 *
 	 * @see cocart_get_timestamp()
 	 *
@@ -820,7 +820,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return string
 	 */
 	public function get_cart_expiration( $cart_key ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_expiration', '4.x.x', 'cocart_get_timestamp' );
+		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_expiration', '4.2.0', 'cocart_get_timestamp' );
 
 		global $wpdb;
 
@@ -841,7 +841,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Use `cocart_get_source()` instead.
+	 * @deprecated 4.2.0 Use `cocart_get_source()` instead.
 	 *
 	 * @see cocart_get_source()
 	 *
@@ -852,7 +852,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return string
 	 */
 	public function get_cart_source( $cart_key ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_source', '4.x.x', 'cocart_get_source' );
+		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart_source', '4.2.0', 'cocart_get_source' );
 
 		global $wpdb;
 
@@ -873,7 +873,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 2.7.2 Introduced.
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 *
 	 * @param array  $data     The cart data to validate.
 	 * @param string $cart_key The cart key.
@@ -881,7 +881,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return array $data Returns the original cart data or a boolean value.
 	 */
 	protected function is_cart_data_valid( $data, $cart_key ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::is_cart_data_valid', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::is_cart_data_valid', '4.2.0', null );
 
 		if ( ! empty( $data ) && empty( $this->get_cart( $cart_key ) ) ) {
 			// If the cart value is empty then the cart data is not valid.
@@ -905,12 +905,12 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 2.7.2 Introduced.
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 *
 	 * @return boolean
 	 */
 	protected function use_httponly() {
-		cocart_deprecated_function( 'CoCart_Session_Handler::use_httponly', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::use_httponly', '4.2.0', null );
 
 		$httponly = true;
 
@@ -928,10 +928,10 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 2.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 */
 	public function forget_cart() {
-		cocart_deprecated_function( 'CoCart_Session_Handler::forget_cart', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::forget_cart', '4.2.0', null );
 
 		$this->destroy_cookie();
 
@@ -949,7 +949,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @since 2.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x No replacement.
+	 * @deprecated 4.2.0 No replacement.
 	 *
 	 * @param string $cart_key        The cart key passed to create the cart.
 	 * @param array  $cart_value      The cart data.
@@ -961,7 +961,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return $cart_key
 	 */
 	public function create_new_cart( $cart_key = '', $cart_value = array(), $cart_expiration = '', $cart_source = '' ) {
-		cocart_deprecated_function( 'CoCart_Session_Handler::create_new_cart', '4.x.x', null );
+		cocart_deprecated_function( 'CoCart_Session_Handler::create_new_cart', '4.2.0', null );
 
 		global $wpdb;
 

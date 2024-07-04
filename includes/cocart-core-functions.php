@@ -6,7 +6,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Functions
- * @since   4.x.x Introduced.
+ * @since   4.2.0 Introduced.
  */
 
 // Exit if accessed directly.
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define a constant if it is not already defined.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @param string $name  Constant name.
  * @param mixed  $value Value.
@@ -31,7 +31,7 @@ function cocart_maybe_define_constant( $name, $value ) {
 /**
  * Returns the timestamp the cart was created or expired.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @param string $cart_key The cart key.
  * @param string $type     The type of timestamp.
@@ -59,7 +59,7 @@ function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) {
 /**
  * Returns the source of the cart.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @param string $cart_key The cart key.
  *
@@ -81,7 +81,7 @@ function cocart_get_source( $cart_key ) {
  * Checks if the session table exists before returning results.
  * Helps prevents any fatal errors or crashes should debug mode be enabled.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -100,7 +100,7 @@ function cocart_maybe_show_results() {
 /**
  * Counts how many carts are currently in session.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @param string $session Session table to count.
  *
@@ -137,7 +137,7 @@ function cocart_carts_in_session( $session = '' ) {
 /**
  * Counts how many carts are going to expire within the next 6 hours.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -168,7 +168,7 @@ function cocart_count_carts_expiring() {
 /**
  * Counts how many carts are active.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -198,7 +198,7 @@ function cocart_count_carts_active() {
 /**
  * Counts how many carts have expired.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -228,7 +228,7 @@ function cocart_count_carts_expired() {
 /**
  * Counts how many carts were created via the web.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -258,7 +258,7 @@ function cocart_carts_source_web() {
 /**
  * Counts how many carts were created via CoCart API.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -288,7 +288,7 @@ function cocart_carts_source_headless() {
 /**
  * Counts how many carts were the source is other or unknown.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -319,7 +319,7 @@ function cocart_carts_source_other() {
 /**
  * Wrapper for nocache_headers which also disables page caching.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  */
 function cocart_nocache_headers() {
 	cocart_maybe_define_constant( 'DONOTCACHEPAGE', true );

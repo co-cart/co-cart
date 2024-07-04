@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Utilities
- * @since   4.x.x Introduced.
+ * @since   4.2.0 Introduced.
  */
 
 // Exit if accessed directly.
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Helper class to handle product functions for the API.
  *
- * @since 4.x.x Introduced.
+ * @since 4.2.0 Introduced.
  */
 class CoCart_Utilities_Product_Helpers {
 
@@ -28,7 +28,7 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @return array
 	 */
@@ -117,7 +117,7 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param WC_Product The product object.
 	 *
@@ -139,7 +139,7 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param WC_Product The product object.
 	 *
