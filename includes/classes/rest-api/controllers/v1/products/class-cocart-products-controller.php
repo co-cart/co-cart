@@ -97,6 +97,7 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 * Get post types.
 	 *
 	 * @access protected
+	 *
 	 * @return array
 	 */
 	protected function get_post_types() {
@@ -107,7 +108,9 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 * Get object.
 	 *
 	 * @access protected
-	 * @param  int $id Object ID.
+	 *
+	 * @param int $id Object ID.
+	 *
 	 * @return WC_Data
 	 */
 	protected function get_object( $id ) {
@@ -118,7 +121,9 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 * Get objects.
 	 *
 	 * @access protected
-	 * @param  array $query_args Query args.
+	 *
+	 * @param array $query_args Query args.
+	 *
 	 * @return array
 	 */
 	protected function get_objects( $query_args ) {
@@ -158,8 +163,11 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 * Get a collection of products.
 	 *
 	 * @access public
+	 *
 	 * @since  3.10.7 Checks if query results return as an error.
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param  WP_REST_Request $request The request object.
+	 *
 	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_items( $request ) {
@@ -230,7 +238,9 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product Product object.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
 	 * @return array Links for the given product.
 	 */
 	protected function prepare_links( $product ) {
@@ -285,8 +295,10 @@ endif;
 	 * Prepare a single product output for response.
 	 *
 	 * @access public
-	 * @param  WC_Product      $product Product object.
-	 * @param  WP_REST_Request $request Request object.
+	 *
+	 * @param WC_Product      $product The product object.
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $product, $request ) {
@@ -331,8 +343,8 @@ endif;
 		 * Filter the data for a response.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Product       $product  Product data.
-		 * @param WP_REST_Request  $request  Request object.
+		 * @param WC_Product       $product  The product object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
 		return apply_filters( 'cocart_prepare_product_object', $response, $product, $request );
 	} // END prepare_object_for_response()
@@ -341,7 +353,9 @@ endif;
 	 * Get a single item.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_item( $request ) {
@@ -361,7 +375,9 @@ endif;
 	 * Prepare objects query.
 	 *
 	 * @access protected
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return array
 	 */
 	protected function prepare_objects_query( $request ) {
@@ -739,8 +755,10 @@ endif;
 	 * Get taxonomy terms.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product  Product instance.
-	 * @param  string     $taxonomy Taxonomy slug.
+	 *
+	 * @param WC_Product $product  The product object.
+	 * @param string     $taxonomy Taxonomy slug.
+	 *
 	 * @return array
 	 */
 	protected function get_taxonomy_terms( $product, $taxonomy = 'cat' ) {
@@ -761,7 +779,9 @@ endif;
 	 * Get the images for a product or product variation.
 	 *
 	 * @access protected
-	 * @param  WC_Product|WC_Product_Variation $product Product instance.
+	 *
+	 * @param WC_Product|WC_Product_Variation $product The product object.
+	 *
 	 * @return array $images
 	 */
 	protected function get_images( $product ) {
@@ -831,7 +851,9 @@ endif;
 	 * Get the reviews for a product.
 	 *
 	 * @access protected
-	 * @param  WC_Product|WC_Product_Variation $product Product instance.
+	 *
+	 * @param WC_Product|WC_Product_Variation $product The product object.
+	 *
 	 * @return array $reviews
 	 */
 	protected function get_reviews( $product ) {
@@ -864,8 +886,10 @@ endif;
 	 * Get product attribute taxonomy name.
 	 *
 	 * @access protected
-	 * @param  string     $slug    Taxonomy name.
-	 * @param  WC_Product $product Product data.
+	 *
+	 * @param string     $slug    Taxonomy name.
+	 * @param WC_Product $product The product object.
+	 *
 	 * @return string
 	 */
 	protected function get_attribute_taxonomy_name( $slug, $product ) {
@@ -891,7 +915,9 @@ endif;
 	 * Get default attributes.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product Product instance.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
 	 * @return array
 	 */
 	protected function get_default_attributes( $product ) {
@@ -922,8 +948,10 @@ endif;
 	 * Get attribute options.
 	 *
 	 * @access protected
-	 * @param  int   $product_id Product ID.
-	 * @param  array $attribute  Attribute data.
+	 *
+	 * @param int   $product_id Product ID.
+	 * @param array $attribute  Attribute data.
+	 *
 	 * @return array
 	 */
 	protected function get_attribute_options( $product_id, $attribute ) {
@@ -946,7 +974,9 @@ endif;
 	 * Get the attributes for a product or product variation.
 	 *
 	 * @access protected
-	 * @param  WC_Product|WC_Product_Variation $product Product instance.
+	 *
+	 * @param WC_Product|WC_Product_Variation $product The product object.
+	 *
 	 * @return array
 	 */
 	protected function get_attributes( $product ) {
@@ -1001,7 +1031,9 @@ endif;
 	 * Get product data.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product Product instance.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
 	 * @return array
 	 */
 	protected function get_product_data( $product ) {
@@ -1091,7 +1123,9 @@ endif;
 	 * Get variation product data.
 	 *
 	 * @access protected
-	 * @param  WC_Variation_Product $product Product instance.
+	 *
+	 * @param WC_Variation_Product $product The product object.
+	 *
 	 * @return array
 	 */
 	protected function get_variation_product_data( $product ) {
@@ -1150,6 +1184,7 @@ endif;
 	 * Get the Product's schema, conforming to JSON Schema.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_item_schema() {
@@ -2222,6 +2257,7 @@ endif;
 	 * Get the query params for collections of products.
 	 *
 	 * @access public
+	 *
 	 * @return array $params
 	 */
 	public function get_collection_params() {
