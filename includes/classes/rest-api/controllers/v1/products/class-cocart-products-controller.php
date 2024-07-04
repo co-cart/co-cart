@@ -38,6 +38,13 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	protected $post_type = 'product';
 
 	/**
+	 * Controls visibility on frontend.
+	 *
+	 * @var string
+	 */
+	protected $public = true;
+
+	/**
 	 * Register the routes for products.
 	 *
 	 * @access public
