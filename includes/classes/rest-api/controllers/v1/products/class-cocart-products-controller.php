@@ -1,13 +1,11 @@
 <?php
 /**
- * REST API: Products v1 controller.
- *
- * Handles requests to the /products/ endpoint.
+ * REST API: CoCart_Products_Controller class.
  *
  * @author  Sébastien Dumont
- * @package CoCart\RESTAPI\Products\v1
- * @since   3.1.0
- * @version 3.7.11
+ * @package CoCart\RestApi\Products\v1
+ * @since   3.1.0 Introduced.
+ * @version 4.?.?
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,19 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * REST API Product controller class.
+ * Controller for returning products via the REST API (API v1).
  *
- * @package CoCart Products/API
- * @extends WP_REST_Controller
+ * This REST API controller handles requests to return product details
+ * via "cocart/v1/products" endpoint.
+ *
+ * @since 3.1.0 Introduced.
+ * @extends CoCart_REST_Posts_Controller
  */
-class CoCart_Products_Controller extends WP_REST_Controller {
-
-	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v1';
+class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 
 	/**
 	 * Route base.
