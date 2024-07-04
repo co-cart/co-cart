@@ -235,19 +235,16 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function prepare_links( $product ) {
 		$links = array(
 			'self'       => array(
-				'permalink' => get_permalink( $product->get_id() ),
-				'href'      => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $product->get_id() ) ),
+				'href' => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $product->get_id() ) ),
 			),
 			'collection' => array(
-				'permalink' => wc_get_page_permalink( 'shop' ),
-				'href'      => rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ),
+				'href' => rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ),
 			),
 		);
 
 		if ( $product->get_parent_id() ) {
 			$links['parent_product'] = array(
-				'permalink' => get_permalink( $product->get_parent_id() ),
-				'href'      => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product->get_parent_id() ) ),
+				'href' => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product->get_parent_id() ) ),
 			);
 		}
 
@@ -257,9 +254,26 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 			foreach ( $variations as $variation_product ) {
 				$links['variations'][ $variation_product ] = array(
-					'permalink' => get_permalink( $variation_product ),
-					'href'      => rest_url( sprintf( '/%s/products/%d/variations/%d', $this->namespace, $product->get_id(), $variation_product ) ),
+					'href' => rest_url( sprintf( '/%s/products/%d/variations/%d', $this->namespace, $product->get_id(), $variation_product ) ),
 				);
+			}
+		}
+
+		// If post type is public expose permalinks.
+		if ( $this->public ) {
+			$links['self']['permalink']       = get_permalink( $product->get_id() );
+			$links['collection']['permalink'] = wc_get_page_permalink( 'shop' );
+			if ( isset( $links['parent_product'] ) ) :
+				$links['parent_product']['permalink'] = get_permalink( $product->get_parent_id() );
+endif;
+
+			// If product is a variable product, return links to all variations.
+			if ( $product->is_type( 'variable' ) && $product->has_child() ) {
+				$variations = $product->get_children();
+
+				foreach ( $variations as $variation_product ) {
+					$links['variations'][ $variation_product ]['permalink'] = get_permalink( $variation_product );
+				}
 			}
 		}
 
@@ -1130,25 +1144,6 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		return $data;
 	} // END get_variation_product_data()
-
-	/**
-	 * Add meta query.
-	 *
-	 * @access protected
-	 * @since  3.4.1 Introduced. (Was suppose to be introduced in 3.1.0 but forgot to commit the function until 3.4.1 🤦‍♂️)
-	 * @param  array $args       Query args.
-	 * @param  array $meta_query Meta query.
-	 * @return array
-	 */
-	protected function add_meta_query( $args, $meta_query ) {
-		if ( empty( $args['meta_query'] ) ) {
-			$args['meta_query'] = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
-		}
-
-		$args['meta_query'][] = $meta_query;
-
-		return $args['meta_query'];
-	} // END add_meta_query()
 
 	/**
 	 * Get the Product's schema, conforming to JSON Schema.
@@ -2221,40 +2216,6 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		return $this->add_additional_fields_schema( $schema );
 	} // END get_item_schema()
-
-	/**
-	 * Add the schema from additional fields to an schema array.
-	 *
-	 * The type of object is inferred from the passed schema.
-	 *
-	 * @access protected
-	 * @param  array $schema Schema array.
-	 * @return array $schema
-	 */
-	protected function add_additional_fields_schema( $schema ) {
-		if ( empty( $schema['title'] ) ) {
-			return $schema;
-		}
-
-		/**
-		 * Can't use $this->get_object_type otherwise we cause an inf loop.
-		 */
-		$object_type = $schema['title'];
-
-		$additional_fields = $this->get_additional_fields( $object_type );
-
-		foreach ( $additional_fields as $field_name => $field_options ) {
-			if ( ! $field_options['schema'] ) {
-				continue;
-			}
-
-			$schema['properties'][ $field_name ] = $field_options['schema'];
-		}
-
-		$schema['properties'] = apply_filters( 'cocart_' . $object_type . '_schema', $schema['properties'] );
-
-		return $schema;
-	} // END add_additional_fields_schema()
 
 	/**
 	 * Get the query params for collections of products.
