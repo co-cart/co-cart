@@ -23,8 +23,12 @@ We also no longer use cookies as a backup for headless. This should also help wi
 * REST API: Formatted customer postcode if validated.
 * REST API: Product image sizes are now fetched using utility products class function `get_product_image_sizes()`. Cuts down on the filter `cocart_products_image_sizes` being in multiple places.
 * REST API: Currency in cart API v2 now returns `currency_symbol_pos` and the currency symbol will now return based on the set currency without lookup.
+* REST API: Improved headers returned and added nocache headers on authenticated requests.
+* REST API: Simplified sending the cart key to the header.
+* REST API: Loading of the REST API optimized.
 * Plugin: Localization improvements.
 * Plugin: Code files organized better.
+* Plugin: Updated plugin review notice.
 
 ### Deprecations
 
@@ -46,6 +50,7 @@ We also no longer use cookies as a backup for headless. This should also help wi
 * Introduced new action hook `cocart_after_session_saved_data` fires after the session is saved.
 * Introduced new filter `cocart_send_nocache_headers` to decide if nocache headers are sent.
 * Some functions from the cart and products API v2 have been moved to there own utility class so they can be utilized outside of the plugin.
+* Added utility check for coupon exists.
 
 ### Compatibility
 
