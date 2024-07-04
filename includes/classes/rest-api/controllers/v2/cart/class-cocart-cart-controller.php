@@ -29,11 +29,11 @@ class_alias( 'CoCart_REST_Cart_V2_Controller', 'CoCart_Cart_V2_Controller' );
 class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Endpoint version.
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'cocart/v2';
+	protected $version = 'v2';
 
 	/**
 	 * Route base.
@@ -43,11 +43,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	protected $rest_base = 'cart';
 
 	/**
-	 * Schema.
+	 * Constructor.
 	 *
-	 * @var array
+	 * @since 4.?.?
 	 */
-	protected $schema = array();
+	public function __construct() {
+		$this->namespace = $this->namespace . '/' . $this->version;
+	}
 
 	/**
 	 * Register the routes for cart.

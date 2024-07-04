@@ -25,18 +25,20 @@ class_alias( 'CoCart_REST_Products_V2_Controller', 'CoCart_Products_V2_Controlle
 class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Endpoint version.
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'cocart/v2';
+	protected $version = 'v2';
 
 	/**
-	 * Schema.
+	 * Constructor.
 	 *
-	 * @var array
+	 * @since 4.?.?
 	 */
-	protected $schema = array();
+	public function __construct() {
+		$this->namespace = $this->namespace . '/' . $this->version;
+	}
 
 	/**
 	 * Register routes.
