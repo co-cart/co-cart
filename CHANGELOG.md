@@ -10,13 +10,11 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 ### What's New?
 
-* Can now request a cart session via a requested header `cocart-api-cart-key`.
+* Can now request a guest cart via a requested header `cocart-api-cart-key`.
 
 ### Improvements
 
-* Improved session handling for headless.
-* Reverted back to WooCommerce cookie name which also deprecates filter `cocart_cookie`.
-* Moved `is_rest_api_request()` function to the main class so it can be utilized outside of the plugin.
+* Session Handler: Improved identifying cart without the need of cookies.
 * Session Handler: Added new function `is_user_customer()` to check the user role is a customer when authenticated before migrating cart from guest.
 * REST API: Updating the customer details in cart will now take additional billing and shipping fields as meta data. Validation is required by the developer using filter `cocart_update_customer_fields`.
 * REST API: Sanitized and formatted customer email address and phone number.
@@ -24,11 +22,12 @@ We also no longer use cookies as a backup for headless. This should also help wi
 * REST API: Product image sizes are now fetched using utility products class function `get_product_image_sizes()`. Cuts down on the filter `cocart_products_image_sizes` being in multiple places.
 * REST API: Currency in cart API v2 now returns `currency_symbol_pos` and the currency symbol will now return based on the set currency without lookup.
 * REST API: Improved headers returned and added nocache headers on authenticated requests.
-* REST API: Simplified sending the cart key to the header.
+* REST API: Simplified returning the cart key to the headers.
 * REST API: Loading of the REST API optimized.
+* Plugin: Moved `is_rest_api_request()` function to the main class so it can be utilized outside of the plugin.
 * Plugin: Localization improvements.
-* Plugin: Code files organized better.
 * Plugin: Updated plugin review notice.
+* Plugin: Code files organized better.
 
 ### Deprecations
 
