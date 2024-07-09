@@ -2409,7 +2409,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
-						'currency_symbol_pos'             => array(
+						'currency_symbol_pos'         => array(
 							'description' => __( 'The currency symbol position to which the currency needs to return for the prices.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
