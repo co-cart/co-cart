@@ -55,6 +55,7 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 ### Compatibility
 
+* Tested with WordPress v6.6
 * Tested with WooCommerce v9.0
 
 ## v4.1.1 - 14th June, 2024
