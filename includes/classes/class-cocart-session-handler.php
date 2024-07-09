@@ -96,6 +96,12 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		} else {
 			$this->cart_source = 'woocommerce';
 			parent::init();
+
+			// Remove the wp_logout action for destroy_session method.
+			remove_action( 'wp_logout', array( $this, 'destroy_session' ), 10 );
+
+			// Now add our wp_logout action to destroy_cart method.
+			add_action( 'wp_logout', array( $this, 'destroy_cart' ) );
 		}
 	} // END init()
 
