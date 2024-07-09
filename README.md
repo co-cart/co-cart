@@ -43,11 +43,12 @@ With CoCart, you can overcome these challenges and get straight to utilizing a R
 * **Basic Authentication** - No Admin API Keys required. Customers can login with their account either with Email+Password, Username+Password, Phone Number+Password.
 * **Domain Dominance** - CORS can be an issue when decoupling so we made sure you have control of the origin.
 * **Your Inventory** - Search products by Name, ID or SKU, filter and return product data you need without authentication or private data exposed. REST shortcuts are readily provided for your next requests.
-* **Reduced Cart Checkups** - We have avoided the hassle of needing multiple requests to verify item and coupon validity in your cart. Our system efficiently checks stock, validates coupons, and calculates totals and fees, ensuring real-time accuracy so your responses return up to date every time.
+* **Reduced Cart Checkups** - We have avoided the hassle of needing multiple requests to verify item and coupon validity in your cart. Our system efficiently checks stock, calculates totals and fees, ensuring real-time accuracy so your responses return up to date every time.
 * **No Headless Checkout?** - Load any cart session via the native site using the generated key, if you feel more comfortable using WooCommerce’s built in payment system.
 * **Need your own cart callback?** - Register custom callbacks without needing to create a whole new endpoint. Cart response returns once the callback is completed.
 * **Want to track your customers?** - Keep watch of all cart sessions, even the ones that are starting to expire or have expired.
 * **Name Your Price Built In** - Give your customers control of the price they pay. Encourage your audience to support you with payment flexibility that widens your paying audience.
+* **Bulk Requests** - Combine many cart requests in bulk to save time.
 
 And this is just the tip of the iceberg.
 
