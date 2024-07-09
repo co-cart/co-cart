@@ -758,6 +758,105 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return $username;
 		} // END get_username()
+
+		/**
+		 * Get current user IP Address.
+		 *
+		 * X_REAL_IP and CLIENT_IP are custom implementations designed to facilitate obtaining a user's ip through proxies, load balancers etc.
+		 *
+		 * _FORWARDED_FOR (XFF) request header is a de-facto standard header for identifying the originating IP address of a client connecting to a web server through a proxy server.
+		 * Note for X_FORWARDED_FOR, Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2.
+		 * Make sure we always only send through the first IP in the list which should always be the client IP.
+		 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+		 *
+		 * Forwarded request header contains information that may be added by reverse proxy servers (load balancers, CDNs, and so on).
+		 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
+		 * Full RFC at https://datatracker.ietf.org/doc/html/rfc7239
+		 *
+		 * @access protected
+		 *
+		 * @static
+		 *
+		 * @since 4.2.0 Introduced.
+		 *
+		 * @param boolean $proxy_support Enables/disables proxy support.
+		 *
+		 * @return string
+		 */
+		protected static function get_ip_address( bool $proxy_support = false ) { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewParamTypeDeclarations.boolFound
+			if ( ! $proxy_support ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? 'unresolved_ip' ) ) ); // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
+			}
+
+			// Check Cloudflare's connecting IP header.
+			if ( array_key_exists( 'HTTP_CF_CONNECTING_IP', $_SERVER ) ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) );
+			}
+
+			if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) ) );
+			}
+
+			if ( array_key_exists( 'HTTP_CLIENT_IP', $_SERVER ) ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) ) );
+			}
+
+			if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
+				$ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+				if ( is_array( $ips ) && ! empty( $ips ) ) {
+					return self::validate_ip( trim( $ips[0] ) );
+				}
+			}
+
+			if ( array_key_exists( 'HTTP_FORWARDED', $_SERVER ) ) {
+				// Using regex instead of explode() for a smaller code footprint.
+				// Expected format: Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43,for="[2001:db8:cafe::17]:4711"...
+				preg_match(
+					'/(?<=for\=)[^;,]*/i', // We catch everything on the first "for" entry, and validate later.
+					sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) ),
+					$matches
+				);
+
+				if ( strpos( $matches[0] ?? '', '"[' ) !== false ) { // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound, Detect for ipv6, eg "[ipv6]:port".
+					preg_match(
+						'/(?<=\[).*(?=\])/i', // We catch only the ipv6 and overwrite $matches.
+						$matches[0],
+						$matches
+					);
+				}
+
+				if ( ! empty( $matches ) ) {
+					return self::validate_ip( trim( $matches[0] ) );
+				}
+			}
+
+			return '0.0.0.0';
+		} // END get_ip_address()
+
+		/**
+		 * Uses filter_var() to validate and return ipv4 and ipv6 addresses.
+		 *
+		 * Will return 0.0.0.0 if the ip is not valid. This is done to group and still rate limit invalid ips.
+		 *
+		 * @access protected
+		 *
+		 * @static
+		 *
+		 * @since 4.2.0 Introduced.
+		 *
+		 * @param string $ip ipv4 or ipv6 ip string.
+		 *
+		 * @return string
+		 */
+		protected static function validate_ip( $ip ) {
+			$ip = filter_var(
+				$ip,
+				FILTER_VALIDATE_IP,
+				array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
+			);
+
+			return $ip ?: '0.0.0.0';
+		} // END validate_ip()
 	} // END class.
 } // END if class exists.
 
