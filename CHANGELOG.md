@@ -50,10 +50,12 @@ We also no longer use cookies as a backup for headless. This should also help wi
 * Introduced new action hook `cocart_after_session_saved_data` fires after the session is saved.
 * Introduced new filter `cocart_send_nocache_headers` to decide if nocache headers are sent.
 * Some functions from the cart and products API v2 have been moved to there own utility class so they can be utilized outside of the plugin.
-* Added utility check for coupon exists.
+* Added utility function to check for coupon exists.
+* Moved two functions from CoCart Plus to be utilized outside of the plugin.
 
 ### Compatibility
 
+* Tested with WordPress v6.6
 * Tested with WooCommerce v9.0
 
 ## v4.1.1 - 14th June, 2024

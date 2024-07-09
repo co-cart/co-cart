@@ -356,7 +356,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'orderby'             => strtolower( $request['orderby'] ),
 			'paged'               => $request['page'],
 			'post__in'            => $request['include'],
-			'post__not_in'        => $request['exclude'], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in 
+			'post__not_in'        => $request['exclude'], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 			'posts_per_page'      => $request['per_page'],
 			'post_parent__in'     => $request['parent'],
 			'post_parent__not_in' => $request['parent_exclude'],
