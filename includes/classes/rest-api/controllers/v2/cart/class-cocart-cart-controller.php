@@ -2409,6 +2409,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
+						'currency_symbol_pos'             => array(
+							'description' => __( 'The currency symbol position to which the currency needs to return for the prices.', 'cart-rest-api-for-woocommerce' ),
+							'type'        => 'string',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
 						'currency_minor_unit'         => array(
 							'description' => __( 'The currency minor unit (number of digits after the decimal separator) for returned prices.', 'cart-rest-api-for-woocommerce' ),
 							'type'        => 'integer',
