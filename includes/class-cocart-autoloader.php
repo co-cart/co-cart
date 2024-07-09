@@ -21,7 +21,8 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 		 * Path to the includes directory.
 		 *
 		 * @access private
-		 * @var    string
+		 *
+		 * @var string
 		 */
 		private $include_path = '';
 
@@ -35,14 +36,16 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 
 			spl_autoload_register( array( $this, 'autoload' ) );
 
-			$this->include_path = untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/';
+			$this->include_path = __DIR__;
 		}
 
 		/**
 		 * Take a class name and turn it into a file name.
 		 *
 		 * @access private
-		 * @param  string $class_name Class name.
+		 *
+		 * @param string $class_name Class name.
+		 *
 		 * @return string
 		 */
 		private function get_file_name_from_class( $class_name ) {
@@ -53,7 +56,9 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 		 * Include a class file.
 		 *
 		 * @access private
-		 * @param  string $path File path.
+		 *
+		 * @param string $path File path.
+		 *
 		 * @return bool Successful or not.
 		 */
 		private function load_file( $path ) {
@@ -68,7 +73,8 @@ if ( ! class_exists( 'CoCart_Autoloader' ) ) {
 		 * Auto-load CoCart classes on demand to reduce memory consumption.
 		 *
 		 * @access public
-		 * @param  string $class_name Class name.
+		 *
+		 * @param string $class_name Class name.
 		 */
 		public function autoload( $class_name ) {
 			$class = strtolower( $class_name );

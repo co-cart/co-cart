@@ -1,6 +1,6 @@
 {
 	"name": "co-cart/co-cart",
-	"description": "Make your WooCommerce store headless with CoCart, a REST API designed for decoupling.",
+	"description": "Decouple your WooCommerce store with ease with our developer friendly REST API extension.",
 	"homepage": "https://cocartapi.com",
 	"type": "wordpress-plugin",
 	"keywords": [
