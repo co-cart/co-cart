@@ -1,7 +1,7 @@
 name: Nightly builds
 on:
   schedule:
-    - cron: '0 21 * * 1-5' # Run at 9 PM UTC+2 on Weekdays.
+    - cron: '0 21 * * 2-6' # Run at 9 PM UTC+2 Tuesday through Saturday.
 jobs:
   build:
     if: github.repository_owner == 'co-cart'
@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ matrix.build }}
       - name: Build
         id: build
         uses: co-cart/action-build@v1
       - name: Deploy nightly build
-        uses: WebFreak001/deploy-nightly@v1.1.0
+        uses: WebFreak001/deploy-nightly@v3.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PLUGIN_SLUG: "cart-rest-api-for-woocommerce"
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update nightly tag
-        uses: richardsimko/github-tag-action@v1.0.5
+        uses: richardsimko/github-tag-action@v1.0.11
         with:
           tag_name: nightly
         env:
