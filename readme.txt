@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.1.1
+Stable tag: 4.2.0
 WC requires at least: 7.0
 WC tested up to: 9.0
 License: GPLv3
@@ -324,6 +324,7 @@ In this release we have optimized our session handler making this release more c
 
 * Session Handler: Improved identifying cart without the need of cookies.
 * Session Handler: Added new function `is_user_customer()` to check the user role is a customer when authenticated before migrating cart from guest.
+* Authentication: Validation for invalid details was taking too long and failed to return an error message.
 * REST API: Updating the customer details in cart will now take additional billing and shipping fields as meta data. Validation is required by the developer using filter `cocart_update_customer_fields`.
 * REST API: Sanitized and formatted customer email address and phone number.
 * REST API: Formatted customer postcode if validated.

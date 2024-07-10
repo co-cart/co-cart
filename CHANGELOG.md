@@ -16,6 +16,7 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 * Session Handler: Improved identifying cart without the need of cookies.
 * Session Handler: Added new function `is_user_customer()` to check the user role is a customer when authenticated before migrating cart from guest.
+* Authentication: Validation for invalid details was taking too long and failed to return an error message.
 * REST API: Updating the customer details in cart will now take additional billing and shipping fields as meta data. Validation is required by the developer using filter `cocart_update_customer_fields`.
 * REST API: Sanitized and formatted customer email address and phone number.
 * REST API: Formatted customer postcode if validated.
