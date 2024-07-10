@@ -348,7 +348,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @uses CoCart_Authentication()->get_auth_header()
 		 * @uses CoCart_Authentication()->get_username()
 		 * @uses get_user_by()
-		 * @uses wp_authenticate()
+		 * @uses wp_check_password()
 		 *
 		 * @return int|bool
 		 */
@@ -379,18 +379,34 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				$password = trim( sanitize_text_field( wp_unslash( $_REQUEST['password'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
-			// Only authenticate if a username and password is available to check.
-			if ( ! empty( $username ) && ! empty( $password ) ) {
-				$this->user = wp_authenticate( $username, $password );
-			} else {
+			// If either username or password is missing then return error.
+			if ( empty( $username ) || empty( $password ) ) {
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication invalid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
 				return false;
 			}
 
-			if ( is_wp_error( $this->user ) ) {
-				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again. Authentication may also only work on a secure connection.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+			$user = get_user_by( 'login', $username );
 
+			if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
+				$this->set_error(
+					new WP_Error(
+						'cocart_authentication_error',
+						sprintf(
+							/* translators: %s: User name. */
+							__( 'The password you entered for the username "%s" is incorrect.', 'cart-rest-api-for-woocommerce' ),
+							$username
+						), array( 'status' => 401 )
+					)
+				);
 				return false;
 			}
+
+			if ( is_wp_error( $user ) ) {
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+				return false;
+			}
+
+			$this->user = $user;
 
 			return $this->user->ID;
 		} // END perform_basic_authentication()
