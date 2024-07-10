@@ -789,7 +789,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
 		 * Full RFC at https://datatracker.ietf.org/doc/html/rfc7239
 		 *
-		 * @access protected
+		 * @access public
 		 *
 		 * @static
 		 *
@@ -799,7 +799,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @return string
 		 */
-		protected static function get_ip_address( bool $proxy_support = false ) { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewParamTypeDeclarations.boolFound
+		public static function get_ip_address( bool $proxy_support = false ) { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewParamTypeDeclarations.boolFound
 			if ( ! $proxy_support ) {
 				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? 'unresolved_ip' ) ) ); // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
 			}
@@ -854,7 +854,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * Will return 0.0.0.0 if the ip is not valid. This is done to group and still rate limit invalid ips.
 		 *
-		 * @access protected
+		 * @access public
 		 *
 		 * @static
 		 *
@@ -864,7 +864,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @return string
 		 */
-		protected static function validate_ip( $ip ) {
+		public static function validate_ip( $ip ) {
 			$ip = filter_var(
 				$ip,
 				FILTER_VALIDATE_IP,
