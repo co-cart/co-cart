@@ -163,11 +163,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access protected
 		 *
+		 * @static
+		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.2.0 Changed access from protected to public.
 		 *
 		 * @return string $auth_header
 		 */
-		protected function get_auth_header() {
+		public static function get_auth_header() {
 			$auth_header = ! empty( $_SERVER['HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) : '';
 
 			if ( function_exists( 'getallheaders' ) ) {
@@ -345,8 +348,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @uses CoCart_Authentication()->get_auth_header()
-		 * @uses CoCart_Authentication()->get_username()
+		 * @uses CoCart_Authentication()::get_auth_header()
+		 * @uses CoCart_Authentication()::get_username()
 		 * @uses get_user_by()
 		 * @uses wp_check_password()
 		 *
@@ -357,25 +360,27 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			$username          = '';
 			$password          = '';
 
+			$auth_header = self::get_auth_header();
+
 			// Look up authorization header and check it's a valid.
-			if ( ! empty( $this->get_auth_header() ) && 0 === stripos( $this->get_auth_header(), 'basic ' ) ) {
-				$exploded = explode( ':', base64_decode( substr( $this->get_auth_header(), 6 ) ), 2 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+			if ( ! empty( $auth_header ) && 0 === stripos( $auth_header, 'basic ' ) ) {
+				$exploded = explode( ':', base64_decode( substr( $auth_header, 6 ) ), 2 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 
 				// If valid return username and password.
 				if ( 2 === \count( $exploded ) ) {
 					list( $username, $password ) = $exploded;
 
-					$username = $this->get_username( $username );
+					$username = self::get_username( $username );
 				}
 			} elseif ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
 				// Check that we're trying to authenticate via simple headers.
 				$username = trim( sanitize_user( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$username = $this->get_username( $username );
+				$username = self::get_username( $username );
 				$password = trim( sanitize_text_field( wp_unslash( $_SERVER['PHP_AUTH_PW'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			} elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				// Fallback to check if the username and password was passed via URL.
 				$username = trim( sanitize_user( wp_unslash( $_REQUEST['username'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$username = $this->get_username( $username );
+				$username = self::get_username( $username );
 				$password = trim( sanitize_text_field( wp_unslash( $_REQUEST['password'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
@@ -724,15 +729,18 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Finds a user based on a matching billing phone number.
 		 *
-		 * @access protected
+		 * @access public
+		 *
+		 * @static
 		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.2.0 Changed access from protected to public.
 		 *
 		 * @param numeric $phone The billing phone number to check.
 		 *
 		 * @return string The username returned if found.
 		 */
-		protected function get_user_by_phone( $phone ) {
+		public static function get_user_by_phone( $phone ) {
 			$matching_users = get_users(
 				array(
 					'meta_key'     => 'billing_phone', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -749,18 +757,21 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Checks if the login provided is valid as a phone number or email address and returns the username.
 		 *
-		 * @access protected
+		 * @access public
+		 *
+		 * @static
 		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.2.0 Changed access from protected to public.
 		 *
 		 * @param string $username Either a phone number, email address or username.
 		 *
 		 * @return string $username Username returned if valid.
 		 */
-		protected function get_username( $username ) {
+		public static function get_username( $username ) {
 			// Check if the username provided is a billing phone number and return the username if true.
 			if ( WC_Validation::is_phone( $username ) ) {
-				$username = $this->get_user_by_phone( $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$username = self::get_user_by_phone( $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
 			// Check if the username provided was an email address and return the username if true.
