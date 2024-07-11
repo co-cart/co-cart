@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-07-11 08:52:13+00:00\n"
+"POT-Creation-Date: 2024-07-11 12:44:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1390,29 +1390,29 @@ msgstr ""
 msgid "%s is not a valid postcode / ZIP."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:394
+#: includes/classes/rest-api/class-cocart-authentication.php:392
 msgid "Authentication invalid!"
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:406
+#: includes/classes/rest-api/class-cocart-authentication.php:404
 #. translators: %s: User name.
 msgid "The password you entered for the username \"%s\" is incorrect."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:415
+#: includes/classes/rest-api/class-cocart-authentication.php:413
 msgid ""
 "Authentication is invalid. Please check the authentication information is "
 "correct and try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:670
-#: includes/classes/rest-api/class-cocart-authentication.php:689
-#: includes/classes/rest-api/class-cocart-authentication.php:705
+#: includes/classes/rest-api/class-cocart-authentication.php:668
+#: includes/classes/rest-api/class-cocart-authentication.php:687
+#: includes/classes/rest-api/class-cocart-authentication.php:703
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:719
+#: includes/classes/rest-api/class-cocart-authentication.php:717
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
