@@ -431,6 +431,8 @@ class CoCart_Load_Cart {
 	 *
 	 * @static
 	 *
+	 * @since 3.3.0 Introduced.
+	 *
 	 * @return boolean
 	 */
 	protected static function maybe_use_cookie_monster() {
