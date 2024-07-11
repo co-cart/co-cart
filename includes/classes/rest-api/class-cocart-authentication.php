@@ -752,7 +752,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				)
 			);
 
-			$username = ! empty( $matching_users ) && is_array( $matching_users ) ? $matching_users[0]->user_login : $phone;
+			$username = ! empty( $matching_users ) && is_array( $matching_users ) ? $matching_users[0]->user_login : '';
 
 			return $username;
 		} // END get_user_by_phone()
