@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.2.0\n"
+"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.2.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-07-11 12:44:09+00:00\n"
+"POT-Creation-Date: 2024-07-11 20:59:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1279,7 +1279,7 @@ msgstr ""
 msgid "Sorry but this cart has expired!"
 msgstr ""
 
-#: includes/classes/class-cocart-session.php:318
+#: includes/classes/class-cocart-session.php:317
 #. translators: %1$s: Start of link to Shop archive. %2$s: Start of link to
 #. checkout page. %3$s: Closing link tag.
 msgid ""
