@@ -28,7 +28,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.2.0-rc.2';
+	public static $version = '4.2.0';
 
 	/**
 	 * CoCart Database Schema version.
@@ -67,7 +67,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_woo = '4.3';
+	public static $required_woo = '7.0';
 
 	/**
 	 * Required PHP Version
