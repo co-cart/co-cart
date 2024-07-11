@@ -384,8 +384,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				$password = trim( sanitize_text_field( wp_unslash( $_REQUEST['password'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
-			// If either username or password is missing then return error.
-			if ( empty( $username ) || empty( $password ) ) {
+			// If no username or password identified then authentication is not required.
+			if ( empty( $username ) && empty( $password ) ) {
+				return false;
+			} elseif ( empty( $username ) || empty( $password ) ) {
+				// If either username or password is missing then return error.
 				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication invalid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
 				return false;
 			}
