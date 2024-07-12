@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.2.1
+Stable tag: 4.2.2
 WC requires at least: 7.0
 WC tested up to: 9.0
 License: GPLv3
@@ -310,6 +310,12 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+## v4.2.2 - 12th July, 2024
+
+### Reverting
+
+We are reverting a change for destroying a session. Previous change causes a conflict with identifying the correct column with our session table and causes the cart not to clear.
+
 = v4.2.1 - 11th July, 2024 =
 
 ### Hot Fix
@@ -526,6 +532,6 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
-= 4.2.1 =
+= 4.2.2 =
 
-Improved identifying cart without the need of cookies. See changelog for more.
+We are reverting a change for destroying a session. See changelog for more.
