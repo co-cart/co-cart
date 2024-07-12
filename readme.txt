@@ -310,7 +310,7 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
-## v4.2.2 - 12th July, 2024
+= v4.2.2 - 12th July, 2024 =
 
 ### Reverting
 
