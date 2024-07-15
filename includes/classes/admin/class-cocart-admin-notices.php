@@ -274,7 +274,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			// Notice should only show on specific pages.
-			if ( ! CoCart_Helpers::is_cocart_admin_page() ) {
+			if ( ! CoCart_Helpers::is_cocart_admin_page( array( 'update-core' ) ) ) {
 				return;
 			}
 

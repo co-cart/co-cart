@@ -482,7 +482,7 @@ class CoCart_Helpers {
 	 * @static
 	 *
 	 * @since   2.0.0 Introduced.
-	 * @version 3.10.0
+	 * @version 4.3.0
 	 *
 	 * @return array The screen IDs.
 	 */
@@ -492,6 +492,7 @@ class CoCart_Helpers {
 			array(
 				'dashboard',
 				'dashboard-network',
+				'update-core',
 				'plugins',
 				'plugins-network',
 				'woocommerce_page_wc-status',
@@ -514,14 +515,23 @@ class CoCart_Helpers {
 	 * @see cocart_get_admin_screens()
 	 *
 	 * @since 2.3.0 Introduced.
+	 * @since 4.3.0 Added optional parameter to exclude an array of screens.
 	 *
 	 * @return boolean True if on a CoCart page.
 	 */
-	public static function is_cocart_admin_page() {
+	public static function is_cocart_admin_page( $exclude_screens = array() ) {
 		$screen    = get_current_screen();
 		$screen_id = $screen ? $screen->id : '';
 
-		if ( ! in_array( $screen_id, self::cocart_get_admin_screens() ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+		$admin_screens = self::cocart_get_admin_screens();
+
+		foreach ( $admin_screens as $i => $page ) {
+			if ( in_array( $page, $exclude_screens ) ) {
+				unset( $admin_screens[ $i ] );
+			}
+		}
+
+		if ( ! in_array( $screen_id, $admin_screens ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 			return false;
 		}
 
