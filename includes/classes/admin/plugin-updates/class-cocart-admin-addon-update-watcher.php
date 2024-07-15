@@ -1,5 +1,19 @@
 <?php
 /**
+ * CoCart - Add-on Update Watcher.
+ *
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   4.0.0
+ * @license GPL-2.0+
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * Enables CoCart add-on auto updates when CoCart is enabled and the other way around.
  *
  * Also removes the auto-update toggles from the CoCart add-ons.

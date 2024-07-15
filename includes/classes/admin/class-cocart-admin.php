@@ -34,32 +34,38 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		/**
 		 * Include any classes we need within admin.
 		 *
-		 * @access  public
-		 * @since   1.2.0
-		 * @version 3.10.0
+		 * @access public
+		 *
+		 * @since 1.2.0 Introduced.
 		 */
 		public function includes() {
-			include_once __DIR__ . '/abstract/abstract-class-submenu-page.php';  // Admin Abstracts.
-			require_once __DIR__ . '/class-cocart-admin-assets.php';             // Admin Assets.
-			require_once __DIR__ . '/class-cocart-admin-footer.php';             // Admin Footer.
-			require_once __DIR__ . '/class-cocart-admin-help-tab.php';           // Admin Help Tab.
-			require_once __DIR__ . '/class-cocart-admin-menus.php';              // Admin Menus.
-			require_once __DIR__ . '/class-cocart-admin-notices.php';            // Plugin Notices.
-			require_once __DIR__ . '/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
-			require_once __DIR__ . '/class-cocart-admin-plugin-search.php';      // Plugin Search.
-			include_once __DIR__ . '/class-cocart-wc-admin-notices.php';         // WooCommerce Admin Notices.
-			include_once __DIR__ . '/class-cocart-wc-admin-system-status.php';   // WooCommerce System Status.
+			// Required files.
+			include_once __DIR__ . '/abstract/abstract-class-submenu-page.php';                     // Admin Abstracts.
+			require_once __DIR__ . '/class-cocart-admin-assets.php';                                // Admin Assets.
+			require_once __DIR__ . '/class-cocart-admin-footer.php';                                // Admin Footer.
+			require_once __DIR__ . '/class-cocart-admin-help-tab.php';                              // Admin Help Tab.
+			require_once __DIR__ . '/class-cocart-admin-menus.php';                                 // Admin Menus.
+			require_once __DIR__ . '/class-cocart-admin-notices.php';                               // Plugin Notices.
+
+			// Plugin search and suggestions.
+			require_once __DIR__ . '/plugin-suggestions/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
+			require_once __DIR__ . '/plugin-suggestions/class-cocart-admin-plugin-search.php';      // Plugin Search.
+
+			// For WooCommerce.
+			include_once __DIR__ . '/woocommerce/class-cocart-wc-admin-notices.php';                // WooCommerce Admin Notices.
+			include_once __DIR__ . '/woocommerce/class-cocart-wc-admin-system-status.php';          // WooCommerce System Status.
 
 			// Pages.
-			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php'; // Support.
-			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';        // Setup Wizard.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php';                   // Support.
+			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';                          // Setup Wizard.
 		} // END includes()
 
 		/**
 		 * Include admin files conditionally.
 		 *
 		 * @access public
-		 * @since  3.0.0
+		 *
+		 * @since 3.0.0 Introduced.
 		 */
 		public function conditional_includes() {
 			$screen = get_current_screen();
@@ -70,9 +76,9 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			switch ( $screen->id ) {
 				case 'plugins':
-					require_once __DIR__ . '/class-cocart-admin-addon-update-watcher.php'; // Update Watcher.
-					require_once __DIR__ . '/class-cocart-admin-action-links.php';         // Plugin Action Links.
-					require_once __DIR__ . '/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
+					require_once __DIR__ . '/class-cocart-admin-action-links.php';                        // Plugin Action Links.
+					require_once __DIR__ . '/plugin-updates/class-cocart-admin-addon-update-watcher.php'; // Add-on Update Watcher.
+					require_once __DIR__ . '/plugin-updates/class-cocart-admin-plugin-screen-update.php'; // Plugin Update.
 					break;
 			}
 		} // END conditional_includes()
@@ -83,7 +89,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * For setup wizard, transient must be present, the user must have access rights, and we must ignore the network/bulk plugin updaters.
 		 *
 		 * @access public
-		 * @since  3.1.0
+		 *
+		 * @since 3.1.0 Introduced.
 		 */
 		public function admin_redirects() {
 			// If WooCommerce does not exists then do nothing as we require functions from WooCommerce to function!
