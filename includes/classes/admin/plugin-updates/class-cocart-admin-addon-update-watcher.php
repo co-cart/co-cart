@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin
- * @since   4.0.0
+ * @since   4.0.0 Introduced.
  * @license GPL-2.0+
  */
 
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 4.0.0 Introduced.
  */
-class CoCart_Addon_Update_Watcher {
+class CoCart_Admin_Addon_Update_Watcher {
 
 	/**
 	 * ID string used by WordPress to identify the core plugin of CoCart.
@@ -260,4 +260,4 @@ class CoCart_Addon_Update_Watcher {
 	} // END are_auto_updates_enabled()
 } // END class
 
-return new CoCart_Addon_Update_Watcher();
+return new CoCart_Admin_Addon_Update_Watcher();
