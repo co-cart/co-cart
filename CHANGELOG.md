@@ -10,6 +10,10 @@ In this release we have added a plugin update prevention system as a safety meas
 * Auto-updates are disabled should a CoCart add-on active have not tested with the latest release available.
 * Update now link for CoCart opens up a modal listing none tested plugins with a confirmation.
 
+### Improvements
+
+* Ensure we have calculated totals before we restore the requested item so we can identify them.
+
 ### For Developers
 
 > These filters are for site admins more than anything.
