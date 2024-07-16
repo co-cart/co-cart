@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.2.1\n"
+"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-07-11 20:59:46+00:00\n"
+"POT-Creation-Date: 2024-07-12 15:23:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1242,8 +1242,8 @@ msgstr ""
 msgid "====%1$s Version: %2$s===="
 msgstr ""
 
-#: includes/classes/class-cocart-session-handler.php:329
-#: includes/classes/class-cocart-session-handler.php:658
+#: includes/classes/class-cocart-session-handler.php:323
+#: includes/classes/class-cocart-session-handler.php:664
 #. translators: %s: Filter name
 msgid "%s is no longer used."
 msgstr ""

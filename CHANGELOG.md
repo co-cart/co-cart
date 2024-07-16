@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v4.2.2 - 12th July, 2024
+
+### Reverting
+
+We are reverting a change for destroying a session. Previous change causes a conflict with identifying the correct column with our session table and causes the cart not to clear.
+
 ## v4.2.1 - 11th July, 2024
 
 ### Hot Fix
