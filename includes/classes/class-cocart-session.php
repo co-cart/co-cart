@@ -276,10 +276,9 @@ class CoCart_Load_Cart {
 				do_action( 'cocart_load_cart', $new_cart, $stored_cart, $cart_in_session );
 			}
 
-			// Destroy cart and cookie if user is a guest customer before creating a new one.
+			// Destroy cart if user is a guest customer before creating a new one.
 			if ( ! is_user_logged_in() && self::maybe_use_cookie_monster() ) {
 				WC()->session->delete_cart( WC()->session->get_customer_id() );
-				WC()->session->destroy_cookie();
 			}
 
 			// Sets the php session data for the loaded cart.
@@ -431,6 +430,8 @@ class CoCart_Load_Cart {
 	 * @access protected
 	 *
 	 * @static
+	 *
+	 * @since 3.3.0 Introduced.
 	 *
 	 * @return boolean
 	 */

@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.2.0
+Stable tag: 4.2.1
 WC requires at least: 7.0
 WC tested up to: 9.0
 License: GPLv3
@@ -310,6 +310,12 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.2.1 - 11th July, 2024 =
+
+### Hot Fix
+
+When loading a cart from session a deprecated function was still triggered. It's now been removed to prevent failing.
+
 = v4.2.0 - 11th July, 2024 =
 
 In this release we have optimized our session handler making this release more compatibility with third party plugins. We also no longer use cookies as a backup for headless. This should also help with the confusion of needing to pass along the session cookie or reading the cookie to extract the cart key and help with user switching much better. A cart key is provided in both the cart response and returned headers. Saving the cart key in your own cookie or local storage is fairly straight forward.
@@ -520,6 +526,6 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
-= 4.2.0 =
+= 4.2.1 =
 
 Improved identifying cart without the need of cookies. See changelog for more.

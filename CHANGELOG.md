@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v4.2.1 - 11th July, 2024
+
+### Hot Fix
+
+When loading a cart from session a deprecated function was still triggered. It's now been removed to prevent failing.
+
 ## v4.2.0 - 11th July, 2024
 
 In this release we have optimized our backwards compatibility with the session handler. As our session handler has to accommodate both native and headless support we originally forked the session handler to see what we needed to keep everything functional without breaking the core of WooCommerce. Now we have reviewed and noted down the changes made over time and we are happy to provide a refreshed version of our session handler that now provides only what we need while leaving everything else in the original session handler alone. Meaning now our session handler extends the WooCommerce session handler, making this release more compatibility with third party plugins and the new WooCommerce cart and checkout blocks.
