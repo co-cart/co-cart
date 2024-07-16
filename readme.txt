@@ -4,9 +4,9 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.2.2
+Stable tag: 4.3.0
 WC requires at least: 7.0
-WC tested up to: 9.0
+WC tested up to: 9.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -310,6 +310,33 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.3.0 - 15th July, 2024 =
+
+### What's New?
+
+In this release we have added a plugin update prevention system as a safety measure. For the moment it will detect for compatibility with minor releases while we are making adjustments but it's designed mostly for detecting major changes. All CoCart add-ons that we release will now check for CoCart's requirements and will help you decide to update or not until your ready to do so.
+
+* Added plugin headers to be used for detecting CoCart add-ons or plugins that support CoCart.
+* Auto-updates are disabled should a CoCart add-on active have not tested with the latest release available.
+* Update now link for CoCart opens up a modal listing none tested plugins with a confirmation.
+
+### Improvements
+
+* Ensure we have calculated totals before we restore the requested item so we can identify them.
+
+### For Developers
+
+> These filters are for site admins more than anything.
+
+* Introduced filter `cocart_in_plugin_update_message` allows you to change the upgrade notice.
+* Introduced filter `cocart_get_plugins_with_header` allows you to get the plugins that have a valid value for a specific header.
+* Introduced filter `cocart_get_plugins_for_cocart` allows you to get plugins which "maybe" are for CoCart.
+
+### Compatibility
+
+* Tested with WordPress v6.6
+* Tested with WooCommerce v9.1
+
 = v4.2.2 - 12th July, 2024 =
 
 ### Reverting
@@ -532,6 +559,18 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
+= 4.3.0 =
+
+We have added a plugin update prevention system as a safety measure. See changelog for more.
+
 = 4.2.2 =
 
 We are reverting a change for destroying a session. See changelog for more.
+
+= v4.2.1 =
+
+Fix: When loading a cart from session a deprecated function was still triggered. It's now been removed to prevent failing.
+
+= v4.2.0 =
+
+Improvement: Optimized the session handler to be more compatibility with third party plugins. See changelog for more.

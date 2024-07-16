@@ -199,6 +199,43 @@ class CoCart_Utilities_Cart_Helpers {
 	} // END throw_product_not_purchasable()
 
 	/**
+	 * Throws exception if the item key is not provided when either removing, updating or restoring the item.
+	 *
+	 * @throws CoCart_Data_Exception If an error notice is detected, Exception is thrown.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.17 Introduced.
+	 *
+	 * @param string $item_key Generated ID based on the product information when added to the cart.
+	 * @param string $status   Status of which we are checking the item key.
+	 *
+	 * @return string $item_key Generated ID based on the product information when added to the cart.
+	 */
+	public static function throw_missing_item_key( $item_key, $status ) {
+		$item_key = (string) $item_key; // Make sure the item key is a string value.
+
+		if ( '0' === $item_key ) {
+			$message = __( 'Missing cart item key is required!', 'cart-rest-api-for-woocommerce' );
+
+			/**
+			 * Filters message about cart item key required.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param string $message Message.
+			 */
+			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
+
+			throw new CoCart_Data_Exception( 'cocart_cart_item_key_required', esc_html( $message ), 404 );
+		}
+
+		return $item_key;
+	} // END throw_missing_item_key()
+
+	/**
 	 * Gets remaining stock for a product.
 	 *
 	 * @access public
