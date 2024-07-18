@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.3.0
+Stable tag: 4.3.1
 WC requires at least: 7.0
 WC tested up to: 9.1
 License: GPLv3
@@ -310,6 +310,12 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.3.1 - 18th July, 2024 =
+
+### Hot fix
+
+Forgot I removed the WooCommerce plugin headers before in v3.9 to prevent incompatibility warning message when using "HPOS" feature. Didn't come up as issue when testing until now. My bad. 🤦
+
 = v4.3.0 - 15th July, 2024 =
 
 ### What's New?
@@ -558,6 +564,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.1 =
+
+Fixed incompatibility warning message when using "HPOS" feature.
 
 = 4.3.0 =
 
