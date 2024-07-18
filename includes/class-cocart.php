@@ -301,7 +301,7 @@ final class CoCart {
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			require_once __DIR__ . '/classes/cocart-cli.php';
+			require_once __DIR__ . '/classes/class-cocart-cli.php';
 		}
 
 		/**
