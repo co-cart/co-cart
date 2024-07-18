@@ -6,7 +6,7 @@
 
 Forgot I removed the WooCommerce plugin headers before in v3.9 to prevent incompatibility warning message when using "HPOS" feature. Didn't come up as issue when testing until now. My bad. 🤦
 
-## v4.3.0 - 16th July, 2024
+## v4.3.0 - 17th July, 2024
 
 ### What's New?
 
