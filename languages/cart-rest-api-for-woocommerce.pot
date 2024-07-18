@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.3.0\n"
+"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.3.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-07-16 17:14:33+00:00\n"
+"POT-Creation-Date: 2024-07-18 01:25:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1852,7 +1852,7 @@ msgid "Item has been restored to the cart."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:235
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:175
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:178
 msgid "Unable to restore item to the cart."
 msgstr ""
 
@@ -1882,7 +1882,7 @@ msgstr ""
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:500
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:111
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:217
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:210
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:213
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:289
 msgid "Unique identifier for the item in the cart."
 msgstr ""
@@ -3990,8 +3990,8 @@ msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:107
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:121
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:97
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:145
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:100
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:148
 msgid "Item"
 msgstr ""
 
@@ -4014,21 +4014,21 @@ msgstr ""
 msgid "Returns a message after removing item from cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:101
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:104
 #. translators: %s: Item name.
 msgid "%s has already been restored to the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:106
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:109
 msgid "Item does not exist in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:149
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:152
 #. translators: %s: product name
 msgid "%s has been added back to your cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:216
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:219
 msgid "Returns the item details once restored."
 msgstr ""
 
@@ -4569,8 +4569,8 @@ msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:105
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:119
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:95
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:143
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:98
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-restore-item-controller.php:146
 #. translators: %s: Item name.
 msgctxt "Item name in quotes"
 msgid "\"%s\""
