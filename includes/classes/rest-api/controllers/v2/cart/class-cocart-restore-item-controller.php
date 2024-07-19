@@ -79,6 +79,9 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'restore' );
 
+			// Ensure we have calculated before we handle any data.
+			$this->get_cart_instance()->calculate_totals();
+
 			// Check item removed from cart before fetching the cart item data.
 			$current_data = $this->get_cart_instance()->get_removed_cart_contents();
 
