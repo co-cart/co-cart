@@ -269,12 +269,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			/**
 			 * Filter response for empty cart.
 			 *
-			 * @since 2.0.8 Introduced.
-			 *
-			 * @deprecated 3.0.0 Replaced with `cocart_empty_cart` filter.
+			 * @since 3.0.0 Introduced.
 			 */
-			cocart_do_deprecated_filter( 'cocart_return_empty_cart', '3.0.0', 'cocart_empty_cart', __( 'But only if you are using API v2.', 'cart-rest-api-for-woocommerce' ) );
-
 			return apply_filters( 'cocart_empty_cart', $cart_template );
 		}
 
@@ -1250,9 +1246,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					throw new CoCart_Data_Exception( 'cocart_not_enough_stock_remaining', $message, 404 );
 				}
 			}
-
-			cocart_do_deprecated_filter( 'cocart_ok_to_add_response', '3.0.0', null, __( 'This filter is no longer used in the API.', 'cart-rest-api-for-woocommerce' ) );
-			cocart_do_deprecated_filter( 'cocart_ok_to_add', '3.0.0', null, __( 'This filter is no longer used in the API.', 'cart-rest-api-for-woocommerce' ) );
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}

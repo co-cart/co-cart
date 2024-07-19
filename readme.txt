@@ -4,9 +4,9 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.2.0
+Stable tag: 4.3.1
 WC requires at least: 7.0
-WC tested up to: 9.0
+WC tested up to: 9.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -310,6 +310,51 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.3.1 - 18th July, 2024 =
+
+### Hot fix
+
+Forgot I removed the WooCommerce plugin headers before in v3.9 to prevent incompatibility warning message when using "HPOS" feature. Didn't come up as issue when testing until now. My bad. 🤦
+
+= v4.3.0 - 17th July, 2024 =
+
+### What's New?
+
+In this release we have added a plugin update prevention system as a safety measure. For the moment it will detect for compatibility with minor releases while we are making adjustments but it's designed mostly for detecting major changes. All CoCart add-ons that we release will now check for CoCart's requirements and will help you decide to update or not until your ready to do so.
+
+* Added plugin headers to be used for detecting CoCart add-ons or plugins that support CoCart.
+* Auto-updates are disabled should a CoCart add-on active have not tested with the latest release available.
+* Update now link for CoCart opens up a modal listing none tested plugins with a confirmation.
+
+### Improvements
+
+* Ensure we have calculated totals before we restore the requested item so we can identify them.
+
+### For Developers
+
+> These filters are for site admins more than anything.
+
+* Introduced filter `cocart_in_plugin_update_message` allows you to change the upgrade notice.
+* Introduced filter `cocart_get_plugins_with_header` allows you to get the plugins that have a valid value for a specific header.
+* Introduced filter `cocart_get_plugins_for_cocart` allows you to get plugins which "maybe" are for CoCart.
+
+### Compatibility
+
+* Tested with WordPress v6.6
+* Tested with WooCommerce v9.1
+
+= v4.2.2 - 12th July, 2024 =
+
+### Reverting
+
+We are reverting a change for destroying a session. Previous change causes a conflict with identifying the correct column with our session table and causes the cart not to clear.
+
+= v4.2.1 - 11th July, 2024 =
+
+### Hot Fix
+
+When loading a cart from session a deprecated function was still triggered. It's now been removed to prevent failing.
+
 = v4.2.0 - 11th July, 2024 =
 
 In this release we have optimized our session handler making this release more compatibility with third party plugins. We also no longer use cookies as a backup for headless. This should also help with the confusion of needing to pass along the session cookie or reading the cookie to extract the cart key and help with user switching much better. A cart key is provided in both the cart response and returned headers. Saving the cart key in your own cookie or local storage is fairly straight forward.
@@ -520,6 +565,22 @@ Hope you enjoy this release.
 
 == Upgrade Notice ==
 
-= 4.2.0 =
+= 4.3.1 =
 
-Improved identifying cart without the need of cookies. See changelog for more.
+Fixed incompatibility warning message when using "HPOS" feature.
+
+= 4.3.0 =
+
+We have added a plugin update prevention system as a safety measure. See changelog for more.
+
+= 4.2.2 =
+
+We are reverting a change for destroying a session. See changelog for more.
+
+= v4.2.1 =
+
+Fix: When loading a cart from session a deprecated function was still triggered. It's now been removed to prevent failing.
+
+= v4.2.0 =
+
+Improvement: Optimized the session handler to be more compatibility with third party plugins. See changelog for more.

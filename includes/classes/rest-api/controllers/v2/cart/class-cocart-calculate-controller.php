@@ -90,8 +90,6 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 				$response = CoCart_Totals_Controller::get_totals( $request );
 			}
 
-			cocart_do_deprecated_filter( 'cocart_totals_calculated_message', '3.0.0', null, null );
-
 			// Get cart contents.
 			$response = $controller->get_cart_contents( $request );
 

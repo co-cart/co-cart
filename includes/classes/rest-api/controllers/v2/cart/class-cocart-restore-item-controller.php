@@ -133,7 +133,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				do_action( 'cocart_item_restored', $current_data );
 
 				/**
-				 * Calculates the cart totals now an item has been restored.
+				 * Re-calculate totals now an item has been restored.
 				 *
 				 * @since 2.1.0 Introduced.
 				 */
