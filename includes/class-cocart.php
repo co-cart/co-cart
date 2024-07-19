@@ -301,7 +301,7 @@ final class CoCart {
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			require_once __DIR__ . '/classes/cocart-cli.php';
+			require_once __DIR__ . '/classes/class-cocart-cli.php';
 		}
 
 		/**
@@ -460,6 +460,7 @@ final class CoCart {
 	 * @since 4.1.0  Moved REST API classes to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
+		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-cache.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-extension.php';

@@ -1613,12 +1613,12 @@ msgid "Cart totals have been calculated."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-clear-cart-controller.php:124
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-clear-cart-controller.php:161
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-clear-cart-controller.php:140
 msgid "Cart is cleared."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-clear-cart-controller.php:139
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-clear-cart-controller.php:181
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-clear-cart-controller.php:160
 msgid "Clearing the cart failed!"
 msgstr ""
 
@@ -1816,18 +1816,19 @@ msgid "There are no items in the cart!"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:59
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:295
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:298
 msgid "Quantity of this item to update to."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:94
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:84
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:88
 msgid "No items in cart."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:116
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:297
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:95
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:91
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:98
 msgid "Item specified does not exist in cart."
 msgstr ""
 
@@ -1836,7 +1837,7 @@ msgid "Item has been removed from cart."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:158
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:182
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:186
 #. translators: %s: Item name.
 msgid "Unable to remove item from cart."
 msgstr ""
@@ -1857,24 +1858,24 @@ msgid "Unable to restore item to the cart."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:398
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:200
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:203
 msgid "Unable to update item quantity in cart."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:428
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:225
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:228
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has increased to \"%2$s\"."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:438
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:235
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:238
 #. translators: 1: product name, 2: new quantity
 msgid "The quantity for \"%1$s\" has decreased to \"%2$s\"."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-item-controller.php:448
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:245
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:248
 #. translators: %s: product name
 msgid "The quantity for \"%s\" has not changed."
 msgstr ""
@@ -3867,7 +3868,7 @@ msgstr ""
 msgid "Return the default cart data if set to true."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-clear-cart-controller.php:216
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-clear-cart-controller.php:195
 msgid "Keeps removed items in session when clearing the cart."
 msgstr ""
 
@@ -3888,98 +3889,94 @@ msgstr ""
 msgid "Internal parameter. No description."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:86
-msgid "Item specified was not found in cart."
-msgstr ""
-
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:167
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:184
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:163
 msgid "The quantity of the item and minimum and maximum purchase capability."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:197
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:214
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:193
 msgid "The subtotal of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:203
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:220
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:199
 msgid "The subtotal tax of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:209
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:226
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:205
 msgid "The total of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:215
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:232
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:211
 msgid "The total tax of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:223
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:240
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:219
 msgid "The product slug of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:229
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:246
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:225
 msgid "The meta data of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:234
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:251
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:230
 msgid "The product type of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:240
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:257
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:236
 msgid "The SKU of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:246
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:263
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:242
 msgid "The dimensions of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:251
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:268
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:247
 msgid "The length of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:257
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:274
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:253
 msgid "The width of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:263
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:280
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:259
 msgid "The height of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:269
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:286
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:265
 msgid "The unit measurement of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:277
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:294
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:273
 msgid "The weight of the item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:283
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:300
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:279
 msgid ""
 "The variation attributes of the item in cart (if item is a variation of a "
 "variable product)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:297
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:314
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:293
 msgid "Custom item data applied to the item in cart (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:303
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:320
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:299
 msgid "The featured image of the item."
 msgstr ""
@@ -3995,22 +3992,22 @@ msgstr ""
 msgid "Item"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:125
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:129
 #. translators: %s: Item name.
 msgid "%s has already been removed from cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:131
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:135
 #. translators: %s: Item name.
 msgid "%s does not exist in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:165
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:169
 #. translators: %s: Item name.
 msgid "%s has been removed from cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:223
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-remove-item-controller.php:227
 msgid "Returns a message after removing item from cart."
 msgstr ""
 
@@ -4061,12 +4058,12 @@ msgstr ""
 msgid "Additional data to pass."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:153
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:156
 #. translators: %s Product name.
 msgid "You can only have 1 \"%s\" in your cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:301
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-update-item-controller.php:304
 msgid "Returns a message and quantity value after updating item in cart."
 msgstr ""
 

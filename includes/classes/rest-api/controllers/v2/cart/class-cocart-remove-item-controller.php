@@ -66,7 +66,8 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since 1.0.0 Introduced.
+	 * @since   1.0.0 Introduced.
+	 * @version 4.2.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -78,6 +79,9 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			$item_key       = ! isset( $request_params['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request_params['item_key'] ) ) );
 
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'remove' );
+
+			// Ensure we have calculated before we handle any data.
+			$this->get_cart_instance()->calculate_totals();
 
 			// Checks to see if the cart contains item before attempting to remove it.
 			if ( $this->get_cart_instance()->get_cart_contents_count() <= 0 && count( $this->get_cart_instance()->get_removed_cart_contents() ) <= 0 ) {

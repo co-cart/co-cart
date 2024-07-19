@@ -67,7 +67,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.7.8
+	 * @version 4.2.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -79,6 +79,9 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
 
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'update' );
+
+			// Ensure we have calculated before we handle any data.
+			$this->get_cart_instance()->calculate_totals();
 
 			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
 			if ( 0 === $quantity ) {

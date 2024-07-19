@@ -73,7 +73,12 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 */
 	public function view_item( $request = array() ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? '' : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
+			$item_key = ! isset( $request['item_key'] ) ? 0 : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
+
+			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'get' );
+
+			// Ensure we have calculated before we handle any data.
+			$this->get_cart_instance()->calculate_totals();
 
 			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
@@ -81,9 +86,21 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 			$item = isset( $item[ $item_key ] ) ? $item[ $item_key ] : false;
 
-			// If item is not found, throw exception error.
-			if ( ! $item ) {
-				throw new CoCart_Data_Exception( 'cocart_item_not_found', __( 'Item specified was not found in cart.', 'cart-rest-api-for-woocommerce' ), 404 );
+			// If item does not exist in cart return response.
+			if ( empty( $item ) ) {
+				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+
+				/**
+				 * Filters message about cart item key required.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param string $message Message.
+				 * @param string $method Method.
+				 */
+				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'get' );
+
+				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
 			return CoCart_Response::get_response( $item, $this->namespace, $this->rest_base );

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -74,7 +74,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.1.0
+	 * @version 4.2.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -84,6 +84,9 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 		try {
 			// We need the cart key to force a session save later.
 			$cart_key = WC()->session->get_customer_unique_id();
+
+			// Ensure we have calculated before we handle data.
+			$this->get_cart_instance()->calculate_totals();
 
 			/**
 			 * Hook: Triggers before the cart emptied.
@@ -95,44 +98,17 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			// Clear all cart fees via session as we cant do it via the fee api.
 			WC()->session->set( 'cart_fees', array() );
 
+			// Cache removed content should requested to keep it.
+			$removed_contents = $this->get_cart_instance()->get_removed_cart_contents();
+
 			// Clear cart.
-			$this->get_cart_instance()->cart_contents = array();
-			WC()->session->cart                       = array();
+			$this->get_cart_instance()->empty_cart();
 
 			// Clear removed items if not kept.
 			if ( ! $request['keep_removed_items'] ) {
 				$this->get_cart_instance()->set_removed_cart_contents( array() );
-			}
-
-			// Reset everything.
-			$this->get_cart_instance()->shipping_methods           = array();
-			$this->get_cart_instance()->coupon_discount_totals     = array();
-			$this->get_cart_instance()->coupon_discount_tax_totals = array();
-			$this->get_cart_instance()->applied_coupons            = array();
-			$this->get_cart_instance()->totals                     = array(
-				'subtotal'            => 0,
-				'subtotal_tax'        => 0,
-				'shipping_total'      => 0,
-				'shipping_tax'        => 0,
-				'shipping_taxes'      => array(),
-				'discount_total'      => 0,
-				'discount_tax'        => 0,
-				'cart_contents_total' => 0,
-				'cart_contents_tax'   => 0,
-				'cart_contents_taxes' => array(),
-				'fee_total'           => 0,
-				'fee_tax'             => 0,
-				'fee_taxes'           => array(),
-				'total'               => 0,
-				'total_tax'           => 0,
-			);
-
-			/**
-			 * If the user is authorized and `woocommerce_persistent_cart_enabled` filter is left enabled
-			 * then we will delete the persistent cart as well.
-			 */
-			if ( get_current_user_id() && apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-				delete_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id() );
+			} else {
+				$this->get_cart_instance()->set_removed_cart_contents( $removed_contents );
 			}
 
 			/**
@@ -141,6 +117,9 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			 * @since 1.0.0 Introduced.
 			 */
 			do_action( 'cocart_cart_emptied' );
+
+			// Ensure we have calculated to update the cart.
+			$this->get_cart_instance()->calculate_totals();
 
 			/**
 			 * We force the session to update in the database as we
