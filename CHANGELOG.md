@@ -1,5 +1,29 @@
 # Changelog for CoCart
 
+## v4.3.2 - 19th July, 2024
+
+### 🌋 Hot Fix
+
+This release fixes 3 known issues that were reported. [issue #425](https://github.com/co-cart/co-cart/issues/425), [issue #426](https://github.com/co-cart/co-cart/issues/426), [issue #427](https://github.com/co-cart/co-cart/issues/427) that has been affected since version 4.2 of CoCart.
+
+It was due to the optimizations made to allow CoCart to perform better. Unfortunately it had some unexpected side affects that were not picked up during testing. For that I am sorry. If you haven't rolled back to before 4.2 then this patch is highly recommended.
+
+Previous patch releases will also be updated to prevent further sites from experiencing these issues for those who like to update to specific version of the plugin.
+
+A hard lesson was learned here and hope you haven't lost trust in the plugin. I appreciate your feedback and support during this process.
+
+Please don't forget to backup your site before updating.
+
+### Corrections
+
+* Typo caused the WP-CLI commands to not register and crash when used with composer.
+* The data exception class was oddly not loading when updating an item. Autoloader was not picking it up. Now it is required.
+* Cart would empty but the subtotal would not reset.
+
+### Improvements
+
+* Ensure we have calculated totals before we get an item or update an item so we can identify them.
+
 ## v4.3.1 - 18th July, 2024
 
 ### Hot fix
