@@ -245,7 +245,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 */
 	public function get_variations( $product ) {
 		$variation_ids    = $product->get_children();
-		$tax_display_mode = $this->get_tax_display_mode();
+		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 		$variations       = array();
 
@@ -461,7 +461,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		$rating_count = $product->get_rating_count( 'view' );
 		$average      = $product->get_average_rating( 'view' );
 
-		$tax_display_mode = $this->get_tax_display_mode();
+		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 		// If we have a variable product, get the price from the variations (this will use the min value).
@@ -932,11 +932,17 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_tax_display_mode()
+	 *
 	 * @param string $tax_display_mode Provided tax display mode.
 	 *
 	 * @return string Valid tax display mode.
 	 */
 	protected function get_tax_display_mode( $tax_display_mode = '' ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_tax_display_mode', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_tax_display_mode' );
+
 		return in_array( $tax_display_mode, array( 'incl', 'excl' ), true ) ? $tax_display_mode : get_option( 'woocommerce_tax_display_shop' );
 	} // END get_tax_display_mode()
 
