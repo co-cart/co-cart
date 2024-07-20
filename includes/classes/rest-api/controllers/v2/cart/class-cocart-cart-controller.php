@@ -1419,7 +1419,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => wc_get_weight( (float) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
+				'weight'       => $_product->has_weight() ? (string) wc_get_weight( $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ) : '0.0',
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
@@ -2090,7 +2090,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			),
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
-			'items_weight'   => wc_get_weight( (float) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'items_weight'   => (string) wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
 			'coupons'        => array(),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
@@ -2173,7 +2173,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					$template['item_count'] = $this->get_cart_instance()->get_cart_contents_count();
 					break;
 				case 'items_weight':
-					$template['items_weight'] = wc_get_weight( (float) $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
+					$template['items_weight'] = (string) wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
 					break;
 				case 'coupons':
 					$template['coupons'] = array();
@@ -2740,7 +2740,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 									),
 									'weight'       => array(
 										'description' => __( 'The weight of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'string',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
@@ -2781,7 +2781,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				),
 				'items_weight'   => array(
 					'description' => __( 'The total weight of all items in the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'integer',
+					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
@@ -3227,7 +3227,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 									),
 									'weight'       => array(
 										'description' => __( 'The weight of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'string',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),

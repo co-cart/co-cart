@@ -296,7 +296,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			),
 			'items'         => array(),
 			'item_count'    => $this->get_cart_contents_count( $session_data ),
-			'items_weight'  => wc_get_weight( (float) $this->get_cart_contents_weight( $session_data ), get_option( 'woocommerce_weight_unit' ) ),
+			'items_weight'  => (string) wc_get_weight( $this->get_cart_contents_weight( $session_data ), get_option( 'woocommerce_weight_unit' ) ),
 			'coupons'       => array(),
 			'fees'          => $this->get_fees( $session_data ),
 			'totals'        => array(
@@ -423,7 +423,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => wc_get_weight( (float) $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ),
+				'weight'       => $_product->has_weight() ? (string) wc_get_weight( $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ) : '0.0',
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
