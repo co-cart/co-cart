@@ -1052,11 +1052,17 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.11.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_meta_data()
+	 *
 	 * @param WC_Product $product The product object.
 	 *
 	 * @return array
 	 */
 	public function get_meta_data( $product ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_meta_data', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_meta_data' );
+
 		$meta_data = $product->get_meta_data();
 		$safe_meta = array();
 
