@@ -1959,7 +1959,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 					),
 					'weight' => array(
 						'description' => __( 'Product weight unit.', 'cart-rest-api-for-woocommerce' ),
-						'type'        => 'object',
+						'type'        => 'string',
 						'context'     => array( 'view' ),
 						'default'     => $weight_unit,
 						'readonly'    => true,

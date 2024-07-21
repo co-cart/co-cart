@@ -271,7 +271,7 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 								),
 								'weight'       => array(
 									'description' => __( 'The weight of the item in cart.', 'cart-rest-api-for-woocommerce' ),
-									'type'        => 'float',
+									'type'        => 'string',
 									'context'     => array( 'view' ),
 									'readonly'    => true,
 								),
