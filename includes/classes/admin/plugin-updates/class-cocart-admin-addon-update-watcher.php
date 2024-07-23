@@ -43,8 +43,11 @@ class CoCart_Admin_Addon_Update_Watcher {
 	 * @var array
 	 */
 	public static $add_on_plugin_files = array(
-		'cocart-plus.php',
-		'cocart-pro.php',
+		'cocart-plus/cocart-plus.php',
+		'cocart-pro/cocart-pro.php',
+		'cocart-jwt-authentication/cocart-jwt-authentication.php',
+		'cocart-rate-limiting/cocart-rate-limiting.php',
+		'cocart-pos/cocart-pos.php',
 	);
 
 	/**
