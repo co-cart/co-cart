@@ -35,7 +35,7 @@ Please don't forget to backup your site before updating.
 
 ### Improvements
 
-* Ensure we have calculated totals before we get an item or update an item so we can identify them.
+* REST API: Ensure we have calculated totals before we get an item or update an item so we can identify them.
 
 ## v4.3.1 - 18th July, 2024 - Deprecated
 
