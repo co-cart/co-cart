@@ -14,21 +14,21 @@ Make your WooCommerce store headless with CoCart, a REST API designed for decoup
 
 == Description ==
 
-Decouple your WooCommerce store with ease with our developer friendly REST API extension.
+CoCart's mission is **decoupling your WooCommerce store** with our developer friendly REST API extension.
 
 [CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) is a **customizable, open-source REST API solution** built for WooCommerce that is ready to decouple away from WordPress, allowing you to design and build without limitations imposed by a WordPress theme that is harder to modify and optimize. Our REST API handles all the server side actions so it can be utilized in **faster and familiar frameworks** that you prefer.
 
+CoCart Free contains everything you need to get started.
+
 #### Why WooCommerce?
 
-WooCommerce provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core. But it was missing a key component to decouple WooCommerce via the REST API which is where CoCart comes in.
+WooCommerce provides a **flexible, and efficient** way to build cutting-edge stores with WordPress at it's core. If you are looking to provide a great store for your customers that is fast, decoupling your store is a no brainer, but accessing the front side via the REST API was missing which is where CoCart comes in.
 
 #### Why CoCart?
 
 Is your store slow? Looking to decouple away from WordPress? Overwhelmed with getting WooCommerce working the way you want in your own REST API endpoints?
 
-These are the struggles of web developers trying to decouple a WooCommerce store.
-
-With CoCart, you can overcome these challenges and get straight to utilizing a REST API that is ready for you.
+These are the struggles web developers have trying to decouple a WooCommerce store and with CoCart, you can overcome these challenges and get straight to utilizing a REST API that is ready for you.
 
 * **Source of Truth** - CoCart sources the WooCommerce's Data Stores API and repeats most WooCommerce hooks to provide a wider array of support for most WooCommerce extensions out of the box.
 * **No Cookie Required** - Our session handler generates a key for the user session in the WordPress database and stores session-related meta data for use on the client without the heavy load.
@@ -49,16 +49,14 @@ And this is just the tip of the iceberg.
 
 ## 🛒 Built for developers, by developers
 
-CoCart was born out of frustration with **no existing solution on the market**. As beautiful as it functions, the API is just as flexible with you, the developer, in mind. We spend an unfathomable amount of time making the API a joy to work with.
-
-We invest our time into fully abstracting our API so you can focus on building a headless store. Integrate with CoCart in days, not months.
+CoCart was born out of frustration with **no existing solution on the market**. As beautiful as it functions, the API is just as flexible with you, the developer in mind making the API a joy to work with so you can focus on building a headless store in days, not months.
 
 ★★★★★
 > Amazing Plugin. I’m using it to create a react-native app with WooCommerce as back-end. This plugin is a life-saver! [Daniel Loureiro](https://wordpress.org/support/topic/amazing-plugin-1562/)
 
 ### 📦 Serious about going headless?
 
-Try out more features and unlock your stores potential. Upgrade to complete the API with additional features that help you develop your store to it's full potential.
+Unlock your stores full potential. Upgrade to complete the API with additional features that help you develop your store further.
 
 [See what else we have in store](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
@@ -115,9 +113,9 @@ They work with the core of CoCart already, and these add-ons of course come with
 
 ### ⌨️ Join our growing community
 
-A Discord community for developers, WordPress agencies and shop owners building the fastest and best headless WooCommerce stores with CoCart.
+On Discord we have a community of developers, WordPress agencies and shop owners building the fastest and best headless WooCommerce stores with CoCart.
 
-[Join our community](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
+Come and [join our community](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 
 ### Built with developers in mind
 
