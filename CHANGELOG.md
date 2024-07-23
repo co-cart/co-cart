@@ -1,5 +1,18 @@
 # Changelog for CoCart
 
+## v4.3.3 - 24th July, 2024
+
+### Corrections
+
+* Autoload for classes in the backend corrected to new locations.
+* Clean up task that is scheduled was looking for the session handler in the wrong place.
+
+### Improvements
+
+* REST API: Price of product is now consistent in the Cart API (v2 ONLY). If your store was setup with no decimals the price would not return fully. [Solves issue #429](https://github.com/co-cart/co-cart/issues/429)
+* REST API: Value of weight was returning in the wrong format. By returning as a string you get the true value without needing to round it up yourself.
+* WordPress Dashboard: Updated add-on update watcher.
+
 ## v4.3.2 - 19th July, 2024
 
 ### 🌋 Hot Fix
@@ -16,15 +29,15 @@ Please don't forget to backup your site before updating.
 
 ### Corrections
 
-* Typo caused the WP-CLI commands to not register and crash when used with composer.
-* The data exception class was oddly not loading when updating an item. Autoloader was not picking it up. Now it is required.
-* Cart would empty but the subtotal would not reset.
+* Plugin: Typo caused the WP-CLI commands to not register and crash when used with composer.
+* REST API: The data exception class was oddly not loading when updating an item. Autoloader was not picking it up. Now it is required.
+* REST API: Cart would empty but the subtotal would not reset.
 
 ### Improvements
 
 * Ensure we have calculated totals before we get an item or update an item so we can identify them.
 
-## v4.3.1 - 18th July, 2024
+## v4.3.1 - 18th July, 2024 - Deprecated
 
 ### Hot fix
 
@@ -36,13 +49,13 @@ Forgot I removed the WooCommerce plugin headers before in v3.9 to prevent incomp
 
 In this release we have added a plugin update prevention system as a safety measure. For the moment it will detect for compatibility with minor releases while we are making adjustments but it's designed mostly for detecting major changes. All CoCart add-ons that we release will now check for CoCart's requirements and will help you decide to update or not until your ready to do so.
 
-* Added plugin headers to be used for detecting CoCart add-ons or plugins that support CoCart.
-* Auto-updates are disabled should a CoCart add-on active have not tested with the latest release available.
-* Update now link for CoCart opens up a modal listing none tested plugins with a confirmation.
+* Plugin: Added plugin headers to be used for detecting CoCart add-ons or plugins that support CoCart.
+* WordPress Dashboard: Auto-updates are disabled should a CoCart add-on active have not tested with the latest release available.
+* WordPress Dashboard: Update now link for CoCart opens up a modal listing none tested plugins with a confirmation.
 
 ### Improvements
 
-* Ensure we have calculated totals before we restore the requested item so we can identify them.
+* REST API: Ensure we have calculated totals before we restore the requested item so we can identify them.
 
 ### For Developers
 
@@ -79,7 +92,7 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 ### What's New?
 
-* Can now request a guest cart via a requested header `cocart-api-cart-key`.
+* REST API: Can now request a guest cart via a requested header `cocart-api-cart-key`.
 
 ### Improvements
 
