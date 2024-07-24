@@ -932,7 +932,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 4.3.3 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_tax_display_mode()
 	 *
@@ -941,7 +941,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return string Valid tax display mode.
 	 */
 	protected function get_tax_display_mode( $tax_display_mode = '' ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_tax_display_mode', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_tax_display_mode' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_tax_display_mode', '4.3.3', 'CoCart_Utilities_Product_Helpers::get_tax_display_mode' );
 
 		return in_array( $tax_display_mode, array( 'incl', 'excl' ), true ) ? $tax_display_mode : get_option( 'woocommerce_tax_display_shop' );
 	} // END get_tax_display_mode()
@@ -1058,7 +1058,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.11.0 Introduced.
 	 *
-	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 * @deprecated 4.3.3 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_meta_data()
 	 *
@@ -1067,7 +1067,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return array
 	 */
 	public function get_meta_data( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_meta_data', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_meta_data' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_meta_data', '4.3.3', 'CoCart_Utilities_Product_Helpers::get_meta_data' );
 
 		$meta_data = $product->get_meta_data();
 		$safe_meta = array();
