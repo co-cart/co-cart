@@ -34,9 +34,6 @@ class CoCart_Load_Cart {
 
 		// Loads a cart in session if valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ) );
-
-		// Append cart to load for proceed to checkout url.
-		add_action( 'woocommerce_get_checkout_url', array( $this, 'proceed_to_checkout' ) );
 	} // END __construct()
 
 	/**
