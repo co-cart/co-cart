@@ -6,6 +6,7 @@
 
 * Autoload for classes in the backend corrected to new locations.
 * Clean up task that is scheduled was looking for the session handler in the wrong place.
+* Fixed `update_session_timestamp()` function from failing in session handler.
 
 ### Improvements
 

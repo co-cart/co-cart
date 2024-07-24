@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.3.2
+Stable tag: 4.3.3
 WC requires at least: 7.0
 WC tested up to: 9.1
 License: GPLv3
@@ -314,13 +314,13 @@ If you like CoCart and it has helped with your development, please take a moment
 
 * Autoload for classes in the backend corrected to new locations.
 * Clean up task that is scheduled was looking for the session handler in the wrong place.
+* Fixed `update_session_timestamp()` function from failing in session handler.
 
 ### Improvements
 
 * REST API: Price of product is now consistent in the Cart API (v2 ONLY). If your store was setup with no decimals the price would not return fully. [Solves issue #429](https://github.com/co-cart/co-cart/issues/429)
 * REST API: Value of weight was returning in the wrong format. By returning as a string you get the true value without needing to round it up yourself.
 * WordPress Dashboard: Updated add-on update watcher.
-
 
 = v4.3.2 - 19th July, 2024 =
 
