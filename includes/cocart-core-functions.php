@@ -78,6 +78,27 @@ function cocart_get_source( $cart_key ) {
 } // END cocart_get_source()
 
 /**
+ * Returns the cart hash of the cart.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @param string $cart_key The cart key.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @return string
+ */
+function cocart_get_cart_hash( $cart_key ) {
+	global $wpdb;
+
+	$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->prepare( "SELECT cart_hash FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	);
+
+	return $value;
+} // END cocart_get_cart_hash()
+
+/**
  * Checks if the session table exists before returning results.
  * Helps prevents any fatal errors or crashes should debug mode be enabled.
  *
