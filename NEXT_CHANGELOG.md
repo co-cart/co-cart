@@ -1,0 +1,40 @@
+# Next Changelog for CoCart <!-- omit in toc -->
+
+📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
+
+## Changes
+
+* REST API: Avatars only return if requested now when using the login endpoint.
+
+## Improvements
+
+* REST API: Moved more functions to utility class to help improve the complexity of the cart controller so we get better performance.
+* Feature: Load cart from session now supports registered customers.
+
+### Load Cart from Session
+
+Originally only designed for guest customers to allow them to checkout via the native site, registered customers can now auto login and load their carts to do the same.
+
+#### How does a registered customer load in without authenticating?
+
+To help customers skip the process of having to login again, we use two data points to validate with that can only be accessed if the user was logged in via the REST API to begin with. This then allows the WordPress site setup as though they had gone through the login process and loads their shopping cart.
+
+The two data points required are the cart key which for the customer logged in via the REST API will be their user ID. And the cart hash which represents the last data change of the cart. By using the two together, the customer is able to transfer from the headless version of the store to the native store.
+
+Simply provide these two parameters with the data point values on any page and that's it.
+
+`https://your.store/?cocart-load-cart={cart_key}&c_hash={cart_hash}`
+
+#### Developers
+
+* Introduced new filter `cocart_load_cart_redirect_home` allows you to change where to redirect should loading the cart fail.
+
+#### Deprecations
+
+The following filters are no longer used:
+
+* `cocart_load_cart_override`
+* `cocart_load_cart`
+* `cocart_merge_cart_content`
+* `cocart_cart_loaded_successful_message`
+* `cocart_use_cookie_monster`
