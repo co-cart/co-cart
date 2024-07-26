@@ -12,7 +12,7 @@
 	</a>
 </p>
 
-> ❗ This branch is the current stable version of CoCart. If you are looking to [contribute to CoCart](https://github.com/co-cart/co-cart/blob/dev/.github/CONTRIBUTING.md), please use the "dev" branch.
+> ❗ This branch is the current stable version of CoCart. If you are looking to [contribute to CoCart](https://github.com/co-cart/co-cart/blob/development/.github/CONTRIBUTING.md), please use the "development" branch.
 
 Welcome to the CoCart repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
