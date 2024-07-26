@@ -585,7 +585,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access protected
 	 *
 	 * @since   2.1.2 Introduced.
-	 * @version 3.0.0
+	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data()
 	 *
 	 * @param array      $variation Submitted attributes.
 	 * @param WC_Product $product   The product object.
@@ -593,20 +596,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return int $variation_id Matching variation ID.
 	 */
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
-		try {
-			$data_store   = \WC_Data_Store::load( 'product' );
-			$variation_id = $data_store->find_matching_product_variation( $product, $variation );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variation_id_from_variation_data', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data' );
 
-			if ( empty( $variation_id ) ) {
-				$message = __( 'No matching variation found.', 'cart-rest-api-for-woocommerce' );
-
-				throw new CoCart_Data_Exception( 'cocart_no_variation_found', $message, 404 );
-			}
-
-			return $variation_id;
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
+		return CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $variation, $data );
 	} // END get_variation_id_from_variation_data()
 
 	/**
@@ -1274,22 +1266,20 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
+	 *
 	 * @param WC_Product $product The product object.
 	 *
 	 * @return string The product slug.
 	 */
 	public function get_product_slug( $product ) {
-		$product_type = $product->get_type();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_product_slug', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_product_slug' );
 
-		if ( 'variation' === $product_type ) {
-			$product = wc_get_product( $product->get_parent_id() );
-
-			$product_slug = $product->get_slug();
-		} else {
-			$product_slug = $product->get_slug();
-		}
-
-		return $product_slug;
+		return CoCart_Utilities_Product_Helpers::get_product_slug( $product );
 	} // END get_product_slug()
 
 	/**
@@ -1876,25 +1866,30 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
+	 *
 	 * @return array $notices.
 	 */
 	protected function maybe_return_notices() {
-		$notice_count = 0;
-		$all_notices  = WC()->session->get( 'wc_notices', array() );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::maybe_return_notices', '4.4.0', 'CoCart_Utilities_Cart_Helpers::maybe_return_notices' );
 
-		foreach ( $all_notices as $notices ) {
-			$notice_count += count( $notices );
-		}
-
-		$notices = $notice_count > 0 ? $this->print_notices( $all_notices ) : array();
-
-		return $notices;
+		return CoCart_Utilities_Cart_Helpers::maybe_return_notices();
 	} // END maybe_return_notices()
 
 	/**
 	 * Returns messages and errors which are stored in the session, then clears them.
 	 *
 	 * @access protected
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::print_notices()
 	 *
 	 * @uses cocart_get_notice_types()
 	 *
@@ -1903,21 +1898,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array
 	 */
 	protected function print_notices( $all_notices = array() ) {
-		$all_notices  = empty( $all_notices ) ? WC()->session->get( 'wc_notices', array() ) : $all_notices;
-		$notice_types = cocart_get_notice_types();
-		$notices      = array();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::print_notices', '4.4.0', 'CoCart_Utilities_Cart_Helpers::print_notices' );
 
-		foreach ( $notice_types as $notice_type ) {
-			if ( wc_notice_count( $notice_type ) > 0 ) {
-				foreach ( $all_notices[ $notice_type ] as $key => $notice ) {
-					$notices[ $notice_type ][ $key ] = html_entity_decode( wc_kses_notice( $notice['notice'] ) );
-				}
-			}
-		}
-
-		wc_clear_notices();
-
-		return $notices;
+		return CoCart_Utilities_Cart_Helpers::print_notices( $all_notices );
 	} // END print_notices()
 
 	/**
@@ -2111,7 +2094,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			),
 			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb ),
 			'cross_sells'    => $this->get_cross_sells(),
-			'notices'        => $this->maybe_return_notices(),
+			'notices'        => CoCart_Utilities_Cart_Helpers::maybe_return_notices(),
 		);
 	} // END get_cart_template()
 
@@ -2251,7 +2234,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					$template['cross_sells'] = $this->get_cross_sells();
 					break;
 				case 'notices':
-					$template['notices'] = $this->maybe_return_notices();
+					$template['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices();
 					break;
 			}
 		}

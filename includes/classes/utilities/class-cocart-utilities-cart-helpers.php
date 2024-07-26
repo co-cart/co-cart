@@ -255,4 +255,61 @@ class CoCart_Utilities_Cart_Helpers {
 
 		return $product->get_stock_quantity() - $qty_reserved;
 	} // END get_remaining_stock_for_product()
+
+	/**
+	 * Return notices in cart if any.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @return array $notices.
+	 */
+	public static function maybe_return_notices() {
+		$notice_count = 0;
+		$all_notices  = WC()->session->get( 'wc_notices', array() );
+
+		foreach ( $all_notices as $notices ) {
+			$notice_count += count( $notices );
+		}
+
+		$notices = $notice_count > 0 ? self::print_notices( $all_notices ) : array();
+
+		return $notices;
+	} // END maybe_return_notices()
+
+	/**
+	 * Returns messages and errors which are stored in the session, then clears them.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @uses cocart_get_notice_types()
+	 *
+	 * @param array $all_notices Return notices already fetched.
+	 *
+	 * @return array
+	 */
+	public static function print_notices( $all_notices = array() ) {
+		$all_notices  = empty( $all_notices ) ? WC()->session->get( 'wc_notices', array() ) : $all_notices;
+		$notice_types = cocart_get_notice_types();
+		$notices      = array();
+
+		foreach ( $notice_types as $notice_type ) {
+			if ( wc_notice_count( $notice_type ) > 0 ) {
+				foreach ( $all_notices[ $notice_type ] as $key => $notice ) {
+					$notices[ $notice_type ][ $key ] = html_entity_decode( wc_kses_notice( $notice['notice'] ) );
+				}
+			}
+		}
+
+		wc_clear_notices();
+
+		return $notices;
+	} // END print_notices()
 } // END class

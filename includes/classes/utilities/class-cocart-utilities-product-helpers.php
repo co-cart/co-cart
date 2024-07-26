@@ -326,4 +326,65 @@ class CoCart_Utilities_Product_Helpers {
 		 */
 		return array_values( apply_filters( 'cocart_products_get_safe_meta_data', $safe_meta, $product ) );
 	} // END get_meta_data()
+
+	/**
+	 * Get the main product slug even if the product type is a variation.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
+	 * @return string The product slug.
+	 */
+	public static function get_product_slug( $product ) {
+		$product_type = $product->get_type();
+
+		if ( 'variation' === $product_type ) {
+			$product = wc_get_product( $product->get_parent_id() );
+
+			$product_slug = $product->get_slug();
+		} else {
+			$product_slug = $product->get_slug();
+		}
+
+		return $product_slug;
+	} // END get_product_slug()
+
+	/**
+	 * Tries to match variation attributes passed to a variation ID and return the ID.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param array      $variation Submitted attributes.
+	 * @param WC_Product $product   The product object.
+	 *
+	 * @return int $variation_id Matching variation ID.
+	 */
+	public static function get_variation_id_from_variation_data( $variation, $product ) {
+		try {
+			$data_store   = \WC_Data_Store::load( 'product' );
+			$variation_id = $data_store->find_matching_product_variation( $product, $variation );
+
+			if ( empty( $variation_id ) ) {
+				$message = __( 'No matching variation found.', 'cart-rest-api-for-woocommerce' );
+
+				throw new CoCart_Data_Exception( 'cocart_no_variation_found', $message, 404 );
+			}
+
+			return $variation_id;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
+	} // END get_variation_id_from_variation_data()
+
 } // END class
