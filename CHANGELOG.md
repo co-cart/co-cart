@@ -1101,7 +1101,7 @@ This major release brings a lot more support for developers including those who 
 * Dev: Introduced `cocart_store_address` filter for filtering the store address.
 * Dev: Introduced `cocart_routes` filter for filtering the CoCart routes returned.
 * Dev: Introduced `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
-* Dev: Introduced `cocart_before_get_cart` filter for modifying the cart data in any capcity before the cart response is returned.
+* Dev: Introduced `cocart_before_get_cart` filter for modifying the cart data in any capacity before the cart response is returned.
 * Dev: Introduced `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
 * Dev: Introduced `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: Introduced `cocart_shipping_package_name` filter for renaming the package name.

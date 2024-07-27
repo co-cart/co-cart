@@ -491,7 +491,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * @since 4.3.0 Introduced.
 	 */
 	protected function install_cocart_jwt() {
-		// Only those who can install plugins will be able to install CoCart JWT Autentication.
+		// Only those who can install plugins will be able to install CoCart JWT Authentication.
 		if ( current_user_can( 'install_plugins' ) ) {
 			$this->install_plugin(
 				'cocart-jwt-authentication',
