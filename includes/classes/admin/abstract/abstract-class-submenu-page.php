@@ -134,7 +134,7 @@ abstract class CoCart_Submenu_Page {
 			return;
 		}
 
-		$hook_sufix = add_submenu_page( $this->parent_slug, 'CoCart - ' . $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $this, 'output' ) );
+		add_submenu_page( $this->parent_slug, 'CoCart - ' . $this->page_title, $this->menu_title, $this->capability, $this->menu_slug, array( $this, 'output' ) );
 	} // END add_submenu_page()
 
 	/**
