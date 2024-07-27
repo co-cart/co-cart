@@ -499,7 +499,7 @@ final class CoCart {
 		 *
 		 * @since 2.1.0 Introduced.
 		 *
-		 * @param string $is_rest_api_request REST API uri requested.
+		 * @param bool $is_rest_api_request REST API uri requested.
 		 */
 		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()

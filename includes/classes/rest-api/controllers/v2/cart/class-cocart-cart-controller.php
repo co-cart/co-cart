@@ -486,7 +486,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param array      $variation    The variation attributes.
 	 * @param WC_Product $product      The product object.
 	 *
-	 * @return array $variation_id ID of the variation and attribute values.
+	 * @return array|WP_Error ID of the variation and attribute values.
 	 */
 	protected function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
 		try {
@@ -590,7 +590,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param array      $variation Submitted attributes.
 	 * @param WC_Product $product   The product object.
 	 *
-	 * @return int $variation_id Matching variation ID.
+	 * @return int|WP_Error $variation_id Matching variation ID.
 	 */
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
 		try {
@@ -708,7 +708,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @since 2.1.2 Introduced.
 			 * @since 3.1.0 Added the request object as parameter.
 			 *
-			 * @param bool            true          Default is true to allow the product to pass validation.
+			 * @param bool|WP_Error   $passed       Default is true to allow the product to pass validation.
 			 * @param int             $product_id   The product ID.
 			 * @param int             $quantity     The item quantity.
 			 * @param int             $variation_id The variation ID.
@@ -821,7 +821,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param array     $current_data Cart item details.
 	 * @param int|float $quantity     The quantity to check stock.
 	 *
-	 * @return bool
+	 * @return bool|WP_Error
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
 		try {
@@ -1066,7 +1066,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @param WC_Product $product The product object.
 	 *
-	 * @return WC_Product $product Returns a product object if purchasable.
+	 * @return WC_Product|WP_Error Returns a product object if purchasable.
 	 */
 	public function validate_product_for_cart( $product ) {
 		try {
@@ -1111,7 +1111,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param array      $item_data    The cart item data.
 	 * @param string     $item_key     Generated ID based on the product information when added to the cart.
 	 *
-	 * @return float $quantity The quantity returned.
+	 * @return float|WP_Error The quantity returned.
 	 */
 	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $item_key ) {
 		try {
@@ -1837,7 +1837,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * @param array   $packages      Available shipping packages.
 		 * @param array   $chosen_method Chosen shipping method.
-		 * @param WC_Cart                The cart object.
+		 * @param WC_Cart $instance      The cart object.
 		 */
 		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $this->get_cart_instance() );
 
