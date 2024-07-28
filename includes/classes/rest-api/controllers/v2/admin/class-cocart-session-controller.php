@@ -901,7 +901,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			$user = get_user_by( 'id', $customer );
 
 			// If user id does not exist then set as new customer.
-			if ( is_wp_error( $user ) ) {
+			if ( false === $user ) {
 				$customer = 0;
 			}
 		}

@@ -119,7 +119,7 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_object_for_response( $product, $request ) {
-		$controller = new CoCart_Products_V2_Controller();
+		$controller = new CoCart_REST_Products_V2_Controller();
 
 		$data     = $controller->get_variation_product_data( $product );
 		$data     = $controller->add_additional_fields_to_object( $data, $request );

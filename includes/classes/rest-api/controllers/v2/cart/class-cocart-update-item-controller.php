@@ -137,7 +137,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			 * @since   2.1.0 Introduced.
 			 * @version 2.6.2
 			 *
-			 * @param bool
+			 * @param bool   $passed       Whether the validation passed.
 			 * @param string $item_key     Item key.
 			 * @param array  $current_data Product data of the item in cart.
 			 * @param float  $quantity     The requested quantity to change to.

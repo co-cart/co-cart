@@ -232,10 +232,12 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 		'post_content'   => $content,
 	);
 
-	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id );
-	if ( ! is_wp_error( $attachment_id ) ) {
-		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id, true );
+	if ( is_wp_error( $attachment_id ) ) {
+		return 0;
 	}
+
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 
 	return $attachment_id;
 } // END cocart_set_uploaded_image_as_attachment()
@@ -305,7 +307,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	/**
 	 * Filter formatted price.
 	 *
-	 * @param float        $formatted_price    Formatted price.
+	 * @param string       $formatted_price    Formatted price.
 	 * @param float        $price              Unformatted price.
 	 * @param int          $decimals           Number of decimals.
 	 * @param string       $decimal_separator  Decimal separator.
@@ -545,7 +547,7 @@ function cocart_get_notice_types() {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param array Notice types.
+	 * @param array $types Notice types.
 	 */
 	$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
 
