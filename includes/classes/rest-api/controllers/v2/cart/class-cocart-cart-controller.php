@@ -758,14 +758,16 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * Filters the quantity for specified products.
 			 *
 			 * @since 2.1.2 Introduced.
+			 * @since 4.4.0 Added the request object as a parameter.
 			 *
-			 * @param int|float $quantity     The original quantity of the item.
-			 * @param int       $product_id   The product ID.
-			 * @param int       $variation_id The variation ID.
-			 * @param array     $variation    The variation data.
-			 * @param array     $item_data    The cart item data.
+			 * @param int|float       $quantity     The original quantity of the item.
+			 * @param int             $product_id   The product ID.
+			 * @param int             $variation_id The variation ID.
+			 * @param array           $variation    The variation data.
+			 * @param array           $item_data    The cart item data.
+			 * @param WP_REST_Request $request      The request object.
 			 */
-			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data );
+			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data, $request );
 
 			// Validates the item quantity.
 			$quantity = $this->validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $item_key );
