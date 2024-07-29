@@ -9,6 +9,7 @@
 ## Improvements
 
 * REST API: Moved more functions to utility class to help improve the complexity of the cart controller so we get better performance.
+* REST API: Moved some cart validation further up before returning cart contents.
 * Feature: Load cart from session now supports registered customers.
 
 ### Load Cart from Session
