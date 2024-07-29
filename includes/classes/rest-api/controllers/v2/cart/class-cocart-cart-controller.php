@@ -1189,15 +1189,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			}
 
 			if ( ! $product->has_enough_stock( $quantity ) ) {
-				$stock_quantity = wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product );
+				$stock_quantity = $product->get_stock_quantity();
 
 				if ( $stock_quantity > 0 ) {
 					$message = sprintf(
 						/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-						__( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock, only (%3$s) remaining.', 'cart-rest-api-for-woocommerce' ),
+						__( 'You cannot add that amount of (%1$s) for "%2$s" to the cart because there is not enough stock, only (%3$s remaining).', 'cart-rest-api-for-woocommerce' ),
 						$quantity,
 						$product->get_name(),
-						$stock_quantity
+						wc_format_stock_quantity_for_display( $stock_quantity, $product )
 					);
 				} else {
 					$message = sprintf(

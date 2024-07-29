@@ -16,6 +16,7 @@
 * REST API: Moved more functions to utility class to help improve the complexity of the cart controller so we get better performance.
 * REST API: Moved some cart validation further up before returning cart contents.
 * Feature: Load cart from session now supports registered customers.
+* Localization: Similar messages are now consistent with each other.
 
 ### Load Cart from Session
 
