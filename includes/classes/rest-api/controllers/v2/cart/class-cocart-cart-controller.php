@@ -173,14 +173,49 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @deprecated 3.0.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
+	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param string          $cart_item_key Originally the cart item key.
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function get_cart( $request = array(), $cart_item_key = null ) {
-		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
-		$cart_contents = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+		$cart_contents = $this->get_cart_contents( $request );
+
+		/**
+		 * Deprecated action hook `cocart_get_cart`.
+		 *
+		 * @deprecated 3.0.0 Use `cocart_cart` filter instead.
+		 *
+		 * @see cocart_cart
+		 */
+		cocart_do_deprecated_action( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
+
+		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
+
+		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
+	} // END get_cart()
+
+	/**
+	 * Gets the cart contents.
+	 *
+	 * @access public
+	 *
+	 * @since 2.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
+
+	 * @param WP_REST_Request $request       The request object.
+	 * @param string          $cart_item_key Cart item key.
+	 *
+	 * @return array $cart_contents Cart contents.
+	 */
+	public function get_cart_contents( $request = array(), $cart_item_key = '' ) {
+		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
+		$dont_check     = ! empty( $request['dont_check'] ) ? $request['dont_check'] : false; // Internal parameter request.
+		$dont_calculate = ! empty( $request['dont_calculate'] ) ? $request['dont_calculate'] : false; // Internal parameter request.
+		$cart_contents  = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
 		// Return cart contents raw if requested.
 		if ( $show_raw ) {
@@ -194,26 +229,22 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
+		 * @hooked: check_cart_validity - 0
 		 * @hooked: check_cart_item_stock - 10
 		 * @hooked: check_cart_coupons - 15
 		 *
 		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart                        The cart object.
+		 * @param WC_Cart         $cart          The cart object.
 		 * @param WP_REST_Request $request       The request object.
 		 */
-		$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
-
-		/**
-		 * Deprecated action hook `cocart_get_cart`.
-		 *
-		 * @deprecated 3.0.0 Use `cocart_cart` filter instead.
-		 *
-		 * @see cocart_cart
-		 */
-		cocart_do_deprecated_action( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
+		if ( ! $dont_check ) {
+			$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+		}
 
 		// Ensures the cart totals are calculated before an API response is returned.
-		$this->calculate_totals();
+		if ( ! $dont_calculate ) {
+			$this->calculate_totals();
+		}
 
 		/**
 		 * Filter allows you to modify the cart contents after it has calculated totals.
@@ -223,15 +254,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 * @since 4.1.0 Introduced.
 		 *
 		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart         Cart object.
+		 * @param WC_Cart         $cart          The cart object.
 		 * @param WP_REST_Request $request       The request object.
 		 */
-		$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+		if ( ! $dont_check ) {
+			$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+		}
 
-		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
-
-		return CoCart_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
-	} // END get_cart()
+		return $cart_contents;
+	} // END get_cart_contents()
 
 	/**
 	 * Return cart contents.
@@ -358,44 +389,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   1.0.0 Introduced.
 	 * @version 3.0.11
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::validate_product_id()
+	 *
 	 * @param int|string $product_id The product ID to validate.
 	 *
 	 * @return int $product_id The validated product ID.
 	 */
 	protected function validate_product_id( $product_id ) {
-		try {
-			// If the product ID was used by a SKU ID, then look up the product ID and return it.
-			if ( ! is_numeric( $product_id ) ) {
-				$product_id_by_sku = wc_get_product_id_by_sku( $product_id );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_product_id', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_product_id' );
 
-				if ( ! empty( $product_id_by_sku ) && $product_id_by_sku > 0 ) {
-					$product_id = $product_id_by_sku;
-				} else {
-					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
-
-					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
-				}
-			}
-
-			if ( empty( $product_id ) ) {
-				$message = __( 'Product ID number is required!', 'cart-rest-api-for-woocommerce' );
-
-				throw new CoCart_Data_Exception( 'cocart_product_id_required', $message, 404 );
-			}
-
-			if ( ! is_numeric( $product_id ) ) {
-				$message = __( 'Product ID must be numeric!', 'cart-rest-api-for-woocommerce' );
-
-				throw new CoCart_Data_Exception( 'cocart_product_id_not_numeric', $message, 405 );
-			}
-
-			// Force product ID to be integer.
-			$product_id = (int) $product_id;
-
-			return $product_id;
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
+		return CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 	} // END validate_product_id()
 
 	/**
@@ -408,68 +413,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since 1.0.0 Introduced.
 	 * @since 3.1.0 Added product object as parameter and validation for maximum quantity allowed to add to cart.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::validate_quantity()
+	 *
 	 * @param int|float  $quantity The quantity to validate.
 	 * @param WC_Product $product  The product object.
 	 *
 	 * @return int|float|\WP_Error
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product = null ) {
-		try {
-			if ( ! is_numeric( $quantity ) ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
-			}
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_quantity' );
 
-			/**
-			 * Filter allows control over the minimum quantity a customer must add to purchase said item.
-			 *
-			 * @since 3.0.17 Introduced.
-			 * @since 3.1.0  Added product object as parameter.
-			 *
-			 * @param int|float  Minimum quantity to validate with.
-			 * @param WC_Product The product object.
-			 */
-			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
-
-			if ( 0 === $quantity || $quantity < $minimum_quantity ) {
-				throw new CoCart_Data_Exception(
-					'cocart_quantity_invalid_amount',
-					sprintf(
-						/* translators: %s: Minimum quantity. */
-						__( 'Quantity must be a minimum of %s.', 'cart-rest-api-for-woocommerce' ),
-						$minimum_quantity
-					),
-					405
-				);
-			}
-
-			$maximum_quantity = ( ( $product->get_max_purchase_quantity() < 0 ) ) ? '' : $product->get_max_purchase_quantity(); // We replace -1 with a blank if stock management is not used.
-			/**
-			 * Filter allows control over the maximum quantity a customer
-			 * is able to add said item to the cart.
-			 *
-			 * @since 3.1.0 Introduced.
-			 *
-			 * @param int|float  Maximum quantity to validate with.
-			 * @param WC_Product The product object.
-			 */
-			$maximum_quantity = apply_filters( 'cocart_quantity_maximum_allowed', $maximum_quantity, $product );
-
-			if ( ! empty( $maximum_quantity ) && $quantity > $maximum_quantity ) {
-				throw new CoCart_Data_Exception(
-					'cocart_quantity_invalid_amount',
-					sprintf(
-						/* translators: %s: Maximum quantity. */
-						__( 'Quantity must be %s or lower.', 'cart-rest-api-for-woocommerce' ),
-						$maximum_quantity
-					),
-					405
-				);
-			}
-
-			return wc_stock_amount( $quantity );
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
+		return CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product );
 	} // END validate_quantity()
 
 	/**
@@ -482,6 +438,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   2.1.0 Introduced.
 	 * @version 3.0.6
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::validate_variable_product()
+	 *
 	 * @param int        $variation_id The variation ID.
 	 * @param array      $variation    The variation attributes.
 	 * @param WC_Product $product      The product object.
@@ -489,92 +449,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return array|WP_Error ID of the variation and attribute values.
 	 */
 	protected function validate_variable_product( int $variation_id, array $variation, WC_Product $product ) {
-		try {
-			// Flatten data and format posted values.
-			$variable_product_attributes = $this->get_variable_product_attributes( $product );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_variable_product', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_variable_product' );
 
-			// Now we have a variation ID, get the valid set of attributes for this variation. They will have an attribute_ prefix since they are from meta.
-			$expected_attributes = wc_get_product_variation_attributes( $variation_id );
-			$missing_attributes  = array();
-
-			foreach ( $variable_product_attributes as $attribute ) {
-				if ( ! $attribute['is_variation'] ) {
-					continue;
-				}
-
-				$prefixed_attribute_name = 'attribute_' . sanitize_title( $attribute['name'] );
-				$expected_value          = isset( $expected_attributes[ $prefixed_attribute_name ] ) ? $expected_attributes[ $prefixed_attribute_name ] : '';
-				$attribute_label         = wc_attribute_label( $attribute['name'] );
-
-				if ( isset( $variation[ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
-					$given_value = $variation[ wc_variation_attribute_name( $attribute['name'] ) ];
-
-					if ( $expected_value === $given_value ) {
-						continue;
-					}
-
-					// If valid values are empty, this is an 'any' variation so get all possible values.
-					if ( '' === $expected_value && in_array( $given_value, $attribute->get_slugs(), true ) ) {
-						continue;
-					}
-
-					$message = sprintf(
-						/* translators: %1$s: Attribute name, %2$s: Allowed values. */
-						__( 'Invalid value posted for %1$s. Allowed values: %2$s', 'cart-rest-api-for-woocommerce' ),
-						$attribute_label,
-						implode( ', ', $attribute->get_slugs() )
-					);
-
-					/**
-					 * Filters message about invalid variation data.
-					 *
-					 * @since 2.1.0 Introduced.
-					 *
-					 * @param string $message         Message.
-					 * @param string $attribute_label Attribute Label.
-					 * @param array  $attribute       Allowed values.
-					 */
-					$message = apply_filters( 'cocart_invalid_variation_data_message', $message, $attribute_label, $attribute->get_slugs() );
-
-					throw new CoCart_Data_Exception( 'cocart_invalid_variation_data', $message, 400 );
-				}
-
-				// Fills variation array with unspecified attributes that have default values. This ensures the variation always has full data.
-				if ( '' !== $expected_value && ! isset( $variation[ wc_variation_attribute_name( $attribute['name'] ) ] ) ) {
-					$variation[ wc_variation_attribute_name( $attribute['name'] ) ] = $expected_value;
-				}
-
-				// If no attribute was posted, only error if the variation has an 'any' attribute which requires a value.
-				if ( '' === $expected_value ) {
-					$missing_attributes[] = $attribute_label;
-				}
-			}
-
-			if ( ! empty( $missing_attributes ) ) {
-				$message = __( 'Missing variation data for variable product.', 'cart-rest-api-for-woocommerce' ) . ' ' . sprintf(
-					/* translators: %s: Attribute name. */
-					_n( '%s is a required field.', '%s are required fields.', count( $missing_attributes ), 'cart-rest-api-for-woocommerce' ),
-					wc_format_list_of_items( $missing_attributes )
-				);
-
-				/**
-				 * Filters message about missing variation data.
-				 *
-				 * @since 2.1.0 Introduced.
-				 *
-				 * @param string $message            Message.
-				 * @param string $missing_attributes Number of missing attributes.
-				 * @param array  $missing_attributes List of missing attributes.
-				 */
-				$message = apply_filters( 'cocart_missing_variation_data_message', $message, count( $missing_attributes ), wc_format_list_of_items( $missing_attributes ) );
-
-				throw new CoCart_Data_Exception( 'cocart_missing_variation_data', $message, 400 );
-			}
-
-			return $variation;
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
+		return CoCart_Utilities_Cart_Helpers::validate_variable_product( $variation_id, $variation, $product );
 	} // END validate_variable_product()
 
 	/**
@@ -584,7 +461,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @since   2.1.2 Introduced.
+	 * @since 2.1.2 Introduced.
 	 *
 	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
 	 *
@@ -611,26 +488,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   2.1.2 Introduced.
 	 * @version 3.0.0
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_variable_product_attributes()
+	 *
 	 * @param WC_Product $product The product object.
 	 *
 	 * @return array $attributes Product attributes.
 	 */
 	protected function get_variable_product_attributes( $product ) {
-		try {
-			if ( $product->is_type( 'variation' ) ) {
-				$product = wc_get_product( $product->get_parent_id() );
-			}
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variable_product_attributes', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_variable_product_attributes' );
 
-			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
-				$message = __( 'This product cannot be added to the cart.', 'cart-rest-api-for-woocommerce' );
-
-				throw new CoCart_Data_Exception( 'cocart_cart_invalid_parent_product', $message, 404 );
-			}
-
-			return $product->get_attributes();
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
+		return CoCart_Utilities_Cart_Helpers::get_variable_product_attributes( $product );
 	} // END get_variable_product_attributes()
 
 	/**
@@ -659,7 +528,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		try {
 			// Get product and validate product for the cart.
 			$product = wc_get_product( $product_id );
-			$product = $this->validate_product_for_cart( $product );
+			$product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product );
 
 			// Look up the product type if not passed.
 			if ( empty( $product_type ) ) {
@@ -676,7 +545,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// If we have a parent product and no variation ID, find the variation ID.
 			if ( $product->is_type( 'variable' ) && 0 === $variation_id ) {
-				$variation_id = $this->get_variation_id_from_variation_data( $variation, $product );
+				$variation_id = CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $variation, $product );
 			}
 
 			// Throw exception if no variation is found.
@@ -686,7 +555,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 			// Validate variable/variation product.
 			if ( 'variable' === $product_type || 'variation' === $product_type ) {
-				$variation = $this->validate_variable_product( $variation_id, $variation, $product );
+				$variation = CoCart_Utilities_Cart_Helpers::validate_variable_product( $variation_id, $variation, $product );
 			}
 
 			// If variables are not valid then return error response.
@@ -769,8 +638,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 */
 			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data, $request );
 
-			// Validates the item quantity.
-			$quantity = $this->validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $item_key );
+			// Validates if item is sold individually.
+			$quantity = $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request );
 
 			// If product validation returned an error return error response.
 			if ( is_wp_error( $quantity ) ) {
@@ -812,33 +681,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   1.0.6 Introduced.
 	 * @version 3.0.0
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::has_enough_stock()
+	 *
 	 * @param array     $current_data Cart item details.
 	 * @param int|float $quantity     The quantity to check stock.
 	 *
 	 * @return bool|WP_Error
 	 */
 	protected function has_enough_stock( $current_data = array(), $quantity = 1 ) {
-		try {
-			$product_id      = ! isset( $current_data['product_id'] ) ? 0 : absint( $current_data['product_id'] );
-			$variation_id    = ! isset( $current_data['variation_id'] ) ? 0 : absint( $current_data['variation_id'] );
-			$current_product = wc_get_product( $variation_id ? $variation_id : $product_id );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::has_enough_stock', '4.4.0', 'CoCart_Utilities_Cart_Helpers::has_enough_stock' );
 
-			if ( ! $current_product->has_enough_stock( $quantity ) ) {
-				$message = sprintf(
-					/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
-					__( 'You cannot add a quantity of (%1$s) for "%2$s" to the cart because there is not enough stock. - only (%3$s remaining)!', 'cart-rest-api-for-woocommerce' ),
-					$quantity,
-					$current_product->get_name(),
-					wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product )
-				);
-
-				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 404 );
-			}
-
-			return true;
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
+		return CoCart_Utilities_Cart_Helpers::has_enough_stock( $current_data, $quantity );
 	} // END has_enough_stock()
 
 	/**
@@ -930,37 +785,22 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Format variation data, for example convert slugs such as attribute_pa_size to Size.
 	 *
 	 * @access protected
-	 * @param  array      $variation_data Array of data from the cart.
-	 * @param  WC_Product $product        Product data.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::format_variation_data()
+	 *
+	 * @param array      $variation_data Array of data from the cart.
+	 * @param WC_Product $product        Product data.
+	 *
 	 * @return array
 	 */
 	protected function format_variation_data( $variation_data, $product ) {
-		$return = array();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::format_variation_data', '4.4.0', 'format_variation_data' );
 
-		if ( empty( $variation_data ) ) {
-			return $return;
-		}
-
-		foreach ( $variation_data as $key => $value ) {
-			$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $key ) ) );
-
-			if ( taxonomy_exists( $taxonomy ) ) {
-				// If this is a term slug, get the term's nice name.
-				$term = get_term_by( 'slug', $value, $taxonomy );
-				if ( ! is_wp_error( $term ) && $term && $term->name ) {
-					$value = $term->name;
-				}
-				$label = wc_attribute_label( $taxonomy );
-			} else {
-				// If this is a custom option slug, get the options name.
-				$value = apply_filters( 'cocart_variation_option_name', $value, $product );
-				$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
-			}
-
-			$return[ $label ] = $value;
-		}
-
-		return $return;
+		return format_variation_data( $variation_data, $product );
 	} // END format_variation_data()
 
 	/**
@@ -1058,33 +898,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::validate_product_for_cart()
+	 *
 	 * @param WC_Product $product The product object.
 	 *
 	 * @return WC_Product|WP_Error Returns a product object if purchasable.
 	 */
 	public function validate_product_for_cart( $product ) {
-		try {
-			// Check if the product exists before continuing.
-			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
-				$message = __( 'This product cannot be added to the cart.', 'cart-rest-api-for-woocommerce' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_product_for_cart', '4.4.0', 'CoCart_Utilities_Cart_Helpers::validate_product_for_cart' );
 
-				/**
-				 * Filters message about product that cannot be added to cart.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param string     $message Message.
-				 * @param WC_Product $product The product object.
-				 */
-				$message = apply_filters( 'cocart_product_cannot_be_added_message', $message, $product );
-
-				throw new CoCart_Data_Exception( 'cocart_invalid_product', $message, 400 );
-			}
-
-			return $product;
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
+		return CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product );
 	} // END validate_product_for_cart()
 
 	/**
@@ -1097,6 +922,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since 3.0.0 Introduced.
 	 *
 	 * @deprecated 4.0.0 Removed $cart_id parameter as it is the same as $item_key.
+	 * @deprecated 4.4.0 Renamed function to `is_product_sold_individually()`
 	 *
 	 * @param WC_Product $product      The product object.
 	 * @param int|float  $quantity     The quantity to validate.
@@ -1108,6 +934,31 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return float|WP_Error The quantity returned.
 	 */
 	public function validate_item_quantity( $product, $quantity, $product_id, $variation_id, $item_data, $item_key ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_item_quantity', '4.4.0', 'CoCart_REST_Cart_V2_Controller::is_product_sold_individually' );
+
+		return $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key );
+	}
+
+	/**
+	 * Validates if item is sold individually.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param WC_Product      $product      The product object.
+	 * @param int|float       $quantity     The quantity to validate.
+	 * @param int             $product_id   The product ID.
+	 * @param int             $variation_id The variation ID.
+	 * @param array           $item_data    The cart item data.
+	 * @param string          $item_key     Generated ID based on the product information when added to the cart.
+	 * @param WP_REST_Request $request      The request object.
+	 *
+	 * @return float $quantity The quantity returned.
+	 */
+	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request ) {
 		try {
 			// Force quantity to 1 if sold individually and check for existing item in cart.
 			if ( $product->is_sold_individually() ) {
@@ -1125,7 +976,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 */
 				$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $quantity, $product_id, $variation_id, $item_data, $request );
 
-				$cart_contents = $this->get_cart();
+				$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
 
 				$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $item_key && $cart_contents[ $item_key ]['quantity'] > 0, $product_id, $variation_id, $item_data, $item_key );
 
@@ -1154,7 +1005,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		} catch ( CoCart_Data_Exception $e ) {
 			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 		}
-	} // END validate_item_quantity()
+	} // END is_product_sold_individually()
 
 	/**
 	 * Validates item and check for errors before added to cart.
@@ -1262,6 +1113,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return $request
 	 */
 	public function filter_request_data( $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::filter_request_data', '4.4.0' );
+
 		/**
 		 * Filters additional requested data.
 		 *
@@ -1413,7 +1266,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 */
 				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
 			),
-			'slug'           => $this->get_product_slug( $_product ),
+			'slug'           => CoCart_Utilities_Product_Helpers::get_product_slug( $_product ),
 			'meta'           => array(
 				'product_type' => $_product->get_type(),
 				'sku'          => $_product->get_sku(),
@@ -1440,7 +1293,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		if ( ! isset( $cart_item['variation'] ) ) {
 			$cart_item['variation'] = array();
 		}
-		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
+		$item['meta']['variation'] = format_variation_data( $cart_item['variation'], $_product );
 
 		// Backorder notification.
 		if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
@@ -1448,7 +1301,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		}
 
 		// Prepares the remaining cart item data.
-		$cart_item = $this->prepare_item( $cart_item );
+		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
 
 		// Collect all cart item data if any thing is left.
 		if ( ! empty( $cart_item ) ) {
@@ -1610,25 +1463,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::prepare_item()
+	 *
 	 * @param array $cart_item Before cart item data is modified.
 	 *
 	 * @return array $cart_item Modified cart item data returned.
 	 */
 	protected function prepare_item( $cart_item ) {
-		unset( $cart_item['key'] );
-		unset( $cart_item['product_id'] );
-		unset( $cart_item['variation_id'] );
-		unset( $cart_item['variation'] );
-		unset( $cart_item['quantity'] );
-		unset( $cart_item['data'] );
-		unset( $cart_item['data_hash'] );
-		unset( $cart_item['line_tax_data'] );
-		unset( $cart_item['line_subtotal'] );
-		unset( $cart_item['line_subtotal_tax'] );
-		unset( $cart_item['line_total'] );
-		unset( $cart_item['line_tax'] );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::prepare_item', '4.4.0', 'CoCart_Utilities_Cart_Helpers::prepare_item' );
 
-		return $cart_item;
+		return CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
 	} // END prepare_item()
 
 	/**
@@ -1665,7 +1511,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				'id'             => $id,
 				'name'           => $cross_sell->get_name(),
 				'title'          => $cross_sell->get_title(),
-				'slug'           => $this->get_product_slug( $cross_sell ),
+				'slug'           => CoCart_Utilities_Product_Helpers::get_product_slug( $cross_sell ),
 				'price'          => cocart_prepare_money_response( $cross_sell->get_price(), wc_get_price_decimals() ),
 				'regular_price'  => cocart_prepare_money_response( $cross_sell->get_regular_price(), wc_get_price_decimals() ),
 				'sale_price'     => cocart_prepare_money_response( $cross_sell->get_sale_price(), wc_get_price_decimals() ),
