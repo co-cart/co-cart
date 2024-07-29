@@ -37,6 +37,7 @@ Simply provide these two parameters with the data point values on any page and t
 #### Developers
 
 * Introduced new filter `cocart_load_cart_redirect_home` allows you to change where to redirect should loading the cart fail.
+* Added the product object to filters `cocart_cart_item_price` and `cocart_cart_item_quantity`.
 
 #### Deprecations
 

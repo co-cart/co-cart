@@ -1201,11 +1201,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 *
 			 * @since 3.0.0 Introduced.
 			 *
-			 * @param string $product_price Product price.
-			 * @param array  $cart_item     The cart item data.
-			 * @param string $item_key      The item key generated based on the details of the item.
+			 * @param string     $product_price Product price.
+			 * @param array      $cart_item     The cart item data.
+			 * @param string     $item_key      The item key generated based on the details of the item.
+			 * @param WC_Product $_product      The product object.
 			 */
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $price_function( $_product ), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $price_function( $_product ), wc_get_price_decimals() ), $cart_item, $item_key, $_product ),
 			'quantity'       => array(
 				/**
 				 * Filter allows the quantity of the item to change.
@@ -1214,11 +1215,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 *
 				 * @since 3.0.0 Introduced.
 				 *
-				 * @param string $item_quantity Item quantity.
-				 * @param string $item_key      The item key generated based on the details of the item.
-				 * @param array  $cart_item     The cart item data.
+				 * @param string     $item_quantity Item quantity.
+				 * @param string     $item_key      The item key generated based on the details of the item.
+				 * @param array      $cart_item     The cart item data.
+				 * @param WC_Product $_product      The product object.
 				 */
-				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
+				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $_product ),
 				'min_purchase' => $_product->get_min_purchase_quantity(),
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
