@@ -226,20 +226,21 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				 */
 				do_action( 'cocart_after_item_added_to_cart', $item_added_to_cart, $request, $add_to_cart_handler, $controller );
 
-				/**
-				 * Calculate the totals.
-				 *
-				 * Updates the totals once the item is added including any modifications to the item after.
-				 *
-				 * @since 3.1.0 Introduced.
-				 */
-				$controller->calculate_totals();
-
 				// Was it requested to return the item details after being added?
 				if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
-					$response = $controller->get_item( $item_added_to_cart['data'], $item_added_to_cart, $request );
+					/**
+					 * Calculate the totals.
+					 *
+					 * Updates the totals once the item is added including any modifications to the item after.
+					 *
+					 * @since 3.1.0 Introduced.
+					 */
+					$this->calculate_totals();
+
+					$response = $this->get_item( $item_added_to_cart['data'], $item_added_to_cart, $request );
 				} else {
-					$response = $controller->get_cart_contents( $request );
+					$request['dont_calculate'] = true;
+					$response                  = $this->get_cart( $request );
 				}
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
@@ -382,9 +383,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 
 				// Return response to added item to cart or return error.
 				if ( $item_key ) {
-					// Re-calculate cart totals once item has been added.
-					$controller->get_cart_instance()->calculate_totals();
-
 					// Return item details.
 					$item_added = $controller->get_cart_item( $item_key, 'add' );
 

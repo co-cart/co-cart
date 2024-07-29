@@ -15,6 +15,7 @@
 * REST API: Only registers CoCart endpoints if requesting it. Helps performance in backend such as when using Gutenberg/Block editor as it loads many API's in the background.
 * REST API: Moved more functions to utility class to help improve the complexity of the cart controller so we get better performance.
 * REST API: Prevent having to check cart validity, stock and coupons on most cart endpoints other than when getting the cart to help with performance.
+* REST API: Optimized how many times we calculate the totals when adding items to the cart to help with performance.
 * REST API: Moved some cart validation further up before returning cart contents.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
