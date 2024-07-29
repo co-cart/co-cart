@@ -1543,47 +1543,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 */
 			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
 
-			if ( ! $_product || ! $_product->exists() || 'trash' === $_product->get_status() ) {
-				$this->get_cart_instance()->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
-				wc_add_notice( __( 'An item which is no longer available was removed from your cart.', 'cart-rest-api-for-woocommerce' ), 'error' );
-			}
+			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
 
-			// If product is no longer purchasable then don't return it and notify customer.
-			if ( ! $_product->is_purchasable() ) {
-				$message = sprintf(
-					/* translators: %s: product name */
-					__( '%s has been removed from your cart because it can no longer be purchased.', 'cart-rest-api-for-woocommerce' ),
-					$_product->get_name()
-				);
-
-				/**
-				 * Filter message about item removed from the cart.
-				 *
-				 * @since 2.1.0 Introduced.
-				 *
-				 * @param string     $message  Message.
-				 * @param WC_Product $_product The product object.
-				 */
-				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
-
-				$this->get_cart_instance()->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
-
-				wc_add_notice( $message, 'error' );
-			} else {
-				$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
-
-				/**
-				 * Filter allows additional data to be returned for a specific item in cart.
-				 *
-				 * @since 2.1.0 Introduced.
-				 *
-				 * @param array      $items     Array of items in the cart.
-				 * @param string     $item_key  The item key currently looped.
-				 * @param array      $cart_item The cart item data.
-				 * @param WC_Product $_product  The product object.
-				 */
-				$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
-			}
+			/**
+			 * Filter allows additional data to be returned for a specific item in cart.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param array      $items     Array of items in the cart.
+			 * @param string     $item_key  The item key currently looped.
+			 * @param array      $cart_item The cart item data.
+			 * @param WC_Product $_product  The product object.
+			 */
+			$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
 		}
 
 		return $items;
