@@ -92,7 +92,7 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 
 			// Get cart.
 			$request['dont_check'] = true;
-			$response = $this->get_cart( $request );
+			$response              = $this->get_cart( $request );
 
 			return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 		} catch ( CoCart_Data_Exception $e ) {

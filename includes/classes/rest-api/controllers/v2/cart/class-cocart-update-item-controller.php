@@ -215,7 +215,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				}
 
 				$request['dont_check'] = true;
-				$response = $this->get_cart( $request );
+				$response              = $this->get_cart( $request );
 
 				// Was it requested to return status once item updated?
 				if ( $request['return_status'] ) {
