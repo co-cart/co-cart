@@ -45,3 +45,44 @@ function cocart_let_to_num( $size ) {
 	}
 	return $ret;
 } // END cocart_let_to_num()
+
+if ( ! function_exists( 'format_variation_data ' ) ) {
+	/**
+	 * Format variation data, for example convert slugs such as attribute_pa_size to Size.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param array      $variation_data Array of data from the cart.
+	 * @param WC_Product $product        Product data.
+	 *
+	 * @return array
+	 */
+	function format_variation_data( $variation_data, $product ) {
+		$return = array();
+
+		if ( empty( $variation_data ) ) {
+			return $return;
+		}
+
+		foreach ( $variation_data as $key => $value ) {
+			$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $key ) ) );
+
+			if ( taxonomy_exists( $taxonomy ) ) {
+				// If this is a term slug, get the term's nice name.
+				$term = get_term_by( 'slug', $value, $taxonomy );
+				if ( ! is_wp_error( $term ) && $term && $term->name ) {
+					$value = $term->name;
+				}
+				$label = wc_attribute_label( $taxonomy );
+			} else {
+				// If this is a custom option slug, get the options name.
+				$value = apply_filters( 'cocart_variation_option_name', $value, $product );
+				$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
+			}
+
+			$return[ $label ] = $value;
+		}
+
+		return $return;
+	} // END format_variation_data()
+}
