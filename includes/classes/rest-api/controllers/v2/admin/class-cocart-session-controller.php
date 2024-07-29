@@ -153,13 +153,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-
-			$handler = new CoCart_Session_Handler();
-
 			// Get the cart in the database.
-			$cart = $handler->get_cart( $session_key );
+			$cart = WC()->session->get_session( $session_key );
 
 			// If no cart is saved with the ID specified return error.
 			if ( empty( $cart ) ) {
@@ -194,24 +189,19 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-
-			$handler = new CoCart_Session_Handler();
-
 			// If no session is saved with the ID specified return error.
-			if ( empty( $handler->get_cart( $session_key ) ) ) {
+			if ( empty( WC()->session->get_session( $session_key ) ) ) {
 				throw new CoCart_Data_Exception( 'cocart_session_not_valid', __( 'Session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
 			// Delete cart session.
-			$handler->delete_cart( $session_key );
+			WC()->session->delete_cart( $session_key );
 
 			if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
 				delete_user_meta( $session_key, '_woocommerce_persistent_cart_' . get_current_blog_id() );
 			}
 
-			if ( ! empty( $handler->get_cart( $session_key ) ) ) {
+			if ( ! empty( WC()->session->get_session( $session_key ) ) ) {
 				throw new CoCart_Data_Exception( 'cocart_session_not_deleted', __( 'Session could not be deleted!', 'cart-rest-api-for-woocommerce' ), 500 );
 			}
 
@@ -245,13 +235,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-
-			$handler = new CoCart_Session_Handler();
-
 			// Get the cart in the database.
-			$cart = $handler->get_cart( $session_key );
+			$cart = WC()->session->get_session( $session_key );
 
 			// If no cart is saved with the ID specified return error.
 			if ( empty( $cart ) ) {
@@ -451,7 +436,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		$item['backorders'] = $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ? wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) ) : '';
 
 		// Prepares the remaining cart item data.
-		$cart_item = $this->prepare_item( $cart_item );
+		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
 
 		/**
 		 * Filter allows you to alter the remaining cart item data.
