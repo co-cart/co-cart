@@ -1115,8 +1115,15 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 * Quantity for sold individual products can be filtered.
 				 *
 				 * @since 2.0.13 Introduced.
+				 * @since 4.4.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
+				 *
+				 * @param int|float       $quantity     The quantity to validate.
+				 * @param int             $product_id   The product ID.
+				 * @param int             $variation_id The variation ID.
+				 * @param array           $item_data    The cart item data.
+				 * @param WP_REST_Request $request      The request object.
 				 */
-				$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1 );
+				$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $quantity, $product_id, $variation_id, $item_data, $request );
 
 				$cart_contents = $this->get_cart();
 
