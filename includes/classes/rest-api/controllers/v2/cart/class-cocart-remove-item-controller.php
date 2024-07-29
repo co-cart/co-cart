@@ -173,7 +173,8 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				// Add notice.
 				wc_add_notice( $message );
 
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response = $this->get_cart( $request );
 
 				// Was it requested to return status once item removed?
 				if ( $request['return_status'] ) {

@@ -166,7 +166,8 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				wc_add_notice( $restored_message, 'success' );
 
 				// Get cart contents.
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response = $this->get_cart( $request );
 
 				// Was it requested to return just the restored item?
 				if ( $request['return_item'] ) {

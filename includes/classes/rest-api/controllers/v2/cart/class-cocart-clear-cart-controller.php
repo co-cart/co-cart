@@ -152,7 +152,8 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 				wc_add_notice( $message, 'notice' );
 
 				// Return cart response.
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response = $this->get_cart( $request );
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			} else {
