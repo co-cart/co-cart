@@ -519,8 +519,8 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
  * @return array
  */
 function cocart_get_min_max_price_meta_query( $args ) {
-	$current_min_price = isset( $args['min_price'] ) ? floatval( $args['min_price'] ) : 0;
-	$current_max_price = isset( $args['max_price'] ) ? floatval( $args['max_price'] ) : PHP_INT_MAX;
+	$current_min_price = isset( $args['min_price'] ) ? absint( $args['min_price'] ) : 0;
+	$current_max_price = isset( $args['max_price'] ) ? absint( $args['max_price'] ) : PHP_INT_MAX;
 
 	return apply_filters(
 		'woocommerce_get_min_max_price_meta_query', // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
