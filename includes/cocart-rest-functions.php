@@ -553,3 +553,52 @@ function cocart_get_notice_types() {
 
 	return $notice_types;
 } // END cocart_get_notice_types()
+
+/**
+ * Check if a REST namespace should be loaded.
+ *
+ * Useful to maintain site performance even when lots of REST namespaces are registered.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @param string $ns         The namespace to check.
+ * @param string $rest_route (Optional) The REST route being checked.
+ *
+ * @return bool True if the namespace should be loaded, false otherwise.
+ */
+function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' ) {
+	if ( '' === $rest_route ) {
+		$rest_route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+	}
+
+	if ( '' === $rest_route ) {
+		return true;
+	}
+
+	$rest_route = trailingslashit( ltrim( $rest_route, '/' ) );
+	$ns         = trailingslashit( $ns );
+
+	/**
+	 * Known namespaces that we know are safe to not load if the request is not for them.
+	 * Namespaces not in this namespace should always be loaded, because we don't know if they won't be making another internal REST request to an unloaded namespace.
+	 */
+	$known_namespaces = array(
+		'cocart/v1',
+		'cocart/v2',
+		'cocart/batch',
+	);
+
+	$known_namespace_request = false;
+	foreach ( $known_namespaces as $known_namespace ) {
+		if ( str_starts_with( $rest_route, $known_namespace ) ) {
+			$known_namespace_request = true;
+			break;
+		}
+	}
+
+	if ( ! $known_namespace_request ) {
+		return true;
+	}
+
+	return str_starts_with( $rest_route, $ns );
+} // END cocart_rest_should_load_namespace()
