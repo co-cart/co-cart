@@ -677,6 +677,31 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	} // END validate_product()
 
 	/**
+	 * Check if product is in the cart and return cart item key if found.
+	 *
+	 * Cart item key will be unique based on the item and its properties, such as variations.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param mixed $cart_item_key of product to find in the cart.
+	 *
+	 * @return string Returns the same cart item key if valid.
+	 */
+	public function find_product_in_cart( $cart_item_key = false ) {
+		if ( false !== $cart_item_key ) {
+			if ( is_array( $this->get_cart_contents( array( 'raw' => true ) ) ) && ! empty( $this->get_cart_contents( array( 'raw' => true ), $cart_item_key ) ) ) {
+				return $cart_item_key;
+			}
+		}
+
+		return '';
+	} // END find_product_in_cart()
+
+	/**
 	 * Checks if the product in the cart has enough stock
 	 * before updating the quantity.
 	 *
