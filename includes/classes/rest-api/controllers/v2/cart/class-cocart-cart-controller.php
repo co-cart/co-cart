@@ -221,7 +221,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 		$dont_check     = ! empty( $request['dont_check'] ) ? $request['dont_check'] : false; // Internal parameter request.
 		$dont_calculate = ! empty( $request['dont_calculate'] ) ? $request['dont_calculate'] : false; // Internal parameter request.
-		$cart_contents  = ! $this->is_completely_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+		$cart_contents  = ! $this->is_completely_empty() ? $this->get_cart_instance()->cart_contents : array();
 
 		// Return cart contents raw if requested.
 		if ( $show_raw ) {
