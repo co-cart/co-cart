@@ -96,16 +96,16 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			}
 
 			// The product we are attempting to add to the cart.
-			$adding_to_cart = wc_get_product( $product_id );
-			$adding_to_cart = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $adding_to_cart );
+			$product_data = wc_get_product( $product_id );
+			$product_data = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product_data );
 
 			// Return error response if product cannot be added to cart?
-			if ( is_wp_error( $adding_to_cart ) ) {
-				return $adding_to_cart;
+			if ( is_wp_error( $product_data ) ) {
+				return $product_data;
 			}
 
 			// Validate quantity before continuing and return formatted.
-			$quantity = CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $adding_to_cart );
+			$quantity = CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product_data );
 
 			if ( is_wp_error( $quantity ) ) {
 				return $quantity;
@@ -119,10 +119,10 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			 *
 			 * @since 2.1.0 Introduced.
 			 *
-			 * @param string     $adding_to_cart_handler The product type to identify handler.
-			 * @param WC_Product $adding_to_cart         The product object.
+			 * @param string     $product_type The product type to identify handler.
+			 * @param WC_Product $product_data The product object.
 			 */
-			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
+			$add_to_cart_handler = apply_filters( 'cocart_add_to_cart_handler', $product_data->get_type(), $product_data );
 
 			if ( 'variable' === $add_to_cart_handler || 'variation' === $add_to_cart_handler ) {
 				$item_added_to_cart = $this->add_to_cart_handler_variable( $product_id, $quantity, null, $variation, $item_data, $request );
@@ -135,11 +135,11 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 *
 				 * @since 2.1.0 Introduced.
 				 *
-				 * @param string          $adding_to_cart_handler The product type to identify handler.
-				 * @param WC_Product      $adding_to_cart         The product object.
-				 * @param WP_REST_Request $request                The request object.
+				 * @param string          $product_data The product type to identify handler.
+				 * @param WC_Product      $product_data The product object.
+				 * @param WP_REST_Request $request      The request object.
 				 */
-				$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+				$item_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $product_data, $request ); // Custom handler.
 			} else {
 				$item_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $item_data, $request );
 			}
