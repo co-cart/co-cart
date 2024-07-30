@@ -2501,7 +2501,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 								'properties'  => array(
 									'subtotal'     => array(
 										'description' => __( 'The subtotal of the item in the cart.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'string',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
@@ -2988,7 +2988,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 								'properties'  => array(
 									'subtotal'     => array(
 										'description' => __( 'The subtotal of the item.', 'cart-rest-api-for-woocommerce' ),
-										'type'        => 'float',
+										'type'        => 'string',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
