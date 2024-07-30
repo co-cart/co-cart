@@ -517,17 +517,21 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			),
 			'variation'   => array(
 				'description'       => __( 'Variable attributes that identify the variation of the item.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'array',
+				'type'              => 'object',
 				'items'             => array(
 					'type'       => 'object',
 					'properties' => array(
 						'attribute' => array(
-							'description' => __( 'Variation attribute name.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'string',
+							'description'       => __( 'Variation attribute name.', 'cart-rest-api-for-woocommerce' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
 						),
 						'value'     => array(
-							'description' => __( 'Variation attribute value.', 'cart-rest-api-for-woocommerce' ),
-							'type'        => 'string',
+							'description'       => __( 'Variation attribute value.', 'cart-rest-api-for-woocommerce' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
 						),
 					),
 				),
