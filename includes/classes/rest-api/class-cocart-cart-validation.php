@@ -67,7 +67,7 @@ class CoCart_Cart_Validation {
 			}
 
 			// If product is no longer purchasable then don't return it and notify customer.
-			if ( ! $product->is_purchasable() ) {
+			if ( $product && ! $product->is_purchasable() ) {
 				$message = sprintf(
 					/* translators: %s: product name */
 					__( '%s has been removed from your cart because it can no longer be purchased.', 'cart-rest-api-for-woocommerce' ),
