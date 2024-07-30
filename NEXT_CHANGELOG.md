@@ -9,6 +9,7 @@
 ## Changes
 
 * REST API: Avatars only return if requested now when using the login endpoint.
+* REST API: The following endpoints for Cart API v2 now extend `CoCart_REST_Cart_V2_Controller` instead of an Cart API v1 controller: `cart/add-item`, `cart/add-items`, `cart/calculate`
 
 ## Improvements
 
@@ -37,6 +38,7 @@ Simply provide these two parameters with the data point values on any page and t
 #### Developers
 
 * Introduced new filter `cocart_load_cart_redirect_home` allows you to change where to redirect should loading the cart fail.
+* Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
 * Added the product object to filters `cocart_cart_item_price` and `cocart_cart_item_quantity`.
 
 #### Deprecations
@@ -48,3 +50,4 @@ The following filters are no longer used:
 * `cocart_merge_cart_content`
 * `cocart_cart_loaded_successful_message`
 * `cocart_use_cookie_monster`
+* `cocart_filter_request_data`
