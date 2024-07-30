@@ -344,6 +344,9 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
+		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
+		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
+
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
@@ -380,7 +383,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param array  $cart_item     The cart item data.
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $price_function( $_product ), wc_get_price_decimals() ), $cart_item, $item_key ),
 			'quantity'       => array(
 				/**
 				 * Filter allows the quantity of the item to change.
