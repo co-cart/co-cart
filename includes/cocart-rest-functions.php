@@ -602,3 +602,24 @@ function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' 
 
 	return str_starts_with( $rest_route, $ns );
 } // END cocart_rest_should_load_namespace()
+
+if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
+	/**
+	 * Validates the quantity argument.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param int|float       $value   Number of quantity to validate.
+	 * @param WP_REST_Request $request The request object.
+	 * @param string          $param   Argument parameters.
+	 *
+	 * @return bool True if the quantity is valid, false otherwise.
+	 */
+	function rest_validate_quantity_arg( $value, $request, $param ) {
+		if ( is_numeric( $value ) || is_float( $value ) ) {
+			return true;
+		}
+
+		return false;
+	} // END rest_validate_quantity_arg()
+}

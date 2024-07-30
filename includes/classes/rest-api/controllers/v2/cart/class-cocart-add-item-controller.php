@@ -513,7 +513,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				'type'              => 'string',
 				'default'           => '1',
 				'required'          => true,
-				'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'variation'   => array(
 				'description'       => __( 'Variable attributes that identify the variation of the item.', 'cart-rest-api-for-woocommerce' ),

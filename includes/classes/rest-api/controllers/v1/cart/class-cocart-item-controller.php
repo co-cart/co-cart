@@ -59,7 +59,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 							'description'       => __( 'Quantity of this item to update to.', 'cart-rest-api-for-woocommerce' ),
 							'type'              => 'string',
 							'required'          => true,
-							'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+							'validate_callback' => 'rest_validate_quantity_arg',
 						),
 					),
 				),

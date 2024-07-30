@@ -411,7 +411,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 2.7.2
+	 * @version 4.4.0
 	 *
 	 * @return array $params Query parameters for adding items.
 	 */
@@ -428,7 +428,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				'type'              => 'string',
 				'default'           => '1',
 				'required'          => true,
-				'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'variation_id'   => array(
 				'required'          => false,

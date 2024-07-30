@@ -299,7 +299,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				'description'       => __( 'Quantity of this item to update to.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'required'          => true,
-				'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'return_status' => array(
 				'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cart-rest-api-for-woocommerce' ),
