@@ -338,7 +338,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 				$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
 
-				$this->get_cart_instance()->set_quantity( $item_key, $new_quantity );
+				$this->get_cart_instance()->set_quantity( $item_key, $new_quantity, false );
 
 				$item_added = $this->get_cart_item( $item_key, 'add' );
 

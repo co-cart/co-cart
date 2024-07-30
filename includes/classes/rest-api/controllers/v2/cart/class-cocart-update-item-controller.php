@@ -172,7 +172,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			// Only update cart item quantity if passed validation.
 			if ( $passed_validation ) {
-				if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity ) ) {
+				if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity, false ) ) {
 					$new_data = $this->get_cart_item( $item_key, 'update' );
 
 					$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
