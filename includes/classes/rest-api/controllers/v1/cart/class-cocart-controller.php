@@ -427,8 +427,7 @@ class CoCart_API_Controller {
 		}
 
 		// Get the cart in the database.
-		$handler = new CoCart_Session_Handler();
-		$cart    = $handler->get_cart( $cart_key );
+		$cart = WC()->session->get_session( $cart_key );
 
 		// If no cart is saved with the ID specified return error.
 		if ( empty( $cart ) ) {
