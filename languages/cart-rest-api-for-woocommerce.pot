@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.3.3\n"
+"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.3.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-07-24 16:26:16+00:00\n"
+"POT-Creation-Date: 2024-08-03 17:36:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1461,14 +1461,14 @@ msgid ""
 "correct and try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:668
-#: includes/classes/rest-api/class-cocart-authentication.php:687
-#: includes/classes/rest-api/class-cocart-authentication.php:703
+#: includes/classes/rest-api/class-cocart-authentication.php:661
+#: includes/classes/rest-api/class-cocart-authentication.php:680
+#: includes/classes/rest-api/class-cocart-authentication.php:696
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:717
+#: includes/classes/rest-api/class-cocart-authentication.php:710
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""

@@ -1,5 +1,11 @@
 # Changelog for CoCart
 
+## v4.3.4 - 3rd August, 2024
+
+### Bug Fix
+
+* REST API: Fixed an issue with CORS not returning header `access-control-allow-origin`.
+
 ## v4.3.3 - 24th July, 2024
 
 ### Corrections
