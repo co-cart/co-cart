@@ -585,10 +585,12 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				 * Filter allows you to change the allowed HTTP origin result.
 				 *
 				 * @since 2.5.1 Introduced.
+				 * @since 4.4.0 Added the request object as parameter.
 				 *
-				 * @param string $origin Origin URL if allowed, empty string if not.
+				 * @param string          $origin Origin URL if allowed, empty string if not.
+				 * @param WP_REST_Request $request The request object.
 				 */
-				$origin = apply_filters( 'cocart_allow_origin', $origin );
+				$origin = apply_filters( 'cocart_allow_origin', $origin, $request );
 
 				$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
 				$server->send_header( 'Access-Control-Allow-Credentials', 'true' );
