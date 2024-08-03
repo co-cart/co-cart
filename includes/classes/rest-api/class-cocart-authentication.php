@@ -554,10 +554,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.2.0 Introduced.
 		 * @since 3.3.0 Added new custom headers without the prefix `X-`
-		 * @since 4.0.0 Added a check against a list of allowed HTTP origins.
 		 *
 		 * @uses get_http_origin()
-		 * @uses get_allowed_http_origins()
 		 * @uses is_allowed_http_origin()
 		 *
 		 * @param bool             $served  Whether the request has already been served. Default false.
@@ -574,11 +572,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				// Requests from file:// and data: URLs send "Origin: null".
 				if ( 'null' !== $origin ) {
 					$origin = esc_url_raw( $origin );
-				}
-
-				// Check the origin against a list of allowed HTTP origins.
-				if ( $origin && ! in_array( $origin, get_allowed_http_origins(), true ) ) {
-					$origin = '';
 				}
 
 				// Fallback to a wildcard if the origin has yet to be determined.
