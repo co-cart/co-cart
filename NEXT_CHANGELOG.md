@@ -18,6 +18,7 @@
 * REST API: Prevent having to check cart validity, stock and coupons on most cart endpoints other than when getting the cart to help with performance.
 * REST API: Optimized how many times we calculate the totals when adding items to the cart to help with performance.
 * REST API: Moved some cart validation further up before returning cart contents.
+* REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
 

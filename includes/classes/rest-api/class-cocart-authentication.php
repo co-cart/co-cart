@@ -581,6 +581,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					$origin = '';
 				}
 
+				// Fallback to a wildcard if the origin has yet to be determined.
+				if ( empty( $origin ) ) {
+					$origin = '*';
+				}
+
 				/**
 				 * Filter allows you to change the allowed HTTP origin result.
 				 *
