@@ -86,3 +86,100 @@ if ( ! function_exists( 'format_variation_data ' ) ) {
 		return $return;
 	} // END format_variation_data()
 }
+
+/**
+ * Convert monetary values from store settings to string based integers, using
+ * the smallest unit of a currency.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @param int|float|string $value   Value to format. Int is allowed, as it may also represent a valid price.
+ * @param array            $options Options that influence the formatting.
+ *
+ * @return string Formatted value.
+ */
+function cocart_format_money( $value, array $options = array() ) {
+	if ( ! is_int( $value ) && ! is_string( $value ) && ! is_float( $value ) ) {
+		wc_doing_it_wrong(
+			__FUNCTION__,
+			'Function expects a $value arg of type INT, STRING or FLOAT.',
+			'4.4'
+		);
+
+		return '';
+	}
+
+	$default_options = array(
+		'currency'      => get_woocommerce_currency(),
+		'decimals'      => wc_get_price_decimals(),
+		'rounding_mode' => PHP_ROUND_HALF_UP,
+		'trim_zeros'    => false,
+	);
+
+	if ( ! empty( $options ) ) {
+		$options = wp_parse_args( $options, $default_options );
+	} else {
+		$options = $default_options;
+	}
+
+	/**
+	 * If $value is a string, clean it first.
+	 *
+	 * This is required should the $value parse any html in the string
+	 * that may have been added by an extension like subscriptions.
+	 */
+	if ( is_string( $value ) ) {
+		$value = html_entity_decode( wp_strip_all_tags( $value ) ); // Decode html span wrapper, if any.
+		$value = str_replace( html_entity_decode( get_woocommerce_currency_symbol( $options['currency'] ) ), '', $value ); // Remove currency symbol, if any.
+	}
+
+	if ( ! intval( $value ) ) {
+		wc_doing_it_wrong(
+			__FUNCTION__,
+			'Value did not return as just numbers. Expects $value to be integer.',
+			'4.4'
+		);
+
+		return '';
+	}
+
+	// Trim zeros.
+	if ( $options['trim_zeros'] ) {
+		$value = wc_trim_zeros( $value );
+	}
+
+	/**
+	 * Filter allows you to disable the decimals.
+	 *
+	 * If set to "True" the decimals will be forced to "Zero".
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param bool $disable_decimals False by default.
+	 */
+	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
+
+	if ( $disable_decimals ) {
+		$options['decimals'] = 0;
+	}
+
+	// Ensure rounding mode is valid.
+	$rounding_modes           = array( PHP_ROUND_HALF_UP, PHP_ROUND_HALF_DOWN, PHP_ROUND_HALF_EVEN, PHP_ROUND_HALF_ODD );
+	$options['rounding_mode'] = absint( $options['rounding_mode'] );
+
+	// If rounding is not valid then force it to only round half up.
+	if ( ! in_array( $options['rounding_mode'], $rounding_modes, true ) ) {
+		$options['rounding_mode'] = PHP_ROUND_HALF_UP;
+	}
+
+	$value = floatval( $value );
+
+	// Remove the price decimal points for rounding purposes.
+	$value = $value * pow( 10, absint( $options['decimals'] ) );
+
+	// Round up/down the value.
+	$value = round( $value, 0, $options['rounding_mode'] );
+
+	// This ensures returning the value as a string without decimal points ready for price parsing.
+	return wc_format_decimal( $value, 0, $options['trim_zeros'] );
+} // END cocart_format_money()
