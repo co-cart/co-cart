@@ -147,6 +147,8 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	/**
 	 * Get a single item.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
 	 *
 	 * @param WP_REST_Request $request The request object.
@@ -154,12 +156,29 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_item( $request ) {
-		$product = wc_get_product( (int) $request['id'] );
+		try {
+			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 
-		$data     = $this->prepare_object_for_response( $product, $request );
-		$response = rest_ensure_response( $data );
+			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 
-		return $response;
+			// Return failed product ID validation if any.
+			if ( is_wp_error( $product_id ) ) {
+				return $product_id;
+			}
+
+			$product = wc_get_product( $product_id );
+
+			if ( ! $product || 0 === $product->get_id() ) {
+				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
+			}
+
+			$data     = $this->prepare_object_for_response( $product, $request );
+			$response = rest_ensure_response( $data );
+
+			return $response;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
 	} // END get_item()
 
 	/**

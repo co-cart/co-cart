@@ -340,29 +340,20 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 
-			// If the product ID was used by a SKU ID, then look up the product ID and return it.
-			if ( ! is_numeric( $product_id ) ) {
-				$product_id_by_sku = wc_get_product_id_by_sku( $product_id );
+			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 
-				if ( ! empty( $product_id_by_sku ) && $product_id_by_sku > 0 ) {
-					$product_id = $product_id_by_sku;
-				} else {
-					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
-
-					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
-				}
+			// Return failed product ID validation if any.
+			if ( is_wp_error( $product_id ) ) {
+				return $product_id;
 			}
 
-			// Force product ID to be integer.
-			$product_id = (int) $product_id;
+			$product = wc_get_product( $product_id );
 
-			$_product = wc_get_product( $product_id );
-
-			if ( ! $_product || 0 === $_product->get_id() || 'publish' !== $_product->get_status() ) {
+			if ( ! $product || 0 === $product->get_id() || 'publish' !== $product->get_status() ) {
 				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			$data     = $this->prepare_object_for_response( $_product, $request );
+			$data     = $this->prepare_object_for_response( $product, $request );
 			$response = rest_ensure_response( $data );
 
 			return $response;
