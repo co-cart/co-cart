@@ -45,6 +45,8 @@ Simply provide these two parameters with the data point values on any page and t
 
 #### Deprecations
 
+* Function `cocart_prepare_money_response()` is replaced with function `cocart_format_money()`.
+
 The following filters are no longer used:
 
 * `cocart_load_cart_override`
