@@ -414,6 +414,8 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  * @return string The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+	cocart_deprecated_function( 'cocart_prepare_money_response', '4.4.0', 'cocart_format_money' );
+
 	// If string, clean it first.
 	if ( is_string( $amount ) ) {
 		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
