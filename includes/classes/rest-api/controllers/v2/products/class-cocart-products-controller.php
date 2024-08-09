@@ -835,7 +835,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 					$rest_url = add_query_arg(
 						array(
-							"variation[attribute_$name]" => $attribute,
+							"variation[attribute_{$name}]" => $attribute,
 						),
 						$rest_url
 					);
