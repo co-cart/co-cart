@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.3.4
+Stable tag: 4.3.5
 WC requires at least: 7.0
 WC tested up to: 9.1
 License: GPLv3
@@ -308,6 +308,12 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.3.5 - 9th August, 2024 =
+
+### Bug Fix
+
+* REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
+
 = v4.3.4 - 3rd August, 2024 =
 
 ### Bug Fix
@@ -600,6 +606,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.5 =
+
+REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
 
 = 4.3.4 =
 
