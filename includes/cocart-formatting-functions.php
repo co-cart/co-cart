@@ -99,7 +99,7 @@ if ( ! function_exists( 'format_variation_data ' ) ) {
  * @return string Formatted value.
  */
 function cocart_format_money( $value, array $options = array() ) {
-	if ( ! is_int( $value ) && ! is_string( $value ) && ! is_float( $value ) ) {
+	if ( empty( $value ) || ( ! is_int( $value ) && ! is_string( $value ) && ! is_float( $value ) ) ) {
 		wc_doing_it_wrong(
 			__FUNCTION__,
 			'Function expects a $value arg of type INT, STRING or FLOAT.',
