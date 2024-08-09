@@ -113,7 +113,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				add_filter( 'rest_pre_dispatch', array( $this, 'check_api_permissions' ), 10, 3 );
 
 				// Send headers.
-				add_filter( 'rest_pre_serve_request', array( $this, 'send_headers' ), 0, 4 );
+				add_filter( 'rest_pre_serve_request', array( $this, 'send_headers' ), 1, 4 );
 
 				// Allow all cross origin requests.
 				add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
