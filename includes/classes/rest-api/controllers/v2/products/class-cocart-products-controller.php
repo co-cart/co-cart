@@ -288,9 +288,9 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'attributes'     => $expected_attributes,
 				'featured_image' => $attachments,
 				'prices'         => array(
-					'price'         => cocart_prepare_money_response( $price_function( $variation ), wc_get_price_decimals() ),
-					'regular_price' => cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ), wc_get_price_decimals() ),
-					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ), wc_get_price_decimals() ) : '',
+					'price'         => cocart_format_money( $price_function( $variation ) ),
+					'regular_price' => cocart_format_money( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ) ),
+					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ) ) : '',
 					'on_sale'       => $variation->is_on_sale( 'view' ),
 					'date_on_sale'  => array(
 						'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
@@ -451,9 +451,9 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			),
 			'featured'           => $product->is_featured(),
 			'prices'             => array(
-				'price'         => cocart_prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
-				'regular_price' => cocart_prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
+				'price'         => cocart_format_money( $price_function( $product ) ),
+				'regular_price' => cocart_format_money( $price_function( $product, array( 'price' => $regular_price ) ) ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $product, array( 'price' => $sale_price ) ) ) : '',
 				'price_range'   => CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
@@ -740,7 +740,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 						'id'          => $id,
 						'name'        => $_product->get_name( 'view' ),
 						'permalink'   => $_product->get_permalink(),
-						'price'       => cocart_prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
+						'price'       => cocart_format_money( $_product->get_price( 'view' ) ),
 						'add_to_cart' => array(
 							'text'        => $_product->add_to_cart_text(),
 							'description' => $_product->add_to_cart_description(),
