@@ -87,7 +87,9 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * Validate the variation exists and is part of the variable product.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request The request object.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_Error|bool
 	 */
 	public function validate_variation( $request ) {
@@ -114,8 +116,10 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * Prepare a single variation output for response.
 	 *
 	 * @access public
-	 * @param  WC_Product      $product Product instance.
-	 * @param  WP_REST_Request $request The request object.
+	 *
+	 * @param WC_Product      $product The product object.
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_object_for_response( $product, $request ) {
@@ -134,8 +138,8 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 		 * refers to product type being prepared for the response.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Product       $product   Product object.
-		 * @param WP_REST_Request  $request The request object.
+		 * @param WC_Product       $product  The product object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()
@@ -144,7 +148,9 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * Get a single item.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request The request object.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_item( $request ) {
@@ -160,7 +166,9 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product Product object.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
 	 * @return array $links Links for the given product.
 	 */
 	protected function prepare_links( $product ) {

@@ -70,5 +70,4 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 			);
 		}
 	}
-
 }
