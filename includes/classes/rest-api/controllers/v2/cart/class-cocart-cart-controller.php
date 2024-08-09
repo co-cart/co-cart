@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,10 +23,8 @@ class_alias( 'CoCart_REST_Cart_V2_Controller', 'CoCart_Cart_V2_Controller' );
  * via "cocart/v2/cart" endpoint.
  *
  * @since 3.0.0 Introduced.
- *
- * @see CoCart_API_Controller
  */
-class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
+class CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
