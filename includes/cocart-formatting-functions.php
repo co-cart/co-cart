@@ -107,7 +107,7 @@ function cocart_format_money( $value, array $options = array() ) {
 	if ( ! is_int( $value ) && ! is_string( $value ) && ! is_float( $value ) ) {
 		wc_doing_it_wrong(
 			__FUNCTION__,
-			'Function expects a $value arg of type INT, STRING or FLOAT.',
+			sprintf( 'Function expects a $value arg of type INT, STRING or FLOAT.%s', ! empty( $value ) ? ' Given value: ' . $value : '' ),
 			'4.4'
 		);
 
@@ -141,7 +141,7 @@ function cocart_format_money( $value, array $options = array() ) {
 	if ( ! intval( $value ) ) {
 		wc_doing_it_wrong(
 			__FUNCTION__,
-			'Value did not return as just numbers. Expects $value to be integer.',
+			sprintf( 'Value did not return as just numbers. Expects $value to be integer.%s', ! empty( $value ) ? ' Given value: ' . $value : '' ),
 			'4.4'
 		);
 
