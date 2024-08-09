@@ -196,12 +196,12 @@ class CoCart_Utilities_Product_Helpers {
 
 				if ( $min_price !== $max_price ) {
 					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
-						'to'   => cocart_prepare_money_response( $max_price, wc_get_price_decimals() ),
+						'from' => cocart_format_money( $min_price ),
+						'to'   => cocart_format_money( $max_price ),
 					);
 				} else {
 					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
+						'from' => cocart_format_money( $min_price ),
 						'to'   => '',
 					);
 				}
@@ -220,8 +220,8 @@ class CoCart_Utilities_Product_Helpers {
 
 			if ( ! empty( $child_prices ) ) {
 				$price = array(
-					'from' => cocart_prepare_money_response( min( $child_prices ), wc_get_price_decimals() ),
-					'to'   => cocart_prepare_money_response( max( $child_prices ), wc_get_price_decimals() ),
+					'from' => cocart_format_money( min( $child_prices ) ),
+					'to'   => cocart_format_money( max( $child_prices ) ),
 				);
 			}
 		}

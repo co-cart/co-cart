@@ -285,16 +285,16 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			'coupons'       => array(),
 			'fees'          => $this->get_fees( $session_data ),
 			'totals'        => array(
-				'subtotal'       => cocart_prepare_money_response( $this->get_subtotal( $session_data ), wc_get_price_decimals() ),
-				'subtotal_tax'   => cocart_prepare_money_response( $this->get_subtotal_tax( $session_data ), wc_get_price_decimals() ),
-				'fee_total'      => cocart_prepare_money_response( $this->get_fee_total( $session_data ), wc_get_price_decimals() ),
-				'fee_tax'        => cocart_prepare_money_response( $this->get_fee_tax( $session_data ), wc_get_price_decimals() ),
-				'discount_total' => cocart_prepare_money_response( $this->get_discount_total( $session_data ), wc_get_price_decimals() ),
-				'discount_tax'   => cocart_prepare_money_response( $this->get_discount_tax( $session_data ), wc_get_price_decimals() ),
-				'shipping_total' => cocart_prepare_money_response( $this->get_shipping_total( $session_data ), wc_get_price_decimals() ),
-				'shipping_tax'   => cocart_prepare_money_response( $this->get_shipping_tax( $session_data ), wc_get_price_decimals() ),
-				'total'          => cocart_prepare_money_response( $this->get_total( $session_data ), wc_get_price_decimals() ),
-				'total_tax'      => cocart_prepare_money_response( $this->get_total_tax( $session_data ), wc_get_price_decimals() ),
+				'subtotal'       => cocart_format_money( $this->get_subtotal( $session_data ) ),
+				'subtotal_tax'   => cocart_format_money( $this->get_subtotal_tax( $session_data ) ),
+				'fee_total'      => cocart_format_money( $this->get_fee_total( $session_data ) ),
+				'fee_tax'        => cocart_format_money( $this->get_fee_tax( $session_data ) ),
+				'discount_total' => cocart_format_money( $this->get_discount_total( $session_data ) ),
+				'discount_tax'   => cocart_format_money( $this->get_discount_tax( $session_data ) ),
+				'shipping_total' => cocart_format_money( $this->get_shipping_total( $session_data ) ),
+				'shipping_tax'   => cocart_format_money( $this->get_shipping_tax( $session_data ) ),
+				'total'          => cocart_format_money( $this->get_total( $session_data ) ),
+				'total_tax'      => cocart_format_money( $this->get_total_tax( $session_data ) ),
 			),
 			'needs_payment' => $this->needs_payment( $session_data ),
 			'removed_items' => $this->get_removed_items( $this->get_removed_cart_contents( $session_data ), $show_thumb ),
@@ -383,7 +383,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param array  $cart_item     The cart item data.
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $price_function( $_product ), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $_product ) ), $cart_item, $item_key ),
 			'quantity'       => array(
 				/**
 				 * Filter allows the quantity of the item to change.
@@ -401,10 +401,10 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
 			'totals'         => array(
-				'subtotal'     => cocart_prepare_money_response( $cart_item['line_subtotal'], wc_get_price_decimals() ),
-				'subtotal_tax' => cocart_prepare_money_response( $cart_item['line_subtotal_tax'], wc_get_price_decimals() ),
-				'total'        => cocart_prepare_money_response( $cart_item['line_total'], wc_get_price_decimals() ),
-				'tax'          => cocart_prepare_money_response( $cart_item['line_tax'], wc_get_price_decimals() ),
+				'subtotal'     => cocart_format_money( $cart_item['line_subtotal'] ),
+				'subtotal_tax' => cocart_format_money( $cart_item['line_subtotal_tax'] ),
+				'total'        => cocart_format_money( $cart_item['line_total'] ),
+				'tax'          => cocart_format_money( $cart_item['line_tax'] ),
 			),
 			'slug'           => $this->get_product_slug( $_product ),
 			'meta'           => array(
@@ -600,7 +600,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			foreach ( $cart_fees as $key => $fee ) {
 				$fees[ $key ] = array(
 					'name' => esc_html( $fee['name'] ),
-					'fee'  => cocart_prepare_money_response( $this->fee_html( $session_data, $fee ), wc_get_price_decimals() ),
+					'fee'  => cocart_format_money( $this->fee_html( $session_data, $fee ) ),
 				);
 			}
 		}
