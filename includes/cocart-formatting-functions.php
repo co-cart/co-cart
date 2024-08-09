@@ -100,7 +100,7 @@ if ( ! function_exists( 'format_variation_data ' ) ) {
  */
 function cocart_format_money( $value, array $options = array() ) {
 	// Values that don't need converting just return the original value.
-	if ( empty( $value ) || 0 === $value || "0.00" === $value ) {
+	if ( empty( $value ) || 0 === $value || '0.00' === $value ) {
 		return $value;
 	}
 
