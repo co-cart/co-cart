@@ -554,6 +554,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.2.0 Introduced.
 		 * @since 3.3.0 Added new custom headers without the prefix `X-`
+		 * @since 4.4.0 Fallback to a wildcard if the origin has yet to be determined.
 		 *
 		 * @uses get_http_origin()
 		 * @uses is_allowed_http_origin()
