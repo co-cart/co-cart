@@ -821,7 +821,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		$id = $product->get_id();
 
 		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
-		$rest_url = add_query_arg( 'quantity', 1, $rest_url ); // Default Quantity = 1.
+		$rest_url = add_query_arg( 'quantity', CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ), $rest_url );
 
 		switch ( $type ) {
 			case 'variation':
