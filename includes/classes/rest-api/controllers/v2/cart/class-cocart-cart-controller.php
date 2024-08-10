@@ -1137,6 +1137,10 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @access public
 	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 No longer used.
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return $request
@@ -1148,8 +1152,10 @@ class CoCart_REST_Cart_V2_Controller {
 		 * Filters additional requested data.
 		 *
 		 * @since 3.0.0 Introduced.
+		 *
+		 * @deprecated 4.4.0 No longer used.
 		 */
-		return apply_filters( 'cocart_filter_request_data', $request );
+		cocart_do_deprecated_filter( 'cocart_filter_request_data', '4.4.0', null, null, array( $request ) );
 	} // END filter_request_data()
 
 	/**
