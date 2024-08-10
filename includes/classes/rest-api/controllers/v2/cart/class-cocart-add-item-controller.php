@@ -96,8 +96,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			}
 
 			// The product we are attempting to add to the cart.
-			$product_data = wc_get_product( $product_id );
-			$product_data = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product_data );
+			$product      = wc_get_product( $product_id );
+			$product_data = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product );
 
 			// Return error response if product cannot be added to cart?
 			if ( is_wp_error( $product_data ) ) {
