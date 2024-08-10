@@ -47,7 +47,11 @@
 	},
 	"require-dev": {
 		"cocart-headless/cocart-sniffs": "0.0.3",
-		"automattic/vipwpcs": "^3.0"
+		"automattic/vipwpcs": "^3.0",
+		"phpstan/phpstan": "^1.11",
+		"szepeviktor/phpstan-wordpress": "^1.3",
+		"phpstan/extension-installer": "^1.4",
+		"php-stubs/woocommerce-stubs": "^9.1"
 	},
 	"scripts": {
 		"phpcs": [
@@ -69,7 +73,8 @@
 	"config": {
 		"allow-plugins": {
 			"composer/installers": true,
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
 		}
 	}
 }
