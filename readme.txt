@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.3.3
+Stable tag: 4.3.5
 WC requires at least: 7.0
 WC tested up to: 9.1
 License: GPLv3
@@ -266,7 +266,7 @@ Yes. The best method would be to install/update CoCart from the GitHub repositor
 
 = Where can I report bugs? =
 
-Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the support forum – be sure to search the forums to confirm that the error has not already been reported.
+Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the [support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) – be sure to search the forums to confirm that the error has not already been reported.
 
 = CoCart is awesome! Can I contribute? =
 
@@ -307,6 +307,18 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v4.3.5 - 9th August, 2024 =
+
+### Bug Fix
+
+* REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
+
+= v4.3.4 - 3rd August, 2024 =
+
+### Bug Fix
+
+* REST API: Fixed an issue with CORS not returning header `access-control-allow-origin`.
 
 = v4.3.3 - 24th July, 2024 =
 
@@ -594,6 +606,14 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.5 =
+
+REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
+
+= 4.3.4 =
+
+Fixed an issue with CORS not returning header `access-control-allow-origin`.
 
 = 4.3.3 =
 

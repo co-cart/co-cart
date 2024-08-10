@@ -1427,14 +1427,14 @@ msgid ""
 "correct and try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:668
-#: includes/classes/rest-api/class-cocart-authentication.php:687
-#: includes/classes/rest-api/class-cocart-authentication.php:703
+#: includes/classes/rest-api/class-cocart-authentication.php:661
+#: includes/classes/rest-api/class-cocart-authentication.php:680
+#: includes/classes/rest-api/class-cocart-authentication.php:696
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:717
+#: includes/classes/rest-api/class-cocart-authentication.php:710
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
