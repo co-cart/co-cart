@@ -142,6 +142,165 @@ class CoCart_Utilities_Cart_Helpers {
 	} // END get_variable_product_attributes()
 
 	/**
+	 * Get cart fees.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @see cocart_format_money()
+	 *
+	 * @param WC_Cart $cart Cart class instance.
+	 *
+	 * @return array Cart fees.
+	 */
+	public static function get_fees( $cart ) {
+		$cart_fees = $cart->get_fees();
+
+		$fees = array();
+
+		if ( ! empty( $cart_fees ) ) {
+			foreach ( $cart_fees as $key => $fee ) {
+				$fees[ $key ] = array(
+					'name' => esc_html( $fee->name ),
+					'fee'  => cocart_format_money( self::fee_html( $cart, $fee ) ),
+				);
+			}
+		}
+
+		return $fees;
+	} // END get_fees()
+
+	/**
+	 * Get the fee value.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param WC_Cart $cart Cart class instance.
+	 * @param object  $fee  Fee data.
+	 *
+	 * @return string Returns the fee value.
+	 */
+	public static function fee_html( $cart, $fee ) {
+		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
+
+		return apply_filters( 'cocart_cart_totals_fee_html', $cart_totals_fee_html, $fee );
+	} // END fee_html()
+
+	/**
+	 * Get coupon in HTML.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 4.4.0 Added Cart class instance as the first parameter.
+	 *
+	 * @see cocart_format_money()
+	 *
+	 * @param WC_Cart          $cart      Cart class instance.
+	 * @param string|WC_Coupon $coupon    Coupon data or code.
+	 * @param boolean          $formatted Formats the saving amount.
+	 *
+	 * @return string Returns coupon amount.
+	 */
+	public static function coupon_html( $cart, $coupon, $formatted = true ) {
+		if ( is_string( $coupon ) ) {
+			$coupon = new \WC_Coupon( $coupon );
+		}
+
+		$amount = $cart->get_coupon_discount_amount( $coupon->get_code(), $cart->display_cart_ex_tax );
+
+		if ( $formatted ) {
+			$savings = html_entity_decode( wp_strip_all_tags( wc_price( $amount ) ) );
+		} else {
+			$savings = cocart_format_money( $amount );
+		}
+
+		$discount_amount_html = '-' . $savings;
+
+		if ( $coupon->get_free_shipping() && empty( $amount ) ) {
+			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
+		}
+
+		$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
+
+		return $discount_amount_html;
+	} // END coupon_html()
+
+	/**
+	 * Get applied coupons to the cart.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param WC_Cart $cart Cart class instance.
+	 *
+	 * @return array Applied coupons.
+	 */
+	public static function get_applied_coupons( $cart ) {
+		// Returns each coupon applied and coupon total applied if store has coupons enabled.
+		$coupons = self::are_coupons_enabled() ? $cart->get_applied_coupons() : array();
+
+		$applied_coupons = array();
+
+		if ( ! empty( $coupons ) ) {
+			foreach ( $coupons as $code ) {
+				$coupon = new \WC_Coupon( $code );
+
+				$applied_coupons[] = array(
+					'coupon'        => wc_format_coupon_code( wp_unslash( $code ) ),
+					'label'         => esc_attr( wc_cart_totals_coupon_label( $code, false ) ),
+					'discount_type' => $coupon->get_discount_type(),
+					'saving'        => self::coupon_html( $cart, $code, false ),
+					'saving_html'   => self::coupon_html( $cart, $code ),
+				);
+			}
+		}
+
+		return $applied_coupons;
+	} // END get_applied_coupons()
+
+	/**
+	 * Get tax lines from the cart and format to match schema.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @see cocart_format_money()
+	 *
+	 * @param WC_Cart $cart Cart class instance.
+	 *
+	 * @return array Tax lines.
+	 */
+	public static function get_tax_lines( $cart ) {
+		$cart_tax_totals = $cart->get_tax_totals();
+		$tax_lines       = array();
+
+		foreach ( $cart_tax_totals as $code => $tax ) {
+			$tax_lines[ $code ] = array(
+				'name'  => $tax->label,
+				'price' => cocart_format_money( $tax->amount ),
+			);
+		}
+
+		return $tax_lines;
+	} // END get_tax_lines()
+
+	/**
 	 * Return notices in cart if any.
 	 *
 	 * @access public

@@ -314,25 +314,6 @@ class CoCart_REST_Cart_V2_Controller {
 		// Defines an empty cart template.
 		$cart = array();
 
-		if ( array_key_exists( 'coupons', $cart_template ) ) {
-			// Returns each coupon applied and coupon total applied if store has coupons enabled.
-			$coupons = CoCart_Utilities_Cart_Helpers::are_coupons_enabled() ? $cart_instance->get_applied_coupons() : array();
-
-			if ( ! empty( $coupons ) ) {
-				foreach ( $coupons as $code ) {
-					$coupon = new WC_Coupon( $code );
-
-					$cart['coupons'][] = array(
-						'coupon'        => wc_format_coupon_code( wp_unslash( $code ) ),
-						'label'         => esc_attr( wc_cart_totals_coupon_label( $code, false ) ),
-						'discount_type' => $coupon->get_discount_type(),
-						'saving'        => $this->coupon_html( $code, false ),
-						'saving_html'   => $this->coupon_html( $code ),
-					);
-				}
-			}
-		}
-
 		if ( array_key_exists( 'taxes', $cart_template ) ) {
 			// Return calculated tax based on store settings and customer details.
 			if ( wc_tax_enabled() && ! $cart_instance->display_prices_including_tax() ) {
@@ -348,7 +329,7 @@ class CoCart_REST_Cart_V2_Controller {
 				}
 
 				if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
-					$cart['taxes'] = $this->get_tax_lines( $cart_instance );
+					$cart['taxes'] = CoCart_Utilities_Cart_Helpers::get_tax_lines( $cart_instance );
 				} else {
 					$cart['taxes'] = array(
 						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
@@ -768,22 +749,18 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_tax_lines()
+	 *
 	 * @param WC_Cart $cart Cart class instance.
 	 *
 	 * @return array Tax lines.
 	 */
 	protected function get_tax_lines( $cart ) {
-		$cart_tax_totals = $cart->get_tax_totals();
-		$tax_lines       = array();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_tax_lines', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_tax_lines' );
 
-		foreach ( $cart_tax_totals as $code => $tax ) {
-			$tax_lines[ $code ] = array(
-				'name'  => $tax->label,
-				'price' => cocart_format_money( $tax->amount ),
-			);
-		}
-
-		return $tax_lines;
+		return CoCart_Utilities_Cart_Helpers::get_tax_lines( $cart );
 	} // END get_tax_lines()
 
 	/**
@@ -839,27 +816,18 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @see cocart_format_money()
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
 	 *
 	 * @param WC_Cart $cart Cart class instance.
 	 *
 	 * @return array Cart fees.
 	 */
 	public function get_fees( $cart ) {
-		$cart_fees = $cart->get_fees();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_fees', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_fees' );
 
-		$fees = array();
-
-		if ( ! empty( $cart_fees ) ) {
-			foreach ( $cart_fees as $key => $fee ) {
-				$fees[ $key ] = array(
-					'name' => esc_html( $fee->name ),
-					'fee'  => cocart_format_money( $this->fee_html( $cart, $fee ) ),
-				);
-			}
-		}
-
-		return $fees;
+		return CoCart_Utilities_Cart_Helpers::get_fees( $cart );
 	} // END get_fees()
 
 	/**
@@ -869,7 +837,9 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @see cocart_format_money()
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::coupon_html()
 	 *
 	 * @param string|WC_Coupon $coupon    Coupon data or code.
 	 * @param boolean          $formatted Formats the saving amount.
@@ -877,27 +847,9 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return string Returns coupon amount.
 	 */
 	public function coupon_html( $coupon, $formatted = true ) {
-		if ( is_string( $coupon ) ) {
-			$coupon = new WC_Coupon( $coupon );
-		}
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::coupon_html', '4.4.0', 'CoCart_Utilities_Cart_Helpers::coupon_html' );
 
-		$amount = $this->get_cart_instance()->get_coupon_discount_amount( $coupon->get_code(), $this->get_cart_instance()->display_cart_ex_tax );
-
-		if ( $formatted ) {
-			$savings = html_entity_decode( wp_strip_all_tags( wc_price( $amount ) ) );
-		} else {
-			$savings = cocart_format_money( $amount );
-		}
-
-		$discount_amount_html = '-' . $savings;
-
-		if ( $coupon->get_free_shipping() && empty( $amount ) ) {
-			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
-		}
-
-		$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
-
-		return $discount_amount_html;
+		return CoCart_Utilities_Cart_Helpers::coupon_html( $this->get_cart_instance(), $coupon, $formatted );
 	} // END coupon_html()
 
 	/**
@@ -907,15 +859,19 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::fee_html()
+	 *
 	 * @param object $cart Cart instance.
 	 * @param object $fee  Fee data.
 	 *
 	 * @return string Returns the fee value.
 	 */
 	public function fee_html( $cart, $fee ) {
-		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::fee_html', '4.4.0', 'CoCart_Utilities_Cart_Helpers::fee_html' );
 
-		return apply_filters( 'cocart_cart_totals_fee_html', $cart_totals_fee_html, $fee );
+		return CoCart_Utilities_Cart_Helpers::fee_html( $cart, $fee );
 	} // END fee_html()
 
 	/**
@@ -1937,11 +1893,11 @@ class CoCart_REST_Cart_V2_Controller {
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
 			'items_weight'   => (string) wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
-			'coupons'        => array(),
+			'coupons'        => CoCart_Utilities_Cart_Helpers::get_applied_coupons( $this->get_cart_instance() ),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
 			'shipping'       => $this->get_shipping_details(),
-			'fees'           => $this->get_fees( $this->get_cart_instance() ),
+			'fees'           => CoCart_Utilities_Cart_Helpers::get_fees( $this->get_cart_instance() ),
 			'taxes'          => array(),
 			'totals'         => array(
 				'subtotal'       => cocart_format_money( $this->get_cart_instance()->get_subtotal() ),
@@ -2022,7 +1978,7 @@ class CoCart_REST_Cart_V2_Controller {
 					$template['items_weight'] = (string) wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
 					break;
 				case 'coupons':
-					$template['coupons'] = array();
+					$template['coupons'] = CoCart_Utilities_Cart_Helpers::get_applied_coupons( $this->get_cart_instance() );
 					break;
 				case 'needs_payment':
 					$template['needs_payment'] = $this->get_cart_instance()->needs_payment();
@@ -2034,7 +1990,7 @@ class CoCart_REST_Cart_V2_Controller {
 					$template['shipping'] = $this->get_shipping_details();
 					break;
 				case 'fees':
-					$template['fees'] = $this->get_fees( $this->get_cart_instance() );
+					$template['fees'] = CoCart_Utilities_Cart_Helpers::get_fees( $this->get_cart_instance() );
 					break;
 				case 'taxes':
 					$template['taxes'] = array();
