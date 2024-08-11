@@ -272,6 +272,48 @@ class CoCart_Utilities_Cart_Helpers {
 	} // END get_applied_coupons()
 
 	/**
+	 * Get taxes from the cart.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @see cocart_format_money()
+	 *
+	 * @param WC_Cart $cart Cart class instance.
+	 *
+	 * @return array Returns taxes if any.
+	 */
+	public static function get_taxes( $cart ) {
+		// Return calculated tax based on store settings and customer details.
+		if ( wc_tax_enabled() && ! $cart->display_prices_including_tax() ) {
+			$taxable_address = WC()->customer->get_taxable_address();
+			$estimated_text  = '';
+
+			if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
+				$estimated_text = sprintf(
+					/* translators: %s location. */
+					' ' . esc_html__( '(estimated for %s)', 'cart-rest-api-for-woocommerce' ),
+					WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ]
+				);
+			}
+
+			if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
+				return self::get_tax_lines( $cart );
+			} else {
+				return array(
+					'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
+					'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_format_money( $cart->get_taxes_total() ) ),
+				);
+			}
+		}
+
+		return array();
+	} // END get_taxes()
+
+	/**
 	 * Get tax lines from the cart and format to match schema.
 	 *
 	 * @access public
