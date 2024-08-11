@@ -139,6 +139,8 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_removed_cart_contents_count()
+	 *
 	 * @return bool True if the cart is completely empty.
 	 */
 	public function is_completely_empty() {
@@ -172,6 +174,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @deprecated 3.0.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
 	 *
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
+	 * @see CoCart_REST_Cart_V2_Controller::return_cart_contents()
 	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param string          $cart_item_key Originally the cart item key.
@@ -209,11 +212,14 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since 2.0.0 Introduced.
 	 *
 	 * @deprecated 4.4.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
-
+	 *
+	 * @see CoCart_REST_Cart_V2_Controller::is_completely_empty()
+	 * @see CoCart_REST_Cart_V2_Controller::calculate_totals()
+	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param string          $cart_item_key Cart item key.
 	 *
-	 * @return array $cart_contents Cart contents.
+	 * @return array $cart_contents The cart contents.
 	 */
 	public function get_cart_contents( $request = array(), $cart_item_key = '' ) {
 		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
@@ -237,7 +243,7 @@ class CoCart_REST_Cart_V2_Controller {
 		 * @hooked: check_cart_item_stock - 10
 		 * @hooked: check_cart_coupons - 15
 		 *
-		 * @param array           $cart_contents Cart contents.
+		 * @param array           $cart_contents The cart contents.
 		 * @param WC_Cart         $cart          The cart object.
 		 * @param WP_REST_Request $request       The request object.
 		 */
@@ -257,7 +263,7 @@ class CoCart_REST_Cart_V2_Controller {
 		 *
 		 * @since 4.1.0 Introduced.
 		 *
-		 * @param array           $cart_contents Cart contents.
+		 * @param array           $cart_contents The cart contents.
 		 * @param WC_Cart         $cart          The cart object.
 		 * @param WP_REST_Request $request       The request object.
 		 */
@@ -277,8 +283,12 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @deprecated 3.0.0 No longer use `$cart_item_key` and `$from_session` parameters. Left for declaration compatibility.
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_instance()
+	 * @see CoCart_REST_Cart_V2_Controller::get_items()
+	 *
 	 * @param WP_REST_Request $request       The request object.
-	 * @param array           $cart_contents Cart content.
+	 * @param array           $cart_contents The cart contents.
 	 * @param array           $cart_item_key Originally the cart item key.
 	 * @param bool            $from_session  Identifies if the cart is called from a session.
 	 *
@@ -499,6 +509,13 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @deprecated 3.0.0 `$variation_id` parameter is no longer used.
 	 *
+	 * @see CoCart_Utilities_Cart_Helpers::validate_product_for_cart()
+	 * @see CoCart_Utilities_Cart_Helpers::validate_variable_product()
+	 * @see CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data()
+	 * @see CoCart_REST_Cart_V2_Controller::find_product_in_cart()
+	 * @see CoCart_REST_Cart_V2_Controller::is_product_sold_individually()
+	 * @see CoCart_REST_Cart_V2_Controller::validate_add_to_cart()
+	 *
 	 * @param int             $product_id   The product ID.
 	 * @param int|float       $quantity     The item quantity.
 	 * @param null            $variation_id The variation ID.
@@ -665,6 +682,8 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @access public
 	 *
 	 * @since 4.4.0 Introduced.
+	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
 	 *
 	 * @param mixed $cart_item_key of product to find in the cart.
 	 *
@@ -909,6 +928,8 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @deprecated 4.0.0 Removed $cart_id parameter as it is the same as $item_key.
 	 * @deprecated 4.4.0 Renamed function to `is_product_sold_individually()`
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::is_product_sold_individually()
+	 *
 	 * @param WC_Product $product      The product object.
 	 * @param int|float  $quantity     The quantity to validate.
 	 * @param int        $product_id   The product ID.
@@ -922,7 +943,7 @@ class CoCart_REST_Cart_V2_Controller {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_item_quantity', '4.4.0', 'CoCart_REST_Cart_V2_Controller::is_product_sold_individually' );
 
 		return $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key );
-	}
+	} // END validate_item_quantity()
 
 	/**
 	 * Validates if item is sold individually.
@@ -932,6 +953,8 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @access public
 	 *
 	 * @since 4.4.0 Introduced.
+	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
 	 *
 	 * @param WC_Product      $product      The product object.
 	 * @param int|float       $quantity     The quantity to validate.
@@ -1001,6 +1024,10 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable()
+	 * @see CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product()
+	 * @see CoCart_REST_Cart_V2_Controller::get_product_quantity_in_cart()
 	 *
 	 * @param WC_Product $product  The product object.
 	 * @param int|float  $quantity Quantity of product to validate availability.
@@ -1141,6 +1168,12 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
+	 *
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Product_Helpers::get_tax_display_mode()
+	 * @see CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode()
+	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
+	 * @see CoCart_Utilities_Cart_Helpers::prepare_item()
 	 *
 	 * @param WC_Product $_product     The product object.
 	 * @param array      $cart_item    The cart item data.
@@ -1366,7 +1399,9 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param array           $cart_contents The cart contents passed.
+	 * @see CoCart_REST_Cart_V2_Controller::get_item()
+	 *
+	 * @param array           $cart_contents The cart contents.
 	 * @param WP_REST_Request $request       The request object.
 	 * @param boolean         $show_thumb    Determines if requested to return the item featured thumbnail.
 	 *
@@ -1416,6 +1451,8 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
+	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_item()
 	 *
 	 * @param array   $removed_items The removed cart contents passed.
 	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
@@ -1478,6 +1515,9 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Prices now return as monetary values.
 	 *
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
+	 *
 	 * @return array $cross_sells Returns cross sells.
 	 */
 	public function get_cross_sells() {
@@ -1538,6 +1578,9 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since   3.0.0 Introduced.
 	 * @version 3.1.0
+	 *
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Cart_Helpers::is_shipping_enabled()
 	 *
 	 * @return array Shipping details.
 	 */
@@ -1867,6 +1910,17 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @access protected
 	 *
 	 * @since 3.0.3 Introduced.
+	 *
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
+	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
+	 * @see CoCart_Utilities_Cart_Helpers::get_applied_coupons()
+	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
+	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template_limited()
+	 * @see CoCart_REST_Cart_V2_Controller::get_shipping_details()
+	 * @see CoCart_REST_Cart_V2_Controller::get_removed_items()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cross_sells()
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
