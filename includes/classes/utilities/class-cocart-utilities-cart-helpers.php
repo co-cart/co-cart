@@ -163,8 +163,11 @@ class CoCart_Utilities_Cart_Helpers {
 			return array();
 		}
 
-		// Get shipping packages.
-		$available_packages = WC()->shipping->get_packages();
+		// See if we need to calculate anything.
+		if ( ! $cart->needs_shipping() ) {
+			return array();
+		}
+
 
 		$details = array(
 			'total_packages'          => count( (array) $available_packages ),
