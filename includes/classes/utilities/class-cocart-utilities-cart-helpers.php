@@ -276,12 +276,14 @@ class CoCart_Utilities_Cart_Helpers {
 		 * Filter allows you to alter the shipping packages returned.
 		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.4.0 Added $recurring_cart as parameter.
 		 *
-		 * @param array   $packages      Available shipping packages.
-		 * @param array   $chosen_method Chosen shipping method.
-		 * @param WC_Cart $instance      The cart object.
+		 * @param array   $packages       Available shipping packages.
+		 * @param array   $chosen_method  Chosen shipping method.
+		 * @param WC_Cart $cart           Cart class instance.
+		 * @param bool    $recurring_cart True or false if cart is recurring.
 		 */
-		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $this->get_cart_instance() );
+		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $cart, $recurring_cart );
 
 		return $details;
 	} // END get_shipping_details()
