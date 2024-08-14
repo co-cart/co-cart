@@ -180,6 +180,13 @@ class CoCart_Utilities_Cart_Helpers {
 
 		$has_calculated_shipping = $cart->show_shipping();
 
+		// Return nothing if the cart has no subscriptions that require shipping.
+		if ( $recurring_cart ) {
+			if ( ! $has_calculated_shipping && ! WC_Subscriptions_Cart::cart_contains_subscriptions_needing_shipping() ) {
+				return array();
+			}
+		}
+
 		$details = array(
 			'total_packages'          => count( (array) $get_shipping_packages[0]['contents'] ),
 			'show_package_details'    => $recurring_cart ? true : count( (array) $get_shipping_packages[0]['contents'] ) > 1,
