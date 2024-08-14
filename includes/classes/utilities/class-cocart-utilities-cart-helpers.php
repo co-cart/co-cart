@@ -191,8 +191,8 @@ class CoCart_Utilities_Cart_Helpers {
 		$package_key   = 1;
 		$chosen_method = ''; // Leave blank until a method has been selected.
 
-		foreach ( $available_packages as $i => $package ) {
-			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
+		foreach ( $get_packages as $package_id => $package ) {
+			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $package_id ] ) ? WC()->session->chosen_shipping_methods[ $package_id ] : '';
 			$product_names = array();
 
 			if ( count( (array) $packages ) > 1 ) {
@@ -211,16 +211,16 @@ class CoCart_Utilities_Cart_Helpers {
 				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
 			}
 
-			if ( 0 === $i ) {
+			if ( 0 === $package_id ) {
 				$package_key = 'default'; // Identifies the default package.
 			}
 
 			// Check that there are rates available for the package.
 			if ( count( (array) $package['rates'] ) > 0 ) {
-				$shipping_name = ( ( $i + 1 ) > 1 ) ? sprintf(
-					/* translators: %d: shipping package number */
+				$shipping_name = ( ( $package_id + 1 ) > 1 ) ? sprintf(
+					/* translators: %d: shipping package ID */
 					_x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ),
-					( $i + 1 )
+					( $package_id + 1 )
 				) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' );
 
 				$packages[ $package_key ] = array(
@@ -229,14 +229,14 @@ class CoCart_Utilities_Cart_Helpers {
 					 *
 					 * @since 3.0.0 Introduced.
 					 *
-					 * @param string $shipping_name Shipping name.
-					 * @param int    $i
-					 * @param array  $package
+					 * @param string  $shipping_name Package name.
+					 * @param int     $package_id    Package ID.
+					 * @param array   $package       Package contents.
 					 */
-					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $i, $package ),
+					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $package_id, $package ),
 					'rates'                 => array(),
 					'package_details'       => implode( ', ', $product_names ),
-					'index'                 => $i, // Shipping package number.
+					'index'                 => $package_id, // Shipping package ID.
 					'chosen_method'         => $chosen_method,
 					'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
 				);
