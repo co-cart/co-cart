@@ -149,16 +149,17 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 4.4.0 Added cart class instance as new parameter.
+	 * @since 4.4.0 Added cart class instance and recurring cart as new parameters.
 	 *
 	 * @see cocart_format_money()
 	 * @see CoCart_Utilities_Cart_Helpers::is_shipping_enabled()
 	 *
-	 * @param WC_Cart $cart Cart class instance.
+	 * @param WC_Cart $cart           Cart class instance.
+	 * @param bool    $recurring_cart True or false if cart is recurring.
 	 *
 	 * @return array Shipping details.
 	 */
-	public static function get_shipping_details( $cart ) {
+	public static function get_shipping_details( $cart, $recurring_cart = false ) {
 		if ( ! self::is_shipping_enabled() ) {
 			return array();
 		}
