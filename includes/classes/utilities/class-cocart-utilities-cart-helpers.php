@@ -168,10 +168,19 @@ class CoCart_Utilities_Cart_Helpers {
 			return array();
 		}
 
+		// Get shipping rates and packages.
+		$get_packages          = WC()->shipping->get_packages();
+		$get_shipping_packages = $cart->get_shipping_packages();
+
+		// Return early if invalid object supplied by the filter or no packages.
+		if ( ! is_array( $get_packages ) || empty( $get_packages ) ) {
+			return array();
+		}
+
 
 		$details = array(
-			'total_packages'          => count( (array) $available_packages ),
-			'show_package_details'    => count( (array) $available_packages ) > 1,
+			'total_packages'          => count( (array) $get_shipping_packages[0]['contents'] ),
+			'show_package_details'    => $recurring_cart ? true : count( (array) $get_shipping_packages[0]['contents'] ) > 1,
 			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
 			'packages'                => array(),
 		);
