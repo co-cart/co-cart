@@ -1334,7 +1334,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 *
 			 * @param int    $thumbnail_id Product thumbnail ID.
 			 * @param array  $cart_item    Cart item.
-			 * @param string $item_key     Item key.
+			 * @param string $item_key     Generated ID based on the product information when added to the cart.
 			 * @param bool   $removed_item Determines if the item in the cart is removed.
 			 */
 			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
@@ -1360,7 +1360,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 *
 			 * @param string $thumbnail_src URL of the product thumbnail.
 			 * @param array  $cart_item     Cart item.
-			 * @param string $item_key      Item key.
+			 * @param string $item_key      Generated ID based on the product information when added to the cart.
 			 * @param bool   $removed_item  Determines if the item in the cart is removed.
 			 */
 			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
