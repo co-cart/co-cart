@@ -178,11 +178,12 @@ class CoCart_Utilities_Cart_Helpers {
 			return array();
 		}
 
+		$has_calculated_shipping = $cart->show_shipping();
 
 		$details = array(
 			'total_packages'          => count( (array) $get_shipping_packages[0]['contents'] ),
 			'show_package_details'    => $recurring_cart ? true : count( (array) $get_shipping_packages[0]['contents'] ) > 1,
-			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
+			'has_calculated_shipping' => $has_calculated_shipping,
 			'packages'                => array(),
 		);
 
