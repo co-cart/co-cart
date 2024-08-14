@@ -1306,22 +1306,6 @@ class CoCart_REST_Cart_V2_Controller {
 			$item['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $product->get_id() ) );
 		}
 
-		// Prepares the remaining cart item data.
-		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
-
-		// Collect all cart item data if any thing is left.
-		if ( ! empty( $cart_item ) ) {
-			/**
-			 * Filter allows you to alter the remaining cart item data.
-			 *
-			 * @since 3.0.0 Introduced.
-			 *
-			 * @param array  $cart_item The cart item data.
-			 * @param string $item_key  Generated ID based on the product information when added to the cart.
-			 */
-			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
-		}
-
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
 			$thumbnail_id = ! empty( $product->get_image_id() ) ? $product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
@@ -1367,6 +1351,22 @@ class CoCart_REST_Cart_V2_Controller {
 
 			// Add main featured image.
 			$item['featured_image'] = esc_url( $thumbnail_src );
+		}
+
+		// Prepares the remaining cart item data.
+		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
+
+		// Collect all cart item data if any thing is left.
+		if ( ! empty( $cart_item ) ) {
+			/**
+			 * Filter allows you to alter the remaining cart item data.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array  $cart_item The cart item data.
+			 * @param string $item_key  Generated ID based on the product information when added to the cart.
+			 */
+			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
 		}
 
 		return $item;
