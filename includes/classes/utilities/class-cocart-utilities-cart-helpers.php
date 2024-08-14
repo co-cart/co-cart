@@ -228,12 +228,14 @@ class CoCart_Utilities_Cart_Helpers {
 					 * Filters the package name for the shipping method.
 					 *
 					 * @since 3.0.0 Introduced.
+					 * @since 4.4.0 Added cart class instance as new parameter.
 					 *
 					 * @param string  $shipping_name Package name.
 					 * @param int     $package_id    Package ID.
 					 * @param array   $package       Package contents.
+					 * @param WC_Cart $cart          Cart class instance.
 					 */
-					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $package_id, $package ),
+					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $package_id, $package, $cart ),
 					'rates'                 => array(),
 					'package_details'       => implode( ', ', $product_names ),
 					'index'                 => $package_id, // Shipping package ID.
