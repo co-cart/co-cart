@@ -1353,6 +1353,21 @@ class CoCart_REST_Cart_V2_Controller {
 			$item['featured_image'] = esc_url( $thumbnail_src );
 		}
 
+		if ( ! $removed_item ) {
+			/**
+			 * Filter allows extensions to add additional data to be returned for item in cart.
+			 *
+			 * Data is only returned for items in the cart, not removed items.
+			 *
+			 * @since 4.4.0 Introduced.
+			 *
+			 * @param array      $extensions The extension data added.
+			 * @param array      $cart_item  The cart item data.
+			 * @param WC_Product $product    The product object.
+			 */
+			$item['extensions'] = apply_filters( 'cocart_cart_item_extensions', array(), $cart_item, $product );
+		}
+
 		// Prepares the remaining cart item data.
 		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
 
