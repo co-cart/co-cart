@@ -109,6 +109,7 @@ class CoCart_REST_API {
 			array(
 				'cocart/v1' => $this->get_v1_controllers(),
 				'cocart/v2' => $this->get_v2_controllers(),
+				'cocart/v3' => $this->get_v3_controllers(),
 			)
 		);
 
@@ -185,6 +186,19 @@ class CoCart_REST_API {
 			'cocart-v2-product-variations'      => 'CoCart_REST_Product_Variations_V2_Controller',
 		);
 	} // END get_v2_controllers()
+
+	/**
+	 * List of controllers in the cocart/v3 namespace.
+	 *
+	 * @access protected
+	 *
+	 * @return array
+	 */
+	protected function get_v3_controllers() {
+		return array(
+			'cocart-v3-cart' => 'CoCart_REST_Cart_V3_Controller',
+		);
+	} // END get_v3_controllers()
 
 	/**
 	 * Controls the hooks that should be initialized for the current cart session.
@@ -431,6 +445,9 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-tags-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-variations-controller.php';
+
+		// CoCart REST API v3 controllers.
+		require_once __DIR__ . '/controllers/v3/cart/class-cocart-rest-cart-v3-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // END rest_api_includes()
