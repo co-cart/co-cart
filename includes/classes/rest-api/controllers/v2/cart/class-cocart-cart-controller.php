@@ -795,7 +795,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
 	 *
-	 * @see CoCart_Utilities_Cart_Helpers::format_variation_data()
+	 * @see CoCart_Utilities_Cart_Helpers::cocart_format_variation_data()
 	 *
 	 * @param array      $variation_data Array of data from the cart.
 	 * @param WC_Product $product        Product data.
@@ -803,9 +803,9 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array
 	 */
 	protected function format_variation_data( $variation_data, $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::format_variation_data', '4.4.0', 'format_variation_data' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::cocart_format_variation_data', '4.4.0', 'cocart_format_variation_data' );
 
-		return format_variation_data( $variation_data, $product );
+		return cocart_format_variation_data( $variation_data, $product );
 	} // END format_variation_data()
 
 	/**
@@ -1299,7 +1299,7 @@ class CoCart_REST_Cart_V2_Controller {
 		if ( ! isset( $cart_item['variation'] ) ) {
 			$cart_item['variation'] = array();
 		}
-		$item['meta']['variation'] = format_variation_data( $cart_item['variation'], $product );
+		$item['meta']['variation'] = cocart_format_variation_data( $cart_item['variation'], $product );
 
 		// Backorder notification.
 		if ( $product->backorders_require_notification() && $product->is_on_backorder( $cart_item['quantity'] ) ) {
