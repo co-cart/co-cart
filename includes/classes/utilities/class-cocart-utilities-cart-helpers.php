@@ -142,6 +142,163 @@ class CoCart_Utilities_Cart_Helpers {
 	} // END get_variable_product_attributes()
 
 	/**
+	 * Returns shipping details.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 4.4.0 Added cart class instance as new parameter.
+	 *
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Cart_Helpers::is_shipping_enabled()
+	 *
+	 * @param WC_Cart $cart Cart class instance.
+	 *
+	 * @return array Shipping details.
+	 */
+	public static function get_shipping_details( $cart ) {
+		if ( ! self::is_shipping_enabled() ) {
+			return array();
+		}
+
+		// Get shipping packages.
+		$available_packages = WC()->shipping->get_packages();
+
+		$details = array(
+			'total_packages'          => count( (array) $available_packages ),
+			'show_package_details'    => count( (array) $available_packages ) > 1,
+			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
+			'packages'                => array(),
+		);
+
+		$packages      = array();
+		$package_key   = 1;
+		$chosen_method = ''; // Leave blank until a method has been selected.
+
+		foreach ( $available_packages as $i => $package ) {
+			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
+			$product_names = array();
+
+			if ( count( (array) $packages ) > 1 ) {
+				foreach ( $package['contents'] as $item_id => $values ) {
+					$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
+				}
+
+				/**
+				 * Filter allows you to change the package details.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param array $product_names Product names.
+				 * @param array $package       Package details.
+				 */
+				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
+			}
+
+			if ( 0 === $i ) {
+				$package_key = 'default'; // Identifies the default package.
+			}
+
+			// Check that there are rates available for the package.
+			if ( count( (array) $package['rates'] ) > 0 ) {
+				$shipping_name = ( ( $i + 1 ) > 1 ) ? sprintf(
+					/* translators: %d: shipping package number */
+					_x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ),
+					( $i + 1 )
+				) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' );
+
+				$packages[ $package_key ] = array(
+					/**
+					 * Filters the package name for the shipping method.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $shipping_name Shipping name.
+					 * @param int    $i
+					 * @param array  $package
+					 */
+					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $i, $package ),
+					'rates'                 => array(),
+					'package_details'       => implode( ', ', $product_names ),
+					'index'                 => $i, // Shipping package number.
+					'chosen_method'         => $chosen_method,
+					'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
+				);
+
+				$rates = array();
+
+				// Return each rate.
+				foreach ( $package['rates'] as $key => $method ) {
+					$meta_data = self::clean_meta_data( $method, 'shipping' );
+
+					$rates[ $key ] = array(
+						'key'           => $key,
+						'method_id'     => $method->get_method_id(),
+						'instance_id'   => $method->instance_id,
+						'label'         => $method->get_label(),
+						'cost'          => cocart_format_money( $method->cost ),
+						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
+						'taxes'         => '',
+						'chosen_method' => ( $chosen_method === $key ),
+						'meta_data'     => $meta_data,
+					);
+
+					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
+						$rates[ $key ]['taxes'] = cocart_format_money( $tax_cost );
+					}
+				}
+
+				$packages[ $package_key ]['rates'] = $rates;
+			}
+
+			++$package_key; // Update package key for next inline if any.
+		}
+
+		/**
+		 * Filter allows you to alter the shipping packages returned.
+		 *
+		 * @since 4.1.0 Introduced.
+		 *
+		 * @param array   $packages      Available shipping packages.
+		 * @param array   $chosen_method Chosen shipping method.
+		 * @param WC_Cart $instance      The cart object.
+		 */
+		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $this->get_cart_instance() );
+
+		return $details;
+	} // END get_shipping_details()
+
+	/**
+	 * Cleans up the meta data for API.
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @since 3.1.0 Introduced
+	 *
+	 * @param object $method Method data.
+	 * @param string $type   Meta data we are cleaning for.
+	 *
+	 * @return array Meta data.
+	 */
+	protected static function clean_meta_data( $method, $type = 'shipping' ) {
+		$meta_data = $method->get_meta_data();
+
+		switch ( $type ) {
+			case 'shipping':
+				$meta_data['items'] = isset( $meta_data['Items'] ) ? html_entity_decode( wp_strip_all_tags( $meta_data['Items'] ) ) : '';
+				unset( $meta_data['Items'] );
+
+				break;
+		}
+
+		return $meta_data;
+	} // END clean_meta_data()
+
+	/**
 	 * Get cart fees.
 	 *
 	 * @access public

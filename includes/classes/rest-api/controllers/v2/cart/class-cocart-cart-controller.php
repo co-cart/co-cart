@@ -1571,124 +1571,20 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
 	 *
-	 * @see cocart_format_money()
-	 * @see CoCart_Utilities_Cart_Helpers::is_shipping_enabled()
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
+	 *
+	 * @param WC_Cart $cart Cart class instance.
 	 *
 	 * @return array Shipping details.
 	 */
-	public function get_shipping_details() {
-		if ( ! CoCart_Utilities_Cart_Helpers::is_shipping_enabled() ) {
-			return array();
-		}
+	public function get_shipping_details( $cart ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_shipping_details', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_shipping_details' );
 
-		// Get shipping packages.
-		$available_packages = WC()->shipping->get_packages();
-
-		$details = array(
-			'total_packages'          => count( (array) $available_packages ),
-			'show_package_details'    => count( (array) $available_packages ) > 1,
-			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
-			'packages'                => array(),
-		);
-
-		$packages      = array();
-		$package_key   = 1;
-		$chosen_method = ''; // Leave blank until a method has been selected.
-
-		foreach ( $available_packages as $i => $package ) {
-			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
-			$product_names = array();
-
-			if ( count( (array) $packages ) > 1 ) {
-				foreach ( $package['contents'] as $item_id => $values ) {
-					$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
-				}
-
-				/**
-				 * Filter allows you to change the package details.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param array $product_names Product names.
-				 * @param array $package       Package details.
-				 */
-				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
-			}
-
-			if ( 0 === $i ) {
-				$package_key = 'default'; // Identifies the default package.
-			}
-
-			// Check that there are rates available for the package.
-			if ( count( (array) $package['rates'] ) > 0 ) {
-				$shipping_name = ( ( $i + 1 ) > 1 ) ? sprintf(
-					/* translators: %d: shipping package number */
-					_x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ),
-					( $i + 1 )
-				) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' );
-
-				$packages[ $package_key ] = array(
-					/**
-					 * Filters the package name for the shipping method.
-					 *
-					 * @since 3.0.0 Introduced.
-					 *
-					 * @param string $shipping_name Shipping name.
-					 * @param int    $i
-					 * @param array  $package
-					 */
-					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $i, $package ),
-					'rates'                 => array(),
-					'package_details'       => implode( ', ', $product_names ),
-					'index'                 => $i, // Shipping package number.
-					'chosen_method'         => $chosen_method,
-					'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
-				);
-
-				$rates = array();
-
-				// Return each rate.
-				foreach ( $package['rates'] as $key => $method ) {
-					$meta_data = $this->clean_meta_data( $method, 'shipping' );
-
-					$rates[ $key ] = array(
-						'key'           => $key,
-						'method_id'     => $method->get_method_id(),
-						'instance_id'   => $method->instance_id,
-						'label'         => $method->get_label(),
-						'cost'          => cocart_format_money( $method->cost ),
-						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
-						'taxes'         => '',
-						'chosen_method' => ( $chosen_method === $key ),
-						'meta_data'     => $meta_data,
-					);
-
-					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
-						$rates[ $key ]['taxes'] = cocart_format_money( $tax_cost );
-					}
-				}
-
-				$packages[ $package_key ]['rates'] = $rates;
-			}
-
-			++$package_key; // Update package key for next inline if any.
-		}
-
-		/**
-		 * Filter allows you to alter the shipping packages returned.
-		 *
-		 * @since 4.1.0 Introduced.
-		 *
-		 * @param array   $packages      Available shipping packages.
-		 * @param array   $chosen_method Chosen shipping method.
-		 * @param WC_Cart $instance      The cart object.
-		 */
-		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $this->get_cart_instance() );
-
-		return $details;
+		return CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart );
 	} // END get_shipping_details()
 
 	/**
@@ -1699,23 +1595,19 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since   3.1.0 Introduced
 	 * @version 3.1.2
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::clean_meta_data()
+	 *
 	 * @param object $method Method data.
 	 * @param string $type   Meta data we are cleaning for.
 	 *
 	 * @return array Meta data.
 	 */
 	protected function clean_meta_data( $method, $type = 'shipping' ) {
-		$meta_data = $method->get_meta_data();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::clean_meta_data', '4.4.0', 'CoCart_Utilities_Cart_Helpers::clean_meta_data' );
 
-		switch ( $type ) {
-			case 'shipping':
-				$meta_data['items'] = isset( $meta_data['Items'] ) ? html_entity_decode( wp_strip_all_tags( $meta_data['Items'] ) ) : '';
-				unset( $meta_data['Items'] );
-
-				break;
-		}
-
-		return $meta_data;
+		return CoCart_Utilities_Cart_Helpers::clean_meta_data( $method, $type );
 	} // END clean_meta_data()
 
 	/**
@@ -1910,10 +1802,10 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
 	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
 	 * @see CoCart_Utilities_Cart_Helpers::get_applied_coupons()
+	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
 	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
 	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template_limited()
-	 * @see CoCart_REST_Cart_V2_Controller::get_shipping_details()
 	 * @see CoCart_REST_Cart_V2_Controller::get_removed_items()
 	 * @see CoCart_REST_Cart_V2_Controller::get_cross_sells()
 	 *
@@ -1945,7 +1837,7 @@ class CoCart_REST_Cart_V2_Controller {
 			'coupons'        => CoCart_Utilities_Cart_Helpers::get_applied_coupons( $this->get_cart_instance() ),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
-			'shipping'       => $this->get_shipping_details(),
+			'shipping'       => CoCart_Utilities_Cart_Helpers::get_shipping_details( $this->get_cart_instance() ),
 			'fees'           => CoCart_Utilities_Cart_Helpers::get_fees( $this->get_cart_instance() ),
 			'taxes'          => array(),
 			'totals'         => array(
@@ -2036,7 +1928,7 @@ class CoCart_REST_Cart_V2_Controller {
 					$template['needs_shipping'] = $this->get_cart_instance()->needs_shipping();
 					break;
 				case 'shipping':
-					$template['shipping'] = $this->get_shipping_details();
+					$template['shipping'] = CoCart_Utilities_Cart_Helpers::get_shipping_details( $this->get_cart_instance() );
 					break;
 				case 'fees':
 					$template['fees'] = CoCart_Utilities_Cart_Helpers::get_fees( $this->get_cart_instance() );
