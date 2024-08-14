@@ -1219,8 +1219,8 @@ class CoCart_REST_Cart_V2_Controller {
 				 * @param WC_Product $product      The product object.
 				 */
 				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $product ),
-				'min_purchase' => $product->get_min_purchase_quantity(),
-				'max_purchase' => $product->get_max_purchase_quantity(),
+				'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
+				'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
 			),
 			'totals'         => array(
 				/**
