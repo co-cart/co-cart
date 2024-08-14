@@ -283,7 +283,9 @@ class CoCart_Utilities_Cart_Helpers {
 		 * @param WC_Cart $cart           Cart class instance.
 		 * @param bool    $recurring_cart True or false if cart is recurring.
 		 */
-		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $cart, $recurring_cart );
+		$packages = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $cart, $recurring_cart );
+
+		$details['packages'] = $has_calculated_shipping ? $packages : array();
 
 		return $details;
 	} // END get_shipping_details()
