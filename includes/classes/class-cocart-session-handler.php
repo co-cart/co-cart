@@ -194,7 +194,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return bool Returns true if user is a customer, otherwise false.
 	 */
 	public function is_user_customer( $user_id ) {
-		if ( ! is_int( $user_id ) || 0 === $user_id ) {
+		if ( ! is_numeric( $user_id ) || 0 === $user_id ) {
 			return false;
 		}
 
