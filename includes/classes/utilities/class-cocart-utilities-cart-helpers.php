@@ -226,6 +226,7 @@ class CoCart_Utilities_Cart_Helpers {
 			 * @since 2.1.0 Introduced.
 			 *
 			 * @param string $message Message.
+			 * @param string $status  Status of which we are checking the item key.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, $status );
 
