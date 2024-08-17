@@ -1,0 +1,12 @@
+# phpstan.neon
+
+parameters:
+    level: 0
+
+    paths:
+        - includes
+
+    excludePaths:
+        - %rootDir%/../../wp-content/plugins/cart-rest-api-for-woocommerce/vendor/*
+
+    editorUrl: 'vscode://file/%%file%%:%%line%%'
