@@ -756,8 +756,8 @@ class CoCart_Utilities_Cart_Helpers {
 			 * @since 3.0.17 Introduced.
 			 * @since 3.1.0  Added product object as parameter.
 			 *
-			 * @param int|float  Minimum quantity to validate with.
-			 * @param WC_Product The product object.
+			 * @param int|float  $quantity Minimum quantity to validate with.
+			 * @param WC_Product $product  The product object.
 			 */
 			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
 
@@ -780,8 +780,8 @@ class CoCart_Utilities_Cart_Helpers {
 			 *
 			 * @since 3.1.0 Introduced.
 			 *
-			 * @param int|float  Maximum quantity to validate with.
-			 * @param WC_Product The product object.
+			 * @param int|float  $quantity Maximum quantity to validate with.
+			 * @param WC_Product $product  The product object.
 			 */
 			$maximum_quantity = apply_filters( 'cocart_quantity_maximum_allowed', $maximum_quantity, $product );
 
@@ -895,9 +895,9 @@ class CoCart_Utilities_Cart_Helpers {
 				 *
 				 * @since 2.1.0 Introduced.
 				 *
-				 * @param string $message            Message.
-				 * @param string $missing_attributes Number of missing attributes.
-				 * @param array  $missing_attributes List of missing attributes.
+				 * @param string $message    Message.
+				 * @param int    $count      Number of missing attributes.
+				 * @param string $attributes Comma separate a list of missing attributes.
 				 */
 				$message = apply_filters( 'cocart_missing_variation_data_message', $message, count( $missing_attributes ), wc_format_list_of_items( $missing_attributes ) );
 
@@ -941,8 +941,8 @@ class CoCart_Utilities_Cart_Helpers {
 					/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
 					__( 'You cannot add that amount of (%1$s) for "%2$s" to the cart because there is not enough stock, only (%3$s remaining).', 'cart-rest-api-for-woocommerce' ),
 					$quantity,
-					$product->get_name(),
-					wc_format_stock_quantity_for_display( $stock_quantity, $product )
+					$current_product->get_name(),
+					wc_format_stock_quantity_for_display( $stock_quantity, $current_product )
 				);
 
 				throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 404 );
