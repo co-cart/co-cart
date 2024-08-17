@@ -1,12 +1,14 @@
-# phpstan.neon
-
 parameters:
     level: 0
 
     paths:
+        - cart-rest-api-for-woocommerce.php
+        - load-package.php
+        - uninstall.php
         - includes
-
-    excludePaths:
-        - %rootDir%/../../wp-content/plugins/cart-rest-api-for-woocommerce/vendor/*
+    bootstrapFiles:
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    scanFiles:
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
 
     editorUrl: 'vscode://file/%%file%%:%%line%%'
