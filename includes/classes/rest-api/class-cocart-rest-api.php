@@ -338,7 +338,7 @@ class CoCart_REST_API {
 			 *
 			 * @since 4.1.0 Introduced.
 			 *
-			 * @param int Current user ID.
+			 * @param int $current_user_id Current user ID.
 			 */
 			$customer_id = apply_filters( 'cocart_set_customer_id', get_current_user_id() );
 
@@ -464,7 +464,7 @@ class CoCart_REST_API {
 		 *
 		 * @since 3.6.0 Introduced.
 		 *
-		 * @param array Default patterns.
+		 * @param array $cache_control_patterns Cache control patterns.
 		 */
 		$regex_path_patterns = apply_filters(
 			'cocart_send_cache_control_patterns',
@@ -530,7 +530,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @return bool
+	 * @return bool Returns true if route matches.
 	 */
 	protected function prevent_routes_from_initializing() {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );

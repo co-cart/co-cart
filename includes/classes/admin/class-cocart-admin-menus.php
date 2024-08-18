@@ -87,7 +87,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 			 *
 			 * @since 3.10.0 Introduced.
 			 *
-			 * @param array
+			 * @param array $submenus Array of submenu pages.
 			 */
 			$submenu_pages = apply_filters( 'cocart_register_submenu_page', array() );
 

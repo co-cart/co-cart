@@ -798,8 +798,6 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @param string $cart_key The cart key.
 	 * @param mixed  $default  Default cart value.
-	 *
-	 * @return string|array
 	 */
 	public function get_cart( $cart_key, $default = false ) {
 		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart', '4.2.0', 'WC()->session->get_session()' );

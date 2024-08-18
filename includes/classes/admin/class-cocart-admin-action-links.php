@@ -38,7 +38,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 			$this->campaign_args['utm_content'] = 'action-links';
 
 			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
-			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
+			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		} // END __construct()
 
 		/**
@@ -108,12 +108,15 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		/**
 		 * Plugin row meta links
 		 *
-		 * @access  public
-		 * @since   2.0.0
+		 * @access public
+		 *
+		 * @since   2.0.0 Introduced.
 		 * @version 3.10.0
-		 * @param   array  $metadata An array of the plugin's metadata.
-		 * @param   string $file     Path to the plugin file.
-		 * @return  array  $metadata
+		 *
+		 * @param array  $metadata An array of the plugin's metadata.
+		 * @param string $file     Path to the plugin file.
+		 *
+		 * @return array $metadata An array of the plugin's metadata.
 		 */
 		public function plugin_row_meta( $metadata, $file ) {
 			if ( version_compare( get_option( 'cocart_version' ), COCART_VERSION, '<' ) ) {

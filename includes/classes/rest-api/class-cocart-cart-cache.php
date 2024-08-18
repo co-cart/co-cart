@@ -276,9 +276,9 @@ class CoCart_Cart_Cache {
 		 *
 		 * @since 4.1.0 Introduced.
 		 *
-		 * @param bool
-		 * @param array           $cart_item Cart item.
-		 * @param WP_REST_Request $request   The request object.
+		 * @param bool            $allow_change Allow price change.
+		 * @param array           $cart_item    Cart item.
+		 * @param WP_REST_Request $request      The request object.
 		 */
 		return apply_filters( 'cocart_does_product_allow_price_change', true, $cart_item, $request );
 	} // END does_product_allow_price_change()

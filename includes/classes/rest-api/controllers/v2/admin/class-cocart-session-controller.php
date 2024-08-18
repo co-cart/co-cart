@@ -490,7 +490,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @since 2.0.0 Introduced.
 			 * @since 3.0.0 Added $removed_item parameter.
 			 *
-			 * @param bool $removed_item Determines if the item in the cart is removed.
+			 * @param string $thumbnail_size Thumbnail size.
+			 * @param bool   $removed_item   Determines if the item in the cart is removed.
 			 */
 			$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item );
 
