@@ -164,8 +164,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			// Get cart.
 			$this->_data = $this->get_session_data();
 
-			// If the user logs in, update session.
-			if ( is_user_logged_in() && $this->is_user_customer( $current_user_id ) && $current_user_id !== $this->_customer_id ) {
+			// If the user logs in, and there is a requested cart that is not a customer then update session configuration.
+			if ( is_user_logged_in() && ! empty( $this->_customer_id ) && ! $this->is_user_customer( $this->_customer_id ) && $current_user_id !== $this->_customer_id ) {
 				$guest_session_id   = $this->_customer_id;
 				$this->_customer_id = $current_user_id;
 				$this->save_data( $guest_session_id );
