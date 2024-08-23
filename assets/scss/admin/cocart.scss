@@ -28,13 +28,12 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 }
 
 .cocart-pagestyles {
-
-	/*#wpcontent,
+	/* #wpcontent,
 	#wpbody-content {
 		padding: 0;
 		overflow-x: hidden !important;
 		min-height: calc(100vh - 32px);
-	}*/
+	} */
 
 	#wpfooter {
 		display: initial;
@@ -54,9 +53,8 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 
 	.container {
 		background-color: $white;
-		border: 1px solid $lightgrey;
+		border: 1px solid $light-grey;
 		box-shadow: 0 2px 30px $shadow;
-		-webkit-box-shadow: 0 2px 30px $shadow;
 		color: $black;
 		margin: 20px auto 40px;
 		max-width: 700px;
@@ -118,10 +116,11 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 				border-color: $cocart;
 				color: $white;
 			}
+
 			a.button.upgrade:hover,
 			a.button.upgrade:focus {
-				background-color: $cocart_hovered;
-				border-color: $cocart_hovered;
+				background-color: $cocart-hovered;
+				border-color: $cocart-hovered;
 			}
 
 			p.price-tag {
@@ -159,7 +158,6 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 				vertical-align: -0.1em !important;
 				background: none !important;
 				padding: 0 !important;
-				-webkit-box-shadow: none !important;
 				box-shadow: none !important;
 			}
 
@@ -169,7 +167,6 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 
 // Admin Notices
 .notice {
-
 	&.inline.notice-cocart {
 		border-color: $cocart;
 
@@ -392,7 +389,6 @@ p {
 ul.cocart-next-steps {
 	border: 1px solid #eee;
 	border-radius: 4px;
-	list-style: none;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
@@ -477,8 +473,7 @@ ul.cocart-next-steps {
 	display: flex;
 	padding: 0;
 	align-items: center;
-	justify-content: center;
-	align-content: center;
+	place-content: center center;
 	flex-wrap: nowrap;
 }
 
@@ -521,9 +516,7 @@ ul.cocart-next-steps {
 
 // Untested Plugins
 #cart-rest-api-for-woocommerce-update {
-
 	.updating-message {
-
 		.cocart_plugin_upgrade_notice {
 			display: none;
 		}
@@ -624,7 +617,6 @@ ul.cocart-next-steps {
 }
 
 .cocart_untested_extensions_modal--content {
-
 	h1 {
 		border-bottom: 1px solid #eee;
 		background: #e9e9e9;
@@ -668,7 +660,7 @@ ul.cocart-next-steps {
 	.actions {
 		border-top: 1px solid #eee;
 		margin: 0;
-		padding: 1em 0 2em 0;
+		padding: 1em 0 2em;
 		overflow: hidden;
 
 		a.button-primary {
