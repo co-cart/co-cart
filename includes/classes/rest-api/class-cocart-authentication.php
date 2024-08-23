@@ -554,6 +554,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.2.0 Introduced.
 		 * @since 3.3.0 Added new custom headers without the prefix `X-`
+		 * @since 4.4.0 Fallback to a wildcard if the origin has yet to be determined.
 		 *
 		 * @uses get_http_origin()
 		 * @uses is_allowed_http_origin()
@@ -574,14 +575,21 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					$origin = esc_url_raw( $origin );
 				}
 
+				// Fallback to a wildcard if the origin has yet to be determined.
+				if ( empty( $origin ) ) {
+					$origin = '*';
+				}
+
 				/**
 				 * Filter allows you to change the allowed HTTP origin result.
 				 *
 				 * @since 2.5.1 Introduced.
+				 * @since 4.4.0 Added the request object as parameter.
 				 *
-				 * @param string $origin Origin URL if allowed, empty string if not.
+				 * @param string          $origin Origin URL if allowed, empty string if not.
+				 * @param WP_REST_Request $request The request object.
 				 */
-				$origin = apply_filters( 'cocart_allow_origin', $origin );
+				$origin = apply_filters( 'cocart_allow_origin', $origin, $request );
 
 				$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
 				$server->send_header( 'Access-Control-Allow-Credentials', 'true' );

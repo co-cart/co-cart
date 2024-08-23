@@ -2,9 +2,10 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce 4.3.5\n"
+"Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
+"4.4.0-beta.1\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-08-09 17:27:04+00:00\n"
+"POT-Creation-Date: 2024-07-26 13:53:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1304,43 +1305,8 @@ msgstr ""
 msgid "%s is no longer used."
 msgstr ""
 
-#: includes/classes/class-cocart-session.php:149
-#. translators: %s: cart key
-msgid "Cart key \"%s\" is already loaded as the currently logged in user."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:158
-#. translators: %s: cart key
-msgid ""
-"Customer is logged in as a different user. Cart key \"%s\" cannot be loaded "
-"into session for a different user."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:166
-msgid ""
-"Cart key is recognized as a registered user on site. Cannot be loaded into "
-"session as a guest."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:174
-msgid "Technical error made! See error log for reason."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:201
-#. translators: %s: cart key
-msgid "Unable to find cart for: %s"
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:209
-msgid "Sorry but this cart has expired!"
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:317
-#. translators: %1$s: Start of link to Shop archive. %2$s: Start of link to
-#. checkout page. %3$s: Closing link tag.
-msgid ""
-"Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s "
-"or %2$scheckout%3$s."
+#: includes/classes/class-cocart-session.php:74
+msgid "Cart is not valid! If this is an error, contact for help."
 msgstr ""
 
 #: includes/classes/class-cocart-woocommerce.php:130
@@ -1681,13 +1647,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:615
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:601
+#: includes/classes/utilities/class-cocart-utilities-product-helpers.php:379
 msgid "No matching variation found."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:642
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:633
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1075
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:625
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1067
 msgid "This product cannot be added to the cart."
 msgstr ""
 
@@ -1697,7 +1663,7 @@ msgid "Product \"%s\" no longer exists!"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:743
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:729
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:721
 msgid "Product did not pass validation!"
 msgstr ""
 
@@ -1711,7 +1677,7 @@ msgid "Sorry, this product cannot be purchased."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:833
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1182
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1174
 #. translators: %s: Product name
 msgid "You cannot add \"%s\" to the cart because the product is out of stock."
 msgstr ""
@@ -3007,7 +2973,7 @@ msgid "Session successfully deleted!"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/admin/class-cocart-session-controller.php:451
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1448
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1438
 msgid "Available on backorder"
 msgstr ""
 
@@ -3059,7 +3025,7 @@ msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:478
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-items-controller.php:316
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2519
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2502
 msgid "Customers billing email address."
 msgstr ""
 
@@ -3154,246 +3120,246 @@ msgstr ""
 msgid "Quantity must be %s or lower."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:835
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:827
 #. translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock
 msgid ""
 "You cannot add a quantity of (%1$s) for \"%2$s\" to the cart because there "
 "is not enough stock. - only (%3$s remaining)!"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1032
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1024
 msgid "Free shipping coupon"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1134
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1126
 #. translators: %s: Product Name
 msgid "You cannot add another '%s' to your cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1205
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1197
 #. translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock
 msgid ""
 "You cannot add the amount of %1$s for \"%2$s\" to the cart because there is "
 "not enough stock, only (%3$s) remaining."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1213
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1205
 #. translators: 1: Product Name
 msgid "You cannot add %1$s to the cart as it is no longer in stock."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1240
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1232
 #. translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart
 msgid ""
 "You cannot add that amount of \"%1$s\" to the cart &mdash; we have (%2$s) "
 "in stock remaining. You already have (%3$s) in your cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1553
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1543
 msgid "An item which is no longer available was removed from your cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1560
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1550
 #. translators: %s: product name
 msgid "%s has been removed from your cart because it can no longer be purchased."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1705
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1695
 #. translators: %s: average rating
 msgid "Rated %s out of 5"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2084
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2067
 msgid "No items in cart so no hash"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2379
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2362
 msgid "A Unique hash key of the carts contents."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2385
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2368
 msgid "The cart key identifying the cart in session."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2391
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3008
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3030
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2374
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2991
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3013
 msgid "The store currency information."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2397
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2380
 msgid "The currency code (in ISO format) for returned prices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2403
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2386
 msgid ""
 "The currency symbol for the currency which can be used to format returned "
 "prices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2409
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2392
 msgid ""
 "The currency symbol position to which the currency needs to return for the "
 "prices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2415
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2398
 msgid ""
 "The currency minor unit (number of digits after the decimal separator) for "
 "returned prices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2421
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2404
 msgid ""
 "The decimal separator for the currency which can be used to format returned "
 "prices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2427
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2410
 msgid ""
 "The thousand separator for the currency which can be used to format "
 "returned prices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2433
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2439
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2416
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2422
 msgid ""
 "The price prefix for the currency which can be used to format returned "
 "prices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2447
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2430
 msgid "The customer information."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2453
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2436
 msgid "Customers billing address."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2459
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2442
 msgid "Customers billing first name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2465
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2448
 msgid "Customers billing last name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2471
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2454
 msgid "Customers billing company name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2477
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2460
 msgid "Customers billing country."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2483
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2466
 msgid "Customers billing address line one."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2489
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2472
 msgid "Customers billing address line two."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2495
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2478
 msgid "Customers billing address city."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2501
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2484
 msgid "Customers billing state."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2507
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2490
 msgid "Customers billing postcode or zip code."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2513
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2496
 msgid "Customers billing phone."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2527
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2510
 msgid "Customers shipping address."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2533
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2516
 msgid "Customers shipping first name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2539
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2522
 msgid "Customers shipping last name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2545
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2528
 msgid "Customers shipping company name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2551
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2534
 msgid "Customers shipping country."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2557
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2540
 msgid "Customers shipping address line one."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2563
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2546
 msgid "Customers shipping address line two."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2569
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2552
 msgid "Customers shipping address city."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2575
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2558
 msgid "Customers shipping state."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2581
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2564
 msgid "Customers shipping postcode or zip code."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2591
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2574
 msgid "The list of items in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2599
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2582
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:154
 msgid "Unique ID of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2605
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2588
 msgid "Product ID or Variation ID of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2611
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2594
 msgid "The name of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2617
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2600
 msgid "The title of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2623
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2756
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3243
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2606
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2739
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3226
 msgid "The price of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2629
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2612
 msgid ""
 "The quantity of the item in the cart and minimum and maximum purchase "
 "capability."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2635
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2618
 msgid "The quantity of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2641
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2624
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:195
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:174
 msgid "The minimum purchase amount required."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2647
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2630
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:201
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:180
 msgid ""
@@ -3401,308 +3367,308 @@ msgid ""
 "purchase amount."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2655
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2638
 msgid "The totals of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2661
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2644
 msgid "The subtotal of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2667
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2650
 msgid "The subtotal tax of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2673
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2656
 msgid "The total of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2679
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2662
 msgid "The total tax of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2687
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3174
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2670
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3157
 msgid "The product slug of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2693
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3180
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2676
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3163
 msgid "The meta data of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2699
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2682
 msgid "The product type of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2705
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2688
 msgid "The SKU of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2711
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2694
 msgid "The dimensions of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2716
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2699
 msgid "The length of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2722
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2705
 msgid "The width of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2728
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2711
 msgid "The height of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2734
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2717
 msgid "The unit measurement of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2742
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2725
 msgid "The weight of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2748
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2731
 msgid ""
 "The variation attributes of the item in the cart (if item is a variation of "
 "a variable product)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2762
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2745
 msgid "Custom item data applied to the item in the cart (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2768
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3255
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2751
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3238
 msgid "The featured image of the item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2777
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2760
 msgid "The number of items in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2783
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2766
 msgid "The total weight of all items in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2789
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2772
 msgid "Coupons added to the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2797
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2780
 msgid "The coupon code."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2803
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2786
 msgid "The coupon label."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2809
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2792
 msgid "The amount discounted from the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2815
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2798
 msgid "The amount discounted from the cart (HTML formatted)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2824
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2807
 msgid ""
 "True if the cart needs payment. False for carts with only free products and "
 "no shipping costs."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2830
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2813
 msgid "True if the cart needs shipping and requires the showing of shipping costs."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2836
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2819
 msgid "The shipping packages available to the customer."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2842
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2825
 msgid ""
 "The number of shipping packages available calculated on the shipping "
 "address."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2848
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2831
 msgid ""
 "True if the cart meets the criteria for showing items in the cart assigned "
 "to package."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2854
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2837
 msgid ""
 "True if the cart meets the criteria for showing shipping costs, and rates "
 "have been calculated and included in the totals."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2860
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2878
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2843
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2861
 msgid "The packages returned after calculating shipping."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2866
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2849
 msgid "The default package."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2872
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2855
 msgid "The package name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2885
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2868
 msgid "The rate key."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2891
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2874
 msgid "The method ID."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2897
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2880
 msgid "The instance ID."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2903
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2886
 msgid "The rate label."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2909
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2892
 msgid "The rate cost."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2915
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2898
 msgid "The rate label and cost formatted."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2921
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2904
 msgid "The rate tax cost."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2927
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2910
 msgid "The chosen method."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2933
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2916
 msgid "The rate meta data."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2939
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2922
 msgid "The items the shipping rate has calculated based on."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2950
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2933
 msgid "The package details if any."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2956
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2939
 msgid "The package index."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2962
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2945
 msgid "The chosen method set from the available rates."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2968
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2951
 msgid "The destination the package."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2980
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2963
 msgid "The cart fees."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2987
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2970
 msgid "The fee name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2993
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2976
 msgid "The fee value."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3002
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2985
 msgid "The cart taxes."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3014
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2997
 msgid "The tax name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3020
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3003
 msgid "The tax price."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3036
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3019
 msgid ""
 "The subtotal of all items, shipping (if any) and fees (if any) before "
 "coupons applied (if any) to the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3042
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3025
 msgid ""
 "The subtotal tax of all items, shipping (if any) and fees (if any) before "
 "coupons applied (if any) to the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3048
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3031
 msgid "The fee total."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3054
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3037
 msgid "The fee tax."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3060
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3043
 msgid "The discount total."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3066
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3049
 msgid "The discount tax."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3072
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3055
 msgid "The shipping total of the selected packages."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3078
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3061
 msgid "The shipping tax."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3084
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3067
 msgid "The total of everything in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3090
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3073
 msgid "The total tax."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3098
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3081
 msgid "Items that have been removed from the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3106
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3089
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:133
 msgid "Unique ID of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3112
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3095
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:160
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:139
 msgid "Product ID or Variation ID of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3118
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3101
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:166
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:145
 msgid "The name of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3124
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3107
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:172
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:151
 msgid "The title of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3130
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3113
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:178
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:308
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:157
@@ -3710,161 +3676,161 @@ msgstr ""
 msgid "The price of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3136
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3119
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:189
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:168
 msgid "The quantity of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3142
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3125
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-item-controller.php:209
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-items-controller.php:188
 msgid "The totals of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3148
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3131
 msgid "The subtotal of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3154
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3137
 msgid "The subtotal tax of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3160
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3143
 msgid "The total of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3166
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3149
 msgid "The total tax of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3186
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3169
 msgid "The product type of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3192
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3175
 msgid "The SKU of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3198
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3181
 msgid "The dimensions of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3203
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3186
 msgid "The length of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3209
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3192
 msgid "The width of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3215
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3198
 msgid "The height of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3221
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3204
 msgid "The unit measurement of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3229
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3212
 msgid "The weight of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3235
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3218
 msgid ""
 "The variation attributes of the item (if item is a variation of a variable "
 "product)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3249
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3232
 msgid "Custom item data applied to the item (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3264
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3247
 msgid "Items you may be interested in adding to the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3270
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3253
 msgid "Product ID or Variation ID of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3276
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3259
 msgid "The name of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3282
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3265
 msgid "The title of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3288
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3271
 msgid "The slug of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3294
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3277
 msgid "The price of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3300
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3283
 msgid "The regular price of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3306
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3289
 msgid "The sale price of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3312
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3295
 msgid "The image of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3318
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3301
 msgid "The average rating of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3324
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3307
 msgid "The sale status of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3330
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3313
 msgid "The product type of the cross-sell product."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3338
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3321
 msgid "The cart notices."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3344
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3327
 msgid "Notices for successful actions."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3353
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3336
 msgid "Notices for informational actions."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3362
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3345
 msgid "Notices for error actions."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3382
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3365
 msgid "Changed for the purpose of not overriding default properties."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3408
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3391
 msgid "Unique identifier for the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3415
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3398
 msgid ""
 "Specify each parent field you want to request separated by (,) in the "
 "response before the data is fetched."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3422
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3405
 msgid ""
 "True if you want to return the URL of the featured product image for each "
 "item in the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3429
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:3412
 msgid "Return the default cart data if set to true."
 msgstr ""
 
@@ -4067,50 +4033,54 @@ msgstr ""
 msgid "Returns a message and quantity value after updating item in cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:76
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:78
 msgid "Sorry, you are not authorized."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:121
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:126
 msgid ""
 "Don't forget to store the users login information in order to authenticate "
 "all other routes with CoCart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:143
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:153
 msgid "Unique ID to the user on the site."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:149
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:159
 msgid "The first name of the user (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:155
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:165
 msgid "The last name of the user (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:161
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:171
 msgid "The display name of the user (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:167
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:177
 msgid "The role type assigned to the user."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:173
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:183
 msgid "The avatar URLs of the user for each avatar size registered."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:180
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:190
 msgid "The email address of the user."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:186
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:196
 msgid "Extra details added via the filter."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:193
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:203
 msgid "A message to developers."
+msgstr ""
+
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:224
+msgid "True if you want to return the avatars for the user."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v2/others/class-cocart-store-controller.php:201
@@ -4430,10 +4400,10 @@ msgstr ""
 msgid "Missing cart item key is required!"
 msgstr ""
 
-#: includes/cocart-core-functions.php:115
-#: includes/cocart-core-functions.php:241
-#: includes/cocart-core-functions.php:271
-#: includes/cocart-core-functions.php:301
+#: includes/cocart-core-functions.php:136
+#: includes/cocart-core-functions.php:262
+#: includes/cocart-core-functions.php:292
+#: includes/cocart-core-functions.php:322
 msgid "Missing session table."
 msgstr ""
 
@@ -4553,13 +4523,13 @@ msgctxt "label that indicates the number of carts created via other source"
 msgid "Carts Created (by %s)"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1782
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1772
 #. translators: %d: shipping package number
 msgctxt "shipping packages"
 msgid "Shipping #%d"
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1784
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:1774
 msgctxt "shipping packages"
 msgid "Shipping"
 msgstr ""

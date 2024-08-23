@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -74,7 +74,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 4.2.0
+	 * @version 4.4.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -152,7 +152,8 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 				wc_add_notice( $message, 'notice' );
 
 				// Return cart response.
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response              = $this->get_cart( $request );
 
 				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 			} else {

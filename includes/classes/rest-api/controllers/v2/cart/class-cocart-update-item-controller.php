@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,7 +67,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 4.2.0
+	 * @version 4.4.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -137,7 +137,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			 * @since   2.1.0 Introduced.
 			 * @version 2.6.2
 			 *
-			 * @param bool
+			 * @param bool   $passed       Whether the validation passed.
 			 * @param string $item_key     Item key.
 			 * @param array  $current_data Product data of the item in cart.
 			 * @param float  $quantity     The requested quantity to change to.
@@ -172,7 +172,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			// Only update cart item quantity if passed validation.
 			if ( $passed_validation ) {
-				if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity ) ) {
+				if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity, false ) ) {
 					$new_data = $this->get_cart_item( $item_key, 'update' );
 
 					$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
@@ -214,7 +214,8 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, 400 );
 				}
 
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response              = $this->get_cart( $request );
 
 				// Was it requested to return status once item updated?
 				if ( $request['return_status'] ) {
@@ -298,7 +299,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				'description'       => __( 'Quantity of this item to update to.', 'cart-rest-api-for-woocommerce' ),
 				'type'              => 'string',
 				'required'          => true,
-				'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'return_status' => array(
 				'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cart-rest-api-for-woocommerce' ),

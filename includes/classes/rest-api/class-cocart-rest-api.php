@@ -97,13 +97,29 @@ class CoCart_REST_API {
 	 * @return array List of Namespaces and Main controller classes.
 	 */
 	protected function get_rest_namespaces() {
-		return apply_filters(
+		/**
+		 * Filter the list of REST API controllers to load.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array $controllers List of $namespace => $controllers to load.
+		 */
+		$namespaces = apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
 				'cocart/v1' => $this->get_v1_controllers(),
 				'cocart/v2' => $this->get_v2_controllers(),
 			)
 		);
+
+		// Check if we should load the requested namespace.
+		foreach ( $namespaces as $namespace => $controller ) {
+			if ( ! cocart_rest_should_load_namespace( $namespace ) ) {
+				unset( $namespaces[ $namespace ] );
+			}
+		}
+
+		return $namespaces;
 	} // END get_rest_namespaces()
 
 	/**

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.x.x
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,6 +45,7 @@ class CoCart_REST_Login_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Added schema information.
+	 * @since 4.x.x Added arguments.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -58,6 +59,7 @@ class CoCart_REST_Login_V2_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'login' ),
 					'permission_callback' => array( $this, 'get_permission_callback' ),
+					'args'                => $this->get_collection_params(),
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -87,10 +89,13 @@ class CoCart_REST_Login_V2_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Added avatar URLS and users email address.
 	 * @since 3.8.1 Added users first and last name.
+	 * @since 4.x.x Avatars only return if requested.
+	 *
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function login() {
+	public function login( $request ) {
 		$current_user = get_userdata( get_current_user_id() );
 
 		$user_roles = $current_user->roles;
@@ -107,7 +112,7 @@ class CoCart_REST_Login_V2_Controller {
 			'last_name'    => $current_user->last_name,
 			'display_name' => esc_html( $current_user->display_name ),
 			'role'         => implode( ', ', $display_user_roles ),
-			'avatar_urls'  => rest_get_avatar_urls( trim( $current_user->user_email ) ),
+			'avatar_urls'  => array(),
 			'email'        => trim( $current_user->user_email ),
 			/**
 			 * Filter allows you to add extra information based on the current user.
@@ -120,6 +125,11 @@ class CoCart_REST_Login_V2_Controller {
 			'extras'       => apply_filters( 'cocart_login_extras', array(), $current_user ),
 			'dev_note'     => __( "Don't forget to store the users login information in order to authenticate all other routes with CoCart.", 'cart-rest-api-for-woocommerce' ),
 		);
+
+		// Returns avatars if requested.
+		if ( $request->get_param( 'avatars' ) ) {
+			$response['avatar_urls'] = rest_get_avatar_urls( trim( $current_user->user_email ) );
+		}
 
 		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 	} // END login()
@@ -198,4 +208,27 @@ class CoCart_REST_Login_V2_Controller {
 			),
 		);
 	} // END get_public_item_schema()
+
+	/**
+	 * Get the query params for login.
+	 *
+	 * @access public
+	 *
+	 * @since 4.x.x Introduced.
+	 *
+	 * @return array $params The query params.
+	 */
+	public function get_collection_params() {
+		$params = array(
+			'avatars' => array(
+				'description'       => __( 'True if you want to return the avatars for the user.', 'cart-rest-api-for-woocommerce' ),
+				'default'           => false,
+				'type'              => 'boolean',
+				'required'          => false,
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+		);
+
+		return $params;
+	} // END get_collection_params()
 } // END class

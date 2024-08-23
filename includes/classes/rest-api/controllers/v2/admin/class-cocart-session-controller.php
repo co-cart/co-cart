@@ -153,13 +153,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-
-			$handler = new CoCart_Session_Handler();
-
 			// Get the cart in the database.
-			$cart = $handler->get_cart( $session_key );
+			$cart = WC()->session->get_session( $session_key );
 
 			// If no cart is saved with the ID specified return error.
 			if ( empty( $cart ) ) {
@@ -194,24 +189,19 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-
-			$handler = new CoCart_Session_Handler();
-
 			// If no session is saved with the ID specified return error.
-			if ( empty( $handler->get_cart( $session_key ) ) ) {
+			if ( empty( WC()->session->get_session( $session_key ) ) ) {
 				throw new CoCart_Data_Exception( 'cocart_session_not_valid', __( 'Session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
 			// Delete cart session.
-			$handler->delete_cart( $session_key );
+			WC()->session->delete_cart( $session_key );
 
 			if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
 				delete_user_meta( $session_key, '_woocommerce_persistent_cart_' . get_current_blog_id() );
 			}
 
-			if ( ! empty( $handler->get_cart( $session_key ) ) ) {
+			if ( ! empty( WC()->session->get_session( $session_key ) ) ) {
 				throw new CoCart_Data_Exception( 'cocart_session_not_deleted', __( 'Session could not be deleted!', 'cart-rest-api-for-woocommerce' ), 500 );
 			}
 
@@ -245,13 +235,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_session_key_missing', __( 'Session Key is required!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			// Load session handler.
-			include_once COCART_ABSPATH . 'includes/class-cocart-session-handler.php';
-
-			$handler = new CoCart_Session_Handler();
-
 			// Get the cart in the database.
-			$cart = $handler->get_cart( $session_key );
+			$cart = WC()->session->get_session( $session_key );
 
 			// If no cart is saved with the ID specified return error.
 			if ( empty( $cart ) ) {
@@ -300,16 +285,16 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			'coupons'       => array(),
 			'fees'          => $this->get_fees( $session_data ),
 			'totals'        => array(
-				'subtotal'       => cocart_prepare_money_response( $this->get_subtotal( $session_data ), wc_get_price_decimals() ),
-				'subtotal_tax'   => cocart_prepare_money_response( $this->get_subtotal_tax( $session_data ), wc_get_price_decimals() ),
-				'fee_total'      => cocart_prepare_money_response( $this->get_fee_total( $session_data ), wc_get_price_decimals() ),
-				'fee_tax'        => cocart_prepare_money_response( $this->get_fee_tax( $session_data ), wc_get_price_decimals() ),
-				'discount_total' => cocart_prepare_money_response( $this->get_discount_total( $session_data ), wc_get_price_decimals() ),
-				'discount_tax'   => cocart_prepare_money_response( $this->get_discount_tax( $session_data ), wc_get_price_decimals() ),
-				'shipping_total' => cocart_prepare_money_response( $this->get_shipping_total( $session_data ), wc_get_price_decimals() ),
-				'shipping_tax'   => cocart_prepare_money_response( $this->get_shipping_tax( $session_data ), wc_get_price_decimals() ),
-				'total'          => cocart_prepare_money_response( $this->get_total( $session_data ), wc_get_price_decimals() ),
-				'total_tax'      => cocart_prepare_money_response( $this->get_total_tax( $session_data ), wc_get_price_decimals() ),
+				'subtotal'       => cocart_format_money( $this->get_subtotal( $session_data ) ),
+				'subtotal_tax'   => cocart_format_money( $this->get_subtotal_tax( $session_data ) ),
+				'fee_total'      => cocart_format_money( $this->get_fee_total( $session_data ) ),
+				'fee_tax'        => cocart_format_money( $this->get_fee_tax( $session_data ) ),
+				'discount_total' => cocart_format_money( $this->get_discount_total( $session_data ) ),
+				'discount_tax'   => cocart_format_money( $this->get_discount_tax( $session_data ) ),
+				'shipping_total' => cocart_format_money( $this->get_shipping_total( $session_data ) ),
+				'shipping_tax'   => cocart_format_money( $this->get_shipping_tax( $session_data ) ),
+				'total'          => cocart_format_money( $this->get_total( $session_data ) ),
+				'total_tax'      => cocart_format_money( $this->get_total_tax( $session_data ) ),
 			),
 			'needs_payment' => $this->needs_payment( $session_data ),
 			'removed_items' => $this->get_removed_items( $this->get_removed_cart_contents( $session_data ), $show_thumb ),
@@ -359,6 +344,9 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
+		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
+		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
+
 		$item = array(
 			'item_key'       => $item_key,
 			'id'             => $_product->get_id(),
@@ -395,7 +383,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param array  $cart_item     The cart item data.
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $_product ) ), $cart_item, $item_key ),
 			'quantity'       => array(
 				/**
 				 * Filter allows the quantity of the item to change.
@@ -413,10 +401,10 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'max_purchase' => $_product->get_max_purchase_quantity(),
 			),
 			'totals'         => array(
-				'subtotal'     => cocart_prepare_money_response( $cart_item['line_subtotal'], wc_get_price_decimals() ),
-				'subtotal_tax' => cocart_prepare_money_response( $cart_item['line_subtotal_tax'], wc_get_price_decimals() ),
-				'total'        => cocart_prepare_money_response( $cart_item['line_total'], wc_get_price_decimals() ),
-				'tax'          => cocart_prepare_money_response( $cart_item['line_tax'], wc_get_price_decimals() ),
+				'subtotal'     => cocart_format_money( $cart_item['line_subtotal'] ),
+				'subtotal_tax' => cocart_format_money( $cart_item['line_subtotal_tax'] ),
+				'total'        => cocart_format_money( $cart_item['line_total'] ),
+				'tax'          => cocart_format_money( $cart_item['line_tax'] ),
 			),
 			'slug'           => $this->get_product_slug( $_product ),
 			'meta'           => array(
@@ -445,13 +433,13 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		if ( ! isset( $cart_item['variation'] ) ) {
 			$cart_item['variation'] = array();
 		}
-		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
+		$item['meta']['variation'] = $this->cocart_format_variation_data( $cart_item['variation'], $_product );
 
 		// Backorder notification.
 		$item['backorders'] = $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ? wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) ) : '';
 
 		// Prepares the remaining cart item data.
-		$cart_item = $this->prepare_item( $cart_item );
+		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
 
 		/**
 		 * Filter allows you to alter the remaining cart item data.
@@ -613,7 +601,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			foreach ( $cart_fees as $key => $fee ) {
 				$fees[ $key ] = array(
 					'name' => esc_html( $fee['name'] ),
-					'fee'  => cocart_prepare_money_response( $this->fee_html( $session_data, $fee ), wc_get_price_decimals() ),
+					'fee'  => cocart_format_money( $this->fee_html( $session_data, $fee ) ),
 				);
 			}
 		}
@@ -902,7 +890,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			$user = get_user_by( 'id', $customer );
 
 			// If user id does not exist then set as new customer.
-			if ( is_wp_error( $user ) ) {
+			if ( false === $user ) {
 				$customer = 0;
 			}
 		}

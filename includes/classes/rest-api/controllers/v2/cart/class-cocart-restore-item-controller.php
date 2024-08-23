@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,7 +67,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 4.2.0
+	 * @version 4.4.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -166,7 +166,8 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				wc_add_notice( $restored_message, 'success' );
 
 				// Get cart contents.
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response              = $this->get_cart( $request );
 
 				// Was it requested to return just the restored item?
 				if ( $request['return_item'] ) {

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,7 +67,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 4.2.0
+	 * @version 4.4.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -75,9 +75,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 */
 	public function remove_item( $request = array() ) {
 		try {
-			$request_params = $request->get_params();
-			$item_key       = ! isset( $request_params['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request_params['item_key'] ) ) );
-
+			$item_key = ! isset( $request['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'remove' );
 
 			// Ensure we have calculated before we handle any data.
@@ -173,7 +171,8 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				// Add notice.
 				wc_add_notice( $message );
 
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response              = $this->get_cart( $request );
 
 				// Was it requested to return status once item removed?
 				if ( $request['return_status'] ) {

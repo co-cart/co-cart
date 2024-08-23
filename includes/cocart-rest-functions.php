@@ -232,10 +232,12 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 		'post_content'   => $content,
 	);
 
-	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id );
-	if ( ! is_wp_error( $attachment_id ) ) {
-		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id, true );
+	if ( is_wp_error( $attachment_id ) ) {
+		return 0;
 	}
+
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 
 	return $attachment_id;
 } // END cocart_set_uploaded_image_as_attachment()
@@ -305,7 +307,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	/**
 	 * Filter formatted price.
 	 *
-	 * @param float        $formatted_price    Formatted price.
+	 * @param string       $formatted_price    Formatted price.
 	 * @param float        $price              Unformatted price.
 	 * @param int          $decimals           Number of decimals.
 	 * @param string       $decimal_separator  Decimal separator.
@@ -412,6 +414,8 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  * @return string The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
+	cocart_deprecated_function( 'cocart_prepare_money_response', '4.4.0', 'cocart_format_money' );
+
 	// If string, clean it first.
 	if ( is_string( $amount ) ) {
 		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
@@ -517,8 +521,8 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
  * @return array
  */
 function cocart_get_min_max_price_meta_query( $args ) {
-	$current_min_price = isset( $args['min_price'] ) ? floatval( $args['min_price'] ) : 0;
-	$current_max_price = isset( $args['max_price'] ) ? floatval( $args['max_price'] ) : PHP_INT_MAX;
+	$current_min_price = isset( $args['min_price'] ) ? absint( $args['min_price'] ) : 0;
+	$current_max_price = isset( $args['max_price'] ) ? absint( $args['max_price'] ) : PHP_INT_MAX;
 
 	return apply_filters(
 		'woocommerce_get_min_max_price_meta_query', // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
@@ -545,9 +549,79 @@ function cocart_get_notice_types() {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param array Notice types.
+	 * @param array $types Notice types.
 	 */
 	$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
 
 	return $notice_types;
 } // END cocart_get_notice_types()
+
+/**
+ * Check if a REST namespace should be loaded.
+ *
+ * Useful to maintain site performance even when lots of REST namespaces are registered.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @param string $ns         The namespace to check.
+ * @param string $rest_route (Optional) The REST route being checked.
+ *
+ * @return bool True if the namespace should be loaded, false otherwise.
+ */
+function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' ) {
+	if ( '' === $rest_route ) {
+		$rest_route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+	}
+
+	if ( '' === $rest_route ) {
+		return true;
+	}
+
+	$rest_route = trailingslashit( ltrim( $rest_route, '/' ) );
+	$ns         = trailingslashit( $ns );
+
+	/**
+	 * Known namespaces that we know are safe to not load if the request is not for them.
+	 * Namespaces not in this namespace should always be loaded, because we don't know if they won't be making another internal REST request to an unloaded namespace.
+	 */
+	$known_namespaces = array(
+		'cocart/v1',
+		'cocart/v2',
+		'cocart/batch',
+	);
+
+	$known_namespace_request = false;
+	foreach ( $known_namespaces as $known_namespace ) {
+		if ( str_starts_with( $rest_route, $known_namespace ) ) {
+			$known_namespace_request = true;
+			break;
+		}
+	}
+
+	if ( ! $known_namespace_request ) {
+		return true;
+	}
+
+	return str_starts_with( $rest_route, $ns );
+} // END cocart_rest_should_load_namespace()
+
+if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
+	/**
+	 * Validates the quantity argument.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param int|float       $value   Number of quantity to validate.
+	 * @param WP_REST_Request $request The request object.
+	 * @param string          $param   Argument parameters.
+	 *
+	 * @return bool True if the quantity is valid, false otherwise.
+	 */
+	function rest_validate_quantity_arg( $value, $request, $param ) {
+		if ( is_numeric( $value ) || is_float( $value ) ) {
+			return true;
+		}
+
+		return false;
+	} // END rest_validate_quantity_arg()
+}
