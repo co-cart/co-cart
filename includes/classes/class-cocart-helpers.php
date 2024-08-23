@@ -555,7 +555,7 @@ class CoCart_Helpers {
 		/**
 		 * Filter the current users capabilities to install a CoCart plugin.
 		 *
-		 * @param string Capability level.
+		 * @param string $capability Capability level.
 		 */
 		if ( current_user_can( apply_filters( 'cocart_install_capability', 'install_plugins' ) ) ) {
 			return true;
@@ -580,7 +580,7 @@ class CoCart_Helpers {
 		/**
 		 * Filter if CoCart Plugin Suggestions should be active.
 		 *
-		 * @param bool True if CoCart Plugin Suggestions is active.
+		 * @param bool $show_suggestions True if CoCart Plugin Suggestions is active.
 		 */
 		return apply_filters( 'cocart_show_plugin_search', true );
 	} // END is_cocart_ps_active()

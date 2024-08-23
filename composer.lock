@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47b96f8db8b54b800b9b2d7fd51d9b47",
+    "content-hash": "a28029f2e9ae03218d55a74ad7da71d5",
     "packages": [
         {
             "name": "composer/installers",
@@ -327,16 +327,16 @@
         },
         {
             "name": "php-stubs/woocommerce-stubs",
-            "version": "v9.1.0",
+            "version": "v9.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/woocommerce-stubs.git",
-                "reference": "2c95c633362d1f4f531f69e5db63bb19399d8b58"
+                "reference": "8dc04f7198e31be7c6f2dfef8739379b3c7dfb26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/2c95c633362d1f4f531f69e5db63bb19399d8b58",
-                "reference": "2c95c633362d1f4f531f69e5db63bb19399d8b58",
+                "url": "https://api.github.com/repos/php-stubs/woocommerce-stubs/zipball/8dc04f7198e31be7c6f2dfef8739379b3c7dfb26",
+                "reference": "8dc04f7198e31be7c6f2dfef8739379b3c7dfb26",
                 "shasum": ""
             },
             "require": {
@@ -365,9 +365,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/woocommerce-stubs/issues",
-                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v9.1.0"
+                "source": "https://github.com/php-stubs/woocommerce-stubs/tree/v9.2.1"
             },
-            "time": "2024-07-11T10:55:02+00:00"
+            "time": "2024-08-21T18:36:51+00:00"
         },
         {
             "name": "php-stubs/wordpress-stubs",
@@ -416,6 +416,50 @@
                 "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.6.0"
             },
             "time": "2024-07-17T08:50:38+00:00"
+        },
+        {
+            "name": "php-stubs/wp-cli-stubs",
+            "version": "v2.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/wp-cli-stubs.git",
+                "reference": "fbd7ff47393c9478e0f557d0b4caadaed20986fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/wp-cli-stubs/zipball/fbd7ff47393c9478e0f557d0b4caadaed20986fb",
+                "reference": "fbd7ff47393c9478e0f557d0b4caadaed20986fb",
+                "shasum": ""
+            },
+            "require": {
+                "php-stubs/wordpress-stubs": "^4.7 || ^5.0 || ^6.0"
+            },
+            "require-dev": {
+                "php": "~7.3 || ~8.0",
+                "php-stubs/generator": "^0.8.0"
+            },
+            "suggest": {
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "WP-CLI function and class declaration stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/wp-cli-stubs",
+            "keywords": [
+                "PHPStan",
+                "static analysis",
+                "wordpress",
+                "wp-cli"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/wp-cli-stubs/issues",
+                "source": "https://github.com/php-stubs/wp-cli-stubs/tree/v2.10.0"
+            },
+            "time": "2024-02-09T02:10:10+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -818,16 +862,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.10",
+            "version": "1.11.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "640410b32995914bde3eed26fa89552f9c2c082f"
+                "reference": "707c2aed5d8d0075666e673a5e71440c1d01a5a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/640410b32995914bde3eed26fa89552f9c2c082f",
-                "reference": "640410b32995914bde3eed26fa89552f9c2c082f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/707c2aed5d8d0075666e673a5e71440c1d01a5a3",
+                "reference": "707c2aed5d8d0075666e673a5e71440c1d01a5a3",
                 "shasum": ""
             },
             "require": {
@@ -872,7 +916,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-08T09:02:50+00:00"
+            "time": "2024-08-19T14:37:29+00:00"
         },
         {
             "name": "sirbrillig/phpcs-variable-analysis",

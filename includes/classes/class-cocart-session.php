@@ -171,7 +171,7 @@ class CoCart_Load_Cart {
 		 *
 		 * @since 2.8.2 Introduced.
 		 *
-		 * @param string
+		 * @param string $action_query Default is 'cocart-load-cart'
 		 */
 		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
 

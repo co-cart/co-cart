@@ -89,7 +89,9 @@ if ( ! class_exists( 'CoCart_WC_Admin_Notes' ) ) {
 			 * Filter to prevent note from being created.
 			 *
 			 * @since 3.2.0 Introduced
-			 * @param array $args Arguments to create the note.
+			 *
+			 * @param bool  $prevent_note_creation False by default
+			 * @param array $args                  Arguments to create the note.
 			 */
 			if ( apply_filters( 'cocart_prevent_wc_admin_note_created', false, $args ) ) {
 				return;

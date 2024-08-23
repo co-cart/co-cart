@@ -57,7 +57,7 @@ class CoCart_Cart_Extension {
 		 * @hooked: register_callback_update_cart - 10
 		 * @hooked: register_callback_update_customer - 10
 		 *
-		 * @param CoCart_Cart_Extension $this Instance of the CoCart_Cart_Extension class which exposes the CoCart_Cart_Extension::register() method.
+		 * @param CoCart_Cart_Extension $cart_extension Instance of the CoCart_Cart_Extension class which exposes the CoCart_Cart_Extension::register() method.
 		 */
 		do_action( 'cocart_register_extension_callback', $this );
 	} // END init()
@@ -83,7 +83,8 @@ class CoCart_Cart_Extension {
 						__( '"%s" is already registered.', 'cart-rest-api-for-woocommerce' ),
 						$name
 					)
-				)
+				),
+				'3.1.0'
 			);
 			return false;
 		}
