@@ -2,10 +2,6 @@
 
 📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
-## Bug Fix
-
-* REST API: View or deleting a session with the Sessions API was not accessing the session handler. No longer needs a separate load.
-
 ## Changes
 
 * REST API: Avatars only return if requested now when using the login endpoint.
