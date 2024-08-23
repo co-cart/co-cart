@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.3.5
+Stable tag: 4.3.6
 WC requires at least: 7.0
 WC tested up to: 9.1
 License: GPLv3
@@ -308,6 +308,13 @@ If you like CoCart and it has helped with your development, please take a moment
 
 == Changelog ==
 
+= v4.3.6 - 23rd August, 2024 =
+
+### Bug Fixes
+
+* REST API: View or deleting a session with the Sessions API was not accessing the session handler. No longer needs a separate load.
+* Session Handler: Fixed merging of cart from guest.
+
 = v4.3.5 - 9th August, 2024 =
 
 ### Bug Fix
@@ -606,6 +613,10 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.6 =
+
+Session Handler: Fixed merging of cart from guest.
 
 = 4.3.5 =
 
