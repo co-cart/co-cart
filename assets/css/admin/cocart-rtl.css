@@ -20,12 +20,12 @@ body.cocart-pagestyles .wp-header-end {
     text-align: right; }
 
 .cocart-pagestyles {
-  /*#wpcontent,
+  /* #wpcontent,
 	#wpbody-content {
 		padding: 0;
 		overflow-x: hidden !important;
 		min-height: calc(100vh - 32px);
-	}*/ }
+	} */ }
   .cocart-pagestyles #wpfooter {
     display: initial; }
   .cocart-pagestyles .woocommerce-layout__header-breadcrumbs {
@@ -38,7 +38,6 @@ body.cocart-pagestyles .wp-header-end {
     background-color: #fff;
     border: 1px solid #e5e5e5;
     box-shadow: 0 2px 30px rgba(0, 0, 0, 0.04);
-    -webkit-box-shadow: 0 2px 30px rgba(0, 0, 0, 0.04);
     color: #292929;
     margin: 20px auto 40px;
     max-width: 700px;
@@ -273,7 +272,6 @@ p.next-step-extra-info {
 ul.cocart-next-steps {
   border: 1px solid #eee;
   border-radius: 4px;
-  list-style: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -328,8 +326,7 @@ ul.cocart-next-steps {
   display: flex;
   padding: 0;
   align-items: center;
-  justify-content: center;
-  align-content: center;
+  place-content: center center;
   flex-wrap: nowrap; }
 
 @media only screen and (max-width: 400px) {
@@ -452,7 +449,7 @@ ul.cocart-next-steps {
 .cocart_untested_extensions_modal--content .actions {
   border-top: 1px solid #eee;
   margin: 0;
-  padding: 1em 0 2em 0;
+  padding: 1em 0 2em;
   overflow: hidden; }
   .cocart_untested_extensions_modal--content .actions a.button-primary {
     float: left; }

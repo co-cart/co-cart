@@ -193,7 +193,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 *
 			 * @since 4.1.0 Introduced.
 			 *
-			 * @param string Authorization header.
+			 * @param string $auth_header Authorization header.
 			 */
 			return apply_filters( 'cocart_auth_header', $auth_header );
 		} // END get_auth_header()
@@ -226,9 +226,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 * @since 2.6.0 Introduced.
 			 * @since 3.8.1 Passed the authentication class as parameter.
 			 *
-			 * @param int    $user_id The user ID returned if authentication was successful.
-			 * @param bool            Determines if the site is secure.
-			 * @param object $this    The Authentication class.
+			 * @param int    $user_id              The user ID returned if authentication was successful.
+			 * @param bool   $is_secure            Determines if the site is secure.
+			 * @param object $authentication_class The Authentication class.
 			 */
 			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl(), $this );
 

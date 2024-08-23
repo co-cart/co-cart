@@ -80,10 +80,10 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 					 *
 					 * @since 3.1.0 Introduced.
 					 *
-					 * @param bool              True by default.
-					 * @param string $item_key  Item key of the item updated.
-					 * @param array  $cart_item Cart item after updated.
-					 * @param int    $quantity  New quantity amount.
+					 * @param bool   $cart_valid True by default.
+					 * @param string $item_key   Item key of the item updated.
+					 * @param array  $cart_item  Cart item after updated.
+					 * @param int    $quantity   New quantity amount.
 					 */
 					$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $cart_item, $quantity );
 

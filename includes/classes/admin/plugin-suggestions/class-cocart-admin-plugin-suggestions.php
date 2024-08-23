@@ -51,7 +51,7 @@ class CoCart_Admin_Plugin_Suggestions_Updater {
 	 *
 	 * @static
 	 *
-	 * @return array
+	 * @return array Returns plugin suggestions and timestamp.
 	 */
 	public static function update_plugin_suggestions() {
 		$data = get_option(

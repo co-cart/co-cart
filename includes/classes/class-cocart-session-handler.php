@@ -164,8 +164,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			// Get cart.
 			$this->_data = $this->get_session_data();
 
-			// If the user logs in, update session.
-			if ( is_user_logged_in() && $this->is_user_customer( $current_user_id ) && $current_user_id !== $this->_customer_id ) {
+			// If the user logs in, and there is a requested cart that is not a customer then update session configuration.
+			if ( is_user_logged_in() && ! empty( $this->_customer_id ) && ! $this->is_user_customer( $this->_customer_id ) && $current_user_id !== $this->_customer_id ) {
 				$guest_session_id   = $this->_customer_id;
 				$this->_customer_id = $current_user_id;
 				$this->save_data( $guest_session_id );
@@ -194,7 +194,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return bool Returns true if user is a customer, otherwise false.
 	 */
 	public function is_user_customer( $user_id ) {
-		if ( ! is_int( $user_id ) || 0 === $user_id ) {
+		if ( ! is_numeric( $user_id ) || 0 === $user_id ) {
 			return false;
 		}
 
@@ -798,8 +798,6 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 *
 	 * @param string $cart_key The cart key.
 	 * @param mixed  $default  Default cart value.
-	 *
-	 * @return string|array
 	 */
 	public function get_cart( $cart_key, $default = false ) {
 		cocart_deprecated_function( 'CoCart_Session_Handler::get_cart', '4.2.0', 'WC()->session->get_session()' );

@@ -184,8 +184,8 @@ class CoCart_Utilities_Product_Helpers {
 				 *
 				 * @since 3.1.0 Introduced.
 				 *
-				 * @param array      $price   Empty array.
-				 * @param WC_Product $product The project object.
+				 * @param array      $empty_prices Empty array.
+				 * @param WC_Product $product      The project object.
 				 */
 				$price = apply_filters( 'cocart_products_variable_empty_price', array(), $product );
 			} else {
@@ -297,8 +297,8 @@ class CoCart_Utilities_Product_Helpers {
 		 *
 		 * @since 3.11.0 Introduced.
 		 *
-		 * @param array      $meta_keys Meta keys.
-		 * @param WC_Product $product   The product object.
+		 * @param array      $ignored_meta_keys Ignored meta keys.
+		 * @param WC_Product $product           The product object.
 		 */
 		$ignore_private_meta_keys = apply_filters( 'cocart_products_ignore_private_meta_keys', array(), $product );
 
@@ -323,7 +323,7 @@ class CoCart_Utilities_Product_Helpers {
 		 *
 		 * @since 3.11.0 Introduced.
 		 *
-		 * @param array      $safe_meta Safe meta list.
+		 * @param array      $safe_meta Safe meta.
 		 * @param WC_Product $product   The product object.
 		 */
 		return array_values( apply_filters( 'cocart_products_get_safe_meta_data', $safe_meta, $product ) );
