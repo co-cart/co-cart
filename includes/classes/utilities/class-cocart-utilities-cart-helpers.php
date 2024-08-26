@@ -235,7 +235,7 @@ class CoCart_Utilities_Cart_Helpers {
 					 * Filters the package name for the shipping method.
 					 *
 					 * @since 3.0.0 Introduced.
-					 * @since 4.4.0 Added cart class instance as new parameter.
+					 * @since 4.4.0 Added cart class instance as parameter.
 					 *
 					 * @param string  $shipping_name Package name.
 					 * @param int     $package_id    Package ID.
