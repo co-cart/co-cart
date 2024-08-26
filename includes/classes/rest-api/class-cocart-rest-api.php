@@ -449,8 +449,6 @@ class CoCart_REST_API {
 	 * @return bool $skip Results to WP_DEBUG or true if CoCart requested.
 	 */
 	public function prevent_cache( $skip, $request_uri ) {
-		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-
 		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
