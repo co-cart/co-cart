@@ -18,6 +18,9 @@
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
+## Third Party Support
+
+* Plugin: LiteSpeed Cache will now exclude CoCart from being cached.
 
 ### Load Cart from Session
 
