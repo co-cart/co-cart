@@ -300,7 +300,7 @@ class CoCart_Utilities_Cart_Helpers {
 	/**
 	 * Cleans up the meta data for API.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @static
 	 *
@@ -311,7 +311,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @return array Meta data.
 	 */
-	protected static function clean_meta_data( $method, $type = 'shipping' ) {
+	public static function clean_meta_data( $method, $type = 'shipping' ) {
 		$meta_data = $method->get_meta_data();
 
 		switch ( $type ) {
