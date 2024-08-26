@@ -10,7 +10,7 @@
 ## Improvements
 
 * REST API: Only registers CoCart endpoints if requesting it. Helps performance in backend such as when using Gutenberg/Block editor as it loads many API's in the background.
-* REST API: Moved more functions to utility class to help improve the complexity of the cart controller so we get better performance.
+* REST API: Moved more functions and filters to utility class to help improve the complexity of the cart controller so we get better performance.
 * REST API: Prevent having to check cart validity, stock and coupons on most cart endpoints other than when getting the cart to help with performance.
 * REST API: Optimized how many times we calculate the totals when adding items to the cart to help with performance.
 * REST API: Optimized shipping data, added validation and support for recurring carts for subscriptions.
@@ -18,6 +18,8 @@
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
+* Plugin: PHPStan used to help with correcting errors and inconsistencies.
+
 ## Third Party Support
 
 * Plugin: LiteSpeed Cache will now exclude CoCart from being cached.
@@ -39,9 +41,13 @@ Simply provide these two parameters with the data point values on any page and t
 #### Developers
 
 * Introduced new filter `cocart_load_cart_redirect_home` allows you to change where to redirect should loading the cart fail.
+* Introduced new filter `cocart_cross_sell_item_thumbnail_src` that allows you to change the thumbnail source for a cross sell item.
+* Added the request object as a parameter for filter `cocart_add_to_cart_quantity`.
 * Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
-* Added the request object as parameter for filter `cocart_allow_origin`.
-* Added the product object to filters `cocart_cart_item_price` and `cocart_cart_item_quantity`.
+* Added the request object as a parameter for filter `cocart_allow_origin`.
+* Added the product object as a parameter for filters `cocart_cart_item_price` and `cocart_cart_item_quantity`.
+* Added the cart class as a parameter for filter `cocart_shipping_package_name`.
+* Added new parameter `$recurring_cart` for filter `cocart_available_shipping_packages`.
 
 > Note: List other filters that have been changed here.
 
