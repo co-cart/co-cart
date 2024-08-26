@@ -2513,6 +2513,12 @@ class CoCart_REST_Cart_V2_Controller {
 								'context'     => array( 'view' ),
 								'readonly'    => true,
 							),
+							'extensions'     => array(
+								'description' => __( 'Extensions may add additional data to be returned for item in cart.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'object',
+								'content'     => array( 'view' ),
+								'properties'  => array(),
+							),
 						),
 					),
 				),
