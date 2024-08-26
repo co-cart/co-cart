@@ -111,7 +111,7 @@ class CoCart_Utilities_Product_Helpers {
 	// ** Product Details **//
 
 	/**
-	 * Returns the product quantity minimum requirement.
+	 * Returns the product minimum purchase quantity requirement.
 	 *
 	 * @access public
 	 *
@@ -121,19 +121,23 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @param WC_Product The product object.
 	 *
-	 * @return int Quantity
+	 * @return int Minimum purchase quantity requirement.
 	 */
 	public static function get_quantity_minimum_requirement( $product ) {
 		/**
 		 * Filters the minimum quantity requirement the product allows to be purchased.
 		 *
-		 * @since 3.1.0 Introduced.
+		 * @since 3.0.17 Introduced.
+		 * @since 3.1.0  Added product object as parameter.
+		 *
+		 * @param int        $minimum_quantity Minimum purchase quantity requirement.
+		 * @param WC_Product $product          The product object.
 		 */
-		return (int) apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
+		return apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
 	} // END get_quantity_minimum_requirement()
 
 	/**
-	 * Returns the product maximum quantity allowed.
+	 * Returns the product maximum purchase quantity allowed.
 	 *
 	 * @access public
 	 *
@@ -143,13 +147,16 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @param WC_Product The product object.
 	 *
-	 * @return int Quantity
+	 * @return int Maximum purchase quantity allowed.
 	 */
 	public static function get_quantity_maximum_allowed( $product ) {
 		/**
 		 * Filters the products maximum quantity allowed to be purchased.
 		 *
 		 * @since 3.1.0 Introduced.
+		 *
+		 * @param int        $maximum_quantity Maximum purchase quantity allowed.
+		 * @param WC_Product $product          The product object.
 		 */
 		return apply_filters( 'cocart_quantity_maximum_allowed', $product->get_max_purchase_quantity(), $product );
 	} // END get_quantity_maximum_allowed()
