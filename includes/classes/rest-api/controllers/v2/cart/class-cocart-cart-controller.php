@@ -500,7 +500,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @param int|float       $quantity     The item quantity.
 	 * @param null            $variation_id The variation ID.
 	 * @param array           $variation    The variation attributes.
-	 * @param array           $item_data    Extra cart item data we want to pass into the item.
+	 * @param array           $item_data    The cart item data
 	 * @param string          $product_type The product type.
 	 * @param WP_REST_Request $request      The request object.
 	 *
@@ -556,7 +556,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 * @param int             $quantity     The item quantity.
 			 * @param int             $variation_id The variation ID.
 			 * @param array           $variation    The variation attributes.
-			 * @param object          $item_data    Extra cart item data we want to pass into the item.
+			 * @param object          $item_data    The cart item data
 			 * @param string          $product_type The product type.
 			 * @param WP_REST_Request $request      The request object.
 			 */
@@ -1666,7 +1666,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @param int        $quantity       The item quantity.
 	 * @param int        $variation_id   The variation ID.
 	 * @param array      $variation      The variation attributes.
-	 * @param array      $cart_item_data Extra cart item data we want to pass into the item.
+	 * @param array      $cart_item_data The cart item data
 	 * @param WC_Product $product_data   The product object.
 	 *
 	 * @return string|boolean $item_key Cart item key or false if error.
@@ -1706,7 +1706,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 * @param int    $quantity       The item quantity.
 			 * @param int    $variation_id   The variation ID.
 			 * @param array  $variation      The variation attributes.
-			 * @param array  $cart_item_data Extra cart item data we want to pass into the item.
+			 * @param array  $cart_item_data The cart item data
 			 */
 			do_action( 'cocart_add_to_cart', $item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data );
 
