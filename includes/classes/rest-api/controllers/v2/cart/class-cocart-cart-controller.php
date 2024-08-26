@@ -584,20 +584,8 @@ class CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 400 );
 			}
 
-			/**
-			 * Filter allows other plugins to add their own cart item data.
-			 *
-			 * @since 2.1.2 Introduced.
-			 * @since 3.1.0 Added the request object as parameter.
-			 *
-			 * @param array           $item_data    Extra cart item data we want to pass into the item.
-			 * @param int             $product_id   The product ID.
-			 * @param null            $variation_id The variation ID.
-			 * @param int|float       $quantity     The item quantity.
-			 * @param string          $product_type The product type.
-			 * @param WP_REST_Request $request      The request object.
-			 */
-			$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
+			// Set cart item data - maybe added by other plugins.
+			$item_data = CoCart_Utilities_Cart_Helpers::set_cart_item_data( $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
 
 			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
@@ -605,20 +593,8 @@ class CoCart_REST_Cart_V2_Controller {
 			// Find the cart item key in the existing cart.
 			$item_key = $this->find_product_in_cart( $item_key );
 
-			/**
-			 * Filters the quantity for specified products.
-			 *
-			 * @since 2.1.2 Introduced.
-			 * @since 4.4.0 Added the request object as a parameter.
-			 *
-			 * @param int|float       $quantity     The original quantity of the item.
-			 * @param int             $product_id   The product ID.
-			 * @param int             $variation_id The variation ID.
-			 * @param array           $variation    The variation data.
-			 * @param array           $item_data    The cart item data.
-			 * @param WP_REST_Request $request      The request object.
-			 */
-			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data, $request );
+			// The quantity of item added to the cart.
+			$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity( $quantity, $product_id, $variation_id, $variation, $item_data, $request );
 
 			// Validates if item is sold individually.
 			$quantity = $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request );
@@ -950,19 +926,7 @@ class CoCart_REST_Cart_V2_Controller {
 		try {
 			// Force quantity to 1 if sold individually and check for existing item in cart.
 			if ( $product->is_sold_individually() ) {
-				/**
-				 * Quantity for sold individual products can be filtered.
-				 *
-				 * @since 2.0.13 Introduced.
-				 * @since 4.4.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
-				 *
-				 * @param int|float       $quantity     The quantity to validate.
-				 * @param int             $product_id   The product ID.
-				 * @param int             $variation_id The variation ID.
-				 * @param array           $item_data    The cart item data.
-				 * @param WP_REST_Request $request      The request object.
-				 */
-				$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $quantity, $product_id, $variation_id, $item_data, $request );
+				$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity_sold_individually( $quantity, $product_id, $variation_id, $item_data, $request );
 
 				$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
 
@@ -1308,49 +1272,17 @@ class CoCart_REST_Cart_V2_Controller {
 
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
-			$thumbnail_id = ! empty( $product->get_image_id() ) ? $product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
+			// Get thumbnail ID.
+			$thumbnail_id = CoCart_Utilities_Cart_Helpers::get_item_thumbnail_id( $product, $cart_item, $item_key, $removed_item );
 
-			/**
-			 * Filters the item thumbnail ID.
-			 *
-			 * @since 2.0.0 Introduced.
-			 * @since 3.0.0 Added $removed_item parameter.
-			 *
-			 * @param int    $thumbnail_id Product thumbnail ID.
-			 * @param array  $cart_item    Cart item.
-			 * @param string $item_key     Generated ID based on the product information when added to the cart.
-			 * @param bool   $removed_item Determines if the item in the cart is removed.
-			 */
-			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
+			// Get thumbnail size.
+			$thumbnail_size = CoCart_Utilities_Cart_Helpers::get_thumbnail_size( $removed_item );
 
-			/**
-			 * Filters the thumbnail size of the product image.
-			 *
-			 * @since 2.0.0 Introduced.
-			 * @since 3.0.0 Added $removed_item parameter.
-			 *
-			 * @param bool $removed_item Determines if the item in the cart is removed.
-			 */
-			$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item );
-
-			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size );
-			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
-
-			/**
-			 * Filters the source of the product thumbnail.
-			 *
-			 * @since 2.1.0 Introduced.
-			 * @since 3.0.0 Added parameter $removed_item.
-			 *
-			 * @param string $thumbnail_src URL of the product thumbnail.
-			 * @param array  $cart_item     Cart item.
-			 * @param string $item_key      Generated ID based on the product information when added to the cart.
-			 * @param bool   $removed_item  Determines if the item in the cart is removed.
-			 */
-			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
+			// Get thumbnail source.
+			$thumbnail_src = CoCart_Utilities_Cart_Helpers::get_thumbnail_source( $thumbnail_id, $thumbnail_size, $cart_item, $item_key, $removed_item );
 
 			// Add main featured image.
-			$item['featured_image'] = esc_url( $thumbnail_src );
+			$item['featured_image'] = $thumbnail_src;
 		}
 
 		if ( ! $removed_item ) {

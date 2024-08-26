@@ -583,6 +583,234 @@ class CoCart_Utilities_Cart_Helpers {
 		return $notices;
 	} // END print_notices()
 
+	/**
+	 * Get item thumbnail ID.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param WC_Product $product      The product object.
+	 * @param array      $cart_item    The cart item data.
+	 * @param string     $item_key     Generated ID based on the product information when added to the cart.
+	 * @param bool       $removed_item Determines if the item in the cart is removed.
+	 *
+	 * @return int $thumbnail_id Item thumbnail ID.
+	 */
+	public static function get_item_thumbnail_id( $product, $cart_item = array(), $item_key = '', $removed_item = false ) {
+		$thumbnail_id = ! empty( $product->get_image_id() ) ? $product->get_image_id() : 0;
+
+		if ( ! $product->is_type( 'simple' ) ) {
+			$parent_id      = $product->get_parent_id();
+			$parent_product = wc_get_product( $parent_id );
+		}
+
+		if ( $parent_product ) {
+			$thumbnail_id = $parent_product->get_image_id();
+		}
+
+		if ( $thumbnail_id <= 0 ) {
+			$thumbnail_id = get_option( 'woocommerce_placeholder_image', 0 );
+		}
+
+		/**
+		 * Filters the item thumbnail ID.
+		 *
+		 * @since 2.0.0 Introduced.
+		 * @since 3.0.0 Added $removed_item parameter.
+		 *
+		 * @param int    $thumbnail_id Product thumbnail ID.
+		 * @param array  $cart_item    The cart item data.
+		 * @param string $item_key     Generated ID based on the product information when added to the cart.
+		 * @param bool   $removed_item Determines if the item in the cart is removed.
+		 */
+		$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
+
+		return $thumbnail_id;
+	} // END get_item_thumbnail_id()
+
+	/**
+	 * Get thumbnail size.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param bool $removed_item Determines if the item in the cart is removed.
+	 *
+	 * @return string $thumbnail_size Thumbnail size.
+	 */
+	public static function get_thumbnail_size( $removed_item = false ) {
+		/**
+		 * Filters the thumbnail size of the product image.
+		 *
+		 * @since 2.0.0 Introduced.
+		 * @since 3.0.0 Added $removed_item parameter.
+		 *
+		 * @param bool $removed_item Determines if the item in the cart is removed.
+		 */
+		$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item );
+
+		return $thumbnail_size;
+	} // END get_thumbnail_size()
+
+	/**
+	 * Get thumbnail source.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param int    $thumbnail_id   Product thumbnail ID.
+	 * @param string $thumbnail_size Thumbnail size.
+	 * @param array  $cart_item      Cart item.
+	 * @param string $item_key       Generated ID based on the product information when added to the cart.
+	 * @param bool   $removed_item   Determines if the item in the cart is removed.
+	 *
+	 * @return string $thumbnail_size Thumbnail size.
+	 */
+	public static function get_thumbnail_source( $thumbnail_id = 0, $thumbnail_size = 'woocommerce_thumbnail', $cart_item = array(), $item_key = '', $removed_item = false ) {
+		// Return nothing if thumbnail ID was not provided.
+		if ( $thumbnail_id <= 0 ) {
+			return '';
+		}
+
+		$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size );
+		$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
+
+		/**
+		 * Filters the source of the product thumbnail.
+		 *
+		 * @since 2.1.0 Introduced.
+		 * @since 3.0.0 Added parameter $removed_item.
+		 *
+		 * @param string $thumbnail_src URL of the product thumbnail.
+		 * @param array  $cart_item     Cart item.
+		 * @param string $item_key      Generated ID based on the product information when added to the cart.
+		 * @param bool   $removed_item  Determines if the item in the cart is removed.
+		 */
+		$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
+
+		return esc_url( $thumbnail_src );
+	} // END get_thumbnail_source()
+
+	// ** Set Data Functions **//
+
+	/**
+	 * Set cart item quantity.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param int|float       $quantity     The original quantity of the item.
+	 * @param int             $product_id   The product ID.
+	 * @param int             $variation_id The variation ID.
+	 * @param array           $variation    The variation data.
+	 * @param array           $item_data    The cart item data.
+	 * @param WP_REST_Request $request      The request object.
+	 *
+	 * @return int|float $quantity The cart item quantity.
+	 */
+	public static function set_cart_item_quantity( $quantity = 1, $product_id = 0, $variation_id = 0, $variation = array(), $item_data = array(), $request = array() ) {
+		/**
+		 * Filters the quantity for specified products.
+		 *
+		 * @since 2.1.2 Introduced.
+		 * @since 4.4.0 Added the request object as a parameter.
+		 *
+		 * @param int|float       $quantity     The original quantity of the item.
+		 * @param int             $product_id   The product ID.
+		 * @param int             $variation_id The variation ID.
+		 * @param array           $variation    The variation data.
+		 * @param array           $item_data    The cart item data.
+		 * @param WP_REST_Request $request      The request object.
+		 */
+		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data, $request );
+
+		return $quantity;
+	} // END set_cart_item_quantity()
+
+	/**
+	 * Set quantity for sold individual products.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param int|float       $quantity     The quantity to validate.
+	 * @param int             $product_id   The product ID.
+	 * @param int             $variation_id The variation ID.
+	 * @param array           $item_data    The cart item data.
+	 * @param WP_REST_Request $request      The request object.
+	 *
+	 * @return int|float $quantity The quantity.
+	 */
+	public static function set_cart_item_quantity_sold_individually( $quantity = 1, $product_id = 0, $variation_id = 0, $item_data = array(), $request = array() ) {
+		/**
+		 * Filters the quantity for sold individual products.
+		 *
+		 * @since 2.0.13 Introduced.
+		 * @since 4.4.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
+		 *
+		 * @param int|float       $quantity     The quantity to validate.
+		 * @param int             $product_id   The product ID.
+		 * @param int             $variation_id The variation ID.
+		 * @param array           $item_data    The cart item data.
+		 * @param WP_REST_Request $request      The request object.
+		 */
+		$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $quantity, $product_id, $variation_id, $item_data, $request );
+
+		return $quantity;
+	} // END set_cart_item_quantity_sold_individually()
+
+	/**
+	 * Set cart item data.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param array           $item_data    The cart item data.
+	 * @param int             $product_id   The product ID.
+	 * @param int             $variation_id The variation ID.
+	 * @param int|float       $quantity     The item quantity.
+	 * @param string          $product_type The product type.
+	 * @param WP_REST_Request $request      The request object.
+	 *
+	 * @return array $item_data The cart item data.
+	 */
+	public static function set_cart_item_data( $item_data = array(), $product_id = 0, $variation_id = 0, $quantity = 1, $product_type = 'simple', $request = array() ) {
+		/**
+		 * Filter allows other plugins to add their own cart item data.
+		 *
+		 * @since 2.1.2 Introduced.
+		 * @since 3.1.0 Added the request object as parameter.
+		 *
+		 * @param array           $item_data    The cart item data.
+		 * @param int             $product_id   The product ID.
+		 * @param int             $variation_id The variation ID.
+		 * @param int|float       $quantity     The item quantity.
+		 * @param string          $product_type The product type.
+		 * @param WP_REST_Request $request      The request object.
+		 */
+		$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
+
+		return $item_data;
+	} // END set_cart_item_data()
+
 	// ** Validation Functions **//
 
 	/**
@@ -750,16 +978,8 @@ class CoCart_Utilities_Cart_Helpers {
 				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be integer or a float value!', 'cart-rest-api-for-woocommerce' ), 405 );
 			}
 
-			/**
-			 * Filter allows control over the minimum quantity a customer must add to purchase said item.
-			 *
-			 * @since 3.0.17 Introduced.
-			 * @since 3.1.0  Added product object as parameter.
-			 *
-			 * @param int|float  $quantity Minimum quantity to validate with.
-			 * @param WC_Product $product  The product object.
-			 */
-			$minimum_quantity = apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
+			// Minimum quantity to validate with.
+			$minimum_quantity = CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product );
 
 			if ( 0 === $quantity || $quantity < $minimum_quantity ) {
 				throw new CoCart_Data_Exception(

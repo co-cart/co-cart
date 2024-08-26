@@ -326,29 +326,14 @@ class CoCart_API_Controller {
 					 */
 					$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key );
 
-					/**
-					 * Filters the thumbnail size of the product image.
-					 *
-					 * @since 2.0.0 Introduced.
-					 */
-					$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail' );
+					// Get thumbnail size.
+					$thumbnail_size = CoCart_Utilities_Cart_Helpers::get_thumbnail_size();
 
-					$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size );
-					$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : wc_placeholder_img_src( $thumbnail_size );
-
-					/**
-					 * Filters the source of the product thumbnail.
-					 *
-					 * @since 2.1.0 Introduced.
-					 *
-					 * @param string $thumbnail_src URL of the product thumbnail.
-					 * @param array  $cart_item     Cart item.
-					 * @param string $item_key      Item key.
-					 */
-					$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key );
+					// Get thumbnail source.
+					$thumbnail_src = CoCart_Utilities_Cart_Helpers::get_thumbnail_source( $thumbnail_id, $thumbnail_size, $cart_item, $item_key );
 
 					// Add main product image as a new variable.
-					$cart_contents[ $item_key ]['product_image'] = esc_url( $thumbnail_src );
+					$cart_contents[ $item_key ]['product_image'] = $thumbnail_src;
 				}
 
 				/**
@@ -660,7 +645,7 @@ class CoCart_API_Controller {
 	 * @param int    $quantity       Contains the quantity of the item.
 	 * @param int    $variation_id   Contains the ID of the variation.
 	 * @param array  $variation      Attribute values.
-	 * @param array  $cart_item_data Extra cart item data we want to pass into the item.
+	 * @param array  $cart_item_data The cart item data
 	 * @param string $product_type   The product type.
 	 *
 	 * @return array|WP_Error $cart_item_data|$error Cart item data or error.
@@ -754,19 +739,11 @@ class CoCart_API_Controller {
 			return new WP_Error( 'cocart_product_failed_validation', $message, array( 'status' => 404 ) );
 		}
 
-		/**
-		 * Filters the quantity for specified products.
-		 *
-		 * @param int   $quantity       The original quantity of the item.
-		 * @param int   $product_id     The product ID.
-		 * @param int   $variation_id   The variation ID.
-		 * @param array $variation      The variation data.
-		 * @param array $cart_item_data The cart item data.
-		 */
-		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $cart_item_data );
+		// The quantity of item added to the cart.
+		$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity( $quantity, $product_id, $variation_id, $variation, $cart_item_data );
 
-		// Load cart item data - may be added by other plugins.
-		$cart_item_data = (array) apply_filters( 'cocart_add_cart_item_data', $cart_item_data, $product_id, $variation_id, $quantity, $product_type );
+		// Set cart item data - maybe added by other plugins.
+		$cart_item_data = CoCart_Utilities_Cart_Helpers::set_cart_item_data( $cart_item_data, $product_id, $variation_id, $quantity, $product_type );
 
 		// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
 		$cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
@@ -776,12 +753,7 @@ class CoCart_API_Controller {
 
 		// Force quantity to 1 if sold individually and check for existing item in cart.
 		if ( $product->is_sold_individually() ) {
-			/**
-			 * Quantity for sold individual products can be filtered.
-			 *
-			 * @since 2.0.13 Introduced.
-			 */
-			$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1 );
+			$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity_sold_individually( $quantity, $product_id, $variation_id, $cart_item_data );
 
 			$cart_contents = $this->get_cart();
 
