@@ -495,7 +495,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
-				'cart_expiry' => (int) $this->_cart_expiration,
+				'cart_expiry' => (int) $this->cart_expiration,
 			),
 			array( 'cart_key' => $cart_key ),
 			array( '%s', '%d' ),
@@ -608,7 +608,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return string
 	 */
 	public function get_cart_hash() {
-		return $this->_cart_hash;
+		return $this->cart_hash;
 	} // END get_cart_hash()
 
 	/**
@@ -1009,7 +1009,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		}
 
 		if ( empty( $cart_source ) ) {
-			$cart_source = apply_filters( 'cocart_cart_source', $this->_cart_source );
+			$cart_source = apply_filters( 'cocart_cart_source', $this->cart_source );
 		}
 
 		$result = $wpdb->insert( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
