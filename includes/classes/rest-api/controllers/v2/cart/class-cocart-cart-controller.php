@@ -1295,9 +1295,10 @@ class CoCart_REST_Cart_V2_Controller {
 			 *
 			 * @param array      $extensions The extension data added.
 			 * @param array      $cart_item  The cart item data.
+			 * @param string     $item_key   The item key generated based on the details of the item.
 			 * @param WC_Product $product    The product object.
 			 */
-			$item['extensions'] = apply_filters( 'cocart_cart_item_extensions', array(), $cart_item, $product );
+			$item['extensions'] = apply_filters( 'cocart_cart_item_extensions', array(), $cart_item, $item_key, $product );
 		}
 
 		// Prepares the remaining cart item data.
