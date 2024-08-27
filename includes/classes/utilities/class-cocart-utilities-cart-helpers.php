@@ -651,7 +651,8 @@ class CoCart_Utilities_Cart_Helpers {
 		 * @since 2.0.0 Introduced.
 		 * @since 3.0.0 Added $removed_item parameter.
 		 *
-		 * @param bool $removed_item Determines if the item in the cart is removed.
+		 * @param string $thumbnail_size  Thumbnail size.
+		 * @param bool   $removed_item    Determines if the item in the cart is removed.
 		 */
 		$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item );
 
@@ -763,11 +764,12 @@ class CoCart_Utilities_Cart_Helpers {
 		 * @since 2.0.13 Introduced.
 		 * @since 4.4.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
 		 *
-		 * @param int|float       $quantity     The quantity to validate.
-		 * @param int             $product_id   The product ID.
-		 * @param int             $variation_id The variation ID.
-		 * @param array           $item_data    The cart item data.
-		 * @param WP_REST_Request $request      The request object.
+		 * @param int             $sold_individual_quantity Sold individual quantity.
+		 * @param int|float       $quantity                 The quantity to validate.
+		 * @param int             $product_id               The product ID.
+		 * @param int             $variation_id             The variation ID.
+		 * @param array           $item_data                The cart item data.
+		 * @param WP_REST_Request $request                  The request object.
 		 */
 		$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $quantity, $product_id, $variation_id, $item_data, $request );
 

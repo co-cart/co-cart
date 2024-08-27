@@ -135,7 +135,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 *
 				 * @since 2.1.0 Introduced.
 				 *
-				 * @param string          $product_data The product type to identify handler.
 				 * @param WC_Product      $product_data The product object.
 				 * @param WP_REST_Request $request      The request object.
 				 */
@@ -190,7 +189,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 *
 				 * @deprecated 4.1.0 Use hook `cocart_after_item_added_to_cart` instead.
 				 *
-				 * @param array           $item_added_to_cart Item details added to cart.
+				 * @param WC_Product      $item_added_to_cart The product added to cart.
 				 * @param WP_REST_Request $request            The request object.
 				 */
 				cocart_do_deprecated_filter(
@@ -214,7 +213,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 *
 				 * @hooked: set_new_price - 1
 				 *
-				 * @param array           $item_added_to_cart  The product added to cart.
+				 * @param WC_Product      $item_added_to_cart  The product added to cart.
 				 * @param WP_REST_Request $request             The request object.
 				 * @param string          $add_to_cart_handler The product type added to cart.
 				 * @param object          $controller          The cart controller.

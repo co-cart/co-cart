@@ -450,7 +450,7 @@ class CoCart_REST_Cart_V2_Controller {
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variation_id_from_variation_data', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data' );
 
-		return CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $variation, $data );
+		return CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $variation, $product );
 	} // END get_variation_id_from_variation_data()
 
 	/**
@@ -556,7 +556,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 * @param int             $quantity     The item quantity.
 			 * @param int             $variation_id The variation ID.
 			 * @param array           $variation    The variation attributes.
-			 * @param object          $item_data    The cart item data
+			 * @param array           $item_data    The cart item data
 			 * @param string          $product_type The product type.
 			 * @param WP_REST_Request $request      The request object.
 			 */
@@ -1490,8 +1490,6 @@ class CoCart_REST_Cart_V2_Controller {
 		 * Filters the cross sell items.
 		 *
 		 * @since 3.0.0 Introduced.
-		 *
-		 * @param WP_REST_Request $request The request object.
 		 */
 		$cross_sells = apply_filters( 'cocart_cross_sells', $cross_sells );
 

@@ -177,7 +177,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				 *
 				 * @hooked: set_new_price - 1
 				 *
-				 * @param array           $items_added_to_cart       The product added to cart.
+				 * @param WC_Product      $items_added_to_cart       The product added to cart.
 				 * @param WP_REST_Request $request                   The request object.
 				 * @param string          $add_items_to_cart_handler The product type added to cart.
 				 * @param object          $controller                The controller.

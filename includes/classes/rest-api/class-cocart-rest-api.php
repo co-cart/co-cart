@@ -564,6 +564,8 @@ class CoCart_REST_API {
 				return true;
 			}
 		}
+
+		return false;
 	} // END prevent_routes_from_initializing()
 
 	/**
