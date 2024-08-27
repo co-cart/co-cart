@@ -248,9 +248,10 @@ class CoCart_Load_Cart {
 	 */
 	public static function maybe_load_users_cart() {
 		if ( self::maybe_load_cart() ) {
-			$action   = self::get_action_query();
-			$cart_key = isset( $_REQUEST[ $action ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$hash     = isset( $_REQUEST['c_hash'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['c_hash'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$action      = self::get_action_query();
+			$cart_key    = isset( $_REQUEST[ $action ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$hash        = isset( $_REQUEST['c_hash'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['c_hash'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$customer_id = 0;
 
 			/**
 			 * Filter allows you to change where to redirect should loading the cart fail.
