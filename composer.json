@@ -63,6 +63,9 @@
 		],
 		"phpcbf": [
 			"phpcbf . -p"
+		],
+		"phpstan": [
+			"phpstan analyse --memory-limit=2048M"
 		]
 	},
 	"extra": {
