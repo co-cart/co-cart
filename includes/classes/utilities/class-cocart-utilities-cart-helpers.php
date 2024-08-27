@@ -602,6 +602,8 @@ class CoCart_Utilities_Cart_Helpers {
 	public static function get_item_thumbnail_id( $product, $cart_item = array(), $item_key = '', $removed_item = false ) {
 		$thumbnail_id = ! empty( $product->get_image_id() ) ? $product->get_image_id() : 0;
 
+		$parent_product = null;
+
 		if ( ! $product->is_type( 'simple' ) ) {
 			$parent_id      = $product->get_parent_id();
 			$parent_product = wc_get_product( $parent_id );
