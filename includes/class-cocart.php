@@ -119,6 +119,7 @@ final class CoCart {
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
+		add_filter( 'wp_plugin_dependencies_slug', array( __CLASS__, 'convert_plugin_dependency_slug' ) );
 
 		// Setup CoCart Session Handler.
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
@@ -555,6 +556,29 @@ final class CoCart {
 	public static function woocommerce() {
 		require_once __DIR__ . '/classes/class-cocart-woocommerce.php';
 	} // END woocommerce()
+
+	/**
+	 * Converts the CoCart slug to the correct slug for the current version.
+	 * This ensures that when the plugin is installed in a different folder name,
+	 * the correct slug is used so that dependent plugins can be installed/activated.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param string $slug The plugin slug to convert.
+	 *
+	 * @return string
+	 */
+	public static function convert_plugin_dependency_slug( $slug ) {
+		if ( 'cart-rest-api-for-woocommerce' === $slug ) {
+			$slug = dirname( COCART_PLUGIN_BASENAME );
+		}
+
+		return $slug;
+	} // END convert_plugin_dependency_slug()
 
 	/**
 	 * Load the plugin translations if any ready.
