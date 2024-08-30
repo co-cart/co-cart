@@ -124,7 +124,7 @@ class CoCart_Admin_Plugin_Updates {
 	 */
 	protected function get_extensions_modal_warning() {
 		$version_parts = explode( '.', $this->new_version );
-		$new_version   = $version_parts[0] . '.0';
+		$new_version   = $version_parts[0] . '.' . $version_parts[1];
 		$plugins       = $this->major_untested_plugins;
 
 		ob_start();
