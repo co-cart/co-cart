@@ -232,7 +232,10 @@ class CoCart_Admin_Plugin_Updates {
 		$matches = array();
 
 		foreach ( $plugins as $file => $plugin ) {
-			if ( 'CoCart' !== $plugin['Name'] && ( stristr( $plugin['Name'], 'cocart' ) || stristr( $plugin['Description'], 'cocart' ) ) ) {
+			if ( ! str_starts_with( $plugin['Name'], 'CoCart API' ) && (
+				stristr( $plugin['Name'], 'cocart' ) ||
+				stristr( $plugin['Description'], 'cocart' )
+			) ) {
 				$matches[ $file ] = $plugin;
 			}
 		}
