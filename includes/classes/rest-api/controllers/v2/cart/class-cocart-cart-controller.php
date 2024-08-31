@@ -2023,10 +2023,10 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 4.4.0 Calculate shipping was removed here because it's called already by calculate_totals.
 	 */
 	public function calculate_totals() {
 		$this->get_cart_instance()->calculate_fees();
-		$this->get_cart_instance()->calculate_shipping();
 		$this->get_cart_instance()->calculate_totals();
 	} // END calculate_totals()
 
