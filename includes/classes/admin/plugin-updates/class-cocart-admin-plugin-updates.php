@@ -101,7 +101,7 @@ class CoCart_Admin_Plugin_Updates {
 		$upgrade_type  = 'major';
 		$plugins       = $this->major_untested_plugins;
 		$version_parts = explode( '.', $this->new_version );
-		$new_version   = $version_parts[0] . '.0';
+		$new_version   = $version_parts[0] . '.' . $version_parts[1];
 
 		if ( empty( $plugins ) ) {
 			return;
@@ -142,7 +142,7 @@ class CoCart_Admin_Plugin_Updates {
 	 * @access public
 	 *
 	 * @param string $new_version CoCart version to test against.
-	 * @param string $release 'major', 'minor', or 'none'.
+	 * @param string $release     'major', 'minor', or 'none'.
 	 *
 	 * @return array of plugin info arrays
 	 */
