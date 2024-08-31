@@ -555,7 +555,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		$cart_session = $this->get( 'cart' );
 		$cart_totals  = $this->get( 'cart_totals' );
 
-		$cart_total = isset( $cart_totals ) ? maybe_unserialize( $cart_totals ) : array( 'total' => 0 );
+		$cart_total = ! empty( $cart_totals ) ? maybe_unserialize( $cart_totals ) : array( 'total' => 0 );
 		$hash       = ! empty( $cart_session ) ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
 
 		$this->cart_hash = $hash;
