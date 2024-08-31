@@ -59,32 +59,29 @@ function cocart_let_to_num( $size ) {
  */
 function cocart_format_money( $value, array $options = array() ) {
 	// Values that don't need converting just return the original value.
-	if ( empty( $value ) || 0 === $value || '0.00' === $value ) {
+	if ( empty( $value ) || 0 === $value ) {
 		return $value;
 	}
 
 	if ( ! is_int( $value ) && ! is_string( $value ) && ! is_float( $value ) ) {
 		wc_doing_it_wrong(
 			__FUNCTION__,
-			sprintf( 'Function expects a $value arg of type INT, STRING or FLOAT.%s', ! empty( $value ) ? ' Given value: ' . $value : '' ),
+			sprintf( 'Function expects a $value arg of type INT, STRING or FLOAT.%s', ! empty( $value ) ? ' Given type: ' . gettype( $value ) . ', value "' . $value : '' ),
 			'4.4'
 		);
 
 		return '';
 	}
 
-	$default_options = array(
-		'currency'      => get_woocommerce_currency(),
-		'decimals'      => wc_get_price_decimals(),
-		'rounding_mode' => PHP_ROUND_HALF_UP,
-		'trim_zeros'    => false,
+	$options = wp_parse_args(
+		$options,
+		array(
+			'currency'      => get_woocommerce_currency(),
+			'decimals'      => wc_get_price_decimals(),
+			'rounding_mode' => PHP_ROUND_HALF_UP,
+			'trim_zeros'    => false,
+		)
 	);
-
-	if ( ! empty( $options ) ) {
-		$options = wp_parse_args( $options, $default_options );
-	} else {
-		$options = $default_options;
-	}
 
 	/**
 	 * If $value is a string, clean it first.
@@ -95,21 +92,6 @@ function cocart_format_money( $value, array $options = array() ) {
 	if ( is_string( $value ) ) {
 		$value = html_entity_decode( wp_strip_all_tags( $value ) ); // Decode html span wrapper, if any.
 		$value = str_replace( html_entity_decode( get_woocommerce_currency_symbol( $options['currency'] ) ), '', $value ); // Remove currency symbol, if any.
-	}
-
-	if ( ! intval( $value ) ) {
-		wc_doing_it_wrong(
-			__FUNCTION__,
-			sprintf( 'Value did not return as just numbers. Expects $value to be integer.%s', ! empty( $value ) ? ' Given value: ' . $value : '' ),
-			'4.4'
-		);
-
-		return '';
-	}
-
-	// Trim zeros.
-	if ( $options['trim_zeros'] ) {
-		$value = wc_trim_zeros( $value );
 	}
 
 	/**
@@ -184,4 +166,3 @@ function cocart_format_variation_data( $attributes, $product ) {
 
 	return $return;
 } // END cocart_format_variation_data()
-
