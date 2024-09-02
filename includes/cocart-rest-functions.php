@@ -407,6 +407,10 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  *
  * @since 3.1.0 Introduced.
  *
+ * @deprecated 4.4.0 Replaced with `cocart_format_money()` function.
+ *
+ * @see cocart_format_money()
+ *
  * @param string|float $amount        Monetary amount with decimals.
  * @param int          $decimals      Number of decimals the amount is formatted with.
  * @param int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
@@ -416,29 +420,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 	cocart_deprecated_function( 'cocart_prepare_money_response', '4.4.0', 'cocart_format_money' );
 
-	// If string, clean it first.
-	if ( is_string( $amount ) ) {
-		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
-		$amount = (float) $amount;
-	}
-
-	/**
-	 * This filter allows you to disable the decimals.
-	 * If set to "True" the decimals will be set to "Zero".
-	 */
-	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
-
-	if ( $disable_decimals ) {
-		$decimals = 0;
-	}
-
-	return (string) intval(
-		round(
-			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
-			0,
-			absint( $rounding_mode )
-		)
-	);
+	return cocart_format_money( $amount );
 } // END cocart_prepare_money_response()
 
 /**
