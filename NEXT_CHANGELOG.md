@@ -13,6 +13,7 @@
 * REST API: Moved more functions and filters to utility class to help improve the complexity of the cart controller so we get better performance.
 * REST API: Prevent having to check cart validity, stock and coupons on most cart endpoints other than when getting the cart to help with performance.
 * REST API: Optimized how many times we calculate the totals when adding items to the cart to help with performance.
+* REST API: Cart item prices correctly display based on tax options for the cart not the store.
 * REST API: Optimized shipping data, added validation and support for recurring carts for subscriptions.
 * REST API: Moved some cart validation further up before returning cart contents.
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.

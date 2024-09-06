@@ -1114,7 +1114,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @since 3.0.0 Introduced.
 	 *
 	 * @see cocart_format_money()
-	 * @see CoCart_Utilities_Product_Helpers::get_tax_display_mode()
+	 * @see CoCart_Utilities_Cart_Helpers::get_tax_display_mode()
 	 * @see CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode()
 	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
 	 * @see CoCart_Utilities_Cart_Helpers::prepare_item()
@@ -1128,7 +1128,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @return array $item Returns the item prepared for the cart response.
 	 */
 	public function get_item( $product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
-		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
+		$tax_display_mode = CoCart_Utilities_Cart_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 		$item = array(

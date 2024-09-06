@@ -248,7 +248,7 @@ class CoCart_Utilities_Product_Helpers {
 
 	/**
 	 * WooCommerce can return prices including or excluding tax.
-	 * Choose the correct method based on tax display mode.
+	 * Choose the correct method based on tax display mode for the shop.
 	 *
 	 * @access protected
 	 *
