@@ -123,7 +123,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Check if the requested product review exists before returning.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_Error|boolean
 	 */
 	public function check_review_exists( $request ) {
@@ -149,7 +151,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Check if the user has permission to create a new product review.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_Error|boolean
 	 */
 	public function create_item_permissions_check( $request ) {
@@ -172,7 +176,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Get all reviews.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return array|WP_Error
 	 */
 	public function get_items( $request ) {
@@ -245,8 +251,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * Filters arguments, before passing to WP_Comment_Query, when querying reviews via the REST API.
 		 *
 		 * @link  https://developer.wordpress.org/reference/classes/wp_comment_query/
+		 *
 		 * @param array           $prepared_args Array of arguments for WP_Comment_Query.
-		 * @param WP_REST_Request $request       The current request.
+		 * @param WP_REST_Request $request       The request object.
 		 */
 		$prepared_args = apply_filters( 'cocart_product_review_query', $prepared_args, $request );
 
@@ -312,8 +319,10 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Create a single review.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function create_item( $request ) {
 		if ( ! empty( $request['id'] ) ) {
@@ -392,7 +401,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * skipping further processing.
 		 *
 		 * @param array|WP_Error  $prepared_review The prepared review data for wp_insert_comment().
-		 * @param WP_REST_Request $request          Request used to insert the review.
+		 * @param WP_REST_Request $request         Full details about the request.
 		 */
 		$prepared_review = apply_filters( 'cocart_pre_insert_product_review', $prepared_review, $request );
 
@@ -418,7 +427,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * Fires after a comment is created via the REST API.
 		 *
 		 * @param WP_Comment      $review   Inserted comment object.
-		 * @param WP_REST_Request $request  Request object.
+		 * @param WP_REST_Request $request  The request object.
 		 * @param bool            $creating True when creating a comment, false when updating.
 		 */
 		do_action( 'cocart_insert_product_review', $review, $request, true );
@@ -444,8 +453,10 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Get a single product review.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|WP_REST_Response
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_item( $request ) {
 		$review = $this->get_review( $request['id'] );
@@ -463,8 +474,10 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Prepare a single product review output for response.
 	 *
 	 * @access public
-	 * @param  WP_Comment      $review Product review object.
-	 * @param  WP_REST_Request $request Request object.
+	 *
+	 * @param WP_Comment      $review  Product review object.
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_REST_Response $response Response data.
 	 */
 	public function prepare_item_for_response( $review, $request ) {
@@ -516,7 +529,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param WP_Comment       $review   Product review object used to create response.
-		 * @param WP_REST_Request  $request  Request object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
 		return apply_filters( 'cocart_prepare_product_review', $response, $review, $request );
 	} // END prepare_item_for_response()
@@ -525,7 +538,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Prepare a single product review to be inserted into the database.
 	 *
 	 * @access protected
-	 * @param  WP_REST_Request $request Request object.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return array|WP_Error  $prepared_review
 	 */
 	protected function prepare_item_for_database( $request ) {
@@ -569,7 +584,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * Allows modification of the review right after it is prepared for the database.
 		 *
 		 * @param array           $prepared_review The prepared review data for `wp_insert_comment`.
-		 * @param WP_REST_Request $request         The current request.
+		 * @param WP_REST_Request $request         The request object.
 		 */
 		return apply_filters( 'cocart_preprocess_product_review', $prepared_review, $request );
 	} // END prepare_item_for_database()
@@ -578,7 +593,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WP_Comment $review Product review object.
+	 *
+	 * @param WP_Comment $review Product review object.
+	 *
 	 * @return array Links for the given product review.
 	 */
 	protected function prepare_links( $review ) {
@@ -612,11 +629,12 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Get the Product Review's schema, conforming to JSON Schema.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_item_schema() {
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'product_review',
 			'type'       => 'object',
 			'properties' => array(
@@ -713,6 +731,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Get the query params for collections.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_collection_params() {
@@ -810,7 +829,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Get the review, if the ID is valid.
 	 *
 	 * @access protected
-	 * @param  int $id Supplied ID.
+	 *
+	 * @param int $id Supplied ID.
+	 *
 	 * @return WP_Comment|WP_Error Comment object if ID is valid, WP_Error otherwise.
 	 */
 	protected function get_review( $id ) {
@@ -841,7 +862,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Prepends internal property prefix to query parameters to match our response fields.
 	 *
 	 * @access protected
-	 * @param  string $query_param Query parameter.
+	 *
+	 * @param string $query_param Query parameter.
+	 *
 	 * @return string
 	 */
 	protected function normalize_query_param( $query_param ) {
@@ -869,7 +892,9 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Checks comment_approved to set comment status for single comment output.
 	 *
 	 * @access protected
-	 * @param  string|int $comment_approved comment status.
+	 *
+	 * @param string|int $comment_approved comment status.
+	 *
 	 * @return string Comment status.
 	 */
 	protected function prepare_status_response( $comment_approved ) {
@@ -896,8 +921,10 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 * Sets the comment_status of a given review object when creating a review.
 	 *
 	 * @access protected
-	 * @param  string|int $new_status New review status.
-	 * @param  int        $id         Review ID.
+	 *
+	 * @param string|int $new_status New review status.
+	 * @param int        $id         Review ID.
+	 *
 	 * @return bool Whether the status was changed.
 	 */
 	protected function handle_status_param( $new_status, $id ) {

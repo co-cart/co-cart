@@ -932,8 +932,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * Format variation data, for example convert slugs such as attribute_pa_size to Size.
 	 *
 	 * @access protected
-	 * @param  array      $variation_data Array of data from the cart.
-	 * @param  WC_Product $product        Product data.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param array      $variation_data Array of data from the cart.
+	 * @param WC_Product $product        The product object.
+	 *
 	 * @return array
 	 */
 	protected function format_variation_data( $variation_data, $product ) {
@@ -1532,16 +1536,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				$cart_item['data'] = wc_get_product( ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : ( ! empty( $cart_item['product_id'] ) ? $cart_item['product_id'] : 0 ) );
 			}
 
+			$product = $cart_item['data'];
+
 			/**
 			 * Filter allows you to alter the item product data returned.
 			 *
-			 * @since 3.0.0 Introduced.
+			 * @since 2.0.0 Introduced.
 			 *
-			 * @param WC_Product $_product  The product object.
+			 * @param WC_Product $product   The product object.
 			 * @param array      $cart_item The cart item data.
 			 * @param string     $item_key  The item key currently looped.
 			 */
-			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
+			$product = apply_filters( 'cocart_item_product', $product, $cart_item, $item_key );
 
 			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
 

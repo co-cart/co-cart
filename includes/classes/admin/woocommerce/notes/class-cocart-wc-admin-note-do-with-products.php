@@ -54,7 +54,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		}
 
 		// Don't add note if there are no products.
-		$query = new \WC_Product_Query(
+		$query = new WC_Product_Query(
 			array(
 				'limit'    => 1,
 				'paginate' => true,

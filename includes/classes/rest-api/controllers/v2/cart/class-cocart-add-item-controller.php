@@ -138,6 +138,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 				 * Allows you to specify the handlers validation method for
 				 * adding item to the cart.
 				 *
+				 * Example use for filter: 'cocart_add_to_cart_handler_subscription'.
+				 *
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string          $adding_to_cart_handler The product type to identify handler.

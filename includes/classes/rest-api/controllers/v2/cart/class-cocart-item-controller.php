@@ -96,7 +96,7 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string $message Message.
-				 * @param string $method Method.
+				 * @param string $method  Method.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'get' );
 

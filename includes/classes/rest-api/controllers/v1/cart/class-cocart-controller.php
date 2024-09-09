@@ -95,7 +95,7 @@ class CoCart_API_Controller {
 	 * @since   2.0.0 Introduced.
 	 * @version 2.6.2
 	 *
-	 * @return bool|WP_Error
+	 * @return bool|WP_Error True if user has permission.
 	 */
 	public function get_permission_check() {
 		if ( ! current_user_can( 'administrator' ) ) { // phpcs:ignore WordPress.WP.Capabilities.RoleFound
@@ -116,7 +116,7 @@ class CoCart_API_Controller {
 	 * @param WP_REST_Request $request       The request object.
 	 * @param string          $cart_item_key Cart item key.
 	 *
-	 * @return array|WP_REST_Response
+	 * @return array|WP_REST_Response Response data.
 	 */
 	public function get_cart( $request = array(), $cart_item_key = '' ) {
 		$cart_contents = $this->get_cart_contents( $request, $cart_item_key );
@@ -225,27 +225,28 @@ class CoCart_API_Controller {
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data']                  = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
-				$cart_contents[ $item_key ]['data'] = $cart_item['data'];
+				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
 			}
 
+			$product = $cart_item['data'];
+
 			/**
-			 * Filters the item data.
+			 * Filter allows you to alter the item product data returned.
 			 *
 			 * @since 2.0.0 Introduced.
 			 *
-			 * @param WC_Product $cart_item['data'] Product data.
-			 * @param array      $cart_item         Cart item.
-			 * @param string     $item_key          Item key.
+			 * @param WC_Product $product   The product object.
+			 * @param array      $cart_item The cart item data.
+			 * @param string     $item_key  The item key currently looped.
 			 */
-			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
+			$product = apply_filters( 'cocart_item_product', $product, $cart_item, $item_key );
 
 			// If product is no longer purchasable then don't return it and notify customer.
-			if ( ! $_product->is_purchasable() ) {
+			if ( ! $product->is_purchasable() ) {
 				$message = sprintf(
 					/* translators: %s: product name */
 					__( '%s has been removed from your cart because it can no longer be purchased. Please contact us if you need assistance.', 'cart-rest-api-for-woocommerce' ),
-					$_product->get_name()
+					$product->get_name()
 				);
 
 				/**
@@ -253,10 +254,10 @@ class CoCart_API_Controller {
 				 *
 				 * @since 2.1.0 Introduced.
 				 *
-				 * @param string     $message  Message.
-				 * @param WC_Product $_product Product data.
+				 * @param string     $message Message.
+				 * @param WC_Product $product The product object.
 				 */
-				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $_product );
+				$message = apply_filters( 'cocart_cart_item_removed_message', $message, $product );
 
 				WC()->cart->set_quantity( $item_key, 0 ); // Sets item quantity to zero so it's removed from the cart.
 
@@ -270,11 +271,11 @@ class CoCart_API_Controller {
 				 * @hooked: validate_variation_product_name - 10
 				 *
 				 * @param string     $product_name Product name.
-				 * @param WC_Product $_product     Product data.
+				 * @param WC_Product $product      The product object.
 				 * @param array      $cart_item    Cart item.
 				 * @param string     $item_key     Item key.
 				 */
-				$cart_contents[ $item_key ]['product_name'] = apply_filters( 'cocart_product_name', $_product->get_name(), $_product, $cart_item, $item_key );
+				$cart_contents[ $item_key ]['product_name'] = apply_filters( 'cocart_product_name', $product->get_name(), $product, $cart_item, $item_key );
 
 				/**
 				 * Filters the product title in cart.
@@ -282,14 +283,14 @@ class CoCart_API_Controller {
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string     $product_title Product title.
-				 * @param WC_Product $_product      Product data.
+				 * @param WC_Product $product       The product object.
 				 * @param array      $cart_item     Cart item.
 				 * @param string     $item_key      Item key.
 				 */
-				$cart_contents[ $item_key ]['product_title'] = apply_filters( 'cocart_product_title', $_product->get_title(), $_product, $cart_item, $item_key );
+				$cart_contents[ $item_key ]['product_title'] = apply_filters( 'cocart_product_title', $product->get_title(), $product, $cart_item, $item_key );
 
 				// Add product price as a new variable.
-				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( wp_strip_all_tags( wc_price( $_product->get_price() ) ) );
+				$cart_contents[ $item_key ]['product_price'] = html_entity_decode( wp_strip_all_tags( wc_price( $product->get_price() ) ) );
 
 				// If product thumbnail is requested then add it to each item in cart.
 				if ( $show_thumb ) {
@@ -299,15 +300,15 @@ class CoCart_API_Controller {
 					 *
 					 * @since 2.7.2 Introduced.
 					 */
-					$thumbnail_id = $_product->get_image_id();
+					$thumbnail_id = $product->get_image_id();
 
 					if ( ! $thumbnail_id ) {
-						$parent_product = wc_get_product( $_product->get_parent_id() );
+						$parent_product = wc_get_product( $product->get_parent_id() );
 
 						if ( $parent_product ) {
 							$parent_product->get_image_id();
 						} else {
-							$gallery_image_ids = $_product->get_gallery_image_ids();
+							$gallery_image_ids = $product->get_gallery_image_ids();
 
 							if ( ! empty( $gallery_image_ids ) ) {
 								$thumbnail_id = array_shift( $gallery_image_ids );
@@ -359,9 +360,9 @@ class CoCart_API_Controller {
 				 * @param array      $cart_contents Cart contents.
 				 * @param string     $item_key      Item key.
 				 * @param array      $cart_item     Cart item.
-				 * @param WC_Product $_product      Product data.
+				 * @param WC_Product $product       The product object.
 				 */
-				$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents, $item_key, $cart_item, $_product );
+				$cart_contents = apply_filters( 'cocart_cart_contents', $cart_contents, $item_key, $cart_item, $product );
 			}
 		}
 
@@ -507,7 +508,7 @@ class CoCart_API_Controller {
 	 *
 	 * @param int        $variation_id ID of the variation.
 	 * @param array      $variation    Attribute values.
-	 * @param WC_Product $product      The product data.
+	 * @param WC_Product $product      The product object.
 	 *
 	 * @return array|WP_Error $variation_id ID of the variation or WP_Error if not valid.
 	 */
@@ -702,7 +703,7 @@ class CoCart_API_Controller {
 			 * Filters message about product does not exist.
 			 *
 			 * @param string     $message Message.
-			 * @param WC_Product $product Product data.
+			 * @param WC_Product $product The product object.
 			 */
 			$message = apply_filters( 'cocart_product_does_not_exist_message', $message, $product );
 
@@ -754,7 +755,7 @@ class CoCart_API_Controller {
 			 * Filters message about product failing validation.
 			 *
 			 * @param string     $message Message.
-			 * @param WC_Product $product Product data.
+			 * @param WC_Product $product The product object.
 			 */
 			$message = apply_filters( 'cocart_product_failed_validation_message', $message, $product );
 
@@ -807,7 +808,7 @@ class CoCart_API_Controller {
 				 * Filters message about product not being allowed to add another.
 				 *
 				 * @param string     $message Message.
-				 * @param WC_Product $product Product data.
+				 * @param WC_Product $product The product object.
 				 */
 				$message = apply_filters( 'cocart_product_can_not_add_another_message', $message, $product );
 
@@ -825,7 +826,7 @@ class CoCart_API_Controller {
 			 * Filters message about product unable to be purchased.
 			 *
 			 * @param string     $message Message.
-			 * @param WC_Product $product Product data.
+			 * @param WC_Product $product The product object.
 			 */
 			$message = apply_filters( 'cocart_product_cannot_be_purchased_message', $message, $product );
 
@@ -846,7 +847,7 @@ class CoCart_API_Controller {
 			 * Filters message about product is out of stock.
 			 *
 			 * @param string     $message Message.
-			 * @param WC_Product $product Product data.
+			 * @param WC_Product $product The product object.
 			 */
 			$message = apply_filters( 'cocart_product_is_out_of_stock_message', $message, $product );
 
@@ -1171,10 +1172,12 @@ class CoCart_API_Controller {
 	/**
 	 * Get the query params for getting the cart.
 	 *
-	 * @access  public
-	 * @since   2.1.0
+	 * @access public
+	 *
+	 * @since   2.1.0 Introduced.
 	 * @version 2.7.0
-	 * @return  array $params
+	 *
+	 * @return array $params Returns parameters.
 	 */
 	public function get_collection_params() {
 		$params = array(

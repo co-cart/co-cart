@@ -69,7 +69,7 @@ class CoCart_Cart_Cache {
 		 *
 		 * @since 4.1.0 Introduced.
 		 *
-		 * @param array           $cart_item Cart item.
+		 * @param array           $cart_item The cart item data.
 		 * @param WP_REST_Request $request   The request object.
 		 */
 		if ( ! $this->does_product_allow_price_change( $cart_item, $request ) ) {
@@ -162,8 +162,8 @@ class CoCart_Cart_Cache {
 	 * @since 4.1.0 Introduced.
 	 *
 	 * @param string|int $price     Product price.
-	 * @param array      $cart_item Cart item data.
-	 * @param string     $item_key  Item key.
+	 * @param array      $cart_item The cart item data.
+	 * @param string     $item_key  The item key currently looped.
 	 *
 	 * @return string|int $price Product price
 	 */
@@ -269,7 +269,7 @@ class CoCart_Cart_Cache {
 	 *
 	 * @since 4.1.0 Introduced.
 	 *
-	 * @param array           $cart_item Cart item.
+	 * @param array           $cart_item The cart item data.
 	 * @param WP_REST_Request $request   The request object.
 	 *
 	 * @return bool True if the cart item can be allowed to override the price.

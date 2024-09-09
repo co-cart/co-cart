@@ -66,7 +66,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 						continue;
 					}
 
-					$_product = $cart_item['data'];
+					$product = $cart_item['data'];
 
 					$quantity = wc_stock_amount( preg_replace( '/[^0-9\.]/', '', $quantity ) );
 

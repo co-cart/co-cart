@@ -84,7 +84,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function remove_item( $request = array() ) {
 		$item_key = ! isset( $request['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['cart_item_key'] ) ) );
@@ -123,6 +123,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string $message Message.
+				 * @param string $method  Method.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'remove' );
 
@@ -135,7 +136,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 *
 				 * @since 2.0.0 Introduced.
 				 *
-				 * @param WC_Product $current_data Product data.
+				 * @param array $current_data The cart item data.
 				 */
 				do_action( 'cocart_item_removed', $current_data );
 
@@ -181,6 +182,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 * @since 2.1.0 Introduced.
 			 *
 			 * @param string $message Message.
+			 * @param string $method  Method.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'remove' );
 
@@ -198,7 +200,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function restore_item( $request = array() ) {
 		$item_key = ! isset( $request['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['cart_item_key'] ) ) );
@@ -212,7 +214,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 *
 				 * @since 2.0.0 Introduced.
 				 *
-				 * @param WC_Product $current_data Product data.
+				 * @param array $current_data The cart item data.
 				 */
 				do_action( 'cocart_item_restored', $current_data );
 
@@ -258,6 +260,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 * @since 2.1.0 Introduced.
 			 *
 			 * @param string $message Message.
+			 * @param string $method  Method.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'restore' );
 
@@ -275,7 +278,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_Error|WP_REST_Response
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function update_item( $request = array() ) {
 		$item_key = ! isset( $request['cart_item_key'] ) ? '0' : sanitize_text_field( wp_unslash( wc_clean( $request['cart_item_key'] ) ) );
@@ -304,6 +307,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string $message Message.
+				 * @param string $method  Method.
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
 
@@ -359,7 +363,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 * Filters message about product not being allowed to increase quantity.
 				 *
 				 * @param string     $message      Message.
-				 * @param WC_Product $current_data Product data.
+				 * @param WC_Product $current_data The product object.
 				 */
 				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $current_data['data'] );
 
@@ -460,7 +464,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 * @param array      $response     Response returned.
 				 * @param array      $new_data     Item data.
 				 * @param float      $quantity     Requested quantity to update for item.
-				 * @param WC_Product $product_data Product data.
+				 * @param WC_Product $product_data The product object.
 				 */
 				$response = apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product_data );
 
