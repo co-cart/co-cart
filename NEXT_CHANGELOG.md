@@ -33,7 +33,7 @@ Originally only designed for guest customers to allow them to checkout via the n
 
 To help customers skip the process of having to login again, we use two data points to validate with that can only be accessed if the user was logged in via the REST API to begin with. This then allows the WordPress site setup as though they had gone through the login process and loads their shopping cart.
 
-The two data points required are the cart key which for the customer logged in via the REST API will be their user ID. And the cart hash which represents the last data change of the cart. By using the two together, the customer is able to transfer from the headless version of the store to the native store.
+The two data points required are the cart key which for the customer logged in via the REST API will be their user ID and the cart hash which represents the last data change of the cart. By using the two together, the customer is able to transfer from the headless version of the store to the native store.
 
 Simply provide these two parameters with the data point values on any page and that's it.
 
