@@ -114,6 +114,11 @@ class CoCart_WooCommerce {
 			$cart_key = trim( esc_html( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
+		// Do nothing if the cart key is empty.
+		if ( empty( $cart_key ) ) {
+			return;
+		}
+
 		// Check if the user is logged in.
 		if ( is_user_logged_in() ) {
 			$customer_id = strval( get_current_user_id() );
