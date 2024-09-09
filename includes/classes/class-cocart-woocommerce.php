@@ -107,14 +107,7 @@ class CoCart_WooCommerce {
 			return;
 		}
 
-		$cookie = WC()->session->get_session_cookie();
-
 		$cart_key = '';
-
-		// If cookie exists then return cart key from it.
-		if ( $cookie ) {
-			$cart_key = $cookie[0];
-		}
 
 		// Check if we requested to load a specific cart.
 		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
