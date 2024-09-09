@@ -35,8 +35,8 @@ class CoCart_WooCommerce {
 		// Removes WooCommerce filter that validates the quantity value to be an integer.
 		remove_filter( 'woocommerce_stock_amount', 'intval' );
 
-		// Validates the quantity value to be a float.
-		add_filter( 'woocommerce_stock_amount', 'floatval' );
+		// Validates the quantity value to be a string.
+		add_filter( 'woocommerce_stock_amount', 'string' );
 
 		// Force WooCommerce to accept CoCart requests when authenticating.
 		add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
