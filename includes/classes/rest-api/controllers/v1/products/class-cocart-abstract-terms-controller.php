@@ -85,7 +85,9 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Check if a given request has access to read the terms.
 		 *
 		 * @access public
-		 * @param  WP_REST_Request $request Full details about the request.
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
 		 * @return WP_Error|boolean
 		 */
 		public function get_items_permissions_check( $request ) {
@@ -106,7 +108,9 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Check if a given request has access to read a term.
 		 *
 		 * @access public
-		 * @param  WP_REST_Request $request Full details about the request.
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
 		 * @return WP_Error|boolean
 		 */
 		public function get_item_permissions_check( $request ) {
@@ -127,7 +131,9 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Check permissions.
 		 *
 		 * @access protected
-		 * @param  WP_REST_Request $request Full details about the request.
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
 		 * @return bool|WP_Error
 		 */
 		protected function check_permissions( $request ) {
@@ -158,7 +164,9 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Get terms associated with a taxonomy.
 		 *
 		 * @access public
-		 * @param  WP_REST_Request $request Full details about the request.
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
 		 * @return WP_REST_Response|WP_Error
 		 */
 		public function get_items( $request ) {
@@ -201,9 +209,8 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			 *
 			 * @see https://developer.wordpress.org/reference/functions/get_terms/
 			 *
-			 * @param array           $prepared_args Array of arguments to be
-			 *                                       passed to get_terms.
-			 * @param WP_REST_Request $request       The current request.
+			 * @param array           $prepared_args Array of arguments to be passed to get_terms.
+			 * @param WP_REST_Request $request       The request object.
 			 */
 			$prepared_args = apply_filters( "cocart_rest_{$taxonomy}_query", $prepared_args, $request );
 
@@ -276,7 +283,9 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Get a single term from a taxonomy.
 		 *
 		 * @access public
-		 * @param  WP_REST_Request $request Full details about the request.
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
 		 * @return WP_REST_Request|WP_Error
 		 */
 		public function get_item( $request ) {
@@ -296,8 +305,10 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Prepare links for the request.
 		 *
 		 * @access protected
-		 * @param  object          $term   Term object.
-		 * @param  WP_REST_Request $request Full details about the request.
+		 *
+		 * @param object          $term    Term object.
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
 		 * @return array Links for the given term.
 		 */
 		protected function prepare_links( $term, $request = array() ) {
@@ -337,8 +348,10 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * are instead treated as a full query.
 		 *
 		 * @access protected
-		 * @param  array           $prepared_args Arguments for `get_terms()`.
-		 * @param  WP_REST_Request $request       Full details about the request.
+		 *
+		 * @param array           $prepared_args Arguments for `get_terms()`.
+		 * @param WP_REST_Request $request       Full details about the request.
+		 *
 		 * @return array List of term objects. (Total count in `$this->total_terms`).
 		 */
 		protected function get_terms_for_product( $prepared_args, $request ) {
@@ -385,8 +398,10 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Uses `$this->sort_column` to determine field to sort by.
 		 *
 		 * @access protected
-		 * @param  stdClass $left Term object.
-		 * @param  stdClass $right Term object.
+		 *
+		 * @param stdClass $left Term object.
+		 * @param stdClass $right Term object.
+		 *
 		 * @return int <0 if left is higher "priority" than right, 0 if equal, >0 if right is higher "priority" than left.
 		 */
 		protected function compare_terms( $left, $right ) {
@@ -405,6 +420,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Get the query params for collections
 		 *
 		 * @access public
+		 *
 		 * @return array
 		 */
 		public function get_collection_params() {
@@ -505,7 +521,9 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 * Get taxonomy.
 		 *
 		 * @access protected
-		 * @param  WP_REST_Request $request Full details about the request.
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
 		 * @return int|WP_Error
 		 */
 		protected function get_taxonomy( $request ) {
@@ -524,5 +542,4 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			return $this->taxonomy;
 		} // END get_taxonomy()
 	} // END abstract
-
 }

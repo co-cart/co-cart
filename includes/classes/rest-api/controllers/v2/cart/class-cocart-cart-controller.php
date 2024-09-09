@@ -774,7 +774,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 * @see CoCart_Utilities_Cart_Helpers::cocart_format_variation_data()
 	 *
 	 * @param array      $variation_data Array of data from the cart.
-	 * @param WC_Product $product        Product data.
+	 * @param WC_Product $product        The product object.
 	 *
 	 * @return array
 	 */
@@ -922,7 +922,7 @@ class CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @return float $quantity The quantity returned.
 	 */
-	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request ) {
+	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request = array() ) {
 		try {
 			// Force quantity to 1 if sold individually and check for existing item in cart.
 			if ( $product->is_sold_individually() ) {
@@ -1166,7 +1166,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 * @param string     $product_price Product price.
 			 * @param array      $cart_item     The cart item data.
 			 * @param string     $item_key      The item key generated based on the details of the item.
-			 * @param WC_Product $product      The product object.
+			 * @param WC_Product $product       The product object.
 			 */
 			'price'          => apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $product ) ), $cart_item, $item_key, $product ),
 			'quantity'       => array(
@@ -1180,7 +1180,7 @@ class CoCart_REST_Cart_V2_Controller {
 				 * @param string     $item_quantity Item quantity.
 				 * @param string     $item_key      The item key generated based on the details of the item.
 				 * @param array      $cart_item     The cart item data.
-				 * @param WC_Product $product      The product object.
+				 * @param WC_Product $product       The product object.
 				 */
 				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $product ),
 				'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
@@ -1344,16 +1344,18 @@ class CoCart_REST_Cart_V2_Controller {
 				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
 			}
 
+			$product = $cart_item['data'];
+
 			/**
 			 * Filter allows you to alter the item product data returned.
 			 *
-			 * @since 3.0.0 Introduced.
+			 * @since 2.0.0 Introduced.
 			 *
 			 * @param WC_Product $product   The product object.
 			 * @param array      $cart_item The cart item data.
 			 * @param string     $item_key  The item key currently looped.
 			 */
-			$product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
+			$product = apply_filters( 'cocart_item_product', $product, $cart_item, $item_key );
 
 			$items[ $item_key ] = $this->get_item( $product, $cart_item, $item_key, $show_thumb );
 

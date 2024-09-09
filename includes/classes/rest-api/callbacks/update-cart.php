@@ -66,7 +66,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 						continue;
 					}
 
-					$_product = $cart_item['data'];
+					$product = $cart_item['data'];
 
 					$quantity = wc_stock_amount( preg_replace( '/[^0-9\.]/', '', $quantity ) );
 
@@ -88,9 +88,9 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 					$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $cart_item, $quantity );
 
 					// Is sold individually.
-					if ( $_product->is_sold_individually() && $quantity > 1 ) {
+					if ( $product->is_sold_individually() && $quantity > 1 ) {
 						/* Translators: %s Product title. */
-						wc_add_notice( sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $_product->get_name() ), 'error' );
+						wc_add_notice( sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
 						$passed_validation = false;
 					}
 

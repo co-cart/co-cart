@@ -157,7 +157,7 @@ class CoCart_Cart_Validation {
 			 * Allows filter if product have enough stock to get added to the cart.
 			 *
 			 * @param bool       $has_stock If have enough stock.
-			 * @param WC_Product $product   Product instance.
+			 * @param WC_Product $product   The product object.
 			 * @param array      $cart_item Cart item values.
 			 */
 			if ( apply_filters( 'cocart_cart_item_required_stock_is_not_enough', $product->get_stock_quantity() < ( $held_stock + $required_stock ), $product, $cart_item ) ) {

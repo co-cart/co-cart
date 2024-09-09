@@ -390,7 +390,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @param WC_Product $product The product object.
 	 *
-	 * @return array $data Product data.
+	 * @return array $data The product details.
 	 */
 	protected function get_product_data( $product ) {
 		$type         = $product->get_type();
@@ -523,7 +523,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @param WC_Variation_Product $product The product object.
 	 *
-	 * @return array $data Product data.
+	 * @return array $data Variation product details.
 	 */
 	protected function get_variation_product_data( $product ) {
 		$data = self::get_product_data( $product );
@@ -700,7 +700,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @param WC_Product $product The product object.
 	 * @param string     $type    Type of products to return.
 	 *
-	 * @return array $connected_products Product data.
+	 * @return array $connected_products The product object.
 	 */
 	public function get_connected_products( $product, $type ) {
 		switch ( $type ) {
@@ -911,7 +911,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @see CoCart_REST_Products_V2_Controller::get_price_range()
 	 *
-	 * @param \WC_Product $product Product object.
+	 * @param \WC_Product $product The product object.
 	 * @param string      $tax_display_mode If returned prices are incl or excl of tax.
 	 *
 	 * @return array

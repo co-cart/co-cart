@@ -138,7 +138,7 @@ function cocart_format_money( $value, array $options = array() ) {
  * @since 4.4.0 Introduced.
  *
  * @param array      $attributes Array of data from the cart.
- * @param WC_Product $product    Product data.
+ * @param WC_Product $product    The product object.
  *
  * @return array Formatted attribute data.
  */

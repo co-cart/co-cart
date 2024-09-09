@@ -344,7 +344,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array $item Full details of the item in the cart and it's purchase limits.
 	 */
 	public function get_item( $product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
-		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
+		$tax_display_mode = CoCart_Utilities_Cart_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 		$item = array(
@@ -356,7 +356,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @since 3.0.0 Introduced.
 			 *
 			 * @param string     $product_name Product name.
-			 * @param WC_Product $product     The product object.
+			 * @param WC_Product $product      The product object.
 			 * @param array      $cart_item    The cart item data.
 			 * @param string     $item_key     The item key generated based on the details of the item.
 			 */
@@ -367,7 +367,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @since 3.0.0 Introduced.
 			 *
 			 * @param string     $product_title Product title.
-			 * @param WC_Product $product      The product object.
+			 * @param WC_Product $product       The product object.
 			 * @param array      $cart_item     The cart item data.
 			 * @param string     $item_key      The item key generated based on the details of the item.
 			 */
