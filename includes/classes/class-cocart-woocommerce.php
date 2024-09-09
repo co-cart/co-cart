@@ -102,8 +102,8 @@ class CoCart_WooCommerce {
 			return;
 		}
 
-		// Check the CoCart session handler is used but is NOT a CoCart REST API request.
-		if ( ! WC()->session instanceof CoCart_Session_Handler || WC()->session instanceof CoCart_Session_Handler && ! CoCart::is_rest_api_request() ) {
+		// Return nothing if CoCart REST API is NOT requested.
+		if ( ! CoCart::is_rest_api_request() ) {
 			return;
 		}
 
