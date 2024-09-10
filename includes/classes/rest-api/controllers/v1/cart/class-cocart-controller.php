@@ -427,8 +427,7 @@ class CoCart_API_Controller {
 		}
 
 		// Get the cart in the database.
-		$handler = new CoCart_Session_Handler();
-		$cart    = $handler->get_cart( $cart_key );
+		$cart = WC()->session->get_session( $cart_key );
 
 		// If no cart is saved with the ID specified return error.
 		if ( empty( $cart ) ) {
@@ -948,7 +947,7 @@ class CoCart_API_Controller {
 		if ( ! $current_product->has_enough_stock( $quantity ) ) {
 			$message = sprintf(
 				/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
-				__( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ),
+				__( 'You cannot add that amount of (%1$s) for "%2$s" to the cart because there is not enough stock, only (%3$s remaining).', 'cart-rest-api-for-woocommerce' ),
 				$quantity,
 				$current_product->get_name(),
 				wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product )

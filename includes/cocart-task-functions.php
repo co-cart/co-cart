@@ -46,7 +46,7 @@ add_action( 'cocart_cleanup_carts', 'cocart_task_cleanup_carts' );
  *
  * @global $wpdb
  *
- * @return int $results The number of saved carts.
+ * @return int|void The number of saved carts.
  */
 function cocart_task_clear_carts( $return_results = false ) {
 	global $wpdb;

@@ -118,7 +118,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	 *
 	 * @access protected
 	 * @param  array $query_args Query args.
-	 * @return array
+	 * @return array|WP_Error
 	 */
 	protected function get_objects( $query_args ) {
 		$query       = new WP_Query();
