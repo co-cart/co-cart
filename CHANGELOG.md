@@ -1,8 +1,13 @@
 # Changelog for CoCart
 
-## v4.3.7 - 21st August, 2024
+## v4.3.7 - 21st October, 2024
 
-* Updated: Documentation URL has changed to <https://ogdocs.cocartapi.com>
+### Improvements
+
+* REST API: Reset the item key when adding item again as it may have been manipulated by adding cart item data via code or plugin.
+
+### Changes
+
 * Updated: Translation URL has changed to <https://translate.cocartapi.com>
 
 ## v4.3.6 - 23rd August, 2024

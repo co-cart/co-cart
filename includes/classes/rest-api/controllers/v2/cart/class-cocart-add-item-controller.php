@@ -346,6 +346,15 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 			if ( ! empty( $item_key ) ) {
 				$cart_contents = $controller->get_cart( array( 'raw' => true ) );
 
+				/**
+				 * If the item key was not found in cart then we need to reset it as the item may have been
+				 * manipulated by adding cart item data via code or a plugin. This helps prevent undefined errors.
+				 */
+				if ( ! in_array( $item_key, $cart_contents ) ) {
+					$product_to_add['item_key'] = ''; // Clear previous item key.
+					return $this->add_item_to_cart( $product_to_add );
+				}
+
 				$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
 
 				$controller->get_cart_instance()->set_quantity( $item_key, $new_quantity );
