@@ -17,6 +17,7 @@
 * REST API: Optimized shipping data, added validation and support for recurring carts for subscriptions.
 * REST API: Moved some cart validation further up before returning cart contents.
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
+* REST API: Reset the item key when adding item again as it may have been manipulated by adding cart item data via code or plugin.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
 * Plugin: PHPStan used to help with correcting errors and inconsistencies.
