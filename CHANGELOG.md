@@ -1,5 +1,12 @@
 # Changelog for CoCart
 
+## v4.3.6 - 23rd August, 2024
+
+### Bug Fixes
+
+* REST API: View or deleting a session with the Sessions API was not accessing the session handler. No longer needs a separate load.
+* Session Handler: Fixed merging of cart from guest.
+
 ## v4.3.5 - 9th August, 2024
 
 ### Bug Fix
