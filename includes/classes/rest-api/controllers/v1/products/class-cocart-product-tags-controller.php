@@ -42,7 +42,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 	 * @access public
 	 *
 	 * @param obj             $item    Term object.
-	 * @param WP_REST_Request $request Full details about the request. 
+	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_REST_Response $response The response object.
 	 */
