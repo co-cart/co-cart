@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
 "4.4.0-beta.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-09-10 01:55:57+00:00\n"
+"POT-Creation-Date: 2024-09-10 02:43:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1512,7 +1512,7 @@ msgid "This product does not exist!"
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-add-item-controller.php:284
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:400
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:409
 #. translators: %s: product name
 msgid "You cannot add \"%s\" to your cart."
 msgstr ""
@@ -1536,7 +1536,7 @@ msgid "Unique identifier for the product."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-add-item-controller.php:376
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:451
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:460
 msgid "Quantity amount."
 msgstr ""
 
@@ -1549,12 +1549,12 @@ msgid "Unique identifier for the variation."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-add-item-controller.php:386
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:456
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:465
 msgid "Variation attributes that identity the variation of the item."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-add-item-controller.php:391
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:461
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:470
 msgid "Additional item data to make the item unique."
 msgstr ""
 
@@ -1571,7 +1571,7 @@ msgid "The variation attributes that identity the variation of the item."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-add-item-controller.php:448
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:543
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:552
 msgid "Additional item data passed to make item unique."
 msgstr ""
 
@@ -1741,7 +1741,7 @@ msgid "Variation attribute slug."
 msgstr ""
 
 #: includes/classes/rest-api/controllers/v1/cart/class-cocart-controller.php:1053
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:532
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:541
 msgid "Variation attribute value."
 msgstr ""
 
@@ -3036,49 +3036,49 @@ msgstr ""
 msgid "This filter is no longer used. Recommend using action hook \"%s\" instead."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:445
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:506
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:454
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:515
 msgid "Unique identifier for the product or variation ID."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:466
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:475
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-items-controller.php:310
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-cart-controller.php:2195
 msgid "Customers billing email address."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:471
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:480
 msgid "Set a custom price for the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:477
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:569
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:486
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:578
 msgid "Returns the item details once added."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:513
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:522
 msgid "Quantity of this item to add to the cart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:520
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:529
 msgid "Variable attributes that identify the variation of the item."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:526
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:535
 msgid "Variation attribute name."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:549
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:558
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-items-controller.php:358
 msgid "Set the customers billing email address."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:556
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:565
 #: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-items-controller.php:364
 msgid "Set the customers billing phone number."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:563
+#: includes/classes/rest-api/controllers/v2/cart/class-cocart-add-item-controller.php:572
 msgid "Overrides the general or sale price with a custom price for the item if set."
 msgstr ""
 
