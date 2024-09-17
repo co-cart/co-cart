@@ -40,7 +40,7 @@
 	"requires_php": "7.4",
 	"tested_up_to": "6.6",
 	"wc_requires": "7.0",
-	"wc_tested_up_to": "9.2",
+	"wc_tested_up_to": "9.3",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2024, CoCart Headless, LLC",
 	"description": "Decouple your WooCommerce store with ease with our developer friendly REST API extension.",
