@@ -96,7 +96,7 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 				array(
 					'name'    => 'cocart-view-documentation',
 					'label'   => __( 'View Documentation', 'cart-rest-api-for-woocommerce' ),
-					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://docs.cocart.xyz' ) ) ),
+					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_DOCUMENTATION_URL ) ),
 					'status'  => $status,
 					'primary' => true,
 				),
