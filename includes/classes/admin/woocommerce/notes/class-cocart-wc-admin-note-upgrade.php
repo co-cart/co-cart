@@ -2,11 +2,12 @@
 /**
  * CoCart - WooCommerce Admin: Upgrade CoCart.
  *
- * Adds a note to ask the client if they are ready to upgrade to CoCart.
+ * Adds a note to ask the client if they are ready to upgrade CoCart.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
- * @since   3.10.4
+ * @since   3.10.4 Introduced.
+ * @version 4.4.0
  * @license GPL-2.0+
  */
 
@@ -14,6 +15,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Automattic\WooCommerce\Admin\Notes\Note;
+use Automattic\WooCommerce\Admin\Notes\Notes;
+use Automattic\WooCommerce\Admin\PluginsHelper;
 
 class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 
@@ -37,13 +42,16 @@ class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 	/**
 	 * Add note.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.3.0 Introduced.
-	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @param   string $note_name Note name.
-	 * @param   string $seconds   How many seconds since CoCart was installed before the notice is shown.
-	 * @param   string $source    Source of the note.
+	 *
+	 * @since 2.3.0 Introduced.
+	 * @since 3.2.0 Dropped support for WooCommerce less than version 4.8
+	 *
+	 * @param string $note_name Note name.
+	 * @param string $seconds   How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source    Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -59,7 +67,7 @@ class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 		$is_plugin_installed = Automattic\WooCommerce\Admin\PluginsHelper::is_plugin_installed( self::PLUGIN_FILE );
 
 		if ( $is_plugin_installed ) {
-			Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( $note_name );
+			Notes::delete_notes_with_name( $note_name );
 
 			return;
 		}
@@ -71,14 +79,17 @@ class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.3.0 Introduced.
-	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @return  array
+	 *
+	 * @since 2.3.0 Introduced.
+	 * @since 3.2.0 Dropped support for WooCommerce less than version 4.8
+	 *
+	 * @return array
 	 */
 	public static function get_note_args() {
-		$status = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED;
+		$status = Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
 		$campaign_args = CoCart_Helpers::cocart_campaign(
 			array(

@@ -6,8 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
- * @since   2.3.0
- * @version 3.2.0
+ * @since   2.3.0 Introduced.
+ * @version 4.4.0
  * @license GPL-2.0+
  */
 
@@ -15,6 +15,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Automattic\WooCommerce\Admin\Notes\Note;
 
 class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 
@@ -34,7 +36,9 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 	 * Add note.
 	 *
 	 * @access public
+	 *
 	 * @static
+	 *
 	 * @param string $note_name Note name.
 	 * @param string $seconds   How many seconds since CoCart was installed before the notice is shown.
 	 * @param string $source    Source of the note.
@@ -56,15 +60,18 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.3.0  Introduced.
-	 * @since   3.2.0  Dropped support for WooCommerce less than version 4.8
-	 * @since   3.10.4 Updated action buttons.
-	 * @return  array $args Note arguments.
+	 *
+	 * @since 2.3.0  Introduced.
+	 * @since 3.2.0  Dropped support for WooCommerce less than version 4.8
+	 * @since 3.10.4 Updated action buttons.
+	 *
+	 * @return array $args Note arguments.
 	 */
 	public static function get_note_args() {
-		$status = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED;
+		$status = Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
 		$campaign_args = CoCart_Helpers::cocart_campaign(
 			array(
