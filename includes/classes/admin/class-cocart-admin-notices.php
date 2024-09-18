@@ -144,7 +144,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since 3.0.0 Introduced.
 		 */
 		public function reset_admin_notices() {
-			self::add_notice( 'upgrade_warning' );
 			self::add_notice( 'check_php' );
 			self::add_notice( 'check_wp' );
 			self::add_notice( 'check_wc' );
