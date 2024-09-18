@@ -400,8 +400,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$version = COCART_VERSION;
 			}
 
-			// If CoCart has only been installed for less than 4 weeks then do not show this notice.
-			if ( ( intval( time() - self::$install_date ) ) < WEEK_IN_SECONDS * 4 ) {
+			// If CoCart has only been installed for less than 6 weeks then do not show this notice.
+			if ( ( intval( time() - self::$install_date ) ) < WEEK_IN_SECONDS * 6 ) {
 				return;
 			}
 
