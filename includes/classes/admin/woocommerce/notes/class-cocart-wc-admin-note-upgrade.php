@@ -28,11 +28,6 @@ class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 	const NOTE_NAME = 'cocart-wc-admin-upgrade';
 
 	/**
-	 * Name of the plugin file.
-	 */
-	const PLUGIN_FILE = 'cocart-pro/cocart-pro.php';
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -63,10 +58,11 @@ class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 			return;
 		}
 
-		// Check if CoCart Pro is installed. If true then don't create note.
-		$is_plugin_installed = Automattic\WooCommerce\Admin\PluginsHelper::is_plugin_installed( self::PLUGIN_FILE );
+		// Check if CoCart Plus or Pro is installed. If either true then don't create note.
+		$is_plus_installed = PluginsHelper::is_plugin_installed( 'cocart-plus/cocart-plus.php' );
+		$is_pro_installed  = PluginsHelper::is_plugin_installed( 'cocart-pro/cocart-pro.php' );
 
-		if ( $is_plugin_installed ) {
+		if ( $is_plus_installed || $is_pro_installed ) {
 			Notes::delete_notes_with_name( $note_name );
 
 			return;

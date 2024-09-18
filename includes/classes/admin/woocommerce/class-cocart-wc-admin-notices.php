@@ -53,7 +53,7 @@ class CoCart_WC_Admin_Notes {
 		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-help-improve.php';
 		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-need-help.php';
 		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-thanks-install.php';
-		/*include_once __DIR__ . '/notes/class-cocart-wc-admin-note-upgrade.php';*/
+		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-upgrade.php';
 	} // END include_notes()
 
 	/**
