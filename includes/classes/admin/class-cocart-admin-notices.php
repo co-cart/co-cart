@@ -205,7 +205,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @param string $notice_name Notice name.
 		 * @param bool   $force_save  Force saving inside this method instead of at the 'shutdown'.
 		 */
-		public static function add_notice( $notice_name, $force_save = false ) {
+		public static function add_notice( string $notice_name, bool $force_save = false ) {
 			self::set_notices( array_unique( array_merge( self::get_notices(), array( $notice_name ) ) ) );
 
 			if ( $force_save ) {
@@ -226,7 +226,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @param string $notice_name Notice name.
 		 * @param bool   $force_save  Force saving inside this method instead of at the 'shutdown'.
 		 */
-		public static function remove_notice( $notice_name, $force_save = false ) {
+		public static function remove_notice( string $notice_name, bool $force_save = false ) {
 			// Check that the notice exists before attempting to remove it.
 			if ( self::has_notice( $notice_name ) ) {
 				self::set_notices( array_diff( self::get_notices(), array( $notice_name ) ) );
@@ -291,7 +291,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @return boolean
 		 */
-		public static function has_notice( $notice_name ) {
+		public static function has_notice( string $notice_name ) {
 			return in_array( $notice_name, self::get_notices(), true );
 		} // END has_notice()
 
@@ -332,7 +332,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @param string $notice_name Notice name.
 		 */
-		private static function hide_notice( $notice_name ) {
+		private static function hide_notice( string $notice_name ) {
 			self::remove_notice( $notice_name );
 
 			update_user_meta( get_current_user_id(), 'dismissed_cocart_' . $notice_name . '_notice', true );
@@ -344,6 +344,24 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			 */
 			do_action( 'cocart_hide_' . $notice_name . '_notice' );
 		} // END hide_notice()
+
+		/**
+		 * Check if a given user has dismissed a given admin notice.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @param string   $notice_name The name of the admin notice to check.
+		 * @param int|null $user_id     User id, or null for the current user.
+		 *
+		 * @return bool True if the user has dismissed the notice.
+		 */
+		public static function user_has_dismissed_notice( string $notice_name, ?int $user_id = null ): bool {
+			return (bool) get_user_meta( $user_id ?? get_current_user_id(), "dismissed_cocart_{$notice_name}_notice", true );
+		} // END user_has_dismissed_notice()
 
 		/**
 		 * Add notices.
@@ -396,7 +414,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @param string $notice_name Notice name.
 		 * @param string $notice_html Notice HTML.
 		 */
-		public static function add_custom_notice( $notice_name, $notice_html ) {
+		public static function add_custom_notice( string $notice_name, string $notice_html ) {
 			self::add_notice( $notice_name );
 			update_option( 'cocart_admin_notice_' . $notice_name, wp_kses_post( $notice_html ) );
 		} // END add_custom_notice()
@@ -463,7 +481,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			self::add_notice( 'plugin_review' );
 
 			// Was the plugin review notice dismissed?
-			$hide_review_notice = get_user_meta( get_current_user_id(), 'dismissed_cocart_plugin_review_notice', true );
+			$hide_review_notice = self::user_has_dismissed_notice( 'plugin_review' );
 
 			// If review plugin notice dismissed, remove it.
 			if ( $hide_review_notice ) {
