@@ -1082,7 +1082,7 @@ class CoCart_REST_Cart_V2_Controller {
 		 *
 		 * @deprecated 4.4.0 No longer used.
 		 */
-		cocart_do_deprecated_filter( 'cocart_filter_request_data', '4.4.0', null, null, array( $request ) );
+		cocart_do_deprecated_filter( 'cocart_filter_request_data', '4.4.0', null, __( 'No longer use.', 'cart-rest-api-for-woocommerce' ), array( $request ) );
 	} // END filter_request_data()
 
 	/**
