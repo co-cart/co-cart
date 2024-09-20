@@ -1533,8 +1533,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data']          = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
-				$items[ $item_key ]['data'] = $cart_item['data']; // Internal use only!
+				$cart_item['data'] = wc_get_product( ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : ( ! empty( $cart_item['product_id'] ) ? $cart_item['product_id'] : 0 ) );
 			}
 
 			/**
@@ -1612,7 +1611,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		foreach ( $removed_items as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+				$cart_item['data'] = wc_get_product( ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : ( ! empty( $cart_item['product_id'] ) ? $cart_item['product_id'] : 0 ) );
 			}
 
 			$_product = $cart_item['data'];
