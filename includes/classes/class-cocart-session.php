@@ -225,7 +225,13 @@ class CoCart_Load_Cart {
 	 * @return boolean
 	 */
 	protected static function maybe_use_cookie_monster() {
-		return apply_filters( 'cocart_use_cookie_monster', true );
+		return cocart_do_deprecated_filter(
+			'cocart_use_cookie_monster',
+			'4.4.0',
+			null,
+			__( 'No longer use.', 'cart-rest-api-for-woocommerce' ),
+			array( true )
+		);
 	} // END maybe_use_cookie_monster()
 
 	/**
