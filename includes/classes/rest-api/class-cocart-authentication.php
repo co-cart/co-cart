@@ -152,6 +152,25 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		} // END cocart_user_logged_in()
 
 		/**
+		 * Returns true if we are making a REST API request for CoCart.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @deprecated 4.2.0 Moved function to main plugin class.
+		 *
+		 * @return bool
+		 */
+		public static function is_rest_api_request() {
+			cocart_deprecated_function( 'CoCart_Authentication::is_rest_api_request', '4.2.0', 'CoCart::is_rest_api_request' );
+
+			return CoCart::is_rest_api_request();
+		} // END is_rest_api_request()
+
+		/**
 		 * Get the authorization header.
 		 *
 		 * Returns the value from the authorization header.
