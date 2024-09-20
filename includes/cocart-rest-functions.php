@@ -587,6 +587,39 @@ function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' 
 	return str_starts_with( $rest_route, $ns );
 } // END cocart_rest_should_load_namespace()
 
+/**
+ * Get CoCart requested namespace.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace() {
+	return CoCart::$cocart_namespace;
+} // END cocart_get_requested_namespace()
+
+/**
+ * Get CoCart requested namespace version.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace_version() {
+	return CoCart::$cocart_namespace_version;
+} // END cocart_get_requested_namespace_version()
+
+/**
+ * Get CoCart requested API.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_api() {
+	return cocart_get_requested_namespace() . '/' . cocart_get_requested_namespace_version();
+} // END cocart_get_requested_api()
+
 if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
 	/**
 	 * Validates the quantity argument.

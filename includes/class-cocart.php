@@ -103,6 +103,32 @@ final class CoCart {
 	} // END __wakeup()
 
 	/**
+	 * Requested CoCart Namespace.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $cocart_namespace = '';
+
+	/**
+	 * Requested CoCart Namespace version.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $cocart_namespace_version = '';
+
+	/**
 	 * Initiate CoCart.
 	 *
 	 * @access public
@@ -461,6 +487,18 @@ final class CoCart {
 	 * @since 4.1.0  Moved REST API classes to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
+		if ( self::is_rest_api_request() ) {
+			// Get current request and remove the home URI and REST prefix.
+			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+			$request_uri = str_replace( home_url(), '', $request_uri );
+			$request_uri = str_replace( trailingslashit( rest_get_url_prefix() ), '', $request_uri );
+
+			// Explode the remaining requested URI and get the namespace and version.
+			$cocart_request                 = explode( '/', $request_uri );
+			self::$cocart_namespace         = $cocart_request[1];
+			self::$cocart_namespace_version = $cocart_request[2];
+		}
+
 		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-cache.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
