@@ -187,46 +187,42 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			return $cart_contents;
 		}
 
-		/**
-		 * Filter allows you to modify the cart contents before it calculate totals.
-		 *
-		 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
-		 *
-		 * @since 3.0.0 Introduced.
-		 *
-		 * @hooked: check_cart_item_stock - 10
-		 * @hooked: check_cart_coupons - 15
-		 *
-		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart                        The cart object.
-		 * @param WP_REST_Request $request       The request object.
-		 */
-		$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
-
-		/**
-		 * Deprecated action hook `cocart_get_cart`.
-		 *
-		 * @deprecated 3.0.0 Use `cocart_cart` filter instead.
-		 *
-		 * @see cocart_cart
-		 */
-		cocart_do_deprecated_action( 'cocart_get_cart', '3.0.0', 'cocart_cart', null );
+		if ( ! $dont_check ) {
+			/**
+			 * Filter allows you to modify the cart contents before it calculate totals.
+			 *
+			 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @hooked: check_cart_validity - 0
+			 * @hooked: check_cart_item_stock - 10
+			 * @hooked: check_cart_coupons - 15
+			 *
+			 * @param array           $cart_contents The cart contents.
+			 * @param WC_Cart         $cart          The cart object.
+			 * @param WP_REST_Request $request       The request object.
+			 */
+			$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+		}
 
 		// Ensures the cart totals are calculated before an API response is returned.
 		$this->calculate_totals();
 
-		/**
-		 * Filter allows you to modify the cart contents after it has calculated totals.
-		 *
-		 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
-		 *
-		 * @since 4.1.0 Introduced.
-		 *
-		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart         Cart object.
-		 * @param WP_REST_Request $request       The request object.
-		 */
-		$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+		if ( ! $dont_check ) {
+			/**
+			 * Filter allows you to modify the cart contents after it has calculated totals.
+			 *
+			 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @param array           $cart_contents The cart contents.
+			 * @param WC_Cart         $cart          The cart object.
+			 * @param WP_REST_Request $request       The request object.
+			 */
+			$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+		}
 
 		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
 
