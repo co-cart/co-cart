@@ -205,7 +205,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 			 *                                       passed to get_terms.
 			 * @param WP_REST_Request $request       The current request.
 			 */
-			$prepared_args = apply_filters( "cocart_rest_{$taxonomy}_query", $prepared_args, $request );
+			$prepared_args = apply_filters( "cocart_rest_{$taxonomy}_query", $prepared_args, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 			if ( ! empty( $prepared_args['product'] ) ) {
 				$query_result = $this->get_terms_for_product( $prepared_args, $request );

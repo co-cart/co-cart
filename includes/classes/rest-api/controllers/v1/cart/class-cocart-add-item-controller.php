@@ -127,7 +127,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			 *
 			 * @param WC_Product $adding_to_cart The product object.
 			 */
-			$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart );
+			$was_added_to_cart = apply_filters( "cocart_add_to_cart_handler_{$add_to_cart_handler}", $adding_to_cart ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		} else {
 			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data );
 		}

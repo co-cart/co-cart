@@ -133,7 +133,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 				 * @param WC_Product      $adding_to_cart         The product object
 				 * @param WP_REST_Request $request                The request object.
 				 */
-				$items_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+				$items_added_to_cart = apply_filters( "cocart_add_items_to_cart_handler_{$add_items_to_cart_handler}", $adding_to_cart, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			} else {
 				$items_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
 			}

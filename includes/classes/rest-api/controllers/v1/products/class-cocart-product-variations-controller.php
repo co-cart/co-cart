@@ -155,7 +155,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		 * @param WC_Data          $object   Object data.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->post_type}_object", $response, $object, $request );
+		return apply_filters( "cocart_prepare_{$this->post_type}_object", $response, $object, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_object_for_response()
 
 	/**

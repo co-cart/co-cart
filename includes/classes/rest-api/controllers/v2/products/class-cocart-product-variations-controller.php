@@ -137,7 +137,7 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 		 * @param WC_Product       $product   Product object.
 		 * @param WP_REST_Request  $request The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
+		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_object_for_response()
 
 	/**

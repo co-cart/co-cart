@@ -241,7 +241,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 				update_user_meta( get_current_user_id(), 'dismissed_cocart_' . $hide_notice . '_notice', true );
 
-				do_action( 'cocart_hide_' . $hide_notice . '_notice' );
+				do_action( "cocart_hide_{$hide_notice}_notice" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 				wp_safe_redirect( remove_query_arg( array( 'cocart-hide-notice', '_cocart_notice_nonce' ), CoCart_Helpers::cocart_get_current_admin_url() ) );
 				exit;

@@ -128,7 +128,7 @@ class CoCart_Utilities_Cart_Helpers {
 		foreach ( $checkout_fields as $key => $value ) {
 			$field_name = 'get_' . $key; // Name of the default field function. e.g. "get_billing_first_name".
 
-			$results[ $key ] = method_exists( $customer, $field_name ) ? $customer->$field_name() : apply_filters( 'cocart_get_customer_' . $key, '', $customer );
+			$results[ $key ] = method_exists( $customer, $field_name ) ? $customer->$field_name() : apply_filters( "cocart_get_customer_{$key}", '', $customer ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 
 		return $results;
