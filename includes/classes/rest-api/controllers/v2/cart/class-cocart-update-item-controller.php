@@ -134,10 +134,9 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			/**
 			 * Filter allows you to determine if the updated item in cart passed validation.
 			 *
-			 * @since   2.1.0 Introduced.
-			 * @version 2.6.2
+			 * @since 2.1.0 Introduced.
 			 *
-			 * @param bool
+			 * @param bool   $cart_valid   True by default.
 			 * @param string $item_key     Item key.
 			 * @param array  $current_data Product data of the item in cart.
 			 * @param float  $quantity     The requested quantity to change to.
