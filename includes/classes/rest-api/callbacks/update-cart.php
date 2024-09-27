@@ -89,8 +89,12 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 
 					// Is sold individually.
 					if ( $product->is_sold_individually() && $quantity > 1 ) {
-						/* Translators: %s Product title. */
-						wc_add_notice( sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $product->get_name() ), 'error' );
+						$message = sprintf(
+							/* translators: %s Product name. */
+							__( 'You can only have 1 "%s" in your cart.', 'cart-rest-api-for-woocommerce' ),
+							$product->get_name()
+						);
+						wc_add_notice( $message, 'error' );
 						$passed_validation = false;
 					}
 
