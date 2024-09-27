@@ -1,5 +1,10 @@
 # Changelog for CoCart
 
+## v4.3.7 - ?? ??, 2024
+
+* Updated: Documentation URL has changed to <https://ogdocs.cocartapi.com>
+* Updated: Translation URL has changed to <https://translate.cocartapi.com>
+
 ## v4.3.6 - 23rd August, 2024
 
 ### Bug Fixes

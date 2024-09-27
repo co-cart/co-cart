@@ -76,9 +76,9 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 					}
 
 					/**
-					 * Filters the cart validation when updating the cart.
+					 * Filter allows you to determine if the updated item in cart passed validation.
 					 *
-					 * @since 3.1.0 Introduced.
+					 * @since 2.1.0 Introduced.
 					 *
 					 * @param bool   $cart_valid True by default.
 					 * @param string $item_key   Item key of the item updated.

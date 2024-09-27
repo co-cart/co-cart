@@ -992,7 +992,7 @@ class CoCart_API_Controller {
 		$default_response = apply_filters( 'cocart_return_default_response', true );
 
 		if ( ! $default_response ) {
-			$response = apply_filters( 'cocart_' . $rest_base . '_response', $response );
+			$response = apply_filters( "cocart_{$rest_base}_response", $response );
 		}
 
 		return new WP_REST_Response( $response, 200 );

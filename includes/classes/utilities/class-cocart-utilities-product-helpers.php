@@ -314,13 +314,10 @@ class CoCart_Utilities_Product_Helpers {
 
 			foreach ( $ignore_private_meta_keys as $ignore ) {
 				if ( str_starts_with( $meta->key, $ignore ) ) {
-					$ignore_meta = true;
-					break; // Exit the inner loop once a match is found.
+					continue; // Continue to next meta data if match found.
 				}
-			}
 
-			// Add meta data only if it's not ignored.
-			if ( ! $ignore_meta ) {
+				// Add meta data only if it's not ignored.
 				$safe_meta[ $meta->key ] = $meta;
 			}
 		}

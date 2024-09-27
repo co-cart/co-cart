@@ -63,7 +63,7 @@ class CoCart_Response {
 				 *
 				 * @since 3.0.0 Introduced.
 				 */
-				$data = apply_filters( 'cocart_' . $endpoint . '_response', $data );
+				$data = apply_filters( "cocart_{$endpoint}_response", $data ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			}
 
 			/**

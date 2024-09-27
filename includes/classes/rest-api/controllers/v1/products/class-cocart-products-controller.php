@@ -2291,7 +2291,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$schema['properties'][ $field_name ] = $field_options['schema'];
 		}
 
-		$schema['properties'] = apply_filters( 'cocart_' . $object_type . '_schema', $schema['properties'] );
+		$schema['properties'] = apply_filters( "cocart_{$object_type}_schema", $schema['properties'] ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		return $schema;
 	} // END add_additional_fields_schema()

@@ -28,10 +28,9 @@
 	"minimum-stability": "stable",
 	"authors": [
 		{
-			"name": "Sébastien Dumont",
-			"email": "mailme@sebastiendumont.com",
-			"homepage": "https://sebastiendumont.com",
-			"role": "Developer"
+			"name": "Contact",
+			"email": "hello@cocartapi.com",
+			"homepage": "https://cocartapi.com"
 		}
 	],
 	"support": {

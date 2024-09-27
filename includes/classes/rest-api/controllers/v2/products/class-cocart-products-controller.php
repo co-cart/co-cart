@@ -228,7 +228,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		 * @param WC_Product       $product  The product object.
 		 * @param WP_REST_Request  $request  The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
+		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_object_for_response()
 
 	/**
@@ -260,7 +260,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 
 			// Filter 'woocommerce_hide_invisible_variations' to optionally hide invisible variations (disabled variations and variations with empty price).
-			if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) {
+			if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				continue;
 			}
 
