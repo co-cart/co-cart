@@ -161,8 +161,8 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				 *
 				 * @since 1.0.0 Introduced.
 				 *
-				 * @param string     $message  Message.
-				 * @param WC_Product $_product Product data.
+				 * @param string     $message Message.
+				 * @param WC_Product $product The product object.
 				 */
 				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $_product );
 
@@ -171,15 +171,11 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			// Only update cart item quantity if passed validation.
 			if ( $passed_validation ) {
-				if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity ) ) {
-					$new_data = $this->get_cart_item( $item_key, 'update' );
-
-					$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
+				if ( $quantity !== $current_data['quantity'] ) {
 					$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
-
 					$product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
-					if ( $quantity !== $current_data['quantity'] ) {
+					if ( $this->get_cart_instance()->set_quantity( $item_key, $quantity ) ) {
 						/**
 						 * Hook: cocart_item_quantity_changed
 						 *
@@ -197,20 +193,20 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 						 * @since 3.1.0 Changed to calculate all totals.
 						 */
 						$this->calculate_totals();
+					} else {
+						$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
+
+						/**
+						 * Filters message about can not update item.
+						 *
+						 * @since 2.1.0 Introduced.
+						 *
+						 * @param string $message Message.
+						 */
+						$message = apply_filters( 'cocart_can_not_update_item_message', $message );
+
+						throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, 400 );
 					}
-				} else {
-					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
-
-					/**
-					 * Filters message about can not update item.
-					 *
-					 * @since 2.1.0 Introduced.
-					 *
-					 * @param string $message Message.
-					 */
-					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
-
-					throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, 400 );
 				}
 
 				$response = $this->get_cart_contents( $request );
