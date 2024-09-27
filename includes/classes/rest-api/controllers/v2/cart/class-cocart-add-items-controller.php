@@ -135,40 +135,6 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 
 			if ( ! is_wp_error( $items_added_to_cart ) ) {
 				/**
-				 * Set customers billing email address.
-				 *
-				 * @since 3.1.0 Introduced.
-				 */
-				if ( isset( $request['email'] ) ) {
-					$is_email = \WC_Validation::is_email( $request['email'] );
-
-					if ( $is_email ) {
-						WC()->customer->set_props(
-							array(
-								'billing_email' => trim( esc_html( $request['email'] ) ),
-							)
-						);
-					}
-				}
-
-				/**
-				 * Set customers billing phone number.
-				 *
-				 * @since 4.1.0 Introduced.
-				 */
-				if ( isset( $request['phone'] ) ) {
-					$is_phone = \WC_Validation::is_phone( $request['phone'] );
-
-					if ( $is_phone ) {
-						WC()->customer->set_props(
-							array(
-								'billing_phone' => trim( esc_html( $request['phone'] ) ),
-							)
-						);
-					}
-				}
-
-				/**
 				 * Hook: Fires once items have been added to cart.
 				 *
 				 * Allows for additional requested data to be processed such as modifying the price of the item.
@@ -176,6 +142,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				 * @since 4.1.0 Introduced.
 				 *
 				 * @hooked: set_new_price - 1
+				 * @hooked: add_customer_billing_details - 10
 				 *
 				 * @param WC_Product      $items_added_to_cart       The product added to cart.
 				 * @param WP_REST_Request $request                   The request object.
