@@ -347,9 +347,9 @@ function cocart_price_no_html( $price, $args = array() ) {
  * for the use of the REST API returning clean notices once products have
  * been added to cart.
  *
- * @param int|array $products Product ID list or single product ID.
- * @param bool      $show_qty Should qty's be shown.
- * @param bool      $return_msg   Return message rather than add it.
+ * @param int|array $products   List of Product IDs or a single Product ID.
+ * @param bool      $show_qty   Should qty's be shown.
+ * @param bool      $return_msg Return message rather than add it.
  *
  * @return mixed
  */
