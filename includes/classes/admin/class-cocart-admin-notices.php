@@ -197,6 +197,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 					// Adding early save to prevent more conditions with notices.
 					self::store_notices();
 				}
+
+				/**
+				 * Hook: Hide a CoCart notice.
+				 *
+				 * Example: `cocart_hide_plugin_review_notice'
+				 */
+				do_action( "cocart_hide_{$notice_name}_notice" );
 			}
 		} // END remove_notice()
 
