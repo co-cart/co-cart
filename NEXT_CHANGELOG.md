@@ -5,6 +5,7 @@
 ## Changes
 
 * REST API: Avatars only return if requested now when using the login endpoint.
+* REST API: Store API now returns array of CoCart versions installed not just the core version.
 * REST API: The following endpoints for Cart API v2 now extend `CoCart_REST_Cart_V2_Controller` instead of an Cart API v1 controller: `cart/add-item`, `cart/add-items`, `cart/calculate`
 
 ## Improvements
@@ -18,8 +19,11 @@
 * REST API: Moved some cart validation further up before returning cart contents.
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
 * REST API: Reset the item key when adding item again as it may have been manipulated by adding cart item data via code or plugin.
+* REST API: Only update cart item quantity if quantity is different when requested.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
+* WordPress Dashboard: Adjusted notices to get cached for the current site should it be a multisite.
+* WordPress Dashboard: No longer reset upgrade notice each time CoCart updates.
 * Plugin: PHPStan used to help with correcting errors and inconsistencies.
 
 ## Third Party Support
