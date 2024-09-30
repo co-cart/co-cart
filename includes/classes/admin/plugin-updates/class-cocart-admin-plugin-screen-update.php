@@ -204,8 +204,6 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	 *
 	 * @param string $file        Plugin basename.
 	 * @param array  $plugin_data Plugin information.
-	 *
-	 * @return false|void
 	 */
 	public function plugin_row( $file, $plugin_data ) {
 		$plugins_allowedtags = array(

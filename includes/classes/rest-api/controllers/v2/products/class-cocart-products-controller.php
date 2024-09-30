@@ -228,7 +228,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		 * @param WC_Product       $product  The product object.
 		 * @param WP_REST_Request  $request  The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
+		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_object_for_response()
 
 	/**
@@ -260,7 +260,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 
 			// Filter 'woocommerce_hide_invisible_variations' to optionally hide invisible variations (disabled variations and variations with empty price).
-			if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) {
+			if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				continue;
 			}
 
@@ -288,9 +288,9 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'attributes'     => $expected_attributes,
 				'featured_image' => $attachments,
 				'prices'         => array(
-					'price'         => cocart_prepare_money_response( $price_function( $variation ), wc_get_price_decimals() ),
-					'regular_price' => cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ), wc_get_price_decimals() ),
-					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ), wc_get_price_decimals() ) : '',
+					'price'         => cocart_format_money( $price_function( $variation ) ),
+					'regular_price' => cocart_format_money( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ) ),
+					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ) ) : '',
 					'on_sale'       => $variation->is_on_sale( 'view' ),
 					'date_on_sale'  => array(
 						'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
@@ -340,29 +340,20 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 
-			// If the product ID was used by a SKU ID, then look up the product ID and return it.
-			if ( ! is_numeric( $product_id ) ) {
-				$product_id_by_sku = wc_get_product_id_by_sku( $product_id );
+			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 
-				if ( ! empty( $product_id_by_sku ) && $product_id_by_sku > 0 ) {
-					$product_id = $product_id_by_sku;
-				} else {
-					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
-
-					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
-				}
+			// Return failed product ID validation if any.
+			if ( is_wp_error( $product_id ) ) {
+				return $product_id;
 			}
 
-			// Force product ID to be integer.
-			$product_id = (int) $product_id;
+			$product = wc_get_product( $product_id );
 
-			$_product = wc_get_product( $product_id );
-
-			if ( ! $_product || 0 === $_product->get_id() || 'publish' !== $_product->get_status() ) {
+			if ( ! $product || 0 === $product->get_id() || 'publish' !== $product->get_status() ) {
 				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			$data     = $this->prepare_object_for_response( $_product, $request );
+			$data     = $this->prepare_object_for_response( $product, $request );
 			$response = rest_ensure_response( $data );
 
 			return $response;
@@ -399,7 +390,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @param WC_Product $product The product object.
 	 *
-	 * @return array $data Product data.
+	 * @return array $data The product details.
 	 */
 	protected function get_product_data( $product ) {
 		$type         = $product->get_type();
@@ -451,9 +442,9 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			),
 			'featured'           => $product->is_featured(),
 			'prices'             => array(
-				'price'         => cocart_prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
-				'regular_price' => cocart_prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
+				'price'         => cocart_format_money( $price_function( $product ) ),
+				'regular_price' => cocart_format_money( $price_function( $product, array( 'price' => $regular_price ) ) ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $product, array( 'price' => $sale_price ) ) ) : '',
 				'price_range'   => CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
@@ -532,7 +523,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @param WC_Variation_Product $product The product object.
 	 *
-	 * @return array $data Product data.
+	 * @return array $data Variation product details.
 	 */
 	protected function get_variation_product_data( $product ) {
 		$data = self::get_product_data( $product );
@@ -709,7 +700,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @param WC_Product $product The product object.
 	 * @param string     $type    Type of products to return.
 	 *
-	 * @return array $connected_products Product data.
+	 * @return array $connected_products The product object.
 	 */
 	public function get_connected_products( $product, $type ) {
 		switch ( $type ) {
@@ -740,7 +731,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 						'id'          => $id,
 						'name'        => $_product->get_name( 'view' ),
 						'permalink'   => $_product->get_permalink(),
-						'price'       => cocart_prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
+						'price'       => cocart_format_money( $_product->get_price( 'view' ) ),
 						'add_to_cart' => array(
 							'text'        => $_product->add_to_cart_text(),
 							'description' => $_product->add_to_cart_description(),
@@ -821,13 +812,11 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		$id = $product->get_id();
 
 		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
-		$rest_url = add_query_arg( 'quantity', 1, $rest_url ); // Default Quantity = 1.
+		$rest_url = add_query_arg( 'quantity', CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ), $rest_url );
 
 		switch ( $type ) {
 			case 'variation':
 			case 'subscription_variation':
-				$_product = wc_get_product( $product->get_parent_id() );
-
 				foreach ( $product->get_variation_attributes() as $attribute_name => $attribute ) {
 					$name = str_replace( 'attribute_', '', $attribute_name );
 
@@ -837,7 +826,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 					$rest_url = add_query_arg(
 						array(
-							"variation[attribute_$name]" => $attribute,
+							"variation[attribute_{$name}]" => $attribute,
 						),
 						$rest_url
 					);
@@ -922,7 +911,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @see CoCart_REST_Products_V2_Controller::get_price_range()
 	 *
-	 * @param \WC_Product $product Product object.
+	 * @param \WC_Product $product The product object.
 	 * @param string      $tax_display_mode If returned prices are incl or excl of tax.
 	 *
 	 * @return array

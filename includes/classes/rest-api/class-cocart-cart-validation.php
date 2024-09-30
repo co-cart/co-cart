@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 // Exit if accessed directly.
@@ -31,6 +31,9 @@ class CoCart_Cart_Validation {
 		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_validity' ), 0, 2 );
 		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_item_stock' ), 10, 2 );
 		add_filter( 'cocart_before_get_cart', array( $this, 'check_cart_coupons' ), 15, 2 );
+
+		add_filter( 'cocart_after_item_added_to_cart', array( $this, 'add_customer_billing_details' ), 10, 2 );
+		add_filter( 'cocart_after_items_added_to_cart', array( $this, 'add_customer_billing_details' ), 10, 2 );
 	} // END __construct()
 
 	/**
@@ -157,7 +160,7 @@ class CoCart_Cart_Validation {
 			 * Allows filter if product have enough stock to get added to the cart.
 			 *
 			 * @param bool       $has_stock If have enough stock.
-			 * @param WC_Product $product   Product instance.
+			 * @param WC_Product $product   The product object.
 			 * @param array      $cart_item Cart item values.
 			 */
 			if ( apply_filters( 'cocart_cart_item_required_stock_is_not_enough', $product->get_stock_quantity() < ( $held_stock + $required_stock ), $product, $cart_item ) ) {
@@ -210,6 +213,57 @@ class CoCart_Cart_Validation {
 
 		return $cart_contents;
 	} // END check_cart_coupons()
+
+	/**
+	 * Sets customers billing email address and phone number if passed along while adding an item to the cart.
+	 *
+	 * Originally not hooked in place but provides developers a good example.
+	 *
+	 * @access public
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @hook: cocart_after_item_added_to_cart
+	 * @hook: cocart_after_items_added_to_cart
+	 *
+	 * @param array           $item_added_to_cart The product added to cart.
+	 * @param WP_REST_Request $request            The request object.
+	 */
+	public function add_customer_billing_details( $item_added_to_cart, $request ) {
+		/**
+		 * Set customers billing email address.
+		 *
+		 * @since 3.1.0 Introduced.
+		 */
+		if ( isset( $request['email'] ) ) {
+			$is_email = \WC_Validation::is_email( $request['email'] );
+
+			if ( $is_email ) {
+				WC()->customer->set_props(
+					array(
+						'billing_email' => trim( esc_html( $request['email'] ) ),
+					)
+				);
+			}
+		}
+
+		/**
+		 * Set customers billing phone number.
+		 *
+		 * @since 4.1.0 Introduced.
+		 */
+		if ( isset( $request['phone'] ) ) {
+			$is_phone = \WC_Validation::is_phone( $request['phone'] );
+
+			if ( $is_phone ) {
+				WC()->customer->set_props(
+					array(
+						'billing_phone' => trim( esc_html( $request['phone'] ) ),
+					)
+				);
+			}
+		}
+	} // END add_customer_billing_details()
 } // END class.
 
 return new CoCart_Cart_Validation();

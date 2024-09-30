@@ -171,7 +171,7 @@ class CoCart_Load_Cart {
 		 *
 		 * @since 2.8.2 Introduced.
 		 *
-		 * @param string
+		 * @param string $action_query Default is 'cocart-load-cart'
 		 */
 		$load_cart = apply_filters( 'cocart_load_cart_query_name', 'cocart-load-cart' );
 
@@ -190,11 +190,15 @@ class CoCart_Load_Cart {
 	 *
 	 * @since 3.3.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 No longer used.
+	 *
 	 * @param string $checkout_url Checkout URL.
 	 *
 	 * @return string $checkout_url Original checkout URL or checkout URL with added query argument.
 	 */
 	public static function proceed_to_checkout( $checkout_url ) {
+		cocart_deprecated_function( 'CoCart_Load_Cart::proceed_to_checkout', '4.4.0', __( 'No longer use.', 'cart-rest-api-for-woocommerce' ) );
+
 		if ( ! is_user_logged_in() && self::maybe_load_cart() ) {
 			$action   = self::get_action_query();
 			$cart_key = isset( $_REQUEST[ $action ] ) ? trim( sanitize_text_field( wp_unslash( $_REQUEST[ $action ] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -221,7 +225,13 @@ class CoCart_Load_Cart {
 	 * @return boolean
 	 */
 	protected static function maybe_use_cookie_monster() {
-		return apply_filters( 'cocart_use_cookie_monster', true );
+		return cocart_do_deprecated_filter(
+			'cocart_use_cookie_monster',
+			'4.4.0',
+			null,
+			__( 'No longer use.', 'cart-rest-api-for-woocommerce' ),
+			array( true )
+		);
 	} // END maybe_use_cookie_monster()
 
 	/**
@@ -248,9 +258,10 @@ class CoCart_Load_Cart {
 	 */
 	public static function maybe_load_users_cart() {
 		if ( self::maybe_load_cart() ) {
-			$action   = self::get_action_query();
-			$cart_key = isset( $_REQUEST[ $action ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$hash     = isset( $_REQUEST['c_hash'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['c_hash'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$action      = self::get_action_query();
+			$cart_key    = isset( $_REQUEST[ $action ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$hash        = isset( $_REQUEST['c_hash'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['c_hash'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$customer_id = 0;
 
 			/**
 			 * Filter allows you to change where to redirect should loading the cart fail.

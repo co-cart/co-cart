@@ -111,7 +111,7 @@ class CoCart_Utilities_Product_Helpers {
 	// ** Product Details **//
 
 	/**
-	 * Returns the product quantity minimum requirement.
+	 * Returns the product minimum purchase quantity requirement.
 	 *
 	 * @access public
 	 *
@@ -121,19 +121,23 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @param WC_Product The product object.
 	 *
-	 * @return int Quantity
+	 * @return int Minimum purchase quantity requirement.
 	 */
 	public static function get_quantity_minimum_requirement( $product ) {
 		/**
 		 * Filters the minimum quantity requirement the product allows to be purchased.
 		 *
-		 * @since 3.1.0 Introduced.
+		 * @since 3.0.17 Introduced.
+		 * @since 3.1.0  Added product object as parameter.
+		 *
+		 * @param int        $minimum_quantity Minimum purchase quantity requirement.
+		 * @param WC_Product $product          The product object.
 		 */
-		return (int) apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
+		return apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
 	} // END get_quantity_minimum_requirement()
 
 	/**
-	 * Returns the product maximum quantity allowed.
+	 * Returns the product maximum purchase quantity allowed.
 	 *
 	 * @access public
 	 *
@@ -143,13 +147,16 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @param WC_Product The product object.
 	 *
-	 * @return int Quantity
+	 * @return int Maximum purchase quantity allowed.
 	 */
 	public static function get_quantity_maximum_allowed( $product ) {
 		/**
 		 * Filters the products maximum quantity allowed to be purchased.
 		 *
 		 * @since 3.1.0 Introduced.
+		 *
+		 * @param int        $maximum_quantity Maximum purchase quantity allowed.
+		 * @param WC_Product $product          The product object.
 		 */
 		return apply_filters( 'cocart_quantity_maximum_allowed', $product->get_max_purchase_quantity(), $product );
 	} // END get_quantity_maximum_allowed()
@@ -184,8 +191,8 @@ class CoCart_Utilities_Product_Helpers {
 				 *
 				 * @since 3.1.0 Introduced.
 				 *
-				 * @param array      $price   Empty array.
-				 * @param WC_Product $product The project object.
+				 * @param array      $empty_prices Empty array.
+				 * @param WC_Product $product      The project object.
 				 */
 				$price = apply_filters( 'cocart_products_variable_empty_price', array(), $product );
 			} else {
@@ -196,12 +203,12 @@ class CoCart_Utilities_Product_Helpers {
 
 				if ( $min_price !== $max_price ) {
 					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
-						'to'   => cocart_prepare_money_response( $max_price, wc_get_price_decimals() ),
+						'from' => cocart_format_money( $min_price ),
+						'to'   => cocart_format_money( $max_price ),
 					);
 				} else {
 					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
+						'from' => cocart_format_money( $min_price ),
 						'to'   => '',
 					);
 				}
@@ -220,8 +227,8 @@ class CoCart_Utilities_Product_Helpers {
 
 			if ( ! empty( $child_prices ) ) {
 				$price = array(
-					'from' => cocart_prepare_money_response( min( $child_prices ), wc_get_price_decimals() ),
-					'to'   => cocart_prepare_money_response( max( $child_prices ), wc_get_price_decimals() ),
+					'from' => cocart_format_money( min( $child_prices ) ),
+					'to'   => cocart_format_money( max( $child_prices ) ),
 				);
 			}
 		}
@@ -241,7 +248,7 @@ class CoCart_Utilities_Product_Helpers {
 
 	/**
 	 * WooCommerce can return prices including or excluding tax.
-	 * Choose the correct method based on tax display mode.
+	 * Choose the correct method based on tax display mode for the shop.
 	 *
 	 * @access protected
 	 *
@@ -297,8 +304,8 @@ class CoCart_Utilities_Product_Helpers {
 		 *
 		 * @since 3.11.0 Introduced.
 		 *
-		 * @param array      $meta_keys Meta keys.
-		 * @param WC_Product $product   The product object.
+		 * @param array      $ignored_meta_keys Ignored meta keys.
+		 * @param WC_Product $product           The product object.
 		 */
 		$ignore_private_meta_keys = apply_filters( 'cocart_products_ignore_private_meta_keys', array(), $product );
 
@@ -323,7 +330,7 @@ class CoCart_Utilities_Product_Helpers {
 		 *
 		 * @since 3.11.0 Introduced.
 		 *
-		 * @param array      $safe_meta Safe meta list.
+		 * @param array      $safe_meta Safe meta.
 		 * @param WC_Product $product   The product object.
 		 */
 		return array_values( apply_filters( 'cocart_products_get_safe_meta_data', $safe_meta, $product ) );

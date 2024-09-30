@@ -4,9 +4,9 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 5.6
 Requires PHP: 7.4
 Tested up to: 6.6
-Stable tag: 4.3.3
+Stable tag: 4.3.6
 WC requires at least: 7.0
-WC tested up to: 9.1
+WC tested up to: 9.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -129,7 +129,7 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 
 * The official [CoCart API plugin](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) website.
 * [CoCart for Developers](https://cocart.dev/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink), an official hub for resources you need to be productive with CoCart and keep track of everything that is happening with the API.
-* [CoCart API Reference](https://docs.cocart.xyz/)
+* [CoCart API Reference](https://ogdocs.cocartapi.com/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
 * Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/cocartheadless/) and [GitHub](https://github.com/co-cart/co-cart)
 
@@ -204,7 +204,7 @@ Yes. Just install CoCart and activate it on the sites you want to use CoCart.
 
 = Can I have WordPress running on one domain and my headless ecommerce on another domain? =
 
-Absolutely. That is what CoCart is mainly developed for. You just need to enable CORS. You can do that easily with [the CORS add-on](https://wordpress.org/plugins/cocart-cors/) or you can manually enable it via the filters available [in the documentation](https://docs.cocart.xyz/#filters-api-access-cors-allow-all-cross-origin-headers).
+Absolutely. That is what CoCart is mainly developed for. You just need to enable CORS. You can do that easily with [the CORS add-on](https://wordpress.org/plugins/cocart-cors/) or you can manually enable it via the filters available [in the documentation](https://ogdocs.cocartapi.com/#filters-api-access-cors-allow-all-cross-origin-headers).
 
 = Will CoCart interfere with other plugins? =
 
@@ -230,7 +230,7 @@ As this plugin provides a REST API built for developers, you will need to have s
 
 = Where can I find documentation for CoCart? =
 
-You can find the documentation [here](https://docs.cocart.xyz/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+You can find the documentation [here](https://ogdocs.cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
 = Can I change the formatting of values, add and change details to the responses? =
 
@@ -266,7 +266,7 @@ Yes. The best method would be to install/update CoCart from the GitHub repositor
 
 = Where can I report bugs? =
 
-Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the support forum – be sure to search the forums to confirm that the error has not already been reported.
+Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the [support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) – be sure to search the forums to confirm that the error has not already been reported.
 
 = CoCart is awesome! Can I contribute? =
 
@@ -307,6 +307,25 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
+
+= v4.3.6 - 23rd August, 2024 =
+
+### Bug Fixes
+
+* REST API: View or deleting a session with the Sessions API was not accessing the session handler. No longer needs a separate load.
+* Session Handler: Fixed merging of cart from guest.
+
+= v4.3.5 - 9th August, 2024 =
+
+### Bug Fix
+
+* REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
+
+= v4.3.4 - 3rd August, 2024 =
+
+### Bug Fix
+
+* REST API: Fixed an issue with CORS not returning header `access-control-allow-origin`.
 
 = v4.3.3 - 24th July, 2024 =
 
@@ -594,6 +613,18 @@ Hope you enjoy this release.
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
+
+= 4.3.6 =
+
+Session Handler: Fixed merging of cart from guest.
+
+= 4.3.5 =
+
+REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
+
+= 4.3.4 =
+
+Fixed an issue with CORS not returning header `access-control-allow-origin`.
 
 = 4.3.3 =
 

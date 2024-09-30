@@ -66,7 +66,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 						continue;
 					}
 
-					$_product = $cart_item['data'];
+					$product = $cart_item['data'];
 
 					$quantity = wc_stock_amount( preg_replace( '/[^0-9\.]/', '', $quantity ) );
 
@@ -76,21 +76,25 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 					}
 
 					/**
-					 * Filters the cart validation when updating the cart.
+					 * Filter allows you to determine if the updated item in cart passed validation.
 					 *
-					 * @since 3.1.0 Introduced.
+					 * @since 2.1.0 Introduced.
 					 *
-					 * @param bool              True by default.
-					 * @param string $item_key  Item key of the item updated.
-					 * @param array  $cart_item Cart item after updated.
-					 * @param int    $quantity  New quantity amount.
+					 * @param bool   $cart_valid True by default.
+					 * @param string $item_key   Item key of the item updated.
+					 * @param array  $cart_item  Cart item after updated.
+					 * @param int    $quantity   New quantity amount.
 					 */
 					$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $cart_item, $quantity );
 
 					// Is sold individually.
-					if ( $_product->is_sold_individually() && $quantity > 1 ) {
-						/* Translators: %s Product title. */
-						wc_add_notice( sprintf( __( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ), $_product->get_name() ), 'error' );
+					if ( $product->is_sold_individually() && $quantity > 1 ) {
+						$message = sprintf(
+							/* translators: %s Product name. */
+							__( 'You can only have 1 "%s" in your cart.', 'cart-rest-api-for-woocommerce' ),
+							$product->get_name()
+						);
+						wc_add_notice( $message, 'error' );
 						$passed_validation = false;
 					}
 

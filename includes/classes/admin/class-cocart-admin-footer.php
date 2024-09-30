@@ -41,10 +41,11 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 		public function admin_footer_text( $text ) {
 			if ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$text = sprintf(
-					/* translators: 1: CoCart 2:: five stars */
-					__( 'If you enjoy using %1$s, please leave a %2$s plugin review on WordPress.org to help us spread the word. A huge thank you in advance!', 'cart-rest-api-for-woocommerce' ),
-					sprintf( '<strong>%1$s</strong>', 'CoCart' ),
-					'<a href="' . COCART_REVIEW_URL . '?rate=5#new-post" target="_blank" aria-label="' . esc_attr__( 'five stars', 'cart-rest-api-for-woocommerce' ) . '" data-rated="' . esc_attr__( 'Thanks :)', 'cart-rest-api-for-woocommerce' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>'
+					/* translators: %1$s: Link opening, %2$s: Link closing, %3$s: CoCart */
+					__( 'Please consider %1$sreviewing %3$s%2$s on WordPress.org.', 'cart-rest-api-for-woocommerce' ),
+					'<a href="' . COCART_REVIEW_URL . '?rate=5#new-post" target="_blank">',
+					'</a>',
+					'CoCart'
 				);
 			}
 

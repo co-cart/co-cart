@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -78,8 +78,8 @@ class CoCart_REST_Store_V2_Controller {
 	 */
 	public function get_store() {
 		$debug = array(
-			'version' => COCART_VERSION,
-			'routes'  => $this->get_routes(),
+			'versions' => $this->get_versions(),
+			'routes'   => $this->get_routes(),
 		);
 
 		// General store data.
@@ -137,9 +137,27 @@ class CoCart_REST_Store_V2_Controller {
 	} // END get_store_address()
 
 	/**
+	 * Returns versions of CoCart plugins installed.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @return array
+	 */
+	protected function get_versions() {
+		return apply_filters(
+			'cocart_store_versions',
+			array(
+				'core' => COCART_VERSION,
+			)
+		);
+	} // END get_versions()
+
+	/**
 	 * Returns the list of all public CoCart API routes.
 	 *
-	 * @access public
+	 * @access protected
 	 *
 	 * @since 3.0.0  Introduced.
 	 * @since 3.1.0  Added login, logout, cart update and product routes.
@@ -147,7 +165,7 @@ class CoCart_REST_Store_V2_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_routes() {
+	protected function get_routes() {
 		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' );
 
 		return apply_filters(
@@ -195,13 +213,13 @@ class CoCart_REST_Store_V2_Controller {
 			'title'      => 'cocart_store',
 			'type'       => 'object',
 			'properties' => array(
-				'version'         => array(
+				'versions'        => array(
 					'description' => sprintf(
 						/* translators: %s: CoCart */
-						__( 'Version of the %s (core) plugin.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Versions of %s plugins.', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
 					),
-					'type'        => 'string',
+					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),

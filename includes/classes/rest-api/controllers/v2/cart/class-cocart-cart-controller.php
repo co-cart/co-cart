@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,10 +23,8 @@ class_alias( 'CoCart_REST_Cart_V2_Controller', 'CoCart_Cart_V2_Controller' );
  * via "cocart/v2/cart" endpoint.
  *
  * @since 3.0.0 Introduced.
- *
- * @see CoCart_API_Controller
  */
-class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
+class CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -141,6 +139,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_removed_cart_contents_count()
+	 *
 	 * @return bool True if the cart is completely empty.
 	 */
 	public function is_completely_empty() {
@@ -174,6 +174,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @deprecated 3.0.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
 	 *
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
+	 * @see CoCart_REST_Cart_V2_Controller::return_cart_contents()
 	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param string          $cart_item_key Originally the cart item key.
@@ -211,11 +212,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since 2.0.0 Introduced.
 	 *
 	 * @deprecated 4.4.0 No longer use `$cart_item_key` parameter. Left for declaration compatibility.
-
+	 *
+	 * @see CoCart_REST_Cart_V2_Controller::is_completely_empty()
+	 * @see CoCart_REST_Cart_V2_Controller::calculate_totals()
+	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param string          $cart_item_key Cart item key.
 	 *
-	 * @return array $cart_contents Cart contents.
+	 * @return array $cart_contents The cart contents.
 	 */
 	public function get_cart_contents( $request = array(), $cart_item_key = '' ) {
 		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
@@ -228,22 +232,22 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			return $cart_contents;
 		}
 
-		/**
-		 * Filter allows you to modify the cart contents before it calculate totals.
-		 *
-		 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
-		 *
-		 * @since 3.0.0 Introduced.
-		 *
-		 * @hooked: check_cart_validity - 0
-		 * @hooked: check_cart_item_stock - 10
-		 * @hooked: check_cart_coupons - 15
-		 *
-		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart         $cart          The cart object.
-		 * @param WP_REST_Request $request       The request object.
-		 */
 		if ( ! $dont_check ) {
+			/**
+			 * Filter allows you to modify the cart contents before it calculate totals.
+			 *
+			 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @hooked: check_cart_validity - 0
+			 * @hooked: check_cart_item_stock - 10
+			 * @hooked: check_cart_coupons - 15
+			 *
+			 * @param array           $cart_contents The cart contents.
+			 * @param WC_Cart         $cart          The cart object.
+			 * @param WP_REST_Request $request       The request object.
+			 */
 			$cart_contents = apply_filters( 'cocart_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
 		}
 
@@ -252,18 +256,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			$this->calculate_totals();
 		}
 
-		/**
-		 * Filter allows you to modify the cart contents after it has calculated totals.
-		 *
-		 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
-		 *
-		 * @since 4.1.0 Introduced.
-		 *
-		 * @param array           $cart_contents Cart contents.
-		 * @param WC_Cart         $cart          The cart object.
-		 * @param WP_REST_Request $request       The request object.
-		 */
 		if ( ! $dont_check ) {
+			/**
+			 * Filter allows you to modify the cart contents after it has calculated totals.
+			 *
+			 * WARNING: Unsetting any default data will cause the API to fail. Only use this filter if really necessary.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @param array           $cart_contents The cart contents.
+			 * @param WC_Cart         $cart          The cart object.
+			 * @param WP_REST_Request $request       The request object.
+			 */
 			$cart_contents = apply_filters( 'cocart_after_get_cart', $cart_contents, $this->get_cart_instance(), $request );
 		}
 
@@ -279,8 +283,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @deprecated 3.0.0 No longer use `$cart_item_key` and `$from_session` parameters. Left for declaration compatibility.
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_instance()
+	 * @see CoCart_REST_Cart_V2_Controller::get_items()
+	 * @see CoCart_Utilities_Cart_Helpers::get_taxes()
+	 *
 	 * @param WP_REST_Request $request       The request object.
-	 * @param array           $cart_contents Cart content.
+	 * @param array           $cart_contents The cart contents.
 	 * @param array           $cart_item_key Originally the cart item key.
 	 * @param bool            $from_session  Identifies if the cart is called from a session.
 	 *
@@ -316,48 +325,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		// Defines an empty cart template.
 		$cart = array();
 
-		if ( array_key_exists( 'coupons', $cart_template ) ) {
-			// Returns each coupon applied and coupon total applied if store has coupons enabled.
-			$coupons = CoCart_Utilities_Cart_Helpers::are_coupons_enabled() ? $cart_instance->get_applied_coupons() : array();
-
-			if ( ! empty( $coupons ) ) {
-				foreach ( $coupons as $code ) {
-					$coupon = new WC_Coupon( $code );
-
-					$cart['coupons'][] = array(
-						'coupon'        => wc_format_coupon_code( wp_unslash( $code ) ),
-						'label'         => esc_attr( wc_cart_totals_coupon_label( $code, false ) ),
-						'discount_type' => $coupon->get_discount_type(),
-						'saving'        => $this->coupon_html( $code, false ),
-						'saving_html'   => $this->coupon_html( $code ),
-					);
-				}
-			}
-		}
-
 		if ( array_key_exists( 'taxes', $cart_template ) ) {
-			// Return calculated tax based on store settings and customer details.
-			if ( wc_tax_enabled() && ! $cart_instance->display_prices_including_tax() ) {
-				$taxable_address = WC()->customer->get_taxable_address();
-				$estimated_text  = '';
-
-				if ( WC()->customer->is_customer_outside_base() && ! WC()->customer->has_calculated_shipping() ) {
-					$estimated_text = sprintf(
-						/* translators: %s location. */
-						' ' . esc_html__( '(estimated for %s)', 'cart-rest-api-for-woocommerce' ),
-						WC()->countries->estimated_for_prefix( $taxable_address[0] ) . WC()->countries->countries[ $taxable_address[0] ]
-					);
-				}
-
-				if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
-					$cart['taxes'] = $this->get_tax_lines( $cart_instance );
-				} else {
-					$cart['taxes'] = array(
-						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-						'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $cart_instance->get_taxes_total(), wc_get_price_decimals() ) ),
-					);
-				}
-			}
+			$cart['taxes'] = CoCart_Utilities_Cart_Helpers::get_taxes( $cart_instance );
 		}
 
 		// Returns items.
@@ -481,7 +450,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	protected function get_variation_id_from_variation_data( $variation, $product ) {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_variation_id_from_variation_data', '4.4.0', 'CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data' );
 
-		return CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $variation, $data );
+		return CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $variation, $product );
 	} // END get_variation_id_from_variation_data()
 
 	/**
@@ -520,11 +489,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @deprecated 3.0.0 `$variation_id` parameter is no longer used.
 	 *
+	 * @see CoCart_Utilities_Cart_Helpers::validate_product_for_cart()
+	 * @see CoCart_Utilities_Cart_Helpers::validate_variable_product()
+	 * @see CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data()
+	 * @see CoCart_REST_Cart_V2_Controller::find_product_in_cart()
+	 * @see CoCart_REST_Cart_V2_Controller::is_product_sold_individually()
+	 * @see CoCart_REST_Cart_V2_Controller::validate_add_to_cart()
+	 *
 	 * @param int             $product_id   The product ID.
 	 * @param int|float       $quantity     The item quantity.
 	 * @param null            $variation_id The variation ID.
 	 * @param array           $variation    The variation attributes.
-	 * @param array           $item_data    Extra cart item data we want to pass into the item.
+	 * @param array           $item_data    The cart item data
 	 * @param string          $product_type The product type.
 	 * @param WP_REST_Request $request      The request object.
 	 *
@@ -580,7 +556,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @param int             $quantity     The item quantity.
 			 * @param int             $variation_id The variation ID.
 			 * @param array           $variation    The variation attributes.
-			 * @param object          $item_data    Extra cart item data we want to pass into the item.
+			 * @param array           $item_data    The cart item data
 			 * @param string          $product_type The product type.
 			 * @param WP_REST_Request $request      The request object.
 			 */
@@ -608,20 +584,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				throw new CoCart_Data_Exception( 'cocart_product_failed_validation', $message, 400 );
 			}
 
-			/**
-			 * Filter allows other plugins to add their own cart item data.
-			 *
-			 * @since 2.1.2 Introduced.
-			 * @since 3.1.0 Added the request object as parameter.
-			 *
-			 * @param array           $item_data    Extra cart item data we want to pass into the item.
-			 * @param int             $product_id   The product ID.
-			 * @param null            $variation_id The variation ID.
-			 * @param int|float       $quantity     The item quantity.
-			 * @param string          $product_type The product type.
-			 * @param WP_REST_Request $request      The request object.
-			 */
-			$item_data = (array) apply_filters( 'cocart_add_cart_item_data', $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
+			// Set cart item data - maybe added by other plugins.
+			$item_data = CoCart_Utilities_Cart_Helpers::set_cart_item_data( $item_data, $product_id, $variation_id, $quantity, $product_type, $request );
 
 			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $item_data );
@@ -629,20 +593,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			// Find the cart item key in the existing cart.
 			$item_key = $this->find_product_in_cart( $item_key );
 
-			/**
-			 * Filters the quantity for specified products.
-			 *
-			 * @since 2.1.2 Introduced.
-			 * @since 4.4.0 Added the request object as a parameter.
-			 *
-			 * @param int|float       $quantity     The original quantity of the item.
-			 * @param int             $product_id   The product ID.
-			 * @param int             $variation_id The variation ID.
-			 * @param array           $variation    The variation data.
-			 * @param array           $item_data    The cart item data.
-			 * @param WP_REST_Request $request      The request object.
-			 */
-			$quantity = apply_filters( 'cocart_add_to_cart_quantity', $quantity, $product_id, $variation_id, $variation, $item_data, $request );
+			// The quantity of item added to the cart.
+			$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity( $quantity, $product_id, $variation_id, $variation, $item_data, $request );
 
 			// Validates if item is sold individually.
 			$quantity = $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request );
@@ -686,6 +638,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 4.4.0 Introduced.
+	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
 	 *
 	 * @param mixed $cart_item_key of product to find in the cart.
 	 *
@@ -770,22 +724,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_tax_lines()
+	 *
 	 * @param WC_Cart $cart Cart class instance.
 	 *
 	 * @return array Tax lines.
 	 */
 	protected function get_tax_lines( $cart ) {
-		$cart_tax_totals = $cart->get_tax_totals();
-		$tax_lines       = array();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_tax_lines', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_tax_lines' );
 
-		foreach ( $cart_tax_totals as $code => $tax ) {
-			$tax_lines[ $code ] = array(
-				'name'  => $tax->label,
-				'price' => cocart_prepare_money_response( $tax->amount, wc_get_price_decimals() ),
-			);
-		}
-
-		return $tax_lines;
+		return CoCart_Utilities_Cart_Helpers::get_tax_lines( $cart );
 	} // END get_tax_lines()
 
 	/**
@@ -821,17 +771,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
 	 *
-	 * @see CoCart_Utilities_Cart_Helpers::format_variation_data()
+	 * @see CoCart_Utilities_Cart_Helpers::cocart_format_variation_data()
 	 *
 	 * @param array      $variation_data Array of data from the cart.
-	 * @param WC_Product $product        Product data.
+	 * @param WC_Product $product        The product object.
 	 *
 	 * @return array
 	 */
 	protected function format_variation_data( $variation_data, $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::format_variation_data', '4.4.0', 'format_variation_data' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::cocart_format_variation_data', '4.4.0', 'cocart_format_variation_data' );
 
-		return format_variation_data( $variation_data, $product );
+		return cocart_format_variation_data( $variation_data, $product );
 	} // END format_variation_data()
 
 	/**
@@ -841,27 +791,18 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @see cocart_prepare_money_response()
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
 	 *
 	 * @param WC_Cart $cart Cart class instance.
 	 *
 	 * @return array Cart fees.
 	 */
 	public function get_fees( $cart ) {
-		$cart_fees = $cart->get_fees();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_fees', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_fees' );
 
-		$fees = array();
-
-		if ( ! empty( $cart_fees ) ) {
-			foreach ( $cart_fees as $key => $fee ) {
-				$fees[ $key ] = array(
-					'name' => esc_html( $fee->name ),
-					'fee'  => cocart_prepare_money_response( $this->fee_html( $cart, $fee ), wc_get_price_decimals() ),
-				);
-			}
-		}
-
-		return $fees;
+		return CoCart_Utilities_Cart_Helpers::get_fees( $cart );
 	} // END get_fees()
 
 	/**
@@ -871,7 +812,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @see cocart_prepare_money_response()
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::coupon_html()
 	 *
 	 * @param string|WC_Coupon $coupon    Coupon data or code.
 	 * @param boolean          $formatted Formats the saving amount.
@@ -879,27 +822,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @return string Returns coupon amount.
 	 */
 	public function coupon_html( $coupon, $formatted = true ) {
-		if ( is_string( $coupon ) ) {
-			$coupon = new WC_Coupon( $coupon );
-		}
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::coupon_html', '4.4.0', 'CoCart_Utilities_Cart_Helpers::coupon_html' );
 
-		$amount = $this->get_cart_instance()->get_coupon_discount_amount( $coupon->get_code(), $this->get_cart_instance()->display_cart_ex_tax );
-
-		if ( $formatted ) {
-			$savings = html_entity_decode( wp_strip_all_tags( wc_price( $amount ) ) );
-		} else {
-			$savings = cocart_prepare_money_response( $amount, wc_get_price_decimals() );
-		}
-
-		$discount_amount_html = '-' . $savings;
-
-		if ( $coupon->get_free_shipping() && empty( $amount ) ) {
-			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
-		}
-
-		$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
-
-		return $discount_amount_html;
+		return CoCart_Utilities_Cart_Helpers::coupon_html( $this->get_cart_instance(), $coupon, $formatted );
 	} // END coupon_html()
 
 	/**
@@ -909,15 +834,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::fee_html()
+	 *
 	 * @param object $cart Cart instance.
 	 * @param object $fee  Fee data.
 	 *
 	 * @return string Returns the fee value.
 	 */
 	public function fee_html( $cart, $fee ) {
-		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::fee_html', '4.4.0', 'CoCart_Utilities_Cart_Helpers::fee_html' );
 
-		return apply_filters( 'cocart_cart_totals_fee_html', $cart_totals_fee_html, $fee );
+		return CoCart_Utilities_Cart_Helpers::fee_html( $cart, $fee );
 	} // END fee_html()
 
 	/**
@@ -955,6 +884,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @deprecated 4.0.0 Removed $cart_id parameter as it is the same as $item_key.
 	 * @deprecated 4.4.0 Renamed function to `is_product_sold_individually()`
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::is_product_sold_individually()
+	 *
 	 * @param WC_Product $product      The product object.
 	 * @param int|float  $quantity     The quantity to validate.
 	 * @param int        $product_id   The product ID.
@@ -968,7 +899,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_item_quantity', '4.4.0', 'CoCart_REST_Cart_V2_Controller::is_product_sold_individually' );
 
 		return $this->is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key );
-	}
+	} // END validate_item_quantity()
 
 	/**
 	 * Validates if item is sold individually.
@@ -978,6 +909,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 4.4.0 Introduced.
+	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
 	 *
 	 * @param WC_Product      $product      The product object.
 	 * @param int|float       $quantity     The quantity to validate.
@@ -989,23 +922,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @return float $quantity The quantity returned.
 	 */
-	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request ) {
+	public function is_product_sold_individually( $product, $quantity, $product_id, $variation_id, $item_data, $item_key, $request = array() ) {
 		try {
 			// Force quantity to 1 if sold individually and check for existing item in cart.
 			if ( $product->is_sold_individually() ) {
-				/**
-				 * Quantity for sold individual products can be filtered.
-				 *
-				 * @since 2.0.13 Introduced.
-				 * @since 4.4.0 Added parameters: `$quantity`, `$product_id`, `$variation_id`, `$item_data` and `$request`
-				 *
-				 * @param int|float       $quantity     The quantity to validate.
-				 * @param int             $product_id   The product ID.
-				 * @param int             $variation_id The variation ID.
-				 * @param array           $item_data    The cart item data.
-				 * @param WP_REST_Request $request      The request object.
-				 */
-				$quantity = apply_filters( 'cocart_add_to_cart_sold_individually_quantity', 1, $quantity, $product_id, $variation_id, $item_data, $request );
+				$quantity = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity_sold_individually( $quantity, $product_id, $variation_id, $item_data, $request );
 
 				$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
 
@@ -1047,6 +968,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since   2.1.0 Introduced.
 	 * @version 3.1.0
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::throw_product_not_purchasable()
+	 * @see CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product()
+	 * @see CoCart_REST_Cart_V2_Controller::get_product_quantity_in_cart()
 	 *
 	 * @param WC_Product $product  The product object.
 	 * @param int|float  $quantity Quantity of product to validate availability.
@@ -1139,6 +1064,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 No longer used.
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return $request
@@ -1150,8 +1079,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 * Filters additional requested data.
 		 *
 		 * @since 3.0.0 Introduced.
+		 *
+		 * @deprecated 4.4.0 No longer used.
 		 */
-		return apply_filters( 'cocart_filter_request_data', $request );
+		cocart_do_deprecated_filter( 'cocart_filter_request_data', '4.4.0', null, __( 'No longer use.', 'cart-rest-api-for-woocommerce' ), array( $request ) );
 	} // END filter_request_data()
 
 	/**
@@ -1182,7 +1113,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param WC_Product $_product     The product object.
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Cart_Helpers::get_tax_display_mode()
+	 * @see CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode()
+	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
+	 * @see CoCart_Utilities_Cart_Helpers::prepare_item()
+	 *
+	 * @param WC_Product $product      The product object.
 	 * @param array      $cart_item    The cart item data.
 	 * @param string     $item_key     The item key generated based on the details of the item.
 	 * @param boolean    $show_thumb   Determines if requested to return the item featured thumbnail.
@@ -1190,35 +1127,35 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @return array $item Returns the item prepared for the cart response.
 	 */
-	public function get_item( $_product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
-		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
+	public function get_item( $product, $cart_item = array(), $item_key = '', $show_thumb = true, $removed_item = false ) {
+		$tax_display_mode = CoCart_Utilities_Cart_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 		$item = array(
 			'item_key'       => $item_key,
-			'id'             => $_product->get_id(),
+			'id'             => $product->get_id(),
 			/**
 			 * Filter allows the product name of the item to change.
 			 *
 			 * @since 3.0.0 Introduced.
 			 *
 			 * @param string     $product_name Product name.
-			 * @param WC_Product $_product     The product object.
+			 * @param WC_Product $product      The product object.
 			 * @param array      $cart_item    The cart item data.
 			 * @param string     $item_key     The item key generated based on the details of the item.
 			 */
-			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
+			'name'           => apply_filters( 'cocart_cart_item_name', $product->get_name(), $product, $cart_item, $item_key ),
 			/**
 			 * Filter allows the product title of the item to change.
 			 *
 			 * @since 3.0.0 Introduced.
 			 *
 			 * @param string     $product_title Product title.
-			 * @param WC_Product $_product      The product object.
+			 * @param WC_Product $product       The product object.
 			 * @param array      $cart_item     The cart item data.
 			 * @param string     $item_key      The item key generated based on the details of the item.
 			 */
-			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
+			'title'          => apply_filters( 'cocart_cart_item_title', $product->get_title(), $product, $cart_item, $item_key ),
 			/**
 			 * Filter allows the price of the item to change.
 			 *
@@ -1229,9 +1166,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @param string     $product_price Product price.
 			 * @param array      $cart_item     The cart item data.
 			 * @param string     $item_key      The item key generated based on the details of the item.
-			 * @param WC_Product $_product      The product object.
+			 * @param WC_Product $product       The product object.
 			 */
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $price_function( $_product ), wc_get_price_decimals() ), $cart_item, $item_key, $_product ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $product ) ), $cart_item, $item_key, $product ),
 			'quantity'       => array(
 				/**
 				 * Filter allows the quantity of the item to change.
@@ -1243,11 +1180,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 * @param string     $item_quantity Item quantity.
 				 * @param string     $item_key      The item key generated based on the details of the item.
 				 * @param array      $cart_item     The cart item data.
-				 * @param WC_Product $_product      The product object.
+				 * @param WC_Product $product       The product object.
 				 */
-				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $_product ),
-				'min_purchase' => $_product->get_min_purchase_quantity(),
-				'max_purchase' => $_product->get_max_purchase_quantity(),
+				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $product ),
+				'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
+				'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
 			),
 			'totals'         => array(
 				/**
@@ -1261,7 +1198,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 * @param array  $cart_item     The cart item data.
 				 * @param string $item_key      The item key generated based on the details of the item.
 				 */
-				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', cocart_prepare_money_response( $cart_item['line_subtotal'], wc_get_price_decimals() ), $cart_item, $item_key ),
+				'subtotal'     => apply_filters( 'cocart_cart_item_subtotal', cocart_format_money( $cart_item['line_subtotal'] ), $cart_item, $item_key ),
 				/**
 				 * Filter allows the subtotal tax of the item to change.
 				 *
@@ -1299,12 +1236,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				 */
 				'tax'          => apply_filters( 'cocart_cart_item_tax', $cart_item['line_tax'], $cart_item, $item_key ),
 			),
-			'slug'           => CoCart_Utilities_Product_Helpers::get_product_slug( $_product ),
+			'slug'           => CoCart_Utilities_Product_Helpers::get_product_slug( $product ),
 			'meta'           => array(
-				'product_type' => $_product->get_type(),
-				'sku'          => $_product->get_sku(),
+				'product_type' => $product->get_type(),
+				'sku'          => $product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => $_product->has_weight() ? (string) wc_get_weight( $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ) : '0.0',
+				'weight'       => $product->has_weight() ? (string) wc_get_weight( $product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ) : '0.0',
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
@@ -1312,7 +1249,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		);
 
 		// Item dimensions.
-		$dimensions = $_product->get_dimensions( false );
+		$dimensions = $product->get_dimensions( false );
 		if ( ! empty( $dimensions ) ) {
 			$item['meta']['dimensions'] = array(
 				'length' => $dimensions['length'],
@@ -1326,11 +1263,42 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		if ( ! isset( $cart_item['variation'] ) ) {
 			$cart_item['variation'] = array();
 		}
-		$item['meta']['variation'] = format_variation_data( $cart_item['variation'], $_product );
+		$item['meta']['variation'] = cocart_format_variation_data( $cart_item['variation'], $product );
 
 		// Backorder notification.
-		if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-			$item['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) );
+		if ( $product->backorders_require_notification() && $product->is_on_backorder( $cart_item['quantity'] ) ) {
+			$item['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $product->get_id() ) );
+		}
+
+		// If thumbnail is requested then add it to each item in cart.
+		if ( $show_thumb ) {
+			// Get thumbnail ID.
+			$thumbnail_id = CoCart_Utilities_Cart_Helpers::get_item_thumbnail_id( $product, $cart_item, $item_key, $removed_item );
+
+			// Get thumbnail size.
+			$thumbnail_size = CoCart_Utilities_Cart_Helpers::get_thumbnail_size( $removed_item );
+
+			// Get thumbnail source.
+			$thumbnail_src = CoCart_Utilities_Cart_Helpers::get_thumbnail_source( $thumbnail_id, $thumbnail_size, $cart_item, $item_key, $removed_item );
+
+			// Add main featured image.
+			$item['featured_image'] = $thumbnail_src;
+		}
+
+		if ( ! $removed_item ) {
+			/**
+			 * Filter allows extensions to add additional data to be returned for item in cart.
+			 *
+			 * Data is only returned for items in the cart, not removed items.
+			 *
+			 * @since 4.4.0 Introduced.
+			 *
+			 * @param array      $extensions The extension data added.
+			 * @param array      $cart_item  The cart item data.
+			 * @param string     $item_key   The item key generated based on the details of the item.
+			 * @param WC_Product $product    The product object.
+			 */
+			$item['extensions'] = apply_filters( 'cocart_cart_item_extensions', array(), $cart_item, $item_key, $product );
 		}
 
 		// Prepares the remaining cart item data.
@@ -1349,53 +1317,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
 		}
 
-		// If thumbnail is requested then add it to each item in cart.
-		if ( $show_thumb ) {
-			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
-
-			/**
-			 * Filters the item thumbnail ID.
-			 *
-			 * @since 2.0.0 Introduced.
-			 * @since 3.0.0 Added $removed_item parameter.
-			 *
-			 * @param int    $thumbnail_id Product thumbnail ID.
-			 * @param array  $cart_item    Cart item.
-			 * @param string $item_key     Item key.
-			 * @param bool   $removed_item Determines if the item in the cart is removed.
-			 */
-			$thumbnail_id = apply_filters( 'cocart_item_thumbnail', $thumbnail_id, $cart_item, $item_key, $removed_item );
-
-			/**
-			 * Filters the thumbnail size of the product image.
-			 *
-			 * @since 2.0.0 Introduced.
-			 * @since 3.0.0 Added $removed_item parameter.
-			 *
-			 * @param bool $removed_item Determines if the item in the cart is removed.
-			 */
-			$thumbnail_size = apply_filters( 'cocart_item_thumbnail_size', 'woocommerce_thumbnail', $removed_item );
-
-			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, $thumbnail_size );
-			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
-
-			/**
-			 * Filters the source of the product thumbnail.
-			 *
-			 * @since 2.1.0 Introduced.
-			 * @since 3.0.0 Added parameter $removed_item.
-			 *
-			 * @param string $thumbnail_src URL of the product thumbnail.
-			 * @param array  $cart_item     Cart item.
-			 * @param string $item_key      Item key.
-			 * @param bool   $removed_item  Determines if the item in the cart is removed.
-			 */
-			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src, $cart_item, $item_key, $removed_item );
-
-			// Add main featured image.
-			$item['featured_image'] = esc_url( $thumbnail_src );
-		}
-
 		return $item;
 	} // END get_item()
 
@@ -1406,7 +1327,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param array           $cart_contents The cart contents passed.
+	 * @see CoCart_REST_Cart_V2_Controller::get_item()
+	 *
+	 * @param array           $cart_contents The cart contents.
 	 * @param WP_REST_Request $request       The request object.
 	 * @param boolean         $show_thumb    Determines if requested to return the item featured thumbnail.
 	 *
@@ -1418,21 +1341,23 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+				$cart_item['data'] = wc_get_product( ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : ( ! empty( $cart_item['product_id'] ) ? $cart_item['product_id'] : 0 ) );
 			}
+
+			$product = $cart_item['data'];
 
 			/**
 			 * Filter allows you to alter the item product data returned.
 			 *
-			 * @since 3.0.0 Introduced.
+			 * @since 2.0.0 Introduced.
 			 *
-			 * @param WC_Product $_product  The product object.
+			 * @param WC_Product $product   The product object.
 			 * @param array      $cart_item The cart item data.
 			 * @param string     $item_key  The item key currently looped.
 			 */
-			$_product = apply_filters( 'cocart_item_product', $cart_item['data'], $cart_item, $item_key );
+			$product = apply_filters( 'cocart_item_product', $product, $cart_item, $item_key );
 
-			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb );
+			$items[ $item_key ] = $this->get_item( $product, $cart_item, $item_key, $show_thumb );
 
 			/**
 			 * Filter allows additional data to be returned for a specific item in cart.
@@ -1442,9 +1367,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @param array      $items     Array of items in the cart.
 			 * @param string     $item_key  The item key currently looped.
 			 * @param array      $cart_item The cart item data.
-			 * @param WC_Product $_product  The product object.
+			 * @param WC_Product $product   The product object.
 			 */
-			$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $_product );
+			$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $product );
 		}
 
 		return $items;
@@ -1457,6 +1382,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
+	 * @see CoCart_REST_Cart_V2_Controller::get_item()
+	 *
 	 * @param array   $removed_items The removed cart contents passed.
 	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
 	 *
@@ -1468,19 +1395,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		foreach ( $removed_items as $item_key => $cart_item ) {
 			// If product data is missing then get product data and apply.
 			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data'] = wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+				$cart_item['data'] = wc_get_product( ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : ( ! empty( $cart_item['product_id'] ) ? $cart_item['product_id'] : 0 ) );
 			}
 
-			$_product = $cart_item['data'];
+			$product = $cart_item['data'];
 
 			// If the product no longer exists then remove it from the cart completely.
-			if ( ! $_product || ! $_product->exists() || 'trash' === $_product->get_status() ) {
+			if ( ! $product || ! $product->exists() || 'trash' === $product->get_status() ) {
 				unset( $this->get_cart_instance()->removed_cart_contents[ $item_key ] );
 				unset( $removed_items[ $item_key ] );
 				continue;
 			}
 
-			$items[ $item_key ] = $this->get_item( $_product, $cart_item, $item_key, $show_thumb, true );
+			$items[ $item_key ] = $this->get_item( $product, $cart_item, $item_key, $show_thumb, true );
 
 			// Move the quantity value to it's parent.
 			$items[ $item_key ]['quantity'] = $items[ $item_key ]['quantity']['value'];
@@ -1518,6 +1445,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Prices now return as monetary values.
 	 *
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Product_Helpers::get_product_slug()
+	 *
 	 * @return array $cross_sells Returns cross sells.
 	 */
 	public function get_cross_sells() {
@@ -1538,16 +1468,16 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 			$thumbnail_id  = apply_filters( 'cocart_cross_sell_item_thumbnail', $cross_sell->get_image_id() );
 			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_cross_sell_item_thumbnail_size', 'woocommerce_thumbnail' ) );
-			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0] );
+			$thumbnail_src = apply_filters( 'cocart_cross_sell_item_thumbnail_src', $thumbnail_src[0] );
 
 			$cross_sells[] = array(
 				'id'             => $id,
 				'name'           => $cross_sell->get_name(),
 				'title'          => $cross_sell->get_title(),
 				'slug'           => CoCart_Utilities_Product_Helpers::get_product_slug( $cross_sell ),
-				'price'          => cocart_prepare_money_response( $cross_sell->get_price(), wc_get_price_decimals() ),
-				'regular_price'  => cocart_prepare_money_response( $cross_sell->get_regular_price(), wc_get_price_decimals() ),
-				'sale_price'     => cocart_prepare_money_response( $cross_sell->get_sale_price(), wc_get_price_decimals() ),
+				'price'          => cocart_format_money( $cross_sell->get_price() ),
+				'regular_price'  => cocart_format_money( $cross_sell->get_regular_price() ),
+				'sale_price'     => cocart_format_money( $cross_sell->get_sale_price() ),
 				'image'          => esc_url( $thumbnail_src ),
 				'average_rating' => $cross_sell->get_average_rating() > 0 ? sprintf(
 					/* translators: %s: average rating */
@@ -1563,8 +1493,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 * Filters the cross sell items.
 		 *
 		 * @since 3.0.0 Introduced.
-		 *
-		 * @param WP_REST_Request $request The request object.
 		 */
 		$cross_sells = apply_filters( 'cocart_cross_sells', $cross_sells );
 
@@ -1576,121 +1504,20 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
+	 *
+	 * @param WC_Cart $cart Cart class instance.
 	 *
 	 * @return array Shipping details.
 	 */
-	public function get_shipping_details() {
-		if ( ! CoCart_Utilities_Cart_Helpers::is_shipping_enabled() ) {
-			return array();
-		}
+	public function get_shipping_details( $cart ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::get_shipping_details', '4.4.0', 'CoCart_Utilities_Cart_Helpers::get_shipping_details' );
 
-		// Get shipping packages.
-		$available_packages = WC()->shipping->get_packages();
-
-		$details = array(
-			'total_packages'          => count( (array) $available_packages ),
-			'show_package_details'    => count( (array) $available_packages ) > 1,
-			'has_calculated_shipping' => WC()->customer->has_calculated_shipping(),
-			'packages'                => array(),
-		);
-
-		$packages      = array();
-		$package_key   = 1;
-		$chosen_method = ''; // Leave blank until a method has been selected.
-
-		foreach ( $available_packages as $i => $package ) {
-			$chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
-			$product_names = array();
-
-			if ( count( (array) $packages ) > 1 ) {
-				foreach ( $package['contents'] as $item_id => $values ) {
-					$product_names[ $item_id ] = $values['data']->get_name() . ' x' . $values['quantity'];
-				}
-
-				/**
-				 * Filter allows you to change the package details.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param array $product_names Product names.
-				 * @param array $package       Package details.
-				 */
-				$product_names = apply_filters( 'cocart_shipping_package_details_array', $product_names, $package );
-			}
-
-			if ( 0 === $i ) {
-				$package_key = 'default'; // Identifies the default package.
-			}
-
-			// Check that there are rates available for the package.
-			if ( count( (array) $package['rates'] ) > 0 ) {
-				$shipping_name = ( ( $i + 1 ) > 1 ) ? sprintf(
-					/* translators: %d: shipping package number */
-					_x( 'Shipping #%d', 'shipping packages', 'cart-rest-api-for-woocommerce' ),
-					( $i + 1 )
-				) : _x( 'Shipping', 'shipping packages', 'cart-rest-api-for-woocommerce' );
-
-				$packages[ $package_key ] = array(
-					/**
-					 * Filters the package name for the shipping method.
-					 *
-					 * @since 3.0.0 Introduced.
-					 *
-					 * @param string $shipping_name Shipping name.
-					 * @param int    $i
-					 * @param array  $package
-					 */
-					'package_name'          => apply_filters( 'cocart_shipping_package_name', $shipping_name, $i, $package ),
-					'rates'                 => array(),
-					'package_details'       => implode( ', ', $product_names ),
-					'index'                 => $i, // Shipping package number.
-					'chosen_method'         => $chosen_method,
-					'formatted_destination' => WC()->countries->get_formatted_address( $package['destination'], ', ' ),
-				);
-
-				$rates = array();
-
-				// Return each rate.
-				foreach ( $package['rates'] as $key => $method ) {
-					$meta_data = $this->clean_meta_data( $method, 'shipping' );
-
-					$rates[ $key ] = array(
-						'key'           => $key,
-						'method_id'     => $method->get_method_id(),
-						'instance_id'   => $method->instance_id,
-						'label'         => $method->get_label(),
-						'cost'          => cocart_prepare_money_response( $method->cost, wc_get_price_decimals() ),
-						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
-						'taxes'         => '',
-						'chosen_method' => ( $chosen_method === $key ),
-						'meta_data'     => $meta_data,
-					);
-
-					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
-						$rates[ $key ]['taxes'] = cocart_prepare_money_response( $tax_cost, wc_get_price_decimals() );
-					}
-				}
-
-				$packages[ $package_key ]['rates'] = $rates;
-			}
-
-			++$package_key; // Update package key for next inline if any.
-		}
-
-		/**
-		 * Filter allows you to alter the shipping packages returned.
-		 *
-		 * @since 4.1.0 Introduced.
-		 *
-		 * @param array   $packages      Available shipping packages.
-		 * @param array   $chosen_method Chosen shipping method.
-		 * @param WC_Cart $instance      The cart object.
-		 */
-		$details['packages'] = apply_filters( 'cocart_available_shipping_packages', $packages, $chosen_method, $this->get_cart_instance() );
-
-		return $details;
+		return CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart );
 	} // END get_shipping_details()
 
 	/**
@@ -1701,23 +1528,19 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @since   3.1.0 Introduced
 	 * @version 3.1.2
 	 *
+	 * @deprecated 4.4.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::clean_meta_data()
+	 *
 	 * @param object $method Method data.
 	 * @param string $type   Meta data we are cleaning for.
 	 *
 	 * @return array Meta data.
 	 */
 	protected function clean_meta_data( $method, $type = 'shipping' ) {
-		$meta_data = $method->get_meta_data();
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::clean_meta_data', '4.4.0', 'CoCart_Utilities_Cart_Helpers::clean_meta_data' );
 
-		switch ( $type ) {
-			case 'shipping':
-				$meta_data['items'] = isset( $meta_data['Items'] ) ? html_entity_decode( wp_strip_all_tags( $meta_data['Items'] ) ) : '';
-				unset( $meta_data['Items'] );
-
-				break;
-		}
-
-		return $meta_data;
+		return CoCart_Utilities_Cart_Helpers::clean_meta_data( $method, $type );
 	} // END clean_meta_data()
 
 	/**
@@ -1776,7 +1599,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @param int        $quantity       The item quantity.
 	 * @param int        $variation_id   The variation ID.
 	 * @param array      $variation      The variation attributes.
-	 * @param array      $cart_item_data Extra cart item data we want to pass into the item.
+	 * @param array      $cart_item_data The cart item data
 	 * @param WC_Product $product_data   The product object.
 	 *
 	 * @return string|boolean $item_key Cart item key or false if error.
@@ -1816,7 +1639,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			 * @param int    $quantity       The item quantity.
 			 * @param int    $variation_id   The variation ID.
 			 * @param array  $variation      The variation attributes.
-			 * @param array  $cart_item_data Extra cart item data we want to pass into the item.
+			 * @param array  $cart_item_data The cart item data
 			 */
 			do_action( 'cocart_add_to_cart', $item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data );
 
@@ -1908,6 +1731,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.3 Introduced.
 	 *
+	 * @see cocart_format_money()
+	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
+	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
+	 * @see CoCart_Utilities_Cart_Helpers::get_applied_coupons()
+	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
+	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
+	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template_limited()
+	 * @see CoCart_REST_Cart_V2_Controller::get_removed_items()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cross_sells()
+	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return array Returns the default cart response.
@@ -1933,23 +1767,23 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			'items'          => array(),
 			'item_count'     => $this->get_cart_instance()->get_cart_contents_count(),
 			'items_weight'   => (string) wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
-			'coupons'        => array(),
+			'coupons'        => CoCart_Utilities_Cart_Helpers::get_applied_coupons( $this->get_cart_instance() ),
 			'needs_payment'  => $this->get_cart_instance()->needs_payment(),
 			'needs_shipping' => $this->get_cart_instance()->needs_shipping(),
-			'shipping'       => $this->get_shipping_details(),
-			'fees'           => $this->get_fees( $this->get_cart_instance() ),
+			'shipping'       => CoCart_Utilities_Cart_Helpers::get_shipping_details( $this->get_cart_instance() ),
+			'fees'           => CoCart_Utilities_Cart_Helpers::get_fees( $this->get_cart_instance() ),
 			'taxes'          => array(),
 			'totals'         => array(
-				'subtotal'       => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
-				'subtotal_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
-				'fee_total'      => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
-				'fee_tax'        => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() ),
-				'discount_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() ),
-				'discount_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
-				'shipping_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
-				'shipping_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
-				'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
-				'total_tax'      => cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
+				'subtotal'       => cocart_format_money( $this->get_cart_instance()->get_subtotal() ),
+				'subtotal_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_subtotal_tax() ),
+				'fee_total'      => cocart_format_money( $this->get_cart_instance()->get_fee_total() ),
+				'fee_tax'        => (string) cocart_format_money( $this->get_cart_instance()->get_fee_tax() ),
+				'discount_total' => (string) cocart_format_money( $this->get_cart_instance()->get_discount_total() ),
+				'discount_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_discount_tax() ),
+				'shipping_total' => cocart_format_money( $this->get_cart_instance()->get_shipping_total() ),
+				'shipping_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_shipping_tax() ),
+				'total'          => cocart_format_money( $this->get_cart_instance()->get_total() ),
+				'total_tax'      => (string) cocart_format_money( $this->get_cart_instance()->get_total_tax() ),
 			),
 			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb ),
 			'cross_sells'    => $this->get_cross_sells(),
@@ -2018,7 +1852,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					$template['items_weight'] = (string) wc_get_weight( $this->get_cart_instance()->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
 					break;
 				case 'coupons':
-					$template['coupons'] = array();
+					$template['coupons'] = CoCart_Utilities_Cart_Helpers::get_applied_coupons( $this->get_cart_instance() );
 					break;
 				case 'needs_payment':
 					$template['needs_payment'] = $this->get_cart_instance()->needs_payment();
@@ -2027,10 +1861,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 					$template['needs_shipping'] = $this->get_cart_instance()->needs_shipping();
 					break;
 				case 'shipping':
-					$template['shipping'] = $this->get_shipping_details();
+					$template['shipping'] = CoCart_Utilities_Cart_Helpers::get_shipping_details( $this->get_cart_instance() );
 					break;
 				case 'fees':
-					$template['fees'] = $this->get_fees( $this->get_cart_instance() );
+					$template['fees'] = CoCart_Utilities_Cart_Helpers::get_fees( $this->get_cart_instance() );
 					break;
 				case 'taxes':
 					$template['taxes'] = array();
@@ -2041,48 +1875,48 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 						foreach ( $child_field as $total ) {
 							if ( 'subtotal' === $total ) {
-								$template['totals']['subtotal'] = cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() );
+								$template['totals']['subtotal'] = cocart_format_money( $this->get_cart_instance()->get_subtotal() );
 							}
 							if ( 'subtotal_tax' === $total ) {
-								$template['totals']['subtotal_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() );
+								$template['totals']['subtotal_tax'] = (string) cocart_format_money( $this->get_cart_instance()->get_subtotal_tax() );
 							}
 							if ( 'fee_total' === $total ) {
-								$template['totals']['fee_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() );
+								$template['totals']['fee_total'] = cocart_format_money( $this->get_cart_instance()->get_fee_total() );
 							}
 							if ( 'fee_tax' === $total ) {
-								$template['totals']['fee_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() );
+								$template['totals']['fee_tax'] = (string) cocart_format_money( $this->get_cart_instance()->get_fee_tax() );
 							}
 							if ( 'discount_total' === $total ) {
-								$template['totals']['discount_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() );
+								$template['totals']['discount_total'] = (string) cocart_format_money( $this->get_cart_instance()->get_discount_total() );
 							}
 							if ( 'discount_tax' === $total ) {
-								$template['totals']['discount_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() );
+								$template['totals']['discount_tax'] = (string) cocart_format_money( $this->get_cart_instance()->get_discount_tax() );
 							}
 							if ( 'shipping_total' === $total ) {
-								$template['totals']['shipping_total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() );
+								$template['totals']['shipping_total'] = cocart_format_money( $this->get_cart_instance()->get_shipping_total() );
 							}
 							if ( 'shipping_tax' === $total ) {
-								$template['totals']['shipping_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() );
+								$template['totals']['shipping_tax'] = (string) cocart_format_money( $this->get_cart_instance()->get_shipping_tax() );
 							}
 							if ( 'total' === $total ) {
-								$template['totals']['total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() );
+								$template['totals']['total'] = cocart_format_money( $this->get_cart_instance()->get_total() );
 							}
 							if ( 'total_tax' === $total ) {
-								$template['totals']['total_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() );
+								$template['totals']['total_tax'] = (string) cocart_format_money( $this->get_cart_instance()->get_total_tax() );
 							}
 						}
 					} else {
 						$template['totals'] = array(
-							'subtotal'       => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal(), wc_get_price_decimals() ),
-							'subtotal_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_subtotal_tax(), wc_get_price_decimals() ),
-							'fee_total'      => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_total(), wc_get_price_decimals() ),
-							'fee_tax'        => cocart_prepare_money_response( $this->get_cart_instance()->get_fee_tax(), wc_get_price_decimals() ),
-							'discount_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_total(), wc_get_price_decimals() ),
-							'discount_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
-							'shipping_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
-							'shipping_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
-							'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
-							'total_tax'      => cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
+							'subtotal'       => cocart_format_money( $this->get_cart_instance()->get_subtotal() ),
+							'subtotal_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_subtotal_tax() ),
+							'fee_total'      => cocart_format_money( $this->get_cart_instance()->get_fee_total() ),
+							'fee_tax'        => (string) cocart_format_money( $this->get_cart_instance()->get_fee_tax() ),
+							'discount_total' => (string) cocart_format_money( $this->get_cart_instance()->get_discount_total() ),
+							'discount_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_discount_tax() ),
+							'shipping_total' => cocart_format_money( $this->get_cart_instance()->get_shipping_total() ),
+							'shipping_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_shipping_tax() ),
+							'total'          => cocart_format_money( $this->get_cart_instance()->get_total() ),
+							'total_tax'      => (string) cocart_format_money( $this->get_cart_instance()->get_total_tax() ),
 						);
 					}
 					break;
@@ -2191,10 +2025,10 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 4.4.0 Calculate shipping was removed here because it's called already by calculate_totals.
 	 */
 	public function calculate_totals() {
 		$this->get_cart_instance()->calculate_fees();
-		$this->get_cart_instance()->calculate_shipping();
 		$this->get_cart_instance()->calculate_totals();
 	} // END calculate_totals()
 
@@ -2611,6 +2445,12 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 								'type'        => 'string',
 								'context'     => array( 'view' ),
 								'readonly'    => true,
+							),
+							'extensions'     => array(
+								'description' => __( 'Extensions may add additional data to be returned for item in cart.', 'cart-rest-api-for-woocommerce' ),
+								'type'        => 'object',
+								'content'     => array( 'view' ),
+								'properties'  => array(),
 							),
 						),
 					),

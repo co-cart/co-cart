@@ -96,8 +96,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			}
 
 			// The product we are attempting to add to the cart.
-			$product_data = wc_get_product( $product_id );
-			$product_data = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product_data );
+			$product      = wc_get_product( $product_id );
+			$product_data = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $product );
 
 			// Return error response if product cannot be added to cart?
 			if ( is_wp_error( $product_data ) ) {
@@ -133,9 +133,10 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 * Allows you to specify the handlers validation method for
 				 * adding item to the cart.
 				 *
+				 * Example use for filter: 'cocart_add_to_cart_handler_subscription'.
+				 *
 				 * @since 2.1.0 Introduced.
 				 *
-				 * @param string          $product_data The product type to identify handler.
 				 * @param WC_Product      $product_data The product object.
 				 * @param WP_REST_Request $request      The request object.
 				 */
@@ -145,40 +146,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			}
 
 			if ( ! is_wp_error( $item_added_to_cart ) ) {
-				/**
-				 * Set customers billing email address.
-				 *
-				 * @since 3.1.0 Introduced.
-				 */
-				if ( isset( $request['email'] ) ) {
-					$is_email = \WC_Validation::is_email( $request['email'] );
-
-					if ( $is_email ) {
-						WC()->customer->set_props(
-							array(
-								'billing_email' => trim( esc_html( $request['email'] ) ),
-							)
-						);
-					}
-				}
-
-				/**
-				 * Set customers billing phone number.
-				 *
-				 * @since 4.1.0 Introduced.
-				 */
-				if ( isset( $request['phone'] ) ) {
-					$is_phone = \WC_Validation::is_phone( $request['phone'] );
-
-					if ( $is_phone ) {
-						WC()->customer->set_props(
-							array(
-								'billing_phone' => trim( esc_html( $request['phone'] ) ),
-							)
-						);
-					}
-				}
-
 				cocart_add_to_cart_message( array( $item_added_to_cart['product_id'] => $item_added_to_cart['quantity'] ) );
 
 				/**
@@ -190,7 +157,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 *
 				 * @deprecated 4.1.0 Use hook `cocart_after_item_added_to_cart` instead.
 				 *
-				 * @param array           $item_added_to_cart Item details added to cart.
+				 * @param WC_Product      $item_added_to_cart The product added to cart.
 				 * @param WP_REST_Request $request            The request object.
 				 */
 				cocart_do_deprecated_filter(
@@ -213,11 +180,12 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 * @since 4.1.0 Introduced.
 				 *
 				 * @hooked: set_new_price - 1
+				 * @hooked: add_customer_billing_details - 10
 				 *
-				 * @param array           $item_added_to_cart  The product added to cart.
+				 * @param WC_Product      $item_added_to_cart  The product added to cart.
 				 * @param WP_REST_Request $request             The request object.
 				 * @param string          $add_to_cart_handler The product type added to cart.
-				 * @param object          $controller          The controller.
+				 * @param object          $controller          The cart controller.
 				 */
 				do_action( 'cocart_after_item_added_to_cart', $item_added_to_cart, $request, $add_to_cart_handler, $this );
 
@@ -335,6 +303,15 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			// If item_key is set, then the item is already in the cart so just update the quantity.
 			if ( ! empty( $item_key ) ) {
 				$cart_contents = $this->get_cart_contents( array( 'raw' => true ) );
+
+				/**
+				 * If the item key was not found in cart then we need to reset it as the item may have been
+				 * manipulated by adding cart item data via code or a plugin. This helps prevent undefined errors.
+				 */
+				if ( ! in_array( $item_key, $cart_contents ) ) {
+					$product_to_add['item_key'] = ''; // Clear previous item key.
+					return $this->add_item_to_cart( $product_to_add );
+				}
 
 				$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
 

@@ -127,7 +127,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			 *
 			 * @param WC_Product $adding_to_cart The product object.
 			 */
-			$was_added_to_cart = apply_filters( 'cocart_add_to_cart_handler_' . $add_to_cart_handler, $adding_to_cart );
+			$was_added_to_cart = apply_filters( "cocart_add_to_cart_handler_{$add_to_cart_handler}", $adding_to_cart ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		} else {
 			$was_added_to_cart = $this->add_to_cart_handler_simple( $product_id, $quantity, $cart_item_data );
 		}
@@ -293,7 +293,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				 * @since 2.0.0 Introduced.
 				 *
 				 * @param string     $message Message.
-				 * @param WC_Product $product_data Product data.
+				 * @param WC_Product $product_data The product object.
 				 */
 				$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
 
@@ -327,14 +327,14 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			$item_added['data'] = wc_get_product( $item_added['variation_id'] ? $item_added['variation_id'] : $item_added['product_id'] );
 		}
 
-		$_product = $item_added['data'];
+		$product = $item_added['data'];
 
 		// Adds the product name and title.
-		$item_added['product_name']  = apply_filters( 'cocart_item_added_product_name', $_product->get_name(), $_product, $item_key );
-		$item_added['product_title'] = apply_filters( 'cocart_item_added_product_title', $_product->get_title(), $_product, $item_key );
+		$item_added['product_name']  = apply_filters( 'cocart_item_added_product_name', $product->get_name(), $product, $item_key );
+		$item_added['product_title'] = apply_filters( 'cocart_item_added_product_title', $product->get_title(), $product, $item_key );
 
 		// Add product price.
-		$item_added['product_price'] = html_entity_decode( wp_strip_all_tags( wc_price( $_product->get_price() ) ) );
+		$item_added['product_price'] = html_entity_decode( wp_strip_all_tags( wc_price( $product->get_price() ) ) );
 
 		/**
 		 * Filter allows additional data to be returned.

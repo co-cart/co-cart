@@ -37,7 +37,7 @@ If you have questions about the process to contribute code or want to discuss de
 
 CoCart Core can be translated in two areas. It is recommended to translate via the [project on translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce/). You can join the localization team of your language and help by translating CoCart there. [Find more about using joining a language team and using GlotPress](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/).
 
-The alternative is to translate CoCart at [translate.cocart.xyz](https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/)
+The alternative is to translate CoCart at [translate.cocartapi.com](https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/)
 
 If CoCart is already 100% translated for your language, join the team anyway! The language files are regularly updated with new strings that need translation and will likely be added soon.
 

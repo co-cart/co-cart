@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.x.x
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,7 +45,7 @@ class CoCart_REST_Login_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Added schema information.
-	 * @since 4.x.x Added arguments.
+	 * @since 4.4.0 Added arguments.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -89,7 +89,7 @@ class CoCart_REST_Login_V2_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 3.1.0 Added avatar URLS and users email address.
 	 * @since 3.8.1 Added users first and last name.
-	 * @since 4.x.x Avatars only return if requested.
+	 * @since 4.4.0 Avatars only return if requested.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -214,7 +214,7 @@ class CoCart_REST_Login_V2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.4.0 Introduced.
 	 *
 	 * @return array $params The query params.
 	 */

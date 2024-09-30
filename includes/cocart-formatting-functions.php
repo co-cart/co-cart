@@ -46,43 +46,123 @@ function cocart_let_to_num( $size ) {
 	return $ret;
 } // END cocart_let_to_num()
 
-if ( ! function_exists( 'format_variation_data ' ) ) {
+/**
+ * Convert monetary values from store settings to string based integers, using
+ * the smallest unit of a currency.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @param int|float|string $value   Value to format. Int is allowed, as it may also represent a valid price.
+ * @param array            $options Options that influence the formatting.
+ *
+ * @return string Formatted value.
+ */
+function cocart_format_money( $value, array $options = array() ) {
+	// Values that don't need converting just return the original value.
+	if ( empty( $value ) || 0 === $value ) {
+		return $value;
+	}
+
+	if ( ! is_int( $value ) && ! is_string( $value ) && ! is_float( $value ) ) {
+		wc_doing_it_wrong(
+			__FUNCTION__,
+			sprintf( 'Function expects a $value arg of type INT, STRING or FLOAT.%s', ! empty( $value ) ? ' Given type: ' . gettype( $value ) . ', value "' . $value : '' ),
+			'4.4'
+		);
+
+		return '';
+	}
+
+	$options = wp_parse_args(
+		$options,
+		array(
+			'currency'      => get_woocommerce_currency(),
+			'decimals'      => wc_get_price_decimals(),
+			'rounding_mode' => PHP_ROUND_HALF_UP,
+			'trim_zeros'    => false,
+		)
+	);
+
 	/**
-	 * Format variation data, for example convert slugs such as attribute_pa_size to Size.
+	 * If $value is a string, clean it first.
 	 *
-	 * @since 3.0.0 Introduced.
-	 *
-	 * @param array      $variation_data Array of data from the cart.
-	 * @param WC_Product $product        Product data.
-	 *
-	 * @return array
+	 * This is required should the $value parse any html in the string
+	 * that may have been added by an extension like subscriptions.
 	 */
-	function format_variation_data( $variation_data, $product ) {
-		$return = array();
+	if ( is_string( $value ) ) {
+		$value = html_entity_decode( wp_strip_all_tags( $value ) ); // Decode html span wrapper, if any.
+		$value = str_replace( html_entity_decode( get_woocommerce_currency_symbol( $options['currency'] ) ), '', $value ); // Remove currency symbol, if any.
+	}
 
-		if ( empty( $variation_data ) ) {
-			return $return;
-		}
+	/**
+	 * Filter allows you to disable the decimals.
+	 *
+	 * If set to "True" the decimals will be forced to "Zero".
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param bool $disable_decimals False by default.
+	 */
+	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
 
-		foreach ( $variation_data as $key => $value ) {
-			$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $key ) ) );
+	if ( $disable_decimals ) {
+		$options['decimals'] = 0;
+	}
 
-			if ( taxonomy_exists( $taxonomy ) ) {
-				// If this is a term slug, get the term's nice name.
-				$term = get_term_by( 'slug', $value, $taxonomy );
-				if ( ! is_wp_error( $term ) && $term && $term->name ) {
-					$value = $term->name;
-				}
-				$label = wc_attribute_label( $taxonomy );
-			} else {
-				// If this is a custom option slug, get the options name.
-				$value = apply_filters( 'cocart_variation_option_name', $value, $product );
-				$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
+	// Ensure rounding mode is valid.
+	$rounding_modes           = array( PHP_ROUND_HALF_UP, PHP_ROUND_HALF_DOWN, PHP_ROUND_HALF_EVEN, PHP_ROUND_HALF_ODD );
+	$options['rounding_mode'] = absint( $options['rounding_mode'] );
+
+	// If rounding is not valid then force it to only round half up.
+	if ( ! in_array( $options['rounding_mode'], $rounding_modes, true ) ) {
+		$options['rounding_mode'] = PHP_ROUND_HALF_UP;
+	}
+
+	$value = floatval( $value );
+
+	// Remove the price decimal points for rounding purposes.
+	$value = $value * pow( 10, absint( $options['decimals'] ) );
+
+	// Round up/down the value.
+	$value = round( $value, 0, $options['rounding_mode'] );
+
+	// This ensures returning the value as a string without decimal points ready for price parsing.
+	return wc_format_decimal( $value, 0, $options['trim_zeros'] );
+} // END cocart_format_money()
+
+/**
+ * Formats the product attributes for a variation.
+ *
+ * Converts slugs such as "attribute_pa_size" to "Size".
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @param array      $attributes Array of data from the cart.
+ * @param WC_Product $product    The product object.
+ *
+ * @return array Formatted attribute data.
+ */
+function cocart_format_variation_data( $attributes, $product ) {
+	$return = array();
+
+	foreach ( $attributes as $key => $value ) {
+		$taxonomy = wc_attribute_taxonomy_name( str_replace( 'attribute_pa_', '', urldecode( $key ) ) );
+
+		if ( taxonomy_exists( $taxonomy ) ) {
+			// If this is a term slug, get the term's nice name.
+			$term = get_term_by( 'slug', $value, $taxonomy );
+			if ( ! is_wp_error( $term ) && $term && $term->name ) {
+				$value = $term->name;
 			}
-
-			$return[ $label ] = $value;
+			$label = wc_attribute_label( $taxonomy );
+		} else {
+			// If this is a custom option slug, get the options name.
+			$value = apply_filters( 'cocart_variation_option_name', $value, $product );
+			$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
 		}
 
-		return $return;
-	} // END format_variation_data()
-}
+		$return[ $label ] = $value;
+	}
+
+	return $return;
+} // END cocart_format_variation_data()

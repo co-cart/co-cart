@@ -63,7 +63,7 @@ function cocart_do_deprecated_filter( $tag, $version = '', $replacement = null, 
  * @uses wp_doing_ajax()
  *
  * @param string $hook        The hook that was used.
- * @param string $version     The version of WordPress that deprecated the hook.
+ * @param string $version     The version of CoCart that deprecated the hook.
  * @param string $replacement The hook that should have been used.
  * @param string $message     A message regarding the change.
  */
@@ -102,7 +102,7 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
  *
  * @param string $filter      The filter that was used.
  * @param array  $args        Array of additional function arguments to be passed to apply_filters().
- * @param string $version     The version of WordPress that deprecated the filter.
+ * @param string $version     The version of CoCart that deprecated the filter.
  * @param string $replacement The filter that should have been used.
  * @param string $message     A message regarding the change.
  */

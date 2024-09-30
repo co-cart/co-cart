@@ -152,6 +152,25 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		} // END cocart_user_logged_in()
 
 		/**
+		 * Returns true if we are making a REST API request for CoCart.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @deprecated 4.2.0 Moved function to main plugin class.
+		 *
+		 * @return bool
+		 */
+		public static function is_rest_api_request() {
+			cocart_deprecated_function( 'CoCart_Authentication::is_rest_api_request', '4.2.0', 'CoCart::is_rest_api_request' );
+
+			return CoCart::is_rest_api_request();
+		} // END is_rest_api_request()
+
+		/**
 		 * Get the authorization header.
 		 *
 		 * Returns the value from the authorization header.
@@ -193,7 +212,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 *
 			 * @since 4.1.0 Introduced.
 			 *
-			 * @param string Authorization header.
+			 * @param string $auth_header Authorization header.
 			 */
 			return apply_filters( 'cocart_auth_header', $auth_header );
 		} // END get_auth_header()
@@ -226,9 +245,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 * @since 2.6.0 Introduced.
 			 * @since 3.8.1 Passed the authentication class as parameter.
 			 *
-			 * @param int    $user_id The user ID returned if authentication was successful.
-			 * @param bool            Determines if the site is secure.
-			 * @param object $this    The Authentication class.
+			 * @param int    $user_id              The user ID returned if authentication was successful.
+			 * @param bool   $is_secure            Determines if the site is secure.
+			 * @param object $authentication_class The Authentication class.
 			 */
 			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl(), $this );
 
@@ -551,6 +570,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.2.0 Introduced.
 		 * @since 3.3.0 Added new custom headers without the prefix `X-`
+		 * @since 4.4.0 Fallback to a wildcard if the origin has yet to be determined.
 		 *
 		 * @uses CoCart_Authentication()::get_http_origin()
 		 * @uses CoCart_Authentication()::is_allowed_http_origin()

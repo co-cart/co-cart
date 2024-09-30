@@ -59,6 +59,7 @@ function cocart_allowed_image_mime_types() {
 			'bmp'          => 'image/bmp',
 			'tiff|tif'     => 'image/tiff',
 			'ico'          => 'image/x-icon',
+			'webp'         => 'image/webp',
 		)
 	);
 } // END cocart_allowed_image_mime_types()
@@ -348,9 +349,9 @@ function cocart_price_no_html( $price, $args = array() ) {
  * for the use of the REST API returning clean notices once products have
  * been added to cart.
  *
- * @param int|array $products Product ID list or single product ID.
- * @param bool      $show_qty Should qty's be shown.
- * @param bool      $return_msg   Return message rather than add it.
+ * @param int|array $products   List of Product IDs or a single Product ID.
+ * @param bool      $show_qty   Should qty's be shown.
+ * @param bool      $return_msg Return message rather than add it.
  *
  * @return mixed
  */
@@ -407,6 +408,10 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  *
  * @since 3.1.0 Introduced.
  *
+ * @deprecated 4.4.0 Replaced with `cocart_format_money()` function.
+ *
+ * @see cocart_format_money()
+ *
  * @param string|float $amount        Monetary amount with decimals.
  * @param int          $decimals      Number of decimals the amount is formatted with.
  * @param int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
@@ -414,29 +419,9 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  * @return string The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-	// If string, clean it first.
-	if ( is_string( $amount ) ) {
-		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
-		$amount = (float) $amount;
-	}
+	cocart_deprecated_function( 'cocart_prepare_money_response', '4.4.0', 'cocart_format_money' );
 
-	/**
-	 * This filter allows you to disable the decimals.
-	 * If set to "True" the decimals will be set to "Zero".
-	 */
-	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
-
-	if ( $disable_decimals ) {
-		$decimals = 0;
-	}
-
-	return (string) intval(
-		round(
-			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
-			0,
-			absint( $rounding_mode )
-		)
-	);
+	return cocart_format_money( $amount );
 } // END cocart_prepare_money_response()
 
 /**
@@ -602,6 +587,39 @@ function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' 
 
 	return str_starts_with( $rest_route, $ns );
 } // END cocart_rest_should_load_namespace()
+
+/**
+ * Get CoCart requested namespace.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace() {
+	return CoCart::$cocart_namespace;
+} // END cocart_get_requested_namespace()
+
+/**
+ * Get CoCart requested namespace version.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace_version() {
+	return CoCart::$cocart_namespace_version;
+} // END cocart_get_requested_namespace_version()
+
+/**
+ * Get CoCart requested API.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_api() {
+	return cocart_get_requested_namespace() . '/' . cocart_get_requested_namespace_version();
+} // END cocart_get_requested_api()
 
 if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
 	/**

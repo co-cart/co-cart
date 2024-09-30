@@ -888,8 +888,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @static
 		 *
 		 * @since 3.10.8 Introduced.
-		 *
-		 * @return array of json API data
 		 */
 		public static function get_suggestions_api_data() {
 			if ( ! method_exists( '\ActionScheduler', 'is_initialized' ) ) {

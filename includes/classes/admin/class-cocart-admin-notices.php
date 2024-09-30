@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
  * @since   1.2.0 Introduced.
- * @version 4.2.0
+ * @version 4.4.0
  * @license GPL-2.0+
  */
 
@@ -68,6 +68,17 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		);
 
 		/**
+		 * Stores a flag indicating if the code is running in a multisite setup.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @var bool
+		 */
+		private static bool $is_multisite;
+
+		/**
 		 * Constructor
 		 *
 		 * @access public
@@ -76,6 +87,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since 3.10.0 Added notice for WordPress Playground
 		 */
 		public function __construct() {
+			self::$is_multisite = is_multisite();
 			self::$install_date = get_option( 'cocart_install_date', time() );
 			self::$notices      = get_option( 'cocart_admin_notices', array() );
 
@@ -109,19 +121,50 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END store_notices()
 
 		/**
-		 * Get notices
+		 * Get notices.
 		 *
 		 * @access public
 		 *
 		 * @static
 		 *
 		 * @since 3.0.0 Introduced.
+		 * @since 4.4.0 Adjusted to get cached notices for the current site should it be a multisite.
 		 *
-		 * @return array
+		 * @return array Cached notices for current site.
 		 */
 		public static function get_notices() {
-			return self::$notices;
+			if ( ! self::$is_multisite ) {
+				return self::$notices;
+			}
+
+			$blog_id = get_current_blog_id();
+			$notices = self::$notices[ $blog_id ] ?? null;
+			if ( ! is_null( $notices ) ) {
+				return $notices;
+			}
+
+			self::$notices[ $blog_id ] = get_option( 'cocart_admin_notices', array() );
+			return self::$notices[ $blog_id ];
 		} // END get_notices()
+
+		/**
+		 * Set the locally cached notices array for the current site.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @param array $notices New value for the locally cached notices array.
+		 */
+		private static function set_notices( array $notices ) {
+			if ( self::$is_multisite ) {
+				self::$notices[ get_current_blog_id() ] = $notices;
+			} else {
+				self::$notices = $notices;
+			}
+		} // END set_notices()
 
 		/**
 		 * Remove all notices.
@@ -133,7 +176,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since 3.0.0 Introduced.
 		 */
 		public static function remove_all_notices() {
-			self::$notices = array();
+			self::set_notices( array() );
 		} // END remove_all_notices()
 
 		/**
@@ -144,7 +187,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since 3.0.0 Introduced.
 		 */
 		public function reset_admin_notices() {
-			self::add_notice( 'upgrade_warning' );
 			self::add_notice( 'check_php' );
 			self::add_notice( 'check_wp' );
 			self::add_notice( 'check_wc' );
@@ -160,11 +202,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @param string $name       Notice name.
-		 * @param bool   $force_save Force saving inside this method instead of at the 'shutdown'.
+		 * @param string $notice_name Notice name.
+		 * @param bool   $force_save  Force saving inside this method instead of at the 'shutdown'.
 		 */
-		public static function add_notice( $name, $force_save = false ) {
-			self::$notices = array_unique( array_merge( self::get_notices(), array( $name ) ) );
+		public static function add_notice( string $notice_name, bool $force_save = false ) {
+			self::set_notices( array_unique( array_merge( self::get_notices(), array( $notice_name ) ) ) );
 
 			if ( $force_save ) {
 				// Adding early save to prevent more race conditions with notices.
@@ -181,24 +223,59 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @param string $name       Notice name.
-		 * @param bool   $force_save Force saving inside this method instead of at the 'shutdown'.
+		 * @param string $notice_name Notice name.
+		 * @param bool   $force_save  Force saving inside this method instead of at the 'shutdown'.
 		 */
-		public static function remove_notice( $name, $force_save = false ) {
-			$notices = self::get_notices();
-
+		public static function remove_notice( string $notice_name, bool $force_save = false ) {
 			// Check that the notice exists before attempting to remove it.
-			if ( in_array( $name, $notices ) ) {
-				self::$notices = array_diff( $notices, array( $name ) );
+			if ( self::has_notice( $notice_name ) ) {
+				self::set_notices( array_diff( self::get_notices(), array( $notice_name ) ) );
 
-				delete_option( 'cocart_admin_notice_' . $name );
+				delete_option( 'cocart_admin_notice_' . $notice_name );
 
 				if ( $force_save ) {
 					// Adding early save to prevent more conditions with notices.
 					self::store_notices();
 				}
+
+				/**
+				 * Hook: Hide a CoCart notice.
+				 *
+				 * Example: `cocart_hide_plugin_review_notice'
+				 */
+				do_action( "cocart_hide_{$notice_name}_notice" );
 			}
 		} // END remove_notice()
+
+		/**
+		 * Remove a given set of notices.
+		 *
+		 * An array of notice names or a regular expression string can be passed, in the later case
+		 * all the notices whose name matches the regular expression will be removed.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @param array|string $names_array_or_regex An array of notice names, or a string representing a regular expression.
+		 * @param bool         $force_save           Force saving inside this method instead of at the 'shutdown'.
+		 *
+		 * @return void
+		 */
+		public static function remove_notices( $names_array_or_regex, $force_save = false ) {
+			if ( ! is_array( $names_array_or_regex ) ) {
+				$names_array_or_regex = array_filter( self::get_notices(), fn( $notice_name ) => 1 === preg_match( $names_array_or_regex, $notice_name ) );
+			}
+
+			self::set_notices( array_diff( self::get_notices(), $names_array_or_regex ) );
+
+			if ( $force_save ) {
+				// Adding early save to prevent more race conditions with notices.
+				self::store_notices();
+			}
+		} // END remove_notices()
 
 		/**
 		 * See if a notice is being shown.
@@ -210,12 +287,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @since   3.0.0 Introduced.
 		 * @version 3.1.0
 		 *
-		 * @param string $name Notice name.
+		 * @param string $notice_name Notice name.
 		 *
 		 * @return boolean
 		 */
-		public static function has_notice( $name ) {
-			return in_array( $name, self::get_notices(), true );
+		public static function has_notice( string $notice_name ) {
+			return in_array( $notice_name, self::get_notices(), true );
 		} // END has_notice()
 
 		/**
@@ -235,18 +312,56 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 					wp_die( esc_html__( 'You don&#8217;t have permission to do this.', 'cart-rest-api-for-woocommerce' ) );
 				}
 
-				$hide_notice = sanitize_text_field( wp_unslash( $_GET['cocart-hide-notice'] ) );
+				$notice_name = sanitize_text_field( wp_unslash( $_GET['cocart-hide-notice'] ) );
 
-				self::remove_notice( $hide_notice );
-
-				update_user_meta( get_current_user_id(), 'dismissed_cocart_' . $hide_notice . '_notice', true );
-
-				do_action( 'cocart_hide_' . $hide_notice . '_notice' );
+				self::hide_notice( $notice_name );
 
 				wp_safe_redirect( remove_query_arg( array( 'cocart-hide-notice', '_cocart_notice_nonce' ), CoCart_Helpers::cocart_get_current_admin_url() ) );
 				exit;
 			}
 		} // END hide_notices()
+
+		/**
+		 * Hide a single notice.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @param string $notice_name Notice name.
+		 */
+		private static function hide_notice( string $notice_name ) {
+			self::remove_notice( $notice_name );
+
+			update_user_meta( get_current_user_id(), 'dismissed_cocart_' . $notice_name . '_notice', true );
+
+			/**
+			 * Hook: Hide a CoCart notice.
+			 *
+			 * Example: `cocart_hide_plugin_review_notice'
+			 */
+			do_action( "cocart_hide_{$notice_name}_notice" );
+		} // END hide_notice()
+
+		/**
+		 * Check if a given user has dismissed a given admin notice.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 4.4.0 Introduced.
+		 *
+		 * @param string   $notice_name The name of the admin notice to check.
+		 * @param int|null $user_id     User id, or null for the current user.
+		 *
+		 * @return bool True if the user has dismissed the notice.
+		 */
+		public static function user_has_dismissed_notice( string $notice_name, ?int $user_id = null ): bool {
+			return (bool) get_user_meta( $user_id ?? get_current_user_id(), "dismissed_cocart_{$notice_name}_notice", true );
+		} // END user_has_dismissed_notice()
 
 		/**
 		 * Add notices.
@@ -296,12 +411,12 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @param string $name        Notice name.
+		 * @param string $notice_name Notice name.
 		 * @param string $notice_html Notice HTML.
 		 */
-		public static function add_custom_notice( $name, $notice_html ) {
-			self::add_notice( $name );
-			update_option( 'cocart_admin_notice_' . $name, wp_kses_post( $notice_html ) );
+		public static function add_custom_notice( string $notice_name, string $notice_html ) {
+			self::add_notice( $notice_name );
+			update_option( 'cocart_admin_notice_' . $notice_name, wp_kses_post( $notice_html ) );
 		} // END add_custom_notice()
 
 		/**
@@ -366,7 +481,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			self::add_notice( 'plugin_review' );
 
 			// Was the plugin review notice dismissed?
-			$hide_review_notice = get_user_meta( get_current_user_id(), 'dismissed_cocart_plugin_review_notice', true );
+			$hide_review_notice = self::user_has_dismissed_notice( 'plugin_review' );
 
 			// If review plugin notice dismissed, remove it.
 			if ( $hide_review_notice ) {
@@ -393,8 +508,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				$version = COCART_VERSION;
 			}
 
-			// If CoCart has only been installed for less than 4 weeks then do not show this notice.
-			if ( ( intval( time() - self::$install_date ) ) < WEEK_IN_SECONDS * 4 ) {
+			// If CoCart has only been installed for less than 6 weeks then do not show this notice.
+			if ( ( intval( time() - self::$install_date ) ) < WEEK_IN_SECONDS * 6 ) {
 				return;
 			}
 

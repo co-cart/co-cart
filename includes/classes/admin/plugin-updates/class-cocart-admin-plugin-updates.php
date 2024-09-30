@@ -101,7 +101,7 @@ class CoCart_Admin_Plugin_Updates {
 		$upgrade_type  = 'major';
 		$plugins       = $this->major_untested_plugins;
 		$version_parts = explode( '.', $this->new_version );
-		$new_version   = $version_parts[0] . '.0';
+		$new_version   = $version_parts[0] . '.' . $version_parts[1];
 
 		if ( empty( $plugins ) ) {
 			return;
@@ -124,7 +124,7 @@ class CoCart_Admin_Plugin_Updates {
 	 */
 	protected function get_extensions_modal_warning() {
 		$version_parts = explode( '.', $this->new_version );
-		$new_version   = $version_parts[0] . '.0';
+		$new_version   = $version_parts[0] . '.' . $version_parts[1];
 		$plugins       = $this->major_untested_plugins;
 
 		ob_start();
@@ -142,7 +142,7 @@ class CoCart_Admin_Plugin_Updates {
 	 * @access public
 	 *
 	 * @param string $new_version CoCart version to test against.
-	 * @param string $release 'major', 'minor', or 'none'.
+	 * @param string $release     'major', 'minor', or 'none'.
 	 *
 	 * @return array of plugin info arrays
 	 */
@@ -232,7 +232,10 @@ class CoCart_Admin_Plugin_Updates {
 		$matches = array();
 
 		foreach ( $plugins as $file => $plugin ) {
-			if ( 'CoCart' !== $plugin['Name'] && ( stristr( $plugin['Name'], 'cocart' ) || stristr( $plugin['Description'], 'cocart' ) ) ) {
+			if ( ! str_starts_with( $plugin['Name'], 'CoCart API' ) && (
+				stristr( $plugin['Name'], 'cocart' ) ||
+				stristr( $plugin['Description'], 'cocart' )
+			) ) {
 				$matches[ $file ] = $plugin;
 			}
 		}
