@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -271,7 +271,7 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 								),
 								'weight'       => array(
 									'description' => __( 'The weight of the item in cart.', 'cart-rest-api-for-woocommerce' ),
-									'type'        => 'float',
+									'type'        => 'string',
 									'context'     => array( 'view' ),
 									'readonly'    => true,
 								),

@@ -18,10 +18,8 @@ assignees: ''
 
 - [ ] I have searched for similar issues in both open and closed tickets and cannot find a duplicate.
 - [ ] The issue still exists against the latest `trunk` branch of CoCart on GitHub.
-- [ ] The issue still exists against the latest `dev` branch of CoCart on GitHub (this is **not** the same version as on WordPress.org!).
+- [ ] The issue still exists against the latest `development` branch of CoCart on GitHub (this is **not** the same version as on WordPress.org!).
 - [ ] I have attempted to find the simplest possible steps to reproduce the issue.
-- [ ] I have included a failing test as a pull request (Optional)
-- [ ] I have installed the requirements to run this plugin.
 
 ## Steps to reproduce the issue
 

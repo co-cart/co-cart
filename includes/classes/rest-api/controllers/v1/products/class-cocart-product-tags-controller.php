@@ -40,8 +40,10 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 	 * Prepare a single product tag output for response.
 	 *
 	 * @access public
+	 *
 	 * @param obj             $item    Term object.
-	 * @param WP_REST_Request $request Request used to generate the response.
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response $response The response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
@@ -67,20 +69,21 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param object           $item     The original term object.
-		 * @param WP_REST_Request  $request  Request used to generate the response.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request );
+		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_item_for_response()
 
 	/**
 	 * Get the Tag's schema, conforming to JSON Schema.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_item_schema() {
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => $this->taxonomy,
 			'type'       => 'object',
 			'properties' => array(

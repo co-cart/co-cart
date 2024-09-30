@@ -1,12 +1,26 @@
 <?php
 /**
+ * CoCart - Add-on Update Watcher.
+ *
+ * @author  Sébastien Dumont
+ * @package CoCart\Admin
+ * @since   4.0.0 Introduced.
+ * @license GPL-2.0+
+ */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
  * Enables CoCart add-on auto updates when CoCart is enabled and the other way around.
  *
  * Also removes the auto-update toggles from the CoCart add-ons.
  *
  * @since 4.0.0 Introduced.
  */
-class CoCart_Addon_Update_Watcher {
+class CoCart_Admin_Addon_Update_Watcher {
 
 	/**
 	 * ID string used by WordPress to identify the core plugin of CoCart.
@@ -29,8 +43,11 @@ class CoCart_Addon_Update_Watcher {
 	 * @var array
 	 */
 	public static $add_on_plugin_files = array(
-		'cocart-plus.php',
-		'cocart-pro.php',
+		'cocart-plus/cocart-plus.php',
+		'cocart-pro/cocart-pro.php',
+		'cocart-jwt-authentication/cocart-jwt-authentication.php',
+		'cocart-rate-limiting/cocart-rate-limiting.php',
+		'cocart-pos/cocart-pos.php',
 	);
 
 	/**
@@ -246,4 +263,4 @@ class CoCart_Addon_Update_Watcher {
 	} // END are_auto_updates_enabled()
 } // END class
 
-return new CoCart_Addon_Update_Watcher();
+return new CoCart_Admin_Addon_Update_Watcher();

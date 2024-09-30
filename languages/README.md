@@ -10,6 +10,6 @@ Put your custom CoCart Core translations in your WordPress language directory, l
 
 If you want to help translate CoCart Core, please visit our [translation page](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
 
-The alternative is to translate CoCart Core on [translate.cocart.xyz](https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/)
+The alternative is to translate CoCart Core on [translate.cocartapi.com](https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/)
 
 If CoCart Core is already 100% translated for your language, join the team anyway!

@@ -129,15 +129,22 @@ module.exports = function(grunt) {
 			]
 		},
 
-		// Watch for changes made in SASS.
+		// Watch changes in assets.
 		watch: {
 			css: {
 				files: [
 					'<%= dirs.scss %>/*.scss',
 					'<%= dirs.scss %>/admin/*.scss',
 				],
-				tasks: ['sass', 'stylelint', 'rtlcss', 'postcss', 'cssmin']
+				tasks: ['sass', 'stylelint']
 			},
+			js: {
+				files: [
+					'<%= dirs.js %>/admin/*.js',
+					'!<%= dirs.js %>/admin/*.min.js',
+				],
+				tasks: ['jshint', 'uglify']
+			}
 		},
 
 		// Check for Sass errors with "stylelint"
@@ -155,21 +162,14 @@ module.exports = function(grunt) {
 			target: {
 				options: {
 					cwd: '',
-					domainPath: 'languages',                                  // Where to save the POT file.
-					exclude: [
-						'<%= dirs.php %>/api/experiments',
-						'<%= dirs.php %>/api/pro-enhancements',
-						'<%= dirs.php %>/api/wip',
-						'releases',
-						'node_modules',
-						'vendor'
-					],
+					domainPath: 'languages', // Where to save the POT file.
+					exclude: [ 'releases', 'node_modules', 'vendor' ], // List of files or directories to ignore.
 					mainFile: '<%= pkg.name %>.php', // Main project file.
 					potComments: 'Copyright (c) {year} CoCart Headless, LLC\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
 					potFilename: '<%= pkg.name %>.pot', // Name of the POT file.
 					potHeaders: {
-						'poedit': true,                                       // Includes common Poedit headers.
-						'x-poedit-keywordslist': true,                        // Include a list of all possible gettext functions.
+						'poedit': true, // Includes common Poedit headers.
+						'x-poedit-keywordslist': true, // Include a list of all possible gettext functions.
 						'Report-Msgid-Bugs-To': 'https://github.com/co-cart/co-cart/issues',
 						'language-team': 'CoCart Headless, LLC <support@cocartapi.com>',
 						'language': 'en_US'
@@ -205,6 +205,7 @@ module.exports = function(grunt) {
 		checktextdomain: {
 			options:{
 				text_domain: '<%= pkg.name %>', // Project text domain.
+				updateDomains: [ 'woocommerce' ], // List of text domains to replace should they be incorrect.
 				keywords: [
 					'__:1,2d',
 					'_e:1,2d',
@@ -253,6 +254,10 @@ module.exports = function(grunt) {
 					{
 						from: /Requires PHP:.*$/m,
 						to: "Requires PHP: <%= pkg.requires_php %>"
+					},
+					{
+						from: /Tested up to:.*$/m,
+						to: 'Tested up to: <%= pkg.tested_up_to %>'
 					},
 					{
 						from: /WC requires at least:.*$/m,

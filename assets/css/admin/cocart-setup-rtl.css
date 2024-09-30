@@ -20,12 +20,12 @@ body.cocart-pagestyles .wp-header-end {
     text-align: right; }
 
 .cocart-pagestyles {
-  /*#wpcontent,
+  /* #wpcontent,
 	#wpbody-content {
 		padding: 0;
 		overflow-x: hidden !important;
 		min-height: calc(100vh - 32px);
-	}*/ }
+	} */ }
   .cocart-pagestyles #wpfooter {
     display: initial; }
   .cocart-pagestyles .woocommerce-layout__header-breadcrumbs {
@@ -38,7 +38,6 @@ body.cocart-pagestyles .wp-header-end {
     background-color: #fff;
     border: 1px solid #e5e5e5;
     box-shadow: 0 2px 30px rgba(0, 0, 0, 0.04);
-    -webkit-box-shadow: 0 2px 30px rgba(0, 0, 0, 0.04);
     color: #292929;
     margin: 20px auto 40px;
     max-width: 700px;
@@ -273,7 +272,6 @@ p.next-step-extra-info {
 ul.cocart-next-steps {
   border: 1px solid #eee;
   border-radius: 4px;
-  list-style: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -328,8 +326,7 @@ ul.cocart-next-steps {
   display: flex;
   padding: 0;
   align-items: center;
-  justify-content: center;
-  align-content: center;
+  place-content: center center;
   flex-wrap: nowrap; }
 
 @media only screen and (max-width: 400px) {
@@ -350,6 +347,112 @@ ul.cocart-next-steps {
       margin-bottom: 0; }
     .cocart-next-steps .cocart-next-step-item .cocart-next-step-action p {
       margin: 0; } }
+
+#cart-rest-api-for-woocommerce-update .updating-message .cocart_plugin_upgrade_notice {
+  display: none; }
+
+#cart-rest-api-for-woocommerce-update .dummy {
+  display: none; }
+
+#cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice {
+  background: #fff8e5 !important;
+  border-right: 4px solid #ffb900;
+  border-top: 1px solid #ffb900;
+  font-weight: normal;
+  margin: 0 -16px 0 -12px !important;
+  padding: 9px 12px 9px 0 !important; }
+  #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice::before {
+    content: "\f348";
+    display: inline-block;
+    font: 400 18px/1 dashicons;
+    margin: 0 -2px 0 8px;
+    speak: never;
+    vertical-align: top; }
+  #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major {
+    padding: 20px 0 !important; }
+    #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor::before, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major::before {
+      display: none; }
+    #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor p, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major p {
+      line-height: 1.5em;
+      margin: 0;
+      padding: 0 20px; }
+      #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor p::before, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major p::before {
+        content: "";
+        display: none; }
+    #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor table.plugin-details-table, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major table.plugin-details-table {
+      margin: 0.75em 0 0; }
+      #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor table.plugin-details-table tr, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major table.plugin-details-table tr {
+        background: transparent none !important;
+        border: 0 !important; }
+      #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor table.plugin-details-table th,
+      #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor table.plugin-details-table td, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major table.plugin-details-table th,
+      #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major table.plugin-details-table td {
+        background: transparent none !important;
+        border: 0 !important;
+        box-shadow: none;
+        font-size: 1em;
+        margin: 0;
+        padding: 0.75em 20px 0; }
+      #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.minor table.plugin-details-table th, #cart-rest-api-for-woocommerce-update .cocart_plugin_upgrade_notice.major table.plugin-details-table th {
+        font-weight: bold; }
+
+#cocart_untested_extensions_modal {
+  display: none; }
+
+.cocart_untested_extensions_modal_container {
+  border-radius: 4px;
+  padding: 0; }
+  .cocart_untested_extensions_modal_container #TB_closeAjaxWindow {
+    display: none; }
+  .cocart_untested_extensions_modal_container #TB_title {
+    display: none; }
+  .cocart_untested_extensions_modal_container #TB_ajaxContent {
+    height: 100% !important;
+    margin: 0;
+    padding: 0;
+    width: 100% !important; }
+    .cocart_untested_extensions_modal_container #TB_ajaxContent p {
+      margin: 0 0 1em; }
+
+.cocart_untested_extensions_modal--content h1 {
+  border-bottom: 1px solid #eee;
+  background: #e9e9e9;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  font-size: 1.6em;
+  line-height: 1.5em;
+  margin: 2px 2px 0.5em;
+  padding: 0.75em 1.154em;
+  text-shadow: none; }
+
+.cocart_untested_extensions_modal--content .extensions_warning {
+  padding: 0 2em; }
+
+.cocart_untested_extensions_modal--content .plugin-details-table-container {
+  max-height: 40vh;
+  overflow-y: auto; }
+
+.cocart_untested_extensions_modal--content table.plugin-details-table {
+  margin: 20px 0; }
+  .cocart_untested_extensions_modal--content table.plugin-details-table th,
+  .cocart_untested_extensions_modal--content table.plugin-details-table td {
+    background: transparent none !important;
+    border: 0 !important;
+    box-shadow: none;
+    font-size: 1em;
+    margin: 0;
+    padding: 0.75em 20px 0; }
+  .cocart_untested_extensions_modal--content table.plugin-details-table th {
+    font-weight: bold;
+    margin-top: 0; }
+
+.cocart_untested_extensions_modal--content .actions {
+  border-top: 1px solid #eee;
+  margin: 0;
+  padding: 1em 0 2em;
+  overflow: hidden; }
+  .cocart_untested_extensions_modal--content .actions a.button-primary {
+    float: left; }
 
 .cocart-setup-wizard {
   text-align: center; }

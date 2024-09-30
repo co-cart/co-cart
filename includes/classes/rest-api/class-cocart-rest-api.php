@@ -97,13 +97,29 @@ class CoCart_REST_API {
 	 * @return array List of Namespaces and Main controller classes.
 	 */
 	protected function get_rest_namespaces() {
-		return apply_filters(
+		/**
+		 * Filter the list of REST API controllers to load.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array $controllers List of $namespace => $controllers to load.
+		 */
+		$namespaces = apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
 				'cocart/v1' => $this->get_v1_controllers(),
 				'cocart/v2' => $this->get_v2_controllers(),
 			)
 		);
+
+		// Check if we should load the requested namespace.
+		foreach ( $namespaces as $namespace => $controller ) {
+			if ( ! cocart_rest_should_load_namespace( $namespace ) ) {
+				unset( $namespaces[ $namespace ] );
+			}
+		}
+
+		return $namespaces;
 	} // END get_rest_namespaces()
 
 	/**
@@ -185,7 +201,7 @@ class CoCart_REST_API {
 	 *
 	 * @access private
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 */
 	private function initialize_cart_session() {
 		add_filter( 'woocommerce_cart_session_initialize', function ( $must_initialize, $session ) {
@@ -338,7 +354,7 @@ class CoCart_REST_API {
 			 *
 			 * @since 4.1.0 Introduced.
 			 *
-			 * @param int Current user ID.
+			 * @param int $current_user_id Current user ID.
 			 */
 			$customer_id = apply_filters( 'cocart_set_customer_id', get_current_user_id() );
 
@@ -437,8 +453,6 @@ class CoCart_REST_API {
 	 * @return bool $skip Results to WP_DEBUG or true if CoCart requested.
 	 */
 	public function prevent_cache( $skip, $request_uri ) {
-		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-
 		$regex_path_patterns = $this->allowed_regex_pattern_routes_to_cache();
 
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
@@ -468,7 +482,7 @@ class CoCart_REST_API {
 		 *
 		 * @since 3.6.0 Introduced.
 		 *
-		 * @param array Default patterns.
+		 * @param array $cache_control_patterns Cache control patterns.
 		 */
 		$regex_path_patterns = apply_filters(
 			'cocart_send_cache_control_patterns',
@@ -534,7 +548,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @return bool
+	 * @return bool Returns true if route matches.
 	 */
 	protected function prevent_routes_from_initializing() {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
@@ -554,6 +568,8 @@ class CoCart_REST_API {
 				return true;
 			}
 		}
+
+		return false;
 	} // END prevent_routes_from_initializing()
 
 	/**

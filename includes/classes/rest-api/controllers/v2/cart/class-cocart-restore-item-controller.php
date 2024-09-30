@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -67,7 +67,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 4.0.0
+	 * @version 4.4.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -77,7 +77,10 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 		try {
 			$item_key = ! isset( $request['item_key'] ) ? '0' : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
 
-			$item_key = $this->throw_missing_item_key( $item_key, 'restore' );
+			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'restore' );
+
+			// Ensure we have calculated before we handle any data.
+			$this->get_cart_instance()->calculate_totals();
 
 			// Check item removed from cart before fetching the cart item data.
 			$current_data = $this->get_cart_instance()->get_removed_cart_contents();
@@ -125,12 +128,12 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				 *
 				 * @since 2.0.0 Introduced.
 				 *
-				 * @param WC_Product $current_data Product data.
+				 * @param array $current_data The product object.
 				 */
 				do_action( 'cocart_item_restored', $current_data );
 
 				/**
-				 * Calculates the cart totals now an item has been restored.
+				 * Re-calculate totals now an item has been restored.
 				 *
 				 * @since 2.1.0 Introduced.
 				 */
@@ -163,7 +166,8 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				wc_add_notice( $restored_message, 'success' );
 
 				// Get cart contents.
-				$response = $this->get_cart_contents( $request );
+				$request['dont_check'] = true;
+				$response              = $this->get_cart( $request );
 
 				// Was it requested to return just the restored item?
 				if ( $request['return_item'] ) {

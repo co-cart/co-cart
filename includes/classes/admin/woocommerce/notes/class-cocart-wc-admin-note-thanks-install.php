@@ -6,8 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
- * @since   2.3.0
- * @version 3.2.0
+ * @since   2.3.0 Introduced.
+ * @version 4.4.0
  * @license GPL-2.0+
  */
 
@@ -15,6 +15,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use Automattic\WooCommerce\Admin\Notes\Note;
+use Automattic\WooCommerce\Admin\Notes\Notes;
 
 class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 
@@ -33,14 +36,16 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Add note.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.3.0 Introduced.
-	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @version 3.2.0
-	 * @param   string $note_name Note name.
-	 * @param   string $seconds   How many seconds since CoCart was installed before the notice is shown.
-	 * @param   string $source    Source of the note.
+	 *
+	 * @since 2.3.0 Introduced.
+	 * @since 3.2.0 Dropped support for WooCommerce less than version 4.8
+	 *
+	 * @param string $note_name Note name.
+	 * @param string $seconds   How many seconds since CoCart was installed before the notice is shown.
+	 * @param string $source    Source of the note.
 	 */
 	public static function add_note( $note_name = '', $seconds = '', $source = 'cocart' ) {
 		parent::add_note( $note_name, $seconds, $source );
@@ -52,7 +57,7 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 			return;
 		}
 
-		$data_store = Automattic\WooCommerce\Admin\Notes\Notes::load_data_store();
+		$data_store = Notes::load_data_store();
 
 		// We already have this note? Then don't create it again.
 		$note_ids = $data_store->get_notes_with_name( self::NOTE_NAME );
@@ -67,15 +72,17 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 	/**
 	 * Get note arguments.
 	 *
-	 * @access  public
+	 * @access public
+	 *
 	 * @static
-	 * @since   2.3.0 Introduced.
-	 * @since   3.2.0 Dropped support for WooCommerce less than version 4.8
-	 * @version 3.2.0
-	 * @return  array
+	 *
+	 * @since 2.3.0 Introduced.
+	 * @since 3.2.0 Dropped support for WooCommerce less than version 4.8
+	 *
+	 * @return array
 	 */
 	public static function get_note_args() {
-		$status = Automattic\WooCommerce\Admin\Notes\Note::E_WC_ADMIN_NOTE_UNACTIONED;
+		$status = Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
 		$campaign_args = CoCart_Helpers::cocart_campaign(
 			array(
@@ -96,7 +103,7 @@ class CoCart_WC_Admin_Thanks_Install_Note extends CoCart_WC_Admin_Notes {
 				array(
 					'name'    => 'cocart-view-documentation',
 					'label'   => __( 'View Documentation', 'cart-rest-api-for-woocommerce' ),
-					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://docs.cocart.xyz' ) ) ),
+					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_DOCUMENTATION_URL ) ),
 					'status'  => $status,
 					'primary' => true,
 				),

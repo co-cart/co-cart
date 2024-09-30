@@ -6,8 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin
- * @since   3.1.0
- * @version 3.10.2
+ * @since   3.1.0 Introduced.
+ * @version 4.0.0
  * @license GPL-2.0+
  */
 
@@ -25,7 +25,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * Current step
 	 *
 	 * @access private
-	 * @var    string
+	 *
+	 * @var string
 	 */
 	private $step = '';
 
@@ -33,7 +34,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * Steps for the setup wizard
 	 *
 	 * @access private
-	 * @var    array
+	 *
+	 * @var array
 	 */
 	private $steps = array();
 
@@ -110,6 +112,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * Show the setup wizard.
 	 *
 	 * @access public
+	 *
+	 * @since 3.1.0 Introduced.
 	 */
 	public function output() {
 		$default_steps = array(
@@ -147,10 +151,12 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * Get the URL for the next step's screen.
 	 *
 	 * @access public
-	 * @param  string $step  slug (default: current step).
-	 * @return string       URL for next step if a next step exists.
-	 *                      Admin URL if it's the last step.
-	 *                      Empty string on failure.
+	 *
+	 * @param string $step slug (default: current step).
+	 *
+	 * @return string URL for next step if a next step exists.
+	 *                Admin URL if it's the last step.
+	 *                Empty string on failure.
 	 */
 	public function get_next_step_link( $step = '' ) {
 		if ( ! $step ) {
@@ -265,12 +271,19 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	/**
 	 * Initial "store setup" step.
 	 *
-	 * New Store, Multiple Domains.
+	 * New Store, Multiple Domains, JWT Authentication.
 	 *
 	 * @access public
+	 *
+	 * @since 3.1.0 Introduced.
+	 * @since 4.3.0 Added option to install JWT Authentication.
 	 */
 	public function cocart_setup_wizard_store_setup() {
 		$sessions_transferred = get_transient( 'cocart_setup_wizard_sessions_transferred' );
+
+		$product_count = array_sum( (array) wp_count_posts( 'product' ) );
+
+		$new_store = ( 0 === $product_count ) ? 'yes' : 'no';
 
 		// If setup wizard has nothing left to setup, redirect to ready step.
 		if ( $sessions_transferred && class_exists( 'CoCart_CORS' ) ) {
@@ -286,7 +299,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<?php
 			printf(
 				/* translators: 1: CoCart, 2: WooCommerce */
-				esc_html__( 'Thank you for choosing %1$s - the #1 REST API that handles the frontend of %2$s.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Thank you for choosing %1$s - the #1 REST API that makes it easy to decouple %2$s.', 'cart-rest-api-for-woocommerce' ),
 				'CoCart',
 				'WooCommerce'
 			);
@@ -296,14 +309,14 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<p>
 			<?php
 			printf(
-				/* translators: %s: CoCart */
-				esc_html__( '%s cuts down your development time, handling server-side tasks and providing essential data. Once you have completed your setup, your WooCommerce store is ready to decouple away from WordPress.', 'cart-rest-api-for-woocommerce' ),
+				/* translators: 1: CoCart */
+				esc_html__( 'The setup wizard is completely optional as %1$s is already ready to start using. The wizard is here to help you configure %1$s to your needs.', 'cart-rest-api-for-woocommerce' ),
 				'CoCart'
 			);
 			?>
 			</p>
 
-			<p><?php esc_html_e( 'The following wizard will help you configure CoCart for your headless store.', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'If you don’t want to go through the wizard right now, you can skip it and come back anytime if you change your mind!', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 			<?php if ( ! $sessions_transferred ) { ?>
 			<label for="store_new">
@@ -316,8 +329,8 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 				?>
 			</label>
 			<select id="store_new" name="store_new" aria-label="<?php esc_attr_e( 'New Store', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
-				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
-				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
+				<option value="no"<?php selected( $new_store, 'no' ); ?>><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
+				<option value="yes"<?php selected( $new_store, 'yes' ); ?>><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
 			</select>
 			<span>
 				<?php
@@ -330,12 +343,19 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			</span>
 			<?php } ?>
 
-			<label for="multiple_domains"><?php esc_html_e( 'Setup support for CORS?', 'cart-rest-api-for-woocommerce' ); ?></label>
-			<select id="multiple_domains" name="multiple_domains" aria-label="<?php esc_attr_e( 'CORS support', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
+			<label for="multiple_domains"><?php esc_html_e( 'Will your headless setup use multiple domains?', 'cart-rest-api-for-woocommerce' ); ?></label>
+			<select id="multiple_domains" name="multiple_domains" aria-label="<?php esc_attr_e( 'Multiple Domains', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
 				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
 				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
 			</select>
+
 			<span><?php esc_html_e( 'If you are using multiple domains for your headless setup, installing support for CORS is recommended.', 'cart-rest-api-for-woocommerce' ); ?> <a href="<?php echo esc_url( 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS' ); ?>" target="_blank"><?php esc_html_e( 'What is CORS?', 'cart-rest-api-for-woocommerce' ); ?></a></span>
+
+			<label for="jwt_authentication"><?php esc_html_e( 'Do you require support for JWT Authentication?', 'cart-rest-api-for-woocommerce' ); ?></label>
+			<select id="jwt_authentication" name="jwt_authentication" aria-label="<?php esc_attr_e( 'JWT Authentication', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
+				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
+				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
+			</select>
 
 			<p class="cocart-actions step">
 				<button class="button button-primary button-large" value="<?php esc_attr_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?></button>
@@ -352,9 +372,10 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	public function cocart_setup_wizard_store_setup_save() {
 		check_admin_referer( 'cocart-setup' );
 
-		$is_store_new     = get_transient( 'cocart_setup_wizard_store_new' );
-		$store_new        = isset( $_POST['store_new'] ) ? ( 'yes' === wc_clean( sanitize_text_field( wp_unslash( $_POST['store_new'] ) ) ) ) : $is_store_new;
-		$multiple_domains = isset( $_POST['multiple_domains'] ) && ( 'yes' === wc_clean( sanitize_text_field( wp_unslash( $_POST['multiple_domains'] ) ) ) );
+		$is_store_new       = get_transient( 'cocart_setup_wizard_store_new' );
+		$store_new          = isset( $_POST['store_new'] ) ? ( 'yes' === wc_clean( sanitize_text_field( wp_unslash( $_POST['store_new'] ) ) ) ) : $is_store_new;
+		$multiple_domains   = isset( $_POST['multiple_domains'] ) && ( 'yes' === wc_clean( sanitize_text_field( wp_unslash( $_POST['multiple_domains'] ) ) ) );
+		$jwt_authentication = isset( $_POST['jwt_authentication'] ) && ( 'yes' === wc_clean( sanitize_text_field( wp_unslash( $_POST['jwt_authentication'] ) ) ) );
 
 		$next_step = ''; // Next step.
 
@@ -366,6 +387,11 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 		// If true and CoCart Cors is not already installed then it will be installed in the background.
 		if ( $multiple_domains ) {
 			$this->install_cocart_cors();
+		}
+
+		// If true and CoCart JWT Authentication is not already installed then it will be installed in the background.
+		if ( $jwt_authentication ) {
+			$this->install_cocart_jwt();
 		}
 
 		// Redirect to next step.
@@ -387,7 +413,16 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<input type="hidden" name="save_step" value="session_setup" />
 			<?php wp_nonce_field( 'cocart-setup' ); ?>
 
-			<p><?php esc_html_e( 'Your current WooCommerce sessions will be transferred over to CoCart session table. This will run in the background until completed. Once transferred, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p>
+			<?php
+			printf(
+				/* translators: 1: WooCommerce, 2: CoCart */
+				esc_html__( 'Your current %1$s sessions will be transferred over to %2$s session table. This will run in the background until completed. Once transferred, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ),
+				'WooCommerce',
+				'CoCart'
+			);
+			?>
+			</p>
 
 			<p class="cocart-actions step">
 				<button class="button button-primary button-large" value="<?php esc_attr_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?></button>
@@ -416,8 +451,10 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * Helper method to queue the background install of a plugin.
 	 *
 	 * @access protected
-	 * @param  string $plugin_id  Plugin id used for background install.
-	 * @param  array  $plugin_info Plugin info array containing name and repo-slug, and optionally file if different from [repo-slug].php.
+	 *
+	 * @param string $plugin_id   Plugin id used for background install.
+	 * @param array  $plugin_info Plugin info array containing name and repo-slug,
+	 *                            and optionally file if different from [repo-slug].php.
 	 */
 	protected function install_plugin( $plugin_id, $plugin_info ) {
 		$plugin_file = isset( $plugin_info['file'] ) ? $plugin_info['file'] : $plugin_info['repo-slug'] . '.php';
@@ -439,7 +476,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			$this->install_plugin(
 				'cocart-cors',
 				array(
-					'name'      => 'CoCart CORS',
+					'name'      => 'CoCart - CORS Support',
 					'repo-slug' => 'cocart-cors',
 				)
 			);
@@ -447,9 +484,30 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	} // END install_cocart_cors()
 
 	/**
+	 * Helper method to install CoCart JWT Authentication.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.3.0 Introduced.
+	 */
+	protected function install_cocart_jwt() {
+		// Only those who can install plugins will be able to install CoCart JWT Authentication.
+		if ( current_user_can( 'install_plugins' ) ) {
+			$this->install_plugin(
+				'cocart-jwt-authentication',
+				array(
+					'name'      => 'CoCart - JWT Authentication',
+					'repo-slug' => 'cocart-jwt-authentication',
+				)
+			);
+		}
+	} // END install_cocart_jwt()
+
+	/**
 	 * Helper method to retrieve the current user's email address.
 	 *
 	 * @access protected
+	 *
 	 * @return string Email address
 	 */
 	protected function get_current_user_email() {

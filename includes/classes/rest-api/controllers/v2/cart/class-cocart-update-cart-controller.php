@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.1.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -158,7 +158,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			}
 
 			// Returns updated cart if callback was successful.
-			$cart = $this->get_cart_contents( $request );
+			$cart = $this->get_cart( $request );
 
 			return CoCart_Response::get_response( $cart, $this->namespace, $this->rest_base );
 		} catch ( CoCart_Data_Exception $e ) {

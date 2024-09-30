@@ -87,7 +87,9 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * Validate the variation exists and is part of the variable product.
 	 *
 	 * @access public
-	 * @param  WP_REST_Request $request The request object.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_Error|bool
 	 */
 	public function validate_variation( $request ) {
@@ -114,12 +116,14 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * Prepare a single variation output for response.
 	 *
 	 * @access public
-	 * @param  WC_Product      $product Product instance.
-	 * @param  WP_REST_Request $request The request object.
+	 *
+	 * @param WC_Product      $product The product object.
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_object_for_response( $product, $request ) {
-		$controller = new CoCart_Products_V2_Controller();
+		$controller = new CoCart_REST_Products_V2_Controller();
 
 		$data     = $controller->get_variation_product_data( $product );
 		$data     = $controller->add_additional_fields_to_object( $data, $request );
@@ -134,8 +138,8 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 		 * refers to product type being prepared for the response.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Product       $product   Product object.
-		 * @param WP_REST_Request  $request The request object.
+		 * @param WC_Product       $product  The product object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()
@@ -143,24 +147,47 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	/**
 	 * Get a single item.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access public
-	 * @param  WP_REST_Request $request The request object.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function get_item( $request ) {
-		$product = wc_get_product( (int) $request['id'] );
+		try {
+			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 
-		$data     = $this->prepare_object_for_response( $product, $request );
-		$response = rest_ensure_response( $data );
+			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 
-		return $response;
+			// Return failed product ID validation if any.
+			if ( is_wp_error( $product_id ) ) {
+				return $product_id;
+			}
+
+			$product = wc_get_product( $product_id );
+
+			if ( ! $product || 0 === $product->get_id() ) {
+				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
+			}
+
+			$data     = $this->prepare_object_for_response( $product, $request );
+			$response = rest_ensure_response( $data );
+
+			return $response;
+		} catch ( CoCart_Data_Exception $e ) {
+			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+		}
 	} // END get_item()
 
 	/**
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product Product object.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
 	 * @return array $links Links for the given product.
 	 */
 	protected function prepare_links( $product ) {

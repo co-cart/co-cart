@@ -230,7 +230,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		 * @param WC_Product       $product  The product object.
 		 * @param WP_REST_Request  $request  The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
+		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_object_for_response()
 
 	/**
@@ -247,7 +247,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 */
 	public function get_variations( $product ) {
 		$variation_ids    = $product->get_children();
-		$tax_display_mode = $this->get_tax_display_mode();
+		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 		$variations       = array();
 
@@ -262,7 +262,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 
 			// Filter 'woocommerce_hide_invisible_variations' to optionally hide invisible variations (disabled variations and variations with empty price).
-			if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) {
+			if ( apply_filters( 'woocommerce_hide_invisible_variations', true, $variation_id, $variation ) && ! $variation->variation_is_visible() ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				continue;
 			}
 
@@ -290,9 +290,9 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'attributes'     => $expected_attributes,
 				'featured_image' => $attachments,
 				'prices'         => array(
-					'price'         => cocart_prepare_money_response( $price_function( $variation ), wc_get_price_decimals() ),
-					'regular_price' => cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ), wc_get_price_decimals() ),
-					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ), wc_get_price_decimals() ) : '',
+					'price'         => cocart_format_money( $price_function( $variation ) ),
+					'regular_price' => cocart_format_money( $price_function( $variation, array( 'price' => $variation->get_regular_price() ) ) ),
+					'sale_price'    => $variation->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $variation, array( 'price' => $variation->get_sale_price() ) ) ) : '',
 					'on_sale'       => $variation->is_on_sale( 'view' ),
 					'date_on_sale'  => array(
 						'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
@@ -342,29 +342,20 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		try {
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 
-			// If the product ID was used by a SKU ID, then look up the product ID and return it.
-			if ( ! is_numeric( $product_id ) ) {
-				$product_id_by_sku = wc_get_product_id_by_sku( $product_id );
+			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 
-				if ( ! empty( $product_id_by_sku ) && $product_id_by_sku > 0 ) {
-					$product_id = $product_id_by_sku;
-				} else {
-					$message = __( 'Product does not exist! Check that you have submitted a product ID or SKU ID correctly for a product that exists.', 'cart-rest-api-for-woocommerce' );
-
-					throw new CoCart_Data_Exception( 'cocart_unknown_product_id', $message, 404 );
-				}
+			// Return failed product ID validation if any.
+			if ( is_wp_error( $product_id ) ) {
+				return $product_id;
 			}
 
-			// Force product ID to be integer.
-			$product_id = (int) $product_id;
+			$product = wc_get_product( $product_id );
 
-			$_product = wc_get_product( $product_id );
-
-			if ( ! $_product || 0 === $_product->get_id() || 'publish' !== $_product->get_status() ) {
+			if ( ! $product || 0 === $product->get_id() || 'publish' !== $product->get_status() ) {
 				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
-			$data     = $this->prepare_object_for_response( $_product, $request );
+			$data     = $this->prepare_object_for_response( $product, $request );
 			$response = rest_ensure_response( $data );
 
 			return $response;
@@ -378,7 +369,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_images()
 	 *
@@ -387,64 +378,9 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return array $images
 	 */
 	protected function get_images( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_images' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_images' );
 
-		$images           = array();
-		$attachment_ids   = array();
-		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
-
-		// Add featured image.
-		if ( $product->get_image_id() ) {
-			$attachment_ids[] = $product->get_image_id();
-		}
-
-		// Add gallery images.
-		$attachment_ids = array_merge( $attachment_ids, $product->get_gallery_image_ids() );
-
-		$attachments = array();
-
-		// Build image data.
-		foreach ( $attachment_ids as $position => $attachment_id ) {
-			$attachment_post = get_post( $attachment_id );
-			if ( is_null( $attachment_post ) ) {
-				continue;
-			}
-
-			// Get each image size of the attachment.
-			foreach ( $attachment_sizes as $size ) {
-				$attachments[ $size ] = current( wp_get_attachment_image_src( $attachment_id, $size ) );
-			}
-
-			$featured = $position === 0 ? true : false; // phpcs:ignore WordPress.PHP.YodaConditions.NotYoda
-
-			$images[] = array(
-				'id'       => (int) $attachment_id,
-				'src'      => $attachments,
-				'name'     => get_the_title( $attachment_id ),
-				'alt'      => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
-				'position' => (int) $position,
-				'featured' => $featured,
-			);
-		}
-
-		// Set a placeholder image if the product has no images set.
-		if ( empty( $images ) ) {
-			// Get each image size of the attachment.
-			foreach ( $attachment_sizes as $size ) {
-				$attachments[ $size ] = wc_placeholder_img_src( $size );
-			}
-
-			$images[] = array(
-				'id'       => 0,
-				'src'      => $attachments,
-				'name'     => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
-				'alt'      => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
-				'position' => 0,
-				'featured' => true,
-			);
-		}
-
-		return $images;
+		return CoCart_Utilities_Product_Helpers::get_images( $product );
 	} // END get_images()
 
 	/**
@@ -456,14 +392,14 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @param WC_Product $product The product object.
 	 *
-	 * @return array $data Product data.
+	 * @return array $data The product details.
 	 */
 	protected function get_product_data( $product ) {
 		$type         = $product->get_type();
 		$rating_count = $product->get_rating_count( 'view' );
 		$average      = $product->get_average_rating( 'view' );
 
-		$tax_display_mode = $this->get_tax_display_mode();
+		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
 		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
 		// If we have a variable product, get the price from the variations (this will use the min value).
@@ -508,10 +444,10 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			),
 			'featured'           => $product->is_featured(),
 			'prices'             => array(
-				'price'         => cocart_prepare_money_response( $price_function( $product ), wc_get_price_decimals() ),
-				'regular_price' => cocart_prepare_money_response( $price_function( $product, array( 'price' => $regular_price ) ), wc_get_price_decimals() ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_prepare_money_response( $price_function( $product, array( 'price' => $sale_price ) ), wc_get_price_decimals() ) : '',
-				'price_range'   => $this->get_price_range( $product, $tax_display_mode ),
+				'price'         => cocart_format_money( $price_function( $product ) ),
+				'regular_price' => cocart_format_money( $price_function( $product, array( 'price' => $regular_price ) ) ),
+				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $product, array( 'price' => $sale_price ) ) ) : '',
+				'price_range'   => CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode ),
 				'on_sale'       => $product->is_on_sale( 'view' ),
 				'date_on_sale'  => array(
 					'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
@@ -574,7 +510,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'purchase_quantity' => $purchase_quantity,
 				'rest_url'          => $this->add_to_cart_rest_url( $product, $type ),
 			),
-			'meta_data'          => $this->get_meta_data( $product ),
+			'meta_data'          => CoCart_Utilities_Product_Helpers::get_meta_data( $product ),
 		);
 
 		return $data;
@@ -589,7 +525,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @param WC_Variation_Product $product The product object.
 	 *
-	 * @return array $data Product data.
+	 * @return array $data Variation product details.
 	 */
 	protected function get_variation_product_data( $product ) {
 		$data = self::get_product_data( $product );
@@ -766,7 +702,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @param WC_Product $product The product object.
 	 * @param string     $type    Type of products to return.
 	 *
-	 * @return array $connected_products Product data.
+	 * @return array $connected_products The product object.
 	 */
 	public function get_connected_products( $product, $type ) {
 		switch ( $type ) {
@@ -797,7 +733,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 						'id'          => $id,
 						'name'        => $_product->get_name( 'view' ),
 						'permalink'   => $_product->get_permalink(),
-						'price'       => cocart_prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
+						'price'       => cocart_format_money( $_product->get_price( 'view' ) ),
 						'add_to_cart' => array(
 							'text'        => $_product->add_to_cart_text(),
 							'description' => $_product->add_to_cart_description(),
@@ -878,13 +814,11 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		$id = $product->get_id();
 
 		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
-		$rest_url = add_query_arg( 'quantity', 1, $rest_url ); // Default Quantity = 1.
+		$rest_url = add_query_arg( 'quantity', CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ), $rest_url );
 
 		switch ( $type ) {
 			case 'variation':
 			case 'subscription_variation':
-				$_product = wc_get_product( $product->get_parent_id() );
-
 				foreach ( $product->get_variation_attributes() as $attribute_name => $attribute ) {
 					$name = str_replace( 'attribute_', '', $attribute_name );
 
@@ -894,7 +828,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 					$rest_url = add_query_arg(
 						array(
-							"variation[attribute_$name]" => $attribute,
+							"variation[attribute_{$name}]" => $attribute,
 						),
 						$rest_url
 					);
@@ -934,11 +868,17 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @deprecated 4.3.3 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_tax_display_mode()
+	 *
 	 * @param string $tax_display_mode Provided tax display mode.
 	 *
 	 * @return string Valid tax display mode.
 	 */
 	protected function get_tax_display_mode( $tax_display_mode = '' ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_tax_display_mode', '4.3.3', 'CoCart_Utilities_Product_Helpers::get_tax_display_mode' );
+
 		return in_array( $tax_display_mode, array( 'incl', 'excl' ), true ) ? $tax_display_mode : get_option( 'woocommerce_tax_display_shop' );
 	} // END get_tax_display_mode()
 
@@ -950,7 +890,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode()
 	 *
@@ -959,7 +899,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return string Function name.
 	 */
 	protected function get_price_from_tax_display_mode( $tax_display_mode ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_from_tax_display_mode', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_from_tax_display_mode', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode' );
 
 		return 'incl' === $tax_display_mode ? 'wc_get_price_including_tax' : 'wc_get_price_excluding_tax';
 	} // END get_price_from_tax_display_mode()
@@ -969,82 +909,19 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with the same function in the utilities class.
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
 	 *
 	 * @see CoCart_REST_Products_V2_Controller::get_price_range()
 	 *
-	 * @param \WC_Product $product Product object.
+	 * @param \WC_Product $product The product object.
 	 * @param string      $tax_display_mode If returned prices are incl or excl of tax.
 	 *
 	 * @return array
 	 */
 	public function get_price_range( $product, $tax_display_mode = '' ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_range', '4.x.x', 'CoCart_Utilities_Product_Helpers::get_price_range' );
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_price_range', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_price_range' );
 
-		$tax_display_mode = $this->get_tax_display_mode( $tax_display_mode );
-
-		$price = array();
-
-		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
-			$prices = $product->get_variation_prices( true );
-
-			if ( empty( $prices['price'] ) ) {
-				/**
-				 * Filter the variable products empty prices.
-				 *
-				 * @since 3.1.0 Introduced.
-				 *
-				 * @param array      Empty array.
-				 * @param WC_Product The project object.
-				 */
-				$price = apply_filters( 'cocart_products_variable_empty_price', array(), $product );
-			} else {
-				$min_price     = current( $prices['price'] );
-				$max_price     = end( $prices['price'] );
-				$min_reg_price = current( $prices['regular_price'] );
-				$max_reg_price = end( $prices['regular_price'] );
-
-				if ( $min_price !== $max_price ) {
-					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
-						'to'   => cocart_prepare_money_response( $max_price, wc_get_price_decimals() ),
-					);
-				} else {
-					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
-						'to'   => '',
-					);
-				}
-			}
-		}
-
-		if ( $product->is_type( 'grouped' ) ) {
-			$children       = array_filter( array_map( 'wc_get_product', $product->get_children() ), 'wc_products_array_filter_visible_grouped' );
-			$price_function = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
-
-			foreach ( $children as $child ) {
-				if ( '' !== $child->get_price() ) {
-					$child_prices[] = $price_function( $child );
-				}
-			}
-
-			if ( ! empty( $child_prices ) ) {
-				$price = array(
-					'from' => cocart_prepare_money_response( min( $child_prices ), wc_get_price_decimals() ),
-					'to'   => cocart_prepare_money_response( max( $child_prices ), wc_get_price_decimals() ),
-				);
-			}
-		}
-
-		/**
-		 * Filters the products price range.
-		 *
-		 * @since 3.1.0 Introduced.
-		 *
-		 * @param array      $price   The current product price range.
-		 * @param WC_Product $product The product object.
-		 */
-		return apply_filters( 'cocart_products_get_price_range', $price, $product );
+		return CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode );
 	} // END get_price_range()
 
 	/**
@@ -1054,49 +931,18 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @since 3.11.0 Introduced.
 	 *
+	 * @deprecated 4.3.3 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_meta_data()
+	 *
 	 * @param WC_Product $product The product object.
 	 *
 	 * @return array
 	 */
 	public function get_meta_data( $product ) {
-		$meta_data = $product->get_meta_data();
-		$safe_meta = array();
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_meta_data', '4.3.3', 'CoCart_Utilities_Product_Helpers::get_meta_data' );
 
-		/**
-		 * Filter allows you to ignore private meta data for the product to return.
-		 *
-		 * When filtering, only list the meta key!
-		 *
-		 * @since 3.11.0 Introduced.
-		 *
-		 * @param WC_Product $product The product object.
-		 */
-		$ignore_private_meta_keys = apply_filters( 'cocart_products_ignore_private_meta_keys', array(), $product );
-
-		foreach ( $meta_data as $meta ) {
-			$ignore_meta = false;
-
-			foreach ( $ignore_private_meta_keys as $ignore ) {
-				if ( str_starts_with( $meta->key, $ignore ) ) {
-					$ignore_meta = true;
-					break; // Exit the inner loop once a match is found.
-				}
-			}
-
-			// Add meta data only if it's not ignored.
-			if ( ! $ignore_meta ) {
-				$safe_meta[ $meta->key ] = $meta;
-			}
-		}
-
-		/**
-		 * Filter allows you to control what remaining product meta data is safe to return.
-		 *
-		 * @since 3.11.0 Introduced.
-		 *
-		 * @param WC_Product $product The product object.
-		 */
-		return array_values( apply_filters( 'cocart_products_get_safe_meta_data', $safe_meta, $product ) );
+		return CoCart_Utilities_Product_Helpers::get_meta_data( $product );
 	} // END get_meta_data()
 
 	/**
@@ -1949,7 +1795,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 					),
 					'weight' => array(
 						'description' => __( 'Product weight unit.', 'cart-rest-api-for-woocommerce' ),
-						'type'        => 'object',
+						'type'        => 'string',
 						'context'     => array( 'view' ),
 						'default'     => $weight_unit,
 						'readonly'    => true,

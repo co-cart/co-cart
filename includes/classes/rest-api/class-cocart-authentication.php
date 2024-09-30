@@ -113,7 +113,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				add_filter( 'rest_pre_dispatch', array( $this, 'check_api_permissions' ), 10, 3 );
 
 				// Send headers.
-				add_filter( 'rest_pre_serve_request', array( $this, 'send_headers' ), 0, 4 );
+				add_filter( 'rest_pre_serve_request', array( $this, 'send_headers' ), 1, 4 );
 
 				// Allow all cross origin requests.
 				add_action( 'rest_api_init', array( $this, 'allow_all_cors' ), 15 );
@@ -127,14 +127,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.9.1 Introduced.
 		 *
-		 * @deprecated 4.x.x No replacement. Not needed anymore.
+		 * @deprecated 4.2.0 No replacement. Not needed anymore.
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
 		 * @return WP_Error|null|bool
 		 */
 		public function cocart_user_logged_in( $error ) {
-			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.x.x', null );
+			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.2.0', null );
 
 			// Pass through errors from other authentication error checks used before this one.
 			if ( ! empty( $error ) ) {
@@ -152,6 +152,25 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		} // END cocart_user_logged_in()
 
 		/**
+		 * Returns true if we are making a REST API request for CoCart.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @deprecated 4.2.0 Moved function to main plugin class.
+		 *
+		 * @return bool
+		 */
+		public static function is_rest_api_request() {
+			cocart_deprecated_function( 'CoCart_Authentication::is_rest_api_request', '4.2.0', 'CoCart::is_rest_api_request' );
+
+			return CoCart::is_rest_api_request();
+		} // END is_rest_api_request()
+
+		/**
 		 * Get the authorization header.
 		 *
 		 * Returns the value from the authorization header.
@@ -163,11 +182,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access protected
 		 *
+		 * @static
+		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.2.0 Changed access from protected to public.
 		 *
 		 * @return string $auth_header
 		 */
-		protected function get_auth_header() {
+		public static function get_auth_header() {
 			$auth_header = ! empty( $_SERVER['HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_AUTHORIZATION'] ) ) : '';
 
 			if ( function_exists( 'getallheaders' ) ) {
@@ -190,7 +212,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 *
 			 * @since 4.1.0 Introduced.
 			 *
-			 * @param string Authorization header.
+			 * @param string $auth_header Authorization header.
 			 */
 			return apply_filters( 'cocart_auth_header', $auth_header );
 		} // END get_auth_header()
@@ -223,9 +245,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 * @since 2.6.0 Introduced.
 			 * @since 3.8.1 Passed the authentication class as parameter.
 			 *
-			 * @param int    $user_id The user ID returned if authentication was successful.
-			 * @param bool            Determines if the site is secure.
-			 * @param object $this    The Authentication class.
+			 * @param int    $user_id              The user ID returned if authentication was successful.
+			 * @param bool   $is_secure            Determines if the site is secure.
+			 * @param object $authentication_class The Authentication class.
 			 */
 			$user_id = apply_filters( 'cocart_authenticate', $user_id, is_ssl(), $this );
 
@@ -345,10 +367,10 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @uses CoCart_Authentication()->get_auth_header()
-		 * @uses CoCart_Authentication()->get_username()
+		 * @uses CoCart_Authentication()::get_auth_header()
+		 * @uses CoCart_Authentication()::get_username()
 		 * @uses get_user_by()
-		 * @uses wp_authenticate()
+		 * @uses wp_check_password()
 		 *
 		 * @return int|bool
 		 */
@@ -357,40 +379,61 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			$username          = '';
 			$password          = '';
 
+			$auth_header = self::get_auth_header();
+
 			// Look up authorization header and check it's a valid.
-			if ( ! empty( $this->get_auth_header() ) && 0 === stripos( $this->get_auth_header(), 'basic ' ) ) {
-				$exploded = explode( ':', base64_decode( substr( $this->get_auth_header(), 6 ) ), 2 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+			if ( ! empty( $auth_header ) && 0 === stripos( $auth_header, 'basic ' ) ) {
+				$exploded = explode( ':', base64_decode( substr( $auth_header, 6 ) ), 2 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 
 				// If valid return username and password.
 				if ( 2 === \count( $exploded ) ) {
 					list( $username, $password ) = $exploded;
 
-					$username = $this->get_username( $username );
+					$username = self::get_username( $username );
 				}
 			} elseif ( ! empty( $_SERVER['PHP_AUTH_USER'] ) && ! empty( $_SERVER['PHP_AUTH_PW'] ) ) {
 				// Check that we're trying to authenticate via simple headers.
 				$username = trim( sanitize_user( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$username = $this->get_username( $username );
+				$username = self::get_username( $username );
 				$password = trim( sanitize_text_field( wp_unslash( $_SERVER['PHP_AUTH_PW'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			} elseif ( ! empty( $_REQUEST['username'] ) && ! empty( $_REQUEST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				// Fallback to check if the username and password was passed via URL.
 				$username = trim( sanitize_user( wp_unslash( $_REQUEST['username'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$username = $this->get_username( $username );
+				$username = self::get_username( $username );
 				$password = trim( sanitize_text_field( wp_unslash( $_REQUEST['password'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
-			// Only authenticate if a username and password is available to check.
-			if ( ! empty( $username ) && ! empty( $password ) ) {
-				$this->user = wp_authenticate( $username, $password );
-			} else {
+			// If no username or password identified then authentication is not required.
+			if ( empty( $username ) && empty( $password ) ) {
+				return false;
+			} elseif ( empty( $username ) || empty( $password ) ) {
+				// If either username or password is missing then return error.
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication invalid!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
 				return false;
 			}
 
-			if ( is_wp_error( $this->user ) ) {
-				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again. Authentication may also only work on a secure connection.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+			$user = get_user_by( 'login', $username );
 
+			if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
+				$this->set_error(
+					new WP_Error(
+						'cocart_authentication_error',
+						sprintf(
+							/* translators: %s: User name. */
+							__( 'The password you entered for the username "%s" is incorrect.', 'cart-rest-api-for-woocommerce' ),
+							$username
+						), array( 'status' => 401 )
+					)
+				);
 				return false;
 			}
+
+			if ( is_wp_error( $user ) ) {
+				$this->set_error( new WP_Error( 'cocart_authentication_error', __( 'Authentication is invalid. Please check the authentication information is correct and try again.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) ) );
+				return false;
+			}
+
+			$this->user = $user;
 
 			return $this->user->ID;
 		} // END perform_basic_authentication()
@@ -469,7 +512,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 4.x.x Introduced.
+		 * @since 4.2.0 Introduced.
 		 *
 		 * @uses is_user_logged_in()
 		 * @uses wp_get_nocache_headers()
@@ -492,7 +535,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				 *
 				 * @param bool $rest_send_nocache_headers Whether to send no-cache headers.
 				 *
-				 * @since 4.x.x Introduced.
+				 * @since 4.2.0 Introduced.
 				 */
 				$send_no_cache_headers = apply_filters( 'cocart_send_nocache_headers', is_user_logged_in() );
 				if ( $send_no_cache_headers ) {
@@ -530,10 +573,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.2.0 Introduced.
 		 * @since 3.3.0 Added new custom headers without the prefix `X-`
-		 * @since 4.0.0 Added a check against a list of allowed HTTP origins.
+		 * @since 4.4.0 Fallback to a wildcard if the origin has yet to be determined.
 		 *
 		 * @uses get_http_origin()
-		 * @uses get_allowed_http_origins()
 		 * @uses is_allowed_http_origin()
 		 *
 		 * @param bool             $served  Whether the request has already been served. Default false.
@@ -552,19 +594,21 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 					$origin = esc_url_raw( $origin );
 				}
 
-				// Check the origin against a list of allowed HTTP origins.
-				if ( $origin && ! in_array( $origin, get_allowed_http_origins(), true ) ) {
-					$origin = '';
+				// Fallback to a wildcard if the origin has yet to be determined.
+				if ( empty( $origin ) ) {
+					$origin = '*';
 				}
 
 				/**
 				 * Filter allows you to change the allowed HTTP origin result.
 				 *
 				 * @since 2.5.1 Introduced.
+				 * @since 4.4.0 Added the request object as parameter.
 				 *
-				 * @param string $origin Origin URL if allowed, empty string if not.
+				 * @param string          $origin Origin URL if allowed, empty string if not.
+				 * @param WP_REST_Request $request The request object.
 				 */
-				$origin = apply_filters( 'cocart_allow_origin', $origin );
+				$origin = apply_filters( 'cocart_allow_origin', $origin, $request );
 
 				$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
 				$server->send_header( 'Access-Control-Allow-Credentials', 'true' );
@@ -708,15 +752,18 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Finds a user based on a matching billing phone number.
 		 *
-		 * @access protected
+		 * @access public
+		 *
+		 * @static
 		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.2.0 Changed access from protected to public.
 		 *
 		 * @param numeric $phone The billing phone number to check.
 		 *
 		 * @return string The username returned if found.
 		 */
-		protected function get_user_by_phone( $phone ) {
+		public static function get_user_by_phone( $phone ) {
 			$matching_users = get_users(
 				array(
 					'meta_key'     => 'billing_phone', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -725,7 +772,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				)
 			);
 
-			$username = ! empty( $matching_users ) && is_array( $matching_users ) ? $matching_users[0]->user_login : $phone;
+			$username = ! empty( $matching_users ) && is_array( $matching_users ) ? $matching_users[0]->user_login : '';
 
 			return $username;
 		} // END get_user_by_phone()
@@ -733,18 +780,21 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Checks if the login provided is valid as a phone number or email address and returns the username.
 		 *
-		 * @access protected
+		 * @access public
+		 *
+		 * @static
 		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.2.0 Changed access from protected to public.
 		 *
 		 * @param string $username Either a phone number, email address or username.
 		 *
 		 * @return string $username Username returned if valid.
 		 */
-		protected function get_username( $username ) {
+		public static function get_username( $username ) {
 			// Check if the username provided is a billing phone number and return the username if true.
 			if ( WC_Validation::is_phone( $username ) ) {
-				$username = $this->get_user_by_phone( $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$username = self::get_user_by_phone( $username ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 
 			// Check if the username provided was an email address and return the username if true.
@@ -758,6 +808,105 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return $username;
 		} // END get_username()
+
+		/**
+		 * Get current user IP Address.
+		 *
+		 * X_REAL_IP and CLIENT_IP are custom implementations designed to facilitate obtaining a user's ip through proxies, load balancers etc.
+		 *
+		 * _FORWARDED_FOR (XFF) request header is a de-facto standard header for identifying the originating IP address of a client connecting to a web server through a proxy server.
+		 * Note for X_FORWARDED_FOR, Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2.
+		 * Make sure we always only send through the first IP in the list which should always be the client IP.
+		 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+		 *
+		 * Forwarded request header contains information that may be added by reverse proxy servers (load balancers, CDNs, and so on).
+		 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
+		 * Full RFC at https://datatracker.ietf.org/doc/html/rfc7239
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 4.2.0 Introduced.
+		 *
+		 * @param boolean $proxy_support Enables/disables proxy support.
+		 *
+		 * @return string
+		 */
+		public static function get_ip_address( bool $proxy_support = false ) { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewParamTypeDeclarations.boolFound
+			if ( ! $proxy_support ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? 'unresolved_ip' ) ) ); // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
+			}
+
+			// Check Cloudflare's connecting IP header.
+			if ( array_key_exists( 'HTTP_CF_CONNECTING_IP', $_SERVER ) ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) );
+			}
+
+			if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) ) );
+			}
+
+			if ( array_key_exists( 'HTTP_CLIENT_IP', $_SERVER ) ) {
+				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) ) );
+			}
+
+			if ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
+				$ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+				if ( is_array( $ips ) && ! empty( $ips ) ) {
+					return self::validate_ip( trim( $ips[0] ) );
+				}
+			}
+
+			if ( array_key_exists( 'HTTP_FORWARDED', $_SERVER ) ) {
+				// Using regex instead of explode() for a smaller code footprint.
+				// Expected format: Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43,for="[2001:db8:cafe::17]:4711"...
+				preg_match(
+					'/(?<=for\=)[^;,]*/i', // We catch everything on the first "for" entry, and validate later.
+					sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) ),
+					$matches
+				);
+
+				if ( strpos( $matches[0] ?? '', '"[' ) !== false ) { // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound, Detect for ipv6, eg "[ipv6]:port".
+					preg_match(
+						'/(?<=\[).*(?=\])/i', // We catch only the ipv6 and overwrite $matches.
+						$matches[0],
+						$matches
+					);
+				}
+
+				if ( ! empty( $matches ) ) {
+					return self::validate_ip( trim( $matches[0] ) );
+				}
+			}
+
+			return '0.0.0.0';
+		} // END get_ip_address()
+
+		/**
+		 * Uses filter_var() to validate and return ipv4 and ipv6 addresses.
+		 *
+		 * Will return 0.0.0.0 if the ip is not valid. This is done to group and still rate limit invalid ips.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 4.2.0 Introduced.
+		 *
+		 * @param string $ip ipv4 or ipv6 ip string.
+		 *
+		 * @return string
+		 */
+		public static function validate_ip( $ip ) {
+			$ip = filter_var(
+				$ip,
+				FILTER_VALIDATE_IP,
+				array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
+			);
+
+			return $ip ?: '0.0.0.0';
+		} // END validate_ip()
 	} // END class.
 } // END if class exists.
 

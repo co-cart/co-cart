@@ -86,8 +86,10 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 	 * Prepare a single product attribute term output for response.
 	 *
 	 * @access public
-	 * @param  WP_Term         $item Term object.
-	 * @param  WP_REST_Request $request
+	 *
+	 * @param WP_Term         $item Term object.
+	 * @param WP_REST_Request $request
+	 *
 	 * @return WP_REST_Response $response
 	 */
 	public function prepare_item_for_response( $item, $request ) {
@@ -115,22 +117,23 @@ class CoCart_Product_Attribute_Terms_Controller extends CoCart_REST_Terms_Contro
 		 *
 		 * Allows modification of the term data right before it is returned.
 		 *
-		 * @param WP_REST_Response  $response  The response object.
-		 * @param object            $item      The original term object.
-		 * @param WP_REST_Request   $request   Request used to generate the response.
+		 * @param WP_REST_Response $response The response object.
+		 * @param object           $item     The original term object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request );
+		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_item_for_response()
 
 	/**
 	 * Get the Attribute Term's schema, conforming to JSON Schema.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_item_schema() {
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'product_attribute_term',
 			'type'       => 'object',
 			'properties' => array(

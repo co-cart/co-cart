@@ -1,5 +1,112 @@
 # Changelog for CoCart
 
+## v4.3.7 - ?? ??, 2024
+
+* Updated: Documentation URL has changed to <https://ogdocs.cocartapi.com>
+* Updated: Translation URL has changed to <https://translate.cocartapi.com>
+
+## v4.3.6 - 23rd August, 2024
+
+### Bug Fixes
+
+* REST API: View or deleting a session with the Sessions API was not accessing the session handler. No longer needs a separate load.
+* Session Handler: Fixed merging of cart from guest.
+
+## v4.3.5 - 9th August, 2024
+
+### Bug Fix
+
+* REST API: Changed priority for sending headers from `0` to `1` to help with CORS.
+
+## v4.3.4 - 3rd August, 2024
+
+### Bug Fix
+
+* REST API: Fixed an issue with CORS not returning header `access-control-allow-origin`.
+
+## v4.3.3 - 24th July, 2024
+
+### Corrections
+
+* Autoload for classes in the backend corrected to new locations.
+* Clean up task that is scheduled was looking for the session handler in the wrong place.
+* Fixed `update_session_timestamp()` function from failing in session handler.
+
+### Improvements
+
+* REST API: Price of product is now consistent in the Cart API (v2 ONLY). If your store was setup with no decimals the price would not return fully. [Solves issue #429](https://github.com/co-cart/co-cart/issues/429)
+* REST API: Value of weight was returning in the wrong format. By returning as a string you get the true value without needing to round it up yourself.
+* WordPress Dashboard: Updated add-on update watcher.
+
+## v4.3.2 - 19th July, 2024
+
+### 🌋 Hot Fix
+
+This release fixes 3 known issues that were reported. [issue #425](https://github.com/co-cart/co-cart/issues/425), [issue #426](https://github.com/co-cart/co-cart/issues/426), [issue #427](https://github.com/co-cart/co-cart/issues/427) that has been affected since version 4.2 of CoCart.
+
+It was due to the optimizations made to allow CoCart to perform better. Unfortunately it had some unexpected side affects that were not picked up during testing. For that I am sorry. If you haven't rolled back to before 4.2 then this patch is highly recommended.
+
+Previous patch releases will also be updated to prevent further sites from experiencing these issues for those who like to update to specific version of the plugin.
+
+A hard lesson was learned here and hope you haven't lost trust in the plugin. I appreciate your feedback and support during this process.
+
+Please don't forget to backup your site before updating.
+
+### Corrections
+
+* Plugin: Typo caused the WP-CLI commands to not register and crash when used with composer.
+* REST API: The data exception class was oddly not loading when updating an item. Autoloader was not picking it up. Now it is required.
+* REST API: Cart would empty but the subtotal would not reset.
+
+### Improvements
+
+* REST API: Ensure we have calculated totals before we get an item or update an item so we can identify them.
+
+## v4.3.1 - 18th July, 2024 - Deprecated
+
+### Hot fix
+
+Forgot I removed the WooCommerce plugin headers before in v3.9 to prevent incompatibility warning message when using "HPOS" feature. Didn't come up as issue when testing until now. My bad. 🤦
+
+## v4.3.0 - 17th July, 2024
+
+### What's New?
+
+In this release we have added a plugin update prevention system as a safety measure. For the moment it will detect for compatibility with minor releases while we are making adjustments but it's designed mostly for detecting major changes. All CoCart add-ons that we release will now check for CoCart's requirements and will help you decide to update or not until your ready to do so.
+
+* Plugin: Added plugin headers to be used for detecting CoCart add-ons or plugins that support CoCart.
+* WordPress Dashboard: Auto-updates are disabled should a CoCart add-on active have not tested with the latest release available.
+* WordPress Dashboard: Update now link for CoCart opens up a modal listing none tested plugins with a confirmation.
+
+### Improvements
+
+* REST API: Ensure we have calculated totals before we restore the requested item so we can identify them.
+
+### For Developers
+
+> These filters are for site admins more than anything.
+
+* Introduced filter `cocart_in_plugin_update_message` allows you to change the upgrade notice.
+* Introduced filter `cocart_get_plugins_with_header` allows you to get the plugins that have a valid value for a specific header.
+* Introduced filter `cocart_get_plugins_for_cocart` allows you to get plugins which "maybe" are for CoCart.
+
+### Compatibility
+
+* Tested with WordPress v6.6
+* Tested with WooCommerce v9.1
+
+## v4.2.2 - 12th July, 2024
+
+### Reverting
+
+We are reverting a change for destroying a session. Previous change causes a conflict with identifying the correct column with our session table and causes the cart not to clear.
+
+## v4.2.1 - 11th July, 2024
+
+### Hot Fix
+
+When loading a cart from session a deprecated function was still triggered. It's now been removed to prevent failing.
+
 ## v4.2.0 - 11th July, 2024
 
 In this release we have optimized our backwards compatibility with the session handler. As our session handler has to accommodate both native and headless support we originally forked the session handler to see what we needed to keep everything functional without breaking the core of WooCommerce. Now we have reviewed and noted down the changes made over time and we are happy to provide a refreshed version of our session handler that now provides only what we need while leaving everything else in the original session handler alone. Meaning now our session handler extends the WooCommerce session handler, making this release more compatibility with third party plugins and the new WooCommerce cart and checkout blocks.
@@ -10,20 +117,24 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 ### What's New?
 
-* Can now request a cart session via a requested header `cocart-api-cart-key`.
+* REST API: Can now request a guest cart via a requested header `cocart-api-cart-key`.
 
 ### Improvements
 
-* Improved session handling for headless.
-* Reverted back to WooCommerce cookie name which also deprecates filter `cocart_cookie`.
-* Moved `is_rest_api_request()` function to the main class so it can be utilized outside of the plugin.
+* Session Handler: Improved identifying cart without the need of cookies.
 * Session Handler: Added new function `is_user_customer()` to check the user role is a customer when authenticated before migrating cart from guest.
+* Authentication: Validation for invalid details was taking too long and failed to return an error message.
 * REST API: Updating the customer details in cart will now take additional billing and shipping fields as meta data. Validation is required by the developer using filter `cocart_update_customer_fields`.
 * REST API: Sanitized and formatted customer email address and phone number.
 * REST API: Formatted customer postcode if validated.
 * REST API: Product image sizes are now fetched using utility products class function `get_product_image_sizes()`. Cuts down on the filter `cocart_products_image_sizes` being in multiple places.
 * REST API: Currency in cart API v2 now returns `currency_symbol_pos` and the currency symbol will now return based on the set currency without lookup.
+* REST API: Improved headers returned and added nocache headers on authenticated requests.
+* REST API: Simplified returning the cart key to the headers.
+* REST API: Loading of the REST API optimized.
+* Plugin: Moved `is_rest_api_request()` function to the main class so it can be utilized outside of the plugin.
 * Plugin: Localization improvements.
+* Plugin: Updated plugin review notice.
 * Plugin: Code files organized better.
 
 ### Deprecations
@@ -46,9 +157,12 @@ We also no longer use cookies as a backup for headless. This should also help wi
 * Introduced new action hook `cocart_after_session_saved_data` fires after the session is saved.
 * Introduced new filter `cocart_send_nocache_headers` to decide if nocache headers are sent.
 * Some functions from the cart and products API v2 have been moved to there own utility class so they can be utilized outside of the plugin.
+* Added utility function to check for coupon exists.
+* Moved two functions from CoCart Plus to be utilized outside of the plugin.
 
 ### Compatibility
 
+* Tested with WordPress v6.6
 * Tested with WooCommerce v9.0
 
 ## v4.1.1 - 14th June, 2024
@@ -1011,7 +1125,7 @@ This major release brings a lot more support for developers including those who 
 * Dev: Introduced `cocart_store_address` filter for filtering the store address.
 * Dev: Introduced `cocart_routes` filter for filtering the CoCart routes returned.
 * Dev: Introduced `cocart_filter_request_data` filter for filtering additional requested data including file uploads when adding an item\s.
-* Dev: Introduced `cocart_before_get_cart` filter for modifying the cart data in any capcity before the cart response is returned.
+* Dev: Introduced `cocart_before_get_cart` filter for modifying the cart data in any capacity before the cart response is returned.
 * Dev: Introduced `cocart_cart_item_data` filter allows you to filter any additional cart item data returned when getting the cart items.
 * Dev: Introduced `cocart_shipping_package_details_array` filter for filtering package details listed per package.
 * Dev: Introduced `cocart_shipping_package_name` filter for renaming the package name.

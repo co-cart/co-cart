@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 4.x.x
+ * @version 4.2.0
  * @license GPL-2.0+
  */
 
@@ -59,6 +59,7 @@ function cocart_allowed_image_mime_types() {
 			'bmp'          => 'image/bmp',
 			'tiff|tif'     => 'image/tiff',
 			'ico'          => 'image/x-icon',
+			'webp'         => 'image/webp',
 		)
 	);
 } // END cocart_allowed_image_mime_types()
@@ -232,10 +233,12 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 		'post_content'   => $content,
 	);
 
-	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id );
-	if ( ! is_wp_error( $attachment_id ) ) {
-		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id, true );
+	if ( is_wp_error( $attachment_id ) ) {
+		return 0;
 	}
+
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 
 	return $attachment_id;
 } // END cocart_set_uploaded_image_as_attachment()
@@ -305,7 +308,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	/**
 	 * Filter formatted price.
 	 *
-	 * @param float        $formatted_price    Formatted price.
+	 * @param string       $formatted_price    Formatted price.
 	 * @param float        $price              Unformatted price.
 	 * @param int          $decimals           Number of decimals.
 	 * @param string       $decimal_separator  Decimal separator.
@@ -346,9 +349,9 @@ function cocart_price_no_html( $price, $args = array() ) {
  * for the use of the REST API returning clean notices once products have
  * been added to cart.
  *
- * @param int|array $products Product ID list or single product ID.
- * @param bool      $show_qty Should qty's be shown.
- * @param bool      $return_msg   Return message rather than add it.
+ * @param int|array $products   List of Product IDs or a single Product ID.
+ * @param bool      $show_qty   Should qty's be shown.
+ * @param bool      $return_msg Return message rather than add it.
  *
  * @return mixed
  */
@@ -405,6 +408,10 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  *
  * @since 3.1.0 Introduced.
  *
+ * @deprecated 4.4.0 Replaced with `cocart_format_money()` function.
+ *
+ * @see cocart_format_money()
+ *
  * @param string|float $amount        Monetary amount with decimals.
  * @param int          $decimals      Number of decimals the amount is formatted with.
  * @param int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
@@ -412,29 +419,9 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  * @return string The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-	// If string, clean it first.
-	if ( is_string( $amount ) ) {
-		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
-		$amount = (float) $amount;
-	}
+	cocart_deprecated_function( 'cocart_prepare_money_response', '4.4.0', 'cocart_format_money' );
 
-	/**
-	 * This filter allows you to disable the decimals.
-	 * If set to "True" the decimals will be set to "Zero".
-	 */
-	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
-
-	if ( $disable_decimals ) {
-		$decimals = 0;
-	}
-
-	return (string) intval(
-		round(
-			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
-			0,
-			absint( $rounding_mode )
-		)
-	);
+	return cocart_format_money( $amount );
 } // END cocart_prepare_money_response()
 
 /**
@@ -517,8 +504,8 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
  * @return array
  */
 function cocart_get_min_max_price_meta_query( $args ) {
-	$current_min_price = isset( $args['min_price'] ) ? floatval( $args['min_price'] ) : 0;
-	$current_max_price = isset( $args['max_price'] ) ? floatval( $args['max_price'] ) : PHP_INT_MAX;
+	$current_min_price = isset( $args['min_price'] ) ? absint( $args['min_price'] ) : 0;
+	$current_max_price = isset( $args['max_price'] ) ? absint( $args['max_price'] ) : PHP_INT_MAX;
 
 	return apply_filters(
 		'woocommerce_get_min_max_price_meta_query', // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
@@ -545,9 +532,112 @@ function cocart_get_notice_types() {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param array Notice types.
+	 * @param array $types Notice types.
 	 */
 	$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
 
 	return $notice_types;
 } // END cocart_get_notice_types()
+
+/**
+ * Check if a REST namespace should be loaded.
+ *
+ * Useful to maintain site performance even when lots of REST namespaces are registered.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @param string $ns         The namespace to check.
+ * @param string $rest_route (Optional) The REST route being checked.
+ *
+ * @return bool True if the namespace should be loaded, false otherwise.
+ */
+function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' ) {
+	if ( '' === $rest_route ) {
+		$rest_route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+	}
+
+	if ( '' === $rest_route ) {
+		return true;
+	}
+
+	$rest_route = trailingslashit( ltrim( $rest_route, '/' ) );
+	$ns         = trailingslashit( $ns );
+
+	/**
+	 * Known namespaces that we know are safe to not load if the request is not for them.
+	 * Namespaces not in this namespace should always be loaded, because we don't know if they won't be making another internal REST request to an unloaded namespace.
+	 */
+	$known_namespaces = array(
+		'cocart/v1',
+		'cocart/v2',
+		'cocart/batch',
+	);
+
+	$known_namespace_request = false;
+	foreach ( $known_namespaces as $known_namespace ) {
+		if ( str_starts_with( $rest_route, $known_namespace ) ) {
+			$known_namespace_request = true;
+			break;
+		}
+	}
+
+	if ( ! $known_namespace_request ) {
+		return true;
+	}
+
+	return str_starts_with( $rest_route, $ns );
+} // END cocart_rest_should_load_namespace()
+
+/**
+ * Get CoCart requested namespace.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace() {
+	return CoCart::$cocart_namespace;
+} // END cocart_get_requested_namespace()
+
+/**
+ * Get CoCart requested namespace version.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace_version() {
+	return CoCart::$cocart_namespace_version;
+} // END cocart_get_requested_namespace_version()
+
+/**
+ * Get CoCart requested API.
+ *
+ * @since 4.4.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_api() {
+	return cocart_get_requested_namespace() . '/' . cocart_get_requested_namespace_version();
+} // END cocart_get_requested_api()
+
+if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
+	/**
+	 * Validates the quantity argument.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param int|float       $value   Number of quantity to validate.
+	 * @param WP_REST_Request $request The request object.
+	 * @param string          $param   Argument parameters.
+	 *
+	 * @return bool True if the quantity is valid, false otherwise.
+	 */
+	function rest_validate_quantity_arg( $value, $request, $param ) {
+		if ( is_numeric( $value ) || is_float( $value ) ) {
+			return true;
+		}
+
+		return false;
+	} // END rest_validate_quantity_arg()
+}

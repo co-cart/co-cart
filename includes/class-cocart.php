@@ -28,7 +28,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.1.0';
+	public static $version = '4.4.0-beta.5';
 
 	/**
 	 * CoCart Database Schema version.
@@ -44,7 +44,7 @@ final class CoCart {
 	public static $db_version = '3.0.0';
 
 	/**
-	 * Required WordPress Version
+	 * Required WordPress version.
 	 *
 	 * @access public
 	 *
@@ -57,7 +57,7 @@ final class CoCart {
 	public static $required_wp = '5.6';
 
 	/**
-	 * Required WooCommerce Version
+	 * Required WooCommerce version.
 	 *
 	 * @access public
 	 *
@@ -67,10 +67,10 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_woo = '4.3';
+	public static $required_woo = '7.0';
 
 	/**
-	 * Required PHP Version
+	 * Required PHP version.
 	 *
 	 * @access public
 	 *
@@ -103,6 +103,32 @@ final class CoCart {
 	} // END __wakeup()
 
 	/**
+	 * Requested CoCart Namespace.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $cocart_namespace = '';
+
+	/**
+	 * Requested CoCart Namespace version.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $cocart_namespace_version = '';
+
+	/**
 	 * Initiate CoCart.
 	 *
 	 * @access public
@@ -119,6 +145,7 @@ final class CoCart {
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
+		add_filter( 'wp_plugin_dependencies_slug', array( __CLASS__, 'convert_plugin_dependency_slug' ) );
 
 		// Setup CoCart Session Handler.
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
@@ -166,8 +193,8 @@ final class CoCart {
 		self::define( 'COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/' );
 		self::define( 'COCART_COMMUNITY_URL', 'https://cocartapi.com/community/' );
-		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz' );
-		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocart.xyz/projects/cart-rest-api-for-woocommerce/' );
+		self::define( 'COCART_DOCUMENTATION_URL', 'https://ogdocs.cocartapi.com' );
+		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/' );
 		self::define( 'COCART_NEXT_VERSION', '5.0.0' );
 	} // END setup_constants()
 
@@ -301,7 +328,7 @@ final class CoCart {
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			require_once __DIR__ . '/classes/cocart-cli.php';
+			require_once __DIR__ . '/classes/class-cocart-cli.php';
 		}
 
 		/**
@@ -460,6 +487,19 @@ final class CoCart {
 	 * @since 4.1.0  Moved REST API classes to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
+		if ( self::is_rest_api_request() ) {
+			// Get current request and remove the home URI and REST prefix.
+			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+			$request_uri = str_replace( home_url(), '', $request_uri );
+			$request_uri = str_replace( trailingslashit( rest_get_url_prefix() ), '', $request_uri );
+
+			// Explode the remaining requested URI and get the namespace and version.
+			$cocart_request                 = explode( '/', $request_uri );
+			self::$cocart_namespace         = $cocart_request[1];
+			self::$cocart_namespace_version = $cocart_request[2];
+		}
+
+		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-cache.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-extension.php';
@@ -498,7 +538,7 @@ final class CoCart {
 		 *
 		 * @since 2.1.0 Introduced.
 		 *
-		 * @param string $is_rest_api_request REST API uri requested.
+		 * @param bool $is_rest_api_request True if CoCart REST API is requested.
 		 */
 		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()
@@ -554,6 +594,29 @@ final class CoCart {
 	public static function woocommerce() {
 		require_once __DIR__ . '/classes/class-cocart-woocommerce.php';
 	} // END woocommerce()
+
+	/**
+	 * Converts the CoCart slug to the correct slug for the current version.
+	 * This ensures that when the plugin is installed in a different folder name,
+	 * the correct slug is used so that dependent plugins can be installed/activated.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param string $slug The plugin slug to convert.
+	 *
+	 * @return string
+	 */
+	public static function convert_plugin_dependency_slug( $slug ) {
+		if ( 'cart-rest-api-for-woocommerce' === $slug ) {
+			$slug = dirname( COCART_PLUGIN_BASENAME );
+		}
+
+		return $slug;
+	} // END convert_plugin_dependency_slug()
 
 	/**
 	 * Load the plugin translations if any ready.

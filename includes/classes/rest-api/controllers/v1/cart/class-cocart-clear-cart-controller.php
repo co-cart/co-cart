@@ -60,7 +60,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 *
 	 * @see CoCart_Logger::log()
 	 *
-	 * @return WP_Error if failed. or WP_REST_Response if successful.
+	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
 	public function clear_cart() {
 		/**

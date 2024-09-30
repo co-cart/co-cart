@@ -5,13 +5,14 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class_alias( 'CoCart_REST_Calculate_v2_Controller', 'CoCart_Calculate_V2_Controller' );
+class_alias( 'CoCart_REST_Calculate_V2_Controller', 'CoCart_Calculate_V2_Controller' );
 
 /**
  * Controller for calculating cart totals, tax, fees and shipping (API v2).
@@ -21,9 +22,9 @@ class_alias( 'CoCart_REST_Calculate_v2_Controller', 'CoCart_Calculate_V2_Control
  *
  * @since 3.0.0 Introduced.
  *
- * @see CoCart_Calculate_Controller
+ * @see CoCart_REST_Cart_V2_Controller
  */
-class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
+class CoCart_REST_Calculate_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -56,7 +57,7 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 			array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'calculate_totals' ),
+					'callback'            => array( $this, 'calculate_cart_totals' ),
 					'permission_callback' => '__return_true',
 					'args'                => $this->get_collection_params(),
 				),
@@ -73,27 +74,29 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 3.0.0
+	 * @version 4.4.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function calculate_totals( $request = array() ) {
+	public function calculate_cart_totals( $request = array() ) {
 		try {
-			$controller = new CoCart_REST_Cart_V2_Controller();
-
-			$controller->get_cart_instance()->calculate_totals();
+			parent::calculate_totals();
 
 			// Was it requested to return all totals once calculated?
 			if ( isset( $request['return_totals'] ) && is_bool( $request['return_totals'] ) && $request['return_totals'] ) {
-				$response = CoCart_Totals_Controller::get_totals( $request );
+				$request['fields'] = 'totals';
 			}
 
-			cocart_do_deprecated_filter( 'cocart_totals_calculated_message', '3.0.0', null, null );
+			// Get cart.
+			$request['dont_check'] = true;
+			$response              = $this->get_cart( $request );
 
-			// Get cart contents.
-			$response = $controller->get_cart_contents( $request );
+			// Return the totals without the parent.
+			if ( isset( $request['return_totals'] ) && is_bool( $request['return_totals'] ) && $request['return_totals'] ) {
+				$response = isset( $response->data['totals'] ) ? $response->data['totals'] : array();
+			}
 
 			return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
 		} catch ( CoCart_Data_Exception $e ) {
@@ -111,10 +114,8 @@ class CoCart_REST_Calculate_v2_Controller extends CoCart_Calculate_Controller {
 	 * @return array $params Query parameters for calculating totals.
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_REST_Cart_V2_Controller();
-
 		// Cart query parameters.
-		$params = $controller->get_collection_params();
+		$params = parent::get_collection_params();
 
 		// Add to cart query parameters.
 		$params += array(

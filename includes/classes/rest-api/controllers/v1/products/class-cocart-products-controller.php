@@ -111,7 +111,7 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 *
 	 * @param int $id Object ID.
 	 *
-	 * @return WC_Data
+	 * @return WC_Product The product object.
 	 */
 	protected function get_object( $id ) {
 		return wc_get_product( $id );
@@ -124,7 +124,7 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 *
 	 * @param array $query_args Query args.
 	 *
-	 * @return array
+	 * @return array|WP_Error
 	 */
 	protected function get_objects( $query_args ) {
 		$query       = new WP_Query();
@@ -164,9 +164,9 @@ class CoCart_Products_Controller extends CoCart_REST_Posts_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since  3.10.7 Checks if query results return as an error.
+	 * @since 3.10.7 Checks if query results return as an error.
 	 *
-	 * @param  WP_REST_Request $request The request object.
+	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
@@ -354,7 +354,7 @@ endif;
 	 *
 	 * @access public
 	 *
-	 * @param WP_REST_Request $request The request object.
+	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_Error|WP_REST_Response The response, or an error.
 	 */
@@ -376,7 +376,7 @@ endif;
 	 *
 	 * @access protected
 	 *
-	 * @param WP_REST_Request $request The request object.
+	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return array
 	 */
@@ -387,7 +387,7 @@ endif;
 			'orderby'             => strtolower( $request['orderby'] ),
 			'paged'               => $request['page'],
 			'post__in'            => $request['include'],
-			'post__not_in'        => $request['exclude'], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in 
+			'post__not_in'        => $request['exclude'], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 			'posts_per_page'      => $request['per_page'],
 			'post_parent__in'     => $request['parent'],
 			'post_parent__not_in' => $request['parent_exclude'],
@@ -604,7 +604,7 @@ endif;
 				$args['tax_query'] = $tax_query; // phpcs:ignore
 			}
 		} else {
-			// For product_variantions we need to convert the tax_query to a meta_query.
+			// For product_variations we need to convert the tax_query to a meta_query.
 			if ( ! empty( $args['tax_query'] ) ) {
 				$args['meta_query'] = $this->convert_tax_query_to_meta_query( array_merge( $tax_query, $args['tax_query'] ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			} else {
@@ -787,7 +787,7 @@ endif;
 	protected function get_images( $product ) {
 		$images           = array();
 		$attachment_ids   = array();
-		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
+		$attachment_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
 
 		// Add featured image.
 		if ( $product->get_image_id() ) {
@@ -1181,6 +1181,28 @@ endif;
 	} // END get_variation_product_data()
 
 	/**
+	 * Add meta query.
+	 *
+	 * @access protected
+	 *
+	 * @since 3.4.1 Introduced.
+	 *
+	 * @param array $args       Query args.
+	 * @param array $meta_query Meta query.
+	 *
+	 * @return array
+	 */
+	protected function add_meta_query( $args, $meta_query ) {
+		if ( empty( $args['meta_query'] ) ) {
+			$args['meta_query'] = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query, WPCS: slow query ok.
+		}
+
+		$args['meta_query'][] = $meta_query;
+
+		return $args['meta_query'];
+	} // END add_meta_query()
+
+	/**
 	 * Get the Product's schema, conforming to JSON Schema.
 	 *
 	 * @access public
@@ -1192,7 +1214,7 @@ endif;
 		$dimension_unit = get_option( 'woocommerce_dimension_unit' );
 
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => $this->post_type,
 			'type'       => 'object',
 			'properties' => array(
@@ -2252,6 +2274,42 @@ endif;
 
 		return $this->add_additional_fields_schema( $schema );
 	} // END get_item_schema()
+
+	/**
+	 * Add the schema from additional fields to an schema array.
+	 *
+	 * The type of object is inferred from the passed schema.
+	 *
+	 * @access protected
+	 *
+	 * @param array $schema Schema array.
+	 *
+	 * @return array $schema
+	 */
+	protected function add_additional_fields_schema( $schema ) {
+		if ( empty( $schema['title'] ) ) {
+			return $schema;
+		}
+
+		/**
+		 * Can't use $this->get_object_type otherwise we cause an inf loop.
+		 */
+		$object_type = $schema['title'];
+
+		$additional_fields = $this->get_additional_fields( $object_type );
+
+		foreach ( $additional_fields as $field_name => $field_options ) {
+			if ( ! $field_options['schema'] ) {
+				continue;
+			}
+
+			$schema['properties'][ $field_name ] = $field_options['schema'];
+		}
+
+		$schema['properties'] = apply_filters( "cocart_{$object_type}_schema", $schema['properties'] ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		return $schema;
+	} // END add_additional_fields_schema()
 
 	/**
 	 * Get the query params for collections of products.

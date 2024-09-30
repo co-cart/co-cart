@@ -40,8 +40,10 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 	 * Prepare a single product category output for response.
 	 *
 	 * @access public
-	 * @param  WP_Term         $item    Term object.
-	 * @param  WP_REST_Request $request Request instance.
+	 *
+	 * @param WP_Term         $item    Term object.
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response $response The response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
@@ -93,11 +95,11 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 		 *
 		 * Allows modification of the term data right before it is returned.
 		 *
-		 * @param WP_REST_Response  $response  The response object.
-		 * @param object            $item      The original term object.
-		 * @param WP_REST_Request   $request   Request used to generate the response.
+		 * @param WP_REST_Response $response The response object.
+		 * @param object           $item     The original term object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request );
+		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_item_for_response()
 
 	/**
@@ -108,7 +110,7 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller 
 	 */
 	public function get_item_schema() {
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => $this->taxonomy,
 			'type'       => 'object',
 			'properties' => array(

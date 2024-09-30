@@ -97,8 +97,10 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	 * Prepare a single variation output for response.
 	 *
 	 * @access public
-	 * @param  WC_Data         $object  Object data.
-	 * @param  WP_REST_Request $request Request object.
+	 *
+	 * @param WC_Product      $object  The product object.
+	 * @param WP_REST_Request $request The request object.
+	 *
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $object, $request ) {
@@ -152,17 +154,19 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		 * refers to object type being prepared for the response.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Data          $object   Object data.
-		 * @param WP_REST_Request  $request  Request object.
+		 * @param WC_Product       $object   The product object.
+		 * @param WP_REST_Request  $request  The request object.
 		 */
-		return apply_filters( "cocart_prepare_{$this->post_type}_object", $response, $object, $request );
+		return apply_filters( "cocart_prepare_{$this->post_type}_object", $response, $object, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	} // END prepare_object_for_response()
 
 	/**
 	 * Get the image for a product variation.
 	 *
 	 * @access protected
-	 * @param  WC_Product_Variation $variation Variation data.
+	 *
+	 * @param WC_Product_Variation $variation Variation data.
+	 *
 	 * @return array
 	 */
 	protected function get_image( $variation ) {
@@ -203,7 +207,9 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	 * Prepare links for the request.
 	 *
 	 * @access protected
-	 * @param  WC_Product $product Product object.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
 	 * @return array Links for the given post.
 	 */
 	protected function prepare_links( $product ) {
@@ -230,6 +236,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	 * Get the Variation's schema, conforming to JSON Schema.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_item_schema() {
@@ -237,7 +244,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 		$dimension_unit = get_option( 'woocommerce_dimension_unit' );
 
 		$schema = array(
-			'schema'     => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => $this->post_type,
 			'type'       => 'object',
 			'properties' => array(
@@ -533,7 +540,9 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	 * Prepare objects query.
 	 *
 	 * @access protected
-	 * @param  WP_REST_Request $request Full details about the request.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return array
 	 */
 	protected function prepare_objects_query( $request ) {
@@ -604,6 +613,7 @@ class CoCart_Product_Variations_Controller extends CoCart_Products_Controller {
 	 * Get the query params for collections of attachments.
 	 *
 	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_collection_params() {

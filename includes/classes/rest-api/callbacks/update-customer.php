@@ -207,9 +207,14 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 				// Sees if the customer has entered enough data to calculate shipping yet.
 				if ( ! $customer->get_shipping_country() || ( ! $customer->get_shipping_state() && ! $customer->get_shipping_postcode() ) ) {
 					$customer->set_calculated_shipping( true );
+				} else {
+					$customer->set_calculated_shipping( false );
 				}
 
 				$customer->save();
+
+				// Calculate shipping if any.
+				$controller->get_cart_instance()->calculate_shipping();
 
 				return true;
 			}

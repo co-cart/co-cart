@@ -95,8 +95,8 @@ class CoCart_Product_Validation {
 			/**
 			 * Filters message about product type that cannot be added to the cart.
 			 *
-			 * @param string     $message Message.
-			 * @param WC_Product $product_data Product data.
+			 * @param string     $message      Message.
+			 * @param WC_Product $product_data The product object.
 			 */
 			$message = apply_filters( 'cocart_cannot_add_product_type_to_cart_message', $message, $product_data );
 
@@ -118,19 +118,19 @@ class CoCart_Product_Validation {
 	 *
 	 * @uses wc_get_product()
 	 *
-	 * @param string $product_name Product name before change.
-	 * @param object $_product     Product data.
-	 * @param array  $cart_item    Item details of the product in cart.
+	 * @param string     $product_name Product name before change.
+	 * @param WC_Product $product      The product object.
+	 * @param array      $cart_item    Item details of the product in cart.
 	 *
 	 * @return string $product_name Product name after change.
 	 */
-	public function validate_variation_product_name( $product_name, $_product, $cart_item ) {
-		if ( $_product->is_type( 'variation' ) ) {
-			$product            = wc_get_product( $_product->get_parent_id() );
-			$default_attributes = $product->get_default_attributes();
+	public function validate_variation_product_name( $product_name, $product, $cart_item ) {
+		if ( $product->is_type( 'variation' ) ) {
+			$parent_product     = wc_get_product( $product->get_parent_id() );
+			$default_attributes = $parent_product->get_default_attributes();
 
 			if ( empty( $cart_item['variation'] ) && empty( $default_attributes ) ) {
-				return $_product->get_title();
+				return $product->get_title();
 			}
 		}
 

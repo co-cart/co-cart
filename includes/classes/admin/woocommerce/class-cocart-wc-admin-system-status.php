@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce System Status
  * @since   2.1.0 Introduced.
- * @version 4.x.x
+ * @version 4.2.0
  */
 
 // Exit if accessed directly.
@@ -82,7 +82,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @access public
 	 *
-	 * @since 4.x.x Introduced.
+	 * @since 4.2.0 Introduced.
 	 *
 	 * @param WP_REST_Response $response The base system status response.
 	 *
@@ -272,14 +272,14 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_maybe_show_results()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_maybe_show_results()`.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return boolean Returns true or false if the session table exists.
 	 */
 	public static function maybe_show_results() {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::maybe_show_results', '4.x.x', 'cocart_maybe_show_results' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::maybe_show_results', '4.2.0', 'cocart_maybe_show_results' );
 
 		return cocart_maybe_show_results();
 	} // END maybe_show_results()
@@ -293,7 +293,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_carts_in_session()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_carts_in_session()`.
 	 *
 	 * @see cocart_carts_in_session()
 	 *
@@ -304,7 +304,7 @@ class CoCart_Admin_WC_System_Status {
 	 * @return int Number of carts in session.
 	 */
 	public static function carts_in_session( $session = '' ) {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_in_session', '4.x.x', 'cocart_carts_in_session' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_in_session', '4.2.0', 'cocart_carts_in_session' );
 
 		return cocart_carts_in_session();
 	} // END carts_in_session()
@@ -318,7 +318,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @since 2.7.2 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_count_carts_expiring()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_count_carts_expiring()`.
 	 *
 	 * @see cocart_count_carts_expiring()
 	 *
@@ -327,7 +327,7 @@ class CoCart_Admin_WC_System_Status {
 	 * @return int Number of carts expiring.
 	 */
 	public static function count_carts_expiring() {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_expiring', '4.x.x', 'cocart_count_carts_expiring' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_expiring', '4.2.0', 'cocart_count_carts_expiring' );
 
 		return cocart_count_carts_expiring();
 	} // END count_carts_expiring()
@@ -339,7 +339,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_count_carts_active()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_count_carts_active()`.
 	 *
 	 * @see cocart_count_carts_active()
 	 *
@@ -348,7 +348,7 @@ class CoCart_Admin_WC_System_Status {
 	 * @return int Number of carts active.
 	 */
 	public static function count_carts_active() {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_active', '4.x.x', 'cocart_count_carts_active' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_active', '4.2.0', 'cocart_count_carts_active' );
 
 		return cocart_count_carts_active();
 	} // END count_carts_active()
@@ -358,7 +358,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_count_carts_expired()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_count_carts_expired()`.
 	 *
 	 * @see cocart_count_carts_expired()
 	 *
@@ -367,7 +367,7 @@ class CoCart_Admin_WC_System_Status {
 	 * @return int Number of carts expired.
 	 */
 	public static function count_carts_expired() {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_expired', '4.x.x', 'cocart_count_carts_expired' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::count_carts_expired', '4.2.0', 'cocart_count_carts_expired' );
 
 		return cocart_count_carts_expired();
 	} // END count_carts_expired()
@@ -377,7 +377,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_carts_source_web()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_carts_source_web()`.
 	 *
 	 * @see cocart_carts_source_web()
 	 *
@@ -386,7 +386,7 @@ class CoCart_Admin_WC_System_Status {
 	 * @return int Number of carts created via the web.
 	 */
 	public function carts_source_web() {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_web', '4.x.x', 'cocart_carts_source_web' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_web', '4.2.0', 'cocart_carts_source_web' );
 
 		return cocart_carts_source_web();
 	} // END carts_source_web()
@@ -396,7 +396,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_carts_source_headless()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_carts_source_headless()`.
 	 *
 	 * @see cocart_carts_source_headless()
 	 *
@@ -405,7 +405,7 @@ class CoCart_Admin_WC_System_Status {
 	 * @return int Number of carts created via CoCart API.
 	 */
 	public function carts_source_headless() {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_headless', '4.x.x', 'cocart_carts_source_headless' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_headless', '4.2.0', 'cocart_carts_source_headless' );
 
 		return cocart_carts_source_headless();
 	} // END carts_source_headless()
@@ -415,7 +415,7 @@ class CoCart_Admin_WC_System_Status {
 	 *
 	 * @access public
 	 *
-	 * @deprecated 4.x.x Replaced with `cocart_carts_source_other()`.
+	 * @deprecated 4.2.0 Replaced with `cocart_carts_source_other()`.
 	 *
 	 * @see cocart_carts_source_other()
 	 *
@@ -424,7 +424,7 @@ class CoCart_Admin_WC_System_Status {
 	 * @return int Number of carts created via other or unknown.
 	 */
 	public function carts_source_other() {
-		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_other', '4.x.x', 'cocart_carts_source_other' );
+		cocart_deprecated_function( 'CoCart_Admin_WC_System_Status::carts_source_other', '4.2.0', 'cocart_carts_source_other' );
 
 		return cocart_carts_source_other();
 	} // END carts_source_other()
