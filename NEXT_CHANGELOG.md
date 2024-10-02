@@ -51,7 +51,7 @@ Simply provide these two parameters with the data point values on any page and t
 * Added the request object as a parameter for filter `cocart_add_to_cart_quantity`.
 * Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
 * Added the request object as a parameter for filter `cocart_allow_origin`.
-* Added the product object as a parameter for filters `cocart_cart_item_price` and `cocart_cart_item_quantity`.
+* Added the product object as a parameter for filters `cocart_cart_item_price`, `cocart_cart_item_quantity` and `cocart_cart_item_data`.
 * Added the cart class as a parameter for filter `cocart_shipping_package_name`.
 * Added new parameter `$recurring_cart` for filter `cocart_available_shipping_packages`.
 
