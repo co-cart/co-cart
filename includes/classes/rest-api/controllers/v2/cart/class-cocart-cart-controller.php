@@ -1310,11 +1310,13 @@ class CoCart_REST_Cart_V2_Controller {
 			 * Filter allows you to alter the remaining cart item data.
 			 *
 			 * @since 3.0.0 Introduced.
+			 * @since 4.4.0 Added product object as parameter.
 			 *
-			 * @param array  $cart_item The cart item data.
-			 * @param string $item_key  Generated ID based on the product information when added to the cart.
+			 * @param array      $cart_item The cart item data.
+			 * @param string     $item_key  Generated ID based on the product information when added to the cart.
+			 * @param WC_Product $product   The product object.
 			 */
-			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key );
+			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $product );
 		}
 
 		return $item;
