@@ -23,7 +23,7 @@ This feature is also handy if you don't yet have a checkout system in your app a
 
 ## Why does the feature support guest customers only?
 
-Because customers who are registered on your store have an account that keeps track of the cart session and doesn't require a cart key. This makes it easy for the cart session to load on the native storefront or your decoupled site when your customers are logged in.
+Because customers who are registered on your store have an account that keeps track of the cart session so the cart key is not required to identify the session as it's already taken care of in the background. This makes it easy for the cart session to load on the native storefront or your decoupled site when your customers are logged in.
 
 ## What if the user is logged in on the native site?
 
@@ -36,6 +36,8 @@ If a user is logged in via the native storefront then WooCommerce will merge any
 ## Can I sync back a cart session from a logged in user to a guest user?
 
 If the user was logged in on the native storefront at the time the cart session was loaded then no you can't go sync back. This is because that cart session has now transferred hands and is assigned to that user. Any changes made to the cart session assigned to the user is not going to sync to the guest cart session.
+
+However, a feature to sync cart sessions is in the works.
 
 ## How do I use this feature?
 
@@ -51,6 +53,12 @@ To load a cart from session on your native storefront, you must use the properti
 
 Example: https://example.com/cart/?cocart-load-cart=bbfa8e97ac9cff4c861d62a109e83bb6
 
-If you are merging two cart sessions together and they both contain the same item, that item will not change. It will not increase or decrease the quantity either.
+> If you are merging two cart sessions together and they both contain the same item, that item will not change. It will not increase or decrease the quantity either.
+
+<!-- FEEDBACK -->
+
+---
 
 🐞 Found a mistake, or have a suggestion? [Leave feedback about this document here.](https://github.com/co-cart/co-cart/issues/new?assignees=&labels=type%3A+documentation&template=doc_feedback.md&title=Feedback+on+./docs/load-cart-from-session.md)
+
+<!-- /FEEDBACK -->
