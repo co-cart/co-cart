@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0 Introduced.
- * @version 4.1.0
+ * @version 4.4.0
  */
 
 use WC_Customer as Customer;
@@ -170,6 +170,7 @@ class CoCart_REST_API {
 			'cocart-v2-cart-restore-item'       => 'CoCart_REST_Restore_Item_V2_Controller',
 			'cocart-v2-cart-calculate'          => 'CoCart_REST_Calculate_V2_Controller',
 			'cocart-v2-cart-clear'              => 'CoCart_REST_Clear_Cart_V2_Controller',
+			'cocart-v2-cart-create'             => 'CoCart_REST_Create_Cart_V2_Controller',
 			'cocart-v2-cart-update'             => 'CoCart_REST_Update_Cart_V2_Controller',
 			'cocart-v2-cart-totals'             => 'CoCart_REST_Totals_V2_Controller',
 			'cocart-v2-login'                   => 'CoCart_REST_Login_V2_Controller',
@@ -381,9 +382,11 @@ class CoCart_REST_API {
 	/**
 	 * Include CoCart REST API controllers.
 	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 3.1.0
+	 * @access public
+	 *
+	 * @since 1.0.0 Introduced.
+	 * @since 3.1.0 Added cart callback support and Products API.
+	 * @since 4.4.0 Added create cart route.
 	 */
 	public function rest_api_includes() {
 		// CoCart REST API v1 controllers.
@@ -416,6 +419,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-clear-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-calculate-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-count-controller.php';
+		require_once __DIR__ . '/controllers/v2/cart/class-cocart-create-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-update-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-remove-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-restore-item-controller.php';
