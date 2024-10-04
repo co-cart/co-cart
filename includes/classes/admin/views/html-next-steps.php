@@ -93,7 +93,7 @@ $help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlob
 		</div>
 		<div class="cocart-next-step-action">
 			<p class="cocart-actions step">
-				<a class="button button-large" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=cocart' ) ); ?>" target="_blank">
+				<a class="button button-secondary button-large" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=cocart' ) ); ?>" target="_blank">
 					<?php esc_html_e( 'View Plugin Suggestions', 'cart-rest-api-for-woocommerce' ); ?>
 				</a>
 			</p>
@@ -105,17 +105,17 @@ $help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlob
 		</div>
 		<div class="cocart-next-step-action">
 			<p class="cocart-actions step">
-				<a class="button" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ) ); ?>" target="_blank">
+				<a class="button button-secondary" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ) ); ?>" target="_blank">
 					<?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?>
 				</a>
 				<?php
 				// Only show upgrade option if neither CoCart Plus, Pro or above is found.
 				if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
 					?>
-				<a class="button" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ); ?>" target="_blank">
+				<a class="button button-secondary" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ); ?>" target="_blank">
 						<?php esc_html_e( 'Unlock more features', 'cart-rest-api-for-woocommerce' ); ?>
 				</a><?php } ?>
-				<a class="button" href="<?php echo esc_url( 'https://marketplace.visualstudio.com/items?itemName=sebastien-dumont.cocart-vscode' ); ?>" target="_blank">
+				<a class="button button-secondary" href="<?php echo esc_url( 'https://marketplace.visualstudio.com/items?itemName=sebastien-dumont.cocart-vscode' ); ?>" target="_blank">
 					<?php esc_html_e( 'Install VSCode Extension', 'cart-rest-api-for-woocommerce' ); ?>
 				</a>
 			</p>
