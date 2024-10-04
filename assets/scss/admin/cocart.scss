@@ -27,6 +27,13 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 	}
 }
 
+body:not(.rtl).cocart-pagestyles {
+	#wpbody {
+		color:$black;
+		font-weight: 400;
+	}
+}
+
 .cocart-pagestyles {
 	/* #wpcontent,
 	#wpbody-content {
@@ -51,117 +58,25 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 		content: none;
 	}
 
-	.container {
-		background-color: $white;
-		border: 1px solid $light-grey;
-		box-shadow: 0 2px 30px $shadow;
-		color: $black;
-		margin: 20px auto 40px;
-		max-width: 700px;
-		text-align: left;
-		width: calc(100% - 20px);
-
-		.content {
-			padding: 40px;
-
-			.logo {
-				background-color: $cocart;
-				margin: -40px -40px 30px;
-				text-align: center;
-			}
-
-			h1 {
-				color: #23282d;
-				font-size: 1.7em;
-				font-weight: 700;
-				line-height: 1.48;
-				margin-bottom: 28px;
-				margin-top: 0;
-			}
-
-			p {
-				color: #333;
-				font-size: 16px;
-				font-weight: 400;
-				line-height: 1.6;
-				margin-bottom: 20px;
-			}
-
-			ul {
-				list-style: disc;
-			}
-
-			li {
-				margin-left: 12px;
-			}
-
-			a.button.button-large,
-			button.button-large {
-				font-size: 24px;
-				line-height: 54px;
-				height: 60px;
-				padding: 0 20px;
-			}
-
-			a.button.button-medium,
-			button.button-medium {
-				font-size: 18px;
-				font-weight: 600;
-				line-height: 36px;
-				height: 40px;
-			}
-
-			a.button.upgrade {
-				background-color: $cocart;
-				border-color: $cocart;
-				color: $white;
-			}
-
-			a.button.upgrade:hover,
-			a.button.upgrade:focus {
-				background-color: $cocart-hovered;
-				border-color: $cocart-hovered;
-			}
-
-			p.price-tag {
-				font-size: 69px;
-				color: $cocart;
-				line-height: 66px;
-				font-weight: 700;
-				margin: 20px auto;
-				text-align: center;
-
-				sub {
-					margin-top: 18px;
-					display: inline-block;
-					font-size: 30px;
-					line-height: 8px;
-					vertical-align: top;
-					margin-right: 2px;
-				}
-
-				sup {
-					display: inline-block;
-					font-size: 18px;
-					line-height: 16px;
-					vertical-align: bottom;
-					margin-left: 2px;
-				}
-			}
-
-			img.emoji {
-				display: inline !important;
-				border: none !important;
-				height: auto;
-				width: 1em;
-				margin: 0 0.07em !important;
-				vertical-align: -0.1em !important;
-				background: none !important;
-				padding: 0 !important;
-				box-shadow: none !important;
-			}
-
-		}
+	a.button:not(.button-secondary):not(.cocart-manage-license-btn),
+	button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button),
+	.button-primary {
+		background-color: $cocart_button;
+		border-color: $cocart_button;
+	}
+	a.button:not(.button-secondary):not(.cocart-manage-license-btn):hover,
+	button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):hover,
+	.button-primary:hover,
+	a.button:not(.button-secondary):not(.cocart-manage-license-btn):focus,
+	button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):focus,
+	.button-primary:focus {
+		background-color: $cocart_button_hovered !important;
+		border-color: $cocart_button_hovered !important;
+	}
+	a.button,
+	button:focus,
+	.button-primary:focus {
+		text-decoration-thickness: 4px;
 	}
 }
 

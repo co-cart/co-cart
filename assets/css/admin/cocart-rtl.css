@@ -19,6 +19,10 @@ body.cocart-pagestyles .wp-header-end {
     zoom: 1;
     text-align: right; }
 
+body:not(.rtl).cocart-pagestyles #wpbody {
+  color: #292929;
+  font-weight: 400; }
+
 .cocart-pagestyles {
   /* #wpcontent,
 	#wpbody-content {
@@ -34,88 +38,23 @@ body.cocart-pagestyles .wp-header-end {
     display: none; }
   .cocart-pagestyles .woocommerce-layout__header-breadcrumbs span:nth-child(2)::before {
     content: none; }
-  .cocart-pagestyles .container {
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.04);
-    color: #292929;
-    margin: 20px auto 40px;
-    max-width: 700px;
-    text-align: right;
-    width: calc(100% - 20px); }
-    .cocart-pagestyles .container .content {
-      padding: 40px; }
-      .cocart-pagestyles .container .content .logo {
-        background-color: #6032b0;
-        margin: -40px -40px 30px;
-        text-align: center; }
-      .cocart-pagestyles .container .content h1 {
-        color: #23282d;
-        font-size: 1.7em;
-        font-weight: 700;
-        line-height: 1.48;
-        margin-bottom: 28px;
-        margin-top: 0; }
-      .cocart-pagestyles .container .content p {
-        color: #333;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.6;
-        margin-bottom: 20px; }
-      .cocart-pagestyles .container .content ul {
-        list-style: disc; }
-      .cocart-pagestyles .container .content li {
-        margin-right: 12px; }
-      .cocart-pagestyles .container .content a.button.button-large,
-      .cocart-pagestyles .container .content button.button-large {
-        font-size: 24px;
-        line-height: 54px;
-        height: 60px;
-        padding: 0 20px; }
-      .cocart-pagestyles .container .content a.button.button-medium,
-      .cocart-pagestyles .container .content button.button-medium {
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 36px;
-        height: 40px; }
-      .cocart-pagestyles .container .content a.button.upgrade {
-        background-color: #6032b0;
-        border-color: #6032b0;
-        color: #fff; }
-      .cocart-pagestyles .container .content a.button.upgrade:hover,
-      .cocart-pagestyles .container .content a.button.upgrade:focus {
-        background-color: #6131af;
-        border-color: #6131af; }
-      .cocart-pagestyles .container .content p.price-tag {
-        font-size: 69px;
-        color: #6032b0;
-        line-height: 66px;
-        font-weight: 700;
-        margin: 20px auto;
-        text-align: center; }
-        .cocart-pagestyles .container .content p.price-tag sub {
-          margin-top: 18px;
-          display: inline-block;
-          font-size: 30px;
-          line-height: 8px;
-          vertical-align: top;
-          margin-left: 2px; }
-        .cocart-pagestyles .container .content p.price-tag sup {
-          display: inline-block;
-          font-size: 18px;
-          line-height: 16px;
-          vertical-align: bottom;
-          margin-right: 2px; }
-      .cocart-pagestyles .container .content img.emoji {
-        display: inline !important;
-        border: none !important;
-        height: auto;
-        width: 1em;
-        margin: 0 0.07em !important;
-        vertical-align: -0.1em !important;
-        background: none !important;
-        padding: 0 !important;
-        box-shadow: none !important; }
+  .cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn),
+  .cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button),
+  .cocart-pagestyles .button-primary {
+    background-color: #5f32d9;
+    border-color: #5f32d9; }
+  .cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn):hover,
+  .cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):hover,
+  .cocart-pagestyles .button-primary:hover,
+  .cocart-pagestyles a.button:not(.button-secondary):not(.cocart-manage-license-btn):focus,
+  .cocart-pagestyles button:not(#collapse-button):not(.button-secondary):not(#contextual-help-link):not(.components-button):focus,
+  .cocart-pagestyles .button-primary:focus {
+    background-color: #5329c4 !important;
+    border-color: #5329c4 !important; }
+  .cocart-pagestyles a.button,
+  .cocart-pagestyles button:focus,
+  .cocart-pagestyles .button-primary:focus {
+    text-decoration-thickness: 4px; }
 
 .notice.inline.notice-cocart {
   border-color: #6032b0; }
