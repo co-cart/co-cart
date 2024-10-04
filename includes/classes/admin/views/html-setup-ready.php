@@ -4,7 +4,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Views
- * @since   3.10.0
+ * @since   3.10.0 Introduced.
+ * @version 4.4.0
  * @license GPL-2.0+
  */
 
@@ -33,10 +34,13 @@ printf(
 
 <p>
 	<?php
-	printf(
-		/* translators: %s: CoCart */
-		esc_html__( 'In the documentation you will find the API routes available along with over 100+ action hooks and filters for developers to customise API responses or change how %1$s operates.', 'cart-rest-api-for-woocommerce' ),
-		'CoCart'
+	echo wp_kses_post(
+		sprintf(
+			/* translators: %1$s: CoCart, %2$s: GitHub repository link */
+			__( 'In the documentation you will find references to the API routes available with some examples. If you want to modify or extend %1$s in any way, there are over 100+ action hooks and filters for developers to use that can customize %1$s to your specific needs, which you can <a href="%2$s" target="_blank">search in the GitHub repository</a>.', 'cart-rest-api-for-woocommerce' ),
+			'CoCart',
+			COCART_REPO_URL
+		)
 	);
 	?>
 </p>
@@ -45,8 +49,9 @@ printf(
 	<?php
 	echo wp_kses_post(
 		sprintf(
-			/* translators: %1$s: Developers Hub link */
-			__( 'There is also a <a href="%1$s" target="_blank">developers hub</a> where you can find all the resources you need to be productive with CoCart and keep track of everything that is happening with the plugin including development decisions and scoping of future versions.', 'cart-rest-api-for-woocommerce' ),
+			/* translators: %1$s: CoCart, %2$s: Developers Hub link */
+			__( 'There is also a <a href="%2$s" target="_blank">developers hub</a> where you can find all the resources you need to be productive with %1$s and keep track of everything that is happening with the plugin including development decisions and scoping of future versions.', 'cart-rest-api-for-woocommerce' ),
+			'CoCart',
 			$docs_url
 		)
 	);
@@ -55,16 +60,17 @@ printf(
 
 <p>
 	<?php
-	esc_html_e( 'It also provides answers to most common questions should you find that you need help. This is best place to look at first before contacting for support.', 'cart-rest-api-for-woocommerce' );
+	esc_html_e( 'If in need of help, most common questions are answered and guides are provided on the developers hub. This is best place to look at first before contacting support.', 'cart-rest-api-for-woocommerce' );
 	?>
 </p>
 
 <p>
 	<?php
 	printf(
-		/* translators: %s: CoCart */
-		esc_html__( 'If you do need support or simply want to talk to other developers about taking your WooCommerce store headless, come join the %s community.', 'cart-rest-api-for-woocommerce' ),
-		'CoCart'
+		/* translators: %1$s: CoCart, %2$s: Discord */
+		esc_html__( 'Want to talk to someone about converting your WooCommerce store headless? Come join the %1$s community on %2$s.', 'cart-rest-api-for-woocommerce' ),
+		'CoCart',
+		'Discord'
 	);
 	?>
 </p>
