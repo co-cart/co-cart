@@ -6,8 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\RESTAPI\Products\v1
- * @since   3.1.0
- * @version 3.7.11
+ * @since   3.1.0 Introduced.
+ * @version 4.4.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -634,6 +634,18 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 				array(
 					'key'     => '_sku',
 					'value'   => $skus,
+					'compare' => 'IN',
+				)
+			);
+		}
+
+		if ( ! empty( $request['global_unique_id'] ) ) {
+			$global_unique_ids  = array_map( 'trim', explode( ',', $request['global_unique_id'] ) );
+			$args['meta_query'] = $this->add_meta_query( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				$args,
+				array(
+					'key'     => '_global_unique_id',
+					'value'   => $global_unique_ids,
 					'compare' => 'IN',
 				)
 			);

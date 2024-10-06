@@ -185,6 +185,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 4.4.0 Added Global Unique ID in response.
 	 *
 	 * @param WC_Product      $product The product object.
 	 * @param WP_REST_Request $request The request object.
@@ -197,6 +198,11 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$data = $this->get_product_data( $product );
 		} else {
 			$data = $this->get_variation_product_data( $product );
+		}
+
+		// Get global unique ID if function and data exists.
+		if ( method_exists( $product, 'get_global_unique_id' ) ) {
+			$data['global_unique_id'] = $product->get_global_unique_id( 'view' );
 		}
 
 		// Add review data to products if requested.
@@ -432,6 +438,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			'slug'               => $product->get_slug( 'view' ),
 			'permalink'          => $product->get_permalink(),
 			'sku'                => $product->get_sku( 'view' ),
+			'global_unique_id'   => '',
 			'description'        => $product->get_description( 'view' ),
 			'short_description'  => $product->get_short_description( 'view' ),
 			'dates'              => array(
@@ -949,6 +956,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 4.4.0 Added Global Unique ID.
 	 *
 	 * @return array Product schema data.
 	 */
@@ -1010,6 +1018,11 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				'type'        => 'string',
 				'context'     => array( 'view' ),
 				'readonly'    => true,
+			),
+			'global_unique_id'   => array(
+				'description' => __( 'GTIN, UPC, EAN or ISBN.', 'cart-rest-api-for-woocommerce' ),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
 			),
 			'description'        => array(
 				'description' => __( 'Product description.', 'cart-rest-api-for-woocommerce' ),
