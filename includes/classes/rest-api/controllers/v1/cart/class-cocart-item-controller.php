@@ -477,6 +477,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 * @since 2.1.0 Introduced.
 			 *
 			 * @param string $message Message.
+			 * @param string $method  Method.
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'update' );
 
