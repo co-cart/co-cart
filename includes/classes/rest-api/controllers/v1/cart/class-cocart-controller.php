@@ -471,7 +471,7 @@ class CoCart_API_Controller {
 	 * @since   1.0.0 Introduced.
 	 * @version 2.6.2
 	 *
-	 * @param int $quantity The product quantity.
+	 * @param int|float $quantity The product quantity.
 	 *
 	 * @return WP_Error WP_Error if not valid.
 	 */
@@ -479,6 +479,8 @@ class CoCart_API_Controller {
 		if ( ! is_numeric( $quantity ) ) {
 			return new WP_Error( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 405 ) );
 		}
+
+		return $quantity;
 	} // END validate_quantity()
 
 	/**
@@ -659,7 +661,12 @@ class CoCart_API_Controller {
 			return $product_id;
 		}
 
-		$this->validate_quantity( $quantity );
+		$quantity = $this->validate_quantity( $quantity );
+
+		// If validation returned an error return error response.
+		if ( is_wp_error( $quantity ) ) {
+			return $quantity;
+		}
 
 		$product = wc_get_product( $variation_id ? $variation_id : $product_id );
 
