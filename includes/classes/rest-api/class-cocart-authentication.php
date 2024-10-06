@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.6.0 Introduced.
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 // Exit if accessed directly.
@@ -676,7 +676,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 				if ( ! empty( $port ) ) {
 					/**
-					 * Controls the list of ports considered safe in API.
+					 * Controls the list of ports considered safe for accessing the API.
 					 *
 					 * Filter allows to change and allow external requests for the HTTP request.
 					 *
