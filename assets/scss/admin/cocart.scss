@@ -73,7 +73,7 @@ body:not(.rtl).cocart-pagestyles {
 		background-color: $cocart_button_hovered !important;
 		border-color: $cocart_button_hovered !important;
 	}
-	a.button,
+	a.button:focus,
 	button:focus,
 	.button-primary:focus {
 		text-decoration-thickness: 4px;
@@ -102,6 +102,19 @@ body:not(.rtl).cocart-pagestyles {
 	}
 
 	&.cocart-notice {
+		a.button {
+			background-color: $cocart_button;
+			border-color: $cocart_button;
+		}
+		a.button:hover,
+		a.button:focus {
+			background-color: $cocart_button_hovered !important;
+			border-color: $cocart_button_hovered !important;
+		}
+		a.button:focus {
+			text-decoration-thickness: 4px;
+		}
+
 		.no-thanks {
 			display: block;
 			margin-top: 10px;
@@ -128,12 +141,12 @@ body:not(.rtl).cocart-pagestyles {
 		.cocart-action {
 			float: right;
 			text-align: center;
-		}
 
-		.cocart-action .cocart-button {
-			height: auto;
-			line-height: 20px;
-			padding: 6px 50px;
+			.cocart-button {
+				height: auto;
+				line-height: 20px;
+				padding: 6px 50px;
+			}
 		}
 
 		.cocart-notice-inner {
@@ -166,9 +179,9 @@ body:not(.rtl).cocart-pagestyles {
 	}
 }
 
-body.cocart .notice,
-body.cocart .updated,
-body.cocart .error {
+body.cocart .notice:not(.cocart-notice),
+body.cocart .updated:not(.cocart-notice),
+body.cocart .error:not(.cocart-notice) {
 	display: none;
 }
 
@@ -181,7 +194,9 @@ body.cocart-pagestyles {
 		padding: 0 6% 0 0 !important;
 	}
 
-	.notice:not(.cocart-notice) {
+	.notice:not(.cocart-notice),
+	.updated:not(.cocart-notice),
+	.error:not(.cocart-notice) {
 		display: none;
 	}
 }

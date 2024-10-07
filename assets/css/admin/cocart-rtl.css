@@ -51,7 +51,7 @@ body:not(.rtl).cocart-pagestyles #wpbody {
   .cocart-pagestyles .button-primary:focus {
     background-color: #5329c4 !important;
     border-color: #5329c4 !important; }
-  .cocart-pagestyles a.button,
+  .cocart-pagestyles a.button:focus,
   .cocart-pagestyles button:focus,
   .cocart-pagestyles .button-primary:focus {
     text-decoration-thickness: 4px; }
@@ -70,6 +70,18 @@ body:not(.rtl).cocart-pagestyles #wpbody {
 .notice.cocart-notice {
   border-color: #6032b0;
   padding: 10px !important; }
+
+.notice.cocart-notice a.button {
+  background-color: #5f32d9;
+  border-color: #5f32d9; }
+
+.notice.cocart-notice a.button:hover,
+.notice.cocart-notice a.button:focus {
+  background-color: #5329c4 !important;
+  border-color: #5329c4 !important; }
+
+.notice.cocart-notice a.button:focus {
+  text-decoration-thickness: 4px; }
 
 .notice.cocart-notice .no-thanks {
   display: block;
@@ -90,11 +102,10 @@ body:not(.rtl).cocart-pagestyles #wpbody {
 .notice.cocart-notice .cocart-action {
   float: left;
   text-align: center; }
-
-.notice.cocart-notice .cocart-action .cocart-button {
-  height: auto;
-  line-height: 20px;
-  padding: 6px 50px; }
+  .notice.cocart-notice .cocart-action .cocart-button {
+    height: auto;
+    line-height: 20px;
+    padding: 6px 50px; }
 
 .notice.cocart-notice .cocart-notice-inner {
   display: table;
@@ -117,9 +128,9 @@ body:not(.rtl).cocart-pagestyles #wpbody {
     font-size: 0;
     width: 64px; }
 
-body.cocart .notice,
-body.cocart .updated,
-body.cocart .error {
+body.cocart .notice:not(.cocart-notice),
+body.cocart .updated:not(.cocart-notice),
+body.cocart .error:not(.cocart-notice) {
   display: none; }
 
 body.cocart-pagestyles .cocart-notice-icon {
@@ -128,7 +139,9 @@ body.cocart-pagestyles .cocart-notice-icon {
 body.cocart-pagestyles .cocart-notice-content {
   padding: 0 0 0 6% !important; }
 
-body.cocart-pagestyles .notice:not(.cocart-notice) {
+body.cocart-pagestyles .notice:not(.cocart-notice),
+body.cocart-pagestyles .updated:not(.cocart-notice),
+body.cocart-pagestyles .error:not(.cocart-notice) {
   display: none; }
 
 @media (max-width: 767px) {
