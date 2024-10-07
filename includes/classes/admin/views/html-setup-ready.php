@@ -81,7 +81,7 @@ printf(
 
 <div class="founder-row">
 	<div class="founder-image">
-		<img src="<?php echo esc_url( 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( 'mailme@sebastiendumont.com' ) ) ) . '?d=mp&s=60' ); ?>" width="60px" height="60px" alt="Photo of Founder" />
+		<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/avatar.jpeg' ); ?>" width="60px" height="60px" alt="Photo of Founder" />
 	</div>
 
 	<div class="founder-details">
