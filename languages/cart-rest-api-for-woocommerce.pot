@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: CoCart API - Decoupling Made Easy for WooCommerce "
 "4.4.0-beta.6\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2024-10-07 11:15:23+00:00\n"
+"POT-Creation-Date: 2024-10-07 21:33:31+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -142,9 +142,9 @@ msgstr ""
 #: includes/classes/admin/class-cocart-admin-help-tab.php:57
 #. translators: %s CoCart
 msgid ""
-"We are fanatical about support, and want you to get the best out of our "
-"REST API with %s. If you run into any difficulties, there are several "
-"places you can find help:"
+"We are fanatical about support, and want you to get the best out of %s's "
+"REST API. If you run into any difficulties, there are several places you "
+"can find help:"
 msgstr ""
 
 #: includes/classes/admin/class-cocart-admin-help-tab.php:64
@@ -172,8 +172,7 @@ msgstr ""
 msgid ""
 "%1$sTranslate%2$s. %3$s is in need of translations. Is the plugin not "
 "translated in your language or do you spot errors with the current "
-"translations? Helping out is easy! Head over to the project on "
-"WordPress.org and click %1$sTranslate %3$s%2$s."
+"translations? Helping out is easy! %1$sTranslate %3$s%2$s."
 msgstr ""
 
 #: includes/classes/admin/class-cocart-admin-help-tab.php:79
@@ -183,12 +182,12 @@ msgstr ""
 #: includes/classes/admin/class-cocart-admin-help-tab.php:85
 #. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing
 msgid ""
-"%1$sCommunity Forum%2$s. If you prefer, you can request for help on the "
-"WordPress Forum."
+"%1$sCommunity forum%2$s. If you prefer, you can request for help on the "
+"WordPress forum."
 msgstr ""
 
 #: includes/classes/admin/class-cocart-admin-help-tab.php:86
-msgid "Community Forum"
+msgid "Community forum"
 msgstr ""
 
 #: includes/classes/admin/class-cocart-admin-help-tab.php:91
@@ -196,7 +195,7 @@ msgstr ""
 #. instructions, %3$s: Hyperlink closing
 msgid ""
 "%2$sFound a bug?%4$s If you find a bug within %1$s core, please create a "
-"bug report on the %2$sGithub repository%4$s. Ensure you read the "
+"bug report on the %2$sGitHub repository%4$s. Ensure you read the "
 "%3$scontribution guide%4$s prior to submitting your report. To help solve "
 "your issue as fast as possible, please be as descriptive as possible by "
 "filling in the template provided as requested."
