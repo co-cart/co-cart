@@ -571,7 +571,7 @@ class CoCart_API_Controller {
 			 * Filters message about missing variation data.
 			 *
 			 * @param string $message            Message.
-			 * @param string $missing_attributes Number of missing attributes.
+			 * @param int    $missing_attributes Number of missing attributes.
 			 * @param array  $missing_attributes List of missing attributes.
 			 */
 			$message = apply_filters( 'cocart_missing_variation_data_message', $message, count( $missing_attributes ), wc_format_list_of_items( $missing_attributes ) );

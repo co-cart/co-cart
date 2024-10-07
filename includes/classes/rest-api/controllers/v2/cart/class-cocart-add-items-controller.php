@@ -110,8 +110,8 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 			 *
 			 * @since 2.1.0 Introduced.
 			 *
-			 * @param string     $adding_to_cart_handler The product type to identify handler.
-			 * @param WC_Product $adding_to_cart         The product object
+			 * @param string     $product_type   The product type to identify handler.
+			 * @param WC_Product $adding_to_cart The product object
 			 */
 			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
@@ -122,13 +122,14 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				 * Allows you to specify the handlers validation method for
 				 * adding item to the cart.
 				 *
+				 * Example: "cocart_add_items_to_cart_handler_grouped"
+				 *
 				 * @since 2.1.0 Introduced.
 				 *
-				 * @param string          $adding_to_cart_handler The product type to identify handler.
-				 * @param WC_Product      $adding_to_cart         The product object
-				 * @param WP_REST_Request $request                The request object.
+				 * @param WC_Product      $adding_to_cart The product object
+				 * @param WP_REST_Request $request        The request object.
 				 */
-				$items_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
+				$items_added_to_cart = apply_filters( "cocart_add_items_to_cart_handler_{$add_items_to_cart_handler}", $adding_to_cart, $request ); // Custom handler.
 			} else {
 				$items_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
 			}
@@ -144,7 +145,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				 * @hooked: set_new_price - 1
 				 * @hooked: add_customer_billing_details - 10
 				 *
-				 * @param WC_Product      $items_added_to_cart       The product added to cart.
+				 * @param bool|array      $items_added_to_cart       The product added to cart.
 				 * @param WP_REST_Request $request                   The request object.
 				 * @param string          $add_items_to_cart_handler The product type added to cart.
 				 * @param object          $controller                The controller.
@@ -183,7 +184,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 	 * @param array           $items      Contains the quantity of the items to add to the cart.
 	 * @param WP_REST_Request $request    The request object.
 	 *
-	 * @return bool            success or not
+	 * @return bool|array success or not
 	 */
 	public function add_to_cart_handler_grouped( $product_id, $items, $request ) {
 		try {
