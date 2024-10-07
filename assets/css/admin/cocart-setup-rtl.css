@@ -34,88 +34,6 @@ body.cocart-pagestyles .wp-header-end {
     display: none; }
   .cocart-pagestyles .woocommerce-layout__header-breadcrumbs span:nth-child(2)::before {
     content: none; }
-  .cocart-pagestyles .container {
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.04);
-    color: #292929;
-    margin: 20px auto 40px;
-    max-width: 700px;
-    text-align: right;
-    width: calc(100% - 20px); }
-    .cocart-pagestyles .container .content {
-      padding: 40px; }
-      .cocart-pagestyles .container .content .logo {
-        background-color: #6032b0;
-        margin: -40px -40px 30px;
-        text-align: center; }
-      .cocart-pagestyles .container .content h1 {
-        color: #23282d;
-        font-size: 1.7em;
-        font-weight: 700;
-        line-height: 1.48;
-        margin-bottom: 28px;
-        margin-top: 0; }
-      .cocart-pagestyles .container .content p {
-        color: #333;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.6;
-        margin-bottom: 20px; }
-      .cocart-pagestyles .container .content ul {
-        list-style: disc; }
-      .cocart-pagestyles .container .content li {
-        margin-right: 12px; }
-      .cocart-pagestyles .container .content a.button.button-large,
-      .cocart-pagestyles .container .content button.button-large {
-        font-size: 24px;
-        line-height: 54px;
-        height: 60px;
-        padding: 0 20px; }
-      .cocart-pagestyles .container .content a.button.button-medium,
-      .cocart-pagestyles .container .content button.button-medium {
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 36px;
-        height: 40px; }
-      .cocart-pagestyles .container .content a.button.upgrade {
-        background-color: #6032b0;
-        border-color: #6032b0;
-        color: #fff; }
-      .cocart-pagestyles .container .content a.button.upgrade:hover,
-      .cocart-pagestyles .container .content a.button.upgrade:focus {
-        background-color: #6131af;
-        border-color: #6131af; }
-      .cocart-pagestyles .container .content p.price-tag {
-        font-size: 69px;
-        color: #6032b0;
-        line-height: 66px;
-        font-weight: 700;
-        margin: 20px auto;
-        text-align: center; }
-        .cocart-pagestyles .container .content p.price-tag sub {
-          margin-top: 18px;
-          display: inline-block;
-          font-size: 30px;
-          line-height: 8px;
-          vertical-align: top;
-          margin-left: 2px; }
-        .cocart-pagestyles .container .content p.price-tag sup {
-          display: inline-block;
-          font-size: 18px;
-          line-height: 16px;
-          vertical-align: bottom;
-          margin-right: 2px; }
-      .cocart-pagestyles .container .content img.emoji {
-        display: inline !important;
-        border: none !important;
-        height: auto;
-        width: 1em;
-        margin: 0 0.07em !important;
-        vertical-align: -0.1em !important;
-        background: none !important;
-        padding: 0 !important;
-        box-shadow: none !important; }
 
 .notice.inline.notice-cocart {
   border-color: #6032b0; }
@@ -151,11 +69,10 @@ body.cocart-pagestyles .wp-header-end {
 .notice.cocart-notice .cocart-action {
   float: left;
   text-align: center; }
-
-.notice.cocart-notice .cocart-action .cocart-button {
-  height: auto;
-  line-height: 20px;
-  padding: 6px 50px; }
+  .notice.cocart-notice .cocart-action .cocart-button {
+    height: auto;
+    line-height: 20px;
+    padding: 6px 50px; }
 
 .notice.cocart-notice .cocart-notice-inner {
   display: table;
@@ -178,9 +95,9 @@ body.cocart-pagestyles .wp-header-end {
     font-size: 0;
     width: 64px; }
 
-body.cocart .notice,
-body.cocart .updated,
-body.cocart .error {
+body.cocart .notice:not(.cocart-notice),
+body.cocart .updated:not(.cocart-notice),
+body.cocart .error:not(.cocart-notice) {
   display: none; }
 
 body.cocart-pagestyles .cocart-notice-icon {
@@ -189,7 +106,9 @@ body.cocart-pagestyles .cocart-notice-icon {
 body.cocart-pagestyles .cocart-notice-content {
   padding: 0 0 0 6% !important; }
 
-body.cocart-pagestyles .notice:not(.cocart-notice) {
+body.cocart-pagestyles .notice:not(.cocart-notice),
+body.cocart-pagestyles .updated:not(.cocart-notice),
+body.cocart-pagestyles .error:not(.cocart-notice) {
   display: none; }
 
 @media (max-width: 767px) {

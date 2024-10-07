@@ -50,119 +50,6 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 	.woocommerce-layout__header-breadcrumbs span:nth-child( 2 )::before {
 		content: none;
 	}
-
-	.container {
-		background-color: $white;
-		border: 1px solid $light-grey;
-		box-shadow: 0 2px 30px $shadow;
-		color: $black;
-		margin: 20px auto 40px;
-		max-width: 700px;
-		text-align: left;
-		width: calc(100% - 20px);
-
-		.content {
-			padding: 40px;
-
-			.logo {
-				background-color: $cocart;
-				margin: -40px -40px 30px;
-				text-align: center;
-			}
-
-			h1 {
-				color: #23282d;
-				font-size: 1.7em;
-				font-weight: 700;
-				line-height: 1.48;
-				margin-bottom: 28px;
-				margin-top: 0;
-			}
-
-			p {
-				color: #333;
-				font-size: 16px;
-				font-weight: 400;
-				line-height: 1.6;
-				margin-bottom: 20px;
-			}
-
-			ul {
-				list-style: disc;
-			}
-
-			li {
-				margin-left: 12px;
-			}
-
-			a.button.button-large,
-			button.button-large {
-				font-size: 24px;
-				line-height: 54px;
-				height: 60px;
-				padding: 0 20px;
-			}
-
-			a.button.button-medium,
-			button.button-medium {
-				font-size: 18px;
-				font-weight: 600;
-				line-height: 36px;
-				height: 40px;
-			}
-
-			a.button.upgrade {
-				background-color: $cocart;
-				border-color: $cocart;
-				color: $white;
-			}
-
-			a.button.upgrade:hover,
-			a.button.upgrade:focus {
-				background-color: $cocart-hovered;
-				border-color: $cocart-hovered;
-			}
-
-			p.price-tag {
-				font-size: 69px;
-				color: $cocart;
-				line-height: 66px;
-				font-weight: 700;
-				margin: 20px auto;
-				text-align: center;
-
-				sub {
-					margin-top: 18px;
-					display: inline-block;
-					font-size: 30px;
-					line-height: 8px;
-					vertical-align: top;
-					margin-right: 2px;
-				}
-
-				sup {
-					display: inline-block;
-					font-size: 18px;
-					line-height: 16px;
-					vertical-align: bottom;
-					margin-left: 2px;
-				}
-			}
-
-			img.emoji {
-				display: inline !important;
-				border: none !important;
-				height: auto;
-				width: 1em;
-				margin: 0 0.07em !important;
-				vertical-align: -0.1em !important;
-				background: none !important;
-				padding: 0 !important;
-				box-shadow: none !important;
-			}
-
-		}
-	}
 }
 
 // Admin Notices
@@ -213,12 +100,12 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 		.cocart-action {
 			float: right;
 			text-align: center;
-		}
 
-		.cocart-action .cocart-button {
-			height: auto;
-			line-height: 20px;
-			padding: 6px 50px;
+			.cocart-button {
+				height: auto;
+				line-height: 20px;
+				padding: 6px 50px;
+			}
 		}
 
 		.cocart-notice-inner {
@@ -251,9 +138,9 @@ body.cocart-pagestyles .wp-header-end { clear: both; }
 	}
 }
 
-body.cocart .notice,
-body.cocart .updated,
-body.cocart .error {
+body.cocart .notice:not(.cocart-notice),
+body.cocart .updated:not(.cocart-notice),
+body.cocart .error:not(.cocart-notice) {
 	display: none;
 }
 
@@ -266,7 +153,9 @@ body.cocart-pagestyles {
 		padding: 0 6% 0 0 !important;
 	}
 
-	.notice:not(.cocart-notice) {
+	.notice:not(.cocart-notice),
+	.updated:not(.cocart-notice),
+	.error:not(.cocart-notice) {
 		display: none;
 	}
 }
