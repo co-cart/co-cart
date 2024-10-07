@@ -1,6 +1,15 @@
 parameters:
     level: 0
 
+    ignoreErrors:
+        -
+            # Ignore the specific error about LiteSpeed_Cache_API::debug()
+            message: '#Call to static method debug\(\) on an unknown class LiteSpeed_Cache_API#'
+
+        -
+            # Ignore the specific error about unknown class WC_Subscriptions_Cart
+            message: '#Call to static method cart_contains_subscriptions_needing_shipping\(\) on an unknown class WC_Subscriptions_Cart#'
+
     paths:
         - cart-rest-api-for-woocommerce.php
         - load-package.php
