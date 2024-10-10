@@ -9,6 +9,10 @@
 
 > Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. So this route can help create a empty cart storing just the cart key and return it in the response guiding the developer to check the documentation for more information on how to use the cart key for a guest customer. It is not a requirement to use this route first.
 
+## Bug Fix
+
+* REST API: Fixed rounding issue due to decimal separator being different with the cart total for some odd reason with WooCommerce.
+
 ## Changes
 
 * REST API: Avatars only return if requested now when using the login endpoint.
@@ -28,6 +32,7 @@
 * REST API: Reset the item key when adding item again as it may have been manipulated by adding cart item data via code or plugin.
 * REST API: Only update cart item quantity if quantity is different when requested.
 * REST API: Check cached price against price with tax mode not just the product price set.
+* REST API: Override sale and regular price too so the set price is what is shown even if there prices are originally lower.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
 * WordPress Dashboard: Adjusted notices to get cached for the current site should it be a multisite.
