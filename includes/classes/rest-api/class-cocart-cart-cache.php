@@ -136,12 +136,16 @@ class CoCart_Cart_Cache {
 
 		// If cart contents is cached, proceed.
 		if ( ! empty( $cart_contents_cached ) && is_array( $cart_contents_cached ) ) {
+
+			$tax_display_mode = CoCart_Utilities_Cart_Helpers::get_tax_display_mode();
+			$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
+
 			foreach ( $cart->get_cart() as $key => $value ) {
 				$product = $value['data']; // Get original product data.
 
 				// If this item is cached then look up price difference before setting the new price.
 				if ( isset( $cart_contents_cached[ $key ] ) ) {
-					if ( isset( $cart_contents_cached[ $key ]['price'] ) && $product->get_price() !== $cart_contents_cached[ $key ]['price'] ) {
+					if ( isset( $cart_contents_cached[ $key ]['price'] ) && $price_function( $product ) !== $cart_contents_cached[ $key ]['price'] ) {
 						$value['data']->set_price( $cart_contents_cached[ $key ]['price'] );
 					}
 				}
