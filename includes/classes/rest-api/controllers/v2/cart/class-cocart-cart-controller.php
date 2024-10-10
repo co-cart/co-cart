@@ -1784,7 +1784,7 @@ class CoCart_REST_Cart_V2_Controller {
 				'discount_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_discount_tax() ),
 				'shipping_total' => cocart_format_money( $this->get_cart_instance()->get_shipping_total() ),
 				'shipping_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_shipping_tax() ),
-				'total'          => cocart_format_money( $this->get_cart_instance()->get_total() ),
+				'total'          => cocart_format_money( $this->get_cart_instance()->get_total( 'edit' ) ),
 				'total_tax'      => (string) cocart_format_money( $this->get_cart_instance()->get_total_tax() ),
 			),
 			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb ),
@@ -1901,7 +1901,7 @@ class CoCart_REST_Cart_V2_Controller {
 								$template['totals']['shipping_tax'] = (string) cocart_format_money( $this->get_cart_instance()->get_shipping_tax() );
 							}
 							if ( 'total' === $total ) {
-								$template['totals']['total'] = cocart_format_money( $this->get_cart_instance()->get_total() );
+								$template['totals']['total'] = cocart_format_money( $this->get_cart_instance()->get_total( 'edit' ) );
 							}
 							if ( 'total_tax' === $total ) {
 								$template['totals']['total_tax'] = (string) cocart_format_money( $this->get_cart_instance()->get_total_tax() );
@@ -1917,7 +1917,7 @@ class CoCart_REST_Cart_V2_Controller {
 							'discount_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_discount_tax() ),
 							'shipping_total' => cocart_format_money( $this->get_cart_instance()->get_shipping_total() ),
 							'shipping_tax'   => (string) cocart_format_money( $this->get_cart_instance()->get_shipping_tax() ),
-							'total'          => cocart_format_money( $this->get_cart_instance()->get_total() ),
+							'total'          => cocart_format_money( $this->get_cart_instance()->get_total( 'edit' ) ),
 							'total_tax'      => (string) cocart_format_money( $this->get_cart_instance()->get_total_tax() ),
 						);
 					}
