@@ -27,6 +27,7 @@
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
 * REST API: Reset the item key when adding item again as it may have been manipulated by adding cart item data via code or plugin.
 * REST API: Only update cart item quantity if quantity is different when requested.
+* REST API: Check cached price against price with tax mode not just the product price set.
 * Feature: Load cart from session now supports registered customers.
 * Localization: Similar messages are now consistent with each other.
 * WordPress Dashboard: Adjusted notices to get cached for the current site should it be a multisite.
