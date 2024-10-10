@@ -646,7 +646,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	public function update_session_timestamp( $customer_id, $timestamp ) {
 		global $wpdb;
 
-		$wpdb->update(
+		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$this->_table,
 			array(
 				'cart_expiry' => $timestamp,

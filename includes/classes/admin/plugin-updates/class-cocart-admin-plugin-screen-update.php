@@ -78,7 +78,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 		 *
 		 * @since 4.3.0 Introduced.
 		 */
-		echo apply_filters( 'cocart_in_plugin_update_message', $this->upgrade_notice ? '</p>' . wp_kses_post( $this->upgrade_notice ) . '<p class="dummy">' : '' ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+		echo apply_filters( 'cocart_in_plugin_update_message', $this->upgrade_notice ? '</p>' . wp_kses_post( $this->upgrade_notice ) . '<p class="dummy">' : '' ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped, WordPress.Security.EscapeOutput.OutputNotEscaped 
 	} // END in_plugin_update_message()
 
 	/**
