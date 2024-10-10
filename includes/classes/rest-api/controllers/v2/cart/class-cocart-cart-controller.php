@@ -556,7 +556,7 @@ class CoCart_REST_Cart_V2_Controller {
 			 * @param int             $quantity     The item quantity.
 			 * @param int             $variation_id The variation ID.
 			 * @param array           $variation    The variation attributes.
-			 * @param array           $item_data    The cart item data
+			 * @param array           $item_data    The cart item data.
 			 * @param string          $product_type The product type.
 			 * @param WP_REST_Request $request      The request object.
 			 */
@@ -3066,13 +3066,22 @@ class CoCart_REST_Cart_V2_Controller {
 		cocart_do_deprecated_filter( 'cocart_cart_schema', '3.1.0', 'cocart_cart_items_schema', __( 'Changed for the purpose of not overriding default properties.', 'cart-rest-api-for-woocommerce' ), array( $this->schema['properties'] ) );
 
 		/**
-		 * Extend the cart schema properties for items.
+		 * Extend cart schema properties for items.
 		 *
-		 * This filter allows you to extend the cart schema properties for items without removing any default properties.
+		 * Filter allows you to extend the cart schema properties for items without removing any default properties.
 		 *
 		 * @since 3.1.0 Introduced.
 		 */
 		$this->schema['properties']['items']['items']['properties'] += apply_filters( 'cocart_cart_items_schema', array() );
+
+		/**
+		 * Extend cart schema properties for extensions.
+		 *
+		 * Filter allows you to extend the cart schema properties for extensions.
+		 *
+		 * @since 4.4.0 Introduced.
+		 */
+		$this->schema['properties']['items']['items']['properties']['extensions'] += apply_filters( 'cocart_cart_items_extensions_schema', array() );
 
 		return $this->schema;
 	} // END get_public_item_schema()
