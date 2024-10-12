@@ -719,6 +719,100 @@ class CoCart_Utilities_Cart_Helpers {
 		return esc_url( $thumbnail_src );
 	} // END get_thumbnail_source()
 
+	/**
+	 * Returns basic item details.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.4.0 Introduced.
+	 *
+	 * @param int|WC_Product $product   The product ID or object.
+	 * @param array          $cart_item The cart item data.
+	 * @param string         $item_key  The item key generated based on the details of the item.
+	 *
+	 * @return array $item Basic item details.
+	 */
+	public static function get_item_basic( $product, $cart_item = array(), $item_key = '' ) {
+		$tax_display_mode = self::get_tax_display_mode();
+		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
+
+		$item = array();
+
+		if ( ! empty( $item_key ) ) {
+			$item['item_key'] = $item_key;
+		}
+
+		if ( is_int( $product ) ) {
+			$product = wc_get_product( $product );
+		}
+
+		$item['id'] = $product->get_id();
+
+		/**
+		 * Filter allows the product name of the item to change.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string     $product_name Product name.
+		 * @param WC_Product $product      The product object.
+		 * @param array      $cart_item    The cart item data.
+		 * @param string     $item_key     The item key generated based on the details of the item.
+		 */
+		$item['name'] = apply_filters( 'cocart_cart_item_name', $product->get_name(), $product, $cart_item, $item_key );
+
+		/**
+		 * Filter allows the price of the item to change.
+		 *
+		 * Warning: This filter does not represent the true value that totals will be calculated on.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string     $product_price Product price.
+		 * @param array      $cart_item     The cart item data.
+		 * @param string     $item_key      The item key generated based on the details of the item.
+		 * @param WC_Product $product       The product object.
+		 */
+		$item['price'] = apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $product ) ), $cart_item, $item_key, $product );
+
+		/**
+		 * Filter allows the quantity of the item to change.
+		 *
+		 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string     $item_quantity Item quantity.
+		 * @param string     $item_key      The item key generated based on the details of the item.
+		 * @param array      $cart_item     The cart item data.
+		 * @param WC_Product $product       The product object.
+		 */
+		$item['quantity'] = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $product );
+
+		$item['variation'] = cocart_format_variation_data( $cart_item['variation'], $product );
+
+		// Prepares the remaining cart item data.
+		$cart_item = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
+
+		// Collect all cart item data if any thing is left.
+		if ( ! empty( $cart_item ) ) {
+			/**
+			 * Filter allows you to alter the remaining cart item data.
+			 *
+			 * @since 3.0.0 Introduced.
+			 * @since 4.4.0 Added product object as parameter.
+			 *
+			 * @param array      $cart_item The cart item data.
+			 * @param string     $item_key  Generated ID based on the product information when added to the cart.
+			 * @param WC_Product $product   The product object.
+			 */
+			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $product );
+		}
+
+		return $item;
+	} // END get_item_basic()
+
 	// ** Set Data Functions **//
 
 	/**
