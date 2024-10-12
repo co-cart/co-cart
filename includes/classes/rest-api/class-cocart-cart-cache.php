@@ -152,8 +152,6 @@ class CoCart_Cart_Cache {
 						// Override sale and regular too so the set price is what is shown even if there prices are originally lower.
 						$product->set_sale_price( $cached_item['price'] );
 						$product->set_regular_price( $cached_item['price'] );
-					if ( isset( $cart_contents_cached[ $key ]['price'] ) && $price_function( $product ) !== $cart_contents_cached[ $key ]['price'] ) {
-						$value['data']->set_price( $cart_contents_cached[ $key ]['price'] );
 					}
 				}
 			}
