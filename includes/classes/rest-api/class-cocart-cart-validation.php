@@ -39,7 +39,7 @@ class CoCart_Cart_Validation {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4.0 Introduced.
+	 * @since 4.3.7 Introduced.
 	 *
 	 * @uses wc_get_product()
 	 * @uses wc_add_notice()

@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   2.3.0 Introduced.
- * @version 4.4.0
+ * @version 4.3.7
  * @license GPL-2.0+
  */
 

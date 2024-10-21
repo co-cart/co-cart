@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
  * @since   1.2.0 Introduced.
- * @version 4.4.0
+ * @version 4.3.7
  * @license GPL-2.0+
  */
 
@@ -128,7 +128,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @static
 		 *
 		 * @since 3.0.0 Introduced.
-		 * @since 4.4.0 Adjusted to get cached notices for the current site should it be a multisite.
+		 * @since 4.3.7 Adjusted to get cached notices for the current site should it be a multisite.
 		 *
 		 * @return array Cached notices for current site.
 		 */
@@ -154,7 +154,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 4.3.7 Introduced.
 		 *
 		 * @param array $notices New value for the locally cached notices array.
 		 */
@@ -257,7 +257,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 4.3.7 Introduced.
 		 *
 		 * @param array|string $names_array_or_regex An array of notice names, or a string representing a regular expression.
 		 * @param bool         $force_save           Force saving inside this method instead of at the 'shutdown'.
@@ -328,7 +328,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 4.3.7 Introduced.
 		 *
 		 * @param string $notice_name Notice name.
 		 */
@@ -352,7 +352,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since 4.4.0 Introduced.
+		 * @since 4.3.7 Introduced.
 		 *
 		 * @param string   $notice_name The name of the admin notice to check.
 		 * @param int|null $user_id     User id, or null for the current user.
