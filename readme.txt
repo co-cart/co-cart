@@ -129,7 +129,7 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 
 * The official [CoCart API plugin](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) website.
 * [CoCart for Developers](https://cocart.dev/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink), an official hub for resources you need to be productive with CoCart and keep track of everything that is happening with the API.
-* [CoCart API Reference](https://ogdocs.cocartapi.com/)
+* [CoCart API Reference](https://docs.cocart.xyz/)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
 * Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/cocartheadless/) and [GitHub](https://github.com/co-cart/co-cart)
 
@@ -204,7 +204,7 @@ Yes. Just install CoCart and activate it on the sites you want to use CoCart.
 
 = Can I have WordPress running on one domain and my headless ecommerce on another domain? =
 
-Absolutely. That is what CoCart is mainly developed for. You just need to enable CORS. You can do that easily with [the CORS add-on](https://wordpress.org/plugins/cocart-cors/) or you can manually enable it via the filters available [in the documentation](https://ogdocs.cocartapi.com/#filters-api-access-cors-allow-all-cross-origin-headers).
+Absolutely. That is what CoCart is mainly developed for. You just need to enable CORS. You can do that easily with [the CORS add-on](https://wordpress.org/plugins/cocart-cors/) or you can manually enable it via the filters available [in the documentation](https://docs.cocart.xyz/#filters-api-access-cors-allow-all-cross-origin-headers).
 
 = Will CoCart interfere with other plugins? =
 
@@ -230,7 +230,7 @@ As this plugin provides a REST API built for developers, you will need to have s
 
 = Where can I find documentation for CoCart? =
 
-You can find the documentation [here](https://ogdocs.cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+You can find the documentation [here](https://docs.cocart.xyz/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
 = Can I change the formatting of values, add and change details to the responses? =
 
