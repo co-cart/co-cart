@@ -156,11 +156,11 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 					) . '" target="_blank">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
 					'review'    => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */
-						esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ),
+						esc_attr__( 'Submit a review for %s', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
 					) . '" aria-label="' . sprintf(
 						/* translators: %s: CoCart */
-						esc_attr__( 'Review %s on WordPress.org', 'cart-rest-api-for-woocommerce' ),
+						esc_attr__( 'Submit a review for %s', 'cart-rest-api-for-woocommerce' ),
 						'CoCart'
 					) . '" target="_blank">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 				);

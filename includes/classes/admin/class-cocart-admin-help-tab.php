@@ -81,12 +81,6 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 								'CoCart'
 							) . '</li>' .
 							'<li>' . sprintf(
-								/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
-								__( '%1$sCommunity forum%2$s. If you prefer, you can request for help on the WordPress forum.', 'cart-rest-api-for-woocommerce' ),
-								'<a href="' . esc_url( COCART_SUPPORT_URL ) . '" aria-label="' . esc_html__( 'Community forum', 'cart-rest-api-for-woocommerce' ) . '" title="' . esc_html__( 'Community forum', 'cart-rest-api-for-woocommerce' ) . '" target="_blank">',
-								'</a>'
-							) . '</li>' .
-							'<li>' . sprintf(
 								/* translators: %1$s: Link to report issues, %2$s: Link to contribute instructions, %3$s: Hyperlink closing */
 								__( '%2$sFound a bug?%4$s If you find a bug within %1$s core, please create a bug report on the %2$sGitHub repository%4$s. Ensure you read the %3$scontribution guide%4$s prior to submitting your report. To help solve your issue as fast as possible, please be as descriptive as possible by filling in the template provided as requested.', 'cart-rest-api-for-woocommerce' ),
 								'CoCart',

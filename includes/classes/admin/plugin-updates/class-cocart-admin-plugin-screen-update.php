@@ -82,7 +82,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	} // END in_plugin_update_message()
 
 	/**
-	 * Get the upgrade notice from WordPress.org.
+	 * Get the upgrade notice from GitHub repository.
 	 *
 	 * @access protected
 	 *
@@ -97,7 +97,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 		$upgrade_notice = get_transient( $transient_name );
 
 		if ( false === $upgrade_notice ) {
-			$response = wp_safe_remote_get( esc_url_raw( 'https://plugins.svn.wordpress.org/' . COCART_SLUG . '/trunk/readme.txt' ) );
+			$response = wp_safe_remote_get( esc_url_raw( 'https://raw.githubusercontent.com/co-cart/co-cart/refs/heads/trunk/readme.txt' ) );
 
 			if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
 				$upgrade_notice = $this->parse_update_notice( $response['body'], $version );

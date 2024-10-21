@@ -74,23 +74,24 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 		);
 
 		$args = array(
-			'title'   => __( 'Need help with CoCart?', 'cart-rest-api-for-woocommerce' ),
-			'content' => __( 'You can ask for help on the support forum at WordPress.org or join the CoCart Discord community and ask for help there.', 'cart-rest-api-for-woocommerce' ),
+			'title'   => sprintf(
+				/* translators: %s CoCart */
+				__( 'Need help with %s?', 'cart-rest-api-for-woocommerce' ),
+				'CoCart',
+			),
+			'content' => sprintf(
+				/* translators: %s CoCart */
+				__( 'You can ask for help by joining the %s community on Discord.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart'
+			),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
-					'name'    => 'cocart-forum-support',
-					'label'   => esc_attr__( 'Support Forum', 'cart-rest-api-for-woocommerce' ),
-					'url'     => esc_url( COCART_SUPPORT_URL ),
-					'status'  => $status,
-					'primary' => true,
-				),
-				array(
 					'name'    => 'cocart-community',
-					'label'   => __( 'Join Community', 'cart-rest-api-for-woocommerce' ),
+					'label'   => __( 'Join community', 'cart-rest-api-for-woocommerce' ),
 					'url'     => esc_url( COCART_COMMUNITY_URL ),
 					'status'  => $status,
-					'primary' => false,
+					'primary' => true,
 				),
 			),
 		);

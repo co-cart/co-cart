@@ -51,14 +51,14 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 		</div>
 
 		<div class="cocart-action review-actions">
-			<a href="<?php echo esc_url( 'https://cocartapi.com/suggest-a-feature/' ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank"><?php esc_html_e( 'Give Feedback', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( COCART_SUGGEST_FEATURE ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Give Feedback', 'cart-rest-api-for-woocommerce' ); ?></a>
 			<button class="button cocart-notice-dismiss"><?php esc_html_e( 'No thanks', 'cart-rest-api-for-woocommerce' ); ?></button>
 		</div>
 	</div>
 
 	<div class="cocart-notice-inner cocart-step cocart-review-step-3" style="display:none;">
 		<div class="cocart-notice-content">
-			<p><?php esc_html_e( 'That\'s awesome! Could you please do me a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'That\'s awesome! Could you please do us a BIG favor and send a shout-out to help us spread the word and boost our motivation?', 'cart-rest-api-for-woocommerce' ); ?></p>
 			<p>
 				<strong>
 					<?php
@@ -77,7 +77,7 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 		</div>
 
 		<div class="cocart-action review-actions">
-			<a href="https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/?filter=5#new-post" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Ok, you deserve it!', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( COCART_REVIEW_URL ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Ok, you deserve it!', 'cart-rest-api-for-woocommerce' ); ?></a>
 			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'No thank you', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>
