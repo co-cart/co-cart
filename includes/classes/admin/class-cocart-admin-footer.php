@@ -83,17 +83,31 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 					)
 				);
 
+				$docs = sprintf(
+					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
+					__( '%1$sDocumentation%2$s', 'cart-rest-api-for-woocommerce' ),
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_DOCUMENTATION_URL ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				);
+
+				$community = sprintf(
+					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
+					__( '%1$sCommunity%2$s', 'cart-rest-api-for-woocommerce' ),
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_COMMUNITY_URL ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				);
+
 				$changelog = sprintf(
 					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
 					__( '%1$sChangelog%2$s', 'cart-rest-api-for-woocommerce' ),
-					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://cocart.dev/changelog/' ) ) ) ) . '" target="_blank">',
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://cocart.dev/changelog/' ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				);
 
 				/* translators: %s: CoCart */
 				$version = sprintf( __( '%s Version', 'cart-rest-api-for-woocommerce' ), 'CoCart' ) . ' ' . esc_attr( COCART_VERSION );
 
-				return $changelog . ' | ' . $version;
+				return $docs . ' | ' . $community . ' | ' . $changelog . ' | ' . $version;
 			}
 
 			return $text;
