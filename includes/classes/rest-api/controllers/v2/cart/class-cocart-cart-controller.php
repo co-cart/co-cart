@@ -2079,7 +2079,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				'discount_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
 				'shipping_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
 				'shipping_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
-				'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
+				'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total( 'edit' ), wc_get_price_decimals() ),
 				'total_tax'      => cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
 			),
 			'removed_items'  => $this->get_removed_items( $this->get_cart_instance()->get_removed_cart_contents(), $show_thumb ),
@@ -2196,7 +2196,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 								$template['totals']['shipping_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() );
 							}
 							if ( 'total' === $total ) {
-								$template['totals']['total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() );
+								$template['totals']['total'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total( 'edit' ), wc_get_price_decimals() );
 							}
 							if ( 'total_tax' === $total ) {
 								$template['totals']['total_tax'] = cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() );
@@ -2212,7 +2212,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 							'discount_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_discount_tax(), wc_get_price_decimals() ),
 							'shipping_total' => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_total(), wc_get_price_decimals() ),
 							'shipping_tax'   => cocart_prepare_money_response( $this->get_cart_instance()->get_shipping_tax(), wc_get_price_decimals() ),
-							'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total(), wc_get_price_decimals() ),
+							'total'          => cocart_prepare_money_response( $this->get_cart_instance()->get_total( 'edit' ), wc_get_price_decimals() ),
 							'total_tax'      => cocart_prepare_money_response( $this->get_cart_instance()->get_total_tax(), wc_get_price_decimals() ),
 						);
 					}
