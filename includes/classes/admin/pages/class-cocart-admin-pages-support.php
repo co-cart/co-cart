@@ -41,7 +41,7 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 		?>
 		<div class="wrap cocart-wrapped">
 			<h1 class="cocart-logo">
-				<a href="<?php echo esc_url( $store_url ); ?>" target="_blank">
+				<a href="<?php echo esc_url( $store_url ); ?>" target="_blank" rel="noopener noreferrer">
 					<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/header-logo.png' ); ?>" alt="CoCart Logo" />
 				</a>
 			</h1>

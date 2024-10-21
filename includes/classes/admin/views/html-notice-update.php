@@ -47,7 +47,7 @@ $update_url = wp_nonce_url( // phpcs:ignore: WordPress.NamingConventions.PrefixA
 				);
 
 				/* translators: 1: Link to docs 2: Close link. */
-				printf( ' ' . esc_html__( 'The database update process runs in the background and may take a little while, so please be patient. Advanced users can alternatively update via %1$sWP CLI%2$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . esc_url( COCART_STORE_URL . 'upgrading-the-database-using-wp-cli/' ) . '" target="_blank">', '</a>' );
+				printf( ' ' . esc_html__( 'The database update process runs in the background and may take a little while, so please be patient. Advanced users can alternatively update via %1$sWP CLI%2$s.', 'cart-rest-api-for-woocommerce' ), '<a href="' . esc_url( COCART_STORE_URL . 'upgrading-the-database-using-wp-cli/' ) . '" target="_blank" rel="noopener noreferrer">', '</a>' );
 				?>
 			</p>
 		</div>
@@ -62,7 +62,7 @@ $update_url = wp_nonce_url( // phpcs:ignore: WordPress.NamingConventions.PrefixA
 				);
 				?>
 			</a>
-			<span class="no-thanks"><a href="https://cocart.dev/guide/how-to-update-cocart/" target="_blank">
+			<span class="no-thanks"><a href="https://cocart.dev/guide/how-to-update-cocart/" target="_blank" rel="noopener noreferrer">
 				<?php esc_html_e( 'Learn more about updates', 'cart-rest-api-for-woocommerce' ); ?>
 			</a></span>
 		</div>

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $docs_url  = esc_url( 'https://cocart.dev/' ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $help_text = sprintf( // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	/* translators: %1$s: link to developers resources */
-	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),
+	__( 'Visit CoCart.dev to access <a href="%1$s" target="_blank" rel="noopener noreferrer">developer resources</a>.', 'cart-rest-api-for-woocommerce' ),
 	$docs_url
 );
 ?>
@@ -37,7 +37,7 @@ printf(
 	echo wp_kses_post(
 		sprintf(
 			/* translators: %1$s: CoCart, %2$s: GitHub repository link */
-			__( 'In the documentation you will find references to the API routes available with some examples. If you want to modify or extend %1$s in any way, there are over 100+ action hooks and filters for developers to use that can customize %1$s to your specific needs, which you can <a href="%2$s" target="_blank">search in the GitHub repository</a>.', 'cart-rest-api-for-woocommerce' ),
+			__( 'In the documentation you will find references to the API routes available with some examples. If you want to modify or extend %1$s in any way, there are over 100+ action hooks and filters for developers to use that can customize %1$s to your specific needs, which you can <a href="%2$s" target="_blank" rel="noopener noreferrer">search in the GitHub repository</a>.', 'cart-rest-api-for-woocommerce' ),
 			'CoCart',
 			COCART_REPO_URL
 		)
@@ -50,7 +50,7 @@ printf(
 	echo wp_kses_post(
 		sprintf(
 			/* translators: %1$s: CoCart, %2$s: Developers Hub link */
-			__( 'There is also a <a href="%2$s" target="_blank">developers hub</a> where you can find all the resources you need to be productive with %1$s and keep track of everything that is happening with the plugin including development decisions and scoping of future versions.', 'cart-rest-api-for-woocommerce' ),
+			__( 'There is also a <a href="%2$s" target="_blank" rel="noopener noreferrer">developers hub</a> where you can find all the resources you need to be productive with %1$s and keep track of everything that is happening with the plugin including development decisions and scoping of future versions.', 'cart-rest-api-for-woocommerce' ),
 			'CoCart',
 			$docs_url
 		)

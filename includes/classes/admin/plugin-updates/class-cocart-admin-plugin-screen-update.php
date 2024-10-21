@@ -247,7 +247,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 			printf(
 				/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing , %3$s: plugin name, %4$s: version mentioned, */
 				__( '%1$sSee what\'s coming next%2$s in %3$s v%4$s.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ) . '" target="_blank">',
+				'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ) . '" target="_blank" rel="noopener noreferrer">',
 				'</a>',
 				'CoCart',
 				esc_attr( COCART_NEXT_VERSION )

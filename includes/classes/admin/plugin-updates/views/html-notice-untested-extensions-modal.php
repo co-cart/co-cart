@@ -44,7 +44,7 @@ $untested_plugins_msg = sprintf(
 				</table>
 			</div>
 
-			<p><?php esc_html_e( 'We strongly recommend creating a backup of your site before updating.', 'cart-rest-api-for-woocommerce' ); ?> <a href="https://woocommerce.com/2017/05/create-use-backups-woocommerce/" target="_blank"><?php esc_html_e( 'Learn more', 'cart-rest-api-for-woocommerce' ); ?></a></p>
+			<p><?php esc_html_e( 'We strongly recommend creating a backup of your site before updating.', 'cart-rest-api-for-woocommerce' ); ?> <a href="https://woocommerce.com/2017/05/create-use-backups-woocommerce/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Learn more', 'cart-rest-api-for-woocommerce' ); ?></a></p>
 
 			<?php if ( current_user_can( 'update_plugins' ) ) : ?>
 				<div class="actions">

@@ -605,6 +605,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 					class="cocart-plugin-search__learn-more button"
 					href="' . esc_url( $plugin['learn_more'] ) . '"
 					target="_blank"
+					rel="noopener noreferrer"
 					data-addon="' . esc_attr( $plugin['slug'] ) . '"
 					data-track="learn_more"
 					>' . esc_html__( 'Learn more', 'cart-rest-api-for-woocommerce' ) . ' <span class="dashicons dashicons-external"></span></a>';
@@ -703,7 +704,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 
 										if ( ! empty( $plugin['purchase'] ) ) {
 											$links['cocart-purchase'] = sprintf(
-												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" aria-label="%s" data-name="%s">%s</a>',
+												'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s" data-name="%s">%s</a>',
 												esc_attr( $plugin['slug'] ),
 												esc_url( $plugin['purchase'] ),
 												esc_attr(

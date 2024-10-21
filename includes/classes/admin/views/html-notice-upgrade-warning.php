@@ -44,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<div class="cocart-action">
-			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" target="_blank">%2$s</a>', esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ), esc_html__( "What's Coming Next?", 'cart-rest-api-for-woocommerce' ) ); ?>
+			<?php printf( '<a href="%1$s" class="button button-primary cocart-button" target="_blank" rel="noopener noreferrer">%2$s</a>', esc_url( 'https://github.com/co-cart/co-cart/blob/dev/NEXT_CHANGELOG.md' ), esc_html__( "What's Coming Next?", 'cart-rest-api-for-woocommerce' ) ); ?>
 			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'upgrade_warning', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Remind me another time', 'cart-rest-api-for-woocommerce' ); ?></a>
 		</div>
 	</div>
