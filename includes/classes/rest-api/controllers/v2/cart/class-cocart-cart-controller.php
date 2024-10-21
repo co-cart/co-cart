@@ -1266,7 +1266,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		 *
 		 * @since 3.0.0 Introduced.
 		 */
-		cocart_do_deprecated_filter( 'cocart_filter_request_data', '4.4.0', null, __( 'No longer use.', 'cart-rest-api-for-woocommerce' ), array( $request ) );
+		return apply_filters( 'cocart_filter_request_data', $request );
 	} // END filter_request_data()
 
 	/**
