@@ -166,7 +166,7 @@ final class CoCart {
 		self::define( 'COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_REVIEW_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/' );
 		self::define( 'COCART_COMMUNITY_URL', 'https://cocartapi.com/community/' );
-		self::define( 'COCART_DOCUMENTATION_URL', 'https://ogdocs.cocartapi.com' );
+		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz' );
 		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/' );
 		self::define( 'COCART_REPO_URL', 'https://github.com/co-cart/co-cart' );
 		self::define( 'COCART_NEXT_VERSION', '5.0.0' );
