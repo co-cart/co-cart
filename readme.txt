@@ -308,6 +308,31 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
+= v4.3.7 - 22nd October, 2024 =
+
+### Bug Fixes
+
+* REST API: Fixed rounding issue due to decimal separator being different with the cart total for some odd reason with WooCommerce.
+* REST API: Fixed accessing correct schema for viewing a single session.
+* Plugin: Properly deprecated `is_rest_api_request()` function within the authentication class.
+
+### Changes
+
+* WordPress Dashboard: Updated Setup Wizard Ready Step verbiage.
+* WordPress Dashboard: Bumped upgrade notice from showing after 4 weeks newly installed to 6 weeks.
+* WordPress Dashboard: No longer call Gravatar.
+* Plugin: Translation URL has changed to <https://translate.cocartapi.com>
+
+### Improvements
+
+* REST API: Moved some cart validation further up before returning cart contents.
+* REST API: Reset the item key when adding item again as it may have been manipulated by adding cart item data via code or plugin.
+* REST API: Only update cart item quantity if quantity is different when requested.
+* REST API: Check cached price against price with tax mode not just the product price set.
+* WordPress Dashboard: Adjusted notices to get cached for the current site should it be a multisite.
+* WordPress Dashboard: No longer reset upgrade notice each time CoCart updates.
+* Plugin: PHPStan used to help with correcting errors and inconsistencies.
+
 = v4.3.6 - 23rd August, 2024 =
 
 ### Bug Fixes
