@@ -63,9 +63,9 @@ Unlock your stores full potential. Upgrade to complete the API with additional f
 ★★★★★
 > This plugin saved me tones of work and it is working amazingly! The plugin author provides fast and high quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
 
-### 😍 Priority support
+### 💜 Need Support?
 
-We aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that we do prioritize support for our paying customers. Support can also be requested with the [community on Discord](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
 ## 🧰 Developer Tools
 
@@ -220,7 +220,7 @@ You will first need WooCommerce installed and set up to your configurations. The
 
 = Why use CoCart and not WooCommerce’s Store API? =
 
-WooCommerce’s Store API is designed for the [Gutenberg blocks](https://wordpress.org/plugins/woo-gutenberg-products-block/) which only requires a fixed format and is still prone to be used on native storefronts. It also lacks validation on the server end which you will need and not every extensions yet works with it out of the box. A lot of valuable information and abilities that developers require to help them are also unavailable and if you try to use the Store API for headless you will have issues managing the cart sessions.
+WooCommerce’s Store API is designed for the Gutenberg blocks which only requires a fixed format and is still prone to be used on native storefronts. It also lacks validation on the server end which you will need and not every extensions yet works with it out of the box. A lot of valuable information and abilities that developers require to help them are also unavailable and if you try to use the Store API for headless you will have issues managing the cart sessions.
 
 CoCart's API is designed for decoupling away from WordPress with ease. It's a plug and play solution that just works out of the box. Also, improvements are always made to CoCart to ensure you get the best decoupled experience.
 
@@ -266,7 +266,7 @@ Yes. The best method would be to install/update CoCart from the GitHub repositor
 
 = Where can I report bugs? =
 
-Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the [support forum](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/) – be sure to search the forums to confirm that the error has not already been reported.
+Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues). You can also notify us via the [Discord community server](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) in the #bug-report channel – be sure to search the forum to confirm that the error has not already been reported.
 
 = CoCart is awesome! Can I contribute? =
 
@@ -296,15 +296,15 @@ Check out [Frequently Asked Questions](https://cocartapi.com/faq/?utm_medium=web
 
 == Contributors & Developers ==
 
-"CoCart" has **not** yet been translated in other languages. You can [translate "CoCart" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
+You can help [translate "CoCart" into your language](https://translate.wordpress.org/projects/wp-plugins/cart-rest-api-for-woocommerce).
 
 **INTERESTED IN DEVELOPMENT?**
 
-[Browse the code](https://plugins.trac.wordpress.org/browser/cart-rest-api-for-woocommerce/), check out the [SVN repository](https://plugins.svn.wordpress.org/cart-rest-api-for-woocommerce/), or subscribe to the [development log](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/) by [RSS](https://plugins.trac.wordpress.org/log/cart-rest-api-for-woocommerce/?limit=100&mode=stop_on_copy&format=rss).
+[Browse the code on GitHub](https://github.com/co-cart/co-cart/tree/development/), or follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) for the latest development updates. You can also follow [@cocartapi](https://twitter.com/cocartapi) on Twitter to stay up to date about everything happening with CoCart.
 
-**Please review your experience**
+**Please share your experience**
 
-If you like CoCart and it has helped with your development, please take a moment to [provide a review](https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce/reviews/#new-post). It helps to keep the plugin going strong, and is greatly appreciated.
+We’d love to hear what you have to say. [Share your experience](https://testimonial.to/cocart) and help others discover CoCart. It helps to keep the plugin going strong, and is greatly appreciated.
 
 == Changelog ==
 
