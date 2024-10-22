@@ -14,11 +14,9 @@
 
 > 👋 Looking to [contribute to CoCart](https://github.com/co-cart/co-cart/blob/development/.github/CONTRIBUTING.md)?
 
-Welcome to the CoCart repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
+Welcome to the CoCart repository on GitHub. Here you can browse the source, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://docs.cocart.xyz](https://docs.cocart.xyz/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore)
-
-[Click here to download](https://downloads.wordpress.org/plugin/cart-rest-api-for-woocommerce.zip) the latest release package of CoCart Core.
 
 ### Description
 
@@ -81,7 +79,7 @@ They work with the core of CoCart already, and these add-ons of course come with
 
 CoCart is not supported via the WooCommerce help desk as the plugin is not sold via Woo.com, the support team at Woo.com is not familiar with it and may not be able to assist.
 
-We aim to provide regular support for the CoCart plugin on the WordPress.org forums. But please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Support can also be requested with the [community on Discord](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
+We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
 
 ## 🐞 Bug Reporting
 
@@ -89,9 +87,7 @@ Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https:/
 
 ## Support CoCart
 
-Please consider starring ✨ and sharing 👍 the project repo! This helps the project get known and grow with the community. 🙏
-
-Thank you for your support! 🙌
+Please consider starring ✨ and sharing 👍 the project repo! This helps the project get known and grow with the community. We’d also love to hear what you have to say. [Share your thoughts](https://testimonial.to/cocart) and help others discover CoCart. Thank you! 🙏
 
 ## Testimonials
 
@@ -144,7 +140,7 @@ CoCart also welcomes contributions. There are many ways to support the project! 
 
 ## Credits
 
-Website [cocartapi.com](https://cocartapi.com) &nbsp;&middot;&nbsp;
+Website [cocartapi.com](https://cocartapi.com?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) &nbsp;&middot;&nbsp;
 GitHub [@co-cart](https://github.com/co-cart) &nbsp;&middot;&nbsp;
 Twitter [@cocartapi](https://twitter.com/cocartapi)
 

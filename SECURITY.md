@@ -8,7 +8,7 @@ Generally, only the latest version of CoCart has continued support. If a critica
 
 ## Reporting a Vulnerability
 
-[CoCart core](https://wordpress.org/plugins/cart-rest-api-for-woocommerce) is an open-source plugin for WordPress.
+CoCart core is an open-source plugin for WordPress.
 
 **For responsible disclosure of security issues, please submit your report based on instructions found on [cocartapi.com/security-policy/](https://cocartapi.com/security-policy/).**
 
