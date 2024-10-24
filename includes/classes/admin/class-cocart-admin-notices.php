@@ -243,7 +243,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				 *
 				 * Example: `cocart_hide_plugin_review_notice'
 				 */
-				do_action( "cocart_hide_{$hide_notice}_notice" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+				do_action( "cocart_hide_{$notice_name}_notice" );
 			}
 		} // END remove_notice()
 
@@ -342,7 +342,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			 *
 			 * Example: `cocart_hide_plugin_review_notice'
 			 */
-			do_action( "cocart_hide_{$hide_notice}_notice" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			do_action( "cocart_hide_{$notice_name}_notice" );
 		} // END hide_notice()
 
 		/**
