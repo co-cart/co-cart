@@ -86,9 +86,6 @@
 			"composer/installers": true,
 			"dealerdirect/phpcodesniffer-composer-installer": true,
 			"phpstan/extension-installer": true
-		},
-		"preferred-install": "dist",
-		"prepend-autoloader": false,
-		"sort-packages": true
+		}
 	}
 }
