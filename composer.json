@@ -55,7 +55,7 @@
 	"require-dev": {
 		"cocart-headless/cocart-sniffs": "0.0.3",
 		"automattic/vipwpcs": "^3.0",
-		"phpstan/phpstan": "^2.0",
+		"phpstan/phpstan": "^1.12",
 		"szepeviktor/phpstan-wordpress": "^2.0",
 		"phpstan/extension-installer": "^1.4",
 		"php-stubs/woocommerce-stubs": "^9.1",
