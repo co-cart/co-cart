@@ -422,16 +422,16 @@
         },
         {
             "name": "php-stubs/wp-cli-stubs",
-            "version": "v2.11.0",
+            "version": "v2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-stubs/wp-cli-stubs.git",
-                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007"
+                "reference": "af16401e299a3fd2229bd0fa9a037638a4174a9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-stubs/wp-cli-stubs/zipball/f27ff9e8e29d7962cb070e58de70dfaf63183007",
-                "reference": "f27ff9e8e29d7962cb070e58de70dfaf63183007",
+                "url": "https://api.github.com/repos/php-stubs/wp-cli-stubs/zipball/af16401e299a3fd2229bd0fa9a037638a4174a9d",
+                "reference": "af16401e299a3fd2229bd0fa9a037638a4174a9d",
                 "shasum": ""
             },
             "require": {
@@ -460,9 +460,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-stubs/wp-cli-stubs/issues",
-                "source": "https://github.com/php-stubs/wp-cli-stubs/tree/v2.11.0"
+                "source": "https://github.com/php-stubs/wp-cli-stubs/tree/v2.12.0"
             },
-            "time": "2024-11-25T10:09:13+00:00"
+            "time": "2025-06-10T09:58:05+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
