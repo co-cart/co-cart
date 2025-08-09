@@ -266,13 +266,13 @@ class CoCart_REST_Login_V2_Controller {
 	public function get_collection_params() {
 		$params = array(
 			'username' => array(
-				'description'       => __( 'Username, email, or phone number for authentication.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Username, email, or phone number for authentication.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'password' => array(
-				'description'       => __( 'Password for authentication.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Password for authentication.', 'cocart-core' ),
 				'type'              => 'string',
 				'required'          => false,
 				'sanitize_callback' => 'sanitize_text_field',
