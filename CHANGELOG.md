@@ -1,5 +1,23 @@
 # Changelog for CoCart Core
 
+## v4.7.0 - 8th August, 2025
+
+> Note: To avoid getting the plugin removed from the WordPress directory, the trademark word "WooCommerce" has been removed as part of the plugin title for the plugin listing.
+
+**Before**: Headless WooCommerce Made Easy with CoCart
+**Now**: Headless eCommerce API for Developers - CoCart
+
+> In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for Developers", before "CoCart API - Headless WooCommerce Made Easy"
+
+### What's New?
+
+* Authentication: Added support for authenticating via JSON request body with clear indication for the login endpoint (API v2 ONLY).
+
+### Improvements
+
+* Authentication: Internal refactor to return `WP_Error` consistently from permission checks.
+* REST API: Login (API v2 ONLY) Explicit added query params for `username` and `password`.
+
 ## v4.6.4 - 6th August, 2025
 
 ### Bug Fixes
@@ -11,6 +29,11 @@
 
 * Plugin: Ensure that dependent plugins can be installed/activated if the plugin is installed in a different folder name.
 * Feature: "Load Cart from Session" improved session data checking.
+* Session handler: Reduced duplicate session calls and optimized `update_session_timestamp()` database query.
+* Session handler: Restored `persistent_cart_update` compatibility for WooCommerce v10; only active for versions lower than v10.1.
+* Session handler: Overrode `session_exists()` and `delete_session()` to use CoCart's session table.
+* Load Cart: Switched from `$_REQUEST` to `$_GET` and removed the priority for `load_cart_action`.
+* Load Cart: Re-enabled `initialize_cart_session()` and stopped destroying cookies when loading carts.
 
 ### Deprecated
 
@@ -371,8 +394,8 @@ A commit error was spotted shortly after just releasing it and was taken down im
 
 ### Security Patch
 
-> Just a note: The security issue isn't directly related to CoCart itself, but we’re here to help keep your store secure. Since CoCart is a public API, security patches will be released as soon as possible to prevent the issue from affecting your site, so you don’t have to wait for a fix from the plugin causing it.
-> We recommend updating to this version if you’re using any WooCommerce plugins that might reveal public information.
+> Just a note: The security issue isn't directly related to CoCart itself, but we're here to help keep your store secure. Since CoCart is a public API, security patches will be released as soon as possible to prevent the issue from affecting your site, so you don't have to wait for a fix from the plugin causing it.
+> We recommend updating to this version if you're using any WooCommerce plugins that might reveal public information.
 > We want you to know that we would never publicly name a plugin with a security concern. However, if you notice any security issues with CoCart or another plugin connected to it, please [report the security vulnerability](https://cocartapi.com/security-policy/#Reporting-Security-Vulnerabilities) so we can address it quickly.
 > Thank you for helping us keep CoCart safe for everyone!
 
@@ -654,7 +677,7 @@ In this release, we are happy to provide some of the various improvements made t
 
 > Developer note: This release requires the quantity parameter to pass the value as a string for both adding items or updating items. If you are not new to CoCart then please update your code to account for this change.
 
-[Find out more about what’s new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
+[Find out more about what's new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
 
 Hope you enjoy this release.
 
@@ -1560,13 +1583,6 @@ By setting this filter `cocart_skip_woocommerce_item_validation` to true, produc
 #### Action Hooks
 
 * Dev: Introduced `cocart_add_to_cart` action hook matches `woocommerce_add_to_cart` action hook.
-
-----
-
-The following filters affect adding bundled/grouped products to the cart.
-
-* Dev: Introduced `cocart_add_items_to_cart_handler` filter allows you to set the product type so the correct add to cart handler for bundled/grouped products is used.
-* Dev: Introduced `cocart_add_items_to_cart_handler_{product-type}` filter allows you to introduce your own add to cart handler for bundled/grouped products.
 
 ----
 

@@ -139,7 +139,8 @@ class CoCart_REST_Login_V2_Controller {
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function login( $request ) {
-		$current_user = get_userdata( get_current_user_id() );
+		$current_user_id = get_current_user_id();
+		$current_user    = get_userdata( $current_user_id );
 
 		$user_roles = $current_user->roles;
 
@@ -150,7 +151,7 @@ class CoCart_REST_Login_V2_Controller {
 		}
 
 		$response = array(
-			'user_id'      => strval( get_current_user_id() ),
+			'user_id'      => strval( $current_user_id ),
 			'first_name'   => $current_user->first_name,
 			'last_name'    => $current_user->last_name,
 			'display_name' => esc_html( $current_user->display_name ),
@@ -257,12 +258,26 @@ class CoCart_REST_Login_V2_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since 5.0.0 Introduced.
+	 * @since 4.7.0 Introduced.
+	 * @since 5.0.0 Added avatar query.
 	 *
 	 * @return array $params The query params.
 	 */
 	public function get_collection_params() {
 		$params = array(
+			'username' => array(
+				'description'       => __( 'Username, email, or phone number for authentication.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'required'          => false,
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'password' => array(
+				'description'       => __( 'Password for authentication.', 'cart-rest-api-for-woocommerce' ),
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
 			'avatars' => array(
 				'description'       => __( 'True if you want to return the avatars for the user.', 'cocart-core' ),
 				'default'           => false,

@@ -16,50 +16,23 @@ If you are looking for documentation, head over here: [https://cocartapi.com/doc
 
 ### Description
 
-Build modern headless stores with WooCommerce faster — with the REST API purpose-built for developers.
+A developer-first REST API to decouple WooCommerce on the frontend. Fast, secure, customizable, easy.
 
-[Want to try it out?](https://cocartapi.com/try-free-demo/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)
+[Try the REST API](https://cocartapi.com/try-free-demo/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)
 
-#### Why our API makes sense
+#### Why developers choose CoCart
 
-CoCart chose to support WooCommerce because it provides a more efficient way to decouple WooCommerce via the REST API. Our intuitive API handles management, calculations, and processing, delivering optimal performance across any configuration.
-
-[Compare CoCart vs Woo Store API](https://cocartapi.com/cocart-vs-woocommerces-store-api/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)
-
-#### 🔧 Built to Solve Real Headless Challenges
-
-If you’ve struggled to decouple WooCommerce, CoCart is your solution:
-
-- ✅ **Source of Truth**  
-  Built on WooCommerce’s native Data Stores API and mirrors Woo hooks. Broad compatibility from the start.
-
-- 🔐 **Simple, Secure Sessions**  
-  Lightweight session keys. No cookies. Database-based session management built for headless.
-
-- 🔑 **Easy Authentication**  
-  Log in with email, username, or phone. No admin API keys required.  
-  **JWT supported via official add-on.**
-
-- 🌍 **CORS-Controlled**  
-  Solve cross-domain issues with first-party CORS control.
-
-- 🛒 **Real-Time Cart Management**  
-  Validate items, validate coupons, calculate totals — all in one API call.
-
-- 🔍 **Efficient Product Search**  
-  Search by name, SKU, or ID — with or without authentication. Filter the results your customers query.
-
-- 🧩 **Extendable Callbacks**  
-  Add your own logic with custom callbacks. No new endpoints needed.
-
-- 🛠️ **Works with Woo Checkout**  
-  Prefer WooCommerce's checkout? Load any cart session into it easily.
-
-- 💸 **Name Your Price**  
-  Support donation-based pricing with built-in flexibility.
-
-- 📦 **Bulk Cart Requests**  
-  Combine multiple API calls into one for better performance.
+* ✅ **Source of truth** - Built on WooCommerce Data Stores and mirrors most WooCommerce hooks, ensuring broad compatibility from the start.
+* 🔐 **Session management** - Lightweight, cookie‑less session keys stored in the database. Concurrency-safe.
+* 🔑 **Flexible authentication** - Log in via email, username, or phone. No admin API keys required.
+  - Optional JWT via official add‑on.
+* 🌍 **CORS control** - First‑party CORS so cross‑domain frontends “just work”.
+* 🛒 **Real‑time cart management** - Validate items/coupons, calculate totals in a single call.
+* 🔎 **Product search** - Query by name, SKU, or ID — authenticated or not — with flexible filters.
+* 🧩 **Extendable Callbacks** - Add your own logic with custom callbacks. No new endpoints needed.
+* 🛠 **Works with Woo Checkout** - Load any cart session into WooCommerce’s native checkout.
+* 💸 **Name Your Price** - Support donation-based pricing with built-in flexibility.
+* 📦 **Bulk Cart Requests** - Combine multiple API calls into one for better performance.
 
 ## 💼 Upgrade to CoCart Plus
 
@@ -67,33 +40,22 @@ For more power, performance, and enterprise-level control — upgrade to **[CoCa
 
 **Unlock features like:**
 
-- 🎫 **Coupon Management**  
-  Reward customers and boost conversions.
-
-- 🚢 **Shipping Options & Rate Calculation**  
-  Let customers choose from your available shipping methods.
-
-- 💰 **Cart Fees**  
-  Add custom fees for any purpose (handling, rush, etc.).
-
-- 🥪 **Advanced Batch API**  
-  Handle multiple cart actions in a single request.
-
-- 🕒 **Rate Limiting**  
-  Prevent abuse and maintain high performance with granular API control.
-
-- 📊 **Cart Insights**  
-  Monitor active, expiring, and expired sessions.
+* 🎫 **Coupon Management** - Reward customers and boost conversions.
+* 🚢 **Shipping Options & Rate Calculation** - Let customers choose from your available shipping methods.
+* 💰 **Cart Fees** - Add custom fees for any purpose (handling, rush, etc.).
+* 🥪 **Advanced Batch API** - Handle multiple cart actions in a single request.
+* 🕒 **Rate Limiting** - Prevent abuse and maintain high performance with granular API control.
+* 📊 **Cart Insights** - Monitor all cart sessions, including those nearing expiration or already expired.
 
 ## 🔓 Ready to Go Headless?
 
 Join **thousands of developers and agencies** building with CoCart — the REST API that takes WooCommerce further.
 
-👉 [Upgrade to CoCart Plus](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) and build the future of commerce today.
+👉 [Upgrade to CoCart Plus](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) and build the future of eCommerce today.
 
 ## 👍 Add-ons to further enhance CoCart
 
-We also have add-ons that extend CoCart to enhance your development and your customers shopping experience.
+We also have add-ons that extend CoCart to enhance your development and your customers’ shopping experience.
 
 * **[CoCart - CORS](https://github.com/cocart-headless/cocart-cors)** enables support for CORS to allow CoCart to work across multiple domains.
 * **[CoCart - Rate Limiting](https://github.com/cocart-headless/cocart-rate-limiting)** enables the rate limiting feature for CoCart Plus or higher.

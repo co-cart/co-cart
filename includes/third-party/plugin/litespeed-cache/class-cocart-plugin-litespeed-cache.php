@@ -47,7 +47,7 @@ if ( ! class_exists( 'CoCart_Plugin_LiteSpeed_Cache' ) ) {
 		 */
 		public function prevent_caching() {
 			$rest_prefix = trailingslashit( rest_get_url_prefix() );
-			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 			if ( false !== strpos( $request_uri, '/' . $rest_prefix . 'cocart' ) ) {
 				Debug2::debug( '3rd CoCart API - No Cache' );
