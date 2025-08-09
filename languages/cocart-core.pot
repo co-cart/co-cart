@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Headless WooCommerce Made Easy "
+"Project-Id-Version: CoCart API - Headless eCommerce API for Developers "
 "5.0.0-beta.10\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2025-08-06 17:41:19+00:00\n"
+"POT-Creation-Date: 2025-08-09 13:35:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1624,46 +1624,24 @@ msgstr ""
 msgid "Session data does not exist. Something really bad must have happened."
 msgstr ""
 
-#: includes/classes/class-cocart-session.php:79
-#. translators: %s: cart key
-msgid "Cart key \"%s\" is already loaded as the currently logged in user."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:88
-#. translators: %s: cart key
-msgid ""
-"Customer is logged in as a different user. Cart key \"%s\" cannot be loaded "
-"into session for a different user."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:96
-msgid ""
-"Cart key is recognized as a registered user on site. Cannot be loaded into "
-"session as a guest."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:104
-msgid "Technical error made! See error log for reason."
-msgstr ""
-
-#: includes/classes/class-cocart-session.php:128
+#: includes/classes/class-cocart-session.php:75
 #. translators: %s: cart key
 msgid "Unable to find cart for: %s"
 msgstr ""
 
-#: includes/classes/class-cocart-session.php:136
-#: includes/classes/class-cocart-session.php:234
+#: includes/classes/class-cocart-session.php:83
+#: includes/classes/class-cocart-session.php:181
 msgid "Cart is not valid! If this is an error, contact for help."
 msgstr ""
 
-#: includes/classes/class-cocart-session.php:340
+#: includes/classes/class-cocart-session.php:287
 #: includes/classes/rest-api/class-cocart-response.php:66
 #: includes/classes/rest-api/class-cocart-response.php:77
 #: includes/classes/rest-api/controllers/v1/products/class-cocart-product-reviews-controller.php:978
 msgid "No longer use."
 msgstr ""
 
-#: includes/classes/class-cocart-session.php:368
+#: includes/classes/class-cocart-session.php:315
 msgid "No longer used."
 msgstr ""
 
@@ -1867,40 +1845,40 @@ msgstr ""
 msgid "%s is not a valid postcode / ZIP."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:479
+#: includes/classes/rest-api/class-cocart-authentication.php:478
 msgid "Authentication attempted but did not find valid login details."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:481
+#: includes/classes/rest-api/class-cocart-authentication.php:480
 msgid "Authentication invalid!"
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:488
+#: includes/classes/rest-api/class-cocart-authentication.php:487
 msgid "User was not found when authenticating."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:489
+#: includes/classes/rest-api/class-cocart-authentication.php:488
 msgid ""
 "Authentication is invalid. Please check your login details are correct and "
 "try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:494
+#: includes/classes/rest-api/class-cocart-authentication.php:493
 msgid "The password you entered is incorrect."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:576
+#: includes/classes/rest-api/class-cocart-authentication.php:575
 msgid "This filter is no longer used."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:844
-#: includes/classes/rest-api/class-cocart-authentication.php:863
-#: includes/classes/rest-api/class-cocart-authentication.php:879
+#: includes/classes/rest-api/class-cocart-authentication.php:843
+#: includes/classes/rest-api/class-cocart-authentication.php:862
+#: includes/classes/rest-api/class-cocart-authentication.php:878
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:893
+#: includes/classes/rest-api/class-cocart-authentication.php:892
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
@@ -1946,17 +1924,17 @@ msgstr ""
 msgid "Request returned nothing for \"%s\"! Please seek assistance."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-api.php:393
+#: includes/classes/rest-api/class-cocart-rest-api.php:395
 #. translators: %s = Product name
 msgid "%s has been removed from your cart because it can no longer be purchased."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-api.php:416
+#: includes/classes/rest-api/class-cocart-rest-api.php:418
 #. translators: %s: product name
 msgid "%s has been removed from your cart because it has since been modified."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-rest-api.php:964
+#: includes/classes/rest-api/class-cocart-rest-api.php:966
 #. translators: %s: REST API URL
 msgid "Request returned nothing for \"%s\"!"
 msgstr ""
@@ -4541,49 +4519,57 @@ msgstr ""
 msgid "Sorry, you are not authorized."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:169
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:170
 msgid ""
 "Don't forget to store the users login information in order to authenticate "
 "all other routes with CoCart."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:196
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:197
 msgid "Unique ID to the user on the site."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:202
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:203
 msgid "The first name of the user (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:208
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:209
 msgid "The last name of the user (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:214
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:215
 msgid "The display name of the user (if any)."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:220
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:221
 msgid "The role type assigned to the user."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:226
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:227
 msgid "The avatar URLs of the user for each avatar size registered."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:233
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:234
 msgid "The email address of the user."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:239
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:240
 msgid "Extra details added via the filter."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:246
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:247
 msgid "A message to developers."
 msgstr ""
 
-#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:267
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:269
+msgid "Username, email, or phone number for authentication."
+msgstr ""
+
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:275
+msgid "Password for authentication."
+msgstr ""
+
+#: includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php:282
 msgid "True if you want to return the avatars for the user."
 msgstr ""
 
