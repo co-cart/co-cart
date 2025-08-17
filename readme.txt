@@ -92,6 +92,10 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 
 These add-ons work with the core of CoCart already, and these add-ons of course come with support too.
 
+**Is your API secure?** We also developed [API Security](https://apisecurity.pro/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)—a zero-config plugin that instantly locks down your REST API, blocks unknown outsiders, limits abusive requests, and protects your data.
+
+Built for site owners & developers who want smart defaults, zero headaches, and full control when needed.
+
 ### ⌨️ Join our growing community
 
 On Discord, we have a community of developers, WordPress agencies, and shop owners building the fastest and best headless WooCommerce stores with CoCart.
