@@ -208,13 +208,36 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			return false;
 		}
 
-		$current_user = get_userdata( $user_id );
+		if ( ! is_object( $user_id ) ) {
+			$current_user = get_userdata( $user_id );
+		}
+
+		if ( ! $current_user || ! $current_user->exists() ) {
+			return false;
+		}
 
 		if ( ! empty( $current_user ) ) {
 			$user_roles = $current_user->roles;
 
-			if ( in_array( 'customer', $user_roles, true ) ) {
-				return true;
+			foreach ( $user_roles as $role ) {
+				// If the user either has the administrator or shop manager role then return false.
+				if ( 'administrator' === $role || 'shop_manager' === $role ) {
+					return false;
+				}
+
+				/**
+				 * Filter allows you to change the customer roles.
+				 *
+				 * This is to determine if the user is a customer or not.
+				 *
+				 * @since x.x.x Introduced.
+				 */
+				$user_customer_roles = apply_filters( 'cocart_user_customer_roles', array( 'customer', 'subscriber' ) );
+
+				// If the user has any of the customer roles.
+				if ( is_array( $user_customer_roles ) && in_array( $role, $user_customer_roles, true ) ) {
+					return true;
+				}
 			}
 		}
 
