@@ -90,7 +90,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			}
 
 			// Authenticate user.
-			add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
+			add_filter( 'determine_current_user', array( $this, 'authenticate' ) );
 			add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
 
 			// Check authentication errors.
