@@ -863,7 +863,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @static
 		 *
 		 * @since 4.2.0 Introduced.
-		 * @since x.x.x Added support for trusted proxies and additional headers.
+		 * @since 4.8.0 Added support for trusted proxies and additional headers.
 		 *
 		 * @param boolean $proxy_support Enables/disables proxy support.
 		 *
@@ -881,7 +881,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 * Filter should return an array of IPs or CIDR ranges.
 			 * Defaults to localhost addresses to avoid trusting arbitrary headers.
 			 *
-			 * @since x.x.x Introduced.
+			 * @since 4.8.0 Introduced.
 			 *
 			 * @param array $trusted_proxies Array of trusted proxy IPs/CIDR.
 			 */
@@ -905,7 +905,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			/**
 			 * Additional IP headers for common proxy setups.
 			 *
-			 * @since x.x.x Introduced.
+			 * @since 4.8.0 Introduced.
 			 */
 			$additional_headers = apply_filters(
 				'cocart_ip_headers',
@@ -1015,7 +1015,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since x.x.x Introduced.
+		 * @since 4.8.0 Introduced.
 		 *
 		 * @param string $value Raw header value.
 		 *
@@ -1056,7 +1056,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since x.x.x Introduced.
+		 * @since 4.8.0 Introduced.
 		 *
 		 * @param string $ip IP address to check.
 		 * @param array  $trusted_proxies Array of trusted IPs or CIDR ranges.
@@ -1088,7 +1088,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since x.x.x Introduced.
+		 * @since 4.8.0 Introduced.
 		 *
 		 * @param string $ip IP address.
 		 * @param string $cidr CIDR range like "192.0.2.0/24" or "2001:db8::/32".
@@ -1140,7 +1140,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @static
 		 *
-		 * @since x.x.x Introduced.
+		 * @since 4.8.0 Introduced.
 		 *
 		 * @return array Array of trusted proxy IPs.
 		 */

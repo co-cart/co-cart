@@ -230,7 +230,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				 *
 				 * This is to determine if the user is a customer or not.
 				 *
-				 * @since x.x.x Introduced.
+				 * @since 4.8.0 Introduced.
 				 */
 				$user_customer_roles = apply_filters( 'cocart_user_customer_roles', array( 'customer', 'subscriber' ) );
 
