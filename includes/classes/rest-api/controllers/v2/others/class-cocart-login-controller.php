@@ -346,7 +346,7 @@ class CoCart_REST_Login_V2_Controller {
 	 * @access public
 	 *
 	 * @since 4.7.0 Introduced.
-	 * @since 4.8.0 Added parameter extension filter.
+	 * @since 4.8.0 Added filter to extend the parameters.
 	 *
 	 * @return array $params The query params.
 	 */
@@ -369,15 +369,15 @@ class CoCart_REST_Login_V2_Controller {
 		);
 
 		/**
-		 * Filter login endpoint parameters.
+		 * Extend the query parameters for the login endpoint.
 		 *
-		 * Allows plugins to add additional parameters to the login endpoint.
+		 * Allows you to extend the query parameters without removing any default parameters.
 		 *
 		 * @since 4.8.0 Introduced.
 		 *
 		 * @param array $params The current parameters.
 		 */
-		$params += apply_filters( 'cocart_login_collection_params', array() );
+		$params += apply_filters( 'cocart_login_query_parameters', array() );
 
 		return $params;
 	} // END get_collection_params()
