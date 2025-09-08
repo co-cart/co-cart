@@ -299,6 +299,34 @@ Also, to avoid getting the plugin removed from the WordPress directory, the trad
 
 In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for Developers", before "CoCart API - Headless WooCommerce Made Easy".
 
+= v4.8.0 - ?? ??, 2025 =
+
+### What's New?
+
+* Authentication: Enhanced login endpoint with improved permissions control via new hooks.
+
+### Improvements
+
+* Authentication: Removed priority order so our JWT Auth integration can run earlier in the process.
+* Authentication: Refactored `get_ip_address` for better trusted proxy support and better IP address detection with additional headers.
+* REST-API: Session handler now loads during the login endpoint operations.
+* Security: Item keys are now restricted to 32 characters maximum for better validation.
+* User Management: Refactored `is_user_customer` function to support additional user roles beyond just customers.
+
+### Developers
+
+* Logging: Added informational logs for IP address detection and proxy handling.
+* Introduced a new filter `cocart_login_permission_callback` allows additional authentication checks after basic authorization for the login endpoint.
+* Introduced a new filter `cocart_login_secure_auth_methods` determines which authentication methods should skip additional auth checks.
+* Introduced a new filter `cocart_login_query_parameters` allows plugins to add additional parameters to the login endpoint.
+* Introduced a new filter `cocart_trusted_proxies` allows adding trusted proxy IPs/CIDR for secure IP detection.
+* Introduced a new filter `cocart_ip_headers` allows customization of headers used for IP address detection.
+* Introduced a new hook `cocart_login_permission_granted` that triggers when login permission is granted for the login endpoint.
+
+### Compatibility
+
+* Tested with WooCommerce v10.1
+
 = v4.7.0 - 8th August, 2025 =
 
 ### What's New?
@@ -625,6 +653,6 @@ add_filter( 'cocart_get_customer_billing_country', function( $value ) {
 
 == Upgrade Notice ==
 
-= 4.7.0 =
+= 4.8.0 =
 
-Added support for authenticating via JSON request body with clear indication for the login endpoint (API v2 ONLY).
+Added support for additional user roles beyond just customers.
