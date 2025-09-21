@@ -119,14 +119,13 @@ class CoCart_REST_Login_V2_Controller {
 		 *
 		 * @since 4.8.0 Introduced.
 		 *
-		 * @param boolean|WP_Error   $permission     Current permission status (true by default after basic auth).
-		 * @param WP_User           $current_user   The current authenticated user.
-		 * @param WP_REST_Request   $request        The current REST API request.
-		 * @param string            $endpoint       The endpoint being accessed ('login').
-		 * @param string            $auth_method    The authentication method used.
+		 * @param boolean|WP_Error  $permission           Current permission status (true by default after basic auth).
+		 * @param WP_User           $current_user         The current authenticated user.
+		 * @param WP_REST_Request   $request              The current REST API request.
+		 * @param string            $auth_method          The authentication method used.
 		 * @param boolean           $skip_additional_auth Whether to skip additional auth checks.
 		 */
-		$permission = $skip_additional_auth ? true : apply_filters( 'cocart_login_permission_callback', true, $current_user, $request, 'login', $auth_method, $skip_additional_auth );
+		$permission = $skip_additional_auth ? true : apply_filters( 'cocart_login_permission_callback', true, $current_user, $request, $auth_method, $skip_additional_auth );
 
 		// Store the result to prevent duplicate processing.
 		self::$processed_requests[ $request_id ] = $permission;
@@ -140,9 +139,8 @@ class CoCart_REST_Login_V2_Controller {
 			 *
 			 * @param WP_User         $current_user The current authenticated user.
 			 * @param WP_REST_Request $request      The current REST API request.
-			 * @param string          $endpoint     The endpoint being accessed ('login').
 			 */
-			do_action( 'cocart_login_permission_granted', $current_user, $request, 'login' );
+			do_action( 'cocart_login_permission_granted', $current_user, $request );
 		}
 
 		// Clean up old processed requests to prevent memory leaks.
