@@ -46,7 +46,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 		// Restore Item - cocart/v2/cart/item/6364d3f0f495b6ab9dcf8d3b5c6e0b01 (PUT).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/(?P<item_key>[\w]+)',
+			'/' . $this->rest_base . '/(?P<item_key>[\w-]{32})',
 			array(
 				array(
 					'methods'             => WP_REST_Server::EDITABLE,
