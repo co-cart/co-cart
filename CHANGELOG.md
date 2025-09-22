@@ -30,7 +30,7 @@
 
 ## v4.7.0 - 8th August, 2025
 
-> Note: To avoid getting the plugin removed from the WordPress directory, the trademark word "WooCommerce" as been removed as part of the plugin title for the plugin listing.
+> Note: To avoid getting the plugin removed from the WordPress directory, the trademark word "WooCommerce" has been removed as part of the plugin title for the plugin listing.
 
 **Before**: Headless WooCommerce Made Easy with CoCart
 **Now**: Headless eCommerce API for Developers - CoCart
