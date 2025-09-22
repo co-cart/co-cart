@@ -60,14 +60,14 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 * **[CoCart - CORS](https://github.com/cocart-headless/cocart-cors)** enables support for CORS to allow CoCart to work across multiple domains.
 * **[CoCart - Rate Limiting](https://github.com/cocart-headless/cocart-rate-limiting)** enables the rate limiting feature for CoCart Plus or higher.
 * **[CoCart - JWT Authentication](https://github.com/cocart-headless/cocart-jwt-authentication)** allows you to authenticate via a simple JWT Token.
-* **[CoCart - Cart Enhanced](https://github.com/cocart-headless/cocart-get-cart-enhanced)** enhances the data returned for the cart and the items added to it.
-* and more add-ons in development.
 
-These add-ons work with the core of CoCart already, and these add-ons of course come with support too.
+These add-ons of course come with support too.
 
-**Is your API secure?** We also developed [API Security](https://apisecurity.pro/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)—a zero-config plugin that instantly locks down your REST API, blocks unknown outsiders, limits abusive requests, and protects your data.
+For additional security, consider our [API Security](https://apisecurity.pro/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) plugin that provides a firewall to block unknown outsiders, rate limit requests and protect data exposure – no configuration required.
 
-Built for site owners & developers who want smart defaults, zero headaches, and full control when needed.
+## 💜 Need Support?
+
+We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
 
 ## 🧰 Developer Tools
 
@@ -75,10 +75,6 @@ Built for site owners & developers who want smart defaults, zero headaches, and 
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and auto-completion of functions, classes and hooks.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
-
-## 💜 Need Support?
-
-We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
 
 ## 🐞 Bug Reporting
 
