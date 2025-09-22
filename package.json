@@ -1,7 +1,7 @@
 {
 	"title": "CoCart API - Headless eCommerce API for Developers",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "4.8.0-beta.2",
+	"version": "4.8.0",
 	"private": false,
 	"contributors": [
 		"cocartforwc",
@@ -39,7 +39,7 @@
 	"requires_php": "7.4",
 	"tested_up_to": "6.8",
 	"wc_requires": "9.0",
-	"wc_tested_up_to": "10.1",
+	"wc_tested_up_to": "10.2",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2025, CoCart Headless, LLC",
 	"description": "A developer-first REST API to decouple WooCommerce on the frontend. Fast, secure, customizable, easy.",

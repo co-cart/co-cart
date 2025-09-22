@@ -1,10 +1,10 @@
 # Changelog for CoCart Core
 
-## v4.8.0 - ?? ??, 2025
+## v4.8.0 - 22nd September, 2025
 
 ### What's New?
 
-* Authentication: Enhanced login endpoint with improved permissions control via new hooks.
+* Authentication: Enhanced login endpoint with improved permissions control via the new hooks mentioned below.
 
 ### Improvements
 
@@ -26,7 +26,7 @@
 
 ### Compatibility
 
-* Tested with WooCommerce v10.1
+* Tested with WooCommerce v10.2
 
 ## v4.7.0 - 8th August, 2025
 

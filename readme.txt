@@ -6,7 +6,7 @@ Requires PHP: 7.4
 Tested up to: 6.8
 Stable tag: 4.7.0
 WC requires at least: 9.0
-WC tested up to: 10.1
+WC tested up to: 10.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -299,11 +299,11 @@ Also, to avoid getting the plugin removed from the WordPress directory, the trad
 
 In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for Developers", before "CoCart API - Headless WooCommerce Made Easy".
 
-= v4.8.0 - ?? ??, 2025 =
+= v4.8.0 - 22nd September, 2025 =
 
 ### What's New?
 
-* Authentication: Enhanced login endpoint with improved permissions control via new hooks.
+* Authentication: Enhanced login endpoint with improved permissions control via the new hooks mentioned below.
 
 ### Improvements
 
@@ -325,7 +325,7 @@ In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart 
 
 ### Compatibility
 
-* Tested with WooCommerce v10.1
+* Tested with WooCommerce v10.2
 
 = v4.7.0 - 8th August, 2025 =
 
