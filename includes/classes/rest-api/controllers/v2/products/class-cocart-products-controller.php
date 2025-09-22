@@ -581,7 +581,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	/**
 	 * Get variation product data.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
@@ -589,7 +589,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 *
 	 * @return array $data Variation product details.
 	 */
-	protected function get_variation_product_data( $product ) {
+	public function get_variation_product_data( $product ) {
 		$data = self::get_product_data( $product );
 
 		$fields_not_required = array(
