@@ -519,7 +519,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 
 		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"DELETE FROM $this->_table WHERE cart_expiry < %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				'DELETE FROM %i WHERE cart_expiry < %d',
+				$this->_table,
 				time()
 			)
 		);
@@ -556,7 +557,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		if ( false === $value ) {
 			$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$wpdb->prepare(
-					"SELECT cart_value FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					'SELECT cart_value FROM %i WHERE cart_key = %s',
+					$this->_table,
 					$cart_key
 				)
 			);
@@ -944,7 +946,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 
 		$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"SELECT cart_created FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				'SELECT cart_created FROM %i WHERE cart_key = %s',
+				$this->_table,
 				$cart_key
 			)
 		);
@@ -976,7 +979,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 
 		$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"SELECT cart_expiry FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				'SELECT cart_expiry FROM %i WHERE cart_key = %s',
+				$this->_table,
 				$cart_key
 			)
 		);
@@ -1008,7 +1012,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 
 		$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"SELECT cart_source FROM $this->_table WHERE cart_key = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				'SELECT cart_source FROM %i WHERE cart_key = %s',
+				$this->_table,
 				$cart_key
 			)
 		);

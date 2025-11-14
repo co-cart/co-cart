@@ -33,24 +33,31 @@ function cocart_maybe_define_constant( $name, $value ) {
  *
  * @since 4.2.0 Introduced.
  *
- * @param string $cart_key The cart key.
- * @param string $type     The type of timestamp.
+ * @param string $cart_key        The cart key.
+ * @param string $timestamp_type  The type of timestamp ('created' or 'expired').
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return string The timestamp the cart was created or expired.
+ * @return string|null The timestamp the cart was created or expired, or null if invalid type.
  */
 function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) {
 	global $wpdb;
 
 	if ( 'created' === $timestamp_type ) {
-		$value = 'cart_created';
+		$column = 'cart_created';
 	} elseif ( 'expired' === $timestamp_type ) {
-		$value = 'cart_expiry';
+		$column = 'cart_expiry';
+	} else {
+		return null;
 	}
 
 	$result = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		$wpdb->prepare( "SELECT $value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$wpdb->prepare(
+			'SELECT %i FROM %i WHERE cart_key = %s',
+			$column,
+			$wpdb->prefix . 'cocart_carts',
+			$cart_key
+		)
 	);
 
 	return $result;
