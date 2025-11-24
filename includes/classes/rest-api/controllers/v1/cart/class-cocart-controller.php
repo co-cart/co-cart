@@ -92,12 +92,13 @@ class CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   2.0.0 Introduced.
-	 * @version 2.6.2
+	 * @since 2.0.0 Introduced.
+	 * @since 2.6.2 Updated to only allow administrators to read other customers carts.
+	 * @since 4.8.1 Added $request parameter.
 	 *
 	 * @return bool|WP_Error True if user has permission.
 	 */
-	public function get_permission_check() {
+	public function get_permission_check( $request ) {
 		if ( ! current_user_can( 'administrator' ) ) { // phpcs:ignore WordPress.WP.Capabilities.RoleFound
 			return new WP_Error( 'cocart_cannot_read_cart', __( 'Cannot read cart!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 401 ) );
 		}
