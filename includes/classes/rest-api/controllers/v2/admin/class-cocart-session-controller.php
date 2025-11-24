@@ -239,7 +239,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			$cart = WC()->session->get_session( $session_key );
 
 			// If no cart is saved with the ID specified return error.
-			if ( empty( $cart ) ) {
+			if ( empty( $cart ) || ! isset( $cart['cart'] ) ) {
 				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
@@ -323,7 +323,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		if ( array_key_exists( 'items', $session ) ) {
 			if ( isset( $session_data['cart_cache'] ) ) {
 				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart_cache'] ), $show_thumb );
-			} else {
+			} else if ( isset( $session_data['cart'] ) ) {
 				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart'] ), $show_thumb );
 			}
 		}
@@ -536,7 +536,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return int
 	 */
 	public function get_cart_contents_count( $session_data = array() ) {
-		return array_sum( wp_list_pluck( maybe_unserialize( $session_data['cart'] ), 'quantity' ) );
+		return isset( $session_data['cart'] ) ? array_sum( wp_list_pluck( maybe_unserialize( $session_data['cart'] ), 'quantity' ) ) : 0;
 	} // END get_cart_contents_count()
 
 	/**
@@ -553,7 +553,11 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	public function get_cart_contents_weight( $session_data = array() ) {
 		$weight = 0.0;
 
-		$cart_contents = maybe_unserialize( $session_data['cart'] );
+		$cart_contents = isset( $session_data['cart'] ) ? maybe_unserialize( $session_data['cart'] ) : array();
+
+		if ( empty( $cart_contents ) ) {
+			return $weight;
+		}
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// Product data will be missing so we need to apply it.
@@ -643,9 +647,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return mixed
 	 */
 	protected function get_totals_var( $session_data = array(), $key = '' ) {
-		$totals = maybe_unserialize( $session_data['cart_totals'] );
-
-		return isset( $totals[ $key ] ) ? $totals[ $key ] : $this->default_totals[ $key ];
+		return isset( $totals[ $key ] ) ? maybe_unserialize( $session_data['cart_totals'] ) : $this->default_totals[ $key ];
 	} // END get_totals_var()
 
 	/**
