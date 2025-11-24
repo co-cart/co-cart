@@ -1,5 +1,24 @@
 # Changelog for CoCart Core
 
+## v4.8.1 - 24th November, 2025
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: No customer data, no applied coupons or removed items in session caused undefined errors.
+* REST API: Customer data was not converting correctly to return in the Session API.
+* REST API: The product object was not passed correctly in the Session API for items.
+* REST API: Damaged or empty cart sessions was failing in the Session API.
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few database issues to keep up with security practices.
+
+### Compatibility
+
+* Tested with WooCommerce v10.3
+* Added support for the next CoCart Plus update.
+
 ## v4.8.0 - 22nd September, 2025
 
 ### What's New?
