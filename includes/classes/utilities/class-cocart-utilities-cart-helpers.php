@@ -120,7 +120,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @param string           $fields   The customer fields to return.
 	 * @param WC_Customer|null $customer The customer object or nothing.
 	 *
-	 * @return array Returns the customer details based on the field requested.
+	 * @return array Returns the customer details based on the field requested or nothing.
 	 */
 	public static function get_customer_fields( $fields = 'billing', $customer = null ) {
 		// If no customer is set then return nothing.

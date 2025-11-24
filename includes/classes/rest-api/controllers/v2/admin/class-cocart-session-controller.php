@@ -266,18 +266,21 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		// Customer.
-		$customer = '';
+		$customer = array();
 
 		if ( isset( $session_data['customer'] ) ) {
 			$customer = maybe_unserialize( $session_data['customer'] );
 		}
 
+		// Get customer object.
+		$customer = $this->get_customer( $customer );
+
 		// Session response.
 		$session = array(
 			'cart_key'      => $request['session_key'],
 			'customer'      => array(
-				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $this->get_customer( $customer ) ),
-				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $this->get_customer( $customer ) ),
+				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $customer ),
+				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $customer ),
 			),
 			'items'         => array(),
 			'item_count'    => $this->get_cart_contents_count( $session_data ),
@@ -861,7 +864,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return string
 	 */
 	public function get_tax_price_display_mode( $session_data = array() ) {
-		$customer = '';
+		$customer = array();
 
 		if ( isset( $session_data['customer'] ) ) {
 			$customer = maybe_unserialize( $session_data['customer'] );
@@ -881,18 +884,94 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @param mixed $customer Customer object or ID.
+	 * @param mixed $customer Array of customer data from session.
 	 *
-	 * @return WC_Customer $customer Customer object or ID.
+	 * @return WC_Customer $customer Customer object.
 	 */
-	public function get_customer( $customer = 0 ) {
-		if ( is_numeric( $customer ) ) {
-			$user = get_user_by( 'id', $customer );
+	public function get_customer( $customer = array() ) {
+		// If customer data is an array (from session), create a WC_Customer object and populate it.
+		if ( is_array( $customer ) ) {
+			$customer_id = isset( $customer['id'] ) && absint( $customer['id'] ) > 0 ? absint( $customer['id'] ) : 0;
+			$wc_customer = new WC_Customer( $customer_id, true );
 
-			// If user id does not exist then set as new customer.
-			if ( is_wp_error( $user ) ) {
-				$customer = 0;
+			// Set billing address fields.
+			if ( isset( $customer['first_name'] ) ) {
+				$wc_customer->set_billing_first_name( $customer['first_name'] );
 			}
+			if ( isset( $customer['last_name'] ) ) {
+				$wc_customer->set_billing_last_name( $customer['last_name'] );
+			}
+			if ( isset( $customer['company'] ) ) {
+				$wc_customer->set_billing_company( $customer['company'] );
+			}
+			if ( isset( $customer['email'] ) ) {
+				$wc_customer->set_billing_email( $customer['email'] );
+			}
+			if ( isset( $customer['phone'] ) ) {
+				$wc_customer->set_billing_phone( $customer['phone'] );
+			}
+			if ( isset( $customer['address_1'] ) ) {
+				$wc_customer->set_billing_address_1( $customer['address_1'] );
+			}
+			if ( isset( $customer['address_2'] ) ) {
+				$wc_customer->set_billing_address_2( $customer['address_2'] );
+			}
+			if ( isset( $customer['city'] ) ) {
+				$wc_customer->set_billing_city( $customer['city'] );
+			}
+			if ( isset( $customer['state'] ) ) {
+				$wc_customer->set_billing_state( $customer['state'] );
+			}
+			if ( isset( $customer['postcode'] ) ) {
+				$wc_customer->set_billing_postcode( $customer['postcode'] );
+			}
+			if ( isset( $customer['country'] ) ) {
+				$wc_customer->set_billing_country( $customer['country'] );
+			}
+
+			// Set shipping address fields.
+			if ( isset( $customer['shipping_first_name'] ) ) {
+				$wc_customer->set_shipping_first_name( $customer['shipping_first_name'] );
+			}
+			if ( isset( $customer['shipping_last_name'] ) ) {
+				$wc_customer->set_shipping_last_name( $customer['shipping_last_name'] );
+			}
+			if ( isset( $customer['shipping_company'] ) ) {
+				$wc_customer->set_shipping_company( $customer['shipping_company'] );
+			}
+			if ( isset( $customer['shipping_phone'] ) ) {
+				$wc_customer->set_shipping_phone( $customer['shipping_phone'] );
+			}
+			if ( isset( $customer['shipping_address_1'] ) ) {
+				$wc_customer->set_shipping_address_1( $customer['shipping_address_1'] );
+			}
+			if ( isset( $customer['shipping_address_2'] ) ) {
+				$wc_customer->set_shipping_address_2( $customer['shipping_address_2'] );
+			}
+			if ( isset( $customer['shipping_city'] ) ) {
+				$wc_customer->set_shipping_city( $customer['shipping_city'] );
+			}
+			if ( isset( $customer['shipping_state'] ) ) {
+				$wc_customer->set_shipping_state( $customer['shipping_state'] );
+			}
+			if ( isset( $customer['shipping_postcode'] ) ) {
+				$wc_customer->set_shipping_postcode( $customer['shipping_postcode'] );
+			}
+			if ( isset( $customer['shipping_country'] ) ) {
+				$wc_customer->set_shipping_country( $customer['shipping_country'] );
+			}
+
+			// Set VAT exempt status.
+			if ( isset( $customer['is_vat_exempt'] ) ) {
+				$wc_customer->set_is_vat_exempt( wc_string_to_bool( $customer['is_vat_exempt'] ) );
+			}
+
+			// Set calculated shipping flag.
+			if ( isset( $customer['calculated_shipping'] ) ) {
+				$wc_customer->set_calculated_shipping( wc_string_to_bool( $customer['calculated_shipping'] ) );
+			}
+
+			return $wc_customer;
 		}
 
 		return new WC_Customer( $customer, true );
