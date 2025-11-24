@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Sessions\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.8.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -338,7 +338,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @param WC_Product $_product     The product data of the item in the cart.
+	 * @param WC_Product $product      The product data of the item in the cart.
 	 * @param array      $cart_item    The item in the cart containing the default cart item data.
 	 * @param string     $item_key     The item key generated based on the details of the item.
 	 * @param boolean    $show_thumb   Determines if requested to return the item featured thumbnail.
@@ -352,7 +352,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 		$item = array(
 			'item_key'       => $item_key,
-			'id'             => $_product->get_id(),
+			'id'             => $product->get_id(),
 			/**
 			 * Filter allows the product name of the item to change.
 			 *
@@ -363,7 +363,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param array      $cart_item    The cart item data.
 			 * @param string     $item_key     The item key generated based on the details of the item.
 			 */
-			'name'           => apply_filters( 'cocart_cart_item_name', $_product->get_name(), $_product, $cart_item, $item_key ),
+			'name'           => apply_filters( 'cocart_cart_item_name', $product->get_name(), $product, $cart_item, $item_key ),
 			/**
 			 * Filter allows the product title of the item to change.
 			 *
@@ -374,7 +374,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param array      $cart_item     The cart item data.
 			 * @param string     $item_key      The item key generated based on the details of the item.
 			 */
-			'title'          => apply_filters( 'cocart_cart_item_title', $_product->get_title(), $_product, $cart_item, $item_key ),
+			'title'          => apply_filters( 'cocart_cart_item_title', $product->get_title(), $product, $cart_item, $item_key ),
 			/**
 			 * Filter allows the price of the item to change.
 			 *
@@ -386,7 +386,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param array  $cart_item     The cart item data.
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
-			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $_product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
+			'price'          => apply_filters( 'cocart_cart_item_price', cocart_prepare_money_response( $product->get_price(), wc_get_price_decimals() ), $cart_item, $item_key ),
 			'quantity'       => array(
 				/**
 				 * Filter allows the quantity of the item to change.
@@ -400,8 +400,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				 * @param array  $cart_item     The cart item data.
 				 */
 				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
-				'min_purchase' => $_product->get_min_purchase_quantity(),
-				'max_purchase' => $_product->get_max_purchase_quantity(),
+				'min_purchase' => $product->get_min_purchase_quantity(),
+				'max_purchase' => $product->get_max_purchase_quantity(),
 			),
 			'totals'         => array(
 				'subtotal'     => cocart_prepare_money_response( $cart_item['line_subtotal'], wc_get_price_decimals() ),
@@ -409,12 +409,12 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'total'        => cocart_prepare_money_response( $cart_item['line_total'], wc_get_price_decimals() ),
 				'tax'          => cocart_prepare_money_response( $cart_item['line_tax'], wc_get_price_decimals() ),
 			),
-			'slug'           => $this->get_product_slug( $_product ),
+			'slug'           => $this->get_product_slug( $product ),
 			'meta'           => array(
-				'product_type' => $_product->get_type(),
-				'sku'          => $_product->get_sku(),
+				'product_type' => $product->get_type(),
+				'sku'          => $product->get_sku(),
 				'dimensions'   => array(),
-				'weight'       => $_product->has_weight() ? (string) wc_get_weight( $_product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ) : '0.0',
+				'weight'       => $product->has_weight() ? (string) wc_get_weight( $product->get_weight() * (int) $cart_item['quantity'], get_option( 'woocommerce_weight_unit' ) ) : '0.0',
 			),
 			'backorders'     => '',
 			'cart_item_data' => array(),
@@ -422,7 +422,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		);
 
 		// Item dimensions.
-		$dimensions = $_product->get_dimensions( false );
+		$dimensions = $product->get_dimensions( false );
 		if ( ! empty( $dimensions ) ) {
 			$item['meta']['dimensions'] = array(
 				'length' => $dimensions['length'],
@@ -436,10 +436,10 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		if ( ! isset( $cart_item['variation'] ) ) {
 			$cart_item['variation'] = array();
 		}
-		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $_product );
+		$item['meta']['variation'] = $this->format_variation_data( $cart_item['variation'], $product );
 
 		// Backorder notification.
-		$item['backorders'] = $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ? wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) ) : '';
+		$item['backorders'] = $product->backorders_require_notification() && $product->is_on_backorder( $cart_item['quantity'] ) ? wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $product->get_id() ) ) : '';
 
 		// Prepares the remaining cart item data.
 		$cart_item = $this->prepare_item( $cart_item );
@@ -460,7 +460,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 		// If thumbnail is requested then add it to each item in cart.
 		if ( $show_thumb ) {
-			$thumbnail_id = ! empty( $_product->get_image_id() ) ? $_product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
+			$thumbnail_id = ! empty( $product->get_image_id() ) ? $product->get_image_id() : get_option( 'woocommerce_placeholder_image', 0 );
 
 			/**
 			 * Filters the item thumbnail ID.
