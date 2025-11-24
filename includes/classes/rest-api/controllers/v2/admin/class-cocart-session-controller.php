@@ -518,7 +518,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array Of applied coupons.
 	 */
 	public function get_applied_coupons( $session_data = array() ) {
-		return (array) maybe_unserialize( $session_data['applied_coupons'] );
+		return isset( $session_data['applied_coupons'] ) ? maybe_unserialize( $session_data['applied_coupons'] ) : array();
 	} // END get_applied_coupons()
 
 	/**
@@ -910,6 +910,6 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array
 	 */
 	public function get_removed_cart_contents( $session_data = array() ) {
-		return (array) maybe_unserialize( $session_data['removed_cart_contents'] );
+		return isset( $session_data['removed_cart_contents'] ) ? maybe_unserialize( $session_data['removed_cart_contents'] ) : array();
 	} // END get_removed_cart_contents()
 } // END class

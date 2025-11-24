@@ -114,7 +114,7 @@ class CoCart_REST_Sessions_V2_Controller {
 
 			foreach ( $results as $key => $cart ) {
 				$cart_value = maybe_unserialize( $cart['cart_value'] );
-				$customer   = maybe_unserialize( $cart_value['customer'] );
+				$customer   = isset( $cart_value['customer'] ) ? maybe_unserialize( $cart_value['customer'] ) : array();
 
 				$email      = ! empty( $customer['email'] ) ? $customer['email'] : '';
 				$first_name = ! empty( $customer['first_name'] ) ? $customer['first_name'] : '';
