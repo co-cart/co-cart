@@ -1,5 +1,23 @@
 # Changelog for CoCart Core
 
+## v4.9.0 - [DATE]
+
+### What's New?
+
+* REST API: Added ETag support for cart endpoints enabling conditional requests with `If-None-Match` header.
+* REST API: Added ETag support for product endpoints (products, categories, tags, attributes, reviews).
+* REST API: Added `CoCart-Cache` response header indicating cache status: `HIT`, `MISS`, or `SKIP`.
+* REST API: Added `_skip_cache` query parameter to bypass caching for individual requests.
+* REST API: Added `stale-while-revalidate` directive to cacheable routes (products) for improved performance.
+
+### Developers
+
+* Introduced new filter `cocart_etag_cart_routes` to customize which cart routes support ETag.
+* Introduced new filter `cocart_etag_product_routes` to customize which product routes support ETag.
+* Introduced new filter `cocart_etag_routes` to add ETag support for third-party plugin routes.
+* Introduced new filter `cocart_cache_max_age` to customize cache duration (default: 1 hour).
+* Introduced new filter `cocart_stale_while_revalidate` to customize stale-while-revalidate duration (default: 24 hours).
+
 ## v4.8.2 - 20th January, 2026
 
 ### Improvements

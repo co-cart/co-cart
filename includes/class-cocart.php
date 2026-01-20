@@ -297,6 +297,7 @@ final class CoCart {
 		// REST API functions.
 		include_once __DIR__ . '/cocart-rest-functions.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-authentication.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-etag.php';
 
 		// Utilities.
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
