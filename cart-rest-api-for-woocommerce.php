@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: CoCart API - Headless eCommerce API for Developers
+ * Plugin Name: CoCart - Headless REST API for WooCommerce
  * Plugin URI:  https://cocartapi.com
- * Description: A developer-first REST API to decouple WooCommerce on the frontend. Fast, secure, customizable, easy.
+ * Description: A developer-first REST API to decouple WooCommerce on the frontend to help build modern and scalable storefronts.
  * Author:      CoCart Headless, LLC
  * Author URI:  https://cocartapi.com
- * Version:     4.8.1
+ * Version:     4.8.2
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 6.3
- * Tested up to: 6.8
+ * Tested up to: 6.9
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  *

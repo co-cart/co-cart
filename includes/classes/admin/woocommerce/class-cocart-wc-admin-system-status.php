@@ -630,7 +630,7 @@ class CoCart_Admin_WC_System_Status {
 
 		// Used to fire an action added in WP_Background_Process::_construct() that calls WP_Background_Process::handle_cron_healthcheck().
 		// This method will make sure the database updates are executed even if cron is disabled. Nothing will happen if the updates are already running.
-		do_action( 'wp_' . $blog_id . '_cocart_updater_cron' );
+		do_action( 'wp_' . $blog_id . '_cocart_updater_cron' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		return esc_html__( 'Database upgrade routine has been scheduled to run in the background.', 'cart-rest-api-for-woocommerce' );
 	} // END update_database()

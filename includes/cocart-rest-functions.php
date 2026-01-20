@@ -497,7 +497,7 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
 	 * @param string|array $object_type Object(s) the field is being registered to, "post"|"term"|"comment" etc.
 	 * @param string       $attribute   The attribute name.
 	 */
-	function unregister_rest_field( $object_type, $attribute ) {
+	function unregister_rest_field( $object_type, $attribute ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 		global $wp_rest_additional_fields;
 
 		$object_types = (array) $object_type;

@@ -9,6 +9,11 @@
  * @since   4.2.0 Introduced.
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Runs a deprecated action with notice only if used.
  *

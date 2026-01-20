@@ -197,7 +197,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			// Delete cart session.
 			WC()->session->delete_cart( $session_key );
 
-			if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) {
+			if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				delete_user_meta( $session_key, '_woocommerce_persistent_cart_' . get_current_blog_id() );
 			}
 
@@ -323,7 +323,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		if ( array_key_exists( 'items', $session ) ) {
 			if ( isset( $session_data['cart_cache'] ) ) {
 				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart_cache'] ), $show_thumb );
-			} else if ( isset( $session_data['cart'] ) ) {
+			} elseif ( isset( $session_data['cart'] ) ) {
 				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart'] ), $show_thumb );
 			}
 		}

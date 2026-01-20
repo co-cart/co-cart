@@ -1,5 +1,16 @@
 # Changelog for CoCart Core
 
+## v4.8.2 - 20th January, 2026
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few PHP code standards.
+
+### Compatibility
+
+* Tested with WordPress 6.9
+* Tested with WooCommerce v10.4
+
 ## v4.8.1 - 24th November, 2025
 
 ### Bug Fixes

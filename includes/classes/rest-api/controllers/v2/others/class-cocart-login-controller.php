@@ -174,7 +174,7 @@ class CoCart_REST_Login_V2_Controller {
 		}
 
 		// Check for API key authentication (if implemented).
-		if ( ! empty( $_REQUEST['consumer_key'] ) || ! empty( $_REQUEST['consumer_secret'] ) ) {
+		if ( ! empty( $_REQUEST['consumer_key'] ) || ! empty( $_REQUEST['consumer_secret'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return 'api_key';
 		}
 
