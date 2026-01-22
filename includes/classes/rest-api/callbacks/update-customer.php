@@ -115,7 +115,9 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 
 			foreach ( $fields as $key ) {
 				// Prepares customer billing field.
-				array_key_exists( $key, $params ) && ! empty( $params[ $key ] ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+				if ( array_key_exists( $key, $params ) ) {
+					$details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) );
+				}
 
 				// If a field has not provided a value, then unset it.
 				if ( empty( $details[ 'billing_' . $key ] ) ) {
@@ -145,14 +147,12 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 				if ( 'country' === $key && ! empty( $details['billing_country'] ) ) {
 					if ( ! $this->validate_country( $request ) ) {
 						unset( $details['billing_country'] );
-						$details['billing_country'] = $customer->get_billing_country();
 					}
 				}
 
 				if ( 'postcode' === $key && ! empty( $details['billing_postcode'] ) ) {
 					if ( ! $this->validate_postcode( $request ) ) {
 						unset( $details['billing_postcode'] );
-						$details['billing_postcode'] = $customer->get_billing_postcode();
 					} else {
 						$country                     = empty( $details['billing_country'] ) ? \WC()->countries->get_base_country() : $details['billing_country'];
 						$details['billing_postcode'] = wc_format_postcode( $details['billing_postcode'], $country );
