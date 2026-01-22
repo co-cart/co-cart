@@ -1,54 +1,72 @@
-=== Headless eCommerce API for Developers - CoCart ===
+=== CoCart - Headless REST API for WooCommerce ===
 Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
 Requires PHP: 7.4
-Tested up to: 6.8
-Stable tag: 4.7.0
+Tested up to: 6.9
+Stable tag: 4.8.2
 WC requires at least: 9.0
-WC tested up to: 10.0
+WC tested up to: 10.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-A developer-first REST API to decouple WooCommerce on the frontend. Fast, secure, customizable, easy.
+A developer-first REST API to decouple WooCommerce on the frontend to help build modern and scalable storefronts. Fast, secure, customizable, easy.
 
 == Description ==
 
-**CoCart: Headless WooCommerce API for Developers**
+**CoCart: The BEST REST API for decoupling WooCommerce stores**
 
-[CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) gives you a developer-first REST API to decouple WooCommerce on the frontend. Build modern storefronts with full control over auth, sessions, cart and product flows.
+[CoCart](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) is a developer-first REST API to decouple WooCommerce on the frontend. It gives you everything you need to start developing your own custom storefront. [CoCart Plus](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) plugin extension unlocks more to complete the shopping experience out the box.
 
-#### Why developers choose CoCart
+Build the modern and scalable storefront of your dreams with confidence independent of WordPress using frameworks like **Astro**, **React**, **Vue**, or **Next.js**, gaining complete control over your customers experience no matter what your store sells.
 
-* ✅ **Source of truth** - Built on WooCommerce Data Stores and mirrors most WooCommerce hooks, ensuring broad compatibility from the start.
-* 🔐 **Session management** - Lightweight, cookie‑less session keys stored in the database. Concurrency-safe.
-* 🔑 **Flexible authentication** - Log in via email, username, or phone. No admin API keys required.
-  - Optional JWT via official add‑on.
-* 🌍 **CORS control** - First‑party CORS so cross‑domain frontends “just work”.
-* 🛒 **Real‑time cart management** - Validate items/coupons, calculate totals in a single call.
-* 🔎 **Product search** - Query by name, SKU, or ID — authenticated or not — with flexible filters.
-* 🧩 **Extendable Callbacks** - Add your own logic with custom callbacks. No new endpoints needed.
-* 🛠 **Works with Woo Checkout** - Load any cart session into WooCommerce’s native checkout.
-* 💸 **Name Your Price** - Support donation-based pricing with built-in flexibility.
+CoCart was built for developers in mind. With hooks and filters available so you can extend or integrate custom functionality for your headless setup.
+
+#### Why 1,000+ developers choose CoCart
+
+**🚀 Core cart functionality (FREE)**
+* ✅ **Zero learning curve** - Built on WooCommerce Data Stores with familiar hooks, ensuring broad plugin compatibility.
+* 🔐 **Session management** - Cookie-less, database-stored sessions. Handle concurrent users without breaking a sweat.
+* 🛒 **Essential cart operations** - Add, remove, update items and calculate totals in simple API calls.
+
+**💻 Developer experience that doesn't suck**
+* 🔑 **Authentication that makes sense** - Email, username, or phone login. No admin API keys to juggle.
+* 🌍 **CORS just works** - First-party CORS support means your frontend connects instantly, no configuration hell.
+* 🧩 **Extendable Callbacks** - Add your own logic without writing new API routes.
 * 📦 **Bulk Cart Requests** - Combine multiple API calls into one for better performance.
+* 📊 **Cart Insights** - Monitor all cart sessions, including those nearing expiration or already expired.
 
-[Try the REST API](https://cocartapi.com/try-free-demo/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
+**🎯 WooCommerce compatibility, guaranteed**
+* 🛠 **Native checkout support** - Load any cart session into WooCommerce's checkout. Your payment gateways work seamlessly.
+* 🔎 **Product search** - Query by name, SKU, or ID — authenticated or not — with flexible filtering.
+* 💸 **Name Your Price support** - Donation-based pricing with built-in flexibility.
+
+**Want more?** Upgrade to [CoCart Plus](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+First time using CoCart? Check out the [documentation](https://cocartapi.com/docs/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=firsttime) and [create a sandbox](https://cocartapi.com/try-free-demo/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=firsttime) to try it out.
+
+## 💬 Loved by developers worldwide
 
 ★★★★★
-> An excellent plugin, which makes building a headless WooCommerce experience a breeze. Easy to use, nearly zero setup time. - [Harald Schneider](https://wordpress.org/support/topic/excellent-plugin-8062/)
+> "An excellent plugin, which makes building a headless WooCommerce experience a breeze. Easy to use, nearly zero setup time." - [Harald Schneider](https://wordpress.org/support/topic/excellent-plugin-8062/)
 
-## 💼 Upgrade to CoCart Plus
+★★★★★
+> "This plugin works great out of the box for adding products to the cart via API. The code is solid and functionality is as expected, thanks Sebastien!" - [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
 
-Need enterprise‑grade control and performance? Upgrade to **[CoCart Plus](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)** to unlock advanced cart, shipping, and operational tooling.
+★★★★★
+> "This plugin saved me tons of work and it is working amazingly! The plugin author provides fast and high-quality support. Well done!" - [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
 
-**Unlock features like:**
+## 💼 Need More Features? Upgrade to CoCart Plus
 
-* 🎫 **Coupon Management** - Reward customers and boost conversions.
-* 🚢 **Shipping Options & Rate Calculation** - Let customers choose from your available shipping methods.
-* 💰 **Cart Fees** - Add custom fees for any purpose (handling, rush, etc.).
-* 🥪 **Advanced Batch API** - Handle multiple cart actions in a single request.
-* 🕒 **Rate Limiting** - Prevent abuse and maintain high performance with granular API control.
-* 📊 **Cart Insights** - Monitor all cart sessions, including those nearing expiration or already expired.
+**Additional features in CoCart Plus:**
+
+* 🎫 **Coupon Management** - Apply discounts, promo codes, and boost conversions.
+* 🚢 **Shipping Calculations** - Real-time shipping rates and method selection.
+* 💰 **Cart Fees** - Add handling fees, rush charges, or custom pricing logic.
+* 🥪 **Advanced Batch API** - Process multiple cart operations in a single request for lightning speed.
+* 🕒 **Rate Limiting** - Prevent API abuse and maintain high performance under load.
+* 🧾 **Checkout** - Complete an order and take payment using any supported gateways by WooCommerce. (Coming Soon)
+* 💲 **Subscription Support** - Complete new subscriptions or renewals automatically or manually. (Coming Soon)
 
 ## 🔓 Ready to Go Fully Headless?
 
@@ -57,28 +75,13 @@ Join **thousands of developers and agencies** building with CoCart — the REST 
 👉 [Upgrade to CoCart Plus](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) and build the future of eCommerce today.
 
 ★★★★★
-> This plugin saved me tons of work and it is working amazingly! The plugin author provides fast and high-quality support. Well done! [@codenroll](https://wordpress.org/support/topic/great-plugin-with-a-great-support-7/)
+> "Thanks for doing such great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that's one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription." - [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
+
+[See our wall of love](https://cocartapi.com/wall-of-love/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) for more developer testimonials.
 
 ### 💜 Need Support?
 
 We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
-
-## 🧰 Developer Tools
-
-* **[CoCart Beta Tester](https://github.com/cocart-headless/cocart-beta-tester)** allows you to easily update to pre-release versions of CoCart for testing and development purposes.
-* **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes, and hooks.
-* **[CoCart Product Support Boilerplate](https://github.com/cocart-headless/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting different product types to add to the cart with validation including adding your own parameters.
-* **[CoCart Cart Callback Example](https://github.com/cocart-headless/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
-
-## 📢 Testimonials - Developers just love it
-
-★★★★★
-> Thanks for doing such great work with this! Works exactly as expected and CoCart seems to have a nice community around it. The founder seems really devoted and that’s one of the key things for a plugin like this to live on and get the right updates in the future. We just got ourselves the lifetime subscription. - [Mighty Group Agency](https://wordpress.org/support/topic/awesome-plugin-4681/)
-
-★★★★★
-> This plugin works great out of the box for adding products to the cart via API. The code is solid and functionality is as expected, thanks Sebastien! - [Scott Bolinger, Creator of Holler Box](https://wordpress.org/support/topic/works-great-out-of-the-box-16/)
-
-[See the wall of love](https://cocartapi.com/wall-of-love/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) for more testimonials.
 
 #### 👍 Add-ons to further enhance CoCart
 
@@ -87,10 +90,8 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 * **[CoCart - CORS](https://wordpress.org/plugins/cocart-cors/)** enables support for CORS to allow CoCart to work across multiple domains.
 * **[CoCart - Rate Limiting](https://wordpress.org/plugins/cocart-rate-limiting)** enables the rate limiting feature for CoCart Plus or higher.
 * **[CoCart - JWT Authentication](https://wordpress.org/plugins/cocart-jwt-authentication)** allows you to authenticate via a simple JWT Token.
-* **[CoCart - Cart Enhanced](https://wordpress.org/plugins/cocart-get-cart-enhanced)** enhances the data returned for the cart and the items added to it.
-* and more add-ons in development.
 
-These add-ons work with the core of CoCart already, and these add-ons of course come with support too.
+These add-ons of course come with support too.
 
 ### ⌨️ Join our growing community
 
@@ -98,20 +99,19 @@ On Discord, we have a community of developers, WordPress agencies, and shop owne
 
 Come and [join our community](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 
-### Built with developers in mind
+## 🧰 Developer Tools
 
-If you’re interested to jump in the project, there are opportunities for developers at all levels to get involved. [Contribute to CoCart on the GitHub repository](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) and join the party. 🎉
-
-### 🐞 Bug reports
-
-Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https://github.com/co-cart/co-cart). Please note that GitHub is not a support forum, and that issues that aren’t properly qualified as bugs will be closed.
+* **[CoCart Beta Tester](https://github.com/cocart-headless/cocart-beta-tester)** allows you to easily update to pre-release versions of CoCart for testing and development purposes.
+* **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes, and hooks.
+* **[CoCart Product Support Boilerplate](https://github.com/cocart-headless/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting different product types to add to the cart with validation including adding your own parameters.
+* **[CoCart Cart Callback Example](https://github.com/cocart-headless/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 
 ### More information
 
-* The official [CoCart API plugin](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) website.
-* [CoCart API Reference](https://cocartapi.com/docs/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
+* [Website](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+* [Documentation](https://cocartapi.com/docs/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 * [Subscribe to updates](http://eepurl.com/dKIYXE)
-* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/cocartheadless/) and [GitHub](https://github.com/co-cart/co-cart)
+* Like, Follow and Star on [Facebook](https://www.facebook.com/cocartforwc/), [X/Twitter](https://twitter.com/cocartapi), [Instagram](https://www.instagram.com/cocartheadless/) and [GitHub](https://github.com/co-cart/co-cart)
 
 #### 💯 Credits
 
@@ -160,13 +160,15 @@ You can read more about the details of Semver at [semver.org](https://semver.org
 
 = What does CoCart do? =
 
-CoCart provides a REST API that is ready to decouple WooCommerce away from WordPress.
+CoCart provides a frontend API for WooCommerce, enabling headless eCommerce development. Instead of being locked into WordPress themes, you can build lightning-fast storefronts with modern frameworks like React, Vue, Next.js, or any technology you prefer.
 
 = Who should use CoCart? =
 
-Pretty much everyone who wants a faster eCommerce store to improve their business. WooCommerce runs multiple requests for multiple steps. We avoid the hassle of needing multiple requests for these steps and process them all together.
-
-CoCart is perfect for eCommerce owners and developers who want to create an eCommerce app for mobile or a custom frontend shopping experience completely using the REST API.
+**Developers** who are tired of working on slow performance WooCommerce storefronts and want the freedom to build with modern frameworks. Perfect for:
+- Frontend developers building headless eCommerce stores
+- Agencies creating high-performance client sites
+- Mobile app developers needing eCommerce APIs
+- Anyone wanting infinite customization
 
 = Are there any limitations? =
 
@@ -218,7 +220,14 @@ Definitely. CoCart doesn't block or replace any part of the WP or WC APIs — it
 
 = Do I need to have coding skills to use CoCart? =
 
-As this plugin provides an REST API built for developers, you will need to have some coding knowledge to use it.
+**Yes, CoCart is built for developers.** If you can make HTTP requests and work with JSON responses, you're ready to use CoCart.
+
+**Skill level needed:**
+- Basic understanding of REST APIs
+- Experience with JavaScript, React, Vue, or your preferred frontend framework
+- Familiarity with HTTP requests (GET, POST, etc.)
+
+**No WordPress development experience required!** CoCart abstracts away WordPress complexity, giving you clean, predictable API responses.
 
 = Where can I find documentation for CoCart? =
 
@@ -292,12 +301,68 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
 
-Also, to avoid getting the plugin removed from the WordPress directory, the trademark word "WooCommerce" has been removed as part of the plugin title.
+**Before**: Headless eCommerce API for Developers
+**Now**: CoCart - Headless REST API for WooCommerce
 
-**Before**: Headless WooCommerce Made Easy with CoCart
-**Now**: Headless eCommerce API for Developers - CoCart
+In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for WooCommerce", before "CoCart API - Headless WooCommerce Made Easy".
 
-In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for Developers", before "CoCart API - Headless WooCommerce Made Easy".
+= v4.8.2 - 20th January, 2026 =
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few PHP code standards.
+
+### Compatibility
+
+* Tested with WordPress 6.9
+* Tested with WooCommerce v10.4
+
+= v4.8.1 - 24th November, 2025 =
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: No customer data, no applied coupons or removed items in session caused undefined errors.
+* REST API: Customer data was not converting correctly to return in the Session API.
+* REST API: The product object was not passed correctly in the Session API for items.
+* REST API: Damaged or empty cart sessions was failing in the Session API.
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few database issues to keep up with security practices.
+
+### Compatibility
+
+* Tested with WooCommerce v10.3
+* Added support for the next CoCart Plus update.
+
+= v4.8.0 - 22nd September, 2025 =
+
+### What's New?
+
+* Authentication: Enhanced login endpoint with improved permissions control via the new hooks mentioned below.
+
+### Improvements
+
+* Authentication: Removed priority order so our JWT Auth integration can run earlier in the process.
+* Authentication: Refactored `get_ip_address` for better trusted proxy support and better IP address detection with additional headers.
+* REST-API: Session handler now loads during the login endpoint operations.
+* Security: Item keys are now restricted to 32 characters maximum for better validation.
+* User Management: Refactored `is_user_customer` function to support additional user roles beyond just customers.
+
+### Developers
+
+* Logging: Added informational logs for IP address detection and proxy handling.
+* Introduced a new filter `cocart_login_permission_callback` allows additional authentication checks after basic authorization for the login endpoint.
+* Introduced a new filter `cocart_login_secure_auth_methods` determines which authentication methods should skip additional auth checks.
+* Introduced a new filter `cocart_login_query_parameters` allows plugins to add additional parameters to the login endpoint.
+* Introduced a new filter `cocart_trusted_proxies` allows adding trusted proxy IPs/CIDR for secure IP detection.
+* Introduced a new filter `cocart_ip_headers` allows customization of headers used for IP address detection.
+* Introduced a new hook `cocart_login_permission_granted` that triggers when login permission is granted for the login endpoint.
+
+### Compatibility
+
+* Tested with WooCommerce v10.2
 
 = v4.7.0 - 8th August, 2025 =
 
@@ -625,6 +690,6 @@ add_filter( 'cocart_get_customer_billing_country', function( $value ) {
 
 == Upgrade Notice ==
 
-= 4.7.0 =
+= 4.8.1 =
 
-Added support for authenticating via JSON request body with clear indication for the login endpoint (API v2 ONLY).
+Improved security, solved detecting damaged and empty sessions via the Sessions API.

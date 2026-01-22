@@ -67,7 +67,7 @@ The following action hooks have changed.
 
 * REST API: The main cart controller `CoCart_REST_Cart_V2_Controller` for API v2 now extends a new abstract controller `CoCart_REST_Cart_Controller` for the cart.
 
-> Developer note: This allows to better extend the cart API rather than the whole cart controller.
+> Developer note: This allows better extending the cart API rather than the whole cart controller.
 
 * REST API: The following endpoints for Cart API v2: `cart/add-item`, `cart/add-items`, `cart/calculate` now extend `CoCart_REST_Cart_V2_Controller` instead of the Cart API v1 controller.
 
@@ -81,7 +81,7 @@ The following action hooks have changed.
 * REST API: Redone the process of adding items to the cart for a smoother flow, filtering, validation and compatibility with any WooCommerce extension.
 * REST API: Only registers CoCart endpoints if requesting it. Helps performance in backend such as when using Gutenberg/Block editor as it loads many API's in the background.
 * REST API: Now hides routes from the index of controllers and returns as an error for added security.
-* REST API: Registering the endpoints have been improved and also allows the namespace to register with your own brand (so long as you have the whitelabel add-on installed).
+* REST API: Registering the endpoints have been improved and allows the namespace to register with your own brand (so long as you have the whitelabel add-on installed).
 * REST API: Moved more functions and filters to utility class to help improve the complexity of the cart controller so we get better performance.
 * REST API: Prevent having to check cart validity, stock and coupons on most cart endpoints other than when getting the cart to help with performance.
 * REST API: Optimized how many times we calculate the totals when adding items to the cart to help with performance.
@@ -125,7 +125,6 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_cross_sell_item_thumbnail_src` that allows you to change the thumbnail source for a cross sell item.
 * Introduced new filter `cocart_http_allowed_safe_ports` that allows you to control the list of ports considered safe for accessing the API.
 * Introduced new filter `cocart_allowed_http_origins` that allows you to change the origin types allowed for HTTP requests.
-* Introduced new filter `cocart_set_api_namespace` allows CoCart to be white labelled.
 * Introduced new filter `cocart_rest_response` to be used as a final straw for changing the response based on the request made.
 * Introduced new filter `cocart_wp_frontend_url` that allows you to control where to redirect users when visiting your WordPress site if you have disabled access to it.
 * Introduced new filter `cocart_wp_disable_access` to disable access to WordPress.
@@ -133,8 +132,6 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_rest_should_load_namespace` to determine whether a namespace should be loaded.
 * Introduced new filter `cocart_products_allowed_meta_keys` allows you to specify the allowed meta keys for the product.
 * Introduced new filter `cocart_product_insert_review_status` allows you to change the status to `approved`. Other values set via filter will automatically reset to `hold`.
-* Introduced new filter `cocart_ip_headers` allows you to filter additional IP headers for common proxy setups.
-* Introduced new filter `cocart_ip_default_address` allows you to set the default IP address if none found.
 
 > Note: List other filters that have been changed here.
 
@@ -161,7 +158,6 @@ Simply provide these two parameters with the data point values on any page and t
 
 The following filters are no longer used:
 
-* `cocart_load_cart_override`
 * `cocart_load_cart`
 * `cocart_merge_cart_content`
 * `cocart_cart_loaded_successful_message`

@@ -91,7 +91,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			}
 
 			// Authenticate user.
-			add_filter( 'determine_current_user', array( $this, 'authenticate' ), 16 );
+			add_filter( 'determine_current_user', array( $this, 'authenticate' ) );
 			add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
 
 			// Check authentication errors.
@@ -121,9 +121,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return array
 		 */
 		public function add_cors_headers( $headers ) {
-			$headers[] = 'CoCart-API-Cart-Key';
-			$headers[] = 'CoCart-API-Cart-Expiring';
-			$headers[] = 'CoCart-API-Cart-Expiration';
+			$headers[] = 'Cart-Key';
+			$headers[] = 'Cart-Expiring';
+			$headers[] = 'Cart-Expiration';
 
 			return $headers;
 		} // END add_cors_headers()
@@ -135,11 +135,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 2.9.1 Introduced.
 		 *
-		 * @since 4.2.0 Deprecated, thinking it was not needed anymore due to changes to support WooCommerce better for performance.
-		 * @since 4.3.7 Reinstated again.
+		 * @since 4.2.0  Deprecated, thinking it was not needed anymore due to changes to support WooCommerce better for performance.
+		 * @since 4.3.7  Reinstated again.
 		 * @since 4.3.14 Don't update user to load saved cart when requesting to delete.
 		 *
-		 * @deprecated 4.6.2 No longer supported in WooCommerce as v10
+		 * @deprecated 4.6.2 No longer supported in WooCommerce as of v10
 		 *
 		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
 		 *
@@ -967,23 +967,27 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		/**
 		 * Get current user IP Address.
 		 *
-		 * X_REAL_IP and CLIENT_IP are custom implementations designed to facilitate obtaining a user's ip through proxies, load balancers etc.
+		 * First checks the REMOTE_ADDR server variable as the most reliable source.
+		 * When proxy support is enabled, checks if the remote address is a trusted proxy.
 		 *
-		 * _FORWARDED_FOR (XFF) request header is a de-facto standard header for identifying the originating IP address of a client connecting to a web server through a proxy server.
-		 * Note for X_FORWARDED_FOR, Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2.
-		 * Make sure we always only send through the first IP in the list which should always be the client IP.
-		 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+		 * For trusted proxies, the following headers may be used:
 		 *
-		 * Forwarded request header contains information that may be added by reverse proxy servers (load balancers, CDNs, and so on).
-		 * Documentation at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
-		 * Full RFC at https://datatracker.ietf.org/doc/html/rfc7239
+		 * - X-Forwarded-For (XFF): De-facto standard header for identifying original client IP.
+		 *   Format: X-Forwarded-For: client1, proxy1, proxy2 (we use the first IP only)
+		 *   Documentation: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+		 *
+		 * - X-Real-IP and Client-IP: Custom implementations for obtaining user IP through proxies/load balancers.
+		 *
+		 * - Forwarded: Standardized header for proxy server information (load balancers, CDNs)
+		 *   Documentation: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
+		 *   Full RFC: https://datatracker.ietf.org/doc/html/rfc7239
 		 *
 		 * @access public
 		 *
 		 * @static
 		 *
 		 * @since 4.2.0 Introduced.
-		 * @since 5.0.0 Added filterable headers and default IP address.
+		 * @since 4.8.0 Added support for trusted proxies and additional headers.
 		 *
 		 * @param boolean $proxy_support Enables/disables proxy support.
 		 *
@@ -992,55 +996,97 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		public static function get_ip_address( bool $proxy_support = false ) { // phpcs:ignore PHPCompatibility.FunctionDeclarations.NewParamTypeDeclarations.boolFound
 			$ip = '';
 
-			// Proxy force check.
-			if ( $proxy_support ) {
-				CoCart_Logger::log( 'Proxy support forced', 'info' );
-				return self::validate_ip( sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) ); // phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
-			}
+			// Determine remote address.
+			$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
-			// Check if we're behind a proxy.
-			if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-				CoCart_Logger::log( 'Behind a proxy', 'info' );
-				// HTTP_X_FORWARDED_FOR can contain a chain of comma-separated addresses.
-				$forwarded_for = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
-				$ip            = trim( $forwarded_for[0] );
-			} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-				CoCart_Logger::log( 'Regular IP header', 'info' );
-				$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+			/**
+			 * Trusted proxies list.
+			 *
+			 * Filter should return an array of IPs or CIDR ranges.
+			 * Defaults to localhost addresses to avoid trusting arbitrary headers.
+			 *
+			 * @since 4.8.0 Introduced.
+			 *
+			 * @param array $trusted_proxies Array of trusted proxy IPs/CIDR.
+			 */
+			$trusted_proxies = array_merge( self::get_trusted_proxies(), apply_filters( 'cocart_trusted_proxies', array() ) );
+
+			// If not forced and remote is not a trusted proxy, do not trust proxy headers.
+			$use_proxy_headers = $proxy_support || self::is_trusted_proxy( $remote_addr, $trusted_proxies );
+
+			// If we won't use proxy headers, just use REMOTE_ADDR.
+			if ( ! $use_proxy_headers ) {
+				if ( ! empty( $remote_addr ) ) {
+					CoCart_Logger::log( 'Using REMOTE_ADDR (not a trusted proxy)', 'info' );
+					return self::validate_ip( $remote_addr );
+				}
+				// Fall back to default later if REMOTE_ADDR empty.
+			} else {
+				CoCart_Logger::log( 'Connection from trusted proxy; parsing proxy headers', 'info' );
+				// We'll parse headers below to find the client IP.
 			}
 
 			/**
 			 * Additional IP headers for common proxy setups.
 			 *
-			 * @since 5.0.0 Introduced.
+			 * @since 4.8.0 Introduced.
 			 */
 			$additional_headers = apply_filters(
 				'cocart_ip_headers',
 				array(
-					'HTTP_CF_CONNECTING_IP', // Cloudflare.
-					'HTTP_X_REAL_IP',        // Nginx proxy.
-					'HTTP_CLIENT_IP',        // Client IP.
+					// Highest priority edge/CDN headers first.
+					'HTTP_CF_CONNECTING_IP',   // Cloudflare.
+					'HTTP_TRUE_CLIENT_IP',     // Akamai / some CDNs.
+					// Common proxy headers.
+					'HTTP_X_REAL_IP',          // Nginx / proxy.
+					'HTTP_X_CLUSTER_CLIENT_IP',
+					// Less-trustworthy client-provided fallbacks.
+					'HTTP_X_CLIENT_IP',
+					'HTTP_CLIENT_IP',
+					// Leave generic Forwarded header handling to the dedicated section below.
 				)
 			);
 
-			foreach ( $additional_headers as $header ) {
-				if ( ! empty( $_SERVER[ $header ] ) ) {
+			// Only parse the additional headers if remote is trusted or proxy_support forced.
+			if ( $use_proxy_headers ) {
+				// Ensure X-Forwarded-For is considered (may be supplied here via filter).
+				if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && ! in_array( 'HTTP_X_FORWARDED_FOR', $additional_headers, true ) ) {
+					array_unshift( $additional_headers, 'HTTP_X_FORWARDED_FOR' );
+				}
+
+				foreach ( $additional_headers as $header ) {
+					if ( empty( $_SERVER[ $header ] ) ) {
+						continue;
+					}
+
 					CoCart_Logger::log( $header . ' is detected', 'info' );
 
-					$ip = sanitize_text_field( wp_unslash( $_SERVER[ $header ] ) );
-					break;
+					$value = sanitize_text_field( wp_unslash( $_SERVER[ $header ] ) );
+
+					// Try to extract first valid ip from the header value (handles comma lists, quotes, brackets, ports).
+					$candidate_ip = self::parse_ip_from_header_value( $value );
+					if ( $candidate_ip ) {
+						$ip = $candidate_ip;
+						break;
+					}
 				}
 			}
 
 			if ( ! empty( $_SERVER['HTTP_FORWARDED'] ) ) {
 				CoCart_Logger::log( 'HTTP_FORWARDED is detected', 'info' );
 
-				// Using regex instead of explode() for a smaller code footprint.
-				// Expected format: Forwarded: for=192.0.2.60;proto=http;by=203.0.113.43,for="[2001:db8:cafe::17]:4711"...
-				preg_match( '/for=([^;]+)/i', sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) ), $matches );
+				// Extract the 'for' part(s) from Forwarded header and validate candidates.
+				$forwarded = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) );
 
-				if ( isset( $matches[1] ) && self::validate_ip( $matches[1] ) ) {
-					$ip = $matches[1];
+				// Find all for=... occurrences (may be multiple, comma-separated).
+				if ( preg_match_all( '/for=([^;,]+)/i', $forwarded, $matches ) && ! empty( $matches[1] ) ) {
+					foreach ( $matches[1] as $for_val ) {
+						$candidate = self::parse_ip_from_header_value( $for_val );
+						if ( $candidate ) {
+							$ip = $candidate;
+							break;
+						}
+					}
 				}
 			}
 
@@ -1049,14 +1095,16 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				return self::validate_ip( $ip );
 			}
 
+			// If we didn't extract an IP from headers, fall back to REMOTE_ADDR if present.
+			if ( ! empty( $remote_addr ) ) {
+				CoCart_Logger::log( 'Falling back to REMOTE_ADDR', 'info' );
+				return self::validate_ip( $remote_addr );
+			}
+
 			CoCart_Logger::log( 'Falling back to default IP address', 'info' );
 
-			/**
-			 * Default IP address if none found.
-			 *
-			 * @since 5.0.0 Introduced.
-			 */
-			return apply_filters( 'cocart_ip_default_address', '0.0.0.0' );
+			// Return empty string if no IP found.
+			return '';
 		} // END get_ip_address()
 
 		/**
@@ -1102,6 +1150,149 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
 			) === false;
 		} // END is_ip_private()
+
+		/**
+		 * Parse a raw header value (comma lists, quoted/bracketed values, ports) and return the first valid IP.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @since 4.8.0 Introduced.
+		 *
+		 * @param string $value Raw header value.
+		 *
+		 * @return string|null Valid IP string or null.
+		 */
+		private static function parse_ip_from_header_value( $value ) {
+			$value = trim( $value, " \t\n\r\0\x0B\"'" );
+
+			// Split comma-separated lists, take candidates in order.
+			$candidates = ( false !== strpos( $value, ',' ) ) ? array_map( 'trim', explode( ',', $value ) ) : array( $value );
+
+			foreach ( $candidates as $candidate ) {
+				$candidate = trim( $candidate );
+				// Remove surrounding brackets (IPv6 may be bracketed).
+				$candidate = trim( $candidate, '[] ' );
+				// Strip possible port suffix like :1234 (if present and not a valid IP).
+				if ( ! filter_var( $candidate, FILTER_VALIDATE_IP ) ) {
+					$without_port = preg_replace( '/:\d+$/', '', $candidate );
+					if ( filter_var( $without_port, FILTER_VALIDATE_IP ) ) {
+						$candidate = $without_port;
+					}
+				}
+
+				if ( filter_var( $candidate, FILTER_VALIDATE_IP ) ) {
+					return $candidate;
+				}
+			}
+
+			return null;
+		} // END parse_ip_from_header_value()
+
+		/**
+		 * Check whether a given IP belongs to a trusted proxy list.
+		 *
+		 * Supports single IPs and CIDR ranges.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @since 4.8.0 Introduced.
+		 *
+		 * @param string $ip IP address to check.
+		 * @param array  $trusted_proxies Array of trusted IPs or CIDR ranges.
+		 *
+		 * @return bool True if the IP is in the trusted proxies list, false otherwise.
+		 */
+		private static function is_trusted_proxy( $ip, $trusted_proxies ) {
+			if ( empty( $ip ) || empty( $trusted_proxies ) ) {
+				return false;
+			}
+
+			foreach ( $trusted_proxies as $range ) {
+				$range = trim( $range );
+				if ( $range === $ip ) {
+					return true;
+				}
+				if ( false !== strpos( $range, '/' ) && self::ip_in_cidr( $ip, $range ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		} // END is_trusted_proxy()
+
+		/**
+		 * Test if an IP is in a CIDR range (supports IPv4 and IPv6).
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @since 4.8.0 Introduced.
+		 *
+		 * @param string $ip IP address.
+		 * @param string $cidr CIDR range like "192.0.2.0/24" or "2001:db8::/32".
+		 *
+		 * @return bool True if the IP is in the CIDR range, false otherwise.
+		 */
+		private static function ip_in_cidr( $ip, $cidr ) {
+			if ( ! $ip || ! $cidr ) {
+				return false;
+			}
+
+			list( $subnet, $mask ) = explode( '/', $cidr );
+			$mask                  = (int) $mask;
+
+			$ip_bin     = @inet_pton( $ip );
+			$subnet_bin = @inet_pton( $subnet );
+			if ( $ip_bin === false || $subnet_bin === false ) {
+				return false;
+			}
+
+			// Ensure same address family.
+			if ( strlen( $ip_bin ) !== strlen( $subnet_bin ) ) {
+				return false;
+			}
+
+			$bytes     = (int) floor( $mask / 8 );
+			$remainder = $mask % 8;
+
+			if ( $bytes && substr( $ip_bin, 0, $bytes ) !== substr( $subnet_bin, 0, $bytes ) ) {
+				return false;
+			}
+
+			if ( $remainder ) {
+				$byte_ip   = ord( $ip_bin[ $bytes ] );
+				$byte_sub  = ord( $subnet_bin[ $bytes ] );
+				$mask_byte = ( ( 0xFF00 >> $remainder ) & 0xFF );
+				if ( ( $byte_ip & $mask_byte ) !== ( $byte_sub & $mask_byte ) ) {
+					return false;
+				}
+			}
+
+			return true;
+		} // END ip_in_cidr()
+
+		/**
+		 * Get trusted proxies.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @since 4.8.0 Introduced.
+		 *
+		 * @return array Array of trusted proxy IPs.
+		 */
+		private static function get_trusted_proxies() {
+			return array(
+				'127.0.0.1', // IPv4 localhost.
+				'::1',       // IPv6 localhost.
+			);
+		} // END get_trusted_proxies()
 	} // END class.
 } // END if class exists.
 

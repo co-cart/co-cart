@@ -218,7 +218,7 @@ final class CoCart {
 	 */
 	private static function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
-			define( $name, $value );
+			define( $name, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound
 		}
 	} // END define()
 
@@ -808,10 +808,10 @@ final class CoCart {
 			$locale = is_admin() ? get_user_locale() : get_locale();
 		}
 
-		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG );
+		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		unload_textdomain( COCART_SLUG );
 		load_textdomain( COCART_SLUG, WP_LANG_DIR . '/' . COCART_SLUG . '/' . COCART_SLUG . '-' . $locale . '.mo' );
-		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' );
+		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' ); // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
 	} // END load_plugin_textdomain()
 } // END class

@@ -860,7 +860,6 @@ class CoCart_REST_API {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
-			CoCart::get_api_namespace() . '/v2/login',
 			CoCart::get_api_namespace() . '/v2/logout',
 			CoCart::get_api_namespace() . '/v1/products',
 			CoCart::get_api_namespace() . '/v2/products',

@@ -117,11 +117,11 @@ class CoCart_Response {
 
 				// Send cart key in the header if it's not empty or ZERO.
 				if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
-					$response->header( 'CoCart-API-Cart-Key', $cart_key );
+					$response->header( 'Cart-Key', $cart_key );
 				}
 
-				$response->header( 'CoCart-API-Cart-Expiring', $cart_expiring );
-				$response->header( 'CoCart-API-Cart-Expiration', $cart_expiration );
+				$response->header( 'Cart-Expiring', $cart_expiring );
+				$response->header( 'Cart-Expiration', $cart_expiration );
 			}
 
 			return $response;

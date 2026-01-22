@@ -1,5 +1,63 @@
 # Changelog for CoCart Core
 
+## v4.8.2 - 20th January, 2026
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few PHP code standards.
+
+### Compatibility
+
+* Tested with WordPress 6.9
+* Tested with WooCommerce v10.4
+
+## v4.8.1 - 24th November, 2025
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: No customer data, no applied coupons or removed items in session caused undefined errors.
+* REST API: Customer data was not converting correctly to return in the Session API.
+* REST API: The product object was not passed correctly in the Session API for items.
+* REST API: Damaged or empty cart sessions was failing in the Session API.
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few database issues to keep up with security practices.
+
+### Compatibility
+
+* Tested with WooCommerce v10.3
+* Added support for the next CoCart Plus update.
+
+## v4.8.0 - 22nd September, 2025
+
+### What's New?
+
+* Authentication: Enhanced login endpoint with improved permissions control via the new hooks mentioned below.
+
+### Improvements
+
+* Authentication: Removed priority order so our JWT Auth integration can run earlier in the process.
+* Authentication: Refactored `get_ip_address` for better trusted proxy support and better IP address detection with additional headers.
+* REST-API: Session handler now loads during the login endpoint operations.
+* Security: Item keys are now restricted to 32 characters maximum for better validation.
+* User Management: Refactored `is_user_customer` function to support additional user roles beyond just customers.
+
+### Developers
+
+* Logging: Added informational logs for IP address detection and proxy handling.
+* Introduced a new filter `cocart_login_permission_callback` allows additional authentication checks after basic authorization for the login endpoint.
+* Introduced a new filter `cocart_login_secure_auth_methods` determines which authentication methods should skip additional auth checks.
+* Introduced a new filter `cocart_login_query_parameters` allows plugins to add additional parameters to the login endpoint.
+* Introduced a new filter `cocart_trusted_proxies` allows adding trusted proxy IPs/CIDR for secure IP detection.
+* Introduced a new filter `cocart_ip_headers` allows customization of headers used for IP address detection.
+* Introduced a new hook `cocart_login_permission_granted` that triggers when login permission is granted for the login endpoint.
+
+### Compatibility
+
+* Tested with WooCommerce v10.2
+
 ## v4.7.0 - 8th August, 2025
 
 > Note: To avoid getting the plugin removed from the WordPress directory, the trademark word "WooCommerce" has been removed as part of the plugin title for the plugin listing.

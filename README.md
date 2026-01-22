@@ -6,7 +6,7 @@
 	</a>
 </p>
 
-Welcome to the CoCart core repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on Twitter for the latest development updates.
+Welcome to the CoCart core repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocartapi.com/blog/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on X/Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://cocartapi.com/docs/](https://cocartapi.com/docs/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore)
 
@@ -60,10 +60,12 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 * **[CoCart - CORS](https://github.com/cocart-headless/cocart-cors)** enables support for CORS to allow CoCart to work across multiple domains.
 * **[CoCart - Rate Limiting](https://github.com/cocart-headless/cocart-rate-limiting)** enables the rate limiting feature for CoCart Plus or higher.
 * **[CoCart - JWT Authentication](https://github.com/cocart-headless/cocart-jwt-authentication)** allows you to authenticate via a simple JWT Token.
-* **[CoCart - Cart Enhanced](https://github.com/cocart-headless/cocart-get-cart-enhanced)** enhances the data returned for the cart and the items added to it.
-* and more add-ons in development.
 
-These add-ons work with the core of CoCart already, and these add-ons of course come with support too.
+These add-ons of course come with support too.
+
+## 💜 Need Support?
+
+We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
 
 ## 🧰 Developer Tools
 
@@ -71,10 +73,6 @@ These add-ons work with the core of CoCart already, and these add-ons of course 
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and auto-completion of functions, classes and hooks.
 * **[CoCart Product Support Boilerplate](https://github.com/co-cart/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting a different product type to add to the cart with validation including adding your own parameters.
 * **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
-
-## 💜 Need Support?
-
-We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
 
 ## 🐞 Bug Reporting
 
@@ -116,11 +114,12 @@ We have different channels at your disposal where you can find information about
 
 [![Twitter: cocartapi](https://img.shields.io/twitter/follow/cocartapi?style=social)](https://twitter.com/cocartapi) [![CoCart GitHub Stars](https://img.shields.io/github/stars/co-cart/co-cart?style=social)](https://github.com/co-cart/co-cart)
 
+
 <ul>
-  <li>📖 <strong>Docs</strong>: this is the place to learn how to use CoCart API. <a href="https://cocartapi.com/docs/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore">Get started!</a></li>
-  <li>👪 <strong>Community</strong>: use our Discord chat room to share any doubts, feedback and meet great people. This is your place too to share <a href="https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore">how are you planning to use CoCart!</a></li>
+  <li>📖 <strong>Documentation</strong>: this is the place to learn how to use CoCart API. <a href="https://cocartapi.com/docs/?utm_medium=repo&utm_source=github&utm_campaign=readme&utm_content=cocartcore">Get started!</a></li>
+  <li>👪 <strong>Community</strong>: use our Discord chat room to share any doubts, feedback and meet great people. This is your place too to share <a href="https://cocartapi.com/community/?utm_medium=repo&utm_source=github&utm_campaign=readme&utm_content=cocartcore">how are you planning to use CoCart!</a></li>
   <li>🐞 <strong>GitHub</strong>: we use GitHub for bugs and pull requests, doubts are solved with the community.</li>
-  <li>🐦 <strong>Social media</strong>: a more informal place to interact with CoCart users, reach out to us on <a href="https://twitter.com/cocartapi">Twitter.</a></li>
+  <li>🐦 <strong>Social media</strong>: a more informal place to interact with CoCart users, reach out to us on <a href="https://twitter.com/cocartapi">X/Twitter.</a></li>
 </ul>
 
 ---
@@ -137,7 +136,9 @@ CoCart API also welcomes contributions. There are many ways to support the proje
 
 Website [cocartapi.com](https://cocartapi.com?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) &nbsp;&middot;&nbsp;
 GitHub [@co-cart](https://github.com/co-cart) &nbsp;&middot;&nbsp;
-Twitter [@cocartapi](https://twitter.com/cocartapi)
+X/Twitter [@cocartapi](https://twitter.com/cocartapi)
+[Facebook](https://www.facebook.com/cocartforwc/) &nbsp;&middot;&nbsp;
+[Instagram](https://www.instagram.com/cocartheadless/)
 
 ---
 
@@ -146,4 +147,4 @@ Founder of [CoCart Headless, LLC](https://github.com/cocart-headless).
 
 Website [sebastiendumont.com](https://sebastiendumont.com) &nbsp;&middot;&nbsp;
 GitHub [@seb86](https://github.com/seb86) &nbsp;&middot;&nbsp;
-Twitter [@sebd86](https://twitter.com/sebd86)
+X/Twitter [@sebd86](https://twitter.com/sebd86)

@@ -223,13 +223,36 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			return false;
 		}
 
-		$current_user = get_userdata( $user_id );
+		if ( ! is_object( $user_id ) ) {
+			$current_user = get_userdata( $user_id );
+		}
+
+		if ( ! $current_user || ! $current_user->exists() ) {
+			return false;
+		}
 
 		if ( ! empty( $current_user ) ) {
 			$user_roles = $current_user->roles;
 
-			if ( in_array( 'customer', $user_roles, true ) ) {
-				return true;
+			foreach ( $user_roles as $role ) {
+				// If the user either has the administrator or shop manager role then return false.
+				if ( 'administrator' === $role || 'shop_manager' === $role ) {
+					return false;
+				}
+
+				/**
+				 * Filter allows you to change the customer roles.
+				 *
+				 * This is to determine if the user is a customer or not.
+				 *
+				 * @since 4.8.0 Introduced.
+				 */
+				$user_customer_roles = apply_filters( 'cocart_user_customer_roles', array( 'customer', 'subscriber' ) );
+
+				// If the user has any of the customer roles.
+				if ( is_array( $user_customer_roles ) && in_array( $role, $user_customer_roles, true ) ) {
+					return true;
+				}
 			}
 		}
 
@@ -528,7 +551,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 
 		$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				'DELETE FROM %i WHERE cart_expiry < %d', // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				'DELETE FROM %i WHERE cart_expiry < %d',
 				$this->_table,
 				time()
 			)
@@ -566,7 +589,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		if ( false === $value ) {
 			$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$wpdb->prepare(
-					'SELECT cart_value FROM %i WHERE cart_key = %s', // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					'SELECT cart_value FROM %i WHERE cart_key = %s',
 					$this->_table,
 					$cart_key
 				)

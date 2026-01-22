@@ -37,12 +37,12 @@
 	},
 	"requires": "6.3",
 	"requires_php": "7.4",
-	"tested_up_to": "6.8",
+	"tested_up_to": "6.9",
 	"wc_requires": "9.0",
-	"wc_tested_up_to": "10.0",
+	"wc_tested_up_to": "10.4",
 	"license": "GPL-3.0",
-	"copyright": "Copyright (c) 2025, CoCart Headless, LLC",
-	"description": "A developer-first REST API to decouple WooCommerce on the frontend. Fast, secure, customizable, easy.",
+	"copyright": "Copyright (c) 2026, CoCart Headless, LLC",
+	"description": "A developer-first REST API to decouple WooCommerce on the frontend to help build modern and scalable storefronts.",
 	"tags": "",
 	"keywords": [
 		"wordpress",
@@ -74,6 +74,7 @@
 	"devDependencies": {
 		"@lodder/grunt-postcss": "^3.1.1",
 		"autoprefixer": "^10.4.21",
+		"baseline-browser-mapping": "^2.8.31",
 		"grunt": "~1.6.1",
 		"grunt-checktextdomain": "1.0.1",
 		"grunt-contrib-clean": "^2.0.1",
@@ -96,9 +97,9 @@
 		"postcss": "~8.5.6",
 		"postcss-scss": "~4.0.9",
 		"prettier": "^3.6.2",
-		"sass": "^1.89.2",
-		"stylelint": "~16.22.0",
-		"stylelint-config-standard-scss": "~15.0.1",
+		"sass": "^1.93.0",
+		"stylelint": "~16.24.0",
+		"stylelint-config-standard-scss": "~16.0.0",
 		"wp-textdomain": "~1.0.1"
 	},
 	"engines": {
