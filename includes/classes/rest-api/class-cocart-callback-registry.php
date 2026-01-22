@@ -6,6 +6,8 @@
  *
  * @package CoCart\Classes
  * @since   3.1.0 Introduced.
+ * @version 4.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -87,7 +89,7 @@ class CoCart_Callback_Registry {
 				esc_html(
 					sprintf(
 						/* translators: %s: Callback name. */
-						__( '"%s" is already registered.', 'cart-rest-api-for-woocommerce' ),
+						__( '"%s" is already registered.', 'cocart-core' ),
 						$name
 					)
 				),

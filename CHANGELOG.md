@@ -1,6 +1,295 @@
 # Changelog for CoCart Core
 
-## v4.3.24 - ?? March, 2025
+## v4.8.2 - 20th January, 2026
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few PHP code standards.
+
+### Compatibility
+
+* Tested with WordPress 6.9
+* Tested with WooCommerce v10.4
+
+## v4.8.1 - 24th November, 2025
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: No customer data, no applied coupons or removed items in session caused undefined errors.
+* REST API: Customer data was not converting correctly to return in the Session API.
+* REST API: The product object was not passed correctly in the Session API for items.
+* REST API: Damaged or empty cart sessions was failing in the Session API.
+
+### Improvements
+
+* Plugin: WordPress plugin checker helped resolve a few database issues to keep up with security practices.
+
+### Compatibility
+
+* Tested with WooCommerce v10.3
+* Added support for the next CoCart Plus update.
+
+## v4.8.0 - 22nd September, 2025
+
+### What's New?
+
+* Authentication: Enhanced login endpoint with improved permissions control via the new hooks mentioned below.
+
+### Improvements
+
+* Authentication: Removed priority order so our JWT Auth integration can run earlier in the process.
+* Authentication: Refactored `get_ip_address` for better trusted proxy support and better IP address detection with additional headers.
+* REST-API: Session handler now loads during the login endpoint operations.
+* Security: Item keys are now restricted to 32 characters maximum for better validation.
+* User Management: Refactored `is_user_customer` function to support additional user roles beyond just customers.
+
+### Developers
+
+* Logging: Added informational logs for IP address detection and proxy handling.
+* Introduced a new filter `cocart_login_permission_callback` allows additional authentication checks after basic authorization for the login endpoint.
+* Introduced a new filter `cocart_login_secure_auth_methods` determines which authentication methods should skip additional auth checks.
+* Introduced a new filter `cocart_login_query_parameters` allows plugins to add additional parameters to the login endpoint.
+* Introduced a new filter `cocart_trusted_proxies` allows adding trusted proxy IPs/CIDR for secure IP detection.
+* Introduced a new filter `cocart_ip_headers` allows customization of headers used for IP address detection.
+* Introduced a new hook `cocart_login_permission_granted` that triggers when login permission is granted for the login endpoint.
+
+### Compatibility
+
+* Tested with WooCommerce v10.2
+
+## v4.7.0 - 8th August, 2025
+
+> Note: To avoid getting the plugin removed from the WordPress directory, the trademark word "WooCommerce" has been removed as part of the plugin title for the plugin listing.
+
+**Before**: Headless WooCommerce Made Easy with CoCart
+**Now**: Headless eCommerce API for Developers - CoCart
+
+> In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for Developers", before "CoCart API - Headless WooCommerce Made Easy"
+
+### What's New?
+
+* Authentication: Added support for authenticating via JSON request body with clear indication for the login endpoint (API v2 ONLY).
+
+### Improvements
+
+* Authentication: Internal refactor to return `WP_Error` consistently from permission checks.
+* REST API: Login (API v2 ONLY) Explicit added query params for `username` and `password`.
+
+## v4.6.4 - 6th August, 2025
+
+### Bug Fixes
+
+* REST API: Fixes both the product review and rating count.
+* Feature: Fixed "Load Cart from Session" from destroying sessions once loaded due to session improvements made in WC v10.
+
+### Improvements
+
+* Plugin: Ensure that dependent plugins can be installed/activated if the plugin is installed in a different folder name.
+* Feature: "Load Cart from Session" improved session data checking.
+* Session handler: Reduced duplicate session calls and optimized `update_session_timestamp()` database query.
+* Session handler: Restored `persistent_cart_update` compatibility for WooCommerce v10; only active for versions lower than v10.1.
+* Session handler: Overrode `session_exists()` and `delete_session()` to use CoCart's session table.
+* Load Cart: Switched from `$_REQUEST` to `$_GET` and removed the priority for `load_cart_action`.
+* Load Cart: Re-enabled `initialize_cart_session()` and stopped destroying cookies when loading carts.
+
+### Deprecated
+
+* Action hook `cocart_load_cart_override` is no longer used.
+
+## v4.6.3 - 27th July, 2025
+
+### Bug Fix
+
+* REST API: Fixes identifying namespace and routes in the WordPress REST API Index if not set should they already be filtered out.
+
+## v4.6.2 - 25th July, 2025
+
+### Bug Fix
+
+* REST API: Removing an item stays removed. [Solves issue #534](https://github.com/co-cart/co-cart/issues/534)
+
+> WooCommerce v10 caused a cache issue due to a change in the many times session data is handled.
+
+### Improvements
+
+* Plugin: Session handler optimized - New sessions created first, then auth users if no cart requested.
+* Plugin: Session handler - Removed the need to set cart hash at the start.
+* Plugin: Session handler - Added a warning log for when the session data must have really screwed up.
+* Plugin: Session handler - Added max expiration exceed limit to 30 days to avoid performance issues and the session table growing too large.
+* REST API: Check REST request is CoCart before maybe loading cart or filtering served requests.
+* REST API: Fixed deprecated functions still called in Products API.
+* REST API: Authentication and CORS optimized to parse data less allowing for a faster response.
+* REST API: Moved global headers to be filtered in `rest_pre_serve_request` instead of `CoCart_Response` which is not used for Products API.
+* Plugin: Moved the cart cache to load once WooCommerce has loaded instead of only during the REST API.
+
+> Developer note: Cart cache allows for items with custom pricing to be calculated on the native site and not just via the REST API to keep consistent with calculations.
+
+### Requirements
+
+* WooCommerce v9 minimum is now required for CoCart but for best performance recommend using v10+
+
+### Compatibility
+
+* Tested with WooCommerce v10.0.4
+
+## v4.6.1 - 21st July, 2025
+
+### Bug Fixes
+
+* REST API: Fixed `undefined array key` errors with cart session when cart is empty. [Solves Issue #533](https://github.com/co-cart/co-cart/issues/533)
+* REST API: Fixed removing an item using the update endpoint when it thinks quantity value is not numeric.
+
+### Compatibility
+
+* Tested with WooCommerce v10.0.3
+
+## v4.6.0 - 26th June, 2025
+
+This release is a compatibility release for the next WooCommerce release.
+
+### What's new?
+
+* WordPress dot ORG: Added a Playground blueprint.
+
+### Changes
+
+* Plugin: Branding for CoCart has been updated.
+* Plugin: Styling for CoCart pages have been improved and more consistent on all pages by reducing conflicts with WordPress and WooCommerce styling.
+
+### Improvements
+
+* REST API: Basic authentication is detected much better.
+* REST API: Authentication failures now has debug logs.
+* WordPress Dashboard: Semantic markup overhaul for better screen reader interpretation.
+* WordPress Dashboard: Setup wizard and Support pages have been updated.
+
+### Compatibility
+
+* Tested with WooCommerce v10.0
+
+## v4.5.0 - 31st May, 2025
+
+This release will most likely be the last update released on the WordPress plugin directory with anything NEW added.
+
+### What's New?
+
+* REST API: Products can now be filtered to return only products by brand names.
+
+### Bug Fix
+
+* REST API: Added missing option for allowing to order products by random. [Solves issue #516](https://github.com/co-cart/co-cart/issues/516)
+
+### Plugin Details
+
+* Plugin: Updated links for documentation.
+* WordPress Dashboard: Updated link for upgrade page.
+* WordPress Dashboard: Plugin action links are added after now, not before.
+
+### Compatibility
+
+* Tested with WooCommerce v9.9
+
+## v4.4.0 - 16th May, 2025
+
+This release focuses on supporting such tools like ManageWP, MainWP, Blogvault etc.
+
+### Changes
+
+* WordPress Dashboard: Database updates now run automatically if needed. [Resolves issue #511](https://github.com/co-cart/co-cart/issues/511)
+* WordPress Dashboard: Sessions now transfer automatically for new installs.
+* Session: Cart session expiration's are now matching the default expiration WooCommerce set for better compatibility and abandoned cart support.
+* Session: Cart session expiration for logged in users renew daily and expire in a week. This is to keep carts persistent for logged in users.
+
+> Note: The session expiration's can still be filtered back to the previous values but that would mean it would match the expiration for logged in users.
+
+### Third Party Support
+
+* Plugin: LiteSpeed Cache will now exclude CoCart from being cached. [Commit](https://github.com/co-cart/co-cart/commit/683b4d31b940862b463e2e1a45c8c3c9908a5f47)
+
+### Developers
+
+* Filter `cocart_cart_expiring` added parameter `is_user_logged_in()` to allow the expiration for logged in users to be filtered.
+* Filter `cocart_cart_expiration` added parameter `is_user_logged_in()` to allow the expiration for logged in users to be filtered.
+
+### Internal
+
+* Improved the logger. [Commit](https://github.com/co-cart/co-cart/commit/32ee652ababfe94a501ff6fd84bff1829c140bf8)
+* Added logs for database update procedure. [Commit](https://github.com/co-cart/co-cart/commit/4bb641005ad01fab405e5ba0200407631e06115c)
+
+### Deprecations
+
+* Filter `cocart_log_entry_name` no longer used.
+* Filter `cocart_log_entry_version` no longer used.
+* Filter `cocart_log_entry_source` no longer used.
+* Filter `cocart_setup_wizard_store_save_next_step_override` no longer used.
+
+## v4.3.30 - 27th April, 2025
+
+### Bug Fix
+
+* WordPress Dashboard: Fix plugin update warning for core plugin. [Solves issue #506](https://github.com/co-cart/co-cart/issues/506)
+
+### Improvement
+
+* REST API: Variation attribute data is now sanitized. Labels are converted to names (e.g. Size to pa_size), and values are cleaned.
+
+### Compatibility
+
+* Tested with WordPress v6.8
+
+## v4.3.29 - 10th April, 2025
+
+### Bug Fix
+
+* REST API: Package details would not return but showed fine in shipping meta.
+
+### Improvements
+
+* REST API: Optimized fetching the cart in all Cart API endpoints.
+* REST API: Shipping now fully respects the shipping settings.
+
+> Dev note: Meaning if you have requested that the customer provides the shipping address first before shipping is calculated, then no shipping methods will return until it's provided.
+
+### Compatibility
+
+* Tested with WooCommerce v9.8
+
+## v4.3.28 - 6th April, 2025
+
+### Bug Fix
+
+* REST API: Fixed unidentified item key when adding grouped products.
+
+## v4.3.27 - 3rd April, 2025
+
+### Bug Fix
+
+* REST API: Undone a change to fix any WooCommerce cookies from setting with the Cart API. Related to fixing persistent cart back in November last year.
+
+## v4.3.26 - 1st April, 2025
+
+### Bug Fix
+
+* REST API: Fixed critical error when adding an item and asking to return the item details. [Solves issue #509](https://github.com/co-cart/co-cart/issues/509)
+
+### Improvements
+
+* REST API: Corrected and added missing schema information for Cart API v1.
+* WordPress Dashboard: Tweaked plugin screen modal for listing untested plugins.
+
+### Requirement change
+
+* WordPress 6.3 is the new minimum version required.
+
+## v4.3.25 - 17th March, 2025
+
+### Bug Fixes
+
+* Plugin: Failed to activate fully when network activated due to how admin notices where set. - [Bug Report](https://wordpress.org/support/topic/critical-error-upon-activate/)
+* WordPress Dashboard: Plugin suggestions was not letting you press the "Install Now" button.
+
+## v4.3.24 - 10th March, 2025
 
 ### Bug Fix
 
@@ -8,7 +297,7 @@
 
 ### Improvements
 
-* WordPress Dashboard: Plugin suggestions now only alters plugins from our results leaving others alone.
+* WordPress Dashboard: Improved detection of a suggested plugin hosted on WordPress dot ORG and from a third party.
 * WP-CLI: Update command now asks for confirmation before proceeding.
 
 ## v4.3.23 - 3rd March, 2025
@@ -163,8 +452,8 @@ A commit error was spotted shortly after just releasing it and was taken down im
 
 ### Security Patch
 
-> Just a note: The security issue isn't directly related to CoCart itself, but we’re here to help keep your store secure. Since CoCart is a public API, security patches will be released as soon as possible to prevent the issue from affecting your site, so you don’t have to wait for a fix from the plugin causing it.
-> We recommend updating to this version if you’re using any WooCommerce plugins that might reveal public information.
+> Just a note: The security issue isn't directly related to CoCart itself, but we're here to help keep your store secure. Since CoCart is a public API, security patches will be released as soon as possible to prevent the issue from affecting your site, so you don't have to wait for a fix from the plugin causing it.
+> We recommend updating to this version if you're using any WooCommerce plugins that might reveal public information.
 > We want you to know that we would never publicly name a plugin with a security concern. However, if you notice any security issues with CoCart or another plugin connected to it, please [report the security vulnerability](https://cocartapi.com/security-policy/#Reporting-Security-Vulnerabilities) so we can address it quickly.
 > Thank you for helping us keep CoCart safe for everyone!
 
@@ -446,7 +735,7 @@ In this release, we are happy to provide some of the various improvements made t
 
 > Developer note: This release requires the quantity parameter to pass the value as a string for both adding items or updating items. If you are not new to CoCart then please update your code to account for this change.
 
-[Find out more about what’s new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
+[Find out more about what's new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
 
 Hope you enjoy this release.
 
@@ -1352,13 +1641,6 @@ By setting this filter `cocart_skip_woocommerce_item_validation` to true, produc
 #### Action Hooks
 
 * Dev: Introduced `cocart_add_to_cart` action hook matches `woocommerce_add_to_cart` action hook.
-
-----
-
-The following filters affect adding bundled/grouped products to the cart.
-
-* Dev: Introduced `cocart_add_items_to_cart_handler` filter allows you to set the product type so the correct add to cart handler for bundled/grouped products is used.
-* Dev: Introduced `cocart_add_items_to_cart_handler_{product-type}` filter allows you to introduce your own add to cart handler for bundled/grouped products.
 
 ----
 

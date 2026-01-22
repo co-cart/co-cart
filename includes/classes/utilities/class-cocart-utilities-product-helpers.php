@@ -5,6 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Utilities
  * @since   4.2.0 Introduced.
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -98,8 +99,8 @@ class CoCart_Utilities_Product_Helpers {
 			$images[] = array(
 				'id'       => 0,
 				'src'      => $attachments,
-				'name'     => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
-				'alt'      => __( 'Placeholder', 'cart-rest-api-for-woocommerce' ),
+				'name'     => __( 'Placeholder', 'cocart-core' ),
+				'alt'      => __( 'Placeholder', 'cocart-core' ),
 				'position' => 0,
 				'featured' => true,
 			);
@@ -111,7 +112,7 @@ class CoCart_Utilities_Product_Helpers {
 	// ** Product Details **//
 
 	/**
-	 * Returns the product quantity minimum requirement.
+	 * Returns the product minimum purchase quantity requirement.
 	 *
 	 * @access public
 	 *
@@ -121,19 +122,23 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @param WC_Product The product object.
 	 *
-	 * @return int Quantity
+	 * @return int Minimum purchase quantity requirement.
 	 */
 	public static function get_quantity_minimum_requirement( $product ) {
 		/**
 		 * Filters the minimum quantity requirement the product allows to be purchased.
 		 *
-		 * @since 3.1.0 Introduced.
+		 * @since 3.0.17 Introduced.
+		 * @since 3.1.0  Added product object as parameter.
+		 *
+		 * @param int        $minimum_quantity Minimum purchase quantity requirement.
+		 * @param WC_Product $product          The product object.
 		 */
-		return (int) apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
+		return apply_filters( 'cocart_quantity_minimum_requirement', $product->get_min_purchase_quantity(), $product );
 	} // END get_quantity_minimum_requirement()
 
 	/**
-	 * Returns the product maximum quantity allowed.
+	 * Returns the product maximum purchase quantity allowed.
 	 *
 	 * @access public
 	 *
@@ -143,13 +148,16 @@ class CoCart_Utilities_Product_Helpers {
 	 *
 	 * @param WC_Product The product object.
 	 *
-	 * @return int Quantity
+	 * @return int Maximum purchase quantity allowed.
 	 */
 	public static function get_quantity_maximum_allowed( $product ) {
 		/**
 		 * Filters the products maximum quantity allowed to be purchased.
 		 *
 		 * @since 3.1.0 Introduced.
+		 *
+		 * @param int        $maximum_quantity Maximum purchase quantity allowed.
+		 * @param WC_Product $product          The product object.
 		 */
 		return apply_filters( 'cocart_quantity_maximum_allowed', $product->get_max_purchase_quantity(), $product );
 	} // END get_quantity_maximum_allowed()
@@ -196,12 +204,12 @@ class CoCart_Utilities_Product_Helpers {
 
 				if ( $min_price !== $max_price ) {
 					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
-						'to'   => cocart_prepare_money_response( $max_price, wc_get_price_decimals() ),
+						'from' => cocart_format_money( $min_price ),
+						'to'   => cocart_format_money( $max_price ),
 					);
 				} else {
 					$price = array(
-						'from' => cocart_prepare_money_response( $min_price, wc_get_price_decimals() ),
+						'from' => cocart_format_money( $min_price ),
 						'to'   => '',
 					);
 				}
@@ -220,8 +228,8 @@ class CoCart_Utilities_Product_Helpers {
 
 			if ( ! empty( $child_prices ) ) {
 				$price = array(
-					'from' => cocart_prepare_money_response( min( $child_prices ), wc_get_price_decimals() ),
-					'to'   => cocart_prepare_money_response( max( $child_prices ), wc_get_price_decimals() ),
+					'from' => cocart_format_money( min( $child_prices ) ),
+					'to'   => cocart_format_money( max( $child_prices ) ),
 				);
 			}
 		}
@@ -297,29 +305,28 @@ class CoCart_Utilities_Product_Helpers {
 		 *
 		 * @since 3.11.0 Introduced.
 		 *
+		 * @deprecated 5.0.0 Replaced with a new filter `cocart_products_allowed_meta_keys`.
+		 *
 		 * @param array      $ignored_meta_keys Ignored meta keys.
 		 * @param WC_Product $product           The product object.
 		 */
-		$ignore_private_meta_keys = apply_filters( 'cocart_products_ignore_private_meta_keys', array(), $product );
+		cocart_do_deprecated_filter( 'cocart_products_ignore_private_meta_keys', '5.0.0', 'cocart_products_allowed_meta_keys', __( 'Changed to improve product security.', 'cocart-core' ), array( array(), $product ) );
+
+		/**
+		 * Filter allows you to specify the allowed meta keys for the product.
+		 *
+		 * When filtering, only list the meta keys you want to include!
+		 *
+		 * @since 5.0.0 Updated to whitelist allowed meta keys.
+		 *
+		 * @param array      $allowed_meta_keys Allowed meta keys.
+		 * @param WC_Product $product           The product object.
+		 */
+		$allowed_meta_keys = apply_filters( 'cocart_products_allowed_meta_keys', array(), $product );
 
 		foreach ( $meta_data as $meta ) {
-			$ignore_meta = false;
-
-			// Should the meta key start with an underscore prefix, ignore it as it is suppose to be hidden from public.
-			if ( str_starts_with( $meta->key, '_' ) ) {
-				$ignore_meta = true;
-				break;
-			}
-
-			foreach ( $ignore_private_meta_keys as $ignore ) {
-				if ( str_starts_with( $meta->key, $ignore ) ) {
-					$ignore_meta = true;
-					break; // Exit the inner loop once a match is found.
-				}
-			}
-
-			// Add meta data only if it's not ignored.
-			if ( ! $ignore_meta ) {
+			// Add meta data only if the key is in the allowed list.
+			if ( in_array( $meta->key, $allowed_meta_keys, true ) ) {
 				$safe_meta[ $meta->key ] = $meta;
 			}
 		}
@@ -370,4 +377,115 @@ class CoCart_Utilities_Product_Helpers {
 
 		return $product_id;
 	} // END get_product_id()
+
+	/**
+	 * Get the main product slug even if the product type is a variation.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param WC_Product $product The product object.
+	 *
+	 * @return string The product slug.
+	 */
+	public static function get_product_slug( $product ) {
+		$product_type = $product->get_type();
+
+		if ( 'variation' === $product_type ) {
+			$product = wc_get_product( $product->get_parent_id() );
+
+			$product_slug = $product->get_slug();
+		} else {
+			$product_slug = $product->get_slug();
+		}
+	} // END get_product_slug()
+
+	/**
+	 * Get a product by slug.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param string $slug The slug of the product.
+	 *
+	 * @return WC_Product $product The product object.
+	 */
+	public static function get_product_by_slug( $slug ) {
+		return wc_get_product( get_page_by_path( $slug, OBJECT, 'product' ) );
+	} // END get_product_by_slug()
+
+	/**
+	 * Get a product variation by slug.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param string $slug The slug of the product variation.
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return WC_Product $product The product object.
+	 */
+	public static function get_product_variation_by_slug( $slug ) {
+		global $wpdb;
+
+		$result = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT ID, post_name, post_parent, post_type
+				FROM $wpdb->posts
+				WHERE post_name = %s
+				AND post_type = 'product_variation'",
+				$slug
+			)
+		);
+
+		if ( ! $result ) {
+			return null;
+		}
+
+		return wc_get_product( $result[0]->ID );
+	} // END get_product_variation_by_slug()
+
+	/**
+	 * Tries to match variation attributes passed to a variation ID and return the ID.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 2.1.2 Introduced.
+	 * @since 5.0.0 Replaced `$variation` parameter with `$request`
+	 *
+	 * @param array      $request Add to cart request params.
+	 * @param WC_Product $product The product object.
+	 *
+	 * @return int $variation_id Matching variation ID.
+	 */
+	public static function get_variation_id_from_variation_data( $request, $product ) {
+		$data_store       = \WC_Data_Store::load( 'product' );
+		$match_attributes = $request['variation'];
+
+		$variation_id = $data_store->find_matching_product_variation( $product, $match_attributes );
+
+		if ( empty( $variation_id ) ) {
+			throw new CoCart_Data_Exception(
+				'cocart_no_variation_found',
+				__( 'No matching variation found.', 'cocart-core' ),
+				400
+			);
+		}
+
+		return $variation_id;
+	} // END get_variation_id_from_variation_data()
 } // END class

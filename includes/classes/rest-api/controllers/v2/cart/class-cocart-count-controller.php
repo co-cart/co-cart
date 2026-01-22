@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,18 +28,38 @@ class_alias( 'CoCart_REST_Count_Items_V2_Controller', 'CoCart_Count_Items_V2_Con
 class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'cart/items/count';
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public function get_path_regex() {
+		return '/cart/items/count';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cart_contents_count' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_item_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -48,19 +69,13 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Count Items in Cart - cocart/v2/cart/items/count (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_cart_contents_count' ),
-					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
@@ -71,17 +86,17 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 4.0.0
+	 * @since 1.0.0 Introduced.
+	 * @since 5.0.0 Return parameter now returns numeric as default not empty.
 	 *
 	 * @param WP_REST_Request $request       The request object.
 	 * @param array           $cart_contents Cart contents to count items.
 	 *
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
-	public function get_cart_contents_count( $request = array(), $cart_contents = array() ) {
+	public function get_cart_contents_count( $request, $cart_contents = array() ) {
 		try {
-			$return        = ! empty( $request['return'] ) ? $request['return'] : '';
+			$return        = ! empty( $request['return'] ) ? $request['return'] : 'numeric';
 			$removed_items = isset( $request['removed_items'] ) ? $request['removed_items'] : false;
 
 			if ( empty( $cart_contents ) ) {
@@ -97,24 +112,35 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				$count = array_sum( wp_list_pluck( $cart_contents, 'quantity' ) );
 			}
 
-			if ( 'numeric' !== $return && $count <= 0 ) {
-				$message = __( 'No items in the cart.', 'cart-rest-api-for-woocommerce' );
+			if ( 'numeric' !== $return ) {
+				if ( $count <= 0 ) {
+					$message = __( 'No items in the cart.', 'cocart-core' );
 
-				/**
-				 * Filters message about no items in the cart.
-				 *
-				 * @since 2.1.0 Introduced.
-				 *
-				 * @param string $message Message.
-				 */
-				$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
+					/**
+					 * Filters message about no items in the cart.
+					 *
+					 * @since 2.1.0 Introduced.
+					 *
+					 * @param string $message Message.
+					 */
+					$message = apply_filters( 'cocart_no_items_in_cart_message', $message );
 
-				throw new CoCart_Data_Exception( 'cocart_no_items_in_cart', $message, 404 );
+					throw new CoCart_Data_Exception( 'cocart_no_items_in_cart', $message, 404 );
+				} else {
+					$count = sprintf(
+						/* Translators: %d = Number of items. */
+						__( 'There are %d items in the cart.', 'cocart-core' ),
+						$count
+					);
+				}
 			}
 
-			return CoCart_Response::get_response( $count, $this->namespace, $this->rest_base );
+			$response = rest_ensure_response( $count );
+			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END get_cart_contents_count()
 
@@ -134,10 +160,12 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			'type'       => 'object',
 			'properties' => array(
 				'removed_items' => array(
-					'required'    => false,
-					'default'     => false,
-					'description' => __( 'Returns count for removed items from the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'boolean',
+					'required'          => false,
+					'default'           => false,
+					'description'       => __( 'Returns count for removed items from the cart.', 'cocart-core' ),
+					'type'              => 'boolean',
+					'sanitize_callback' => 'rest_sanitize_boolean',
+					'validate_callback' => 'rest_validate_request_arg',
 				),
 			),
 		);
@@ -150,8 +178,8 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since   3.0.0 Introduced.
-	 * @version 3.1.0
+	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Return parameter is internal and returns if debug is enabled.
 	 *
 	 * @return array $params
 	 */
@@ -160,22 +188,29 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 		$params = parent::get_collection_params();
 
 		// Count Items parameters.
-		$params += array(
-			'removed_items' => array(
-				'description' => __( 'Set as true to count items removed from the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'        => 'boolean',
-				'required'    => false,
-				'default'     => false,
-			),
-			'return'        => array(
-				'description'       => __( 'Internal parameter. No description.', 'cart-rest-api-for-woocommerce' ),
+		$params['removed_items'] = array(
+			'description'       => __( 'Set as true to count items removed from the cart.', 'cocart-core' ),
+			'required'          => false,
+			'default'           => false,
+			'type'              => 'boolean',
+			'sanitize_callback' => 'rest_sanitize_boolean',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$params['return'] = array(
+				'description'       => __( 'Internal parameter. No description.', 'cocart-core' ),
 				'required'          => false,
 				'default'           => 'numeric',
+				'enum'              => array(
+					'numeric',
+					'string',
+				),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
-			),
-		);
+			);
+		}
 
 		return $params;
 	} // END get_collection_params()

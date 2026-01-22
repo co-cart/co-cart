@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Compatibility\Modules
  * @since   3.0.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -63,7 +63,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 					if ( ! empty( $values['fgc_quantity'] ) && $quantity !== $values['fgc_quantity'] ) {
 						$error_message = sprintf(
 							/* translators: %s Product title. */
-							__( 'You are not allowed to modify the quantity of your %s gift.', 'cart-rest-api-for-woocommerce' ),
+							__( 'You are not allowed to modify the quantity of your %s gift.', 'cocart-core' ),
 							$values['data']->get_name()
 						);
 
@@ -73,7 +73,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 
 				return $passed_validation;
 			} catch ( CoCart_Data_Exception $e ) {
-				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+				return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 			}
 		} // END update_cart_validation()
 	} // END class.

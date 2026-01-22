@@ -7,8 +7,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Uninstaller
  * @since   2.1.0
- * @version 3.2.0
- * @license GPL-2.0+
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
@@ -28,7 +28,7 @@ wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'woocommerce_
  */
 if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 	// Drop Tables.
-	require_once __DIR__ . '/includes/class-cocart-install.php';
+	require_once __DIR__ . '/includes/classes/class-cocart-install.php';
 	CoCart_Install::drop_tables();
 
 	// Delete options.
@@ -42,7 +42,7 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 		$wpdb->query( "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE 'cocart\_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
-	require_once __DIR__ . '/includes/class-cocart-helpers.php';
+	require_once __DIR__ . '/includes/classes/class-cocart-helpers.php';
 
 	// Delete WooCommerce Admin Notes.
 	if ( CoCart_Helpers::is_wc_admin_enabled() ) {
@@ -52,7 +52,7 @@ if ( defined( 'COCART_REMOVE_ALL_DATA' ) && true === COCART_REMOVE_ALL_DATA ) {
 		Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-help-improve' );
 		Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-need-help' );
 		Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-thanks-install' );
-		/*Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-upgrade' );*/
+		Automattic\WooCommerce\Admin\Notes\Notes::delete_notes_with_name( 'cocart-wc-admin-upgrade' );
 	}
 
 	// Clear any cached data that has been removed.

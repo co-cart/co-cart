@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v1
  * @since   3.1.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Product Reviews controller class.
  *
- * @package CoCart/API
  * @extends WP_REST_Controller
  */
 class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
@@ -46,16 +45,6 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'args'   => array(
-					'product_id' => array(
-						'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
-						'type'        => 'integer',
-					),
-					'id'         => array(
-						'description' => __( 'Unique identifier for the review.', 'cart-rest-api-for-woocommerce' ),
-						'type'        => 'integer',
-					),
-				),
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
@@ -71,23 +60,23 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 						array(
 							'product_id'     => array(
 								'required'    => true,
-								'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+								'description' => __( 'Unique identifier for the product.', 'cocart-core' ),
 								'type'        => 'integer',
 							),
 							'review'         => array(
 								'required'    => true,
 								'type'        => 'string',
-								'description' => __( 'Review content.', 'cart-rest-api-for-woocommerce' ),
+								'description' => __( 'Review content.', 'cocart-core' ),
 							),
 							'reviewer'       => array(
 								'required'    => true,
 								'type'        => 'string',
-								'description' => __( 'Name of the reviewer.', 'cart-rest-api-for-woocommerce' ),
+								'description' => __( 'Name of the reviewer.', 'cocart-core' ),
 							),
 							'reviewer_email' => array(
 								'required'    => true,
 								'type'        => 'string',
-								'description' => __( 'Email of the reviewer.', 'cart-rest-api-for-woocommerce' ),
+								'description' => __( 'Email of the reviewer.', 'cocart-core' ),
 							),
 						)
 					),
@@ -102,7 +91,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			array(
 				'args'   => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the review.', 'cart-rest-api-for-woocommerce' ),
+						'description' => __( 'Unique identifier for the review.', 'cocart-core' ),
 						'type'        => 'integer',
 					),
 				),
@@ -134,14 +123,14 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 
 		// If the review does not exist then it's not a review.
 		if ( ! $review ) {
-			return new WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		$product = wc_get_product( $review->comment_post_ID );
 
 		// If the comment is not assigned to a product then it's not a review.
 		if ( ! $product ) {
-			return new WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cannot_view_review', __( 'Sorry, this product review does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		return true;
@@ -166,22 +155,24 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		if ( ! $verified ) {
-			return new WP_Error( 'cocart_cannot_create', __( 'Sorry, you are not allowed to create a review for this product.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+			return new \WP_Error( 'cocart_cannot_create', __( 'Sorry, you are not allowed to create a review for this product.', 'cocart-core' ), array( 'status' => 403 ) );
 		}
 
 		return true;
 	} // END create_item_permissions_check()
 
 	/**
-	 * Get all reviews.
+	 * Get prepared arguments.
 	 *
 	 * @access public
 	 *
+	 * @since 5.0.0 Introduced.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return array|WP_Error
+	 * @return array $prepared_args Prepared arguments for reviews.
 	 */
-	public function get_items( $request ) {
+	public function get_prepared_args( $request ) {
 		// Retrieve the list of registered collection query parameters.
 		$registered = $this->get_collection_params();
 
@@ -192,18 +183,21 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * present in $registered will be set.
 		 */
 		$parameter_mappings = array(
-			'reviewer'         => 'author__in',
-			'reviewer_exclude' => 'author__not_in',
-			'exclude'          => 'comment__not_in', // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
-			'include'          => 'comment__in',
-			'offset'           => 'offset',
-			'order'            => 'order',
-			'per_page'         => 'number',
-			'product'          => 'post__in',
-			'search'           => 'search',
+			'exclude'  => 'comment__not_in', // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+			'include'  => 'comment__in',
+			'per_page' => 'number',
 		);
 
-		$prepared_args = array();
+		$prepared_args = array(
+			'type'          => 'review',
+			'status'        => 'approve',
+			'no_found_rows' => false,
+			'offset'        => $request['offset'],
+			'order'         => $request['order'],
+			'number'        => $request['per_page'],
+			'post__in'      => $request['product_id'],
+			'date_query'    => array(),
+		);
 
 		/**
 		 * For each known parameter which is both registered and present in the request,
@@ -215,23 +209,42 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			}
 		}
 
-		// Ensure certain parameter values default to empty strings.
+		// Ensure certain parameter values default to empty strings. This is to prevent human error.
 		foreach ( array( 'author_email', 'search' ) as $param ) {
 			if ( ! isset( $prepared_args[ $param ] ) ) {
 				$prepared_args[ $param ] = '';
 			}
 		}
 
-		if ( isset( $registered['orderby'] ) ) {
-			$prepared_args['orderby'] = $this->normalize_query_param( $request['orderby'] );
+		/**
+		 * Map category id to list of product ids.
+		 */
+		if ( ! empty( $request['category_id'] ) ) {
+			$category_ids = $request['category_id'];
+			$child_ids    = array();
+			foreach ( $category_ids as $category_id ) {
+				$child_ids = array_merge( $child_ids, get_term_children( $category_id, 'product_cat' ) );
+			}
+			$category_ids              = array_unique( array_merge( $category_ids, $child_ids ) );
+			$product_ids               = get_objects_in_term( $category_ids, 'product_cat' );
+			$prepared_args['post__in'] = isset( $prepared_args['post__in'] ) ? array_merge( $prepared_args['post__in'], $product_ids ) : $product_ids;
 		}
 
-		if ( isset( $prepared_args['status'] ) ) {
-			$prepared_args['status'] = 'approved';
+		if ( 'rating' === $request['orderby'] ) {
+			$prepared_args['meta_query'] = array( // phpcs:ignore
+				'relation' => 'OR',
+				array(
+					'key'     => 'rating',
+					'compare' => 'EXISTS',
+				),
+				array(
+					'key'     => 'rating',
+					'compare' => 'NOT EXISTS',
+				),
+			);
 		}
 
-		$prepared_args['no_found_rows'] = false;
-		$prepared_args['date_query']    = array();
+		$prepared_args['orderby'] = $this->normalize_query_param( $request['orderby'] );
 
 		// Set before into date query. Date query must be specified as an array of an array.
 		if ( isset( $registered['before'], $request['before'] ) ) {
@@ -250,26 +263,28 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		/**
 		 * Filters arguments, before passing to WP_Comment_Query, when querying reviews via the REST API.
 		 *
-		 * @link  https://developer.wordpress.org/reference/classes/wp_comment_query/
+		 * @link https://developer.wordpress.org/reference/classes/wp_comment_query/
 		 *
 		 * @param array           $prepared_args Array of arguments for WP_Comment_Query.
 		 * @param WP_REST_Request $request       The request object.
 		 */
 		$prepared_args = apply_filters( 'cocart_product_review_query', $prepared_args, $request );
 
-		// Make sure that returns only reviews.
-		$prepared_args['type'] = 'review';
+		return $prepared_args;
+	} // END get_prepared_args()
 
-		// Query reviews.
-		$query        = new WP_Comment_Query();
-		$query_result = $query->query( $prepared_args );
-		$reviews      = array();
-
-		foreach ( $query_result as $review ) {
-			$data      = $this->prepare_item_for_response( $review, $request );
-			$reviews[] = $this->prepare_response_for_collection( $data );
-		}
-
+	/**
+	 * Get review response.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @param array           $prepared_args Prepared arguments.
+	 * @param array           $reviews       Reviews returned.
+	 */
+	protected function get_review_response( $request, $prepared_args, $query, $reviews ) {
 		$total_reviews = (int) $query->found_comments;
 		$max_pages     = (int) $query->max_num_pages;
 
@@ -285,30 +300,34 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		}
 
 		$response = rest_ensure_response( $reviews );
-		$response->header( 'X-WP-Total', $total_reviews );
-		$response->header( 'X-WP-TotalPages', $max_pages );
-
-		$base = add_query_arg( $request->get_query_params(), rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) );
-
-		if ( $request['page'] > 1 ) {
-			$prev_page = $request['page'] - 1;
-
-			if ( $prev_page > $max_pages ) {
-				$prev_page = $max_pages;
-			}
-
-			$prev_link = add_query_arg( 'page', $prev_page, $base );
-			$response->link_header( 'prev', $prev_link );
-		}
-
-		if ( $max_pages > $request['page'] ) {
-			$next_page = $request['page'] + 1;
-			$next_link = add_query_arg( 'page', $next_page, $base );
-
-			$response->link_header( 'next', $next_link );
-		}
+		$response = ( new CoCart_REST_Utilities_Pagination() )->add_headers( $response, $request, $total_reviews, $max_pages );
 
 		return $response;
+	} // END get_review_response()
+
+	/**
+	 * Get all reviews.
+	 *
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return array|WP_Error
+	 */
+	public function get_items( $request ) {
+		$prepared_args = $this->get_prepared_args( $request );
+
+		// Query reviews.
+		$query        = new WP_Comment_Query();
+		$query_result = $query->query( $prepared_args );
+		$reviews      = array();
+
+		foreach ( $query_result as $review ) {
+			$data      = $this->prepare_item_for_response( $review, $request );
+			$reviews[] = $this->prepare_response_for_collection( $data );
+		}
+
+		return $this->get_review_response( $request, $prepared_args, $query, $reviews );
 	} // END get_items()
 
 	/**
@@ -322,13 +341,13 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 */
 	public function create_item( $request ) {
 		if ( ! empty( $request['id'] ) ) {
-			return new WP_Error( 'cocart_review_exists', __( 'Cannot create existing product review.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_review_exists', __( 'Cannot create existing product review.', 'cocart-core' ), array( 'status' => 400 ) );
 		}
 
 		$product_id = (int) $request['product_id'];
 
 		if ( 'product' !== get_post_type( $product_id ) ) {
-			return new WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		$prepared_review = $this->prepare_item_for_database( $request );
@@ -342,7 +361,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		 * Do not allow a comment to be created with missing or empty comment_content. See wp_handle_comment_submission().
 		 */
 		if ( empty( $prepared_review['comment_content'] ) ) {
-			return new WP_Error( 'cocart_review_content_invalid', __( 'Invalid review content.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_review_content_invalid', __( 'Invalid review content.', 'cocart-core' ), array( 'status' => 400 ) );
 		}
 
 		// Setting remaining values before wp_insert_comment so we can use wp_allow_comment().
@@ -367,7 +386,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$check_comment_lengths = wp_check_comment_data_max_lengths( $prepared_review );
 		if ( is_wp_error( $check_comment_lengths ) ) {
 			$error_code = str_replace( array( 'comment_author', 'comment_content' ), array( 'reviewer', 'review_content' ), $check_comment_lengths->get_error_code() );
-			return new WP_Error( 'cocart_' . $error_code, __( 'Product review field exceeds maximum length allowed.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'cocart_' . $error_code, __( 'Product review field exceeds maximum length allowed.', 'cocart-core' ), array( 'status' => 400 ) );
 		}
 
 		$prepared_review['comment_parent']     = 0;
@@ -379,11 +398,11 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			$error_message = $prepared_review['comment_approved']->get_error_message();
 
 			if ( 'comment_duplicate' === $error_code ) {
-				return new WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 409 ) );
+				return new \WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 409 ) );
 			}
 
 			if ( 'comment_flood' === $error_code ) {
-				return new WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 400 ) );
+				return new \WP_Error( 'cocart_' . $error_code, $error_message, array( 'status' => 400 ) );
 			}
 
 			return $prepared_review['comment_approved'];
@@ -408,12 +427,27 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		$review_id = wp_insert_comment( wp_filter_comment( wp_slash( (array) $prepared_review ) ) );
 
 		if ( ! $review_id ) {
-			return new WP_Error( 'cocart_review_failed_create', __( 'Creating product review failed.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
+			return new \WP_Error( 'cocart_review_failed_create', __( 'Creating product review failed.', 'cocart-core' ), array( 'status' => 500 ) );
 		}
 
-		if ( isset( $request['status'] ) ) {
-			$this->handle_status_param( $request['status'], $review_id );
+		/**
+		 * Filter the default status of a new product review.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param string Default status. Options: hold or approved
+		 */
+		$review_status = apply_filters( 'cocart_product_insert_review_status', 'hold' );
+
+		// Ensure status mode is valid.
+		$status_modes = array( 'hold', 'approved' );
+
+		// If review status is not valid then force it to hold.
+		if ( ! in_array( $review_status, $status_modes, true ) ) {
+			$review_status = 'hold';
 		}
+
+		wp_set_comment_status( $review_id, $review_status );
 
 		update_comment_meta( $review_id, 'rating', ! empty( $request['rating'] ) ? $request['rating'] : '0' );
 
@@ -635,42 +669,42 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'id'               => array(
-					'description' => __( 'Unique identifier for the review.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the review.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
 				'date_created'     => array(
-					'description' => __( "The date the review was created, in the site's timezone.", 'cart-rest-api-for-woocommerce' ),
+					'description' => __( "The date the review was created, in the site's timezone.", 'cocart-core' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
 				'date_created_gmt' => array(
-					'description' => __( 'The date the review was created, as GMT.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The date the review was created, as GMT.', 'cocart-core' ),
 					'type'        => 'date-time',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
 				'product_id'       => array(
-					'description' => __( 'Unique identifier for the product that the review belongs to.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the product that the review belongs to.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 				),
 				'status'           => array(
-					'description' => __( 'Status of the review.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Status of the review.', 'cocart-core' ),
 					'type'        => 'string',
 					'default'     => 'approved',
 					'enum'        => array( 'approved', 'hold', 'spam', 'unspam', 'trash', 'untrash' ),
 					'context'     => array( 'view', 'edit' ),
 				),
 				'reviewer'         => array(
-					'description' => __( 'Reviewer name.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Reviewer name.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 				),
 				'review'           => array(
-					'description' => __( 'The content of the review.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The content of the review.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'arg_options' => array(
@@ -678,12 +712,12 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 					),
 				),
 				'rating'           => array(
-					'description' => __( 'Review rating (0 to 5).', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Review rating (0 to 5).', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit' ),
 				),
 				'verified'         => array(
-					'description' => __( 'Shows if the reviewer bought the product or not.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Shows if the reviewer bought the product or not.', 'cocart-core' ),
 					'type'        => 'boolean',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
@@ -698,7 +732,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			$avatar_properties[ $size ] = array(
 				'description' => sprintf(
 					/* translators: %d: avatar image size in pixels */
-					__( 'Avatar URL with image size of %d pixels.', 'cart-rest-api-for-woocommerce' ),
+					__( 'Avatar URL with image size of %d pixels.', 'cocart-core' ),
 					$size
 				),
 				'type'        => 'string',
@@ -707,7 +741,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			);
 		}
 		$schema['properties']['reviewer_avatar_urls'] = array(
-			'description' => __( 'Avatar URLs for the object reviewer.', 'cart-rest-api-for-woocommerce' ),
+			'description' => __( 'Avatar URLs for the object reviewer.', 'cocart-core' ),
 			'type'        => 'object',
 			'context'     => array( 'view', 'edit' ),
 			'readonly'    => true,
@@ -729,78 +763,99 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 
 		$params['context']['default'] = 'view';
 
-		$params['after']            = array(
-			'description' => __( 'Limit response to reviews published after a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
+		$params['after'] = array(
+			'description' => __( 'Limit response to reviews published after a given ISO8601 compliant date.', 'cocart-core' ),
 			'type'        => 'string',
 			'format'      => 'date-time',
 		);
-		$params['before']           = array(
-			'description' => __( 'Limit response to reviews published before a given ISO8601 compliant date.', 'cart-rest-api-for-woocommerce' ),
+
+		$params['before'] = array(
+			'description' => __( 'Limit response to reviews published before a given ISO8601 compliant date.', 'cocart-core' ),
 			'type'        => 'string',
 			'format'      => 'date-time',
 		);
-		$params['exclude']          = array( // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
-			'description' => __( 'Ensure result set excludes specific IDs.', 'cart-rest-api-for-woocommerce' ),
+
+		$params['exclude'] = array( // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+			'description' => __( 'Ensure result set excludes specific product IDs.', 'cocart-core' ),
 			'type'        => 'array',
 			'items'       => array(
 				'type' => 'integer',
 			),
 			'default'     => array(),
 		);
-		$params['include']          = array(
-			'description' => __( 'Limit result set to specific IDs.', 'cart-rest-api-for-woocommerce' ),
+
+		$params['include'] = array(
+			'description' => __( 'Limit result set to specific product IDs.', 'cocart-core' ),
 			'type'        => 'array',
 			'items'       => array(
 				'type' => 'integer',
 			),
 			'default'     => array(),
 		);
-		$params['offset']           = array(
-			'description' => __( 'Offset the result set by a specific number of items.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'integer',
+
+		$params['page'] = array(
+			'description'       => __( 'Current page of the collection.', 'cocart-core' ),
+			'type'              => 'integer',
+			'default'           => 1,
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
+			'minimum'           => 1,
 		);
-		$params['order']            = array(
-			'description' => __( 'Order sort attribute ascending or descending.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'string',
-			'default'     => 'desc',
-			'enum'        => array(
+
+		$params['per_page'] = array(
+			'description'       => __( 'Maximum number of items to be returned in result set. Defaults to no limit if left blank.', 'cocart-core' ),
+			'type'              => 'integer',
+			'default'           => 10,
+			'minimum'           => 0,
+			'maximum'           => 100,
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$params['offset'] = array(
+			'description'       => __( 'Offset the result set by a specific number of items.', 'cocart-core' ),
+			'type'              => 'integer',
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$params['order'] = array(
+			'description'       => __( 'Order sort attribute ascending or descending.', 'cocart-core' ),
+			'type'              => 'string',
+			'default'           => 'desc',
+			'enum'              => array(
 				'asc',
 				'desc',
 			),
+			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['orderby']          = array(
-			'description' => __( 'Sort collection by object attribute.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'string',
-			'default'     => 'date_gmt',
-			'enum'        => array(
+
+		$params['orderby'] = array(
+			'description'       => __( 'Sort collection by object attribute.', 'cocart-core' ),
+			'type'              => 'string',
+			'default'           => 'date',
+			'enum'              => array(
 				'date',
 				'date_gmt',
 				'id',
-				'include',
+				'rating',
 				'product',
 			),
+			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['reviewer']         = array(
-			'description' => __( 'Limit result set to reviews assigned to specific user IDs.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'array',
-			'items'       => array(
-				'type' => 'integer',
-			),
+
+		$params['category_id'] = array(
+			'description'       => __( 'Limit result set to reviews from specific category IDs.', 'cocart-core' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'wp_parse_id_list',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
-		$params['reviewer_exclude'] = array(
-			'description' => __( 'Ensure result set excludes reviews assigned to specific user IDs.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'array',
-			'items'       => array(
-				'type' => 'integer',
-			),
-		);
-		$params['product']          = array(
-			'default'     => array(),
-			'description' => __( 'Limit result set to reviews assigned to specific product IDs.', 'cart-rest-api-for-woocommerce' ),
-			'type'        => 'array',
-			'items'       => array(
-				'type' => 'integer',
-			),
+
+		$params['product_id'] = array(
+			'description'       => __( 'Limit result set to reviews from specific product IDs.', 'cocart-core' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'wp_parse_id_list',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		/**
@@ -820,13 +875,13 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @param int $id Supplied ID.
+	 * @param int $id Review ID.
 	 *
 	 * @return WP_Comment|WP_Error Comment object if ID is valid, WP_Error otherwise.
 	 */
 	protected function get_review( $id ) {
 		$id    = (int) $id;
-		$error = new WP_Error( 'cocart_review_invalid_id', __( 'Invalid review ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+		$error = new WP_Error( 'cocart_review_invalid_id', __( 'Invalid review ID.', 'cocart-core' ), array( 'status' => 404 ) );
 
 		if ( 0 >= $id ) {
 			return $error;
@@ -841,7 +896,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			$post = get_post( (int) $review->comment_post_ID );
 
 			if ( 'product' !== get_post_type( (int) $review->comment_post_ID ) ) {
-				return new WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+				return new \WP_Error( 'cocart_product_invalid_id', __( 'Invalid product ID.', 'cocart-core' ), array( 'status' => 404 ) );
 			}
 		}
 
@@ -867,8 +922,8 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 			case 'product':
 				$normalized = $prefix . 'post_ID';
 				break;
-			case 'include':
-				$normalized = 'comment__in';
+			case 'rating':
+				$normalized = 'meta_value_num';
 				break;
 			default:
 				$normalized = $prefix . $query_param;
@@ -912,12 +967,16 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 *
 	 * @access protected
 	 *
+	 * @deprecated 5.0.0 No longer used.
+	 *
 	 * @param string|int $new_status New review status.
 	 * @param int        $id         Review ID.
 	 *
 	 * @return bool Whether the status was changed.
 	 */
 	protected function handle_status_param( $new_status, $id ) {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0', __( 'No longer use.', 'cocart-core' ) );
+
 		$old_status = wp_get_comment_status( $id );
 
 		if ( $new_status === $old_status ) {

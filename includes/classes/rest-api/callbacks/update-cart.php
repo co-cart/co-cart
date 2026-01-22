@@ -6,6 +6,7 @@
  * @package CoCart\API\Callbacks
  * @since   3.1.0 Introduced.
  * @version 4.1.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -48,7 +49,7 @@ class CoCart_Cart_Update_Callback extends CoCart_REST_Callback {
 	public function callback( $request, $controller ) {
 		try {
 			if ( $controller->is_completely_empty() ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cocart-core' ), 404 );
 			}
 
 			$items = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
@@ -89,7 +90,7 @@ class CoCart_Cart_Update_Callback extends CoCart_REST_Callback {
 					if ( $product->is_sold_individually() && $quantity > 1 ) {
 						$message = sprintf(
 							/* translators: %s Product name. */
-							__( 'You can only have 1 "%s" in your cart.', 'cart-rest-api-for-woocommerce' ),
+							__( 'You can only have 1 "%s" in your cart.', 'cocart-core' ),
 							$product->get_name()
 						);
 						wc_add_notice( $message, 'error' );
@@ -119,13 +120,13 @@ class CoCart_Cart_Update_Callback extends CoCart_REST_Callback {
 
 				// Only returns success notice if there are no error notices.
 				if ( 0 === wc_notice_count( 'error' ) ) {
-					wc_add_notice( __( 'Cart updated.', 'cart-rest-api-for-woocommerce' ), 'success' );
+					wc_add_notice( __( 'Cart updated.', 'cocart-core' ), 'success' );
 				}
 			}
 
 			return true;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END callback()
 } // END class

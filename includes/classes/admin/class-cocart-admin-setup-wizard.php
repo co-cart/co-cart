@@ -7,8 +7,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.1.0 Introduced.
- * @version 4.0.0
- * @license GPL-2.0+
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -45,7 +45,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * @access public
 	 */
 	protected function init() {
-		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 15 );
+		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 1 );
 
 		add_filter( 'admin_body_class', array( $this, 'cocart_admin_body_class_setup_wizard' ) );
 
@@ -71,17 +71,23 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			return $submenu_pages;
 		}
 
-		if ( apply_filters( 'cocart_enable_setup_wizard', true ) ) {
-			$submenu_pages['setup-wizard'] = array(
-				'class_name' => 'CoCart_Admin_Setup_Wizard',
-				'data'       => array(
-					'page_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
-					'menu_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
-					'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
-					'menu_slug'  => 'cocart-setup',
-				),
-			);
+		if ( ! apply_filters( 'cocart_enable_setup_wizard', true ) ) {
+			return $submenu_pages;
 		}
+
+		if ( ! empty( get_option( 'cocart_setup_wizard_completed' ) ) && ! isset( $_GET['reset-cc-wizard'] ) ) {
+			return $submenu_pages;
+		}
+
+		$submenu_pages['setup-wizard'] = array(
+			'class_name' => 'CoCart_Admin_Setup_Wizard',
+			'data'       => array(
+				'page_title' => __( 'Setup Wizard', 'cocart-core' ),
+				'menu_title' => __( 'Setup Wizard', 'cocart-core' ),
+				'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
+				'menu_slug'  => 'cocart-setup',
+			),
+		);
 
 		return $submenu_pages;
 	} // END register_submenu_page()
@@ -118,17 +124,18 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	public function output() {
 		$default_steps = array(
 			'store_setup' => array(
-				'name'    => __( 'Store setup', 'cart-rest-api-for-woocommerce' ),
+				'name'    => __( 'Store setup', 'cocart-core' ),
 				'view'    => array( $this, 'cocart_setup_wizard_store_setup' ),
 				'handler' => array( $this, 'cocart_setup_wizard_store_setup_save' ),
 			),
+			/*
 			'sessions'    => array(
-				'name'    => __( 'Sessions', 'cart-rest-api-for-woocommerce' ),
+				'name'    => __( 'Sessions', 'cocart-core' ),
 				'view'    => array( $this, 'cocart_setup_wizard_sessions' ),
 				'handler' => array( $this, 'cocart_setup_wizard_sessions_save' ),
-			),
+			),*/
 			'ready'       => array(
-				'name'    => __( 'Ready!', 'cart-rest-api-for-woocommerce' ),
+				'name'    => __( 'Ready!', 'cocart-core' ),
 				'view'    => array( $this, 'cocart_setup_wizard_ready' ),
 				'handler' => '',
 			),
@@ -195,10 +202,10 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 
 		set_current_screen( 'cocart-setup-wizard' );
 		?>
-		<div class="wrap cocart-wrapped cocart-setup-wizard <?php echo esc_attr( 'cocart-setup-step__' . $this->step ); ?>">
-			<h1 class="cocart-logo">
+		<div class="wrap cocart-wrapped cocart-setup-wizard <?php echo esc_attr( 'cocart-setup-step__' . $this->step ); ?>" role="main">
+			<h1>
 				<a href="<?php echo esc_url( $store_url ); ?>" target="_blank" rel="noopener noreferrer">
-					<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/header-logo.png' ); ?>" alt="CoCart Logo" />
+					<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/cocart-logo.svg' ); ?>" alt="CoCart Logo" style="margin-bottom: 1em;" /><?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
 				</a>
 			</h1>
 		<?php
@@ -214,7 +221,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 
 		if ( 'sessions' === $current_step ) :
 			?>
-			<a class="cocart-setup-wizard-footer-links" href="<?php echo esc_url( $this->get_next_step_link() ); ?>"><?php esc_html_e( 'Skip this step', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a class="cocart-setup-wizard-footer-links" href="<?php echo esc_url( $this->get_next_step_link() ); ?>"><?php esc_html_e( 'Skip this step', 'cocart-core' ); ?></a>
 		<?php endif; ?>
 
 		<?php do_action( 'cocart_setup_wizard_footer' ); ?>
@@ -279,17 +286,10 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	 * @since 4.3.0 Added option to install JWT Authentication.
 	 */
 	public function cocart_setup_wizard_store_setup() {
-		$sessions_transferred = get_transient( 'cocart_setup_wizard_sessions_transferred' );
-
 		$product_count = array_sum( (array) wp_count_posts( 'product' ) );
 
 		$new_store = ( 0 === $product_count ) ? 'yes' : 'no';
 
-		// If setup wizard has nothing left to setup, redirect to ready step.
-		if ( $sessions_transferred && class_exists( 'CoCart_CORS' ) ) {
-			wp_safe_redirect( esc_url_raw( $this->get_next_step_link( 'ready' ) ) );
-			exit;
-		}
 		?>
 		<form method="post" class="store-step">
 			<input type="hidden" name="save_step" value="store_setup" />
@@ -299,7 +299,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<?php
 			printf(
 				/* translators: 1: CoCart, 2: WooCommerce */
-				esc_html__( 'Thank you for choosing %1$s - the #1 REST API that makes it easy to decouple %2$s.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Thank you for choosing %1$s - the #1 REST API that makes it easy to decouple %2$s.', 'cocart-core' ),
 				'CoCart',
 				'WooCommerce'
 			);
@@ -310,55 +310,30 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<?php
 			printf(
 				/* translators: 1: CoCart */
-				esc_html__( 'The setup wizard is completely optional as %1$s is already ready to start using. The wizard is here to help you configure %1$s to your needs.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'The setup wizard is completely optional as %1$s is already ready to start using. The wizard is here to help you configure %1$s to your needs.', 'cocart-core' ),
 				'CoCart'
 			);
 			?>
 			</p>
 
-			<p><?php esc_html_e( 'If you don’t want to go through the wizard right now, you can skip it and come back anytime if you change your mind!', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'If you don’t want to go through the wizard right now, you can skip it and come back anytime if you change your mind!', 'cocart-core' ); ?></p>
 
-			<?php if ( ! $sessions_transferred ) { ?>
-			<label for="store_new">
-				<?php
-				printf(
-					/* translators: %s WooCommerce */
-					esc_html__( 'Is this a new %s store?', 'cart-rest-api-for-woocommerce' ),
-					'WooCommerce'
-				);
-				?>
-			</label>
-			<select id="store_new" name="store_new" aria-label="<?php esc_attr_e( 'New Store', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
-				<option value="no"<?php selected( $new_store, 'no' ); ?>><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
-				<option value="yes"<?php selected( $new_store, 'yes' ); ?>><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
-			</select>
-			<span>
-				<?php
-				printf(
-				/* translators: %s: CoCart */
-					esc_html__( 'If no, %s will transfer all cart sessions to our database table to prevent duplicate cart session data.', 'cart-rest-api-for-woocommerce' ),
-					'CoCart'
-				);
-				?>
-			</span>
-			<?php } ?>
-
-			<label for="multiple_domains"><?php esc_html_e( 'Will your headless setup use multiple domains?', 'cart-rest-api-for-woocommerce' ); ?></label>
-			<select id="multiple_domains" name="multiple_domains" aria-label="<?php esc_attr_e( 'Multiple Domains', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
-				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
-				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
+			<label for="multiple_domains"><?php esc_html_e( 'Will your headless setup use multiple domains?', 'cocart-core' ); ?></label>
+			<select id="multiple_domains" name="multiple_domains" class="select-input dropdown">
+				<option value="no"><?php echo esc_html__( 'No', 'cocart-core' ); ?></option>
+				<option value="yes"><?php echo esc_html__( 'Yes', 'cocart-core' ); ?></option>
 			</select>
 
-			<span><?php esc_html_e( 'If you are using multiple domains for your headless setup, installing support for CORS is recommended.', 'cart-rest-api-for-woocommerce' ); ?> <a href="<?php echo esc_url( 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'What is CORS?', 'cart-rest-api-for-woocommerce' ); ?></a></span>
+			<span><?php esc_html_e( 'If you are using multiple domains for your headless setup, installing support for CORS is recommended.', 'cocart-core' ); ?> <a href="<?php echo esc_url( 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS' ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'What is CORS?', 'cocart-core' ); ?></a></span>
 
-			<label for="jwt_authentication"><?php esc_html_e( 'Do you require support for JWT Authentication?', 'cart-rest-api-for-woocommerce' ); ?></label>
-			<select id="jwt_authentication" name="jwt_authentication" aria-label="<?php esc_attr_e( 'JWT Authentication', 'cart-rest-api-for-woocommerce' ); ?>" class="select-input dropdown">
-				<option value="no"><?php echo esc_html__( 'No', 'cart-rest-api-for-woocommerce' ); ?></option>
-				<option value="yes"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></option>
+			<label for="jwt_authentication"><?php esc_html_e( 'Do you require support for JWT Authentication?', 'cocart-core' ); ?></label>
+			<select id="jwt_authentication" name="jwt_authentication" class="select-input dropdown">
+				<option value="no"><?php echo esc_html__( 'No', 'cocart-core' ); ?></option>
+				<option value="yes"><?php echo esc_html__( 'Yes', 'cocart-core' ); ?></option>
 			</select>
 
 			<p class="cocart-actions step">
-				<button class="button button-primary button-large" value="<?php esc_attr_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?></button>
+				<button class="button button-primary button-large cocart-button" value="<?php esc_attr_e( "Let's go!", 'cocart-core' ); ?>" name="save_step"><?php esc_html_e( "Let's go!", 'cocart-core' ); ?></button>
 			</p>
 		</form>
 		<?php
@@ -381,7 +356,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 
 		if ( $store_new ) {
 			set_transient( 'cocart_setup_wizard_store_new', 'yes', MINUTE_IN_SECONDS * 10 );
-			$next_step = apply_filters( 'cocart_setup_wizard_store_save_next_step_override', 'ready' );
+			$next_step = 'ready';
 		}
 
 		// If true and CoCart Cors is not already installed then it will be installed in the background.
@@ -417,7 +392,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<?php
 			printf(
 				/* translators: 1: WooCommerce, 2: CoCart */
-				esc_html__( 'Your current %1$s sessions will be transferred over to %2$s session table. This will run in the background until completed. Once transferred, all customers carts will be accessible again.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Your current %1$s sessions will be transferred over to %2$s session table. This will run in the background until completed. Once transferred, all customers carts will be accessible again.', 'cocart-core' ),
 				'WooCommerce',
 				'CoCart'
 			);
@@ -425,7 +400,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			</p>
 
 			<p class="cocart-actions step">
-				<button class="button button-primary button-large" value="<?php esc_attr_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( 'Transfer Sessions', 'cart-rest-api-for-woocommerce' ); ?></button>
+				<button class="button button-primary button-large" value="<?php esc_attr_e( 'Transfer Sessions', 'cocart-core' ); ?>" name="save_step"><?php esc_html_e( 'Transfer Sessions', 'cocart-core' ); ?></button>
 			</p>
 		</form>
 		<?php
@@ -525,6 +500,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 	public function cocart_setup_wizard_ready() {
 		// We've made it! Don't prompt the user to run the wizard again.
 		CoCart_Admin_Notices::remove_notice( 'setup_wizard', true );
+		update_option( 'cocart_setup_wizard_completed', 'yes' );
 
 		$campaign_args = CoCart_Helpers::cocart_campaign(
 			array(

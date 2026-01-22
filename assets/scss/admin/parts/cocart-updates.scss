@@ -1,0 +1,105 @@
+// Updates submenu
+#adminmenu #toplevel_page_cocart .wp-submenu a[href="admin.php?page=cocart-updates"],
+#adminmenu #toplevel_page_cocart .wp-submenu a[href="admin.php?page=cocart-updates"].current {
+	color: #FFC233;
+	font-weight: 700;
+}
+
+// License information
+#cocart-license-information {
+	flex: 1 1 65%;
+
+	.cocart-activation {
+		align-items: center;
+		float: right;
+		line-height: 2.1538;
+		margin-top: -54px;
+		text-decoration: none;
+
+		.cocart-manage-license-btn {
+			background-color: inherit;
+			border: none;
+			padding: 0 10px;
+
+			i {
+				margin: 5px 0 0 5px;
+			}
+		}
+	}
+
+	/* License Status */
+	.cocart-license-status-wrap {
+		background: #f9fafb;
+		border-top: 1px solid #eaecf0;
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+	}
+
+	.cocart-license-status-wrap .cocart-license-status-table {
+		font-size: 14px;
+		padding: 14px 24px 0;
+	}
+
+	.cocart-license-status-wrap .cocart-license-status-table th {
+		width: 160px;
+		font-weight: 500;
+		text-align: left;
+		padding-bottom: 16px;
+	}
+
+	.cocart-license-status-wrap .cocart-license-status-table td {
+		padding-bottom: 16px;
+	}
+
+	.cocart-license-status-wrap
+		.cocart-license-status-table
+		td
+		.cocart-license-status {
+		display: inline-block;
+		height: 24px;
+		line-height: 24px;
+		border-radius: 100px;
+		background: #eaecf0;
+		padding: 0 13px 1px 12px;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		color: #667085;
+	}
+
+	.cocart-license-status-wrap
+		.cocart-license-status-table
+		td
+		.cocart-license-status.active {
+		background: rgba(18, 183, 106, 0.15);
+		border: 1px solid rgba(18, 183, 106, 0.24);
+		color: rgb(18, 183, 106);
+	}
+
+	.cocart-license-status-wrap
+		.cocart-license-status-table
+		td
+		.cocart-license-status.expired,
+	.cocart-license-status-wrap
+		.cocart-license-status-table
+		td
+		.cocart-license-status.cancelled {
+		background: rgba(209, 55, 55, 0.24);
+		border: 1px solid rgba(209, 55, 55, 0.24);
+		color: rgb(209, 55, 55);
+	}
+
+	.cocart-license-status-wrap .cocart-no-license-view-pricing {
+		padding: 12px 24px;
+		border-top: 1px solid #eaecf0;
+		color: #667085;
+	}
+
+	@media screen and (max-width: 1024px) {
+		#cocart-license-information {
+			margin-bottom: 32px;
+		}
+	}
+
+	label {
+		font-weight: 500;
+	}
+}

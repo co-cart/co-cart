@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.1.2 Introduced.
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -30,7 +30,7 @@ function cocart_task_cleanup_carts() {
 	if ( is_callable( array( $session, 'cleanup_sessions' ) ) ) {
 		$session->cleanup_sessions();
 	} else {
-		CoCart_Logger::log( esc_html__( 'CoCart Task: Clean up carts failed.', 'cart-rest-api-for-woocommerce' ), 'error' );
+		CoCart_Logger::log( esc_html__( 'CoCart Task: Clean up carts failed.', 'cocart-core' ), 'error' );
 	}
 }
 add_action( 'cocart_cleanup_carts', 'cocart_task_cleanup_carts' );

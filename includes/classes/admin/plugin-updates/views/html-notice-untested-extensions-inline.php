@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Plugin Updates\Views
  * @since   4.3.0 Introduced.
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<table class="plugin-details-table" cellspacing="0">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Plugin', 'cart-rest-api-for-woocommerce' ); ?></th>
-				<th><?php esc_html_e( 'Tested up to CoCart version', 'cart-rest-api-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'Plugin', 'cocart-core' ); ?></th>
+				<th><?php esc_html_e( 'Tested up to CoCart version', 'cocart-core' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>

@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -36,7 +37,6 @@ class CoCart_Product_Validation {
 	public function __construct() {
 		// Prevent certain product types from being added to the cart.
 		add_filter( 'cocart_add_to_cart_handler_external', array( $this, 'product_not_allowed_to_add' ), 0, 1 );
-		add_filter( 'cocart_add_to_cart_handler_grouped', array( $this, 'product_not_allowed_to_add' ), 0, 2 );
 
 		// Prevent password products being added to the cart.
 		add_filter( 'cocart_add_to_cart_validation', array( $this, 'protected_product_add_to_cart' ), 10, 2 );
@@ -70,27 +70,12 @@ class CoCart_Product_Validation {
 	 */
 	public function product_not_allowed_to_add( $product_data, $request = array() ) {
 		try {
-			$route = '';
-
-			if ( ! empty( $request ) ) {
-				$route = $request->get_route();
-			}
-
-			if ( ! empty( $route ) && ( false === strpos( $route, 'cocart/v2/add-item' ) ) && $product_data->get_type() === 'grouped' ) {
-				$message = sprintf(
-					/* translators: %1$s: product type, %2$s: api route */
-					__( 'You cannot use this route to add "%1$s" products to the cart. Please use %2$s instead.', 'cart-rest-api-for-woocommerce' ),
-					$product_data->get_type(),
-					str_replace( 'add-item', 'add-items', $route )
-				);
-			} else {
-				$message = sprintf(
-					/* translators: %1$s: product name, %2$s: product type */
-					__( 'You cannot add "%1$s" to your cart as it is an "%2$s" product.', 'cart-rest-api-for-woocommerce' ),
-					$product_data->get_name(),
-					$product_data->get_type()
-				);
-			}
+			$message = sprintf(
+				/* translators: %1$s: product name, %2$s: product type */
+				__( 'You cannot add "%1$s" to your cart as it is an "%2$s" product.', 'cocart-core' ),
+				$product_data->get_name(),
+				$product_data->get_type()
+			);
 
 			/**
 			 * Filters message about product type that cannot be added to the cart.
@@ -102,7 +87,7 @@ class CoCart_Product_Validation {
 
 			throw new CoCart_Data_Exception( 'cocart_cannot_add_product_type_to_cart', $message, 403 );
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END product_not_allowed_to_add()
 
@@ -162,7 +147,7 @@ class CoCart_Product_Validation {
 			CoCart_Logger::log(
 				sprintf(
 					/* translators: %s: product name */
-					__( 'Product "%s" is protected and cannot be purchased.', 'cart-rest-api-for-woocommerce' ),
+					__( 'Product "%s" is protected and cannot be purchased.', 'cocart-core' ),
 					$product->get_name()
 				),
 				'error'
@@ -203,7 +188,7 @@ class CoCart_Product_Validation {
 				CoCart_Logger::log(
 					sprintf(
 						/* translators: %s: product name */
-						__( 'Variation for "%s" is not purchasable.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Variation for "%s" is not purchasable.', 'cocart-core' ),
 						$product->get_name()
 					),
 					'error'

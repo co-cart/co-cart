@@ -8,7 +8,7 @@
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   3.10.4 Introduced.
  * @version 4.3.7
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -95,17 +95,17 @@ class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 		);
 
 		$args = array(
-			'title'   => __( 'Ready to take your headless store to the next level?', 'cart-rest-api-for-woocommerce' ),
+			'title'   => __( 'Ready to take your headless store to the next level?', 'cocart-core' ),
 			'content' => sprintf(
 				/* translators: %s: CoCart. */
-				esc_attr__( 'Upgrade %s and unlock more cart features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ),
+				esc_attr__( 'Upgrade %s and unlock more cart features and supported WooCommerce extensions.', 'cocart-core' ),
 				'CoCart'
 			),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
 					'name'    => 'cocart-learn-more',
-					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
+					'label'   => __( 'Learn more', 'cocart-core' ),
 					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ),
 					'status'  => $status,
 					'primary' => true,

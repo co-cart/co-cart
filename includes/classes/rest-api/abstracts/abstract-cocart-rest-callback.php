@@ -52,7 +52,7 @@ abstract class CoCart_REST_Callback {
 				'cocart_no_callback_found',
 				sprintf(
 					/* translators: %s: Class name */
-					esc_html__( 'A "callback" function must be registered when extending class "%s"', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'A "callback" function must be registered when extending class "%s"', 'cocart-core' ),
 					__CLASS__
 				),
 				400

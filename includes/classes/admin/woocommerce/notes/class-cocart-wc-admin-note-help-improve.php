@@ -8,7 +8,7 @@
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   2.3.0 Introduced.
  * @version 4.3.7
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -73,13 +73,13 @@ class CoCart_WC_Admin_Help_Improve_Note extends CoCart_WC_Admin_Notes {
 		$status = Note::E_WC_ADMIN_NOTE_UNACTIONED;
 
 		$args = array(
-			'title'   => __( 'Help improve CoCart', 'cart-rest-api-for-woocommerce' ),
-			'content' => __( 'We love your input to shape the future of CoCart together. Feel free to share any feedback, ideas or suggestions that you have.', 'cart-rest-api-for-woocommerce' ),
+			'title'   => __( 'Help improve CoCart', 'cocart-core' ),
+			'content' => __( 'We love your input to shape the future of CoCart together. Feel free to share any feedback, ideas or suggestions that you have.', 'cocart-core' ),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
 					'name'   => 'cocart-share-feedback',
-					'label'  => __( 'Share feedback', 'cart-rest-api-for-woocommerce' ),
+					'label'  => __( 'Share feedback', 'cocart-core' ),
 					'url'    => 'https://github.com/co-cart/co-cart/issues/new?assignees=&labels=priority%3Alow%2C+enhancement&template=enhancement.md&title=ISBAT+...',
 					'status' => $status,
 				),

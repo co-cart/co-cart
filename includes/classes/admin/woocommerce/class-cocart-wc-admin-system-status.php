@@ -8,6 +8,7 @@
  * @package CoCart\Admin\WooCommerce System Status
  * @since   2.1.0 Introduced.
  * @version 4.2.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -60,7 +61,7 @@ class CoCart_Admin_WC_System_Status {
 					'title'   => 'CoCart',
 					'tooltip' => sprintf(
 						/* translators: %s: CoCart */
-						esc_html__( 'This section shows any information about %s.', 'cart-rest-api-for-woocommerce' ),
+						esc_html__( 'This section shows any information about %s.', 'cocart-core' ),
 						'CoCart'
 					),
 					'data'    => apply_filters( 'cocart_system_status_data', $data ),
@@ -119,20 +120,20 @@ class CoCart_Admin_WC_System_Status {
 		$carts_in_session = cocart_carts_in_session();
 
 		$data['cocart_version'] = array(
-			'name'      => _x( 'Version', 'label that indicates the version of the plugin', 'cart-rest-api-for-woocommerce' ),
-			'label'     => esc_html__( 'Version', 'cart-rest-api-for-woocommerce' ),
+			'name'      => _x( 'Version', 'label that indicates the version of the plugin', 'cocart-core' ),
+			'label'     => esc_html__( 'Version', 'cocart-core' ),
 			'note'      => COCART_VERSION,
 			'mark'      => '',
 			'mark_icon' => '',
 		);
 
 		$data['cocart_db_version'] = array(
-			'name'      => _x( 'Database Version', 'label that indicates the database version of the plugin', 'cart-rest-api-for-woocommerce' ),
-			'label'     => esc_html__( 'Database Version', 'cart-rest-api-for-woocommerce' ),
+			'name'      => _x( 'Database Version', 'label that indicates the database version of the plugin', 'cocart-core' ),
+			'label'     => esc_html__( 'Database Version', 'cocart-core' ),
 			'note'      => get_option( 'cocart_version', null ),
 			'tip'       => sprintf(
 				/* translators: 1: CoCart, 2: CoCart Plus */
-				esc_html__( 'The version of %1$s that the database is formatted for. This should be the same as your %1$s version. Unless you have %2$s or above, then it should be the version of %1$s packaged.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'The version of %1$s that the database is formatted for. This should be the same as your %1$s version. Unless you have %2$s or above, then it should be the version of %1$s packaged.', 'cocart-core' ),
 				'CoCart',
 				'CoCart Plus'
 			),
@@ -141,8 +142,8 @@ class CoCart_Admin_WC_System_Status {
 		);
 
 		$data['cocart_install_date'] = array(
-			'name'      => _x( 'Install Date', 'label that indicates the install date of the plugin', 'cart-rest-api-for-woocommerce' ),
-			'label'     => esc_html__( 'Install Date', 'cart-rest-api-for-woocommerce' ),
+			'name'      => _x( 'Install Date', 'label that indicates the install date of the plugin', 'cocart-core' ),
+			'label'     => esc_html__( 'Install Date', 'cocart-core' ),
 			'note'      => gmdate( get_option( 'date_format' ), get_option( 'cocart_install_date', time() ) ),
 			'mark'      => '',
 			'mark_icon' => '',
@@ -150,26 +151,26 @@ class CoCart_Admin_WC_System_Status {
 
 		$data['cocart_sessions'] = array(
 			'columns' => array(
-				__( 'Cart Sessions', 'cart-rest-api-for-woocommerce' ),
-				__( 'Cart Count', 'cart-rest-api-for-woocommerce' ),
+				__( 'Cart Sessions', 'cocart-core' ),
+				__( 'Cart Count', 'cocart-core' ),
 			),
 			'type'    => 'titles',
 		);
 
 		$data['cocart_carts_in_session'] = array(
-			'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cart-rest-api-for-woocommerce' ),
-			'label'     => esc_html__( 'Carts in Session', 'cart-rest-api-for-woocommerce' ),
+			'name'      => _x( 'Carts in Session', 'label that indicates the number of carts in session', 'cocart-core' ),
+			'label'     => esc_html__( 'Carts in Session', 'cocart-core' ),
 			'note'      => $carts_in_session,
 			'mark'      => '',
 			'mark_icon' => '',
 		);
 
 		$data['cocart_carts_active'] = array(
-			'name'      => _x( 'Carts Active', 'label that indicates the number of carts active', 'cart-rest-api-for-woocommerce' ),
-			'label'     => esc_html__( 'Carts Active', 'cart-rest-api-for-woocommerce' ),
+			'name'      => _x( 'Carts Active', 'label that indicates the number of carts active', 'cocart-core' ),
+			'label'     => esc_html__( 'Carts Active', 'cocart-core' ),
 			'note'      => sprintf(
 				/* translators: 1: Number of active carts, 2: Number of carts in session */
-				esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( '%1$d out of %2$d in session.', 'cocart-core' ),
 				cocart_count_carts_active(),
 				$carts_in_session
 			),
@@ -178,29 +179,29 @@ class CoCart_Admin_WC_System_Status {
 		);
 
 		$data['cocart_carts_expiring_soon'] = array(
-			'name'      => _x( 'Carts Expiring Soon', 'label that indicates the number of carts expiring soon', 'cart-rest-api-for-woocommerce' ),
-			'label'     => esc_html__( 'Carts Expiring Soon', 'cart-rest-api-for-woocommerce' ),
+			'name'      => _x( 'Carts Expiring Soon', 'label that indicates the number of carts expiring soon', 'cocart-core' ),
+			'label'     => esc_html__( 'Carts Expiring Soon', 'cocart-core' ),
 			'note'      => sprintf(
 				/* translators: 1: Number of carts expiring, 2: Number of carts in session */
-				esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( '%1$d out of %2$d in session.', 'cocart-core' ),
 				cocart_count_carts_expiring(),
 				$carts_in_session
 			),
-			'tip'       => esc_html__( 'Carts that only have less than 6 hours left before they have expired.', 'cart-rest-api-for-woocommerce' ),
+			'tip'       => esc_html__( 'Carts that only have less than 6 hours left before they have expired.', 'cocart-core' ),
 			'mark'      => '',
 			'mark_icon' => '',
 		);
 
 		$data['cocart_carts_expired'] = array(
-			'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cart-rest-api-for-woocommerce' ),
-			'label'     => esc_html__( 'Carts Expired', 'cart-rest-api-for-woocommerce' ),
+			'name'      => _x( 'Carts Expired', 'label that indicates the number of carts expired', 'cocart-core' ),
+			'label'     => esc_html__( 'Carts Expired', 'cocart-core' ),
 			'note'      => sprintf(
 				/* translators: 1: Number of expired carts, 2: Number of carts in session */
-				esc_html__( '%1$d out of %2$d in session.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( '%1$d out of %2$d in session.', 'cocart-core' ),
 				cocart_count_carts_expired(),
 				$carts_in_session
 			),
-			'tip'       => esc_html__( 'Any expired carts that get updated before being cleared will become an active cart again.', 'cart-rest-api-for-woocommerce' ),
+			'tip'       => esc_html__( 'Any expired carts that get updated before being cleared will become an active cart again.', 'cocart-core' ),
 			'mark'      => '',
 			'mark_icon' => '',
 		);
@@ -208,12 +209,12 @@ class CoCart_Admin_WC_System_Status {
 		$data['cocart_carts_source_headless'] = array(
 			'name'      => sprintf(
 				/* translators: %s: CoCart */
-				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via CoCart REST API', 'cart-rest-api-for-woocommerce' ),
+				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via CoCart REST API', 'cocart-core' ),
 				'CoCart'
 			),
 			'label'     => sprintf(
 				/* translators: %s: CoCart */
-				esc_html__( 'Carts Created (by %s)', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Carts Created (by %s)', 'cocart-core' ),
 				'CoCart'
 			),
 			'note'      => cocart_carts_source_headless(),
@@ -224,13 +225,13 @@ class CoCart_Admin_WC_System_Status {
 		$data['cocart_carts_source_web'] = array(
 			'name'      => sprintf(
 				/* translators: %s: Web */
-				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via the web', 'cart-rest-api-for-woocommerce' ),
-				esc_html__( 'Web', 'cart-rest-api-for-woocommerce' )
+				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via the web', 'cocart-core' ),
+				esc_html__( 'Web', 'cocart-core' )
 			),
 			'label'     => sprintf(
 				/* translators: %s: Web */
-				esc_html__( 'Carts Created (by %s)', 'cart-rest-api-for-woocommerce' ),
-				esc_html__( 'Web', 'cart-rest-api-for-woocommerce' )
+				esc_html__( 'Carts Created (by %s)', 'cocart-core' ),
+				esc_html__( 'Web', 'cocart-core' )
 			),
 			'note'      => cocart_carts_source_web(),
 			'mark'      => '',
@@ -240,18 +241,18 @@ class CoCart_Admin_WC_System_Status {
 		$data['cocart_carts_source_other'] = array(
 			'name'      => sprintf(
 				/* translators: %s: Other */
-				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via other source', 'cart-rest-api-for-woocommerce' ),
-				esc_html__( 'Other', 'cart-rest-api-for-woocommerce' )
+				_x( 'Carts Created (by %s)', 'label that indicates the number of carts created via other source', 'cocart-core' ),
+				esc_html__( 'Other', 'cocart-core' )
 			),
 			'label'     => sprintf(
 				/* translators: %s: Other */
-				esc_html__( 'Carts Created (by %s)', 'cart-rest-api-for-woocommerce' ),
-				esc_html__( 'Other', 'cart-rest-api-for-woocommerce' )
+				esc_html__( 'Carts Created (by %s)', 'cocart-core' ),
+				esc_html__( 'Other', 'cocart-core' )
 			),
 			'note'      => cocart_carts_source_other(),
 			'tip'       => sprintf(
 				/* translators: 1: CoCart, 2: WooCommerce */
-				esc_html__( 'These carts were created other than %1$s or %2$s.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'These carts were created other than %1$s or %2$s.', 'cocart-core' ),
 				'CoCart',
 				'WooCommerce'
 			),
@@ -442,26 +443,26 @@ class CoCart_Admin_WC_System_Status {
 	 */
 	public function debug_buttons( $tools ) {
 		$tools['cocart_clear_carts'] = array(
-			'name'     => esc_html__( 'Clear cart sessions', 'cart-rest-api-for-woocommerce' ),
-			'button'   => esc_html__( 'Clear all', 'cart-rest-api-for-woocommerce' ),
+			'name'     => esc_html__( 'Clear cart sessions', 'cocart-core' ),
+			'button'   => esc_html__( 'Clear all', 'cocart-core' ),
 			'desc'     => sprintf(
 				'<strong class="red">%1$s</strong> %2$s',
-				esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-				esc_html__( 'This tool will clear all carts in session handled by CoCart and saved carts.', 'cart-rest-api-for-woocommerce' )
+				esc_html__( 'Note:', 'cocart-core' ),
+				esc_html__( 'This tool will clear all carts in session handled by CoCart and saved carts.', 'cocart-core' )
 			),
 			'callback' => array( $this, 'debug_clear_carts' ),
 		);
 
 		$tools['cocart_cleanup_carts'] = array(
-			'name'     => esc_html__( 'Clear expired carts', 'cart-rest-api-for-woocommerce' ),
-			'button'   => esc_html__( 'Clear expired', 'cart-rest-api-for-woocommerce' ),
+			'name'     => esc_html__( 'Clear expired carts', 'cocart-core' ),
+			'button'   => esc_html__( 'Clear expired', 'cocart-core' ),
 			'desc'     => sprintf(
 				'<strong class="red">%1$s</strong> %2$s',
-				esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Note:', 'cocart-core' ),
 				sprintf(
 					/* translators: <strong>only</strong>, */
-					esc_html__( 'This tool will clear all expired carts %s stored in the database.', 'cart-rest-api-for-woocommerce' ),
-					'<strong>' . esc_html__( 'only', 'cart-rest-api-for-woocommerce' ) . '</strong>'
+					esc_html__( 'This tool will clear all expired carts %s stored in the database.', 'cocart-core' ),
+					'<strong>' . esc_html__( 'only', 'cocart-core' ) . '</strong>'
 				)
 			),
 			'callback' => array( $this, 'debug_clear_expired_carts' ),
@@ -472,16 +473,16 @@ class CoCart_Admin_WC_System_Status {
 		// Only show synchronize carts option if required.
 		if ( $carts_to_sync > 0 ) {
 			$tools['cocart_sync_carts'] = array(
-				'name'     => esc_html__( 'Synchronize carts', 'cart-rest-api-for-woocommerce' ),
+				'name'     => esc_html__( 'Synchronize carts', 'cocart-core' ),
 				'button'   => sprintf(
 					/* translators: %s: Number of carts to sync */
-					esc_html__( 'Synchronize (%d) cart/s', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Synchronize (%d) cart/s', 'cocart-core' ),
 					$carts_to_sync
 				),
 				'desc'     => sprintf(
 					'<strong class="red">%1$s</strong> %2$s',
-					esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-					esc_html__( 'This will copy any existing carts from WooCommerce\'s session table to CoCart\'s session table in the database. If cart already exists for a customer then it will not sync for that customer.', 'cart-rest-api-for-woocommerce' )
+					esc_html__( 'Note:', 'cocart-core' ),
+					esc_html__( 'This will copy any existing carts from WooCommerce\'s session table to CoCart\'s session table in the database. If cart already exists for a customer then it will not sync for that customer.', 'cocart-core' )
 				),
 				'callback' => array( $this, 'synchronize_carts' ),
 			);
@@ -491,23 +492,23 @@ class CoCart_Admin_WC_System_Status {
 		}
 
 		$tools['cocart_update_db'] = array(
-			'name'     => esc_html__( 'Update CoCart Database', 'cart-rest-api-for-woocommerce' ),
-			'button'   => esc_html__( 'Update Database', 'cart-rest-api-for-woocommerce' ),
+			'name'     => esc_html__( 'Update CoCart Database', 'cocart-core' ),
+			'button'   => esc_html__( 'Update Database', 'cocart-core' ),
 			'desc'     => sprintf(
 				'<strong class="red">%1$s</strong> %2$s',
-				esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-				esc_html__( 'This will update CoCart\'s session table in the database to the latest version. This is only needed to be done if you prefer to update manually or the automatic update failed. Please ensure you make sufficient backups before proceeding.', 'cart-rest-api-for-woocommerce' )
+				esc_html__( 'Note:', 'cocart-core' ),
+				esc_html__( 'This will update CoCart\'s session table in the database to the latest version. This is only needed to be done if you prefer to update manually or the automatic update failed. Please ensure you make sufficient backups before proceeding.', 'cocart-core' )
 			),
 			'callback' => array( $this, 'update_database' ),
 		);
 
 		$tools['cocart_verify_db_tables'] = array(
-			'name'     => esc_html__( 'Verify CoCart base database tables', 'cart-rest-api-for-woocommerce' ),
-			'button'   => esc_html__( 'Verify database', 'cart-rest-api-for-woocommerce' ),
+			'name'     => esc_html__( 'Verify CoCart base database tables', 'cocart-core' ),
+			'button'   => esc_html__( 'Verify database', 'cocart-core' ),
 			'desc'     => sprintf(
 				'<strong class="red">%1$s</strong> %2$s',
-				esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-				esc_html__( 'Verify if all CoCart\'s base database tables are present.', 'cart-rest-api-for-woocommerce' )
+				esc_html__( 'Note:', 'cocart-core' ),
+				esc_html__( 'Verify if all CoCart\'s base database tables are present.', 'cocart-core' )
 			),
 			'callback' => array( $this, 'verify_database' ),
 		);
@@ -535,8 +536,8 @@ class CoCart_Admin_WC_System_Status {
 
 		$tools['cocart_clear_carts']['desc'] = sprintf(
 			'<strong class="red">%1$s</strong> %2$s',
-			esc_html__( 'Note:', 'cart-rest-api-for-woocommerce' ),
-			esc_html__( 'This tool will clear all carts in session and saved carts.', 'cart-rest-api-for-woocommerce' )
+			esc_html__( 'Note:', 'cocart-core' ),
+			esc_html__( 'This tool will clear all carts in session and saved carts.', 'cocart-core' )
 		);
 
 		return $tools;
@@ -556,7 +557,7 @@ class CoCart_Admin_WC_System_Status {
 
 		return sprintf(
 			/* translators: %s: results */
-			esc_html__( 'All active carts have been cleared and %s saved carts.', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( 'All active carts have been cleared and %s saved carts.', 'cocart-core' ),
 			absint( $results )
 		);
 	} // END debug_clear_carts()
@@ -573,7 +574,7 @@ class CoCart_Admin_WC_System_Status {
 	public function debug_clear_expired_carts() {
 		cocart_task_cleanup_carts();
 
-		return esc_html__( 'All expired carts have now been cleared from the database.', 'cart-rest-api-for-woocommerce' );
+		return esc_html__( 'All expired carts have now been cleared from the database.', 'cocart-core' );
 	} // END debug_clear_expired_carts()
 
 	/**
@@ -598,7 +599,7 @@ class CoCart_Admin_WC_System_Status {
 				WHERE NOT EXISTS(SELECT cart_key FROM {$wpdb->prefix}cocart_carts t2 WHERE t2.cart_key = t1.session_key) "
 		);
 
-		return esc_html__( 'Carts are now synchronized.', 'cart-rest-api-for-woocommerce' );
+		return esc_html__( 'Carts are now synchronized.', 'cocart-core' );
 	} // END synchronize_carts()
 
 	/**
@@ -630,9 +631,9 @@ class CoCart_Admin_WC_System_Status {
 
 		// Used to fire an action added in WP_Background_Process::_construct() that calls WP_Background_Process::handle_cron_healthcheck().
 		// This method will make sure the database updates are executed even if cron is disabled. Nothing will happen if the updates are already running.
-		do_action( 'wp_' . $blog_id . '_cocart_updater_cron' );
+		do_action( 'wp_' . $blog_id . '_cocart_updater_cron' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-		return esc_html__( 'Database upgrade routine has been scheduled to run in the background.', 'cart-rest-api-for-woocommerce' );
+		return esc_html__( 'Database upgrade routine has been scheduled to run in the background.', 'cocart-core' );
 	} // END update_database()
 
 	/**
@@ -664,9 +665,9 @@ class CoCart_Admin_WC_System_Status {
 		$missing_tables = CoCart_Install::verify_base_tables( true, true );
 
 		if ( 0 === count( $missing_tables ) ) {
-			$message = esc_html__( 'Database verified successfully.', 'cart-rest-api-for-woocommerce' );
+			$message = esc_html__( 'Database verified successfully.', 'cocart-core' );
 		} else {
-			$message  = esc_html__( 'Verifying database: ', 'cart-rest-api-for-woocommerce' );
+			$message  = esc_html__( 'Verifying database: ', 'cocart-core' );
 			$message .= implode( ', ', $missing_tables );
 		}
 

@@ -6,7 +6,7 @@
  * @package CoCart\Classes
  * @since   3.0.0
  * @version 3.0.5
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -56,7 +56,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 			if ( is_wp_error( $dispatched ) ) {
 				$logger->error(
 					/* translators: %s: dispatch error message */
-					sprintf( __( 'Unable to dispatch CoCart updater: %s', 'cart-rest-api-for-woocommerce' ), $dispatched->get_error_message() ),
+					sprintf( __( 'Unable to dispatch CoCart updater: %s', 'cocart-core' ), $dispatched->get_error_message() ),
 					array( 'source' => 'cocart_db_updates' )
 				);
 			}
@@ -137,7 +137,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 				$logger->info(
 					sprintf(
 						/* translators: %s: callback function */
-						__( 'Running %s callback', 'cart-rest-api-for-woocommerce' ),
+						__( 'Running %s callback', 'cocart-core' ),
 						$callback
 					),
 					array( 'source' => 'cocart_db_updates' )
@@ -148,7 +148,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 					$logger->info(
 						sprintf(
 							/* translators: %s: callback function */
-							__( '%s callback needs to run again', 'cart-rest-api-for-woocommerce' ),
+							__( '%s callback needs to run again', 'cocart-core' ),
 							$callback
 						),
 						array( 'source' => 'cocart_db_updates' )
@@ -157,7 +157,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 					$logger->info(
 						sprintf(
 							/* translators: %s: callback function */
-							__( 'Finished running %s callback', 'cart-rest-api-for-woocommerce' ),
+							__( 'Finished running %s callback', 'cocart-core' ),
 							$callback
 						),
 						array( 'source' => 'cocart_db_updates' )
@@ -167,7 +167,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 				$logger->notice(
 					sprintf(
 						/* translators: %s: callback function */
-						__( 'Could not find %s callback', 'cart-rest-api-for-woocommerce' ),
+						__( 'Could not find %s callback', 'cocart-core' ),
 						$callback
 					),
 					array( 'source' => 'cocart_db_updates' )
@@ -189,7 +189,7 @@ if ( ! class_exists( 'CoCart_Background_Updater' ) ) {
 		 */
 		protected function complete() {
 			$logger = new CoCart_Logger();
-			$logger->info( __( 'Data update complete', 'cart-rest-api-for-woocommerce' ), array( 'source' => 'cocart_db_updates' ) );
+			$logger->info( __( 'Data update complete', 'cocart-core' ), array( 'source' => 'cocart_db_updates' ) );
 			CoCart_Install::update_db_version();
 			parent::complete();
 		}

@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,18 +26,65 @@ class_alias( 'CoCart_REST_Store_V2_Controller', 'CoCart_Store_V2_Controller' );
 class CoCart_REST_Store_V2_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'store';
+
+	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Get the path of this REST route.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	}
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public static function get_path_regex() {
+		return '/store';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_store' ),
+				'permission_callback' => '__return_true',
+			),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_item_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -49,18 +97,13 @@ class CoCart_REST_Store_V2_Controller {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Store - cocart/v2/store (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_store' ),
-					'permission_callback' => '__return_true',
-				),
-				'schema' => array( $this, 'get_public_item_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
@@ -78,8 +121,8 @@ class CoCart_REST_Store_V2_Controller {
 	 */
 	public function get_store() {
 		$debug = array(
-			'version' => COCART_VERSION,
-			'routes'  => $this->get_routes(),
+			'versions' => $this->get_versions(),
+			'routes'   => $this->get_routes(),
 		);
 
 		// General store data.
@@ -97,7 +140,7 @@ class CoCart_REST_Store_V2_Controller {
 			$store = array_merge( $debug, $store );
 		}
 
-		$response = new WP_REST_Response( $store );
+		$response = rest_ensure_response( $store );
 
 		// Add link to documentation.
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
@@ -111,7 +154,7 @@ class CoCart_REST_Store_V2_Controller {
 		 * about the store, routes available on the API, and a small amount
 		 * of data about the site.
 		 *
-		 * @param WP_REST_Response $response Response data.
+		 * @param WP_REST_Response $response The response object.
 		 */
 		return apply_filters( 'cocart_store_index', $response );
 	} // END get_store()
@@ -137,9 +180,27 @@ class CoCart_REST_Store_V2_Controller {
 	} // END get_store_address()
 
 	/**
+	 * Returns versions of CoCart plugins installed.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array
+	 */
+	protected function get_versions() {
+		return apply_filters(
+			'cocart_store_versions',
+			array(
+				'core' => COCART_VERSION,
+			)
+		);
+	} // END get_versions()
+
+	/**
 	 * Returns the list of all public CoCart API routes.
 	 *
-	 * @access public
+	 * @access protected
 	 *
 	 * @since 3.0.0  Introduced.
 	 * @since 3.1.0  Added login, logout, cart update and product routes.
@@ -147,7 +208,7 @@ class CoCart_REST_Store_V2_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_routes() {
+	protected function get_routes() {
 		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' );
 
 		return apply_filters(
@@ -195,89 +256,89 @@ class CoCart_REST_Store_V2_Controller {
 			'title'      => 'cocart_store',
 			'type'       => 'object',
 			'properties' => array(
-				'version'         => array(
+				'versions'        => array(
 					'description' => sprintf(
 						/* translators: %s: CoCart */
-						__( 'Version of the %s (core) plugin.', 'cart-rest-api-for-woocommerce' ),
+						__( 'Versions of %s plugins.', 'cocart-core' ),
 						'CoCart'
 					),
-					'type'        => 'string',
+					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'routes'          => array(
-					'description' => __( 'The routes of CoCart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The routes of CoCart.', 'cocart-core' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(),
 				),
 				'title'           => array(
-					'description' => __( 'Title of the site.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Title of the site.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'description'     => array(
-					'description' => __( 'The site tag line.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The site tag line.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'home_url'        => array(
-					'description' => __( 'The site home URL.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The site home URL.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'language'        => array(
-					'description' => __( 'The site language, by default.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The site language, by default.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'gmt_offset'      => array(
-					'description' => __( 'The time offset for the timezone.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The time offset for the timezone.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'timezone_string' => array(
-					'description' => __( 'The timezone from site settings as a string.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The timezone from site settings as a string.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'store_address'   => array(
-					'description' => __( 'The full store address.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The full store address.', 'cocart-core' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
 					'properties'  => array(
 						'address'   => array(
-							'description' => __( 'The store address line one.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address line one.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'address_2' => array(
-							'description' => __( 'The store address line two.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address line two.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'city'      => array(
-							'description' => __( 'The store address city.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address city.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'country'   => array(
-							'description' => __( 'The store address country.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address country.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
 						'postcode'  => array(
-							'description' => __( 'The store address postcode or zip.', 'cart-rest-api-for-woocommerce' ),
+							'description' => __( 'The store address postcode or zip.', 'cocart-core' ),
 							'type'        => 'string',
 							'context'     => array( 'view' ),
 							'readonly'    => true,
@@ -295,7 +356,7 @@ class CoCart_REST_Store_V2_Controller {
 				$schema['properties']['routes']['properties'][ $route ] = array(
 					'description' => sprintf(
 						/* translators: %s: Route URL */
-						__( 'The "%s" route URL.', 'cart-rest-api-for-woocommerce' ),
+						__( 'The "%s" route URL.', 'cocart-core' ),
 						$route
 					),
 					'type'        => 'string',

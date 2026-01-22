@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.2 Introduced.
- * @version 4.0.0
+ * @version 4.6.2
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -41,11 +42,17 @@ class CoCart_WooCommerce {
 		// Force WooCommerce to accept CoCart requests when authenticating.
 		add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
 
-		// Loads cart from session.
-		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_from_session' ), 0 );
+		// Validate cart session requested.
+		add_action( 'woocommerce_load_cart_from_session', array( $this, 'validate_cart_requested' ), 0 );
 
 		// Delete user data.
 		add_action( 'delete_user', array( $this, 'delete_user_data' ) );
+
+		// Restore unset default address fields.
+		add_filter( 'woocommerce_default_address_fields', array( $this, 'restore_unset_default_address_fields' ), 99 );
+
+		// Override address fields.
+		add_filter( 'woocommerce_billing_fields', array( $this, 'override_address_fields' ), 99 );
 	} // END __construct()
 
 	/**
@@ -55,8 +62,8 @@ class CoCart_WooCommerce {
 	 *
 	 * @static
 	 *
-	 * @since   2.0.5 Introduced.
-	 * @version 2.6.0
+	 * @since 2.0.5 Introduced.
+	 * @since 5.0.0 Gets the API namespace set instead of being hardcoded.
 	 *
 	 * @param bool $request Current status of allowing WooCommerce request.
 	 *
@@ -71,9 +78,7 @@ class CoCart_WooCommerce {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 
 		// Check if the request is to the CoCart API endpoints.
-		$cocart = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
-
-		if ( $cocart ) {
+		if ( ( false !== strpos( $request_uri, $rest_prefix . CoCart::get_api_namespace() . '/' ) ) ) {
 			return true;
 		}
 
@@ -81,11 +86,10 @@ class CoCart_WooCommerce {
 	} // END allow_cocart_requests_wc()
 
 	/**
-	 * Loads a specific cart into session and merge cart contents
-	 * with a logged in customer if cart contents exist.
+	 * Validates the cart requested and warns user if accessing it incorrectly.
 	 *
 	 * Triggered when "woocommerce_load_cart_from_session" is called
-	 * to make sure the cart from session is loaded in time.
+	 * to make sure the cart from session is valid.
 	 *
 	 * THIS IS FOR REST API USE ONLY!
 	 *
@@ -93,32 +97,31 @@ class CoCart_WooCommerce {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 4.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 2.8.0 Set chosen shipping methods.
+	 * @since 2.9.1 Merge persistent cart with session and check REST is not requesting CoCart.
+	 * @since 3.0.0 Added check for WP-GraphQL requests.
+	 * @since 4.6.2 Simplified to avoid unnecessary checks.
 	 */
-	public static function load_cart_from_session() {
+	public static function validate_cart_requested() {
 		// Return nothing if WP-GraphQL is requested.
 		if ( function_exists( 'is_graphql_http_request' ) && is_graphql_http_request() ) {
 			return;
 		}
 
-		// Check the CoCart session handler is used but is NOT a CoCart REST API request.
-		if ( ! WC()->session instanceof CoCart_Session_Handler || WC()->session instanceof CoCart_Session_Handler && ! CoCart::is_rest_api_request() ) {
+		// Return nothing if CoCart REST API is NOT requested.
+		if ( ! CoCart::is_rest_api_request() ) {
 			return;
 		}
 
-		$cookie = WC()->session->get_session_cookie();
-
 		$cart_key = '';
 
-		// If cookie exists then return cart key from it.
-		if ( $cookie ) {
-			$cart_key = $cookie[0];
-		}
-
 		// Check if we requested to load a specific cart.
-		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$cart_key = trim( esc_html( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$cart_key = WC()->session->get_requested_cart();
+
+		// Do nothing if the cart key is empty.
+		if ( empty( $cart_key ) ) {
+			return;
 		}
 
 		// Check if the user is logged in.
@@ -126,8 +129,8 @@ class CoCart_WooCommerce {
 			$customer_id = strval( get_current_user_id() );
 
 			// Compare the customer ID with the requested cart key. If they match then return error message.
-			if ( isset( $_REQUEST['cart_key'] ) && $customer_id === $_REQUEST['cart_key'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+			if ( ! empty( $cart_key ) && $customer_id === $cart_key ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cocart-core' ), array( 'status' => 403 ) );
 				wp_send_json_error( $error, 403 );
 				exit;
 			}
@@ -136,73 +139,15 @@ class CoCart_WooCommerce {
 
 			// If the user exists then return error message.
 			if ( ! empty( $user ) && apply_filters( 'cocart_secure_registered_users', true ) ) {
-				$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+				$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cocart-core' ), array( 'status' => 403 ) );
 				wp_send_json_error( $error, 403 );
 				exit;
 			}
 		}
 
-		// Do nothing if the cart key is empty.
-		if ( empty( $cart_key ) ) {
-			return;
-		}
-
-		// Get requested cart.
-		$cart = WC()->session->get_session( $cart_key );
-
-		// Get current cart contents.
-		$cart_contents = WC()->session->get( 'cart', array() );
-
-		// Merge requested cart. - ONLY ITEMS, COUPONS AND FEES THAT ARE NOT APPLIED TO THE CART IN SESSION WILL MERGE!!!
-		if ( ! empty( $cart_key ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$merge_cart = array();
-
-			$applied_coupons       = WC()->session->get( 'applied_coupons', array() );
-			$removed_cart_contents = WC()->session->get( 'removed_cart_contents', array() );
-			$cart_fees             = WC()->session->get( 'cart_fees', array() );
-
-			$merge_cart['cart']                  = isset( $cart['cart'] ) ? maybe_unserialize( $cart['cart'] ) : array();
-			$merge_cart['applied_coupons']       = isset( $cart['applied_coupons'] ) ? maybe_unserialize( $cart['applied_coupons'] ) : array();
-			$merge_cart['applied_coupons']       = array_unique( array_merge( $applied_coupons, $merge_cart['applied_coupons'] ) ); // Merge applied coupons.
-			$merge_cart['removed_cart_contents'] = isset( $cart['removed_cart_contents'] ) ? maybe_unserialize( $cart['removed_cart_contents'] ) : array();
-			$merge_cart['removed_cart_contents'] = array_merge( $removed_cart_contents, $merge_cart['removed_cart_contents'] ); // Merge removed cart contents.
-			$merge_cart['cart_fees']             = isset( $cart['cart_fees'] ) ? maybe_unserialize( $cart['cart_fees'] ) : array();
-
-			// Check cart fees return as an array so not to crash if PHP 8 or higher is used.
-			if ( is_array( $merge_cart['cart_fees'] ) ) {
-				$merge_cart['cart_fees'] = array_merge( $cart_fees, $merge_cart['cart_fees'] ); // Merge cart fees.
-			}
-
-			// Checking if there is cart content to merge.
-			if ( ! empty( $merge_cart['cart'] ) ) {
-				$cart_contents = array_merge( $merge_cart['cart'], $cart_contents ); // Merge carts.
-			}
-		}
-
-		// Merge saved cart with current cart.
-		if ( ! empty( $cart_contents ) && strval( get_current_user_id() ) > 0 ) {
-			$saved_cart    = self::get_saved_cart();
-			$cart_contents = array_merge( $saved_cart, $cart_contents );
-		}
-
-		// Set cart for customer if not empty.
-		if ( ! empty( $cart ) ) {
-			WC()->session->set( 'cart', $cart_contents );
-			WC()->session->set( 'cart_totals', maybe_unserialize( $cart['cart_totals'] ) );
-			WC()->session->set( 'applied_coupons', ! empty( $merge_cart['applied_coupons'] ) ? $merge_cart['applied_coupons'] : maybe_unserialize( $cart['applied_coupons'] ) );
-			WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $cart['coupon_discount_totals'] ) );
-			WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $cart['coupon_discount_tax_totals'] ) );
-			WC()->session->set( 'removed_cart_contents', ! empty( $merge_cart['removed_cart_contents'] ) ? $merge_cart['removed_cart_contents'] : maybe_unserialize( $cart['removed_cart_contents'] ) );
-
-			if ( ! empty( $cart['chosen_shipping_methods'] ) ) {
-				WC()->session->set( 'chosen_shipping_methods', maybe_unserialize( $cart['chosen_shipping_methods'] ) );
-			}
-
-			if ( ! empty( $cart['cart_fees'] ) ) {
-				WC()->session->set( 'cart_fees', ! empty( $merge_cart['cart_fees'] ) ? $merge_cart['cart_fees'] : maybe_unserialize( $cart['cart_fees'] ) );
-			}
-		}
-	} // END load_cart_from_session()
+		// Add explicit return for successful validation.
+		return true;
+	} // END validate_cart_requested()
 
 	/**
 	 * When a user is deleted in WordPress, delete corresponding CoCart data.
@@ -228,29 +173,63 @@ class CoCart_WooCommerce {
 	} // END delete_user_data()
 
 	/**
-	 * Get the persistent cart from the database.
+	 * This ensures that any fields removed by WooCommerce blocks is restored during
+	 * a CoCart REST API request but remains hidden.
 	 *
-	 * @access private
+	 * @access public
 	 *
-	 * @static
+	 * @since 5.0.0 Introduced.
 	 *
-	 * @since 2.9.1 Introduced.
+	 * @param array $fields Default fields.
 	 *
-	 * @return array
+	 * @return array $fields Default fields.
 	 */
-	private static function get_saved_cart() {
-		$saved_cart = array();
-
-		if ( apply_filters( 'woocommerce_persistent_cart_enabled', true ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-			$saved_cart_meta = get_user_meta( get_current_user_id(), '_woocommerce_persistent_cart_' . get_current_blog_id(), true );
-
-			if ( isset( $saved_cart_meta['cart'] ) ) {
-				$saved_cart = array_filter( (array) $saved_cart_meta['cart'] );
-			}
+	public function restore_unset_default_address_fields( $fields ) {
+		if ( ! CoCart::is_rest_api_request() ) {
+			return $fields;
 		}
 
-		return $saved_cart;
-	} // END get_saved_cart()
+		$fields['company'] = array(
+			'label'        => __( 'Company name', 'cocart-core' ),
+			'class'        => array( 'form-row-wide' ),
+			'autocomplete' => 'organization',
+			'priority'     => 30,
+			'required'     => 'hidden',
+		);
+
+		return $fields;
+	} // END restore_unset_default_address_fields()
+
+	/**
+	 * This ensures that specific fields are not removed during a CoCart REST API request.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param array $address_fields Address fields.
+	 *
+	 * @return array $address_fields Address fields.
+	 */
+	public function override_address_fields( $address_fields ) {
+		if ( ! CoCart::is_rest_api_request() ) {
+			return $address_fields;
+		}
+
+		if ( ! in_array( 'billing_phone', $address_fields, true ) ) {
+			$address_fields['billing_phone'] = array(
+				'label'        => __( 'Phone', 'cocart-core' ),
+				'required'     => 'hidden',
+				'type'         => 'tel',
+				'class'        => array( 'form-row-wide' ),
+				'validate'     => array( 'phone' ),
+				'autocomplete' => 'tel',
+				'priority'     => 100,
+			);
+		}
+
+		return $address_fields;
+	} // END override_address_fields()
 } // END class
 
 return new CoCart_WooCommerce();

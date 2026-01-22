@@ -8,7 +8,7 @@
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   2.3.0 Introduced.
  * @version 4.3.7
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -83,19 +83,19 @@ class CoCart_WC_Admin_Need_Help_Note extends CoCart_WC_Admin_Notes {
 		$args = array(
 			'title'   => sprintf(
 				/* translators: %s CoCart */
-				__( 'Need help with %s?', 'cart-rest-api-for-woocommerce' ),
+				__( 'Need help with %s?', 'cocart-core' ),
 				'CoCart',
 			),
 			'content' => sprintf(
 				/* translators: %s CoCart */
-				__( 'You can ask for help by joining the %s community on Discord.', 'cart-rest-api-for-woocommerce' ),
+				__( 'You can ask for help by joining the %s community on Discord.', 'cocart-core' ),
 				'CoCart'
 			),
 			'name'    => self::NOTE_NAME,
 			'actions' => array(
 				array(
 					'name'    => 'cocart-community',
-					'label'   => __( 'Join community', 'cart-rest-api-for-woocommerce' ),
+					'label'   => __( 'Join community', 'cocart-core' ),
 					'url'     => esc_url( COCART_COMMUNITY_URL ),
 					'status'  => $status,
 					'primary' => true,

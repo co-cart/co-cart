@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart
  * @since   2.6.0
- * @version 4.0.0
+ * @version 4.6.4
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.3.23';
+	public static $version = '5.0.0-beta.10';
 
 	/**
 	 * CoCart Database Schema version.
@@ -44,7 +45,20 @@ final class CoCart {
 	public static $db_version = '4.3.23';
 
 	/**
-	 * Required WordPress Version
+	 * Tested up to WordPress version.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $tested_up_to_wp = '6.8';
+
+	/**
+	 * Required WordPress version.
 	 *
 	 * @access public
 	 *
@@ -54,10 +68,10 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_wp = '5.6';
+	public static $required_wp = '6.3';
 
 	/**
-	 * Required WooCommerce Version
+	 * Required WooCommerce version.
 	 *
 	 * @access public
 	 *
@@ -67,10 +81,10 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_woo = '7.0';
+	public static $required_woo = '9.0';
 
 	/**
-	 * Required PHP Version
+	 * Required PHP version.
 	 *
 	 * @access public
 	 *
@@ -88,7 +102,7 @@ final class CoCart {
 	 * @since 3.10.0 Introduced.
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning this object is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning this object is forbidden.', 'cocart-core' ), '3.10.0' );
 	} // END __clone()
 
 	/**
@@ -99,8 +113,15 @@ final class CoCart {
 	 * @since 3.10.0 Introduced.
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'cart-rest-api-for-woocommerce' ), '3.10.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'cocart-core' ), '3.10.0' );
 	} // END __wakeup()
+
+	/**
+	 * Namespace for the API.
+	 *
+	 * @var string
+	 */
+	private static $api_namespace = 'cocart';
 
 	/**
 	 * Initiate CoCart.
@@ -116,9 +137,14 @@ final class CoCart {
 		self::includes();
 		self::include_extension_compatibility();
 		self::include_third_party();
+		self::set_api_namespace();
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
+		add_filter( 'wp_plugin_dependencies_slug', array( __CLASS__, 'convert_plugin_dependency_slug' ) );
+
+		// Maybe disable access to WP?
+		add_action( 'template_redirect', array( __CLASS__, 'maybe_disable_wp_access' ), -10 );
 
 		// Setup CoCart Session Handler.
 		add_filter( 'woocommerce_session_handler', array( __CLASS__, 'session_handler' ) );
@@ -150,25 +176,30 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 3.0.0
+	 * @version 5.0.0
 	 */
 	public static function setup_constants() {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
 		self::define( 'COCART_PLUGIN_BASENAME', plugin_basename( COCART_FILE ) );
 		self::define( 'COCART_VERSION', self::$version );
 		self::define( 'COCART_DB_VERSION', self::$db_version );
+		self::define( 'COCART_TESTED_WP', self::$tested_up_to_wp );
+		self::define( 'COCART_REQUIRED_WP', self::$required_wp );
+		self::define( 'COCART_REQUIRED_PHP', self::$required_php );
+		self::define( 'COCART_REQUIRED_WOO', self::$required_woo );
 		self::define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_URL_PATH', untrailingslashit( plugins_url( '/', COCART_FILE ) ) );
 		self::define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( COCART_FILE ) ) );
 		self::define( 'COCART_CART_CACHE_GROUP', 'cocart_cart_id' );
 		self::define( 'COCART_STORE_URL', 'https://cocartapi.com/' );
+		self::define( 'COCART_BILLING_URL', 'https://cocartapi.com/billing/' );
 		self::define( 'COCART_PLUGIN_URL', 'https://wordpress.org/plugins/cart-rest-api-for-woocommerce/' );
 		self::define( 'COCART_SUPPORT_URL', 'https://wordpress.org/support/plugin/cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_REVIEW_URL', 'https://testimonial.to/cocart' );
 		self::define( 'COCART_SUGGEST_FEATURE', 'https://cocartapi.com/suggest-a-feature/' );
 		self::define( 'COCART_COMMUNITY_URL', 'https://cocartapi.com/community/' );
-		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocart.xyz' );
-		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/' );
+		self::define( 'COCART_DOCUMENTATION_URL', 'https://cocartapi.com/docs/' );
+		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cocart-core/' );
 		self::define( 'COCART_REPO_URL', 'https://github.com/co-cart/co-cart' );
 		self::define( 'COCART_NEXT_VERSION', '5.0.0' );
 	} // END setup_constants()
@@ -187,7 +218,7 @@ final class CoCart {
 	 */
 	private static function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
-			define( $name, $value );
+			define( $name, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound
 		}
 	} // END define()
 
@@ -259,6 +290,50 @@ final class CoCart {
 	} // END get_file_version()
 
 	/**
+	 * Get the API namespace.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public static function get_api_namespace() {
+		return self::$api_namespace;
+	}
+
+	/**
+	 * Set the API namespace.
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	protected static function set_api_namespace() {
+		self::$api_namespace = wp_cache_get( 'cocart_api_namespace', CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ) );
+
+		if ( false === self::$api_namespace ) {
+			/**
+			 * CoCart can be white labeled by configuring the "COCART_API_NAMESPACE" constant in your `wp-config.php` file.
+			 *
+			 * @since 5.0.0 Introduced.
+			 */
+			self::$api_namespace = defined( 'COCART_API_NAMESPACE' ) ? constant( 'COCART_API_NAMESPACE' ) : 'cocart';
+
+			wp_cache_add( 'cocart_api_namespace', self::$api_namespace, CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ), time() + DAY_IN_SECONDS );
+		}
+
+		// Revert back if white label add-on is not active. @todo Add detection of white label plugin.
+		if ( 'cocart' !== self::$api_namespace ) {
+			self::$api_namespace = 'cocart';
+		}
+	} // END set_api_namespace();
+
+	/**
 	 * Includes required core files.
 	 *
 	 * @access public
@@ -283,7 +358,13 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-deprecated-functions.php';
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
+		// Utilities.
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cache-helpers.php';
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
+
 		// Core classes.
+		require_once __DIR__ . '/classes/class-cocart-status.php';
 		require_once __DIR__ . '/classes/class-cocart-helpers.php';
 		require_once __DIR__ . '/classes/class-cocart-install.php';
 		require_once __DIR__ . '/classes/class-cocart-logger.php';
@@ -293,10 +374,6 @@ final class CoCart {
 		// REST API functions.
 		include_once __DIR__ . '/cocart-rest-functions.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-authentication.php';
-
-		// Utilities.
-		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
-		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
 
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -379,6 +456,8 @@ final class CoCart {
 			self::activation_check();
 		}
 
+		self::disable_legacy_version();
+
 		CoCart_Install::install();
 	} // END install_cocart()
 
@@ -398,7 +477,7 @@ final class CoCart {
 			wp_die(
 				sprintf(
 					/* translators: %1$s: CoCart, %2$s: Environment message */
-					esc_html__( '%1$s could not be activated. %2$s', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s could not be activated. %2$s', 'cocart-core' ),
 					'CoCart',
 					CoCart_Helpers::get_environment_message() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				)
@@ -410,7 +489,7 @@ final class CoCart {
 			wp_die(
 				sprintf(
 					/* translators: %1$s: CoCart Core, %2$s: CoCart Plus */
-					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cocart-core' ),
 					'CoCart',
 					'CoCart Plus'
 				)
@@ -422,13 +501,41 @@ final class CoCart {
 			wp_die(
 				sprintf(
 					/* translators: %1$s: CoCart Core, %2$s: CoCart Pro */
-					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cocart-core' ),
 					'CoCart',
 					'CoCart Pro'
 				)
 			);
 		}
 	} // END activation_check()
+
+	/**
+	 * Disable the legacy version of CoCart core if found.
+	 *
+	 * @access protected
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	protected static function disable_legacy_version() {
+		$plugin_to_deactivate = 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php';
+
+		if ( is_multisite() && is_network_admin() ) {
+			$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
+			$active_plugins = array_keys( $active_plugins );
+		} else {
+			$active_plugins = (array) get_option( 'active_plugins', array() );
+		}
+
+		foreach ( $active_plugins as $plugin_basename ) {
+			if ( $plugin_to_deactivate === $plugin_basename ) {
+				set_transient( 'cocart_legacy_deactivated', '1', 1 * HOUR_IN_SECONDS );
+				deactivate_plugins( $plugin_basename );
+				return;
+			}
+		}
+	} // END disable_legacy_version()
 
 	/**
 	 * Deactivates the plugin if the environment is not ready.
@@ -460,6 +567,11 @@ final class CoCart {
 	 * @since x.x.x  Moved abstracts to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
+		// Prevent CoCart running in the backend should the REST API server be called by another plugin.
+		if ( is_admin() ) {
+			return;
+		}
+
 		include_once __DIR__ . '/classes/rest-api/abstracts/abstract-cocart-rest-callback.php';
 
 		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
@@ -476,24 +588,24 @@ final class CoCart {
 	/**
 	 * Returns true if we are making a REST API request for CoCart.
 	 *
-	 * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
-	 *
 	 * @access public
 	 *
 	 * @static
 	 *
 	 * @since 2.1.0 Introduced.
+	 * @since 4.2.0 Moved to main class.
+	 * @since 5.0.0 Check we are not running WP CLI.
 	 *
 	 * @return bool
 	 */
 	public static function is_rest_api_request() {
-		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+		if ( empty( $_SERVER['REQUEST_URI'] ) && ! defined( 'WP_CLI' ) ) {
 			return false;
 		}
 
 		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
 		$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . self::get_api_namespace() . '/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		/**
 		 * Filters the REST API requested.
@@ -504,6 +616,97 @@ final class CoCart {
 		 */
 		return apply_filters( 'cocart_is_rest_api_request', $is_rest_api_request );
 	} // END is_rest_api_request()
+
+	/**
+	 * Redirects to front-end site if set or simply dies with an error message.
+	 *
+	 * Only administrators will still have access to the WordPress site.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	public static function maybe_disable_wp_access() {
+		/**
+		 * If request method is HEAD then the headless site is making a HEAD request to figure out redirects,
+		 * so don't mess with redirects.
+		 */
+		if (
+			isset( $_SERVER['REQUEST_METHOD'] ) &&
+			'HEAD' === sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) )
+		) {
+			return;
+		}
+
+		// Check if WordPress is already doing a redirect.
+		if ( isset( $_SERVER['HTTP_X_WP_REDIRECT_CHECK'] ) ) {
+			return;
+		}
+
+		// Check if WordPress is accessing the customizer.
+		if ( is_customize_preview() ) {
+			return;
+		}
+
+		$cocart_settings = get_option( 'cocart_settings', array() );
+
+		nocache_headers();
+
+		$location = cocart_get_frontend_url( $cocart_settings );
+		$disabled = cocart_is_wp_disabled_access( $cocart_settings );
+
+		// WordPress is not disabled so exit early.
+		if ( 'no' === $disabled ) {
+			return;
+		}
+
+		// Check which pages are still accessible.
+		$cart_id     = get_option( 'woocommerce_cart_page_id' );
+		$checkout_id = get_option( 'woocommerce_checkout_page_id' );
+
+		$current_page_id = get_the_ID();
+
+		/**
+		 * Filter controls which pages are accessible when WordPress is denied access.
+		 *
+		 * Both the cart and checkout pages are accessible by default.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @return array Page ID's that are accessible.
+		 */
+		$accessible_pages = apply_filters( 'cocart_wp_accessible_page_ids', array( $cart_id, $checkout_id ) );
+
+		if ( $current_page_id > 0 && in_array( $current_page_id, $accessible_pages ) ) {
+			return;
+		}
+
+		// Check if user is not administrator.
+		$current_user = get_userdata( get_current_user_id() );
+
+		if ( ! empty( $current_user ) ) {
+			$user_roles = $current_user->roles;
+
+			if ( in_array( 'administrator', $user_roles, true ) ) {
+				return;
+			}
+		}
+
+		// Redirect if new location provided and disabled.
+		if ( ! empty( $location ) && 'yes' === $disabled ) {
+			header( 'X-Redirect-By: CoCart' );
+			header( "Location: $location", true, 301 );
+			exit;
+		}
+
+		// Return just error message if disabled only.
+		$error = new \WP_Error( 'access_denied', __( "You don't have permission to access the site.", 'cocart-core' ), array( 'status' => 403 ) );
+
+		wp_send_json( $error->get_error_message(), 403 );
+		exit;
+	} // END maybe_disable_wp_access()
 
 	/**
 	 * Filters the session handler to replace with our own.
@@ -550,12 +753,37 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since 2.1.2 Introduced.
+	 * @since 4.6.2 Moved the cart cache to load once WooCommerce has loaded instead of only during the REST API.
 	 *
 	 * @return void
 	 */
 	public static function woocommerce() {
 		require_once __DIR__ . '/classes/class-cocart-woocommerce.php';
+		require_once __DIR__ . '/classes/class-cocart-cart-cache.php';
 	} // END woocommerce()
+
+	/**
+	 * Converts the CoCart slug to the correct slug for the current version.
+	 * This ensures that when the plugin is installed in a different folder name,
+	 * the correct slug is used so that dependent plugins can be installed/activated.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.6.4 Introduced.
+	 *
+	 * @param string $slug The plugin slug to convert.
+	 *
+	 * @return string
+	 */
+	public static function convert_plugin_dependency_slug( $slug ) {
+		if ( 'cart-rest-api-for-woocommerce' === $slug ) {
+			$slug = dirname( COCART_PLUGIN_BASENAME );
+		}
+
+		return $slug;
+	} // END convert_plugin_dependency_slug()
 
 	/**
 	 * Load the plugin translations if any ready.
@@ -580,10 +808,10 @@ final class CoCart {
 			$locale = is_admin() ? get_user_locale() : get_locale();
 		}
 
-		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG );
+		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		unload_textdomain( COCART_SLUG );
 		load_textdomain( COCART_SLUG, WP_LANG_DIR . '/' . COCART_SLUG . '/' . COCART_SLUG . '-' . $locale . '.mo' );
-		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' );
+		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' ); // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
 	} // END load_plugin_textdomain()
 } // END class

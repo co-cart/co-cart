@@ -8,7 +8,7 @@
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   2.3.0 Introduced.
  * @version 4.3.7
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -98,10 +98,10 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 		);
 
 		$args = array(
-			'title'   => __( '6 things you can do with Products REST API', 'cart-rest-api-for-woocommerce' ),
+			'title'   => __( '6 things you can do with Products REST API', 'cocart-core' ),
 			'content' => sprintf(
 				/* translators: %s: CoCart */
-				__( 'Fetching your products via the REST API is now easy. Learn more about the six things you can do with the products API to help your development with %s.', 'cart-rest-api-for-woocommerce' ),
+				__( 'Fetching your products via the REST API is now easy. Learn more about the six things you can do with the products API to help your development with %s.', 'cocart-core' ),
 				'CoCart'
 			),
 			'type'    => $type,
@@ -111,7 +111,7 @@ class CoCart_WC_Admin_Do_With_Products_Note extends CoCart_WC_Admin_Notes {
 			'actions' => array(
 				array(
 					'name'    => 'cocart-learn-more-products',
-					'label'   => __( 'Learn more', 'cart-rest-api-for-woocommerce' ),
+					'label'   => __( 'Learn more', 'cocart-core' ),
 					'url'     => CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . '6-things-you-can-do-with-cocart-products/' ) ) ),
 					'status'  => $status,
 					'primary' => true,

@@ -6,8 +6,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
- * @since   3.1.0
- * @license GPL-2.0+
+ * @since   3.1.0 Introduced.
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,9 +25,21 @@ class_alias( 'CoCart_REST_Product_Attribute_Terms_V2_Controller', 'CoCart_Produc
 class CoCart_REST_Product_Attribute_Terms_V2_Controller extends CoCart_Product_Attribute_Terms_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @var string
 	 */
 	protected $namespace = 'cocart/v2';
+
+	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
 }

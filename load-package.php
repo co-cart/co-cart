@@ -2,7 +2,7 @@
 /**
  * This file is designed to be used to load as package NOT a WP plugin!
  *
- * @version 4.3.23
+ * @version 5.0.0-beta.10
  * @package CoCart
  */
 
@@ -13,7 +13,7 @@ if ( ! defined( 'COCART_FILE' ) ) {
 }
 
 if ( ! defined( 'COCART_SLUG' ) ) {
-	define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
+	define( 'COCART_SLUG', 'cocart-core' );
 }
 
 // Include the main CoCart class.

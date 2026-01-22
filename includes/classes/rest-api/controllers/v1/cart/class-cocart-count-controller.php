@@ -6,6 +6,7 @@
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
  * @version 3.13.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -103,7 +104,7 @@ class CoCart_Count_Items_Controller extends CoCart_API_Controller {
 		$count  = self::count_items( $request, $cart_contents );
 
 		if ( 'numeric' !== $return && $count <= 0 ) {
-			$message = __( 'There are no items in the cart!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'There are no items in the cart!', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'notice' );
 

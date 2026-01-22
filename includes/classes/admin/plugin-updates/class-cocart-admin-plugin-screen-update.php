@@ -5,8 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   2.0.12 Introduced.
- * @version 4.3.18
- * @license GPL-2.0+
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -33,12 +33,29 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	 * @access public
 	 */
 	public function __construct() {
+		// Prevent the legacy core version from activating.
+		add_filter( 'activated_plugin', array( $this, 'prevent_legacy_activation' ) );
+
 		add_action( 'in_plugin_update_message-' . plugin_basename( COCART_FILE ), array( $this, 'in_plugin_update_message' ), 10, 2 );
 
 		// Add after_plugin_row... action for CoCart.
 		add_action( 'after_plugin_row_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_row' ), 11, 2 );
 	} // END __construct()
 
+	/**
+	 * Prevent the legacy core version from activating.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	public function prevent_legacy_activation() {
+		$legacy_plugin = plugin_basename( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' );
+
+		if ( is_plugin_active( $legacy_plugin ) ) {
+			deactivate_plugins( $legacy_plugin );
+		}
+	} // END prevent_legacy_activation()
 
 	/**
 	 * Show plugin changes on the plugins screen.
@@ -54,14 +71,14 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	public function in_plugin_update_message( $args, $response ) {
 		$this->new_version            = $response->new_version;
 		$this->upgrade_notice         = $this->get_upgrade_notice( $response->new_version );
-		$this->major_untested_plugins = $this->get_untested_plugins( $response->new_version, 'minor' );
+		$this->major_untested_plugins = $this->get_untested_plugins( $response->new_version, 'major' );
 
 		$current_version_parts = explode( '.', COCART_VERSION );
 		$new_version_parts     = explode( '.', $this->new_version );
 
 		// If user has already moved to the minor version, we don't need to flag up anything.
 		if ( version_compare( $current_version_parts[0] . '.' . $current_version_parts[1], $new_version_parts[0] . '.' . $new_version_parts[1], '=' ) ) {
-			// return; // @todo Uncomment when we no longer make file changes that are not backwards compatible.
+			return;
 		}
 
 		if ( ! empty( $this->major_untested_plugins ) ) {
@@ -104,6 +121,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 				set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
 			}
 		}
+
 		return $upgrade_notice;
 	} // END get_upgrade_notice()
 
@@ -152,6 +170,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 				break;
 			}
 		}
+
 		return wp_kses_post( $upgrade_notice );
 	} // END parse_update_notice()
 
@@ -164,7 +183,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 		?>
 		<script>
 			( function( $ ) {
-				var $update_box = $( '#cart-rest-api-for-woocommerce-update' );
+				var $update_box = $( '#<?php echo COCART_SLUG; ?>-update' );
 				var $update_link = $update_box.find('a.update-link').first();
 				var update_url = $update_link.attr( 'href' );
 
@@ -242,11 +261,11 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 				return;
 			}
 
-			echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . esc_attr( 'cart-rest-api-for-woocommerce-update' ) . '" data-slug="cart-rest-api-for-woocommerce" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . ' cocart-row-notice" id="' . COCART_SLUG . esc_attr( '-update' ) . '" data-slug="' . COCART_SLUG . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="notice inline ' . esc_attr( $notice_type ) . '"><p class="cart">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			printf(
 				/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing , %3$s: plugin name, %4$s: version mentioned, */
-				__( '%1$sSee what\'s coming next%2$s in %3$s v%4$s.', 'cart-rest-api-for-woocommerce' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				__( '%1$sSee what\'s coming next%2$s in %3$s v%4$s.', 'cocart-core' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'<a href="' . esc_url( 'https://github.com/co-cart/co-cart/blob/development/NEXT_CHANGELOG.md' ) . '" target="_blank" rel="noopener noreferrer">',
 				'</a>',
 				'CoCart',

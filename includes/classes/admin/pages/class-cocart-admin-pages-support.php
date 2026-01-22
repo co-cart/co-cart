@@ -1,11 +1,11 @@
 <?php
 /**
- * Adds a support page for CoCart.
+ * Admin Page: Support page for CoCart.
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Pages
  * @since   3.10.0 Introduced.
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -21,7 +21,7 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 	 * @access protected
 	 */
 	protected function init() {
-		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 15 );
+		add_filter( 'cocart_register_submenu_page', array( $this, 'register_submenu_page' ), 10 );
 	} // END init()
 
 	/**
@@ -39,18 +39,14 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 		);
 		$store_url     = CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, COCART_STORE_URL ) );
 		?>
-		<div class="wrap cocart-wrapped">
-			<h1 class="cocart-logo">
-				<a href="<?php echo esc_url( $store_url ); ?>" target="_blank" rel="noopener noreferrer">
-					<img src="<?php echo esc_url( COCART_URL_PATH . '/assets/images/brand/header-logo.png' ); ?>" alt="CoCart Logo" />
-				</a>
-			</h1>
+		<div class="wrap cocart-wrapped" role="main">
 			<div class="cocart-content">
 			<?php
 			include_once COCART_ABSPATH . 'includes/classes/admin/views/html-next-steps.php';
 			?>
 			</div>
 		</div>
+		<div class="clear"></div>
 		<?php
 	} // END output()
 
@@ -73,8 +69,8 @@ class CoCart_Admin_Support_Page extends CoCart_Submenu_Page {
 		$submenu_pages['support'] = array(
 			'class_name' => 'CoCart_Admin_Support_Page',
 			'data'       => array(
-				'page_title' => __( 'Support', 'cart-rest-api-for-woocommerce' ),
-				'menu_title' => __( 'Support', 'cart-rest-api-for-woocommerce' ),
+				'page_title' => __( 'Support', 'cocart-core' ),
+				'menu_title' => __( 'Support', 'cocart-core' ),
 				'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
 				'menu_slug'  => 'cocart-support',
 			),

@@ -6,6 +6,7 @@
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
  * @version 3.13.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -95,11 +96,11 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		// Return error if item does not exist.
 		if ( ! $adding_to_cart ) {
-			$message = __( 'This product does not exist!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'This product does not exist!', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'error' );
 
-			return new WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_product_does_not_exist', $message, array( 'status' => 404 ) );
 		}
 
 		/**
@@ -281,7 +282,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			} else {
 				$message = sprintf(
 					/* translators: %s: product name */
-					__( 'You cannot add "%s" to your cart.', 'cart-rest-api-for-woocommerce' ),
+					__( 'You cannot add "%s" to your cart.', 'cocart-core' ),
 					$product_data->get_name()
 				);
 
@@ -297,7 +298,7 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_product_cannot_add_to_cart_message', $message, $product_data );
 
-				return new WP_Error( 'cocart_cannot_add_to_cart', $message, array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_cannot_add_to_cart', $message, array( 'status' => 403 ) );
 			}
 		}
 
@@ -362,40 +363,108 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	public function get_item_schema() {
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'CoCart - ' . __( 'Add Item', 'cart-rest-api-for-woocommerce' ),
+			'title'      => 'CoCart - ' . __( 'Add Item', 'cocart-core' ),
 			'type'       => 'object',
 			'properties' => array(
-				'product_id'     => array(
-					'required'    => true,
-					'description' => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'key'               => array(
+					'description' => __( 'Unique identifier for the item within the cart.', 'cocart-core' ),
 					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'quantity'       => array(
-					'required'    => true,
-					'default'     => 1,
-					'description' => __( 'Quantity amount.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'float',
-				),
-				'variation_id'   => array(
-					'required'    => false,
-					'description' => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
+				'product_id'        => array(
+					'description' => __( 'Unique identifier for the product.', 'cocart-core' ),
 					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'variation'      => array(
-					'required'    => false,
-					'description' => __( 'Variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+				'variation_id'      => array(
+					'description' => __( 'Unique identifier for the variation.', 'cocart-core' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'variation'         => array(
+					'description' => __( 'Chosen attributes (for variations).', 'cocart-core' ),
+					'type'        => array( 'object', 'array' ),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'quantity'          => array(
+					'description' => __( 'Quantity of this item in the cart.', 'cocart-core' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'data_hash'         => array(
+					'description' => __( 'Hash of cart item data.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'line_tax_data'     => array(
+					'description' => __( 'Line tax data.', 'cocart-core' ),
 					'type'        => 'object',
+					'properties'  => array(
+						'subtotal' => array(
+							'description' => __( 'Line subtotal tax data.', 'cocart-core' ),
+							'type'        => 'array',
+							'items'       => array(
+								'type' => 'number',
+							),
+						),
+						'total'    => array(
+							'description' => __( 'Line total tax data.', 'cocart-core' ),
+							'type'        => 'array',
+							'items'       => array(
+								'type' => 'number',
+							),
+						),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'cart_item_data' => array(
-					'required'    => false,
-					'description' => __( 'Additional item data to make the item unique.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'object',
+				'line_subtotal'     => array(
+					'description' => __( 'Line subtotal (the price of the product before coupon discounts have been applied).', 'cocart-core' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'return_cart'    => array(
-					'required'    => false,
-					'default'     => false,
-					'description' => __( 'Returns the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'boolean',
+				'line_subtotal_tax' => array(
+					'description' => __( 'Line subtotal tax.', 'cocart-core' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'line_total'        => array(
+					'description' => __( 'Line total (the price of the product after coupon discounts have been applied).', 'cocart-core' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'line_tax'          => array(
+					'description' => __( 'Line total tax.', 'cocart-core' ),
+					'type'        => 'number',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'product_name'      => array(
+					'description' => __( 'Product name.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'product_title'     => array(
+					'description' => __( 'Product title.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'product_price'     => array(
+					'description' => __( 'Current product price.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
 			),
 		);
@@ -411,49 +480,50 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 	 * @access public
 	 *
 	 * @since   2.1.0 Introduced.
-	 * @version 2.7.2
+	 * @version 5.0.0
 	 *
 	 * @return array $params Query parameters for adding items.
 	 */
 	public function get_collection_params() {
 		$params = array(
 			'product_id'     => array(
-				'description'       => __( 'Unique identifier for the product.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the product.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'quantity'       => array(
-				'description'       => __( 'The quantity amount of the item to add to cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'The quantity amount of the item to add to cart.', 'cocart-core' ),
 				'type'              => 'string',
 				'default'           => '1',
 				'required'          => true,
-				'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+				'validate_callback' => 'rest_validate_quantity_arg',
 			),
 			'variation_id'   => array(
 				'required'          => false,
-				'description'       => __( 'Unique identifier for the variation.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the variation.', 'cocart-core' ),
 				'type'              => 'integer',
 				'sanitize_callback' => 'absint',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'variation'      => array(
 				'required'          => false,
-				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'The variation attributes that identity the variation of the item.', 'cocart-core' ),
 				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'cart_item_data' => array(
 				'required'          => false,
-				'description'       => __( 'Additional item data passed to make item unique.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Additional item data passed to make item unique.', 'cocart-core' ),
 				'type'              => 'object',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_cart'    => array(
 				'required'          => false,
 				'default'           => false,
-				'description'       => __( 'Returns the cart once item is added.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Returns the cart once item is added.', 'cocart-core' ),
 				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

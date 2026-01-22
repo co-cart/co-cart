@@ -1,15 +1,24 @@
 // CoCart branding color.
 $cocart: #6032b0;
-$cocart-hovered: #6131af;
+$cocart-hover: #6131af;
+$cocart-button: #5f32d9;
+$cocart-button-hover: #5329c4;
+$cocart-border-color: #9b50e3;
+$cocart-border-color-hover: #422479;
 
 // Misc
-$shadow: rgba(0, 0, 0, 0.04);
+$cocart-shadow: #140C23;
+$shadow: #151515;
+$shadow-highlight: #100F15;
 
 // Colors
 $white: #fff;
-$black: rgb(41, 41, 41);
+$smoke-white: #f0f0f1;
+$black: #212023;
 $black-000: #000;
-$grey: #555d66;
+$blue-grey: #82878c;
+$grey: #72777c;
+$dark-grey: #444;
 $light-grey: #e5e5e5;
 $red: #c92c2c;
 $light-red: #f0a3a3;
@@ -17,6 +26,7 @@ $dark-red: #a00;
 $green: #4ab866;
 $light-green: #eff9f1;
 $dark-green: #337f46;
+$light-blue: #509ed2;
 $blue: #008aff;
 $yellow: #f1e865;
 $orange: #f36d0a;

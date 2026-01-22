@@ -1,0 +1,41 @@
+name: Add Community Label, Assign Reviewers
+
+on:
+    pull_request_target:
+        types: [opened]
+    issues:
+        types: [opened]
+
+concurrency:
+    # For pull_request_target, cancel concurrent jobs with the same type and branch.
+    # Don't cancel for other events, by grouping on the unique run_id.
+    group: community-label-${{ github.event_name }}-${{ github.event.action }}-${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.ref || github.run_id }}
+    cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+    verify:
+        name: Verify
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write
+            issues: write
+        steps:
+          - uses: actions/checkout@v4
+
+          - name: Setup Node.js
+            uses: actions/setup-node@v4
+
+          - name: Install Octokit
+            run: npm --prefix .github/workflows/scripts install @octokit/action@~6.1.0
+
+          - name: Install Actions Core
+            run: npm --prefix .github/workflows/scripts install @actions/core@~1.10.1
+
+          - name: Check if user is a community contributor
+            id: check
+            run: node .github/workflows/scripts/is-community-contributor.js
+            env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

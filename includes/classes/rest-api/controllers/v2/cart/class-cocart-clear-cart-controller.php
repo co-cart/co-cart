@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.2.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,18 +28,37 @@ class_alias( 'CoCart_REST_Clear_Cart_V2_Controller', 'CoCart_Clear_Cart_V2_Contr
 class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'cart/clear';
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public function get_path_regex() {
+		return '/cart/clear';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'clear_cart' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			),
+			'allow_batch' => array( 'v1' => true ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -50,19 +70,13 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Clear Cart - cocart/v2/cart/clear (POST).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'clear_cart' ),
-					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
-				),
-				'allow_batch' => array( 'v1' => true ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
@@ -74,52 +88,60 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 	 * @access public
 	 *
 	 * @since   1.0.0 Introduced.
-	 * @version 4.2.0
+	 * @version 5.0.0
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function clear_cart( $request = array() ) {
+	public function clear_cart( $request ) {
 		try {
 			// We need the cart key to force a session save later.
 			$cart_key = WC()->session->get_customer_unique_id();
 
+			$cart = $this->get_cart_instance();
+
 			// Ensure we have calculated before we handle data.
-			$this->get_cart_instance()->calculate_totals();
+			$cart->calculate_totals();
 
 			/**
 			 * Hook: Triggers before the cart emptied.
 			 *
 			 * @since 1.0.0 Introduced.
+			 * @since 5.0.0 Added the request object as parameter.
+			 *
+			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'cocart_before_cart_emptied' );
+			do_action( 'cocart_before_cart_emptied', $request );
 
 			// Clear all cart fees via session as we cant do it via the fee api.
 			WC()->session->set( 'cart_fees', array() );
 
 			// Cache removed content should requested to keep it.
-			$removed_contents = $this->get_cart_instance()->get_removed_cart_contents();
+			$removed_contents = $cart->get_removed_cart_contents();
 
 			// Clear cart.
-			$this->get_cart_instance()->empty_cart();
+			$cart->empty_cart();
 
 			// Clear removed items if not kept.
 			if ( ! $request['keep_removed_items'] ) {
-				$this->get_cart_instance()->set_removed_cart_contents( array() );
+				$cart->set_removed_cart_contents( array() );
 			} else {
-				$this->get_cart_instance()->set_removed_cart_contents( $removed_contents );
+				$cart->set_removed_cart_contents( $removed_contents );
 			}
 
 			/**
 			 * Hook: Triggers once the cart is emptied.
 			 *
 			 * @since 1.0.0 Introduced.
+			 * @since 5.0.0 Added the request object as parameter.
+			 *
+			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'cocart_cart_emptied' );
+			do_action( 'cocart_cart_emptied', $request );
 
 			// Ensure we have calculated to update the cart.
-			$this->get_cart_instance()->calculate_totals();
+			$cart->calculate_totals();
 
 			/**
 			 * We force the session to update in the database as we
@@ -128,16 +150,19 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 			 */
 			WC()->session->update_cart( $cart_key );
 
-			if ( $this->get_cart_instance()->is_empty() ) {
+			if ( $cart->is_empty() ) {
 				/**
 				 * Hook: Triggers once the cart is cleared.
 				 *
 				 * @since 1.0.0 Introduced.
+				 * @since 5.0.0 Added the request object as parameter.
+				 *
+				 * @param WP_REST_Request $request The request object.
 				 */
-				do_action( 'cocart_cart_cleared' );
+				do_action( 'cocart_cart_cleared', $request );
 
 				// Notice message.
-				$message = __( 'Cart is cleared.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Cart is cleared.', 'cocart-core' );
 
 				/**
 				 * Filters message about the cart being cleared.
@@ -151,13 +176,20 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 				// Add notice.
 				wc_add_notice( $message, 'notice' );
 
-				// Return cart response.
-				$response = $this->get_cart_contents( $request );
+				// Makes sure the cart hash is correct before the headers return.
+				WC()->session->set_cart_hash();
 
-				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+				// Return cart response.
+				$request['dont_check'] = true;
+				$response              = $this->get_cart( $request );
+
+				$response = rest_ensure_response( $response );
+				$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+				return $response;
 			} else {
 				// Notice message.
-				$message = __( 'Clearing the cart failed!', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Clearing the cart failed!', 'cocart-core' );
 
 				/**
 				 * Filters message about the cart failing to clear.
@@ -171,7 +203,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 				throw new CoCart_Data_Exception( 'cocart_clear_cart_failed', $message, 406 );
 			}
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END clear_cart()
 
@@ -192,8 +224,9 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 		$params['keep_removed_items'] = array(
 			'required'          => false,
 			'default'           => false,
-			'description'       => __( 'Keeps removed items in session when clearing the cart.', 'cart-rest-api-for-woocommerce' ),
+			'description'       => __( 'Keeps removed items in session when clearing the cart.', 'cocart-core' ),
 			'type'              => 'boolean',
+			'sanitize_callback' => 'rest_sanitize_boolean',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 

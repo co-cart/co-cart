@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.1.0 Introduced.
- * @version 4.1.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Cart Cache for Cart REST API.
+ * Cache for the cart.
  *
  * This handles the cart data in cache before the totals are calculated.
  *
@@ -67,12 +68,14 @@ class CoCart_Cart_Cache {
 		/**
 		 * Check if the requested product allows the price to be changed.
 		 *
+		 * If the item does not have a key, then it is not a single item or at least not a container of items.
+		 *
 		 * @since 4.1.0 Introduced.
 		 *
 		 * @param array           $cart_item The cart item data.
 		 * @param WP_REST_Request $request   The request object.
 		 */
-		if ( ! $this->does_product_allow_price_change( $cart_item, $request ) ) {
+		if ( ! isset( $cart_item['key'] ) || ! $this->does_product_allow_price_change( $cart_item, $request ) ) {
 			return $cart_item;
 		}
 
@@ -91,7 +94,6 @@ class CoCart_Cart_Cache {
 	 * Removes item from cache to prevent it from calculating
 	 * wrong the next time it's added to the cart.
 	 *
-	 * Or clears all cached items when the cart is cleared.
 	 * Uses "WC()->session->set()" and "WC()->session->__unset()"
 	 *
 	 * @access public
@@ -105,7 +107,7 @@ class CoCart_Cart_Cache {
 		}
 
 		if ( is_array( $cart_item_key ) ) {
-			$cart_item_key = $cart_item_key['key'];
+			$cart_item_key = isset( $cart_item_key['key'] ) ? $cart_item_key['key'] : '';
 		}
 
 		if ( ! empty( $cart_item_key ) ) {
@@ -118,9 +120,6 @@ class CoCart_Cart_Cache {
 			} else {
 				WC()->session->__unset( 'cart_cached' );
 			}
-		} else {
-			// Clear cache.
-			self::clear_cart_cached();
 		}
 	} // END remove_cached_item()
 
@@ -132,11 +131,15 @@ class CoCart_Cart_Cache {
 	 * @param WC_Cart $cart The cart object.
 	 */
 	public function calculate_cached_items( $cart ) {
+		// Reduce calculating if not triggered on appropriate events.
+		if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			return;
+		}
+
 		$cart_contents_cached = $this->get_cart_contents_cached();
 
 		// If cart contents is cached, proceed.
 		if ( ! empty( $cart_contents_cached ) && is_array( $cart_contents_cached ) ) {
-
 			$tax_display_mode = CoCart_Utilities_Cart_Helpers::get_tax_display_mode();
 			$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
 
@@ -145,8 +148,14 @@ class CoCart_Cart_Cache {
 
 				// If this item is cached then look up price difference before setting the new price.
 				if ( isset( $cart_contents_cached[ $key ] ) ) {
-					if ( isset( $cart_contents_cached[ $key ]['price'] ) && $price_function( $product ) !== $cart_contents_cached[ $key ]['price'] ) {
-						$value['data']->set_price( $cart_contents_cached[ $key ]['price'] );
+					$cached_item = $cart_contents_cached[ $key ];
+
+					if ( isset( $cached_item['price'] ) && $price_function( $product ) !== $cached_item['price'] ) {
+						$product->set_price( $cached_item['price'] );
+
+						// Override sale and regular too so the set price is what is shown even if there prices are originally lower.
+						$product->set_sale_price( $cached_item['price'] );
+						$product->set_regular_price( $cached_item['price'] );
 					}
 				}
 			}
@@ -176,7 +185,7 @@ class CoCart_Cart_Cache {
 
 			// If this item is cached then return the new price.
 			if ( ! empty( $cart_contents_cached[ $item_key ]['price'] ) ) {
-				$price = cocart_prepare_money_response( $cart_contents_cached[ $item_key ]['price'], wc_get_price_decimals() );
+				$price = $cart_contents_cached[ $item_key ]['price'];
 			}
 		}
 

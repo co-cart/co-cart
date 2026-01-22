@@ -1,0 +1,38 @@
+.cocart-pagestyles {
+	.woocommerce-layout__header-breadcrumbs {
+		margin: 0;
+
+		span:first-child {
+			display: none;
+		}
+
+		span:nth-child( 2 )::before {
+			content: none;
+		}
+	}
+
+	.woocommerce-layout__header {
+		.woocommerce-layout__header-heading {
+			background: #fff url("../../images/brand/cocart-logo.svg") no-repeat left center;	
+			margin-left: 1.2rem;
+			text-indent: 8.6rem;
+
+			@media screen and (max-width: 784px) {
+				text-indent: 9999px;
+			}
+		}
+	}
+
+	.woocommerce-layout__header .woocommerce-layout__header-heading
+	.has-woocommerce-navigation {
+		header {
+			&.has-sections {
+				top: 4px;
+			}
+
+			&.no-sections {
+				top: 8px;
+			}
+		}
+	}
+}

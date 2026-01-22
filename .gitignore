@@ -16,7 +16,6 @@ Thumbs.db
 contributors.html
 
 # Languages
-/languages/*
 !/languages/README.md
 
 # Build & Releases
@@ -33,7 +32,5 @@ contributors.html
 /tests/
 
 # Various file types to ignore when exporting.
-*.sh
 .gitconfig
 *.zip
-*.yml

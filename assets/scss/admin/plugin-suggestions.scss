@@ -1,11 +1,7 @@
 // Variables
-@import '../variables';
+@use '../variables';
 
 .plugin-card {
-	.column-description > p {
-		width: 70%;
-	}
-
 	.plugin-card-bottom {
 		.plugin-requirement {
 			float: right;
@@ -15,32 +11,18 @@
 
 	&.plugin-card-cocart-suggestion,
 	&.cocart-plugin {
-		border: 2px solid $cocart;
-	}
+		border: 2px solid variables.$cocart;
 
-	&.cocart-plugin {
 		h3 {
 			margin: 0 0 4px;
-		}
-
-		.desc > p {
-			width: 70%;
-		}
-
-		.plugin-card-top {
-			min-height: 150px;
-		}
-
-		.plugin-card-bottom {
-			min-height: 36px;
 		}
 	}
 
 	&.plugin-card-cocart-suggestion {
-		h3 {
-			margin: 0 0 4px;
+		.desc > p {
+			width: 70%;
 		}
-	
+
 		.column-name,
 		.column-description {
 			margin-right: 20px;
@@ -60,12 +42,18 @@
 			text-align: left;
 			white-space: nowrap;
 		}
+
+		.plugin-card-bottom {
+			display: none;
+		}
 	}
 }
 
 @media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
-	.plugin-card-cocart-suggestion .action-links {
-		margin-left: 0;
+	.plugin-card-cocart-suggestion {
+		.action-links {
+			margin-left: 0;
+		}
 	}
 }
 
@@ -78,22 +66,18 @@
 		}
 
 		.cocart-plugin-primary {
-			background: $cocart;
-			border-color: #9b50e3;
-			color: $white;
+			background: variables.$cocart;
+			border-color: variables.$cocart-border-color;
+			color: variables.$white;
 			box-shadow: 0 1px 0 #d8c3e2;
 		}
 
 		.cocart-plugin-primary:hover {
-			background:#9b50e3;
-			border-color: #422479;
-			color: $white;
+			background: variables.$cocart-hover;
+			border-color: variables.$cocart-border-color-hover;
+			color: variables.$white;
 		}
 	}
-}
-
-.plugin-card-cocart-suggestion .plugin-card-bottom {
-	display: none;
 }
 
 .cocart-suggestion__bottom {
@@ -103,8 +87,8 @@
 	align-content: space-between;
 	clear: both;
 	padding: 12px 20px;
-	background-color: #fafafa;
-	border-top: 1px solid #ddd;
+	background-color: variables.$smoke-white;
+	border-top: 1px solid variables.$light-grey;
 	overflow: hidden;
 }
 
@@ -115,11 +99,13 @@
 }
 
 @media screen and (max-width: 1100px) and (min-width: 782px), (max-width: 480px) {
-	.plugin-card-cocart-suggestion .plugin-action-buttons li {
-		display: block;
-	}
+	.plugin-card-cocart-suggestion {
+		.plugin-action-buttons li {
+			display: block;
 
-	.plugin-card-cocart-suggestion .plugin-action-buttons li button {
-		margin-right: 0;
+			button {
+				margin-right: 0;
+			}
+		}
 	}
 }

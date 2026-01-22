@@ -6,7 +6,7 @@
  * @package CoCart\Admin\Views
  * @since   1.2.0
  * @version 4.2.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -16,14 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 ?>
-<div class="notice cocart-notice">
+<div class="notice cocart-notice" role="alert">
 	<div class="cocart-notice-inner cocart-step cocart-review-step-1">
 		<div class="cocart-notice-content">
 			<p>
 				<?php
 				printf(
 					/* translators: 1: Display name of current user. 2: CoCart */
-					esc_html__( 'Hi %1$s, are you enjoying %2$s so far?', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Hi %1$s, are you enjoying %2$s so far?', 'cocart-core' ),
 					esc_html( $current_user->display_name ),
 					'CoCart'
 				);
@@ -32,8 +32,8 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 		</div>
 
 		<div class="cocart-action review-actions">
-			<button class="button-primary cocart-review-switch-step" data-step="3" aria-label="<?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Yes', 'cart-rest-api-for-woocommerce' ); ?></button>
-			<button class="button cocart-review-switch-step" data-step="2" aria-label="<?php echo esc_html__( 'Not Really', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'Not Really', 'cart-rest-api-for-woocommerce' ); ?></button>
+			<button class="button-primary cocart-review-switch-step" data-step="3"><?php echo esc_html__( 'Yes', 'cocart-core' ); ?></button>
+			<button class="button cocart-review-switch-step" data-step="2"><?php echo esc_html__( 'Not Really', 'cocart-core' ); ?></button>
 		</div>
 	</div>
 
@@ -43,7 +43,7 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 				<?php
 				printf(
 					/* translators: %s: CoCart */
-					esc_html__( 'We\'re sorry to hear you aren\'t enjoying %s. We would love a chance to improve. Could you take a minute and let us know what we can do better?', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'We\'re sorry to hear you aren\'t enjoying %s. We would love a chance to improve. Could you take a minute and let us know what we can do better?', 'cocart-core' ),
 					'CoCart'
 				);
 				?>
@@ -51,21 +51,21 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 		</div>
 
 		<div class="cocart-action review-actions">
-			<a href="<?php echo esc_url( COCART_SUGGEST_FEATURE ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Give Feedback', 'cart-rest-api-for-woocommerce' ); ?></a>
-			<button class="button cocart-notice-dismiss"><?php esc_html_e( 'No thanks', 'cart-rest-api-for-woocommerce' ); ?></button>
+			<a href="<?php echo esc_url( COCART_SUGGEST_FEATURE ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Give Feedback', 'cocart-core' ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="button-secondary no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cocart-core' ); ?>"><?php echo esc_html__( 'No thanks', 'cocart-core' ); ?></a>
 		</div>
 	</div>
 
 	<div class="cocart-notice-inner cocart-step cocart-review-step-3" style="display:none;">
 		<div class="cocart-notice-content">
-			<p><?php esc_html_e( 'That\'s awesome! Could you please do us a BIG favor and send a shout-out to help us spread the word and boost our motivation?', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<p><?php esc_html_e( 'That\'s awesome! Could you please do us a BIG favor and send a shout-out to help us spread the word and boost our motivation?', 'cocart-core' ); ?></p>
 			<p>
 				<strong>
 					<?php
 					printf(
 						wp_kses(
 							/* translators: 1: Founders name, 2: Company name */
-							__( '%1$s<br>Founder of %2$s', 'cart-rest-api-for-woocommerce' ),
+							__( '%1$s<br>Founder of %2$s', 'cocart-core' ),
 							array( 'br' => array() )
 						),
 						'Sébastien Dumont',
@@ -77,8 +77,8 @@ $current_user = wp_get_current_user(); // phpcs:ignore WordPress.WP.GlobalVariab
 		</div>
 
 		<div class="cocart-action review-actions">
-			<a href="<?php echo esc_url( COCART_REVIEW_URL ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Ok, you deserve it!', 'cart-rest-api-for-woocommerce' ); ?></a>
-			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cart-rest-api-for-woocommerce' ); ?>"><?php echo esc_html__( 'No thank you', 'cart-rest-api-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( COCART_REVIEW_URL ); ?>" class="button button-primary cocart-notice-dismiss" target="_blank" rel="noopener noreferrer" role="button"><?php esc_html_e( 'Ok, you deserve it!', 'cocart-core' ); ?></a>
+			<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'cocart-hide-notice', 'plugin_review', CoCart_Helpers::cocart_get_current_admin_url() ), 'cocart_hide_notices_nonce', '_cocart_notice_nonce' ) ); ?>" class="button-secondary no-thanks" aria-label="<?php echo esc_html__( 'Hide this notice forever.', 'cocart-core' ); ?>" role="button"><?php echo esc_html__( 'No thank you', 'cocart-core' ); ?></a>
 		</div>
 	</div>
 </div>

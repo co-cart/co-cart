@@ -6,6 +6,7 @@
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
  * @version 3.13.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -52,8 +53,9 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 					'return' => array(
 						'required'          => false,
 						'default'           => false,
-						'description'       => __( 'Returns the cart totals once calculated.', 'cart-rest-api-for-woocommerce' ),
+						'description'       => __( 'Returns the cart totals once calculated.', 'cocart-core' ),
 						'type'              => 'boolean',
+						'sanitize_callback' => 'rest_sanitize_boolean',
 						'validate_callback' => 'rest_validate_request_arg',
 					),
 				),
@@ -83,7 +85,7 @@ class CoCart_Calculate_Controller extends CoCart_API_Controller {
 			return CoCart_Totals_Controller::get_totals( $request );
 		}
 
-		$message = __( 'Cart totals have been calculated.', 'cart-rest-api-for-woocommerce' );
+		$message = __( 'Cart totals have been calculated.', 'cocart-core' );
 
 		CoCart_Logger::log( $message, 'notice' );
 

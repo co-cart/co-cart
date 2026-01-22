@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v1
  * @since   3.1.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Product Tags controller class.
  *
- * @package CoCart/API
  * @extends CoCart_REST_Terms_Controller
  */
 class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
@@ -41,7 +40,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 	 *
 	 * @access public
 	 *
-	 * @param obj             $item    Term object.
+	 * @param object          $item    Term object.
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_REST_Response $response The response object.
@@ -88,13 +87,13 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'id'          => array(
-					'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the resource.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'name'        => array(
-					'description' => __( 'Tag name.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Tag name.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -102,7 +101,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 					),
 				),
 				'slug'        => array(
-					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -110,7 +109,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 					),
 				),
 				'description' => array(
-					'description' => __( 'HTML description of the resource.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'HTML description of the resource.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'arg_options' => array(
@@ -118,7 +117,7 @@ class CoCart_Product_Tags_Controller extends CoCart_REST_Terms_Controller {
 					),
 				),
 				'count'       => array(
-					'description' => __( 'Number of published products for the resource.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Number of published products for the resource.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

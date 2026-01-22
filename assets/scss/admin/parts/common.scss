@@ -1,0 +1,265 @@
+// Variables
+@use "sass:meta";
+@use "../../variables";
+
+@mixin button {
+	color: variables.$white !important;
+	min-width: fit-content !important;
+}
+
+@mixin button-alt {
+	color: variables.$cocart !important;
+}
+
+@mixin button-large {
+	border-radius: 32px !important;
+	font-weight: 600;
+	padding: 1em !important;
+}
+
+@mixin button-hover {
+	background-color: variables.$cocart-button-hover !important;
+	border-color: variables.$cocart-button-hover !important;
+	color: variables.$white !important;
+}
+
+@mixin button-alt-hover {
+	background-color: variables.$smoke-white;
+	border-color: variables.$cocart-button-hover !important;
+	color: variables.$black !important;
+}
+
+.hide {
+	display: none;
+}
+
+// Plugin menu
+#toplevel_page_cocart {
+	.wp-submenu li > a { display: flex; align-items: center; }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"] { position: relative; margin-bottom: 16px; }
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"] { position: relative; margin: 16px 0; }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"]:after,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { display: block; content: ''; position: absolute; left: 0; right: 0; height: 0; border-bottom: 1px solid rgba( 255, 255, 255, 0.2 ); }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before { top: -8px; }
+
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"]:after,
+	li:not(:last-child) a[href="admin.php?page=cocart-add-ons"]:after,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { bottom: -8px; }
+
+	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before,
+	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { right: 5px; }
+}
+
+body.cocart-pagestyles .wp-header-end {
+	clear: both;
+}
+
+.cocart-wrapped {
+	clear: both;
+	margin: 0 auto !important;
+	max-width: 700px;
+	padding: 60px 0 !important;
+
+	.cocart-content {
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		padding: 2em;
+		margin: 0 0 20px;
+		background: variables.$white;
+		overflow: hidden;
+		zoom: 1;
+		text-align: left;
+
+		&.inner {
+			padding: 0;
+
+			form {
+				padding: 24px;
+			}
+		}
+
+		a {
+			color: variables.$cocart;
+
+			&:hover,
+			&:focus {
+				color: variables.$shadow;
+			}
+		}
+
+		p {
+			color: variables.$grey;
+			font-size: 14px;
+			line-height: 1.75;
+		}
+
+		p:first-of-type {
+			margin-top: 0;
+		}
+
+		p:last-child {
+			margin-bottom: 0;
+		}
+
+		label {
+			color: variables.$grey;
+			display: inline-block;
+			font-size: 14px;
+			font-weight: 600;
+			margin-bottom: 0.5em;
+			margin-top: 0.85em;
+		}
+
+		span {
+			display: inline-block;
+			margin-top: 1rem;
+		}
+
+	}
+
+	.column-container {
+		align-self: flex-start;
+		box-sizing: border-box;
+		clear: both;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas: 
+			"col1 col2"
+			"wide wide";
+		gap: 1rem;
+		justify-content: center;
+		padding: 0.5em;
+		width: 100%;
+		z-index: 1;
+	}
+
+	.column {
+		display: grid;
+		gap: 0;
+		margin: 0 1rem auto;
+
+		&.wide {
+			grid-area: wide;
+
+			&.has-background {
+				background: linear-gradient( 135deg, #1f1e30 0%, #3d2e5c 40%, #5a3a85 70%, #804e9b 100% );
+				background-color: variables.$white;
+				color: variables.$white;
+				padding: 2em;
+				margin: -8px;
+
+				h3 {
+					color: variables.$white;
+					line-height: 0;
+					margin: 1em auto;
+					text-align: left;
+				}
+
+				p {
+					color: variables.$white;
+					margin-top: 1em;
+				}
+			}
+		}
+
+		.button {
+			margin: 1em 0 !important;
+			width: fit-content;
+		}
+	}
+}
+
+body:not(.rtl).cocart-pagestyles {
+	#wpbody {
+		color: variables.$black;
+		font-weight: 400;
+	}
+}
+
+.cocart-pagestyles {
+	a.button-large,
+	button.button-large {
+		@include button-large;
+	}
+
+	a.cocart-button,
+	button.cocart-button {
+		background-color: variables.$cocart-button;
+		border-color: variables.$cocart-button;
+		@include button;
+	}
+
+	a.cocart-button-alt,
+	button.cocart-button-alt {
+		border-color: variables.$cocart;
+		@include button;
+		@include button-alt;
+	}
+
+	a.cocart-button:hover,
+	a.cocart-button:focus,
+	button.cocart-button:hover,
+	button.cocart-button:focus {
+		@include button-hover;
+	}
+
+	a.cocart-button-alt:hover,
+	a.cocart-button-alt:focus,
+	button.cocart-button-alt:hover,
+	button.cocart-button-alt:focus {
+		@include button-alt-hover;
+	}
+
+	a.button:focus,
+	button:focus,
+	.button-primary:focus {
+		text-decoration-thickness: 4px;
+	}
+
+	#upgrade-button {
+		border: 2px solid variables.$white;
+		box-shadow: 2px 2px 6px -4px variables.$shadow !important;
+		grid-area: inherit;
+		height: fit-content;
+		margin: 1.4em auto !important;
+	}
+}
+
+@media screen and (min-width: 783px) {
+	.cocart-pagestyles {
+		#wpfooter {
+			display: inherit;
+			position: relative;
+		}
+	}
+}
+
+@media screen and (max-width: 782px) {
+	#wpbody-content {
+		padding-bottom: 30px !important;
+	}
+
+	.cocart-wrapped {
+		padding: 30px 0 0 !important;
+
+		.column-container {
+			grid-template-columns: 1fr;
+			grid-template-areas: 
+				"col1"
+				"col2"
+				"wide";
+			gap: 2rem;
+
+			.column {
+				text-align: left;
+
+				.button {
+					margin: 1em auto !important;
+				}
+			}
+		}
+	}
+}

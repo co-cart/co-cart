@@ -6,6 +6,7 @@
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
  * @version 3.13.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -56,10 +57,10 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					'permission_callback' => '__return_true',
 					'args'                => array(
 						'quantity' => array(
-							'description'       => __( 'Quantity of this item to update to.', 'cart-rest-api-for-woocommerce' ),
+							'description'       => __( 'Quantity of this item to update to.', 'cocart-core' ),
 							'type'              => 'string',
 							'required'          => true,
-							'validate_callback' => array( $this, 'rest_validate_quantity_arg' ),
+							'validate_callback' => 'rest_validate_quantity_arg',
 						),
 					),
 				),
@@ -91,7 +92,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 		// Checks to see if the cart is empty before attempting to remove item.
 		if ( WC()->cart->is_empty() ) {
-			$message = __( 'No items in cart.', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'No items in cart.', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'error' );
 
@@ -104,7 +105,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_no_items_message', $message );
 
-			return new WP_Error( 'cocart_no_items', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_no_items', $message, array( 'status' => 404 ) );
 		}
 
 		if ( '0' !== $item_key ) {
@@ -113,7 +114,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Item specified does not exist in cart.', 'cocart-core' );
 
 				CoCart_Logger::log( $message, 'error' );
 
@@ -127,7 +128,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'remove' );
 
-				return new WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
+				return new \WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
 			}
 
 			if ( WC()->cart->remove_cart_item( $item_key ) ) {
@@ -154,9 +155,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
-				return $this->get_response( __( 'Item has been removed from cart.', 'cart-rest-api-for-woocommerce' ), $this->rest_base );
+				return $this->get_response( __( 'Item has been removed from cart.', 'cocart-core' ), $this->rest_base );
 			} else {
-				$message = __( 'Unable to remove item from cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Unable to remove item from cart.', 'cocart-core' );
 
 				CoCart_Logger::log( $message, 'error' );
 
@@ -169,10 +170,10 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_can_not_remove_item_message', $message );
 
-				return new WP_Error( 'cocart_can_not_remove_item', $message, array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_can_not_remove_item', $message, array( 'status' => 403 ) );
 			}
 		} else {
-			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'Cart item key is required!', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'error' );
 
@@ -186,7 +187,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'remove' );
 
-			return new WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 404 ) );
 		}
 	} // END remove_item()
 
@@ -232,9 +233,9 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					return new WP_REST_Response( $cart_contents, 200 );
 				}
 
-				return $this->get_response( __( 'Item has been restored to the cart.', 'cart-rest-api-for-woocommerce' ), $this->rest_base );
+				return $this->get_response( __( 'Item has been restored to the cart.', 'cocart-core' ), $this->rest_base );
 			} else {
-				$message = __( 'Unable to restore item to the cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Unable to restore item to the cart.', 'cocart-core' );
 
 				CoCart_Logger::log( $message, 'error' );
 
@@ -247,10 +248,10 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_can_not_restore_item_message', $message );
 
-				return new WP_Error( 'cocart_can_not_restore_item', $message, array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_can_not_restore_item', $message, array( 'status' => 403 ) );
 			}
 		} else {
-			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'Cart item key is required!', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'error' );
 
@@ -264,7 +265,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'restore' );
 
-			return new WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 404 ) );
 		}
 	} // END restore_item()
 
@@ -297,7 +298,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
-				$message = __( 'Item specified does not exist in cart.', 'cart-rest-api-for-woocommerce' );
+				$message = __( 'Item specified does not exist in cart.', 'cocart-core' );
 
 				CoCart_Logger::log( $message, 'error' );
 
@@ -311,7 +312,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_item_not_in_cart_message', $message, 'update' );
 
-				return new WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
+				return new \WP_Error( 'cocart_item_not_in_cart', $message, array( 'status' => 404 ) );
 			}
 
 			$stock = $this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
@@ -353,7 +354,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			if ( $current_data['data']->is_sold_individually() && $quantity > 1 ) {
 				$message = sprintf(
 					/* translators: %s Product name. */
-					__( 'You can only have 1 %s in your cart.', 'cart-rest-api-for-woocommerce' ),
+					__( 'You can only have 1 %s in your cart.', 'cocart-core' ),
 					$current_data['data']->get_name()
 				);
 
@@ -367,7 +368,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				 */
 				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $current_data['data'] );
 
-				return new WP_Error( 'cocart_can_not_increase_quantity', $message, array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_can_not_increase_quantity', $message, array( 'status' => 403 ) );
 			}
 
 			// Only update cart item quantity if passed validation.
@@ -399,7 +400,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 						WC()->cart->calculate_totals();
 					}
 				} else {
-					$message = __( 'Unable to update item quantity in cart.', 'cart-rest-api-for-woocommerce' );
+					$message = __( 'Unable to update item quantity in cart.', 'cocart-core' );
 
 					CoCart_Logger::log( $message, 'error' );
 
@@ -412,7 +413,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					 */
 					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
 
-					return new WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 403 ) );
+					return new \WP_Error( 'cocart_can_not_update_item', $message, array( 'status' => 403 ) );
 				}
 
 				// Was it requested to return the whole cart once item updated?
@@ -429,7 +430,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					$response = array(
 						'message'  => sprintf(
 							/* translators: 1: product name, 2: new quantity */
-							__( 'The quantity for "%1$s" has increased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+							__( 'The quantity for "%1$s" has increased to "%2$s".', 'cocart-core' ),
 							$product_data->get_name(),
 							$new_data['quantity']
 						),
@@ -439,7 +440,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					$response = array(
 						'message'  => sprintf(
 							/* translators: 1: product name, 2: new quantity */
-							__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cart-rest-api-for-woocommerce' ),
+							__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cocart-core' ),
 							$product_data->get_name(),
 							$new_data['quantity']
 						),
@@ -449,7 +450,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 					$response = array(
 						'message'  => sprintf(
 							/* translators: %s: product name */
-							__( 'The quantity for "%s" has not changed.', 'cart-rest-api-for-woocommerce' ),
+							__( 'The quantity for "%s" has not changed.', 'cocart-core' ),
 							$product_data->get_name()
 						),
 						'quantity' => $quantity,
@@ -471,7 +472,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 				return $this->get_response( $response, $this->rest_base );
 			}
 		} else {
-			$message = __( 'Cart item key is required!', 'cart-rest-api-for-woocommerce' );
+			$message = __( 'Cart item key is required!', 'cocart-core' );
 
 			CoCart_Logger::log( $message, 'error' );
 
@@ -485,7 +486,7 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 			 */
 			$message = apply_filters( 'cocart_cart_item_key_required_message', $message, 'update' );
 
-			return new WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 404 ) );
+			return new \WP_Error( 'cocart_cart_item_key_required', $message, array( 'status' => 404 ) );
 		}
 	} // END update_item()
 
@@ -502,15 +503,16 @@ class CoCart_Item_Controller extends CoCart_API_Controller {
 	public function get_collection_params() {
 		$params = array(
 			'cart_item_key' => array(
-				'description'       => __( 'Unique identifier for the item in the cart.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Unique identifier for the item in the cart.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'return_cart'   => array(
-				'description'       => __( 'Returns the whole cart to reduce API requests.', 'cart-rest-api-for-woocommerce' ),
+				'description'       => __( 'Returns the whole cart to reduce API requests.', 'cocart-core' ),
 				'default'           => false,
 				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

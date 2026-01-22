@@ -1,0 +1,458 @@
+[
+    {
+        "name": "auth: JWT",
+        "color": "A019E4",
+        "aliases": [],
+        "description": "Issues related to authenticating with JWT."
+    },
+    {
+        "name": "auth: only",
+        "color": "A019E4",
+        "aliases": [],
+        "description": ""
+    },
+    {
+        "name": "category: accessibility",
+        "color": "9d8403",
+        "aliases": [],
+        "description": "The issue/PR is related to accessibility."
+    },
+    {
+        "name": "category: backend",
+        "color": "9d8403",
+        "aliases": [
+            "Admin"
+        ],
+        "description": "The issue/PR is related to the backend (i.e. WordPress Dashboard)."
+    },
+    {
+        "name": "category: compatibility",
+        "color": "9d8403",
+        "aliases": [
+            "compatibility"
+        ],
+        "description": "The issue/PR is related to compatibility."
+    },
+    {
+        "name": "category: dependencies",
+        "color": "9d8403",
+        "aliases": [
+            "dependencies"
+        ],
+        "description": "The issue/PR is related to dependencies."
+    },
+    {
+        "name": "category: i18n",
+        "color": "9d8403",
+        "aliases": [],
+        "description": "The issue/PR is related to internationalization."
+    },
+    {
+        "name": "category: performance",
+        "color": "9d8403",
+        "aliases": [],
+        "description": "The issue/PR is related to performance."
+    },
+    {
+        "name": "category: refactor",
+        "color": "9d8403",
+        "aliases": [
+            "copy to improve",
+            "refactor",
+            "Session"
+        ],
+        "description": "The issue/PR is related to refactoring."
+    },
+    {
+        "name": "category: won't fix",
+        "color": "9d8403",
+        "aliases": [],
+        "description": "The issue won’t be fixed."
+    },
+    {
+        "name": "good first issue",
+        "color": "7057ff",
+        "aliases": [],
+        "description": "The issue is a good candidate for the first community contribution/for a newcomer to the team."
+    },
+    {
+        "name": "focus: accessibility",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "This issue/PR is specifically focused to accessibility."
+    },
+    {
+        "name": "focus: action scheduler",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "Issues related to action scheduler."
+    },
+    {
+        "name": "focus: cart API",
+        "color": "1a123d",
+        "aliases": [
+            "API: Cart"
+        ],
+        "description": "Issues related to the cart API."
+    },
+    {
+        "name": "focus: data-store",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "Issues related to custom tables."
+    },
+    {
+        "name": "focus: frontend",
+        "color": "1a123d",
+        "aliases": [
+            "Frontend"
+        ],
+        "description": "Issues related to the frontend-not the REST API."
+    },
+    {
+        "name": "focus: html/css",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "Issues related to HTML/CSS."
+    },
+    {
+        "name": "focus: notices",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "Issues related to notices."
+    },
+    {
+        "name": "focus: performance",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "This issue/PR is related to performance."
+    },
+    {
+        "name": "focus: products API",
+        "color": "1a123d",
+        "aliases": [
+            "API: Products"
+        ],
+        "description": "This issue/PR is related to the products API."
+    },
+    {
+        "name": "focus: session API",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "This issue/PR is related to the sessions API."
+    },
+    {
+        "name": "focus: settings",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "This issue/PR is related to settings."
+    },
+    {
+        "name": "focus: shared API",
+        "color": "1a123d",
+        "aliases": [
+            "API: Shared"
+        ],
+        "description": "Issues related to all CoCart API overall."
+    },
+    {
+        "name": "focus: system status report",
+        "color": "1a123d",
+        "aliases": [],
+        "description": "Issues related to system status report."
+    },
+    {
+        "name": "focus: woocommerce",
+        "color": "1a123d",
+        "aliases": [
+            "WooCommerce"
+        ],
+        "description": "Issues related to the core of WooCommerce that affect CoCart."
+    },
+    {
+        "name": "needs: author feedback",
+        "color": "393813",
+        "aliases": [],
+        "description": "The issue/PR needs a response from any of the parties involved in the issue."
+    },
+    {
+        "name": "needs: cleanup",
+        "color": "393813",
+        "aliases": [
+            "housekeeping"
+        ],
+        "description": "The issue/PR is related to needing a code cleanup."
+    },
+    {
+        "name": "needs: discussion",
+        "color": "393813",
+        "aliases": [
+            "require feedback"
+        ],
+        "description": "Issue that either needs discussion or pending decision (not for support requests)."
+    },
+    {
+        "name": "needs: documentation",
+        "color": "393813",
+        "aliases": [
+            "status:needs docs"
+        ],
+        "description": "The issue/PR requires documentation to be added."
+    },
+    {
+        "name": "needs: developer feedback",
+        "color": "393813",
+        "aliases": [
+            "status:needs developer feedback"
+        ],
+        "description": "Issues that need feedback from one of the CoCart Core developers."
+    },
+    {
+        "name": "needs: help",
+        "color": "393813",
+        "aliases": [
+            "help wanted"
+        ],
+        "description": "Issues that need help from either another CoCart Core developer or community contributor."
+    },
+    {
+        "name": "needs: tests",
+        "color": "393813",
+        "aliases": [],
+        "description": "The issue/PR needs tests before it can move forward."
+    },
+    {
+        "name": "PHP: 7.4",
+        "color": "0d1413",
+        "aliases": [
+            "php:7.4"
+        ],
+        "description": "Issues related to PHP 7.4 only."
+    },
+    {
+        "name": "PHP: 8.0",
+        "color": "0d1413",
+        "aliases": [
+            "php:8.0"
+        ],
+        "description": "Issues related to PHP 8.0 only."
+    },
+    {
+        "name": "PHP: 8.1",
+        "color": "0d1413",
+        "aliases": [
+            "php:8.1"
+        ],
+        "description": "Issues related to PHP 8.1 only."
+    },
+    {
+        "name": "PHP: 8.2",
+        "color": "0d1413",
+        "aliases": [
+            "php:8.2"
+        ],
+        "description": "Issues related to PHP 8.2 only."
+    },
+    {
+        "name": "PHP: 8.3",
+        "color": "0d1413",
+        "aliases": [],
+        "description": "Issues related to PHP 8.3 only."
+    },
+    {
+        "name": "PHP: 8.4",
+        "color": "0d1413",
+        "aliases": [],
+        "description": "Issues related to PHP 8.4 only."
+    },
+    {
+        "name": "pr: major",
+        "color": "990F3D",
+        "aliases": [],
+        "description": "Add to a PR to trigger a MAJOR version bump when merged."
+    },
+    {
+        "name": "pr: minor",
+        "color": "990F3D",
+        "aliases": [],
+        "description": "Add to a PR to trigger a MINOR version bump when merged."
+    },
+    {
+        "name": "pr: patch",
+        "color": "990F3D",
+        "aliases": [],
+        "description": "Add to a PR to trigger a PATCH version bump when merged."
+    },
+    {
+        "name": "priority: critical",
+        "color": "321820",
+        "aliases": [
+            "Security",
+            "priority:moderate"
+        ],
+        "description": "The issue is critical—e.g. a fatal error, security problem affecting many customers."
+    },
+    {
+        "name": "priority: high",
+        "color": "321915",
+        "aliases": [
+            "priority:high"
+        ],
+        "description": "The issue/PR is high priority—it affects lots of customers substantially, but not critically."
+    },
+    {
+        "name": "priority: low",
+        "color": "343b2c",
+        "aliases": [
+            "priority:low"
+        ],
+        "description": "The issue/PR is low priority—not many people are affected or there’s a workaround, etc."
+    },
+    {
+        "name": "release: add changelog",
+        "color": "1b0e3d",
+        "aliases": [],
+        "description": "Mark all PRs that have not had their changelog entries added."
+    },
+    {
+        "name": "release: cherry-pick",
+        "color": "1b0e3d",
+        "aliases": [],
+        "description": "Commits from this PR also needs to be added to current release branch."
+    },
+    {
+        "name": "release: highlight",
+        "color": "1b0e3d",
+        "aliases": [],
+        "description": "Issues that have a high user impact and need to be discussed/paid attention to."
+    },
+    {
+        "name": "status: awaiting triage",
+        "color": "14252d",
+        "aliases": [],
+        "description": "This is a newly created issue waiting for triage."
+    },
+    {
+        "name": "status: blocked",
+        "color": "14252d",
+        "aliases": [],
+        "description": "The issue is blocked from progressing, waiting for another piece of work to be done."
+    },
+    {
+        "name": "status: can't reproduce",
+        "color": "14252d",
+        "aliases": [],
+        "description": "Issues that can't be reproduced."
+    },
+    {
+        "name": "status: developer reproduction",
+        "color": "14252d",
+        "aliases": [],
+        "description": "Bug reports that need to be reproduced and confirmed by a developer."
+    },
+    {
+        "name": "status: in progress",
+        "color": "14252d",
+        "aliases": [
+            "status:in-progress"
+        ],
+        "description": "This is being worked on."
+    },
+    {
+        "name": "status: needs review",
+        "color": "9d8403",
+        "aliases": [],
+        "description": "PR needs reviewing"
+    },
+    {
+        "name": "status: on hold",
+        "color": "14252d",
+        "aliases": [],
+        "description": "The issue is currently not prioritized."
+    },
+    {
+        "name": "status: stale",
+        "color": "14252d",
+        "aliases": [
+            "state:unsupported",
+            "scale:large",
+            "scale:medium",
+            "scale:tiny"
+        ],
+        "description": "Issues that have not had any activity for some time."
+    },
+    {
+        "name": "status: won't fix",
+        "color": "14252d",
+        "aliases": [
+            "status:wontfix"
+        ],
+        "description": "The issue won’t be fixed."
+    },
+    {
+        "name": "type: possible bug",
+        "color": "321820",
+        "aliases": [
+            "bug:unconfirmed"
+        ],
+        "description": "The issue is for a possible bug."
+    },
+    {
+        "name": "type: bug",
+        "color": "321820",
+        "aliases": [
+            "bug:confirmed"
+        ],
+        "description": "The issue is a confirmed bug."
+    },
+    {
+        "name": "type: community contribution",
+        "color": "0b2338",
+        "aliases": [],
+        "description": "The issue/PR is community contribution."
+    },
+    {
+        "name": "type: documentation",
+        "color": "0b2338",
+        "aliases": [
+            "documentation"
+        ],
+        "description": "This issue is a request for better documentation."
+    },
+    {
+        "name": "type: duplicate",
+        "color": "0b2338",
+        "aliases": [
+            "duplicate"
+        ],
+        "description": "The issue/PR is a duplicate of another issue."
+    },
+    {
+        "name": "type: enhancement",
+        "color": "0b2338",
+        "aliases": [
+            "enhancement"
+        ],
+        "description": "The issue is a request for an enhancement."
+    },
+    {
+        "name": "type: question",
+        "color": "0b2338",
+        "aliases": [
+            "question"
+        ],
+        "description": "The issue is a question about how code works."
+    },
+    {
+        "name": "type: regression",
+        "color": "0b2338",
+        "aliases": [],
+        "description": "Issues that have been introduced by a code change that impacted existing functionality."
+    },
+    {
+        "name": "type: support request",
+        "color": "E0719E",
+        "aliases": [],
+        "description": "Issues marked as a support request. These issues are closed automatically once tagged."
+    }
+]

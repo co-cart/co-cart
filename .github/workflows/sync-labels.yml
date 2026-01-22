@@ -1,0 +1,20 @@
+name: Sync Labels to Repository
+
+on: [issues, pull_request]
+
+jobs:
+  sync-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Debug .github directory
+        run: |
+          ls -al .github
+
+      - name: Sync repository labels
+        uses: cocart-headless/wp-repo-labels@v1
+        with:
+          labels-path: .github/labels.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}

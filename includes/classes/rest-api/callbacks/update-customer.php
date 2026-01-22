@@ -5,6 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Callbacks
  * @since   4.1.0 Introduced.
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,21 +45,20 @@ class CoCart_Update_Customer_Callback extends CoCart_REST_Callback {
 	public function callback( $request, $controller ) {
 		try {
 			if ( $controller->is_completely_empty() ) {
-				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_cart_empty', __( 'Cart is empty. Please add items to cart first.', 'cocart-core' ), 404 );
 			}
 
-			if ( $this->update_customer_on_cart( $request, $controller ) ) {
-				$controller->calculate_totals( $request, true );
+			$this->update_customer_on_cart( $request, $controller );
 
-				// Only returns success notice if there are no error notices.
-				if ( 0 === wc_notice_count( 'error' ) ) {
-					wc_add_notice( __( 'Cart updated.', 'cart-rest-api-for-woocommerce' ), 'success' );
-				}
+			// Only returns success notice if there are no error notices.
+			if ( 0 === wc_notice_count( 'error' ) ) {
+				$controller->calculate_totals( $request, true );
+				wc_add_notice( __( 'Cart updated.', 'cocart-core' ), 'success' );
 			}
 
 			return true;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END callback()
 
@@ -83,12 +83,12 @@ class CoCart_Update_Customer_Callback extends CoCart_REST_Callback {
 	/**
 	 * For each field the customer passes validation, it will be applied to the cart.
 	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
 	 * @access protected
 	 *
 	 * @param WP_REST_Request $request    The request object.
 	 * @param object          $controller The cart controller.
-	 *
-	 * @return bool
 	 */
 	protected function update_customer_on_cart( $request, $controller ) {
 		$params = ! is_array( $request ) && method_exists( $request, 'get_params' ) ? $request->get_params() : array();
@@ -97,62 +97,94 @@ class CoCart_Update_Customer_Callback extends CoCart_REST_Callback {
 			$details = array();
 
 			$fields = array(
-				'first_name',
-				'last_name',
-				'email',
-				'phone',
-				'company',
-				'address_1',
-				'address_2',
-				'city',
-				'state',
-				'country',
-				'postcode',
+				'billing'  => \WC()->countries->get_address_fields(
+					$this->validate_country( $request, 'billing' ),
+					'billing_'
+				),
+				'shipping' => \WC()->countries->get_address_fields(
+					$this->validate_country( $request, 'shipping' ),
+					'shipping_'
+				),
 			);
 
 			// Get current details of the customer if any.
 			$customer = $controller->get_cart_instance()->get_customer();
 
-			foreach ( $fields as $key ) {
-				// Prepares customer billing field.
-				array_key_exists( $key, $params ) && ! empty( $params[ $key ] ) ? $details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+			foreach ( $fields['billing'] as $key => $value ) {
+				$param_key = str_replace( 'billing_', '', $key );
+
+				// Check if field is required.
+				if ( ! empty( $value['required'] ) && empty( $params[ $param_key ] ) ) {
+					throw new CoCart_Data_Exception(
+						'cocart_billing_field_required',
+						sprintf(
+							/* Translators: %s = Field label */
+							__( '%s is required.', 'cocart-core' ),
+							$value['label']
+						),
+						400
+					);
+				}
+
+				// Validate email fields.
+				if (
+					array_key_exists( 'email', $params ) && ! \WC_Validation::is_email( wc_clean( wp_unslash( $params['email'] ) ) ) ||
+					! empty( $value['validate'] ) && in_array( 'email', $value['validate'] ) && ! \WC_Validation::is_email( wc_clean( wp_unslash( $params[ $param_key ] ) ) ) // Custom field validation.
+				) {
+					throw new CoCart_Data_Exception(
+						'cocart_email_field_invalid',
+						sprintf(
+							/* Translators: %s = Field value */
+							__( 'The provided email address (%s) is not valid — please provide a valid email address.', 'cocart-core' ),
+							$params[ $param_key ]
+						),
+						400
+					);
+				}
+
+				// Validate phone fields.
+				if (
+					array_key_exists( 'phone', $params ) && ! \WC_Validation::is_phone( wc_clean( wp_unslash( $params['phone'] ) ) ) ||
+					! empty( $value['validate'] ) && isset( $value['validate'] ) && in_array( 'phone', $value['validate'] ) && ! \WC_Validation::is_phone( wc_clean( wp_unslash( $params[ $param_key ] ) ) ) // Custom field validation.
+				) {
+					throw new CoCart_Data_Exception(
+						'cocart_phone_field_invalid',
+						sprintf(
+							/* Translators: %s = Field value */
+							__( 'The provided phone number (%s) is not valid — please provide a valid phone number.', 'cocart-core' ),
+							$params[ $param_key ]
+						),
+						400
+					);
+				}
+
+				// Prepares customer billing fields.
+				array_key_exists( $param_key, $params ) && ! empty( $params[ $param_key ] ) ? $details[ $key ] = wc_clean( wp_unslash( $params[ $param_key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 
 				// If a field has not provided a value, then unset it.
-				if ( empty( $details[ 'billing_' . $key ] ) ) {
-					unset( $details[ 'billing_' . $key ] );
+				if ( empty( $details[ 'billing_' . $param_key ] ) ) {
+					unset( $details[ 'billing_' . $param_key ] );
 				}
 
 				// Validates customer billing fields for email, phone, country and postcode.
-				if ( 'email' === $key && ! empty( $details['billing_email'] ) ) {
-					if ( ! \WC_Validation::is_email( $details['billing_email'] ) ) {
-						unset( $details['billing_email'] );
-						$details['billing_email'] = $customer->get_billing_email();
-					} else {
-						$details['billing_email'] = sanitize_email( $details['billing_email'] );
-					}
+				if ( 'email' === $param_key && ! empty( $details['billing_email'] ) ) {
+					$details['billing_email'] = sanitize_email( $details['billing_email'] );
 				}
 
-				if ( 'phone' === $key && ! empty( $details['billing_phone'] ) ) {
+				if ( 'phone' === $param_key && ! empty( $details['billing_phone'] ) ) {
 					$details['billing_phone'] = wc_sanitize_phone_number( $details['billing_phone'] );
-					if ( ! \WC_Validation::is_phone( $details['billing_phone'] ) ) {
-						unset( $details['billing_phone'] );
-						$details['billing_phone'] = $customer->get_billing_phone();
-					} else {
-						$details['billing_phone'] = wc_format_phone_number( $details['billing_phone'] );
-					}
+					$details['billing_phone'] = wc_format_phone_number( $details['billing_phone'] );
 				}
 
-				if ( 'country' === $key && ! empty( $details['billing_country'] ) ) {
-					if ( ! $this->validate_country( $request ) ) {
+				if ( 'country' === $param_key && ! empty( $details['billing_country'] ) ) {
+					if ( ! empty( $this->validate_country( $request ) ) ) {
 						unset( $details['billing_country'] );
-						$details['billing_country'] = $customer->get_billing_country();
 					}
 				}
 
-				if ( 'postcode' === $key && ! empty( $details['billing_postcode'] ) ) {
+				if ( 'postcode' === $param_key && ! empty( $details['billing_postcode'] ) ) {
 					if ( ! $this->validate_postcode( $request ) ) {
 						unset( $details['billing_postcode'] );
-						$details['billing_postcode'] = $customer->get_billing_postcode();
 					} else {
 						$country                     = empty( $details['billing_country'] ) ? \WC()->countries->get_base_country() : $details['billing_country'];
 						$details['billing_postcode'] = wc_format_postcode( $details['billing_postcode'], $country );
@@ -175,140 +207,164 @@ class CoCart_Update_Customer_Callback extends CoCart_REST_Callback {
 
 			// If there are any customer details remaining then set the details, save and return true.
 			if ( ! empty( $details ) ) {
+				$field_key = '';
+
 				foreach ( $params as $key => $value ) {
 					// Ignore default parameters as we don't want to save those as meta data.
 					if ( array_key_exists( $key, $this->ignore_default_params( $controller ) ) ) {
 						continue;
 					}
 
-					// Rename the key so we can use the callable functions to set customer data.
-					if ( 0 === stripos( $key, 's_' ) ) {
-						$key = preg_replace( '/^s_/', 'shipping_', $key, 1 );
+					if ( 'ship_to_different_address' === $key ) {
+						continue;
 					}
 
-					// If the prefix is not for shipping, then assume the field is for billing.
-					if ( 0 !== stripos( $key, 'shipping_' ) ) {
+					$field_key = $key;
+
+					// Rename the key so we can use the callable functions to set customer data.
+					if ( 0 === stripos( $field_key, 's_' ) ) {
+						$field_key = preg_replace( '/^s_/', 'shipping_', $field_key, 1 );
+					}
+
+					// If the prefix is not for shipping, then assume the field is for billing or custom.
+					if ( 0 !== stripos( $field_key, 'shipping_' ) ) {
 						// By default if the prefix `billing_` is missing then add the prefix for the key.
-						if ( 0 !== stripos( $key, 'billing_' ) ) {
-							$key = 'billing_' . $key;
+						if ( 0 !== stripos( $field_key, 'billing_' ) ) {
+							$field_key = 'billing_' . $field_key;
 						}
 					}
 
 					// Use setters where available.
-					if ( is_callable( array( $customer, "set_{$key}" ) ) ) {
-						// Nullify field if no value is provided to prevent "Undefined array key" error.
-						if ( empty( $details[ $key ] ) ) {
-							$details[ $key ] = null;
-						}
-
+					if ( is_callable( array( $customer, "set_{$field_key}" ) ) && ! empty( $details[ $field_key ] ) ) {
 						// Set customer information.
-						$customer->{"set_{$key}"}( $details[ $key ] );
-
-						// Store custom fields prefixed with either `billing_` or `shipping_`.
-					} elseif ( 0 === stripos( $key, 'billing_' ) || 0 === stripos( $key, 'shipping_' ) ) {
-						$customer->update_meta_data( $key, wc_clean( wp_unslash( $value ) ) );
+						$customer->{"set_{$field_key}"}( html_entity_decode( wc_clean( $details[ $field_key ] ), ENT_QUOTES, get_bloginfo( 'charset' ) ) );
+					} else {
+						// Store additional fields as meta data.
+						$customer->update_meta_data( $key, html_entity_decode( wc_clean( wp_unslash( $value ) ), ENT_QUOTES, get_bloginfo( 'charset' ) ) );
 					}
 				}
 
 				// Sees if the customer has entered enough data to calculate shipping yet.
 				if ( ! $customer->get_shipping_country() || ( ! $customer->get_shipping_state() && ! $customer->get_shipping_postcode() ) ) {
 					$customer->set_calculated_shipping( true );
+				} else {
+					$customer->set_calculated_shipping( false );
 				}
 
 				$customer->save();
-
-				return true;
 			}
 		}
-
-		return false;
 	} // END update_customer_on_cart()
 
 	/**
 	 * Validates the requested country.
 	 *
-	 * Returns false and adds an error notice to the cart if not valid else true.
+	 * Throws an error notice if not valid else true.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
 	 *
-	 * @param WP_REST_Request $request      The request object.
-	 * @param string          $fieldset_key The address type we are validating the country for. Default is `billing` else `shipping`.
+	 * @param WP_REST_Request $request    The request object.
+	 * @param string          $field_type The address type we are validating the country for. Default is `billing` else `shipping`.
 	 *
 	 * @return bool
 	 */
-	public function validate_country( $request, $fieldset_key = 'billing' ) {
-		switch ( $fieldset_key ) {
+	public function validate_country( $request, $field_type = 'billing' ) {
+		switch ( $field_type ) {
 			case 'shipping':
 				$country  = isset( $request['s_country'] ) ? $request['s_country'] : '';
 				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
-				$fieldset = esc_html__( 'Shipping', 'cart-rest-api-for-woocommerce' );
+				$fieldset = esc_html__( 'Shipping', 'cocart-core' );
 				break;
 			case 'billing':
 			default:
 				$country  = isset( $request['country'] ) ? $request['country'] : '';
-				$fieldset = esc_html__( 'Billing', 'cart-rest-api-for-woocommerce' );
+				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
+				$fieldset = esc_html__( 'Billing', 'cocart-core' );
 				break;
 		}
 
 		if ( empty( $country ) ) {
-			$country = WC()->customer->{"get_{$fieldset_key}_country"}();
+			$country = \WC()->customer->{"get_{$field_type}_country"}();
 		}
 
-		$country_exists = WC()->countries->country_exists( $country );
+		$country_exists = \WC()->countries->country_exists( $country );
 
 		if ( empty( $country_exists ) ) {
-			/* translators: ISO 3166-1 alpha-2 country code */
-			wc_add_notice( sprintf( __( "'%s' is not a valid country code.", 'cart-rest-api-for-woocommerce' ), $country ), 'error' );
-			return false;
+			throw new CoCart_Data_Exception(
+				'cocart_invalid_country_code',
+				sprintf(
+					/* translators: ISO 3166-1 alpha-2 country code */
+					__( '\'%s\' is not a valid country code.', 'cocart-core' ),
+					$country
+				),
+				400
+			);
 		}
 
-		$allowed_countries = WC()->countries->get_shipping_countries();
+		$allowed_countries = \WC()->countries->get_shipping_countries();
 
 		if ( ! array_key_exists( $country, $allowed_countries ) ) {
-			/* translators: 1: Country name, 2: Field Set */
-			wc_add_notice( sprintf( __( '\'%1$s\' is not allowed for \'%2$s\'.', 'cart-rest-api-for-woocommerce' ), \WC()->countries->get_countries()[ $country ], $fieldset ), 'error' );
-			return false;
+			throw new CoCart_Data_Exception(
+				'cocart_invalid_country_code',
+				sprintf(
+					/* translators: 1: Country name, 2: Field Set */
+					__( '\'%1$s\' is not allowed for \'%2$s\'.', 'cocart-core' ),
+					\WC()->countries->get_countries()[ $country ],
+					$fieldset
+				),
+				400
+			);
 		}
 
-		return true;
+		return $country;
 	} // END validate_country()
 
 	/**
 	 * Validates the requested postcode.
 	 *
-	 * Returns false and adds an error notice to the cart if not valid else true.
+	 * Throws an error notice if not valid else true.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
 	 *
 	 * @param WP_REST_Request $request      The request object.
-	 * @param string          $fieldset_key The address type we are validating the country for. Default is `billing` else `shipping`.
+	 * @param string          $field_type The address type we are validating the country for. Default is `billing` else `shipping`.
 	 *
 	 * @return bool
 	 */
-	public function validate_postcode( $request, $fieldset_key = 'billing' ) {
-		switch ( $fieldset_key ) {
+	public function validate_postcode( $request, $field_type = 'billing' ) {
+		switch ( $field_type ) {
 			case 'shipping':
 				$country    = isset( $request['s_country'] ) ? $request['s_country'] : '';
 				$country    = empty( $country ) ? \WC()->countries->get_base_country() : $country;
 				$postcode   = wc_format_postcode( $request['s_postcode'], $country );
-				$field_name = esc_html__( 'Shipping postcode', 'cart-rest-api-for-woocommerce' );
+				$field_name = esc_html__( 'Shipping postcode', 'cocart-core' );
 				break;
 			case 'billing':
 			default:
 				$country    = isset( $request['country'] ) ? $request['country'] : '';
 				$postcode   = wc_format_postcode( $request['postcode'], $country );
-				$field_name = esc_html__( 'Billing postcode', 'cart-rest-api-for-woocommerce' );
+				$field_name = esc_html__( 'Billing postcode', 'cocart-core' );
 				break;
 		}
 
 		if ( empty( $country ) ) {
-			$country = WC()->customer->{"get_{$fieldset_key}_country"}();
+			$country = \WC()->customer->{"get_{$field_type}_country"}();
 		}
 
 		if ( ! empty( $postcode ) && ! \WC_Validation::is_postcode( $postcode, $country ) ) {
-			/* translators: %s: field name */
-			wc_add_notice( sprintf( __( '%s is not a valid postcode / ZIP.', 'cart-rest-api-for-woocommerce' ), esc_html( $field_name ) ), 'error' );
-			return false;
+			throw new CoCart_Data_Exception(
+				'cocart_invalid_postcode',
+				sprintf(
+					/* translators: %s: field name */
+					__( '%s is not a valid postcode / ZIP.', 'cocart-core' ),
+					esc_html( $field_name )
+				),
+				400
+			);
 		}
 
 		return true;

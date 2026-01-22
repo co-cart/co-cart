@@ -6,6 +6,7 @@
  * @package CoCart\Classes
  * @since   3.0.0 Introduced.
  * @version 4.0.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -17,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Handles the REST API response even if it returns an error.
  *
  * @since 3.0.0 Introduced.
+ *
+ * @deprecated 5.0.0 No longer used.
  */
 class CoCart_Response {
 
@@ -31,6 +34,8 @@ class CoCart_Response {
 	 * @since 3.1.0 Added two response headers; a timestamp and the version of CoCart.
 	 * @since 3.3.0 Added new custom headers without the prefix `X-`
 	 *
+	 * @deprecated 5.0.0 No longer used.
+	 *
 	 * @param mixed  $data       The original data response of the API requested.
 	 * @param string $name_space The namespace of the API requested.
 	 * @param string $endpoint   The endpoint of the API requested.
@@ -38,6 +43,8 @@ class CoCart_Response {
 	 * @return WP_REST_Response The returned response.
 	 */
 	public static function get_response( $data, $name_space = '', $endpoint = '' ) {
+		cocart_deprecated_function( 'CoCart_Response::get_response', '5.0.0' );
+
 		try {
 			if ( empty( $endpoint ) ) {
 				$endpoint = 'cart';
@@ -53,8 +60,10 @@ class CoCart_Response {
 			 * @see cocart_{$endpoint}_response
 			 *
 			 * @since 3.0.0 Introduced.
+			 *
+			 * @deprecated 5.0.0 No longer used.
 			 */
-			$default_response = apply_filters( 'cocart_return_default_response', true );
+			$default_response = cocart_do_deprecated_filter( 'cocart_return_default_response', '5.0.0', null, __( 'No longer use.', 'cocart-core' ), array( true ) );
 
 			if ( ! $default_response ) {
 				/**
@@ -62,8 +71,10 @@ class CoCart_Response {
 				 * based on the endpoint.
 				 *
 				 * @since 3.0.0 Introduced.
+				 *
+				 * @deprecated 5.0.0 No longer used.
 				 */
-				$data = apply_filters( "cocart_{$endpoint}_response", $data ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+				$data = cocart_do_deprecated_filter( "cocart_{$endpoint}_response", '5.0.0', null, __( 'No longer use.', 'cocart-core' ), array( $data ) ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			}
 
 			/**
@@ -86,7 +97,7 @@ class CoCart_Response {
 						'cocart_response_returned_empty',
 						sprintf(
 							/* translators: %s: REST API URL */
-							__( 'Request returned nothing for "%s"! Please seek assistance.', 'cart-rest-api-for-woocommerce' ),
+							__( 'Request returned nothing for "%s"! Please seek assistance.', 'cocart-core' ),
 							rest_url( sprintf( '/%s/%s/', $name_space, $endpoint ) )
 						)
 					);
@@ -95,14 +106,6 @@ class CoCart_Response {
 
 			// Return response.
 			$response = rest_ensure_response( $data );
-
-			// Add timestamp of response.
-			$response->header( 'CoCart-Timestamp', time() );
-
-			// Add version of CoCart.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				$response->header( 'CoCart-Version', COCART_VERSION );
-			}
 
 			// Returns additional headers for the cart endpoint.
 			if ( strpos( $raw_endpoint, 'cart' ) !== false ) {
@@ -114,11 +117,11 @@ class CoCart_Response {
 
 				// Send cart key in the header if it's not empty or ZERO.
 				if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
-					$response->header( 'CoCart-API-Cart-Key', $cart_key );
+					$response->header( 'Cart-Key', $cart_key );
 				}
 
-				$response->header( 'CoCart-API-Cart-Expiring', $cart_expiring );
-				$response->header( 'CoCart-API-Cart-Expiration', $cart_expiration );
+				$response->header( 'Cart-Expiring', $cart_expiring );
+				$response->header( 'Cart-Expiration', $cart_expiration );
 			}
 
 			return $response;
@@ -163,7 +166,7 @@ class CoCart_Response {
 				);
 
 				if ( function_exists( 'debug_backtrace' ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					$errors[ $code ]['trace'] = debug_backtrace(); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection, WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
+					$errors[ $code ]['trace'] = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 5 ); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection, WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 				}
 			}
 		}

@@ -6,7 +6,7 @@
  * @package CoCart\Admin
  * @since   1.2.0
  * @version 3.0.17
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -63,7 +63,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 1.2.0  Introduced.
+		 * @since 1.2.0 Introduced.
 		 * @since 4.0.0 Merged other body classes.
 		 *
 		 * @param string $classes Current classes.
@@ -88,7 +88,7 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 
 			// Return current classes including CoCart page style.
 			if ( isset( $_GET['page'] ) && strpos( trim( sanitize_key( wp_unslash( $_GET['page'] ) ) ), 'cocart' ) === 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				return $classes . ' cocart-pagestyles ';
+				return $classes . 'cocart-pagestyles';
 			}
 
 			return $classes;

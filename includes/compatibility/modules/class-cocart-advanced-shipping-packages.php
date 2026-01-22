@@ -6,7 +6,7 @@
  * @package CoCart\Compatibility\Modules
  * @since   3.0.0
  * @version 3.1.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -51,7 +51,7 @@ if ( ! class_exists( 'CoCart_ASP_Compatibility' ) ) {
 
 			// Default package name.
 			if ( 0 === $i ) {
-				$name = get_option( 'advanced_shipping_packages_default_package_name', __( 'Shipping', 'cart-rest-api-for-woocommerce' ) );
+				$name = get_option( 'advanced_shipping_packages_default_package_name', __( 'Shipping', 'cocart-core' ) );
 			}
 
 			return $name;

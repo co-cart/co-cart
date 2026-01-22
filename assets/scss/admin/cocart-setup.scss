@@ -1,5 +1,15 @@
-// CoCart
-@import 'cocart';
+// Variables
+@use "sass:meta";
+@use '../variables';
+
+// Common
+@use 'parts/common';
+
+// Admin Notices
+@use "parts/notices";
+
+// Engage
+@use "parts/engage";
 
 .cocart-setup-wizard {
 	text-align: center;
@@ -10,86 +20,45 @@
 }
 
 .cocart-content {
-	h1,
-	h2,
-	h3,
 	table {
-		margin: 0 0 20px;
 		border: 0;
-		padding: 0;
-		color: #666;
 		clear: none;
+		color: variables.$grey;
 		font-weight: 500;
-	}
-
-	p {
-		margin: 20px 0;
-		font-size: 1em;
-		line-height: 1.75;
-		color: #666;
-	}
-
-	p:first-of-type {
-		margin-top: 0;
-	}
-
-	p:last-child {
-		margin-bottom: 0;
-	}
-
-	label {
-		color: #666;
-		font-size: 14px;
-		font-weight: 600;
-		margin-bottom: 0.5em;
-		margin-top: 0.85em;
-		display: inline-block;
+		margin: 0 0 20px;
+		padding: 0;
 	}
 
 	.select-input {
+		background-color: variables.$white;
 		border: 1px solid #aaa;
 		border-color: #ddd;
 		border-radius: 4px;
+		color: #444;
+		display: block;
+		font-size: 16px;
 		height: 30px;
-		width: calc(100% - 8px - 8px - 2px);
 		padding-left: 8px;
 		padding-right: 8px;
-		font-size: 16px;
-		color: #444;
-		background-color: $white;
-		display: block;
+		width: calc(100% - 8px - 8px - 2px);
 
 		&.dropdown {
-			width: 100%;
 			max-width: 100%;
+			width: 100%;
 		}
-	}
-
-	span {
-		display: inline-block;
-		margin-top: 1rem;
 	}
 
 	table {
+		color: variables.$grey;
 		font-size: 1em;
 		line-height: 1.75;
-		color: #666;
-	}
-
-	a {
-		color: $cocart;
-
-		&:hover,
-		&:focus {
-			color: #111;
-		}
 	}
 
 	.form-table {
 		th {
-			width: 35%;
-			vertical-align: top;
 			font-weight: 400;
+			vertical-align: top;
+			width: 35%;
 		}
 
 		td {
@@ -166,7 +135,7 @@
 		line-height: 1.4;
 
 		a {
-			color: $cocart;
+			color: variables.$cocart;
 			text-decoration: none;
 			padding: 1.5em;
 			margin: -1.5em;
@@ -175,7 +144,7 @@
 
 			&:hover,
 			&:focus {
-				color: #111;
+				color: variables.$shadow;
 				text-decoration: underline;
 			}
 		}
@@ -192,26 +161,26 @@
 		left: 50%;
 		margin-left: -6px;
 		margin-bottom: -8px;
-		background: $white;
+		background: variables.$white;
 	}
 
 	li.active {
-		border-color: $cocart;
-		color: $cocart;
+		border-color: variables.$cocart;
+		color: variables.$cocart;
 		font-weight: 700;
 
 		&::before {
-			border-color: $cocart;
+			border-color: variables.$cocart;
 		}
 	}
 
 	li.done {
-		border-color: $cocart;
-		color: $cocart;
+		border-color: variables.$cocart;
+		color: variables.$cocart;
 
 		&::before {
-			border-color: $cocart;
-			background: $cocart;
+			border-color: variables.$cocart;
+			background: variables.$cocart;
 		}
 	}
 }
@@ -226,28 +195,6 @@
 	overflow: hidden;
 	margin: 20px 0 0;
 	position: relative;
-
-	.button-large {
-		font-weight: 300;
-		font-size: 16px;
-		padding: 1em 2em;
-		box-shadow: none;
-		min-width: 12em;
-		line-height: 1;
-		height: auto;
-		border-radius: 4px;
-	
-		&:focus,
-		&:hover,
-		&:active {
-			box-shadow: none;
-		}
-
-		&.button-primary {
-			margin: 0;
-			opacity: 1;
-		}
-	}
 }
 
 .cocart-setup-wizard-footer-links {
@@ -256,10 +203,6 @@
 	margin: 1.18em auto;
 	display: flow-root;
 	text-align: center;
-}
-
-.hide {
-	display: none;
 }
 
 .step {

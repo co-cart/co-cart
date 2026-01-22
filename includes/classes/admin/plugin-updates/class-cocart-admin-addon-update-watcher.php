@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   4.0.0 Introduced.
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -27,11 +27,9 @@ class CoCart_Admin_Addon_Update_Watcher {
 	 *
 	 * @access public
 	 *
-	 * @static
-	 *
 	 * @var string
 	 */
-	public static $cocart_core_plugin_id = 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php';
+	protected $cocart_core_plugin_id = '';
 
 	/**
 	 * A list of CoCart add-on identifiers.
@@ -56,6 +54,8 @@ class CoCart_Admin_Addon_Update_Watcher {
 	 * @return void
 	 */
 	public function __construct() {
+		$this->cocart_core_plugin_id = plugin_basename( COCART_FILE );
+
 		add_action( 'add_site_option_auto_update_plugins', array( $this, 'call_toggle_auto_updates_with_empty_array' ), 10, 2 );
 		add_action( 'update_site_option_auto_update_plugins', array( $this, 'toggle_auto_updates_for_add_ons' ), 10, 3 );
 		add_filter( 'plugin_auto_update_setting_html', array( $this, 'replace_auto_update_toggles_of_addons' ), 10, 2 );
@@ -89,12 +89,12 @@ class CoCart_Admin_Addon_Update_Watcher {
 
 		$auto_updated_plugins = get_site_option( 'auto_update_plugins' );
 
-		if ( $this->are_auto_updates_enabled( self::$cocart_core_plugin_id, $auto_updated_plugins ) ) {
+		if ( $this->are_auto_updates_enabled( $this->cocart_core_plugin_id, $auto_updated_plugins ) ) {
 			return sprintf(
 				'<em>%s</em>',
 				sprintf(
 					/* translators: %1$s resolves to CoCart. */
-					esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'cart-rest-api-for-woocommerce' ),
+					esc_html__( 'Auto-updates are enabled based on this setting for %1$s.', 'cocart-core' ),
 					'CoCart'
 				)
 			);
@@ -104,7 +104,7 @@ class CoCart_Admin_Addon_Update_Watcher {
 			'<em>%s</em>',
 			sprintf(
 				/* translators: %1$s resolves to CoCart. */
-				esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'cart-rest-api-for-woocommerce' ),
+				esc_html__( 'Auto-updates are disabled based on this setting for %1$s.', 'cocart-core' ),
 				'CoCart'
 			)
 		);
@@ -153,8 +153,8 @@ class CoCart_Admin_Addon_Update_Watcher {
 			return;
 		}
 
-		$auto_updates_are_enabled  = $this->are_auto_updates_enabled( self::$cocart_core_plugin_id, $new_value );
-		$auto_updates_were_enabled = $this->are_auto_updates_enabled( self::$cocart_core_plugin_id, $old_value );
+		$auto_updates_are_enabled  = $this->are_auto_updates_enabled( $this->cocart_core_plugin_id, $new_value );
+		$auto_updates_were_enabled = $this->are_auto_updates_enabled( $this->cocart_core_plugin_id, $old_value );
 
 		if ( $auto_updates_are_enabled === $auto_updates_were_enabled ) {
 			// Auto-updates for CoCart have stayed the same, so have neither been enabled or disabled.

@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.3.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -353,7 +354,7 @@ class CoCart_Helpers {
 	 */
 	public static function is_beta_release( $version = '' ) {
 		if ( empty( $version ) ) {
-			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+			return esc_html__( 'Unknown version specified', 'cocart-core' );
 		}
 
 		if ( strpos( $version, 'beta' ) ) {
@@ -378,7 +379,7 @@ class CoCart_Helpers {
 	 */
 	public static function is_rc_release( $version = '' ) {
 		if ( empty( $version ) ) {
-			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+			return esc_html__( 'Unknown version specified', 'cocart-core' );
 		}
 
 		if ( strpos( $version, 'rc' ) ) {
@@ -403,7 +404,7 @@ class CoCart_Helpers {
 	 */
 	public static function is_pre_release( $version = '' ) {
 		if ( empty( $version ) ) {
-			return esc_html__( 'Unknown version specified', 'cart-rest-api-for-woocommerce' );
+			return esc_html__( 'Unknown version specified', 'cocart-core' );
 		}
 
 		if (
@@ -604,9 +605,9 @@ class CoCart_Helpers {
 	 */
 	public static function cocart_campaign( $args = array() ) {
 		$defaults = array(
-			'utm_medium'   => 'cocart-lite',
+			'utm_medium'   => 'cocart-core',
 			'utm_source'   => 'WordPress',
-			'utm_campaign' => 'liteplugin',
+			'utm_campaign' => 'coreplugin',
 			'utm_content'  => '',
 		);
 
@@ -657,11 +658,11 @@ class CoCart_Helpers {
 		if ( $years > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of years */
-				__( '%s years', 'cart-rest-api-for-woocommerce' ),
+				__( '%s years', 'cocart-core' ),
 				$years
 			);
 		} elseif ( $years > 0 ) {
-			return __( 'a year', 'cart-rest-api-for-woocommerce' );
+			return __( 'a year', 'cocart-core' );
 		}
 
 		// Get the months.
@@ -669,11 +670,11 @@ class CoCart_Helpers {
 		if ( $months > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of months */
-				__( '%s months', 'cart-rest-api-for-woocommerce' ),
+				__( '%s months', 'cocart-core' ),
 				$months
 			);
 		} elseif ( $months > 0 ) {
-			return __( '1 month', 'cart-rest-api-for-woocommerce' );
+			return __( '1 month', 'cocart-core' );
 		}
 
 		// Get the weeks.
@@ -681,11 +682,11 @@ class CoCart_Helpers {
 		if ( $weeks > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of weeks */
-				__( '%s weeks', 'cart-rest-api-for-woocommerce' ),
+				__( '%s weeks', 'cocart-core' ),
 				$weeks
 			);
 		} elseif ( $weeks > 0 ) {
-			return __( 'a week', 'cart-rest-api-for-woocommerce' );
+			return __( 'a week', 'cocart-core' );
 		}
 
 		// Get the days.
@@ -693,11 +694,11 @@ class CoCart_Helpers {
 		if ( $days > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of days */
-				__( '%s days', 'cart-rest-api-for-woocommerce' ),
+				__( '%s days', 'cocart-core' ),
 				$days
 			);
 		} elseif ( $days > 0 ) {
-			return __( 'a day', 'cart-rest-api-for-woocommerce' );
+			return __( 'a day', 'cocart-core' );
 		}
 
 		// Get the hours.
@@ -705,20 +706,20 @@ class CoCart_Helpers {
 		if ( $hours > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of hours */
-				__( '%s hours', 'cart-rest-api-for-woocommerce' ),
+				__( '%s hours', 'cocart-core' ),
 				$hours
 			);
 		} elseif ( $hours > 0 ) {
-			return __( 'an hour', 'cart-rest-api-for-woocommerce' );
+			return __( 'an hour', 'cocart-core' );
 		}
 
 		// Get the minutes.
 		$minutes = ( intval( $seconds ) / MINUTE_IN_SECONDS ) % 60;
 		if ( $minutes > 1 ) {
 			/* translators: %s: Number of minutes */
-			return sprintf( __( '%s minutes', 'cart-rest-api-for-woocommerce' ), $minutes );
+			return sprintf( __( '%s minutes', 'cocart-core' ), $minutes );
 		} elseif ( $minutes > 0 ) {
-			return __( 'a minute', 'cart-rest-api-for-woocommerce' );
+			return __( 'a minute', 'cocart-core' );
 		}
 
 		// Get the seconds.
@@ -726,11 +727,11 @@ class CoCart_Helpers {
 		if ( $seconds > 1 ) {
 			return sprintf(
 				/* translators: %s: Number of seconds */
-				__( '%s seconds', 'cart-rest-api-for-woocommerce' ),
+				__( '%s seconds', 'cocart-core' ),
 				$seconds
 			);
 		} elseif ( $seconds > 0 ) {
-			return __( 'a second', 'cart-rest-api-for-woocommerce' );
+			return __( 'a second', 'cocart-core' );
 		}
 	} // END cocart_seconds_to_words()
 
@@ -814,7 +815,7 @@ class CoCart_Helpers {
 	public static function get_environment_message() {
 		return sprintf(
 			/* translators: 1: CoCart, 2: Required PHP version */
-			esc_html__( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( 'The minimum PHP version required for %1$s is %2$s. You are running %3$s.', 'cocart-core' ),
 			'CoCart',
 			CoCart::$required_php,
 			self::get_php_version()
@@ -1031,6 +1032,42 @@ class CoCart_Helpers {
 
 		return false;
 	} // END is_on_wordpress_playground()
+
+	/**
+	 * Get the license key.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param string|array $plugin_data Plugin slug or plugin data.
+	 *
+	 * @return string $license_key Returns license key stored for specific plugin.
+	 */
+	public static function get_license_key( $plugin_data = null ) {
+		$cocart_update_settings = maybe_unserialize( get_option( 'cocart_update_settings' ) );
+
+		if ( ! empty( $plugin_data ) ) {
+			if ( is_array( $plugin_data ) ) {
+				$plugin_slug = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : '';
+			} else {
+				$plugin_slug = $plugin_data;
+			}
+
+			if ( ! empty( $cocart_update_settings ) && array_key_exists( $plugin_slug, $cocart_update_settings ) ) {
+				$license_key = ! empty( $cocart_update_settings[ $plugin_slug ] ) ? $cocart_update_settings[ $plugin_slug ]['cocart_license_key'] : null;
+			} else {
+				$license_key = null;
+			}
+		} else {
+			// Fallback for sites using previous versions of CoCart that had the legacy license system for just that plugin.
+			$license_key = ! empty( $cocart_update_settings['cocart_license_key'] ) ? $cocart_update_settings['cocart_license_key'] : null;
+		}
+
+		return $license_key;
+	} // END get_license_key()
 } // END class
 
 return new CoCart_Helpers();

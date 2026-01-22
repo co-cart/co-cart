@@ -1,0 +1,71 @@
+name: Update Translations
+
+on:
+  schedule:
+    - cron: "0 0 * * 1" # Runs every Monday at midnight UTC
+  workflow_dispatch: # Allows manual trigger of the workflow
+
+jobs:
+  update-translations:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set Up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+
+    - name: Cache Node Modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install Dependencies
+      run: |
+        npm install grunt grunt-glotpress grunt-cli
+
+    - name: Download Translations
+      run: |
+        mkdir -p languages
+        npx grunt glotpress_download:stable
+
+    - name: Read language files
+      run: ls -R languages
+
+    - name: Commit Changes
+      run: |
+        git config user.name "CoCart Translations Bot"
+        git config user.email "bot@cocartapi.com"
+        git add languages/
+        if [ -n "$(git diff --cached)" ]; then
+          git commit -m "Updated translations from GlotPress"
+        else
+          echo "No changes detected. Skipping commit."
+        fi
+
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "Update translations from GlotPress"
+        branch: update-translations
+        title: "Update translations from GlotPress"
+        body: |
+          This PR updates the translations from [GlotPress](https://translate.cocartapi.com/).
+        labels: "translations, automation"
+
+    - name: Auto Merge Pull Request
+      if: steps.cpr.outputs.pull-request-operation == 'created'
+      uses: peter-evans/enable-pull-request-automerge@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+        merge-method: merge

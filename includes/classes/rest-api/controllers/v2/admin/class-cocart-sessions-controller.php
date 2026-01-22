@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Sessions\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,12 +21,12 @@ class_alias( 'CoCart_REST_Sessions_V2_Controller', 'CoCart_Sessions_V2_Controlle
  * This REST API controller handles the request to get sessions
  * via "cocart/v2/sessions" endpoint.
  *
- * @package CoCart REST API/API
+ * @since 4.0.0 Introduced.
  */
 class CoCart_REST_Sessions_V2_Controller {
 
 	/**
-	 * Endpoint namespace.
+	 * Route namespace. - Remove once new route registry is completed.
 	 *
 	 * @access protected
 	 *
@@ -34,13 +35,60 @@ class CoCart_REST_Sessions_V2_Controller {
 	protected $namespace = 'cocart/v2';
 
 	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @access protected
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'sessions';
+
+	/**
+	 * Version of route.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route. - Remove once route abstract is created to extend from.
+	 */
+	public function get_version() {
+		return $this->version;
+	}
+
+	/**
+	 * Get the path of this REST route.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	}
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public static function get_path_regex() {
+		return '/sessions';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_carts_in_session' ),
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),
+			),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_object_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register the routes for index.
@@ -51,18 +99,13 @@ class CoCart_REST_Sessions_V2_Controller {
 	 * @since 3.1.0 Added schema information.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Get Sessions - cocart/v2/sessions (GET).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_carts_in_session' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
-				),
-				'schema' => array( $this, 'get_public_object_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
@@ -77,7 +120,7 @@ class CoCart_REST_Sessions_V2_Controller {
 	 */
 	public function get_items_permissions_check() {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
-			return new WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cart-rest-api-for-woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new \WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -106,7 +149,7 @@ class CoCart_REST_Sessions_V2_Controller {
 			);
 
 			if ( empty( $results ) ) {
-				throw new CoCart_Data_Exception( 'cocart_no_carts_in_session', __( 'No carts in session!', 'cart-rest-api-for-woocommerce' ), 404 );
+				throw new CoCart_Data_Exception( 'cocart_no_carts_in_session', __( 'No carts in session!', 'cocart-core' ), 404 );
 			}
 
 			// Contains the results of sessions.
@@ -114,7 +157,7 @@ class CoCart_REST_Sessions_V2_Controller {
 
 			foreach ( $results as $key => $cart ) {
 				$cart_value = maybe_unserialize( $cart['cart_value'] );
-				$customer   = maybe_unserialize( $cart_value['customer'] );
+				$customer   = isset( $cart_value['customer'] ) ? maybe_unserialize( $cart_value['customer'] ) : array();
 
 				$email      = ! empty( $customer['email'] ) ? $customer['email'] : '';
 				$first_name = ! empty( $customer['first_name'] ) ? $customer['first_name'] : '';
@@ -140,7 +183,7 @@ class CoCart_REST_Sessions_V2_Controller {
 
 			return CoCart_Response::get_response( $sessions, $this->namespace, $this->rest_base );
 		} catch ( \CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END get_carts_in_session()
 
@@ -160,51 +203,51 @@ class CoCart_REST_Sessions_V2_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'cart_id'         => array(
-					'description' => __( 'Unique identifier for the session.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the session.', 'cocart-core' ),
 					'type'        => 'integer',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_key'        => array(
-					'description' => __( 'Unique identifier for the customers cart.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Unique identifier for the customers cart.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'customers_name'  => array(
-					'description' => __( 'The name of the customer provided.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The name of the customer provided.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'customers_email' => array(
-					'description' => __( 'The email the customer provided.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The email the customer provided.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_created'    => array(
-					'description' => __( 'The date and time the cart was created, in the site\'s timezone.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The date and time the cart was created, in the site\'s timezone.', 'cocart-core' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_expiry'     => array(
-					'description' => __( 'The date and time the cart will expire, in the site\'s timezone.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'The date and time the cart will expire, in the site\'s timezone.', 'cocart-core' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'cart_source'     => array(
-					'description' => __( 'Identifies the source of how the cart was made, native or headless.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'Identifies the source of how the cart was made, native or headless.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
 				'link'            => array(
-					'description' => __( 'URL to the individual cart in session.', 'cart-rest-api-for-woocommerce' ),
+					'description' => __( 'URL to the individual cart in session.', 'cocart-core' ),
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 					'readonly'    => true,

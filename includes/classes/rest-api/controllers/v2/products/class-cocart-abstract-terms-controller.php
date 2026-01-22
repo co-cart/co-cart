@@ -4,8 +4,8 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
- * @since   3.1.0
- * @license GPL-2.0+
+ * @since   3.1.0 Introduced.
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,11 +23,32 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 	abstract class CoCart_REST_Terms_V2_Controller extends CoCart_REST_Terms_Controller {
 
 		/**
-		 * Endpoint namespace.
+		 * Route namespace. - Remove once new route registry is completed.
 		 *
 		 * @var string
 		 */
 		protected $namespace = 'cocart/v2';
+
+		/**
+		 * Version of route.
+		 */
+		protected $version = 'v2';
+
+		/**
+		 * Get version of route. - Remove once route abstract is created to extend from.
+		 */
+		public function get_version() {
+			return $this->version;
+		}
+
+		/**
+		 * Get the path of this REST route.
+		 *
+		 * @return string
+		 */
+		public function get_path() {
+			return self::get_path_regex();
+		}
 
 		/**
 		 * Register the routes for terms.
@@ -45,7 +66,8 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 						'permission_callback' => array( $this, 'get_items_permissions_check' ),
 						'args'                => $this->get_collection_params(),
 					),
-					'schema' => array( $this, 'get_public_item_schema' ),
+					'allow_batch' => array( 'v1' => true ),
+					'schema'      => array( $this, 'get_public_item_schema' ),
 				)
 			);
 
@@ -59,16 +81,16 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 						'permission_callback' => array( $this, 'get_item_permissions_check' ),
 						'args'                => array(
 							'id'      => array(
-								'description' => __( 'Unique identifier for the resource.', 'cart-rest-api-for-woocommerce' ),
+								'description' => __( 'Unique identifier for the resource.', 'cocart-core' ),
 								'type'        => 'integer',
 							),
 							'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 						),
 					),
-					'schema' => array( $this, 'get_public_item_schema' ),
+					'allow_batch' => array( 'v1' => true ),
+					'schema'      => array( $this, 'get_public_item_schema' ),
 				)
 			);
 		}
 	}
-
 }

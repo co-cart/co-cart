@@ -7,8 +7,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin
  * @since   2.3.0 Introduced.
- * @version 4.3.7
- * @license GPL-2.0+
+ * @version 4.4.4
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -27,7 +27,7 @@ class CoCart_WC_Admin_Notes {
 	 * @access public
 	 */
 	public function __construct() {
-		add_action( 'admin_init', array( $this, 'include_notes' ), 15 );
+		add_action( 'wc_admin_daily', array( $this, 'include_notes' ), 15 );
 	}
 
 	/**

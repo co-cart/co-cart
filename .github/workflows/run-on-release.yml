@@ -1,0 +1,144 @@
+name: Zip and Checksum on Release
+
+on:
+  release:
+    types: [published]
+
+env:
+  TARGET_REF: ${{ github.event.release.tag_name }}
+  OUTPUT_DIR: "build"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_REF }}
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Get package name and version
+        id: package_info
+        run: |
+          PACKAGE_NAME=$(jq -r '.name' package.json)
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+
+      - name: Prepare build directory
+        run: |
+          BUILD_DIR="${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}"
+          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+          mkdir -p "${BUILD_DIR}"
+          find . -type f \
+            ! -path "./.*" \
+            ! -name "Gruntfile.js" \
+            ! -path "./*/.*" \
+            ! -name "*.dist" \
+            ! -name "*.html" \
+            ! -name "*.json" \
+            ! -name "*.log" \
+            ! -name "*.lock" \
+            ! -name "*.md" \
+            ! -name "*.md5" \
+            ! -name "*.neon" \
+            ! -name "*.scss" \
+            ! -name "*.sh" \
+            ! -name "*.tar.gz" \
+            ! -name "*.txt" \
+            ! -name "*.xml" \
+            ! -name "*.zip" \
+            ! -path "./.*/**" \
+            ! -name ".DS_Store" \
+            ! -name ".htaccess" \
+            ! -path "./assets/scss/**" \
+            ! -name "*.scss" \
+            ! -path "./bin/**" \
+            ! -path "./build/**" \
+            ! -path "./node_modules/**" \
+            ! -path "./releases/**" \
+            ! -path "./tests/**" \
+            ! -path "./vendor/**" \
+            ! -path "./unit-tests/**" \
+            -print0 | xargs -0 -I {} cp --parents "{}" "${BUILD_DIR}"
+        shell: bash
+
+      - name: Generate Checksum File
+        working-directory: ${{ env.BUILD_DIR }}
+        run: |
+          find . -type f \
+            ! -name '*.md5' \
+            -exec md5sum {} + > "checksum.md5"
+          find . -type f \
+            ! -name '*.md5' \
+            -exec sha256sum {} + > "checksum.sha"
+
+      - name: Verify build directory contents
+        run: |
+          ls -R ${{ env.BUILD_DIR }}
+
+      - name: Create TAR.GZ Archive
+        working-directory: ${{ env.OUTPUT_DIR }}
+        run: |
+          tar -czf "${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
+        shell: bash
+
+      - name: Create ZIP Archive
+        working-directory: ${{ env.OUTPUT_DIR }}
+        run: |
+          zip -r "${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
+        shell: bash
+
+      - name: Upload assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: |
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
+            ${{ env.BUILD_DIR }}/checksum.md5
+            ${{ env.BUILD_DIR }}/checksum.sha
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 0
+
+  upload:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_REF }}
+
+      - name: Get Package Info
+        id: package_info
+        run: |
+          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: Download Assets
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: release-artifacts
+          merge-multiple: true
+      - run: ls -R release-artifacts
+
+      - name: Attach Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TARGET_REF }}
+          files: |
+            release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
+            release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
+            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
+            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.sha
+          fail_on_unmatched_files: true
+          token: ${{ secrets.GITHUB_TOKEN }}

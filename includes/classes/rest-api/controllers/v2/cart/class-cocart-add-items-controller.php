@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v2
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,23 +23,43 @@ class_alias( 'CoCart_REST_Add_Items_V2_Controller', 'CoCart_Add_Items_V2_Control
  *
  * @since 3.0.0 Introduced.
  *
- * @see CoCart_Add_Item_Controller
+ * @see CoCart_REST_Add_Item_V2_Controller
  */
-class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
+class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Controller {
 
 	/**
-	 * Endpoint namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base.
+	 * Route base. - Replaced with `get_path()`
 	 *
 	 * @var string
 	 */
 	protected $rest_base = 'cart/add-items';
+
+	/**
+	 * Get the path of this rest route.
+	 *
+	 * @return string
+	 */
+	public function get_path_regex() {
+		return '/cart/add-items';
+	}
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array An array of endpoints.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'add_items_to_cart' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_item_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Register routes.
@@ -50,20 +71,13 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		// Add Items - cocart/v2/cart/add-items (POST).
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'add_items_to_cart' ),
-					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
-				),
-				'allow_batch' => array( 'v1' => true ),
-				'schema'      => array( $this, 'get_public_item_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
@@ -80,15 +94,15 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function add_items_to_cart( $request = array() ) {
+	public function add_items_to_cart( $request ) {
 		try {
+			$cart = $this->get_cart_instance();
+
 			$product_id = ! isset( $request['id'] ) ? 0 : wc_clean( wp_unslash( $request['id'] ) );
 			$items      = isset( $request['quantity'] ) && is_array( $request['quantity'] ) ? wp_unslash( $request['quantity'] ) : array();
 
-			$controller = new CoCart_REST_Cart_V2_Controller();
-
 			// Validate product ID before continuing and return correct product ID if different.
-			$product_id = $controller->validate_product_id( $product_id );
+			$product_id = CoCart_Utilities_Cart_Helpers::validate_product_id( $product_id );
 
 			// Return error response if product ID is not found.
 			if ( is_wp_error( $product_id ) ) {
@@ -97,15 +111,12 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 
 			// The product we are attempting to add to the cart.
 			$adding_to_cart = wc_get_product( $product_id );
-			$adding_to_cart = $controller->validate_product_for_cart( $adding_to_cart );
+			$adding_to_cart = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $adding_to_cart );
 
 			// Return error response if product cannot be added to cart?
 			if ( is_wp_error( $adding_to_cart ) ) {
 				return $adding_to_cart;
 			}
-
-			// Filters additional requested data.
-			$request = $controller->filter_request_data( $request );
 
 			/**
 			 * Filters the add to cart handler.
@@ -115,8 +126,8 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 			 *
 			 * @since 2.1.0 Introduced.
 			 *
-			 * @param string     $adding_to_cart_handler The product type to identify handler.
-			 * @param WC_Product $adding_to_cart         The product object
+			 * @param string     $product_type   The product type to identify handler.
+			 * @param WC_Product $adding_to_cart The product object
 			 */
 			$add_items_to_cart_handler = apply_filters( 'cocart_add_items_to_cart_handler', $adding_to_cart->get_type(), $adding_to_cart );
 
@@ -127,226 +138,59 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 				 * Allows you to specify the handlers validation method for
 				 * adding item to the cart.
 				 *
+				 * Example: "cocart_add_items_to_cart_handler_grouped"
+				 *
 				 * @since 2.1.0 Introduced.
 				 *
-				 * @param string          $adding_to_cart_handler The product type to identify handler.
-				 * @param WC_Product      $adding_to_cart         The product object
-				 * @param WP_REST_Request $request                The request object.
+				 * @param WC_Product      $adding_to_cart The product object
+				 * @param WP_REST_Request $request        The request object.
 				 */
-				$items_added_to_cart = apply_filters( "cocart_add_items_to_cart_handler_{$add_items_to_cart_handler}", $adding_to_cart, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+				$items_added_to_cart = apply_filters( 'cocart_add_items_to_cart_handler_' . $add_items_to_cart_handler, $adding_to_cart, $request ); // Custom handler.
 			} else {
-				$items_added_to_cart = $this->add_to_cart_handler_grouped( $product_id, $items, $request );
+				$items_added_to_cart = $this->add_to_cart_handler_grouped( $request, $cart );
 			}
 
-			if ( ! is_wp_error( $items_added_to_cart ) ) {
-				/**
-				 * Set customers billing email address.
-				 *
-				 * @since 3.1.0 Introduced.
-				 */
-				if ( isset( $request['email'] ) ) {
-					$is_email = \WC_Validation::is_email( $request['email'] );
-
-					if ( $is_email ) {
-						WC()->customer->set_props(
-							array(
-								'billing_email' => trim( esc_html( $request['email'] ) ),
-							)
-						);
-					}
-				}
-
-				/**
-				 * Set customers billing phone number.
-				 *
-				 * @since 4.1.0 Introduced.
-				 */
-				if ( isset( $request['phone'] ) ) {
-					$is_phone = \WC_Validation::is_phone( $request['phone'] );
-
-					if ( $is_phone ) {
-						WC()->customer->set_props(
-							array(
-								'billing_phone' => trim( esc_html( $request['phone'] ) ),
-							)
-						);
-					}
-				}
-
-				/**
-				 * Hook: Fires once items have been added to cart.
-				 *
-				 * Allows for additional requested data to be processed such as modifying the price of the item.
-				 *
-				 * @since 4.1.0 Introduced.
-				 *
-				 * @hooked: set_new_price - 1
-				 *
-				 * @param array           $items_added_to_cart       The product added to cart.
-				 * @param WP_REST_Request $request                   The request object.
-				 * @param string          $add_items_to_cart_handler The product type added to cart.
-				 * @param object          $controller                The cart controller.
-				 */
-				do_action( 'cocart_after_items_added_to_cart', $items_added_to_cart, $request, $add_items_to_cart_handler, $controller );
-
-				// Was it requested to return the items details after being added?
-				if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
-					$response = array();
-
-					foreach ( $items_added_to_cart as $id => $item ) {
-						$response[] = $controller->get_item( $item['data'], $item, $request );
-					}
-				} else {
-					$response = $controller->get_cart_contents( $request );
-				}
-
-				return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+			if ( is_wp_error( $items_added_to_cart ) ) {
+				return $items_added_to_cart;
 			}
 
-			return $items_added_to_cart;
+			/**
+			 * Hook: Fires once items have been added to cart.
+			 *
+			 * Allows for additional requested data to be processed such as modifying the price of the item.
+			 *
+			 * @since 4.1.0 Introduced.
+			 *
+			 * @hooked: set_new_price - 1
+			 * @hooked: add_customer_billing_details - 10
+			 *
+			 * @param bool|array      $items_added_to_cart       The product added to cart.
+			 * @param WP_REST_Request $request                   The request object.
+			 * @param string          $add_items_to_cart_handler The product type added to cart.
+			 * @param object          $controller                The controller.
+			 */
+			do_action( 'cocart_after_items_added_to_cart', $items_added_to_cart, $request, $add_items_to_cart_handler, $this );
+
+			// Was it requested to return the items details after being added?
+			if ( isset( $request['return_items'] ) && is_bool( $request['return_items'] ) && $request['return_items'] ) {
+				$response = array();
+
+				foreach ( $items_added_to_cart as $id => $item ) {
+					$response[] = $this->get_item( $item['data'], $item, $request );
+				}
+			} else {
+				$request['dont_calculate'] = true;
+				$response                  = $this->get_cart( $request );
+			}
+
+			$response = rest_ensure_response( $response );
+			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+			return $response;
 		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END add_items_to_cart()
-
-	/**
-	 * Handle adding grouped product to the cart.
-	 *
-	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
-	 *
-	 * @access public
-	 *
-	 * @param string          $product_id Contains the id of the container product to add to the cart.
-	 * @param array           $items      Contains the quantity of the items to add to the cart.
-	 * @param WP_REST_Request $request    The request object.
-	 *
-	 * @return bool            success or not
-	 */
-	public function add_to_cart_handler_grouped( $product_id, $items, $request ) {
-		try {
-			$controller = new CoCart_REST_Cart_V2_Controller();
-
-			$was_added_to_cart = false;
-			$added_to_cart     = array();
-
-			if ( ! empty( $items ) ) {
-				$quantity_set = false;
-
-				foreach ( $items as $item => $quantity ) {
-					$quantity = wc_stock_amount( $quantity );
-
-					if ( $quantity <= 0 ) {
-						continue;
-					}
-
-					$quantity_set = true;
-
-					// Product validation.
-					$product_to_add = $controller->validate_product( $item, $quantity, 0, array(), array(), 'grouped', $request );
-
-					// If validation failed then return error response.
-					if ( is_wp_error( $product_to_add ) ) {
-						return $product_to_add;
-					}
-
-					// Suppress total recalculation until finished.
-					remove_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
-
-					// Add item to cart once validation is passed.
-					$item_added = $this->add_item_to_cart( $product_to_add );
-
-					if ( false !== $item_added ) {
-						$was_added_to_cart      = true;
-						$added_to_cart[ $item ] = $item_added;
-					}
-
-					add_action( 'woocommerce_add_to_cart', array( WC()->cart, 'calculate_totals' ), 20, 0 );
-				}
-
-				if ( ! $was_added_to_cart && ! $quantity_set ) {
-					throw new CoCart_Data_Exception( 'cocart_grouped_product_failed', __( 'Please choose the quantity of items you wish to add to your cart.', 'cart-rest-api-for-woocommerce' ), 404 );
-				} elseif ( $was_added_to_cart ) {
-					cocart_add_to_cart_message( $added_to_cart );
-
-					// Calculate totals now all items in the group has been added to cart.
-					$controller->get_cart_instance()->calculate_totals();
-
-					return $added_to_cart;
-				}
-			} else {
-				throw new CoCart_Data_Exception( 'cocart_grouped_product_empty', __( 'Please choose a product to add to your cart.', 'cart-rest-api-for-woocommerce' ), 404 );
-			}
-		} catch ( CoCart_Data_Exception $e ) {
-			return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
-		}
-	} // END add_to_cart_handler_grouped()
-
-	/**
-	 * Get the schema for adding items, conforming to JSON Schema.
-	 *
-	 * @access public
-	 *
-	 * @since      3.0.0 Introduced.
-	 * @deprecated 4.0.0 Replaced with `get_public_item_schema()`.
-	 *
-	 * @see get_public_item_schema()
-	 *
-	 * @return array Item schema data.
-	 */
-	public function get_item_schema() {
-		cocart_deprecated_function( __FUNCTION__, '4.0.0', 'get_public_item_schema' );
-
-		$schema = array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'cocart_cart_add_items',
-			'type'       => 'object',
-			'properties' => array(
-				'id'           => array(
-					'required'    => true,
-					'description' => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-				),
-				'quantity'     => array(
-					'required'    => true,
-					'description' => __( 'List of items and quantity in the cart.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'object',
-				),
-				'email'        => array(
-					'required'    => false,
-					'description' => __( 'Customers billing email address.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'string',
-				),
-				'return_items' => array(
-					'required'    => false,
-					'default'     => false,
-					'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
-					'type'        => 'boolean',
-				),
-			),
-		);
-
-		$schema['properties'] = apply_filters( 'cocart_add_items_schema', $schema['properties'], $this->rest_base );
-
-		return $schema;
-	} // END get_item_schema()
-
-	/**
-	 * Retrieves the item schema for adding an item.
-	 *
-	 * @access public
-	 *
-	 * @since 4.0.0 Introduced.
-	 *
-	 * @return array Public item schema data.
-	 */
-	public function get_public_item_schema() {
-		$controller = new CoCart_REST_Cart_V2_Controller();
-
-		// Cart schema.
-		$schema = $controller->get_public_item_schema();
-
-		return $schema;
-	} // END get_public_item_schema()
 
 	/**
 	 * Get the query params for adding items.
@@ -354,51 +198,24 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_Add_Item_Controller {
 	 * @access public
 	 *
 	 * @since 3.0.0 Introduced.
-	 * @since 3.1.0 Added email parameter.
-	 * @since 4.1.0 Added phone number parameter.
 	 *
 	 * @return array $params Query parameters for the endpoint.
 	 */
 	public function get_collection_params() {
-		$controller = new CoCart_REST_Cart_V2_Controller();
+		// Get main cart query parameters.
+		$params = parent::get_collection_params();
 
-		// Cart query parameters.
-		$params = $controller->get_collection_params();
-
-		// Add to cart query parameters.
-		$params += array(
-			'id'           => array(
-				'description'       => __( 'Unique identifier for the container product ID.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'quantity'     => array(
-				'required'          => true,
-				'description'       => __( 'List of items and quantity to add to the cart.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'object',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'email'        => array(
-				'required'          => false,
-				'description'       => __( 'Set the customers billing email address.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_email',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'phone'        => array(
-				'description'       => __( 'Set the customers billing phone number.', 'cart-rest-api-for-woocommerce' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
-			'return_items' => array(
-				'description' => __( 'Returns the items details once added.', 'cart-rest-api-for-woocommerce' ),
-				'default'     => false,
-				'type'        => 'boolean',
-			),
+		// Override parameters for this route.
+		$params['quantity'] = array(
+			'required'          => true,
+			'description'       => __( 'List of items and quantity to add to the cart.', 'cocart-core' ),
+			'type'              => 'array',
+			'sanitize_callback' => 'rest_sanitize_quantity_arg',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
+
+		$params['return_items'] = $params['return_item'];
+		unset( $params['return_item'] );
 
 		/**
 		 * Extends the query parameters.

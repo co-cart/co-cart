@@ -7,8 +7,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   3.0.0
- * @version 4.2.0
- * @license GPL-2.0+
+ * @version 5.0.0
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -73,11 +73,11 @@ function cocart_allowed_image_mime_types() {
  */
 function cocart_upload_dir( $pathdata ) {
 	if ( empty( $pathdata['subdir'] ) ) {
-		$pathdata['path']   = $pathdata['path'] . '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
-		$pathdata['url']    = $pathdata['url'] . '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
-		$pathdata['subdir'] = '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
+		$pathdata['path']   = $pathdata['path'] . '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
+		$pathdata['url']    = $pathdata['url'] . '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
+		$pathdata['subdir'] = '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
 	} else {
-		$subdir             = '/cocart_uploads/' . md5( WC()->session->get_customer_id() );
+		$subdir             = '/cocart_uploads/' . md5( WC()->session->get_cart_key() );
 		$pathdata['path']   = str_replace( $pathdata['subdir'], $subdir, $pathdata['path'] );
 		$pathdata['url']    = str_replace( $pathdata['subdir'], $subdir, $pathdata['url'] );
 		$pathdata['subdir'] = str_replace( $pathdata['subdir'], $subdir, $pathdata['subdir'] );
@@ -122,11 +122,11 @@ function cocart_upload_image_from_url( $image_url ) {
 
 	// Check parsed URL.
 	if ( ! $parsed_url || ! is_array( $parsed_url ) ) {
-		return new WP_Error(
+		return new \WP_Error(
 			'cocart_invalid_image_url',
 			sprintf(
 				/* translators: %s: image URL */
-				__( 'Invalid URL %s.', 'cart-rest-api-for-woocommerce' ),
+				__( 'Invalid URL %s.', 'cocart-core' ),
 				$image_url
 			),
 			array( 'status' => 400 )
@@ -149,16 +149,16 @@ function cocart_upload_image_from_url( $image_url ) {
 
 	// If error storing temporarily, return the error.
 	if ( is_wp_error( $file_array['tmp_name'] ) ) {
-		return new WP_Error(
+		return new \WP_Error(
 			'cocart_invalid_remote_image_url',
 			sprintf(
 				/* translators: %s: image URL */
-				__( 'Error getting remote image %s.', 'cart-rest-api-for-woocommerce' ),
+				__( 'Error getting remote image %s.', 'cocart-core' ),
 				$image_url
 			) . ' '
 			. sprintf(
 				/* translators: %s: error message */
-				__( 'Error: %s', 'cart-rest-api-for-woocommerce' ),
+				__( 'Error: %s', 'cocart-core' ),
 				$file_array['tmp_name']->get_error_message()
 			),
 			array( 'status' => 400 )
@@ -182,11 +182,11 @@ function cocart_upload_image_from_url( $image_url ) {
 	if ( isset( $file['error'] ) ) {
 		@unlink( $file_array['tmp_name'] ); // @codingStandardsIgnoreLine.
 
-		return new WP_Error(
+		return new \WP_Error(
 			'cocart_invalid_image',
 			sprintf(
 				/* translators: %s: error message */
-				__( 'Invalid image: %s', 'cart-rest-api-for-woocommerce' ),
+				__( 'Invalid image: %s', 'cocart-core' ),
 				$file['error']
 			),
 			array( 'status' => 400 )
@@ -233,10 +233,12 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 		'post_content'   => $content,
 	);
 
-	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id );
-	if ( ! is_wp_error( $attachment_id ) ) {
-		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+	$attachment_id = wp_insert_attachment( $attachment, $upload['file'], $id, true );
+	if ( is_wp_error( $attachment_id ) ) {
+		return 0;
 	}
+
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 
 	return $attachment_id;
 } // END cocart_set_uploaded_image_as_attachment()
@@ -306,7 +308,7 @@ function cocart_price_no_html( $price, $args = array() ) {
 	/**
 	 * Filter formatted price.
 	 *
-	 * @param float        $formatted_price    Formatted price.
+	 * @param string       $formatted_price    Formatted price.
 	 * @param float        $price              Unformatted price.
 	 * @param int          $decimals           Number of decimals.
 	 * @param string       $decimal_separator  Decimal separator.
@@ -375,7 +377,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 			'cocart_add_to_cart_item_name_in_quotes',
 			sprintf(
 				/* translators: %s: product name */
-				_x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
+				_x( '&ldquo;%s&rdquo;', 'Item name in quotes', 'cocart-core' ),
 				wp_strip_all_tags( get_the_title( $product_id ) )
 			),
 			$product_id
@@ -387,7 +389,7 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 
 	$added_text = sprintf(
 		/* translators: %s: product name */
-		_n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cart-rest-api-for-woocommerce' ),
+		_n( '%s has been added to your cart.', '%s have been added to your cart.', $count, 'cocart-core' ),
 		wc_format_list_of_items( $titles )
 	);
 
@@ -406,6 +408,10 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  *
  * @since 3.1.0 Introduced.
  *
+ * @deprecated 5.0.0 Replaced with `cocart_format_money()` function.
+ *
+ * @see cocart_format_money()
+ *
  * @param string|float $amount        Monetary amount with decimals.
  * @param int          $decimals      Number of decimals the amount is formatted with.
  * @param int          $rounding_mode Defaults to the PHP_ROUND_HALF_UP constant.
@@ -413,29 +419,9 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
  * @return string The new amount.
  */
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
-	// If string, clean it first.
-	if ( is_string( $amount ) ) {
-		$amount = wc_format_decimal( html_entity_decode( wp_strip_all_tags( $amount ) ) );
-		$amount = (float) $amount;
-	}
+	cocart_deprecated_function( 'cocart_prepare_money_response', '5.0.0', 'cocart_format_money' );
 
-	/**
-	 * This filter allows you to disable the decimals.
-	 * If set to "True" the decimals will be set to "Zero".
-	 */
-	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
-
-	if ( $disable_decimals ) {
-		$decimals = 0;
-	}
-
-	return (string) intval(
-		round(
-			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
-			0,
-			absint( $rounding_mode )
-		)
-	);
+	return cocart_format_money( $amount );
 } // END cocart_prepare_money_response()
 
 /**
@@ -497,7 +483,7 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
 	 * @param string|array $object_type Object(s) the field is being registered to, "post"|"term"|"comment" etc.
 	 * @param string       $attribute   The attribute name.
 	 */
-	function unregister_rest_field( $object_type, $attribute ) {
+	function unregister_rest_field( $object_type, $attribute ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 		global $wp_rest_additional_fields;
 
 		$object_types = (array) $object_type;
@@ -518,8 +504,8 @@ if ( ! function_exists( 'unregister_rest_field' ) ) {
  * @return array
  */
 function cocart_get_min_max_price_meta_query( $args ) {
-	$current_min_price = isset( $args['min_price'] ) ? floatval( $args['min_price'] ) : 0;
-	$current_max_price = isset( $args['max_price'] ) ? floatval( $args['max_price'] ) : PHP_INT_MAX;
+	$current_min_price = isset( $args['min_price'] ) ? absint( $args['min_price'] ) : 0;
+	$current_max_price = isset( $args['max_price'] ) ? absint( $args['max_price'] ) : PHP_INT_MAX;
 
 	return apply_filters(
 		'woocommerce_get_min_max_price_meta_query', // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
@@ -546,9 +532,236 @@ function cocart_get_notice_types() {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param array Notice types.
+	 * @param array $types Notice types.
 	 */
 	$notice_types = apply_filters( 'cocart_notice_types', array( 'error', 'success', 'notice', 'info' ) );
 
 	return $notice_types;
 } // END cocart_get_notice_types()
+
+/**
+ * Check if a REST namespace should be loaded.
+ *
+ * Useful to maintain site performance even when lots of REST namespaces are registered.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param string $ns         The namespace to check.
+ * @param string $rest_route (Optional) The REST route being checked.
+ *
+ * @return bool True if the namespace should be loaded, false otherwise.
+ */
+function cocart_rest_should_load_namespace( string $ns, string $rest_route = '' ) {
+	if ( '' === $rest_route ) {
+		$rest_route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+	}
+
+	if ( '' === $rest_route ) {
+		return true;
+	}
+
+	$rest_route = trailingslashit( ltrim( $rest_route, '/' ) );
+	$ns         = trailingslashit( $ns );
+
+	/**
+	 * Known namespaces that we know are safe to not load if the request is not for them.
+	 * Namespaces not in this namespace should always be loaded, because we don't know if they won't be making another internal REST request to an unloaded namespace.
+	 */
+	$known_namespaces = array(
+		'cocart/v1',
+		'cocart/v2',
+		'cocart/batch',
+	);
+
+	$known_namespace_request = false;
+	foreach ( $known_namespaces as $known_namespace ) {
+		if ( str_starts_with( $rest_route, $known_namespace ) ) {
+			$known_namespace_request = true;
+			break;
+		}
+	}
+
+	if ( ! $known_namespace_request ) {
+		return true;
+	}
+
+	/**
+	 * Filters whether a namespace should be loaded.
+	 *
+	 * @param bool   $should_load True if the namespace should be loaded, false otherwise.
+	 * @param string $ns          The namespace to check.
+	 * @param string $rest_route  The REST route being checked.
+	 * @param array  $known_namespaces Known namespaces that we know are safe to not load if the request is not for them.
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	return apply_filters( 'cocart_rest_should_load_namespace', str_starts_with( $rest_route, $ns ), $ns, $rest_route, $known_namespaces );
+} // END cocart_rest_should_load_namespace()
+
+/**
+ * Get CoCart requested namespace.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace() {
+	return CoCart::$cocart_namespace;
+} // END cocart_get_requested_namespace()
+
+/**
+ * Get CoCart requested namespace version.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_namespace_version() {
+	return CoCart::$cocart_namespace_version;
+} // END cocart_get_requested_namespace_version()
+
+/**
+ * Get CoCart requested API.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @return string
+ */
+function cocart_get_requested_api() {
+	return cocart_get_requested_namespace() . '/' . cocart_get_requested_namespace_version();
+} // END cocart_get_requested_api()
+
+/**
+ * Get the frontend URL.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param array $settings CoCart settings passed. Empty by default.
+ *
+ * @return string
+ */
+function cocart_get_frontend_url( array $settings = array() ) {
+	// If no settings already passed, fetch them.
+	if ( empty( $settings ) ) {
+		$settings = get_option( 'cocart_settings', array() );
+	}
+
+	$frontend_url = ! empty( $settings['general']['frontend_url'] ) ? $settings['general']['frontend_url'] : '';
+
+	// Dev note: The filter below will take precedence over the setting set above.
+
+	/**
+	 * Filters the frontend URL that users will be redirected to if WordPress access is disabled.
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	$frontend_url = apply_filters( 'cocart_wp_frontend_url', $frontend_url );
+
+	// If nothing set or filtered then return default home_url().
+	if ( empty( $frontend_url ) ) {
+		return home_url();
+	}
+
+	return $frontend_url;
+} // END cocart_get_frontend_url()
+
+/**
+ * Checks if WordPress has been disabled access.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param array $settings CoCart settings passed. Default is 'no'.
+ *
+ * @return string
+ */
+function cocart_is_wp_disabled_access( array $settings = array() ) {
+	// If no settings already passed, fetch them.
+	if ( empty( $settings ) ) {
+		$settings = get_option( 'cocart_settings', array() );
+	}
+
+	$disabled = ! empty( $settings['general']['disable_wp_access'] ) ? $settings['general']['disable_wp_access'] : 'no';
+
+	// Dev note: The filter below will take precedence over the setting set above.
+
+	/**
+	 * Filters access to WordPress. Default is 'no'.
+	 *
+	 * @since 5.0.0 Introduced.
+	 */
+	$disabled = apply_filters( 'cocart_wp_disable_access', $disabled );
+
+	return $disabled;
+} // END cocart_is_wp_disabled_access()
+
+/**
+ * Returns the permalink for a page/post/product and replaces the frontend URL if set.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param string $url      Permalink of page/post/product.
+ * @param array  $settings CoCart settings passed. Empty by default.
+ *
+ * @return string Permalink.
+ */
+function cocart_get_permalink( string $url, array $settings = array() ) {
+	// If no settings already passed, fetch them.
+	if ( empty( $settings ) ) {
+		$settings = get_option( 'cocart_settings', array() );
+	}
+
+	$frontend_url = cocart_get_frontend_url( $settings );
+
+	return str_replace( home_url(), $frontend_url, $url );
+} // END cocart_get_permalink()
+
+if ( ! function_exists( 'rest_sanitize_quantity_arg' ) ) {
+	/**
+	 * Sanitize the quantity parameter.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param mixed $quantity The quantity parameter.
+	 *
+	 * @return mixed Sanitized quantity.
+	 */
+	function rest_sanitize_quantity_arg( $quantity ) {
+		if ( is_array( $quantity ) ) {
+			return array_map( 'wc_clean', $quantity );
+		}
+
+		return wc_clean( wp_unslash( $quantity ) );
+	} // END rest_sanitize_quantity_arg()
+}
+
+if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
+	/**
+	 * Validates the quantity argument.
+	 *
+	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 The $value parameter now accepts array.
+	 *
+	 * @param mixed           $value   Number of quantity to validate.
+	 * @param WP_REST_Request $request The request object.
+	 * @param string          $param   Argument parameters.
+	 *
+	 * @return bool True if the quantity is valid, false otherwise.
+	 */
+	function rest_validate_quantity_arg( $value, $request, $param ) {
+		if ( is_array( $value ) ) {
+			foreach ( $value as $quantity ) {
+				if ( is_numeric( $quantity ) || is_float( $quantity ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		if ( is_numeric( $value ) || is_float( $value ) ) {
+			return true;
+		}
+
+		return false;
+	} // END rest_validate_quantity_arg()
+}

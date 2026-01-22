@@ -7,7 +7,13 @@
  * @author  Sébastien Dumont
  * @package CoCart\Functions
  * @since   4.2.0 Introduced.
+ * @license GPL-3.0
  */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Runs a deprecated action with notice only if used.
@@ -75,15 +81,15 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
 
 		$log_string = sprintf(
 			/* translators: %1$s: filter name, %2$s: version */
-			esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( '%1$s is deprecated since version %2$s', 'cocart-core' ),
 			$hook,
 			$version
 		);
 		$log_string .= $replacement ? sprintf(
 			/* translators: %s: filter name */
-			esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( '! Use %s instead.', 'cocart-core' ),
 			$replacement
-		) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
+		) : esc_html__( ' with no alternative available.', 'cocart-core' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );
 	} else {
@@ -114,15 +120,15 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 
 		$log_string = sprintf(
 			/* translators: %1$s: filter name, %2$s: version */
-			esc_html__( '%1$s is deprecated since version %2$s', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( '%1$s is deprecated since version %2$s', 'cocart-core' ),
 			$filter,
 			$version
 		);
 		$log_string .= $replacement ? sprintf(
 			/* translators: %s: filter name */
-			esc_html__( '! Use %s instead.', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( '! Use %s instead.', 'cocart-core' ),
 			$replacement
-		) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
+		) : esc_html__( ' with no alternative available.', 'cocart-core' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );
 	} else {
@@ -136,6 +142,7 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
  * Uses "wp_doing_ajax()" to check if the request is an AJAX request.
  *
  * @since 3.10.8 Introduced.
+ * @since 5.0.0  Added the $message parameter.
  *
  * @uses CoCart::is_rest_api_request() to check if the request is a REST API request.
  * @uses CoCart_Logger::log() to log the deprecation.
@@ -144,24 +151,27 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
  * @param string $function_name Function used.
  * @param string $version       The version of CoCart the message was added in.
  * @param string $replacement   Replacement for the called function.
+ * @param string $message       A message regarding the change.
  */
-function cocart_deprecated_function( $function_name, $version = '', $replacement = null ) {
+function cocart_deprecated_function( $function_name, $version = '', $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || CoCart::is_rest_api_request() ) {
 		do_action( 'deprecated_function_run', $function_name, $replacement, $version ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
+		$message = empty( $message ) ? '' : ' ' . $message;
+
 		$log_string = sprintf(
 			/* translators: %1$s: Function name, %2$s: Version */
-			esc_html__( 'The %1$s function is deprecated since version %2$s.', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( 'The %1$s function is deprecated since version %2$s.', 'cocart-core' ),
 			$function_name,
 			$version
 		);
 		$log_string .= $replacement ? sprintf(
 			/* translators: %s: Function name */
-			esc_html__( ' Replace with %s.', 'cart-rest-api-for-woocommerce' ),
+			esc_html__( ' Replace with %s.', 'cocart-core' ),
 			$replacement
 		) : '';
 
-		CoCart_Logger::log( $log_string, 'debug' );
+		CoCart_Logger::log( $log_string . $message, 'debug' );
 	} else {
 		_deprecated_function( esc_html( $function_name ), esc_html( $version ), esc_html( $replacement ) );
 	}

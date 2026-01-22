@@ -8,10 +8,15 @@ The CoCart Headless Security Team believes in Responsible Disclosure by alerting
 
 | Version | Supported |
 |---------| --------- |
+| 4.8.x   | Yes       |
+| 4.7.x   | Yes       |
+| 4.6.x   | Yes       |
+| 4.5.x   | Yes       |
+| 4.4.x   | Yes       |
 | 4.3.x   | Yes       |
 | 4.2.x   | No        |
-| 4.1.x   | Yes       |
-| 4.0.x   | Yes       |
+| 4.1.x   | No        |
+| 4.0.x   | No        |
 | < 4.0.0 | No        |
 
 ## Reporting a Vulnerability
@@ -24,7 +29,6 @@ Our most critical targets are:
 
 * CoCart core (this repository)
 * cocartapi.com -- the primary marketplace and marketing site.
-* cocart.dev -- Developers resources, release updates, guides.
 
 ## Guidelines
 

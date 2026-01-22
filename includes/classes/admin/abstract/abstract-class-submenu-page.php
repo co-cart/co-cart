@@ -3,9 +3,9 @@
  * Abstract: CoCart Submenu Page.
  *
  * @author  Sébastien Dumont
- * @package CoCart\Admin\Settings
+ * @package CoCart\Admin\Abstract
  * @since   3.10.0 Introduced.
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
@@ -113,6 +113,13 @@ abstract class CoCart_Submenu_Page {
 		$this->admin_url = add_query_arg( array( 'page' => $this->menu_slug ), 'admin.php' );
 
 		add_action( 'admin_menu', array( $this, 'add_submenu_page' ), 10 );
+
+		// Filters what screens the plugin will focus on displaying notices or enqueue scripts/styles.
+		add_filter( 'cocart_admin_screens', function ( $screens ) {
+			$screens[] = 'cocart_page_' . $this->menu_slug;
+
+			return $screens;
+		} );
 
 		$this->init();
 	} // END __construct()
