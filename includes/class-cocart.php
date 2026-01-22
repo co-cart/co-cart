@@ -575,7 +575,6 @@ final class CoCart {
 		include_once __DIR__ . '/classes/rest-api/abstracts/abstract-cocart-rest-callback.php';
 
 		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
-		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-cache.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-callback-registry.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-response.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-formatting.php';
