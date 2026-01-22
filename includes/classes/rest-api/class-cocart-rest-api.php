@@ -839,7 +839,7 @@ class CoCart_REST_API {
 			}
 
 			// Add timestamp of response.
-			$server->send_header( 'CoCart-Timestamp', time() );
+			$server->send_header( 'Timestamp', time() );
 		}
 
 		return $served;
