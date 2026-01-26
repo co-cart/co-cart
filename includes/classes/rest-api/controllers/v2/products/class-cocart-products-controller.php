@@ -791,6 +791,9 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				case 'tag':
 					$route = '/%s/products/tags/%s';
 					break;
+				default:
+					$route = '/%s/products/%s';
+					break;
 			}
 		} else {
 			$route = '/%s/products/%s';
