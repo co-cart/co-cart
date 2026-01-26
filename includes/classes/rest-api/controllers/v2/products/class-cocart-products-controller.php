@@ -146,6 +146,13 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 		$response = rest_ensure_response( $results );
 		$response = ( new CoCart_REST_Utilities_Pagination() )->add_headers( $response, $request, $total_items, $max_pages );
 
+		// Prevent WordPress from filtering the collection wrapper fields.
+		// The _fields parameter is already applied to individual products in prepare_object_for_response().
+		// We don't want it to filter the collection metadata (page, total_pages, total_products).
+		if ( isset( $request['_fields'] ) ) {
+			$request->offsetUnset( '_fields' );
+		}
+
 		return $response;
 	} // END get_items()
 
