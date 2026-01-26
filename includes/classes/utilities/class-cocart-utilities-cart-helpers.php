@@ -1456,6 +1456,169 @@ class CoCart_Utilities_Cart_Helpers {
 		}
 	} // END has_enough_stock()
 
+	/**
+	 * Validate postcode / ZIP.
+	 *
+	 * Looks at the postcode and country to validate if it's correct.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param object $data       The data object. Either WC_Customer or WP_REST_Request is accepted.
+	 * @param string $field_type The field type: billing or shipping.
+	 *
+	 * @return bool|\WP_Error
+	 */
+	public static function is_postcode_valid( $data, $field_type ) {
+		try {
+			if ( ! is_object( $data ) ) {
+				return false;
+			}
+
+			// Determine field label.
+			$field_name = 'billing' === $field_type
+				? esc_html__( 'Billing postcode', 'cocart-core' )
+				: esc_html__( 'Shipping postcode', 'cocart-core' );
+
+			if ( is_a( $data, 'WC_Customer' ) ) {
+				$postcode = $data->{"get_{$field_type}_postcode"}();
+				$country  = $data->{"get_{$field_type}_country"}();
+
+				if ( 'shipping' === $field_type ) {
+					$country = empty( $country ) ? \WC()->countries->get_base_country() : $country;
+				}
+			} elseif ( is_a( $data, 'WP_REST_Request' ) ) {
+				$request = $data;
+
+				if ( 'shipping' === $field_type ) {
+					$country  = isset( $request['s_country'] ) ? $request['s_country'] : '';
+					$postcode = isset( $request['s_postcode'] ) ? $request['s_postcode'] : '';
+				} else {
+					$country  = isset( $request['country'] ) ? $request['country'] : '';
+					$postcode = isset( $request['postcode'] ) ? $request['postcode'] : '';
+				}
+
+				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
+				$postcode = wc_format_postcode( $postcode, $country );
+			} else {
+				throw new CoCart_Data_Exception(
+					'cocart_is_postcode_valid_invalid_object',
+					esc_html__( 'Object passed for function not supported.', 'cocart-core' ),
+					500
+				);
+			}
+
+			if ( ! empty( $postcode ) && ! \WC_Validation::is_postcode( $postcode, $country ) ) {
+				throw new CoCart_Data_Exception(
+					'cocart_invalid_postcode',
+					sprintf(
+						/* translators: %s: field name */
+						esc_html__( '%s is not a valid postcode / ZIP.', 'cocart-core' ),
+						$field_name
+					),
+					400
+				);
+			}
+
+			return true;
+		} catch ( CoCart_Data_Exception $e ) {
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
+		}
+	} // END is_postcode_valid()
+
+	/**
+	 * Validate country code.
+	 *
+	 * Looks at the country code to validate if it exists and is allowed for the store.
+	 * If no country is provided for shipping, the store base country will be used.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param object $data       The data object. Either WC_Customer or WP_REST_Request is accepted.
+	 * @param string $field_type The field type: billing or shipping.
+	 *
+	 * @return string|\WP_Error Returns the validated country code or WP_Error on failure.
+	 */
+	public static function is_country_valid( $data, $field_type ) {
+		try {
+			if ( ! is_object( $data ) ) {
+				return false;
+			}
+
+			// Determine field label.
+			$fieldset = 'billing' === $field_type
+				? esc_html__( 'Billing', 'cocart-core' )
+				: esc_html__( 'Shipping', 'cocart-core' );
+
+			if ( is_a( $data, 'WC_Customer' ) ) {
+				$country = $data->{"get_{$field_type}_country"}();
+			} elseif ( is_a( $data, 'WP_REST_Request' ) ) {
+				$request = $data;
+
+				if ( 'shipping' === $field_type ) {
+					$country = isset( $request['s_country'] ) ? $request['s_country'] : '';
+					$country = empty( $country ) ? \WC()->countries->get_base_country() : $country;
+				} else {
+					$country = isset( $request['country'] ) ? $request['country'] : '';
+				}
+			} else {
+				throw new CoCart_Data_Exception(
+					'cocart_is_country_valid_invalid_object',
+					esc_html__( 'Object passed for function not supported.', 'cocart-core' ),
+					500
+				);
+			}
+
+			if ( ! empty( $country ) ) {
+				// Check if country exists.
+				$country_exists = \WC()->countries->country_exists( $country );
+
+				if ( empty( $country_exists ) ) {
+					throw new CoCart_Data_Exception(
+						'cocart_invalid_country_code',
+						sprintf(
+							/* translators: ISO 3166-1 alpha-2 country code */
+							__( '\'%s\' is not a valid country code.', 'cocart-core' ),
+							$country
+						),
+						400
+					);
+				}
+
+				// Check if country is allowed for shipping.
+				$allowed_countries = \WC()->countries->get_shipping_countries();
+
+				if ( ! array_key_exists( $country, $allowed_countries ) ) {
+					throw new CoCart_Data_Exception(
+						'cocart_invalid_country_code',
+						sprintf(
+							/* translators: 1: Country name, 2: Field Set */
+							esc_html__( '\'%1$s\' is not allowed for \'%2$s\'.', 'cocart-core' ),
+							esc_html( \WC()->countries->get_countries()[ $country ] ),
+							$fieldset
+						),
+						400
+					);
+				}
+			}
+
+			return true;
+		} catch ( CoCart_Data_Exception $e ) {
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
+		}
+	} // END is_country_valid()
+
 	// ** Convert Functions **//
 
 	/**

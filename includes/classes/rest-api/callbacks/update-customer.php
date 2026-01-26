@@ -265,60 +265,29 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	 *
 	 * @access public
 	 *
+	 * @since 4.1.0 Introduced.
+	 *
+	 * @deprecated 5.0.0 Use CoCart_Utilities_Cart_Helpers::is_country_valid() instead.
+	 *
 	 * @param WP_REST_Request $request    The request object.
 	 * @param string          $field_type The address type we are validating the country for. Default is `billing` else `shipping`.
 	 *
-	 * @return bool
+	 * @return string|bool Returns the validated country code or throws exception.
 	 */
 	public function validate_country( $request, $field_type = 'billing' ) {
-		switch ( $field_type ) {
-			case 'shipping':
-				$country  = isset( $request['s_country'] ) ? $request['s_country'] : '';
-				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
-				$fieldset = esc_html__( 'Shipping', 'cocart-core' );
-				break;
-			case 'billing':
-			default:
-				$country  = isset( $request['country'] ) ? $request['country'] : '';
-				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
-				$fieldset = esc_html__( 'Billing', 'cocart-core' );
-				break;
-		}
+		cocart_deprecated_function( 'CoCart_Update_Customer_Callback::validate_country', '5.0.0', 'CoCart_Utilities_Cart_Helpers::is_country_valid' );
 
-		if ( empty( $country ) ) {
-			$country = \WC()->customer->{"get_{$field_type}_country"}();
-		}
+		$result = CoCart_Utilities_Cart_Helpers::is_country_valid( $request, $field_type );
 
-		$country_exists = \WC()->countries->country_exists( $country );
-
-		if ( empty( $country_exists ) ) {
+		if ( is_wp_error( $result ) ) {
 			throw new CoCart_Data_Exception(
-				'cocart_invalid_country_code',
-				sprintf(
-					/* translators: ISO 3166-1 alpha-2 country code */
-					__( '\'%s\' is not a valid country code.', 'cocart-core' ),
-					$country
-				),
-				400
+				esc_attr( $result->get_error_code() ),
+				esc_html( $result->get_error_message() ),
+				absint( $result->get_error_data()['status'] )
 			);
 		}
 
-		$allowed_countries = \WC()->countries->get_shipping_countries();
-
-		if ( ! array_key_exists( $country, $allowed_countries ) ) {
-			throw new CoCart_Data_Exception(
-				'cocart_invalid_country_code',
-				sprintf(
-					/* translators: 1: Country name, 2: Field Set */
-					__( '\'%1$s\' is not allowed for \'%2$s\'.', 'cocart-core' ),
-					\WC()->countries->get_countries()[ $country ],
-					$fieldset
-				),
-				400
-			);
-		}
-
-		return $country;
+		return $result;
 	} // END validate_country()
 
 	/**
@@ -330,44 +299,29 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	 *
 	 * @access public
 	 *
-	 * @param WP_REST_Request $request      The request object.
-	 * @param string          $field_type The address type we are validating the country for. Default is `billing` else `shipping`.
+	 * @since 4.1.0 Introduced.
 	 *
-	 * @return bool
+	 * @deprecated 5.0.0 Use CoCart_Utilities_Cart_Helpers::is_postcode_valid() instead.
+	 *
+	 * @param WP_REST_Request $request    The request object.
+	 * @param string          $field_type The address type we are validating the postcode for. Default is `billing` else `shipping`.
+	 *
+	 * @return bool Returns true if valid or throws exception.
 	 */
 	public function validate_postcode( $request, $field_type = 'billing' ) {
-		switch ( $field_type ) {
-			case 'shipping':
-				$country    = isset( $request['s_country'] ) ? $request['s_country'] : '';
-				$country    = empty( $country ) ? \WC()->countries->get_base_country() : $country;
-				$postcode   = wc_format_postcode( $request['s_postcode'], $country );
-				$field_name = esc_html__( 'Shipping postcode', 'cocart-core' );
-				break;
-			case 'billing':
-			default:
-				$country    = isset( $request['country'] ) ? $request['country'] : '';
-				$postcode   = wc_format_postcode( $request['postcode'], $country );
-				$field_name = esc_html__( 'Billing postcode', 'cocart-core' );
-				break;
-		}
+		cocart_deprecated_function( 'CoCart_Update_Customer_Callback::validate_postcode', '5.0.0', 'CoCart_Utilities_Cart_Helpers::is_postcode_valid' );
 
-		if ( empty( $country ) ) {
-			$country = \WC()->customer->{"get_{$field_type}_country"}();
-		}
+		$result = CoCart_Utilities_Cart_Helpers::is_postcode_valid( $request, $field_type );
 
-		if ( ! empty( $postcode ) && ! \WC_Validation::is_postcode( $postcode, $country ) ) {
+		if ( is_wp_error( $result ) ) {
 			throw new CoCart_Data_Exception(
-				'cocart_invalid_postcode',
-				sprintf(
-					/* translators: %s: field name */
-					__( '%s is not a valid postcode / ZIP.', 'cocart-core' ),
-					esc_html( $field_name )
-				),
-				400
+				esc_attr( $result->get_error_code() ),
+				esc_html( $result->get_error_message() ),
+				absint( $result->get_error_data()['status'] )
 			);
 		}
 
-		return true;
+		return $result;
 	} // END validate_postcode()
 } // END class
 
