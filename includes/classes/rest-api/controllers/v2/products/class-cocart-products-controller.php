@@ -146,58 +146,6 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 		$response = rest_ensure_response( $results );
 		$response = ( new CoCart_REST_Utilities_Pagination() )->add_headers( $response, $request, $total_items, $max_pages );
 
-		/*
-		$response->header( 'X-WP-Total', $total_items );
-		$response->header( 'X-WP-TotalPages', (int) $max_pages );
-
-		$base          = $this->rest_base;
-		$attrib_prefix = '(?P<';
-
-		if ( strpos( $base, $attrib_prefix ) !== false ) {
-			$attrib_names = array();
-
-			preg_match( '/\(\?P<[^>]+>.*\)/', $base, $attrib_names, PREG_OFFSET_CAPTURE );
-
-			foreach ( $attrib_names as $attrib_name_match ) {
-				$beginning_offset = strlen( $attrib_prefix );
-				$attrib_name_end  = strpos( $attrib_name_match[0], '>', $attrib_name_match[1] );
-				$attrib_name      = substr( $attrib_name_match[0], $beginning_offset, $attrib_name_end - $beginning_offset );
-
-				if ( isset( $request[ $attrib_name ] ) ) {
-					$base = str_replace( "(?P<$attrib_name>[\d]+)", $request[ $attrib_name ], $base );
-				}
-			}
-		}
-
-		$base = add_query_arg( $request->get_query_params(), rest_url( sprintf( '/%s/%s', $this->namespace, $base ) ) );
-
-		if ( $page > 1 ) {
-			$prev_page = $page - 1;
-
-			if ( $prev_page > $max_pages ) {
-				$prev_page = $max_pages;
-			}
-
-			$prev_link = add_query_arg( 'page', $prev_page, $base );
-			$response->add_links(
-				array(
-					'prev' => array( 'href' => $prev_link ),
-				)
-			);
-			$response->link_header( 'prev', $prev_link );
-		}
-
-		if ( $max_pages > $page ) {
-			$next_page = $page + 1;
-			$next_link = add_query_arg( 'page', $next_page, $base );
-			$response->add_links(
-				array(
-					'next' => array( 'href' => $next_link ),
-				)
-			);
-			$response->link_header( 'next', $next_link );
-		}*/
-
 		return $response;
 	} // END get_items()
 
