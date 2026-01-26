@@ -185,7 +185,7 @@ class CoCart_Load_Cart {
 
 			// Set guest customer's cart into session. - This allows the cart to stay synced with the REST API.
 			if ( ! is_user_logged_in() ) {
-				$wc_session->set_customer_id( $cart_key );
+				$wc_session->set_cart_key( $cart_key );
 				$wc_session->set_cart_hash();
 				$wc_session->set_session_expiration();
 				$wc_session->set_customer_session_cookie( true );

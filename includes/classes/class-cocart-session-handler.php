@@ -176,14 +176,14 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		// New cart session created.
 		if ( 0 === $current_user_id && empty( $this->_customer_id ) ) {
 			$this->set_cart_expiration();
-			$this->set_customer_id( $this->generate_key() );
+			$this->set_cart_key( $this->generate_key() );
 			$this->_data = $this->get_session_data();
 			return;
 		}
 
 		// If user is logged in and no cart key provided for guest, set customer ID to current user ID.
 		if ( is_user_logged_in() && empty( $this->_customer_id ) ) {
-			$this->set_customer_id( $current_user_id );
+			$this->set_cart_key( $current_user_id );
 		}
 
 		// Get cart.
