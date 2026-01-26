@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
 Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 4.8.2
+Stable tag: 4.8.3
 WC requires at least: 9.0
 WC tested up to: 10.4
 License: GPLv3
@@ -305,6 +305,17 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 **Now**: CoCart - Headless REST API for WooCommerce
 
 In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for WooCommerce", before "CoCart API - Headless WooCommerce Made Easy".
+
+= v4.8.3 - 26th January, 2026 =
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: Return error responses correctly so all headers return.
+
+### Changes
+
+* Plugin: Updated broken external links throughout the plugin.
 
 = v4.8.2 - 20th January, 2026 =
 

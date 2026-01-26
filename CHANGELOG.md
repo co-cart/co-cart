@@ -1,5 +1,16 @@
 # Changelog for CoCart Core
 
+## v4.8.3 - 26th January, 2026
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: Return error responses correctly so all headers return.
+
+### Changes
+
+* Plugin: Updated broken external links throughout the plugin.
+
 ## v4.8.2 - 20th January, 2026
 
 ### Improvements
@@ -15,7 +26,6 @@
 
 ### Bug Fixes
 
-* REST API: Updating a customer address after one is placed would not update.
 * REST API: No customer data, no applied coupons or removed items in session caused undefined errors.
 * REST API: Customer data was not converting correctly to return in the Session API.
 * REST API: The product object was not passed correctly in the Session API for items.

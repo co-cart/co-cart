@@ -1,14 +1,14 @@
-# Copyright (c) 2025 CoCart Headless, LLC
+# Copyright (c) 2026 CoCart Headless, LLC
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart API - Headless REST API for WooCommerce 4.8.2\n"
+"Project-Id-Version: CoCart - Headless REST API for WooCommerce 4.8.3\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2025-12-09 02:01:21+00:00\n"
+"POT-Creation-Date: 2026-01-26 19:06:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2026-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: CoCart Headless, LLC <support@cocartapi.com>\n"
 "Language: en_US\n"
@@ -1292,7 +1292,7 @@ msgid ""
 "user."
 msgstr ""
 
-#: includes/classes/class-cocart-woocommerce.php:130
+#: includes/classes/class-cocart-woocommerce.php:128
 msgid ""
 "Must authenticate customer as the cart key provided is a registered "
 "customer."
@@ -4371,29 +4371,29 @@ msgstr ""
 msgid "Missing session table."
 msgstr ""
 
-#: includes/cocart-deprecated-functions.php:78
-#: includes/cocart-deprecated-functions.php:117
+#: includes/cocart-deprecated-functions.php:83
+#: includes/cocart-deprecated-functions.php:122
 #. translators: %1$s: filter name, %2$s: version
 msgid "%1$s is deprecated since version %2$s"
 msgstr ""
 
-#: includes/cocart-deprecated-functions.php:84
-#: includes/cocart-deprecated-functions.php:123
+#: includes/cocart-deprecated-functions.php:89
+#: includes/cocart-deprecated-functions.php:128
 #. translators: %s: filter name
 msgid "! Use %s instead."
 msgstr ""
 
-#: includes/cocart-deprecated-functions.php:86
-#: includes/cocart-deprecated-functions.php:125
+#: includes/cocart-deprecated-functions.php:91
+#: includes/cocart-deprecated-functions.php:130
 msgid " with no alternative available."
 msgstr ""
 
-#: includes/cocart-deprecated-functions.php:154
+#: includes/cocart-deprecated-functions.php:159
 #. translators: %1$s: Function name, %2$s: Version
 msgid "The %1$s function is deprecated since version %2$s."
 msgstr ""
 
-#: includes/cocart-deprecated-functions.php:160
+#: includes/cocart-deprecated-functions.php:165
 #. translators: %s: Function name
 msgid " Replace with %s."
 msgstr ""
