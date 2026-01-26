@@ -281,6 +281,7 @@ class CoCart_REST_API {
 			'cocart-v2-product-by-id'            => 'CoCart_REST_Products_by_ID_V2_Controller',
 			'cocart-v2-product-by-slug'          => 'CoCart_REST_Products_by_Slug_V2_Controller',
 			'cocart-v2-product-variations'       => 'CoCart_REST_Product_Variations_V2_Controller',
+			'cocart-v2-product-variation-item'   => 'CoCart_REST_Product_Variation_Item_V2_Controller',
 		);
 	} // END get_v2_controllers()
 
@@ -667,6 +668,8 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-categories-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-reviews-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-tags-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-products-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-product-variations-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-products-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-variations-controller.php';
 

@@ -23,9 +23,9 @@ class_alias( 'CoCart_REST_Product_Variations_V2_Controller', 'CoCart_Product_Var
  *
  * @since 3.1.0 Introduced.
  *
- * @extends CoCart_Product_Variations_Controller
+ * @extends CoCart_REST_Product_Variations_Controller
  */
-class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variations_Controller {
+class CoCart_REST_Product_Variations_V2_Controller extends CoCart_REST_Product_Variations_Controller {
 
 	/**
 	 * Route namespace. - Remove once new route registry is completed.
