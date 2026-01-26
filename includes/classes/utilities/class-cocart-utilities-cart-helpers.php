@@ -712,14 +712,15 @@ class CoCart_Utilities_Cart_Helpers {
 			),
 		);
 
+		$customer = $cart->get_customer();
+
 		foreach ( $check_fields as $field_type => $fields ) {
 			foreach ( $fields as $field ) {
-				$function = 'is_' . $field . '_valid';
-				$valid    = self::{$function}( $cart->get_customer(), $field_type );
+				$valid = self::{"is_{$field}_valid"}( $customer, $field_type );
 
-				if ( ! empty( $valid ) ) {
+				if ( is_wp_error( $valid ) ) {
 					$wc_notices['error'][ $field_type . '_' . $field ] = array(
-						'notice' => $valid,
+						'notice' => $valid->get_error_message(),
 						'data'   => array(),
 					);
 				}
