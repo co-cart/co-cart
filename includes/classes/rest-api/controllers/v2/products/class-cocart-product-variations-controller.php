@@ -144,13 +144,18 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_REST_Product_V
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_object_for_response( $product, $request ) {
-		$controller = new CoCart_REST_Products_V2_Controller();
+		$controller = $this->get_products_controller();
+		$fields     = $controller->get_fields_for_response( $request );
 
-		$data     = $controller->get_variation_product_data( $product );
+		$data     = $controller->get_variation_product_data( $product, $fields );
 		$data     = $controller->add_additional_fields_to_object( $data, $request );
 		$data     = $controller->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $product ) );
+
+		// Only prepare links if requested (WordPress 6.1+ optimization).
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $product ) );
+		}
 
 		/**
 		 * Filter the data for a response.
@@ -164,6 +169,25 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_REST_Product_V
 		 */
 		return apply_filters( "cocart_prepare_{$this->post_type}_object_v2", $response, $product, $request );
 	} // END prepare_object_for_response()
+
+	/**
+	 * Get the products controller instance for delegating response building.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return CoCart_REST_Products_V2_Controller
+	 */
+	protected function get_products_controller() {
+		static $controller = null;
+
+		if ( is_null( $controller ) ) {
+			$controller = new CoCart_REST_Products_V2_Controller();
+		}
+
+		return $controller;
+	} // END get_products_controller()
 
 	/**
 	 * Prepare links for the request.
