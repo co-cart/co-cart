@@ -145,7 +145,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			<div class="cocart-content">
 				<h2><?php esc_html_e( 'Recent Updates', 'cocart-core' ); ?></h2>
 				<?php
-				$this->cocart_release_feed( 'https://cocart.dev/category/changelog/feed/', 3 );
+				$this->cocart_release_feed( 'https://cocartapi.com/category/changelog/feed/', 3 );
 				?>
 			</div>
 		</div>
