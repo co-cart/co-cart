@@ -100,7 +100,7 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 				$changelog = sprintf(
 					/* translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing */
 					__( '%1$sChangelog%2$s', 'cart-rest-api-for-woocommerce' ),
-					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://cocart.dev/changelog/' ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
+					'<a href="' . esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( 'https://docs.cocartapi.com/updates/overview' ) ) ) ) . '" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				);
 

@@ -6,7 +6,7 @@
 	</a>
 </p>
 
-Welcome to the CoCart core repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on X/Twitter for the latest development updates.
+Welcome to the CoCart core repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocartapi.com/blog/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on X/Twitter for the latest development updates.
 
 If you are looking for documentation, head over here: [https://cocartapi.com/docs/](https://cocartapi.com/docs/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore)
 
@@ -62,8 +62,6 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 * **[CoCart - JWT Authentication](https://github.com/cocart-headless/cocart-jwt-authentication)** allows you to authenticate via a simple JWT Token.
 
 These add-ons of course come with support too.
-
-For additional security, consider our [API Security](https://apisecurity.pro/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) plugin that provides a firewall to block unknown outsiders, rate limit requests and protect data exposure – no configuration required.
 
 ## 💜 Need Support?
 

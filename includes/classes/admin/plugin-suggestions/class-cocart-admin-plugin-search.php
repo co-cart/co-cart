@@ -181,7 +181,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 						'CoCart'
 					),
 					'supportText' => esc_html__( 'Learn more about these suggestions.', 'cart-rest-api-for-woocommerce' ),
-					'supportLink' => 'https://cocart.dev/guide/plugin-suggestions/',
+					'supportLink' => 'https://docs.cocartapi.com/knowledge-base/plugin-suggestions',
 				)
 			);
 
