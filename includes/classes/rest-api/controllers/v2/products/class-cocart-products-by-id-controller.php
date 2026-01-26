@@ -65,7 +65,7 @@ class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_C
 	 * @return string
 	 */
 	public static function get_path_regex() {
-		return '/products/(?P<id>[\w-]+)';
+		return '/products/(?P<id>[\d]+)';
 	}
 
 	/**
@@ -103,7 +103,7 @@ class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_C
 	 *
 	 * @access public
 	 *
-	 * @since 3.1.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
