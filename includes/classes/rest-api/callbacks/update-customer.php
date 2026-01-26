@@ -5,6 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Callback
  * @since   4.1.0 Introduced.
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -37,8 +38,8 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 	 *
 	 * @access public
 	 *
-	 * @param WP_REST_Request $request    The request object.
-	 * @param object          $controller The cart controller.
+	 * @param object WP_REST_Request $request    The request object.
+	 * @param object                 $controller The cart controller.
 	 *
 	 * @return bool Returns true.
 	 */
@@ -96,13 +97,34 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 		if ( ! empty( $params ) ) {
 			$details = array();
 
+			$billing_country  = CoCart_Utilities_Cart_Helpers::is_country_valid( $request, 'billing' );
+			$shipping_country = CoCart_Utilities_Cart_Helpers::is_country_valid( $request, 'shipping' );
+
+			// Handle billing country validation error.
+			if ( is_wp_error( $billing_country ) ) {
+				throw new CoCart_Data_Exception(
+					esc_attr( $billing_country->get_error_code() ),
+					esc_html( $billing_country->get_error_message() ),
+					absint( $billing_country->get_error_data()['status'] )
+				);
+			}
+
+			// Handle shipping country validation error.
+			if ( is_wp_error( $shipping_country ) ) {
+				throw new CoCart_Data_Exception(
+					esc_attr( $shipping_country->get_error_code() ),
+					esc_html( $shipping_country->get_error_message() ),
+					absint( $shipping_country->get_error_data()['status'] )
+				);
+			}
+
 			$fields = array(
 				'billing'  => \WC()->countries->get_address_fields(
-					$this->validate_country( $request, 'billing' ),
+					$billing_country,
 					'billing_'
 				),
 				'shipping' => \WC()->countries->get_address_fields(
-					$this->validate_country( $request, 'shipping' ),
+					$shipping_country,
 					'shipping_'
 				),
 			);
@@ -177,13 +199,33 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 				}
 
 				if ( 'country' === $param_key && ! empty( $details['billing_country'] ) ) {
-					if ( ! empty( $this->validate_country( $request ) ) ) {
+					$result = CoCart_Utilities_Cart_Helpers::is_country_valid( $request, 'billing' );
+
+					if ( is_wp_error( $result ) ) {
+						throw new CoCart_Data_Exception(
+							esc_attr( $result->get_error_code() ),
+							esc_html( $result->get_error_message() ),
+							absint( $result->get_error_data()['status'] )
+						);
+					}
+
+					if ( ! $result ) {
 						unset( $details['billing_country'] );
 					}
 				}
 
 				if ( 'postcode' === $param_key && ! empty( $details['billing_postcode'] ) ) {
-					if ( ! $this->validate_postcode( $request ) ) {
+					$result = CoCart_Utilities_Cart_Helpers::is_postcode_valid( $request, 'billing' );
+
+					if ( is_wp_error( $result ) ) {
+						throw new CoCart_Data_Exception(
+							esc_attr( $result->get_error_code() ),
+							esc_html( $result->get_error_message() ),
+							absint( $result->get_error_data()['status'] )
+						);
+					}
+
+					if ( ! $result ) {
 						unset( $details['billing_postcode'] );
 					} else {
 						$country                     = empty( $details['billing_country'] ) ? \WC()->countries->get_base_country() : $details['billing_country'];
