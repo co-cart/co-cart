@@ -70,7 +70,7 @@ class CoCart_REST_Products_by_Slug_V2_Controller extends CoCart_REST_Products_V2
 		return array(
 			'args'        => array(
 				'slug' => array(
-					'description' => __( 'Slug of the resource.', 'cocart-core' ),
+					'description' => __( 'Slug of the product.', 'cocart-core' ),
 					'type'        => 'string',
 				),
 			),
@@ -94,25 +94,32 @@ class CoCart_REST_Products_by_Slug_V2_Controller extends CoCart_REST_Products_V2
 	/**
 	 * Get a single item.
 	 *
-	 * @throws RouteException On error.
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return WP_REST_Response
 	 */
-	protected function get_route_response( WP_REST_Request $request ) {
-		$slug = sanitize_title( $request['slug'] );
+	public function get_item( $request ) {
+		try {
+			$slug = sanitize_title( $request['slug'] );
 
-		$object = CoCart_Utilities_Product_Helpers::get_product_by_slug( $slug );
+			$object = CoCart_Utilities_Product_Helpers::get_product_by_slug( $slug );
 
-		if ( ! $object ) {
-			$object = CoCart_Utilities_Product_Helpers::get_product_variation_by_slug( $slug );
+			if ( ! $object ) {
+				$object = CoCart_Utilities_Product_Helpers::get_product_variation_by_slug( $slug );
+			}
+
+			if ( ! $object || 0 === $object->get_id() ) {
+				throw new CoCart_Data_Exception( 'cocart_product_invalid_slug', esc_html__( 'Invalid product slug.', 'cocart-core' ), 404 );
+			}
+
+			$data     = $this->prepare_object_for_response( $object, $request );
+			$response = rest_ensure_response( $data );
+
+			return $response;
+		} catch ( CoCart_Data_Exception $e ) {
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
-
-		if ( ! $object || 0 === $object->get_id() ) {
-			throw new RouteException( 'woocommerce_rest_product_invalid_slug', __( 'Invalid product slug.', 'cocart-core' ), 404 );
-		}
-
-		return rest_ensure_response( $this->schema->get_item_response( $object ) );
-	}
+	} // END get_item()
 } // END class
