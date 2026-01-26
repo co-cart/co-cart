@@ -118,7 +118,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 			</div>
 			<div class="cocart-content">
 				<h2><?php esc_html_e( 'Plugin Information', 'cocart-core' ); ?></h2>
-				<span><?php esc_html_e( 'Last checked', 'cocart-core' ); ?>: <?php echo date_i18n( 'l, j F Y', get_option( 'cocart_updates_last_checked', time() ) ); ?> <a href="#" class="button button-secondary"><?php esc_html_e( 'Pause Updates', 'cocart-core' ); ?></a></span>
+				<span><?php esc_html_e( 'Last checked', 'cocart-core' ); ?>: <?php echo esc_html( date_i18n( 'l, j F Y', get_option( 'cocart_updates_last_checked', time() ) ) ); ?> <a href="#" class="button button-secondary"><?php esc_html_e( 'Pause Updates', 'cocart-core' ); ?></a></span>
 
 				<p><?php esc_html_e( 'Only installed CoCart plugins listed below will display information on a possible update available.', 'cocart-core' ); ?></p>
 

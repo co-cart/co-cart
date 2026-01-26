@@ -275,7 +275,7 @@ class CoCart_Utilities_Cart_Helpers {
 						'method_id'     => $method->get_method_id(),
 						'instance_id'   => $method->instance_id,
 						'label'         => $method->get_label(),
-						'cost'          => CoCart_REST_Utilities_Monetary_Formatting::format_money( $method->cost, $request ),
+						'cost'          => (string) cocart_price_no_html( $method->cost ),
 						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => '',
 						'chosen_method' => ( $chosen_method === $key ),
