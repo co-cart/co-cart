@@ -7,7 +7,7 @@ There are many ways to contribute to the project!
 - [Translating strings into your language](#translating-cocart).
 - Answering questions in the [CoCart community Discord](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) server.
 - Testing open [issues](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) or [pull requests](https://github.com/co-cart/co-cart/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc) and sharing your findings in a comment.
-- Testing [CoCart beta versions and release candidates](https://github.com/co-cart/cocart-beta-tester). Those are announced in the [CoCart development blog](https://cocart.dev/news/).
+- Testing [CoCart beta versions and release candidates](https://github.com/co-cart/cocart-beta-tester). Those are announced in the [CoCart development blog](https://cocartapi.com/blog/).
 - Submitting fixes, improvements, and enhancements.
 
 If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) the correct module for CoCart, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
