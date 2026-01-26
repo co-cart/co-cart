@@ -170,9 +170,21 @@ class CoCart_CLI_Sessions_Command {
 		$format  = isset( $assoc_args['format'] ) ? $assoc_args['format'] : 'table';
 
 		$valid_formats = array( 'table', 'json', 'csv', 'yaml' );
+		$valid_orderby = array( 'cart_created', 'cart_expiry' );
+		$valid_order   = array( 'ASC', 'DESC' );
 
 		if ( ! in_array( $format, $valid_formats, true ) ) {
 			WP_CLI::error( 'Invalid format. Valid formats are: table, json, csv, yaml.' );
+			return;
+		}
+
+		if ( ! in_array( $orderby, $valid_orderby, true ) ) {
+			WP_CLI::error( 'Invalid orderby value. Valid values are: cart_created, cart_expiry.' );
+			return;
+		}
+
+		if ( ! in_array( $order, $valid_order, true ) ) {
+			WP_CLI::error( 'Invalid order value. Valid values are: ASC, DESC.' );
 			return;
 		}
 
@@ -185,12 +197,12 @@ class CoCart_CLI_Sessions_Command {
 		$wpdb->hide_errors();
 
 		// Fetch sessions from the database.
-		$query  = "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}cocart_carts";
-		$query .= ' ORDER BY ' . esc_sql( $orderby ) . ' ' . esc_sql( $order );
-		$query .= ' LIMIT %d OFFSET %d';
-
 		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare( $query, $limit, $offset ) // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}cocart_carts ORDER BY " . esc_sql( $orderby ) . ' ' . esc_sql( $order ) . ' LIMIT %d OFFSET %d',
+				$limit,
+				$offset
+			)
 		);
 
 		$total_results = $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -206,7 +218,7 @@ class CoCart_CLI_Sessions_Command {
 
 		foreach ( $results as $cart ) {
 			$cart_value = maybe_unserialize( $cart->cart_value );
-			$customer   = maybe_unserialize( $cart_value['customer'] );
+			$customer   = isset( $cart_value['customer'] ) ? maybe_unserialize( $cart_value['customer'] ) : array();
 
 			$email      = ! empty( $customer['email'] ) ? $customer['email'] : '';
 			$first_name = ! empty( $customer['first_name'] ) ? $customer['first_name'] : '';
@@ -280,12 +292,13 @@ class CoCart_CLI_Sessions_Command {
 		$wpdb->hide_errors();
 
 		// Check if the cart ID or cart key exists in the database.
-		$query = $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}cocart_carts WHERE cart_id = %s OR cart_key = %s", $identifier, $identifier );
-		$count = $wpdb->get_var( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$count = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}cocart_carts WHERE cart_id = %s OR cart_key = %s", $identifier, $identifier )
+		);
 
 		if ( $count > 0 ) {
 			WP_CLI::log(
-				sprint_f(
+				sprintf(
 					/* translators: %s = Identifier */
 					__( 'Session ID %s exists.', 'cocart-core' ),
 					$identifier
@@ -293,7 +306,7 @@ class CoCart_CLI_Sessions_Command {
 			);
 		} else {
 			WP_CLI::error(
-				sprint_f(
+				sprintf(
 					/* translators: %s = Identifier */
 					__( 'Session ID %s does not exist.', 'cocart-core' ),
 					$identifier
