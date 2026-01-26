@@ -401,7 +401,7 @@ class CoCart_Load_Cart {
 				 * @param string  $user_login Username.
 				 * @param WP_User $user       WP_User object of the logged-in user.
 				 */
-				do_action( 'wp_login', $user->user_login, $user );
+				do_action( 'wp_login', $user->user_login, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 				wp_safe_redirect( wc_get_checkout_url() );
 				exit;

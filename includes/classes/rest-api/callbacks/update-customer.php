@@ -119,8 +119,8 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 						'cocart_billing_field_required',
 						sprintf(
 							/* Translators: %s = Field label */
-							__( '%s is required.', 'cocart-core' ),
-							$value['label']
+							esc_html__( '%s is required.', 'cocart-core' ),
+							esc_html( $value['label'] )
 						),
 						400
 					);
@@ -135,8 +135,8 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 						'cocart_email_field_invalid',
 						sprintf(
 							/* Translators: %s = Field value */
-							__( 'The provided email address (%s) is not valid — please provide a valid email address.', 'cocart-core' ),
-							$params[ $param_key ]
+							esc_html__( 'The provided email address (%s) is not valid — please provide a valid email address.', 'cocart-core' ),
+							esc_html( $params[ $param_key ] )
 						),
 						400
 					);
@@ -151,8 +151,8 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 						'cocart_phone_field_invalid',
 						sprintf(
 							/* Translators: %s = Field value */
-							__( 'The provided phone number (%s) is not valid — please provide a valid phone number.', 'cocart-core' ),
-							$params[ $param_key ]
+							esc_html__( 'The provided phone number (%s) is not valid — please provide a valid phone number.', 'cocart-core' ),
+							esc_html( $params[ $param_key ] )
 						),
 						400
 					);

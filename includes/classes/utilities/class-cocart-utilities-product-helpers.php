@@ -438,7 +438,7 @@ class CoCart_Utilities_Product_Helpers {
 	public static function get_product_variation_by_slug( $slug ) {
 		global $wpdb;
 
-		$result = $wpdb->get_results(
+			$result = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->prepare(
 				"SELECT ID, post_name, post_parent, post_type
 				FROM $wpdb->posts
@@ -481,7 +481,7 @@ class CoCart_Utilities_Product_Helpers {
 		if ( empty( $variation_id ) ) {
 			throw new CoCart_Data_Exception(
 				'cocart_no_variation_found',
-				__( 'No matching variation found.', 'cocart-core' ),
+				esc_html__( 'No matching variation found.', 'cocart-core' ),
 				400
 			);
 		}

@@ -725,7 +725,7 @@ if ( ! function_exists( 'rest_sanitize_quantity_arg' ) ) {
 	 *
 	 * @return mixed Sanitized quantity.
 	 */
-	function rest_sanitize_quantity_arg( $quantity ) {
+	function rest_sanitize_quantity_arg( $quantity ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 		if ( is_array( $quantity ) ) {
 			return array_map( 'wc_clean', $quantity );
 		}
@@ -747,7 +747,7 @@ if ( ! function_exists( 'rest_validate_quantity_arg' ) ) {
 	 *
 	 * @return bool True if the quantity is valid, false otherwise.
 	 */
-	function rest_validate_quantity_arg( $value, $request, $param ) {
+	function rest_validate_quantity_arg( $value, $request, $param ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 		if ( is_array( $value ) ) {
 			foreach ( $value as $quantity ) {
 				if ( is_numeric( $quantity ) || is_float( $quantity ) ) {

@@ -168,7 +168,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 			throw new CoCart_Data_Exception(
 				'cocart_cart_invalid_parent_product',
-				$message,
+				esc_html( $message ),
 				400
 			);
 		}
@@ -1172,7 +1172,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 			throw new CoCart_Data_Exception(
 				'cocart_invalid_product',
-				$message,
+				esc_html( $message ),
 				400
 			);
 		}

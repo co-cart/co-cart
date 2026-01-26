@@ -707,8 +707,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return string[] Array of origin URLs.
 		 */
 		protected function get_allowed_http_origins() {
-			$admin_origin = parse_url( admin_url() );
-			$home_origin  = parse_url( home_url() );
+			$admin_origin = wp_parse_url( admin_url() );
+			$home_origin  = wp_parse_url( home_url() );
 
 			// Helper function to construct URL with port if present.
 			$build_origin_url = function ( $scheme, $host, $port ) {
