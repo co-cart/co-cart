@@ -248,40 +248,49 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $product, $request ) {
+		$fields = $this->get_fields_for_response( $request );
+
 		// Check what product type before returning product data.
 		if ( $product->get_type() !== 'variation' ) {
-			$data = $this->get_product_data( $product );
+			$data = $this->get_product_data( $product, $fields );
 		} else {
-			$data = $this->get_variation_product_data( $product );
+			$data = $this->get_variation_product_data( $product, $fields );
 		}
 
 		// Get global unique ID if function and data exists.
-		if ( method_exists( $product, 'get_global_unique_id' ) ) {
+		if ( rest_is_field_included( 'global_unique_id', $fields ) && method_exists( $product, 'get_global_unique_id' ) ) {
 			$data['global_unique_id'] = $product->get_global_unique_id( 'view' );
 		}
 
 		// Add review data to products if requested.
-		if ( $request['show_reviews'] ) {
+		if ( rest_is_field_included( 'reviews', $fields ) && $request['show_reviews'] ) {
 			$data['reviews'] = $this->get_reviews( $product );
 		}
 
 		// Return each variation if the variable product has variations available.
-		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
+		if ( rest_is_field_included( 'variations', $fields ) && $product->is_type( 'variable' ) && $product->has_child() ) {
 			$data['variations'] = $this->get_variations( $product );
 		}
 
 		// Add grouped products data.
-		if ( $product->is_type( 'grouped' ) && $product->has_child() ) {
+		if ( rest_is_field_included( 'grouped_products', $fields ) && $product->is_type( 'grouped' ) && $product->has_child() ) {
 			$data['grouped_products'] = $product->get_children();
 		}
 
 		$data     = $this->add_additional_fields_to_object( $data, $request );
 		$data     = $this->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $product ) );
+
+		// Only prepare links if requested (WordPress 6.1+ optimization).
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $product ) );
+		}
 
 		/**
 		 * Filter the data for a response.
+		 *
+		 * The dynamic portion of the hook name, $this->post_type,
+		 * refers to product type being prepared for the response.
 		 *
 		 * @since 3.1.0 Introduced.
 		 *
