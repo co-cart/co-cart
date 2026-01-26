@@ -40,6 +40,13 @@ class CoCart_REST_API {
 	protected $registered_routes = array();
 
 	/**
+	 * The API namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = '';
+
+	/**
 	 * Setup class.
 	 *
 	 * @access public
@@ -53,6 +60,9 @@ class CoCart_REST_API {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return;
 		}
+
+		// Set the API namespace.
+		$this->namespace = CoCart::get_api_namespace();
 
 		// Register API routes.
 		$this->rest_api_includes();
@@ -124,19 +134,19 @@ class CoCart_REST_API {
 	 */
 	protected function register_routes( $version = 'v2' ) {
 		// If no routes for the version exist return nothing.
-		if ( ! isset( $this->routes[ CoCart::get_api_namespace() . $version ] ) ) {
+		if ( ! isset( $this->routes[ $this->namespace . $version ] ) ) {
 			return;
 		}
 
 		// Set the route namespace outside the controller.
-		$route_namespace = CoCart::get_api_namespace() . '/' . $version;
+		$route_namespace = $this->namespace . '/' . $version;
 
-		$routes = $this->routes[ CoCart::get_api_namespace() . $version ];
+		$routes = $this->routes[ $this->namespace . $version ];
 
 		foreach ( $routes as $route_identifier => $route_class ) {
 			$skip_route = false;
 
-			$route = $this->routes[ CoCart::get_api_namespace() . $version ][ $route_identifier ] ?? false;
+			$route = $this->routes[ $this->namespace . $version ][ $route_identifier ] ?? false;
 
 			if ( ! $route ) {
 				error_log( esc_html( "{$route_class} route does not exist" ) );
@@ -293,7 +303,7 @@ class CoCart_REST_API {
 	 */
 	private function initialize_cart_session() {
 		// Return nothing if accessing the index route only.
-		if ( ! isset( $GLOBALS['wp']->query_vars['rest_route'] ) || preg_match( '#^/' . CoCart::get_api_namespace() . '/v[12]$#', $GLOBALS['wp']->query_vars['rest_route'] ) ) {
+		if ( ! isset( $GLOBALS['wp']->query_vars['rest_route'] ) || preg_match( '#^/' . $this->namespace . '/v[12]$#', $GLOBALS['wp']->query_vars['rest_route'] ) ) {
 			return;
 		}
 
@@ -746,13 +756,13 @@ class CoCart_REST_API {
 		$regex_path_patterns = apply_filters(
 			'cocart_send_cache_control_patterns',
 			array(
-				'/^' . CoCart::get_api_namespace() . '\/v2\/cart/',
-				'/^' . CoCart::get_api_namespace() . '\/v2\/logout/',
-				'/^' . CoCart::get_api_namespace() . '\/v2\/store/',
-				'/^' . CoCart::get_api_namespace() . '\/v1\/get-cart/',
-				'/^' . CoCart::get_api_namespace() . '\/v1\/logout/',
+				'/^' . $this->namespace . '\/v2\/cart/',
+				'/^' . $this->namespace . '\/v2\/logout/',
+				'/^' . $this->namespace . '\/v2\/store/',
+				'/^' . $this->namespace . '\/v1\/get-cart/',
+				'/^' . $this->namespace . '\/v1\/logout/',
 			),
-			CoCart::get_api_namespace()
+			$this->namespace
 		);
 
 		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
@@ -860,11 +870,11 @@ class CoCart_REST_API {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
-			CoCart::get_api_namespace() . '/v2/logout',
-			CoCart::get_api_namespace() . '/v1/products',
-			CoCart::get_api_namespace() . '/v2/products',
-			CoCart::get_api_namespace() . '/v2/sessions',
-			CoCart::get_api_namespace() . '/v2/store',
+			$this->namespace . '/v2/logout',
+			$this->namespace . '/v1/products',
+			$this->namespace . '/v2/products',
+			$this->namespace . '/v2/sessions',
+			$this->namespace . '/v2/store',
 		);
 
 		foreach ( $routes as $route ) {
@@ -888,8 +898,8 @@ class CoCart_REST_API {
 	 */
 	protected function get_cacheable_route_patterns() {
 		return array(
-			'/^' . CoCart::get_api_namespace() . '\/v2\/products/',
-			'/^' . CoCart::get_api_namespace() . '\/v1\/products/',
+			'/^' . $this->namespace . '\/v2\/products/',
+			'/^' . $this->namespace . '\/v1\/products/',
 		);
 	} // END get_cacheable_route_patterns()
 
@@ -909,7 +919,7 @@ class CoCart_REST_API {
 	 */
 	public function handle_rest_response( $response, $handler, $request ) {
 		// If the route does not match a CoCart request then just return the response.
-		if ( ! preg_match( '#^/' . CoCart::get_api_namespace() . '/#', $request->get_route() ) ) {
+		if ( ! preg_match( '#^/' . $this->namespace . '/#', $request->get_route() ) ) {
 			return $response;
 		}
 
