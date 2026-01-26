@@ -1,5 +1,5 @@
 {
-	"title": "CoCart API - Headless WooCommerce Made Easy",
+	"title": "CoCart - Headless REST API for WooCommerce",
 	"name": "cocart-core",
 	"version": "5.0.0-beta.10",
 	"private": false,
