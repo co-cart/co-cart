@@ -22,6 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_ETag {
 
 	/**
+	 * The API namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = '';
+
+	/**
 	 * Constructor.
 	 *
 	 * @access public
@@ -31,6 +38,9 @@ class CoCart_ETag {
 		if ( ! CoCart::is_rest_api_request() ) {
 			return;
 		}
+
+		// Set the API namespace.
+		$this->namespace = CoCart::get_api_namespace();
 
 		// Check If-None-Match early before cart loads.
 		add_filter( 'rest_pre_dispatch', array( $this, 'check_conditional_request' ), 5, 3 );
@@ -53,17 +63,19 @@ class CoCart_ETag {
 	 * @return array Regex patterns for cart routes.
 	 */
 	protected function get_cart_etag_routes() {
+		$namespace = preg_quote( $this->namespace, '/' );
+
 		$cart_routes = array(
-			'/^cocart\/v2\/cart$/',
-			'/^cocart\/v2\/cart\/items$/',
-			'/^cocart\/v2\/cart\/items\/count$/',
-			'/^cocart\/v2\/cart\/totals$/',
-			'/^cocart\/v2\/cart\/add-item$/',
-			'/^cocart\/v2\/cart\/add-items$/',
-			'/^cocart\/v2\/cart\/item/',
-			'/^cocart\/v2\/cart\/update$/',
-			'/^cocart\/v2\/cart\/clear$/',
-			'/^cocart\/v2\/cart\/calculate$/',
+			'/^' . $namespace . '\/v2\/cart$/',
+			'/^' . $namespace . '\/v2\/cart\/items$/',
+			'/^' . $namespace . '\/v2\/cart\/items\/count$/',
+			'/^' . $namespace . '\/v2\/cart\/totals$/',
+			'/^' . $namespace . '\/v2\/cart\/add-item$/',
+			'/^' . $namespace . '\/v2\/cart\/add-items$/',
+			'/^' . $namespace . '\/v2\/cart\/item/',
+			'/^' . $namespace . '\/v2\/cart\/update$/',
+			'/^' . $namespace . '\/v2\/cart\/clear$/',
+			'/^' . $namespace . '\/v2\/cart\/calculate$/',
 		);
 
 		/**
@@ -88,26 +100,28 @@ class CoCart_ETag {
 	 * @return array Regex patterns for product routes.
 	 */
 	protected function get_product_etag_routes() {
+		$namespace = preg_quote( $this->namespace, '/' );
+
 		$product_routes = array(
-			'/^cocart\/v2\/products$/',
-			'/^cocart\/v2\/products\/\d+$/',                             // Products by ID.
-			'/^cocart\/v2\/products\/[\S]+$/',                           // Products by slug.
-			'/^cocart\/v2\/products\/collection-data$/',                 // Products collection data.
-			'/^cocart\/v2\/products\/\d+\/variations$/',                 // Product variations collection.
-			'/^cocart\/v2\/products\/\d+\/variations\/\d+$/',            // Single product variation.
-			'/^cocart\/v2\/products\/categories$/',                      // Product categories collection.
-			'/^cocart\/v2\/products\/categories\/\d+$/',                 // Single product category.
-			'/^cocart\/v2\/products\/tags$/',                            // Product tags collection.
-			'/^cocart\/v2\/products\/tags\/\d+$/',                       // Single product tag.
-			'/^cocart\/v2\/products\/brands$/',                          // Product brands collection.
-			'/^cocart\/v2\/products\/brands\/\d+$/',                     // Single product brand.
-			'/^cocart\/v2\/products\/attributes$/',                      // Product attributes collection.
-			'/^cocart\/v2\/products\/attributes\/\d+$/',                 // Single product attribute.
-			'/^cocart\/v2\/products\/attributes\/\d+\/terms$/',          // Product attribute terms collection.
-			'/^cocart\/v2\/products\/attributes\/\d+\/terms\/\d+$/',     // Single product attribute term.
-			'/^cocart\/v2\/products\/reviews$/',                         // Product reviews collection.
-			'/^cocart\/v2\/products\/reviews\/\d+$/',                    // Single product review.
-			'/^cocart\/v2\/products\/reviews\/mine$/',                   // Current user's reviews.
+			'/^' . $namespace . '\/v2\/products$/',
+			'/^' . $namespace . '\/v2\/products\/\d+$/',                             // Products by ID.
+			'/^' . $namespace . '\/v2\/products\/[\S]+$/',                           // Products by slug.
+			'/^' . $namespace . '\/v2\/products\/collection-data$/',                 // Products collection data.
+			'/^' . $namespace . '\/v2\/products\/\d+\/variations$/',                 // Product variations collection.
+			'/^' . $namespace . '\/v2\/products\/\d+\/variations\/\d+$/',            // Single product variation.
+			'/^' . $namespace . '\/v2\/products\/categories$/',                      // Product categories collection.
+			'/^' . $namespace . '\/v2\/products\/categories\/\d+$/',                 // Single product category.
+			'/^' . $namespace . '\/v2\/products\/tags$/',                            // Product tags collection.
+			'/^' . $namespace . '\/v2\/products\/tags\/\d+$/',                       // Single product tag.
+			'/^' . $namespace . '\/v2\/products\/brands$/',                          // Product brands collection.
+			'/^' . $namespace . '\/v2\/products\/brands\/\d+$/',                     // Single product brand.
+			'/^' . $namespace . '\/v2\/products\/attributes$/',                      // Product attributes collection.
+			'/^' . $namespace . '\/v2\/products\/attributes\/\d+$/',                 // Single product attribute.
+			'/^' . $namespace . '\/v2\/products\/attributes\/\d+\/terms$/',          // Product attribute terms collection.
+			'/^' . $namespace . '\/v2\/products\/attributes\/\d+\/terms\/\d+$/',     // Single product attribute term.
+			'/^' . $namespace . '\/v2\/products\/reviews$/',                         // Product reviews collection.
+			'/^' . $namespace . '\/v2\/products\/reviews\/\d+$/',                    // Single product review.
+			'/^' . $namespace . '\/v2\/products\/reviews\/mine$/',                   // Current user's reviews.
 		);
 
 		/**
@@ -567,35 +581,36 @@ class CoCart_ETag {
 	 * @return string|null ETag hash or null.
 	 */
 	protected function get_product_etag_hash( $route, $request ) {
-		$route = ltrim( $route, '/' );
+		$route     = ltrim( $route, '/' );
+		$namespace = preg_quote( $this->namespace, '/' );
 
 		// Single product variation - must check before single product ID.
-		if ( preg_match( '/^cocart\/v2\/products\/(\d+)\/variations\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/(\d+)\/variations\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_single_product_etag_hash( (int) $matches[2] );
 		}
 
 		// Product variations collection.
-		if ( preg_match( '/^cocart\/v2\/products\/(\d+)\/variations$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/(\d+)\/variations$/', $route, $matches ) ) {
 			return $this->get_product_variations_etag_hash( (int) $matches[1], $request );
 		}
 
 		// Single product by ID.
-		if ( preg_match( '/^cocart\/v2\/products\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_single_product_etag_hash( (int) $matches[1] );
 		}
 
 		// Product collection.
-		if ( preg_match( '/^cocart\/v2\/products$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products$/', $route ) ) {
 			return $this->get_product_collection_etag_hash( $request );
 		}
 
 		// Products collection data.
-		if ( preg_match( '/^cocart\/v2\/products\/collection-data$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/collection-data$/', $route ) ) {
 			return $this->get_product_collection_etag_hash( $request );
 		}
 
 		// Products by slug - must check after specific routes to avoid false matches.
-		if ( preg_match( '/^cocart\/v2\/products\/([\S]+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/([\S]+)$/', $route, $matches ) ) {
 			$slug = $matches[1];
 			// Get product ID from slug.
 			$product = get_page_by_path( $slug, OBJECT, 'product' );
@@ -606,31 +621,31 @@ class CoCart_ETag {
 		}
 
 		// Categories.
-		if ( preg_match( '/^cocart\/v2\/products\/categories\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/categories\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_taxonomy_etag_hash( 'product_cat', (int) $matches[1], $request );
 		}
-		if ( preg_match( '/^cocart\/v2\/products\/categories$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/categories$/', $route ) ) {
 			return $this->get_taxonomy_etag_hash( 'product_cat', null, $request );
 		}
 
 		// Tags.
-		if ( preg_match( '/^cocart\/v2\/products\/tags\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/tags\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_taxonomy_etag_hash( 'product_tag', (int) $matches[1], $request );
 		}
-		if ( preg_match( '/^cocart\/v2\/products\/tags$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/tags$/', $route ) ) {
 			return $this->get_taxonomy_etag_hash( 'product_tag', null, $request );
 		}
 
 		// Brands.
-		if ( preg_match( '/^cocart\/v2\/products\/brands\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/brands\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_taxonomy_etag_hash( 'product_brand', (int) $matches[1], $request );
 		}
-		if ( preg_match( '/^cocart\/v2\/products\/brands$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/brands$/', $route ) ) {
 			return $this->get_taxonomy_etag_hash( 'product_brand', null, $request );
 		}
 
 		// Attribute terms - must check before single attribute.
-		if ( preg_match( '/^cocart\/v2\/products\/attributes\/(\d+)\/terms\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/attributes\/(\d+)\/terms\/(\d+)$/', $route, $matches ) ) {
 			$attribute_id = (int) $matches[1];
 			$term_id      = (int) $matches[2];
 			$attribute    = wc_get_attribute( $attribute_id );
@@ -639,7 +654,7 @@ class CoCart_ETag {
 			}
 			return null;
 		}
-		if ( preg_match( '/^cocart\/v2\/products\/attributes\/(\d+)\/terms$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/attributes\/(\d+)\/terms$/', $route, $matches ) ) {
 			$attribute_id = (int) $matches[1];
 			$attribute    = wc_get_attribute( $attribute_id );
 			if ( $attribute ) {
@@ -649,7 +664,7 @@ class CoCart_ETag {
 		}
 
 		// Attributes.
-		if ( preg_match( '/^cocart\/v2\/products\/attributes\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/attributes\/(\d+)$/', $route, $matches ) ) {
 			$attribute_id = (int) $matches[1];
 			$attribute    = wc_get_attribute( $attribute_id );
 			if ( $attribute ) {
@@ -657,7 +672,7 @@ class CoCart_ETag {
 			}
 			return null;
 		}
-		if ( preg_match( '/^cocart\/v2\/products\/attributes$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/attributes$/', $route ) ) {
 			// For attribute taxonomies, use wc_get_attribute_taxonomies.
 			$attributes      = wc_get_attribute_taxonomies();
 			$attribute_count = count( $attributes );
@@ -670,15 +685,15 @@ class CoCart_ETag {
 		}
 
 		// User's own reviews.
-		if ( preg_match( '/^cocart\/v2\/products\/reviews\/mine$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/reviews\/mine$/', $route ) ) {
 			return $this->get_user_reviews_etag_hash( $request );
 		}
 
 		// Reviews.
-		if ( preg_match( '/^cocart\/v2\/products\/reviews\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/reviews\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_review_etag_hash( (int) $matches[1], $request );
 		}
-		if ( preg_match( '/^cocart\/v2\/products\/reviews$/', $route ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/reviews$/', $route ) ) {
 			return $this->get_review_etag_hash( null, $request );
 		}
 
