@@ -4,7 +4,7 @@
 
 ### What's New?
 
-* REST API: Added ETag support for cart endpoints enabling conditional requests with `If-None-Match` header.
+* REST API: Added ETag support for all cart endpoints (GET/POST/PUT/DELETE) enabling conditional requests with `If-None-Match` header for immediate use.
 * REST API: Added ETag support for product endpoints (products, categories, tags, attributes, reviews).
 * REST API: Added `CoCart-Cache` response header indicating cache status: `HIT`, `MISS`, or `SKIP`.
 * REST API: Added `_skip_cache` query parameter to bypass caching for individual requests.

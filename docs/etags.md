@@ -14,14 +14,22 @@ An ETag (Entity Tag) is an HTTP header that acts as a version identifier for a r
 
 ### Cart Endpoints
 
-| Endpoint | Description |
-|----------|-------------|
-| `GET /wp-json/cocart/v2/cart` | Full cart contents |
-| `GET /wp-json/cocart/v2/cart/items` | Cart items only |
-| `GET /wp-json/cocart/v2/cart/items/count` | Item count |
-| `GET /wp-json/cocart/v2/cart/totals` | Cart totals |
+Cart endpoints return ETags on **all methods** (GET, POST, PUT, DELETE) because mutations return the updated cart state. This allows you to use the ETag from a mutation response immediately in subsequent GET requests.
+
+| Endpoint | Methods | Description |
+|----------|---------|-------------|
+| `/cocart/v2/cart` | GET | Full cart contents |
+| `/cocart/v2/cart/items` | GET | Cart items only |
+| `/cocart/v2/cart/items/count` | GET | Item count |
+| `/cocart/v2/cart/totals` | GET | Cart totals |
+| `/cocart/v2/cart/add-item` | POST | Add item (returns cart + ETag) |
+| `/cocart/v2/cart/item/{key}` | GET, PUT, DELETE | Item operations (return cart + ETag) |
+| `/cocart/v2/cart/update` | POST | Update cart (returns cart + ETag) |
+| `/cocart/v2/cart/clear` | POST | Clear cart (returns cart + ETag) |
 
 ### Product Endpoints
+
+Product endpoints return ETags on **GET only** (products are read-only resources).
 
 | Endpoint | Description |
 |----------|-------------|
@@ -164,6 +172,123 @@ function useCart(cartKey) {
   return { cart, loading, refreshCart };
 }
 ```
+
+## Mutation Workflow: Getting ETags from Cart Changes
+
+Cart mutations (POST, PUT, DELETE) return ETags in the response, allowing you to immediately use them for subsequent conditional GET requests. This eliminates the need for an initial GET request just to establish an ETag baseline.
+
+### Common Pattern: Add Item → Conditional GET
+
+```javascript
+// Step 1: Add item to cart (mutation returns cart + ETag)
+const addResponse = await fetch('/wp-json/cocart/v2/cart/add-item', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    product_id: 123,
+    quantity: 1,
+    cart_key: 'customer_abc123'
+  })
+});
+
+const cart = await addResponse.json();
+const etag = addResponse.headers.get('ETag'); // ← Get ETag from mutation response
+
+// Step 2: Store ETag with cart data
+localStorage.setItem('cart', JSON.stringify(cart));
+localStorage.setItem('cart_etag', etag);
+
+// Step 3: Later, check if cart changed (conditional GET)
+const checkResponse = await fetch('/wp-json/cocart/v2/cart?cart_key=customer_abc123', {
+  headers: { 'If-None-Match': etag }
+});
+
+if (checkResponse.status === 304) {
+  // Cart unchanged, use cached data
+  const cachedCart = JSON.parse(localStorage.getItem('cart'));
+  console.log('Using cached cart:', cachedCart);
+} else {
+  // Cart changed, update cache with new data
+  const updatedCart = await checkResponse.json();
+  const newEtag = checkResponse.headers.get('ETag');
+  localStorage.setItem('cart', JSON.stringify(updatedCart));
+  localStorage.setItem('cart_etag', newEtag);
+  console.log('Cart updated:', updatedCart);
+}
+```
+
+### Update Quantity Example
+
+```javascript
+// Update item quantity (returns cart + ETag)
+const updateResponse = await fetch('/wp-json/cocart/v2/cart/item/abc123', {
+  method: 'PUT',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    quantity: 3,
+    cart_key: 'customer_abc123'
+  })
+});
+
+const updatedCart = await updateResponse.json();
+const newEtag = updateResponse.headers.get('ETag');
+
+// Store new cart state and ETag
+myCache.set('cart', updatedCart);
+myCache.set('etag', newEtag);
+
+// Next GET request can use the new ETag
+const nextCheck = await fetch('/wp-json/cocart/v2/cart?cart_key=customer_abc123', {
+  headers: { 'If-None-Match': newEtag }
+});
+// Returns 304 if cart hasn't changed since the update
+```
+
+### Remove Item Example
+
+```javascript
+// Remove item from cart (returns updated cart + ETag)
+const deleteResponse = await fetch('/wp-json/cocart/v2/cart/item/abc123?cart_key=customer_abc123', {
+  method: 'DELETE'
+});
+
+const cartAfterDelete = await deleteResponse.json();
+const etagAfterDelete = deleteResponse.headers.get('ETag');
+
+// Poll cart state using ETag from delete operation
+setInterval(async () => {
+  const pollResponse = await fetch('/wp-json/cocart/v2/cart?cart_key=customer_abc123', {
+    headers: { 'If-None-Match': etagAfterDelete }
+  });
+
+  if (pollResponse.status === 304) {
+    console.log('Cart still unchanged');
+  } else {
+    console.log('Cart has changed, updating UI');
+    const newCart = await pollResponse.json();
+    updateUI(newCart);
+  }
+}, 5000);
+```
+
+### Why This Matters
+
+**Without mutation ETags:**
+```
+1. User starts with empty cart
+2. POST /cart/add-item → Returns cart (no ETag)
+3. GET /cart → Must fetch full response to get ETag
+4. GET /cart → Now can use If-None-Match
+```
+
+**With mutation ETags:**
+```
+1. User starts with empty cart
+2. POST /cart/add-item → Returns cart + ETag
+3. GET /cart → Can immediately use If-None-Match (304 if unchanged)
+```
+
+This eliminates one full cart fetch, saving bandwidth and improving performance for the common workflow where users start with an empty cart and add items.
 
 ## CORS Configuration
 
