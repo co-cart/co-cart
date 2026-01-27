@@ -53,22 +53,29 @@ class CoCart_ETag {
 	 * @return array Regex patterns for cart routes.
 	 */
 	protected function get_cart_etag_routes() {
+		$cart_routes = array(
+			'/^cocart\/v2\/cart$/',
+			'/^cocart\/v2\/cart\/items$/',
+			'/^cocart\/v2\/cart\/items\/count$/',
+			'/^cocart\/v2\/cart\/totals$/',
+			'/^cocart\/v2\/cart\/add-item$/',
+			'/^cocart\/v2\/cart\/add-items$/',
+			'/^cocart\/v2\/cart\/item/',
+			'/^cocart\/v2\/cart\/update$/',
+			'/^cocart\/v2\/cart\/clear$/',
+			'/^cocart\/v2\/cart\/calculate$/',
+		);
+
 		/**
-		 * Filter the cart routes supporting ETag.
+		 * Filter additional cart routes to support ETag.
 		 *
 		 * @since 4.9.0 Introduced.
 		 *
 		 * @param array $routes Array of regex patterns for routes.
 		 */
-		return apply_filters(
-			'cocart_etag_cart_routes',
-			array(
-				'/^cocart\/v2\/cart$/',
-				'/^cocart\/v2\/cart\/items$/',
-				'/^cocart\/v2\/cart\/items\/count$/',
-				'/^cocart\/v2\/cart\/totals$/',
-			)
-		);
+		$additional_routes = apply_filters( 'cocart_etag_cart_routes', array() );
+
+		return array_merge( $cart_routes, $additional_routes );
 	} // END get_cart_etag_routes()
 
 	/**
@@ -81,28 +88,29 @@ class CoCart_ETag {
 	 * @return array Regex patterns for product routes.
 	 */
 	protected function get_product_etag_routes() {
-		/**
-		 * Filter the product routes supporting ETag.
-		 *
-		 * @since 4.9.0 Introduced.
-		 *
-		 * @param array $routes Array of regex patterns for routes.
-		 */
-		return apply_filters(
-			'cocart_etag_product_routes',
-			array(
-				'/^cocart\/v2\/products$/',
-				'/^cocart\/v2\/products\/\d+$/',
-				'/^cocart\/v2\/products\/categories$/',
-				'/^cocart\/v2\/products\/categories\/\d+$/',
-				'/^cocart\/v2\/products\/tags$/',
-				'/^cocart\/v2\/products\/tags\/\d+$/',
-				'/^cocart\/v2\/products\/attributes$/',
-				'/^cocart\/v2\/products\/attributes\/\d+$/',
-				'/^cocart\/v2\/products\/reviews$/',
-				'/^cocart\/v2\/products\/reviews\/\d+$/',
-			)
+		$product_routes = array(
+			'/^cocart\/v2\/products$/',
+			'/^cocart\/v2\/products\/\d+$/',
+			'/^cocart\/v2\/products\/categories$/',
+			'/^cocart\/v2\/products\/categories\/\d+$/',
+			'/^cocart\/v2\/products\/tags$/',
+			'/^cocart\/v2\/products\/tags\/\d+$/',
+			'/^cocart\/v2\/products\/attributes$/',
+			'/^cocart\/v2\/products\/attributes\/\d+$/',
+			'/^cocart\/v2\/products\/reviews$/',
+			'/^cocart\/v2\/products\/reviews\/\d+$/',
 		);
+
+		/**
+		* Filter additional product routes to support ETag.
+		*
+		* @since 4.9.0 Introduced.
+		*
+		* @param array $routes Array of regex patterns for routes.
+		*/
+		$additional_routes = apply_filters( 'cocart_etag_product_routes', array() );
+
+		return array_merge( $product_routes, $additional_routes );
 	} // END get_product_etag_routes()
 
 	/**
