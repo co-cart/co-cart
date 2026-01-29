@@ -26,7 +26,7 @@ class_alias( 'CoCart_REST_Logout_V2_Controller', 'CoCart_Logout_V2_Controller' )
  *
  * @since 3.0.0 Introduced.
  */
-class CoCart_REST_Logout_V2_Controller extends CoCart_Logout_Controller {
+class CoCart_REST_Logout_V2_Controller {
 
 	/**
 	 * Route namespace. - Remove once new route registry is completed.
@@ -102,4 +102,19 @@ class CoCart_REST_Logout_V2_Controller extends CoCart_Logout_Controller {
 			$this->get_args()
 		);
 	} // END register_routes()
+
+	/**
+	 * Logout user.
+	 *
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @return WP_REST_Response The response object.
+	 */
+	public function logout() {
+		wp_logout();
+
+		return new WP_REST_Response( true, 200 );
+	} // END logout()
 } // END class
