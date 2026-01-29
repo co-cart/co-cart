@@ -50,22 +50,6 @@ class CoCart_REST_Session_Delete_V2_Controller extends CoCart_REST_Session_V2_Co
 	} // END get_args()
 
 	/**
-	 * Backwards compatible for registering route.
-	 *
-	 * @access public
-	 */
-	public function register_routes() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		// Delete Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (DELETE).
-		register_rest_route(
-			$this->namespace,
-			$this->get_path(),
-			$this->get_args()
-		);
-	} // END register_routes()
-
-	/**
 	 * Check whether a given request has permission to edit site data.
 	 *
 	 * @access public

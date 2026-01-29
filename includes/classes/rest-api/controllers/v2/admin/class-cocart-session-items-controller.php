@@ -52,22 +52,6 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 	} // END get_args()
 
 	/**
-	 * Register the routes for index.
-	 *
-	 * @access public
-	 */
-	public function register_routes() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		// Get Cart Items in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6/items (GET).
-		register_rest_route(
-			$this->namespace,
-			$this->get_path(),
-			$this->get_args()
-		);
-	} // END register_routes()
-
-	/**
 	 * Check whether a given request has permission to read site data.
 	 *
 	 * @access public
