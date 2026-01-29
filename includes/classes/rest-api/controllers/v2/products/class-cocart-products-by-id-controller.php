@@ -25,32 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Schema.
-	 *
-	 * @var array
-	 */
-	protected $schema = array();
-
-	/**
-	 * Version of route.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
 	 * Get the path of this REST route.
 	 *
 	 * @return string
