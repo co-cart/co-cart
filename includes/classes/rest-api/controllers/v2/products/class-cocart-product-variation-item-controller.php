@@ -18,30 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This REST API controller handles requests to return product details
  * via "cocart/v2/products/{product_id}/variations/{id}" endpoint.
  *
- * @since 3.1.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @extends CoCart_REST_Product_Variations_V2_Controller
  */
 class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Product_Variations_V2_Controller {
-
-	/**
-	 * Route namespace. - Remove once new route registry is completed.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Version of route.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
 
 	/**
 	 * Get the path of this REST route.
