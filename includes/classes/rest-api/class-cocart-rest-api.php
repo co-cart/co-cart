@@ -133,20 +133,24 @@ class CoCart_REST_API {
 	 * @param string $version API Version being registered. Default is the current supported API Version.
 	 */
 	protected function register_routes( $version = 'v2' ) {
+		// Set the internal route namespace to identify controllers for this version.
+		$route_namespace = 'cocart/' . $version;
+
 		// If no routes for the version exist return nothing.
-		if ( ! isset( $this->routes[ $this->namespace . $version ] ) ) {
+		if ( ! isset( $this->routes[ $route_namespace ] ) ) {
 			return;
 		}
 
-		// Set the route namespace outside the controller.
-		$route_namespace = $this->namespace . '/' . $version;
+		// Get routes for the version.
+		$routes = $this->routes[ $route_namespace ];
 
-		$routes = $this->routes[ $this->namespace . $version ];
+		// Override the namespace to match CoCart's current namespace should it be white labelled.
+		$route_namespace = str_replace( 'cocart', $this->namespace, $route_namespace );
 
 		foreach ( $routes as $route_identifier => $route_class ) {
 			$skip_route = false;
 
-			$route = $this->routes[ $this->namespace . $version ][ $route_identifier ] ?? false;
+			$route = $routes[ $route_identifier ] ?? false;
 
 			if ( ! $route ) {
 				error_log( esc_html( "{$route_class} route does not exist" ) );
