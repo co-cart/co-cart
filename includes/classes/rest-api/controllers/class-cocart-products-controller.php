@@ -774,6 +774,8 @@ abstract class CoCart_REST_Products_Controller extends WP_REST_Controller {
 	 * @return array Links for the given product.
 	 */
 	protected function prepare_links( $product ) {
+		$this->namespace = str_replace( CoCart::get_api_namespace() . '/', '', $this->namespace );
+
 		$links = array(
 			'self'       => array(
 				'permalink' => get_permalink( $product->get_id() ),

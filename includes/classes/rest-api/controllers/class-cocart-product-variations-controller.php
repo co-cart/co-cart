@@ -165,6 +165,8 @@ abstract class CoCart_REST_Product_Variations_Controller extends CoCart_REST_Pro
 	protected function prepare_links( $product ) {
 		$product_id = $product->get_parent_id();
 
+		$this->namespace = str_replace( CoCart::get_api_namespace() . '/', '', $this->namespace );
+
 		$base = str_replace( '(?P<product_id>[\d]+)', $product_id, $this->rest_base );
 
 		$links = array(
@@ -179,6 +181,7 @@ abstract class CoCart_REST_Product_Variations_Controller extends CoCart_REST_Pro
 				'permalink' => get_permalink( $product_id ),
 			),
 		);
+
 		return $links;
 	} // END prepare_links()
 
