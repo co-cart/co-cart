@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
  * @since   3.1.0 Introduced.
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -23,6 +24,28 @@ class_alias( 'CoCart_REST_Product_Attribute_Terms_V2_Controller', 'CoCart_Produc
  * @extends CoCart_Product_Attribute_Terms_Controller
  */
 class CoCart_REST_Product_Attribute_Terms_V2_Controller extends CoCart_Product_Attribute_Terms_Controller {
+
+	/**
+	 * Get the path regex for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string Path regex.
+	 */
+	public static function get_path_regex() {
+		return '/products/attributes/(?P<attribute_id>[\d]+)/terms';
+	} // END get_path_regex()
+
+	/**
+	 * Get the path of this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	} // END get_path()
 
 	/**
 	 * Route namespace.

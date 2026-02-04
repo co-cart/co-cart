@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
  * @since   3.1.0 Introduced.
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -22,6 +23,86 @@ class_alias( 'CoCart_REST_Product_Reviews_V2_Controller', 'CoCart_Product_Review
  * @extends CoCart_Product_Reviews_Controller
  */
 class CoCart_REST_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_Controller {
+
+	/**
+	 * Get the path regex for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string Path regex.
+	 */
+	public static function get_path_regex() {
+		return '/products/reviews';
+	} // END get_path_regex()
+
+	/**
+	 * Get the path of this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	} // END get_path()
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array Method arguments.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_items' ),
+				'permission_callback' => '__return_true',
+				'args'                => $this->get_collection_params(),
+			),
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'create_item' ),
+				'permission_callback' => array( $this, 'create_item_permissions_check' ),
+				'args'                => array_merge(
+					$this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
+					array(
+						'product_id'     => array(
+							'description'       => __( 'Unique identifier for the product.', 'cocart-core' ),
+							'type'              => 'integer',
+							'required'          => true,
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+						'review'         => array(
+							'description'       => __( 'Review content.', 'cocart-core' ),
+							'type'              => 'string',
+							'required'          => true,
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+						'reviewer'       => array(
+							'description'       => __( 'Name of the reviewer.', 'cocart-core' ),
+							'type'              => 'string',
+							'required'          => false,
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+						'reviewer_email' => array(
+							'description'       => __( 'Email of the reviewer.', 'cocart-core' ),
+							'type'              => 'string',
+							'required'          => false,
+							'sanitize_callback' => 'sanitize_email',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+					)
+				),
+			),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_public_item_schema' ),
+		);
+	} // END get_args()
 
 	/**
 	 * Route namespace.
@@ -48,93 +129,22 @@ class CoCart_REST_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_C
 		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
 
 		return $this->version;
-	}
+	} // END get_version()
 
 	/**
-	 * Get the path of this REST route.
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
-
-	/**
-	 * Register the routes for product reviews.
+	 * Register routes.
 	 *
 	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 */
 	public function register_routes() {
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => '__return_true',
-					'args'                => $this->get_collection_params(),
-				),
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'create_item' ),
-					'permission_callback' => array( $this, 'create_item_permissions_check' ),
-					'args'                => array_merge(
-						$this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
-						array(
-							'product_id'     => array(
-								'description'       => __( 'Unique identifier for the product.', 'cocart-core' ),
-								'type'              => 'integer',
-								'required'          => true,
-								'sanitize_callback' => 'sanitize_text_field',
-								'validate_callback' => 'rest_validate_request_arg',
-							),
-							'review'         => array(
-								'description'       => __( 'Review content.', 'cocart-core' ),
-								'type'              => 'string',
-								'required'          => true,
-								'sanitize_callback' => 'sanitize_text_field',
-								'validate_callback' => 'rest_validate_request_arg',
-							),
-							'reviewer'       => array(
-								'description'       => __( 'Name of the reviewer.', 'cocart-core' ),
-								'type'              => 'string',
-								'required'          => false,
-								'sanitize_callback' => 'sanitize_text_field',
-								'validate_callback' => 'rest_validate_request_arg',
-							),
-							'reviewer_email' => array(
-								'description'       => __( 'Email of the reviewer.', 'cocart-core' ),
-								'type'              => 'string',
-								'required'          => false,
-								'sanitize_callback' => 'sanitize_email',
-								'validate_callback' => 'rest_validate_request_arg',
-							),
-						)
-					),
-				),
-				'allow_batch' => array( 'v1' => true ),
-				'schema'      => array( $this, 'get_public_item_schema' ),
-			)
-		);
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/mine',
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_my_reviews' ),
-					'permission_callback' => array( $this, 'check_permission' ),
-					'args'                => $this->get_collection_params(),
-				),
-				'allow_batch' => array( 'v1' => true ),
-				'schema'      => array( $this, 'get_public_item_schema' ),
-			)
+			$this->get_path(),
+			$this->get_args()
 		);
 	} // END register_routes()
 
@@ -176,69 +186,4 @@ class CoCart_REST_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_C
 
 		return true;
 	} // END create_item_permissions_check()
-
-	/**
-	 * Check if the user has logged in before returning their reviews.
-	 *
-	 * @access public
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return WP_Error|boolean
-	 */
-	public function check_permission( $request ) {
-		if ( ! is_user_logged_in() ) {
-			return new \WP_Error( 'cocart_customer_authentication_required', __( 'This endpoint requires the customer to be logged in.', 'cocart-core' ), array( 'status' => 403 ) );
-		}
-
-		return true;
-	} // END check_permission()
-
-	/**
-	 * Get the prepared arguments for the request.
-	 *
-	 * @access protected
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return array
-	 */
-	protected function get_prepared_args_force_user_id( $prepared_args ) {
-		// Force only reviews by the current user.
-		$current_user             = wp_get_current_user();
-		$prepared_args['user_id'] = $current_user->ID;
-
-		return $prepared_args;
-	} // END get_prepared_args_force_user_id()
-
-	/**
-	 * Get reviews posted by registered customer.
-	 *
-	 * @access public
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return array|WP_Error
-	 */
-	public function get_my_reviews( $request ) {
-		$prepared_args = $this->get_prepared_args( $request );
-		$prepared_args = $this->get_prepared_args_force_user_id( $prepared_args );
-
-		// Query reviews.
-		$query        = new WP_Comment_Query();
-		$query_result = $query->query( $prepared_args );
-
-		$reviews = array();
-
-		foreach ( $query_result as $review ) {
-			$data      = $this->prepare_item_for_response( $review, $request );
-			$reviews[] = $this->prepare_response_for_collection( $data );
-		}
-
-		return $this->get_review_response( $request, $prepared_args, $query, $reviews );
-	} // END get_my_reviews()
-}
+} // END class

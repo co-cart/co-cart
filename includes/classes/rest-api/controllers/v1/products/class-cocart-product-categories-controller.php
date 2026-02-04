@@ -7,6 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v1
  * @since   3.1.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -17,9 +18,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Product Categories controller class.
  *
- * @extends CoCart_REST_Terms_Controller
+ * @extends CoCart_REST_Taxonomy_Terms_Controller
  */
-class CoCart_Product_Categories_Controller extends CoCart_REST_Terms_Controller {
+class CoCart_Product_Categories_Controller extends CoCart_REST_Taxonomy_Terms_Controller {
+
+	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v1';
 
 	/**
 	 * Route base.

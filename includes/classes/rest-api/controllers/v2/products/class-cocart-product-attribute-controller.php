@@ -1,8 +1,8 @@
 <?php
 /**
- * REST API: CoCart_REST_Product_Brands_V2_Controller class.
+ * CoCart - Product Attribute controller
  *
- * Handles requests to the products/brands endpoint.
+ * Handles requests to the products/attributes endpoint.
  *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
@@ -15,23 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Controller for returning products brands via the REST API (API v2).
+ * CoCart REST API v2 - Product Attribute controller class.
  *
- * This REST API controller handles requests to return product details
- * via "cocart/v2/products/brands" endpoint.
- *
- * @since 5.0.0 Introduced.
- *
- * @extends CoCart_REST_Terms_V2_Controller
+ * @package CoCart Products/API
+ * @extends CoCart_REST_Product_Attributes_V2_Controller
  */
-class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Taxonomy_Terms_Controller {
-
-	/**
-	 * Taxonomy.
-	 *
-	 * @var string
-	 */
-	protected $taxonomy = 'product_brand';
+class CoCart_REST_Product_Attribute_V2_Controller extends CoCart_REST_Product_Attributes_V2_Controller {
 
 	/**
 	 * Get the path regex for this REST route.
@@ -39,7 +28,7 @@ class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Taxonomy_Term
 	 * @return string Path regex.
 	 */
 	public static function get_path_regex() {
-		return '/products/brands';
+		return '/products/attributes/(?P<id>[\d]+)';
 	} // END get_path_regex()
 
 	/**
@@ -49,7 +38,7 @@ class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Taxonomy_Term
 	 */
 	public function get_path() {
 		return self::get_path_regex();
-	}
+	} // END get_path()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -60,7 +49,7 @@ class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Taxonomy_Term
 		return array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_items' ),
+				'callback'            => array( $this, 'get_item' ),
 				'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				'args'                => $this->get_collection_params(),
 			),
@@ -68,4 +57,25 @@ class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Taxonomy_Term
 			'schema'      => array( $this, 'get_public_item_schema' ),
 		);
 	} // END get_args()
+
+	/**
+	 * Get a single attribute.
+	 *
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Request|WP_Error
+	 */
+	public function get_item( $request ) {
+		$attribute = $this->get_attribute( (int) $request['id'] );
+
+		if ( is_wp_error( $attribute ) ) {
+			return $attribute;
+		}
+
+		$response = $this->prepare_item_for_response( $attribute, $request );
+
+		return rest_ensure_response( $response );
+	} // END get_item()
 } // END class

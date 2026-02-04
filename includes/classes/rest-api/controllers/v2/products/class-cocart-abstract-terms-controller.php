@@ -2,9 +2,12 @@
 /**
  * CoCart - Abstract Rest Terms Controller
  *
+ * @deprecated 5.0.0 Use CoCart_REST_Taxonomy_Terms_Controller class instead.
+ *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v2
  * @since   3.1.0 Introduced.
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -18,9 +21,9 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 	 * CoCart REST API v2 - Terms controller class.
 	 *
 	 * @package CoCart Products/API
-	 * @extends CoCart_REST_Terms_Controller
+	 * @extends CoCart_REST_Taxonomy_Terms_Controller
 	 */
-	abstract class CoCart_REST_Terms_V2_Controller extends CoCart_REST_Terms_Controller {
+	abstract class CoCart_REST_Terms_V2_Controller extends CoCart_REST_Taxonomy_Terms_Controller {
 
 		/**
 		 * Get the path of this REST route.
