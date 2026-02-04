@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Abstract REST API Products controller class.
  *
+ * NOTE THAT ONLY CODE RELEVANT FOR THE PRODUCTS ENDPOINTS SHOULD BE INCLUDED INTO THIS CLASS.
+ *
  * @extends WP_REST_Controller
  */
 abstract class CoCart_REST_Products_Controller extends WP_REST_Controller {

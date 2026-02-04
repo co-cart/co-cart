@@ -23,7 +23,20 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 	abstract class CoCart_REST_Terms_V2_Controller extends CoCart_REST_Terms_Controller {
 
 		/**
-		 * Route namespace. - Remove once new route registry is completed.
+		 * Get the path of this REST route.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @return string
+		 */
+		public function get_path() {
+			return self::get_path_regex();
+		} // END get_path()
+
+		/**
+		 * Route namespace.
+		 *
+		 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
 		 *
 		 * @var string
 		 */
@@ -31,31 +44,32 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 
 		/**
 		 * Version of route.
+		 *
+		 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 		 */
 		protected $version = 'v2';
 
 		/**
-		 * Get version of route. - Remove once route abstract is created to extend from.
+		 * Get version of route.
+		 *
+		 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 		 */
 		public function get_version() {
-			return $this->version;
-		}
+			cocart_deprecated_function( __FUNCTION__, '5.0.0' );
 
-		/**
-		 * Get the path of this REST route.
-		 *
-		 * @return string
-		 */
-		public function get_path() {
-			return self::get_path_regex();
-		}
+			return $this->version;
+		} // END get_version()
 
 		/**
 		 * Register the routes for terms.
 		 *
+		 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
+		 *
 		 * @access public
 		 */
 		public function register_routes() {
+			cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 			register_rest_route(
 				$this->namespace,
 				'/' . $this->rest_base,
@@ -91,6 +105,6 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 					'schema'      => array( $this, 'get_public_item_schema' ),
 				)
 			);
-		}
-	}
+		} // END register_routes()
+	} // END class
 }

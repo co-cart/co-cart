@@ -29,33 +29,9 @@ class_alias( 'CoCart_REST_Logout_V2_Controller', 'CoCart_Logout_V2_Controller' )
 class CoCart_REST_Logout_V2_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'logout';
-
-	/**
-	 * Version of route.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
 	 * Get the path of this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -66,6 +42,8 @@ class CoCart_REST_Logout_V2_Controller {
 	/**
 	 * Get the path of this rest route.
 	 *
+	 * @since 5.0.0 Introduced.
+	 *
 	 * @return string
 	 */
 	public static function get_path_regex() {
@@ -74,6 +52,8 @@ class CoCart_REST_Logout_V2_Controller {
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -86,7 +66,45 @@ class CoCart_REST_Logout_V2_Controller {
 	} // END get_args()
 
 	/**
+	 * Route namespace.
+	 *
+	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v2';
+
+	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'logout';
+
+	/**
+	 * Version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
+	 */
+	public function get_version() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
+		return $this->version;
+	}
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *

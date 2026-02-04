@@ -26,36 +26,6 @@ class_alias( 'CoCart_REST_Sessions_V2_Controller', 'CoCart_Sessions_V2_Controlle
 class CoCart_REST_Sessions_V2_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
-	 *
-	 * @access protected
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @access protected
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'sessions';
-
-	/**
-	 * Version of route.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
 	 * Get the path of this REST route.
 	 *
 	 * @return string
@@ -91,7 +61,49 @@ class CoCart_REST_Sessions_V2_Controller {
 	} // END get_args()
 
 	/**
+	 * Route namespace.
+	 *
+	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
+	 *
+	 * @access protected
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v2';
+
+	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @access protected
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'sessions';
+
+	/**
+	 * Version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Get version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
+	 */
+	public function get_version() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
+		return $this->version;
+	}
+
+	/**
 	 * Register the routes for index.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *

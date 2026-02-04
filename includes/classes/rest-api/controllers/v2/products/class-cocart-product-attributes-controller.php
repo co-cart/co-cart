@@ -25,7 +25,9 @@ class_alias( 'CoCart_REST_Product_Attributes_V2_Controller', 'CoCart_Product_Att
 class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_Product_Attributes_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
+	 * Route namespace.
+	 *
+	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
 	 *
 	 * @var string
 	 */
@@ -33,18 +35,26 @@ class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_Product_Attrib
 
 	/**
 	 * Version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 	 */
 	protected $version = 'v2';
 
 	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
+	 * Get version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 	 */
 	public function get_version() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
 		return $this->version;
 	}
 
 	/**
 	 * Get the path of this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */

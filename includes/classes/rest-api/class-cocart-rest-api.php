@@ -157,7 +157,13 @@ class CoCart_REST_API {
 				$skip_route = true;
 			}
 
-			if ( ! method_exists( $route_class, 'get_path_regex' ) ) {
+			// Check if the class exists before checking for the method (supports namespaced classes).
+			if ( ! $skip_route && ! class_exists( $route_class ) ) {
+				error_log( esc_html( "{$route_class} class does not exist" ) );
+				$skip_route = true;
+			}
+
+			if ( ! $skip_route && ! method_exists( $route_class, 'get_path_regex' ) ) {
 				error_log( esc_html( "{$route_class} route does not have a get_path_regex method" ) );
 				$skip_route = true;
 			}
@@ -168,7 +174,7 @@ class CoCart_REST_API {
 				$path           = $route_instance->get_path_regex();
 			}
 
-			if ( ! $skip_route && ! isset( $this->registered_routes[ $route_class ] ) && array_search( $path, $this->registered_routes ) === false ) {
+			if ( ! $skip_route && ! isset( $this->registered_routes[ $route_class ] ) ) {
 				register_rest_route(
 					$route_namespace,
 					$path,
@@ -282,6 +288,7 @@ class CoCart_REST_API {
 			'cocart-v2-product-reviews'          => 'CoCart_REST_Product_Reviews_V2_Controller',
 			'cocart-v2-product-tags'             => 'CoCart_REST_Product_Tags_V2_Controller',
 			'cocart-v2-products'                 => 'CoCart_REST_Products_V2_Controller',
+			'cocart-v2-products-collection-data' => 'CoCart_REST_Products_Collection_Data_V2_Controller',
 			'cocart-v2-product-by-id'            => 'CoCart_REST_Products_by_ID_V2_Controller',
 			'cocart-v2-product-by-slug'          => 'CoCart_REST_Products_by_Slug_V2_Controller',
 			'cocart-v2-product-variations'       => 'CoCart_REST_Product_Variations_V2_Controller',
@@ -653,6 +660,7 @@ class CoCart_REST_API {
 	 * @since 5.0.0 Added create cart route, brands, monetary, response and pagination utilities.
 	 */
 	public function rest_api_includes() {
+		// Utilities.
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-monetary-formatting.php';
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-cart-response.php';
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-pagination.php';
@@ -683,6 +691,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/others/class-cocart-login-controller.php';
 		require_once __DIR__ . '/controllers/v2/others/class-cocart-logout-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-cart-controller.php';
+		require_once __DIR__ . '/controllers/v2/cart/class-cocart-create-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-add-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-add-items-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-item-controller.php';
@@ -690,7 +699,6 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-clear-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-calculate-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-count-controller.php';
-		require_once __DIR__ . '/controllers/v2/cart/class-cocart-create-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-update-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-remove-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-restore-item-controller.php';
@@ -706,6 +714,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-reviews-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-tags-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-collection-data-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-by-slug-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-by-id-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-variations-controller.php';

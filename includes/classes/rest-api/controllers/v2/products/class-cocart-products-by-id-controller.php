@@ -31,7 +31,7 @@ class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_C
 	 */
 	public function get_path() {
 		return self::get_path_regex();
-	}
+	} // END get_path()
 
 	/**
 	 * Get the path of this rest route.
@@ -40,7 +40,7 @@ class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_C
 	 */
 	public static function get_path_regex() {
 		return '/products/(?P<id>[\d]+)';
-	}
+	} // END get_path_regex()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -76,8 +76,6 @@ class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_C
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
 	 *
 	 * @access public
-	 *
-	 * @since 5.0.0 Introduced.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *

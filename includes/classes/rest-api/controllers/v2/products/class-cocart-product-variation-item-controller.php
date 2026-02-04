@@ -31,7 +31,7 @@ class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Produ
 	 */
 	public function get_path() {
 		return self::get_path_regex();
-	}
+	} // END get_path()
 
 	/**
 	 * Get the path of this rest route.
@@ -40,7 +40,7 @@ class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Produ
 	 */
 	public static function get_path_regex() {
 		return '/products/(?P<product_id>[\d]+)/variations/(?P<id>[\d]+)';
-	}
+	} // END get_path_regex()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -67,7 +67,7 @@ class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Produ
 			'allow_batch' => array( 'v1' => true ),
 			'schema'      => array( $this, 'get_public_item_schema' ),
 		);
-	}
+	} // END get_args()
 
 	/**
 	 * Get a single item.
@@ -105,4 +105,4 @@ class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Produ
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END get_item()
-}
+} // END class

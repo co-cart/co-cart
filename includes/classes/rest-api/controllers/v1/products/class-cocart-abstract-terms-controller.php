@@ -2,6 +2,8 @@
 /**
  * CoCart - Abstract Rest Terms Controller
  *
+ * @deprecated 5.0.0 Use CoCart_REST_Taxonomy_Terms_Controller class instead.
+ *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v1
  * @since   3.1.0

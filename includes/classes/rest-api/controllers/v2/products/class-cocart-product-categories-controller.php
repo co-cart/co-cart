@@ -25,7 +25,20 @@ class_alias( 'CoCart_REST_Product_Categories_V2_Controller', 'CoCart_Product_Cat
 class CoCart_REST_Product_Categories_V2_Controller extends CoCart_Product_Categories_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
+	 * Get the path of this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string
+	 */
+	public function get_path() {
+		return self::get_path_regex();
+	}
+
+	/**
+	 * Route namespace.
+	 *
+	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
 	 *
 	 * @var string
 	 */
@@ -33,24 +46,21 @@ class CoCart_REST_Product_Categories_V2_Controller extends CoCart_Product_Catego
 
 	/**
 	 * Version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 	 */
 	protected $version = 'v2';
 
 	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
+	 * Get version of route.
+	 *
+	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 	 */
 	public function get_version() {
-		return $this->version;
-	}
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
 
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
+		return $this->version;
+	} // END get_version()
 
 	/**
 	 * Prepare a single product category output for response.

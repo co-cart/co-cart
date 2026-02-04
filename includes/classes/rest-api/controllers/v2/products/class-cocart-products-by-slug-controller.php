@@ -31,7 +31,7 @@ class CoCart_REST_Products_by_Slug_V2_Controller extends CoCart_REST_Products_V2
 	 */
 	public function get_path() {
 		return self::get_path_regex();
-	}
+	} // END get_path()
 
 	/**
 	 * Get the path of this rest route.
@@ -40,7 +40,7 @@ class CoCart_REST_Products_by_Slug_V2_Controller extends CoCart_REST_Products_V2
 	 */
 	public static function get_path_regex() {
 		return '/products/(?P<slug>[\S]+)';
-	}
+	} // END get_path_regex()
 
 	/**
 	 * Get method arguments for this REST route.
