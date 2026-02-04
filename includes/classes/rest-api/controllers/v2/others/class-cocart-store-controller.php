@@ -172,6 +172,8 @@ class CoCart_REST_Store_V2_Controller {
 		 * about the store, routes available on the API, and a small amount
 		 * of data about the site.
 		 *
+		 * @since 3.0.0 Introduced.
+		 *
 		 * @param WP_REST_Response $response The response object.
 		 */
 		return apply_filters( 'cocart_store_index', $response );
@@ -185,6 +187,15 @@ class CoCart_REST_Store_V2_Controller {
 	 * @return array
 	 */
 	public function get_store_address() {
+		/**
+		 * Filters the store address.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array $address The store address details.
+		 *
+		 * @return array The store address details.
+		 */
 		return apply_filters(
 			'cocart_store_address',
 			array(
@@ -207,6 +218,15 @@ class CoCart_REST_Store_V2_Controller {
 	 * @return array
 	 */
 	protected function get_versions() {
+		/**
+		 * Filters the versions of CoCart plugins installed.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param array $versions The versions of CoCart plugins.
+		 *
+		 * @return array The versions of CoCart plugins.
+		 */
 		return apply_filters(
 			'cocart_store_versions',
 			array(
@@ -227,8 +247,17 @@ class CoCart_REST_Store_V2_Controller {
 	 * @return array
 	 */
 	protected function get_routes() {
-		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' );
+		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/' . CoCart::get_api_namespace() . '/v2/' );
 
+		/**
+		 * Filters the list of all public CoCart API routes.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array $routes The list of routes.
+		 *
+		 * @return array The list of routes.
+		 */
 		return apply_filters(
 			'cocart_routes',
 			array(
