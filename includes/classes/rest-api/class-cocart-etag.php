@@ -90,15 +90,24 @@ class CoCart_ETag {
 	protected function get_product_etag_routes() {
 		$product_routes = array(
 			'/^cocart\/v2\/products$/',
-			'/^cocart\/v2\/products\/\d+$/',
-			'/^cocart\/v2\/products\/categories$/',
-			'/^cocart\/v2\/products\/categories\/\d+$/',
-			'/^cocart\/v2\/products\/tags$/',
-			'/^cocart\/v2\/products\/tags\/\d+$/',
-			'/^cocart\/v2\/products\/attributes$/',
-			'/^cocart\/v2\/products\/attributes\/\d+$/',
-			'/^cocart\/v2\/products\/reviews$/',
-			'/^cocart\/v2\/products\/reviews\/\d+$/',
+			'/^cocart\/v2\/products\/\d+$/',                             // Products by ID.
+			'/^cocart\/v2\/products\/[\S]+$/',                           // Products by slug.
+			'/^cocart\/v2\/products\/collection-data$/',                 // Products collection data.
+			'/^cocart\/v2\/products\/\d+\/variations$/',                 // Product variations collection.
+			'/^cocart\/v2\/products\/\d+\/variations\/\d+$/',            // Single product variation.
+			'/^cocart\/v2\/products\/categories$/',                      // Product categories collection.
+			'/^cocart\/v2\/products\/categories\/\d+$/',                 // Single product category.
+			'/^cocart\/v2\/products\/tags$/',                            // Product tags collection.
+			'/^cocart\/v2\/products\/tags\/\d+$/',                       // Single product tag.
+			'/^cocart\/v2\/products\/brands$/',                          // Product brands collection.
+			'/^cocart\/v2\/products\/brands\/\d+$/',                     // Single product brand.
+			'/^cocart\/v2\/products\/attributes$/',                      // Product attributes collection.
+			'/^cocart\/v2\/products\/attributes\/\d+$/',                 // Single product attribute.
+			'/^cocart\/v2\/products\/attributes\/\d+\/terms$/',          // Product attribute terms collection.
+			'/^cocart\/v2\/products\/attributes\/\d+\/terms\/\d+$/',     // Single product attribute term.
+			'/^cocart\/v2\/products\/reviews$/',                         // Product reviews collection.
+			'/^cocart\/v2\/products\/reviews\/\d+$/',                    // Single product review.
+			'/^cocart\/v2\/products\/reviews\/mine$/',                   // Current user's reviews.
 		);
 
 		/**
