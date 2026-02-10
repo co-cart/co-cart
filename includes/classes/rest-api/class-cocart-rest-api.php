@@ -913,6 +913,7 @@ class CoCart_REST_API {
 	 * @access public
 	 *
 	 * @since 4.6.2 Introduced.
+	 * @since 5.0.0 Added experimental header support Vary: Accept-Encoding should it not be setup via the server.
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
 	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
@@ -930,6 +931,50 @@ class CoCart_REST_API {
 
 			// Add timestamp of response.
 			$server->send_header( 'Timestamp', time() );
+
+			/**
+			 * Filter to enable adding Vary: Accept-Encoding header for all responses to
+			 * ensure proper handling of compressed responses by CDNs, reverse proxies, and browsers.
+			 *
+			 * Disabled by default to prevent duplicate Vary headers if the web server is already configured to add it.
+			 *
+			 * @since 5.0.0 Introduced.
+			 *
+			 * @param bool $enable_vary_header Whether to add Vary: Accept-Encoding header to all responses. Default false.
+			 */
+			if ( apply_filters( 'cocart_experimental_enable_header_vary_accept_encoding', false ) ) {
+				// Add Vary header to handle compression correctly for all responses.
+				// CORS has already added Vary: Origin (if applicable).
+				// We merge Accept-Encoding with any existing Vary values to avoid duplicates.
+				$existing_vary_values = array();
+
+				if ( function_exists( 'headers_list' ) ) {
+					foreach ( headers_list() as $header ) {
+						if ( stripos( $header, 'Vary:' ) === 0 ) {
+							// Extract value after "Vary: ".
+							$vary_value = trim( substr( $header, 5 ) );
+
+							// Parse comma-separated values.
+							$values               = array_map( 'trim', explode( ',', $vary_value ) );
+							$existing_vary_values = array_merge( $existing_vary_values, $values );
+						}
+					}
+				}
+
+				// Always ensure Accept-Encoding is in the list.
+				if ( ! in_array( 'Accept-Encoding', $existing_vary_values, true ) ) {
+					$existing_vary_values[] = 'Accept-Encoding';
+				}
+
+				// Remove ALL existing Vary headers sent by PHP to prevent duplicates.
+				// Note: This only removes PHP headers, not web server headers added after PHP finishes.
+				if ( function_exists( 'header_remove' ) ) {
+					header_remove( 'Vary' );
+				}
+
+				// Send the clean, merged Vary header with all values combined.
+				$server->send_header( 'Vary', implode( ', ', array_unique( $existing_vary_values ) ) );
+			}
 		}
 
 		return $served;
