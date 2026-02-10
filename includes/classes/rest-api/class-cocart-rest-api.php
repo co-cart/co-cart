@@ -768,6 +768,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 3.1.0 Introduced.
 	 * @since 4.1.0 Check against allowed routes to determine if we should cache.
+	 * @since 4.9.0 Improved cache control for cacheable routes and more control over cache durations.
 	 * @since 5.0.0 Allow for set API namespace to be used for control patterns.
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
@@ -778,40 +779,21 @@ class CoCart_REST_API {
 	 * @return bool $served Returns true if headers were set.
 	 */
 	public function set_cache_control_headers( $served, $result, $request, $server ) {
-		/**
-		 * Filter allows you set a path to which will prevent from being added to browser cache.
-		 *
-		 * @since 3.6.0 Introduced.
-		 * @since 5.0.0 Added API Namespace as new parameter.
-		 *
-		 * @param array  $cache_control_patterns Cache control patterns.
-		 * @param string $api_namespace          API Namespace
-		 */
-		$regex_path_patterns = apply_filters(
-			'cocart_send_cache_control_patterns',
-			array(
-				'/^' . $this->namespace . '\/v2\/cart/',
-				'/^' . $this->namespace . '\/v2\/logout/',
-				'/^' . $this->namespace . '\/v2\/store/',
-				'/^' . $this->namespace . '\/v1\/get-cart/',
-				'/^' . $this->namespace . '\/v1\/logout/',
-			),
-			$this->namespace
-		);
+		// Force no-cache if _skip_cache parameter is set.
+		$skip_cache = $request->get_param( '_skip_cache' );
 
-		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
-		? 'no-cache, must-revalidate, max-age=0, no-store, private'
-		: 'no-cache, must-revalidate, max-age=0, no-store';
-
-		foreach ( $regex_path_patterns as $regex_path_pattern ) {
-			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
-				if ( method_exists( $server, 'send_header' ) ) {
-					$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
-					$server->send_header( 'Cache-Control', $cache_control );
-					$server->send_header( 'Pragma', 'no-cache' );
-				}
+		if ( ! empty( $skip_cache ) && in_array( $skip_cache, array( 'true', '1', true, 1 ), true ) ) {
+			if ( method_exists( $server, 'send_header' ) ) {
+				$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
+				$server->send_header( 'Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0' );
+				$server->send_header( 'Pragma', 'no-cache' );
 			}
+			return $served;
 		}
+
+		$is_user_logged_in = function_exists( 'is_user_logged_in' ) && is_user_logged_in();
+		$cache_visibility  = $is_user_logged_in ? 'private' : 'public';
+		$cache_control     = null;
 
 		// Routes that can be cached will set the Last-Modified header.
 		foreach ( $this->get_cacheable_route_patterns() as $regex_path_pattern ) {
@@ -853,7 +835,71 @@ class CoCart_REST_API {
 
 					$last_modified = $gmt_date->format( 'D, d M Y H:i:s' ) . ' GMT';
 
+					$max_age                = HOUR_IN_SECONDS;
+					$stale_while_revalidate = DAY_IN_SECONDS;
+
+					/**
+					 * Filter the cache max-age for cacheable routes.
+					 *
+					 * @since 4.9.0 Introduced.
+					 *
+					 * @param int $max_age Cache duration in seconds. Default 3600 (1 hour).
+					 */
+					$max_age = apply_filters( 'cocart_cache_max_age', $max_age );
+
+					/**
+					 * Filter the stale-while-revalidate duration.
+					 *
+					 * @since 4.9.0 Introduced.
+					 *
+					 * @param int $stale_while_revalidate Duration in seconds. Default 86400 (24 hours).
+					 */
+					$stale_while_revalidate = apply_filters( 'cocart_stale_while_revalidate', $stale_while_revalidate );
+
+					$cache_control = sprintf(
+						'%s, must-revalidate, max-age=%d, stale-while-revalidate=%d',
+						$cache_visibility,
+						$max_age,
+						$stale_while_revalidate
+					);
+
 					$server->send_header( 'Last-Modified', $last_modified );
+					$server->send_header( 'Cache-Control', $cache_control );
+				}
+			}
+		}
+
+		/**
+		 * Filter allows you set a path to which will prevent from being added to browser cache.
+		 *
+		 * @since 3.6.0 Introduced.
+		 * @since 5.0.0 Added API Namespace as new parameter.
+		 *
+		 * @param array  $cache_control_patterns Cache control patterns.
+		 * @param string $api_namespace          API Namespace
+		 */
+		$regex_path_patterns = apply_filters(
+			'cocart_send_cache_control_patterns',
+			array(
+				'/^' . $this->namespace . '\/v2\/cart/',
+				'/^' . $this->namespace . '\/v2\/login/',
+				'/^' . $this->namespace . '\/v2\/logout/',
+				'/^' . $this->namespace . '\/v1\/get-cart/',
+				'/^' . $this->namespace . '\/v1\/logout/',
+			),
+			$this->namespace
+		);
+
+		// Override cache control for non-cacheable routes.
+		$cache_control = 'no-cache, no-store, must-revalidate, max-age=0, ' . $cache_visibility;
+
+		// Routes that should not be cached will set no-cache headers.
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
+				if ( method_exists( $server, 'send_header' ) ) {
+					$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
+					$server->send_header( 'Cache-Control', $cache_control );
+					$server->send_header( 'Pragma', 'no-cache' );
 				}
 			}
 		}
@@ -923,6 +969,9 @@ class CoCart_REST_API {
 	/**
 	 * Returns routes that can be cached as a regex pattern.
 	 *
+	 * These routes return public, non-personalized data that can be safely cached
+	 * by CDNs, reverse proxies, and browsers.
+	 *
 	 * @access protected
 	 *
 	 * @since 4.1.0 Introduced.
@@ -933,6 +982,7 @@ class CoCart_REST_API {
 	protected function get_cacheable_route_patterns() {
 		return array(
 			'/^' . $this->namespace . '\/v2\/products/',
+			'/^' . $this->namespace . '\/v2\/store$/',
 			'/^' . $this->namespace . '\/v1\/products/',
 		);
 	} // END get_cacheable_route_patterns()
