@@ -311,13 +311,22 @@ class CoCart_ETag {
 
 		// Include relevant query parameters in hash for cache variation.
 		$query_params = array(
-			'page'     => $request->get_param( 'page' ) ?? 1,
-			'per_page' => $request->get_param( 'per_page' ) ?? 10,
-			'orderby'  => $request->get_param( 'orderby' ) ?? 'date',
-			'order'    => $request->get_param( 'order' ) ?? 'desc',
-			'category' => $request->get_param( 'category' ) ?? '',
-			'tag'      => $request->get_param( 'tag' ) ?? '',
-			'search'   => $request->get_param( 'search' ) ?? '',
+			'page'         => $request->get_param( 'page' ) ?? 1,
+			'per_page'     => $request->get_param( 'per_page' ) ?? 10,
+			'orderby'      => $request->get_param( 'orderby' ) ?? 'date',
+			'order'        => $request->get_param( 'order' ) ?? 'desc',
+			'category'     => $request->get_param( 'category' ) ?? '',
+			'tag'          => $request->get_param( 'tag' ) ?? '',
+			'search'       => $request->get_param( 'search' ) ?? '',
+			'slug'         => $request->get_param( 'slug' ) ?? '',
+			'sku'          => $request->get_param( 'sku' ) ?? '',
+			'type'         => $request->get_param( 'type' ) ?? '',
+			'featured'     => $request->get_param( 'featured' ) ?? '',
+			'on_sale'      => $request->get_param( 'on_sale' ) ?? '',
+			'min_price'    => $request->get_param( 'min_price' ) ?? '',
+			'max_price'    => $request->get_param( 'max_price' ) ?? '',
+			'stock_status' => $request->get_param( 'stock_status' ) ?? '',
+			'attribute'    => $request->get_param( 'attribute' ) ?? '',
 		);
 
 		$params_hash = md5( wp_json_encode( $query_params ) );
