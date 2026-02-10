@@ -980,10 +980,20 @@ class CoCart_REST_API {
 	 * @return array Routes that can be cached.
 	 */
 	protected function get_cacheable_route_patterns() {
-		return array(
-			'/^' . $this->namespace . '\/v2\/products/',
-			'/^' . $this->namespace . '\/v2\/store$/',
-			'/^' . $this->namespace . '\/v1\/products/',
+		/**
+		 * Filter the cacheable route patterns.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param array $patterns Array of regex patterns for cacheable routes.
+		 */
+		return apply_filters(
+			'cocart_cacheable_route_patterns',
+			array(
+				'/^' . $this->namespace . '\/v2\/products/',
+				'/^' . $this->namespace . '\/v2\/store$/',
+				'/^' . $this->namespace . '\/v1\/products/',
+			)
 		);
 	} // END get_cacheable_route_patterns()
 
