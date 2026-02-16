@@ -46,7 +46,7 @@ class CoCart_Products_Controller extends CoCart_REST_Products_Controller {
 					'args'                => $this->get_collection_params(),
 					'permission_callback' => '__return_true',
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 
@@ -73,7 +73,7 @@ class CoCart_Products_Controller extends CoCart_REST_Products_Controller {
 					),
 					'permission_callback' => '__return_true',
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	}

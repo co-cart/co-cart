@@ -49,7 +49,7 @@ class CoCart_Product_Variations_Controller extends CoCart_REST_Product_Variation
 					'args'                => $this->get_collection_params(),
 					'permission_callback' => '__return_true',
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 
@@ -73,7 +73,7 @@ class CoCart_Product_Variations_Controller extends CoCart_REST_Product_Variation
 					),
 					'permission_callback' => '__return_true',
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	} // END register_routes()

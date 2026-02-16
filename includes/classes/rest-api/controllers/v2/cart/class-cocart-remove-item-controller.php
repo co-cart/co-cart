@@ -28,17 +28,6 @@ class_alias( 'CoCart_REST_Remove_Item_V2_Controller', 'CoCart_Remove_Item_V2_Con
 class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Get the path of this REST route.
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return $this->get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
 	 *
 	 * @since 5.0.0 Introduced.

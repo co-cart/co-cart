@@ -25,20 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_Controller {
 
 	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	} // END get_path()
-
-	/**
 	 * Get the path of this rest route.
 	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products/(?P<id>[\d]+)';
 	} // END get_path_regex()
 
@@ -66,7 +57,7 @@ class CoCart_REST_Products_by_ID_V2_Controller extends CoCart_REST_Products_V2_C
 				'permission_callback' => '__return_true',
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 

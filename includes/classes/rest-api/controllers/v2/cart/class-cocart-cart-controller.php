@@ -30,11 +30,11 @@ class_alias( 'CoCart_REST_Cart_V2_Controller', 'CoCart_Cart_V2_Controller' );
 class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 	/**
-	 * Schema.
+	 * The version of this controller's route.
 	 *
-	 * @var array
+	 * @var string
 	 */
-	protected $schema = array();
+	protected $version = 'v2';
 
 	/**
 	 * Get method arguments for this REST route.
@@ -52,18 +52,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
-
-	/**
-	 * Route namespace.
-	 *
-	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
 
 	/**
 	 * Route base.
@@ -73,24 +64,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 * @var string
 	 */
 	protected $rest_base = 'cart';
-
-	/**
-	 * Version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	public function get_version() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		return $this->version;
-	}
 
 	/**
 	 * Register the routes for cart.

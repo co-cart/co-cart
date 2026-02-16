@@ -29,7 +29,7 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/session/(?P<session_key>[\w]+)/items';
 	}
 

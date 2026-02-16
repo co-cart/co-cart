@@ -46,14 +46,14 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 		protected $namespace = 'cocart/v2';
 
 		/**
-		 * Version of route.
+		 * The version of this controller's route.
 		 *
 		 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 		 */
 		protected $version = 'v2';
 
 		/**
-		 * Get version of route.
+		 * Get the version of this controller's route.
 		 *
 		 * @deprecated 5.0.0 Version is registered in the REST API class instead.
 		 */
@@ -84,7 +84,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 						'args'                => $this->get_collection_params(),
 					),
 					'allow_batch' => array( 'v1' => true ),
-					'schema'      => array( $this, 'get_public_item_schema' ),
+					'schema'      => array( $this, 'get_item_schema' ),
 				)
 			);
 
@@ -105,7 +105,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 						),
 					),
 					'allow_batch' => array( 'v1' => true ),
-					'schema'      => array( $this, 'get_public_item_schema' ),
+					'schema'      => array( $this, 'get_item_schema' ),
 				)
 			);
 		} // END register_routes()

@@ -31,20 +31,9 @@ class CoCart_REST_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_C
 	 *
 	 * @return string Path regex.
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products/reviews';
 	} // END get_path_regex()
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	} // END get_path()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -100,36 +89,16 @@ class CoCart_REST_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_C
 				),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 
 	/**
-	 * Route namespace.
-	 *
-	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
+	 * The version of this controller's route.
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
 	protected $version = 'v2';
-
-	/**
-	 * Get version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	public function get_version() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		return $this->version;
-	} // END get_version()
 
 	/**
 	 * Register routes.

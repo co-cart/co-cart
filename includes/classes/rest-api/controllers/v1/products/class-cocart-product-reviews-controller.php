@@ -81,7 +81,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 						)
 					),
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 
@@ -103,7 +103,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	} // END register_routes()

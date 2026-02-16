@@ -22,19 +22,16 @@ class_alias( 'CoCart_REST_Store_V2_Controller', 'CoCart_Store_V2_Controller' );
  * and all public routes via "cocart/v2/store" endpoint.
  *
  * @since 3.0.0 Introduced.
+ * @extends CoCart_REST_Controller
  */
-class CoCart_REST_Store_V2_Controller {
+class CoCart_REST_Store_V2_Controller extends CoCart_REST_Controller {
 
 	/**
-	 * Get the path of this REST route.
+	 * The version of this controller's route.
 	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @return string
+	 * @var string
 	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
+	protected $version = 'v2';
 
 	/**
 	 * Get the path of this rest route.
@@ -43,7 +40,7 @@ class CoCart_REST_Store_V2_Controller {
 	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/store';
 	}
 
@@ -62,18 +59,9 @@ class CoCart_REST_Store_V2_Controller {
 				'permission_callback' => '__return_true',
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
-
-	/**
-	 * Route namespace.
-	 *
-	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
 
 	/**
 	 * Route base.
@@ -83,24 +71,6 @@ class CoCart_REST_Store_V2_Controller {
 	 * @var string
 	 */
 	protected $rest_base = 'store';
-
-	/**
-	 * Version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	public function get_version() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		return $this->version;
-	}
 
 	/**
 	 * Register routes.

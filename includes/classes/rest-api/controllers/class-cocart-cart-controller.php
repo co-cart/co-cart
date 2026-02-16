@@ -18,16 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 5.0.0 Introduced.
  */
-abstract class CoCart_REST_Cart_Controller {
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return $this->get_path_regex();
-	}
+abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 
 	/**
 	 * Get the path of this rest route.

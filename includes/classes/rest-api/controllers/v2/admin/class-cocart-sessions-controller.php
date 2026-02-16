@@ -22,24 +22,23 @@ class_alias( 'CoCart_REST_Sessions_V2_Controller', 'CoCart_Sessions_V2_Controlle
  * via "cocart/v2/sessions" endpoint.
  *
  * @since 4.0.0 Introduced.
+ * @extends CoCart_REST_Controller
  */
-class CoCart_REST_Sessions_V2_Controller {
+class CoCart_REST_Sessions_V2_Controller extends CoCart_REST_Controller {
 
 	/**
-	 * Get the path of this REST route.
+	 * The version of this controller's route.
 	 *
-	 * @return string
+	 * @var string
 	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
+	protected $version = 'v2';
 
 	/**
 	 * Get the path of this rest route.
 	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/sessions';
 	}
 
@@ -61,17 +60,6 @@ class CoCart_REST_Sessions_V2_Controller {
 	} // END get_args()
 
 	/**
-	 * Route namespace.
-	 *
-	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
-	 *
-	 * @access protected
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
 	 * Route base.
 	 *
 	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
@@ -81,24 +69,6 @@ class CoCart_REST_Sessions_V2_Controller {
 	 * @var string
 	 */
 	protected $rest_base = 'sessions';
-
-	/**
-	 * Version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	public function get_version() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		return $this->version;
-	}
 
 	/**
 	 * Register the routes for index.

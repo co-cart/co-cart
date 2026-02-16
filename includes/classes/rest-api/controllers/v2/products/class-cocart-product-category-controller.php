@@ -27,18 +27,9 @@ class CoCart_REST_Product_Category_V2_Controller extends CoCart_REST_Product_Cat
 	 *
 	 * @return string Path regex.
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products/categories/(?P<id>[\d]+)';
 	} // END get_path_regex()
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	} // END get_path()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -60,7 +51,7 @@ class CoCart_REST_Product_Category_V2_Controller extends CoCart_REST_Product_Cat
 				),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 } // END class
