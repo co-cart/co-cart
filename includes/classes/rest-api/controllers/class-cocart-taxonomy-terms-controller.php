@@ -220,35 +220,11 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 
 		$response = rest_ensure_response( $response );
 
-		// Store pagination values for headers then unset for count query.
-		$per_page = (int) $prepared_args['number'];
-		$page     = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
+		// Add pagination headers using utility class.
+		$per_page  = (int) $prepared_args['number'];
+		$max_pages = $per_page > 0 ? ceil( $total_terms / $per_page ) : 1;
 
-		$response->header( 'X-WP-Total', (int) $total_terms );
-		$max_pages = ceil( $total_terms / $per_page );
-		$response->header( 'X-WP-TotalPages', (int) $max_pages );
-
-		$base = '/' . $this->namespace . '/' . $this->rest_base;
-
-		if ( ! empty( $request['attribute_id'] ) ) {
-			$base = str_replace( '(?P<attribute_id>[\d]+)', $request['attribute_id'], $base );
-		}
-
-		$base = add_query_arg( $request->get_query_params(), rest_url( $base ) );
-
-		if ( $page > 1 ) {
-			$prev_page = $page - 1;
-			if ( $prev_page > $max_pages ) {
-				$prev_page = $max_pages;
-			}
-			$prev_link = add_query_arg( 'page', $prev_page, $base );
-			$response->link_header( 'prev', $prev_link );
-		}
-		if ( $max_pages > $page ) {
-			$next_page = $page + 1;
-			$next_link = add_query_arg( 'page', $next_page, $base );
-			$response->link_header( 'next', $next_link );
-		}
+		$response = ( new CoCart_REST_Utilities_Pagination() )->add_headers( $response, $request, $total_terms, $max_pages );
 
 		return $response;
 	} // END get_items()

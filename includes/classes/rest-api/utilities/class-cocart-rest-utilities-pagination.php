@@ -89,11 +89,8 @@ class CoCart_REST_Utilities_Pagination {
 	 * @param string           $link_base Base URL.
 	 */
 	protected function add_page_link( $response, $name, $page, $link_base ) {
-		$response->add_links(
-			array(
-				$name => array( 'href' => add_query_arg( 'page', $page, $link_base ) ),
-			)
-		);
+		// Only add Link HTTP header, not to response body.
+		// Adding links to response body causes arrays to become objects in JSON.
 		$response->link_header( $name, add_query_arg( 'page', $page, $link_base ) );
 	} // END add_page_link()
 } // END class.
