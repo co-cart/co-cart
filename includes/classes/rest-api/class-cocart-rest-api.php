@@ -670,6 +670,8 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-cart-response.php';
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-pagination.php';
 
+		require_once __DIR__ . '/controllers/class-cocart-rest-controller.php';
+
 		// Abstract base for terms controllers (shared between v1 and v2).
 		require_once __DIR__ . '/controllers/class-cocart-taxonomy-terms-controller.php';
 

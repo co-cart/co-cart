@@ -21,14 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Provides shared functionality for all taxonomy term endpoints.
  * Child classes must define $rest_base and $taxonomy properties.
  */
-abstract class CoCart_REST_Taxonomy_Terms_Controller extends WP_REST_Controller {
-
-	/**
-	 * Route base.
-	 *
-	 * @var string
-	 */
-	protected $rest_base = '';
+abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Controller {
 
 	/**
 	 * Taxonomy.
