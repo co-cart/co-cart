@@ -134,12 +134,23 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			$product = isset( $current_data['product_id'] ) ? wc_get_product( $current_data['product_id'] ) : false;
 
-			$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', sprintf(
-				/* translators: %s: Item name. */
-				_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
-				$product ? $product->get_name() : __( 'Item', 'cocart-core' )
-			),
-			$current_data );
+			/**
+			 * Filters the cart item title when it's removed.
+			 *
+			 * @since 2.0.0 Introduced.
+			 *
+			 * @param string $title        The formatted item title.
+			 * @param array  $current_data The cart item data.
+			 */
+			$item_removed_title = apply_filters(
+				'cocart_cart_item_removed_title',
+				sprintf(
+					/* translators: %s: Item name. */
+					_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
+					$product ? $product->get_name() : __( 'Item', 'cocart-core' )
+				),
+				$current_data
+			);
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -149,11 +160,22 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				if ( isset( $removed_contents[ $item_key ] ) ) {
 					$product = wc_get_product( $removed_contents[ $item_key ]['product_id'] );
 
-					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf(
-						/* translators: %s: Item name. */
-						_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
-						$product->get_name()
-					) : __( 'Item', 'cocart-core' ) );
+					/**
+					 * Filters the cart item title when it has already been removed.
+					 *
+					 * @since 2.0.0 Introduced.
+					 *
+					 * @param string           $title   The formatted item title.
+					 * @param WC_Product|false $product The product object or false.
+					 */
+					$item_already_removed_title = apply_filters(
+						'cocart_cart_item_already_removed_title',
+						$product ? sprintf(
+							/* translators: %s: Item name. */
+							_x( '"%s"', 'Item name in quotes', 'cocart-core' ),
+							$product->get_name()
+						) : __( 'Item', 'cocart-core' )
+					);
 
 					$message = sprintf(
 						/* translators: %s: Item name. */
