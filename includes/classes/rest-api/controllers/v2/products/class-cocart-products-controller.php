@@ -800,6 +800,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 5.0.0 Added brand taxonomy support.
 	 *
 	 * @param int    $id       Product ID or Taxonomy ID.
 	 * @param string $taxonomy Taxonomy type.
@@ -810,20 +811,23 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 		if ( ! empty( $taxonomy ) ) {
 			switch ( $taxonomy ) {
 				case 'cat':
-					$route = '/%s/products/categories/%s';
+					$path = 'products/categories/%d';
 					break;
 				case 'tag':
-					$route = '/%s/products/tags/%s';
+					$path = 'products/tags/%d';
+					break;
+				case 'brand':
+					$path = 'products/brands/%d';
 					break;
 				default:
-					$route = '/%s/products/%s';
+					$path = 'products/%d';
 					break;
 			}
 		} else {
-			$route = '/%s/products/%s';
+			$path = 'products/%d';
 		}
 
-		return rest_url( sprintf( $route, $this->namespace, $id ) );
+		return rest_url( $this->build_rest_path( $path, array( $id ) ) );
 	} // END product_rest_url()
 
 	/**
@@ -862,7 +866,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 	public function add_to_cart_rest_url( $product, $type ) {
 		$id = $product->get_id();
 
-		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
+		$rest_url = rest_url( $this->build_rest_path( 'cart/add-item' ) );
+		$rest_url = add_query_arg( 'id', $id, $rest_url );
 		$rest_url = add_query_arg( 'quantity', CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ), $rest_url );
 
 		switch ( $type ) {
