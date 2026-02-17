@@ -55,7 +55,7 @@ class CoCart_REST_Product_Reviews_Mine_V2_Controller extends CoCart_REST_Product
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function check_permission( $request ) {
 		if ( ! is_user_logged_in() ) {

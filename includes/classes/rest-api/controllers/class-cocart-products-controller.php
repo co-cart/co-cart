@@ -790,7 +790,7 @@ abstract class CoCart_REST_Products_Controller extends CoCart_REST_Controller {
 
 		// Add parent product link for variations.
 		if ( $product->get_parent_id() ) {
-			$parent_id               = $product->get_parent_id();
+			$parent_id   = $product->get_parent_id();
 			$links['up'] = array(
 				'permalink' => cocart_get_permalink( get_permalink( $parent_id ) ),
 				'href'      => rest_url( $this->build_rest_path( 'products/%d', array( $parent_id ) ) ),
@@ -918,6 +918,8 @@ abstract class CoCart_REST_Products_Controller extends CoCart_REST_Controller {
 	 */
 	public function get_collection_params() {
 		$params = parent::get_collection_params();
+
+		$params['context']['default'] = 'view';
 
 		$params['slug']               = array(
 			'description'       => __( 'Limit result set to products with a specific slug.', 'cocart-core' ),
@@ -1215,7 +1217,7 @@ abstract class CoCart_REST_Products_Controller extends CoCart_REST_Controller {
 	} // END get_collection_params()
 
 	/**
-	 * Add the schema from additional fields to an schema array.
+	 * Adds the schema from additional fields to a schema array.
 	 *
 	 * The type of object is inferred from the passed schema.
 	 *

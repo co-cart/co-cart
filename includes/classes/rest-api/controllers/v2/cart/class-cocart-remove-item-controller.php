@@ -54,6 +54,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 

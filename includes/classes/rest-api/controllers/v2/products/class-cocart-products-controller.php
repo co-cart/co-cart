@@ -294,25 +294,6 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 	} // END get_variations()
 
 	/**
-	 * Get the images for a product or product variation.
-	 *
-	 * @access protected
-	 *
-	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
-	 *
-	 * @see CoCart_Utilities_Product_Helpers::get_images()
-	 *
-	 * @param WC_Product|WC_Product_Variation $product The product object.
-	 *
-	 * @return array $images
-	 */
-	protected function get_images( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_images' );
-
-		return CoCart_Utilities_Product_Helpers::get_images( $product );
-	} // END get_images()
-
-	/**
 	 * Get product data.
 	 *
 	 * @access protected
@@ -914,6 +895,27 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 		return $rest_url;
 	} // END add_to_cart_rest_url()
 
+	// ** Deprecated functions below this line. **//
+
+	/**
+	 * Get the images for a product or product variation.
+	 *
+	 * @access protected
+	 *
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_images()
+	 *
+	 * @param WC_Product|WC_Product_Variation $product The product object.
+	 *
+	 * @return array $images
+	 */
+	protected function get_images( $product ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_images' );
+
+		return CoCart_Utilities_Product_Helpers::get_images( $product );
+	} // END get_images()
+
 	/**
 	 * WooCommerce can return prices including or excluding tax.
 	 * Choose the correct method based on tax display mode.
@@ -1010,20 +1012,16 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 	 * @return array Product schema data.
 	 */
 	public function get_item_schema() {
-		if ( $this->schema ) {
-			return $this->schema;
-		}
-
 		$weight_unit    = get_option( 'woocommerce_weight_unit' );
 		$dimension_unit = get_option( 'woocommerce_dimension_unit' );
 
-		$this->schema = array(
+		$schema = array(
 			'$schema' => 'http://json-schema.org/draft-04/schema#',
 			'title'   => $this->post_type,
 			'type'    => 'object',
 		);
 
-		$this->schema['properties'] = array(
+		$schema['properties'] = array(
 			'id'                 => array(
 				'description' => __( 'Unique identifier for the product.', 'cocart-core' ),
 				'type'        => 'integer',
@@ -2152,7 +2150,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 
 		foreach ( $attachment_sizes as $size ) {
 			// Generate the product image URL properties for each attachment size.
-			$this->schema['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
+			$schema['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
 				'description' => sprintf(
 					/* translators: %s: Product image URL */
 					__( 'Product image URL for "%s".', 'cocart-core' ),
@@ -2165,8 +2163,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 			);
 
 			// Generate the variation product featured image URL properties for each attachment size.
-			if ( isset( $this->schema['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
-				$this->schema['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
+			if ( isset( $schema['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
+				$schema['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
 					'description' => sprintf(
 						/* translators: %s: Product image URL */
 						__( 'Product image URL for "%s".', 'cocart-core' ),
@@ -2180,7 +2178,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 			}
 		}
 
-		return $this->add_additional_fields_schema( $this->schema );
+		return $this->add_additional_fields_schema( $schema );
 	} // END get_item_schema()
 
 	/**
@@ -2194,9 +2192,13 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 	 * @return array Products archive schema data.
 	 */
 	public function get_public_items_schema() {
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
 		$product_schema = $this->get_item_schema();
 
-		$schema = array(
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_products_archive',
 			'type'       => 'object',
@@ -2228,6 +2230,6 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 			),
 		);
 
-		return $schema;
+		return $this->schema;
 	} // END get_public_items_schema()
 } // END class

@@ -115,7 +115,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {

@@ -601,6 +601,10 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 * @access public
 	 *
 	 * @since 5.0.0 Introduced.
+	 *
+	 * @param array $params The query params.
+	 *
+	 * @return array $params The query params with additional params added.
 	 */
 	public function add_additional_params_to_cart( $params ) {
 		/**

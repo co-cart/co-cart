@@ -46,7 +46,7 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_Controller 
 	 *
 	 * @access public
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_permission_callback() {
 		if ( strval( get_current_user_id() ) > 0 ) {

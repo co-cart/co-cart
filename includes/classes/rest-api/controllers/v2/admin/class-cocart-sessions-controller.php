@@ -181,7 +181,11 @@ class CoCart_REST_Sessions_V2_Controller extends CoCart_REST_Controller {
 	 * @return array
 	 */
 	public function get_public_object_schema() {
-		return array(
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_sessions_v2',
 			'type'       => 'object',
@@ -238,5 +242,7 @@ class CoCart_REST_Sessions_V2_Controller extends CoCart_REST_Controller {
 				),
 			),
 		);
+
+		return $this->schema;
 	} // END get_public_object_schema()
 } // END class

@@ -267,8 +267,12 @@ class CoCart_REST_Store_V2_Controller extends CoCart_REST_Controller {
 	 *
 	 * @return array Public item schema data.
 	 */
-	public function get_public_item_schema() {
-		$schema = array(
+	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_store',
 			'type'       => 'object',
@@ -370,7 +374,7 @@ class CoCart_REST_Store_V2_Controller extends CoCart_REST_Controller {
 		if ( count( $routes ) > 0 ) {
 			// Apply each route to the properties.
 			foreach ( $routes as $route => $endpoint ) {
-				$schema['properties']['routes']['properties'][ $route ] = array(
+				$this->schema['properties']['routes']['properties'][ $route ] = array(
 					'description' => sprintf(
 						/* translators: %s: Route URL */
 						__( 'The "%s" route URL.', 'cocart-core' ),
@@ -383,9 +387,9 @@ class CoCart_REST_Store_V2_Controller extends CoCart_REST_Controller {
 			}
 		} else {
 			// Remove routes property if none exist.
-			unset( $schema['properties']['routes'] );
+			unset( $this->schema['properties']['routes'] );
 		}
 
-		return $schema;
-	} // END get_public_item_schema()
+		return $this->schema;
+	} // END get_item_schema()
 } // END class

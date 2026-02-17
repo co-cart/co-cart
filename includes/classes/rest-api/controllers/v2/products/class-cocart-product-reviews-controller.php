@@ -124,7 +124,7 @@ class CoCart_REST_Product_Reviews_V2_Controller extends CoCart_Product_Reviews_C
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function create_item_permissions_check( $request ) {
 		$verified = false;

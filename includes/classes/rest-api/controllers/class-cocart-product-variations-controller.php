@@ -128,13 +128,13 @@ abstract class CoCart_REST_Product_Variations_Controller extends CoCart_REST_Pro
 		$parent_id    = $product->get_parent_id();
 
 		$links = array(
-			'self'           => array(
+			'self'       => array(
 				'href' => rest_url( $this->build_rest_path( 'products/%d/variations/%d', array( $parent_id, $variation_id ) ) ),
 			),
-			'collection'     => array(
+			'collection' => array(
 				'href' => rest_url( $this->build_rest_path( 'products/%d/variations', array( $parent_id ) ) ),
 			),
-			'up' => array(
+			'up'         => array(
 				'href'      => rest_url( $this->build_rest_path( 'products/%d', array( $parent_id ) ) ),
 				'permalink' => cocart_get_permalink( get_permalink( $parent_id ) ),
 			),

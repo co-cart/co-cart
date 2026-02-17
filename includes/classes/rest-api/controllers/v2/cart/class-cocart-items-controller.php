@@ -153,7 +153,11 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array
 	 */
 	public function get_public_items_schema() {
-		return array(
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_cart_items',
 			'type'       => 'object',
@@ -342,5 +346,7 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				),
 			),
 		);
+
+		return $this->schema;
 	} // END get_public_items_schema()
 } // END class

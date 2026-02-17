@@ -156,19 +156,6 @@ abstract class CoCart_REST_Controller extends WP_REST_Controller {
 	} // END build_rest_path()
 
 	/**
-	 * Retrieves the query params for the collections.
-	 *
-	 * @access public
-	 *
-	 * @return array Query parameters for the collection.
-	 */
-	public function get_collection_params() {
-		return array(
-			'context' => $this->get_context_param(),
-		);
-	} // END get_collection_params()
-
-	/**
 	 * Get the item schema, conforming to JSON Schema.
 	 *
 	 * Provides a basic schema structure that child classes should override.
