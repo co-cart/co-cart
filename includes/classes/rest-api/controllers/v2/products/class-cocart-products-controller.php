@@ -135,39 +135,6 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 	} // END get_items()
 
 	/**
-	 * Prepare links for the request.
-	 *
-	 * @access protected
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @param WC_Product $product The product object.
-	 *
-	 * @return array Links for the given product.
-	 */
-	protected function prepare_links( $product ) {
-		$links = parent::prepare_links( $product );
-
-		$links['self']['permalink']       = cocart_get_permalink( get_permalink( $product->get_id() ) );
-		$links['collection']['permalink'] = cocart_get_permalink( wc_get_page_permalink( 'shop' ) );
-
-		if ( $product->get_parent_id() ) {
-			$links['parent_product']['permalink'] = cocart_get_permalink( get_permalink( $product->get_parent_id() ) );
-		}
-
-		// If product is a variable product, return links to all variations.
-		if ( $product->is_type( 'variable' ) && $product->has_child() || $product->is_type( 'variable-subscription' ) && $product->has_child() ) {
-			$variations = $product->get_children();
-
-			foreach ( $variations as $variation_product ) {
-				$links['variations'][ $variation_product ]['permalink'] = cocart_get_permalink( get_permalink( $variation_product ) );
-			}
-		}
-
-		return $links;
-	} // END prepare_links()
-
-	/**
 	 * Prepare a single product output for response.
 	 *
 	 * @access public
@@ -216,7 +183,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 
 		// Only prepare links if requested (WordPress 6.1+ optimization).
 		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
-			$response->add_links( $this->prepare_links( $product ) );
+			$response->add_links( $this->prepare_links( $product, $request ) );
 		}
 
 		/**

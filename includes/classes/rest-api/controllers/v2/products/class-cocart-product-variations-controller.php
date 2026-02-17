@@ -139,7 +139,7 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_REST_Product_V
 
 		// Only prepare links if requested (WordPress 6.1+ optimization).
 		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
-			$response->add_links( $this->prepare_links( $product ) );
+			$response->add_links( $this->prepare_links( $product, $request ) );
 		}
 
 		/**
@@ -173,32 +173,4 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_REST_Product_V
 
 		return $controller;
 	} // END get_products_controller()
-
-	/**
-	 * Prepare links for the request.
-	 *
-	 * @access protected
-	 *
-	 * @param WC_Product $product The product object.
-	 *
-	 * @return array $links Links for the given product.
-	 */
-	protected function prepare_links( $product ) {
-		$links = parent::prepare_links( $product );
-
-		$rest_base = str_replace( '(?P<product_id>[\d]+)', $product->get_parent_id(), $this->rest_base );
-
-		$links['self']['href']       = rest_url( sprintf( '/%s/%s/%d', $this->namespace, $rest_base, $product->get_id() ) );
-		$links['collection']['href'] = rest_url( sprintf( '/%s/%s', $this->namespace, $rest_base ) );
-
-		// Rename link type and add permalink for the parent product.
-		$links['up'] = array(
-			'permalink' => cocart_get_permalink( get_permalink( $product->get_parent_id() ) ),
-			'href'      => $links['parent_product']['href'],
-		);
-
-		unset( $links['parent_product'] );
-
-		return $links;
-	} // END prepare_links()
 }

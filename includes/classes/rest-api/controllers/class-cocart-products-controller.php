@@ -769,39 +769,42 @@ abstract class CoCart_REST_Products_Controller extends CoCart_REST_Controller {
 	 *
 	 * @access protected
 	 *
-	 * @param WC_Product $product The product object.
+	 * @param \WC_Product      $product The product object.
+	 * @param \WP_REST_Request $request Full details about the request.
 	 *
 	 * @return array Links for the given product.
 	 */
-	protected function prepare_links( $product ) {
-		$this->namespace = str_replace( CoCart::get_api_namespace() . '/', '', $this->namespace );
+	protected function prepare_links( $product, $request ) {
+		$product_id = $product->get_id();
 
 		$links = array(
 			'self'       => array(
-				'permalink' => get_permalink( $product->get_id() ),
-				'href'      => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $product->get_id() ) ),
+				'permalink' => cocart_get_permalink( get_permalink( $product_id ) ),
+				'href'      => rest_url( $this->build_rest_path( 'products/%d', array( $product_id ) ) ),
 			),
 			'collection' => array(
-				'permalink' => wc_get_page_permalink( 'shop' ),
-				'href'      => rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ),
+				'permalink' => cocart_get_permalink( wc_get_page_permalink( 'shop' ) ),
+				'href'      => rest_url( $this->build_rest_path( 'products', array() ) ),
 			),
 		);
 
+		// Add parent product link for variations.
 		if ( $product->get_parent_id() ) {
-			$links['parent_product'] = array(
-				'permalink' => get_permalink( $product->get_parent_id() ),
-				'href'      => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product->get_parent_id() ) ),
+			$parent_id               = $product->get_parent_id();
+			$links['up'] = array(
+				'permalink' => cocart_get_permalink( get_permalink( $parent_id ) ),
+				'href'      => rest_url( $this->build_rest_path( 'products/%d', array( $parent_id ) ) ),
 			);
 		}
 
 		// If product is a variable product, return links to all variations.
-		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
+		if ( ( $product->is_type( 'variable' ) || $product->is_type( 'variable-subscription' ) ) && $product->has_child() ) {
 			$variations = $product->get_children();
 
-			foreach ( $variations as $variation_product ) {
-				$links['variations'][ $variation_product ] = array(
-					'permalink' => get_permalink( $variation_product ),
-					'href'      => rest_url( sprintf( '/%s/products/%d/variations/%d', $this->namespace, $product->get_id(), $variation_product ) ),
+			foreach ( $variations as $variation_id ) {
+				$links['variations'][ $variation_id ] = array(
+					'permalink' => cocart_get_permalink( get_permalink( $variation_id ) ),
+					'href'      => rest_url( $this->build_rest_path( 'products/%d/variations/%d', array( $product_id, $variation_id ) ) ),
 				);
 			}
 		}

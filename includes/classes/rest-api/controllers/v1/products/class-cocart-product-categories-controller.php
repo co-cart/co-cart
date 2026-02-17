@@ -95,7 +95,7 @@ class CoCart_Product_Categories_Controller extends CoCart_REST_Taxonomy_Terms_Co
 
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $item ) );
+		$response->add_links( $this->prepare_links( $item, $request ) );
 
 		/**
 		 * Filter a term item returned from the API.

@@ -261,30 +261,46 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 	 *
 	 * @return array Links for the given term.
 	 */
-	protected function prepare_links( $term, $request = array() ) {
-		$this->namespace = str_replace( CoCart::get_api_namespace() . '/', '', $this->namespace );
+	protected function prepare_links( $term, $request ) {
+		$term_id = $term->term_id;
 
-		$base = '/' . $this->namespace . '/' . $this->rest_base;
+		// Get current route from request.
+		$route = $request->get_route();
 
-		if ( ! empty( $request['attribute_id'] ) ) {
-			$base = str_replace( '(?P<attribute_id>[\d]+)', (int) $request['attribute_id'], $base );
-		}
+		// Build self link (append term ID if single item route).
+		$self_route = preg_match( '/\/\d+$/', $route ) ? $route : $route . '/' . $term_id;
 
+		// Build collection link (remove term ID).
+		$collection_route = preg_replace( '/\/\d+$/', '', $route );
+
+		// Build links with both REST hrefs and frontend permalinks.
 		$links = array(
 			'self'       => array(
-				'href' => rest_url( trailingslashit( $base ) . $term->term_id ),
+				'permalink' => cocart_get_permalink( get_term_link( $term ) ),
+				'href'      => rest_url( ltrim( $self_route, '/' ) ),
 			),
 			'collection' => array(
-				'permalink' => wc_get_page_permalink( 'shop' ),
-				'href' => rest_url( $base ),
+				'permalink' => cocart_get_permalink( wc_get_page_permalink( 'shop' ) ),
+				'href'      => rest_url( ltrim( $collection_route, '/' ) ),
 			),
 		);
 
+		// Add parent link if hierarchical.
 		if ( $term->parent ) {
 			$parent_term = get_term( (int) $term->parent, $term->taxonomy );
-			if ( $parent_term ) {
+			if ( $parent_term && ! is_wp_error( $parent_term ) ) {
+				// Replace existing ID or append parent ID if no ID in route.
+				if ( preg_match( '/\/\d+$/', $route ) ) {
+					// Single item route - replace the ID.
+					$parent_route = preg_replace( '/\/\d+$/', '/' . $parent_term->term_id, $route );
+				} else {
+					// Collection route - append the parent ID.
+					$parent_route = $route . '/' . $parent_term->term_id;
+				}
+
 				$links['up'] = array(
-					'href' => rest_url( trailingslashit( $base ) . $parent_term->term_id ),
+					'permalink' => cocart_get_permalink( get_term_link( $parent_term ) ),
+					'href'      => rest_url( ltrim( $parent_route, '/' ) ),
 				);
 			}
 		}

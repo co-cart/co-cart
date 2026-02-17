@@ -118,27 +118,25 @@ abstract class CoCart_REST_Product_Variations_Controller extends CoCart_REST_Pro
 	 *
 	 * @access protected
 	 *
-	 * @param WC_Product $product The product object.
+	 * @param \WC_Product      $product The product object.
+	 * @param \WP_REST_Request $request Full details about the request.
 	 *
 	 * @return array Links for the given post.
 	 */
-	protected function prepare_links( $product ) {
-		$product_id = $product->get_parent_id();
-
-		$this->namespace = str_replace( CoCart::get_api_namespace() . '/', '', $this->namespace );
-
-		$base = str_replace( '(?P<product_id>[\d]+)', $product_id, $this->rest_base );
+	protected function prepare_links( $product, $request ) {
+		$variation_id = $product->get_id();
+		$parent_id    = $product->get_parent_id();
 
 		$links = array(
 			'self'           => array(
-				'href' => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $base, $product->get_id() ) ),
+				'href' => rest_url( $this->build_rest_path( 'products/%d/variations/%d', array( $parent_id, $variation_id ) ) ),
 			),
 			'collection'     => array(
-				'href' => rest_url( sprintf( '/%s/%s', $this->namespace, $base ) ),
+				'href' => rest_url( $this->build_rest_path( 'products/%d/variations', array( $parent_id ) ) ),
 			),
-			'parent_product' => array(
-				'href'      => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product_id ) ),
-				'permalink' => get_permalink( $product_id ),
+			'up' => array(
+				'href'      => rest_url( $this->build_rest_path( 'products/%d', array( $parent_id ) ) ),
+				'permalink' => cocart_get_permalink( get_permalink( $parent_id ) ),
 			),
 		);
 

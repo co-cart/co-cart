@@ -552,7 +552,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $review ) );
+		$response->add_links( $this->prepare_links( $review, $request ) );
 
 		/**
 		 * Filter product reviews object returned from the REST API.
