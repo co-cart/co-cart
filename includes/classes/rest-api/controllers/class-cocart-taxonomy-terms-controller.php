@@ -62,7 +62,7 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		$permissions = $this->check_permissions( $request );
@@ -85,7 +85,7 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_item_permissions_check( $request ) {
 		$permissions = $this->check_permissions( $request, 'read' );
@@ -309,6 +309,145 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 	} // END prepare_links()
 
 	/**
+	 * Prepare a single taxonomy term output for response.
+	 *
+	 * This method provides the base implementation with field filtering
+	 * and conditional link preparation. Child classes can override to add additional
+	 * fields specific to their taxonomy.
+	 *
+	 * V1 controllers override this completely without calling parent.
+	 * V2 controllers can call parent::prepare_item_for_response() and extend the data.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param \WP_Term         $item    Term object.
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return \WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $item, $request ) {
+		// Get fields being requested.
+		$fields = $this->get_fields_for_response( $request );
+
+		$data = array();
+
+		// ID.
+		if ( rest_is_field_included( 'id', $fields ) ) {
+			$data['id'] = (int) $item->term_id;
+		}
+
+		// Name.
+		if ( rest_is_field_included( 'name', $fields ) ) {
+			$data['name'] = $item->name;
+		}
+
+		// Slug.
+		if ( rest_is_field_included( 'slug', $fields ) ) {
+			$data['slug'] = $item->slug;
+		}
+
+		// Description.
+		if ( rest_is_field_included( 'description', $fields ) ) {
+			$data['description'] = $item->description;
+		}
+
+		// Count.
+		if ( rest_is_field_included( 'count', $fields ) ) {
+			$data['count'] = (int) $item->count;
+		}
+
+		$data = $this->add_additional_fields_to_object( $data, $request );
+		$data = $this->filter_response_by_context( $data, 'view' );
+
+		$response = rest_ensure_response( $data );
+
+		// Only prepare links if requested (WordPress 6.1+ optimization).
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $item, $request ) );
+		}
+
+		/**
+		 * Filter a term item returned from the API.
+		 *
+		 * Allows modification of the term data right before it is returned.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param \WP_REST_Response $response The response object.
+		 * @param \WP_Term          $item     Term object used to create response.
+		 * @param \WP_REST_Request  $request  Request object.
+		 */
+		return apply_filters( "cocart_rest_prepare_{$this->taxonomy}", $response, $item, $request );
+	} // END prepare_item_for_response()
+
+	/**
+	 * Get the taxonomy term schema, conforming to JSON Schema.
+	 *
+	 * This method provides the base schema. Child classes can override
+	 * to add additional properties specific to their taxonomy.
+	 *
+	 * V1 controllers override this completely without calling parent.
+	 * V2 controllers can call parent::get_item_schema() and merge additional properties.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array Item schema data.
+	 */
+	public function get_item_schema() {
+		// Return cached schema if available.
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => $this->taxonomy,
+			'type'       => 'object',
+			'properties' => array(
+				'id'          => array(
+					'description' => __( 'Unique identifier for the term.', 'cocart-core' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'name'        => array(
+					'description' => __( 'Name of the term.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'slug'        => array(
+					'description' => __( 'An alphanumeric identifier for the term unique to its type.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'description' => array(
+					'description' => __( 'HTML description of the term.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'count'       => array(
+					'description' => __( 'Number of published products for the term.', 'cocart-core' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+			),
+		);
+
+		// Cache the schema.
+		$this->schema = $schema;
+
+		return $this->add_additional_fields_schema( $this->schema );
+	} // END get_item_schema()
+
+	/**
 	 * Get the terms attached to a product.
 	 *
 	 * This is an alternative to `get_terms()` that uses `get_the_terms()`
@@ -476,6 +615,7 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 			'description'       => __( 'Limit result set to resources assigned to a specific product.', 'cocart-core' ),
 			'type'              => 'integer',
 			'default'           => null,
+			'sanitize_callback' => 'absint',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		$params['slug']    = array(

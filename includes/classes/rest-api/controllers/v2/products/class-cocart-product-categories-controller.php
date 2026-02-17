@@ -83,70 +83,60 @@ class CoCart_REST_Product_Categories_V2_Controller extends CoCart_REST_Taxonomy_
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
-		// Get category display type.
-		$display_type = get_term_meta( $item->term_id, 'display_type', true );
+		// Get base V2 response with field filtering.
+		$response = parent::prepare_item_for_response( $item, $request );
+		$data     = $response->get_data();
+		$fields   = $this->get_fields_for_response( $request );
 
-		// Get category order.
-		$menu_order = get_term_meta( $item->term_id, 'order', true );
+		// Add category-specific fields.
 
-		$data = array(
-			'id'            => (int) $item->term_id,
-			'parent_id'     => (int) $item->parent,
-			'name'          => $item->name,
-			'slug'          => $item->slug,
-			'description'   => $item->description,
-			'display'       => $display_type ? $display_type : 'default',
-			'image'         => array(),
-			'menu_order'    => (int) $menu_order,
-			'product_count' => (int) $item->count,
-		);
-
-		// Get category image.
-		$image_id = get_term_meta( $item->term_id, 'thumbnail_id', true );
-
-		$thumbnail_id = ! empty( $image_id ) ? $image_id : get_option( 'woocommerce_placeholder_image', 0 );
-		$thumbnail_id = apply_filters( 'cocart_products_category_thumbnail', $thumbnail_id );
-
-		$image_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
-		$images      = array();
-
-		if ( $image_id ) {
-			$attachment = get_post( $image_id );
-
-			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_products_category_thumbnail_size', 'woocommerce_thumbnail' ) );
-			$thumbnail_src = ! empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '';
-			$thumbnail_src = apply_filters( 'cocart_products_category_thumbnail_src', $thumbnail_src );
-
-			// Get each image size of the attachment.
-			foreach ( $image_sizes as $size ) {
-				$images[ $size ] = current( wp_get_attachment_image_src( $thumbnail_id, $size ) );
-			}
-
-			$data['image'] = array(
-				'id'   => (int) $image_id,
-				'src'  => $images,
-				'name' => get_the_title( $attachment ),
-				'alt'  => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
-			);
+		// Parent ID.
+		if ( rest_is_field_included( 'parent_id', $fields ) ) {
+			$data['parent_id'] = (int) $item->parent;
 		}
 
-		$data = $this->add_additional_fields_to_object( $data, $request );
-		$data = $this->filter_response_by_context( $data, 'view' );
+		// Display type.
+		if ( rest_is_field_included( 'display', $fields ) ) {
+			$display_type    = get_term_meta( $item->term_id, 'display_type', true );
+			$data['display'] = $display_type ? $display_type : 'default';
+		}
 
-		$response = rest_ensure_response( $data );
+		// Image.
+		if ( rest_is_field_included( 'image', $fields ) ) {
+			$data['image'] = array();
 
-		$response->add_links( $this->prepare_links( $item, $request ) );
+			$image_id     = get_term_meta( $item->term_id, 'thumbnail_id', true );
+			$thumbnail_id = ! empty( $image_id ) ? $image_id : get_option( 'woocommerce_placeholder_image', 0 );
+			$thumbnail_id = apply_filters( 'cocart_products_category_thumbnail', $thumbnail_id );
 
-		/**
-		 * Filter a term item returned from the API.
-		 *
-		 * Allows modification of the term data right before it is returned.
-		 *
-		 * @param WP_REST_Response $response The response object.
-		 * @param object           $item     The original term object.
-		 * @param WP_REST_Request  $request  The request object.
-		 */
-		return apply_filters( "cocart_prepare_{$this->taxonomy}", $response, $item, $request ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+			if ( $image_id ) {
+				$attachment  = get_post( $image_id );
+				$image_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
+				$images      = array();
+
+				// Get each image size of the attachment.
+				foreach ( $image_sizes as $size ) {
+					$images[ $size ] = current( wp_get_attachment_image_src( $thumbnail_id, $size ) );
+				}
+
+				$data['image'] = array(
+					'id'   => (int) $image_id,
+					'src'  => $images,
+					'name' => get_the_title( $attachment ),
+					'alt'  => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
+				);
+			}
+		}
+
+		// Menu order.
+		if ( rest_is_field_included( 'menu_order', $fields ) ) {
+			$menu_order         = get_term_meta( $item->term_id, 'order', true );
+			$data['menu_order'] = (int) $menu_order;
+		}
+
+		$response->set_data( $data );
+
+		return $response;
 	} // END prepare_item_for_response()
 
 	/**
@@ -157,118 +147,82 @@ class CoCart_REST_Product_Categories_V2_Controller extends CoCart_REST_Taxonomy_
 	 * @return array
 	 */
 	public function get_item_schema() {
-		$schema = array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => $this->taxonomy,
-			'type'       => 'object',
-			'properties' => array(
-				'id'          => array(
-					'description' => __( 'Unique identifier for the resource.', 'cocart-core' ),
+		// Get base V2 schema.
+		$schema = parent::get_item_schema();
+
+		// Add category-specific properties.
+		$schema['properties']['parent_id'] = array(
+			'description' => __( 'The ID for the parent of the resource.', 'cocart-core' ),
+			'type'        => 'integer',
+			'context'     => array( 'view' ),
+		);
+
+		$schema['properties']['display'] = array(
+			'description' => __( 'Category archive display type.', 'cocart-core' ),
+			'type'        => 'string',
+			'default'     => 'default',
+			'enum'        => array( 'default', 'products', 'subcategories', 'both' ),
+			'context'     => array( 'view' ),
+		);
+
+		$schema['properties']['image'] = array(
+			'description' => __( 'Image data.', 'cocart-core' ),
+			'type'        => 'object',
+			'context'     => array( 'view' ),
+			'properties'  => array(
+				'id'                => array(
+					'description' => __( 'Image ID.', 'cocart-core' ),
 					'type'        => 'integer',
+					'context'     => array( 'view' ),
+				),
+				'date_created'      => array(
+					'description' => __( "The date the image was created, in the site's timezone.", 'cocart-core' ),
+					'type'        => 'date-time',
 					'context'     => array( 'view' ),
 					'readonly'    => true,
 				),
-				'parent_id'   => array(
-					'description' => __( 'The ID for the parent of the resource.', 'cocart-core' ),
-					'type'        => 'integer',
+				'date_created_gmt'  => array(
+					'description' => __( 'The date the image was created, as GMT.', 'cocart-core' ),
+					'type'        => 'date-time',
 					'context'     => array( 'view' ),
+					'readonly'    => true,
 				),
-				'name'        => array(
-					'description' => __( 'Category name.', 'cocart-core' ),
-					'type'        => 'string',
+				'date_modified'     => array(
+					'description' => __( "The date the image was last modified, in the site's timezone.", 'cocart-core' ),
+					'type'        => 'date-time',
 					'context'     => array( 'view' ),
-					'arg_options' => array(
-						'sanitize_callback' => 'sanitize_text_field',
-					),
+					'readonly'    => true,
 				),
-				'slug'        => array(
-					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cocart-core' ),
-					'type'        => 'string',
+				'date_modified_gmt' => array(
+					'description' => __( 'The date the image was last modified, as GMT.', 'cocart-core' ),
+					'type'        => 'date-time',
 					'context'     => array( 'view' ),
-					'arg_options' => array(
-						'sanitize_callback' => 'sanitize_title',
-					),
+					'readonly'    => true,
 				),
-				'description' => array(
-					'description' => __( 'HTML description of the resource.', 'cocart-core' ),
-					'type'        => 'string',
-					'context'     => array( 'view' ),
-					'arg_options' => array(
-						'sanitize_callback' => 'wp_filter_post_kses',
-					),
-				),
-				'display'     => array(
-					'description' => __( 'Category archive display type.', 'cocart-core' ),
-					'type'        => 'string',
-					'default'     => 'default',
-					'enum'        => array( 'default', 'products', 'subcategories', 'both' ),
-					'context'     => array( 'view' ),
-				),
-				'image'       => array(
-					'description' => __( 'Image data.', 'cocart-core' ),
+				'src'               => array(
+					'description' => __( 'The resource thumbnail returned as an array of sizes.', 'cocart-core' ),
 					'type'        => 'object',
 					'context'     => array( 'view' ),
-					'properties'  => array(
-						'id'                => array(
-							'description' => __( 'Image ID.', 'cocart-core' ),
-							'type'        => 'integer',
-							'context'     => array( 'view' ),
-						),
-						'date_created'      => array(
-							'description' => __( "The date the image was created, in the site's timezone.", 'cocart-core' ),
-							'type'        => 'date-time',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'date_created_gmt'  => array(
-							'description' => __( 'The date the image was created, as GMT.', 'cocart-core' ),
-							'type'        => 'date-time',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'date_modified'     => array(
-							'description' => __( "The date the image was last modified, in the site's timezone.", 'cocart-core' ),
-							'type'        => 'date-time',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'date_modified_gmt' => array(
-							'description' => __( 'The date the image was last modified, as GMT.', 'cocart-core' ),
-							'type'        => 'date-time',
-							'context'     => array( 'view' ),
-							'readonly'    => true,
-						),
-						'src'               => array(
-							'description' => __( 'The resource thumbnail returned as an array of sizes.', 'cocart-core' ),
-							'type'        => 'object',
-							'context'     => array( 'view' ),
-							'properties'  => array(),
-							'readonly'    => true,
-						),
-						'name'              => array(
-							'description' => __( 'Image name.', 'cocart-core' ),
-							'type'        => 'string',
-							'context'     => array( 'view' ),
-						),
-						'alt'               => array(
-							'description' => __( 'Image alternative text.', 'cocart-core' ),
-							'type'        => 'string',
-							'context'     => array( 'view' ),
-						),
-					),
-				),
-				'menu_order'  => array(
-					'description' => __( 'Menu order, used to custom sort the resource.', 'cocart-core' ),
-					'type'        => 'integer',
-					'context'     => array( 'view' ),
-				),
-				'count'       => array(
-					'description' => __( 'Number of published products for the resource.', 'cocart-core' ),
-					'type'        => 'integer',
-					'context'     => array( 'view' ),
+					'properties'  => array(),
 					'readonly'    => true,
 				),
+				'name'              => array(
+					'description' => __( 'Image name.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+				),
+				'alt'               => array(
+					'description' => __( 'Image alternative text.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+				),
 			),
+		);
+
+		$schema['properties']['menu_order'] = array(
+			'description' => __( 'Menu order, used to custom sort the resource.', 'cocart-core' ),
+			'type'        => 'integer',
+			'context'     => array( 'view' ),
 		);
 
 		// Fetch each image size.
@@ -276,7 +230,7 @@ class CoCart_REST_Product_Categories_V2_Controller extends CoCart_REST_Taxonomy_
 
 		foreach ( $attachment_sizes as $size ) {
 			// Generate the product image URL properties for each attachment size.
-			$this->schema['properties']['image']['properties']['src']['properties'][ $size ] = array(
+			$schema['properties']['image']['properties']['src']['properties'][ $size ] = array(
 				'description' => sprintf(
 					/* translators: %s: Product image URL */
 					__( 'Product image URL for "%s".', 'cocart-core' ),
@@ -289,6 +243,6 @@ class CoCart_REST_Product_Categories_V2_Controller extends CoCart_REST_Taxonomy_
 			);
 		}
 
-		return $this->add_additional_fields_schema( $schema );
+		return $schema;
 	} // END get_item_schema()
 } // END class
