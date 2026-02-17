@@ -98,9 +98,11 @@ class CoCart_REST_Sessions_V2_Controller extends CoCart_REST_Controller {
 	 *
 	 * @since 3.0.0 Introduced
 	 *
-	 * @return WP_Error|boolean
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
-	public function get_items_permissions_check() {
+	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
 			return new \WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 		}
