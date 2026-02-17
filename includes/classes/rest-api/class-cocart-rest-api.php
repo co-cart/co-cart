@@ -262,42 +262,47 @@ class CoCart_REST_API {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'cocart-v2-store'                    => 'CoCart_REST_Store_V2_Controller',
-			'cocart-v2-cart'                     => 'CoCart_REST_Cart_V2_Controller',
-			'cocart-v2-cart-add-item'            => 'CoCart_REST_Add_Item_V2_Controller',
-			'cocart-v2-cart-add-items'           => 'CoCart_REST_Add_Items_V2_Controller',
-			'cocart-v2-cart-item'                => 'CoCart_REST_Item_V2_Controller',
-			'cocart-v2-cart-items'               => 'CoCart_REST_Items_V2_Controller',
-			'cocart-v2-cart-items-count'         => 'CoCart_REST_Count_Items_V2_Controller',
-			'cocart-v2-cart-update-item'         => 'CoCart_REST_Update_Item_V2_Controller',
-			'cocart-v2-cart-remove-item'         => 'CoCart_REST_Remove_Item_V2_Controller',
-			'cocart-v2-cart-restore-item'        => 'CoCart_REST_Restore_Item_V2_Controller',
-			'cocart-v2-cart-calculate'           => 'CoCart_REST_Calculate_V2_Controller',
-			'cocart-v2-cart-clear'               => 'CoCart_REST_Clear_Cart_V2_Controller',
-			'cocart-v2-cart-create'              => 'CoCart_REST_Create_Cart_V2_Controller',
-			'cocart-v2-cart-update'              => 'CoCart_REST_Update_Cart_V2_Controller',
-			'cocart-v2-cart-totals'              => 'CoCart_REST_Totals_V2_Controller',
-			'cocart-v2-login'                    => 'CoCart_REST_Login_V2_Controller',
-			'cocart-v2-logout'                   => 'CoCart_REST_Logout_V2_Controller',
-			'cocart-v2-session'                  => 'CoCart_REST_Session_V2_Controller',
-			'cocart-v2-sessions'                 => 'CoCart_REST_Sessions_V2_Controller',
-			'cocart-v2-product-attributes'       => 'CoCart_REST_Product_Attributes_V2_Controller',
-			'cocart-v2-product-attribute'        => 'CoCart_REST_Product_Attribute_V2_Controller',
-			'cocart-v2-product-attribute-terms'  => 'CoCart_REST_Product_Attribute_Terms_V2_Controller',
-			'cocart-v2-product-brands'           => 'CoCart_REST_Product_Brands_V2_Controller',
-			'cocart-v2-product-brand'            => 'CoCart_REST_Product_Brand_V2_Controller',
-			'cocart-v2-product-categories'       => 'CoCart_REST_Product_Categories_V2_Controller',
-			'cocart-v2-product-category'         => 'CoCart_REST_Product_Category_V2_Controller',
-			'cocart-v2-product-reviews'          => 'CoCart_REST_Product_Reviews_V2_Controller',
-			'cocart-v2-product-reviews-mine'     => 'CoCart_REST_Product_Reviews_Mine_V2_Controller',
-			'cocart-v2-product-tags'             => 'CoCart_REST_Product_Tags_V2_Controller',
-			'cocart-v2-product-tag'              => 'CoCart_REST_Product_Tag_V2_Controller',
-			'cocart-v2-products'                 => 'CoCart_REST_Products_V2_Controller',
-			'cocart-v2-products-collection-data' => 'CoCart_REST_Products_Collection_Data_V2_Controller',
-			'cocart-v2-product-by-id'            => 'CoCart_REST_Products_by_ID_V2_Controller',
-			'cocart-v2-product-by-slug'          => 'CoCart_REST_Products_by_Slug_V2_Controller',
-			'cocart-v2-product-variations'       => 'CoCart_REST_Product_Variations_V2_Controller',
-			'cocart-v2-product-variation-item'   => 'CoCart_REST_Product_Variation_Item_V2_Controller',
+			'cocart-v2-store'                           => 'CoCart_REST_Store_V2_Controller',
+			'cocart-v2-cart'                            => 'CoCart_REST_Cart_V2_Controller',
+			'cocart-v2-cart-add-item'                   => 'CoCart_REST_Add_Item_V2_Controller',
+			'cocart-v2-cart-add-items'                  => 'CoCart_REST_Add_Items_V2_Controller',
+			'cocart-v2-cart-item'                       => 'CoCart_REST_Item_V2_Controller',
+			'cocart-v2-cart-items'                      => 'CoCart_REST_Items_V2_Controller',
+			'cocart-v2-cart-items-count'                => 'CoCart_REST_Count_Items_V2_Controller',
+			'cocart-v2-cart-update-item'                => 'CoCart_REST_Update_Item_V2_Controller',
+			'cocart-v2-cart-remove-item'                => 'CoCart_REST_Remove_Item_V2_Controller',
+			'cocart-v2-cart-restore-item'               => 'CoCart_REST_Restore_Item_V2_Controller',
+			'cocart-v2-cart-calculate'                  => 'CoCart_REST_Calculate_V2_Controller',
+			'cocart-v2-cart-clear'                      => 'CoCart_REST_Clear_Cart_V2_Controller',
+			'cocart-v2-cart-create'                     => 'CoCart_REST_Create_Cart_V2_Controller',
+			'cocart-v2-cart-update'                     => 'CoCart_REST_Update_Cart_V2_Controller',
+			'cocart-v2-cart-totals'                     => 'CoCart_REST_Totals_V2_Controller',
+			'cocart-v2-login'                           => 'CoCart_REST_Login_V2_Controller',
+			'cocart-v2-logout'                          => 'CoCart_REST_Logout_V2_Controller',
+			'cocart-v2-session'                         => 'CoCart_REST_Session_V2_Controller',
+			'cocart-v2-sessions'                        => 'CoCart_REST_Sessions_V2_Controller',
+			'cocart-v2-product-attributes'              => 'CoCart_REST_Product_Attributes_V2_Controller',
+			'cocart-v2-product-attribute-by-id'         => 'CoCart_REST_Product_Attribute_By_ID_V2_Controller',
+			'cocart-v2-product-attribute-by-slug'       => 'CoCart_REST_Product_Attribute_By_Slug_V2_Controller',
+			'cocart-v2-product-attribute-terms'         => 'CoCart_REST_Product_Attribute_Terms_V2_Controller',
+			'cocart-v2-product-attribute-term'          => 'CoCart_REST_Product_Attribute_By_ID_Term_By_ID_V2_Controller',
+			'cocart-v2-product-attribute-terms-by-slug' => 'CoCart_REST_Product_Attribute_Terms_By_Slug_V2_Controller',
+			'cocart-v2-product-attribute-by-slug-term-by-id' => 'CoCart_REST_Product_Attribute_By_Slug_Term_By_ID_V2_Controller',
+			'cocart-v2-product-attribute-by-slug-term-by-slug' => 'CoCart_REST_Product_Attribute_By_Slug_Term_By_Slug_V2_Controller',
+			'cocart-v2-product-brands'                  => 'CoCart_REST_Product_Brands_V2_Controller',
+			'cocart-v2-product-brand'                   => 'CoCart_REST_Product_Brand_V2_Controller',
+			'cocart-v2-product-categories'              => 'CoCart_REST_Product_Categories_V2_Controller',
+			'cocart-v2-product-category'                => 'CoCart_REST_Product_Category_V2_Controller',
+			'cocart-v2-product-reviews'                 => 'CoCart_REST_Product_Reviews_V2_Controller',
+			'cocart-v2-product-reviews-mine'            => 'CoCart_REST_Product_Reviews_Mine_V2_Controller',
+			'cocart-v2-product-tags'                    => 'CoCart_REST_Product_Tags_V2_Controller',
+			'cocart-v2-product-tag'                     => 'CoCart_REST_Product_Tag_V2_Controller',
+			'cocart-v2-products'                        => 'CoCart_REST_Products_V2_Controller',
+			'cocart-v2-products-collection-data'        => 'CoCart_REST_Products_Collection_Data_V2_Controller',
+			'cocart-v2-product-by-id'                   => 'CoCart_REST_Products_by_ID_V2_Controller',
+			'cocart-v2-product-variations'              => 'CoCart_REST_Product_Variations_V2_Controller',
+			'cocart-v2-product-variation-item'          => 'CoCart_REST_Product_Variation_Item_V2_Controller',
+			'cocart-v2-product-by-slug'                 => 'CoCart_REST_Products_by_Slug_V2_Controller',
 		);
 	} // END get_v2_controllers()
 
@@ -671,9 +676,12 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-pagination.php';
 
 		require_once __DIR__ . '/controllers/class-cocart-rest-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-products-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-product-variations-controller.php';
 
 		// Abstract base for terms controllers (shared between v1 and v2).
 		require_once __DIR__ . '/controllers/class-cocart-taxonomy-terms-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-wc-attributes-controller.php';
 
 		// CoCart REST API v1 controllers.
 		require_once __DIR__ . '/controllers/v1/cart/class-cocart-controller.php';
@@ -690,8 +698,6 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-categories-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-reviews-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-tags-controller.php';
-		require_once __DIR__ . '/controllers/class-cocart-products-controller.php';
-		require_once __DIR__ . '/controllers/class-cocart-product-variations-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-products-controller.php';
 		require_once __DIR__ . '/controllers/v1/products/class-cocart-product-variations-controller.php';
 
@@ -717,9 +723,14 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-controller.php';
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-sessions-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-abstract-terms-controller.php';
-		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-terms-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attributes-controller.php';
-		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-id-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-id-terms-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-id-term-by-id-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-terms-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-term-by-id-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-term-by-slug-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-categories-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-category-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-brands-controller.php';

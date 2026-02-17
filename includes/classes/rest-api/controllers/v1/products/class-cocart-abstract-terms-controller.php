@@ -90,7 +90,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 *
 		 * @param WP_REST_Request $request Full details about the request.
 		 *
-		 * @return WP_Error|boolean
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 		 */
 		public function get_items_permissions_check( $request ) {
 			$permissions = $this->check_permissions( $request );
@@ -113,7 +113,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 *
 		 * @param WP_REST_Request $request Full details about the request.
 		 *
-		 * @return WP_Error|boolean
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 		 */
 		public function get_item_permissions_check( $request ) {
 			$permissions = $this->check_permissions( $request, 'read' );

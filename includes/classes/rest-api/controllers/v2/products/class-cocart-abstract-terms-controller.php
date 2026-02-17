@@ -26,42 +26,11 @@ if ( ! class_exists( 'CoCart_REST_Terms_V2_Controller' ) ) {
 	abstract class CoCart_REST_Terms_V2_Controller extends CoCart_REST_Taxonomy_Terms_Controller {
 
 		/**
-		 * Get the path of this REST route.
-		 *
-		 * @since 5.0.0 Introduced.
-		 *
-		 * @return string
-		 */
-		public function get_path() {
-			return self::get_path_regex();
-		} // END get_path()
-
-		/**
-		 * Route namespace.
-		 *
-		 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
+		 * The version of this controller's route.
 		 *
 		 * @var string
 		 */
-		protected $namespace = 'cocart/v2';
-
-		/**
-		 * The version of this controller's route.
-		 *
-		 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-		 */
 		protected $version = 'v2';
-
-		/**
-		 * Get the version of this controller's route.
-		 *
-		 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-		 */
-		public function get_version() {
-			cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-			return $this->version;
-		} // END get_version()
 
 		/**
 		 * Register the routes for terms.

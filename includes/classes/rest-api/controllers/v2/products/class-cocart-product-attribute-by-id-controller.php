@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart - Product Attribute controller
+ * CoCart - Product Attribute by ID controller
  *
  * Handles requests to the products/attributes endpoint.
  *
@@ -15,30 +15,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CoCart REST API v2 - Product Attribute controller class.
+ * CoCart REST API v2 - Product Attribute by ID controller class.
  *
  * @package CoCart Products/API
  * @extends CoCart_REST_Product_Attributes_V2_Controller
  */
-class CoCart_REST_Product_Attribute_V2_Controller extends CoCart_REST_Product_Attributes_V2_Controller {
+class CoCart_REST_Product_Attribute_By_ID_V2_Controller extends CoCart_REST_Product_Attributes_V2_Controller {
 
 	/**
 	 * Get the path regex for this REST route.
 	 *
 	 * @return string Path regex.
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products/attributes/(?P<id>[\d]+)';
 	} // END get_path_regex()
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	} // END get_path()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -54,7 +45,7 @@ class CoCart_REST_Product_Attribute_V2_Controller extends CoCart_REST_Product_At
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 

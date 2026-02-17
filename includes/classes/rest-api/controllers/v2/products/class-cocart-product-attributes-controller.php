@@ -11,19 +11,36 @@
  * @license GPL-3.0
  */
 
+// namespace CoCart\REST\Controllers\V2\Products;
+
+// use CoCart\REST\Controllers\CoCart_WC_Attributes_Controller;
+// use CoCart\REST\Utilities\CoCart_REST_Utilities_Pagination;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-class_alias( 'CoCart_REST_Product_Attributes_V2_Controller', 'CoCart_Product_Attributes_V2_Controller' );
 
 /**
  * CoCart REST API v2 - Product Attributes controller class.
  *
  * @package CoCart Products/API
- * @extends CoCart_REST_Taxonomy_Terms_Controller
+ * @extends CoCart_WC_Attributes_Controller
  */
-class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_REST_Taxonomy_Terms_Controller {
+class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_WC_Attributes_Controller {
+
+	/**
+	 * The version of this controller's route.
+	 *
+	 * @var string
+	 */
+	protected $version = 'v2';
+
+	/**
+	 * Attribute name.
+	 *
+	 * @var string
+	 */
+	protected $attribute = '';
 
 	/**
 	 * Get the path regex for this REST route.
@@ -32,20 +49,39 @@ class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_REST_Taxonomy_
 	 *
 	 * @return string Path regex.
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products/attributes';
 	} // END get_path_regex()
 
 	/**
-	 * Get the path of this REST route.
+	 * Check if a given request has access to read the attributes.
 	 *
-	 * @since 5.0.0 Introduced.
+	 * @access public
 	 *
-	 * @return string
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
-	public function get_path() {
-		return self::get_path_regex();
-	} // END get_path()
+	public function get_items_permissions_check( $request ) {
+		return true;
+	} // END get_items_permissions_check()
+
+	/**
+	 * Check if a given request has access to read an attribute.
+	 *
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+	 */
+	public function get_item_permissions_check( $request ) {
+		if ( ! $this->get_taxonomy( $request ) ) {
+			return new \WP_Error( 'cocart_attribute_invalid', __( 'Attribute does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
+		}
+
+		return true;
+	} // END get_item_permissions_check()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -63,36 +99,9 @@ class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_REST_Taxonomy_
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
-
-	/**
-	 * Route namespace.
-	 *
-	 * @deprecated 5.0.0 Use $this->namespace from the REST API class instead.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route.
-	 *
-	 * @deprecated 5.0.0 Version is registered in the REST API class instead.
-	 */
-	public function get_version() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		return $this->version;
-	} // END get_version()
 
 	/**
 	 * Get all attributes.
@@ -104,85 +113,27 @@ class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_REST_Taxonomy_
 	 * @return array
 	 */
 	public function get_items( $request ) {
-		$attributes = wc_get_attribute_taxonomies();
-		$data       = array();
+		$data = array();
 
-		foreach ( $attributes as $attribute_obj ) {
-			$attribute = $this->prepare_item_for_response( $attribute_obj, $request );
-			$attribute = $this->prepare_response_for_collection( $attribute );
-			$data[]    = $attribute;
+		foreach ( wc_get_attribute_taxonomies() as $attribute_obj ) {
+			$attribute = wc_get_attribute( (int) $attribute_obj->attribute_id );
+			if ( is_null( $attribute ) ) {
+				continue;
+			}
+			$data[] = $this->prepare_response_for_collection(
+				$this->prepare_item_for_response( $attribute, $request )
+			);
 		}
 
 		$total_items = count( $data );
 
 		$response = rest_ensure_response( $data );
-		$response = ( new CoCart_REST_Utilities_Pagination() )->add_headers( $response, $request, $total_items );
+
+		// Add pagination headers (attributes list doesn't support per_page, so max_pages is always 1).
+		$response = ( new CoCart_REST_Utilities_Pagination() )->add_headers( $response, $request, $total_items, 1 );
 
 		return $response;
 	} // END get_items()
-
-	/**
-	 * Prepare a single product attribute output for response.
-	 *
-	 * @access public
-	 *
-	 * @param object          $item    Term object.
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return WP_REST_Response $response The response object.
-	 */
-	public function prepare_item_for_response( $item, $request ) {
-		$data = array(
-			'id'           => (int) $item->attribute_id,
-			'name'         => $item->attribute_label,
-			'slug'         => wc_attribute_taxonomy_name( $item->attribute_name ),
-			'type'         => $item->attribute_type,
-			'order_by'     => $item->attribute_orderby,
-			'has_archives' => (bool) $item->attribute_public,
-		);
-
-		$data = $this->add_additional_fields_to_object( $data, $request );
-		$data = $this->filter_response_by_context( $data, 'view' );
-
-		$response = rest_ensure_response( $data );
-
-		$response->add_links( $this->prepare_links( $item ) );
-
-		/**
-		 * Filter a attribute item returned from the API.
-		 *
-		 * Allows modification of the product attribute data right before it is returned.
-		 *
-		 * @param WP_REST_Response $response The response object.
-		 * @param object           $item     The original attribute object.
-		 * @param WP_REST_Request  $request  The request object.
-		 */
-		return apply_filters( 'cocart_prepare_product_attribute', $response, $item, $request );
-	} // END prepare_item_for_response()
-
-	/**
-	 * Prepare links for the request.
-	 *
-	 * @param object          $attribute Attribute object.
-	 * @param WP_REST_Request $request   The request object.
-	 *
-	 * @return array Links for the given attribute.
-	 */
-	protected function prepare_links( $attribute, $request = array() ) {
-		$this->namespace = str_replace( CoCart::get_api_namespace() . '/', '', $this->namespace );
-
-		$base  = '/' . $this->namespace . '/' . $this->rest_base;
-		$links = array(
-			'self'       => array(
-				'href' => rest_url( trailingslashit( $base ) . $attribute->attribute_id ),
-			),
-			'collection' => array(
-				'href' => rest_url( $base ),
-			),
-		);
-
-		return $links;
-	} // END prepare_links()
 
 	/**
 	 * Get the query params for collections
@@ -221,89 +172,21 @@ class CoCart_REST_Product_Attributes_V2_Controller extends CoCart_REST_Taxonomy_
 	/**
 	 * Get attribute data.
 	 *
+	 * Uses WooCommerce's object cache via wc_get_attribute() to avoid direct DB queries.
+	 *
 	 * @access protected
-	 * @param  int $id Attribute ID.
-	 * @global $wpdb
-	 * @return stdClass|WP_Error
+	 *
+	 * @param int $id Attribute ID.
+	 *
+	 * @return stdClass|\WP_Error Normalized attribute object or WP_Error on failure.
 	 */
 	protected function get_attribute( $id ) {
-		global $wpdb;
+		$attribute = wc_get_attribute( $id );
 
-		$attribute = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->prepare(
-				"
-			SELECT * FROM {$wpdb->prefix}woocommerce_attribute_taxonomies
-			WHERE attribute_id = %d
-		",
-				$id
-			)
-		);
-
-		if ( is_wp_error( $attribute ) || is_null( $attribute ) ) {
+		if ( is_null( $attribute ) ) {
 			return new \WP_Error( 'cocart_attribute_invalid', __( 'Attribute does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
 		return $attribute;
 	} // END get_attribute()
-
-	/**
-	 * Get the Attribute's schema, conforming to JSON Schema.
-	 *
-	 * @access public
-	 *
-	 * @return array
-	 */
-	public function get_item_schema() {
-		$schema = array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'product_attribute',
-			'type'       => 'object',
-			'properties' => array(
-				'id'           => array(
-					'description' => __( 'Unique identifier for the resource.', 'cocart-core' ),
-					'type'        => 'integer',
-					'context'     => array( 'view' ),
-					'readonly'    => true,
-				),
-				'name'         => array(
-					'description' => __( 'Attribute name.', 'cocart-core' ),
-					'type'        => 'string',
-					'context'     => array( 'view' ),
-					'arg_options' => array(
-						'sanitize_callback' => 'sanitize_text_field',
-					),
-				),
-				'slug'         => array(
-					'description' => __( 'An alphanumeric identifier for the resource unique to its type.', 'cocart-core' ),
-					'type'        => 'string',
-					'context'     => array( 'view' ),
-					'arg_options' => array(
-						'sanitize_callback' => 'sanitize_title',
-					),
-				),
-				'type'         => array(
-					'description' => __( 'Type of attribute.', 'cocart-core' ),
-					'type'        => 'string',
-					'default'     => 'select',
-					'enum'        => array_keys( wc_get_attribute_types() ),
-					'context'     => array( 'view' ),
-				),
-				'order_by'     => array(
-					'description' => __( 'Sort order.', 'cocart-core' ),
-					'type'        => 'string',
-					'default'     => 'menu_order',
-					'enum'        => array( 'menu_order', 'name', 'name_num', 'id' ),
-					'context'     => array( 'view' ),
-				),
-				'has_archives' => array(
-					'description' => __( 'Attribute has archives?', 'cocart-core' ),
-					'type'        => 'boolean',
-					'default'     => false,
-					'context'     => array( 'view' ),
-				),
-			),
-		);
-
-		return $this->add_additional_fields_schema( $schema );
-	} // END get_item_schema()
 } // END class

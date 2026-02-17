@@ -49,7 +49,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Taxonomy_Terms_Co
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		return true;
@@ -62,7 +62,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Taxonomy_Terms_Co
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_item_permissions_check( $request ) {
 		if ( ! $this->get_taxonomy( $request ) ) {
