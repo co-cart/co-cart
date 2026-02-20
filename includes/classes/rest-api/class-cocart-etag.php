@@ -951,7 +951,10 @@ class CoCart_ETag {
 			return $served;
 		}
 
-		$route = $request->get_route();
+		// Skip if this is already a 304 Not Modified response (cache HIT handled in check_conditional_request).
+		if ( 304 === $result->get_status() ) {
+			return $served;
+		}
 
 		// For product routes: Only GET requests (products are read-only resources).
 		// For cart routes: All methods (GET, POST, PUT, DELETE) because mutations return cart state.
