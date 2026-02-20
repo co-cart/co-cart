@@ -137,7 +137,6 @@ final class CoCart {
 		self::includes();
 		self::include_extension_compatibility();
 		self::include_third_party();
-		self::set_api_namespace();
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
@@ -365,6 +364,10 @@ final class CoCart {
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cache-helpers.php';
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
+
+		// Resolve the API namespace now that Cache_Helpers is available, so that
+		// classes loaded below see the correct namespace.
+		self::set_api_namespace();
 
 		// Core classes.
 		require_once __DIR__ . '/classes/class-cocart-status.php';
