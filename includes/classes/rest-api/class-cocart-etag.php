@@ -22,13 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_ETag {
 
 	/**
-	 * The API namespace.
-	 *
-	 * @var string
-	 */
-	protected $namespace = '';
-
-	/**
 	 * Constructor.
 	 *
 	 * @access public
@@ -38,9 +31,6 @@ class CoCart_ETag {
 		if ( ! CoCart::is_rest_api_request() ) {
 			return;
 		}
-
-		// Set the API namespace.
-		$this->namespace = CoCart::get_api_namespace();
 
 		// Check If-None-Match early before cart loads.
 		add_filter( 'rest_pre_dispatch', array( $this, 'check_conditional_request' ), 5, 3 );
@@ -54,6 +44,19 @@ class CoCart_ETag {
 	}
 
 	/**
+	 * Get the API namespace, resolved at call time to support whitelabeling.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.9.0 Introduced.
+	 *
+	 * @return string The API namespace.
+	 */
+	protected function get_namespace() {
+		return CoCart::get_api_namespace();
+	} // END get_namespace()
+
+	/**
 	 * Get cart routes that support ETag.
 	 *
 	 * @access protected
@@ -63,7 +66,7 @@ class CoCart_ETag {
 	 * @return array Regex patterns for cart routes.
 	 */
 	protected function get_cart_etag_routes() {
-		$namespace = preg_quote( $this->namespace, '/' );
+		$namespace = preg_quote( $this->get_namespace(), '/' );
 
 		$cart_routes = array(
 			'/^' . $namespace . '\/v2\/cart$/',
@@ -100,7 +103,7 @@ class CoCart_ETag {
 	 * @return array Regex patterns for product routes.
 	 */
 	protected function get_product_etag_routes() {
-		$namespace = preg_quote( $this->namespace, '/' );
+		$namespace = preg_quote( $this->get_namespace(), '/' );
 
 		$product_routes = array(
 			'/^' . $namespace . '\/v2\/products$/',
@@ -242,9 +245,10 @@ class CoCart_ETag {
 	 * @return int|null Product ID or null if not a single product route.
 	 */
 	protected function get_product_id_from_route( $route ) {
-		$route = ltrim( $route, '/' );
+		$route     = ltrim( $route, '/' );
+		$namespace = preg_quote( $this->get_namespace(), '/' );
 
-		if ( preg_match( '/^cocart\/v2\/products\/(\d+)$/', $route, $matches ) ) {
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/(\d+)$/', $route, $matches ) ) {
 			return (int) $matches[1];
 		}
 
@@ -582,7 +586,7 @@ class CoCart_ETag {
 	 */
 	protected function get_product_etag_hash( $route, $request ) {
 		$route     = ltrim( $route, '/' );
-		$namespace = preg_quote( $this->namespace, '/' );
+		$namespace = preg_quote( $this->get_namespace(), '/' );
 
 		// Single product variation - must check before single product ID.
 		if ( preg_match( '/^' . $namespace . '\/v2\/products\/(\d+)\/variations\/(\d+)$/', $route, $matches ) ) {
