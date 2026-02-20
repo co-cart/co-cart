@@ -29,9 +29,7 @@ class CoCart_REST_Utilities_Cart_Response {
 	 * @return WP_REST_Response
 	 */
 	public function add_headers( $response, $request ) {
-		$cart_hash       = WC()->session->get_cart_hash();
-		$cart_expiring   = WC()->session->get_cart_is_expiring();
-		$cart_expiration = WC()->session->get_carts_expiration();
+		$cart_hash = WC()->session->get_cart_hash();
 
 		// Get cart key.
 		$cart_key = CoCart_Utilities_Cart_Helpers::get_cart_key();
@@ -41,12 +39,11 @@ class CoCart_REST_Utilities_Cart_Response {
 			$response->header( 'Cart-Key', $cart_key );
 		}
 
-		// Send cart hash in the header if it's not empty.
-		if ( ! empty( $cart_hash ) ) {
+		// Send cart hash in the header if it's not empty. - Only for debugging purposes.
+		// The ETag header is the preferred header to use for identifying changes in the cart.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && ! empty( $cart_hash ) ) {
 			$response->header( 'Cart-Hash', $cart_hash );
 		}
-		$response->header( 'Cart-Expiring', $cart_expiring );
-		$response->header( 'Cart-Expiration', $cart_expiration );
 
 		return $response;
 	} // END add_headers()
