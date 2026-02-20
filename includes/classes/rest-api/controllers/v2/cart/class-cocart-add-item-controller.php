@@ -59,6 +59,15 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart/add-item';
+
+	/**
 	 * Register routes.
 	 *
 	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
