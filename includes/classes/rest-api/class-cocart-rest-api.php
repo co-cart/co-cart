@@ -906,11 +906,25 @@ class CoCart_REST_API {
 		// Override cache control for non-cacheable routes.
 		$cache_control = 'no-cache, no-store, must-revalidate, max-age=0, ' . $cache_visibility;
 
+		// Cart route patterns that can provide a real session expiry timestamp.
+		$cart_route_patterns = array(
+			'/^' . $this->namespace . '\/v2\/cart/',
+			'/^' . $this->namespace . '\/v1\/get-cart/',
+		);
+
 		// Routes that should not be cached will set no-cache headers.
 		foreach ( $regex_path_patterns as $regex_path_pattern ) {
 			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
 				if ( method_exists( $server, 'send_header' ) ) {
-					$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
+					// Use actual cart session expiry for cart routes; fall back to past date for others.
+					$is_cart_route = in_array( $regex_path_pattern, $cart_route_patterns, true );
+					if ( $is_cart_route && WC()->session ) {
+						$cart_expiration = WC()->session->get_carts_expiration();
+						$expires         = $cart_expiration ? gmdate( 'D, d M Y H:i:s \G\M\T', $cart_expiration ) : 'Thu, 01-Jan-70 00:00:01 GMT';
+					} else {
+						$expires = 'Thu, 01-Jan-70 00:00:01 GMT';
+					}
+					$server->send_header( 'Expires', $expires );
 					$server->send_header( 'Cache-Control', $cache_control );
 					$server->send_header( 'Pragma', 'no-cache' );
 				}
