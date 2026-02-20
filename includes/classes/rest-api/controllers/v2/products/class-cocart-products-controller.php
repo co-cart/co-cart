@@ -353,12 +353,22 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 			$date_created  = $product->get_date_created( 'view' );
 			$date_modified = $product->get_date_modified( 'view' );
 
-			$data['dates'] = array(
-				'created'      => cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ), false ),
-				'created_gmt'  => cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ) ),
-				'modified'     => cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ), false ),
-				'modified_gmt' => cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ) ),
-			);
+			$date_sub = $this->get_nested_fields( 'dates', array( 'created', 'created_gmt', 'modified', 'modified_gmt' ), $fields );
+
+			$data['dates'] = array();
+
+			if ( isset( $date_sub['created'] ) ) {
+				$data['dates']['created'] = cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ), false );
+			}
+			if ( isset( $date_sub['created_gmt'] ) ) {
+				$data['dates']['created_gmt'] = cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ) );
+			}
+			if ( isset( $date_sub['modified'] ) ) {
+				$data['dates']['modified'] = cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ), false );
+			}
+			if ( isset( $date_sub['modified_gmt'] ) ) {
+				$data['dates']['modified_gmt'] = cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ) );
+			}
 		}
 
 		if ( rest_is_field_included( 'featured', $fields ) ) {
@@ -377,34 +387,64 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 				$sale_price    = $product->get_sale_price();
 			}
 
-			$date_on_sale_from = $product->get_date_on_sale_from( 'view' );
-			$date_on_sale_to   = $product->get_date_on_sale_to( 'view' );
+			$prices_sub = $this->get_nested_fields( 'prices', array( 'price', 'regular_price', 'sale_price', 'price_range', 'on_sale', 'date_on_sale', 'currency' ), $fields );
 
-			$data['prices'] = array(
-				'price'         => cocart_format_money( $price_function( $product ) ),
-				'regular_price' => cocart_format_money( $price_function( $product, array( 'price' => $regular_price ) ) ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $product, array( 'price' => $sale_price ) ) ) : '',
-				'price_range'   => CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode ),
-				'on_sale'       => $product->is_on_sale( 'view' ),
-				'date_on_sale'  => array(
+			$data['prices'] = array();
+
+			if ( isset( $prices_sub['price'] ) ) {
+				$data['prices']['price'] = cocart_format_money( $price_function( $product ) );
+			}
+			if ( isset( $prices_sub['regular_price'] ) ) {
+				$data['prices']['regular_price'] = cocart_format_money( $price_function( $product, array( 'price' => $regular_price ) ) );
+			}
+			if ( isset( $prices_sub['sale_price'] ) ) {
+				$data['prices']['sale_price'] = $product->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $product, array( 'price' => $sale_price ) ) ) : '';
+			}
+			if ( isset( $prices_sub['price_range'] ) ) {
+				$data['prices']['price_range'] = CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode );
+			}
+			if ( isset( $prices_sub['on_sale'] ) ) {
+				$data['prices']['on_sale'] = $product->is_on_sale( 'view' );
+			}
+			if ( isset( $prices_sub['date_on_sale'] ) ) {
+				$date_on_sale_from = $product->get_date_on_sale_from( 'view' );
+				$date_on_sale_to   = $product->get_date_on_sale_to( 'view' );
+
+				$data['prices']['date_on_sale'] = array(
 					'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
 					'from_gmt' => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ) ) : null,
 					'to'       => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ), false ) : null,
 					'to_gmt'   => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ) ) : null,
-				),
-				'currency'      => cocart_get_store_currency(),
-			);
+				);
+			}
+			if ( isset( $prices_sub['currency'] ) ) {
+				$data['prices']['currency'] = cocart_get_store_currency();
+			}
 		}
 
 		if ( rest_is_field_included( 'hidden_conditions', $fields ) ) {
-			$data['hidden_conditions'] = array(
-				'virtual'           => $product->is_virtual(),
-				'downloadable'      => $product->is_downloadable(),
-				'manage_stock'      => $product->managing_stock(),
-				'sold_individually' => $product->is_sold_individually(),
-				'reviews_allowed'   => $product->get_reviews_allowed( 'view' ),
-				'shipping_required' => $product->needs_shipping(),
-			);
+			$hc_sub = $this->get_nested_fields( 'hidden_conditions', array( 'virtual', 'downloadable', 'manage_stock', 'sold_individually', 'reviews_allowed', 'shipping_required' ), $fields );
+
+			$data['hidden_conditions'] = array();
+
+			if ( isset( $hc_sub['virtual'] ) ) {
+				$data['hidden_conditions']['virtual'] = $product->is_virtual();
+			}
+			if ( isset( $hc_sub['downloadable'] ) ) {
+				$data['hidden_conditions']['downloadable'] = $product->is_downloadable();
+			}
+			if ( isset( $hc_sub['manage_stock'] ) ) {
+				$data['hidden_conditions']['manage_stock'] = $product->managing_stock();
+			}
+			if ( isset( $hc_sub['sold_individually'] ) ) {
+				$data['hidden_conditions']['sold_individually'] = $product->is_sold_individually();
+			}
+			if ( isset( $hc_sub['reviews_allowed'] ) ) {
+				$data['hidden_conditions']['reviews_allowed'] = $product->get_reviews_allowed( 'view' );
+			}
+			if ( isset( $hc_sub['shipping_required'] ) ) {
+				$data['hidden_conditions']['shipping_required'] = $product->needs_shipping();
+			}
 		}
 
 		if ( rest_is_field_included( 'average_rating', $fields ) ) {
@@ -459,31 +499,63 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 		}
 
 		if ( rest_is_field_included( 'stock', $fields ) ) {
-			$data['stock'] = array(
-				'is_in_stock'        => $product->is_in_stock(),
-				'stock_quantity'     => $product->get_stock_quantity( 'view' ),
-				'stock_status'       => $product->get_stock_status( 'view' ),
-				'backorders'         => $product->get_backorders( 'view' ),
-				'backorders_allowed' => $product->backorders_allowed(),
-				'backordered'        => $product->is_on_backorder(),
-				'low_stock_amount'   => $product->get_low_stock_amount( 'view' ),
-			);
+			$stock_sub = $this->get_nested_fields( 'stock', array( 'is_in_stock', 'stock_quantity', 'stock_status', 'backorders', 'backorders_allowed', 'backordered', 'low_stock_amount' ), $fields );
+
+			$data['stock'] = array();
+
+			if ( isset( $stock_sub['is_in_stock'] ) ) {
+				$data['stock']['is_in_stock'] = $product->is_in_stock();
+			}
+			if ( isset( $stock_sub['stock_quantity'] ) ) {
+				$data['stock']['stock_quantity'] = $product->get_stock_quantity( 'view' );
+			}
+			if ( isset( $stock_sub['stock_status'] ) ) {
+				$data['stock']['stock_status'] = $product->get_stock_status( 'view' );
+			}
+			if ( isset( $stock_sub['backorders'] ) ) {
+				$data['stock']['backorders'] = $product->get_backorders( 'view' );
+			}
+			if ( isset( $stock_sub['backorders_allowed'] ) ) {
+				$data['stock']['backorders_allowed'] = $product->backorders_allowed();
+			}
+			if ( isset( $stock_sub['backordered'] ) ) {
+				$data['stock']['backordered'] = $product->is_on_backorder();
+			}
+			if ( isset( $stock_sub['low_stock_amount'] ) ) {
+				$data['stock']['low_stock_amount'] = $product->get_low_stock_amount( 'view' );
+			}
 		}
 
 		if ( rest_is_field_included( 'weight', $fields ) ) {
-			$data['weight'] = array(
-				'value' => $product->get_weight( 'view' ),
-				'unit'  => get_option( 'woocommerce_weight_unit' ),
-			);
+			$weight_sub = $this->get_nested_fields( 'weight', array( 'value', 'unit' ), $fields );
+
+			$data['weight'] = array();
+
+			if ( isset( $weight_sub['value'] ) ) {
+				$data['weight']['value'] = $product->get_weight( 'view' );
+			}
+			if ( isset( $weight_sub['unit'] ) ) {
+				$data['weight']['unit'] = get_option( 'woocommerce_weight_unit' );
+			}
 		}
 
 		if ( rest_is_field_included( 'dimensions', $fields ) ) {
-			$data['dimensions'] = array(
-				'length' => $product->get_length( 'view' ),
-				'width'  => $product->get_width( 'view' ),
-				'height' => $product->get_height( 'view' ),
-				'unit'   => get_option( 'woocommerce_dimension_unit' ),
-			);
+			$dim_sub = $this->get_nested_fields( 'dimensions', array( 'length', 'width', 'height', 'unit' ), $fields );
+
+			$data['dimensions'] = array();
+
+			if ( isset( $dim_sub['length'] ) ) {
+				$data['dimensions']['length'] = $product->get_length( 'view' );
+			}
+			if ( isset( $dim_sub['width'] ) ) {
+				$data['dimensions']['width'] = $product->get_width( 'view' );
+			}
+			if ( isset( $dim_sub['height'] ) ) {
+				$data['dimensions']['height'] = $product->get_height( 'view' );
+			}
+			if ( isset( $dim_sub['unit'] ) ) {
+				$data['dimensions']['unit'] = get_option( 'woocommerce_dimension_unit' );
+			}
 		}
 
 		if ( rest_is_field_included( 'reviews', $fields ) ) {
@@ -515,25 +587,38 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 		}
 
 		if ( rest_is_field_included( 'add_to_cart', $fields ) ) {
-			$type = $product->get_type();
+			$type    = $product->get_type();
+			$atc_sub = $this->get_nested_fields( 'add_to_cart', array( 'text', 'description', 'has_options', 'is_purchasable', 'purchase_quantity', 'rest_url' ), $fields );
 
-			$purchase_quantity = array();
+			$data['add_to_cart'] = array();
 
-			if ( ! $product->is_type( 'variable' ) && ! $product->is_type( 'external' ) ) {
-				$purchase_quantity = array(
-					'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
-					'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
-				);
+			if ( isset( $atc_sub['text'] ) ) {
+				$data['add_to_cart']['text'] = $product->add_to_cart_text();
 			}
+			if ( isset( $atc_sub['description'] ) ) {
+				$data['add_to_cart']['description'] = $product->add_to_cart_description();
+			}
+			if ( isset( $atc_sub['has_options'] ) ) {
+				$data['add_to_cart']['has_options'] = $product->has_options();
+			}
+			if ( isset( $atc_sub['is_purchasable'] ) ) {
+				$data['add_to_cart']['is_purchasable'] = $product->is_purchasable();
+			}
+			if ( isset( $atc_sub['purchase_quantity'] ) ) {
+				$purchase_quantity = array();
 
-			$data['add_to_cart'] = array(
-				'text'              => $product->add_to_cart_text(),
-				'description'       => $product->add_to_cart_description(),
-				'has_options'       => $product->has_options(),
-				'is_purchasable'    => $product->is_purchasable(),
-				'purchase_quantity' => $purchase_quantity,
-				'rest_url'          => $this->add_to_cart_rest_url( $product, $type ),
-			);
+				if ( ! $product->is_type( 'variable' ) && ! $product->is_type( 'external' ) ) {
+					$purchase_quantity = array(
+						'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
+						'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
+					);
+				}
+
+				$data['add_to_cart']['purchase_quantity'] = $purchase_quantity;
+			}
+			if ( isset( $atc_sub['rest_url'] ) ) {
+				$data['add_to_cart']['rest_url'] = $this->add_to_cart_rest_url( $product, $type );
+			}
 		}
 
 		if ( rest_is_field_included( 'meta_data', $fields ) ) {
