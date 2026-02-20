@@ -108,7 +108,7 @@ class CoCart_ETag {
 		$product_routes = array(
 			'/^' . $namespace . '\/v2\/products$/',
 			'/^' . $namespace . '\/v2\/products\/\d+$/',                             // Products by ID.
-			'/^' . $namespace . '\/v2\/products\/[\S]+$/',                           // Products by slug.
+			'/^' . $namespace . '\/v2\/products\/[^\/]+$/',                          // Products by slug.
 			'/^' . $namespace . '\/v2\/products\/collection-data$/',                 // Products collection data.
 			'/^' . $namespace . '\/v2\/products\/\d+\/variations$/',                 // Product variations collection.
 			'/^' . $namespace . '\/v2\/products\/\d+\/variations\/\d+$/',            // Single product variation.
@@ -613,17 +613,6 @@ class CoCart_ETag {
 			return $this->get_product_collection_etag_hash( $request );
 		}
 
-		// Products by slug - must check after specific routes to avoid false matches.
-		if ( preg_match( '/^' . $namespace . '\/v2\/products\/([\S]+)$/', $route, $matches ) ) {
-			$slug = $matches[1];
-			// Get product ID from slug.
-			$product = get_page_by_path( $slug, OBJECT, 'product' );
-			if ( $product ) {
-				return $this->get_single_product_etag_hash( $product->ID );
-			}
-			return null;
-		}
-
 		// Categories.
 		if ( preg_match( '/^' . $namespace . '\/v2\/products\/categories\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_taxonomy_etag_hash( 'product_cat', (int) $matches[1], $request );
@@ -699,6 +688,16 @@ class CoCart_ETag {
 		}
 		if ( preg_match( '/^' . $namespace . '\/v2\/products\/reviews$/', $route ) ) {
 			return $this->get_review_etag_hash( null, $request );
+		}
+
+		// Products by slug - must be last to avoid matching taxonomy/collection routes.
+		if ( preg_match( '/^' . $namespace . '\/v2\/products\/([^\/]+)$/', $route, $matches ) ) {
+			$slug    = $matches[1];
+			$product = get_page_by_path( $slug, OBJECT, 'product' );
+			if ( $product ) {
+				return $this->get_single_product_etag_hash( $product->ID );
+			}
+			return null;
 		}
 
 		return null;
