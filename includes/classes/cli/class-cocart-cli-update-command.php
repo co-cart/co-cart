@@ -22,23 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_CLI_Update_Command {
 
 	/**
-	 * Registers the update command.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 */
-	public static function register_commands() {
-		WP_CLI::add_command(
-			'cocart update', // Command.
-			array( __CLASS__, 'update' ), // Callback.
-			array( // Arguments.
-				'shortdesc' => __( 'Updates the CoCart database.', 'cocart-core' ),
-			)
-		);
-	} // END register_commands()
-
-	/**
 	 * Runs all pending CoCart database updates.
 	 *
 	 * @access public

@@ -22,92 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_CLI_Sessions_Command {
 
 	/**
-	 * Registers the sessions command.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 */
-	public static function register_commands() {
-		WP_CLI::add_command(
-			'cocart sessions', // Command.
-			array( __CLASS__, 'get_sessions' ), // Callback.
-			array( // Arguments.
-				'shortdesc' => __( 'Lists cart sessions in the database.', 'cocart-core' ),
-				'synopsis'  => array(
-					array(
-						'type'        => 'assoc',
-						'name'        => 'limit',
-						'description' => __( 'Limit the number of sessions to display.', 'cocart-core' ),
-						'optional'    => true,
-						'default'     => 25,
-					),
-					array(
-						'type'        => 'assoc',
-						'name'        => 'offset',
-						'description' => __( 'Offset the sessions list.', 'cocart-core' ),
-						'optional'    => true,
-						'default'     => 0,
-					),
-					array(
-						'type'        => 'assoc',
-						'name'        => 'orderby',
-						'description' => __( 'Order the results by a specific column.', 'cocart-core' ),
-						'optional'    => true,
-						'default'     => 'cart_created',
-						'options'     => array( 'cart_created', 'cart_expiry' ),
-					),
-					array(
-						'type'        => 'assoc',
-						'name'        => 'order',
-						'description' => __( 'Order the results in ascending or descending order.', 'cocart-core' ),
-						'optional'    => true,
-						'default'     => 'DESC',
-						'options'     => array( 'ASC', 'DESC' ),
-					),
-					array(
-						'type'        => 'assoc',
-						'name'        => 'format',
-						'description' => __( 'Render output in a particular format.', 'cocart-core' ),
-						'optional'    => true,
-						'default'     => 'table',
-						'options'     => array( 'table', 'json', 'csv', 'yaml' ),
-					),
-				),
-			)
-		);
-
-		WP_CLI::add_command(
-			'cocart sessions exists', // Command.
-			array( __CLASS__, 'session_exists' ), // Callback.
-			array( // Arguments.
-				'shortdesc' => __( 'Checks if a cart ID or cart key exists in the database.', 'cocart-core' ),
-				'synopsis'  => array(
-					array(
-						'type'        => 'positional',
-						'name'        => 'identifier',
-						'description' => __( 'The cart ID or cart key to check.', 'cocart-core' ),
-						'optional'    => false,
-					),
-				),
-			)
-		);
-	} // END register_commands()
-
-	/**
-	 * Provides usage instructions for the CLI command.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 */
-	public static function get_usage() {
-		WP_CLI::line( 'Usage: wp cocart sessions [--limit=<number>] [--offset=<number>] [--orderby=<column>] [--order=<order>] [--format=<format>]' );
-		WP_CLI::line( 'Example: wp cocart sessions --limit=5 --offset=10 --orderby=cart_expiry --order=ASC --format=json' );
-	}
-
-	/**
-	 * List sessions.
+	 * Lists cart sessions in the database.
 	 *
 	 * ## OPTIONS
 	 *
@@ -120,6 +35,9 @@ class CoCart_CLI_Sessions_Command {
 	 * : Offset the sessions list.
 	 * ---
 	 * default: 0
+	 *
+	 * [--page=<number>]
+	 * : Page number to display, starting at 1. Overrides --offset when provided.
 	 *
 	 * [--orderby=<column>]
 	 * : Order the results by a specific column.
@@ -149,20 +67,21 @@ class CoCart_CLI_Sessions_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * wp cocart sessions --limit=5 --offset=10 --orderby=cart_expiry --order=ASC --format=json
+	 * wp cocart sessions list
+	 * wp cocart sessions list --limit=5 --offset=10 --orderby=cart_expiry --order=ASC --format=json
+	 *
+	 * @subcommand list
 	 *
 	 * @when after_wp_load
 	 *
 	 * @access public
-	 *
-	 * @static
 	 *
 	 * @param array $args       WP-CLI positional arguments.
 	 * @param array $assoc_args WP-CLI associative arguments.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
-	public function get_sessions( array $args, array $assoc_args ) {
+	public function list_items( array $args, array $assoc_args ) {
 		$limit   = isset( $assoc_args['limit'] ) ? intval( $assoc_args['limit'] ) : 25;
 		$offset  = isset( $assoc_args['offset'] ) ? intval( $assoc_args['offset'] ) : 0;
 		$orderby = isset( $assoc_args['orderby'] ) ? $assoc_args['orderby'] : 'cart_created';
@@ -174,22 +93,23 @@ class CoCart_CLI_Sessions_Command {
 		$valid_order   = array( 'ASC', 'DESC' );
 
 		if ( ! in_array( $format, $valid_formats, true ) ) {
-			WP_CLI::error( 'Invalid format. Valid formats are: table, json, csv, yaml.' );
+			WP_CLI::error( __( 'Invalid format. Valid formats are: table, json, csv, yaml.', 'cocart-core' ) );
 			return;
 		}
 
 		if ( ! in_array( $orderby, $valid_orderby, true ) ) {
-			WP_CLI::error( 'Invalid orderby value. Valid values are: cart_created, cart_expiry.' );
+			WP_CLI::error( __( 'Invalid orderby value. Valid values are: cart_created, cart_expiry.', 'cocart-core' ) );
 			return;
 		}
 
 		if ( ! in_array( $order, $valid_order, true ) ) {
-			WP_CLI::error( 'Invalid order value. Valid values are: ASC, DESC.' );
+			WP_CLI::error( __( 'Invalid order value. Valid values are: ASC, DESC.', 'cocart-core' ) );
 			return;
 		}
 
 		if ( isset( $assoc_args['page'] ) && empty( $assoc_args['offset'] ) ) {
-			$offset = $limit * ( absint( $assoc_args['page'] ) - 1 );
+			$page   = max( 1, absint( $assoc_args['page'] ) );
+			$offset = $limit * ( $page - 1 );
 		}
 
 		global $wpdb;
@@ -209,7 +129,7 @@ class CoCart_CLI_Sessions_Command {
 		$max_pages     = ceil( $total_results / $limit );
 
 		if ( empty( $results ) ) {
-			WP_CLI::log( 'No sessions found.' );
+			WP_CLI::log( __( 'No sessions found.', 'cocart-core' ) );
 			return;
 		}
 
@@ -249,10 +169,10 @@ class CoCart_CLI_Sessions_Command {
 				WP_CLI\Utils\format_items( $format, $sessions, array( 'cart_id', 'cart_key', 'customers_name', 'customers_email', 'created', 'expiry', 'source' ) );
 				break;
 		}
-	} // END get_sessions()
+	} // END list_items()
 
 	/**
-	 * Checks if a cart ID or cart key exists in the database.
+	 * Checks if a cart ID or cart key lookup in the database.
 	 *
 	 * ## OPTIONS
 	 *
@@ -261,20 +181,17 @@ class CoCart_CLI_Sessions_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * wp cocart sessions exists <identifier>
+	 * wp cocart sessions lookup <identifier>
 	 *
 	 * @when after_wp_load
 	 *
 	 * @access public
 	 *
-	 * @static
-	 *
-	 * @param array $args       WP-CLI positional arguments.
-	 * @param array $assoc_args WP-CLI associative arguments.
+	 * @param array $args WP-CLI positional arguments.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
-	public static function session_exists( array $args, array $assoc_args ) {
+	public function lookup( array $args ) {
 		$identifier = $args[0];
 
 		if ( empty( $identifier ) ) {
@@ -291,7 +208,7 @@ class CoCart_CLI_Sessions_Command {
 
 		$wpdb->hide_errors();
 
-		// Check if the cart ID or cart key exists in the database.
+		// Check if the cart ID or cart key lookup in the database.
 		$count = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}cocart_carts WHERE cart_id = %s OR cart_key = %s", $identifier, $identifier )
 		);
@@ -300,18 +217,19 @@ class CoCart_CLI_Sessions_Command {
 			WP_CLI::log(
 				sprintf(
 					/* translators: %s = Identifier */
-					__( 'Session ID %s exists.', 'cocart-core' ),
+					__( 'Session ID %s lookup.', 'cocart-core' ),
 					$identifier
 				)
 			);
-		} else {
-			WP_CLI::error(
-				sprintf(
-					/* translators: %s = Identifier */
-					__( 'Session ID %s does not exist.', 'cocart-core' ),
-					$identifier
-				)
-			);
+			return;
 		}
-	} // END session_exists()
+
+		WP_CLI::error(
+			sprintf(
+				/* translators: %s = Identifier */
+				__( 'Session ID %s does not exist.', 'cocart-core' ),
+				$identifier
+			)
+		);
+	} // END lookup()
 } // END class
