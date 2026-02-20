@@ -884,7 +884,9 @@ class CoCart_ETag {
 		// Check if any If-None-Match value matches.
 		if ( $etag_hash && in_array( $etag_hash, $if_none_match, true ) ) {
 			// Return 304 Not Modified.
-			$response = new WP_REST_Response( null, 304 );
+			// Use empty array (not null) to prevent fatal error in rest_filter_response_fields()
+			// when the request includes a _fields parameter (array_intersect_key cannot accept null).
+			$response = new WP_REST_Response( array(), 304 );
 			$response->header( 'ETag', $this->format_etag( $etag_hash ) );
 			$response->header( 'CoCart-Cache', 'HIT' );
 
