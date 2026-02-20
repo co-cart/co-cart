@@ -2285,7 +2285,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 
 		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'cocart_products_archive',
+			'title'      => 'products_archive',
 			'type'       => 'object',
 			'properties' => array(
 				'products'       => array(

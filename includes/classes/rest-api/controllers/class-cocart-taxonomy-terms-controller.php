@@ -403,7 +403,7 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 			return $this->add_additional_fields_schema( $this->schema );
 		}
 
-		$schema = array(
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => $this->taxonomy,
 			'type'       => 'object',
@@ -440,9 +440,6 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 				),
 			),
 		);
-
-		// Cache the schema.
-		$this->schema = $schema;
 
 		return $this->add_additional_fields_schema( $this->schema );
 	} // END get_item_schema()

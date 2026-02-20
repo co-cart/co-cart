@@ -54,4 +54,22 @@ class CoCart_REST_Product_Category_V2_Controller extends CoCart_REST_Product_Cat
 			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
+	/**
+	 * Retrieves the item's schema, conforming to JSON Schema.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array Item schema data.
+	 */
+	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
+		$this->schema = parent::get_item_schema();
+
+		return $this->add_additional_fields_schema( $this->schema );
+	} // END get_item_schema()
 } // END class

@@ -96,4 +96,22 @@ class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Produ
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END get_item()
+	/**
+	 * Retrieves the item's schema, conforming to JSON Schema.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array Item schema data.
+	 */
+	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
+		$this->schema = parent::get_item_schema();
+
+		return $this->add_additional_fields_schema( $this->schema );
+	} // END get_item_schema()
 } // END class

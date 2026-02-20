@@ -208,13 +208,17 @@ abstract class CoCart_REST_Controller extends WP_REST_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
-		$schema = array(
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart',
 			'type'       => 'object',
 			'properties' => array(),
 		);
 
-		return $this->add_additional_fields_schema( $schema );
+		return $this->add_additional_fields_schema( $this->schema );
 	} // END get_item_schema()
 } // END class

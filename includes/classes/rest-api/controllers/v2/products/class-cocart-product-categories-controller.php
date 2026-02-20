@@ -147,6 +147,11 @@ class CoCart_REST_Product_Categories_V2_Controller extends CoCart_REST_Taxonomy_
 	 * @return array
 	 */
 	public function get_item_schema() {
+		// Return cached schema if available.
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		// Get base V2 schema.
 		$schema = parent::get_item_schema();
 
@@ -243,6 +248,9 @@ class CoCart_REST_Product_Categories_V2_Controller extends CoCart_REST_Taxonomy_
 			);
 		}
 
-		return $schema;
+		// Cache the schema.
+		$this->schema = $this->add_additional_fields_schema( $schema );
+
+		return $this->schema;
 	} // END get_item_schema()
 } // END class
