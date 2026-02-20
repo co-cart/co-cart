@@ -954,10 +954,10 @@ class CoCart_REST_API {
 			// Add version of CoCart.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				$server->send_header( 'CoCart-Version', COCART_VERSION );
-			}
 
-			// Add timestamp of response.
-			$server->send_header( 'Timestamp', time() );
+				// Add timestamp of response.
+				$server->send_header( 'Timestamp', time() );
+			}
 
 			/**
 			 * Filter to enable adding Vary: Accept-Encoding header for all responses to
