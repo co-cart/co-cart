@@ -60,7 +60,7 @@ abstract class CoCart_REST_Controller extends WP_REST_Controller {
 	 * @return string
 	 */
 	public function get_path() {
-		$path = self::get_path_regex();
+		$path = $this->get_path_regex();
 
 		if ( ! empty( $path ) ) {
 			$path = ltrim( $path, '/' );
