@@ -299,12 +299,14 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
-📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+📢 Only bug and security updates will be provided here on WordPress dot ORG. Major updates or new features are provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+This is a community edition of the core of CoCart. Response time for support is slower than paying customers. Thank you for your understanding.
+
+> Plugin name change showing before and after below.
 
 **Before**: Headless eCommerce API for Developers
 **Now**: CoCart - Headless REST API for WooCommerce
-
-In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for WooCommerce", before "CoCart API - Headless WooCommerce Made Easy".
 
 = v4.8.3 - 26th January, 2026 =
 

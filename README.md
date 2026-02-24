@@ -6,9 +6,9 @@
 	</a>
 </p>
 
-Welcome to the CoCart core repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocartapi.com/blog/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on X/Twitter for the latest development updates.
+Welcome to the CoCart **(Community Edition)** repository on GitHub. Here you can browse the source code, [look at open issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue) and keep track of development. We recommend all developers to follow the [CoCart development blog](https://cocartapi.com/blog/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition) to stay up to date about everything happening in the project. You can also [follow @cocartapi](https://twitter.com/cocartapi) on X/Twitter for the latest development updates.
 
-If you are looking for documentation, head over here: [https://cocartapi.com/docs/](https://cocartapi.com/docs/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=cocartcore)
+If you are looking for documentation, head over here: [https://cocartapi.com/docs/](https://cocartapi.com/docs/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)
 
 👋 Looking to [contribute to CoCart](https://github.com/co-cart/co-cart/blob/development/.github/CONTRIBUTING.md)?
 
@@ -18,7 +18,7 @@ If you are looking for documentation, head over here: [https://cocartapi.com/doc
 
 A developer-first REST API to decouple WooCommerce on the frontend. Fast, secure, customizable, easy.
 
-[Try the REST API](https://cocartapi.com/try-free-demo/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)
+[Try the REST API](https://cocartapi.com/try-free-demo/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition)
 
 #### Why developers choose CoCart
 
@@ -36,7 +36,7 @@ A developer-first REST API to decouple WooCommerce on the frontend. Fast, secure
 
 ## 💼 Upgrade to CoCart Plus
 
-For more power, performance, and enterprise-level control — upgrade to **[CoCart Plus](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)**.
+For more power, performance, and enterprise-level control — upgrade to **[CoCart Plus](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition)**.
 
 **Unlock features like:**
 
@@ -46,12 +46,14 @@ For more power, performance, and enterprise-level control — upgrade to **[CoCa
 * 🥪 **Advanced Batch API** - Handle multiple cart actions in a single request.
 * 🕒 **Rate Limiting** - Prevent abuse and maintain high performance with granular API control.
 * 📊 **Cart Insights** - Monitor all cart sessions, including those nearing expiration or already expired.
+* 🧾 **Checkout** - Complete an order and take payment using any supported gateways by WooCommerce. (Coming Soon)
+* 💲 **Subscription Support** - Complete new subscriptions or renewals automatically or manually. (Coming Soon)
 
 ## 🔓 Ready to Go Headless?
 
 Join **thousands of developers and agencies** building with CoCart — the REST API that takes WooCommerce further.
 
-👉 [Upgrade to CoCart Plus](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) and build the future of eCommerce today.
+👉 [Upgrade to CoCart Plus](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition) and build the future of eCommerce today.
 
 ## 👍 Add-ons to further enhance CoCart
 
@@ -65,7 +67,7 @@ These add-ons of course come with support too.
 
 ## 💜 Need Support?
 
-We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
+We aim to provide regular support for the CoCart plugin via [our Discord community server](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition). Please understand that we do prioritize support for our [paying customers](https://cocartapi.com/pricing/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition).
 
 ## 🧰 Developer Tools
 
@@ -76,7 +78,7 @@ We aim to provide regular support for the CoCart plugin via [our Discord communi
 
 ## 🐞 Bug Reporting
 
-Bug reports for CoCart are welcomed in the [CoCart repository on GitHub](https://github.com/co-cart/co-cart/issues/new). Please note that GitHub is not a support forum, and that issues that aren’t properly qualified as bugs will be closed.
+Bug reports for CoCart community edition are welcomed in the [this repository on GitHub](https://github.com/co-cart/co-cart/issues/new). Please note that GitHub is not a support forum, and that issues that aren’t properly qualified as bugs will be closed.
 
 ## Support CoCart API
 
@@ -104,7 +106,7 @@ Thank you! 🙏
 >
 > **MightyGroup** – Rikard Kling ⭐️⭐️⭐️⭐️⭐️
 
-[See the wall of love](https://cocartapi.com/wall-of-love/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) for more testimonials. We’d also love to hear what you have to say. [Share your thoughts](https://testimonial.to/cocart) and help others discover if CoCart is for them.
+[See the wall of love](https://cocartapi.com/wall-of-love/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition) for more testimonials. We’d also love to hear what you have to say. [Share your thoughts](https://testimonial.to/cocart) and help others discover if CoCart is for them.
 
 ---
 
@@ -116,27 +118,25 @@ We have different channels at your disposal where you can find information about
 
 
 <ul>
-  <li>📖 <strong>Documentation</strong>: this is the place to learn how to use CoCart API. <a href="https://cocartapi.com/docs/?utm_medium=repo&utm_source=github&utm_campaign=readme&utm_content=cocartcore">Get started!</a></li>
-  <li>👪 <strong>Community</strong>: use our Discord chat room to share any doubts, feedback and meet great people. This is your place too to share <a href="https://cocartapi.com/community/?utm_medium=repo&utm_source=github&utm_campaign=readme&utm_content=cocartcore">how are you planning to use CoCart!</a></li>
-  <li>🐞 <strong>GitHub</strong>: we use GitHub for bugs and pull requests, doubts are solved with the community.</li>
+  <li>📖 <strong>Documentation</strong>: Learn how to use the CoCart API. <a href="https://cocartapi.com/docs/?utm_medium=repo&utm_source=github&utm_campaign=readme&utm_content=communityedition">Get started!</a></li>
+  <li>👪 <strong>Community</strong>: Share any doubts, feedback and meet great people in our Discord server. This is your place too to share <a href="https://cocartapi.com/community/?utm_medium=repo&utm_source=github&utm_campaign=readme&utm_content=communityedition">how you are planning to use CoCart!</a></li>
+  <li>🐞 <strong>GitHub</strong>: Report bugs and send pull requests, doubts are solved with the community.</li>
   <li>🐦 <strong>Social media</strong>: a more informal place to interact with CoCart users, reach out to us on <a href="https://twitter.com/cocartapi">X/Twitter.</a></li>
 </ul>
-
-For additional security, consider our [API Security](https://apisecurity.pro/?utm_medium=repo&utm_source=github&utm_campaign=readme&utm_content=cocartcore) plugin that provides a firewall to block unknown outsiders, rate limit requests and protect data exposure – no configuration required.
 
 ---
 
 ## Get involved
 
-Do you like the idea of creating a headless store with WooCommerce? Got questions or feedback? We'd love to hear from you. Come [join our community](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore)! ❤️
+Do you like the idea of creating a headless store with WooCommerce? Got questions or feedback? We'd love to hear from you. Come [join our community](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition)! ❤️
 
-CoCart API also welcomes contributions. There are many ways to support the project! If you don't know where to start, this guide might help >> [How to contribute?](https://github.com/co-cart/co-cart/blob/development/.github/CONTRIBUTING.md)
+CoCart community also welcomes contributions. There are many ways to support the project! If you don't know where to start, this guide might help >> [How to contribute?](https://github.com/co-cart/co-cart/blob/development/.github/CONTRIBUTING.md)
 
 ---
 
 ## Credits
 
-Website [cocartapi.com](https://cocartapi.com?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) &nbsp;&middot;&nbsp;
+Website [cocartapi.com](https://cocartapi.com?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=communityedition) &nbsp;&middot;&nbsp;
 GitHub [@co-cart](https://github.com/co-cart) &nbsp;&middot;&nbsp;
 X/Twitter [@cocartapi](https://twitter.com/cocartapi)
 [Facebook](https://www.facebook.com/cocartforwc/) &nbsp;&middot;&nbsp;
