@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.2 Introduced.
- * @version 4.6.2
+ * @version 4.8.3
  */
 
 // Exit if accessed directly.
@@ -118,18 +118,14 @@ class CoCart_WooCommerce {
 
 			// Compare the customer ID with the requested cart key. If they match then return error message.
 			if ( ! empty( $cart_key ) && $customer_id === $cart_key ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
-				wp_send_json_error( $error, 403 );
-				exit;
+				return new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 			}
 		} else {
 			$user = get_user_by( 'id', $cart_key );
 
 			// If the user exists then return error message.
-			if ( ! empty( $user ) && apply_filters( 'cocart_secure_registered_users', true ) ) {
-				$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
-				wp_send_json_error( $error, 403 );
-				exit;
+			if ( ! empty( $user ) && apply_filters( 'cocart_secure_registered_users', true ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+				return new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 			}
 		}
 

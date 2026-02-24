@@ -62,7 +62,7 @@ $update_url = wp_nonce_url( // phpcs:ignore: WordPress.NamingConventions.PrefixA
 				);
 				?>
 			</a>
-			<span class="no-thanks"><a href="https://cocart.dev/guide/how-to-update-cocart/" target="_blank" rel="noopener noreferrer">
+			<span class="no-thanks"><a href="https://docs.cocartapi.com/documentation/guides/updating-cocart" target="_blank" rel="noopener noreferrer">
 				<?php esc_html_e( 'Learn more about updates', 'cart-rest-api-for-woocommerce' ); ?>
 			</a></span>
 		</div>

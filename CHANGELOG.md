@@ -18,6 +18,17 @@
 * Introduced new filter `cocart_cache_max_age` to customize cache duration (default: 1 hour).
 * Introduced new filter `cocart_stale_while_revalidate` to customize stale-while-revalidate duration (default: 24 hours).
 
+## v4.8.3 - 26th January, 2026
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: Return error responses correctly so all headers return.
+
+### Changes
+
+* Plugin: Updated broken external links throughout the plugin.
+
 ## v4.8.2 - 20th January, 2026
 
 ### Improvements
@@ -33,7 +44,6 @@
 
 ### Bug Fixes
 
-* REST API: Updating a customer address after one is placed would not update.
 * REST API: No customer data, no applied coupons or removed items in session caused undefined errors.
 * REST API: Customer data was not converting correctly to return in the Session API.
 * REST API: The product object was not passed correctly in the Session API for items.
@@ -682,7 +692,7 @@ In this release we are adding some quality of life improvements.
 
 ### What's New?
 
-* REST API: Added new cart callback that allows you to set the customers billing details. [See guide on how to use](https://cocart.dev/guide/how-to-add-customer-details-to-the-cart/).
+* REST API: Added new cart callback that allows you to set the customers billing details. [See guide on how to use](https://docs.cocartapi.com/getting-started/core/quick-start#adding-customer-information).
 * REST API: Basic Authentication now accepts a customers billing phone number as their username. Password is still required when authenticating.
 * REST API: Added the ability to set the customers billing phone number while adding item/s to cart.
 
@@ -753,7 +763,7 @@ In this release, we are happy to provide some of the various improvements made t
 
 > Developer note: This release requires the quantity parameter to pass the value as a string for both adding items or updating items. If you are not new to CoCart then please update your code to account for this change.
 
-[Find out more about what's new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
+[Find out more about what's new in CoCart 4.0 in our release post!](https://cocartapi.com/cocart-4-0-released-now-with-cart-batch-support-and-more/)
 
 Hope you enjoy this release.
 

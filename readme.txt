@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
 Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 4.8.2
+Stable tag: 4.8.3
 WC requires at least: 9.0
 WC tested up to: 10.4
 License: GPLv3
@@ -92,8 +92,6 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 * **[CoCart - JWT Authentication](https://wordpress.org/plugins/cocart-jwt-authentication)** allows you to authenticate via a simple JWT Token.
 
 These add-ons of course come with support too.
-
-For additional security, consider our [API Security](https://apisecurity.pro/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) plugin that provides a firewall to block unknown outsiders, rate limit requests and protect data exposure – no configuration required.
 
 ### ⌨️ Join our growing community
 
@@ -269,7 +267,7 @@ Report bugs on the [CoCart GitHub repository](https://github.com/co-cart/co-cart
 
 = CoCart is awesome! Can I contribute? =
 
-Yes, you can! Join in on our [GitHub repository](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) and follow the [development blog](https://cocart.dev/news/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) to stay up-to-date with everything happening in the project.
+Yes, you can! Join in on our [GitHub repository](https://github.com/co-cart/co-cart/blob/trunk/.github/CONTRIBUTING.md) and follow the [development blog](https://cocartapi.com/blog/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) to stay up-to-date with everything happening in the project.
 
 = Is CoCart translatable? =
 
@@ -293,7 +291,7 @@ You can help [translate "CoCart" into your language](https://translate.wordpress
 
 **INTERESTED IN DEVELOPMENT?**
 
-[Browse the code on GitHub](https://github.com/co-cart/co-cart/tree/development/), or follow the [CoCart development blog](https://cocart.dev/news/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) for the latest development updates. You can also follow [@cocartapi](https://twitter.com/cocartapi) on Twitter to stay up to date about everything happening with CoCart.
+[Browse the code on GitHub](https://github.com/co-cart/co-cart/tree/development/), or follow the [CoCart development blog](https://cocartapi.com/blog/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) for the latest development updates. You can also follow [@cocartapi](https://twitter.com/cocartapi) on Twitter to stay up to date about everything happening with CoCart.
 
 **Please share your experience**
 
@@ -301,12 +299,25 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 == Changelog ==
 
-📢 Only bug and security updates will be provided here on WordPress dot ORG. Any new major updates starting with v5.0 will be provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+📢 Only bug and security updates will be provided here on WordPress dot ORG. Major updates or new features are provided [directly from us](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink).
+
+This is a community edition of the core of CoCart. Response time for support is slower than paying customers. Thank you for your understanding.
+
+> Plugin name change showing before and after below.
 
 **Before**: Headless eCommerce API for Developers
 **Now**: CoCart - Headless REST API for WooCommerce
 
-In your WordPress dashboard under "Plugins", you will see it labeled as "CoCart API - Headless eCommerce API for WooCommerce", before "CoCart API - Headless WooCommerce Made Easy".
+= v4.8.3 - 26th January, 2026 =
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: Return error responses correctly so all headers return.
+
+### Changes
+
+* Plugin: Updated broken external links throughout the plugin.
 
 = v4.8.2 - 20th January, 2026 =
 
