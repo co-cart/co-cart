@@ -628,7 +628,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			}
 
 			$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
-			$server->send_header( 'Access-Control-Allow-Credentials', 'true' );
 			$server->send_header( 'Vary', 'Origin', false );
 			$server->send_header( 'Access-Control-Max-Age', '600' ); // Cache the result of preflight requests (600 is the upper limit for Chromium).
 			$server->send_header( 'X-Robots-Tag', 'noindex' );
@@ -637,7 +636,10 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			// Allow preflight requests and any allowed origins. Preflight requests
 			// are allowed because we'll be unable to validate customer header at that point.
 			if ( $this->is_preflight() || $this->is_allowed_http_origin() ) {
-				$server->send_header( 'Access-Control-Allow-Origin', $this->get_http_origin() );
+				$origin = $this->get_http_origin();
+
+				$server->send_header( 'Access-Control-Allow-Origin', $origin );
+				$server->send_header( 'Access-Control-Allow-Credentials', ( ! empty( $origin ) && '*' !== $origin ) ? 'true' : 'false' );
 			}
 
 			// Exit early during preflight requests. This is so someone cannot access API data by sending an OPTIONS request
