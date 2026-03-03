@@ -119,7 +119,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 			// If item does not exist as an item removed check if the item is in the cart.
 			if ( empty( $current_data ) ) {
-				$restored_item = $this->get_cart_item( $item_key, 'restore' );
+				$restored_item = $this->get_item_from_cart( $item_key, 'restore' );
 
 				// Check if the item has already been restored.
 				if ( ! empty( $restored_item ) ) {
@@ -153,7 +153,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 			}
 
 			if ( $cart->restore_cart_item( $item_key ) ) {
-				$current_data = $this->get_cart_item( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
+				$current_data = $this->get_item_from_cart( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
 				/**
 				 * Hook: cocart_item_restored

@@ -128,7 +128,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $request['item_key'], 'update' );
 
 			// Check item exists in cart before fetching the cart item data to update.
-			$cart_item = $this->get_cart_item( $item_key, 'container' );
+			$cart_item = $this->get_item_from_cart( $item_key, 'container' );
 
 			// Get custom item data from the current product if any.
 			$cart_item_data = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
@@ -300,7 +300,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 						$quantity_changed = true;
 
 						// Ensure we have the updated cart item data for the response.
-						$updated_cart_item = $this->get_cart_item( $item_key, 'update' );
+						$updated_cart_item = $this->get_item_from_cart( $item_key, 'update' );
 
 						/**
 						 * Hook: cocart_item_quantity_changed

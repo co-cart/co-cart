@@ -131,7 +131,7 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			}
 
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = $this->get_cart_item( $item_key, 'remove' );
+			$current_data = $this->get_item_from_cart( $item_key, 'remove' );
 
 			$product = isset( $current_data['product_id'] ) ? wc_get_product( $current_data['product_id'] ) : false;
 

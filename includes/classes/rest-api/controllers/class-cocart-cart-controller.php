@@ -111,7 +111,7 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 *
 	 * @return array $item Returns details of the item in the cart if it exists.
 	 */
-	public function get_cart_item( $item_id, $condition = 'add' ) {
+	public function get_item_from_cart( $item_id, $condition = 'add' ) {
 		$cart_contents = $this->get_cart_contents();
 		$item          = isset( $cart_contents[ $item_id ] ) ? $cart_contents[ $item_id ] : array();
 
@@ -124,7 +124,7 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 		 * @param string $condition Condition of item. Default: "add", Option: "add", "remove", "restore", "update".
 		 */
 		return apply_filters( 'cocart_get_cart_item', $item, $condition );
-	} // EMD get_cart_item()
+	} // EMD get_item_from_cart()
 
 	/**
 	 * Returns all cart items.
