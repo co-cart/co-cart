@@ -141,6 +141,60 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	} // END get_cart_items()
 
 	/**
+	 * Gets items in the cart.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+
+	 * @see CoCart_REST_Cart_V2_Controller::get_item()
+	 *
+	 * @param array           $cart_contents The cart contents.
+	 * @param WP_REST_Request $request       The request object.
+	 *
+	 * @return array $items Returns all items in the cart.
+	 */
+	public function get_items_in_cart( array $cart_contents, $request ) {
+		$items = array();
+
+		foreach ( $cart_contents as $item_key => $cart_item ) {
+			// If product data is missing then get product data and apply.
+			if ( ! isset( $cart_item['data'] ) ) {
+				$cart_item['data'] = wc_get_product( ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : ( ! empty( $cart_item['product_id'] ) ? $cart_item['product_id'] : 0 ) );
+			}
+
+			$product = $cart_item['data'];
+
+			/**
+			 * Filter allows you to alter the item product data returned.
+			 *
+			 * @since 2.0.0 Introduced.
+			 *
+			 * @param WC_Product $product   The product object.
+			 * @param array      $cart_item The cart item data.
+			 * @param string     $item_key  The item key currently looped.
+			 */
+			$product = apply_filters( 'cocart_item_product', $product, $cart_item, $item_key );
+
+			$items[ $item_key ] = $this->get_item( $product, $cart_item, $item_key, $request );
+
+			/**
+			 * Filter allows additional data to be returned for a specific item in cart.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param array      $items     Array of items in the cart.
+			 * @param string     $item_key  The item key currently looped.
+			 * @param array      $cart_item The cart item data.
+			 * @param WC_Product $product   The product object.
+			 */
+			$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $product );
+		}
+
+		return $items;
+	} // END get_items_in_cart()
+
+	/**
 	 * Get hashes for items in the current cart. Useful for tracking changes.
 	 *
 	 * @access public

@@ -235,9 +235,9 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		// Returns items.
 		if ( array_key_exists( 'items', $session ) ) {
 			if ( isset( $session_data['cart_cache'] ) ) {
-				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart_cache'] ), $show_thumb );
+				$session['items'] = $this->get_items_in_cart( maybe_unserialize( $session_data['cart_cache'] ), $show_thumb );
 			} elseif ( isset( $session_data['cart'] ) ) {
-				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart'] ), $show_thumb );
+				$session['items'] = $this->get_items_in_cart( maybe_unserialize( $session_data['cart'] ), $show_thumb );
 			}
 		}
 

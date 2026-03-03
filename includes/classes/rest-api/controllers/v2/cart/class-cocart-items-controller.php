@@ -103,7 +103,7 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			$cart          = $this->get_cart_instance();
 			$cart_contents = ! $cart->is_empty() ? array_filter( $cart->get_cart() ) : array();
 
-			$items = $this->get_items( $cart_contents );
+			$items = $this->get_items_in_cart( $cart_contents );
 
 			// Return message should the cart be empty.
 			if ( empty( $cart_contents ) ) {

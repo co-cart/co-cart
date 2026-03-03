@@ -114,7 +114,7 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 			$cart_contents = ! $cart->is_empty() ? array_filter( $cart->get_cart() ) : array();
 
-			$item = $this->get_items( $cart_contents );
+			$item = $this->get_items_in_cart( $cart_content, $request );
 
 			$item = isset( $item[ $item_key ] ) ? $item[ $item_key ] : false;
 
