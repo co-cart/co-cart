@@ -150,8 +150,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		}
 
 		if ( ! $show_raw ) {
-			// Filters the cart contents.
-			$cart_contents = $this->return_cart_contents( $request, $cart_contents );
+			$cart_contents = $this->prepare_object_for_response( $cart_contents, $request );
 		}
 
 		$response = rest_ensure_response( $cart_contents );
@@ -161,22 +160,22 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	} // END get_items()
 
 	/**
-	 * Return cart contents.
+	 * Prepare the cart output for response.
 	 *
 	 * @access public
 	 *
-	 * @since 2.0.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @see CoCart_REST_Cart_Controller::get_cart_instance()
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template()
 	 * @see CoCart_REST_Cart_V2_Controller::get_items()
 	 *
-	 * @param WP_REST_Request $request       The request object.
 	 * @param array           $cart_contents The cart contents.
+	 * @param WP_REST_Request $request       The request object.
 	 *
 	 * @return array $cart Returns cart contents.
 	 */
-	public function return_cart_contents( $request, $cart_contents = array() ) {
+	public function prepare_object_for_response( $cart_contents, $request ) {
 		/**
 		 * Return the default cart data if set to true.
 		 *
@@ -221,7 +220,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		$cart = apply_filters( 'cocart_cart', $cart, $request, $cart_instance );
 
 		return $cart;
-	} // END return_cart_contents()
+	} // END prepare_object_for_response()
+
 
 	/**
 	 * Gets the cart removed items.
