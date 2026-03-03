@@ -62,7 +62,7 @@ class CoCart_Update_Cart_Callback extends CoCart_Cart_Extension_Callback {
 
 			if ( ! empty( $items ) ) {
 				foreach ( $items as $item_key => $quantity ) {
-					$cart_item = $controller->get_cart_item( $item_key, 'update' );
+					$cart_item = $controller->get_item_from_cart( $item_key, 'update' );
 
 					// If item does not exist then continue to the next item.
 					if ( empty( $cart_item ) ) {
