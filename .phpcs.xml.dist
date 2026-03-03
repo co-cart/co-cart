@@ -38,7 +38,10 @@
 	</rule>
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="cocart-core"/>
+			<property name="text_domain" type="array">
+				<element value="cart-rest-api-for-woocommerce"/>
+				<element value="cocart-core"/>
+			</property>
 		</properties>
 	</rule>
 	<rule ref="WordPress.WhiteSpace.ControlStructureSpacing">
