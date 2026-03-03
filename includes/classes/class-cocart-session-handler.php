@@ -119,10 +119,21 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @access public
 	 *
 	 * @since 4.2.0 Introduced.
+	 * @since 5.0.0 Added request parameter support.
+	 *
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return string Cart key.
 	 */
-	public function get_requested_cart() {
+	public function get_requested_cart( $request = null ) {
+		if ( ! is_null( $request ) && method_exists( $request, 'get_param' ) ) {
+			$cart_key = $request->get_param( 'cart_key' );
+
+			if ( ! empty( $cart_key ) ) {
+				return (string) trim( sanitize_key( wp_unslash( $cart_key ) ) );
+			}
+		}
+
 		// Are we requesting via url parameter?
 		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$this->cart_key = (string) trim( sanitize_key( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
