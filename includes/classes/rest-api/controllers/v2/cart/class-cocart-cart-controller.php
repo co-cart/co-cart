@@ -185,24 +185,139 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			return $cart_contents;
 		}
 
-		// Get cart template.
-		$cart = $this->get_cart_template( $request );
+		$fields = $this->get_fields_for_response( $request );
 
-		// If the cart is empty then return nothing.
+		$cart = array();
+
+		// If the cart is empty, build empty cart response with requested fields.
 		if ( empty( $cart_contents ) ) {
-			/**
-			 * Filter response for empty cart.
-			 *
-			 * @since 3.0.0 Introduced.
-			 */
-			return apply_filters( 'cocart_empty_cart', $cart );
+			return $this->build_empty_cart_response( $request, $fields );
 		}
 
 		$cart_instance = $this->get_cart_instance();
 
-		// Returns items.
-		if ( array_key_exists( 'items', $cart ) ) {
-			$cart['items'] = $this->get_items( $cart_contents, $request );
+		// Has customer provided enough information to return shipping totals.
+		// This tracks if shipping has actually been calculated so we can avoid returning costs prematurely.
+
+		$has_calculated_shipping = $cart_instance->get_customer()->has_calculated_shipping();
+
+		if ( rest_is_field_included( 'cart_hash', $fields ) ) {
+			$cart['cart_hash'] = $cart_instance->get_cart_hash();
+		}
+
+		if ( rest_is_field_included( 'cart_key', $fields ) ) {
+			$cart['cart_key'] = CoCart_Utilities_Cart_Helpers::get_cart_key();
+		}
+
+		if ( rest_is_field_included( 'currency', $fields ) ) {
+			$cart['currency'] = cocart_get_store_currency();
+		}
+
+		$customer_fields = $this->get_nested_fields( 'customer', array( 'billing_address', 'shipping_address' ), $fields );
+
+		if ( $customer_fields ) {
+			$customer = $cart_instance->get_customer();
+
+			if ( isset( $customer_fields['billing_address'] ) ) {
+				$cart['customer']['billing_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $customer );
+			}
+
+			if ( isset( $customer_fields['shipping_address'] ) ) {
+				$cart['customer']['shipping_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $customer );
+			}
+		}
+
+		if ( rest_is_field_included( 'items', $fields ) ) {
+			$cart['items'] = $this->get_items_in_cart( $cart_contents, $request );
+		}
+
+		if ( rest_is_field_included( 'item_count', $fields ) ) {
+			$cart['item_count'] = $cart_instance->get_cart_contents_count();
+		}
+
+		if ( rest_is_field_included( 'items_weight', $fields ) ) {
+			$cart['items_weight'] = (string) wc_get_weight( $cart_instance->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
+		}
+
+		if ( rest_is_field_included( 'coupons', $fields ) ) {
+			$cart['coupons'] = CoCart_Utilities_Cart_Helpers::get_applied_coupons( $cart_instance );
+		}
+
+		if ( rest_is_field_included( 'needs_payment', $fields ) ) {
+			$cart['needs_payment'] = $cart_instance->needs_payment();
+		}
+
+		if ( rest_is_field_included( 'needs_shipping', $fields ) ) {
+			$cart['needs_shipping'] = $cart_instance->needs_shipping();
+		}
+
+		if ( rest_is_field_included( 'shipping', $fields ) ) {
+			$cart['shipping'] = CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart_instance, $request );
+		}
+
+		if ( rest_is_field_included( 'fees', $fields ) ) {
+			$cart['fees'] = CoCart_Utilities_Cart_Helpers::get_fees( $cart_instance, $request );
+		}
+
+		if ( rest_is_field_included( 'taxes', $fields ) ) {
+			$cart['taxes'] = CoCart_Utilities_Cart_Helpers::get_taxes( $cart_instance, $request );
+		}
+
+		$totals_sub_fields = array( 'subtotal', 'subtotal_tax', 'fee_total', 'fee_tax', 'discount_total', 'discount_tax', 'shipping_total', 'shipping_tax', 'total', 'total_tax' );
+		$totals_fields     = $this->get_nested_fields( 'totals', $totals_sub_fields, $fields );
+
+		if ( $totals_fields ) {
+			if ( isset( $totals_fields['subtotal'] ) ) {
+				$cart['totals']['subtotal'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal(), $request );
+			}
+
+			if ( isset( $totals_fields['subtotal_tax'] ) ) {
+				$cart['totals']['subtotal_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal_tax(), $request );
+			}
+
+			if ( isset( $totals_fields['fee_total'] ) ) {
+				$cart['totals']['fee_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_total(), $request );
+			}
+
+			if ( isset( $totals_fields['fee_tax'] ) ) {
+				$cart['totals']['fee_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_tax(), $request );
+			}
+
+			if ( isset( $totals_fields['discount_total'] ) ) {
+				$cart['totals']['discount_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_total(), $request );
+			}
+
+			if ( isset( $totals_fields['discount_tax'] ) ) {
+				$cart['totals']['discount_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_tax(), $request );
+			}
+
+			if ( isset( $totals_fields['shipping_total'] ) ) {
+				$cart['totals']['shipping_total'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_total(), $request ) : '0';
+			}
+
+			if ( isset( $totals_fields['shipping_tax'] ) ) {
+				$cart['totals']['shipping_tax'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_tax(), $request ) : '0';
+			}
+
+			if ( isset( $totals_fields['total'] ) ) {
+				$cart['totals']['total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total( 'edit' ), $request );
+			}
+
+			if ( isset( $totals_fields['total_tax'] ) ) {
+				$cart['totals']['total_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total_tax(), $request );
+			}
+		}
+
+		if ( rest_is_field_included( 'removed_items', $fields ) ) {
+			$cart['removed_items'] = $this->get_removed_items( $cart_instance->get_removed_cart_contents(), $request );
+		}
+
+		if ( rest_is_field_included( 'cross_sells', $fields ) ) {
+			$cart['cross_sells'] = $this->get_cross_sells( $request );
+		}
+
+		if ( rest_is_field_included( 'notices', $fields ) ) {
+			$cart['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance );
 		}
 
 		/**
@@ -222,6 +337,166 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		return $cart;
 	} // END prepare_object_for_response()
 
+	/**
+	 * Builds an empty cart response respecting the fields parameter.
+	 *
+	 * When the cart has no items, this method returns a schema-compliant
+	 * response with requested fields populated with appropriate empty/zero values.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @param array           $fields  Fields to include from get_fields_for_response().
+	 *
+	 * @return array Empty cart array with requested fields.
+	 */
+	protected function build_empty_cart_response( $request, $fields ) {
+		$cart_instance = $this->get_cart_instance();
+
+		$cart = array();
+
+		// Cart identification fields.
+		if ( rest_is_field_included( 'cart_hash', $fields ) ) {
+			$cart['cart_hash'] = '';
+		}
+
+		if ( rest_is_field_included( 'cart_key', $fields ) ) {
+			$cart['cart_key'] = CoCart_Utilities_Cart_Helpers::get_cart_key();
+		}
+
+		// Store currency (always available from settings).
+		if ( rest_is_field_included( 'currency', $fields ) ) {
+			$cart['currency'] = cocart_get_store_currency();
+		}
+
+		// Customer data (may have saved addresses even when cart is empty).
+		$customer_fields = $this->get_nested_fields( 'customer', array( 'billing_address', 'shipping_address' ), $fields );
+
+		if ( $customer_fields ) {
+			$customer = $cart_instance->get_customer();
+
+			if ( isset( $customer_fields['billing_address'] ) ) {
+				$cart['customer']['billing_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $customer );
+			}
+
+			if ( isset( $customer_fields['shipping_address'] ) ) {
+				$cart['customer']['shipping_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $customer );
+			}
+		}
+
+		// Empty collection fields.
+		if ( rest_is_field_included( 'items', $fields ) ) {
+			$cart['items'] = array();
+		}
+
+		if ( rest_is_field_included( 'coupons', $fields ) ) {
+			$cart['coupons'] = array();
+		}
+
+		if ( rest_is_field_included( 'removed_items', $fields ) ) {
+			$cart['removed_items'] = array();
+		}
+
+		if ( rest_is_field_included( 'cross_sells', $fields ) ) {
+			$cart['cross_sells'] = array();
+		}
+
+		if ( rest_is_field_included( 'shipping', $fields ) ) {
+			$cart['shipping'] = array();
+		}
+
+		if ( rest_is_field_included( 'fees', $fields ) ) {
+			$cart['fees'] = array();
+		}
+
+		if ( rest_is_field_included( 'taxes', $fields ) ) {
+			$cart['taxes'] = array();
+		}
+
+		// Numeric counter fields.
+		if ( rest_is_field_included( 'item_count', $fields ) ) {
+			$cart['item_count'] = intval( 0 );
+		}
+
+		if ( rest_is_field_included( 'items_weight', $fields ) ) {
+			$cart['items_weight'] = (string) wc_get_weight( 0, get_option( 'woocommerce_weight_unit' ) );
+		}
+
+		// Boolean state fields (call actual methods for accuracy).
+		if ( rest_is_field_included( 'needs_payment', $fields ) ) {
+			$cart['needs_payment'] = false;
+		}
+
+		if ( rest_is_field_included( 'needs_shipping', $fields ) ) {
+			$cart['needs_shipping'] = false;
+		}
+
+		// Totals - format with monetary formatter to respect 'formatted' parameter.
+		$totals_sub_fields = array( 'subtotal', 'subtotal_tax', 'fee_total', 'fee_tax', 'discount_total', 'discount_tax', 'shipping_total', 'shipping_tax', 'total', 'total_tax' );
+		$totals_fields     = $this->get_nested_fields( 'totals', $totals_sub_fields, $fields );
+
+		if ( $totals_fields ) {
+			if ( isset( $totals_fields['subtotal'] ) ) {
+				$cart['totals']['subtotal'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['subtotal_tax'] ) ) {
+				$cart['totals']['subtotal_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['fee_total'] ) ) {
+				$cart['totals']['fee_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['fee_tax'] ) ) {
+				$cart['totals']['fee_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['discount_total'] ) ) {
+				$cart['totals']['discount_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['discount_tax'] ) ) {
+				$cart['totals']['discount_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['shipping_total'] ) ) {
+				$cart['totals']['shipping_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['shipping_tax'] ) ) {
+				$cart['totals']['shipping_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['total'] ) ) {
+				$cart['totals']['total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['total_tax'] ) ) {
+				$cart['totals']['total_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+		}
+
+		// Notices (may contain messages even when cart is empty).
+		if ( rest_is_field_included( 'notices', $fields ) ) {
+			$cart['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance );
+		}
+
+		/**
+		 * Filter response for empty cart.
+		 *
+		 * @since 3.0.0 Introduced.
+		 * @since 5.0.0 Now respects fields parameter and provides additional context.
+		 *
+		 * @param array           $cart          The cart data before it's returned.
+		 * @param array           $fields        The fields requested for the response.
+		 * @param WP_REST_Request $request       The request object.
+		 * @param WC_Cart         $cart_instance The cart instance.
+		 */
+		return apply_filters( 'cocart_empty_cart', $cart, $fields, $request, $cart_instance );
+	} // END build_empty_cart_response()
 
 	/**
 	 * Gets the cart removed items.
