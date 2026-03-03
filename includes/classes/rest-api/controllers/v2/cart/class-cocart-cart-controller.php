@@ -863,7 +863,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return array Public item schema data.
 	 */
-	public function get_public_item_schema() {
+	public function get_item_schema() {
 		if ( $this->schema ) {
 			return $this->schema;
 		}
@@ -1917,13 +1917,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 		// Get cart query parameters.
 		$params += array(
-			'fields'    => array(
-				'description'       => __( 'Specify each parent field you want to request separated by (,) in the response before the data is fetched.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
 			'formatted' => array(
 				'description'       => __( 'True if you want to return the price values formatted.', 'cocart-core' ),
 				'default'           => false,
@@ -1933,7 +1926,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'thumb'     => array(
-				'description'       => __( 'True if you want to return the URL of the featured product image for each item in the cart.', 'cocart-core' ),
+				'description'       => __( 'Hide the URLs for each item in the cart for the featured product image if set to false.', 'cocart-core' ),
 				'default'           => true,
 				'type'              => 'boolean',
 				'required'          => false,
