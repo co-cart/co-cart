@@ -346,7 +346,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 				$request['dont_calculate'] = false; // Reset to allow totals to be calculated.
 				// $request['dont_check'] = true;
-				$response = $this->get_cart( $request );
+				$response = $this->get_items( $request );
 
 				// Add notice if product has changed?
 				if ( $product_changed ) {

@@ -86,11 +86,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	} // END register_routes()
 
 	/**
-	 * Get cart.
+	 * Retrieves a collection for the cart.
 	 *
 	 * @access public
 	 *
-	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @see CoCart_REST_Cart_Controller::get_cart_contents()
 	 * @see CoCart_REST_Cart_Controller::calculate_totals()
@@ -100,7 +100,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function get_cart( $request ) {
+	public function get_items( $request ) {
 		$cart_instance = $this->get_cart_instance();
 
 		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
@@ -158,7 +158,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
 
 		return $response;
-	} // END get_cart()
+	} // END get_items()
 
 	/**
 	 * Return cart contents.

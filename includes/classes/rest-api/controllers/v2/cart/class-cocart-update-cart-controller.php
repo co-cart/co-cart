@@ -180,7 +180,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			}
 
 			// Returns updated cart if callback was successful.
-			$cart = $this->get_cart( $request );
+			$cart = $this->get_items( $request );
 
 			$response = rest_ensure_response( $cart );
 			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );

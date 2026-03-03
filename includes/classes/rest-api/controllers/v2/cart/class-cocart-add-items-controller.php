@@ -188,7 +188,7 @@ class CoCart_REST_Add_Items_V2_Controller extends CoCart_REST_Add_Item_V2_Contro
 				}
 			} else {
 				$request['dont_calculate'] = true;
-				$response                  = $this->get_cart( $request );
+				$response                  = $this->get_items( $request );
 			}
 
 			$response = rest_ensure_response( $response );

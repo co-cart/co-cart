@@ -189,7 +189,7 @@ class CoCart_REST_Clear_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controlle
 
 				// Return cart response.
 				$request['dont_check'] = true;
-				$response              = $this->get_cart( $request );
+				$response              = $this->get_items( $request );
 
 				$response = rest_ensure_response( $response );
 				$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );

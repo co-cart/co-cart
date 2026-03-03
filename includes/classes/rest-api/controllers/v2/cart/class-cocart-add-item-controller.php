@@ -182,7 +182,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 					cocart_add_to_cart_message( array( $request['id'] => $request['quantity'] ) );
 
-					$response = $this->get_cart( $request );
+					$response = $this->get_items( $request );
 
 					$response = rest_ensure_response( $response );
 					$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
@@ -332,7 +332,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
 			} else {
 				$request['dont_calculate'] = true; // May need to remove this line. Will see after beta feedback testing.
-				$response                  = $this->get_cart( $request );
+				$response                  = $this->get_items( $request );
 			}
 
 			$response = rest_ensure_response( $response );

@@ -198,7 +198,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 				// Get cart contents.
 				$request['dont_check'] = true;
-				$response              = $this->get_cart( $request );
+				$response              = $this->get_items( $request );
 
 				// Was it requested to return status once item restored?
 				if ( $request['return_status'] ) {
