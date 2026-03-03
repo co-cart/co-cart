@@ -129,6 +129,8 @@ abstract class CoCart_REST_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
+	 * By default, this method returns an empty array, indicating no links. Override this method to provide relevant links for the response.
+	 *
 	 * @access protected
 	 *
 	 * @param mixed            $item    Item to prepare.
