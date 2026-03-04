@@ -27,7 +27,7 @@ class CoCart_ETag {
 	 * @access public
 	 */
 	public function __construct() {
-		// Check that we are only authenticating for our API.
+		// Check that we are only requesting for our API.
 		if ( ! CoCart::is_rest_api_request() ) {
 			return;
 		}
@@ -90,15 +90,19 @@ class CoCart_ETag {
 	protected function get_product_etag_routes() {
 		$product_routes = array(
 			'/^cocart\/v2\/products$/',
-			'/^cocart\/v2\/products\/\d+$/',
-			'/^cocart\/v2\/products\/categories$/',
-			'/^cocart\/v2\/products\/categories\/\d+$/',
-			'/^cocart\/v2\/products\/tags$/',
-			'/^cocart\/v2\/products\/tags\/\d+$/',
-			'/^cocart\/v2\/products\/attributes$/',
-			'/^cocart\/v2\/products\/attributes\/\d+$/',
-			'/^cocart\/v2\/products\/reviews$/',
-			'/^cocart\/v2\/products\/reviews\/\d+$/',
+			'/^cocart\/v2\/products\/\d+$/',                         // Products by ID.
+			'/^cocart\/v2\/products\/\d+\/variations$/',             // Product variations collection.
+			'/^cocart\/v2\/products\/\d+\/variations\/\d+$/',        // Single product variation.
+			'/^cocart\/v2\/products\/categories$/',                  // Product categories collection.
+			'/^cocart\/v2\/products\/categories\/\d+$/',             // Single product category.
+			'/^cocart\/v2\/products\/tags$/',                        // Product tags collection.
+			'/^cocart\/v2\/products\/tags\/\d+$/',                   // Single product tag.
+			'/^cocart\/v2\/products\/attributes$/',                  // Product attributes collection.
+			'/^cocart\/v2\/products\/attributes\/\d+$/',             // Single product attribute.
+			'/^cocart\/v2\/products\/attributes\/\d+\/terms$/',      // Product attribute terms collection.
+			'/^cocart\/v2\/products\/attributes\/\d+\/terms\/\d+$/', // Single product attribute term.
+			'/^cocart\/v2\/products\/reviews$/',                     // Product reviews collection.
+			'/^cocart\/v2\/products\/reviews\/\d+$/',                // Single product review.
 		);
 
 		/**
@@ -383,6 +387,107 @@ class CoCart_ETag {
 	} // END get_taxonomy_etag_hash()
 
 	/**
+	 * Get ETag hash for product variations collection.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.9.0 Introduced.
+	 *
+	 * @param int             $product_id The parent product ID.
+	 * @param WP_REST_Request $request    The request object.
+	 *
+	 * @return string|null Variations ETag hash or null.
+	 */
+	protected function get_product_variations_etag_hash( $product_id, $request ) {
+		global $wpdb;
+
+		// Get latest variation modification date for the parent product.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$latest_modified = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT MAX(post_modified) FROM {$wpdb->posts} WHERE post_parent = %d AND post_type = 'product_variation' AND post_status = 'publish'",
+				$product_id
+			)
+		);
+
+		if ( empty( $latest_modified ) ) {
+			return null;
+		}
+
+		// Get variation count.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$variation_count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_parent = %d AND post_type = 'product_variation' AND post_status = 'publish'",
+				$product_id
+			)
+		);
+
+		// Include query parameters.
+		$query_params = array(
+			'page'     => $request->get_param( 'page' ) ?? 1,
+			'per_page' => $request->get_param( 'per_page' ) ?? 10,
+		);
+
+		$params_hash = md5( wp_json_encode( $query_params ) );
+
+		return md5( 'cocart_variations_' . $product_id . '_' . $latest_modified . '_' . $variation_count . '_' . $params_hash . COCART_VERSION );
+	} // END get_product_variations_etag_hash()
+
+	/**
+	 * Get ETag hash for current user's reviews.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.9.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return string|null User reviews ETag hash or null.
+	 */
+	protected function get_user_reviews_etag_hash( $request ) {
+		global $wpdb;
+
+		$user_id = get_current_user_id();
+
+		if ( ! $user_id ) {
+			return null;
+		}
+
+		// Get latest review for this user.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$latest_review = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT MAX(comment_date) FROM {$wpdb->comments} WHERE comment_type = 'review' AND comment_approved = '1' AND user_id = %d",
+				$user_id
+			)
+		);
+
+		// Get review count for this user.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$review_count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_type = 'review' AND comment_approved = '1' AND user_id = %d",
+				$user_id
+			)
+		);
+
+		if ( empty( $latest_review ) ) {
+			return null;
+		}
+
+		// Include query parameters.
+		$query_params = array(
+			'page'     => $request->get_param( 'page' ) ?? 1,
+			'per_page' => $request->get_param( 'per_page' ) ?? 10,
+		);
+
+		$params_hash = md5( wp_json_encode( $query_params ) );
+
+		return md5( 'cocart_user_reviews_' . $user_id . '_' . $latest_review . '_' . $review_count . '_' . $params_hash . COCART_VERSION );
+	} // END get_user_reviews_etag_hash()
+
+	/**
 	 * Get ETag hash for product reviews.
 	 *
 	 * @access protected
@@ -450,7 +555,17 @@ class CoCart_ETag {
 	protected function get_product_etag_hash( $route, $request ) {
 		$route = ltrim( $route, '/' );
 
-		// Single product.
+		// Single product variation - must check before single product ID.
+		if ( preg_match( '/^cocart\/v2\/products\/(\d+)\/variations\/(\d+)$/', $route, $matches ) ) {
+			return $this->get_single_product_etag_hash( (int) $matches[2] );
+		}
+
+		// Product variations collection.
+		if ( preg_match( '/^cocart\/v2\/products\/(\d+)\/variations$/', $route, $matches ) ) {
+			return $this->get_product_variations_etag_hash( (int) $matches[1], $request );
+		}
+
+		// Single product by ID.
 		if ( preg_match( '/^cocart\/v2\/products\/(\d+)$/', $route, $matches ) ) {
 			return $this->get_single_product_etag_hash( (int) $matches[1] );
 		}
@@ -476,9 +591,33 @@ class CoCart_ETag {
 			return $this->get_taxonomy_etag_hash( 'product_tag', null, $request );
 		}
 
+		// Attribute terms - must check before single attribute.
+		if ( preg_match( '/^cocart\/v2\/products\/attributes\/(\d+)\/terms\/(\d+)$/', $route, $matches ) ) {
+			$attribute_id = (int) $matches[1];
+			$term_id      = (int) $matches[2];
+			$attribute    = wc_get_attribute( $attribute_id );
+			if ( $attribute ) {
+				return $this->get_taxonomy_etag_hash( $attribute->slug, $term_id, $request );
+			}
+			return null;
+		}
+		if ( preg_match( '/^cocart\/v2\/products\/attributes\/(\d+)\/terms$/', $route, $matches ) ) {
+			$attribute_id = (int) $matches[1];
+			$attribute    = wc_get_attribute( $attribute_id );
+			if ( $attribute ) {
+				return $this->get_taxonomy_etag_hash( $attribute->slug, null, $request );
+			}
+			return null;
+		}
+
 		// Attributes.
 		if ( preg_match( '/^cocart\/v2\/products\/attributes\/(\d+)$/', $route, $matches ) ) {
-			return $this->get_taxonomy_etag_hash( 'pa_' . $matches[1], (int) $matches[1], $request );
+			$attribute_id = (int) $matches[1];
+			$attribute    = wc_get_attribute( $attribute_id );
+			if ( $attribute ) {
+				return md5( 'cocart_attribute_' . $attribute_id . '_' . $attribute->name . COCART_VERSION );
+			}
+			return null;
 		}
 		if ( preg_match( '/^cocart\/v2\/products\/attributes$/', $route ) ) {
 			// For attribute taxonomies, use wc_get_attribute_taxonomies.
