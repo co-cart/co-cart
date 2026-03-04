@@ -102,7 +102,7 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cocart-core' ), 404 );
 			}
 
-			$session_data = $this->get_items( maybe_unserialize( $cart['cart'] ), $request );
+			$session_data = $this->get_items_in_cart( maybe_unserialize( $cart['cart'] ), $request );
 
 			$response = rest_ensure_response( $session_data );
 
