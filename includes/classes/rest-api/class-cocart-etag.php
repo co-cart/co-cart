@@ -750,16 +750,21 @@ class CoCart_ETag {
 			return $served;
 		}
 
+		// Skip if this is already a 304 Not Modified response (cache HIT handled in check_conditional_request).
+		if ( 304 === $result->get_status() ) {
+			return $served;
+		}
+
 		$route = $request->get_route();
+
+		// Check if route supports ETag.
+		if ( ! $this->route_supports_etag( $route ) ) {
+			return $served;
+		}
 
 		// For product routes: Only GET requests (products are read-only resources).
 		// For cart routes: All methods (GET, POST, PUT, DELETE) because mutations return cart state.
 		if ( $this->is_product_route( $route ) && 'GET' !== $request->get_method() ) {
-			return $served;
-		}
-
-		// Check if route supports ETag.
-		if ( ! $this->route_supports_etag( $route ) ) {
 			return $served;
 		}
 
