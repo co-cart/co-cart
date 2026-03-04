@@ -119,18 +119,19 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since 3.1.0 Introduced.
+	 * @since      3.1.0 Introduced.
+	 * @deprecated 5.0.0 Use CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product() instead.
 	 *
 	 * @param WC_Product $product The product object.
 	 *
-	 * @return int Remaining stock.
+	 * @return int|float|null Remaining stock.
 	 */
 	public static function get_remaining_stock_for_product( $product ) {
-		$reserve_stock = new ReserveStock();
-		$draft_order   = WC()->session->get( 'cocart_draft_order', 0 );
-		$qty_reserved  = $reserve_stock->get_reserved_stock( $product, $draft_order );
+		_deprecated_function( __METHOD__, '5.0.0', 'CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product()' );
 
-		return $product->get_stock_quantity() - $qty_reserved;
+		$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+
+		return $quantity_limits->get_remaining_stock_for_product( $product );
 	} // END get_remaining_stock_for_product()
 
 	/**

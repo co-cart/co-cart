@@ -300,21 +300,22 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
 			'price'          => apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $product ) ), $cart_item, $item_key ),
-			'quantity'       => array(
-				/**
-				 * Filter allows the quantity of the item to change.
-				 *
-				 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param string $item_quantity Item quantity.
-				 * @param string $item_key      The item key generated based on the details of the item.
-				 * @param array  $cart_item     The cart item data.
-				 */
-				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
-				'min_purchase' => $product->get_min_purchase_quantity(),
-				'max_purchase' => $product->get_max_purchase_quantity(),
+			'quantity'       => array_merge(
+				array(
+					/**
+					 * Filter allows the quantity of the item to change.
+					 *
+					 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $item_quantity Item quantity.
+					 * @param string $item_key      The item key generated based on the details of the item.
+					 * @param array  $cart_item     The cart item data.
+					 */
+					'value' => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
+				),
+				( new CoCart_Utilities_Quantity_Limits() )->get_cart_item_quantity_limits( $cart_item )
 			),
 			'totals'         => array(
 				'subtotal'     => cocart_format_money( $cart_item['line_subtotal'] ),

@@ -604,21 +604,22 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
 			'price'          => apply_filters( 'cocart_cart_item_price', $price_function( $product ), $cart_item, $item_key ),
-			'quantity'       => array(
-				/**
-				 * Filter allows the quantity of the item to change.
-				 *
-				 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param string $item_quantity Item quantity.
-				 * @param string $item_key      The item key generated based on the details of the item.
-				 * @param array  $cart_item     The cart item data.
-				 */
-				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $cart_item, $item_key ),
-				'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
-				'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
+			'quantity'       => array_merge(
+				array(
+					/**
+					 * Filter allows the quantity of the item to change.
+					 *
+					 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $item_quantity Item quantity.
+					 * @param string $item_key      The item key generated based on the details of the item.
+					 * @param array  $cart_item     The cart item data.
+					 */
+					'value' => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $cart_item, $item_key ),
+				),
+				( new CoCart_Utilities_Quantity_Limits() )->get_cart_item_quantity_limits( $cart_item )
 			),
 			'totals'         => array(
 				/**
@@ -2582,7 +2583,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
 			if ( $product->managing_stock() && ! $product->backorders_allowed() ) {
-				$qty_remaining = CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product( $product );
+				$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+				$qty_remaining   = $quantity_limits->get_remaining_stock_for_product( $product );
 				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
 
 				if ( $qty_remaining < $qty_in_cart + $quantity ) {

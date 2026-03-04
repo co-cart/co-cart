@@ -146,6 +146,23 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 			$quantity_limits = new CoCart_Utilities_Quantity_Limits();
 
+			if ( null === $request['quantity'] ) {
+				$request['quantity'] = $quantity_limits->get_add_to_cart_limits( $product )['minimum'];
+			}
+
+			// Prevent adding items with zero or negative quantity.
+			if ( $request['quantity'] <= 0 ) {
+				throw new CoCart_Data_Exception(
+					'cocart_invalid_quantity_added',
+					sprintf(
+						/* translators: %s: Product name. */
+						esc_html__( 'You cannot add &quot;%s&quot; with a quantity less than or equal to 0 to the cart.', 'cocart-core' ),
+						esc_html( $product->get_name() )
+					),
+					400
+				);
+			}
+
 			if ( ! $request['container_item'] ) {
 				// Validate quantity before continuing if item is singular and return formatted.
 				$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );

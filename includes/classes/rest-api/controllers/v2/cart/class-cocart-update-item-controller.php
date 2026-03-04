@@ -176,25 +176,12 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 						return $has_stock;
 					}
 
-					// Return error if product is still set to an individual item.
-					if ( $product->is_sold_individually() && $request['quantity'] > 1 ) {
-						$message = sprintf(
-							/* translators: %s Product name. */
-							__( 'You can only have 1 "%s" in your cart.', 'cocart-core' ),
-							$product->get_name()
-						);
+					// Check quantity limits (min, max, step, sold individually).
+					$quantity_limits    = new CoCart_Utilities_Quantity_Limits();
+					$quantity_validation = $quantity_limits->validate_cart_item_quantity( $request['quantity'], $cart_item );
 
-						/**
-						 * Filters message about product not being allowed to increase quantity.
-						 *
-						 * @since 1.0.0 Introduced.
-						 *
-						 * @param string     $message Message.
-						 * @param WC_Product $product The product object.
-						 */
-						$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $product );
-
-						throw new CoCart_Data_Exception( 'cocart_can_not_increase_quantity', $message, 405 );
+					if ( is_wp_error( $quantity_validation ) ) {
+						throw new CoCart_Data_Exception( $quantity_validation->get_error_code(), $quantity_validation->get_error_message(), 400 );
 					}
 				}
 			} else {

@@ -281,10 +281,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 				),
 				'add_to_cart'    => array(
 					'is_purchasable'    => $variation->is_purchasable(),
-					'purchase_quantity' => array(
-						'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $variation ),
-						'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $variation ),
-					),
+					'purchase_quantity' => ( new CoCart_Utilities_Quantity_Limits() )->get_add_to_cart_limits( $variation ),
 					'rest_url'          => $this->add_to_cart_rest_url( $variation, $variation->get_type() ),
 				),
 			);
@@ -608,10 +605,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 				$purchase_quantity = array();
 
 				if ( ! $product->is_type( 'variable' ) && ! $product->is_type( 'external' ) ) {
-					$purchase_quantity = array(
-						'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
-						'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
-					);
+					$purchase_quantity = ( new CoCart_Utilities_Quantity_Limits() )->get_add_to_cart_limits( $product );
 				}
 
 				$data['add_to_cart']['purchase_quantity'] = $purchase_quantity;
