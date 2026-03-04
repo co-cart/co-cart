@@ -616,6 +616,12 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			array( '%s', '%d' ),
 			array( '%s' )
 		);
+
+		// Sync the object cache with the database.
+		$cache_ttl = $cart_expiration - time();
+		if ( $cache_ttl > 0 ) {
+			wp_cache_set( $this->get_cache_prefix() . $cart_key, $this->_data, COCART_CART_CACHE_GROUP, $cache_ttl );
+		}
 	} // END update_cart()
 
 	/**
