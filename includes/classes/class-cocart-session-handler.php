@@ -612,7 +612,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 
 			$cache_duration = $this->get_cache_expiration() - time();
 			if ( 0 < $cache_duration ) {
-				wp_cache_add( $this->get_cache_prefix() . $cart_key, $value, COCART_CART_CACHE_GROUP, $cache_duration );
+				wp_cache_set( $this->get_cache_prefix() . $cart_key, $value, COCART_CART_CACHE_GROUP, $cache_duration );
 			}
 		}
 
