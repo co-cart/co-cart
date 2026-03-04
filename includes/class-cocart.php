@@ -364,6 +364,7 @@ final class CoCart {
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cache-helpers.php';
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-quantity-limits.php';
 
 		// Resolve the API namespace now that Cache_Helpers is available, so that
 		// classes loaded below see the correct namespace.
