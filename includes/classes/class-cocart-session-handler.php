@@ -610,7 +610,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				$value = $default_value;
 			}
 
-			$cache_duration = $this->cart_expiration - time();
+			$cache_duration = $this->get_cache_expiration() - time();
 			if ( 0 < $cache_duration ) {
 				wp_cache_add( $this->get_cache_prefix() . $cart_key, $value, COCART_CART_CACHE_GROUP, $cache_duration );
 			}
@@ -647,11 +647,13 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	public function update_cart( $cart_key ) {
 		global $wpdb;
 
+		$cart_expiration = $this->get_cache_expiration();
+
 		$wpdb->update( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$this->_table,
 			array(
 				'cart_value'  => maybe_serialize( $this->_data ),
-				'cart_expiry' => (int) $this->cart_expiration,
+				'cart_expiry' => (int) $cart_expiration,
 			),
 			array( 'cart_key' => $cart_key ),
 			array( '%s', '%d' ),
@@ -798,6 +800,31 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	public function get_carts_expiration() {
 		return $this->cart_expiration;
 	} // END get_carts_expiration()
+
+	/**
+	 * Returns the appropriate cache expiration timestamp.
+	 *
+	 * On REST API requests, uses $cart_expiration (set by set_cart_expiration()).
+	 * On frontend requests, falls back to $_session_expiration (set by WC_Session_Handler).
+	 * If neither is set, returns a default expiration of 2 days from now.
+	 *
+	 * @access protected
+	 *
+	 * @since 4.9.0 Introduced.
+	 *
+	 * @return int Expiration timestamp.
+	 */
+	protected function get_cache_expiration() {
+		if ( ! empty( $this->cart_expiration ) && $this->cart_expiration > time() ) {
+			return (int) $this->cart_expiration;
+		}
+
+		if ( ! empty( $this->_session_expiration ) && $this->_session_expiration > time() ) {
+			return (int) $this->_session_expiration;
+		}
+
+		return time() + ( 2 * DAY_IN_SECONDS );
+	} // END get_cache_expiration()
 
 	/**
 	 * Update the session expiry timestamp.
