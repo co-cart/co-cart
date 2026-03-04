@@ -314,7 +314,7 @@ class CoCart_ETag {
 			'page'     => $request->get_param( 'page' ) ?? 1,
 			'per_page' => $request->get_param( 'per_page' ) ?? 10,
 			'orderby'  => $request->get_param( 'orderby' ) ?? 'date',
-			'order'    => $request->get_param( 'order' ) ?? 'desc',
+			'order'    => strtoupper( $request->get_param( 'order' ) ?? 'DESC' ),
 			'category' => $request->get_param( 'category' ) ?? '',
 			'tag'      => $request->get_param( 'tag' ) ?? '',
 			'search'   => $request->get_param( 'search' ) ?? '',
