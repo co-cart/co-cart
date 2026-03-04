@@ -501,7 +501,10 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				)
 			);
 
-			wp_cache_set( $this->get_cache_prefix() . $this->cart_key, $this->_data, COCART_CART_CACHE_GROUP, $cart_expiration - time() );
+			$cache_ttl = $cart_expiration - time();
+			if ( $cache_ttl > 0 ) {
+				wp_cache_set( $this->get_cache_prefix() . $this->cart_key, $this->_data, COCART_CART_CACHE_GROUP, $cache_ttl );
+			}
 
 			/**
 			 * Hook: Fires after session data is saved.
