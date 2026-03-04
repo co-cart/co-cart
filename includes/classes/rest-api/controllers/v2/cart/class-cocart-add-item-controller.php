@@ -198,8 +198,6 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				}
 			}
 
-			// $requested_quantity = $request['quantity'];
-
 			/**
 			 * Filters the add to cart handler.
 			 *

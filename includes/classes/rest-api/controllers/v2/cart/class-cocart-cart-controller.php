@@ -1900,7 +1900,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		$this->schema['properties']['items']['items']['properties']['extensions'] += apply_filters( 'cocart_cart_items_extensions_schema', array() );
 
 		return $this->schema;
-	} // END get_public_item_schema()
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for getting the cart.
