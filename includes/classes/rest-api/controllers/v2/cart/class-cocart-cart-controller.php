@@ -1369,9 +1369,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		if ( 'variation' === $product_type ) {
 			$product = wc_get_product( $product->get_parent_id() );
 
-			$product_slug = $product->get_slug();
+			$product_slug = urldecode( $product->get_slug() );
 		} else {
-			$product_slug = $product->get_slug();
+			$product_slug = urldecode( $product->get_slug() );
 		}
 
 		return $product_slug;

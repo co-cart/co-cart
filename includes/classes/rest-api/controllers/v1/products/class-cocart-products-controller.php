@@ -245,18 +245,18 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function prepare_links( $product ) {
 		$links = array(
 			'self'       => array(
-				'permalink' => get_permalink( $product->get_id() ),
+				'permalink' => urldecode( get_permalink( $product->get_id() ) ),
 				'href'      => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $product->get_id() ) ),
 			),
 			'collection' => array(
-				'permalink' => wc_get_page_permalink( 'shop' ),
+				'permalink' => urldecode( wc_get_page_permalink( 'shop' ) ),
 				'href'      => rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ),
 			),
 		);
 
 		if ( $product->get_parent_id() ) {
 			$links['parent_product'] = array(
-				'permalink' => get_permalink( $product->get_parent_id() ),
+				'permalink' => urldecode( get_permalink( $product->get_parent_id() ) ),
 				'href'      => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product->get_parent_id() ) ),
 			);
 		}
@@ -267,7 +267,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 			foreach ( $variations as $variation_product ) {
 				$links['variations'][ $variation_product ] = array(
-					'permalink' => get_permalink( $variation_product ),
+					'permalink' => urldecode( get_permalink( $variation_product ) ),
 					'href'      => rest_url( sprintf( '/%s/products/%d/variations/%d', $this->namespace, $product->get_id(), $variation_product ) ),
 				);
 			}
@@ -755,7 +755,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$terms[] = array(
 				'id'   => $term->term_id,
 				'name' => $term->name,
-				'slug' => $term->slug,
+				'slug' => urldecode( $term->slug ),
 			);
 		}
 
@@ -1031,8 +1031,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$data = array(
 			'id'                    => $product->get_id(),
 			'name'                  => $product->get_name( 'view' ),
-			'slug'                  => $product->get_slug( 'view' ),
-			'permalink'             => $product->get_permalink(),
+			'slug'                  => urldecode( $product->get_slug( 'view' ) ),
+			'permalink'             => urldecode( $product->get_permalink() ),
 			'date_created'          => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
 			'date_created_gmt'      => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
 			'date_modified'         => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),
@@ -1119,8 +1119,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$data = array(
 			'id'                    => $product->get_id(),
 			'name'                  => $product->get_name( 'view' ),
-			'slug'                  => $product->get_slug( 'view' ),
-			'permalink'             => $product->get_permalink(),
+			'slug'                  => urldecode( $product->get_slug( 'view' ) ),
+			'permalink'             => urldecode( $product->get_permalink() ),
 			'date_created'          => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
 			'date_created_gmt'      => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
 			'date_modified'         => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),

@@ -493,8 +493,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			'parent_id'          => $product->get_parent_id( 'view' ),
 			'name'               => $product->get_name( 'view' ),
 			'type'               => $type,
-			'slug'               => $product->get_slug( 'view' ),
-			'permalink'          => $product->get_permalink(),
+			'slug'               => urldecode( $product->get_slug( 'view' ) ),
+			'permalink'          => urldecode( $product->get_permalink() ),
 			'sku'                => $product->get_sku( 'view' ),
 			'description'        => $product->get_description( 'view' ),
 			'short_description'  => $product->get_short_description( 'view' ),
@@ -645,7 +645,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$terms[] = array(
 				'id'       => $term->term_id,
 				'name'     => $term->name,
-				'slug'     => $term->slug,
+				'slug'     => urldecode( $term->slug ),
 				'rest_url' => $this->product_rest_url( $term->term_id, $taxonomy ),
 			);
 		}
@@ -678,7 +678,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			);
 
 			foreach ( $terms as $term ) {
-				$attributes[ $term->slug ] = $term->name;
+				$attributes[ urldecode( $term->slug ) ] = $term->name;
 			}
 		} elseif ( isset( $attribute['value'] ) ) {
 			$options = explode( '|', $attribute['value'] );
@@ -727,7 +727,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 					$option_term = get_term_by( 'slug', $attribute, $name );
 
 					// Set the option accordingly.
-					$option = $option_term && ! is_wp_error( $option_term ) ? array( $option_term->slug => $option_term->name ) : $option;
+					$option = $option_term && ! is_wp_error( $option_term ) ? array( urldecode( $option_term->slug ) => $option_term->name ) : $option;
 				}
 
 				$attributes[ 'attribute_' . $name ] = array(
@@ -794,7 +794,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 					$connected_products[] = array(
 						'id'          => $id,
 						'name'        => $_product->get_name( 'view' ),
-						'permalink'   => $_product->get_permalink(),
+						'permalink'   => urldecode( $_product->get_permalink() ),
 						'price'       => cocart_prepare_money_response( $_product->get_price( 'view' ), wc_get_price_decimals() ),
 						'add_to_cart' => array(
 							'text'        => $_product->add_to_cart_text(),
