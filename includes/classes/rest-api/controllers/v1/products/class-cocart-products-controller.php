@@ -228,7 +228,7 @@ class CoCart_Products_Controller extends CoCart_REST_Products_Controller {
 			$terms[] = array(
 				'id'   => $term->term_id,
 				'name' => $term->name,
-				'slug' => $term->slug,
+				'slug' => urldecode( $term->slug ),
 			);
 		}
 
@@ -407,8 +407,8 @@ class CoCart_Products_Controller extends CoCart_REST_Products_Controller {
 		$data = array(
 			'id'                    => $product->get_id(),
 			'name'                  => $product->get_name( 'view' ),
-			'slug'                  => $product->get_slug( 'view' ),
-			'permalink'             => $product->get_permalink(),
+			'slug'                  => urldecode( $product->get_slug( 'view' ) ),
+			'permalink'             => urldecode( $product->get_permalink() ),
 			'date_created'          => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
 			'date_created_gmt'      => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
 			'date_modified'         => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),
@@ -495,8 +495,8 @@ class CoCart_Products_Controller extends CoCart_REST_Products_Controller {
 		$data = array(
 			'id'                    => $product->get_id(),
 			'name'                  => $product->get_name( 'view' ),
-			'slug'                  => $product->get_slug( 'view' ),
-			'permalink'             => $product->get_permalink(),
+			'slug'                  => urldecode( $product->get_slug( 'view' ) ),
+			'permalink'             => urldecode( $product->get_permalink() ),
 			'date_created'          => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
 			'date_created_gmt'      => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
 			'date_modified'         => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),

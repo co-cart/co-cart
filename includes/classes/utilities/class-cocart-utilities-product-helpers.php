@@ -397,9 +397,9 @@ class CoCart_Utilities_Product_Helpers {
 		if ( 'variation' === $product_type ) {
 			$product = wc_get_product( $product->get_parent_id() );
 
-			$product_slug = $product->get_slug();
+			$product_slug = urldecode( $product->get_slug() );
 		} else {
-			$product_slug = $product->get_slug();
+			$product_slug = urldecode( $product->get_slug() );
 		}
 	} // END get_product_slug()
 
