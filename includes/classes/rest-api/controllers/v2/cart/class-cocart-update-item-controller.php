@@ -387,8 +387,7 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					wc_add_notice( $status_message, 'success' );
 				}
 
-				$response = rest_ensure_response( $response );
-				$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+				$response = $this->get_items( $request );
 
 				return $response;
 			}
