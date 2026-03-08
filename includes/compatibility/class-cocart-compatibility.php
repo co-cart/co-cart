@@ -32,7 +32,6 @@ if ( ! class_exists( 'CoCart_Compatibility' ) ) {
 		 * @access public
 		 */
 		public function include_compatibility() {
-			include_once __DIR__ . '/modules/class-cocart-wc-brands.php'; // Brands.
 			include_once __DIR__ . '/modules/class-cocart-advanced-shipping-packages.php'; // Advanced Shipping Packages.
 			include_once __DIR__ . '/modules/class-cocart-free-gift-coupons.php'; // Free Gift Coupons.
 		}
