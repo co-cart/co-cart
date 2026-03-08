@@ -253,10 +253,16 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
-	 * @since 5.0.0 Calculate shipping was removed here because it's called already by calculate_totals.
+	 * @since 5.0.0 Calculate shipping was removed here because it's called already by `calculate_totals`.
+	 *              Added `$cart` parameter to allow passing in the cart instance if already retrieved to avoid stale cart data.
+	 *
+	 * @param WC_Cart|null $cart The cart object. If null then it will get a cart instance.
 	 */
-	public function calculate_totals() {
-		$cart = $this->get_cart_instance();
+	public function calculate_totals( $cart = null ) {
+		if ( is_null( $cart ) ) {
+			$cart = $this->get_cart_instance();
+		}
+
 		$cart->calculate_fees();
 		$cart->calculate_totals();
 	} // END calculate_totals()
