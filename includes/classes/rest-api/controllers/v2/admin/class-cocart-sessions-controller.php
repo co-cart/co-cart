@@ -165,7 +165,7 @@ class CoCart_REST_Sessions_V2_Controller extends CoCart_REST_Controller {
 				);
 			}
 
-			return CoCart_Response::get_response( $sessions, $this->namespace, $this->rest_base );
+			return rest_ensure_response( $sessions );
 		} catch ( \CoCart_Data_Exception $e ) {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}

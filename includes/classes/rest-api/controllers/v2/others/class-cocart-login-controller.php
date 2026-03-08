@@ -299,7 +299,7 @@ class CoCart_REST_Login_V2_Controller extends CoCart_REST_Controller {
 			$response['avatar_urls'] = rest_get_avatar_urls( trim( $current_user->user_email ) );
 		}
 
-		return CoCart_Response::get_response( $response, $this->namespace, $this->rest_base );
+		return rest_ensure_response( $response );
 	} // END login()
 
 	/**
