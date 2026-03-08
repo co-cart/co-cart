@@ -45,6 +45,9 @@ class CoCart_WooCommerce {
 		// Validate cart session requested.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'validate_cart_requested' ), 0 );
 
+		// Disable WooCommerce persistent cart.
+		add_filter( 'woocommerce_persistent_cart_enabled', '__return_false' );
+
 		// Delete user data.
 		add_action( 'delete_user', array( $this, 'delete_user_data' ) );
 
