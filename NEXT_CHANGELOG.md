@@ -2,7 +2,7 @@
 
 📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
-> Documentation for breaking changes and new features can be found at https://docs.cocartapi.com - once loaded, select "core-v5" from the top left dropdown menu.
+> Documentation for breaking changes and new features can be found at https://docs.cocartapi.com - once loaded, select "preview" from the top left dropdown menu.
 
 ## What's new?
 
@@ -15,9 +15,9 @@
 * REST API: New endpoint `cocart/v2/products/reviews/mine` to return product reviews only by the current user. Requires authentication.
 * REST API: Product variations in cart can now be updated using the same update item endpoint `cocart/v2/cart/item/{item_key}`.
 * REST API: New header returns for Cart API `Cart-Hash`. This can help your applications identify if anything has changed in the cart before using the data in the response.
-* REST API: New POST method for the cart to create an empty cart for guest customers.
+* REST API: New POST method for the cart to create an empty cart for guest customers. (Recommend if not using the available SDK's)
 
-> Developer note: Cart creation is normally done the moment the first item is added to the cart as it has something to save to session. But some users are confused with creating a cart for guest customers. This route can help create an empty cart, storing just the cart key and return it in the response. See the quick start guide in the documentation for more information on how to use the cart key for a guest customer.
+> Developer note: Cart creation is normally done the moment the first item is added to the cart as it has data to save to session. But some users are confused with creating a cart for guest customers. This route can help create an empty cart, storing just the cart key and return it in the response. See the quick start guide in the documentation for more information on how to use the cart key for a guest customer.
 
 * Plugin: New WP-CLI command `wp cocart status` shows the status of carts in session.
 * Plugin: New WP-CLI command `wp cocart sessions` shows the details of each session and allows you to check if they exist.
@@ -39,6 +39,8 @@
 * REST API: Variation data for items is moved above totals when fetching the cart.
 * REST API: The quantity parameter when adding an item now accepts both a `numeric` or an `array` value allowing to extend support for other product types that are a container of other grouped products.
 * REST API: When updating an item in cart, the quantity parameter is no longer required. Allowing to change just the variation of a variable product to keep the current quantity already requested.
+* REST API: Cart item `quantity` object now returns `minimum`, `maximum`, `multiple_of` and `editable` instead of `min_purchase` and `max_purchase`. These values are stock-aware and respect WooCommerce quantity input step settings.
+* REST API: Product `purchase_quantity` object now returns `minimum`, `maximum` and `multiple_of` instead of `min_purchase` and `max_purchase`.
 * REST API: Product Categories changed `image_src` from a single thumbnail to return all image sizes available. Schema updated to match.
 * REST API: Product reviews was updated to support better query parameters. Affects both API versions. Schema updated to match.
 * REST API: The response class `CoCart_Response` is deprecated. New utility response classes have been created for better utilization.
@@ -50,6 +52,9 @@ The following returned headers have also been renamed. Better for security reaso
 | Previous Header            | New Header           |
 | -------------------------- | -------------------- |
 | CoCart-API-Cart-Key        | Cart-Key             |
+
+> Headers below only show if WP_DEBUG is true.
+
 | CoCart-Timestamp           | Timestamp            |
 | CoCart-API-Cart-Expiring   | Cart-Expiring        |
 | CoCart-API-Cart-Expiration | Cart-Expiration      |
@@ -71,13 +76,14 @@ The following action hooks have changed.
 
 * REST API: The following endpoints for Cart API v2: `cart/add-item`, `cart/add-items`, `cart/calculate` now extend `CoCart_REST_Cart_V2_Controller` instead of the Cart API v1 controller.
 
-> Developer note: This allows us to deprecate API v1 in the future. Still working on disconnecting Products API v2 from v1.
+> Developer note: This allows us to deprecate API v1 in the future.
 
 * REST API: New product reviews posted are set to status `hold` by default.
 * WordPress Dashboard: Style adjustments.
 
 ## Improvements
 
+* Session: Disabled WooCommerce persistent cart preventing stale user meta from overriding cart data.
 * REST API: Redone the process of adding items to the cart for a smoother flow, filtering, validation and compatibility with any WooCommerce extension.
 * REST API: Only registers CoCart endpoints if requesting it. Helps performance in backend such as when using Gutenberg/Block editor as it loads many API's in the background.
 * REST API: Now hides routes from the index of controllers and returns as an error for added security.
@@ -86,8 +92,9 @@ The following action hooks have changed.
 * REST API: Prevent having to check cart validity, stock and coupons on most cart endpoints other than when getting the cart to help with performance.
 * REST API: Optimized how many times we calculate the totals when adding items to the cart to help with performance.
 * REST API: Optimized shipping data, added validation and support for recurring carts for subscriptions.
+* REST API: Rewritten the products and cart response to allow better field filtering with WordPress REST API global parameter `_fields` with nesting support.
 * REST API: Fallback to a wildcard if the origin has yet to be determined for CORS.
-* REST API: Override sale and regular price too so the set price is what is shown even if there prices are originally lower.
+* REST API: Override sale and regular price too so the set price is what is shown even if the prices are originally lower.
 * REST API: Improved updating customer details allowing the use of custom checkout fields and any that are required.
 * REST API: Meta data is fetched for any additional checkout fields registered, if any.
 * Feature: Load cart from session now supports registered customers.
@@ -132,6 +139,9 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_rest_should_load_namespace` to determine whether a namespace should be loaded.
 * Introduced new filter `cocart_products_allowed_meta_keys` allows you to specify the allowed meta keys for the product.
 * Introduced new filter `cocart_product_insert_review_status` allows you to change the status to `approved`. Other values set via filter will automatically reset to `hold`.
+* Introduced new filter `cocart_product_quantity_editable` allows you to control whether a cart item's quantity can be changed.
+* Introduced new filter `cocart_quantity_multiple_of` allows you to control the quantity step (multiple of) for a product.
+* Introduced new filter `cocart_quantity_limit` allows you to adjust the maximum quantity limit for a product after stock considerations.
 
 > Note: List other filters that have been changed here.
 
@@ -155,6 +165,8 @@ Simply provide these two parameters with the data point values on any page and t
 #### Deprecation's
 
 * Function `cocart_prepare_money_response()` is replaced with function `cocart_format_money()`.
+* Abstract class `CoCart_REST_Terms_Controller` replaced with abstract class `CoCart_REST_Taxonomy_Terms_Controller` instead.
+* `CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product()` is replaced with `CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product()`.
 
 The following filters are no longer used:
 
@@ -166,3 +178,8 @@ The following filters are no longer used:
 * `cocart_products_ignore_private_meta_keys`
 * `cocart_return_default_response`
 * `cocart_{$endpoint}_response`
+* `cocart_add_to_cart_quantity`
+
+The following hooks are no longer used:
+
+* `cocart_add_to_cart`
