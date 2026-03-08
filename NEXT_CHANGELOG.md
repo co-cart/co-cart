@@ -55,6 +55,8 @@ The following returned headers have also been renamed. Better for security reaso
 
 > Headers below only show if WP_DEBUG is true.
 
+| Previous Header            | New Header           |
+| -------------------------- | -------------------- |
 | CoCart-Timestamp           | Timestamp            |
 | CoCart-API-Cart-Expiring   | Cart-Expiring        |
 | CoCart-API-Cart-Expiration | Cart-Expiration      |
