@@ -43,13 +43,15 @@ abstract class CoCart_REST_Controller extends WP_REST_Controller {
 	/**
 	 * Get the path regex for this REST route.
 	 *
+	 * This method must be overridden by child classes to provide the specific path regex for their route.
+	 *
 	 * @return string Path regex.
 	 */
 	public function get_path_regex() {
 		_doing_it_wrong(
 			'CoCart_REST_Controller::get_path_regex',
 			/* translators: %s: get_path_regex() */
-			sprintf( __( "Method '%s' must be overridden.", 'cocart-core' ), __METHOD__ ),
+			sprintf( esc_html__( "Method '%s' must be overridden.", 'cocart-core' ), __METHOD__ ),
 			'5.0.0'
 		);
 	} // END get_path_regex()
@@ -85,7 +87,7 @@ abstract class CoCart_REST_Controller extends WP_REST_Controller {
 		_doing_it_wrong(
 			'CoCart_REST_Controller::get_args',
 			/* translators: %s: get_args() */
-			sprintf( __( "Method '%s' must be overridden.", 'cocart-core' ), __METHOD__ ),
+			sprintf( esc_html__( "Method '%s' must be overridden.", 'cocart-core' ), __METHOD__ ),
 			'5.0.0'
 		);
 
@@ -119,7 +121,7 @@ abstract class CoCart_REST_Controller extends WP_REST_Controller {
 		_doing_it_wrong(
 			'CoCart_REST_Controller::check_permission',
 			/* translators: %s: check_permission() */
-			sprintf( __( "Method '%s' must be overridden.", 'cocart-core' ), __METHOD__ ),
+			sprintf( esc_html__( "Method '%s' must be overridden.", 'cocart-core' ), __METHOD__ ),
 			'5.0.0'
 		);
 

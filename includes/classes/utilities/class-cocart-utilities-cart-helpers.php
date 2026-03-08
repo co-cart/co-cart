@@ -119,7 +119,8 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @static
 	 *
-	 * @since      3.1.0 Introduced.
+	 * @since 3.1.0 Introduced.
+	 *
 	 * @deprecated 5.0.0 Use CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product() instead.
 	 *
 	 * @param WC_Product $product The product object.
@@ -127,7 +128,7 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @return int|float|null Remaining stock.
 	 */
 	public static function get_remaining_stock_for_product( $product ) {
-		_deprecated_function( __METHOD__, '5.0.0', 'CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product()' );
+		cocart_deprecated_function( 'CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product', '5.0.0', 'CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product()' );
 
 		$quantity_limits = new CoCart_Utilities_Quantity_Limits();
 
@@ -993,38 +994,6 @@ class CoCart_Utilities_Cart_Helpers {
 	// ** Set Data Functions **//
 
 	/**
-	 * Set cart item quantity.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
-	 * @return int|float $quantity The cart item quantity.
-	 */
-	public static function set_cart_item_quantity( $request ) {
-		/**
-		 * Filters the quantity for specified products.
-		 *
-		 * @since 2.1.2 Introduced.
-		 * @since 5.0.0 Added the request object as a parameter.
-		 *
-		 * @param int|float       $quantity     The original quantity of the item.
-		 * @param int             $product_id   The product ID.
-		 * @param int             $variation_id The variation ID.
-		 * @param array           $variation    The variation data.
-		 * @param array           $item_data    The cart item data.
-		 * @param WP_REST_Request $request      The request object.
-		 */
-		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $request['quantity'], $request['id'], $request['variation_id'], $request['variation'], $request['item_data'], $request );
-
-		return $quantity;
-	} // END set_cart_item_quantity()
-
-	/**
 	 * Set quantity for sold individual products.
 	 *
 	 * @access public
@@ -1247,11 +1216,11 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @since 2.1.0 Introduced.
 	 * @since 5.0.0 Replaced `$variation_id` and `$variation` params with `$request`.
 	 *
-	 * @param array      $request                     Add to cart request params.
-	 * @param WC_Product $product                     The product object.
-	 * @param array      $variable_product_attributes Product attributes we're expecting. - optional
+	 * @param WP_REST_Request $request The request object.
+	 * @param WC_Product      $product                     The product object.
+	 * @param array           $variable_product_attributes Product attributes we're expecting. - optional
 	 *
-	 * @return array Updated request array.
+	 * @return array Updated request object.
 	 */
 	public static function validate_variable_product( $request, $product, $variable_product_attributes = array() ) {
 		try {

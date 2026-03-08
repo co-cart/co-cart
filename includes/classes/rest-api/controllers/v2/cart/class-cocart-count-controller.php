@@ -136,7 +136,7 @@ class CoCart_REST_Count_Items_V2_Controller extends CoCart_REST_Cart_V2_Controll
 					throw new CoCart_Data_Exception( 'cocart_no_items_in_cart', $message, 404 );
 				} else {
 					$count = sprintf(
-						/* Translators: %d = Number of items. */
+						/* translators: %d = Number of items. */
 						__( 'There are %d items in the cart.', 'cocart-core' ),
 						$count
 					);

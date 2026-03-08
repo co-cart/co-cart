@@ -2585,7 +2585,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			if ( $product->managing_stock() && ! $product->backorders_allowed() ) {
 				$quantity_limits = new CoCart_Utilities_Quantity_Limits();
 				$qty_remaining   = $quantity_limits->get_remaining_stock_for_product( $product );
-				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
+				$qty_in_cart     = $this->get_product_quantity_in_cart( $product );
 
 				if ( $qty_remaining < $qty_in_cart + $quantity ) {
 					$message = sprintf(

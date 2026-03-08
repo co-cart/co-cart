@@ -27,7 +27,7 @@ class CoCart_ETag {
 	 * @access public
 	 */
 	public function __construct() {
-		// Check that we are only authenticating for our API.
+		// Check that we are only requesting for our API.
 		if ( ! CoCart::is_rest_api_request() ) {
 			return;
 		}

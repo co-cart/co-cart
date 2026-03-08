@@ -517,12 +517,9 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 * @since 3.0.0 Introduced.
 	 * @since 5.0.0 Rewritten to support WooCommerce better.
 	 *
-	 * @param int        $product_id     The product ID.
-	 * @param int        $quantity       The item quantity.
-	 * @param int        $variation_id   The variation ID.
-	 * @param array      $variation      The variation attributes.
-	 * @param array      $cart_item_data The cart item data
-	 * @param WC_Product $product_data   The product object.
+	 * @param WP_REST_Request $request The request object.
+	 * @param WC_Product      $product The product object.
+	 * @param WC_Cart         $cart    The cart object.
 	 *
 	 * @return string|boolean $item_key Cart item key or false if error.
 	 */
