@@ -107,7 +107,18 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			add_action( 'wp_logout', array( $this, 'destroy_cart' ) );
 		} else {
 			$this->cart_source = 'woocommerce';
+
+			// Set cart key to user ID before parent init so get_session_data() loads from the correct key.
+			if ( is_user_logged_in() ) {
+				$this->set_cart_key( strval( get_current_user_id() ) );
+			}
+
 			parent::init();
+
+			// Sync cart key with the customer ID set by parent init (handles cookie-based guest sessions).
+			if ( ! empty( $this->_customer_id ) ) {
+				$this->set_cart_key( $this->_customer_id );
+			}
 		}
 	} // END init()
 
@@ -420,7 +431,9 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @return array
 	 */
 	public function get_session_data() {
-		return $this->has_session() ? (array) $this->get_session( $this->cart_key, array() ) : array();
+		$key = ! empty( $this->cart_key ) ? $this->cart_key : $this->_customer_id;
+
+		return $this->has_session() ? (array) $this->get_session( $key, array() ) : array();
 	}
 
 	/**
