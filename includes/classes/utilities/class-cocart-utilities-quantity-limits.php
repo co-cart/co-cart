@@ -182,6 +182,48 @@ class CoCart_Utilities_Quantity_Limits {
 	} // END normalize_cart_item_quantity()
 
 	/**
+	 * Validate and format a quantity for a product or cart item.
+	 *
+	 * Single entry point for quantity validation. Performs a numeric check,
+	 * then runs full limit validation (minimum, maximum, step, sold individually).
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param int|float         $quantity Quantity to validate.
+	 * @param \WC_Product|array $context  A WC_Product (for new items) or a cart_item array (for existing items).
+	 *
+	 * @return int|float|\WP_Error The validated quantity via wc_stock_amount(), or WP_Error on failure.
+	 */
+	public function validate_quantity( $quantity, $context ) {
+		if ( ! is_numeric( $quantity ) ) {
+			return new \WP_Error(
+				'cocart_quantity_not_numeric',
+				__( 'Quantity must be a numeric value!', 'cocart-core' ),
+				array( 'status' => 405 )
+			);
+		}
+
+		// Build a synthetic cart_item if only a product was provided.
+		if ( $context instanceof \WC_Product ) {
+			$cart_item = array( 'data' => $context );
+		} else {
+			$cart_item = $context;
+		}
+
+		$quantity = wc_stock_amount( $quantity );
+
+		$result = $this->validate_cart_item_quantity( $quantity, $cart_item );
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		return $quantity;
+	} // END validate_quantity()
+
+	/**
 	 * Check that a given quantity is valid according to any limits in place.
 	 *
 	 * @access public

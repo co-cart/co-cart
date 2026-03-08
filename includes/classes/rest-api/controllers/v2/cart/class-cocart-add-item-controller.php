@@ -164,8 +164,9 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			}
 
 			if ( ! $request['container_item'] ) {
-				// Validate quantity before continuing if item is singular and return formatted.
-				$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );
+				// Validate the normalized quantity against limits.
+				$requested['quantity'] = $quantity_limits->validate_quantity( $requested['quantity'], $product );
+
 
 				// Update quantity for item already in cart.
 				if ( $existing_item_key ) {
@@ -389,11 +390,13 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					// The product we are attempting to add to the cart.
 					$product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $request );
 
-					$quantity            = wc_stock_amount( $quantity );
-					$request['quantity'] = $quantity; // Override the request quantity to the quantity of the item in group.
+					// Validate and format quantity using consolidated quantity limits.
+					$grouped_quantity_limits = new CoCart_Utilities_Quantity_Limits();
+					$request['quantity']     = $grouped_quantity_limits->validate_quantity( $request['quantity'], $product );
 
-					// Validate quantity before continuing if item is singular and return formatted.
-					$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );
+					if ( is_wp_error( $request['quantity'] ) ) {
+						return $request['quantity'];
+					}
 
 					if ( $quantity <= 0 ) {
 						continue;

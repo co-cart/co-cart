@@ -2768,7 +2768,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
-	 * @see CoCart_Utilities_Cart_Helpers::validate_quantity()
+	 * @see CoCart_Utilities_Quantity_Limits::validate_quantity()
 	 *
 	 * @param int|float  $quantity The quantity to validate.
 	 * @param WC_Product $product  The product object.
@@ -2776,9 +2776,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 * @return int|float|\WP_Error
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '5.0.0', 'CoCart_Utilities_Cart_Helpers::validate_quantity' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '5.0.0', 'CoCart_Utilities_Quantity_Limits::validate_quantity' );
 
-		return CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product );
+		$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+
+		return $quantity_limits->validate_quantity( $quantity, $product );
 	} // END validate_quantity()
 
 	/**

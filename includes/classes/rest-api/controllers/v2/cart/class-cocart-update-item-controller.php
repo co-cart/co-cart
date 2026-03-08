@@ -161,7 +161,10 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			// Are we changing the quantity of said item?
 			if ( ! is_null( $request['quantity'] ) ) {
-				$request['quantity'] = (int) CoCart_Utilities_Cart_Helpers::validate_quantity( wc_stock_amount( wp_unslash( $request['quantity'] ) ), $product );
+				$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+
+				// Validate the normalized quantity against limits.
+				$requested['quantity'] = $quantity_limits->validate_quantity( $requested['quantity'], $cart_item );
 
 				// If validation returned an error return error response.
 				if ( is_wp_error( $request['quantity'] ) ) {
