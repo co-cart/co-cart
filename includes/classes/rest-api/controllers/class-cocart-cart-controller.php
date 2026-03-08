@@ -286,33 +286,30 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 *
 	 * @since 5.0.0 Introduced.
 	 *
-	 * @param array $request Add to cart request params.
+	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return array Updated request array.
+	 * @return array Updated request object.
 	 */
 	protected function filter_request_data( $request ) {
-		$request['quantity']       = rest_sanitize_quantity_arg( $request['quantity'] );
-		$request['variation_id']   = 0;
-		$request['container_item'] = false; // By default an item is individual not a container of many.
+		$request->set_param( 'quantity', rest_sanitize_quantity_arg( $request['quantity'] ) );
+		$request->set_param( 'variation_id', 0 );
+
+		// By default an item is individual not a container of many. If the quantity parameter is an array then we assume they are a list of items bundled together.
+		$request->set_param( 'container_item', is_array( $request['quantity'] ) ? true : false );
 
 		$product = wc_get_product( $request['id'] );
 
 		if ( $product->is_type( 'variation' ) ) {
-			$request['id']           = $product->get_parent_id();
-			$request['variation_id'] = $product->get_id();
+			$request->set_param( 'id', $product->get_parent_id() );
+			$request->set_param( 'variation_id', $product->get_id() );
 		}
 
 		// Set cart item data - maybe added by other plugins.
-		$request['item_data'] = CoCart_Utilities_Cart_Helpers::set_cart_item_data( $request );
+		$request->set_param( 'item_data', CoCart_Utilities_Cart_Helpers::set_cart_item_data( $request ) );
 
 		// Validates if item is sold individually.
 		if ( $product->is_sold_individually() ) {
-			$request['quantity'] = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity_sold_individually( $request );
-		}
-
-		// If the quantity parameter is an array then we assume they are a list of items bundled together.
-		if ( is_array( $request['quantity'] ) ) {
-			$request['container_item'] = true;
+			$request->set_param( 'quantity', CoCart_Utilities_Cart_Helpers::set_cart_item_quantity_sold_individually( $request ) );
 		}
 
 		return $request;
@@ -327,24 +324,25 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 *
 	 * @since 5.0.0 Introduced.
 	 *
-	 * @param array $request Add to cart request params.
+	 * @param WP_REST_Request $request The request object.
+	 * @param WC_Product      $product The product object.
 	 *
-	 * @return array Updated request array.
+	 * @return array Updated request object.
 	 */
 	protected function parse_variation_data( $request, $product ) {
 		// Remove variation request if not needed.
 		if ( ! $product->is_type( array( 'variation', 'variable' ) ) ) {
-			$request['variation'] = array();
+			$request->set_param( 'variation', array() );
 			return $request;
 		}
 
 		// Flatten data and format posted values.
 		$variable_product_attributes = CoCart_Utilities_Cart_Helpers::get_variable_product_attributes( $product );
-		$request['variation']        = $this->sanitize_variation_data( $request['variation'], $variable_product_attributes );
+		$request->set_param( 'variation', $this->sanitize_variation_data( $request['variation'], $variable_product_attributes ) );
 
 		// If we have a parent product, find the variation ID.
 		if ( $product->is_type( 'variable' ) ) {
-			$request['id'] = CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $request, $product );
+			$request->set_param( 'id', CoCart_Utilities_Product_Helpers::get_variation_id_from_variation_data( $request, $product ) );
 		}
 
 		$request = CoCart_Utilities_Cart_Helpers::validate_variable_product( $request, $product, $variable_product_attributes );
