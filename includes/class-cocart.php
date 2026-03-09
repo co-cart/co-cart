@@ -297,7 +297,6 @@ final class CoCart {
 		// REST API functions.
 		include_once __DIR__ . '/cocart-rest-functions.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-authentication.php';
-		require_once __DIR__ . '/classes/rest-api/class-cocart-etag.php';
 
 		// Utilities.
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
@@ -465,6 +464,7 @@ final class CoCart {
 	 */
 	public static function load_rest_api() {
 		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-etag.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-extension.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-response.php';
