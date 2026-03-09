@@ -249,16 +249,17 @@ class CoCart_ETag {
 	protected function get_single_product_etag_hash( $product_id ) {
 		global $wpdb;
 
-		$lookup_table = esc_sql( $wpdb->prefix . 'wc_product_meta_lookup' );
+		$lookup_table = $wpdb->prefix . 'wc_product_meta_lookup';
 
 		// Get product data from posts and lookup table in a single query.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$product_data = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT p.post_modified, l.min_price, l.max_price, l.stock_quantity, l.stock_status, l.onsale
 				FROM {$wpdb->posts} p
-				LEFT JOIN {$lookup_table} l ON p.ID = l.product_id
+				LEFT JOIN %i l ON p.ID = l.product_id
 				WHERE p.ID = %d AND p.post_type IN ('product', 'product_variation') AND p.post_status = 'publish'",
+				$lookup_table,
 				$product_id
 			)
 		);
