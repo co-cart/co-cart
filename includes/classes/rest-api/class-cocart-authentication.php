@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.6.0 Introduced.
- * @version 4.8.0
+ * @version 4.9.0
  */
 
 // Exit if accessed directly.
@@ -48,7 +48,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @var stdClass
+		 * @var WP_User
 		 */
 		protected $user = null;
 
@@ -84,11 +84,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @ignore Function ignored when parsed into Code Reference.
 		 */
 		public function __construct() {
-			// Check that we are only authenticating for our API.
-			if ( ! CoCart::is_rest_api_request() ) {
-				return;
-			}
-
 			// Authenticate user.
 			add_filter( 'determine_current_user', array( $this, 'authenticate' ) );
 			add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
@@ -274,8 +269,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return int|false
 		 */
 		public function authenticate( $user_id ) {
-			// Do not authenticate twice.
-			if ( ! empty( $user_id ) ) {
+			// Do not authenticate twice and check if is a request to our endpoint.
+			if ( ! empty( $user_id ) || ! CoCart::is_rest_api_request() ) {
 				return $user_id;
 			}
 
