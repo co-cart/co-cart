@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin
  * @since   2.3.0 Introduced.
- * @version 4.3.7
+ * @version 4.9.0
  * @license GPL-2.0+
  */
 
@@ -50,7 +50,6 @@ class CoCart_WC_Admin_Notes {
 		}
 
 		/*include_once __DIR__ . '/notes/class-cocart-wc-admin-note-do-with-products.php';*/
-		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-help-improve.php';
 		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-need-help.php';
 		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-thanks-install.php';
 		include_once __DIR__ . '/notes/class-cocart-wc-admin-note-upgrade.php';
