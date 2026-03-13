@@ -500,13 +500,12 @@ final class CoCart {
 	/**
 	 * Returns true if we are making a REST API request for CoCart.
 	 *
-	 * @todo: replace this function once core WP function is available: https://core.trac.wordpress.org/ticket/42061.
-	 *
 	 * @access public
 	 *
 	 * @static
 	 *
 	 * @since 2.1.0 Introduced.
+	 * @since 4.2.0 Moved to main class.
 	 *
 	 * @return bool
 	 */
