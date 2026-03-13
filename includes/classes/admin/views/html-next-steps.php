@@ -131,7 +131,7 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 					);
 					?>
 					</p>
-					<a class="button cocart-button-alt" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ) ); ?>" target="_blank" role="button"><?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?></a>
+					<a class="button cocart-button-alt" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_COMMUNITY_URL ) ) ) ); ?>" target="_blank" role="button"><?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?></a>
 				</div>
 				<?php
 				// Only show upgrade option if neither CoCart Plus, Pro or above is found.
