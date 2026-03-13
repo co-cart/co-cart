@@ -44,7 +44,20 @@ final class CoCart {
 	public static $db_version = '4.3.23';
 
 	/**
-	 * Required WordPress Version
+	 * Tested up to WordPress version.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 4.9.0 Introduced.
+	 *
+	 * @var string
+	 */
+	public static $tested_up_to_wp = '6.9';
+
+	/**
+	 * Required WordPress version.
 	 *
 	 * @access public
 	 *
@@ -57,7 +70,7 @@ final class CoCart {
 	public static $required_wp = '6.3';
 
 	/**
-	 * Required WooCommerce Version
+	 * Required WooCommerce version.
 	 *
 	 * @access public
 	 *
@@ -70,7 +83,7 @@ final class CoCart {
 	public static $required_woo = '9.0';
 
 	/**
-	 * Required PHP Version
+	 * Required PHP version.
 	 *
 	 * @access public
 	 *
@@ -151,13 +164,17 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since   1.2.0 Introduced.
-	 * @version 4.5.0
+	 * @version 4.9.0
 	 */
 	public static function setup_constants() {
 		self::define( 'COCART_ABSPATH', dirname( COCART_FILE ) . '/' );
 		self::define( 'COCART_PLUGIN_BASENAME', plugin_basename( COCART_FILE ) );
 		self::define( 'COCART_VERSION', self::$version );
 		self::define( 'COCART_DB_VERSION', self::$db_version );
+		self::define( 'COCART_TESTED_WP', self::$tested_up_to_wp );
+		self::define( 'COCART_REQUIRED_WP', self::$required_wp );
+		self::define( 'COCART_REQUIRED_PHP', self::$required_php );
+		self::define( 'COCART_REQUIRED_WOO', self::$required_woo );
 		self::define( 'COCART_SLUG', 'cart-rest-api-for-woocommerce' );
 		self::define( 'COCART_URL_PATH', untrailingslashit( plugins_url( '/', COCART_FILE ) ) );
 		self::define( 'COCART_FILE_PATH', untrailingslashit( plugin_dir_path( COCART_FILE ) ) );
