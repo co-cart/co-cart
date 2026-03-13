@@ -18,6 +18,10 @@
 * Introduced new filter `cocart_cache_max_age` to customize cache duration (default: 1 hour).
 * Introduced new filter `cocart_stale_while_revalidate` to customize stale-while-revalidate duration (default: 24 hours).
 
+### Compatibility
+
+* Tested with WooCommerce v10.6
+
 ## v4.8.3 - 26th January, 2026
 
 ### Bug Fixes
