@@ -480,6 +480,11 @@ final class CoCart {
 	 * @since 4.1.0  Moved REST API classes to load ONLY when the REST API is used.
 	 */
 	public static function load_rest_api() {
+		// Prevent CoCart running in the backend should the REST API server be called by another plugin.
+		if ( is_admin() ) {
+			return;
+		}
+
 		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-etag.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
