@@ -7,7 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
  * @since   1.2.0 Introduced.
- * @version 4.3.25
+ * @version 4.9.0
  * @license GPL-2.0+
  */
 
@@ -62,7 +62,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			'check_wc'            => 'check_woocommerce_notice',
 			'plugin_review'       => 'plugin_review_notice',
 			'check_beta'          => 'check_beta_notice',
-			'upgrade_warning'     => 'upgrade_warning_notice',
 			'base_tables_missing' => 'base_tables_missing_notice',
 			'setup_wizard'        => 'setup_wizard_notice',
 		);
@@ -494,6 +493,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * than the new release coming soon.
 		 *
 		 * @access public
+		 *
+		 * @deprecated 4.9.0 Deprecated as the next major release is now expected to be 5.0.0 and the notice is no longer relevant.
 		 *
 		 * @since 1.2.3 Introduced.
 		 * @since 3.10.4 Check how long CoCart has been installed before showing.

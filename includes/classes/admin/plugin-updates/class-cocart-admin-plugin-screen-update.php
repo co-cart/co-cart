@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   2.0.12 Introduced.
- * @version 4.3.18
+ * @version 4.9.0
  * @license GPL-2.0+
  */
 
@@ -34,9 +34,6 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	 */
 	public function __construct() {
 		add_action( 'in_plugin_update_message-' . plugin_basename( COCART_FILE ), array( $this, 'in_plugin_update_message' ), 10, 2 );
-
-		// Add after_plugin_row... action for CoCart.
-		add_action( 'after_plugin_row_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_row' ), 11, 2 );
 	} // END __construct()
 
 
@@ -196,9 +193,9 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	/**
 	 * Displays a notice under the plugin row for CoCart.
 	 *
-	 * @todo Deprecate this in the future.
-	 *
 	 * @access public
+	 *
+	 * @deprecated 4.9.0 Deprecated because the notice is no longer needed and relevant to users.
 	 *
 	 * @since 2.0.3 Introduced.
 	 *
