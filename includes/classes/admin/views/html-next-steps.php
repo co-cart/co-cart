@@ -142,7 +142,7 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14h.01M11 14h.01"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.066 4.75H14.25l-1.566 5.088a2 2 0 0 1-1.911 1.412H6.55a2 2 0 0 1-1.99-1.79l-.623-5.92A2 2 0 0 0 1.95 1.75H1.75"/>
 					</svg>
 					<h3><?php esc_html_e( 'Ready to Upgrade?', 'cart-rest-api-for-woocommerce' ); ?></h3>
-					<p><?php esc_html_e( 'Fully unlock the cart API for coupons, shipping, fees, rate limiting, improved batch request support and more.', 'cart-rest-api-for-woocommerce' ); ?></p>
+					<p><?php esc_html_e( 'Fully unlock your store with API\'s for coupons, shipping and fees. Control and prevent abuse from excessive calls with rate limiting, make batch request with our enhanced support and more.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
 					<?php
 					// Get the timestamp for when CoCart was installed.
