@@ -39,6 +39,7 @@ CoCart handles the hard parts so you can focus on your store, products and custo
 * 🛒 **Real-time cart management** — Validate items/coupons, calculate totals in a single call.
 * 🔎 **Product search** — Query by name, SKU, or ID — authenticated or not — with flexible filters.
 * 🧩 **Extendable callbacks** — Add your own logic with custom callbacks. No new endpoints needed.
+* 📊 **Cart Insights** — Monitor all cart sessions, including those nearing expiration or already expired.
 * 🛠 **Works with Woo Checkout** — Load any cart session into WooCommerce's native checkout.
 * 💸 **Name Your Price** — Support donation-based pricing with built-in flexibility.
 * 📦 **Bulk Cart Requests** — Combine multiple API calls into one for better performance.
@@ -96,14 +97,13 @@ If you've evaluated CoCart Community Edition and need more powerful features and
 
 ## Upgrade to CoCart Plus
 
-For more power and enterprise-level control — upgrade to **[CoCart Plus](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)**.
+For more powerful features and enterprise-level control — upgrade to **[CoCart Plus](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)** and complete your headless store.
 
 * 🎫 **Coupon Management** — Reward customers and boost conversions.
 * 🚢 **Shipping Options & Rate Calculation** — Let customers choose from your available shipping methods.
 * 💰 **Cart Fees** — Add custom fees for any purpose (handling, rush, etc.).
 * 🥪 **Advanced Batch API** — Handle multiple cart actions in a single request.
 * 🕒 **Rate Limiting** — Prevent abuse and maintain high performance with granular API control.
-* 📊 **Cart Insights** — Monitor all cart sessions, including those nearing expiration or already expired.
 * 🧾 **Checkout** — Complete an order and take payment using any supported gateways by WooCommerce. (Coming Soon)
 * 💲 **Subscription Support** — Complete new subscriptions or renewals automatically or manually. (Coming Soon)
 
