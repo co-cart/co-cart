@@ -703,6 +703,30 @@ add_filter( 'cocart_get_customer_billing_country', function( $value ) {
 
 [View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
 
+== Security Policy ==
+
+Full details of the CoCart Security Policy can be found on [cocartapi.com/security-policy/](https://cocartapi.com/security-policy/).
+
+The community edition will **no longer get further updates** to optimize or add anything new except security patches (if necessary).
+
+Want to stay ahead of security updates, unlock the latest features, and get priority support? **[Upgrade to CoCart Plus](https://cocartapi.com/pricing/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=securitypolicy)** — actively maintained, regularly updated, and backed by dedicated support.
+
+= Supported Versions =
+
+| Version | Supported |
+|---------| --------- |
+| 4.9.x   | Yes       |
+| 4.8.x   | Yes       |
+| 4.7.x   | Yes       |
+| 4.6.x   | Yes       |
+| 4.5.x   | Yes       |
+| 4.4.x   | Yes       |
+| 4.3.x   | No        |
+| 4.2.x   | No        |
+| 4.1.x   | No        |
+| 4.0.x   | No        |
+| < 4.0.0 | No        |
+
 == Upgrade Notice ==
 
 = 4.8.1 =
