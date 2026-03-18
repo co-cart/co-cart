@@ -10,6 +10,19 @@
 * REST API: Added `_skip_cache` query parameter to bypass caching for individual requests.
 * REST API: Added `stale-while-revalidate` directive to cacheable routes (products) for improved performance.
 
+### Bug Fixes
+
+* REST API: Slugs and permalinks with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of URL-encoded across all product and cart endpoints.
+* REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
+
+### Improvements
+
+* Session: Fixed `get_session()` using `wp_cache_set()` instead of `wp_cache_add()`, which caused stale persistent object cache entries to never be overwritten.
+* Session: Fixed `get_session()` and `update_cart()` using an uninitialized expiration value on frontend requests, preventing sessions from being cached after a database read.
+* Session: Fixed `save_data()` writing to object cache with a potentially negative TTL when session expiration was stale or unset.
+* Session: Fixed `update_cart()` not syncing the object cache after a database write, causing subsequent reads to return stale cached data.
+* Session: Added `get_cache_expiration()` helper to reliably resolve cache expiration across both REST API and frontend contexts.
+
 ### Developers
 
 * Introduced new filter `cocart_etag_cart_routes` to customize which cart routes support ETag.

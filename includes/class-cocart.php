@@ -5,7 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart
  * @since   2.6.0
- * @version 4.6.2
+ * @version 4.9.0
+ * @license GPL-3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.9.0-beta.3';
+	public static $version = '4.9.0-beta.4';
 
 	/**
 	 * CoCart Database Schema version.

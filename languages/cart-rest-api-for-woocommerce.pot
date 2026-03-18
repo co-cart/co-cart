@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CoCart package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CoCart - Headless REST API for WooCommerce 4.9.0-beta.3\n"
+"Project-Id-Version: CoCart - Headless REST API for WooCommerce 4.9.0-beta.4\n"
 "Report-Msgid-Bugs-To: https://github.com/co-cart/co-cart/issues\n"
-"POT-Creation-Date: 2026-01-27 21:35:11+00:00\n"
+"POT-Creation-Date: 2026-03-18 10:54:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,20 +29,20 @@ msgstr ""
 msgid "A \"callback\" function must be registered when extending class \"%s\""
 msgstr ""
 
-#: includes/class-cocart.php:91
+#: includes/class-cocart.php:105
 msgid "Cloning this object is forbidden."
 msgstr ""
 
-#: includes/class-cocart.php:102
+#: includes/class-cocart.php:116
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
-#: includes/class-cocart.php:406
+#: includes/class-cocart.php:423
 #. translators: %1$s: CoCart, %2$s: Environment message
 msgid "%1$s could not be activated. %2$s"
 msgstr ""
 
-#: includes/class-cocart.php:418 includes/class-cocart.php:430
+#: includes/class-cocart.php:435 includes/class-cocart.php:447
 #. translators: %1$s: CoCart Core, %2$s: CoCart Plus
 #. translators: %1$s: CoCart Core, %2$s: CoCart Pro
 msgid "%1$s is not required as it is already packaged within %2$s"
@@ -228,11 +228,11 @@ msgstr ""
 msgid "GitHub"
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-notices.php:308
+#: includes/classes/admin/class-cocart-admin-notices.php:307
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/classes/admin/class-cocart-admin-notices.php:312
+#: includes/classes/admin/class-cocart-admin-notices.php:311
 msgid "You don&#8217;t have permission to do this."
 msgstr ""
 
@@ -394,7 +394,7 @@ msgstr ""
 msgid "Auto-updates are disabled based on this setting for %1$s."
 msgstr ""
 
-#: includes/classes/admin/plugin-updates/class-cocart-admin-plugin-screen-update.php:249
+#: includes/classes/admin/plugin-updates/class-cocart-admin-plugin-screen-update.php:246
 #. translators: %1$s: Hyperlink opening, %2$s: Hyperlink closing , %3$s: plugin
 #. name, %4$s: version mentioned,
 msgid "%1$sSee what's coming next%2$s in %3$s v%4$s."
@@ -523,8 +523,9 @@ msgstr ""
 
 #: includes/classes/admin/views/html-next-steps.php:145
 msgid ""
-"Fully unlock the cart API for coupons, shipping, fees, rate limiting, "
-"improved batch request support and more."
+"Fully unlock your store with API's for coupons, shipping and fees. Control "
+"and prevent abuse from excessive calls with rate limiting, make batch "
+"request with our enhanced support and more."
 msgstr ""
 
 #: includes/classes/admin/views/html-next-steps.php:166
@@ -1044,20 +1045,6 @@ msgid ""
 "%s."
 msgstr ""
 
-#: includes/classes/admin/woocommerce/notes/class-cocart-wc-admin-note-help-improve.php:76
-msgid "Help improve CoCart"
-msgstr ""
-
-#: includes/classes/admin/woocommerce/notes/class-cocart-wc-admin-note-help-improve.php:77
-msgid ""
-"We love your input to shape the future of CoCart together. Feel free to "
-"share any feedback, ideas or suggestions that you have."
-msgstr ""
-
-#: includes/classes/admin/woocommerce/notes/class-cocart-wc-admin-note-help-improve.php:82
-msgid "Share feedback"
-msgstr ""
-
 #: includes/classes/admin/woocommerce/notes/class-cocart-wc-admin-note-need-help.php:86
 #. translators: %s CoCart
 msgid "Need help with %s?"
@@ -1090,9 +1077,7 @@ msgstr ""
 
 #: includes/classes/admin/woocommerce/notes/class-cocart-wc-admin-note-upgrade.php:101
 #. translators: %s: CoCart.
-msgid ""
-"Upgrade %s and unlock more cart features and supported WooCommerce "
-"extensions."
+msgid "Upgrade %s and unlock more features and supported WooCommerce extensions."
 msgstr ""
 
 #: includes/classes/class-cocart-background-updater.php:59
@@ -1242,7 +1227,7 @@ msgstr ""
 msgid "Session data does not exist. Something really bad must have happened."
 msgstr ""
 
-#: includes/classes/class-cocart-session-handler.php:804
+#: includes/classes/class-cocart-session-handler.php:840
 #. translators: %s: Filter name
 msgid "%s is no longer used."
 msgstr ""
@@ -1392,40 +1377,40 @@ msgstr ""
 msgid "%s is not a valid postcode / ZIP."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:477
+#: includes/classes/rest-api/class-cocart-authentication.php:472
 msgid "Authentication attempted but did not find valid login details."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:479
+#: includes/classes/rest-api/class-cocart-authentication.php:474
 msgid "Authentication invalid!"
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:486
+#: includes/classes/rest-api/class-cocart-authentication.php:481
 msgid "User was not found when authenticating."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:487
+#: includes/classes/rest-api/class-cocart-authentication.php:482
 msgid ""
 "Authentication is invalid. Please check your login details are correct and "
 "try again."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:492
+#: includes/classes/rest-api/class-cocart-authentication.php:487
 msgid "The password you entered is incorrect."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:574
+#: includes/classes/rest-api/class-cocart-authentication.php:569
 msgid "This filter is no longer used."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:719
-#: includes/classes/rest-api/class-cocart-authentication.php:738
-#: includes/classes/rest-api/class-cocart-authentication.php:754
+#: includes/classes/rest-api/class-cocart-authentication.php:714
+#: includes/classes/rest-api/class-cocart-authentication.php:733
+#: includes/classes/rest-api/class-cocart-authentication.php:749
 #. translators: 1: permission method, 2: api route
 msgid "Permission to %1$s %2$s is only permitted if the user is authenticated."
 msgstr ""
 
-#: includes/classes/rest-api/class-cocart-authentication.php:768
+#: includes/classes/rest-api/class-cocart-authentication.php:763
 #. translators: %s: api route
 msgid "Unknown request method for %s."
 msgstr ""
