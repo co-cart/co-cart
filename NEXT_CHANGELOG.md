@@ -36,6 +36,7 @@
 * REST API: Avatars only return if requested now when using the login endpoint.
 * REST API: Store API now returns array of CoCart versions installed not just the core version.
 * REST API: Product meta will not return by default. To improve security and prevent PII from exposure, meta must now be whitelisted instead using the new filter `cocart_products_allowed_meta_keys`.
+* REST API: Variation data for items is moved above totals when fetching the cart.
 * REST API: The quantity parameter when adding an item now accepts both a `numeric` or an `array` value allowing to extend support for other product types that are a container of other grouped products.
 * REST API: When updating an item in cart, the quantity parameter is no longer required. Allowing to change just the variation of a variable product to keep the current quantity already requested.
 * REST API: Product Categories changed `image_src` from a single thumbnail to return all image sizes available. Schema updated to match.
@@ -144,7 +145,10 @@ Simply provide these two parameters with the data point values on any page and t
 * Added the request object as a parameter for filters `cocart_allow_origin`, `cocart_cart_item_quantity`, `cocart_add_to_cart_quantity` and `cocart_cart_item_data`.
 * Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
 * Added the cart class as a parameter for filter `cocart_shipping_package_name`.
-* Added new parameter `$recurring_cart` for filter `cocart_available_shipping_packages`.
+
+##### Breaking changes
+
+* Filter `cocart_cart_item_quantity` has changed the order of the `$cart_item` and `$item_key` parameter for consistency with other filters.
 
 ##### New Functions
 

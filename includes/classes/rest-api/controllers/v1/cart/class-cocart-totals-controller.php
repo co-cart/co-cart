@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
- * @version 2.7.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -36,8 +36,8 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 2.7.0
+	 * @since 2.1.0 Introduced.
+	 * @since 5.0.0 Added schema support for the response.
 	 */
 	public function register_routes() {
 		// Get Cart Totals - cocart/v1/totals (GET).
@@ -45,19 +45,22 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_totals' ),
-				'permission_callback' => '__return_true',
-				'args'                => array(
-					'html' => array(
-						'required'          => false,
-						'default'           => false,
-						'description'       => __( 'Returns the totals pre-formatted.', 'cocart-core' ),
-						'type'              => 'boolean',
-						'sanitize_callback' => 'rest_sanitize_boolean',
-						'validate_callback' => 'rest_validate_request_arg',
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_totals' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(
+						'html' => array(
+							'required'          => false,
+							'default'           => false,
+							'description'       => __( 'Returns the totals pre-formatted.', 'cocart-core' ),
+							'type'              => 'boolean',
+							'sanitize_callback' => 'rest_sanitize_boolean',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
 					),
 				),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	} // END register_routes()
@@ -108,4 +111,143 @@ class CoCart_Totals_Controller extends CoCart_API_Controller {
 
 		return new WP_REST_Response( $totals, 200 );
 	} // END get_totals()
+
+	/**
+	 * Get the cart totals schema, conforming to JSON Schema.
+	 *
+	 * @access public
+	 *
+	 * @return array
+	 */
+	public function get_item_schema() {
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'cart_totals',
+			'type'       => 'object',
+			'properties' => array(
+				'subtotal'            => array(
+					'description' => __( 'Subtotal of all items in the cart. Returns formatted price if html=true.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'subtotal_tax'        => array(
+					'description' => __( 'Subtotal tax amount. Returns formatted price if html=true.', 'cocart-core' ),
+					'oneOf'       => array(
+						array( 'type' => 'number' ),
+						array( 'type' => 'string' ),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'shipping_total'      => array(
+					'description' => __( 'Shipping total cost. Returns formatted price if html=true.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'shipping_tax'        => array(
+					'description' => __( 'Shipping tax amount. Returns formatted price if html=true.', 'cocart-core' ),
+					'oneOf'       => array(
+						array( 'type' => 'number' ),
+						array( 'type' => 'string' ),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'shipping_taxes'      => array(
+					'description' => __( 'Array of shipping tax rates.', 'cocart-core' ),
+					'type'        => 'array',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type' => 'number',
+					),
+				),
+				'discount_total'      => array(
+					'description' => __( 'Total discount amount. Returns formatted price if html=true.', 'cocart-core' ),
+					'oneOf'       => array(
+						array( 'type' => 'number' ),
+						array( 'type' => 'string' ),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'discount_tax'        => array(
+					'description' => __( 'Discount tax amount. Returns formatted price if html=true.', 'cocart-core' ),
+					'oneOf'       => array(
+						array( 'type' => 'number' ),
+						array( 'type' => 'string' ),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_contents_total' => array(
+					'description' => __( 'Cart contents total. Returns formatted price if html=true.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_contents_tax'   => array(
+					'description' => __( 'Cart contents tax. Returns formatted price if html=true.', 'cocart-core' ),
+					'oneOf'       => array(
+						array( 'type' => 'number' ),
+						array( 'type' => 'string' ),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'cart_contents_taxes' => array(
+					'description' => __( 'Array of cart content tax rates.', 'cocart-core' ),
+					'type'        => 'array',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type' => 'number',
+					),
+				),
+				'fee_total'           => array(
+					'description' => __( 'Fee total amount. Returns formatted price if html=true.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'fee_tax'             => array(
+					'description' => __( 'Fee tax amount. Returns formatted price if html=true.', 'cocart-core' ),
+					'oneOf'       => array(
+						array( 'type' => 'number' ),
+						array( 'type' => 'string' ),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'fee_taxes'           => array(
+					'description' => __( 'Array of fee tax rates.', 'cocart-core' ),
+					'type'        => 'array',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+					'items'       => array(
+						'type' => 'number',
+					),
+				),
+				'total'               => array(
+					'description' => __( 'Total amount of the cart including tax. Returns formatted price if html=true.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'total_tax'           => array(
+					'description' => __( 'Total tax amount. Returns formatted price if html=true.', 'cocart-core' ),
+					'oneOf'       => array(
+						array( 'type' => 'number' ),
+						array( 'type' => 'string' ),
+					),
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+			),
+		);
+
+		return $schema;
+	} // END get_item_schema()
 } // END class

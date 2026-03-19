@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\Cart\v1
  * @since   2.0.0 Introduced.
- * @version 4.0.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -138,7 +138,7 @@ class CoCart_API_Controller {
 			return $cart_contents;
 		}
 
-		return $this->get_response( $cart_contents, $this->rest_base );
+		return new WP_REST_Response( $cart_contents );
 	} // END get_cart()
 
 	/**
@@ -986,6 +986,8 @@ class CoCart_API_Controller {
 	 * @return WP_REST_Response The original or filtered response.
 	 */
 	public function get_response( $response, $rest_base = '' ) {
+		cocart_deprecated_function( 'CoCart_API_Controller::get_response', '5.0.0' );
+
 		if ( empty( $rest_base ) ) {
 			$rest_base = 'cart';
 		}
@@ -1027,11 +1029,10 @@ class CoCart_API_Controller {
 	public function get_item_schema() {
 		$schema = array(
 			'$schema'              => 'http://json-schema.org/draft-04/schema#',
-			'title'                => 'CoCart - ' . __( 'Cart', 'cocart-core' ),
+			'title'                => 'cocart_cart',
 			'type'                 => 'object',
 			'patternProperties'    => array(
 				'^[a-zA-Z0-9]+$' => array(
-					'description'          => __( 'List of cart items.', 'cocart-core' ),
 					'type'                 => 'object',
 					'properties'           => array(
 						'key'               => array(
@@ -1116,6 +1117,12 @@ class CoCart_API_Controller {
 							'context'     => array( 'view' ),
 							'readonly'    => true,
 						),
+						'data'              => array(
+							'description' => __( 'Additional cart item data.', 'cocart-core' ),
+							'type'        => 'object',
+							'context'     => array( 'view' ),
+							'readonly'    => true,
+						),
 						'product_name'      => array(
 							'description' => __( 'Product name.', 'cocart-core' ),
 							'type'        => 'string',
@@ -1150,7 +1157,7 @@ class CoCart_API_Controller {
 		$schema['patternProperties']['^[a-zA-Z0-9]+$']['properties'] = apply_filters( 'cocart_cart_schema', $schema['patternProperties']['^[a-zA-Z0-9]+$']['properties'] );
 
 		return $schema;
-	}
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for getting the cart.

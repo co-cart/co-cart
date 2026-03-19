@@ -189,7 +189,7 @@ class CoCart_Cart_Cache {
 
 			// If this item is cached then return the new price.
 			if ( ! empty( $cart_contents_cached[ $item_key ]['price'] ) ) {
-				$price = cocart_format_money( $cart_contents_cached[ $item_key ]['price'] );
+				$price = $cart_contents_cached[ $item_key ]['price'];
 			}
 		}
 

@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\API\v1
  * @since   2.1.0 Introduced.
- * @version 3.13.0
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -38,6 +38,7 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 2.1.0 Introduced.
 	 * @since 2.5.0 Added permission callback set to return true due to a change to the REST API in WordPress v5.5
+	 * @since 5.0.0 Added schema support for the response.
 	 */
 	public function register_routes() {
 		// Clear Cart - cocart/v1/clear (POST).
@@ -45,9 +46,12 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'clear_cart' ),
-				'permission_callback' => '__return_true',
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'clear_cart' ),
+					'permission_callback' => '__return_true',
+				),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	} // END register_routes()
@@ -153,4 +157,31 @@ class CoCart_Clear_Cart_Controller extends CoCart_API_Controller {
 			return new \WP_Error( 'cocart_clear_cart_failed', $message, array( 'status' => 406 ) );
 		}
 	} // END clear_cart()
+
+	/**
+	 * Get the schema for the clear cart response.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array
+	 */
+	public function get_item_schema() {
+		$schema = array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'cocart_clear_cart',
+			'type'       => 'object',
+			'properties' => array(
+				'message' => array(
+					'description' => __( 'Message indicating the result of clearing the cart.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+			),
+		);
+
+		return $schema;
+	} // END get_item_schema()
 } // END class

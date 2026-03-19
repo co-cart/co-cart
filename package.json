@@ -106,5 +106,8 @@
 	},
 	"browserslist": [
 		"defaults"
-	]
+	],
+	"dependencies": {
+		"grunt-cli": "^1.5.0"
+	}
 }

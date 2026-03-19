@@ -275,7 +275,7 @@ class CoCart_Utilities_Cart_Helpers {
 						'method_id'     => $method->get_method_id(),
 						'instance_id'   => $method->instance_id,
 						'label'         => $method->get_label(),
-						'cost'          => cocart_format_money( $method->cost ),
+						'cost'          => CoCart_REST_Utilities_Monetary_Formatting::format_money( $method->cost, $request ),
 						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => '',
 						'chosen_method' => ( $chosen_method === $key ),
@@ -283,7 +283,7 @@ class CoCart_Utilities_Cart_Helpers {
 					);
 
 					foreach ( $method->taxes as $shipping_cost => $tax_cost ) {
-						$packages[ $package_id ]['rates'][ $key ]['taxes'] = cocart_format_money( $tax_cost );
+						$packages[ $package_id ]['rates'][ $key ]['taxes'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $tax_cost );
 					}
 				}
 
@@ -407,24 +407,25 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Added the request object as parameter.
 	 *
-	 * @see cocart_format_money()
-	 *
-	 * @param WC_Cart $cart Cart class instance.
+	 * @param WC_Cart         $cart    Cart class instance.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return array Cart fees.
 	 */
-	public static function get_fees( $cart ) {
+	public static function get_fees( $cart, $request ) {
 		$cart_fees = $cart->get_fees();
 
 		$fees = array();
 
 		if ( ! empty( $cart_fees ) ) {
 			foreach ( $cart_fees as $key => $fee ) {
-				$fees[ $key ] = array(
+				$fees[ $key ]        = array(
 					'name' => esc_html( $fee->name ),
-					'fee'  => cocart_format_money( self::fee_html( $cart, $fee ) ),
+					'fee'  => self::fee_html( $fee ),
 				);
+				$fees[ $key ]['fee'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $fees[ $key ]['fee'], $request );
 			}
 		}
 
@@ -448,8 +449,50 @@ class CoCart_Utilities_Cart_Helpers {
 	public static function fee_html( $cart, $fee ) {
 		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
 
+		/**
+		 * Filters the cart totals fee HTML.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $cart_totals_fee_html Cart totals fee HTML.
+		 * @param object $fee                  Fee object.
+		 */
 		return apply_filters( 'cocart_cart_totals_fee_html', $cart_totals_fee_html, $fee );
 	} // END fee_html()
+
+	/**
+	 * Get cart totals.
+	 *
+	 * Returns the cart subtotal, fees, discounted total, shipping total
+	 * and total of the cart.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param WC_Cart         $cart    Cart class instance.
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return array Cart totals.
+	 */
+	public static function get_cart_totals( $cart, $request ) {
+		// Has customer provided enough information to return shipping totals.
+		// This tracks if shipping has actually been calculated so we can avoid returning costs prematurely.
+		$has_calculated_shipping = method_exists( $cart, 'has_calculated_shipping' ) ? $cart->has_calculated_shipping() : $cart->show_shipping();
+
+		return array(
+			'subtotal'       => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_subtotal(), $request ),
+			'subtotal_tax'   => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_subtotal_tax(), $request ),
+			'fee_total'      => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_fee_total(), $request ),
+			'fee_tax'        => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_fee_tax(), $request ),
+			'discount_total' => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_discount_total(), $request ),
+			'discount_tax'   => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_discount_tax(), $request ),
+			'shipping_total' => $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_shipping_total(), $request ) : '0',
+			'shipping_tax'   => $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_shipping_tax(), $request ) : '0',
+			'total'          => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_total( 'edit' ), $request ),
+			'total_tax'      => CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart->get_total_tax(), $request ),
+		);
+	} // END get_cart_totals()
 
 	/**
 	 * Get coupon in HTML.
@@ -493,6 +536,14 @@ class CoCart_Utilities_Cart_Helpers {
 		if ( has_filter( 'woocommerce_coupon_discount_amount_html' ) ) {
 			$discount_amount_html = apply_filters( 'woocommerce_coupon_discount_amount_html', $discount_amount_html, $coupon );
 		} else {
+			/**
+			 * Filters the coupon discount amount HTML.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string     $discount_amount_html Formatted discount amount.
+			 * @param WC_Coupon  $coupon              The coupon object.
+			 */
 			$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
 		}
 
@@ -546,11 +597,12 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @see cocart_format_money()
 	 *
-	 * @param WC_Cart $cart Cart class instance.
+	 * @param WC_Cart         $cart    Cart class instance.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return array Returns taxes if any.
 	 */
-	public static function get_taxes( $cart ) {
+	public static function get_taxes( $cart, $request ) {
 		// Return calculated tax based on store settings and customer details.
 		if ( wc_tax_enabled() && ! $cart->display_prices_including_tax() ) {
 			$taxable_address = WC()->customer->get_taxable_address();
@@ -565,12 +617,15 @@ class CoCart_Utilities_Cart_Helpers {
 			}
 
 			if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
-				return self::get_tax_lines( $cart );
+				return self::get_tax_lines( $cart, $request );
 			} else {
-				return array(
+				$taxes          = array(
 					'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-					'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_format_money( $cart->get_taxes_total() ) ),
+					'total' => apply_filters( 'cocart_cart_totals_taxes_total', $cart->get_taxes_total() ),
 				);
+				$taxes['total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $taxes['total'], $request );
+
+				return $taxes;
 			}
 		}
 
@@ -585,21 +640,21 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @static
 	 *
 	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Added the request object as parameter.
 	 *
-	 * @see cocart_format_money()
-	 *
-	 * @param WC_Cart $cart Cart class instance.
+	 * @param WC_Cart         $cart    Cart class instance.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return array Tax lines.
 	 */
-	public static function get_tax_lines( $cart ) {
+	public static function get_tax_lines( $cart, $request ) {
 		$cart_tax_totals = $cart->get_tax_totals();
 		$tax_lines       = array();
 
 		foreach ( $cart_tax_totals as $code => $tax ) {
 			$tax_lines[ $code ] = array(
 				'name'  => $tax->label,
-				'price' => cocart_format_money( $tax->amount ),
+				'price' => CoCart_REST_Utilities_Monetary_Formatting::format_money( $tax->amount, $request ),
 			);
 		}
 
@@ -888,12 +943,11 @@ class CoCart_Utilities_Cart_Helpers {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @param string     $product_price Product price.
-		 * @param array      $cart_item     The cart item data.
-		 * @param string     $item_key      The item key generated based on the details of the item.
-		 * @param WC_Product $product       The product object.
+		 * @param string $product_price Product price.
+		 * @param array  $cart_item     The cart item data.
+		 * @param string $item_key      Generated ID based on the product information when added to the cart.
 		 */
-		$item['price'] = apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $product ) ), $cart_item, $item_key, $product );
+		$item['price'] = apply_filters( 'cocart_cart_item_price', $price_function( $product ), $cart_item, $item_key );
 
 		/**
 		 * Filter allows the quantity of the item to change.
@@ -902,12 +956,11 @@ class CoCart_Utilities_Cart_Helpers {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @param string     $item_quantity Item quantity.
-		 * @param string     $item_key      The item key generated based on the details of the item.
-		 * @param array      $cart_item     The cart item data.
-		 * @param WC_Product $product       The product object.
+		 * @param string $item_quantity Item quantity.
+		 * @param string $item_key      Generated ID based on the product information when added to the cart.
+		 * @param array  $cart_item     The cart item data.
 		 */
-		$item['quantity'] = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item, $product );
+		$item['quantity'] = apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item );
 
 		$item['variation'] = cocart_format_variation_data( $cart_item['variation'], $product );
 
@@ -928,6 +981,9 @@ class CoCart_Utilities_Cart_Helpers {
 			 */
 			$item['cart_item_data'] = apply_filters( 'cocart_cart_item_data', $cart_item, $item_key, $product );
 		}
+
+		// Format monetary values.
+		$item['price'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $item['price'], $request );
 
 		return $item;
 	} // END get_item_basic()

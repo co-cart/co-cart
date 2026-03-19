@@ -396,15 +396,15 @@ abstract class CoCart_REST_Cart_Controller {
 	 *
 	 * @since 5.0.0 Introduced.
 	 *
-	 * @see CoCart_REST_Cart_V2_Controller::get_cart_contents()
-	 *
-	 * @param mixed $cart_item_key of product to find in the cart.
+	 * @param string $cart_item_key Cart item key of product to find in the cart.
 	 *
 	 * @return string Returns the same cart item key if valid.
 	 */
-	public function find_product_in_cart( $cart_item_key = false ) {
-		if ( false !== $cart_item_key ) {
-			if ( is_array( $this->get_cart_contents( array( 'raw' => true ) ) ) && ! empty( $this->get_cart_contents( array( 'raw' => true ), $cart_item_key ) ) ) {
+	public function find_product_in_cart( $cart_item_key = '' ) {
+		if ( ! empty( $cart_item_key ) ) {
+			$cart_contents = $this->get_cart_contents();
+
+			if ( is_array( $cart_contents ) && ! empty( $cart_contents[ $cart_item_key ] ) ) {
 				return $cart_item_key;
 			}
 		}
