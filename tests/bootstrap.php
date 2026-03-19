@@ -23,7 +23,7 @@ class CoCart_Unit_Tests_Bootstrap {
 	 *
 	 * @var string
 	 */
-	private $plugin_id = 'cart-rest-api-for-woocommerce.php';
+	private $plugin_id = 'cocart-core.php';
 
 	/**
 	 * The plugin tests directory.
