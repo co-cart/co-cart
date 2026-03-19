@@ -15,7 +15,7 @@
  *
  * @package CoCart\Tests\Unit
  */
-class Test_CoCart_Authentication extends CoCart_API_Test_Case {
+class Test_CoCart_Authentication extends CoCart_API_V2_Test_Case {
 
 	/**
 	 * Test basic authentication with valid credentials.

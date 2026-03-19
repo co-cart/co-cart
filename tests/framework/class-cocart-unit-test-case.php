@@ -7,8 +7,6 @@
  * @package CoCart\Tests\Framework
  */
 
-use Yoast\PHPUnitPolyfills\TestCases\TestCase;
-
 /**
  * CoCart Unit Test Case Class
  *
@@ -17,7 +15,7 @@ use Yoast\PHPUnitPolyfills\TestCases\TestCase;
  *
  * @package CoCart\Tests\Framework
  */
-abstract class CoCart_Unit_Test_Case extends TestCase {
+abstract class CoCart_Unit_Test_Case extends CoCart_Test_Case {
 
 	/**
 	 * Set up test environment.
