@@ -74,17 +74,6 @@ jobs:
         with:
           composer-options: '--prefer-dist --no-progress'
 
-      - name: Install WooCommerce
-        run: |
-          WC_VERSION="${{ matrix.wc }}"
-          if [ "$WC_VERSION" = "latest" ]; then
-            WC_VERSION=$(curl -s https://api.github.com/repos/woocommerce/woocommerce/releases/latest | jq -r .tag_name | sed 's/^v//')
-          fi
-          echo "Installing WooCommerce $WC_VERSION"
-          mkdir -p /tmp/wordpress/wp-content/plugins
-          curl -sL "https://github.com/woocommerce/woocommerce/releases/download/${WC_VERSION}/woocommerce.zip" -o /tmp/woocommerce.zip
-          unzip -q /tmp/woocommerce.zip -d /tmp/wordpress/wp-content/plugins/
-
       - name: Install Subversion
         run: sudo apt-get install -y subversion
 
@@ -92,6 +81,16 @@ jobs:
         run: |
           WP_VERSION="${{ matrix.wp }}"
           bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1:3306 "$WP_VERSION"
+
+      - name: Install WooCommerce
+        run: |
+          WC_VERSION="${{ matrix.wc }}"
+          if [ "$WC_VERSION" = "latest" ]; then
+            WC_VERSION=$(curl -s https://api.github.com/repos/woocommerce/woocommerce/releases/latest | jq -r .tag_name | sed 's/^v//')
+          fi
+          echo "Installing WooCommerce $WC_VERSION"
+          curl -sL "https://github.com/woocommerce/woocommerce/releases/download/${WC_VERSION}/woocommerce.zip" -o /tmp/woocommerce.zip
+          unzip -q /tmp/woocommerce.zip -d /tmp/wordpress/wp-content/plugins/
 
       - name: Copy plugin to test environment
         run: |
