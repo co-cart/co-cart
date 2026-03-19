@@ -156,8 +156,8 @@ class CoCart_Unit_Tests_Bootstrap {
 		// Load WooCommerce.
 		require $this->wp_plugins_dir . '/woocommerce/woocommerce.php';
 
-		// Install WooCommerce database tables after WordPress is fully initialized.
-		tests_add_filter( 'init', array( 'WC_Install', 'install' ), 0 );
+		// Install WooCommerce database tables after post types are registered (priority 20, after WC's priority 10).
+		tests_add_filter( 'init', array( 'WC_Install', 'install' ), 20 );
 
 		// Stub Action Scheduler functions not available in test environment.
 		if ( ! function_exists( 'as_schedule_single_action' ) ) {
