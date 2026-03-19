@@ -79,10 +79,10 @@ class CoCart_Unit_Tests_Bootstrap {
 		tests_add_filter( 'woocommerce_session_handler', array( $this, 'session_handler' ) );
 
 		// Setup WooCommerce.
-		tests_add_action( 'woocommerce_loaded', array( $this, 'woocommerce' ) );
+		tests_add_filter( 'woocommerce_loaded', array( $this, 'woocommerce' ) );
 
 		// Load REST API.
-		tests_add_action( 'rest_api_init', array( $this, 'load_rest_api' ) );
+		tests_add_filter( 'rest_api_init', array( $this, 'load_rest_api' ) );
 
 		// Default configurations.
 		tests_add_filter( 'woocommerce_admin_disabled', '__return_true' );
