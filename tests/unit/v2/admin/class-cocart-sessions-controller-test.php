@@ -131,4 +131,4 @@ class Test_CoCart_Sessions_Controller extends CoCart_API_Test_Case {
 		$response = $this->get_sessions( $write_key );
 		$this->assert_rest_response_status( 401, $response );
 	}
-} 
+}

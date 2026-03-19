@@ -398,6 +398,8 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * Verifies that a user can logout from multiple sessions
 	 * and that each session is properly terminated.
 	 *
+	 * DEV NOTE: Not sure what AI was thinking when writing this test but we will see before removing it.
+	 *
 	 * @return void
 	 */
 	public function test_logout_with_multiple_sessions() {
@@ -494,4 +496,4 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 		$cart_response = $this->get_cart();
 		$this->assert_rest_response_status( 401, $cart_response );
 	}
-} 
+}

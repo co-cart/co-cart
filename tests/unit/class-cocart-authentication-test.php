@@ -157,4 +157,4 @@ class Test_CoCart_Authentication extends CoCart_API_Test_Case {
 
 		$this->assert_rest_response_status( 200, $response );
 	}
-} 
+}

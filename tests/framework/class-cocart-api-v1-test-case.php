@@ -262,4 +262,4 @@ abstract class CoCart_API_V1_Test_Case extends CoCart_API_Test_Case {
 		}
 		return null;
 	}
-} 
+}

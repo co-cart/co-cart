@@ -29,7 +29,7 @@ abstract class CoCart_Unit_Test_Case extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		
+
 		// Ensure WooCommerce is loaded.
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			$this->markTestSkipped( 'WooCommerce is not available.' );
@@ -50,7 +50,7 @@ abstract class CoCart_Unit_Test_Case extends TestCase {
 	protected function tear_down() {
 		// Clear cart after each test.
 		$this->clear_cart();
-		
+
 		parent::tear_down();
 	}
 
@@ -211,4 +211,4 @@ abstract class CoCart_Unit_Test_Case extends TestCase {
 			$this->assertEquals( $value, $data[ $key ] );
 		}
 	}
-} 
+}

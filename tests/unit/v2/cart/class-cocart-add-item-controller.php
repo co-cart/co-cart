@@ -33,10 +33,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '25.00',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 2,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 2 );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -69,11 +66,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 		$variation->set_attributes( array( 'pa_color' => 'Red' ) );
 		$variation->save();
 
-		$response = $this->add_item_to_cart( array(
-			'product_id'   => $product->get_id(),
-			'variation_id' => $variation->get_id(),
-			'quantity'     => 1,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'variation_id' => $variation->get_id() ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -103,11 +96,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'notes'        => 'Special instructions',
 		);
 
-		$response = $this->add_item_to_cart( array(
-			'product_id'  => $product->get_id(),
-			'quantity'    => 1,
-			'custom_data' => $custom_data,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'custom_data' => $custom_data ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -125,10 +114,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_add_invalid_product_to_cart() {
-		$response = $this->add_item_to_cart( array(
-			'product_id' => 99999,
-			'quantity'   => 1,
-		) );
+		$response = $this->add_item_to_cart( 99999, 1 );
 
 		$this->assert_rest_response_status( 400, $response );
 	}
@@ -149,18 +135,12 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Test with zero quantity.
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 0,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 0 );
 
 		$this->assert_rest_response_status( 400, $response );
 
 		// Test with negative quantity.
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => -1,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), -1 );
 
 		$this->assert_rest_response_status( 400, $response );
 	}
@@ -181,10 +161,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'stock_status' => 'outofstock',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1 );
 
 		$this->assert_rest_response_status( 400, $response );
 	}
@@ -206,10 +183,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'stock_quantity' => 5,
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 10,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 10 );
 
 		$this->assert_rest_response_status( 400, $response );
 	}
@@ -228,11 +202,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 		$product->set_name( 'Variable Product' );
 		$product->save();
 
-		$response = $this->add_item_to_cart( array(
-			'product_id'   => $product->get_id(),
-			'variation_id' => 99999,
-			'quantity'     => 1,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'variation_id' => 99999 ) );
 
 		$this->assert_rest_response_status( 400, $response );
 	}
@@ -251,10 +221,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 		$product->set_name( 'Variable Product' );
 		$product->save();
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1 );
 
 		$this->assert_rest_response_status( 400, $response );
 	}
@@ -280,11 +247,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 		$variation->set_attributes( array( 'pa_color' => 'Red' ) );
 		$variation->save();
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-			'variation'  => array( 'pa_color' => 'Red' ),
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'variation' => array( 'pa_color' => 'Red' ) ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -313,11 +276,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'gift_wrap'     => true,
 		);
 
-		$response = $this->add_item_to_cart( array(
-			'product_id'     => $product->get_id(),
-			'quantity'       => 1,
-			'cart_item_data' => $cart_item_data,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'cart_item_data' => $cart_item_data ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -341,11 +300,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '25.00',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-			'return_cart' => true,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'return_cart' => true ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -370,11 +325,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '25.00',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id'        => $product->get_id(),
-			'quantity'          => 1,
-			'return_cart_items' => true,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'return_cart_items' => true ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -398,11 +349,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '25.00',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id'         => $product->get_id(),
-			'quantity'           => 1,
-			'return_cart_totals' => true,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'return_cart_totals' => true ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -429,11 +376,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 
 		$session_key = 'test_session_' . time();
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-			'session'    => $session_key,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'session' => $session_key ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -457,11 +400,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '25.00',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-			'session'    => '',
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'session' => '' ) );
 
 		$this->assert_rest_response_status( 400, $response );
 	}
@@ -481,11 +420,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '25.00',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-			'price'      => '20.00',
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'price' => '20.00' ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -508,11 +443,7 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '25.00',
 		) );
 
-		$response = $this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-			'price'      => -10.00,
-		) );
+		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'price' => -10.00 ) );
 
 		$this->assert_rest_response_status( 400, $response );
 	}

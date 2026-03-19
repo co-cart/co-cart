@@ -34,10 +34,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 2,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 2 );
 
 		// Calculate cart totals.
 		$response = $this->calculate_cart();
@@ -85,10 +82,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Calculate cart totals.
 		$response = $this->calculate_cart();
@@ -125,10 +119,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Set shipping address.
 		$shipping_data = array(
@@ -170,10 +161,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Add fee to cart.
 		$fee_data = array(
@@ -212,10 +200,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Create coupon.
 		$coupon = new WC_Coupon();
@@ -278,10 +263,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Calculate cart with return cart.
 		$response = $this->calculate_cart( array(
@@ -315,11 +297,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		$session_key = 'test_session_' . time();
 
 		// Add item to cart with session.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-			'session'    => $session_key,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1, array( 'session' => $session_key ) );
 
 		// Calculate cart in session.
 		$response = $this->calculate_cart( array(
@@ -350,10 +328,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Try to calculate cart with invalid session.
 		$response = $this->calculate_cart( array(
@@ -383,14 +358,8 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add items to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product1->get_id(),
-			'quantity'   => 2,
-		) );
-		$this->add_item_to_cart( array(
-			'product_id' => $product2->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product1->get_id(), 2 );
+		$this->add_item_to_cart( $product2->get_id(), 1 );
 
 		// Calculate cart totals.
 		$response = $this->calculate_cart();
@@ -431,16 +400,8 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		$variation2->save();
 
 		// Add variations to cart.
-		$this->add_item_to_cart( array(
-			'product_id'   => $product->get_id(),
-			'variation_id' => $variation1->get_id(),
-			'quantity'     => 1,
-		) );
-		$this->add_item_to_cart( array(
-			'product_id'   => $product->get_id(),
-			'variation_id' => $variation2->get_id(),
-			'quantity'     => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1, array( 'variation_id' => $variation1->get_id() ) );
+		$this->add_item_to_cart( $product->get_id(), 1, array( 'variation_id' => $variation2->get_id() ) );
 
 		// Calculate cart totals.
 		$response = $this->calculate_cart();
@@ -470,10 +431,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Calculate cart totals.
 		$response = $this->calculate_cart();
@@ -502,10 +460,7 @@ class Test_CoCart_Calculate_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		// Add item to cart.
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
 		// Calculate cart totals.
 		$response = $this->calculate_cart();

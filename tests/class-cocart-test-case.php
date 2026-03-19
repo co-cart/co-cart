@@ -17,7 +17,7 @@ class CoCart_Test_Case extends WP_UnitTestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		// Ensure WooCommerce is active
+		// Ensure WooCommerce is active.
 		if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
 			$this->markTestSkipped( 'WooCommerce is not active.' );
 		}

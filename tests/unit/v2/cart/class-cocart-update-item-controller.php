@@ -63,6 +63,8 @@ class Test_CoCart_Update_Item_Controller extends CoCart_API_V2_Test_Case {
 	 * Verifies that an item's custom data can be successfully updated
 	 * and that the custom data is properly stored.
 	 *
+	 * DEV NOTE: While this would be cool to do, currently WooCommerce does not support updating items in the cart once they are added other than the quantity.
+	 *
 	 * @return void
 	 */
 	public function test_update_item_custom_data() {

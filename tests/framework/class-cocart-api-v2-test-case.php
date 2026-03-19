@@ -203,11 +203,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function restore_item( $item_key, $params = array() ) {
-		$request_params = array_merge( array(
-			'item_key' => $item_key,
-		), $params );
-
-		return $this->cocart_v2_request( 'POST', 'cart/restore-item', $request_params );
+		return $this->cocart_v2_request( 'PUT', 'cart/item/' . $item_key, $params );
 	}
 
 	/**
@@ -447,4 +443,57 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 		}
 		return null;
 	}
-} 
+
+	/**
+	 * Create empty guest cart via CoCart v2 API.
+	 *
+	 * @param array $params Optional. Request parameters.
+	 * @return WP_REST_Response The REST API response object.
+	 */
+	protected function create_cart( $params = array() ) {
+		return $this->cocart_v2_request( 'POST', 'cart', $params );
+	}
+
+	/**
+	 * Get product brands via CoCart v2 API.
+	 *
+	 * @param array $params Optional. Request parameters.
+	 * @return WP_REST_Response The REST API response object.
+	 */
+	protected function get_product_brands( $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/brands', $params );
+	}
+
+	/**
+	 * Get single product by slug via CoCart v2 API.
+	 *
+	 * @param string $slug   Product slug to retrieve.
+	 * @param array  $params Optional. Request parameters.
+	 * @return WP_REST_Response The REST API response object.
+	 */
+	protected function get_product_by_slug( $slug, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/' . $slug, $params );
+	}
+
+	/**
+	 * Delete a specific session via CoCart v2 API (requires admin authentication).
+	 *
+	 * @param string $cart_key Cart key of the session to delete.
+	 * @param array  $key_data Optional. API key data for authentication.
+	 * @return WP_REST_Response The REST API response object.
+	 */
+	protected function delete_session_by_key( $cart_key, $key_data = null ) {
+		return $this->authenticated_admin_request( 'DELETE', '/cocart/v2/session/' . $cart_key, array(), $key_data );
+	}
+
+	/**
+	 * Get items in a specific session via CoCart v2 API (requires admin authentication).
+	 *
+	 * @param string $cart_key Cart key of the session.
+	 * @param array  $key_data Optional. API key data for authentication.
+	 * @return WP_REST_Response The REST API response object.
+	 */
+	protected function get_session_items_by_key( $cart_key, $key_data = null ) {
+		return $this->authenticated_admin_request( 'GET', '/cocart/v2/session/' . $cart_key . '/items', array(), $key_data );
+	}
+}

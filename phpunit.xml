@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" backupGlobals="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" convertDeprecationsToExceptions="true">
     <testsuites>
-        <testsuite name="API Tests">
-            <directory prefix="test-" suffix=".php">./tests/v1</directory>
-            <directory prefix="test-" suffix=".php">./tests/v1</directory>
+        <testsuite name="CoCart Unit Tests">
+            <directory prefix="class-cocart-" suffix=".php">./tests/unit</directory>
+            <directory prefix="class-cocart-" suffix=".php">./tests/unit/v1</directory>
+            <directory prefix="class-cocart-" suffix=".php">./tests/unit/v2/cart</directory>
+            <directory prefix="class-cocart-" suffix=".php">./tests/unit/v2/products</directory>
+            <directory prefix="class-cocart-" suffix=".php">./tests/unit/v2/admin</directory>
         </testsuite>
     </testsuites>
 </phpunit>

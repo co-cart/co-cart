@@ -243,4 +243,4 @@ abstract class CoCart_REST_Test_Case extends CoCart_Unit_Test_Case {
 	protected function clear_authentication() {
 		wp_set_current_user( 0 );
 	}
-} 
+}
