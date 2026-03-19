@@ -153,8 +153,23 @@ class CoCart_Unit_Tests_Bootstrap {
 	 * Loads plugins.
 	 */
 	public function load_plugins() {
-		// Load WooCommerce
+		// Load WooCommerce.
 		require $this->wp_plugins_dir . '/woocommerce/woocommerce.php';
+
+		// Install WooCommerce database tables.
+		WC_Install::install();
+
+		// Stub Action Scheduler functions not available in test environment.
+		if ( ! function_exists( 'as_schedule_single_action' ) ) {
+			function as_schedule_single_action() { // phpcs:ignore
+				return 0;
+			}
+		}
+		if ( ! function_exists( 'as_has_scheduled_action' ) ) {
+			function as_has_scheduled_action() { // phpcs:ignore
+				return false;
+			}
+		}
 
 		// Load CoCart.
 		require_once trailingslashit( dirname( $this->tests_dir ) ) . $this->plugin_id;
