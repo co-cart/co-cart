@@ -38,7 +38,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: wordpress_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306:3306
         options: >-
