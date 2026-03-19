@@ -63,7 +63,7 @@ class CoCart_Unit_Tests_Bootstrap {
 	 * Constructs the bootstrap class.
 	 */
 	public function __construct() {
-		// define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', 'vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php' );
+		define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', dirname( __DIR__ ) . '/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php' );
 
 		$this->tests_dir      = __DIR__;
 		$this->wp_tests_dir   = getenv( 'WP_TESTS_DIR' ) ? getenv( 'WP_TESTS_DIR' ) : '/tmp/wordpress-tests-lib';
