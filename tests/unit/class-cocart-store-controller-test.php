@@ -27,7 +27,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_get_store() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -50,7 +50,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_store_name() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$data = $response->get_data();
 
 		$this->assertEquals( get_bloginfo( 'title' ), $data['title'] );
@@ -65,7 +65,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_store_description() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$data = $response->get_data();
 
 		$this->assertEquals( get_bloginfo( 'description' ), $data['description'] );
@@ -80,7 +80,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_store_home_url() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$data = $response->get_data();
 
 		$this->assertEquals( home_url(), $data['home_url'] );
@@ -95,7 +95,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_store_timezone() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$data = $response->get_data();
 
 		$this->assertEquals( get_option( 'gmt_offset' ), $data['gmt_offset'] );
@@ -111,7 +111,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_store_routes() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$data = $response->get_data();
 
 		$this->assertArrayHasKey( 'routes', $data );
@@ -127,7 +127,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_store_routes_contain_endpoints() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$data = $response->get_data();
 
 		$routes = $data['routes'];
@@ -149,7 +149,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 */
 	public function test_store_endpoint_public_access() {
 		// Test without authentication.
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 
 		$this->assert_rest_response_status( 200, $response );
 		$this->assertArrayHasKey( 'title', $response->get_data() );
@@ -165,15 +165,15 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 */
 	public function test_store_endpoint_contexts() {
 		// Test with view context (default).
-		$response = $this->get_store( array( 'context' => 'view' ) );
+		$response = $this->get_store_info( array( 'context' => 'view' ) );
 		$this->assert_rest_response_status( 200, $response );
 
 		// Test with embed context.
-		$response = $this->get_store( array( 'context' => 'embed' ) );
+		$response = $this->get_store_info( array( 'context' => 'embed' ) );
 		$this->assert_rest_response_status( 200, $response );
 
 		// Test with edit context (should fail for non-authenticated users).
-		$response = $this->get_store( array( 'context' => 'edit' ) );
+		$response = $this->get_store_info( array( 'context' => 'edit' ) );
 		$this->assert_rest_response_status( 401, $response );
 	}
 
@@ -186,7 +186,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_store_endpoint_schema() {
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$schema = $response->get_links();
 
 		// Verify response has proper structure.
@@ -210,7 +210,7 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 			define( 'WP_DEBUG', true );
 		}
 
-		$response = $this->get_store();
+		$response = $this->get_store_info();
 		$data = $response->get_data();
 
 		// Check for debug information when WP_DEBUG is true.

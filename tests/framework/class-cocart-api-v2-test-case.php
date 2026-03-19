@@ -228,12 +228,12 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	}
 
 	/**
-	 * Get session via CoCart v2 API.
+	 * Get current user session via CoCart v2 API.
 	 *
 	 * @param array $params Optional. Request parameters.
 	 * @return WP_REST_Response The REST API response object.
 	 */
-	protected function get_session( $params = array() ) {
+	protected function get_a_single_session( $params = array() ) {
 		return $this->cocart_v2_request( 'GET', 'session', $params );
 	}
 
