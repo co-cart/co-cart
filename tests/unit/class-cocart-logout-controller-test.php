@@ -27,23 +27,10 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_successful_logout() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Logout the user.
-		$response = $this->logout_user();
+		$response = $this->logout();
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -61,11 +48,9 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_when_not_logged_in() {
-		// Ensure no user is logged in.
-		wp_logout();
+		$this->clear_authentication();
 
-		// Try to logout.
-		$response = $this->logout_user();
+		$response = $this->logout();
 
 		$this->assert_rest_response_status( 401, $response );
 	}
@@ -79,26 +64,13 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_with_invalid_session() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
-
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
 		// Manually destroy the session.
 		wp_destroy_current_session();
 
-		// Try to logout.
-		$response = $this->logout_user();
+		$response = $this->logout();
 
 		$this->assert_rest_response_status( 401, $response );
 	}
@@ -112,36 +84,17 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_with_return_cart() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Add item to cart.
 		$product = $this->create_product( array(
 			'name'          => 'Test Product',
 			'regular_price' => '25.00',
 		) );
 
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
-		// Logout with return cart.
-		$response = $this->logout_user( array(
-			'return_cart' => true,
-		) );
+		$response = $this->logout( array( 'return_cart' => true ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -162,36 +115,17 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_with_return_cart_items() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Add item to cart.
 		$product = $this->create_product( array(
 			'name'          => 'Test Product',
 			'regular_price' => '25.00',
 		) );
 
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
-		// Logout with return cart items.
-		$response = $this->logout_user( array(
-			'return_cart_items' => true,
-		) );
+		$response = $this->logout( array( 'return_cart_items' => true ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -211,36 +145,17 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_with_return_cart_totals() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Add item to cart.
 		$product = $this->create_product( array(
 			'name'          => 'Test Product',
 			'regular_price' => '25.00',
 		) );
 
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
-		// Logout with return cart totals.
-		$response = $this->logout_user( array(
-			'return_cart_totals' => true,
-		) );
+		$response = $this->logout( array( 'return_cart_totals' => true ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -255,34 +170,29 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	/**
 	 * Test logout with session parameter.
 	 *
-	 * Verifies that a user can logout from a specific session
-	 * and that the session is properly maintained.
+	 * Verifies that a user can logout from a specific named session.
+	 * Uses login() to establish a named session via the API.
 	 *
 	 * @return void
 	 */
 	public function test_logout_with_session() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
+		$this->factory->user->create( array(
+			'user_login' => 'testuser_session',
+			'user_email' => 'testsession@example.com',
 			'user_pass'  => 'password123',
 		) );
 
 		$session_key = 'test_session_' . time();
 
-		// Login the user with session.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
+		$login_response = $this->login( array(
+			'username' => 'testuser_session',
 			'password' => 'password123',
 			'session'  => $session_key,
 		) );
 
 		$this->assert_rest_response_status( 200, $login_response );
 
-		// Logout from session.
-		$response = $this->logout_user( array(
-			'session' => $session_key,
-		) );
+		$response = $this->logout( array( 'session' => $session_key ) );
 
 		$this->assert_rest_response_status( 200, $response );
 
@@ -293,7 +203,7 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	}
 
 	/**
-	 * Test logout with invalid session.
+	 * Test logout with invalid session parameter.
 	 *
 	 * Verifies that attempting to logout with an invalid session
 	 * returns an appropriate error response.
@@ -301,25 +211,10 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_with_invalid_session_parameter() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Try to logout with invalid session.
-		$response = $this->logout_user( array(
-			'session' => 'invalid_session',
-		) );
+		$response = $this->logout( array( 'session' => 'invalid_session' ) );
 
 		$this->assert_rest_response_status( 404, $response );
 	}
@@ -333,26 +228,14 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_and_verify_session_cleanup() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Logout the user.
-		$logout_response = $this->logout_user();
+		$logout_response = $this->logout();
 		$this->assert_rest_response_status( 200, $logout_response );
 
-		// Try to access a protected endpoint.
+		// After logout, clear authentication and verify cart is inaccessible.
+		$this->clear_authentication();
 		$response = $this->get_cart();
 		$this->assert_rest_response_status( 401, $response );
 	}
@@ -366,62 +249,44 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_logout_response_structure() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
+		$response = $this->logout();
+		$data     = $response->get_data();
 
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Logout the user.
-		$response = $this->logout_user();
-		$data = $response->get_data();
-
-		// Check required fields.
 		$this->assertArrayHasKey( 'logged_out', $data );
-
-		// Check data types.
 		$this->assertIsBool( $data['logged_out'] );
 	}
 
 	/**
 	 * Test logout with multiple sessions.
 	 *
-	 * Verifies that a user can logout from multiple sessions
-	 * and that each session is properly terminated.
+	 * Verifies that a user can logout from multiple named sessions.
+	 * Uses login() to establish each named session via the API.
 	 *
 	 * DEV NOTE: Not sure what AI was thinking when writing this test but we will see before removing it.
 	 *
 	 * @return void
 	 */
 	public function test_logout_with_multiple_sessions() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
+		$this->factory->user->create( array(
+			'user_login' => 'testuser_multi',
+			'user_email' => 'testmulti@example.com',
 			'user_pass'  => 'password123',
 		) );
 
 		$session1 = 'session1_' . time();
 		$session2 = 'session2_' . time();
 
-		// Login the user with multiple sessions.
-		$login_response1 = $this->login_user( array(
-			'username' => 'testuser',
+		$login_response1 = $this->login( array(
+			'username' => 'testuser_multi',
 			'password' => 'password123',
 			'session'  => $session1,
 		) );
 
-		$login_response2 = $this->login_user( array(
-			'username' => 'testuser',
+		$login_response2 = $this->login( array(
+			'username' => 'testuser_multi',
 			'password' => 'password123',
 			'session'  => $session2,
 		) );
@@ -429,21 +294,12 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 		$this->assert_rest_response_status( 200, $login_response1 );
 		$this->assert_rest_response_status( 200, $login_response2 );
 
-		// Logout from first session.
-		$logout_response1 = $this->logout_user( array(
-			'session' => $session1,
-		) );
-
+		$logout_response1 = $this->logout( array( 'session' => $session1 ) );
 		$this->assert_rest_response_status( 200, $logout_response1 );
 
-		// Logout from second session.
-		$logout_response2 = $this->logout_user( array(
-			'session' => $session2,
-		) );
-
+		$logout_response2 = $this->logout( array( 'session' => $session2 ) );
 		$this->assert_rest_response_status( 200, $logout_response2 );
 
-		// Verify both sessions are terminated.
 		$data1 = $logout_response1->get_data();
 		$data2 = $logout_response2->get_data();
 
@@ -456,43 +312,25 @@ class Test_CoCart_Logout_Controller extends CoCart_API_V2_Test_Case {
 	/**
 	 * Test logout with cart preservation.
 	 *
-	 * Verifies that after logout, the cart data is preserved
-	 * and can be accessed by subsequent requests.
+	 * Verifies that after logout, the cart is inaccessible without authentication.
 	 *
 	 * @return void
 	 */
 	public function test_logout_with_cart_preservation() {
-		// Create a test user.
-		$user = $this->create_user( array(
-			'user_login' => 'testuser',
-			'user_email' => 'test@example.com',
-			'user_pass'  => 'password123',
-		) );
+		$user_id = $this->factory->user->create();
+		$this->authenticate_as( $user_id );
 
-		// Login the user.
-		$login_response = $this->login_user( array(
-			'username' => 'testuser',
-			'password' => 'password123',
-		) );
-
-		$this->assert_rest_response_status( 200, $login_response );
-
-		// Add item to cart.
 		$product = $this->create_product( array(
 			'name'          => 'Test Product',
 			'regular_price' => '25.00',
 		) );
 
-		$this->add_item_to_cart( array(
-			'product_id' => $product->get_id(),
-			'quantity'   => 1,
-		) );
+		$this->add_item_to_cart( $product->get_id(), 1 );
 
-		// Logout the user.
-		$logout_response = $this->logout_user();
+		$logout_response = $this->logout();
 		$this->assert_rest_response_status( 200, $logout_response );
 
-		// Verify cart is still accessible (though without authentication).
+		$this->clear_authentication();
 		$cart_response = $this->get_cart();
 		$this->assert_rest_response_status( 401, $cart_response );
 	}
