@@ -97,56 +97,21 @@ class CoCart_Unit_Tests_Bootstrap {
 
 	/**
 	 * Loads the required files.
+	 *
+	 * Only framework base classes are loaded here. Test files are discovered
+	 * and loaded automatically by PHPUnit via the <directory> entries in phpunit.xml.
 	 */
 	private function includes() {
 		// Test case base.
 		require_once $this->tests_dir . '/class-cocart-test-case.php';
 
 		// Framework (load order: base → rest → api → v1 → v2).
+		// These must be loaded before PHPUnit scans test files, since test classes extend them.
 		require_once $this->tests_dir . '/framework/class-cocart-unit-test-case.php';
 		require_once $this->tests_dir . '/framework/class-cocart-rest-test-case.php';
 		require_once $this->tests_dir . '/framework/class-cocart-api-test-case.php';
 		require_once $this->tests_dir . '/framework/class-cocart-api-v1-test-case.php';
 		require_once $this->tests_dir . '/framework/class-cocart-api-v2-test-case.php';
-
-		// Top-level unit tests.
-		require_once $this->tests_dir . '/unit/class-cocart-authentication-test.php';
-		require_once $this->tests_dir . '/unit/class-cocart-logout-controller-test.php';
-		require_once $this->tests_dir . '/unit/class-cocart-store-controller-test.php';
-
-		// V1 cart tests.
-		require_once $this->tests_dir . '/unit/v1/class-cocart-cart-controller-v1-test.php';
-
-		// V2 cart tests.
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-add-item-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-batch-operations-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-calculate-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-cart-controller-v2-test.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-clear-cart-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-count-items-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-create-cart-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-items-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-remove-item-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-restore-item-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-totals-controller.php';
-		require_once $this->tests_dir . '/unit/v2/cart/class-cocart-update-item-controller.php';
-
-		// V2 product tests.
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-attribute-terms-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-product-attributes-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-product-brands-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-product-categories-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-product-reviews-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-product-tags-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-product-variations-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-products-by-id-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-products-by-slug-controller.php';
-		require_once $this->tests_dir . '/unit/v2/products/class-cocart-products-controller-v2-test.php';
-
-		// V2 admin tests.
-		require_once $this->tests_dir . '/unit/v2/admin/class-cocart-sessions-controller-test.php';
-		require_once $this->tests_dir . '/unit/v2/admin/class-cocart-session-delete-controller.php';
-		require_once $this->tests_dir . '/unit/v2/admin/class-cocart-session-items-controller.php';
 	}
 
 	/**
