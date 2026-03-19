@@ -65,9 +65,11 @@ class CoCart_Unit_Tests_Bootstrap {
 	public function __construct() {
 		define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', dirname( __DIR__ ) . '/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php' );
 
-		$this->tests_dir      = __DIR__;
-		$this->wp_tests_dir   = getenv( 'WP_TESTS_DIR' ) ? getenv( 'WP_TESTS_DIR' ) : '/tmp/wordpress-tests-lib';
-		$this->wp_plugins_dir = dirname( dirname( __DIR__ ) );
+		$this->tests_dir    = __DIR__;
+		$this->wp_tests_dir = getenv( 'WP_TESTS_DIR' ) ? getenv( 'WP_TESTS_DIR' ) : '/tmp/wordpress-tests-lib';
+
+		$wp_core_dir          = getenv( 'WP_CORE_DIR' ) ? rtrim( getenv( 'WP_CORE_DIR' ), '/' ) : '/tmp/wordpress';
+		$this->wp_plugins_dir = $wp_core_dir . '/wp-content/plugins';
 
 		define( 'WP_PLUGIN_DIR', $this->wp_plugins_dir );
 
