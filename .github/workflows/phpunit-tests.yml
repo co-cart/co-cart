@@ -32,6 +32,9 @@ jobs:
   phpunit:
     name: PHP ${{ matrix.php }} / WP ${{ matrix.wp }} / WC ${{ matrix.wc }}
     runs-on: ubuntu-latest
+    env:
+      WP_TESTS_DIR: /tmp/wordpress-tests-lib
+      WP_CORE_DIR: /tmp/wordpress
 
     services:
       mysql:
@@ -89,8 +92,6 @@ jobs:
         run: |
           WP_VERSION="${{ matrix.wp }}"
           bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1:3306 "$WP_VERSION"
-        env:
-          WP_TESTS_DIR: /tmp/wordpress-tests-lib
 
       - name: Copy plugin to test environment
         run: |
@@ -99,6 +100,3 @@ jobs:
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit -c phpunit.xml --testdox
-        env:
-          WP_TESTS_DIR: /tmp/wordpress-tests-lib
-          WP_CORE_DIR: /tmp/wordpress
