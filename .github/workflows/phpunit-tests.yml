@@ -82,6 +82,9 @@ jobs:
           curl -sL "https://github.com/woocommerce/woocommerce/releases/download/${WC_VERSION}/woocommerce.zip" -o /tmp/woocommerce.zip
           unzip -q /tmp/woocommerce.zip -d /tmp/wordpress/wp-content/plugins/
 
+      - name: Install Subversion
+        run: sudo apt-get install -y subversion
+
       - name: Install WordPress test suite
         run: |
           WP_VERSION="${{ matrix.wp }}"
