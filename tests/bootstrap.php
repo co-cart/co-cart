@@ -157,7 +157,7 @@ class CoCart_Unit_Tests_Bootstrap {
 		require $this->wp_plugins_dir . '/woocommerce/woocommerce.php';
 
 		// Load CoCart.
-		require_once trailingslashit( dirname( $this->tests_dir ) ) . $this->plugin_id . '.php';
+		require_once trailingslashit( dirname( $this->tests_dir ) ) . $this->plugin_id;
 
 		if ( ! defined( 'COCART_CART_CACHE_GROUP' ) ) {
 			define( 'COCART_CART_CACHE_GROUP', 'cocart_cart_id' );
