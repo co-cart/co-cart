@@ -162,12 +162,6 @@ class CoCart_Unit_Tests_Bootstrap {
 		if ( ! defined( 'COCART_CART_CACHE_GROUP' ) ) {
 			define( 'COCART_CART_CACHE_GROUP', 'cocart_cart_id' );
 		}
-
-		if ( ! defined( 'COCART_FILE_PATH' ) ) {
-			define( 'COCART_FILE_PATH', CoCart()->plugin_path() . '/' );
-		}
-
-		CoCart()->includes();
 	}
 
 	/**
