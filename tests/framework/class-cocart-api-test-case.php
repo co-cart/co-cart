@@ -27,7 +27,7 @@ abstract class CoCart_API_Test_Case extends CoCart_REST_Test_Case {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	protected function set_up() {
+	public function set_up() {
 		parent::set_up();
 
 		// Ensure CoCart is loaded.

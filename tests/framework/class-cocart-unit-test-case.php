@@ -25,7 +25,7 @@ abstract class CoCart_Unit_Test_Case extends CoCart_Test_Case {
 	 *
 	 * @return void
 	 */
-	protected function set_up() {
+	public function set_up() {
 		parent::set_up();
 
 		// Ensure WooCommerce is loaded.
@@ -45,7 +45,7 @@ abstract class CoCart_Unit_Test_Case extends CoCart_Test_Case {
 	 *
 	 * @return void
 	 */
-	protected function tear_down() {
+	public function tear_down() {
 		// Clear cart after each test.
 		$this->clear_cart();
 

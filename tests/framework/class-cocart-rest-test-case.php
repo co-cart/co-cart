@@ -32,7 +32,7 @@ abstract class CoCart_REST_Test_Case extends CoCart_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	protected function set_up() {
+	public function set_up() {
 		parent::set_up();
 
 		// Set up REST server.
@@ -49,7 +49,7 @@ abstract class CoCart_REST_Test_Case extends CoCart_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	protected function tear_down() {
+	public function tear_down() {
 		// Clean up REST server.
 		global $wp_rest_server;
 		$wp_rest_server = null;
