@@ -397,9 +397,9 @@ class CoCart_Utilities_Product_Helpers {
 		if ( 'variation' === $product_type ) {
 			$product = wc_get_product( $product->get_parent_id() );
 
-			$product_slug = $product->get_slug();
+			$product_slug = urldecode( $product->get_slug() );
 		} else {
-			$product_slug = $product->get_slug();
+			$product_slug = urldecode( $product->get_slug() );
 		}
 	} // END get_product_slug()
 
@@ -438,15 +438,24 @@ class CoCart_Utilities_Product_Helpers {
 	public static function get_product_variation_by_slug( $slug ) {
 		global $wpdb;
 
-		$result = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT ID, post_name, post_parent, post_type
-				FROM $wpdb->posts
-				WHERE post_name = %s
-				AND post_type = 'product_variation'",
-				$slug
-			)
-		);
+		// Check cache first.
+		$cache_key = 'cocart_variation_by_slug_' . md5( $slug );
+		$result    = wp_cache_get( $cache_key, 'cocart_product_helpers' );
+
+		if ( false === $result ) {
+			$result = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$wpdb->prepare(
+					"SELECT ID, post_name, post_parent, post_type
+					FROM $wpdb->posts
+					WHERE post_name = %s
+					AND post_type = 'product_variation'",
+					$slug
+				)
+			);
+
+			// Cache the result for 1 hour.
+			wp_cache_set( $cache_key, $result, 'cocart_product_helpers', HOUR_IN_SECONDS );
+		}
 
 		if ( ! $result ) {
 			return null;
@@ -481,7 +490,7 @@ class CoCart_Utilities_Product_Helpers {
 		if ( empty( $variation_id ) ) {
 			throw new CoCart_Data_Exception(
 				'cocart_no_variation_found',
-				__( 'No matching variation found.', 'cocart-core' ),
+				esc_html__( 'No matching variation found.', 'cocart-core' ),
 				400
 			);
 		}

@@ -28,14 +28,9 @@ class_alias( 'CoCart_REST_Add_Item_V2_Controller', 'CoCart_Add_Item_V2_Controlle
 class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'cart/add-item';
-
-	/**
 	 * Get the path of this rest route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -45,6 +40,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -57,18 +54,27 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart/add-item';
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
 	 * @since 4.0.0 Allowed route to be requested in a batch request.
-	 *
-	 * @deprecated 5.0.0 No longer use.
 	 *
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
@@ -100,16 +106,20 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 		try {
 			$cart = $this->get_cart_instance();
 
-			$params = $request->get_params();
+			$params = is_object( $request ) ? $request->get_params() : array();
 
-			$request = array_merge( array(
-				'id'        => '0',
-				'quantity'  => 1,
-				'variation' => array(),
-				'item_data' => array(),
-			), $params );
+			$requested = array_merge(
+				array(
+					'id'        => '0',
+					'quantity'  => 1,
+					'variation' => array(),
+					'item_data' => array(),
+				),
+				$params
+			);
 
-			$request['id'] = wc_clean( wp_unslash( $request['id'] ) );
+			// Make sure the product ID is clean and unslashed for validation.
+			$request->set_param( 'id', wc_clean( wp_unslash( $request['id'] ) ) );
 
 			// Validate product ID before continuing and return correct product ID if SKU was used.
 			$request['id'] = CoCart_Utilities_Cart_Helpers::validate_product_id( $request['id'] );
@@ -119,11 +129,8 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				return $request['id'];
 			}
 
-			// The product we are attempting to add to the cart.
+			// Identify the product we are attempting to add to the cart.
 			$product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $request );
-
-			// Product type.
-			$request['product_type'] = $product->get_type();
 
 			// Filter requested data and variation data if any.
 			$request = $this->filter_request_data( $this->parse_variation_data( $request, $product ) );
@@ -131,6 +138,9 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			if ( is_wp_error( $request ) ) {
 				return $request;
 			}
+
+			// Product type.
+			$product_type = $product->get_type();
 
 			// Generate an ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $cart->generate_cart_id( $request['id'], $request['variation_id'], $request['variation'], $request['item_data'] );
@@ -140,15 +150,43 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 			$quantity_limits = new CoCart_Utilities_Quantity_Limits();
 
+			if ( null === $request['quantity'] ) {
+				$requested['quantity'] = $quantity_limits->get_add_to_cart_limits( $product )['minimum'];
+			}
+
+			// Prevent adding items with zero or negative quantity.
+			if ( $requested['quantity'] <= 0 ) {
+				throw new CoCart_Data_Exception(
+					'cocart_invalid_quantity_added',
+					sprintf(
+						/* translators: %s: Product name. */
+						esc_html__( 'You cannot add &quot;%s&quot; with a quantity less than or equal to 0 to the cart.', 'cocart-core' ),
+						esc_html( $product->get_name() )
+					),
+					400
+				);
+			}
+
 			if ( ! $request['container_item'] ) {
-				// Validate quantity before continuing if item is singular and return formatted.
-				$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );
+				// Normalize quantity to the nearest valid value (respects step, min and max).
+				$requested['quantity'] = $quantity_limits->normalize_cart_item_quantity( $requested['quantity'], array( 'data' => $product ) );
+
+				// Validate the normalized quantity against limits.
+				$requested['quantity'] = $quantity_limits->validate_quantity( $requested['quantity'], $product );
+
+				// If validation returned an error, return error response.
+				if ( is_wp_error( $requested['quantity'] ) ) {
+					return $requested['quantity'];
+				}
 
 				// Update quantity for item already in cart.
 				if ( $existing_item_key ) {
 					$cart_item = $cart->cart_contents[ $existing_item_key ];
 
-					$new_quantity = $request['quantity'] + $cart_item['quantity'];
+					$new_quantity = $requested['quantity'] + $cart_item['quantity'];
+
+					// Normalize the combined quantity.
+					$new_quantity = $quantity_limits->normalize_cart_item_quantity( $new_quantity, $cart_item );
 
 					// Check the quantity limits for new quantity requested.
 					$quantity_validation = $quantity_limits->validate_cart_item_quantity( $new_quantity, $cart_item );
@@ -174,25 +212,14 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					 */
 					do_action( 'cocart_item_added_updated_in_cart', $request, $item_key, $cart_item, $new_quantity );
 
-					cocart_add_to_cart_message( array( $request['id'] => $request['quantity'] ) );
+					cocart_add_to_cart_message( array( $request['id'] => $new_quantity ) );
 
-					$response = $this->get_cart( $request );
-
-					$response = rest_ensure_response( $response );
-					$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
-
-					return $response;
+					return $this->get_items( $request );
 				}
 
-				// The quantity of item added to the cart.
-				$request['quantity'] = CoCart_Utilities_Cart_Helpers::set_cart_item_quantity( $request );
-
-				if ( is_wp_error( $request['quantity'] ) ) {
-					return $request['quantity'];
-				}
+				// The quantity of the item added to the cart.
+				$request->set_param( 'quantity', $requested['quantity'] );
 			}
-
-			// $requested_quantity = $request['quantity'];
 
 			/**
 			 * Filters the add to cart handler.
@@ -205,7 +232,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			 * @param string     $product_type The product type to identify handler.
 			 * @param WC_Product $product      The product object.
 			 */
-			$handler = apply_filters( 'cocart_add_to_cart_handler', $request['product_type'], $product );
+			$handler = apply_filters( 'cocart_add_to_cart_handler', $product_type, $product );
 
 			switch ( $handler ) {
 				case 'grouped':
@@ -258,7 +285,9 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				 */
 				do_action( 'cocart_item_added_to_cart', $request, $item_key, $item_added );
 
-				cocart_add_to_cart_message( array( $request['id'] => $request['quantity'] ) );
+				if ( ! isset( $request['no_notice'] ) ) {
+					cocart_add_to_cart_message( array( $request['id'] => $request['quantity'] ) );
+				}
 			} else {
 				/**
 				 * If WooCommerce can provide a reason for the error then let that error message return first.
@@ -298,7 +327,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			 * @param string          $product_type The product type added to cart.
 			 * @param object          $controller   The cart controller.
 			 */
-			do_action( 'cocart_after_item_added_to_cart', $item_added, $request, $request['product_type'], $this );
+			do_action( 'cocart_after_item_added_to_cart', $item_added, $request, $product_type, $this );
 
 			// Was it requested to return the item details after being added?
 			if ( isset( $request['return_item'] ) && is_bool( $request['return_item'] ) && $request['return_item'] ) {
@@ -320,15 +349,14 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				} else {
 					$response = $this->get_item( $item_added['data'], $item_added, $request );
 				}
+
+				$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
 			} else {
-				$request['dont_calculate'] = true;
-				$response                  = $this->get_cart( $request );
+				$request->set_param( 'dont_calculate', true ); // May need to remove this line. Will see after beta feedback testing.
+				$response = $this->get_items( $request );
 			}
 
-			$response = rest_ensure_response( $response );
-			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
-
-			return $response;
+			return rest_ensure_response( $response );
 		} catch ( CoCart_Data_Exception $e ) {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
@@ -365,13 +393,15 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					// The product we are attempting to add to the cart.
 					$product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $request );
 
-					$quantity            = wc_stock_amount( $quantity );
-					$request['quantity'] = $quantity; // Override the request quantity to the quantity of the item in group.
+					// Validate and format quantity using consolidated quantity limits.
+					$grouped_quantity_limits = new CoCart_Utilities_Quantity_Limits();
+					$request['quantity']     = $grouped_quantity_limits->validate_quantity( $request['quantity'], $product );
 
-					// Validate quantity before continuing if item is singular and return formatted.
-					$request['quantity'] = CoCart_Utilities_Cart_Helpers::validate_quantity( $request['quantity'], $product );
+					if ( is_wp_error( $request['quantity'] ) ) {
+						return $request['quantity'];
+					}
 
-					if ( $quantity <= 0 ) {
+					if ( $request['quantity'] <= 0 ) {
 						continue;
 					}
 
@@ -431,6 +461,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 			'id'          => array(
 				'description'       => __( 'Unique identifier for the product or variation ID.', 'cocart-core' ),
 				'type'              => 'string',
+				'default'           => '0',
 				'required'          => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
@@ -633,7 +664,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 				$this->get_cart_instance()->set_quantity( $item_key, $new_quantity, false );
 
-				$item_added = $this->get_cart_item( $item_key, 'add' );
+				$item_added = $this->get_item_from_cart( $item_key, 'add' );
 
 				/**
 				 * Fires if item was added again to the cart with the quantity increased.
@@ -666,7 +697,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 				// Return response to added item to cart or return error.
 				if ( $item_key ) {
 					// Return item details.
-					$item_added = $this->get_cart_item( $item_key, 'add' );
+					$item_added = $this->get_item_from_cart( $item_key, 'add' );
 
 					/**
 					 * Hook: Fires once an item has been added to cart.

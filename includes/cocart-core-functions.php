@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $name  Constant name.
  * @param mixed  $value Value.
  */
-function cocart_maybe_define_constant( $name, $value ) {
+function cocart_maybe_define_constant( $name, $value ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	if ( ! defined( $name ) ) {
-		define( $name, $value );
+		define( $name, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound
 	}
 } // END cocart_maybe_define_constant()
 
@@ -34,24 +34,31 @@ function cocart_maybe_define_constant( $name, $value ) {
  *
  * @since 4.2.0 Introduced.
  *
- * @param string $cart_key The cart key.
- * @param string $type     The type of timestamp.
+ * @param string $cart_key        The cart key.
+ * @param string $timestamp_type  The type of timestamp ('created' or 'expired').
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return string The timestamp the cart was created or expired.
+ * @return string|null The timestamp the cart was created or expired, or null if invalid type.
  */
-function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) {
+function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( 'created' === $timestamp_type ) {
-		$value = 'cart_created';
+		$column = 'cart_created';
 	} elseif ( 'expired' === $timestamp_type ) {
-		$value = 'cart_expiry';
+		$column = 'cart_expiry';
+	} else {
+		return null;
 	}
 
 	$result = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		$wpdb->prepare( "SELECT $value FROM {$wpdb->prefix}cocart_carts WHERE cart_key = %s", $cart_key ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$wpdb->prepare(
+			'SELECT %i FROM %i WHERE cart_key = %s',
+			$column,
+			$wpdb->prefix . 'cocart_carts',
+			$cart_key
+		)
 	);
 
 	return $result;
@@ -68,7 +75,7 @@ function cocart_get_timestamp( $cart_key, $timestamp_type = 'created' ) {
  *
  * @return string
  */
-function cocart_get_source( $cart_key ) {
+function cocart_get_source( $cart_key ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	$value = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -109,7 +116,7 @@ function cocart_get_cart_hash( $cart_key ) {
  *
  * @return boolean Returns true or false if the session table exists.
  */
-function cocart_maybe_show_results() {
+function cocart_maybe_show_results() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}cocart_carts';" ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -130,7 +137,7 @@ function cocart_maybe_show_results() {
  *
  * @return int Number of carts in session.
  */
-function cocart_carts_in_session( $session = '' ) {
+function cocart_carts_in_session( $session = '' ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
@@ -165,7 +172,7 @@ function cocart_carts_in_session( $session = '' ) {
  *
  * @return int Number of carts expiring.
  */
-function cocart_count_carts_expiring() {
+function cocart_count_carts_expiring() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
@@ -196,7 +203,7 @@ function cocart_count_carts_expiring() {
  *
  * @return int Number of carts active.
  */
-function cocart_count_carts_active() {
+function cocart_count_carts_active() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
@@ -226,7 +233,7 @@ function cocart_count_carts_active() {
  *
  * @return int Number of carts expired.
  */
-function cocart_count_carts_expired() {
+function cocart_count_carts_expired() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
@@ -256,7 +263,7 @@ function cocart_count_carts_expired() {
  *
  * @return int Number of carts created via the web.
  */
-function cocart_carts_source_web() {
+function cocart_carts_source_web() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
@@ -286,7 +293,7 @@ function cocart_carts_source_web() {
  *
  * @return int Number of carts created via CoCart API.
  */
-function cocart_carts_source_headless() {
+function cocart_carts_source_headless() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
@@ -316,7 +323,7 @@ function cocart_carts_source_headless() {
  *
  * @return int Number of carts created via other or unknown.
  */
-function cocart_carts_source_other() {
+function cocart_carts_source_other() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	global $wpdb;
 
 	if ( ! cocart_maybe_show_results() ) {
@@ -343,7 +350,7 @@ function cocart_carts_source_other() {
  *
  * @since 4.2.0 Introduced.
  */
-function cocart_nocache_headers() {
+function cocart_nocache_headers() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	cocart_maybe_define_constant( 'DONOTCACHEPAGE', true );
 	cocart_maybe_define_constant( 'DONOTCACHEOBJECT', true );
 	cocart_maybe_define_constant( 'DONOTCACHEDB', true );

@@ -22,54 +22,23 @@ class_alias( 'CoCart_REST_Sessions_V2_Controller', 'CoCart_Sessions_V2_Controlle
  * via "cocart/v2/sessions" endpoint.
  *
  * @since 4.0.0 Introduced.
+ * @extends CoCart_REST_Controller
  */
-class CoCart_REST_Sessions_V2_Controller {
+class CoCart_REST_Sessions_V2_Controller extends CoCart_REST_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
-	 *
-	 * @access protected
+	 * The version of this controller's route.
 	 *
 	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @access protected
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'sessions';
-
-	/**
-	 * Version of route.
 	 */
 	protected $version = 'v2';
-
-	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
 
 	/**
 	 * Get the path of this rest route.
 	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/sessions';
 	}
 
@@ -91,7 +60,20 @@ class CoCart_REST_Sessions_V2_Controller {
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @access protected
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'sessions';
+
+	/**
 	 * Register the routes for index.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -116,9 +98,11 @@ class CoCart_REST_Sessions_V2_Controller {
 	 *
 	 * @since 3.0.0 Introduced
 	 *
-	 * @return WP_Error|boolean
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
-	public function get_items_permissions_check() {
+	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
 			return new \WP_Error( 'cocart_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'cocart-core' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -157,7 +141,7 @@ class CoCart_REST_Sessions_V2_Controller {
 
 			foreach ( $results as $key => $cart ) {
 				$cart_value = maybe_unserialize( $cart['cart_value'] );
-				$customer   = maybe_unserialize( $cart_value['customer'] );
+				$customer   = isset( $cart_value['customer'] ) ? maybe_unserialize( $cart_value['customer'] ) : array();
 
 				$email      = ! empty( $customer['email'] ) ? $customer['email'] : '';
 				$first_name = ! empty( $customer['first_name'] ) ? $customer['first_name'] : '';
@@ -181,7 +165,7 @@ class CoCart_REST_Sessions_V2_Controller {
 				);
 			}
 
-			return CoCart_Response::get_response( $sessions, $this->namespace, $this->rest_base );
+			return rest_ensure_response( $sessions );
 		} catch ( \CoCart_Data_Exception $e ) {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
@@ -197,7 +181,11 @@ class CoCart_REST_Sessions_V2_Controller {
 	 * @return array
 	 */
 	public function get_public_object_schema() {
-		return array(
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_sessions_v2',
 			'type'       => 'object',
@@ -254,5 +242,7 @@ class CoCart_REST_Sessions_V2_Controller {
 				),
 			),
 		);
+
+		return $this->schema;
 	} // END get_public_object_schema()
 } // END class

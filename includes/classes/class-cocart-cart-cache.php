@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Cart Cache for Cart REST API.
+ * Cache for the cart.
  *
  * This handles the cart data in cache before the totals are calculated.
  *
@@ -94,7 +94,6 @@ class CoCart_Cart_Cache {
 	 * Removes item from cache to prevent it from calculating
 	 * wrong the next time it's added to the cart.
 	 *
-	 * Or clears all cached items when the cart is cleared.
 	 * Uses "WC()->session->set()" and "WC()->session->__unset()"
 	 *
 	 * @access public
@@ -108,7 +107,7 @@ class CoCart_Cart_Cache {
 		}
 
 		if ( is_array( $cart_item_key ) ) {
-			$cart_item_key = $cart_item_key['key'];
+			$cart_item_key = isset( $cart_item_key['key'] ) ? $cart_item_key['key'] : '';
 		}
 
 		if ( ! empty( $cart_item_key ) ) {
@@ -121,9 +120,6 @@ class CoCart_Cart_Cache {
 			} else {
 				WC()->session->__unset( 'cart_cached' );
 			}
-		} else {
-			// Clear cache.
-			self::clear_cart_cached();
 		}
 	} // END remove_cached_item()
 

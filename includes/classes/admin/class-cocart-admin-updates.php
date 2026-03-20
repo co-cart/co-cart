@@ -787,7 +787,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 							),
 						)
 					),
-					$plugin_data['Name'],
+					esc_html( $plugin_data['Name'] ),
 					esc_attr( $plugin_data['slug'] )
 				);
 			}
@@ -829,7 +829,7 @@ if ( ! class_exists( 'CoCart_Admin_Updates' ) ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $plugin_data['slug'] . '-update-info' ) . '" data-slug="' . $plugin_data['Name'] . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-error notice-alt">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				echo '<p>';
-				echo __( 'This legacy plugin can no longer be activated because you have a newer version active. It is recommended to <strong>delete</strong> it.', 'cocart-core' );
+				echo wp_kses_post( __( 'This legacy plugin can no longer be activated because you have a newer version active. It is recommended to <strong>delete</strong> it.', 'cocart-core' ) );
 				echo '</p></div></td></tr>';
 				return;
 			}

@@ -29,7 +29,7 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/session/(?P<session_key>[\w]+)/items';
 	}
 
@@ -52,22 +52,6 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 	} // END get_args()
 
 	/**
-	 * Register the routes for index.
-	 *
-	 * @access public
-	 */
-	public function register_routes() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		// Get Cart Items in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6/items (GET).
-		register_rest_route(
-			$this->namespace,
-			$this->get_path(),
-			$this->get_args()
-		);
-	} // END register_routes()
-
-	/**
 	 * Check whether a given request has permission to read site data.
 	 *
 	 * @access public
@@ -76,7 +60,7 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
@@ -118,7 +102,7 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cocart-core' ), 404 );
 			}
 
-			$session_data = $this->get_items( maybe_unserialize( $cart['cart'] ), $request );
+			$session_data = $this->get_items_in_cart( maybe_unserialize( $cart['cart'] ), $request );
 
 			$response = rest_ensure_response( $session_data );
 

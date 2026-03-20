@@ -22,55 +22,32 @@ class_alias( 'CoCart_REST_Store_V2_Controller', 'CoCart_Store_V2_Controller' );
  * and all public routes via "cocart/v2/store" endpoint.
  *
  * @since 3.0.0 Introduced.
+ * @extends CoCart_REST_Controller
  */
-class CoCart_REST_Store_V2_Controller {
+class CoCart_REST_Store_V2_Controller extends CoCart_REST_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
+	 * The version of this controller's route.
 	 *
 	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'store';
-
-	/**
-	 * Version of route.
 	 */
 	protected $version = 'v2';
 
 	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
 	 *
+	 * @since 5.0.0 Introduced.
+	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/store';
 	}
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -82,12 +59,23 @@ class CoCart_REST_Store_V2_Controller {
 				'permission_callback' => '__return_true',
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'store';
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -154,6 +142,8 @@ class CoCart_REST_Store_V2_Controller {
 		 * about the store, routes available on the API, and a small amount
 		 * of data about the site.
 		 *
+		 * @since 3.0.0 Introduced.
+		 *
 		 * @param WP_REST_Response $response The response object.
 		 */
 		return apply_filters( 'cocart_store_index', $response );
@@ -167,6 +157,15 @@ class CoCart_REST_Store_V2_Controller {
 	 * @return array
 	 */
 	public function get_store_address() {
+		/**
+		 * Filters the store address.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array $address The store address details.
+		 *
+		 * @return array The store address details.
+		 */
 		return apply_filters(
 			'cocart_store_address',
 			array(
@@ -189,6 +188,15 @@ class CoCart_REST_Store_V2_Controller {
 	 * @return array
 	 */
 	protected function get_versions() {
+		/**
+		 * Filters the versions of CoCart plugins installed.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param array $versions The versions of CoCart plugins.
+		 *
+		 * @return array The versions of CoCart plugins.
+		 */
 		return apply_filters(
 			'cocart_store_versions',
 			array(
@@ -209,8 +217,17 @@ class CoCart_REST_Store_V2_Controller {
 	 * @return array
 	 */
 	protected function get_routes() {
-		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/cocart/v2/' );
+		$prefix = trailingslashit( home_url() . '/' . rest_get_url_prefix() . '/' . CoCart::get_api_namespace() . '/v2/' );
 
+		/**
+		 * Filters the list of all public CoCart API routes.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array $routes The list of routes.
+		 *
+		 * @return array The list of routes.
+		 */
 		return apply_filters(
 			'cocart_routes',
 			array(
@@ -250,8 +267,12 @@ class CoCart_REST_Store_V2_Controller {
 	 *
 	 * @return array Public item schema data.
 	 */
-	public function get_public_item_schema() {
-		$schema = array(
+	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_store',
 			'type'       => 'object',
@@ -353,7 +374,7 @@ class CoCart_REST_Store_V2_Controller {
 		if ( count( $routes ) > 0 ) {
 			// Apply each route to the properties.
 			foreach ( $routes as $route => $endpoint ) {
-				$schema['properties']['routes']['properties'][ $route ] = array(
+				$this->schema['properties']['routes']['properties'][ $route ] = array(
 					'description' => sprintf(
 						/* translators: %s: Route URL */
 						__( 'The "%s" route URL.', 'cocart-core' ),
@@ -366,9 +387,9 @@ class CoCart_REST_Store_V2_Controller {
 			}
 		} else {
 			// Remove routes property if none exist.
-			unset( $schema['properties']['routes'] );
+			unset( $this->schema['properties']['routes'] );
 		}
 
-		return $schema;
-	} // END get_public_item_schema()
+		return $this->schema;
+	} // END get_item_schema()
 } // END class

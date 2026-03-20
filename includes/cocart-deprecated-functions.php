@@ -10,6 +10,11 @@
  * @license GPL-3.0
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Runs a deprecated action with notice only if used.
  *

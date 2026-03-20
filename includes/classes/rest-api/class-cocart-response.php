@@ -107,14 +107,6 @@ class CoCart_Response {
 			// Return response.
 			$response = rest_ensure_response( $data );
 
-			// Add timestamp of response.
-			$response->header( 'CoCart-Timestamp', time() );
-
-			// Add version of CoCart.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				$response->header( 'CoCart-Version', COCART_VERSION );
-			}
-
 			// Returns additional headers for the cart endpoint.
 			if ( strpos( $raw_endpoint, 'cart' ) !== false ) {
 				$cart_expiring   = WC()->session->get_cart_is_expiring();
@@ -125,11 +117,11 @@ class CoCart_Response {
 
 				// Send cart key in the header if it's not empty or ZERO.
 				if ( ! empty( $cart_key ) && '0' !== $cart_key ) {
-					$response->header( 'CoCart-API-Cart-Key', $cart_key );
+					$response->header( 'Cart-Key', $cart_key );
 				}
 
-				$response->header( 'CoCart-API-Cart-Expiring', $cart_expiring );
-				$response->header( 'CoCart-API-Cart-Expiration', $cart_expiration );
+				$response->header( 'Cart-Expiring', $cart_expiring );
+				$response->header( 'Cart-Expiration', $cart_expiration );
 			}
 
 			return $response;

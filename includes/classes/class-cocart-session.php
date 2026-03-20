@@ -30,8 +30,8 @@ class CoCart_Load_Cart {
 	 * @ignore Function ignored when parsed into Code Reference.
 	 */
 	public function __construct() {
-		// Loads a users cart.
-		add_action( 'wp', array( $this, 'maybe_load_users_cart' ), 0 );
+		// Loads a cart in session if still valid.
+		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ) );
 
 		// Loads a cart in session if valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ) );
@@ -58,79 +58,149 @@ class CoCart_Load_Cart {
 	 */
 	public static function load_cart_action() {
 		if ( self::maybe_load_cart() ) {
-			$action         = self::get_action_query();
-			$cart_key       = isset( $_REQUEST[ $action ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ $action ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$is_cart_loaded = true;
+			$action   = self::get_action_query();
+			$cart_key = isset( $_GET[ $action ] ) ? trim( sanitize_text_field( wp_unslash( $_GET[ $action ] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			cocart_nocache_headers();
 
-			// Get the requested cart in the database.
-			$requested_cart = WC()->session->get_session( $cart_key );
+			$wc_session = WC()->session;
+
+			// Get the cart in the database.
+			$requested_cart = $wc_session->get_session( $cart_key );
 
 			if ( empty( $requested_cart ) ) {
-				$is_cart_loaded = false;
+				CoCart_Logger::log(
+					sprintf(
+						/* translators: %s: cart key */
+						__( 'Unable to find cart for: %s', 'cocart-core' ),
+						$cart_key
+					),
+					'info'
+				);
 
 				wc_clear_notices();
 				wc_add_notice(
 					esc_html__( 'Cart is not valid! If this is an error, contact for help.', 'cocart-core' ),
 					'error'
 				);
+
+				return;
 			}
 
-			if ( $is_cart_loaded ) {
-				// Destroy guest cart if one already existed.
-				if ( ! is_user_logged_in() && WC()->session->get_cart_key() !== $cart_key ) {
-					WC()->session->delete_cart( WC()->session->get_cart_key() );
+			// Get the cart currently in session if any.
+			$cart_in_session = (array) array_filter( $wc_session->get( 'cart', array() ) );
+
+			$new_cart = array();
+
+			$new_cart['cart']                       = isset( $requested_cart['cart'] ) ? maybe_unserialize( $requested_cart['cart'] ) : null;
+			$new_cart['cart_totals']                = isset( $requested_cart['cart_totals'] ) ? maybe_unserialize( $requested_cart['cart_totals'] ) : null;
+			$new_cart['applied_coupons']            = isset( $requested_cart['applied_coupons'] ) ? maybe_unserialize( $requested_cart['applied_coupons'] ) : null;
+			$new_cart['coupon_discount_totals']     = isset( $requested_cart['coupon_discount_totals'] ) ? maybe_unserialize( $requested_cart['coupon_discount_totals'] ) : null;
+			$new_cart['coupon_discount_tax_totals'] = isset( $requested_cart['coupon_discount_tax_totals'] ) ? maybe_unserialize( $requested_cart['coupon_discount_tax_totals'] ) : null;
+			$new_cart['removed_cart_contents']      = isset( $requested_cart['removed_cart_contents'] ) ? maybe_unserialize( $requested_cart['removed_cart_contents'] ) : null;
+
+			if ( ! empty( $requested_cart['chosen_shipping_methods'] ) ) {
+				$new_cart['chosen_shipping_methods'] = maybe_unserialize( $requested_cart['chosen_shipping_methods'] );
+			}
+
+			if ( ! empty( $requested_cart['cart_fees'] ) ) {
+				$new_cart['cart_fees'] = maybe_unserialize( $requested_cart['cart_fees'] );
+			}
+
+			// Checks for any items cached. - Added by CoCart in order to handle donation pricing mechanic.
+			if ( ! empty( $requested_cart['cart_cached'] ) ) {
+				$new_cart['cart_cached'] = maybe_unserialize( $requested_cart['cart_cached'] );
+			}
+
+			cocart_deprecated_hook( 'cocart_load_cart_override', '4.6.4' );
+
+			// Check if we are keeping the cart currently set via the web.
+			if ( ! empty( $_GET['keep-cart'] ) && is_bool( $_GET['keep-cart'] ) !== true ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$new_cart_content = array_merge( $new_cart['cart'], maybe_unserialize( $cart_in_session ) );
+				/**
+				 * Filter allows you to adjust the merged cart contents.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param array $new_cart_content The new cart content to be merged.
+				 * @param array $new_cart         The new cart to be set in session.
+				 * @param array $cart_in_session  The cart currently in session.
+				 */
+				$new_cart['cart'] = apply_filters( 'cocart_merge_cart_content', $new_cart_content, $new_cart['cart'], $cart_in_session );
+
+				$applied_coupons            = $wc_session->get( 'applied_coupons', array() );
+				$coupon_discount_totals     = $wc_session->get( 'coupon_discount_totals', array() );
+				$coupon_discount_tax_totals = $wc_session->get( 'coupon_discount_tax_totals', array() );
+				$removed_cart_contents      = $wc_session->get( 'removed_cart_contents', array() );
+
+				if ( ! is_null( $applied_coupons ) ) {
+					$new_cart['applied_coupons'] = ! is_null( $new_cart['applied_coupons'] ) ? array_unique( array_merge( $new_cart['applied_coupons'], $applied_coupons ) ) : $applied_coupons;
 				}
 
-				// Sets the php session data for the loaded cart.
-				WC()->session->set( 'cart', maybe_unserialize( $requested_cart['cart'] ) );
-				WC()->session->set( 'applied_coupons', maybe_unserialize( $requested_cart['applied_coupons'] ) );
-				WC()->session->set( 'coupon_discount_totals', maybe_unserialize( $requested_cart['coupon_discount_totals'] ) );
-				WC()->session->set( 'coupon_discount_tax_totals', maybe_unserialize( $requested_cart['coupon_discount_tax_totals'] ) );
-				WC()->session->set( 'removed_cart_contents', maybe_unserialize( $requested_cart['removed_cart_contents'] ) );
-
-				if ( ! empty( $requested_cart['chosen_shipping_methods'] ) ) {
-					WC()->session->set( 'chosen_shipping_methods', maybe_unserialize( $requested_cart['chosen_shipping_methods'] ) );
+				if ( ! is_null( $coupon_discount_totals ) ) {
+					$new_cart['coupon_discount_totals'] = ! is_null( $new_cart['coupon_discount_totals'] ) ? array_merge( $new_cart['coupon_discount_totals'], $coupon_discount_totals ) : $coupon_discount_totals;
 				}
 
-				if ( ! empty( $requested_cart['cart_fees'] ) ) {
-					WC()->session->set( 'cart_fees', maybe_unserialize( $requested_cart['cart_fees'] ) );
+				if ( ! is_null( $coupon_discount_tax_totals ) ) {
+					$new_cart['coupon_discount_tax_totals'] = ! is_null( $new_cart['coupon_discount_tax_totals'] ) ? array_merge( $new_cart['coupon_discount_tax_totals'], $coupon_discount_tax_totals ) : $coupon_discount_tax_totals;
 				}
 
-				// Checks for any items cached.
-				if ( ! empty( $requested_cart['cart_cached'] ) ) {
-					WC()->session->set( 'cart_cached', maybe_unserialize( $requested_cart['cart_cached'] ) );
+				if ( ! is_null( $removed_cart_contents ) ) {
+					$new_cart['removed_cart_contents'] = ! is_null( $new_cart['removed_cart_contents'] ) ? array_merge( $new_cart['removed_cart_contents'], $removed_cart_contents ) : $removed_cart_contents;
 				}
 
 				/**
-				 * Hook: cocart_set_requested_cart.
+				 * Hook: cocart_load_cart.
 				 *
-				 * Fires before the session is finally set.
+				 * Manipulate the merged cart before it set in session.
 				 *
-				 * @since 5.0.0 Introduced.
+				 * @since 2.1.0 Introduced.
 				 *
-				 * @param array $requested_cart The cart data containing cart items, coupons, fees and other cart session data.
+				 * @param array $new_cart        The new cart to be set in session.
+				 * @param array $requested_cart  The requested cart to be loaded.
+				 * @param array $cart_in_session The cart currently in session.
 				 */
-				do_action( 'cocart_set_requested_cart', $requested_cart );
-
-				// Setup cart session.
-				WC()->session->set_cart_key( $cart_key );
-				WC()->session->set_cart_hash();
-				WC()->session->set_session_expiration();
-				WC()->session->set_customer_session_cookie( true );
-
-				/**
-				 * Hook: cocart_cart_loaded.
-				 *
-				 * Fires once a cart has loaded. Can be used to trigger a webhook.
-				 *
-				 * @since 3.8.0 Introduced.
-				 *
-				 * @param string $cart_key The cart key.
-				 */
-				do_action( 'cocart_cart_loaded', $cart_key );
+				do_action( 'cocart_load_cart', $new_cart, $requested_cart, $cart_in_session );
 			}
+
+			// Sets the PHP session data for the loaded cart.
+			// If either cart, applied_coupons, coupon_discount_totals, coupon_discount_tax_totals or removed_cart_contents are not set then they are nulled as fallback.
+			$wc_session->set( 'cart', ! empty( $new_cart['cart'] ) ? maybe_unserialize( $new_cart['cart'] ) : null );
+			$wc_session->set( 'cart_totals', ! empty( $new_cart['cart_totals'] ) ? maybe_unserialize( $new_cart['cart_totals'] ) : null );
+			$wc_session->set( 'applied_coupons', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['applied_coupons'] ) : null );
+			$wc_session->set( 'coupon_discount_totals', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['coupon_discount_totals'] ) : null );
+			$wc_session->set( 'coupon_discount_tax_totals', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['coupon_discount_tax_totals'] ) : null );
+			$wc_session->set( 'removed_cart_contents', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['removed_cart_contents'] ) : null );
+			$wc_session->set( 'chosen_shipping_methods', ! empty( $new_cart['chosen_shipping_methods'] ) ? $new_cart['chosen_shipping_methods'] : null );
+			$wc_session->set( 'cart_fees', ! empty( $new_cart['cart_fees'] ) ? $new_cart['cart_fees'] : null );
+			$wc_session->set( 'cart_cached', ! empty( $new_cart['cart_cached'] ) ? $new_cart['cart_cached'] : null );
+
+			// If true, notify the customer that there cart has transferred over via the web.
+			if ( ! empty( $new_cart ) ) {
+				wc_add_notice(
+					esc_html__( 'Cart is not valid! If this is an error, contact for help.', 'cocart-core' ),
+					'error'
+				);
+			}
+
+			// Set guest customer's cart into session. - This allows the cart to stay synced with the REST API.
+			if ( ! is_user_logged_in() ) {
+				$wc_session->set_cart_key( $cart_key );
+				$wc_session->set_cart_hash();
+				$wc_session->set_session_expiration();
+				$wc_session->set_customer_session_cookie( true );
+			}
+
+			/**
+			 * Hook: cocart_cart_loaded.
+			 *
+			 * Fires once a cart has loaded. Can be used to trigger a webhook.
+			 *
+			 * @since 3.8.0 Introduced.
+			 *
+			 * @param string $cart_key The cart key.
+			 */
+			do_action( 'cocart_cart_loaded', $cart_key );
 		}
 	} // END load_cart_action()
 
@@ -166,7 +236,7 @@ class CoCart_Load_Cart {
 		$action = self::get_action_query();
 
 		// If we did not request to load a cart then just return.
-		if ( ! isset( $_REQUEST[ $action ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_GET[ $action ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return false;
 		}
 
@@ -218,7 +288,7 @@ class CoCart_Load_Cart {
 
 		if ( ! is_user_logged_in() && self::maybe_load_cart() ) {
 			$action   = self::get_action_query();
-			$cart_key = isset( $_REQUEST[ $action ] ) ? trim( sanitize_text_field( wp_unslash( $_REQUEST[ $action ] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$cart_key = isset( $_GET[ $action ] ) ? trim( sanitize_text_field( wp_unslash( $_GET[ $action ] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 			if ( ! empty( $cart_key ) ) {
 				$checkout_url = add_query_arg( $action, $cart_key, $checkout_url );
@@ -331,7 +401,7 @@ class CoCart_Load_Cart {
 				 * @param string  $user_login Username.
 				 * @param WP_User $user       WP_User object of the logged-in user.
 				 */
-				do_action( 'wp_login', $user->user_login, $user );
+				do_action( 'wp_login', $user->user_login, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 				wp_safe_redirect( wc_get_checkout_url() );
 				exit;

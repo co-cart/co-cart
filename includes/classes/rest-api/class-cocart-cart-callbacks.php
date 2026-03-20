@@ -42,7 +42,7 @@ class CoCart_Cart_Callbacks {
 	public function register_callback_update_cart( $callback ) {
 		include_once __DIR__ . '/callbacks/update-cart.php';
 
-		$callback->register( new CoCart_Cart_Update_Callback() );
+		$callback->register( new CoCart_Update_Cart_Callback() );
 	} // END register_callback_update_cart()
 
 	/**

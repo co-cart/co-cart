@@ -17,9 +17,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Product Attributes controller class.
  *
- * @extends CoCart_REST_Terms_Controller
+ * @extends CoCart_REST_Taxonomy_Terms_Controller
  */
-class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller {
+class CoCart_Product_Attributes_Controller extends CoCart_REST_Taxonomy_Terms_Controller {
+
+	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'cocart/v1';
 
 	/**
 	 * Route base.
@@ -42,7 +49,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		return true;
@@ -55,7 +62,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_item_permissions_check( $request ) {
 		if ( ! $this->get_taxonomy( $request ) ) {
@@ -139,7 +146,7 @@ class CoCart_Product_Attributes_Controller extends CoCart_REST_Terms_Controller 
 
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $item ) );
+		$response->add_links( $this->prepare_links( $item, $request ) );
 
 		/**
 		 * Filter a attribute item returned from the API.

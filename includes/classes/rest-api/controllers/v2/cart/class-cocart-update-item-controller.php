@@ -28,23 +28,9 @@ class_alias( 'CoCart_REST_Update_Item_V2_Controller', 'CoCart_Update_Item_V2_Con
 class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'cart/item';
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return $this->get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -54,6 +40,8 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -70,7 +58,18 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart/item';
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -96,8 +95,8 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 5.0.0
+	 * @since 1.0.0 Introduced.
+	 * @since 5.0.0 Added support to change custom item data or select a different variation of a variable product.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -105,28 +104,37 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 */
 	public function update_item( $request ) {
 		try {
-			$item_key = ! isset( $request['item_key'] ) ? 0 : wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
-			$quantity = ! isset( $request['quantity'] ) ? 1 : wc_stock_amount( wp_unslash( $request['quantity'] ) );
-
-			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $item_key, 'update' );
-
 			$cart = $this->get_cart_instance();
 
-			// Ensure we have calculated before we handle any data.
-			$cart->calculate_totals();
+			$params = is_object( $request ) ? $request->get_params() : array();
 
-			// Allows removing of items if quantity is zero should for example the item was with a product bundle.
-			if ( 0 === $quantity ) {
-				$controller = new CoCart_REST_Remove_Item_V2_Controller();
+			$requested = array_merge(
+				array(
+					'item_key'     => '0',
+					'id'           => '0',
+					'quantity'     => null,
+					'variation_id' => 0,
+					'variation'    => array(),
+					'item_data'    => array(),
+				),
+				$params
+			);
 
-				return $controller->remove_item( $request );
+			if ( ! empty( $request['item_key'] ) ) {
+				$request['item_key'] = wc_clean( sanitize_text_field( wp_unslash( $request['item_key'] ) ) );
 			}
 
+			// If we don't have the item key we cannot update the item.
+			$item_key = CoCart_Utilities_Cart_Helpers::throw_missing_item_key( $request['item_key'], 'update' );
+
 			// Check item exists in cart before fetching the cart item data to update.
-			$current_data = $this->get_cart_item( $item_key, 'container' );
+			$cart_item = $this->get_item_from_cart( $item_key, 'container' );
+
+			// Get custom item data from the current product if any.
+			$cart_item_data = CoCart_Utilities_Cart_Helpers::prepare_item( $cart_item );
 
 			// If item does not exist in cart return response.
-			if ( empty( $current_data ) ) {
+			if ( empty( $cart_item ) ) {
 				$message = __( 'Item specified does not exist in cart.', 'cocart-core' );
 
 				/**
@@ -142,106 +150,179 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				throw new CoCart_Data_Exception( 'cocart_item_not_in_cart', $message, 404 );
 			}
 
-			$product = ! is_null( $current_data['data'] ) ? $current_data['data'] : null;
-
 			// If product data is somehow not there on a rare occasion then we need to get that product data to validate it.
-			if ( is_null( $product ) ) {
-				$product = wc_get_product( $current_data['variation_id'] ? $current_data['variation_id'] : $current_data['product_id'] );
+			$product = ! is_null( $cart_item['data'] ) ? $cart_item['data'] : wc_get_product( $cart_item['variation_id'] ? $cart_item['variation_id'] : $cart_item['product_id'] );
+
+			// Product type.
+			$product_type = $product->get_type();
+
+			// Get the parent ID if the product is a variation.
+			$parent_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : 0;
+
+			// Are we changing the quantity of said item?
+			if ( ! is_null( $requested['quantity'] ) ) {
+				$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+
+				// Normalize quantity to the nearest valid value (respects step, min and max).
+				$requested['quantity'] = $quantity_limits->normalize_cart_item_quantity( $requested['quantity'], $cart_item );
+
+				// Validate the normalized quantity against limits.
+				$requested['quantity'] = $quantity_limits->validate_quantity( $requested['quantity'], $cart_item );
+
+				// If validation returned an error return error response.
+				if ( is_wp_error( $requested['quantity'] ) ) {
+					return $requested['quantity'];
+				}
+
+				if ( $requested['quantity'] > 0 ) {
+					// Check stock with user-friendly message (remaining stock details).
+					$has_stock = CoCart_Utilities_Cart_Helpers::has_enough_stock( $cart_item, $requested['quantity'] );
+
+					// If not true, return error response.
+					if ( is_wp_error( $has_stock ) ) {
+						return $has_stock;
+					}
+				}
+			} else {
+				// If quantity is not being updated then set the current quantity to ensure it is not lost if we are changing the variation or custom item data.
+				$request->set_param( 'quantity', $cart_item['quantity'] );
 			}
 
-			$quantity = $this->validate_quantity( $quantity, $product );
+			// Removes item if quantity is zero.
+			if ( 0 === (int) $requested['quantity'] ) {
+				$controller = new CoCart_REST_Remove_Item_V2_Controller();
 
-			// If validation returned an error return error response.
-			if ( is_wp_error( $quantity ) ) {
-				return $quantity;
+				return $controller->remove_item( $request );
 			}
 
-			$has_stock = $this->has_enough_stock( $current_data, $quantity ); // Checks if the item has enough stock before updating.
+			// If we are not simply removing an item then continue.
 
-			// If not true, return error response.
-			if ( is_wp_error( $has_stock ) ) {
-				return $has_stock;
+			// Are we attempting to replace a variation of a product?
+			if ( ! empty( $requested['id'] ) && $product->is_type( 'variation' ) ) {
+				// Validate product ID before continuing and return correct product ID if SKU was used.
+				$request['id'] = CoCart_Utilities_Cart_Helpers::validate_product_id( wc_clean( wp_unslash( $requested['id'] ) ) );
+
+				// Return error response if product ID is not found.
+				if ( is_wp_error( $request['id'] ) ) {
+					return $request['id'];
+				}
+
+				// The product we are attempting to replace in the cart.
+				$new_product = CoCart_Utilities_Cart_Helpers::validate_product_for_cart( $request );
+
+				// Filter requested data and variation data if any.
+				$request = $this->filter_request_data( $this->parse_variation_data( $request, $new_product ) );
+
+				if ( is_wp_error( $request ) ) {
+					return $request;
+				}
+
+				// If the new variation is not connected to the parent product that was initially added to the cart, return an error.
+				if ( $parent_id !== $new_product->get_parent_id() ) {
+					throw new CoCart_Data_Exception( 'cocart_can_not_change_variation', __( 'The variation you are attempting to change is not connected to the original product.', 'cocart-core' ), 400 );
+				}
+
+				if ( $new_product->is_type( 'variation' ) ) {
+					$product = $new_product;
+				}
 			}
+
+			// Are we replacing the custom item data of the product?
+			if ( ! empty( $requested['item_data'] ) ) {
+				$item_data = CoCart_Utilities_Cart_Helpers::validate_item_data( $requested['item_data'] );
+
+				if ( is_wp_error( $item_data ) ) {
+					return $item_data;
+				}
+
+				$request->set_param( 'item_data', CoCart_Utilities_Cart_Helpers::set_cart_item_data( $item_data ) );
+			}
+
+			$quantity_changed = false;
+			$product_changed  = false;
 
 			/**
-			 * Filter allows you to determine if the updated item in cart passed validation.
+			 * Filter allows you to determine if the cart item passed validation.
 			 *
-			 * @since 2.1.0 Introduced.
+			 * @since 5.0.0 Introduced.
 			 *
-			 * @param bool   $cart_valid   True by default.
-			 * @param string $item_key     Item key.
-			 * @param array  $current_data Product data of the item in cart.
-			 * @param float  $quantity     The requested quantity to change to.
+			 * @param bool       $cart_valid True by default.
+			 * @param string     $item_key   Item key.
+			 * @param array      $cart_item  Product data of the current item in cart.
+			 * @param array      $request    The requested data.
+			 * @param WC_Product $product    The product object.
 			 */
-			$passed_validation = apply_filters( 'cocart_update_cart_validation', true, $item_key, $current_data, $quantity );
+			$passed_validation = apply_filters( 'cocart_update_cart_item_validation', true, $item_key, $cart_item, $request, $product );
 
 			// If validation returned an error return error response.
 			if ( is_wp_error( $passed_validation ) ) {
 				return $passed_validation;
 			}
 
-			// Return error if product is_sold_individually.
-			if ( $product->is_sold_individually() && $quantity > 1 ) {
-				$message = sprintf(
-					/* translators: %s Product name. */
-					__( 'You can only have 1 "%s" in your cart.', 'cocart-core' ),
-					$product->get_name()
-				);
-
-				/**
-				 * Filters message about product not being allowed to increase quantity.
-				 *
-				 * @since 1.0.0 Introduced.
-				 *
-				 * @param string     $message Message.
-				 * @param WC_Product $product The product object.
-				 */
-				$message = apply_filters( 'cocart_can_not_increase_quantity_message', $message, $product );
-
-				throw new CoCart_Data_Exception( 'cocart_can_not_increase_quantity', $message, 405 );
-			}
-
-			// Only update cart item quantity if passed validation.
+			// Only update cart item if passed validation.
 			if ( $passed_validation ) {
-				if ( $quantity !== $current_data['quantity'] ) {
-					$new_data = $this->get_cart_item( $item_key, 'update' );
+				// Request to change variation or change custom data.
+				if (
+					( 0 !== $requested['variation_id'] && $requested['variation_id'] !== $cart_item['variation_id'] ) ||
+					! empty( array_diff( $requested['item_data'], $cart_item_data ) )
+				) {
+					// Add new item.
+					$controller = new CoCart_REST_Add_Item_V2_Controller();
 
-					$product_id   = ! isset( $new_data['product_id'] ) ? 0 : absint( wp_unslash( $new_data['product_id'] ) );
-					$variation_id = ! isset( $new_data['variation_id'] ) ? 0 : absint( wp_unslash( $new_data['variation_id'] ) );
-					$product      = wc_get_product( $variation_id ? $variation_id : $product_id );
+					$request->set_param( 'no_notice', true ); // Don't add "Add to Cart" success notice.
+					$request->set_param( 'dont_calculate', true ); // Stops calculating totals until later on.
+					$replaced_product = $controller->add_to_cart( $request );
+					$product_changed  = true;
 
-					if ( $cart->set_quantity( $item_key, $quantity ) ) {
-						/**
-						 * Hook: cocart_item_quantity_changed
-						 *
-						 * @since 2.0.0 Introduced.
-						 *
-						 * @param string $item_key Item key.
-						 * @param array  $new_data Item data.
-						 */
-						do_action( 'cocart_item_quantity_changed', $item_key, $new_data );
+					// Remove the old item if the new variation added successfully.
+					if ( ! is_wp_error( $replaced_product ) ) {
+						$controller = new CoCart_REST_Remove_Item_V2_Controller();
 
-						/**
-						 * Calculates the cart totals if an item has changed it's quantity.
-						 *
-						 * @since 2.1.0 Introduced.
-						 * @since 3.1.0 Changed to calculate all totals.
-						 */
-						$this->calculate_totals();
-					} else {
-						$message = __( 'Unable to update item quantity in cart.', 'cocart-core' );
-
-						/**
-						 * Filters message about can not update item.
-						 *
-						 * @since 2.1.0 Introduced.
-						 *
-						 * @param string $message Message.
-						 */
-						$message = apply_filters( 'cocart_can_not_update_item_message', $message );
-
-						throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, 400 );
+						$controller->remove_item( $request ); // Make the request but don't return anything here.
 					}
+				}
+
+				// If we are only updating the item quantity then check if the product changed.
+				if ( ! $product_changed && $requested['quantity'] !== $cart_item['quantity'] ) {
+					if ( $cart->set_quantity( $item_key, $requested['quantity'] ) ) {
+						$quantity_changed = true;
+					}
+
+					// Ensure we have the updated cart item data for the response.
+					$updated_cart_item = $this->get_item_from_cart( $item_key, 'update' );
+
+					/**
+					 * Hook: cocart_item_quantity_changed
+					 *
+					 * @since 2.0.0 Introduced.
+					 *
+					 * @param string $item_key          Item key.
+					 * @param array  $updated_cart_item Item data.
+					 */
+					do_action( 'cocart_item_quantity_changed', $item_key, $updated_cart_item );
+
+					/**
+					 * Calculates the cart totals if an item has changed its quantity.
+					 *
+					 * @since 2.1.0 Introduced.
+					 * @since 3.1.0 Changed to calculate all totals.
+					 */
+					$this->calculate_totals( $cart );
+				}
+
+				if ( ! $product_changed && ! $quantity_changed ) {
+					$message = __( 'Unable to update item quantity in cart.', 'cocart-core' );
+
+					/**
+					 * Filters message about can not update item.
+					 *
+					 * @since 2.1.0 Introduced.
+					 *
+					 * @param string $message Message.
+					 */
+					$message = apply_filters( 'cocart_can_not_update_item_message', $message );
+
+					throw new CoCart_Data_Exception( 'cocart_can_not_update_item', $message, 400 );
 				}
 
 				/**
@@ -253,60 +334,61 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				 */
 				do_action( 'cocart_item_updated', $request );
 
-				$request['dont_check'] = true;
-				$response              = $this->get_cart( $request );
+				$request->set_param( 'dont_calculate', false ); // Reset to allow totals to be calculated.
 
-				// Was it requested to return status once item updated?
-				if ( $request['return_status'] ) {
-					$response = array();
+				// Add notice if product has changed?
+				if ( $product_changed ) {
+					wc_add_notice(
+						sprintf(
+							/* translators: %s: product name */
+							__( '"%s" has been updated.', 'cocart-core' ),
+							$product->get_name()
+						),
+						'success'
+					);
+				}
 
+				// Add notice if only the quantity was changed?
+				if ( ! $product_changed && $quantity_changed ) {
 					// Return response based on product quantity increment.
-					if ( $quantity > $current_data['quantity'] ) {
-						$response = array(
-							'message'  => sprintf(
-								/* translators: 1: product name, 2: new quantity */
-								__( 'The quantity for "%1$s" has increased to "%2$s".', 'cocart-core' ),
-								$product->get_name(),
-								$new_data['quantity']
-							),
-							'quantity' => $new_data['quantity'],
+					if ( $request['quantity'] > $cart_item['quantity'] ) {
+						$status_message = sprintf(
+							/* translators: 1: product name, 2: new quantity */
+							__( 'The quantity for "%1$s" has increased to "%2$s".', 'cocart-core' ),
+							$product->get_name(),
+							$updated_cart_item['quantity']
 						);
-					} elseif ( $quantity < $current_data['quantity'] ) {
-						$response = array(
-							'message'  => sprintf(
-								/* translators: 1: product name, 2: new quantity */
-								__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cocart-core' ),
-								$product->get_name(),
-								$new_data['quantity']
-							),
-							'quantity' => $new_data['quantity'],
+					} elseif ( $request['quantity'] < $cart_item['quantity'] ) {
+						$status_message = sprintf(
+							/* translators: 1: product name, 2: new quantity */
+							__( 'The quantity for "%1$s" has decreased to "%2$s".', 'cocart-core' ),
+							$product->get_name(),
+							$updated_cart_item['quantity']
 						);
 					} else {
-						$response = array(
-							'message'  => sprintf(
-								/* translators: %s: product name */
-								__( 'The quantity for "%s" has not changed.', 'cocart-core' ),
-								$product->get_name()
-							),
-							'quantity' => $quantity,
+						$status_message = sprintf(
+							/* translators: %s: product name */
+							__( 'The quantity for "%s" has not changed.', 'cocart-core' ),
+							$product->get_name()
 						);
 					}
 
 					/**
-					 * Filters the update status.
+					 * Filters the quantity update status.
 					 *
 					 * @since 2.0.1 Introduced.
 					 *
-					 * @param array      $response Status response.
-					 * @param array      $new_data Cart item.
-					 * @param int        $quantity Quantity.
-					 * @param WC_Product $product  The product object.
+					 * @param array      $status_message    Status response.
+					 * @param array      $updated_cart_item Cart item.
+					 * @param int        $quantity          Quantity.
+					 * @param WC_Product $product           The product object.
 					 */
-					$response = apply_filters( 'cocart_update_item', $response, $new_data, $quantity, $product );
+					$status_message = apply_filters( 'cocart_update_item', $status_message, $updated_cart_item, $request['quantity'], $product );
+
+					wc_add_notice( $status_message, 'success' );
 				}
 
-				$response = rest_ensure_response( $response );
-				$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+				$response = $this->get_items( $request );
 
 				return $response;
 			}
@@ -320,8 +402,9 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 	 *
 	 * @access public
 	 *
-	 * @since 3.0.0  Introduced.
+	 * @since 3.0.0 Introduced.
 	 * @since 4.0.0 Updated quantity parameter to validate any number values.
+	 * @since 5.0.0 Added support to change custom item data or select a different variation of a variable product. Removed return status parameter.
 	 *
 	 * @return array $params
 	 */
@@ -331,23 +414,52 @@ class CoCart_REST_Update_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 		// Update item query parameters.
 		$params += array(
-			'item_key'      => array(
+			'item_key'  => array(
 				'description'       => __( 'Unique identifier for the item in the cart.', 'cocart-core' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'validate_callback' => 'rest_validate_request_arg',
 			),
-			'quantity'      => array(
-				'description'       => __( 'Quantity of this item to update to.', 'cocart-core' ),
+			'quantity'  => array(
+				'description'       => __( 'Quantity of the item to update to.', 'cocart-core' ),
 				'type'              => 'string',
-				'required'          => true,
+				'required'          => false,
 				'validate_callback' => 'rest_validate_quantity_arg',
 			),
-			'return_status' => array(
-				'description'       => __( 'Returns a message and quantity value after updating item in cart.', 'cocart-core' ),
-				'default'           => false,
-				'type'              => 'boolean',
-				'sanitize_callback' => 'rest_sanitize_boolean',
+			'id'        => array(
+				'description'       => __( 'Variation ID of the item to update to.', 'cocart-core' ),
+				'type'              => 'integer',
+				'required'          => false,
+				'sanitize_callback' => 'sanitize_text_field',
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'variation' => array(
+				'description'       => __( 'Variable attributes that identify the variation of the item.', 'cocart-core' ),
+				'type'              => 'object',
+				'items'             => array(
+					'type'       => 'object',
+					'properties' => array(
+						'attribute' => array(
+							'description'       => __( 'Variation attribute name.', 'cocart-core' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+						'value'     => array(
+							'description'       => __( 'Variation attribute value.', 'cocart-core' ),
+							'type'              => 'string',
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => 'rest_validate_request_arg',
+						),
+					),
+				),
+				'required'          => false,
+				'validate_callback' => 'rest_validate_request_arg',
+			),
+			'item_data' => array(
+				'description'       => __( 'Add or replace custom item data to make item unique.', 'cocart-core' ),
+				'type'              => 'object',
+				'required'          => false,
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 		);

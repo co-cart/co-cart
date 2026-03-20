@@ -23,56 +23,32 @@ class_alias( 'CoCart_REST_Products_V2_Controller', 'CoCart_Products_V2_Controlle
  *
  * @since 3.1.0 Introduced.
  *
- * @extends CoCart_Products_Controller
+ * @extends CoCart_REST_Products_Controller
  */
-class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
+class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
+	 * The version of this controller's route.
 	 *
 	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Schema.
-	 *
-	 * @var array
-	 */
-	protected $schema = array();
-
-	/**
-	 * Version of route.
 	 */
 	protected $version = 'v2';
 
 	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
 	 *
+	 * @since 5.0.0 Introduced.
+	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products';
-	}
+	} // END get_path_regex()
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -91,6 +67,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 */
@@ -111,7 +89,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
-	 * @since 3.2.0 Moved products to it's own object and returned also pagination information.
+	 * @since 3.2.0 Moved products to its own object and returned also pagination information.
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
@@ -146,93 +124,15 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		$response = rest_ensure_response( $results );
 		$response = ( new CoCart_REST_Utilities_Pagination() )->add_headers( $response, $request, $total_items, $max_pages );
 
-		/*
-		$response->header( 'X-WP-Total', $total_items );
-		$response->header( 'X-WP-TotalPages', (int) $max_pages );
-
-		$base          = $this->rest_base;
-		$attrib_prefix = '(?P<';
-
-		if ( strpos( $base, $attrib_prefix ) !== false ) {
-			$attrib_names = array();
-
-			preg_match( '/\(\?P<[^>]+>.*\)/', $base, $attrib_names, PREG_OFFSET_CAPTURE );
-
-			foreach ( $attrib_names as $attrib_name_match ) {
-				$beginning_offset = strlen( $attrib_prefix );
-				$attrib_name_end  = strpos( $attrib_name_match[0], '>', $attrib_name_match[1] );
-				$attrib_name      = substr( $attrib_name_match[0], $beginning_offset, $attrib_name_end - $beginning_offset );
-
-				if ( isset( $request[ $attrib_name ] ) ) {
-					$base = str_replace( "(?P<$attrib_name>[\d]+)", $request[ $attrib_name ], $base );
-				}
-			}
+		// Prevent WordPress from filtering the collection wrapper fields.
+		// The _fields parameter is already applied to individual products in prepare_object_for_response().
+		// We don't want it to filter the collection metadata (page, total_pages, total_products).
+		if ( isset( $request['_fields'] ) ) {
+			$request->offsetUnset( '_fields' );
 		}
-
-		$base = add_query_arg( $request->get_query_params(), rest_url( sprintf( '/%s/%s', $this->namespace, $base ) ) );
-
-		if ( $page > 1 ) {
-			$prev_page = $page - 1;
-
-			if ( $prev_page > $max_pages ) {
-				$prev_page = $max_pages;
-			}
-
-			$prev_link = add_query_arg( 'page', $prev_page, $base );
-			$response->add_links(
-				array(
-					'prev' => array( 'href' => $prev_link ),
-				)
-			);
-			$response->link_header( 'prev', $prev_link );
-		}
-
-		if ( $max_pages > $page ) {
-			$next_page = $page + 1;
-			$next_link = add_query_arg( 'page', $next_page, $base );
-			$response->add_links(
-				array(
-					'next' => array( 'href' => $next_link ),
-				)
-			);
-			$response->link_header( 'next', $next_link );
-		}*/
 
 		return $response;
 	} // END get_items()
-
-	/**
-	 * Prepare links for the request.
-	 *
-	 * @access protected
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @param WC_Product $product The product object.
-	 *
-	 * @return array Links for the given product.
-	 */
-	protected function prepare_links( $product ) {
-		$links = parent::prepare_links( $product );
-
-		$links['self']['permalink']       = cocart_get_permalink( get_permalink( $product->get_id() ) );
-		$links['collection']['permalink'] = cocart_get_permalink( wc_get_page_permalink( 'shop' ) );
-
-		if ( $product->get_parent_id() ) {
-			$links['parent_product']['permalink'] = cocart_get_permalink( get_permalink( $product->get_parent_id() ) );
-		}
-
-		// If product is a variable product, return links to all variations.
-		if ( $product->is_type( 'variable' ) && $product->has_child() || $product->is_type( 'variable-subscription' ) && $product->has_child() ) {
-			$variations = $product->get_children();
-
-			foreach ( $variations as $variation_product ) {
-				$links['variations'][ $variation_product ]['permalink'] = cocart_get_permalink( get_permalink( $variation_product ) );
-			}
-		}
-
-		return $links;
-	} // END prepare_links()
 
 	/**
 	 * Prepare a single product output for response.
@@ -248,40 +148,49 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function prepare_object_for_response( $product, $request ) {
+		$fields = $this->get_fields_for_response( $request );
+
 		// Check what product type before returning product data.
 		if ( $product->get_type() !== 'variation' ) {
-			$data = $this->get_product_data( $product );
+			$data = $this->get_product_data( $product, $fields );
 		} else {
-			$data = $this->get_variation_product_data( $product );
+			$data = $this->get_variation_product_data( $product, $fields );
 		}
 
 		// Get global unique ID if function and data exists.
-		if ( method_exists( $product, 'get_global_unique_id' ) ) {
+		if ( rest_is_field_included( 'global_unique_id', $fields ) && method_exists( $product, 'get_global_unique_id' ) ) {
 			$data['global_unique_id'] = $product->get_global_unique_id( 'view' );
 		}
 
 		// Add review data to products if requested.
-		if ( $request['show_reviews'] ) {
+		if ( rest_is_field_included( 'reviews', $fields ) && $request['show_reviews'] ) {
 			$data['reviews'] = $this->get_reviews( $product );
 		}
 
 		// Return each variation if the variable product has variations available.
-		if ( $product->is_type( 'variable' ) && $product->has_child() ) {
+		if ( rest_is_field_included( 'variations', $fields ) && $product->is_type( 'variable' ) && $product->has_child() ) {
 			$data['variations'] = $this->get_variations( $product );
 		}
 
 		// Add grouped products data.
-		if ( $product->is_type( 'grouped' ) && $product->has_child() ) {
+		if ( rest_is_field_included( 'grouped_products', $fields ) && $product->is_type( 'grouped' ) && $product->has_child() ) {
 			$data['grouped_products'] = $product->get_children();
 		}
 
 		$data     = $this->add_additional_fields_to_object( $data, $request );
 		$data     = $this->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $product ) );
+
+		// Only prepare links if requested (WordPress 6.1+ optimization).
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $product, $request ) );
+		}
 
 		/**
 		 * Filter the data for a response.
+		 *
+		 * The dynamic portion of the hook name, $this->post_type,
+		 * refers to product type being prepared for the response.
 		 *
 		 * @since 3.1.0 Introduced.
 		 *
@@ -372,10 +281,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				),
 				'add_to_cart'    => array(
 					'is_purchasable'    => $variation->is_purchasable(),
-					'purchase_quantity' => array(
-						'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $variation ),
-						'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $variation ),
-					),
+					'purchase_quantity' => ( new CoCart_Utilities_Quantity_Limits() )->get_add_to_cart_limits( $variation ),
 					'rest_url'          => $this->add_to_cart_rest_url( $variation, $variation->get_type() ),
 				),
 			);
@@ -385,155 +291,333 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	} // END get_variations()
 
 	/**
-	 * Get the images for a product or product variation.
-	 *
-	 * @access protected
-	 *
-	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
-	 *
-	 * @see CoCart_Utilities_Product_Helpers::get_images()
-	 *
-	 * @param WC_Product|WC_Product_Variation $product The product object.
-	 *
-	 * @return array $images
-	 */
-	protected function get_images( $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_images' );
-
-		return CoCart_Utilities_Product_Helpers::get_images( $product );
-	} // END get_images()
-
-	/**
 	 * Get product data.
 	 *
 	 * @access protected
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 5.0.0 Added $fields parameter for selective field inclusion.
 	 *
 	 * @param WC_Product $product The product object.
+	 * @param array      $fields  Fields to include in the response.
 	 *
 	 * @return array $data The product details.
 	 */
-	protected function get_product_data( $product ) {
-		$type         = $product->get_type();
-		$rating_count = $product->get_rating_count( 'view' );
-		$average      = $product->get_average_rating( 'view' );
+	protected function get_product_data( $product, $fields ) {
+		$data = array();
 
-		$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
-		$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
-
-		// If we have a variable product, get the price from the variations (this will use the min value).
-		if ( $product->is_type( 'variable' ) ) {
-			$regular_price = $product->get_variation_regular_price();
-			$sale_price    = $product->get_variation_sale_price();
-		} else {
-			$regular_price = $product->get_regular_price();
-			$sale_price    = $product->get_sale_price();
+		if ( rest_is_field_included( 'id', $fields ) ) {
+			$data['id'] = $product->get_id();
 		}
 
-		// Provide purchase quantity if not a variable or external product type.
-		$purchase_quantity = array();
-
-		if ( ! $product->is_type( 'variable' ) && ! $product->is_type( 'external' ) ) {
-			$purchase_quantity = array(
-				'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
-				'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
-			);
+		if ( rest_is_field_included( 'parent_id', $fields ) ) {
+			$data['parent_id'] = $product->get_parent_id( 'view' );
 		}
 
-		$date_created      = $product->get_date_created( 'view' );
-		$date_modified     = $product->get_date_modified( 'view' );
-		$date_on_sale_from = $product->get_date_on_sale_from( 'view' );
-		$date_on_sale_to   = $product->get_date_on_sale_to( 'view' );
+		if ( rest_is_field_included( 'name', $fields ) ) {
+			$data['name'] = $product->get_name( 'view' );
+		}
 
-		$data = array(
-			'id'                 => $product->get_id(),
-			'parent_id'          => $product->get_parent_id( 'view' ),
-			'name'               => $product->get_name( 'view' ),
-			'type'               => $type,
-			'slug'               => $product->get_slug( 'view' ),
-			'permalink'          => $product->get_permalink(),
-			'sku'                => $product->get_sku( 'view' ),
-			'global_unique_id'   => '',
-			'description'        => $product->get_description( 'view' ),
-			'short_description'  => $product->get_short_description( 'view' ),
-			'dates'              => array(
-				'created'      => cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ), false ),
-				'created_gmt'  => cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ) ),
-				'modified'     => cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ), false ),
-				'modified_gmt' => cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ) ),
-			),
-			'featured'           => $product->is_featured(),
-			'prices'             => array(
-				'price'         => cocart_format_money( $price_function( $product ) ),
-				'regular_price' => cocart_format_money( $price_function( $product, array( 'price' => $regular_price ) ) ),
-				'sale_price'    => $product->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $product, array( 'price' => $sale_price ) ) ) : '',
-				'price_range'   => CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode ),
-				'on_sale'       => $product->is_on_sale( 'view' ),
-				'date_on_sale'  => array(
+		if ( rest_is_field_included( 'type', $fields ) ) {
+			$data['type'] = $product->get_type();
+		}
+
+		if ( rest_is_field_included( 'slug', $fields ) ) {
+			$data['slug'] = urldecode( $product->get_slug( 'view' ) );
+		}
+
+		if ( rest_is_field_included( 'permalink', $fields ) ) {
+			$data['permalink'] = urldecode( $product->get_permalink() );
+		}
+
+		if ( rest_is_field_included( 'sku', $fields ) ) {
+			$data['sku'] = $product->get_sku( 'view' );
+		}
+
+		if ( rest_is_field_included( 'global_unique_id', $fields ) ) {
+			$data['global_unique_id'] = '';
+		}
+
+		if ( rest_is_field_included( 'description', $fields ) ) {
+			$data['description'] = $product->get_description( 'view' );
+		}
+
+		if ( rest_is_field_included( 'short_description', $fields ) ) {
+			$data['short_description'] = $product->get_short_description( 'view' );
+		}
+
+		if ( rest_is_field_included( 'dates', $fields ) ) {
+			$date_created  = $product->get_date_created( 'view' );
+			$date_modified = $product->get_date_modified( 'view' );
+
+			$date_sub = $this->get_nested_fields( 'dates', array( 'created', 'created_gmt', 'modified', 'modified_gmt' ), $fields );
+
+			$data['dates'] = array();
+
+			if ( isset( $date_sub['created'] ) ) {
+				$data['dates']['created'] = cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ), false );
+			}
+			if ( isset( $date_sub['created_gmt'] ) ) {
+				$data['dates']['created_gmt'] = cocart_prepare_date_response( $date_created->date( 'Y-m-d\TH:i:s' ) );
+			}
+			if ( isset( $date_sub['modified'] ) ) {
+				$data['dates']['modified'] = cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ), false );
+			}
+			if ( isset( $date_sub['modified_gmt'] ) ) {
+				$data['dates']['modified_gmt'] = cocart_prepare_date_response( $date_modified->date( 'Y-m-d\TH:i:s' ) );
+			}
+		}
+
+		if ( rest_is_field_included( 'featured', $fields ) ) {
+			$data['featured'] = $product->is_featured();
+		}
+
+		if ( rest_is_field_included( 'prices', $fields ) ) {
+			$tax_display_mode = CoCart_Utilities_Product_Helpers::get_tax_display_mode();
+			$price_function   = CoCart_Utilities_Product_Helpers::get_price_from_tax_display_mode( $tax_display_mode );
+
+			if ( $product->is_type( 'variable' ) ) {
+				$regular_price = $product->get_variation_regular_price();
+				$sale_price    = $product->get_variation_sale_price();
+			} else {
+				$regular_price = $product->get_regular_price();
+				$sale_price    = $product->get_sale_price();
+			}
+
+			$prices_sub = $this->get_nested_fields( 'prices', array( 'price', 'regular_price', 'sale_price', 'price_range', 'on_sale', 'date_on_sale', 'currency' ), $fields );
+
+			$data['prices'] = array();
+
+			if ( isset( $prices_sub['price'] ) ) {
+				$data['prices']['price'] = cocart_format_money( $price_function( $product ) );
+			}
+			if ( isset( $prices_sub['regular_price'] ) ) {
+				$data['prices']['regular_price'] = cocart_format_money( $price_function( $product, array( 'price' => $regular_price ) ) );
+			}
+			if ( isset( $prices_sub['sale_price'] ) ) {
+				$data['prices']['sale_price'] = $product->get_sale_price( 'view' ) ? cocart_format_money( $price_function( $product, array( 'price' => $sale_price ) ) ) : '';
+			}
+			if ( isset( $prices_sub['price_range'] ) ) {
+				$data['prices']['price_range'] = CoCart_Utilities_Product_Helpers::get_price_range( $product, $tax_display_mode );
+			}
+			if ( isset( $prices_sub['on_sale'] ) ) {
+				$data['prices']['on_sale'] = $product->is_on_sale( 'view' );
+			}
+			if ( isset( $prices_sub['date_on_sale'] ) ) {
+				$date_on_sale_from = $product->get_date_on_sale_from( 'view' );
+				$date_on_sale_to   = $product->get_date_on_sale_to( 'view' );
+
+				$data['prices']['date_on_sale'] = array(
 					'from'     => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ), false ) : null,
 					'from_gmt' => ! is_null( $date_on_sale_from ) ? cocart_prepare_date_response( $date_on_sale_from->date( 'Y-m-d\TH:i:s' ) ) : null,
 					'to'       => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ), false ) : null,
 					'to_gmt'   => ! is_null( $date_on_sale_to ) ? cocart_prepare_date_response( $date_on_sale_to->date( 'Y-m-d\TH:i:s' ) ) : null,
-				),
-				'currency'      => cocart_get_store_currency(),
-			),
-			'hidden_conditions'  => array(
-				'virtual'           => $product->is_virtual(),
-				'downloadable'      => $product->is_downloadable(),
-				'manage_stock'      => $product->managing_stock(),
-				'sold_individually' => $product->is_sold_individually(),
-				'reviews_allowed'   => $product->get_reviews_allowed( 'view' ),
-				'shipping_required' => $product->needs_shipping(),
-			),
-			'average_rating'     => $average,
-			'review_count'       => $product->get_review_count( 'view' ),
-			'rating_count'       => $rating_count,
-			'rated_out_of'       => html_entity_decode( wp_strip_all_tags( wc_get_rating_html( $average, $rating_count ) ) ),
-			'images'             => CoCart_Utilities_Product_Helpers::get_images( $product ),
-			'categories'         => $this->get_taxonomy_terms( $product ),
-			'tags'               => $this->get_taxonomy_terms( $product, 'tag' ),
-			'brands'             => $this->get_taxonomy_terms( $product, 'brand' ),
-			'attributes'         => $this->get_attributes( $product ),
-			'default_attributes' => $this->get_default_attributes( $product ),
-			'variations'         => array(),
-			'grouped_products'   => array(),
-			'stock'              => array(
-				'is_in_stock'        => $product->is_in_stock(),
-				'stock_quantity'     => $product->get_stock_quantity( 'view' ),
-				'stock_status'       => $product->get_stock_status( 'view' ),
-				'backorders'         => $product->get_backorders( 'view' ),
-				'backorders_allowed' => $product->backorders_allowed(),
-				'backordered'        => $product->is_on_backorder(),
-				'low_stock_amount'   => $product->get_low_stock_amount( 'view' ),
-			),
-			'weight'             => array(
-				'value' => $product->get_weight( 'view' ),
-				'unit'  => get_option( 'woocommerce_weight_unit' ),
-			),
-			'dimensions'         => array(
-				'length' => $product->get_length( 'view' ),
-				'width'  => $product->get_width( 'view' ),
-				'height' => $product->get_height( 'view' ),
-				'unit'   => get_option( 'woocommerce_dimension_unit' ),
-			),
-			'reviews'            => array(),
-			'related'            => $this->get_connected_products( $product, 'related' ),
-			'upsells'            => $this->get_connected_products( $product, 'upsells' ),
-			'cross_sells'        => $this->get_connected_products( $product, 'cross_sells' ),
-			'total_sales'        => $product->get_total_sales( 'view' ),
-			'external_url'       => $product->is_type( 'external' ) ? $product->get_product_url( 'view' ) : '',
-			'button_text'        => $product->is_type( 'external' ) ? $product->get_button_text( 'view' ) : '',
-			'add_to_cart'        => array(
-				'text'              => $product->add_to_cart_text(),
-				'description'       => $product->add_to_cart_description(),
-				'has_options'       => $product->has_options(),
-				'is_purchasable'    => $product->is_purchasable(),
-				'purchase_quantity' => $purchase_quantity,
-				'rest_url'          => $this->add_to_cart_rest_url( $product, $type ),
-			),
-			'meta_data'          => CoCart_Utilities_Product_Helpers::get_meta_data( $product ),
-		);
+				);
+			}
+			if ( isset( $prices_sub['currency'] ) ) {
+				$data['prices']['currency'] = cocart_get_store_currency();
+			}
+		}
+
+		if ( rest_is_field_included( 'hidden_conditions', $fields ) ) {
+			$hc_sub = $this->get_nested_fields( 'hidden_conditions', array( 'virtual', 'downloadable', 'manage_stock', 'sold_individually', 'reviews_allowed', 'shipping_required' ), $fields );
+
+			$data['hidden_conditions'] = array();
+
+			if ( isset( $hc_sub['virtual'] ) ) {
+				$data['hidden_conditions']['virtual'] = $product->is_virtual();
+			}
+			if ( isset( $hc_sub['downloadable'] ) ) {
+				$data['hidden_conditions']['downloadable'] = $product->is_downloadable();
+			}
+			if ( isset( $hc_sub['manage_stock'] ) ) {
+				$data['hidden_conditions']['manage_stock'] = $product->managing_stock();
+			}
+			if ( isset( $hc_sub['sold_individually'] ) ) {
+				$data['hidden_conditions']['sold_individually'] = $product->is_sold_individually();
+			}
+			if ( isset( $hc_sub['reviews_allowed'] ) ) {
+				$data['hidden_conditions']['reviews_allowed'] = $product->get_reviews_allowed( 'view' );
+			}
+			if ( isset( $hc_sub['shipping_required'] ) ) {
+				$data['hidden_conditions']['shipping_required'] = $product->needs_shipping();
+			}
+		}
+
+		if ( rest_is_field_included( 'average_rating', $fields ) ) {
+			$data['average_rating'] = $product->get_average_rating();
+		}
+
+		if ( rest_is_field_included( 'review_count', $fields ) ) {
+			$data['review_count'] = $product->get_review_count();
+		}
+
+		if ( rest_is_field_included( 'rating_count', $fields ) ) {
+			$data['rating_count'] = $product->get_rating_count();
+		}
+
+		if ( rest_is_field_included( 'rated_out_of', $fields ) ) {
+			$rating_count = $product->get_rating_count();
+			$average      = $product->get_average_rating();
+
+			$data['rated_out_of'] = html_entity_decode( wp_strip_all_tags( wc_get_rating_html( $average, $rating_count ) ) );
+		}
+
+		if ( rest_is_field_included( 'images', $fields ) ) {
+			$data['images'] = CoCart_Utilities_Product_Helpers::get_images( $product );
+		}
+
+		if ( rest_is_field_included( 'categories', $fields ) ) {
+			$data['categories'] = $this->get_taxonomy_terms( $product );
+		}
+
+		if ( rest_is_field_included( 'tags', $fields ) ) {
+			$data['tags'] = $this->get_taxonomy_terms( $product, 'tag' );
+		}
+
+		if ( rest_is_field_included( 'brands', $fields ) ) {
+			$data['brands'] = $this->get_taxonomy_terms( $product, 'brand' );
+		}
+
+		if ( rest_is_field_included( 'attributes', $fields ) ) {
+			$data['attributes'] = $this->get_attributes( $product );
+		}
+
+		if ( rest_is_field_included( 'default_attributes', $fields ) ) {
+			$data['default_attributes'] = $this->get_default_attributes( $product );
+		}
+
+		if ( rest_is_field_included( 'variations', $fields ) ) {
+			$data['variations'] = array();
+		}
+
+		if ( rest_is_field_included( 'grouped_products', $fields ) ) {
+			$data['grouped_products'] = array();
+		}
+
+		if ( rest_is_field_included( 'stock', $fields ) ) {
+			$stock_sub = $this->get_nested_fields( 'stock', array( 'is_in_stock', 'stock_quantity', 'stock_status', 'backorders', 'backorders_allowed', 'backordered', 'low_stock_amount' ), $fields );
+
+			$data['stock'] = array();
+
+			if ( isset( $stock_sub['is_in_stock'] ) ) {
+				$data['stock']['is_in_stock'] = $product->is_in_stock();
+			}
+			if ( isset( $stock_sub['stock_quantity'] ) ) {
+				$data['stock']['stock_quantity'] = $product->get_stock_quantity( 'view' );
+			}
+			if ( isset( $stock_sub['stock_status'] ) ) {
+				$data['stock']['stock_status'] = $product->get_stock_status( 'view' );
+			}
+			if ( isset( $stock_sub['backorders'] ) ) {
+				$data['stock']['backorders'] = $product->get_backorders( 'view' );
+			}
+			if ( isset( $stock_sub['backorders_allowed'] ) ) {
+				$data['stock']['backorders_allowed'] = $product->backorders_allowed();
+			}
+			if ( isset( $stock_sub['backordered'] ) ) {
+				$data['stock']['backordered'] = $product->is_on_backorder();
+			}
+			if ( isset( $stock_sub['low_stock_amount'] ) ) {
+				$data['stock']['low_stock_amount'] = $product->get_low_stock_amount( 'view' );
+			}
+		}
+
+		if ( rest_is_field_included( 'weight', $fields ) ) {
+			$weight_sub = $this->get_nested_fields( 'weight', array( 'value', 'unit' ), $fields );
+
+			$data['weight'] = array();
+
+			if ( isset( $weight_sub['value'] ) ) {
+				$data['weight']['value'] = $product->get_weight( 'view' );
+			}
+			if ( isset( $weight_sub['unit'] ) ) {
+				$data['weight']['unit'] = get_option( 'woocommerce_weight_unit' );
+			}
+		}
+
+		if ( rest_is_field_included( 'dimensions', $fields ) ) {
+			$dim_sub = $this->get_nested_fields( 'dimensions', array( 'length', 'width', 'height', 'unit' ), $fields );
+
+			$data['dimensions'] = array();
+
+			if ( isset( $dim_sub['length'] ) ) {
+				$data['dimensions']['length'] = $product->get_length( 'view' );
+			}
+			if ( isset( $dim_sub['width'] ) ) {
+				$data['dimensions']['width'] = $product->get_width( 'view' );
+			}
+			if ( isset( $dim_sub['height'] ) ) {
+				$data['dimensions']['height'] = $product->get_height( 'view' );
+			}
+			if ( isset( $dim_sub['unit'] ) ) {
+				$data['dimensions']['unit'] = get_option( 'woocommerce_dimension_unit' );
+			}
+		}
+
+		if ( rest_is_field_included( 'reviews', $fields ) ) {
+			$data['reviews'] = array();
+		}
+
+		if ( rest_is_field_included( 'related', $fields ) ) {
+			$data['related'] = $this->get_connected_products( $product, 'related' );
+		}
+
+		if ( rest_is_field_included( 'upsells', $fields ) ) {
+			$data['upsells'] = $this->get_connected_products( $product, 'upsells' );
+		}
+
+		if ( rest_is_field_included( 'cross_sells', $fields ) ) {
+			$data['cross_sells'] = $this->get_connected_products( $product, 'cross_sells' );
+		}
+
+		if ( rest_is_field_included( 'total_sales', $fields ) ) {
+			$data['total_sales'] = $product->get_total_sales( 'view' );
+		}
+
+		if ( rest_is_field_included( 'external_url', $fields ) ) {
+			$data['external_url'] = $product->is_type( 'external' ) ? $product->get_product_url( 'view' ) : '';
+		}
+
+		if ( rest_is_field_included( 'button_text', $fields ) ) {
+			$data['button_text'] = $product->is_type( 'external' ) ? $product->get_button_text( 'view' ) : '';
+		}
+
+		if ( rest_is_field_included( 'add_to_cart', $fields ) ) {
+			$type    = $product->get_type();
+			$atc_sub = $this->get_nested_fields( 'add_to_cart', array( 'text', 'description', 'has_options', 'is_purchasable', 'purchase_quantity', 'rest_url' ), $fields );
+
+			$data['add_to_cart'] = array();
+
+			if ( isset( $atc_sub['text'] ) ) {
+				$data['add_to_cart']['text'] = $product->add_to_cart_text();
+			}
+			if ( isset( $atc_sub['description'] ) ) {
+				$data['add_to_cart']['description'] = $product->add_to_cart_description();
+			}
+			if ( isset( $atc_sub['has_options'] ) ) {
+				$data['add_to_cart']['has_options'] = $product->has_options();
+			}
+			if ( isset( $atc_sub['is_purchasable'] ) ) {
+				$data['add_to_cart']['is_purchasable'] = $product->is_purchasable();
+			}
+			if ( isset( $atc_sub['purchase_quantity'] ) ) {
+				$purchase_quantity = array();
+
+				if ( ! $product->is_type( 'variable' ) && ! $product->is_type( 'external' ) ) {
+					$purchase_quantity = ( new CoCart_Utilities_Quantity_Limits() )->get_add_to_cart_limits( $product );
+				}
+
+				$data['add_to_cart']['purchase_quantity'] = $purchase_quantity;
+			}
+			if ( isset( $atc_sub['rest_url'] ) ) {
+				$data['add_to_cart']['rest_url'] = $this->add_to_cart_rest_url( $product, $type );
+			}
+		}
+
+		if ( rest_is_field_included( 'meta_data', $fields ) ) {
+			$data['meta_data'] = CoCart_Utilities_Product_Helpers::get_meta_data( $product );
+		}
 
 		return $data;
 	} // END get_product_data()
@@ -541,21 +625,21 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	/**
 	 * Get variation product data.
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 5.0.0 Added $fields parameter for selective field inclusion.
 	 *
 	 * @param WC_Variation_Product $product The product object.
+	 * @param array                $fields  Fields to include in the response.
 	 *
 	 * @return array $data Variation product details.
 	 */
-	protected function get_variation_product_data( $product ) {
-		$data = self::get_product_data( $product );
-
-		$fields_not_required = array(
+	public function get_variation_product_data( $product, $fields ) {
+		// Fields that don't apply to variations — exclude from field checks.
+		$variation_excluded = array(
 			'type',
 			'short_description',
-			'hidden_conditions' => array( 'reviews_allowed' ),
 			'average_rating',
 			'review_count',
 			'rating_count',
@@ -569,18 +653,18 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			'cross_sells',
 			'external_url',
 			'button_text',
-			'add_to_cart'       => array( 'has_options' ),
 		);
 
-		// Remove fields not required for a variation.
-		foreach ( $fields_not_required as $key => $field ) {
-			if ( is_array( $field ) && ! empty( $field ) ) {
-				foreach ( $field as $child_field ) {
-					unset( $data[ $key ][ $child_field ] );
-				}
-			} else {
-				unset( $data[ $field ] );
-			}
+		$variation_fields = array_diff( $fields, $variation_excluded );
+		$data             = $this->get_product_data( $product, $variation_fields );
+
+		// Remove sub-fields not applicable to variations.
+		if ( isset( $data['hidden_conditions'] ) ) {
+			unset( $data['hidden_conditions']['reviews_allowed'] );
+		}
+
+		if ( isset( $data['add_to_cart']['has_options'] ) ) {
+			unset( $data['add_to_cart']['has_options'] );
 		}
 
 		return $data;
@@ -605,7 +689,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$terms[] = array(
 				'id'       => $term->term_id,
 				'name'     => $term->name,
-				'slug'     => $term->slug,
+				'slug'     => urldecode( $term->slug ),
 				'rest_url' => $this->product_rest_url( $term->term_id, $taxonomy ),
 			);
 		}
@@ -638,14 +722,14 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			);
 
 			foreach ( $terms as $term ) {
-				$attributes[ $term->slug ] = $term->name;
+				$attributes[ urldecode( $term->slug ) ] = $term->name;
 			}
 		} elseif ( isset( $attribute['value'] ) ) {
 			$options = explode( '|', $attribute['value'] );
 
 			foreach ( $options as $attribute ) {
-				$slug                = trim( $attribute );
-				$attributes[ $slug ] = trim( $attribute );
+				$slug                = sanitize_title( $attribute );
+				$attributes[ $slug ] = rawurldecode( $attribute );
 			}
 		}
 
@@ -680,14 +764,14 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				$attribute_prefix = 0 === strpos( $attribute_name, 'attribute_pa_' ) ? 'attribute_pa_' : 'attribute_';
 
 				// Determine the attribute option.
-				$option = array( $attribute => $attribute );
+				$option = array( sanitize_title( $attribute ) => rawurldecode( $attribute ) );
 
 				if ( 'attribute_pa_' === $attribute_prefix ) {
 					// If the attribute is taxonomy-based, fetch the term.
 					$option_term = get_term_by( 'slug', $attribute, $name );
 
 					// Set the option accordingly.
-					$option = $option_term && ! is_wp_error( $option_term ) ? array( $option_term->slug => $option_term->name ) : $option;
+					$option = $option_term && ! is_wp_error( $option_term ) ? array( urldecode( $option_term->slug ) => $option_term->name ) : $option;
 				}
 
 				$attributes[ 'attribute_' . $name ] = array(
@@ -754,7 +838,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 					$connected_products[] = array(
 						'id'          => $id,
 						'name'        => $_product->get_name( 'view' ),
-						'permalink'   => $_product->get_permalink(),
+						'permalink'   => urldecode( $_product->get_permalink() ),
 						'price'       => cocart_format_money( $_product->get_price( 'view' ) ),
 						'add_to_cart' => array(
 							'text'        => $_product->add_to_cart_text(),
@@ -776,6 +860,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
+	 * @since 5.0.0 Added brand taxonomy support.
 	 *
 	 * @param int    $id       Product ID or Taxonomy ID.
 	 * @param string $taxonomy Taxonomy type.
@@ -786,17 +871,23 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 		if ( ! empty( $taxonomy ) ) {
 			switch ( $taxonomy ) {
 				case 'cat':
-					$route = '/%s/products/categories/%s';
+					$path = 'products/categories/%d';
 					break;
 				case 'tag':
-					$route = '/%s/products/tags/%s';
+					$path = 'products/tags/%d';
+					break;
+				case 'brand':
+					$path = 'products/brands/%d';
+					break;
+				default:
+					$path = 'products/%d';
 					break;
 			}
 		} else {
-			$route = '/%s/products/%s';
+			$path = 'products/%d';
 		}
 
-		return rest_url( sprintf( $route, $this->namespace, $id ) );
+		return rest_url( $this->build_rest_path( $path, array( $id ) ) );
 	} // END product_rest_url()
 
 	/**
@@ -835,7 +926,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	public function add_to_cart_rest_url( $product, $type ) {
 		$id = $product->get_id();
 
-		$rest_url = rest_url( sprintf( '/%s/cart/add-item?id=%d', $this->namespace, $id ) );
+		$rest_url = rest_url( $this->build_rest_path( 'cart/add-item' ) );
+		$rest_url = add_query_arg( 'id', $id, $rest_url );
 		$rest_url = add_query_arg( 'quantity', CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ), $rest_url );
 
 		switch ( $type ) {
@@ -881,6 +973,27 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 		return $rest_url;
 	} // END add_to_cart_rest_url()
+
+	// ** Deprecated functions below this line. **//
+
+	/**
+	 * Get the images for a product or product variation.
+	 *
+	 * @access protected
+	 *
+	 * @deprecated 4.2.0 Replaced with the same function in the utilities class.
+	 *
+	 * @see CoCart_Utilities_Product_Helpers::get_images()
+	 *
+	 * @param WC_Product|WC_Product_Variation $product The product object.
+	 *
+	 * @return array $images
+	 */
+	protected function get_images( $product ) {
+		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_images' );
+
+		return CoCart_Utilities_Product_Helpers::get_images( $product );
+	} // END get_images()
 
 	/**
 	 * WooCommerce can return prices including or excluding tax.
@@ -978,20 +1091,16 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return array Product schema data.
 	 */
 	public function get_item_schema() {
-		if ( $this->schema ) {
-			return $this->schema;
-		}
-
 		$weight_unit    = get_option( 'woocommerce_weight_unit' );
 		$dimension_unit = get_option( 'woocommerce_dimension_unit' );
 
-		$this->schema = array(
+		$schema = array(
 			'$schema' => 'http://json-schema.org/draft-04/schema#',
 			'title'   => $this->post_type,
 			'type'    => 'object',
 		);
 
-		$this->schema['properties'] = array(
+		$schema['properties'] = array(
 			'id'                 => array(
 				'description' => __( 'Unique identifier for the product.', 'cocart-core' ),
 				'type'        => 'integer',
@@ -2120,7 +2229,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 
 		foreach ( $attachment_sizes as $size ) {
 			// Generate the product image URL properties for each attachment size.
-			$this->schema['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
+			$schema['properties']['images']['items']['properties']['src']['properties'][ $size ] = array(
 				'description' => sprintf(
 					/* translators: %s: Product image URL */
 					__( 'Product image URL for "%s".', 'cocart-core' ),
@@ -2133,8 +2242,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			);
 
 			// Generate the variation product featured image URL properties for each attachment size.
-			if ( isset( $this->schema['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
-				$this->schema['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
+			if ( isset( $schema['properties']['variations']['items']['properties']['featured_image']['properties'] ) ) {
+				$schema['properties']['variations']['items']['properties']['featured_image']['properties'][ $size ] = array(
 					'description' => sprintf(
 						/* translators: %s: Product image URL */
 						__( 'Product image URL for "%s".', 'cocart-core' ),
@@ -2148,7 +2257,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			}
 		}
 
-		return $this->add_additional_fields_schema( $this->schema );
+		return $this->add_additional_fields_schema( $schema );
 	} // END get_item_schema()
 
 	/**
@@ -2162,11 +2271,15 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	 * @return array Products archive schema data.
 	 */
 	public function get_public_items_schema() {
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
 		$product_schema = $this->get_item_schema();
 
-		$schema = array(
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'cocart_products_archive',
+			'title'      => 'products_archive',
 			'type'       => 'object',
 			'properties' => array(
 				'products'       => array(
@@ -2196,6 +2309,6 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			),
 		);
 
-		return $schema;
+		return $this->schema;
 	} // END get_public_items_schema()
 } // END class

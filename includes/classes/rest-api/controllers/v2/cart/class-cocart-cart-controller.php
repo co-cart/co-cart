@@ -30,40 +30,16 @@ class_alias( 'CoCart_REST_Cart_V2_Controller', 'CoCart_Cart_V2_Controller' );
 class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
+	 * The version of this controller's route.
 	 *
 	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'cart';
-
-	/**
-	 * Schema.
-	 *
-	 * @var array
-	 */
-	protected $schema = array();
-
-	/**
-	 * Version of route.
 	 */
 	protected $version = 'v2';
 
 	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -71,17 +47,28 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		return array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_cart' ),
-				'permission_callback' => array( $this, 'check_cart_instance' ),
+				'callback'            => array( $this, 'get_items' ),
+				'permission_callback' => array( $this, 'check_permission' ),
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart';
+
+	/**
 	 * Register the routes for cart.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -99,11 +86,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	} // END register_routes()
 
 	/**
-	 * Get cart.
+	 * Retrieves a collection for the cart.
 	 *
 	 * @access public
 	 *
-	 * @since 3.0.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @see CoCart_REST_Cart_Controller::get_cart_contents()
 	 * @see CoCart_REST_Cart_Controller::calculate_totals()
@@ -113,7 +100,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return WP_REST_Response The returned response.
 	 */
-	public function get_cart( $request ) {
+	public function get_items( $request ) {
 		$cart_instance = $this->get_cart_instance();
 
 		$show_raw       = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
@@ -163,33 +150,32 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		}
 
 		if ( ! $show_raw ) {
-			// Filters the cart contents.
-			$cart_contents = $this->return_cart_contents( $request, $cart_contents );
+			$cart_contents = $this->prepare_object_for_response( $cart_contents, $request );
 		}
 
 		$response = rest_ensure_response( $cart_contents );
 		$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
 
 		return $response;
-	} // END get_cart()
+	} // END get_items()
 
 	/**
-	 * Return cart contents.
+	 * Prepare the cart output for response.
 	 *
 	 * @access public
 	 *
-	 * @since 2.0.0 Introduced.
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @see CoCart_REST_Cart_Controller::get_cart_instance()
 	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template()
 	 * @see CoCart_REST_Cart_V2_Controller::get_items()
 	 *
-	 * @param WP_REST_Request $request       The request object.
 	 * @param array           $cart_contents The cart contents.
+	 * @param WP_REST_Request $request       The request object.
 	 *
 	 * @return array $cart Returns cart contents.
 	 */
-	public function return_cart_contents( $request, $cart_contents = array() ) {
+	public function prepare_object_for_response( $cart_contents, $request ) {
 		/**
 		 * Return the default cart data if set to true.
 		 *
@@ -199,24 +185,139 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			return $cart_contents;
 		}
 
-		// Get cart template.
-		$cart = $this->get_cart_template( $request );
+		$fields = $this->get_fields_for_response( $request );
 
-		// If the cart is empty then return nothing.
+		$cart = array();
+
+		// If the cart is empty, build empty cart response with requested fields.
 		if ( empty( $cart_contents ) ) {
-			/**
-			 * Filter response for empty cart.
-			 *
-			 * @since 3.0.0 Introduced.
-			 */
-			return apply_filters( 'cocart_empty_cart', $cart );
+			return $this->build_empty_cart_response( $request, $fields );
 		}
 
 		$cart_instance = $this->get_cart_instance();
 
-		// Returns items.
-		if ( array_key_exists( 'items', $cart ) ) {
-			$cart['items'] = $this->get_items( $cart_contents, $request );
+		// Has customer provided enough information to return shipping totals.
+		// This tracks if shipping has actually been calculated so we can avoid returning costs prematurely.
+
+		$has_calculated_shipping = $cart_instance->get_customer()->has_calculated_shipping();
+
+		if ( rest_is_field_included( 'cart_hash', $fields ) ) {
+			$cart['cart_hash'] = $cart_instance->get_cart_hash();
+		}
+
+		if ( rest_is_field_included( 'cart_key', $fields ) ) {
+			$cart['cart_key'] = CoCart_Utilities_Cart_Helpers::get_cart_key();
+		}
+
+		if ( rest_is_field_included( 'currency', $fields ) ) {
+			$cart['currency'] = cocart_get_store_currency();
+		}
+
+		$customer_fields = $this->get_nested_fields( 'customer', array( 'billing_address', 'shipping_address' ), $fields );
+
+		if ( $customer_fields ) {
+			$customer = $cart_instance->get_customer();
+
+			if ( isset( $customer_fields['billing_address'] ) ) {
+				$cart['customer']['billing_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $customer );
+			}
+
+			if ( isset( $customer_fields['shipping_address'] ) ) {
+				$cart['customer']['shipping_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $customer );
+			}
+		}
+
+		if ( rest_is_field_included( 'items', $fields ) ) {
+			$cart['items'] = $this->get_items_in_cart( $cart_contents, $request );
+		}
+
+		if ( rest_is_field_included( 'item_count', $fields ) ) {
+			$cart['item_count'] = $cart_instance->get_cart_contents_count();
+		}
+
+		if ( rest_is_field_included( 'items_weight', $fields ) ) {
+			$cart['items_weight'] = (string) wc_get_weight( $cart_instance->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
+		}
+
+		if ( rest_is_field_included( 'coupons', $fields ) ) {
+			$cart['coupons'] = CoCart_Utilities_Cart_Helpers::get_applied_coupons( $cart_instance );
+		}
+
+		if ( rest_is_field_included( 'needs_payment', $fields ) ) {
+			$cart['needs_payment'] = $cart_instance->needs_payment();
+		}
+
+		if ( rest_is_field_included( 'needs_shipping', $fields ) ) {
+			$cart['needs_shipping'] = $cart_instance->needs_shipping();
+		}
+
+		if ( rest_is_field_included( 'shipping', $fields ) ) {
+			$cart['shipping'] = CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart_instance, $request );
+		}
+
+		if ( rest_is_field_included( 'fees', $fields ) ) {
+			$cart['fees'] = CoCart_Utilities_Cart_Helpers::get_fees( $cart_instance, $request );
+		}
+
+		if ( rest_is_field_included( 'taxes', $fields ) ) {
+			$cart['taxes'] = CoCart_Utilities_Cart_Helpers::get_taxes( $cart_instance, $request );
+		}
+
+		$totals_sub_fields = array( 'subtotal', 'subtotal_tax', 'fee_total', 'fee_tax', 'discount_total', 'discount_tax', 'shipping_total', 'shipping_tax', 'total', 'total_tax' );
+		$totals_fields     = $this->get_nested_fields( 'totals', $totals_sub_fields, $fields );
+
+		if ( $totals_fields ) {
+			if ( isset( $totals_fields['subtotal'] ) ) {
+				$cart['totals']['subtotal'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal(), $request );
+			}
+
+			if ( isset( $totals_fields['subtotal_tax'] ) ) {
+				$cart['totals']['subtotal_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal_tax(), $request );
+			}
+
+			if ( isset( $totals_fields['fee_total'] ) ) {
+				$cart['totals']['fee_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_total(), $request );
+			}
+
+			if ( isset( $totals_fields['fee_tax'] ) ) {
+				$cart['totals']['fee_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_tax(), $request );
+			}
+
+			if ( isset( $totals_fields['discount_total'] ) ) {
+				$cart['totals']['discount_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_total(), $request );
+			}
+
+			if ( isset( $totals_fields['discount_tax'] ) ) {
+				$cart['totals']['discount_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_tax(), $request );
+			}
+
+			if ( isset( $totals_fields['shipping_total'] ) ) {
+				$cart['totals']['shipping_total'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_total(), $request ) : '0';
+			}
+
+			if ( isset( $totals_fields['shipping_tax'] ) ) {
+				$cart['totals']['shipping_tax'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_tax(), $request ) : '0';
+			}
+
+			if ( isset( $totals_fields['total'] ) ) {
+				$cart['totals']['total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total( 'edit' ), $request );
+			}
+
+			if ( isset( $totals_fields['total_tax'] ) ) {
+				$cart['totals']['total_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total_tax(), $request );
+			}
+		}
+
+		if ( rest_is_field_included( 'removed_items', $fields ) ) {
+			$cart['removed_items'] = $this->get_removed_items( $cart_instance->get_removed_cart_contents(), $request );
+		}
+
+		if ( rest_is_field_included( 'cross_sells', $fields ) ) {
+			$cart['cross_sells'] = $this->get_cross_sells( $request );
+		}
+
+		if ( rest_is_field_included( 'notices', $fields ) ) {
+			$cart['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance );
 		}
 
 		/**
@@ -234,62 +335,168 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		$cart = apply_filters( 'cocart_cart', $cart, $request, $cart_instance );
 
 		return $cart;
-	} // END return_cart_contents()
+	} // END prepare_object_for_response()
 
 	/**
-	 * Gets the cart items.
+	 * Builds an empty cart response respecting the fields parameter.
 	 *
-	 * @access public
+	 * When the cart has no items, this method returns a schema-compliant
+	 * response with requested fields populated with appropriate empty/zero values.
 	 *
-	 * @since 3.0.0 Introduced.
-	 * @since 5.0.0 Replaced `$show_thumb` parameter with `$request` object.
-
-	 * @see CoCart_REST_Cart_V2_Controller::get_item()
+	 * @access protected
 	 *
-	 * @param array           $cart_contents The cart contents.
-	 * @param WP_REST_Request $request       The request object.
+	 * @since 5.0.0 Introduced.
 	 *
-	 * @return array $items Returns all items in the cart.
+	 * @param WP_REST_Request $request The request object.
+	 * @param array           $fields  Fields to include from get_fields_for_response().
+	 *
+	 * @return array Empty cart array with requested fields.
 	 */
-	public function get_items( array $cart_contents, $request ) {
-		$items = array();
+	protected function build_empty_cart_response( $request, $fields ) {
+		$cart_instance = $this->get_cart_instance();
 
-		foreach ( $cart_contents as $item_key => $cart_item ) {
-			// If product data is missing then get product data and apply.
-			if ( ! isset( $cart_item['data'] ) ) {
-				$cart_item['data'] = wc_get_product( ! empty( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : ( ! empty( $cart_item['product_id'] ) ? $cart_item['product_id'] : 0 ) );
-			}
+		$cart = array();
 
-			$product = $cart_item['data'];
-
-			/**
-			 * Filter allows you to alter the item product data returned.
-			 *
-			 * @since 2.0.0 Introduced.
-			 *
-			 * @param WC_Product $product   The product object.
-			 * @param array      $cart_item The cart item data.
-			 * @param string     $item_key  The item key currently looped.
-			 */
-			$product = apply_filters( 'cocart_item_product', $product, $cart_item, $item_key );
-
-			$items[ $item_key ] = $this->get_item( $product, $cart_item, $item_key, $request );
-
-			/**
-			 * Filter allows additional data to be returned for a specific item in cart.
-			 *
-			 * @since 2.1.0 Introduced.
-			 *
-			 * @param array      $items     Array of items in the cart.
-			 * @param string     $item_key  The item key currently looped.
-			 * @param array      $cart_item The cart item data.
-			 * @param WC_Product $product   The product object.
-			 */
-			$items = apply_filters( 'cocart_cart_items', $items, $item_key, $cart_item, $product );
+		// Cart identification fields.
+		if ( rest_is_field_included( 'cart_hash', $fields ) ) {
+			$cart['cart_hash'] = '';
 		}
 
-		return $items;
-	} // END get_items()
+		if ( rest_is_field_included( 'cart_key', $fields ) ) {
+			$cart['cart_key'] = CoCart_Utilities_Cart_Helpers::get_cart_key();
+		}
+
+		// Store currency (always available from settings).
+		if ( rest_is_field_included( 'currency', $fields ) ) {
+			$cart['currency'] = cocart_get_store_currency();
+		}
+
+		// Customer data (may have saved addresses even when cart is empty).
+		$customer_fields = $this->get_nested_fields( 'customer', array( 'billing_address', 'shipping_address' ), $fields );
+
+		if ( $customer_fields ) {
+			$customer = $cart_instance->get_customer();
+
+			if ( isset( $customer_fields['billing_address'] ) ) {
+				$cart['customer']['billing_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $customer );
+			}
+
+			if ( isset( $customer_fields['shipping_address'] ) ) {
+				$cart['customer']['shipping_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $customer );
+			}
+		}
+
+		// Empty collection fields.
+		if ( rest_is_field_included( 'items', $fields ) ) {
+			$cart['items'] = array();
+		}
+
+		if ( rest_is_field_included( 'coupons', $fields ) ) {
+			$cart['coupons'] = array();
+		}
+
+		if ( rest_is_field_included( 'removed_items', $fields ) ) {
+			$cart['removed_items'] = array();
+		}
+
+		if ( rest_is_field_included( 'cross_sells', $fields ) ) {
+			$cart['cross_sells'] = array();
+		}
+
+		if ( rest_is_field_included( 'shipping', $fields ) ) {
+			$cart['shipping'] = array();
+		}
+
+		if ( rest_is_field_included( 'fees', $fields ) ) {
+			$cart['fees'] = array();
+		}
+
+		if ( rest_is_field_included( 'taxes', $fields ) ) {
+			$cart['taxes'] = array();
+		}
+
+		// Numeric counter fields.
+		if ( rest_is_field_included( 'item_count', $fields ) ) {
+			$cart['item_count'] = intval( 0 );
+		}
+
+		if ( rest_is_field_included( 'items_weight', $fields ) ) {
+			$cart['items_weight'] = (string) wc_get_weight( 0, get_option( 'woocommerce_weight_unit' ) );
+		}
+
+		// Boolean state fields (call actual methods for accuracy).
+		if ( rest_is_field_included( 'needs_payment', $fields ) ) {
+			$cart['needs_payment'] = false;
+		}
+
+		if ( rest_is_field_included( 'needs_shipping', $fields ) ) {
+			$cart['needs_shipping'] = false;
+		}
+
+		// Totals - format with monetary formatter to respect 'formatted' parameter.
+		$totals_sub_fields = array( 'subtotal', 'subtotal_tax', 'fee_total', 'fee_tax', 'discount_total', 'discount_tax', 'shipping_total', 'shipping_tax', 'total', 'total_tax' );
+		$totals_fields     = $this->get_nested_fields( 'totals', $totals_sub_fields, $fields );
+
+		if ( $totals_fields ) {
+			if ( isset( $totals_fields['subtotal'] ) ) {
+				$cart['totals']['subtotal'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['subtotal_tax'] ) ) {
+				$cart['totals']['subtotal_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['fee_total'] ) ) {
+				$cart['totals']['fee_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['fee_tax'] ) ) {
+				$cart['totals']['fee_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['discount_total'] ) ) {
+				$cart['totals']['discount_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['discount_tax'] ) ) {
+				$cart['totals']['discount_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['shipping_total'] ) ) {
+				$cart['totals']['shipping_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['shipping_tax'] ) ) {
+				$cart['totals']['shipping_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['total'] ) ) {
+				$cart['totals']['total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+
+			if ( isset( $totals_fields['total_tax'] ) ) {
+				$cart['totals']['total_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( 0, $request );
+			}
+		}
+
+		// Notices (may contain messages even when cart is empty).
+		if ( rest_is_field_included( 'notices', $fields ) ) {
+			$cart['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance );
+		}
+
+		/**
+		 * Filter response for empty cart.
+		 *
+		 * @since 3.0.0 Introduced.
+		 * @since 5.0.0 Now respects fields parameter and provides additional context.
+		 *
+		 * @param array           $cart          The cart data before it's returned.
+		 * @param array           $fields        The fields requested for the response.
+		 * @param WP_REST_Request $request       The request object.
+		 * @param WC_Cart         $cart_instance The cart instance.
+		 */
+		return apply_filters( 'cocart_empty_cart', $cart, $fields, $request, $cart_instance );
+	} // END build_empty_cart_response()
 
 	/**
 	 * Gets the cart removed items.
@@ -332,219 +539,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 		return $items;
 	} // END get_removed_items()
-
-	/**
-	 * Get cart template.
-	 *
-	 * Used as a base even if the cart is empty along with
-	 * customer information should the user be logged in.
-	 *
-	 * @ignore Function ignored when parsed into Code Reference.
-	 *
-	 * @access protected
-	 *
-	 * @since 3.0.3 Introduced.
-	 *
-	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
-	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
-	 * @see CoCart_Utilities_Cart_Helpers::get_applied_coupons()
-	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
-	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
-	 * @see CoCart_Utilities_Cart_Helpers::get_taxes()
-	 * @see CoCart_Utilities_Cart_Helpers::get_cart_totals()
-	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
-	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template_limited()
-	 * @see CoCart_REST_Cart_V2_Controller::get_removed_items()
-	 * @see CoCart_REST_Cart_V2_Controller::get_cross_sells()
-	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
-	 * @return array Returns the default cart response.
-	 */
-	protected function get_cart_template( $request ) {
-		$fields = ! empty( $request['fields'] ) ? $request['fields'] : '';
-
-		if ( ! empty( $fields ) ) {
-			return self::get_cart_template_limited( $request );
-		}
-
-		$cart_instance = $this->get_cart_instance();
-
-		// Other Requested conditions.
-		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
-
-		return array(
-			'cart_hash'      => ! empty( $cart_instance->get_cart_hash() ) ? $cart_instance->get_cart_hash() : __( 'No items in cart so no hash', 'cocart-core' ),
-			'cart_key'       => CoCart_Utilities_Cart_Helpers::get_cart_key(),
-			'currency'       => cocart_get_store_currency(),
-			'customer'       => array(
-				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $cart_instance->get_customer() ),
-				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $cart_instance->get_customer() ),
-			),
-			'items'          => array(),
-			'item_count'     => $cart_instance->get_cart_contents_count(),
-			'items_weight'   => (string) wc_get_weight( $cart_instance->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
-			'coupons'        => CoCart_Utilities_Cart_Helpers::get_applied_coupons( $cart_instance ),
-			'needs_payment'  => $cart_instance->needs_payment(),
-			'needs_shipping' => $cart_instance->needs_shipping(),
-			'shipping'       => CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart_instance, $request ),
-			'fees'           => CoCart_Utilities_Cart_Helpers::get_fees( $cart_instance, $request ),
-			'taxes'          => CoCart_Utilities_Cart_Helpers::get_taxes( $cart_instance, $request ),
-			'totals'         => CoCart_Utilities_Cart_Helpers::get_cart_totals( $cart_instance, $request ),
-			'removed_items'  => $this->get_removed_items( $cart_instance->get_removed_cart_contents(), $request ),
-			'cross_sells'    => $this->get_cross_sells( $request ),
-			'notices'        => CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance ),
-		);
-	} // END get_cart_template()
-
-	/**
-	 * Get cart template - Limited.
-	 *
-	 * Same as original cart template only it returns the fields requested.
-	 *
-	 * @ignore Function ignored when parsed into Code Reference.
-	 *
-	 * @access protected
-	 *
-	 * @since 3.1.0 Introduced.
-	 *
-	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
-	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
-	 * @see CoCart_Utilities_Cart_Helpers::get_applied_coupons()
-	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
-	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
-	 * @see CoCart_Utilities_Cart_Helpers::get_taxes()
-	 * @see CoCart_Utilities_Cart_Helpers::get_cart_totals()
-	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
-	 * @see CoCart_REST_Cart_V2_Controller::get_removed_items()
-	 * @see CoCart_REST_Cart_V2_Controller::get_cross_sells()
-	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
-	 * @return array $template Returns requested cart response.
-	 */
-	protected function get_cart_template_limited( $request ) {
-		$fields = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
-
-		$template = array();
-
-		$cart_instance = $this->get_cart_instance();
-
-		// Has customer provided enough information to return shipping totals.
-		// This tracks if shipping has actually been calculated so we can avoid returning costs prematurely.
-		$has_calculated_shipping = method_exists( $cart_instance, 'has_calculated_shipping' ) ? $cart_instance->has_calculated_shipping() : $cart_instance->show_shipping();
-
-		foreach ( $fields as $field ) {
-			$field        = explode( ':', $field );
-			$parent_field = $field[0];
-			$child_field  = ! empty( $field[1] ) ? $field[1] : '';
-
-			switch ( $parent_field ) {
-				case 'cart_hash':
-					$template['cart_hash'] = ! empty( $cart_instance->get_cart_hash() ) ? $cart_instance->get_cart_hash() : __( 'No items in cart so no hash', 'cocart-core' );
-					break;
-				case 'cart_key':
-					$template['cart_key'] = CoCart_Utilities_Cart_Helpers::get_cart_key();
-					break;
-				case 'currency':
-					$template['currency'] = cocart_get_store_currency();
-					break;
-				case 'customer':
-					if ( ! empty( $child_field ) ) {
-						if ( 'billing_address' === $child_field ) {
-							$template['customer']['billing_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $cart_instance->get_customer() );
-						}
-						if ( 'shipping_address' === $child_field ) {
-							$template['customer']['shipping_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $cart_instance->get_customer() );
-						}
-					} else {
-						$template['customer'] = array(
-							'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $cart_instance->get_customer() ),
-							'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $cart_instance->get_customer() ),
-						);
-					}
-					break;
-				case 'items':
-					$template['items'] = array();
-					break;
-				case 'item_count':
-					$template['item_count'] = $cart_instance->get_cart_contents_count();
-					break;
-				case 'items_weight':
-					$template['items_weight'] = (string) wc_get_weight( $cart_instance->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
-					break;
-				case 'coupons':
-					$template['coupons'] = CoCart_Utilities_Cart_Helpers::get_applied_coupons( $cart_instance );
-					break;
-				case 'needs_payment':
-					$template['needs_payment'] = $cart_instance->needs_payment();
-					break;
-				case 'needs_shipping':
-					$template['needs_shipping'] = $cart_instance->needs_shipping();
-					break;
-				case 'shipping':
-					$template['shipping'] = CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart_instance, $request );
-					break;
-				case 'fees':
-					$template['fees'] = CoCart_Utilities_Cart_Helpers::get_fees( $cart_instance, $request );
-					break;
-				case 'taxes':
-					$template['taxes'] = CoCart_Utilities_Cart_Helpers::get_taxes( $cart_instance, $request );
-					break;
-				case 'totals':
-					if ( ! empty( $child_field ) ) {
-						$child_field = explode( '-', $child_field );
-
-						foreach ( $child_field as $total ) {
-							if ( 'subtotal' === $total ) {
-								$template['totals']['subtotal'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal(), $request );
-							}
-							if ( 'subtotal_tax' === $total ) {
-								$template['totals']['subtotal_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal_tax(), $request );
-							}
-							if ( 'fee_total' === $total ) {
-								$template['totals']['fee_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_total(), $request );
-							}
-							if ( 'fee_tax' === $total ) {
-								$template['totals']['fee_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_tax(), $request );
-							}
-							if ( 'discount_total' === $total ) {
-								$template['totals']['discount_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_total(), $request );
-							}
-							if ( 'discount_tax' === $total ) {
-								$template['totals']['discount_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_tax(), $request );
-							}
-							if ( 'shipping_total' === $total ) {
-								$template['totals']['shipping_total'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_total(), $request ) : '0';
-							}
-							if ( 'shipping_tax' === $total ) {
-								$template['totals']['shipping_tax'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_tax(), $request ) : '0';
-							}
-							if ( 'total' === $total ) {
-								$template['totals']['total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total( 'edit' ), $request );
-							}
-							if ( 'total_tax' === $total ) {
-								$template['totals']['total_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total_tax(), $request );
-							}
-						}
-					} else {
-						$template['totals'] = CoCart_Utilities_Cart_Helpers::get_cart_totals( $cart_instance, $request );
-					}
-					break;
-				case 'removed_items':
-					$template['removed_items'] = $this->get_removed_items( $cart_instance->get_removed_cart_contents(), $request );
-					break;
-				case 'cross_sells':
-					$template['cross_sells'] = $this->get_cross_sells( $request );
-					break;
-				case 'notices':
-					$template['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance );
-					break;
-			}
-		}
-
-		return $template;
-	} // END get_cart_template_limited()
 
 	/**
 	 * Get a single item from the cart and present the data required.
@@ -610,21 +604,22 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
 			'price'          => apply_filters( 'cocart_cart_item_price', $price_function( $product ), $cart_item, $item_key ),
-			'quantity'       => array(
-				/**
-				 * Filter allows the quantity of the item to change.
-				 *
-				 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param string $item_quantity Item quantity.
-				 * @param string $item_key      The item key generated based on the details of the item.
-				 * @param array  $cart_item     The cart item data.
-				 */
-				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $cart_item, $item_key ),
-				'min_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product ),
-				'max_purchase' => CoCart_Utilities_Product_Helpers::get_quantity_maximum_allowed( $product ),
+			'quantity'       => array_merge(
+				array(
+					/**
+					 * Filter allows the quantity of the item to change.
+					 *
+					 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $item_quantity Item quantity.
+					 * @param string $item_key      The item key generated based on the details of the item.
+					 * @param array  $cart_item     The cart item data.
+					 */
+					'value' => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $cart_item, $item_key ),
+				),
+				( new CoCart_Utilities_Quantity_Limits() )->get_cart_item_quantity_limits( $cart_item )
 			),
 			'totals'         => array(
 				/**
@@ -869,7 +864,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @return array Public item schema data.
 	 */
-	public function get_public_item_schema() {
+	public function get_item_schema() {
 		if ( $this->schema ) {
 			return $this->schema;
 		}
@@ -1906,7 +1901,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 		$this->schema['properties']['items']['items']['properties']['extensions'] += apply_filters( 'cocart_cart_items_extensions_schema', array() );
 
 		return $this->schema;
-	} // END get_public_item_schema()
+	} // END get_item_schema()
 
 	/**
 	 * Get the query params for getting the cart.
@@ -1923,13 +1918,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 		// Get cart query parameters.
 		$params += array(
-			'fields'    => array(
-				'description'       => __( 'Specify each parent field you want to request separated by (,) in the response before the data is fetched.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_text_field',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
 			'formatted' => array(
 				'description'       => __( 'True if you want to return the price values formatted.', 'cocart-core' ),
 				'default'           => false,
@@ -1939,7 +1927,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'thumb'     => array(
-				'description'       => __( 'True if you want to return the URL of the featured product image for each item in the cart.', 'cocart-core' ),
+				'description'       => __( 'Hide the URLs for each item in the cart for the featured product image if set to false.', 'cocart-core' ),
 				'default'           => true,
 				'type'              => 'boolean',
 				'required'          => false,
@@ -1962,6 +1950,247 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	} // END get_collection_params()
 
 	// ** Deprecated functions below this line. **//
+
+	/**
+	 * Return cart contents.
+	 *
+	 * @access public
+	 *
+	 * @deprecated 5.0.0 Replaced with `prepare_object_for_response()` instead.
+	 *
+	 * @since 2.0.0 Introduced.
+	 *
+	 * @param WP_REST_Request $request       The request object.
+	 * @param array           $cart_contents The cart contents.
+	 *
+	 * @return array $cart Returns cart contents.
+	 */
+	public function return_cart_contents( $request, $cart_contents = array() ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_v2_Controller::return_cart_contents', '5.0.0', 'CoCart_REST_Cart_v2_Controller::prepare_object_for_response' );
+
+		return $this->prepare_object_for_response( $cart_contents, $request );
+	} // END return_cart_contents()
+
+	/**
+	 * Get cart template.
+	 *
+	 * Used as a base even if the cart is empty along with
+	 * customer information should the user be logged in.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
+	 * @access protected
+	 *
+	 * @deprecated 5.0.0 No longer used. Replaced with `prepare_object_for_response()` instead.
+	 *
+	 * @since 3.0.3 Introduced.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
+	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
+	 * @see CoCart_Utilities_Cart_Helpers::get_applied_coupons()
+	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
+	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
+	 * @see CoCart_Utilities_Cart_Helpers::get_taxes()
+	 * @see CoCart_Utilities_Cart_Helpers::get_cart_totals()
+	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cart_template_limited()
+	 * @see CoCart_REST_Cart_V2_Controller::get_removed_items()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cross_sells()
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return array Returns the default cart response.
+	 */
+	protected function get_cart_template( $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_v2_Controller::get_cart_template', '5.0.0' );
+
+		$fields = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
+
+		if ( ! empty( $fields ) ) {
+			return self::get_cart_template_limited( $request );
+		}
+
+		$cart_instance = $this->get_cart_instance();
+
+		// Other Requested conditions.
+		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
+
+		return array(
+			'cart_hash'      => ! empty( $cart_instance->get_cart_hash() ) ? $cart_instance->get_cart_hash() : __( 'No items in cart so no hash', 'cocart-core' ),
+			'cart_key'       => CoCart_Utilities_Cart_Helpers::get_cart_key(),
+			'currency'       => cocart_get_store_currency(),
+			'customer'       => array(
+				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $cart_instance->get_customer() ),
+				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $cart_instance->get_customer() ),
+			),
+			'items'          => array(),
+			'item_count'     => $cart_instance->get_cart_contents_count(),
+			'items_weight'   => (string) wc_get_weight( $cart_instance->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) ),
+			'coupons'        => CoCart_Utilities_Cart_Helpers::get_applied_coupons( $cart_instance ),
+			'needs_payment'  => $cart_instance->needs_payment(),
+			'needs_shipping' => $cart_instance->needs_shipping(),
+			'shipping'       => CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart_instance, $request ),
+			'fees'           => CoCart_Utilities_Cart_Helpers::get_fees( $cart_instance, $request ),
+			'taxes'          => CoCart_Utilities_Cart_Helpers::get_taxes( $cart_instance, $request ),
+			'totals'         => CoCart_Utilities_Cart_Helpers::get_cart_totals( $cart_instance, $request ),
+			'removed_items'  => $this->get_removed_items( $cart_instance->get_removed_cart_contents(), $request ),
+			'cross_sells'    => $this->get_cross_sells( $request ),
+			'notices'        => CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance ),
+		);
+	} // END get_cart_template()
+
+	/**
+	 * Get cart template - Limited.
+	 *
+	 * Same as original cart template only it returns the fields requested.
+	 *
+	 * @ignore Function ignored when parsed into Code Reference.
+	 *
+	 * @access protected
+	 *
+	 * @deprecated 5.0.0 No longer used. Replaced with `prepare_object_for_response()` instead.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @see CoCart_Utilities_Cart_Helpers::get_cart_key()
+	 * @see CoCart_Utilities_Cart_Helpers::get_customer_fields()
+	 * @see CoCart_Utilities_Cart_Helpers::get_applied_coupons()
+	 * @see CoCart_Utilities_Cart_Helpers::get_shipping_details()
+	 * @see CoCart_Utilities_Cart_Helpers::get_fees()
+	 * @see CoCart_Utilities_Cart_Helpers::get_taxes()
+	 * @see CoCart_Utilities_Cart_Helpers::get_cart_totals()
+	 * @see CoCart_Utilities_Cart_Helpers::maybe_return_notices()
+	 * @see CoCart_REST_Cart_V2_Controller::get_removed_items()
+	 * @see CoCart_REST_Cart_V2_Controller::get_cross_sells()
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return array $template Returns requested cart response.
+	 */
+	protected function get_cart_template_limited( $request ) {
+		cocart_deprecated_function( 'CoCart_REST_Cart_v2_Controller::return_cart_contents', '5.0.0' );
+
+		$fields = ! empty( $request['fields'] ) ? explode( ',', $request['fields'] ) : '';
+
+		$template = array();
+
+		$cart_instance = $this->get_cart_instance();
+
+		// Has customer provided enough information to return shipping totals.
+		// This tracks if shipping has actually been calculated so we can avoid returning costs prematurely.
+		$has_calculated_shipping = method_exists( $cart_instance, 'has_calculated_shipping' ) ? $cart_instance->has_calculated_shipping() : $cart_instance->show_shipping();
+
+		foreach ( $fields as $field ) {
+			$field        = explode( ':', $field );
+			$parent_field = $field[0];
+			$child_field  = ! empty( $field[1] ) ? $field[1] : '';
+
+			switch ( $parent_field ) {
+				case 'cart_hash':
+					$template['cart_hash'] = ! empty( $cart_instance->get_cart_hash() ) ? $cart_instance->get_cart_hash() : __( 'No items in cart so no hash', 'cocart-core' );
+					break;
+				case 'cart_key':
+					$template['cart_key'] = CoCart_Utilities_Cart_Helpers::get_cart_key();
+					break;
+				case 'currency':
+					$template['currency'] = cocart_get_store_currency();
+					break;
+				case 'customer':
+					if ( ! empty( $child_field ) ) {
+						if ( 'billing_address' === $child_field ) {
+							$template['customer']['billing_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $cart_instance->get_customer() );
+						}
+						if ( 'shipping_address' === $child_field ) {
+							$template['customer']['shipping_address'] = CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $cart_instance->get_customer() );
+						}
+					} else {
+						$template['customer'] = array(
+							'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $cart_instance->get_customer() ),
+							'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $cart_instance->get_customer() ),
+						);
+					}
+					break;
+				case 'items':
+					$template['items'] = array();
+					break;
+				case 'item_count':
+					$template['item_count'] = $cart_instance->get_cart_contents_count();
+					break;
+				case 'items_weight':
+					$template['items_weight'] = (string) wc_get_weight( $cart_instance->get_cart_contents_weight(), get_option( 'woocommerce_weight_unit' ) );
+					break;
+				case 'coupons':
+					$template['coupons'] = CoCart_Utilities_Cart_Helpers::get_applied_coupons( $cart_instance );
+					break;
+				case 'needs_payment':
+					$template['needs_payment'] = $cart_instance->needs_payment();
+					break;
+				case 'needs_shipping':
+					$template['needs_shipping'] = $cart_instance->needs_shipping();
+					break;
+				case 'shipping':
+					$template['shipping'] = CoCart_Utilities_Cart_Helpers::get_shipping_details( $cart_instance, $request );
+					break;
+				case 'fees':
+					$template['fees'] = CoCart_Utilities_Cart_Helpers::get_fees( $cart_instance, $request );
+					break;
+				case 'taxes':
+					$template['taxes'] = CoCart_Utilities_Cart_Helpers::get_taxes( $cart_instance, $request );
+					break;
+				case 'totals':
+					if ( ! empty( $child_field ) ) {
+						$child_field = explode( '-', $child_field );
+
+						foreach ( $child_field as $total ) {
+							if ( 'subtotal' === $total ) {
+								$template['totals']['subtotal'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal(), $request );
+							}
+							if ( 'subtotal_tax' === $total ) {
+								$template['totals']['subtotal_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_subtotal_tax(), $request );
+							}
+							if ( 'fee_total' === $total ) {
+								$template['totals']['fee_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_total(), $request );
+							}
+							if ( 'fee_tax' === $total ) {
+								$template['totals']['fee_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_fee_tax(), $request );
+							}
+							if ( 'discount_total' === $total ) {
+								$template['totals']['discount_total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_total(), $request );
+							}
+							if ( 'discount_tax' === $total ) {
+								$template['totals']['discount_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_discount_tax(), $request );
+							}
+							if ( 'shipping_total' === $total ) {
+								$template['totals']['shipping_total'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_total(), $request ) : '0';
+							}
+							if ( 'shipping_tax' === $total ) {
+								$template['totals']['shipping_tax'] = $has_calculated_shipping ? CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_shipping_tax(), $request ) : '0';
+							}
+							if ( 'total' === $total ) {
+								$template['totals']['total'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total( 'edit' ), $request );
+							}
+							if ( 'total_tax' === $total ) {
+								$template['totals']['total_tax'] = CoCart_REST_Utilities_Monetary_Formatting::format_money( $cart_instance->get_total_tax(), $request );
+							}
+						}
+					} else {
+						$template['totals'] = CoCart_Utilities_Cart_Helpers::get_cart_totals( $cart_instance, $request );
+					}
+					break;
+				case 'removed_items':
+					$template['removed_items'] = $this->get_removed_items( $cart_instance->get_removed_cart_contents(), $request );
+					break;
+				case 'cross_sells':
+					$template['cross_sells'] = $this->get_cross_sells( $request );
+					break;
+				case 'notices':
+					$template['notices'] = CoCart_Utilities_Cart_Helpers::maybe_return_notices( $cart_instance );
+					break;
+			}
+		}
+
+		return $template;
+	} // END get_cart_template_limited()
 
 	/**
 	 * Validate product before it is added to the cart, updated or removed.
@@ -2354,8 +2583,9 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 
 			// Stock check - this time accounting for whats already in-cart and look up what's reserved.
 			if ( $product->managing_stock() && ! $product->backorders_allowed() ) {
-				$qty_remaining = CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product( $product );
-				$qty_in_cart   = $this->get_product_quantity_in_cart( $product );
+				$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+				$qty_remaining   = $quantity_limits->get_remaining_stock_for_product( $product );
+				$qty_in_cart     = $this->get_product_quantity_in_cart( $product );
 
 				if ( $qty_remaining < $qty_in_cart + $quantity ) {
 					$message = sprintf(
@@ -2538,7 +2768,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 *
 	 * @deprecated 5.0.0 Replaced with the same function in the utilities class.
 	 *
-	 * @see CoCart_Utilities_Cart_Helpers::validate_quantity()
+	 * @see CoCart_Utilities_Quantity_Limits::validate_quantity()
 	 *
 	 * @param int|float  $quantity The quantity to validate.
 	 * @param WC_Product $product  The product object.
@@ -2546,9 +2776,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	 * @return int|float|\WP_Error
 	 */
 	protected function validate_quantity( $quantity, WC_Product $product ) {
-		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '5.0.0', 'CoCart_Utilities_Cart_Helpers::validate_quantity' );
+		cocart_deprecated_function( 'CoCart_REST_Cart_V2_Controller::validate_quantity', '5.0.0', 'CoCart_Utilities_Quantity_Limits::validate_quantity' );
 
-		return CoCart_Utilities_Cart_Helpers::validate_quantity( $quantity, $product );
+		$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+
+		return $quantity_limits->validate_quantity( $quantity, $product );
 	} // END validate_quantity()
 
 	/**

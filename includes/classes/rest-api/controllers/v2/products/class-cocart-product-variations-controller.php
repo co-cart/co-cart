@@ -23,49 +23,32 @@ class_alias( 'CoCart_REST_Product_Variations_V2_Controller', 'CoCart_Product_Var
  *
  * @since 3.1.0 Introduced.
  *
- * @extends CoCart_Product_Variations_Controller
+ * @extends CoCart_REST_Product_Variations_Controller
  */
-class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variations_Controller {
+class CoCart_REST_Product_Variations_V2_Controller extends CoCart_REST_Product_Variations_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
+	 * The version of this controller's route.
 	 *
 	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Version of route.
 	 */
 	protected $version = 'v2';
 
 	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
 	 *
+	 * @since 5.0.0 Introduced.
+	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products/(?P<product_id>[\d]+)/variations';
-	}
+	} // END get_path_regex()
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -84,12 +67,14 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 				'permission_callback' => '__return_true',
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
-	}
+	} // END get_args()
 
 	/**
 	 * Register the routes for product variations.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 */
@@ -144,13 +129,18 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	 * @return WP_REST_Response The returned response.
 	 */
 	public function prepare_object_for_response( $product, $request ) {
-		$controller = new CoCart_REST_Products_V2_Controller();
+		$controller = $this->get_products_controller();
+		$fields     = $controller->get_fields_for_response( $request );
 
-		$data     = $controller->get_variation_product_data( $product );
+		$data     = $controller->get_variation_product_data( $product, $fields );
 		$data     = $controller->add_additional_fields_to_object( $data, $request );
 		$data     = $controller->filter_response_by_context( $data, 'view' );
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $product ) );
+
+		// Only prepare links if requested (WordPress 6.1+ optimization).
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $product, $request ) );
+		}
 
 		/**
 		 * Filter the data for a response.
@@ -166,30 +156,21 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_Product_Variat
 	} // END prepare_object_for_response()
 
 	/**
-	 * Prepare links for the request.
+	 * Get the products controller instance for delegating response building.
 	 *
 	 * @access protected
 	 *
-	 * @param WC_Product $product The product object.
+	 * @since 5.0.0 Introduced.
 	 *
-	 * @return array $links Links for the given product.
+	 * @return CoCart_REST_Products_V2_Controller
 	 */
-	protected function prepare_links( $product ) {
-		$links = parent::prepare_links( $product );
+	protected function get_products_controller() {
+		static $controller = null;
 
-		$rest_base = str_replace( '(?P<product_id>[\d]+)', $product->get_parent_id(), $this->rest_base );
+		if ( is_null( $controller ) ) {
+			$controller = new CoCart_REST_Products_V2_Controller();
+		}
 
-		$links['self']['href']       = rest_url( sprintf( '/%s/%s/%d', $this->namespace, $rest_base, $product->get_id() ) );
-		$links['collection']['href'] = rest_url( sprintf( '/%s/%s', $this->namespace, $rest_base ) );
-
-		// Rename link type and add permalink for the parent product.
-		$links['up'] = array(
-			'permalink' => cocart_get_permalink( get_permalink( $product->get_parent_id() ) ),
-			'href'      => $links['parent_product']['href'],
-		);
-
-		unset( $links['parent_product'] );
-
-		return $links;
-	} // END prepare_links()
+		return $controller;
+	} // END get_products_controller()
 }

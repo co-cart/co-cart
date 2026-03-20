@@ -26,6 +26,8 @@ Company - [Sponsor](https://buy.polar.sh/polar_cl_090WPkwbHiiFTZB6HPO9LoBHSbyM37
 
 Small Team - [Sponsor](https://buy.polar.sh/polar_cl_pFwY63XwV-fVygtx8ejfWzYM0rzU81ao5Q0vz6kM1Og)
 
+[Krzysztof Polak](https://codee.dev/en/)
+
 ---
 
 ### $5 /month

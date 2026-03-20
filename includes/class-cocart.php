@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart
  * @since   2.6.0
- * @version 4.5.0
+ * @version 4.6.4
  * @license GPL-3.0
  */
 
@@ -55,7 +55,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $tested_up_to_wp = '6.8';
+	public static $tested_up_to_wp = '6.9';
 
 	/**
 	 * Required WordPress version.
@@ -81,7 +81,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_woo = '7.0';
+	public static $required_woo = '9.0';
 
 	/**
 	 * Required PHP version.
@@ -150,7 +150,6 @@ final class CoCart {
 		self::includes();
 		self::include_extension_compatibility();
 		self::include_third_party();
-		self::set_api_namespace();
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
@@ -231,7 +230,7 @@ final class CoCart {
 	 */
 	private static function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
-			define( $name, $value );
+			define( $name, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound
 		}
 	} // END define()
 
@@ -378,6 +377,11 @@ final class CoCart {
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cache-helpers.php';
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-cart-helpers.php';
 		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-product-helpers.php';
+		include_once __DIR__ . '/classes/utilities/class-cocart-utilities-quantity-limits.php';
+
+		// Resolve the API namespace now that Cache_Helpers is available, so that
+		// classes loaded below see the correct namespace.
+		self::set_api_namespace();
 
 		// Core classes.
 		require_once __DIR__ . '/classes/class-cocart-status.php';
@@ -589,7 +593,7 @@ final class CoCart {
 		}
 
 		require_once __DIR__ . '/classes/class-cocart-data-exception.php';
-		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-cache.php';
+		require_once __DIR__ . '/classes/rest-api/class-cocart-etag.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-callbacks.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-cart-extension.php';
 		require_once __DIR__ . '/classes/rest-api/class-cocart-response.php';
@@ -768,11 +772,13 @@ final class CoCart {
 	 * @static
 	 *
 	 * @since 2.1.2 Introduced.
+	 * @since 4.6.2 Moved the cart cache to load once WooCommerce has loaded instead of only during the REST API.
 	 *
 	 * @return void
 	 */
 	public static function woocommerce() {
 		require_once __DIR__ . '/classes/class-cocart-woocommerce.php';
+		require_once __DIR__ . '/classes/class-cocart-cart-cache.php';
 	} // END woocommerce()
 
 	/**
@@ -784,7 +790,7 @@ final class CoCart {
 	 *
 	 * @static
 	 *
-	 * @since 5.0.0 Introduced.
+	 * @since 4.6.4 Introduced.
 	 *
 	 * @param string $slug The plugin slug to convert.
 	 *
@@ -821,10 +827,10 @@ final class CoCart {
 			$locale = is_admin() ? get_user_locale() : get_locale();
 		}
 
-		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG );
+		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		unload_textdomain( COCART_SLUG );
 		load_textdomain( COCART_SLUG, WP_LANG_DIR . '/' . COCART_SLUG . '/' . COCART_SLUG . '-' . $locale . '.mo' );
-		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' );
+		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' ); // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
 	} // END load_plugin_textdomain()
 } // END class

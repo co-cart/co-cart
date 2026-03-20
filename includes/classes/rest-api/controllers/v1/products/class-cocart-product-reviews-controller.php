@@ -81,7 +81,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 						)
 					),
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 
@@ -103,7 +103,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
 				),
-				'schema' => array( $this, 'get_public_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	} // END register_routes()
@@ -115,7 +115,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function check_review_exists( $request ) {
 		$id     = (int) $request['id'];
@@ -143,7 +143,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function create_item_permissions_check( $request ) {
 		$verified = false;
@@ -552,7 +552,7 @@ class CoCart_Product_Reviews_Controller extends WC_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $review ) );
+		$response->add_links( $this->prepare_links( $review, $request ) );
 
 		/**
 		 * Filter product reviews object returned from the REST API.

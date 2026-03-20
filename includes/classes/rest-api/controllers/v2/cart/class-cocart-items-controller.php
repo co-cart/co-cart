@@ -28,14 +28,9 @@ class_alias( 'CoCart_REST_Items_V2_Controller', 'CoCart_Items_V2_Controller' );
 class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'cart/items';
-
-	/**
 	 * Get the path of this rest route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -45,6 +40,8 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -62,7 +59,18 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart/items';
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -95,7 +103,7 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			$cart          = $this->get_cart_instance();
 			$cart_contents = ! $cart->is_empty() ? array_filter( $cart->get_cart() ) : array();
 
-			$items = $this->get_items( $cart_contents );
+			$items = $this->get_items_in_cart( $cart_contents );
 
 			// Return message should the cart be empty.
 			if ( empty( $cart_contents ) ) {
@@ -145,7 +153,11 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array
 	 */
 	public function get_public_items_schema() {
-		return array(
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_cart_items',
 			'type'       => 'object',
@@ -334,5 +346,7 @@ class CoCart_REST_Items_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				),
 			),
 		);
+
+		return $this->schema;
 	} // END get_public_items_schema()
 } // END class

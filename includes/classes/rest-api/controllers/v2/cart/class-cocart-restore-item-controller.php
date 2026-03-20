@@ -28,23 +28,9 @@ class_alias( 'CoCart_REST_Restore_Item_V2_Controller', 'CoCart_Restore_Item_V2_C
 class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'cart/item';
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return $this->get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -54,6 +40,8 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -66,11 +54,23 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart/item';
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -119,7 +119,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 			// If item does not exist as an item removed check if the item is in the cart.
 			if ( empty( $current_data ) ) {
-				$restored_item = $this->get_cart_item( $item_key, 'restore' );
+				$restored_item = $this->get_item_from_cart( $item_key, 'restore' );
 
 				// Check if the item has already been restored.
 				if ( ! empty( $restored_item ) ) {
@@ -153,7 +153,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 			}
 
 			if ( $cart->restore_cart_item( $item_key ) ) {
-				$current_data = $this->get_cart_item( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
+				$current_data = $this->get_item_from_cart( $item_key, 'restore' ); // Fetches the cart item data once it is restored.
 
 				/**
 				 * Hook: cocart_item_restored
@@ -198,7 +198,7 @@ class CoCart_REST_Restore_Item_V2_Controller extends CoCart_REST_Cart_V2_Control
 
 				// Get cart contents.
 				$request['dont_check'] = true;
-				$response              = $this->get_cart( $request );
+				$response              = $this->get_items( $request );
 
 				// Was it requested to return status once item restored?
 				if ( $request['return_status'] ) {

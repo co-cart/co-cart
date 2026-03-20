@@ -26,14 +26,9 @@ class_alias( 'CoCart_REST_Session_V2_Controller', 'CoCart_Session_V2_Controller'
 class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'session';
-
-	/**
 	 * Get the path of this rest route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -43,6 +38,8 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -55,9 +52,36 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
+
+	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'session';
+
+	/**
+	 * Register the routes for index.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
+	 *
+	 * @access public
+	 */
+	public function register_routes() {
+		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
+
+		// Get Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (GET).
+		register_rest_route(
+			$this->namespace,
+			$this->get_path(),
+			$this->get_args()
+		);
+	} // END register_routes()
 
 	/**
 	 * Total defaults.
@@ -83,22 +107,6 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	);
 
 	/**
-	 * Register the routes for index.
-	 *
-	 * @access public
-	 */
-	public function register_routes() {
-		cocart_deprecated_function( __FUNCTION__, '5.0.0' );
-
-		// Get Cart in Session - cocart/v2/session/ec2b1f30a304ed513d2975b7b9f222f6 (GET).
-		register_rest_route(
-			$this->namespace,
-			$this->get_path(),
-			$this->get_args()
-		);
-	} // END register_routes()
-
-	/**
 	 * Check whether a given request has permission to read site data.
 	 *
 	 * @access public
@@ -107,7 +115,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @param WP_REST_Request $request The request object.
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
@@ -148,7 +156,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				throw new CoCart_Data_Exception( 'cocart_cart_in_session_not_valid', __( 'Cart in session is not valid!', 'cocart-core' ), 404 );
 			}
 
-			return CoCart_Response::get_response( $this->return_session_data( $request, maybe_unserialize( $cart ) ), $this->namespace, $this->rest_base );
+			return rest_ensure_response( $this->return_session_data( $request, maybe_unserialize( $cart ) ) );
 		} catch ( \CoCart_Data_Exception $e ) {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
@@ -171,18 +179,21 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		$show_thumb = ! empty( $request['thumb'] ) ? $request['thumb'] : false;
 
 		// Customer.
-		$customer = '';
+		$customer = array();
 
 		if ( isset( $session_data['customer'] ) ) {
 			$customer = maybe_unserialize( $session_data['customer'] );
 		}
 
+		// Get customer object.
+		$customer = $this->get_customer( $customer );
+
 		// Session response.
 		$session = array(
 			'cart_key'      => $request['session_key'],
 			'customer'      => array(
-				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $this->get_customer( $customer ) ),
-				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $this->get_customer( $customer ) ),
+				'billing_address'  => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'billing', $customer ),
+				'shipping_address' => CoCart_Utilities_Cart_Helpers::get_customer_fields( 'shipping', $customer ),
 			),
 			'items'         => array(),
 			'item_count'    => $this->get_cart_contents_count( $session_data ),
@@ -224,9 +235,9 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 		// Returns items.
 		if ( array_key_exists( 'items', $session ) ) {
 			if ( isset( $session_data['cart_cache'] ) ) {
-				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart_cache'] ), $show_thumb );
-			} else {
-				$session['items'] = $this->get_items( maybe_unserialize( $session_data['cart'] ), $show_thumb );
+				$session['items'] = $this->get_items_in_cart( maybe_unserialize( $session_data['cart_cache'] ), $show_thumb );
+			} elseif ( isset( $session_data['cart'] ) ) {
+				$session['items'] = $this->get_items_in_cart( maybe_unserialize( $session_data['cart'] ), $show_thumb );
 			}
 		}
 
@@ -289,21 +300,22 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 			 * @param string $item_key      The item key generated based on the details of the item.
 			 */
 			'price'          => apply_filters( 'cocart_cart_item_price', cocart_format_money( $price_function( $product ) ), $cart_item, $item_key ),
-			'quantity'       => array(
-				/**
-				 * Filter allows the quantity of the item to change.
-				 *
-				 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
-				 *
-				 * @since 3.0.0 Introduced.
-				 *
-				 * @param string $item_quantity Item quantity.
-				 * @param string $item_key      The item key generated based on the details of the item.
-				 * @param array  $cart_item     The cart item data.
-				 */
-				'value'        => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
-				'min_purchase' => $product->get_min_purchase_quantity(),
-				'max_purchase' => $product->get_max_purchase_quantity(),
+			'quantity'       => array_merge(
+				array(
+					/**
+					 * Filter allows the quantity of the item to change.
+					 *
+					 * Warning: This filter does not represent the quantity of the item that totals will be calculated on.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $item_quantity Item quantity.
+					 * @param string $item_key      The item key generated based on the details of the item.
+					 * @param array  $cart_item     The cart item data.
+					 */
+					'value' => apply_filters( 'cocart_cart_item_quantity', $cart_item['quantity'], $item_key, $cart_item ),
+				),
+				( new CoCart_Utilities_Quantity_Limits() )->get_cart_item_quantity_limits( $cart_item )
 			),
 			'totals'         => array(
 				'subtotal'     => cocart_format_money( $cart_item['line_subtotal'] ),
@@ -390,7 +402,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array Of applied coupons.
 	 */
 	public function get_applied_coupons( $session_data = array() ) {
-		return (array) maybe_unserialize( $session_data['applied_coupons'] );
+		return isset( $session_data['applied_coupons'] ) ? maybe_unserialize( $session_data['applied_coupons'] ) : array();
 	} // END get_applied_coupons()
 
 	/**
@@ -405,7 +417,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return int
 	 */
 	public function get_cart_contents_count( $session_data = array() ) {
-		return array_sum( wp_list_pluck( maybe_unserialize( $session_data['cart'] ), 'quantity' ) );
+		return isset( $session_data['cart'] ) ? array_sum( wp_list_pluck( maybe_unserialize( $session_data['cart'] ), 'quantity' ) ) : 0;
 	} // END get_cart_contents_count()
 
 	/**
@@ -422,7 +434,11 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	public function get_cart_contents_weight( $session_data = array() ) {
 		$weight = 0.0;
 
-		$cart_contents = maybe_unserialize( $session_data['cart'] );
+		$cart_contents = isset( $session_data['cart'] ) ? maybe_unserialize( $session_data['cart'] ) : array();
+
+		if ( empty( $cart_contents ) ) {
+			return $weight;
+		}
 
 		foreach ( $cart_contents as $item_key => $cart_item ) {
 			// Product data will be missing so we need to apply it.
@@ -512,9 +528,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return mixed
 	 */
 	protected function get_totals_var( $session_data = array(), $key = '' ) {
-		$totals = maybe_unserialize( $session_data['cart_totals'] );
-
-		return isset( $totals[ $key ] ) ? $totals[ $key ] : $this->default_totals[ $key ];
+		return isset( $totals[ $key ] ) ? maybe_unserialize( $session_data['cart_totals'] ) : $this->default_totals[ $key ];
 	} // END get_totals_var()
 
 	/**
@@ -733,7 +747,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return string
 	 */
 	public function get_tax_price_display_mode( $session_data = array() ) {
-		$customer = '';
+		$customer = array();
 
 		if ( isset( $session_data['customer'] ) ) {
 			$customer = maybe_unserialize( $session_data['customer'] );
@@ -753,18 +767,94 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
-	 * @param mixed $customer Customer object or ID.
+	 * @param mixed $customer Array of customer data from session.
 	 *
-	 * @return WC_Customer $customer Customer object or ID.
+	 * @return WC_Customer $customer Customer object.
 	 */
-	public function get_customer( $customer = 0 ) {
-		if ( is_numeric( $customer ) ) {
-			$user = get_user_by( 'id', $customer );
+	public function get_customer( $customer = array() ) {
+		// If customer data is an array (from session), create a WC_Customer object and populate it.
+		if ( is_array( $customer ) ) {
+			$customer_id = isset( $customer['id'] ) && absint( $customer['id'] ) > 0 ? absint( $customer['id'] ) : 0;
+			$wc_customer = new WC_Customer( $customer_id, true );
 
-			// If user id does not exist then set as new customer.
-			if ( false === $user ) {
-				$customer = 0;
+			// Set billing address fields.
+			if ( isset( $customer['first_name'] ) ) {
+				$wc_customer->set_billing_first_name( $customer['first_name'] );
 			}
+			if ( isset( $customer['last_name'] ) ) {
+				$wc_customer->set_billing_last_name( $customer['last_name'] );
+			}
+			if ( isset( $customer['company'] ) ) {
+				$wc_customer->set_billing_company( $customer['company'] );
+			}
+			if ( isset( $customer['email'] ) ) {
+				$wc_customer->set_billing_email( $customer['email'] );
+			}
+			if ( isset( $customer['phone'] ) ) {
+				$wc_customer->set_billing_phone( $customer['phone'] );
+			}
+			if ( isset( $customer['address_1'] ) ) {
+				$wc_customer->set_billing_address_1( $customer['address_1'] );
+			}
+			if ( isset( $customer['address_2'] ) ) {
+				$wc_customer->set_billing_address_2( $customer['address_2'] );
+			}
+			if ( isset( $customer['city'] ) ) {
+				$wc_customer->set_billing_city( $customer['city'] );
+			}
+			if ( isset( $customer['state'] ) ) {
+				$wc_customer->set_billing_state( $customer['state'] );
+			}
+			if ( isset( $customer['postcode'] ) ) {
+				$wc_customer->set_billing_postcode( $customer['postcode'] );
+			}
+			if ( isset( $customer['country'] ) ) {
+				$wc_customer->set_billing_country( $customer['country'] );
+			}
+
+			// Set shipping address fields.
+			if ( isset( $customer['shipping_first_name'] ) ) {
+				$wc_customer->set_shipping_first_name( $customer['shipping_first_name'] );
+			}
+			if ( isset( $customer['shipping_last_name'] ) ) {
+				$wc_customer->set_shipping_last_name( $customer['shipping_last_name'] );
+			}
+			if ( isset( $customer['shipping_company'] ) ) {
+				$wc_customer->set_shipping_company( $customer['shipping_company'] );
+			}
+			if ( isset( $customer['shipping_phone'] ) ) {
+				$wc_customer->set_shipping_phone( $customer['shipping_phone'] );
+			}
+			if ( isset( $customer['shipping_address_1'] ) ) {
+				$wc_customer->set_shipping_address_1( $customer['shipping_address_1'] );
+			}
+			if ( isset( $customer['shipping_address_2'] ) ) {
+				$wc_customer->set_shipping_address_2( $customer['shipping_address_2'] );
+			}
+			if ( isset( $customer['shipping_city'] ) ) {
+				$wc_customer->set_shipping_city( $customer['shipping_city'] );
+			}
+			if ( isset( $customer['shipping_state'] ) ) {
+				$wc_customer->set_shipping_state( $customer['shipping_state'] );
+			}
+			if ( isset( $customer['shipping_postcode'] ) ) {
+				$wc_customer->set_shipping_postcode( $customer['shipping_postcode'] );
+			}
+			if ( isset( $customer['shipping_country'] ) ) {
+				$wc_customer->set_shipping_country( $customer['shipping_country'] );
+			}
+
+			// Set VAT exempt status.
+			if ( isset( $customer['is_vat_exempt'] ) ) {
+				$wc_customer->set_is_vat_exempt( wc_string_to_bool( $customer['is_vat_exempt'] ) );
+			}
+
+			// Set calculated shipping flag.
+			if ( isset( $customer['calculated_shipping'] ) ) {
+				$wc_customer->set_calculated_shipping( wc_string_to_bool( $customer['calculated_shipping'] ) );
+			}
+
+			return $wc_customer;
 		}
 
 		return new WC_Customer( $customer, true );
@@ -782,6 +872,6 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 * @return array
 	 */
 	public function get_removed_cart_contents( $session_data = array() ) {
-		return (array) maybe_unserialize( $session_data['removed_cart_contents'] );
+		return isset( $session_data['removed_cart_contents'] ) ? maybe_unserialize( $session_data['removed_cart_contents'] ) : array();
 	} // END get_removed_cart_contents()
 } // END class

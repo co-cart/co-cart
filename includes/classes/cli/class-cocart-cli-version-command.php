@@ -22,31 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CoCart_CLI_Version_Command {
 
 	/**
-	 * Registers the version commands.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 */
-	public static function register_commands() {
-		WP_CLI::add_command(
-			'cocart version', // Command.
-			array( __CLASS__, 'version' ), // Callback.
-			array( // Arguments.
-				'shortdesc' => __( 'Returns the version of CoCart installed.', 'cocart-core' ),
-			)
-		);
-
-		WP_CLI::add_command(
-			'cocart db-version', // Command.
-			array( __CLASS__, 'db_version' ), // Callback.
-			array( // Arguments.
-				'shortdesc' => __( 'Returns the database version of CoCart installed.', 'cocart-core' ),
-			)
-		);
-	} // END register_commands()
-
-	/**
 	 * Returns the version of CoCart.
 	 *
 	 * @access public

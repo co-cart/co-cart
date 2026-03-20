@@ -34,8 +34,17 @@ class CoCart_REST_API {
 
 	/**
 	 * This stores routes registered to prevent them from registering again by mistake.
+	 *
+	 * @var array
 	 */
 	protected $registered_routes = array();
+
+	/**
+	 * The API namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = '';
 
 	/**
 	 * Setup class.
@@ -52,24 +61,29 @@ class CoCart_REST_API {
 			return;
 		}
 
+		// Set the API namespace.
+		$this->namespace = CoCart::get_api_namespace();
+
 		// Register API routes.
 		$this->rest_api_includes();
 		$this->routes = $this->get_rest_namespaces();
 
-		// Initialize cart.
-		$this->maybe_load_cart();
-
 		// Register REST routes.
 		$this->register_all_routes();
 
-		// Prevents certain routes from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
-		add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
+		if ( CoCart::is_rest_api_request() ) {
+			// Initialize cart.
+			$this->maybe_load_cart();
 
-		// Set Cache Headers.
-		add_filter( 'rest_pre_serve_request', array( $this, 'set_cache_control_headers' ), 2, 4 );
+			// Prevents certain routes from being cached with WP REST API Cache plugin (https://wordpress.org/plugins/wp-rest-api-cache/).
+			add_filter( 'rest_cache_skip', array( $this, 'prevent_cache' ), 10, 2 );
 
-		// Enhanced error handling and allows for final modifications to the response before returning.
-		add_filter( 'rest_request_after_callbacks', array( $this, 'handle_rest_response' ), 10, 3 );
+			// Set Cache Headers.
+			add_filter( 'rest_pre_serve_request', array( $this, 'set_cache_control_headers' ), 2, 4 );
+
+			// Set general CoCart Headers.
+			add_filter( 'rest_pre_serve_request', array( $this, 'set_global_headers' ), 10, 4 );
+		}
 	} // END __construct()
 
 	/**
@@ -119,27 +133,37 @@ class CoCart_REST_API {
 	 * @param string $version API Version being registered. Default is the current supported API Version.
 	 */
 	protected function register_routes( $version = 'v2' ) {
+		// Set the internal route namespace to identify controllers for this version.
+		$route_namespace = 'cocart/' . $version;
+
 		// If no routes for the version exist return nothing.
-		if ( ! isset( $this->routes[ CoCart::get_api_namespace() . $version ] ) ) {
+		if ( ! isset( $this->routes[ $route_namespace ] ) ) {
 			return;
 		}
 
-		// Set the route namespace outside the controller.
-		$route_namespace = CoCart::get_api_namespace() . '/' . $version;
+		// Get routes for the version.
+		$routes = $this->routes[ $route_namespace ];
 
-		$routes = $this->routes[ CoCart::get_api_namespace() . $version ];
+		// Override the namespace to match CoCart's current namespace should it be white labelled.
+		$route_namespace = str_replace( 'cocart', $this->namespace, $route_namespace );
 
 		foreach ( $routes as $route_identifier => $route_class ) {
 			$skip_route = false;
 
-			$route = $this->routes[ CoCart::get_api_namespace() . $version ][ $route_identifier ] ?? false;
+			$route = $routes[ $route_identifier ] ?? false;
 
 			if ( ! $route ) {
 				error_log( esc_html( "{$route_class} route does not exist" ) );
 				$skip_route = true;
 			}
 
-			if ( ! method_exists( $route_class, 'get_path_regex' ) ) {
+			// Check if the class exists before checking for the method (supports namespaced classes).
+			if ( ! $skip_route && ! class_exists( $route_class ) ) {
+				error_log( esc_html( "{$route_class} class does not exist" ) );
+				$skip_route = true;
+			}
+
+			if ( ! $skip_route && ! method_exists( $route_class, 'get_path_regex' ) ) {
 				error_log( esc_html( "{$route_class} route does not have a get_path_regex method" ) );
 				$skip_route = true;
 			}
@@ -150,7 +174,7 @@ class CoCart_REST_API {
 				$path           = $route_instance->get_path_regex();
 			}
 
-			if ( ! $skip_route && ! isset( $this->registered_routes[ $route_class ] ) && array_search( $path, $this->registered_routes ) === false ) {
+			if ( ! $skip_route && ! isset( $this->registered_routes[ $route_class ] ) ) {
 				register_rest_route(
 					$route_namespace,
 					$path,
@@ -238,33 +262,47 @@ class CoCart_REST_API {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'cocart-v2-store'                   => 'CoCart_REST_Store_V2_Controller',
-			'cocart-v2-cart'                    => 'CoCart_REST_Cart_V2_Controller',
-			'cocart-v2-cart-add-item'           => 'CoCart_REST_Add_Item_V2_Controller',
-			'cocart-v2-cart-add-items'          => 'CoCart_REST_Add_Items_V2_Controller',
-			'cocart-v2-cart-item'               => 'CoCart_REST_Item_V2_Controller',
-			'cocart-v2-cart-items'              => 'CoCart_REST_Items_V2_Controller',
-			'cocart-v2-cart-items-count'        => 'CoCart_REST_Count_Items_V2_Controller',
-			'cocart-v2-cart-update-item'        => 'CoCart_REST_Update_Item_V2_Controller',
-			'cocart-v2-cart-remove-item'        => 'CoCart_REST_Remove_Item_V2_Controller',
-			'cocart-v2-cart-restore-item'       => 'CoCart_REST_Restore_Item_V2_Controller',
-			'cocart-v2-cart-calculate'          => 'CoCart_REST_Calculate_V2_Controller',
-			'cocart-v2-cart-clear'              => 'CoCart_REST_Clear_Cart_V2_Controller',
-			'cocart-v2-cart-create'             => 'CoCart_REST_Create_Cart_V2_Controller',
-			'cocart-v2-cart-update'             => 'CoCart_REST_Update_Cart_V2_Controller',
-			'cocart-v2-cart-totals'             => 'CoCart_REST_Totals_V2_Controller',
-			'cocart-v2-login'                   => 'CoCart_REST_Login_V2_Controller',
-			'cocart-v2-logout'                  => 'CoCart_REST_Logout_V2_Controller',
-			'cocart-v2-session'                 => 'CoCart_REST_Session_V2_Controller',
-			'cocart-v2-sessions'                => 'CoCart_REST_Sessions_V2_Controller',
-			'cocart-v2-product-attributes'      => 'CoCart_REST_Product_Attributes_V2_Controller',
-			'cocart-v2-product-attribute-terms' => 'CoCart_REST_Product_Attribute_Terms_V2_Controller',
-			'cocart-v2-product-brands'          => 'CoCart_REST_Product_Brands_V2_Controller',
-			'cocart-v2-product-categories'      => 'CoCart_REST_Product_Categories_V2_Controller',
-			'cocart-v2-product-reviews'         => 'CoCart_REST_Product_Reviews_V2_Controller',
-			'cocart-v2-product-tags'            => 'CoCart_REST_Product_Tags_V2_Controller',
-			'cocart-v2-products'                => 'CoCart_REST_Products_V2_Controller',
-			'cocart-v2-product-variations'      => 'CoCart_REST_Product_Variations_V2_Controller',
+			'cocart-v2-store'                           => 'CoCart_REST_Store_V2_Controller',
+			'cocart-v2-cart'                            => 'CoCart_REST_Cart_V2_Controller',
+			'cocart-v2-cart-add-item'                   => 'CoCart_REST_Add_Item_V2_Controller',
+			'cocart-v2-cart-add-items'                  => 'CoCart_REST_Add_Items_V2_Controller',
+			'cocart-v2-cart-item'                       => 'CoCart_REST_Item_V2_Controller',
+			'cocart-v2-cart-items'                      => 'CoCart_REST_Items_V2_Controller',
+			'cocart-v2-cart-items-count'                => 'CoCart_REST_Count_Items_V2_Controller',
+			'cocart-v2-cart-update-item'                => 'CoCart_REST_Update_Item_V2_Controller',
+			'cocart-v2-cart-remove-item'                => 'CoCart_REST_Remove_Item_V2_Controller',
+			'cocart-v2-cart-restore-item'               => 'CoCart_REST_Restore_Item_V2_Controller',
+			'cocart-v2-cart-calculate'                  => 'CoCart_REST_Calculate_V2_Controller',
+			'cocart-v2-cart-clear'                      => 'CoCart_REST_Clear_Cart_V2_Controller',
+			'cocart-v2-cart-create'                     => 'CoCart_REST_Create_Cart_V2_Controller',
+			'cocart-v2-cart-update'                     => 'CoCart_REST_Update_Cart_V2_Controller',
+			'cocart-v2-cart-totals'                     => 'CoCart_REST_Totals_V2_Controller',
+			'cocart-v2-login'                           => 'CoCart_REST_Login_V2_Controller',
+			'cocart-v2-logout'                          => 'CoCart_REST_Logout_V2_Controller',
+			'cocart-v2-session'                         => 'CoCart_REST_Session_V2_Controller',
+			'cocart-v2-sessions'                        => 'CoCart_REST_Sessions_V2_Controller',
+			'cocart-v2-product-attributes'              => 'CoCart_REST_Product_Attributes_V2_Controller',
+			'cocart-v2-product-attribute-by-id'         => 'CoCart_REST_Product_Attribute_By_ID_V2_Controller',
+			'cocart-v2-product-attribute-by-slug'       => 'CoCart_REST_Product_Attribute_By_Slug_V2_Controller',
+			'cocart-v2-product-attribute-terms'         => 'CoCart_REST_Product_Attribute_Terms_V2_Controller',
+			'cocart-v2-product-attribute-term'          => 'CoCart_REST_Product_Attribute_By_ID_Term_By_ID_V2_Controller',
+			'cocart-v2-product-attribute-terms-by-slug' => 'CoCart_REST_Product_Attribute_Terms_By_Slug_V2_Controller',
+			'cocart-v2-product-attribute-by-slug-term-by-id' => 'CoCart_REST_Product_Attribute_By_Slug_Term_By_ID_V2_Controller',
+			'cocart-v2-product-attribute-by-slug-term-by-slug' => 'CoCart_REST_Product_Attribute_By_Slug_Term_By_Slug_V2_Controller',
+			'cocart-v2-product-brands'                  => 'CoCart_REST_Product_Brands_V2_Controller',
+			'cocart-v2-product-brand'                   => 'CoCart_REST_Product_Brand_V2_Controller',
+			'cocart-v2-product-categories'              => 'CoCart_REST_Product_Categories_V2_Controller',
+			'cocart-v2-product-category'                => 'CoCart_REST_Product_Category_V2_Controller',
+			'cocart-v2-product-reviews'                 => 'CoCart_REST_Product_Reviews_V2_Controller',
+			'cocart-v2-product-reviews-mine'            => 'CoCart_REST_Product_Reviews_Mine_V2_Controller',
+			'cocart-v2-product-tags'                    => 'CoCart_REST_Product_Tags_V2_Controller',
+			'cocart-v2-product-tag'                     => 'CoCart_REST_Product_Tag_V2_Controller',
+			'cocart-v2-products'                        => 'CoCart_REST_Products_V2_Controller',
+			'cocart-v2-products-collection-data'        => 'CoCart_REST_Products_Collection_Data_V2_Controller',
+			'cocart-v2-product-by-id'                   => 'CoCart_REST_Products_by_ID_V2_Controller',
+			'cocart-v2-product-variations'              => 'CoCart_REST_Product_Variations_V2_Controller',
+			'cocart-v2-product-variation-item'          => 'CoCart_REST_Product_Variation_Item_V2_Controller',
+			'cocart-v2-product-by-slug'                 => 'CoCart_REST_Products_by_Slug_V2_Controller',
 		);
 	} // END get_v2_controllers()
 
@@ -284,12 +322,12 @@ class CoCart_REST_API {
 	 * @access private
 	 *
 	 * @since 4.2.0 Introduced.
-	 * @since 4.6.0 Deprecated hooking `persistent_cart_update` function below WC v10.0.
+	 * @since 4.6.0 Deprecated hooking `persistent_cart_update` function below WC v10.1.
 	 * @since 5.0.0 Get the cart data from session and validate cart contents.
 	 */
 	private function initialize_cart_session() {
 		// Return nothing if accessing the index route only.
-		if ( ! isset( $GLOBALS['wp']->query_vars['rest_route'] ) || preg_match( '#^/' . CoCart::get_api_namespace() . '/v[12]$#', $GLOBALS['wp']->query_vars['rest_route'] ) ) {
+		if ( ! isset( $GLOBALS['wp']->query_vars['rest_route'] ) || preg_match( '#^/' . $this->namespace . '/v[12]$#', $GLOBALS['wp']->query_vars['rest_route'] ) ) {
 			return;
 		}
 
@@ -507,16 +545,10 @@ class CoCart_REST_API {
 
 			// Update session when the cart is updated.
 			add_action( 'woocommerce_after_calculate_totals', array( $session, 'set_session' ), 1000 );
-			add_action( 'woocommerce_cart_loaded_from_session', array( $session, 'set_session' ) );
-			add_action( 'woocommerce_removed_coupon', array( $session, 'set_session' ) );
-
-			// Persistent cart stored to usermeta. Only supported for WC users below v10. @todo Remove hooks below in future.
-			if ( method_exists( $session, 'persistent_cart_update' ) && version_compare( WC_VERSION, '10.0', '<' ) ) {
-				add_action( 'woocommerce_add_to_cart', array( $session, 'persistent_cart_update' ) );
-				add_action( 'woocommerce_cart_item_removed', array( $session, 'persistent_cart_update' ) );
-				add_action( 'woocommerce_cart_item_restored', array( $session, 'persistent_cart_update' ) );
-				add_action( 'woocommerce_cart_item_set_quantity', array( $session, 'persistent_cart_update' ) );
+			if ( version_compare( WC_VERSION, '10.1', '<' ) ) {
+				add_action( 'woocommerce_cart_loaded_from_session', array( $session, 'set_session' ) );
 			}
+			add_action( 'woocommerce_removed_coupon', array( $session, 'set_session' ) );
 
 			return false;
 		}, 100, 2 );
@@ -533,27 +565,24 @@ class CoCart_REST_API {
 	 * @since 4.1.0 Initialize customer separately.
 	 */
 	private function maybe_load_cart() {
-		if ( CoCart::is_rest_api_request() ) {
-
-			// Check if we should prevent the requested route from initializing the session and cart.
-			if ( $this->prevent_routes_from_initializing() ) {
-				return;
-			}
-
-			// Require WooCommerce functions.
-			require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
-			require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
-
-			// Initialize session.
-			$this->initialize_session();
-
-			// Initialize customer.
-			$this->initialize_customer();
-
-			// Initialize cart.
-			$this->initialize_cart_session();
-			$this->initialize_cart();
+		// Check if we should prevent the requested route from initializing the session and cart.
+		if ( $this->prevent_routes_from_initializing() ) {
+			return;
 		}
+
+		// Require WooCommerce functions.
+		require_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+		require_once WC_ABSPATH . 'includes/wc-notice-functions.php';
+
+		// Initialize session.
+		$this->initialize_session();
+
+		// Initialize customer.
+		$this->initialize_customer();
+
+		// Initialize cart.
+		$this->initialize_cart_session();
+		$this->initialize_cart();
 	} // END maybe_load_cart()
 
 	/**
@@ -633,9 +662,18 @@ class CoCart_REST_API {
 	 * @since 5.0.0 Added create cart route, brands, monetary, response and pagination utilities.
 	 */
 	public function rest_api_includes() {
+		// Utilities.
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-monetary-formatting.php';
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-cart-response.php';
 		require_once __DIR__ . '/utilities/class-cocart-rest-utilities-pagination.php';
+
+		require_once __DIR__ . '/controllers/class-cocart-rest-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-products-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-product-variations-controller.php';
+
+		// Abstract base for terms controllers (shared between v1 and v2).
+		require_once __DIR__ . '/controllers/class-cocart-taxonomy-terms-controller.php';
+		require_once __DIR__ . '/controllers/class-cocart-wc-attributes-controller.php';
 
 		// CoCart REST API v1 controllers.
 		require_once __DIR__ . '/controllers/v1/cart/class-cocart-controller.php';
@@ -661,6 +699,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/others/class-cocart-login-controller.php';
 		require_once __DIR__ . '/controllers/v2/others/class-cocart-logout-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-cart-controller.php';
+		require_once __DIR__ . '/controllers/v2/cart/class-cocart-create-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-add-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-add-items-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-item-controller.php';
@@ -668,7 +707,6 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-clear-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-calculate-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-count-controller.php';
-		require_once __DIR__ . '/controllers/v2/cart/class-cocart-create-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-update-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-remove-item-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-restore-item-controller.php';
@@ -677,14 +715,28 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-controller.php';
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-sessions-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-abstract-terms-controller.php';
-		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-terms-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attributes-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-id-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-id-terms-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-id-term-by-id-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-terms-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-term-by-id-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attribute-by-slug-term-by-slug-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-categories-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-category-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-brands-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-brand-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-reviews-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-reviews-mine-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-tags-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-tag-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-collection-data-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-by-slug-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-by-id-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-variations-controller.php';
+		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-variation-item-controller.php';
 
 		do_action( 'cocart_rest_api_controllers' );
 	} // END rest_api_includes()
@@ -721,6 +773,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 3.1.0 Introduced.
 	 * @since 4.1.0 Check against allowed routes to determine if we should cache.
+	 * @since 4.9.0 Improved cache control for cacheable routes and more control over cache durations.
 	 * @since 5.0.0 Allow for set API namespace to be used for control patterns.
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
@@ -728,43 +781,24 @@ class CoCart_REST_API {
 	 * @param WP_REST_Request  $request The request object.
 	 * @param WP_REST_Server   $server  Server instance.
 	 *
-	 * @return null|bool
+	 * @return bool $served Returns true if headers were set.
 	 */
 	public function set_cache_control_headers( $served, $result, $request, $server ) {
-		/**
-		 * Filter allows you set a path to which will prevent from being added to browser cache.
-		 *
-		 * @since 3.6.0 Introduced.
-		 * @since 5.0.0 Added API Namespace as new parameter.
-		 *
-		 * @param array  $cache_control_patterns Cache control patterns.
-		 * @param string $api_namespace          API Namespace
-		 */
-		$regex_path_patterns = apply_filters(
-			'cocart_send_cache_control_patterns',
-			array(
-				'/^' . CoCart::get_api_namespace() . '\/v2\/cart/',
-				'/^' . CoCart::get_api_namespace() . '\/v2\/logout/',
-				'/^' . CoCart::get_api_namespace() . '\/v2\/store/',
-				'/^' . CoCart::get_api_namespace() . '\/v1\/get-cart/',
-				'/^' . CoCart::get_api_namespace() . '\/v1\/logout/',
-			),
-			CoCart::get_api_namespace()
-		);
+		// Force no-cache if _skip_cache parameter is set.
+		$skip_cache = $request->get_param( '_skip_cache' );
 
-		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
-		? 'no-cache, must-revalidate, max-age=0, no-store, private'
-		: 'no-cache, must-revalidate, max-age=0, no-store';
-
-		foreach ( $regex_path_patterns as $regex_path_pattern ) {
-			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
-				if ( method_exists( $server, 'send_header' ) ) {
-					$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
-					$server->send_header( 'Cache-Control', $cache_control );
-					$server->send_header( 'Pragma', 'no-cache' );
-				}
+		if ( ! empty( $skip_cache ) && in_array( $skip_cache, array( 'true', '1', true, 1 ), true ) ) {
+			if ( method_exists( $server, 'send_header' ) ) {
+				$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
+				$server->send_header( 'Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0' );
+				$server->send_header( 'Pragma', 'no-cache' );
 			}
+			return $served;
 		}
+
+		$is_user_logged_in = function_exists( 'is_user_logged_in' ) && is_user_logged_in();
+		$cache_visibility  = $is_user_logged_in ? 'private' : 'public';
+		$cache_control     = null;
 
 		// Routes that can be cached will set the Last-Modified header.
 		foreach ( $this->get_cacheable_route_patterns() as $regex_path_pattern ) {
@@ -806,13 +840,164 @@ class CoCart_REST_API {
 
 					$last_modified = $gmt_date->format( 'D, d M Y H:i:s' ) . ' GMT';
 
+					$max_age                = HOUR_IN_SECONDS;
+					$stale_while_revalidate = DAY_IN_SECONDS;
+
+					/**
+					 * Filter the cache max-age for cacheable routes.
+					 *
+					 * @since 4.9.0 Introduced.
+					 *
+					 * @param int $max_age Cache duration in seconds. Default 3600 (1 hour).
+					 */
+					$max_age = apply_filters( 'cocart_cache_max_age', $max_age );
+
+					/**
+					 * Filter the stale-while-revalidate duration.
+					 *
+					 * @since 4.9.0 Introduced.
+					 *
+					 * @param int $stale_while_revalidate Duration in seconds. Default 86400 (24 hours).
+					 */
+					$stale_while_revalidate = apply_filters( 'cocart_stale_while_revalidate', $stale_while_revalidate );
+
+					$cache_control = sprintf(
+						'%s, must-revalidate, max-age=%d, stale-while-revalidate=%d',
+						$cache_visibility,
+						$max_age,
+						$stale_while_revalidate
+					);
+
 					$server->send_header( 'Last-Modified', $last_modified );
+					$server->send_header( 'Cache-Control', $cache_control );
+				}
+			}
+		}
+
+		/**
+		 * Filter allows you set a path to which will prevent from being added to browser cache.
+		 *
+		 * @since 3.6.0 Introduced.
+		 * @since 5.0.0 Added API Namespace as new parameter.
+		 *
+		 * @param array  $cache_control_patterns Cache control patterns.
+		 * @param string $api_namespace          API Namespace
+		 */
+		$regex_path_patterns = apply_filters(
+			'cocart_send_cache_control_patterns',
+			array(
+				'/^' . $this->namespace . '\/v2\/cart/',
+				'/^' . $this->namespace . '\/v2\/login/',
+				'/^' . $this->namespace . '\/v2\/logout/',
+				'/^' . $this->namespace . '\/v1\/get-cart/',
+				'/^' . $this->namespace . '\/v1\/logout/',
+			),
+			$this->namespace
+		);
+
+		// Override cache control for non-cacheable routes.
+		$cache_control = 'no-cache, no-store, must-revalidate, max-age=0, ' . $cache_visibility;
+
+		// Cart route patterns that can provide a real session expiry timestamp.
+		$cart_route_patterns = array(
+			'/^' . $this->namespace . '\/v2\/cart/',
+			'/^' . $this->namespace . '\/v1\/get-cart/',
+		);
+
+		// Routes that should not be cached will set no-cache headers.
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
+				if ( method_exists( $server, 'send_header' ) ) {
+					// Use actual cart session expiry for cart routes; fall back to past date for others.
+					$is_cart_route = in_array( $regex_path_pattern, $cart_route_patterns, true );
+					if ( $is_cart_route && WC()->session ) {
+						$cart_expiration = WC()->session->get_carts_expiration();
+						$expires         = $cart_expiration ? gmdate( 'D, d M Y H:i:s \G\M\T', $cart_expiration ) : 'Thu, 01-Jan-70 00:00:01 GMT';
+					} else {
+						$expires = 'Thu, 01-Jan-70 00:00:01 GMT';
+					}
+					$server->send_header( 'Expires', $expires );
+					$server->send_header( 'Cache-Control', $cache_control );
+					$server->send_header( 'Pragma', 'no-cache' );
 				}
 			}
 		}
 
 		return $served;
 	} // END set_cache_control_headers()
+
+	/**
+	 * Sets global headers for CoCart.
+	 *
+	 * @access public
+	 *
+	 * @since 4.6.2 Introduced.
+	 * @since 5.0.0 Added experimental header support Vary: Accept-Encoding should it not be setup via the server.
+	 *
+	 * @param bool             $served  Whether the request has already been served. Default false.
+	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+	 * @param WP_REST_Request  $request The request object.
+	 * @param WP_REST_Server   $server  Server instance.
+	 *
+	 * @return bool $served Returns true if headers were set.
+	 */
+	public function set_global_headers( $served, $result, $request, $server ) {
+		if ( method_exists( $server, 'send_header' ) ) {
+			// Add version of CoCart.
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				$server->send_header( 'CoCart-Version', COCART_VERSION );
+
+				// Add timestamp of response.
+				$server->send_header( 'Timestamp', time() );
+			}
+
+			/**
+			 * Filter to enable adding Vary: Accept-Encoding header for all responses to
+			 * ensure proper handling of compressed responses by CDNs, reverse proxies, and browsers.
+			 *
+			 * Disabled by default to prevent duplicate Vary headers if the web server is already configured to add it.
+			 *
+			 * @since 5.0.0 Introduced.
+			 *
+			 * @param bool $enable_vary_header Whether to add Vary: Accept-Encoding header to all responses. Default false.
+			 */
+			if ( apply_filters( 'cocart_experimental_enable_header_vary_accept_encoding', false ) ) {
+				// Add Vary header to handle compression correctly for all responses.
+				// CORS has already added Vary: Origin (if applicable).
+				// We merge Accept-Encoding with any existing Vary values to avoid duplicates.
+				$existing_vary_values = array();
+
+				if ( function_exists( 'headers_list' ) ) {
+					foreach ( headers_list() as $header ) {
+						if ( stripos( $header, 'Vary:' ) === 0 ) {
+							// Extract value after "Vary: ".
+							$vary_value = trim( substr( $header, 5 ) );
+
+							// Parse comma-separated values.
+							$values               = array_map( 'trim', explode( ',', $vary_value ) );
+							$existing_vary_values = array_merge( $existing_vary_values, $values );
+						}
+					}
+				}
+
+				// Always ensure Accept-Encoding is in the list.
+				if ( ! in_array( 'Accept-Encoding', $existing_vary_values, true ) ) {
+					$existing_vary_values[] = 'Accept-Encoding';
+				}
+
+				// Remove ALL existing Vary headers sent by PHP to prevent duplicates.
+				// Note: This only removes PHP headers, not web server headers added after PHP finishes.
+				if ( function_exists( 'header_remove' ) ) {
+					header_remove( 'Vary' );
+				}
+
+				// Send the clean, merged Vary header with all values combined.
+				$server->send_header( 'Vary', implode( ', ', array_unique( $existing_vary_values ) ) );
+			}
+		}
+
+		return $served;
+	} // END set_global_headers()
 
 	/**
 	 * Prevents certain routes from initializing the session and cart.
@@ -829,12 +1014,11 @@ class CoCart_REST_API {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
-			CoCart::get_api_namespace() . '/v2/login',
-			CoCart::get_api_namespace() . '/v2/logout',
-			CoCart::get_api_namespace() . '/v1/products',
-			CoCart::get_api_namespace() . '/v2/products',
-			CoCart::get_api_namespace() . '/v2/sessions',
-			CoCart::get_api_namespace() . '/v2/store',
+			$this->namespace . '/v2/logout',
+			$this->namespace . '/v1/products',
+			$this->namespace . '/v2/products',
+			$this->namespace . '/v2/sessions',
+			$this->namespace . '/v2/store',
 		);
 
 		foreach ( $routes as $route ) {
@@ -849,6 +1033,9 @@ class CoCart_REST_API {
 	/**
 	 * Returns routes that can be cached as a regex pattern.
 	 *
+	 * These routes return public, non-personalized data that can be safely cached
+	 * by CDNs, reverse proxies, and browsers.
+	 *
 	 * @access protected
 	 *
 	 * @since 4.1.0 Introduced.
@@ -857,9 +1044,20 @@ class CoCart_REST_API {
 	 * @return array Routes that can be cached.
 	 */
 	protected function get_cacheable_route_patterns() {
-		return array(
-			'/^' . CoCart::get_api_namespace() . '\/v2\/products/',
-			'/^' . CoCart::get_api_namespace() . '\/v1\/products/',
+		/**
+		 * Filter the cacheable route patterns.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param array $patterns Array of regex patterns for cacheable routes.
+		 */
+		return apply_filters(
+			'cocart_cacheable_route_patterns',
+			array(
+				'/^' . $this->namespace . '\/v2\/products/',
+				'/^' . $this->namespace . '\/v2\/store$/',
+				'/^' . $this->namespace . '\/v1\/products/',
+			)
 		);
 	} // END get_cacheable_route_patterns()
 
@@ -879,7 +1077,7 @@ class CoCart_REST_API {
 	 */
 	public function handle_rest_response( $response, $handler, $request ) {
 		// If the route does not match a CoCart request then just return the response.
-		if ( ! preg_match( '#^/' . CoCart::get_api_namespace() . '/#', $request->get_route() ) ) {
+		if ( ! preg_match( '#^/' . $this->namespace . '/#', $request->get_route() ) ) {
 			return $response;
 		}
 
@@ -891,7 +1089,7 @@ class CoCart_REST_API {
 
 			$error_data = array(
 				'error_data' => array(
-					'trace'   => array_map(
+					'trace' => array_map(
 						function ( $item ) {
 							return array(
 								'file'     => isset( $item['file'] ) ? $item['file'] : '',

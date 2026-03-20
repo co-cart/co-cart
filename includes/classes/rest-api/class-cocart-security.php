@@ -50,19 +50,25 @@ class CoCart_Security {
 		// Check if WP_DEBUG is not defined or is false.
 		if ( ! defined( 'WP_DEBUG' ) || ( defined( 'WP_DEBUG' ) && WP_DEBUG !== true ) ) {
 
-			// Loop through each registered route.
-			foreach ( $response->data['routes'] as $route => $endpoints ) {
-				// Check if the current namespace matches any CoCart namespace.
-				if ( ! empty( $route ) && strpos( $route, 'cocart' ) !== false ) {
-					unset( $response->data['routes'][ $route ] );
+			$current_namespace = CoCart::get_api_namespace();
+
+			if ( isset( $response->data['routes'] ) ) {
+				// Loop through each registered route.
+				foreach ( $response->data['routes'] as $route => $endpoints ) {
+					// Check if the current namespace matches any CoCart namespace.
+					if ( ! empty( $route ) && strpos( $route, $current_namespace ) !== false ) {
+						unset( $response->data['routes'][ $route ] );
+					}
 				}
 			}
 
-			// Loop through each registered namespace.
-			foreach ( $response->data['namespaces'] as $key => $namespace ) {
-				// Check if the current namespace matches any CoCart namespace.
-				if ( ! empty( $namespace ) && strpos( $namespace, 'cocart' ) !== false ) {
-					unset( $response->data['namespaces'][ $key ] );
+			if ( isset( $response->data['namespaces'] ) ) {
+				// Loop through each registered namespace.
+				foreach ( $response->data['namespaces'] as $key => $namespace ) {
+					// Check if the current namespace matches any CoCart namespace.
+					if ( ! empty( $namespace ) && strpos( $namespace, $current_namespace ) !== false ) {
+						unset( $response->data['namespaces'][ $key ] );
+					}
 				}
 			}
 		}
@@ -82,18 +88,23 @@ class CoCart_Security {
 	 * @param WP_REST_Response $response Response data.
 	 * @param WP_REST_Request  $request  The request object.
 	 *
-	 * @return WP_Error
+	 * @return WP_Response|WP_Error
 	 */
 	public function hide_routes_from_index( $response, $request ) {
 		$namespace = $request['namespace'];
 
-		if ( preg_match( '/^' . CoCart::get_api_namespace() . '$/', $namespace ) ) {
-			return new \WP_Error(
-				'rest_invalid_namespace',
-				__( 'The specified namespace could not be found.', 'cocart-core' ),
-				array( 'status' => 404 )
-			);
+		// Check if WP_DEBUG is not defined or is false.
+		if ( ! defined( 'WP_DEBUG' ) || ( defined( 'WP_DEBUG' ) && WP_DEBUG !== true ) ) {
+			if ( preg_match( '/^' . CoCart::get_api_namespace() . '\//', $namespace ) ) {
+				return new \WP_Error(
+					'rest_invalid_namespace',
+					__( 'The specified namespace could not be found.', 'cocart-core' ),
+					array( 'status' => 404 )
+				);
+			}
 		}
+
+		return $response;
 	} // END hide_routes_from_index()
 
 	/**

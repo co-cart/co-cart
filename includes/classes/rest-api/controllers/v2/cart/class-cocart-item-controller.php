@@ -28,14 +28,9 @@ class_alias( 'CoCart_REST_Item_V2_Controller', 'CoCart_Item_V2_Controller' );
 class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'cart/item/(?P<item_key>[\w]+)';
-
-	/**
 	 * Get the path of this rest route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return string
 	 */
@@ -45,6 +40,8 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -57,12 +54,23 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart/item/(?P<item_key>[\w]+)';
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -106,7 +114,7 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 
 			$cart_contents = ! $cart->is_empty() ? array_filter( $cart->get_cart() ) : array();
 
-			$item = $this->get_items( $cart_contents );
+			$item = $this->get_items_in_cart( $cart_content, $request );
 
 			$item = isset( $item[ $item_key ] ) ? $item[ $item_key ] : false;
 
@@ -171,8 +179,12 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_public_item_schema() {
-		return array(
+	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'cocart_cart_item',
 			'type'       => 'object',
@@ -354,5 +366,7 @@ class CoCart_REST_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				),
 			),
 		);
-	} // END get_public_item_schema()
+
+		return $this->schema;
+	} // END get_item_schema()
 } // END class

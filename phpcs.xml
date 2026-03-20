@@ -37,7 +37,10 @@
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="cart-rest-api-for-woocommerce" />
+			<property name="text_domain" type="array">
+				<element value="cart-rest-api-for-woocommerce"/>
+				<element value="cocart-core"/>
+			</property>
 		</properties>
 	</rule>
 
@@ -64,10 +67,6 @@
 		<severity>0</severity>
 	</rule>
 
-	<rule ref="WordPress.NamingConventions.ValidHookName.UseUnderscores">
-		<severity>0</severity>
-	</rule>
-
 	<rule ref="PHPCompatibility">
 		<include-pattern>*\.php$</include-pattern>
 		<exclude-pattern>tests/</exclude-pattern>
@@ -77,7 +76,48 @@
 		<severity>0</severity>
 	</rule>
 
-	<rule ref="Squiz.Commenting.FunctionComment.ParamNameNoMatch">
-		<severity>0</severity>
+	<!-- ==================================================================== -->
+	<!-- ARCHITECTURAL RULE EXCLUSIONS -->
+	<!-- The following rules are excluded for legitimate architectural reasons -->
+	<!-- ==================================================================== -->
+
+	<!-- Direct database queries for custom cocart_carts table -->
+	<!-- CoCart maintains its own cart storage table with properly prepared queries -->
+	<!-- This is necessary for session management and cart persistence -->
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<exclude-pattern>includes/cocart-background-functions.php</exclude-pattern>
+		<exclude-pattern>includes/cocart-core-functions.php</exclude-pattern>
+		<exclude-pattern>includes/classes/class-cocart-session-handler.php</exclude-pattern>
+		<exclude-pattern>includes/classes/class-cocart-install.php</exclude-pattern>
+		<exclude-pattern>includes/classes/utilities/class-cocart-utilities-cache-helpers.php</exclude-pattern>
+		<exclude-pattern>includes/classes/rest-api/controllers/v2/admin/*-session*.php</exclude-pattern>
+	</rule>
+
+	<!-- REST API authentication uses token-based auth (Bearer, Basic Auth, OAuth) instead of nonces -->
+	<!-- SECURITY NOTE: Only applies to REST authentication layers, NOT admin forms or pages -->
+	<rule ref="WordPress.Security.NonceVerification.Recommended">
+		<exclude-pattern>includes/classes/rest-api/class-cocart-authentication.php</exclude-pattern>
+		<exclude-pattern>includes/classes/rest-api/controllers/v2/others/class-cocart-login-controller.php</exclude-pattern>
+	</rule>
+
+	<!-- Template view files use unprefixed local variables for readability -->
+	<!-- These variables are locally scoped within included templates and don't pollute global scope -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound">
+		<exclude-pattern>includes/classes/admin/views/*.php</exclude-pattern>
+	</rule>
+
+	<!-- CoCart uses hyphens in dynamic hook names to match REST API endpoint naming patterns -->
+	<!-- Example: cocart_get_customer_{$field} where field can be "billing-email" -->
+	<rule ref="WordPress.NamingConventions.ValidHookName.UseUnderscores">
+		<exclude-pattern>includes/classes/utilities/class-cocart-utilities-cart-helpers.php</exclude-pattern>
+		<exclude-pattern>includes/classes/rest-api/class-cocart-response.php</exclude-pattern>
+	</rule>
+
+	<!-- REST API product endpoints require exclude parameter for client-side filtering -->
+	<!-- This is a legitimate REST API feature for product queries -->
+	<rule ref="WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude">
+		<exclude-pattern>includes/classes/rest-api/controllers/class-cocart-products-controller.php</exclude-pattern>
+		<exclude-pattern>includes/classes/rest-api/controllers/class-cocart-taxonomy-terms-controller.php</exclude-pattern>
+		<exclude-pattern>includes/classes/rest-api/controllers/v2/products/*.php</exclude-pattern>
 	</rule>
 </ruleset>

@@ -25,55 +25,32 @@ class_alias( 'CoCart_REST_Logout_V2_Controller', 'CoCart_Logout_V2_Controller' )
  * our session handler does not utilize anymore.
  *
  * @since 3.0.0 Introduced.
+ * @extends CoCart_REST_Controller
  */
-class CoCart_REST_Logout_V2_Controller extends CoCart_Logout_Controller {
+class CoCart_REST_Logout_V2_Controller extends CoCart_REST_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
+	 * The version of this controller's route.
 	 *
 	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'logout';
-
-	/**
-	 * Version of route.
 	 */
 	protected $version = 'v2';
 
 	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
 	 *
+	 * @since 5.0.0 Introduced.
+	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/logout';
 	}
 
 	/**
 	 * Get method arguments for this REST route.
+	 *
+	 * @since 5.0.0 Introduced.
 	 *
 	 * @return array An array of endpoints.
 	 */
@@ -86,7 +63,18 @@ class CoCart_REST_Logout_V2_Controller extends CoCart_Logout_Controller {
 	} // END get_args()
 
 	/**
+	 * Route base.
+	 *
+	 * @deprecated 5.0.0 Replaced with `get_path()` instead.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'logout';
+
+	/**
 	 * Register routes.
+	 *
+	 * @deprecated 5.0.0 Routes are registered in the REST API class instead.
 	 *
 	 * @access public
 	 *
@@ -102,4 +90,19 @@ class CoCart_REST_Logout_V2_Controller extends CoCart_Logout_Controller {
 			$this->get_args()
 		);
 	} // END register_routes()
+
+	/**
+	 * Logout user.
+	 *
+	 * @access public
+	 *
+	 * @since 2.1.0 Introduced.
+	 *
+	 * @return WP_REST_Response The response object.
+	 */
+	public function logout() {
+		wp_logout();
+
+		return new WP_REST_Response( true, 200 );
+	} // END logout()
 } // END class

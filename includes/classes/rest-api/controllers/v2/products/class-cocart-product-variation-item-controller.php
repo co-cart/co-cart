@@ -18,48 +18,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  * This REST API controller handles requests to return product details
  * via "cocart/v2/products/{product_id}/variations/{id}" endpoint.
  *
- * @since 3.1.0 Introduced.
+ * @since 5.0.0 Introduced.
  *
  * @extends CoCart_REST_Product_Variations_V2_Controller
  */
 class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Product_Variations_V2_Controller {
 
 	/**
-	 * Route namespace. - Remove once new route registry is completed.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Version of route.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Get the path of this REST route.
-	 *
-	 * @return string
-	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
-
-	/**
 	 * Get the path of this rest route.
 	 *
 	 * @return string
 	 */
-	public static function get_path_regex() {
+	public function get_path_regex() {
 		return '/products/(?P<product_id>[\d]+)/variations/(?P<id>[\d]+)';
-	}
+	} // END get_path_regex()
 
 	/**
 	 * Get method arguments for this REST route.
@@ -84,9 +56,9 @@ class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Produ
 				'permission_callback' => array( $this, 'validate_variation' ),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_public_item_schema' ),
+			'schema'      => array( $this, 'get_item_schema' ),
 		);
-	}
+	} // END get_args()
 
 	/**
 	 * Get a single item.
@@ -124,4 +96,22 @@ class CoCart_REST_Product_Variation_Item_V2_Controller extends CoCart_REST_Produ
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END get_item()
-}
+	/**
+	 * Retrieves the item's schema, conforming to JSON Schema.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array Item schema data.
+	 */
+	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
+		$this->schema = parent::get_item_schema();
+
+		return $this->add_additional_fields_schema( $this->schema );
+	} // END get_item_schema()
+} // END class

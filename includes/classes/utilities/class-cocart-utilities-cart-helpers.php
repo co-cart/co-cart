@@ -121,16 +121,18 @@ class CoCart_Utilities_Cart_Helpers {
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
+	 * @deprecated 5.0.0 Use CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product() instead.
+	 *
 	 * @param WC_Product $product The product object.
 	 *
-	 * @return int Remaining stock.
+	 * @return int|float|null Remaining stock.
 	 */
 	public static function get_remaining_stock_for_product( $product ) {
-		$reserve_stock = new ReserveStock();
-		$draft_order   = WC()->session->get( 'cocart_draft_order', 0 );
-		$qty_reserved  = $reserve_stock->get_reserved_stock( $product, $draft_order );
+		cocart_deprecated_function( 'CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product', '5.0.0', 'CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product()' );
 
-		return $product->get_stock_quantity() - $qty_reserved;
+		$quantity_limits = new CoCart_Utilities_Quantity_Limits();
+
+		return $quantity_limits->get_remaining_stock_for_product( $product );
 	} // END get_remaining_stock_for_product()
 
 	/**
@@ -168,7 +170,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 			throw new CoCart_Data_Exception(
 				'cocart_cart_invalid_parent_product',
-				$message,
+				esc_html( $message ),
 				400
 			);
 		}
@@ -275,7 +277,7 @@ class CoCart_Utilities_Cart_Helpers {
 						'method_id'     => $method->get_method_id(),
 						'instance_id'   => $method->instance_id,
 						'label'         => $method->get_label(),
-						'cost'          => CoCart_REST_Utilities_Monetary_Formatting::format_money( $method->cost, $request ),
+						'cost'          => (string) cocart_price_no_html( $method->cost ),
 						'html'          => html_entity_decode( wp_strip_all_tags( wc_cart_totals_shipping_method_label( $method ) ) ),
 						'taxes'         => '',
 						'chosen_method' => ( $chosen_method === $key ),
@@ -712,14 +714,15 @@ class CoCart_Utilities_Cart_Helpers {
 			),
 		);
 
+		$customer = $cart->get_customer();
+
 		foreach ( $check_fields as $field_type => $fields ) {
 			foreach ( $fields as $field ) {
-				$function = 'is_' . $field . '_valid';
-				$valid    = self::{$function}( $cart->get_customer(), $field_type );
+				$valid = self::{"is_{$field}_valid"}( $customer, $field_type );
 
-				if ( ! empty( $valid ) ) {
+				if ( is_wp_error( $valid ) ) {
 					$wc_notices['error'][ $field_type . '_' . $field ] = array(
-						'notice' => $valid,
+						'notice' => $valid->get_error_message(),
 						'data'   => array(),
 					);
 				}
@@ -991,38 +994,6 @@ class CoCart_Utilities_Cart_Helpers {
 	// ** Set Data Functions **//
 
 	/**
-	 * Set cart item quantity.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 *
-	 * @since 5.0.0 Introduced.
-	 *
-	 * @param WP_REST_Request $request The request object.
-	 *
-	 * @return int|float $quantity The cart item quantity.
-	 */
-	public static function set_cart_item_quantity( $request ) {
-		/**
-		 * Filters the quantity for specified products.
-		 *
-		 * @since 2.1.2 Introduced.
-		 * @since 5.0.0 Added the request object as a parameter.
-		 *
-		 * @param int|float       $quantity     The original quantity of the item.
-		 * @param int             $product_id   The product ID.
-		 * @param int             $variation_id The variation ID.
-		 * @param array           $variation    The variation data.
-		 * @param array           $item_data    The cart item data.
-		 * @param WP_REST_Request $request      The request object.
-		 */
-		$quantity = apply_filters( 'cocart_add_to_cart_quantity', $request['quantity'], $request['id'], $request['variation_id'], $request['variation'], $request['item_data'], $request );
-
-		return $quantity;
-	} // END set_cart_item_quantity()
-
-	/**
 	 * Set quantity for sold individual products.
 	 *
 	 * @access public
@@ -1172,7 +1143,7 @@ class CoCart_Utilities_Cart_Helpers {
 
 			throw new CoCart_Data_Exception(
 				'cocart_invalid_product',
-				$message,
+				esc_html( $message ),
 				400
 			);
 		}
@@ -1234,74 +1205,6 @@ class CoCart_Utilities_Cart_Helpers {
 	} // END validate_product_id()
 
 	/**
-	 * Validate the product quantity.
-	 *
-	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 *
-	 * @since 1.0.0 Introduced.
-	 * @since 3.1.0 Added product object as parameter and validation for maximum quantity allowed to add to cart.
-	 *
-	 * @param int|float  $quantity The quantity to validate.
-	 * @param WC_Product $product  The product object.
-	 *
-	 * @return int|float|\WP_Error
-	 */
-	public static function validate_quantity( $quantity, WC_Product $product ) {
-		try {
-			if ( ! is_numeric( $quantity ) ) {
-				throw new CoCart_Data_Exception( 'cocart_quantity_not_numeric', __( 'Quantity must be numeric value!', 'cocart-core' ), 405 );
-			}
-
-			// Minimum quantity to validate with.
-			$minimum_quantity = CoCart_Utilities_Product_Helpers::get_quantity_minimum_requirement( $product );
-
-			if ( 0 === $quantity || $quantity < $minimum_quantity ) {
-				throw new CoCart_Data_Exception(
-					'cocart_quantity_invalid_amount',
-					sprintf(
-						/* translators: %s: Minimum quantity. */
-						__( 'Quantity must be a minimum of %s.', 'cocart-core' ),
-						$minimum_quantity
-					),
-					405
-				);
-			}
-
-			$maximum_quantity = ( ( $product->get_max_purchase_quantity() < 0 ) ) ? '' : $product->get_max_purchase_quantity(); // We replace -1 with a blank if stock management is not used.
-			/**
-			 * Filter allows control over the maximum quantity a customer
-			 * is able to add said item to the cart.
-			 *
-			 * @since 3.1.0 Introduced.
-			 *
-			 * @param int|float  $quantity Maximum quantity to validate with.
-			 * @param WC_Product $product  The product object.
-			 */
-			$maximum_quantity = apply_filters( 'cocart_quantity_maximum_allowed', $maximum_quantity, $product );
-
-			if ( ! empty( $maximum_quantity ) && $quantity > $maximum_quantity ) {
-				throw new CoCart_Data_Exception(
-					'cocart_quantity_invalid_amount',
-					sprintf(
-						/* translators: %s: Maximum quantity. */
-						__( 'Quantity must be %s or lower.', 'cocart-core' ),
-						$maximum_quantity
-					),
-					405
-				);
-			}
-
-			return wc_stock_amount( $quantity );
-		} catch ( CoCart_Data_Exception $e ) {
-			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
-		}
-	} // END validate_quantity()
-
-	/**
 	 * Validate variable product.
 	 *
 	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
@@ -1313,11 +1216,11 @@ class CoCart_Utilities_Cart_Helpers {
 	 * @since 2.1.0 Introduced.
 	 * @since 5.0.0 Replaced `$variation_id` and `$variation` params with `$request`.
 	 *
-	 * @param array      $request                     Add to cart request params.
-	 * @param WC_Product $product                     The product object.
-	 * @param array      $variable_product_attributes Product attributes we're expecting. - optional
+	 * @param WP_REST_Request $request The request object.
+	 * @param WC_Product      $product                     The product object.
+	 * @param array           $variable_product_attributes Product attributes we're expecting. - optional
 	 *
-	 * @return array Updated request array.
+	 * @return array Updated request object.
 	 */
 	public static function validate_variable_product( $request, $product, $variable_product_attributes = array() ) {
 		try {
@@ -1455,6 +1358,169 @@ class CoCart_Utilities_Cart_Helpers {
 			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 		}
 	} // END has_enough_stock()
+
+	/**
+	 * Validate postcode / ZIP.
+	 *
+	 * Looks at the postcode and country to validate if it's correct.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param object $data       The data object. Either WC_Customer or WP_REST_Request is accepted.
+	 * @param string $field_type The field type: billing or shipping.
+	 *
+	 * @return bool|\WP_Error
+	 */
+	public static function is_postcode_valid( $data, $field_type ) {
+		try {
+			if ( ! is_object( $data ) ) {
+				return false;
+			}
+
+			// Determine field label.
+			$field_name = 'billing' === $field_type
+				? esc_html__( 'Billing postcode', 'cocart-core' )
+				: esc_html__( 'Shipping postcode', 'cocart-core' );
+
+			if ( is_a( $data, 'WC_Customer' ) ) {
+				$postcode = $data->{"get_{$field_type}_postcode"}();
+				$country  = $data->{"get_{$field_type}_country"}();
+
+				if ( 'shipping' === $field_type ) {
+					$country = empty( $country ) ? \WC()->countries->get_base_country() : $country;
+				}
+			} elseif ( is_a( $data, 'WP_REST_Request' ) ) {
+				$request = $data;
+
+				if ( 'shipping' === $field_type ) {
+					$country  = isset( $request['s_country'] ) ? $request['s_country'] : '';
+					$postcode = isset( $request['s_postcode'] ) ? $request['s_postcode'] : '';
+				} else {
+					$country  = isset( $request['country'] ) ? $request['country'] : '';
+					$postcode = isset( $request['postcode'] ) ? $request['postcode'] : '';
+				}
+
+				$country  = empty( $country ) ? \WC()->countries->get_base_country() : $country;
+				$postcode = wc_format_postcode( $postcode, $country );
+			} else {
+				throw new CoCart_Data_Exception(
+					'cocart_is_postcode_valid_invalid_object',
+					esc_html__( 'Object passed for function not supported.', 'cocart-core' ),
+					500
+				);
+			}
+
+			if ( ! empty( $postcode ) && ! \WC_Validation::is_postcode( $postcode, $country ) ) {
+				throw new CoCart_Data_Exception(
+					'cocart_invalid_postcode',
+					sprintf(
+						/* translators: %s: field name */
+						esc_html__( '%s is not a valid postcode / ZIP.', 'cocart-core' ),
+						$field_name
+					),
+					400
+				);
+			}
+
+			return true;
+		} catch ( CoCart_Data_Exception $e ) {
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
+		}
+	} // END is_postcode_valid()
+
+	/**
+	 * Validate country code.
+	 *
+	 * Looks at the country code to validate if it exists and is allowed for the store.
+	 * If no country is provided for shipping, the store base country will be used.
+	 *
+	 * @throws CoCart_Data_Exception Exception if invalid data is detected.
+	 *
+	 * @access public
+	 *
+	 * @static
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param object $data       The data object. Either WC_Customer or WP_REST_Request is accepted.
+	 * @param string $field_type The field type: billing or shipping.
+	 *
+	 * @return string|\WP_Error Returns the validated country code or WP_Error on failure.
+	 */
+	public static function is_country_valid( $data, $field_type ) {
+		try {
+			if ( ! is_object( $data ) ) {
+				return false;
+			}
+
+			// Determine field label.
+			$fieldset = 'billing' === $field_type
+				? esc_html__( 'Billing', 'cocart-core' )
+				: esc_html__( 'Shipping', 'cocart-core' );
+
+			if ( is_a( $data, 'WC_Customer' ) ) {
+				$country = $data->{"get_{$field_type}_country"}();
+			} elseif ( is_a( $data, 'WP_REST_Request' ) ) {
+				$request = $data;
+
+				if ( 'shipping' === $field_type ) {
+					$country = isset( $request['s_country'] ) ? $request['s_country'] : '';
+					$country = empty( $country ) ? \WC()->countries->get_base_country() : $country;
+				} else {
+					$country = isset( $request['country'] ) ? $request['country'] : '';
+				}
+			} else {
+				throw new CoCart_Data_Exception(
+					'cocart_is_country_valid_invalid_object',
+					esc_html__( 'Object passed for function not supported.', 'cocart-core' ),
+					500
+				);
+			}
+
+			if ( ! empty( $country ) ) {
+				// Check if country exists.
+				$country_exists = \WC()->countries->country_exists( $country );
+
+				if ( empty( $country_exists ) ) {
+					throw new CoCart_Data_Exception(
+						'cocart_invalid_country_code',
+						sprintf(
+							/* translators: ISO 3166-1 alpha-2 country code */
+							__( '\'%s\' is not a valid country code.', 'cocart-core' ),
+							$country
+						),
+						400
+					);
+				}
+
+				// Check if country is allowed for shipping.
+				$allowed_countries = \WC()->countries->get_shipping_countries();
+
+				if ( ! array_key_exists( $country, $allowed_countries ) ) {
+					throw new CoCart_Data_Exception(
+						'cocart_invalid_country_code',
+						sprintf(
+							/* translators: 1: Country name, 2: Field Set */
+							esc_html__( '\'%1$s\' is not allowed for \'%2$s\'.', 'cocart-core' ),
+							esc_html( \WC()->countries->get_countries()[ $country ] ),
+							$fieldset
+						),
+						400
+					);
+				}
+			}
+
+			return true;
+		} catch ( CoCart_Data_Exception $e ) {
+			return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
+		}
+	} // END is_country_valid()
 
 	// ** Convert Functions **//
 

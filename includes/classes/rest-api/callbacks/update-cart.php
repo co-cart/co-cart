@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+class_alias( 'CoCart_Update_Cart_Callback', 'CoCart_Cart_Update_Callback' );
+
 /**
  * Update cart callback.
  *
@@ -22,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.1.0 Introduced.
  */
-class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
+class CoCart_Update_Cart_Callback extends CoCart_Cart_Extension_Callback {
 
 	/**
 	 * Callback name.
@@ -60,7 +62,7 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 
 			if ( ! empty( $items ) ) {
 				foreach ( $items as $item_key => $quantity ) {
-					$cart_item = $controller->get_cart_item( $item_key, 'update' );
+					$cart_item = $controller->get_item_from_cart( $item_key, 'update' );
 
 					// If item does not exist then continue to the next item.
 					if ( empty( $cart_item ) ) {
@@ -133,4 +135,4 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 	} // END callback()
 } // END class
 
-return new CoCart_Cart_Update_Callback();
+return new CoCart_Update_Cart_Callback();

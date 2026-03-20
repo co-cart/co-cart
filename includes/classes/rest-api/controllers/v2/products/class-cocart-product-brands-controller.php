@@ -22,23 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 5.0.0 Introduced.
  *
- * @extends CoCart_REST_Product_Categories_V2_Controller
+ * @extends CoCart_REST_Taxonomy_Terms_Controller
  */
-class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Product_Categories_V2_Controller {
-
-	/**
-	 * Route namespace. - Remove once new route registry is completed.
-	 *
-	 * @var string
-	 */
-	protected $namespace = 'cocart/v2';
-
-	/**
-	 * Route base. - Replaced with `get_path()`
-	 *
-	 * @var string
-	 */
-	protected $rest_base = 'products/brands';
+class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Taxonomy_Terms_Controller {
 
 	/**
 	 * Taxonomy.
@@ -48,23 +34,209 @@ class CoCart_REST_Product_Brands_V2_Controller extends CoCart_REST_Product_Categ
 	protected $taxonomy = 'product_brand';
 
 	/**
-	 * Version of route.
-	 */
-	protected $version = 'v2';
-
-	/**
-	 * Get version of route. - Remove once route abstract is created to extend from.
-	 */
-	public function get_version() {
-		return $this->version;
-	}
-
-	/**
-	 * Get the path of this REST route.
+	 * Get the path regex for this REST route.
 	 *
-	 * @return string
+	 * @return string Path regex.
 	 */
-	public function get_path() {
-		return self::get_path_regex();
-	}
-}
+	public function get_path_regex() {
+		return '/products/brands';
+	} // END get_path_regex()
+
+	/**
+	 * Get method arguments for this REST route.
+	 *
+	 * @return array Method arguments.
+	 */
+	public function get_args() {
+		return array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_items' ),
+				'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				'args'                => $this->get_collection_params(),
+			),
+			'allow_batch' => array( 'v1' => true ),
+			'schema'      => array( $this, 'get_item_schema' ),
+		);
+	} // END get_args()
+
+	/**
+	 * Prepare a single product brand output for response.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param \WP_Term         $item    Term object.
+	 * @param \WP_REST_Request $request Request object.
+	 *
+	 * @return \WP_REST_Response Response object.
+	 */
+	public function prepare_item_for_response( $item, $request ) {
+		// Get base V2 response with field filtering.
+		$response = parent::prepare_item_for_response( $item, $request );
+		$data     = $response->get_data();
+		$fields   = $this->get_fields_for_response( $request );
+
+		// Add brand-specific fields.
+
+		// Parent ID.
+		if ( rest_is_field_included( 'parent_id', $fields ) ) {
+			$data['parent_id'] = (int) $item->parent;
+		}
+
+		// Image.
+		if ( rest_is_field_included( 'image', $fields ) ) {
+			$data['image'] = array();
+
+			$image_id     = get_term_meta( $item->term_id, 'thumbnail_id', true );
+			$thumbnail_id = ! empty( $image_id ) ? $image_id : get_option( 'woocommerce_placeholder_image', 0 );
+			$thumbnail_id = apply_filters( 'cocart_products_brand_thumbnail', $thumbnail_id );
+
+			if ( $image_id ) {
+				$attachment  = get_post( $image_id );
+				$image_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
+				$images      = array();
+
+				// Get each image size of the attachment.
+				foreach ( $image_sizes as $size ) {
+					$images[ $size ] = current( wp_get_attachment_image_src( $thumbnail_id, $size ) );
+				}
+
+				$data['image'] = array(
+					'id'   => (int) $image_id,
+					'src'  => $images,
+					'name' => get_the_title( $attachment ),
+					'alt'  => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
+				);
+			}
+		}
+
+		// Menu order.
+		if ( rest_is_field_included( 'menu_order', $fields ) ) {
+			$menu_order         = get_term_meta( $item->term_id, 'order', true );
+			$data['menu_order'] = (int) $menu_order;
+		}
+
+		$response->set_data( $data );
+
+		return $response;
+	} // END prepare_item_for_response()
+
+	/**
+	 * Get the brand schema, conforming to JSON Schema.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return array Item schema data.
+	 */
+	public function get_item_schema() {
+		// Return cached schema if available.
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
+		// Get base V2 schema.
+		$schema = parent::get_item_schema();
+
+		// Add brand-specific properties.
+		$schema['properties']['parent_id'] = array(
+			'description' => __( 'The ID for the parent of the resource.', 'cocart-core' ),
+			'type'        => 'integer',
+			'context'     => array( 'view' ),
+		);
+
+		$schema['properties']['display'] = array(
+			'description' => __( 'Brand archive display type.', 'cocart-core' ),
+			'type'        => 'string',
+			'default'     => 'default',
+			'enum'        => array( 'default', 'products', 'subcategories', 'both' ),
+			'context'     => array( 'view' ),
+		);
+
+		$schema['properties']['image'] = array(
+			'description' => __( 'Image data.', 'cocart-core' ),
+			'type'        => 'object',
+			'context'     => array( 'view' ),
+			'properties'  => array(
+				'id'                => array(
+					'description' => __( 'Image ID.', 'cocart-core' ),
+					'type'        => 'integer',
+					'context'     => array( 'view' ),
+				),
+				'date_created'      => array(
+					'description' => __( "The date the image was created, in the site's timezone.", 'cocart-core' ),
+					'type'        => 'date-time',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'date_created_gmt'  => array(
+					'description' => __( 'The date the image was created, as GMT.', 'cocart-core' ),
+					'type'        => 'date-time',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'date_modified'     => array(
+					'description' => __( "The date the image was last modified, in the site's timezone.", 'cocart-core' ),
+					'type'        => 'date-time',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'date_modified_gmt' => array(
+					'description' => __( 'The date the image was last modified, as GMT.', 'cocart-core' ),
+					'type'        => 'date-time',
+					'context'     => array( 'view' ),
+					'readonly'    => true,
+				),
+				'src'               => array(
+					'description' => __( 'The resource thumbnail returned as an array of sizes.', 'cocart-core' ),
+					'type'        => 'object',
+					'context'     => array( 'view' ),
+					'properties'  => array(),
+					'readonly'    => true,
+				),
+				'name'              => array(
+					'description' => __( 'Image name.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+				),
+				'alt'               => array(
+					'description' => __( 'Image alternative text.', 'cocart-core' ),
+					'type'        => 'string',
+					'context'     => array( 'view' ),
+				),
+			),
+		);
+
+		$schema['properties']['menu_order'] = array(
+			'description' => __( 'Menu order, used to custom sort the resource.', 'cocart-core' ),
+			'type'        => 'integer',
+			'context'     => array( 'view' ),
+		);
+
+		// Fetch each image size.
+		$attachment_sizes = CoCart_Utilities_Product_Helpers::get_product_image_sizes();
+
+		foreach ( $attachment_sizes as $size ) {
+			// Generate the product image URL properties for each attachment size.
+			$schema['properties']['image']['properties']['src']['properties'][ $size ] = array(
+				'description' => sprintf(
+					/* translators: %s: Product image URL */
+					__( 'Product image URL for "%s".', 'cocart-core' ),
+					$size
+				),
+				'type'        => 'string',
+				'context'     => array( 'view' ),
+				'format'      => 'uri',
+				'readonly'    => true,
+			);
+		}
+
+		// Cache the schema.
+		$this->schema = $schema;
+
+		return $this->add_additional_fields_schema( $this->schema );
+	} // END get_item_schema()
+} // END class

@@ -183,7 +183,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 		?>
 		<script>
 			( function( $ ) {
-				var $update_box = $( '#<?php echo COCART_SLUG; ?>-update' );
+				var $update_box = $( '#<?php echo esc_js( COCART_SLUG ); ?>-update' );
 				var $update_link = $update_box.find('a.update-link').first();
 				var update_url = $update_link.attr( 'href' );
 

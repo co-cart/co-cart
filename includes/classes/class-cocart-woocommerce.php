@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.2 Introduced.
- * @version 5.0.0
+ * @version 4.6.2
  * @license GPL-3.0
  */
 
@@ -45,6 +45,9 @@ class CoCart_WooCommerce {
 		// Validate cart session requested.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'validate_cart_requested' ), 0 );
 
+		// Disable WooCommerce persistent cart.
+		add_filter( 'woocommerce_persistent_cart_enabled', '__return_false' );
+
 		// Delete user data.
 		add_action( 'delete_user', array( $this, 'delete_user_data' ) );
 
@@ -62,8 +65,8 @@ class CoCart_WooCommerce {
 	 *
 	 * @static
 	 *
-	 * @since   2.0.5 Introduced.
-	 * @version 2.6.0
+	 * @since 2.0.5 Introduced.
+	 * @since 5.0.0 Gets the API namespace set instead of being hardcoded.
 	 *
 	 * @param bool $request Current status of allowing WooCommerce request.
 	 *
@@ -78,9 +81,7 @@ class CoCart_WooCommerce {
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 
 		// Check if the request is to the CoCart API endpoints.
-		$cocart = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
-
-		if ( $cocart ) {
+		if ( ( false !== strpos( $request_uri, $rest_prefix . CoCart::get_api_namespace() . '/' ) ) ) {
 			return true;
 		}
 
@@ -99,8 +100,11 @@ class CoCart_WooCommerce {
 	 *
 	 * @static
 	 *
-	 * @since   2.1.0 Introduced.
-	 * @version 5.0.0
+	 * @since 2.1.0 Introduced.
+	 * @since 2.8.0 Set chosen shipping methods.
+	 * @since 2.9.1 Merge persistent cart with session and check REST is not requesting CoCart.
+	 * @since 3.0.0 Added check for WP-GraphQL requests.
+	 * @since 4.6.2 Simplified to avoid unnecessary checks.
 	 */
 	public static function validate_cart_requested() {
 		// Return nothing if WP-GraphQL is requested.
@@ -116,9 +120,7 @@ class CoCart_WooCommerce {
 		$cart_key = '';
 
 		// Check if we requested to load a specific cart.
-		if ( isset( $_REQUEST['cart_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$cart_key = trim( esc_html( wp_unslash( $_REQUEST['cart_key'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		}
+		$cart_key = WC()->session->get_requested_cart();
 
 		// Do nothing if the cart key is empty.
 		if ( empty( $cart_key ) ) {
@@ -130,7 +132,7 @@ class CoCart_WooCommerce {
 			$customer_id = strval( get_current_user_id() );
 
 			// Compare the customer ID with the requested cart key. If they match then return error message.
-			if ( isset( $_REQUEST['cart_key'] ) && $customer_id === $_REQUEST['cart_key'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( ! empty( $cart_key ) && $customer_id === $cart_key ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cocart-core' ), array( 'status' => 403 ) );
 				wp_send_json_error( $error, 403 );
 				exit;
@@ -145,6 +147,9 @@ class CoCart_WooCommerce {
 				exit;
 			}
 		}
+
+		// Add explicit return for successful validation.
+		return true;
 	} // END validate_cart_requested()
 
 	/**

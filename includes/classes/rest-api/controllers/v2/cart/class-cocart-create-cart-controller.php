@@ -46,7 +46,7 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_Controller 
 	 *
 	 * @access public
 	 *
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_permission_callback() {
 		if ( strval( get_current_user_id() ) > 0 ) {
@@ -70,17 +70,11 @@ class CoCart_REST_Create_Cart_V2_Controller extends CoCart_REST_Cart_Controller 
 	public function create_cart( $request ) {
 		try {
 			// Get a cart key.
-			$cart_key = WC()->session->get_customer_unique_id();
+			$cart_key = WC()->session->generate_key();
 
 			// Store the cart key in session so the cart can be created.
+			WC()->session->set_cart_key( $cart_key );
 			WC()->session->set( 'cart_key', $cart_key );
-
-			/**
-			 * We force the session to update in the database as we
-			 * cannot wait for PHP to shutdown to trigger the save
-			 * should it fail to do so later.
-			 */
-			WC()->session->update_cart( $cart_key );
 
 			/**
 			 * Triggers when a cart is created.

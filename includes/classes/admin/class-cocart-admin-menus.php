@@ -155,7 +155,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 				),
 				'changelog'          => array(
 					'menu_title' => __( 'Changelog', 'cocart-core' ),
-					'menu_slug'  => esc_url( 'https://cocart.dev/changelog/' ),
+					'menu_slug'  => esc_url( 'https://docs.cocartapi.com/updates/overview' ),
 				),
 			);
 

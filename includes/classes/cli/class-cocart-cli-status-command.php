@@ -64,7 +64,7 @@ class CoCart_CLI_Status_Command {
 		$valid_formats = array( 'table', 'json', 'csv', 'yaml' );
 
 		if ( ! in_array( $format, $valid_formats, true ) ) {
-			WP_CLI::error( 'Invalid format. Valid formats are: table, json, csv, yaml.' );
+			WP_CLI::error( __( 'Invalid format. Valid formats are: table, json, csv, yaml.', 'cocart-core' ) );
 			return;
 		}
 

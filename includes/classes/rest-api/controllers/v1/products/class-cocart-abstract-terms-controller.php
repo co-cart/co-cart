@@ -2,6 +2,8 @@
 /**
  * CoCart - Abstract Rest Terms Controller
  *
+ * @deprecated 5.0.0 Use CoCart_REST_Taxonomy_Terms_Controller class instead.
+ *
  * @author  Sébastien Dumont
  * @package CoCart\API\Products\v1
  * @since   3.1.0
@@ -56,7 +58,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 						'permission_callback' => array( $this, 'get_items_permissions_check' ),
 						'args'                => $this->get_collection_params(),
 					),
-					'schema' => array( $this, 'get_public_item_schema' ),
+					'schema' => array( $this, 'get_item_schema' ),
 				)
 			);
 
@@ -76,7 +78,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 							'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 						),
 					),
-					'schema' => array( $this, 'get_public_item_schema' ),
+					'schema' => array( $this, 'get_item_schema' ),
 				)
 			);
 		} // END register_routes()
@@ -88,7 +90,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 *
 		 * @param WP_REST_Request $request Full details about the request.
 		 *
-		 * @return WP_Error|boolean
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 		 */
 		public function get_items_permissions_check( $request ) {
 			$permissions = $this->check_permissions( $request );
@@ -111,7 +113,7 @@ if ( ! class_exists( 'CoCart_REST_Terms_Controller' ) ) {
 		 *
 		 * @param WP_REST_Request $request Full details about the request.
 		 *
-		 * @return WP_Error|boolean
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 		 */
 		public function get_item_permissions_check( $request ) {
 			$permissions = $this->check_permissions( $request, 'read' );
