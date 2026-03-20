@@ -119,7 +119,8 @@ class CoCart_REST_Calculate_V2_Controller extends CoCart_REST_Cart_V2_Controller
 
 			// Return the totals without the parent.
 			if ( isset( $request['return_totals'] ) && is_bool( $request['return_totals'] ) && $request['return_totals'] ) {
-				$response = isset( $response->data['totals'] ) ? $response->data['totals'] : array();
+				$totals_data = isset( $response->data['totals'] ) ? $response->data['totals'] : array();
+				$response    = rest_ensure_response( $totals_data );
 			}
 
 			$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
