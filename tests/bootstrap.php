@@ -134,6 +134,26 @@ class CoCart_Unit_Tests_Bootstrap {
 				return false;
 			}
 		}
+		if ( ! function_exists( 'as_unschedule_all_actions' ) ) {
+			function as_unschedule_all_actions() { // phpcs:ignore
+				return;
+			}
+		}
+		if ( ! function_exists( 'as_schedule_recurring_action' ) ) {
+			function as_schedule_recurring_action() { // phpcs:ignore
+				return 0;
+			}
+		}
+		if ( ! function_exists( 'as_unschedule_action' ) ) {
+			function as_unschedule_action() { // phpcs:ignore
+				return;
+			}
+		}
+		if ( ! function_exists( 'as_next_scheduled_action' ) ) {
+			function as_next_scheduled_action() { // phpcs:ignore
+				return false;
+			}
+		}
 
 		// Load CoCart.
 		require_once trailingslashit( dirname( $this->tests_dir ) ) . $this->plugin_id;

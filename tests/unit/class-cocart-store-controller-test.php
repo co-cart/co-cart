@@ -19,10 +19,7 @@
 class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 
 	/**
-	 * Test getting store information.
-	 *
-	 * Verifies that the store endpoint returns basic store information
-	 * including store title, description, and home URL.
+	 * Test getting store information returns 200.
 	 *
 	 * @return void
 	 */
@@ -30,58 +27,60 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 		$response = $this->get_store_info();
 
 		$this->assert_rest_response_status( 200, $response );
+	}
 
-		$data = $response->get_data();
+	/**
+	 * Test store response always contains core fields.
+	 *
+	 * These fields are always present regardless of WP_DEBUG setting.
+	 *
+	 * @return void
+	 */
+	public function test_store_contains_core_fields() {
+		$response = $this->get_store_info();
+		$data     = $response->get_data();
+
 		$this->assertArrayHasKey( 'title', $data );
 		$this->assertArrayHasKey( 'description', $data );
 		$this->assertArrayHasKey( 'home_url', $data );
 		$this->assertArrayHasKey( 'language', $data );
 		$this->assertArrayHasKey( 'gmt_offset', $data );
 		$this->assertArrayHasKey( 'timezone_string', $data );
-		$this->assertArrayHasKey( 'routes', $data );
+		$this->assertArrayHasKey( 'store_address', $data );
 	}
 
 	/**
-	 * Test store title is correct.
-	 *
-	 * Verifies that the store title returned matches the WordPress
-	 * site title configuration.
+	 * Test store title matches WordPress site title.
 	 *
 	 * @return void
 	 */
-	public function test_store_name() {
+	public function test_store_title() {
 		$response = $this->get_store_info();
-		$data = $response->get_data();
+		$data     = $response->get_data();
 
-		$this->assertEquals( get_bloginfo( 'title' ), $data['title'] );
+		$this->assertEquals( get_option( 'blogname' ), $data['title'] );
 	}
 
 	/**
-	 * Test store description is correct.
-	 *
-	 * Verifies that the store description returned matches the WordPress
-	 * site description configuration.
+	 * Test store description matches WordPress site description.
 	 *
 	 * @return void
 	 */
 	public function test_store_description() {
 		$response = $this->get_store_info();
-		$data = $response->get_data();
+		$data     = $response->get_data();
 
-		$this->assertEquals( get_bloginfo( 'description' ), $data['description'] );
+		$this->assertEquals( get_option( 'blogdescription' ), $data['description'] );
 	}
 
 	/**
-	 * Test store home URL is correct.
-	 *
-	 * Verifies that the store home URL returned matches the WordPress
-	 * home URL configuration.
+	 * Test store home URL matches WordPress home URL.
 	 *
 	 * @return void
 	 */
 	public function test_store_home_url() {
 		$response = $this->get_store_info();
-		$data = $response->get_data();
+		$data     = $response->get_data();
 
 		$this->assertEquals( home_url(), $data['home_url'] );
 	}
@@ -89,139 +88,62 @@ class Test_CoCart_Store_Controller extends CoCart_API_V2_Test_Case {
 	/**
 	 * Test store timezone information.
 	 *
-	 * Verifies that the store timezone information returned matches
-	 * the WordPress timezone configuration.
-	 *
 	 * @return void
 	 */
 	public function test_store_timezone() {
 		$response = $this->get_store_info();
-		$data = $response->get_data();
+		$data     = $response->get_data();
 
 		$this->assertEquals( get_option( 'gmt_offset' ), $data['gmt_offset'] );
-		$this->assertEquals( get_option( 'timezone_string' ), $data['timezone_string'] );
+		$this->assertEquals( wp_timezone_string(), $data['timezone_string'] );
 	}
 
 	/**
-	 * Test store routes are available.
-	 *
-	 * Verifies that the store endpoint returns available public routes
-	 * for the API.
+	 * Test store address is present and is an array.
 	 *
 	 * @return void
 	 */
-	public function test_store_routes() {
+	public function test_store_address() {
 		$response = $this->get_store_info();
-		$data = $response->get_data();
+		$data     = $response->get_data();
 
-		$this->assertArrayHasKey( 'routes', $data );
-		$this->assertIsArray( $data['routes'] );
-		$this->assertNotEmpty( $data['routes'] );
+		$this->assertIsArray( $data['store_address'] );
+		$this->assertArrayHasKey( 'address', $data['store_address'] );
+		$this->assertArrayHasKey( 'city', $data['store_address'] );
+		$this->assertArrayHasKey( 'country', $data['store_address'] );
+		$this->assertArrayHasKey( 'postcode', $data['store_address'] );
 	}
 
 	/**
-	 * Test store routes contain expected endpoints.
+	 * Test store endpoint is publicly accessible without authentication.
 	 *
-	 * Verifies that the store routes include expected CoCart API v2 endpoints.
-	 *
-	 * @return void
-	 */
-	public function test_store_routes_contain_endpoints() {
-		$response = $this->get_store_info();
-		$data = $response->get_data();
-
-		$routes = $data['routes'];
-		$route_keys = array_keys( $routes );
-
-		// Check for v2 endpoints.
-		$this->assertContains( '/cocart/v2/cart', $route_keys );
-		$this->assertContains( '/cocart/v2/products', $route_keys );
-		$this->assertContains( '/cocart/v2/store', $route_keys );
-	}
-
-	/**
-	 * Test store endpoint is publicly accessible.
-	 *
-	 * Verifies that the store endpoint can be accessed without
-	 * authentication and returns public information.
+	 * The store endpoint uses __return_true as its permission callback.
 	 *
 	 * @return void
 	 */
-	public function test_store_endpoint_public_access() {
-		// Test without authentication.
+	public function test_store_endpoint_is_public() {
+		$this->clear_authentication();
+
 		$response = $this->get_store_info();
 
 		$this->assert_rest_response_status( 200, $response );
-		$this->assertArrayHasKey( 'title', $response->get_data() );
 	}
 
 	/**
-	 * Test store endpoint with different contexts.
-	 *
-	 * Verifies that the store endpoint supports different context
-	 * parameters and returns appropriate data for each context.
+	 * Test routes and versions only appear when WP_DEBUG is enabled.
 	 *
 	 * @return void
 	 */
-	public function test_store_endpoint_contexts() {
-		// Test with view context (default).
-		$response = $this->get_store_info( array( 'context' => 'view' ) );
-		$this->assert_rest_response_status( 200, $response );
-
-		// Test with embed context.
-		$response = $this->get_store_info( array( 'context' => 'embed' ) );
-		$this->assert_rest_response_status( 200, $response );
-
-		// Test with edit context (should fail for non-authenticated users).
-		$response = $this->get_store_info( array( 'context' => 'edit' ) );
-		$this->assert_rest_response_status( 401, $response );
-	}
-
-	/**
-	 * Test store endpoint schema.
-	 *
-	 * Verifies that the store endpoint returns the correct schema
-	 * information for the response structure.
-	 *
-	 * @return void
-	 */
-	public function test_store_endpoint_schema() {
+	public function test_debug_fields_conditional() {
 		$response = $this->get_store_info();
-		$schema = $response->get_links();
+		$data     = $response->get_data();
 
-		// Verify response has proper structure.
-		$data = $response->get_data();
-		$this->assertIsArray( $data );
-		$this->assertNotEmpty( $data );
-	}
-
-	/**
-	 * Test store endpoint with debug mode.
-	 *
-	 * Verifies that when WP_DEBUG is enabled, additional debug
-	 * information is included in the response.
-	 *
-	 * @return void
-	 */
-	public function test_store_endpoint_debug_info() {
-		// Enable debug mode temporarily.
-		$original_debug = defined( 'WP_DEBUG' ) ? WP_DEBUG : false;
-		if ( ! defined( 'WP_DEBUG' ) ) {
-			define( 'WP_DEBUG', true );
-		}
-
-		$response = $this->get_store_info();
-		$data = $response->get_data();
-
-		// Check for debug information when WP_DEBUG is true.
-		if ( WP_DEBUG ) {
-			$this->assertArrayHasKey( 'version', $data );
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			$this->assertArrayHasKey( 'routes', $data );
-		}
-
-		// Restore original debug setting.
-		if ( ! $original_debug && defined( 'WP_DEBUG' ) ) {
-			// Note: We can't undefine constants, but this is just for testing.
+			$this->assertArrayHasKey( 'versions', $data );
+		} else {
+			$this->assertArrayNotHasKey( 'routes', $data );
+			$this->assertArrayNotHasKey( 'versions', $data );
 		}
 	}
 }

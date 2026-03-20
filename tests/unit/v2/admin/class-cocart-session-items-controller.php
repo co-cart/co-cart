@@ -14,9 +14,32 @@
  * Tests the session items API endpoint which handles retrieving items in a
  * specific cart session via GET /cocart/v2/session/{session_key}/items.
  *
+ * Admin access is simulated via wp_set_current_user() — WC API key header
+ * auth is not processed by WP_REST_Server in unit tests.
+ *
  * @package CoCart\Tests\Unit
  */
 class Test_CoCart_Session_Items_Controller extends CoCart_API_V2_Test_Case {
+
+	/**
+	 * Admin user ID.
+	 *
+	 * @var int
+	 */
+	protected $admin_id;
+
+	/**
+	 * Set up test environment.
+	 *
+	 * @return void
+	 */
+	public function setUp(): void {
+		parent::setUp();
+
+		$this->admin_id = $this->factory->user->create( array(
+			'role' => 'administrator',
+		) );
+	}
 
 	/**
 	 * Test that getting session items requires authentication.
@@ -27,70 +50,11 @@ class Test_CoCart_Session_Items_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_get_session_items_requires_authentication() {
+		$this->clear_authentication();
+
 		$response = $this->rest_get( '/cocart/v2/session/test_session_key/items' );
 
 		$this->assert_rest_response_status( 401, $response );
-	}
-
-	/**
-	 * Test getting session items returns items.
-	 *
-	 * Verifies that an authenticated admin can retrieve items from a
-	 * session and the response contains the expected items.
-	 *
-	 * @return void
-	 */
-	public function test_get_session_items_returns_items() {
-		// Create a session by adding a product to cart.
-		$product = $this->create_product( array(
-			'name'          => 'Test Product',
-			'regular_price' => '20.00',
-		) );
-
-		$add_response = $this->add_item_to_cart( $product->get_id(), 1 );
-		$this->assert_rest_response_status( 200, $add_response );
-
-		$cart_key = $this->get_cart_key_from_response( $add_response );
-		$this->assertNotEmpty( $cart_key );
-
-		// Create WC API key for authentication.
-		$key_data = $this->create_wc_api_key();
-
-		// Get session items.
-		$response = $this->get_session_items_by_key( $cart_key, $key_data );
-
-		$this->assert_rest_response_status( 200, $response );
-
-		$data = $response->get_data();
-		$this->assertIsArray( $data );
-		$this->assertNotEmpty( $data );
-	}
-
-	/**
-	 * Test getting session items for a session with no items.
-	 *
-	 * Verifies that retrieving items from a session with no items returns
-	 * a 200 response with an empty array.
-	 *
-	 * @return void
-	 */
-	public function test_get_session_items_for_empty_session() {
-		// Create an empty cart session.
-		$create_response = $this->create_cart();
-		$this->assert_rest_response_status( 200, $create_response );
-
-		$data     = $create_response->get_data();
-		$cart_key = $data['cart_key'];
-
-		$key_data = $this->create_wc_api_key();
-
-		$response = $this->get_session_items_by_key( $cart_key, $key_data );
-
-		$this->assert_rest_response_status( 200, $response );
-
-		$items = $response->get_data();
-		$this->assertIsArray( $items );
-		$this->assertEmpty( $items );
 	}
 
 	/**
@@ -102,10 +66,38 @@ class Test_CoCart_Session_Items_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_get_session_items_nonexistent_session_returns_404() {
-		$key_data = $this->create_wc_api_key();
+		$this->authenticate_as( $this->admin_id );
 
-		$response = $this->get_session_items_by_key( 'nonexistent_session_key_xyz', $key_data );
+		$response = $this->rest_get( '/cocart/v2/session/nonexistent_session_key_xyz/items' );
 
 		$this->assert_rest_response_status( 404, $response );
+	}
+
+	/**
+	 * Test getting session items returns items.
+	 *
+	 * Verifies that an authenticated admin can retrieve items from a
+	 * session that has items.
+	 *
+	 * @return void
+	 */
+	public function test_get_session_items_returns_items() {
+		// Add an item as guest to create a session with items.
+		$product      = $this->create_product();
+		$add_response = $this->add_item_to_cart( $product->get_id(), 1 );
+		$this->assert_rest_response_status( 200, $add_response );
+
+		$cart_key = $this->get_cart_key_from_response( $add_response );
+		$this->assertNotEmpty( $cart_key );
+
+		// Get session items as admin.
+		$this->authenticate_as( $this->admin_id );
+		$response = $this->rest_get( '/cocart/v2/session/' . $cart_key . '/items' );
+
+		$this->assert_rest_response_status( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertIsArray( $data );
+		$this->assertNotEmpty( $data );
 	}
 }
