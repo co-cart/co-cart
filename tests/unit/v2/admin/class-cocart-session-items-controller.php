@@ -39,6 +39,11 @@ class Test_CoCart_Session_Items_Controller extends CoCart_API_V2_Test_Case {
 		$this->admin_id = $this->factory->user->create( array(
 			'role' => 'administrator',
 		) );
+
+		// Grant manage_woocommerce explicitly — WooCommerce adds this at runtime
+		// but it may not be available in the test environment.
+		$admin = get_user_by( 'id', $this->admin_id );
+		$admin->add_cap( 'manage_woocommerce' );
 	}
 
 	/**

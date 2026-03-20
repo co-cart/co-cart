@@ -70,8 +70,8 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 */
 	protected function add_item_to_cart( $product_id, $quantity = 1, $params = array() ) {
 		$request_params = array_merge( array(
-			'id'       => $product_id,
-			'quantity' => $quantity,
+			'id'       => (string) $product_id,
+			'quantity' => (string) $quantity,
 		), $params );
 
 		return $this->cocart_v2_request( 'POST', 'cart/add-item', $request_params );
@@ -112,7 +112,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function update_item_in_cart( $item_key, $quantity, $params = array() ) {
-		$request_params = array_merge( array( 'quantity' => $quantity ), $params );
+		$request_params = array_merge( array( 'quantity' => (string) $quantity ), $params );
 		return $this->rest_request( 'PUT', '/cocart/v2/cart/item/' . $item_key, $request_params );
 	}
 

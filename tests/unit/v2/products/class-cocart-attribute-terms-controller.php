@@ -22,13 +22,31 @@ class Test_CoCart_Attribute_Terms_Controller extends CoCart_API_V2_Test_Case {
 	public function setUp(): void {
 		parent::setUp();
 
+		$slug = 'test_size_' . uniqid();
+
 		$this->attribute_id = wc_create_attribute( array(
 			'name'         => 'Test Size',
-			'slug'         => 'test_size_' . time(),
+			'slug'         => $slug,
 			'type'         => 'select',
 			'order_by'     => 'menu_order',
 			'has_archives' => false,
 		) );
+
+		// Ensure the taxonomy is registered before inserting terms.
+		$taxonomy = wc_attribute_taxonomy_name( $slug );
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			register_taxonomy(
+				$taxonomy,
+				array( 'product' ),
+				array(
+					'label'        => 'Test Size',
+					'hierarchical' => false,
+					'show_ui'      => false,
+					'query_var'    => true,
+					'rewrite'      => false,
+				)
+			);
+		}
 	}
 
 	/**

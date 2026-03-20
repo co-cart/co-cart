@@ -91,11 +91,15 @@ abstract class CoCart_Unit_Test_Case extends WP_UnitTestCase {
 	 */
 	protected function create_product( $args = array() ) {
 		$defaults = array(
-			'name'          => 'Test Product',
-			'type'          => 'simple',
-			'regular_price' => '10.00',
-			'price'         => '10.00',
-			'status'        => 'publish',
+			'name'           => 'Test Product',
+			'type'           => 'simple',
+			'regular_price'  => '10.00',
+			'price'          => '10.00',
+			'sale_price'     => null,
+			'status'         => 'publish',
+			'stock_status'   => 'instock',
+			'manage_stock'   => false,
+			'stock_quantity' => null,
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -103,8 +107,18 @@ abstract class CoCart_Unit_Test_Case extends WP_UnitTestCase {
 		$product = new WC_Product_Simple();
 		$product->set_name( $args['name'] );
 		$product->set_regular_price( $args['regular_price'] );
-		$product->set_price( $args['price'] );
+		if ( null !== $args['sale_price'] ) {
+			$product->set_sale_price( $args['sale_price'] );
+			$product->set_price( $args['sale_price'] );
+		} else {
+			$product->set_price( $args['price'] );
+		}
 		$product->set_status( $args['status'] );
+		$product->set_stock_status( $args['stock_status'] );
+		$product->set_manage_stock( $args['manage_stock'] );
+		if ( null !== $args['stock_quantity'] ) {
+			$product->set_stock_quantity( $args['stock_quantity'] );
+		}
 		$product->save();
 
 		return $product;

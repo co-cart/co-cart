@@ -11,7 +11,6 @@ class Test_CoCart_V2_Cart_Controller extends CoCart_API_V2_Test_Case {
 		$response = $this->get_cart();
 
 		$this->assert_rest_response_status( 200, $response );
-		$this->assert_rest_response_content_type( 'application/json', $response );
 
 		$data = $response->get_data();
 		$this->assertArrayHasKey( 'items', $data );

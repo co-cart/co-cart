@@ -39,6 +39,11 @@ class Test_CoCart_Session_Delete_Controller extends CoCart_API_V2_Test_Case {
 		$this->admin_id = $this->factory->user->create( array(
 			'role' => 'administrator',
 		) );
+
+		// WooCommerce grants manage_woocommerce to admins at runtime, but this
+		// may not happen in the test environment — grant it explicitly.
+		$admin = get_user_by( 'id', $this->admin_id );
+		$admin->add_cap( 'manage_woocommerce' );
 	}
 
 	/**
