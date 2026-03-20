@@ -566,7 +566,7 @@ class CoCart_Install {
 	 * This is called from `install` method and is executed in-sync when CoCart is installed or updated.
 	 * This can also be called optionally from `verify_base_tables`.
 	 *
-	 * @access private
+	 * @access public
 	 *
 	 * @static
 	 *
@@ -575,7 +575,7 @@ class CoCart_Install {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
-	private static function create_tables() {
+	public static function create_tables() {
 		global $wpdb;
 
 		$show_errors = $wpdb->hide_errors();

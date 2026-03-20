@@ -130,10 +130,7 @@ class CoCart_Unit_Tests_Bootstrap {
 		tests_add_filter( 'init', array( 'WC_Install', 'install' ), 20 );
 
 		// Create CoCart custom tables (cocart_carts) after WooCommerce tables exist.
-		tests_add_filter( 'init', function() {
-			require_once COCART_FILE_PATH . '/includes/classes/class-cocart-install.php';
-			CoCart_Install::create_tables();
-		}, 30 );
+		tests_add_filter( 'init', array( 'CoCart_Install', 'create_tables' ), 30 );
 
 		// Force Action Scheduler to initialize now so its autoloader is registered before
 		// CoCart loads. WooCommerce includes action-scheduler.php unconditionally, which
