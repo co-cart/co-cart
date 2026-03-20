@@ -211,7 +211,6 @@ class CoCart_Unit_Tests_Bootstrap {
 	 */
 	public function load_rest_api() {
 		require_once COCART_FILE_PATH . '/includes/classes/class-cocart-data-exception.php';
-		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-cart-cache.php';
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-cart-callbacks.php';
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-cart-extension.php';
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-response.php';
