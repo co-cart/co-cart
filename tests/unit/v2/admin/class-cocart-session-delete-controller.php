@@ -103,7 +103,7 @@ class Test_CoCart_Session_Delete_Controller extends CoCart_API_V2_Test_Case {
 			$wpdb->prefix . 'cocart_carts',
 			array(
 				'cart_key'     => $cart_key,
-				'cart_value'   => maybe_serialize( WC()->session->get_session_data() ),
+				'cart_value'   => maybe_serialize( array( 'cart' => maybe_serialize( WC()->session->get( 'cart' ) ) ) ),
 				'cart_created' => time(),
 				'cart_expiry'  => time() + DAY_IN_SECONDS,
 				'cart_source'  => 'cocart',
