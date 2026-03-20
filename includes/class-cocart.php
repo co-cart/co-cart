@@ -583,7 +583,8 @@ final class CoCart {
 	 */
 	public static function load_rest_api() {
 		// Prevent CoCart running in the backend should the REST API server be called by another plugin.
-		if ( is_admin() ) {
+		// COCART_TESTING is defined by phpunit.xml during unit test runs — never in production.
+		if ( is_admin() && ! defined( 'COCART_TESTING' ) ) {
 			return;
 		}
 
