@@ -118,7 +118,7 @@ class CoCart_REST_API {
 	 * @access protected
 	 */
 	protected function register_all_routes() {
-		$this->register_routes( 'v1' );
+		// $this->register_routes( 'v1' ); Disabled for testing.
 		$this->register_routes( 'v2' );
 		$this->register_routes( 'batch' );
 
