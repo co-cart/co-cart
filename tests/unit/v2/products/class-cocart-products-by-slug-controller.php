@@ -32,6 +32,9 @@ class Test_CoCart_Products_By_Slug_Controller extends CoCart_API_V2_Test_Case {
 			'regular_price' => '20.00',
 		) );
 
+		// Re-fetch from DB to get the auto-generated slug.
+		$product = wc_get_product( $product->get_id() );
+
 		$response = $this->get_product_by_slug( $product->get_slug() );
 
 		$this->assert_rest_response_status( 200, $response );
@@ -49,6 +52,9 @@ class Test_CoCart_Products_By_Slug_Controller extends CoCart_API_V2_Test_Case {
 			'name'          => 'Slug Match Product',
 			'regular_price' => '20.00',
 		) );
+
+		// Re-fetch from DB to get the auto-generated slug.
+		$product = wc_get_product( $product->get_id() );
 
 		$response = $this->get_product_by_slug( $product->get_slug() );
 

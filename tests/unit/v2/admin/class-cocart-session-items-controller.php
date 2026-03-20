@@ -95,6 +95,10 @@ class Test_CoCart_Session_Items_Controller extends CoCart_API_V2_Test_Case {
 		$cart_key = $this->get_cart_key_from_response( $add_response );
 		$this->assertNotEmpty( $cart_key );
 
+		// Force session persistence to the database — save_data() is normally
+		// triggered on shutdown, which doesn't run during unit tests.
+		WC()->session->save_data();
+
 		// Get session items as admin.
 		$this->authenticate_as( $this->admin_id );
 		$response = $this->rest_get( '/cocart/v2/session/' . $cart_key . '/items' );

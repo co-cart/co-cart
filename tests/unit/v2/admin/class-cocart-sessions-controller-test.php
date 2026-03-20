@@ -111,7 +111,7 @@ class Test_CoCart_Sessions_Controller extends CoCart_API_V2_Test_Case {
 	public function test_get_specific_session_requires_admin() {
 		$this->clear_authentication();
 
-		$response = $this->rest_request( 'GET', '/cocart/v2/session/some-cart-key' );
+		$response = $this->rest_request( 'GET', '/cocart/v2/session/someCartKey' );
 
 		$this->assert_rest_response_status( 401, $response );
 	}

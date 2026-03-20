@@ -95,12 +95,17 @@ class Test_CoCart_Session_Delete_Controller extends CoCart_API_V2_Test_Case {
 		$cart_key = $this->get_cart_key_from_response( $add_response );
 		$this->assertNotEmpty( $cart_key );
 
+		// Force session persistence to the database — save_data() is normally
+		// triggered on shutdown, which doesn't run during unit tests.
+		WC()->session->save_data();
+
 		// Delete as admin.
 		$this->authenticate_as( $this->admin_id );
 		$response = $this->rest_delete( '/cocart/v2/session/' . $cart_key );
 		$this->assert_rest_response_status( 200, $response );
 
 		// Verify session is gone.
+		$this->authenticate_as( $this->admin_id );
 		$get_response = $this->rest_request( 'GET', '/cocart/v2/session/' . $cart_key );
 		$this->assert_rest_response_status( 404, $get_response );
 	}
