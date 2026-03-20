@@ -168,6 +168,15 @@ class CoCart_REST_API {
 				$skip_route = true;
 			}
 
+			// Skip if get_path_regex is not overridden in the concrete class (inherited base
+			// implementation calls _doing_it_wrong and returns nothing useful).
+			if ( ! $skip_route ) {
+				$declaring = ( new ReflectionMethod( $route_class, 'get_path_regex' ) )->getDeclaringClass()->getName();
+				if ( 'CoCart_REST_Controller' === $declaring ) {
+					$skip_route = true;
+				}
+			}
+
 			$path = '';
 			if ( ! $skip_route ) {
 				$route_instance = new $route();
