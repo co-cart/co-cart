@@ -96,11 +96,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function remove_item_from_cart( $item_key, $params = array() ) {
-		$request_params = array_merge( array(
-			'item_key' => $item_key,
-		), $params );
-
-		return $this->cocart_v2_request( 'DELETE', 'cart/remove-item', $request_params );
+		return $this->rest_request( 'DELETE', '/cocart/v2/cart/item/' . $item_key, $params );
 	}
 
 	/**
@@ -112,12 +108,8 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function update_item_in_cart( $item_key, $quantity, $params = array() ) {
-		$request_params = array_merge( array(
-			'item_key' => $item_key,
-			'quantity' => $quantity,
-		), $params );
-
-		return $this->cocart_v2_request( 'PUT', 'cart/update-item', $request_params );
+		$request_params = array_merge( array( 'quantity' => $quantity ), $params );
+		return $this->rest_request( 'PUT', '/cocart/v2/cart/item/' . $item_key, $request_params );
 	}
 
 	/**
@@ -127,7 +119,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function clear_cart( $params = array() ) {
-		return $this->cocart_v2_request( 'DELETE', 'cart/clear', $params );
+		return $this->cocart_v2_request( 'POST', 'cart/clear', $params );
 	}
 
 	/**
@@ -147,7 +139,19 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function get_cart_count( $params = array() ) {
-		return $this->cocart_v2_request( 'GET', 'cart/items-count', $params );
+		return $this->cocart_v2_request( 'GET', 'cart/items/count', $params );
+	}
+
+	/**
+	 * Count items in cart via CoCart v2 API.
+	 *
+	 * Alias for get_cart_count().
+	 *
+	 * @param array $params Optional. Request parameters.
+	 * @return WP_REST_Response The REST API response object.
+	 */
+	protected function count_items_in_cart( $params = array() ) {
+		return $this->get_cart_count( $params );
 	}
 
 	/**
@@ -438,8 +442,15 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 */
 	protected function get_item_key_from_response( $response, $index = 0 ) {
 		$data = $response->get_data();
-		if ( isset( $data['items'][ $index ]['item_key'] ) ) {
-			return $data['items'][ $index ]['item_key'];
+		if ( ! empty( $data['items'] ) && is_array( $data['items'] ) ) {
+			$items = array_values( $data['items'] );
+			if ( isset( $items[ $index ]['item_key'] ) ) {
+				return $items[ $index ]['item_key'];
+			}
+		}
+		// add_item response with return_item=true returns item_key at top level.
+		if ( isset( $data['item_key'] ) ) {
+			return $data['item_key'];
 		}
 		return null;
 	}
@@ -495,5 +506,104 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 */
 	protected function get_session_items_by_key( $cart_key, $key_data = null ) {
 		return $this->authenticated_admin_request( 'GET', '/cocart/v2/session/' . $cart_key . '/items', array(), $key_data );
+	}
+
+	/**
+	 * Get a single product tag via CoCart v2 API.
+	 *
+	 * @param int   $tag_id Tag ID.
+	 * @param array $params Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_product_tag( $tag_id, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/tags/' . $tag_id, $params );
+	}
+
+	/**
+	 * Get product tags via CoCart v2 API.
+	 *
+	 * @param array $params Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_product_tags( $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/tags', $params );
+	}
+
+	/**
+	 * Get a single product category via CoCart v2 API.
+	 *
+	 * @param int   $cat_id Category ID.
+	 * @param array $params Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_product_category( $cat_id, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/categories/' . $cat_id, $params );
+	}
+
+	/**
+	 * Get product reviews via CoCart v2 API.
+	 *
+	 * @param array $params Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_product_reviews( $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/reviews', $params );
+	}
+
+	/**
+	 * Get a single product review via CoCart v2 API.
+	 *
+	 * @param int   $review_id Review ID.
+	 * @param array $params    Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_product_review( $review_id, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/reviews/' . $review_id, $params );
+	}
+
+	/**
+	 * Get a single product attribute via CoCart v2 API.
+	 *
+	 * @param int   $attribute_id Attribute ID.
+	 * @param array $params       Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_product_attribute( $attribute_id, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/attributes/' . $attribute_id, $params );
+	}
+
+	/**
+	 * Get attribute terms via CoCart v2 API.
+	 *
+	 * @param int   $attribute_id Attribute ID.
+	 * @param array $params       Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_attribute_terms( $attribute_id, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/attributes/' . $attribute_id . '/terms', $params );
+	}
+
+	/**
+	 * Get a single attribute term via CoCart v2 API.
+	 *
+	 * @param int   $attribute_id Attribute ID.
+	 * @param int   $term_id      Term ID.
+	 * @param array $params       Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_attribute_term( $attribute_id, $term_id, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/attributes/' . $attribute_id . '/terms/' . $term_id, $params );
+	}
+
+	/**
+	 * Get a single product variation via CoCart v2 API.
+	 *
+	 * @param int   $product_id   Parent product ID.
+	 * @param int   $variation_id Variation ID.
+	 * @param array $params       Optional. Request parameters.
+	 * @return WP_REST_Response
+	 */
+	protected function get_product_variation( $product_id, $variation_id, $params = array() ) {
+		return $this->cocart_v2_request( 'GET', 'products/' . $product_id . '/variations/' . $variation_id, $params );
 	}
 }
