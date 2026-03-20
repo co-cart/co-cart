@@ -103,7 +103,6 @@ class CoCart_Unit_Tests_Bootstrap {
 	 */
 	private function includes() {
 		// Test case base.
-		require_once $this->tests_dir . '/class-cocart-test-case.php';
 
 		// Framework (load order: base → rest → api → v1 → v2).
 		// These must be loaded before PHPUnit scans test files, since test classes extend them.

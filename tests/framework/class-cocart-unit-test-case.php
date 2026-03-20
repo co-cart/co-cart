@@ -15,7 +15,7 @@
  *
  * @package CoCart\Tests\Framework
  */
-abstract class CoCart_Unit_Test_Case extends CoCart_Test_Case {
+abstract class CoCart_Unit_Test_Case extends WP_UnitTestCase {
 
 	/**
 	 * Set up test environment.
@@ -25,16 +25,20 @@ abstract class CoCart_Unit_Test_Case extends CoCart_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function set_up() {
-		parent::set_up();
+	public function setUp(): void {
+		parent::setUp();
 
 		// Ensure WooCommerce is loaded.
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			$this->markTestSkipped( 'WooCommerce is not available.' );
 		}
 
-		// Clear any existing cart.
-		$this->clear_cart();
+		// Clear any existing cart directly — do not use $this->clear_cart() here
+		// because subclasses override it to make REST requests, and $this->server
+		// is not yet initialized at this point in the set_up() chain.
+		if ( function_exists( 'wc_empty_cart' ) ) {
+			wc_empty_cart();
+		}
 	}
 
 	/**
@@ -45,11 +49,13 @@ abstract class CoCart_Unit_Test_Case extends CoCart_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tear_down() {
-		// Clear cart after each test.
-		$this->clear_cart();
+	public function tearDown(): void {
+		// Clear cart directly for the same reason as in set_up().
+		if ( function_exists( 'wc_empty_cart' ) ) {
+			wc_empty_cart();
+		}
 
-		parent::tear_down();
+		parent::tearDown();
 	}
 
 	/**
