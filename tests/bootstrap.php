@@ -123,6 +123,18 @@ class CoCart_Unit_Tests_Bootstrap {
 		// Install WooCommerce database tables after post types are registered (priority 20, after WC's priority 10).
 		tests_add_filter( 'init', array( 'WC_Install', 'install' ), 20 );
 
+		// Force Action Scheduler to initialize now so its autoloader is registered before
+		// CoCart loads. WooCommerce includes action-scheduler.php unconditionally, which
+		// defines action_scheduler_initialize_3_dot_9_dot_3() and registers it on
+		// plugins_loaded. But load_plugins() itself runs during plugins_loaded, so the
+		// action-scheduler.php "theme fallback" block (which checks did_action &&
+		// !doing_action) is skipped. We call the initializer directly — it guards against
+		// double-init with its own class_exists check.
+		if ( function_exists( 'action_scheduler_initialize_3_dot_9_dot_3' ) ) {
+			action_scheduler_initialize_3_dot_9_dot_3();
+			ActionScheduler_Versions::initialize_latest_version();
+		}
+
 		// Stub Action Scheduler functions not available in test environment.
 		if ( ! function_exists( 'as_schedule_single_action' ) ) {
 			function as_schedule_single_action() { // phpcs:ignore
