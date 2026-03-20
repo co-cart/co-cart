@@ -19,3 +19,7 @@
 - [ ] I've included any necessary tests <!-- if applicable -->
 - [ ] I've included developer documentation <!-- if applicable -->
 - [ ] I've added proper labels to this pull request <!-- if applicable -->
+- [ ] Tests added or updated for all changed/new behaviour
+- [ ] No deprecated functions called from plugin source (use replacement functions directly)
+- [ ] If a controller was added, a corresponding test file exists in `tests/unit/v2/`
+- [ ] `vendor/bin/phpunit` passes locally with 0 failures

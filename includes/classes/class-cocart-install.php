@@ -598,7 +598,7 @@ class CoCart_Install {
 	/**
 	 * Get Table schema.
 	 *
-	 * @access private
+	 * @access public
 	 *
 	 * @static
 	 *
@@ -608,7 +608,7 @@ class CoCart_Install {
 	 *
 	 * @return string Table schema.
 	 */
-	private static function get_schema() {
+	public static function get_schema() {
 		global $wpdb;
 
 		$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
@@ -635,7 +635,7 @@ UNIQUE KEY cart_key (cart_key)
 	 *
 	 * @source https://developer.wordpress.org/reference/functions/maybe_create_table/
 	 *
-	 * @access protected
+	 * @access public
 	 *
 	 * @since 3.1.0 Introduced.
 	 *
@@ -646,7 +646,7 @@ UNIQUE KEY cart_key (cart_key)
 	 *
 	 * @return bool False on error, true if already exists or success.
 	 */
-	protected static function maybe_create_table( $table_name, $create_sql ) {
+	public static function maybe_create_table( $table_name, $create_sql ) {
 		global $wpdb;
 
 		if ( in_array( $table_name, $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ), 0 ), true ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching

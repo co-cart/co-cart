@@ -323,7 +323,7 @@ class CoCart_REST_Session_V2_Controller extends CoCart_REST_Cart_V2_Controller {
 				'total'        => cocart_format_money( $cart_item['line_total'] ),
 				'tax'          => cocart_format_money( $cart_item['line_tax'] ),
 			),
-			'slug'           => $this->get_product_slug( $product ),
+			'slug'           => CoCart_Utilities_Product_Helpers::get_product_slug( $product ),
 			'meta'           => array(
 				'product_type' => $product->get_type(),
 				'sku'          => $product->get_sku(),

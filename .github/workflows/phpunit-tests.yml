@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.1', '8.2', '8.3']
+        php: ['8.1', '8.2', '8.3', '8.4']
         wp: ['${{ github.event.inputs.wp_version || ''latest'' }}']
         wc: ['${{ github.event.inputs.wc_version || ''latest'' }}']
 

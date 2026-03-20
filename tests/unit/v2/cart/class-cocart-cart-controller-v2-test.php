@@ -155,4 +155,22 @@ class Test_CoCart_V2_Cart_Controller extends CoCart_API_V2_Test_Case {
 		// Verify totals key exists.
 		$this->assertArrayHasKey( 'totals', $data );
 	}
+
+	/**
+	 * Test that no unexpected deprecations fire during a normal cart add + retrieve cycle.
+	 *
+	 * WP_UnitTestCase fails the test automatically if any unexpected deprecation notice
+	 * fires during the test. This acts as a canary: if a PR introduces a call to a
+	 * deprecated function in the cart flow, this test will catch it.
+	 *
+	 * @return void
+	 */
+	public function test_no_unexpected_deprecations_during_cart_operations() {
+		$product  = $this->create_product();
+		$response = $this->add_item_to_cart( $product->get_id(), 1 );
+		$this->assert_rest_response_status( 200, $response );
+
+		$cart_response = $this->get_cart();
+		$this->assert_rest_response_status( 200, $cart_response );
+	}
 } 
