@@ -35,14 +35,6 @@ abstract class CoCart_REST_Test_Case extends CoCart_Unit_Test_Case {
 	public function setUp(): void {
 		parent::setUp();
 
-		// Mark CoCart controller abstract-method notices as expected so they don't
-		// pollute $caught_doing_it_wrong and fail unrelated assertions.
-		// These fire during route registration when a controller inherits a base
-		// implementation that calls _doing_it_wrong() as a "must override" guard.
-		$this->setExpectedIncorrectUsage( 'CoCart_REST_Controller::get_path_regex' );
-		$this->setExpectedIncorrectUsage( 'CoCart_REST_Controller::get_args' );
-		$this->setExpectedIncorrectUsage( 'CoCart_REST_Controller::check_permission' );
-
 		// Set up REST server.
 		global $wp_rest_server;
 		$this->server = $wp_rest_server = new WP_REST_Server();

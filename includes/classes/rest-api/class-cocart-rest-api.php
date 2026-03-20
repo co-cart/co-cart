@@ -225,10 +225,15 @@ class CoCart_REST_API {
 						error_log( esc_html( "{$route} possibly needs to be updated for version CoCart v5." ) );
 					}
 
-					// Registers if class exists to prevent fatal error from happening.
+					// Registers if class exists and register_routes() is actually overridden in the
+					// concrete class (not just inherited from WP_REST_Controller, which fires
+					// _doing_it_wrong when called directly).
 					if ( class_exists( $route ) && method_exists( $route_class, 'register_routes' ) ) {
-						$route_instance = new $route();
-						$route_instance->register_routes();
+						$declaring_class = ( new ReflectionMethod( $route_class, 'register_routes' ) )->getDeclaringClass()->getName();
+						if ( 'WP_REST_Controller' !== $declaring_class ) {
+							$route_instance = new $route();
+							$route_instance->register_routes();
+						}
 					}
 				}
 			}

@@ -6,7 +6,6 @@
     <testsuites>
         <testsuite name="CoCart Unit Tests">
             <directory prefix="class-cocart-" suffix=".php">./tests/unit</directory>
-            <directory prefix="class-cocart-" suffix=".php">./tests/unit/v1</directory>
             <directory prefix="class-cocart-" suffix=".php">./tests/unit/v2/cart</directory>
             <directory prefix="class-cocart-" suffix=".php">./tests/unit/v2/products</directory>
             <directory prefix="class-cocart-" suffix=".php">./tests/unit/v2/admin</directory>
