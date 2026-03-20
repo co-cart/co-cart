@@ -220,6 +220,12 @@ class CoCart_Unit_Tests_Bootstrap {
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-product-validation.php';
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-rest-api.php';
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-security.php';
+
+		// Explicitly instantiate CoCart_REST_API on every rest_api_init so that routes
+		// are registered into the fresh WP_REST_Server created by each test's setUp().
+		// The class file uses `return new CoCart_REST_API()` which only fires on the
+		// first require_once; subsequent setUp() calls need a new instance to re-register.
+		new CoCart_REST_API();
 	} // END load_rest_api()
 }
 
