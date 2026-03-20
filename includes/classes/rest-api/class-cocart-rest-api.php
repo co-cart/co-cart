@@ -296,6 +296,8 @@ class CoCart_REST_API {
 			'cocart-v2-login'                           => 'CoCart_REST_Login_V2_Controller',
 			'cocart-v2-logout'                          => 'CoCart_REST_Logout_V2_Controller',
 			'cocart-v2-session'                         => 'CoCart_REST_Session_V2_Controller',
+			'cocart-v2-session-delete'                  => 'CoCart_REST_Session_Delete_V2_Controller',
+			'cocart-v2-session-items'                   => 'CoCart_REST_Session_Items_V2_Controller',
 			'cocart-v2-sessions'                        => 'CoCart_REST_Sessions_V2_Controller',
 			'cocart-v2-product-attributes'              => 'CoCart_REST_Product_Attributes_V2_Controller',
 			'cocart-v2-product-attribute-by-id'         => 'CoCart_REST_Product_Attribute_By_ID_V2_Controller',
@@ -729,6 +731,8 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-totals-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-update-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-controller.php';
+		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-delete-controller.php';
+		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-items-controller.php';
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-sessions-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-abstract-terms-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attributes-controller.php';

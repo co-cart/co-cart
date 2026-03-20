@@ -1307,7 +1307,9 @@ class CoCart_Utilities_Cart_Helpers {
 				throw new CoCart_Data_Exception( 'cocart_missing_variation_data', $message, 400 );
 			}
 
-			ksort( $request['variation'] );
+			$variation = $request['variation'];
+			ksort( $variation );
+			$request->set_param( 'variation', $variation );
 
 			return $request;
 		} catch ( CoCart_Data_Exception $e ) {
