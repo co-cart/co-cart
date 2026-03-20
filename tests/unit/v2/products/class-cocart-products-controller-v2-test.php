@@ -55,8 +55,8 @@ class Test_CoCart_Products_Controller_V2 extends CoCart_API_V2_Test_Case {
 		$data = $response->get_data();
 		$this->assertIsArray( $data );
 
-		$product_ids = array_column( $data, 'id' );
-		$this->assertContains( $product->get_id(), $product_ids );
+		$product_ids = array_map( 'intval', array_column( $data, 'id' ) );
+		$this->assertTrue( in_array( $product->get_id(), $product_ids, true ) );
 	}
 
 	/**

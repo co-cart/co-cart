@@ -273,7 +273,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function get_product_categories( $params = array() ) {
-		return $this->cocart_v2_request( 'GET', 'product-categories', $params );
+		return $this->cocart_v2_request( 'GET', 'products/categories', $params );
 	}
 
 	/**
@@ -283,7 +283,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 * @return WP_REST_Response The REST API response object.
 	 */
 	protected function get_product_attributes( $params = array() ) {
-		return $this->cocart_v2_request( 'GET', 'product-attributes', $params );
+		return $this->cocart_v2_request( 'GET', 'products/attributes', $params );
 	}
 
 	/**
