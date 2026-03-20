@@ -113,13 +113,15 @@ class Test_CoCart_Authentication extends CoCart_API_V2_Test_Case {
 		$admin_id = $this->factory->user->create( array(
 			'role' => 'administrator',
 		) );
+		$admin = get_user_by( 'id', $admin_id );
+		$admin->add_cap( 'manage_woocommerce' );
 		$this->authenticate_as( $admin_id );
 
 		$response = $this->rest_request( 'GET', '/cocart/v2/sessions' );
 
 		// 200 (sessions exist) or 404 (no sessions yet) — both mean auth passed.
 		$status = $response->get_status();
-		$this->assertContains( $status, array( 200, 404 ) );
+		$this->assertTrue( in_array( $status, array( 200, 404 ), true ) );
 	}
 
 	/**

@@ -37,6 +37,11 @@ class Test_CoCart_Sessions_Controller extends CoCart_API_V2_Test_Case {
 		$this->admin_id = $this->factory->user->create( array(
 			'role' => 'administrator',
 		) );
+
+		// WooCommerce grants manage_woocommerce to admins at runtime, but this
+		// may not happen in the test environment — grant it explicitly.
+		$admin = get_user_by( 'id', $this->admin_id );
+		$admin->add_cap( 'manage_woocommerce' );
 	}
 
 	/**
@@ -69,7 +74,7 @@ class Test_CoCart_Sessions_Controller extends CoCart_API_V2_Test_Case {
 
 		// 200 (sessions exist) or 404 (none yet) — both mean auth passed.
 		$status = $response->get_status();
-		$this->assertContains( $status, array( 200, 404 ) );
+		$this->assertTrue( in_array( $status, array( 200, 404 ), true ) );
 	}
 
 	/**

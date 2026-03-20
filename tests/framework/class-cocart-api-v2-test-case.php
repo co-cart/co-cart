@@ -30,6 +30,10 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 		if ( ! class_exists( 'CoCart' ) ) {
 			$this->markTestSkipped( 'CoCart is not available.' );
 		}
+
+		// Prevent wp_logout() from calling setcookie(), which fails in PHPUnit
+		// because headers have already been sent by the test bootstrap.
+		add_filter( 'send_auth_cookies', '__return_false' );
 	}
 
 	/**
