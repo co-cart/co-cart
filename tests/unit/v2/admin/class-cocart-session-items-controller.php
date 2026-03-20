@@ -84,6 +84,8 @@ class Test_CoCart_Session_Items_Controller extends CoCart_API_V2_Test_Case {
 	 * Verifies that an authenticated admin can retrieve items from a
 	 * session that has items.
 	 *
+	 * @expectedDeprecated CoCart_REST_Cart_V2_Controller::get_product_slug
+	 *
 	 * @return void
 	 */
 	public function test_get_session_items_returns_items() {
