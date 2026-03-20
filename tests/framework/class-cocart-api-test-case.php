@@ -262,9 +262,10 @@ abstract class CoCart_API_Test_Case extends CoCart_REST_Test_Case {
 	 * @return string|null The item key if found, null otherwise.
 	 */
 	protected function get_item_key_from_response( $response, $index = 0 ) {
-		$data = $response->get_data();
-		if ( isset( $data['items'][ $index ]['item_key'] ) ) {
-			return $data['items'][ $index ]['item_key'];
+		$data  = $response->get_data();
+		$items = isset( $data['items'] ) ? array_values( $data['items'] ) : array();
+		if ( isset( $items[ $index ]['item_key'] ) ) {
+			return $items[ $index ]['item_key'];
 		}
 		return null;
 	}
