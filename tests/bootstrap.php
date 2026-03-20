@@ -89,6 +89,12 @@ class CoCart_Unit_Tests_Bootstrap {
 		// Default configurations.
 		tests_add_filter( 'woocommerce_admin_disabled', '__return_true' );
 
+		// Prevent WC session handler from calling setcookie() — headers are already
+		// sent by the WP test bootstrap. WC_Session_Handler registers
+		// set_customer_session_cookie on the woocommerce_set_cart_cookies action;
+		// suppress it by filtering wc_setcookie to a no-op during tests.
+		tests_add_filter( 'woocommerce_set_cookie_enabled', '__return_false' );
+
 		// Load the CoCart testing environment.
 		require $this->wp_tests_dir . '/includes/bootstrap.php';
 
