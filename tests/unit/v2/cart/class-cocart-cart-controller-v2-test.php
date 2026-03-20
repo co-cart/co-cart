@@ -31,8 +31,8 @@ class Test_CoCart_V2_Cart_Controller extends CoCart_API_V2_Test_Case {
 		$this->assertCount( 1, $data['items'] );
 
 		$item = array_values( $data['items'] )[0];
-		$this->assertEquals( $product->get_id(), $item['product_id'] );
-		$this->assertEquals( 2, $item['quantity'] );
+		$this->assertEquals( $product->get_id(), $item['id'] );
+		$this->assertEquals( 2, $item['quantity']['value'] );
 	}
 
 	public function test_add_invalid_product_to_cart() {
@@ -79,7 +79,7 @@ class Test_CoCart_V2_Cart_Controller extends CoCart_API_V2_Test_Case {
 		$this->assertCount( 1, $data['items'] );
 
 		$item = array_values( $data['items'] )[0];
-		$this->assertEquals( 3, $item['quantity'] );
+		$this->assertEquals( 3, $item['quantity']['value'] );
 	}
 
 	public function test_clear_cart() {

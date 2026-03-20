@@ -36,16 +36,16 @@ class Test_CoCart_Batch_Operations_Controller extends CoCart_API_V2_Test_Case {
 					'method' => 'POST',
 					'path'   => '/cocart/v2/cart/add-item',
 					'body'   => array(
-						'id'       => $product1->get_id(),
-						'quantity' => 1,
+						'id'       => (string) $product1->get_id(),
+						'quantity' => '1',
 					),
 				),
 				array(
 					'method' => 'POST',
 					'path'   => '/cocart/v2/cart/add-item',
 					'body'   => array(
-						'id'       => $product2->get_id(),
-						'quantity' => 1,
+						'id'       => (string) $product2->get_id(),
+						'quantity' => '1',
 					),
 				),
 			),
@@ -77,8 +77,8 @@ class Test_CoCart_Batch_Operations_Controller extends CoCart_API_V2_Test_Case {
 					'method' => 'POST',
 					'path'   => '/cocart/v2/cart/add-item',
 					'body'   => array(
-						'id'       => $product->get_id(),
-						'quantity' => 2,
+						'id'       => (string) $product->get_id(),
+						'quantity' => '2',
 					),
 				),
 			),

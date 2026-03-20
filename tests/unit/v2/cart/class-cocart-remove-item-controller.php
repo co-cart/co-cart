@@ -73,10 +73,13 @@ class Test_CoCart_Remove_Item_Controller extends CoCart_API_V2_Test_Case {
 		) );
 
 		$add_response1 = $this->add_item_to_cart( $product1->get_id(), 1 );
-		$add_response2 = $this->add_item_to_cart( $product2->get_id(), 1 );
+		$this->add_item_to_cart( $product2->get_id(), 1 );
 
-		$item_key1 = $this->get_item_key_from_response( $add_response1 );
-		$item_key2 = $this->get_item_key_from_response( $add_response2 );
+		// After both adds, get the cart and extract both keys.
+		$cart_response = $this->get_cart();
+		$cart_items    = array_values( $cart_response->get_data()['items'] );
+		$item_key1     = $cart_items[0]['item_key'];
+		$item_key2     = $cart_items[1]['item_key'];
 
 		$response1 = $this->remove_item_from_cart( $item_key1 );
 		$this->assert_rest_response_status( 200, $response1 );

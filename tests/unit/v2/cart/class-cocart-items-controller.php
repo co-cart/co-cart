@@ -26,12 +26,13 @@ class Test_CoCart_Items_Controller extends CoCart_API_V2_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function test_get_items_returns_200_when_cart_empty() {
+	public function test_get_items_returns_404_when_cart_empty() {
 		$this->clear_cart();
 
 		$response = $this->get_cart_items();
 
-		$this->assert_rest_response_status( 200, $response );
+		// The items endpoint returns 404 when the cart is empty.
+		$this->assert_rest_response_status( 404, $response );
 	}
 
 	/**

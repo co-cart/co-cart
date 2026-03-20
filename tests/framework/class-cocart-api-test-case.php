@@ -226,7 +226,7 @@ abstract class CoCart_API_Test_Case extends CoCart_REST_Test_Case {
 
 		$found = false;
 		foreach ( $data['items'] as $item ) {
-			if ( isset( $item['product_id'] ) && $item['product_id'] === $product_id ) {
+			if ( isset( $item['id'] ) && $item['id'] === $product_id ) {
 				$found = true;
 				break;
 			}

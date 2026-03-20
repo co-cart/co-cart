@@ -45,7 +45,9 @@ class Test_CoCart_Add_Item_Controller extends CoCart_API_V2_Test_Case {
 		$variation->set_attributes( array( 'pa_color' => 'Red' ) );
 		$variation->save();
 
-		$response = $this->add_item_to_cart( $product->get_id(), 1, array( 'variation_id' => $variation->get_id() ) );
+		// Pass the variation ID directly as the product ID — the controller detects
+		// it is a variation type and resolves the parent/variation IDs automatically.
+		$response = $this->add_item_to_cart( $variation->get_id(), 1 );
 
 		$this->assert_rest_response_status( 200, $response );
 

@@ -113,7 +113,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 	 */
 	protected function update_item_in_cart( $item_key, $quantity, $params = array() ) {
 		$request_params = array_merge( array( 'quantity' => (string) $quantity ), $params );
-		return $this->rest_request( 'PUT', '/cocart/v2/cart/item/' . $item_key, $request_params );
+		return $this->rest_request( 'POST', '/cocart/v2/cart/item/' . $item_key, $request_params );
 	}
 
 	/**
@@ -393,7 +393,7 @@ abstract class CoCart_API_V2_Test_Case extends CoCart_API_Test_Case {
 
 		$found = false;
 		foreach ( $data['items'] as $item ) {
-			if ( isset( $item['product_id'] ) && $item['product_id'] === $product_id ) {
+			if ( isset( $item['id'] ) && $item['id'] === $product_id ) {
 				$found = true;
 				break;
 			}

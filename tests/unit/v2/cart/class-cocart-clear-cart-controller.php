@@ -98,8 +98,8 @@ class Test_CoCart_Clear_Cart_Controller extends CoCart_API_V2_Test_Case {
 		$variation2->set_attributes( array( 'pa_color' => 'Blue' ) );
 		$variation2->save();
 
-		$this->add_item_to_cart( $product->get_id(), 1, array( 'variation_id' => $variation1->get_id() ) );
-		$this->add_item_to_cart( $product->get_id(), 1, array( 'variation_id' => $variation2->get_id() ) );
+		$this->add_item_to_cart( $variation1->get_id(), 1 );
+		$this->add_item_to_cart( $variation2->get_id(), 1 );
 
 		$response = $this->clear_cart();
 		$this->assert_rest_response_status( 200, $response );
