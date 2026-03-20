@@ -50,13 +50,18 @@ class Test_CoCart_Product_Reviews_Controller extends CoCart_API_V2_Test_Case {
 		) );
 		add_comment_meta( $comment_id, 'rating', 5 );
 
-		$response = $this->get_product_review( $comment_id );
+		// There is no by-ID reviews route — fetch the list and find the review.
+		$response = $this->get_product_reviews();
 
 		$this->assert_rest_response_status( 200, $response );
 
-		$data = $response->get_data();
-		$this->assertArrayHasKey( 'id', $data );
-		$this->assertEquals( $comment_id, $data['id'] );
+		$data   = $response->get_data();
+		$review = current( array_filter( $data, function( $r ) use ( $comment_id ) {
+			return isset( $r['id'] ) && (int) $r['id'] === (int) $comment_id;
+		} ) );
+
+		$this->assertNotEmpty( $review );
+		$this->assertEquals( (int) $comment_id, (int) $review['id'] );
 	}
 
 	/**
@@ -87,14 +92,19 @@ class Test_CoCart_Product_Reviews_Controller extends CoCart_API_V2_Test_Case {
 		) );
 		add_comment_meta( $comment_id, 'rating', 4 );
 
-		$response = $this->get_product_review( $comment_id );
+		// There is no by-ID reviews route — fetch the list and find the review.
+		$response = $this->get_product_reviews();
 		$data     = $response->get_data();
+		$review   = current( array_filter( $data, function( $r ) use ( $comment_id ) {
+			return isset( $r['id'] ) && (int) $r['id'] === (int) $comment_id;
+		} ) );
 
-		$this->assertArrayHasKey( 'id', $data );
-		$this->assertArrayHasKey( 'reviewer', $data );
-		$this->assertArrayHasKey( 'review', $data );
-		$this->assertArrayHasKey( 'rating', $data );
-		$this->assertIsInt( $data['id'] );
-		$this->assertIsString( $data['reviewer'] );
+		$this->assertNotEmpty( $review );
+		$this->assertArrayHasKey( 'id', $review );
+		$this->assertArrayHasKey( 'reviewer', $review );
+		$this->assertArrayHasKey( 'review', $review );
+		$this->assertArrayHasKey( 'rating', $review );
+		$this->assertIsInt( $review['id'] );
+		$this->assertIsString( $review['reviewer'] );
 	}
 }

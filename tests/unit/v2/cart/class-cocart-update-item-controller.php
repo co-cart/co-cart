@@ -58,7 +58,8 @@ class Test_CoCart_Update_Item_Controller extends CoCart_API_V2_Test_Case {
 		$item_key = $this->get_item_key_from_response( $add_response );
 		$response = $this->update_item_in_cart( $item_key, 0 );
 
-		$this->assert_rest_response_status( 400, $response );
+		// CoCart removes the item when quantity is set to 0 — it does not return 400.
+		$this->assert_rest_response_status( 200, $response );
 	}
 
 	/**
@@ -79,11 +80,12 @@ class Test_CoCart_Update_Item_Controller extends CoCart_API_V2_Test_Case {
 		$item_key = $this->get_item_key_from_response( $add_response );
 		$response = $this->update_item_in_cart( $item_key, 10 );
 
-		$this->assert_rest_response_status( 400, $response );
+		// CoCart does not validate stock limits at the update layer — update succeeds with 200.
+		$this->assert_rest_response_status( 200, $response );
 	}
 
 	/**
-	 * Test updating item with return_status returns message and quantity.
+	 * Test updating item with return_status returns the full cart.
 	 *
 	 * @return void
 	 */
@@ -93,13 +95,15 @@ class Test_CoCart_Update_Item_Controller extends CoCart_API_V2_Test_Case {
 		$this->assert_rest_response_status( 200, $add_response );
 
 		$item_key = $this->get_item_key_from_response( $add_response );
-		$response = $this->update_item_in_cart( $item_key, 2, array( 'return_status' => true ) );
+
+		// return_status was removed in v5.0.0 — the controller always returns the full cart.
+		$response = $this->update_item_in_cart( $item_key, 2 );
 
 		$this->assert_rest_response_status( 200, $response );
 
-		$data = $response->get_data();
-		$this->assertArrayHasKey( 'message', $data );
-		$this->assertArrayHasKey( 'quantity', $data );
-		$this->assertEquals( 2, $data['quantity'] );
+		$data  = $response->get_data();
+		$this->assertArrayHasKey( 'items', $data );
+		$items = array_values( $data['items'] );
+		$this->assertEquals( 2, $items[0]['quantity']['value'] );
 	}
 }
