@@ -215,6 +215,12 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 					cocart_add_to_cart_message( array( $request['id'] => $new_quantity ) );
 
 					return $this->get_items( $request );
+
+					/*
+					$response = rest_ensure_response( $response );
+					$response = ( new CoCart_REST_Utilities_Cart_Response() )->add_headers( $response, $request );
+
+					return $response;*/
 				}
 
 				// The quantity of the item added to the cart.
@@ -395,7 +401,7 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 					// Validate and format quantity using consolidated quantity limits.
 					$grouped_quantity_limits = new CoCart_Utilities_Quantity_Limits();
-					$request['quantity']     = $grouped_quantity_limits->validate_quantity( $request['quantity'], $product );
+					$request['quantity']     = $grouped_quantity_limits->validate_quantity( $quantity, $product );
 
 					if ( is_wp_error( $request['quantity'] ) ) {
 						return $request['quantity'];
