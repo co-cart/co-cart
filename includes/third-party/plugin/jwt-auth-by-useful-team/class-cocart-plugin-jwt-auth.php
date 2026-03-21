@@ -26,14 +26,17 @@ if ( ! class_exists( 'CoCart_Plugin_JWT_Auth' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
+			$rest_prefix = trailingslashit( rest_get_url_prefix() );
+			$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+
 			add_filter(
 				'jwt_auth_whitelist',
 				function ( $endpoints ) {
 					return array_merge(
 						$endpoints,
 						array(
-							'/wp-json/cocart/v1/*',
-							'/wp-json/cocart/v2/*',
+							'/' . $rest_prefix . '/cocart/v1/*',
+							'/' . $rest_prefix . CoCart::get_api_namespace() . '/v2/*',
 						)
 					);
 				}
