@@ -27,7 +27,8 @@ class Test_CoCart_Item_Controller extends CoCart_API_V2_Test_Case {
 		$item_key = $this->get_item_key_from_response( $add_response );
 		$this->assertNotEmpty( $item_key );
 
-		$response = $this->get_cart_item( $item_key );
+		// Route is /cart/item/{item_key} — item_key is in the URL path.
+		$response = $this->rest_get( '/cocart/v2/cart/item/' . $item_key );
 
 		$this->assert_rest_response_status( 200, $response );
 	}
@@ -38,7 +39,7 @@ class Test_CoCart_Item_Controller extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_get_nonexistent_cart_item_returns_404() {
-		$response = $this->get_cart_item( 'nonexistent_item_key_xyz' );
+		$response = $this->rest_get( '/cocart/v2/cart/item/nonexistentitemkeyxyz' );
 
 		$this->assert_rest_response_status( 404, $response );
 	}
@@ -53,7 +54,7 @@ class Test_CoCart_Item_Controller extends CoCart_API_V2_Test_Case {
 		$add_response = $this->add_item_to_cart( $product->get_id(), 1 );
 		$item_key     = $this->get_item_key_from_response( $add_response );
 
-		$response = $this->get_cart_item( $item_key );
+		$response = $this->rest_get( '/cocart/v2/cart/item/' . $item_key );
 
 		$this->assert_rest_response_status( 200, $response );
 
