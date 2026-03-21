@@ -71,6 +71,7 @@ class Test_CoCart_Update_Cart_Controller extends CoCart_API_V2_Test_Case {
 				'first_name' => 'John',
 				'last_name'  => 'Doe',
 				'email'      => 'john.doe@example.com',
+				'country'    => 'US',
 			)
 		);
 
