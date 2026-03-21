@@ -31,7 +31,7 @@ class Test_CoCart_Product_Attribute_By_Id_Term_By_Id_Controller extends CoCart_A
 		) );
 
 		// Register the taxonomy so wp_insert_term() can use it.
-		wc_register_attribute_taxonomies();
+		WC_Post_Types::register_taxonomies();
 		$taxonomy = wc_attribute_taxonomy_name_by_id( $attribute_id );
 		$term     = wp_insert_term( 'Cotton', $taxonomy );
 		$term_id  = $term['term_id'];

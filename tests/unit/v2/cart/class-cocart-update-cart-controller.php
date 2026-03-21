@@ -29,8 +29,8 @@ class Test_CoCart_Update_Cart_Controller extends CoCart_API_V2_Test_Case {
 		$item_key = $this->get_item_key_from_response( $add_response );
 		$this->assertNotEmpty( $item_key );
 
-		// Use the built-in "update-cart" namespace to update item quantity in bulk.
-		$response = $this->update_cart( array(
+		// Route accepts POST (WP_REST_Server::CREATABLE = 'POST'), not PUT.
+		$response = $this->rest_request( 'POST', '/cocart/v2/cart/update', array(
 			'namespace' => 'update-cart',
 			'quantity'  => array( $item_key => '3' ),
 		) );
@@ -48,7 +48,7 @@ class Test_CoCart_Update_Cart_Controller extends CoCart_API_V2_Test_Case {
 		$add_response = $this->add_item_to_cart( $product->get_id(), 1 );
 		$item_key     = $this->get_item_key_from_response( $add_response );
 
-		$response = $this->update_cart( array(
+		$response = $this->rest_request( 'POST', '/cocart/v2/cart/update', array(
 			'namespace' => 'update-cart',
 			'quantity'  => array( $item_key => '2' ),
 		) );
@@ -69,7 +69,7 @@ class Test_CoCart_Update_Cart_Controller extends CoCart_API_V2_Test_Case {
 		$product = $this->create_product( array( 'regular_price' => '10.00' ) );
 		$this->add_item_to_cart( $product->get_id(), 1 );
 
-		$response = $this->update_cart( array(
+		$response = $this->rest_request( 'POST', '/cocart/v2/cart/update', array(
 			'namespace' => 'update-customer',
 			'email'     => 'test@example.com',
 			'country'   => 'US',
