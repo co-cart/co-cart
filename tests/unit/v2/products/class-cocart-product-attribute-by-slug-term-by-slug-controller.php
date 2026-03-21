@@ -22,7 +22,7 @@ class Test_CoCart_Product_Attribute_By_Slug_Term_By_Slug_Controller extends CoCa
 	 * @return void
 	 */
 	public function test_get_term_by_attribute_slug_and_term_slug_returns_200() {
-		$attr_slug    = 'pa_pattern_' . time();
+		$attr_slug    = 'pattern_' . time();
 		$attribute_id = wc_create_attribute( array(
 			'name'     => 'Pattern',
 			'slug'     => $attr_slug,
@@ -30,9 +30,11 @@ class Test_CoCart_Product_Attribute_By_Slug_Term_By_Slug_Controller extends CoCa
 			'order_by' => 'menu_order',
 		) );
 
-		// Register the taxonomy so wp_insert_term() can use it.
-		WC_Post_Types::register_taxonomies();
-		$taxonomy  = wc_attribute_taxonomy_name_by_id( $attribute_id );
+		// Register the taxonomy directly so wp_insert_term() can use it.
+		$taxonomy = wc_attribute_taxonomy_name( $attr_slug );
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			register_taxonomy( $taxonomy, array( 'product' ), array( 'label' => 'Pattern', 'hierarchical' => false ) );
+		}
 		$term      = wp_insert_term( 'Striped', $taxonomy );
 		$term_slug = get_term( $term['term_id'], $taxonomy )->slug;
 
@@ -47,7 +49,7 @@ class Test_CoCart_Product_Attribute_By_Slug_Term_By_Slug_Controller extends CoCa
 	 * @return void
 	 */
 	public function test_get_nonexistent_term_slug_returns_404() {
-		$attr_slug = 'pa_print_' . time();
+		$attr_slug = 'print_' . time();
 		wc_create_attribute( array(
 			'name'     => 'Print',
 			'slug'     => $attr_slug,

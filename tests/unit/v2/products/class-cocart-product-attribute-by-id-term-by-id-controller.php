@@ -22,7 +22,7 @@ class Test_CoCart_Product_Attribute_By_Id_Term_By_Id_Controller extends CoCart_A
 	 * @return void
 	 */
 	public function test_get_term_by_attribute_and_term_id_returns_200() {
-		$slug         = 'pa_fabric_' . time();
+		$slug         = 'fabric_' . time();
 		$attribute_id = wc_create_attribute( array(
 			'name'     => 'Fabric',
 			'slug'     => $slug,
@@ -30,11 +30,13 @@ class Test_CoCart_Product_Attribute_By_Id_Term_By_Id_Controller extends CoCart_A
 			'order_by' => 'menu_order',
 		) );
 
-		// Register the taxonomy so wp_insert_term() can use it.
-		WC_Post_Types::register_taxonomies();
-		$taxonomy = wc_attribute_taxonomy_name_by_id( $attribute_id );
-		$term     = wp_insert_term( 'Cotton', $taxonomy );
-		$term_id  = $term['term_id'];
+		// Register the taxonomy directly so wp_insert_term() can use it.
+		$taxonomy = wc_attribute_taxonomy_name( $slug );
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			register_taxonomy( $taxonomy, array( 'product' ), array( 'label' => 'Fabric', 'hierarchical' => false ) );
+		}
+		$term    = wp_insert_term( 'Cotton', $taxonomy );
+		$term_id = $term['term_id'];
 
 		$response = $this->get_attribute_term( $attribute_id, $term_id );
 
@@ -49,7 +51,7 @@ class Test_CoCart_Product_Attribute_By_Id_Term_By_Id_Controller extends CoCart_A
 	public function test_get_nonexistent_term_returns_404() {
 		$attribute_id = wc_create_attribute( array(
 			'name'     => 'Style',
-			'slug'     => 'pa_style_' . time(),
+			'slug'     => 'style_' . time(),
 			'type'     => 'select',
 			'order_by' => 'menu_order',
 		) );
