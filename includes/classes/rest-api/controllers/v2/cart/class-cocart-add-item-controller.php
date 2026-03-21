@@ -275,8 +275,12 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_REST_Cart_V2_Controller 
 
 			// Return response to added item to cart or return error.
 			if ( $item_added ) {
-				// Return item details.
-				$item_added = $cart->cart_contents[ $item_key ];
+				// Return item details. For grouped products the handler returns an array of
+				// child items keyed by child product ID — $item_key is the parent's key and
+				// will not be present in cart_contents, so skip the lookup in that case.
+				if ( 'grouped' !== $product_type ) {
+					$item_added = $cart->cart_contents[ $item_key ];
+				}
 
 				/**
 				 * Hook: Fires once an item has been added to cart.
