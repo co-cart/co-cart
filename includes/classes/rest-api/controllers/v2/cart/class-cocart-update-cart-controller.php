@@ -50,7 +50,7 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'update_cart' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array( $this, 'get_permissions_check' ),
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
