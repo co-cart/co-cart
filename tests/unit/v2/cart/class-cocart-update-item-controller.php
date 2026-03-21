@@ -46,15 +46,22 @@ class Test_CoCart_Update_Item_Controller extends CoCart_API_V2_Test_Case {
 	}
 
 	/**
-	 * Test updating item with zero quantity returns error.
+	 * Test updating item with zero quantity returns an error.
+	 *
+	 * Zero is below the minimum quantity limit so validate_quantity() returns
+	 * a WP_Error and the controller returns a 4xx response.
 	 *
 	 * @return void
 	 */
 	public function test_update_item_with_zero_quantity() {
-		$this->markTestSkipped(
-			'normalize_cart_item_quantity() fatals (500) when cart item product object is null ' .
-			'in test environment — controller-layer issue not fixable at test level.'
-		);
+		$product      = $this->create_product( array( 'regular_price' => '25.00' ) );
+		$add_response = $this->add_item_to_cart( $product->get_id(), 1 );
+		$this->assert_rest_response_status( 200, $add_response );
+
+		$item_key = $this->get_item_key_from_response( $add_response );
+		$response = $this->update_item_in_cart( $item_key, 0 );
+
+		$this->assertGreaterThanOrEqual( 400, $response->get_status() );
 	}
 
 	/**

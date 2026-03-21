@@ -15,21 +15,29 @@
 class Test_CoCart_Add_Items_Controller extends CoCart_API_V2_Test_Case {
 
 	/**
-	 * Test adding multiple items to the cart via the add-items (grouped product) endpoint.
-	 *
-	 * The /cart/add-items endpoint is designed for grouped products: it accepts
-	 * request['id'] (the grouped product parent) and request['quantity'] (an array
-	 * of child product IDs => quantities). Without a real grouped product, the
-	 * controller returns 400 because product ID 0 is invalid.
+	 * Test adding a grouped product's children to the cart returns 200.
 	 *
 	 * @return void
 	 */
 	public function test_add_multiple_items_to_cart() {
-		$this->markTestSkipped(
-			'/cart/add-items is for grouped products: requires request[id] (grouped parent) ' .
-			'and request[quantity] (array of child ID => qty). Creating a grouped product ' .
-			'setup in tests requires additional WooCommerce data factory support.'
+		$child1 = $this->create_product( array( 'regular_price' => '5.00' ) );
+		$child2 = $this->create_product( array( 'regular_price' => '8.00' ) );
+
+		$grouped = new WC_Product_Grouped();
+		$grouped->set_name( 'Test Grouped Product' );
+		$grouped->set_status( 'publish' );
+		$grouped->set_children( array( $child1->get_id(), $child2->get_id() ) );
+		$grouped->save();
+
+		$response = $this->add_item_to_cart(
+			$grouped->get_id(),
+			array(
+				$child1->get_id() => 1,
+				$child2->get_id() => 2,
+			)
 		);
+
+		$this->assert_rest_response_status( 200, $response );
 	}
 
 	/**

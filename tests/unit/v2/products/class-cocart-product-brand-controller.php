@@ -27,8 +27,14 @@ class Test_CoCart_Product_Brand_Controller extends CoCart_API_V2_Test_Case {
 	public function set_up() {
 		parent::set_up();
 
+		// Ensure product_brand taxonomy is registered — WC_Brands::init_taxonomy() is hooked
+		// to woocommerce_register_taxonomy which may not fire during REST test setUp().
 		if ( ! taxonomy_exists( 'product_brand' ) ) {
-			$this->markTestSkipped( 'product_brand taxonomy is not registered. Skipping brand tests.' );
+			if ( class_exists( 'WC_Brands' ) ) {
+				WC_Brands::init_taxonomy();
+			} else {
+				$this->markTestSkipped( 'product_brand taxonomy is not registered. Skipping brand tests.' );
+			}
 		}
 	}
 
