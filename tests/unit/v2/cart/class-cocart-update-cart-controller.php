@@ -67,11 +67,15 @@ class Test_CoCart_Update_Cart_Controller extends CoCart_API_V2_Test_Case {
 			'POST',
 			'/cocart/v2/cart/update',
 			array(
-				'namespace'  => 'update-customer',
-				'first_name' => 'John',
-				'last_name'  => 'Doe',
-				'email'      => 'john.doe@example.com',
-				'country'    => 'US',
+				'namespace'   => 'update-customer',
+				'first_name'  => 'John',
+				'last_name'   => 'Doe',
+				'email'       => 'john.doe@example.com',
+				'address_1'   => '123 Main St',
+				'city'        => 'New York',
+				'state'       => 'NY',
+				'postcode'    => '10001',
+				'country'     => 'US',
 			)
 		);
 
