@@ -29,11 +29,15 @@ class Test_CoCart_Add_Items_Controller extends CoCart_API_V2_Test_Case {
 		$grouped->set_children( array( $child1->get_id(), $child2->get_id() ) );
 		$grouped->save();
 
-		$response = $this->add_item_to_cart(
-			$grouped->get_id(),
+		$response = $this->rest_request(
+			'POST',
+			'/cocart/v2/cart/add-item',
 			array(
-				$child1->get_id() => 1,
-				$child2->get_id() => 2,
+				'id'       => (string) $grouped->get_id(),
+				'quantity' => array(
+					$child1->get_id() => 1,
+					$child2->get_id() => 2,
+				),
 			)
 		);
 
