@@ -229,6 +229,13 @@ class CoCart_Unit_Tests_Bootstrap {
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-rest-api.php';
 		require_once COCART_FILE_PATH . '/includes/classes/rest-api/class-cocart-security.php';
 
+		// Re-instantiate CoCart_Cart_Callbacks on every rest_api_init so that the
+		// cocart_register_extension_callback hooks are re-registered in $wp_filter.
+		// WP_UnitTestCase::tearDown() restores $wp_filter to its pre-setUp() state,
+		// which removes any hooks added during the previous test's rest_api_init.
+		// Since require_once won't re-run the constructor, we must instantiate explicitly.
+		new CoCart_Cart_Callbacks();
+
 		// Explicitly instantiate CoCart_REST_API on every rest_api_init so that routes
 		// are registered into the fresh WP_REST_Server created by each test's setUp().
 		// The class file uses `return new CoCart_REST_API()` which only fires on the
