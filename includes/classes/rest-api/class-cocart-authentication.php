@@ -49,7 +49,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @var stdClass
+		 * @var WP_User
 		 */
 		protected $user = null;
 
@@ -122,60 +122,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			return $headers;
 		} // END add_cors_headers()
-
-		/**
-		 * Triggers saved cart after login and updates user activity.
-		 *
-		 * @access public
-		 *
-		 * @since 2.9.1 Introduced.
-		 *
-		 * @since 4.2.0  Deprecated, thinking it was not needed anymore due to changes to support WooCommerce better for performance.
-		 * @since 4.3.7  Reinstated again.
-		 * @since 4.3.14 Don't update user to load saved cart when requesting to delete.
-		 *
-		 * @deprecated 4.6.2 No longer supported in WooCommerce as of v10
-		 *
-		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
-		 *
-		 * @return WP_Error|null|bool
-		 */
-		public function cocart_user_logged_in( $error ) {
-			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.6.2' );
-
-			// Pass through errors from other authentication error checks used before this one.
-			if ( ! empty( $error ) ) {
-				return $error;
-			}
-
-			global $current_user;
-
-			if ( $current_user instanceof WP_User && $current_user->exists() ) {
-				wc_update_user_last_active( $current_user->ID );
-				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
-			}
-
-			return $error;
-		} // END cocart_user_logged_in()
-
-		/**
-		 * Returns true if we are making a REST API request for CoCart.
-		 *
-		 * @access public
-		 *
-		 * @static
-		 *
-		 * @since 2.1.0 Introduced.
-		 *
-		 * @deprecated 4.2.0 Moved function to main plugin class.
-		 *
-		 * @return bool
-		 */
-		public static function is_rest_api_request() {
-			cocart_deprecated_function( 'CoCart_Authentication::is_rest_api_request', '4.2.0', 'CoCart::is_rest_api_request' );
-
-			return CoCart::is_rest_api_request();
-		} // END is_rest_api_request()
 
 		/**
 		 * Get the authorization header.
@@ -533,54 +479,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		protected function is_preflight() {
 			return isset( $_SERVER['REQUEST_METHOD'], $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'], $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'], $_SERVER['HTTP_ORIGIN'] ) && 'OPTIONS' === $_SERVER['REQUEST_METHOD'];
 		} // END is_preflight()
-
-		/**
-		 * Sends headers.
-		 *
-		 * Returns allowed headers and exposes headers that can be used.
-		 *
-		 * @access public
-		 *
-		 * @since 4.2.0 Introduced.
-		 *
-		 * @deprecated 4.6.2 No longer require. Uses `rest_allowed_cors_headers` and `rest_exposed_cors_headers` filters instead.
-		 *
-		 * @uses is_user_logged_in()
-		 *
-		 * @param bool             $served  Whether the request has already been served. Default false.
-		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
-		 * @param WP_REST_Request  $request The request object.
-		 * @param WP_REST_Server   $server  Server instance.
-		 *
-		 * @return bool
-		 */
-		public function send_headers( $served, $result, $request, $server ) {
-			cocart_deprecated_function( 'CoCart_Authentication::send_headers', '4.6.2' );
-
-			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
-				$server->send_header( 'Access-Control-Allow-Headers', implode( ', ', self::ALLOW_HEADERS ) );
-				$server->send_header( 'Access-Control-Expose-Headers', implode( ', ', self::EXPOSE_HEADERS ) );
-
-				/**
-				 * Send nocache headers on authenticated requests.
-				 *
-				 * @param bool $rest_send_nocache_headers Whether to send no-cache headers.
-				 *
-				 * @since 4.2.0 Introduced.
-				 *
-				 * @deprecated 4.3.11 No longer used. See `cocart_send_cache_control_patterns` filter instead to control which routes are not cached.
-				 */
-				cocart_do_deprecated_filter( 'cocart_send_nocache_headers', '4.3.11', null, __( 'This filter is no longer used.', 'cocart-core' ), array( is_user_logged_in() ) );
-			}
-
-			// Exit early during preflight requests. This is so someone cannot access API data by sending an OPTIONS request
-			// with preflight headers and a _GET property to override the method.
-			if ( $this->is_preflight() ) {
-				exit;
-			}
-
-			return $served;
-		} // END send_headers()
 
 		/**
 		 * Set Cross Origin headers.
@@ -1293,6 +1191,110 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				'::1',       // IPv6 localhost.
 			);
 		} // END get_trusted_proxies()
+
+		// ** Deprecated functions below this line. **//
+
+		/**
+		 * Triggers saved cart after login and updates user activity.
+		 *
+		 * @access public
+		 *
+		 * @since 2.9.1 Introduced.
+		 *
+		 * @since 4.2.0  Deprecated, thinking it was not needed anymore due to changes to support WooCommerce better for performance.
+		 * @since 4.3.7  Reinstated again.
+		 * @since 4.3.14 Don't update user to load saved cart when requesting to delete.
+		 *
+		 * @deprecated 4.6.2 No longer supported in WooCommerce as of v10
+		 *
+		 * @param WP_Error|null|bool $error Error from another authentication handler, null if we should handle it, or another value if not.
+		 *
+		 * @return WP_Error|null|bool
+		 */
+		public function cocart_user_logged_in( $error ) {
+			cocart_deprecated_function( 'CoCart_Authentication::cocart_user_logged_in', '4.6.2' );
+
+			// Pass through errors from other authentication error checks used before this one.
+			if ( ! empty( $error ) ) {
+				return $error;
+			}
+
+			global $current_user;
+
+			if ( $current_user instanceof WP_User && $current_user->exists() ) {
+				wc_update_user_last_active( $current_user->ID );
+				update_user_meta( $current_user->ID, '_woocommerce_load_saved_cart_after_login', 1 );
+			}
+
+			return $error;
+		} // END cocart_user_logged_in()
+
+		/**
+		 * Returns true if we are making a REST API request for CoCart.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @deprecated 4.2.0 Moved function to main plugin class.
+		 *
+		 * @return bool
+		 */
+		public static function is_rest_api_request() {
+			cocart_deprecated_function( 'CoCart_Authentication::is_rest_api_request', '4.2.0', 'CoCart::is_rest_api_request' );
+
+			return CoCart::is_rest_api_request();
+		} // END is_rest_api_request()
+
+		/**
+		 * Sends headers.
+		 *
+		 * Returns allowed headers and exposes headers that can be used.
+		 *
+		 * @access public
+		 *
+		 * @since 4.2.0 Introduced.
+		 *
+		 * @deprecated 4.6.2 No longer require. Uses `rest_allowed_cors_headers` and `rest_exposed_cors_headers` filters instead.
+		 *
+		 * @uses is_user_logged_in()
+		 *
+		 * @param bool             $served  Whether the request has already been served. Default false.
+		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
+		 * @param WP_REST_Request  $request The request object.
+		 * @param WP_REST_Server   $server  Server instance.
+		 *
+		 * @return bool
+		 */
+		public function send_headers( $served, $result, $request, $server ) {
+			cocart_deprecated_function( 'CoCart_Authentication::send_headers', '4.6.2' );
+
+			if ( strpos( $request->get_route(), 'cocart/' ) !== false ) {
+				$server->send_header( 'Access-Control-Allow-Headers', implode( ', ', self::ALLOW_HEADERS ) );
+				$server->send_header( 'Access-Control-Expose-Headers', implode( ', ', self::EXPOSE_HEADERS ) );
+
+				/**
+				 * Send nocache headers on authenticated requests.
+				 *
+				 * @param bool $rest_send_nocache_headers Whether to send no-cache headers.
+				 *
+				 * @since 4.2.0 Introduced.
+				 *
+				 * @deprecated 4.3.11 No longer used. See `cocart_send_cache_control_patterns` filter instead to control which routes are not cached.
+				 */
+				cocart_do_deprecated_filter( 'cocart_send_nocache_headers', '4.3.11', null, __( 'This filter is no longer used.', 'cocart-core' ), array( is_user_logged_in() ) );
+			}
+
+			// Exit early during preflight requests. This is so someone cannot access API data by sending an OPTIONS request
+			// with preflight headers and a _GET property to override the method.
+			if ( $this->is_preflight() ) {
+				exit;
+			}
+
+			return $served;
+		} // END send_headers()
 	} // END class.
 } // END if class exists.
 
