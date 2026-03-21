@@ -246,6 +246,10 @@ abstract class CoCart_REST_Taxonomy_Terms_Controller extends CoCart_REST_Control
 			return $term;
 		}
 
+		if ( ! $term ) {
+			return new \WP_Error( 'cocart_term_invalid', __( 'Term does not exist.', 'cocart-core' ), array( 'status' => 404 ) );
+		}
+
 		$response = $this->prepare_item_for_response( $term, $request );
 
 		return rest_ensure_response( $response );
