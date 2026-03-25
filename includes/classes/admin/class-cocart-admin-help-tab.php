@@ -19,6 +19,33 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 	class CoCart_Admin_Help_Tab {
 
 		/**
+		 * Single instance.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @var CoCart_Admin_Help_Tab|null
+		 */
+		private static $instance = null;
+
+		/**
+		 * Get single instance.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @return CoCart_Admin_Help_Tab
+		 */
+		public static function instance() {
+			if ( is_null( self::$instance ) ) {
+				self::$instance = new self();
+			}
+			return self::$instance;
+		}
+
+		/**
 		 * Constructor
 		 *
 		 * @access public
@@ -135,4 +162,4 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 
 } // END if class exists.
 
-return new CoCart_Admin_Help_Tab();
+return CoCart_Admin_Help_Tab::instance();

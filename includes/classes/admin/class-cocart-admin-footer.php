@@ -18,6 +18,33 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 	class CoCart_Admin_Footer {
 
 		/**
+		 * Single instance.
+		 *
+		 * @access private
+		 *
+		 * @static
+		 *
+		 * @var CoCart_Admin_Footer|null
+		 */
+		private static $instance = null;
+
+		/**
+		 * Get single instance.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @return CoCart_Admin_Footer
+		 */
+		public static function instance() {
+			if ( is_null( self::$instance ) ) {
+				self::$instance = new self();
+			}
+			return self::$instance;
+		}
+
+		/**
 		 * Constructor
 		 *
 		 * @access public
@@ -116,4 +143,4 @@ if ( ! class_exists( 'CoCart_Admin_Footer' ) ) {
 
 } // END if class exists
 
-return new CoCart_Admin_Footer();
+return CoCart_Admin_Footer::instance();
