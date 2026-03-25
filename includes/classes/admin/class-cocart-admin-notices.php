@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
  * @since   1.2.0 Introduced.
- * @version 4.3.7
+ * @version 5.0.0
  * @license GPL-3.0
  */
 
@@ -241,6 +241,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				/**
 				 * Hook: Hide a CoCart notice.
 				 *
+				 * @since 4.3.7 Introduced.
+				 *
 				 * Example: `cocart_hide_plugin_review_notice'
 				 */
 				do_action( "cocart_hide_{$notice_name}_notice" );
@@ -339,6 +341,10 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 
 			/**
 			 * Hook: Hide a CoCart notice.
+			 *
+			 * @since 4.3.7 Introduced.
+			 *
+			 * @param string $notice_name The name of the notice that was hidden.
 			 *
 			 * Example: `cocart_hide_plugin_review_notice'
 			 */
@@ -471,8 +477,9 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since   3.0.0 Introduced.
-		 * @version 3.2.0
+		 * @since 3.0.0 Introduced.
+		 * @since 3.10.4 Check how long CoCart has been installed before showing.
+		 * @since 5.0.0 Added filter to allow hiding the notice and prevent it from being added in the first place.
 		 *
 		 * @return void
 		 */
@@ -645,8 +652,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since   1.2.0 Introduced.
-		 * @version 3.0.0
+		 * @since 1.2.0 Introduced.
+		 * @since 3.10.4 Check how long CoCart has been installed before showing.
 		 *
 		 * @return void
 		 */
