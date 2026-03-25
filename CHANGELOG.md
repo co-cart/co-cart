@@ -4,6 +4,9 @@
 
 ### What's New?
 
+> [!IMPORTANT]
+> PHP version 8.2 is the minimum requirement to install and use CoCart. PHP 7.4, 8.0, and 8.1 are all past end-of-life/security support so to help manage development resources to maintain CoCart, it will no longer be tested on these versions. Running CoCart on PHP 8.2 not only ensures you are secure but it also improves the performance of the CoCart API. Thank you for your understanding.
+
 * REST API: Added ETag support for all cart endpoints (GET/POST/PUT/DELETE) enabling conditional requests with `If-None-Match` header for immediate use.
 * REST API: Added ETag support for product endpoints (products, categories, tags, attributes, reviews).
 * REST API: Added `CoCart-Cache` response header indicating cache status: `HIT`, `MISS`, or `SKIP`.

@@ -92,7 +92,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_php = '7.4';
+	public static $required_php = '8.2';
 
 	/**
 	 * Cloning is forbidden.

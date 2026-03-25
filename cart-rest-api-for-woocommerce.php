@@ -10,7 +10,7 @@
  * Domain Path: /languages/
  * Requires at least: 6.3
  * Tested up to: 6.9
- * Requires PHP: 7.4
+ * Requires PHP: 8.2
  * Requires Plugins: woocommerce
  *
  * Copyright:   CoCart Headless, LLC

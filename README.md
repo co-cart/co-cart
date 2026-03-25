@@ -6,7 +6,7 @@
 	</a>
 	<img src="https://img.shields.io/badge/WordPress-6.3+-blue.svg" alt="WordPress 6.3+">
 	<img src="https://img.shields.io/badge/WooCommerce-9.0+-7f54b3.svg" alt="WooCommerce 9.0+">
-	<img src="https://img.shields.io/badge/PHP-7.4+-777BB4.svg" alt="PHP 7.4+">
+	<img src="https://img.shields.io/badge/PHP-8.2+-777BB4.svg" alt="PHP 8.2+">
 	<a href="https://github.com/co-cart/co-cart">
 		<img src="https://img.shields.io/github/stars/co-cart/co-cart?style=social" alt="GitHub Stars">
 	</a>
