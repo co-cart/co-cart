@@ -317,18 +317,13 @@ final class CoCart {
 
 		if ( false === self::$api_namespace ) {
 			/**
-			 * CoCart can be white labeled by configuring the "COCART_API_NAMESPACE" constant in your `wp-config.php` file.
+			 * Deefine the CoCart API as your won by configuring the "COCART_API_NAMESPACE" constant in your `wp-config.php` file.
 			 *
 			 * @since 5.0.0 Introduced.
 			 */
 			self::$api_namespace = defined( 'COCART_API_NAMESPACE' ) ? constant( 'COCART_API_NAMESPACE' ) : 'cocart';
 
 			wp_cache_add( 'cocart_api_namespace', self::$api_namespace, CoCart_Utilities_Cache_Helpers::get_cache_prefix( 'api_namespace' ), time() + DAY_IN_SECONDS );
-		}
-
-		// Revert back if white label add-on is not active. @todo Add detection of white label plugin.
-		if ( 'cocart' !== self::$api_namespace ) {
-			self::$api_namespace = 'cocart';
 		}
 	} // END set_api_namespace();
 
