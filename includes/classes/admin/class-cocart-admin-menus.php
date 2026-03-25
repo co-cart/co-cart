@@ -159,6 +159,19 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 				),
 			);
 
+			/**
+			 * Filter the menu shortcuts before they are registered.
+			 *
+			 * @since 5.0.0 Introduced.
+			 *
+			 * @param array $shortcut_menus Array of shortcut menus.
+			 */
+			$shortcut_menus = apply_filters( 'cocart_admin_menu_shortcuts', $shortcut_menus );
+
+			if ( empty( $shortcut_menus ) ) {
+				return;
+			}
+
 			foreach ( $shortcut_menus as $menu => $value ) {
 				add_submenu_page( 'cocart', $menu, $value['menu_title'], 'read', $value['menu_slug'] );
 			}
