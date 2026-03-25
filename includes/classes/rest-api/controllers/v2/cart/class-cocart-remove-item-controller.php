@@ -106,12 +106,19 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 			$product = isset( $current_data['product_id'] ) ? wc_get_product( $current_data['product_id'] ) : false;
 
+			/**
+			 * Filters the title of the item removed from the cart.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $item_removed_title Item title.
+			 * @param array  $current_data       The cart item data.
+			 */
 			$item_removed_title = apply_filters( 'cocart_cart_item_removed_title', sprintf(
 				/* translators: %s: Item name. */
 				_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
 				$product ? $product->get_name() : __( 'Item', 'cart-rest-api-for-woocommerce' ),
-			),
-			$current_data );
+			), $current_data );
 
 			// If item does not exist in cart return response.
 			if ( empty( $current_data ) ) {
@@ -121,6 +128,13 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 				if ( isset( $removed_contents[ $item_key ] ) ) {
 					$product = wc_get_product( $removed_contents[ $item_key ]['product_id'] );
 
+					/**
+					 * Filters the title of the item already removed from the cart.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $item_already_removed_title Item title.
+					 */
 					$item_already_removed_title = apply_filters( 'cocart_cart_item_already_removed_title', $product ? sprintf(
 						/* translators: %s: Item name. */
 						_x( '"%s"', 'Item name in quotes', 'cart-rest-api-for-woocommerce' ),
@@ -142,6 +156,8 @@ class CoCart_REST_Remove_Item_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 				/**
 				 * Filters message about item removed from cart.
+				 *
+				 * @since 2.1.0 Introduced.
 				 *
 				 * @param string $message Message.
 				 */
