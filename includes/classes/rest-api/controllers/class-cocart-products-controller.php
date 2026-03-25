@@ -1247,7 +1247,20 @@ abstract class CoCart_REST_Products_Controller extends CoCart_REST_Controller {
 			$schema['properties'][ $field_name ] = $field_options['schema'];
 		}
 
-		$schema['properties'] = apply_filters( "cocart_{$object_type}_schema", $schema['properties'] ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+		/**
+		 * Filters the product schema properties.
+		 *
+		 * Deprecated in favor of version-specific filters which provide granular
+		 * control per API version (e.g. "cocart_rest_v2_product_schema") without
+		 * risking unintended side effects across all versions and object types.
+		 *
+		 * @deprecated 5.0.0 Use "cocart_rest_v{version}_{$object_type}_schema" instead.
+		 *
+		 * @param array $schema The schema properties array.
+		 *
+		 * @return array The filtered schema properties array.
+		 */
+		$schema['properties'] = cocart_deprecated_filter( "cocart_{$object_type}_schema", array( $schema['properties'] ), '5.0.0', 'cocart_rest_v1_product_schema or cocart_rest_v2_product_schema', 'Use the version-specific filter for the API version you are targeting.' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		return $schema;
 	} // END add_additional_fields_schema()
