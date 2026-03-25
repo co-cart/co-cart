@@ -637,14 +637,14 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 * @return array $params The query params.
 	 */
 	public function get_collection_params() {
-		$params = array(
-			'cart_key' => array(
-				'description'       => __( 'Unique identifier for the cart.', 'cocart-core' ),
-				'type'              => 'string',
-				'required'          => false,
-				'sanitize_callback' => 'sanitize_key',
-				'validate_callback' => 'rest_validate_request_arg',
-			),
+		$params['context']['default'] = 'view';
+
+		$params['cart_key'] = array(
+			'description'       => __( 'Unique identifier for the cart.', 'cocart-core' ),
+			'type'              => 'string',
+			'required'          => false,
+			'sanitize_callback' => 'sanitize_key',
+			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		return $params;
