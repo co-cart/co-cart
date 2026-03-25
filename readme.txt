@@ -2,7 +2,7 @@
 Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.3
-Requires PHP: 7.4
+Requires PHP: 8.2
 Tested up to: 6.9
 Stable tag: 4.8.2
 WC requires at least: 9.0
@@ -123,14 +123,14 @@ Founder of [CoCart Headless, LLC](https://twitter.com/cocartheadless).
 = Minimum Requirements =
 
 * WordPress v6.3
-* WooCommerce v7.0
-* PHP v7.4
+* WooCommerce v9.0
+* PHP v8.2
 
 = Recommended Requirements =
 
-* WordPress v6.3 or higher.
-* WooCommerce v9.0 or higher.
-* PHP v8.0 or higher.
+* WordPress v6.5 or higher.
+* WooCommerce v10.0 or higher.
+* PHP v8.3 or higher.
 
 = Automatic installation =
 
