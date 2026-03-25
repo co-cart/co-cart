@@ -888,7 +888,7 @@ class CoCart_ETag {
 			// when the request includes a _fields parameter (array_intersect_key cannot accept null).
 			$response = new WP_REST_Response( array(), 304 );
 			$response->header( 'ETag', $this->format_etag( $etag_hash ) );
-			$response->header( 'CoCart-Cache', 'HIT' );
+			$response->header( $this->get_cache_header_name(), 'HIT' );
 
 			return $response;
 		}
@@ -946,7 +946,7 @@ class CoCart_ETag {
 		// Skip ETag header if cache is being skipped.
 		if ( $this->should_skip_cache( $request ) ) {
 			if ( method_exists( $server, 'send_header' ) ) {
-				$server->send_header( 'CoCart-Cache', 'SKIP' );
+				$server->send_header( $this->get_cache_header_name(), 'SKIP' );
 			}
 			return $served;
 		}
@@ -1008,7 +1008,7 @@ class CoCart_ETag {
 		if ( ! empty( $etag_hash ) ) {
 			if ( method_exists( $server, 'send_header' ) ) {
 				$server->send_header( 'ETag', $etag_hash );
-				$server->send_header( 'CoCart-Cache', 'MISS' );
+				$server->send_header( $this->get_cache_header_name(), 'MISS' );
 			}
 		}
 
@@ -1028,7 +1028,7 @@ class CoCart_ETag {
 	 */
 	public function expose_etag_header( $headers ) {
 		$headers[] = 'ETag';
-		$headers[] = 'CoCart-Cache';
+		$headers[] = $this->get_cache_header_name();
 
 		return $headers;
 	} // END expose_etag_header()
@@ -1066,6 +1066,30 @@ class CoCart_ETag {
 
 		return $headers;
 	} // END allow_if_none_match_header()
+
+	/**
+	 * Get cache header name for indicating HIT/MISS/SKIP.
+	 *
+	 * @access protected
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @return string Cache header name.
+	 */
+	protected function get_cache_header_name() {
+		/**
+		 * Filter the cache header name used to indicate HIT/MISS/SKIP in responses.
+		 *
+		 * Default is 'CoCart-Cache'. This allows changing the header name if needed to avoid conflicts or for branding.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param string $header_name The default cache header name.
+		 *
+		 * @return string The cache header name to use.
+		 */
+		return apply_filters( 'cocart_cache_header_name', 'CoCart-Cache' );
+	} // END get_cache_header_name()
 } // END class
 
 return new CoCart_ETag();
