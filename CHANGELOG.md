@@ -1,4 +1,4 @@
-# Changelog for CoCart Core
+# Changelog for CoCart Community
 
 ## v4.9.0 - [DATE]
 
