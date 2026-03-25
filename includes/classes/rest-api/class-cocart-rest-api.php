@@ -944,7 +944,21 @@ class CoCart_REST_API {
 		if ( method_exists( $server, 'send_header' ) ) {
 			// Add version of CoCart.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				$server->send_header( 'CoCart-Version', COCART_VERSION );
+				$server->send_header(
+					/**
+					 * Filter the CoCart version header name.
+					 *
+					 * While the header will not show for production, the filter can be used to for branding purposes in development environments.
+					 *
+					 * @since 5.0.0 Introduced.
+					 *
+					 * @param string $header_name Header name for CoCart version. Default 'CoCart-Version'.
+					 *
+					 * @return string Header name for CoCart version.
+					 */
+					apply_filters( 'cocart_version_header_name', 'CoCart-Version' ),
+					COCART_VERSION
+				);
 
 				// Add timestamp of response.
 				$server->send_header( 'Timestamp', time() );
