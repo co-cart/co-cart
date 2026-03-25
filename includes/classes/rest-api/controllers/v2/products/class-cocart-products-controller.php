@@ -2257,6 +2257,15 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 			}
 		}
 
+		/**
+		 * Filter allows you to modify or extend the product schema properties for the v2 API.
+		 *
+		 * @since 5.0.0 Introduced.
+		 *
+		 * @param array $properties The schema properties.
+		 */
+		$schema['properties'] = apply_filters( 'cocart_rest_v2_product_schema', $schema['properties'] );
+
 		return $this->add_additional_fields_schema( $schema );
 	} // END get_item_schema()
 
