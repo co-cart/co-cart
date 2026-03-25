@@ -189,7 +189,8 @@ module.exports = function(grunt) {
 						'.wordpress-org',
 						'releases',
 						'node_modules',
-						'vendor'
+						'vendor',
+						'tests'
 					],
 					mainFile: '<%= pkg.name %>.php', // Main project file.
 					potComments: 'Copyright (c) {year} CoCart Headless, LLC\nThis file is distributed under the same license as the CoCart package.', // The copyright at the beginning of the POT file.
@@ -261,7 +262,8 @@ module.exports = function(grunt) {
 					'**/*.php', // Include all files
 					'!.wordpress-org/**', // Exclude .wordpress-org/
 					'!node_modules/**', // Exclude node_modules/
-					'!vendor/**' // Exclude vendor/
+					'!vendor/**', // Exclude vendor/
+					'!tests/**' // Exclude tests/
 				],
 				expand: true
 			},

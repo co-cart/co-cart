@@ -47,7 +47,6 @@ class CoCart_REST_Session_Items_V2_Controller extends CoCart_REST_Session_V2_Con
 				'args'                => $this->get_collection_params(),
 			),
 			'allow_batch' => array( 'v1' => true ),
-			'schema'      => array( $this, 'get_item_schema' ), // Needs fixing!!
 		);
 	} // END get_args()
 

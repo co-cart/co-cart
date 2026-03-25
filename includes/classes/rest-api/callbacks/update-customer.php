@@ -167,7 +167,7 @@ class CoCart_Update_Customer_Callback extends CoCart_Cart_Extension_Callback {
 				// Validate phone fields.
 				if (
 					array_key_exists( 'phone', $params ) && ! \WC_Validation::is_phone( wc_clean( wp_unslash( $params['phone'] ) ) ) ||
-					! empty( $value['validate'] ) && isset( $value['validate'] ) && in_array( 'phone', $value['validate'] ) && ! \WC_Validation::is_phone( wc_clean( wp_unslash( $params[ $param_key ] ) ) ) // Custom field validation.
+					! empty( $value['validate'] ) && isset( $value['validate'] ) && in_array( 'phone', $value['validate'] ) && ! empty( $params[ $param_key ] ) && ! \WC_Validation::is_phone( wc_clean( wp_unslash( $params[ $param_key ] ) ) ) // Custom field validation.
 				) {
 					throw new CoCart_Data_Exception(
 						'cocart_phone_field_invalid',

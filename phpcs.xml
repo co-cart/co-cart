@@ -5,10 +5,9 @@
 	<file>.</file>
 
 	<!-- Exclude paths -->
-	<exclude-pattern>includes/api/legacy/</exclude-pattern>
-	<exclude-pattern>*/node_modules/*</exclude-pattern>
-	<exclude-pattern>*/vendor/*</exclude-pattern>
-	<exclude-pattern>*/tests/</exclude-pattern>
+	<exclude-pattern type="relative">node_modules/*</exclude-pattern>
+	<exclude-pattern type="relative">vendor/*</exclude-pattern>
+	<exclude-pattern type="relative">tests/*</exclude-pattern>
 	<exclude-pattern>Gruntfile.js</exclude-pattern>
 
 	<!-- Enable colors in report -->
@@ -27,8 +26,8 @@
 	<arg name="extensions" value="php"/>
 
 	<!-- Configs -->
-	<config name="minimum_supported_wp_version" value="5.6" />
-	<config name="testVersion" value="7.4-" />
+	<config name="minimum_supported_wp_version" value="6.3" />
+	<config name="testVersion" value="8.2-" />
 
 	<!-- Rules -->
 	<rule ref="CoCart-Core">
@@ -43,6 +42,10 @@
 				<element value="cocart-core"/>
 			</property>
 		</properties>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>tests/*</exclude-pattern>
 	</rule>
 
 	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">

@@ -49,7 +49,13 @@
 			"includes/"
 		]
 	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/"
+		]
+	},
 	"require": {
+		"php": "^7.4 || ^8.0",
 		"composer/installers": "^2.0"
 	},
 	"require-dev": {
@@ -59,7 +65,11 @@
 		"szepeviktor/phpstan-wordpress": "^2.0",
 		"phpstan/extension-installer": "^1.4",
 		"php-stubs/woocommerce-stubs": "^9.1",
-		"php-stubs/wp-cli-stubs": "^2.10"
+		"php-stubs/wp-cli-stubs": "^2.10",
+		"phpunit/phpunit": "^9.6",
+		"php-parallel-lint/php-parallel-lint": "^1.4",
+		"yoast/wp-test-utils": "^1.2",
+		"yoast/phpunit-polyfills": "^1.0"
 	},
 	"scripts": {
 		"phpcs": [
@@ -73,12 +83,20 @@
 		],
 		"phpstan": [
 			"phpstan analyse --memory-limit=2048M"
+		],
+		"test": [
+			"phpunit"
+		],
+		"test:coverage": [
+			"phpunit --coverage-html tests/coverage"
 		]
 	},
 	"extra": {
 		"scripts-description": {
 			"phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
-			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+			"phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
+			"test": "Run PHPUnit tests",
+			"test:coverage": "Run PHPUnit tests with coverage report"
 		}
 	},
 	"config": {

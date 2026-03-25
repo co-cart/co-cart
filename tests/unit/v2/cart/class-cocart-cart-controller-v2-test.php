@@ -1,0 +1,176 @@
+<?php
+/**
+ * Test CoCart v2 Cart Controller
+ *
+ * @package CoCart\Tests\Unit\V2
+ */
+
+class Test_CoCart_V2_Cart_Controller extends CoCart_API_V2_Test_Case {
+
+	public function test_get_cart_when_empty() {
+		$response = $this->get_cart();
+
+		$this->assert_rest_response_status( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'items', $data );
+		$this->assertEmpty( $data['items'] );
+		$this->assertArrayHasKey( 'item_count', $data );
+		$this->assertEquals( 0, $data['item_count'] );
+	}
+
+	public function test_add_item_to_cart() {
+		$product = $this->create_product();
+
+		$response = $this->add_item_to_cart( $product->get_id(), 2 );
+
+		$this->assert_rest_response_status( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'items', $data );
+		$this->assertCount( 1, $data['items'] );
+
+		$item = array_values( $data['items'] )[0];
+		$this->assertEquals( $product->get_id(), $item['id'] );
+		$this->assertEquals( 2, $item['quantity']['value'] );
+	}
+
+	public function test_add_invalid_product_to_cart() {
+		$response = $this->add_item_to_cart( 99999, 1 );
+
+		$this->assert_rest_response_status( 400, $response );
+		$this->assert_rest_response_error( 'cocart_invalid_product', $response );
+	}
+
+	public function test_remove_item_from_cart() {
+		$product = $this->create_product();
+
+		// Add item to cart.
+		$add_response = $this->add_item_to_cart( $product->get_id(), 1 );
+		$this->assert_rest_response_status( 200, $add_response );
+
+		$item_key = $this->get_item_key_from_response( $add_response );
+
+		// Remove item from cart.
+		$response = $this->remove_item_from_cart( $item_key );
+
+		$this->assert_rest_response_status( 200, $response );
+
+		// Verify cart is empty.
+		$this->assert_cart_is_empty();
+	}
+
+	public function test_update_item_quantity_in_cart() {
+		$product = $this->create_product();
+
+		// Add item to cart.
+		$add_response = $this->add_item_to_cart( $product->get_id(), 1 );
+		$this->assert_rest_response_status( 200, $add_response );
+
+		$item_key = $this->get_item_key_from_response( $add_response );
+
+		// Update item quantity.
+		$response = $this->update_item_in_cart( $item_key, 3 );
+
+		$this->assert_rest_response_status( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'items', $data );
+		$this->assertCount( 1, $data['items'] );
+
+		$item = array_values( $data['items'] )[0];
+		$this->assertEquals( 3, $item['quantity']['value'] );
+	}
+
+	public function test_clear_cart() {
+		$product1 = $this->create_product( array( 'name' => 'Product 1' ) );
+		$product2 = $this->create_product( array( 'name' => 'Product 2' ) );
+
+		// Add items to cart.
+		$this->add_item_to_cart( $product1->get_id(), 1 );
+		$this->add_item_to_cart( $product2->get_id(), 2 );
+
+		// Verify cart has items.
+		$this->assert_cart_has_items( 2 );
+
+		// Clear cart.
+		$response = $this->clear_cart();
+
+		$this->assert_rest_response_status( 200, $response );
+
+		// Verify cart is empty.
+		$this->assert_cart_is_empty();
+	}
+
+	public function test_get_cart_totals() {
+		$product = $this->create_product( array( 'regular_price' => '15.00' ) );
+
+		// Add item to cart.
+		$this->add_item_to_cart( $product->get_id(), 2 );
+
+		// Get cart totals.
+		$response = $this->get_cart_totals();
+
+		$this->assert_rest_response_status( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'total', $data );
+		$this->assertNotEmpty( $data['total'] );
+	}
+
+	public function test_get_cart_count() {
+		$product1 = $this->create_product( array( 'name' => 'Product 1' ) );
+		$product2 = $this->create_product( array( 'name' => 'Product 2' ) );
+
+		// Add items to cart.
+		$this->add_item_to_cart( $product1->get_id(), 1 );
+		$this->add_item_to_cart( $product2->get_id(), 3 );
+
+		// Get cart count.
+		$response = $this->get_cart_count();
+
+		$this->assert_rest_response_status( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertEquals( 4, $data );
+	}
+
+	public function test_cart_with_multiple_items() {
+		$product1 = $this->create_product( array( 'name' => 'Product 1', 'regular_price' => '10.00' ) );
+		$product2 = $this->create_product( array( 'name' => 'Product 2', 'regular_price' => '20.00' ) );
+
+		// Add items to cart.
+		$this->add_item_to_cart( $product1->get_id(), 2 );
+		$this->add_item_to_cart( $product2->get_id(), 1 );
+
+		// Get cart.
+		$response = $this->get_cart();
+
+		$this->assert_rest_response_status( 200, $response );
+
+		$data = $response->get_data();
+		$this->assertArrayHasKey( 'items', $data );
+		$this->assertCount( 2, $data['items'] );
+
+		// Verify totals key exists.
+		$this->assertArrayHasKey( 'totals', $data );
+	}
+
+	/**
+	 * Test that no unexpected deprecations fire during a normal cart add + retrieve cycle.
+	 *
+	 * WP_UnitTestCase fails the test automatically if any unexpected deprecation notice
+	 * fires during the test. This acts as a canary: if a PR introduces a call to a
+	 * deprecated function in the cart flow, this test will catch it.
+	 *
+	 * @return void
+	 */
+	public function test_no_unexpected_deprecations_during_cart_operations() {
+		$product  = $this->create_product();
+		$response = $this->add_item_to_cart( $product->get_id(), 1 );
+		$this->assert_rest_response_status( 200, $response );
+
+		$cart_response = $this->get_cart();
+		$this->assert_rest_response_status( 200, $cart_response );
+	}
+} 

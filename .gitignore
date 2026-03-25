@@ -13,14 +13,14 @@ Thumbs.db
 
 # Composer
 /vendor/
-contributors.html
+composer.lock
 
 # Languages
 !/languages/README.md
 
 # Build & Releases
 /build/
-/fire-build/
+/dist/
 /releases/
 
 # SVN
@@ -28,9 +28,44 @@ contributors.html
 /cart-rest-api-for-woocommerce-svn/
 /prepping-release/
 
-# Tests
-/tests/
-
 # Various file types to ignore when exporting.
 .gitconfig
 *.zip
+*.yml
+
+# Node modules
+/node_modules/
+package-lock.json
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Testing
+/tests/coverage/
+/tests/wordpress/
+/tests/wordpress-tests-lib/
+.phpunit.cache/
+.phpunit.result.cache
+
+# Temporary files
+*.tmp
+*.temp

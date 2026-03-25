@@ -204,13 +204,116 @@ class CoCart_REST_Update_Cart_V2_Controller extends CoCart_REST_Cart_V2_Controll
 
 		// Add to cart query parameters.
 		$params += array(
-			'namespace' => array(
-				'description' => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cocart-core' ),
-				'type'        => 'string',
+			'namespace'    => array(
+				'description'       => __( 'Namespace used to ensure the data in the request is routed appropriately.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
 			),
-			'data'      => array(
+			'data'         => array(
 				'description' => __( 'Additional data to pass.', 'cocart-core' ),
 				'type'        => 'object',
+			),
+			// Billing fields used by the update-customer callback.
+			'first_name'   => array(
+				'description'       => __( 'Customers billing first name.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'last_name'    => array(
+				'description'       => __( 'Customers billing last name.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'company'      => array(
+				'description'       => __( 'Customers billing company name.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'address_1'    => array(
+				'description'       => __( 'Customers billing address line 1.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'address_2'    => array(
+				'description'       => __( 'Customers billing address line 2.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'city'         => array(
+				'description'       => __( 'Customers billing city.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'state'        => array(
+				'description'       => __( 'Customers billing state.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'postcode'     => array(
+				'description'       => __( 'Customers billing postcode or zip code.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'country'      => array(
+				'description'       => __( 'Customers billing country code (ISO 3166-1 alpha-2).', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			'email'        => array(
+				'description'       => __( 'Customers billing email address.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_email',
+			),
+			'phone'        => array(
+				'description'       => __( 'Customers billing phone number.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			// Shipping fields (prefixed with s_) used by the update-customer callback.
+			's_first_name' => array(
+				'description'       => __( 'Customers shipping first name.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_last_name'  => array(
+				'description'       => __( 'Customers shipping last name.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_company'    => array(
+				'description'       => __( 'Customers shipping company name.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_address_1'  => array(
+				'description'       => __( 'Customers shipping address line 1.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_address_2'  => array(
+				'description'       => __( 'Customers shipping address line 2.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_city'       => array(
+				'description'       => __( 'Customers shipping city.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_state'      => array(
+				'description'       => __( 'Customers shipping state.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_postcode'   => array(
+				'description'       => __( 'Customers shipping postcode or zip code.', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
+			's_country'    => array(
+				'description'       => __( 'Customers shipping country code (ISO 3166-1 alpha-2).', 'cocart-core' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
 			),
 		);
 

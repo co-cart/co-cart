@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         beStrictAboutOutputDuringTests="false"
+         beStrictAboutTodoAnnotatedTests="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         cacheDirectory=".phpunit.cache"
+         backupGlobals="false">
+    <testsuites>
+        <testsuite name="CoCart REST API Test Suite">
+            <directory>tests/</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">includes/</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">tests/</directory>
+            <directory suffix=".php">vendor/</directory>
+            <directory suffix=".php">node_modules/</directory>
+            <directory suffix=".php">languages/</directory>
+            <directory suffix=".php">assets/</directory>
+            <directory suffix=".php">releases/</directory>
+            <directory suffix=".php">.wordpress-org/</directory>
+            <directory suffix=".php">.github/</directory>
+            <directory suffix=".php">.cursor/</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="tests/coverage"/>
+            <text outputFile="tests/coverage.txt"/>
+        </report>
+    </coverage>
+    <php>
+        <env name="WP_TESTS_DIR" value="/tmp/wordpress-tests-lib"/>
+        <env name="WP_CORE_DIR" value="tests/wordpress"/>
+        <env name="COCART_TESTING" value="1"/>
+    </php>
+</phpunit> 

@@ -121,7 +121,7 @@ class CoCart_REST_API {
 		$this->register_routes( 'v2' );
 		$this->register_routes( 'batch' );
 
-		$this->register_rest_routes(); // Old method. Registers remaining routes with no specific version.
+		// $this->register_rest_routes(); // Old method. Registers remaining routes with no specific version.
 	} // END register_all_routes();
 
 	/**
@@ -165,6 +165,15 @@ class CoCart_REST_API {
 			if ( ! $skip_route && ! method_exists( $route_class, 'get_path_regex' ) ) {
 				error_log( esc_html( "{$route_class} route does not have a get_path_regex method" ) );
 				$skip_route = true;
+			}
+
+			// Skip if get_path_regex is not overridden in the concrete class (inherited base
+			// implementation calls _doing_it_wrong and returns nothing useful).
+			if ( ! $skip_route ) {
+				$declaring = ( new ReflectionMethod( $route_class, 'get_path_regex' ) )->getDeclaringClass()->getName();
+				if ( 'CoCart_REST_Controller' === $declaring ) {
+					$skip_route = true;
+				}
 			}
 
 			$path = '';
@@ -215,10 +224,17 @@ class CoCart_REST_API {
 						error_log( esc_html( "{$route} possibly needs to be updated for version CoCart v5." ) );
 					}
 
-					// Registers if class exists to prevent fatal error from happening.
+					// Only call register_routes() if:
+					// 1. The concrete class overrides register_routes() (not just inheriting WP_REST_Controller).
+					// 2. The concrete class also overrides get_path_regex() (not CoCart_REST_Controller base),
+					//    since the constructor calls get_path_regex() which fires _doing_it_wrong when inherited.
 					if ( class_exists( $route ) && method_exists( $route_class, 'register_routes' ) ) {
-						$route_instance = new $route();
-						$route_instance->register_routes();
+						$declaring_register = ( new ReflectionMethod( $route_class, 'register_routes' ) )->getDeclaringClass()->getName();
+						$has_path_regex     = method_exists( $route_class, 'get_path_regex' ) && 'CoCart_REST_Controller' !== ( new ReflectionMethod( $route_class, 'get_path_regex' ) )->getDeclaringClass()->getName();
+						if ( 'WP_REST_Controller' !== $declaring_register && $has_path_regex ) {
+							$route_instance = new $route();
+							$route_instance->register_routes();
+						}
 					}
 				}
 			}
@@ -279,6 +295,8 @@ class CoCart_REST_API {
 			'cocart-v2-login'                           => 'CoCart_REST_Login_V2_Controller',
 			'cocart-v2-logout'                          => 'CoCart_REST_Logout_V2_Controller',
 			'cocart-v2-session'                         => 'CoCart_REST_Session_V2_Controller',
+			'cocart-v2-session-delete'                  => 'CoCart_REST_Session_Delete_V2_Controller',
+			'cocart-v2-session-items'                   => 'CoCart_REST_Session_Items_V2_Controller',
 			'cocart-v2-sessions'                        => 'CoCart_REST_Sessions_V2_Controller',
 			'cocart-v2-product-attributes'              => 'CoCart_REST_Product_Attributes_V2_Controller',
 			'cocart-v2-product-attribute-by-id'         => 'CoCart_REST_Product_Attribute_By_ID_V2_Controller',
@@ -297,7 +315,7 @@ class CoCart_REST_API {
 			'cocart-v2-product-tags'                    => 'CoCart_REST_Product_Tags_V2_Controller',
 			'cocart-v2-product-tag'                     => 'CoCart_REST_Product_Tag_V2_Controller',
 			'cocart-v2-products'                        => 'CoCart_REST_Products_V2_Controller',
-			'cocart-v2-products-collection-data'        => 'CoCart_REST_Products_Collection_Data_V2_Controller',
+			// 'cocart-v2-products-collection-data'        => 'CoCart_REST_Products_Collection_Data_V2_Controller', // Not yet implemented.
 			'cocart-v2-product-by-id'                   => 'CoCart_REST_Products_by_ID_V2_Controller',
 			'cocart-v2-product-variations'              => 'CoCart_REST_Product_Variations_V2_Controller',
 			'cocart-v2-product-variation-item'          => 'CoCart_REST_Product_Variation_Item_V2_Controller',
@@ -712,6 +730,8 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-totals-controller.php';
 		require_once __DIR__ . '/controllers/v2/cart/class-cocart-update-cart-controller.php';
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-controller.php';
+		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-delete-controller.php';
+		require_once __DIR__ . '/controllers/v2/admin/class-cocart-session-items-controller.php';
 		require_once __DIR__ . '/controllers/v2/admin/class-cocart-sessions-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-abstract-terms-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-attributes-controller.php';
@@ -731,7 +751,7 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-tags-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-tag-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-controller.php';
-		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-collection-data-controller.php';
+		// require_once __DIR__ . '/controllers/v2/products/class-cocart-products-collection-data-controller.php'; // Not yet implemented.
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-by-slug-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-by-id-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-variations-controller.php';

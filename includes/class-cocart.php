@@ -95,6 +95,13 @@ final class CoCart {
 	public static $required_php = '8.2';
 
 	/**
+	 * Namespace for the API.
+	 *
+	 * @var string
+	 */
+	private static $api_namespace = 'cocart';
+
+	/**
 	 * Cloning is forbidden.
 	 *
 	 * @access public
@@ -117,11 +124,17 @@ final class CoCart {
 	} // END __wakeup()
 
 	/**
-	 * Namespace for the API.
+	 * The plugin path.
 	 *
-	 * @var string
+	 * @access public
+	 *
+	 * @since x.x.x Introduced.
+	 *
+	 * @return string
 	 */
-	private static $api_namespace = 'cocart';
+	public function plugin_path() {
+		return untrailingslashit( plugin_dir_path( COCART_FILE ) );
+	} // END plugin_path()
 
 	/**
 	 * Initiate CoCart.
@@ -569,7 +582,8 @@ final class CoCart {
 	 */
 	public static function load_rest_api() {
 		// Prevent CoCart running in the backend should the REST API server be called by another plugin.
-		if ( is_admin() ) {
+		// COCART_TESTING is defined by phpunit.xml during unit test runs — never in production.
+		if ( is_admin() && ! defined( 'COCART_TESTING' ) ) {
 			return;
 		}
 
