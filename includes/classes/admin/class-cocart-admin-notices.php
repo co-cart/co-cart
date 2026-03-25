@@ -477,6 +477,18 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @return void
 		 */
 		public function timed_notices() {
+			/**
+			 * Filter: Show the CoCart review notice.
+			 *
+			 * @since 5.0.0 Introduced.
+			 *
+			 * @param bool $show_review_notice Whether to show the review notice. Default true.
+			 */
+			if ( ! apply_filters( 'cocart_show_review_notice', true ) ) {
+				self::remove_notice( 'plugin_review' );
+				return;
+			}
+
 			// Add review notice first. We will remove it after if already dismissed.
 			self::add_notice( 'plugin_review' );
 
