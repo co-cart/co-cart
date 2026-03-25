@@ -6,7 +6,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.0.0
- * @version 4.3.25
+ * @version 4.8.3
  * @license GPL-2.0+
  */
 
@@ -181,7 +181,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 						'CoCart'
 					),
 					'supportText' => esc_html__( 'Learn more about these suggestions.', 'cocart-core' ),
-					'supportLink' => 'https://cocart.dev/guide/plugin-suggestions/',
+					'supportLink' => 'https://docs.cocartapi.com/knowledge-base/plugin-suggestions',
 				)
 			);
 
