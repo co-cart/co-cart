@@ -31,6 +31,18 @@
 > Developer note: Know if the version of CoCart is official and has not been tampered with. This is just the first iteration introduced.
 > You will never see the warning messages if all is in order, but if you do alter any files within the plugin yourself directly. You will be notified in your WordPress dashboard and in your error log that something has changed and does not match.
 
+### Cache & Performance
+
+* REST API: ETag support for cache validation on product and cart endpoints. Returns `304 Not Modified` when content hasn't changed, reducing bandwidth and improving response times.
+* REST API: Cart routes support ETag headers across all methods (GET, POST, PUT, DELETE) for immediate cache use.
+* REST API: Schema is now cached to allow short-circuiting for WordPress to process data faster.
+* REST API: Product variation data cached by slug for faster lookups.
+* REST API: Cart routes now provide a real expiration header for proper HTTP cache support.
+* REST API: Experimental `Vary: Accept-Encoding` header support for servers that don't configure it.
+* REST API: `no-store` added to `Cache-Control` header for guest users.
+* REST API: Products can now be fetched by slug via a dedicated endpoint.
+* REST API: `X-HTTP-Method-Override` header support for environments that restrict HTTP methods.
+
 ## Breaking Changes
 
 * REST API: Avatars only return if requested now when using the login endpoint.
@@ -45,6 +57,15 @@
 * REST API: Product reviews was updated to support better query parameters. Affects both API versions. Schema updated to match.
 * REST API: The response class `CoCart_Response` is deprecated. New utility response classes have been created for better utilization.
 * Feature: Load Cart from Session rewritten. See details below.
+* REST API: Function `return_cart_contents()` renamed to `prepare_object_for_response()` for WP REST Controller compatibility.
+* REST API: Function `get_cart()` renamed to `get_items()` for WP REST Controller compatibility.
+* REST API: Function `get_cart_item()` renamed to `get_item_from_cart()`.
+* REST API: Function `get_items()` renamed to `get_items_in_cart()`.
+* REST API: Variable `$add_to_cart_handler` renamed to `$product_type`.
+* REST API: `$variation_id` and `$variation` parameters replaced with `$request` in variation handling.
+* REST API: Cart expiration timestamp headers (`Cart-Expiring`, `Cart-Expiration`) only show when debugging. The default expiration header now uses the cart expiry timestamp instead for better cache support.
+* REST API: Product attributes response structure rewritten.
+* REST API: API v2 taxonomy controllers reorganized to use new shared abstract controller instead of extending API v1.
 * Plugin: Text domain a.k.a the plugin slug, has changed from `cart-rest-api-for-woocommerce` to `cocart-core`. This affects any translations including custom. If you did a custom translation you will need to rename the text domain to match.
 
 The following returned headers have also been renamed. Better for security reasons.
@@ -81,10 +102,19 @@ The following action hooks have changed.
 > Developer note: This allows us to deprecate API v1 in the future.
 
 * REST API: New product reviews posted are set to status `hold` by default.
+* REST API: All controllers now use new abstract controllers compatible with WordPress REST API abstracts.
+* REST API: New shared taxonomy abstract controller for better code reuse.
+* REST API: New abstract controllers for products API.
+* REST API: Controllers now use a pagination utility class.
+* REST API: Logout controller disconnected from extending API v1.
+* REST API: `filter_request_data` function undeprecated and rewritten in the abstract class.
+* REST API: Cart-key permission check moved to the abstract Cart Controller so all cart endpoints enforce it via inheritance.
+* Plugin: WC Admin Notes changed to run once daily instead of every load.
 * WordPress Dashboard: Style adjustments.
 
 ## Improvements
 
+* Security: Unauthenticated access to registered user carts is now always enforced. The `cocart_secure_registered_users` filter can no longer disable this check.
 * Session: Disabled WooCommerce persistent cart preventing stale user meta from overriding cart data.
 * REST API: Redone the process of adding items to the cart for a smoother flow, filtering, validation and compatibility with any WooCommerce extension.
 * REST API: Only registers CoCart endpoints if requesting it. Helps performance in backend such as when using Gutenberg/Block editor as it loads many API's in the background.
@@ -104,6 +134,27 @@ The following action hooks have changed.
 * Plugin: We now manage cache related calls under our own cache helper utility to not conflict with any WooCommerce cache calls happening in the background.
 * WordPress Dashboard: CoCart is prevented from running in the backend should the REST API server be called by another plugin.
 
+### Session Handler
+
+* Session: Fixed `save_data()` writing to object cache with a potentially negative TTL when session expiration was stale or unset.
+* Session: Fixed `get_session()` using `wp_cache_set()` instead of `wp_cache_add()`, which caused stale persistent object cache entries to never be overwritten.
+* Session: Fixed `get_session()` and `update_cart()` using an uninitialized expiration value on frontend requests, preventing sessions from being cached after a database read.
+* Session: Fixed `update_cart()` not syncing the object cache after a database write, causing subsequent reads to return stale cached data.
+* Session: Session handler optimized and now stores the cart key for better optimization and consistency.
+
+### Other Improvements
+
+* REST API: Optimized `find_product_in_cart` function.
+* REST API: Decoded product slugs and permalinks with non-ASCII characters.
+* REST API: Improved updating customer details with better decoding of values and validation of required fields.
+* REST API: Cart routes now provide a real expiration header for proper cache support.
+* REST API: Improved quantity limits when adding items to cart.
+* Plugin: Added detection for multisite before displaying plugin messages.
+* Plugin: Added check for sites hosted on WordPress.com.
+* Plugin: Improved plugin suggestions — prevents failure due to WordPress.org errors.
+* Compatibility: LiteSpeed Cache detection now uses `is_rest_api_request` instead of hardcoded check.
+* Compatibility: JWT Auth plugin routes are no longer hardcoded.
+
 ### Load Cart from Session
 
 Originally only designed for guest customers to allow them to checkout via the native site, registered customers can now auto login and load their carts to do the same without exposing login details.
@@ -120,12 +171,23 @@ Simply provide these two parameters with the data point values on any page and t
 
 > Developer note: By default, both the cart and checkout pages are still accessible to support the feature "Load cart from Session".
 
+## Bug Fixes
+
+* Fixed authentication not determining user in time when `rest_url_prefix` filter is used, causing several cloned guest sessions with cart items.
+* Fixed shipping address not setting due to minor flaw.
+* Fixed product variation attribute names with special characters not decoding correctly.
+* Fixed rounding issue due to decimal separator differences with WooCommerce.
+* Fixed undefined `$parent_product`, `$customer_id`, and other undefined property issues.
+* Fixed preventing the index of CoCart from exposing all routes available.
+* Fixed validating fields to return error notices correctly.
+
 #### Developers
 
 ##### New Actions
 
 * Introduced new hook `cocart_cart_created` that fires once a cart is created.
 * Introduced new hook `cocart_item_updated` that fires once an item has updated in cart.
+* Introduced new hook `cocart_set_requested_cart` that fires before the session is finally set.
 
 ##### New Filters
 
@@ -144,8 +206,12 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new filter `cocart_product_quantity_editable` allows you to control whether a cart item's quantity can be changed.
 * Introduced new filter `cocart_quantity_multiple_of` allows you to control the quantity step (multiple of) for a product.
 * Introduced new filter `cocart_quantity_limit` allows you to adjust the maximum quantity limit for a product after stock considerations.
-
-> Note: List other filters that have been changed here.
+* Introduced new filter `cocart_cacheable_route_patterns` to control which route patterns support ETag caching.
+* Introduced new filter `cocart_version_header_name` to customize the CoCart version response header name.
+* Introduced new filter `cocart_cache_header_name` to customize the cache response header name.
+* Introduced new filter `cocart_admin_menu_shortcuts` to customize admin menu shortcuts.
+* Introduced new filter `cocart_rest_v1_product_schema` for version-specific product schema filtering (API v1).
+* Introduced new filter `cocart_rest_v2_product_schema` for version-specific product schema filtering (API v2).
 
 ##### New parameters
 
@@ -153,6 +219,10 @@ Simply provide these two parameters with the data point values on any page and t
 * Added the request object as a parameter for filters `cocart_allow_origin`, `cocart_cart_item_quantity`, `cocart_add_to_cart_quantity` and `cocart_cart_item_data`.
 * Added parameters for filter `cocart_add_to_cart_sold_individually_quantity`.
 * Added the cart class as a parameter for filter `cocart_shipping_package_name`.
+* Added the request object as a parameter for filter `cocart_cross_sells`.
+* Added `$message` parameter to `cocart_deprecated_function`.
+* Added `$request` as parameter for `add_item_to_cart`.
+* Added `$cart` parameter to allow passing in the cart instance if already retrieved to avoid stale cart data.
 
 ##### Breaking changes
 
@@ -163,12 +233,22 @@ Simply provide these two parameters with the data point values on any page and t
 * Introduced new function `cocart_get_frontend_url()` to get the frontend URL.
 * Introduced new function `cocart_is_wp_disabled_access()` to check if WordPress has been disabled access.
 * Introduced new function `cocart_get_permalink()` to return the permalink for a page/post/product where the frontend URL maybe replaced.
+* Introduced new utility class `CoCart_REST_Utilities_Monetary_Formatting` for monetary value formatting.
+* Introduced new utility class `CoCart_REST_Utilities_Pagination` for pagination support.
+* Introduced new utility cart helper functions: `get_cart_totals`, `get_cart_hashes`, `get_item_basic`.
+* Introduced new helper function `is_ip_private`.
+* Introduced new function `get_cache_header_name()` for retrieving the filterable cache header name.
 
 #### Deprecation's
 
 * Function `cocart_prepare_money_response()` is replaced with function `cocart_format_money()`.
 * Abstract class `CoCart_REST_Terms_Controller` replaced with abstract class `CoCart_REST_Taxonomy_Terms_Controller` instead.
 * `CoCart_Utilities_Cart_Helpers::get_remaining_stock_for_product()` is replaced with `CoCart_Utilities_Quantity_Limits::get_remaining_stock_for_product()`.
+* `cocart_format_money` replaced with `format_money` in monetary utility class.
+* `remove_exposed_product_meta` deprecated from using the `cocart_products_ignore_private_meta_keys` filter.
+
+* Filter `cocart_{$object_type}_schema` deprecated in favor of version-specific `cocart_rest_v{version}_{object_type}_schema` filters.
+* Filter `cocart_secure_registered_users` deprecated for security — unauthenticated access to registered user carts is now always blocked.
 
 The following filters are no longer used:
 
