@@ -42,9 +42,6 @@ class CoCart_WooCommerce {
 		// Force WooCommerce to accept CoCart requests when authenticating.
 		add_filter( 'woocommerce_rest_is_request_to_rest_api', array( $this, 'allow_cocart_requests_wc' ) );
 
-		// Validate cart session requested.
-		add_action( 'woocommerce_load_cart_from_session', array( $this, 'validate_cart_requested' ), 0 );
-
 		// Disable WooCommerce persistent cart.
 		add_filter( 'woocommerce_persistent_cart_enabled', '__return_false' );
 
@@ -87,66 +84,6 @@ class CoCart_WooCommerce {
 
 		return $request;
 	} // END allow_cocart_requests_wc()
-
-	/**
-	 * Validates the cart requested and warns user if accessing it incorrectly.
-	 *
-	 * Triggered when "woocommerce_load_cart_from_session" is called
-	 * to make sure the cart from session is valid.
-	 *
-	 * THIS IS FOR REST API USE ONLY!
-	 *
-	 * @access public
-	 *
-	 * @static
-	 *
-	 * @since 2.1.0 Introduced.
-	 * @since 2.8.0 Set chosen shipping methods.
-	 * @since 2.9.1 Merge persistent cart with session and check REST is not requesting CoCart.
-	 * @since 3.0.0 Added check for WP-GraphQL requests.
-	 * @since 4.6.2 Simplified to avoid unnecessary checks.
-	 */
-	public static function validate_cart_requested() {
-		// Return nothing if WP-GraphQL is requested.
-		if ( function_exists( 'is_graphql_http_request' ) && is_graphql_http_request() ) {
-			return;
-		}
-
-		// Return nothing if CoCart REST API is NOT requested.
-		if ( ! CoCart::is_rest_api_request() ) {
-			return;
-		}
-
-		$cart_key = '';
-
-		// Check if we requested to load a specific cart.
-		$cart_key = WC()->session->get_requested_cart();
-
-		// Do nothing if the cart key is empty.
-		if ( empty( $cart_key ) ) {
-			return;
-		}
-
-		// Check if the user is logged in.
-		if ( is_user_logged_in() ) {
-			$customer_id = strval( get_current_user_id() );
-
-			// Compare the customer ID with the requested cart key. If they match then return error message.
-			if ( ! empty( $cart_key ) && $customer_id === $cart_key ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				return new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
-			}
-		} else {
-			$user = get_user_by( 'id', $cart_key );
-
-			// If the user exists then return error message.
-			if ( ! empty( $user ) && apply_filters( 'cocart_secure_registered_users', true ) ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-				return new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
-			}
-		}
-
-		// Add explicit return for successful validation.
-		return true;
-	} // END validate_cart_requested()
 
 	/**
 	 * When a user is deleted in WordPress, delete corresponding CoCart data.

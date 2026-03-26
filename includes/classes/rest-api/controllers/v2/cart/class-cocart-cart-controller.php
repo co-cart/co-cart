@@ -57,21 +57,6 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 	} // END get_args()
 
 	/**
-	 * Check if the user has permission to access the cart.
-	 *
-	 * The cart endpoint is publicly accessible — anyone can read their own cart.
-	 *
-	 * @access public
-	 *
-	 * @param \WP_REST_Request $request Full details about the request.
-	 *
-	 * @return true
-	 */
-	public function check_permission( $request ) {
-		return true;
-	} // END check_permission()
-
-	/**
 	 * Route base.
 	 *
 	 * @deprecated 5.0.0 Replaced with `get_path()` instead.

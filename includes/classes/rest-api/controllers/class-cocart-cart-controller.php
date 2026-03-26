@@ -30,7 +30,57 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	}
 
 	/**
-	 * Permission callback checks if the cart was initialized.
+	 * Check if the user has permission to access the route.
+	 *
+	 * Prevents unauthenticated access to a registered user's cart.
+	 * Guest cart keys that do not correspond to a registered user are allowed through.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 *
+	 * @return true|\WP_Error True if the request has access, WP_Error object otherwise.
+	 */
+	public function check_permission( $request ) {
+		$cart_key = WC()->session->get_requested_cart();
+
+		// Allow through if no specific cart was requested.
+		if ( empty( $cart_key ) ) {
+			return true;
+		}
+
+		// Prevent unauthenticated access to a registered user's cart.
+		if ( ! is_user_logged_in() ) {
+			$user = get_user_by( 'id', $cart_key );
+
+			if ( ! empty( $user ) ) {
+				/**
+				 * Previously allowed disabling the registered user security check.
+				 *
+				 * Deprecated for security reasons: disabling this check allows
+				 * unauthenticated users to access any registered user's cart
+				 * by guessing sequential user IDs. The check is now enforced
+				 * unconditionally. This filter no longer affects behavior.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @deprecated 5.0.0 No longer used. Authentication is now always required.
+				 */
+				if ( has_filter( 'cocart_secure_registered_users' ) ) {
+					cocart_do_deprecated_filter( 'cocart_secure_registered_users', '5.0.0', null, __( 'This filter has been removed for security. Unauthenticated access to registered user carts is no longer allowed.', 'cart-rest-api-for-woocommerce' ) );
+				}
+
+				return new \WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate as the customer to access this cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+			}
+		}
+
+		return true;
+	} // END check_permission()
+
+	/**
+	 * Checks if the cart has initialized.
 	 *
 	 * @access public
 	 *
@@ -38,6 +88,7 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 *
 	 * @return \WP_Error|bool Returns error if failed else true.
 	 */
+	/*
 	public function check_cart_instance() {
 		$cart_instance = $this->get_cart_instance();
 
@@ -46,7 +97,7 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 		}
 
 		return $cart_instance;
-	} // END check_cart_instance()
+	} // END check_cart_instance()*/
 
 	/**
 	 * Gets the cart instance so we only call it once in the API.
