@@ -13,6 +13,7 @@ on:
         default: latest
   push:
     branches:
+      - development
       - tests
     paths:
       - '**.php'
@@ -21,8 +22,8 @@ on:
       - '.github/workflows/phpunit-tests.yml'
   pull_request:
     branches:
-      - tests
       - development
+      - tests
     paths:
       - '**.php'
       - 'phpunit.xml'
