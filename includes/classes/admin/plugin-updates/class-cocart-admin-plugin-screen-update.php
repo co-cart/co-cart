@@ -57,7 +57,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 		$new_version_parts     = explode( '.', $this->new_version );
 
 		// If user has already moved to the minor version, we don't need to flag up anything.
-		if ( version_compare( $current_version_parts[0] . '.' . $current_version_parts[1], $new_version_parts[0] . '.' . $new_version_parts[1], '=' ) ) {
+		if ( version_compare( ( $current_version_parts[0] ?? '0' ) . '.' . ( $current_version_parts[1] ?? '0' ), ( $new_version_parts[0] ?? '0' ) . '.' . ( $new_version_parts[1] ?? '0' ), '=' ) ) {
 			return;
 		}
 
@@ -119,10 +119,10 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	private function parse_update_notice( $content, $new_version ) {
 		$version_parts     = explode( '.', $new_version );
 		$check_for_notices = array(
-			$version_parts[0] . '.0', // Major.
-			$version_parts[0] . '.0.0', // Major.
-			$version_parts[0] . '.' . $version_parts[1], // Minor.
-			$version_parts[0] . '.' . $version_parts[1] . '.' . $version_parts[2], // Patch.
+			( $version_parts[0] ?? '0' ) . '.0', // Major.
+			( $version_parts[0] ?? '0' ) . '.0.0', // Major.
+			( $version_parts[0] ?? '0' ) . '.' . ( $version_parts[1] ?? '0' ), // Minor.
+			( $version_parts[0] ?? '0' ) . '.' . ( $version_parts[1] ?? '0' ) . '.' . ( $version_parts[2] ?? '0' ), // Patch.
 		);
 		$notice_regexp     = '~==\s*Upgrade Notice\s*==\s*=\s*(.*)\s*=(.*)(=\s*' . preg_quote( $new_version ) . '\s*=|$)~Uis';
 		$upgrade_notice    = '';

@@ -1016,7 +1016,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @return string|null Valid IP string or null.
 		 */
-		private static function parse_ip_from_header_value( $value ) {
+		private static function parse_ip_from_header_value( string $value ) {
 			$value = trim( $value, " \t\n\r\0\x0B\"'" );
 
 			// Split comma-separated lists, take candidates in order.
