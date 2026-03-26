@@ -101,9 +101,8 @@ Come and [join our community](https://cocartapi.com/community/?utm_medium=websit
 
 ## 🧰 Developer Tools
 
-* **[CoCart Beta Tester](https://github.com/cocart-headless/cocart-beta-tester)** allows you to easily update to pre-release versions of CoCart for testing and development purposes.
+* **[CoCart OpenAPI Specs](https://github.com/cocart-headless/cocart-openapi)** — OpenAPI definitions for CoCart REST API endpoints. Use them to generate client libraries, test with Yaak/Postman/Insomnia, or integrate with any tool that supports the OpenAPI standard.
 * **[CoCart VSCode](https://github.com/cocart-headless/cocart-vscode)** extension for Visual Studio Code adds snippets and autocompletion of functions, classes, and hooks.
-* **[CoCart Product Support Boilerplate](https://github.com/cocart-headless/cocart-product-support-boilerplate)** provides a basic boilerplate for supporting different product types to add to the cart with validation including adding your own parameters.
 * **[CoCart Cart Callback Example](https://github.com/cocart-headless/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 
 ### More information
