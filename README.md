@@ -126,6 +126,7 @@ Community Edition support is provided via [our Discord community server](https:/
 
 ## Developer Tools
 
+* **[CoCart OpenAPI Specs](https://github.com/cocart-headless/cocart-openapi)** — OpenAPI definitions for CoCart REST API endpoints. Use them to generate client libraries, test with Yaak/Postman/Insomnia, or integrate with any tool that supports the OpenAPI standard.
 * **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and auto-completion of functions, classes and hooks.
 * **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 
