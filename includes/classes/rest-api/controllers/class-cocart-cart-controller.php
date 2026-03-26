@@ -44,7 +44,7 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 	 * @return true|\WP_Error True if the request has access, WP_Error object otherwise.
 	 */
 	public function check_permission( $request ) {
-		$cart_key = WC()->session->get_requested_cart();
+		$cart_key = WC()->session->get_requested_cart( $request );
 
 		// Allow through if no specific cart was requested.
 		if ( empty( $cart_key ) ) {
