@@ -162,7 +162,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 					$upgrade_notice .= '<p class="cocart_plugin_upgrade_notice">';
 
 					foreach ( $notices as $index => $line ) {
-						$upgrade_notice .= preg_replace( '~\[([^\]]*)\]\(([^\)]*)\)~', '<a href="${2}">${1}</a>', $line );
+						$upgrade_notice .= preg_replace( '~\[([^\]]*)\]\(([^\)]*)\)~', '<a href="$2">$1</a>', $line );
 					}
 
 					$upgrade_notice .= '</p>';

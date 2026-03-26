@@ -356,12 +356,10 @@ class CoCart_REST_API {
 			 */
 			do_action( 'woocommerce_load_cart_from_session' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-			// Use ReflectionClass to access the protected property.
-			$reflection = new ReflectionClass( $session );
-			$property   = $reflection->getProperty( 'cart' );
-			$property->setAccessible( true ); // Make the property accessible.
-
-			// Get the value of the protected property.
+			// WC_Cart_Session has no public getter for its protected $cart property.
+			// Reflection can access protected properties without setAccessible() since PHP 8.1.
+			$reflection        = new ReflectionClass( $session );
+			$property          = $reflection->getProperty( 'cart' );
 			$cart_from_session = $property->getValue( $session );
 
 			$cart        = (array) array_filter( WC()->session->get( 'cart', array() ) );

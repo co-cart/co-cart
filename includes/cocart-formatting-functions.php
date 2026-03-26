@@ -16,6 +16,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Round a value with a rounding mode, compatible across PHP 8.2–8.5+.
+ *
+ * PHP 8.4 deprecated passing integer constants (e.g. PHP_ROUND_HALF_UP)
+ * to round() in favor of the RoundingMode enum. This wrapper handles both.
+ *
+ * @since 5.0.0 Introduced.
+ *
+ * @param float $value     The value to round.
+ * @param int   $precision Number of decimal digits to round to.
+ * @param int   $mode      One of PHP_ROUND_HALF_UP, PHP_ROUND_HALF_DOWN, PHP_ROUND_HALF_EVEN, PHP_ROUND_HALF_ODD.
+ *
+ * @return float The rounded value.
+ */
+function cocart_round( $value, $precision = 0, $mode = PHP_ROUND_HALF_UP ) {
+	// PHP 8.4+ requires the RoundingMode enum.
+	if ( version_compare( PHP_VERSION, '8.4', '>=' ) ) {
+		$enum_map = array(
+			PHP_ROUND_HALF_UP   => \RoundingMode::HalfAwayFromZero,
+			PHP_ROUND_HALF_DOWN => \RoundingMode::HalfTowardsZero,
+			PHP_ROUND_HALF_EVEN => \RoundingMode::HalfEven,
+			PHP_ROUND_HALF_ODD  => \RoundingMode::HalfOdd,
+		);
+
+		$mode = $enum_map[ $mode ] ?? \RoundingMode::HalfAwayFromZero;
+	}
+
+	return round( $value, $precision, $mode );
+}
+
+/**
  * Notation to numbers.
  *
  * This function transforms the php.ini notation for numbers (like '2M') to an integer.
@@ -124,7 +154,7 @@ function cocart_format_money( $value, array $options = array() ) {
 	$value = $value * pow( 10, absint( $options['decimals'] ) );
 
 	// Round up/down the value.
-	$value = round( $value, 0, $options['rounding_mode'] );
+	$value = cocart_round( $value, 0, $options['rounding_mode'] );
 
 	// This ensures returning the value as a string without decimal points ready for price parsing.
 	return wc_format_decimal( $value, 0, $options['trim_zeros'] );

@@ -31,7 +31,6 @@ class Test_CoCart_Authentication_Injection extends CoCart_API_V2_Test_Case {
 		parent::setUp();
 
 		$ref = new ReflectionProperty( 'CoCart_REST_Login_V2_Controller', 'processed_requests' );
-		$ref->setAccessible( true );
 		$ref->setValue( null, array() );
 	}
 
