@@ -110,7 +110,7 @@ class CoCart_REST_Product_Variations_V2_Controller extends CoCart_REST_Product_V
 		}
 
 		// Validate the variation requested to see if it is not one of the variations for the variable product.
-		if ( ! in_array( $variation->get_id(), $variation_ids ) ) {
+		if ( ! in_array( $variation->get_id(), $variation_ids, true ) ) {
 			return new \WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cocart-core' ), array( 'status' => 404 ) );
 		}
 
