@@ -18,6 +18,12 @@
 * REST API: Slugs and permalinks with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of URL-encoded across all product and cart endpoints.
 * REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
 
+### Change
+
+* Session: Removed the max expiration exceed limit of 30 days to allow adjusting the lifetimes via the `cocart_cart_expiring` and `cocart_cart_expiration` filters as needed.
+
+> Dev note: You will still be warned "Keeping sessions for longer than X days can cause performance issues and larger session tables."
+
 ### Improvements
 
 * Session: Fixed `get_session()` using `wp_cache_set()` instead of `wp_cache_add()`, which caused stale persistent object cache entries to never be overwritten.

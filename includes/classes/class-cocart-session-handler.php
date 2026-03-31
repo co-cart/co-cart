@@ -291,17 +291,11 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @access public
 	 */
 	public function set_cart_expiration() {
-		$expiring_seconds   = DAY_IN_SECONDS;
-		$expiration_seconds = 2 * DAY_IN_SECONDS;
-
+		$expiring_seconds       = DAY_IN_SECONDS;
+		$expiration_seconds     = is_user_logged_in() ? WEEK_IN_SECONDS : 2 * DAY_IN_SECONDS;
 		$max_expiration_seconds = MONTH_IN_SECONDS;
 		$max_expiring_seconds   = $max_expiration_seconds - DAY_IN_SECONDS;
 		$session_limit_exceeded = false;
-
-		// Set expiration time for logged in users.
-		if ( is_user_logged_in() ) {
-			$expiration_seconds = WEEK_IN_SECONDS;
-		}
 
 		/**
 		 * Filter allows you to change the amount of time before the cart starts to expire.
@@ -314,8 +308,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		 */
 		$expiring_seconds = intval( apply_filters( 'cocart_cart_expiring', $expiring_seconds, is_user_logged_in() ) ) ?: $expiring_seconds; // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
 
+		// If the expiring time is greater than the maximum expiring time, set the session limit exceeded flag to true.
 		if ( $expiring_seconds > $max_expiring_seconds ) {
-			$expiring_seconds       = $max_expiring_seconds;
 			$session_limit_exceeded = true;
 		}
 
@@ -330,9 +324,8 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		 */
 		$expiration_seconds = intval( apply_filters( 'cocart_cart_expiration', $expiration_seconds, is_user_logged_in() ) ) ?: $expiration_seconds; // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
 
-		// We limit the expiration time to 30 days to avoid performance issues and the session table growing too large.
+		// If the expiration time is greater than the maximum expiration time, set the session limit exceeded flag to true.
 		if ( $expiration_seconds > $max_expiration_seconds ) {
-			$expiration_seconds     = $max_expiration_seconds;
 			$session_limit_exceeded = true;
 		}
 
@@ -342,7 +335,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 				\CoCart_Logger::log(
 					sprintf(
 						/* translators: %d = Expiration in seconds. */
-						esc_html__( 'Keeping sessions for longer than %d days results in performance issues, expiry has been capped.', 'cart-rest-api-for-woocommerce' ),
+						esc_html__( 'Keeping sessions for longer than %d days can cause performance issues and larger session tables. Monitor usage and adjust lifetimes via the cocart_cart_expiring and cocart_cart_expiration filters as needed.', 'cart-rest-api-for-woocommerce' ),
 						$max_expiration_seconds / DAY_IN_SECONDS
 					),
 					'warning'
@@ -680,7 +673,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		$cart_totals  = $this->get( 'cart_totals' );
 
 		$cart_total = isset( $cart_totals ) ? maybe_unserialize( $cart_totals ) : array( 'total' => 0 );
-		$hash       = ! empty( $cart_session ) ? md5( wp_json_encode( $cart_session ) . $cart_total['total'] ) : '';
+		$hash       = ! empty( $cart_session ) ? md5( wp_json_encode( $cart_session ) . ( $cart_total['total'] ?? 0 ) ) : '';
 
 		$this->cart_hash = $hash;
 	} // END set_cart_hash()
