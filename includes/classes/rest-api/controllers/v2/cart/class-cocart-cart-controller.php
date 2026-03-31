@@ -745,6 +745,11 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			$product = wc_get_product( $product_id );
 			$product = $this->validate_product_for_cart( $product );
 
+			// If product validation failed return error response.
+			if ( is_wp_error( $product ) ) {
+				return $product;
+			}
+
 			// Look up the product type if not passed.
 			if ( empty( $product_type ) ) {
 				$product_type = $product->get_type();
