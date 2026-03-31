@@ -138,7 +138,7 @@ function cocart_carts_in_session( $session = '' ) { // phpcs:ignore WordPress.Na
 		);
 	}
 
-	return $results[0]['count'];
+	return isset( $results[0]['count'] ) ? $results[0]['count'] : 0;
 } // END cocart_carts_in_session()
 
 /**
@@ -169,7 +169,7 @@ function cocart_count_carts_expiring() { // phpcs:ignore WordPress.NamingConvent
 		ARRAY_A
 	);
 
-	return $results[0]['count'];
+	return isset( $results[0]['count'] ) ? $results[0]['count'] : 0;
 } // END cocart_count_carts_expiring()
 
 /**
@@ -199,7 +199,7 @@ function cocart_count_carts_active() { // phpcs:ignore WordPress.NamingConventio
 		ARRAY_A
 	);
 
-	return $results[0]['count'];
+	return isset( $results[0]['count'] ) ? $results[0]['count'] : 0;
 } // END cocart_count_carts_active()
 
 /**
@@ -229,7 +229,7 @@ function cocart_count_carts_expired() { // phpcs:ignore WordPress.NamingConventi
 		ARRAY_A
 	);
 
-	return $results[0]['count'];
+	return isset( $results[0]['count'] ) ? $results[0]['count'] : 0;
 } // END cocart_count_carts_expired()
 
 /**
@@ -259,7 +259,7 @@ function cocart_carts_source_web() { // phpcs:ignore WordPress.NamingConventions
 		ARRAY_A
 	);
 
-	return $results[0]['count'];
+	return isset( $results[0]['count'] ) ? $results[0]['count'] : 0;
 } // END cocart_carts_source_web()
 
 /**
@@ -289,7 +289,7 @@ function cocart_carts_source_headless() { // phpcs:ignore WordPress.NamingConven
 		ARRAY_A
 	);
 
-	return $results[0]['count'];
+	return isset( $results[0]['count'] ) ? $results[0]['count'] : 0;
 } // END cocart_carts_source_headless()
 
 /**
@@ -320,7 +320,7 @@ function cocart_carts_source_other() { // phpcs:ignore WordPress.NamingConventio
 		ARRAY_A
 	);
 
-	return $results[0]['count'];
+	return isset( $results[0]['count'] ) ? $results[0]['count'] : 0;
 } // END cocart_carts_source_other()
 
 /**

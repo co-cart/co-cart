@@ -94,7 +94,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 */
 		public function plugin_list_args( $args ) {
 			$cocart_args = array(
-				'page'     => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				'page'     => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * 36 ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				'per_page' => 36,
 				'author'   => 'cocartforwc',
 			);

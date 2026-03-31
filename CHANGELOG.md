@@ -20,6 +20,14 @@
 * REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
 * REST API: Fixed fatal error when adding an invalid product to cart via v2 controller due to missing `WP_Error` check after product validation.
 
+#### PHP 8.2+ Fixes
+
+* REST API: Fixed warnings for undefined array keys `cart_item_data` and `cart_item_key` in v1 add item controller.
+* Session: Fixed warning for undefined array key `total` in session handler cart hash generation.
+* Plugin: Fixed warnings for undefined array key `count` when database queries return no results in cart counting functions.
+* Plugin: Fixed warning for undefined variable `$per_page` in admin plugin search.
+* Plugin: Fixed deprecated `${var}` string interpolation syntax in plugin update screen.
+
 ### Change
 
 * Session: Removed the max expiration exceed limit of 30 days to allow adjusting the lifetimes via the `cocart_cart_expiring` and `cocart_cart_expiration` filters as needed.

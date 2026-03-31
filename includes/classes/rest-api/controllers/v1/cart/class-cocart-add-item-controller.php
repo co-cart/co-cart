@@ -231,8 +231,8 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		$quantity       = $product_to_add['quantity'];
 		$variation_id   = $product_to_add['variation_id'];
 		$variation      = $product_to_add['variation'];
-		$cart_item_data = $product_to_add['cart_item_data'];
-		$cart_item_key  = $product_to_add['cart_item_key'];
+		$cart_item_data = $product_to_add['cart_item_data'] ?? array();
+		$cart_item_key  = $product_to_add['cart_item_key'] ?? '';
 		$product_data   = $product_to_add['product_data'];
 
 		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
