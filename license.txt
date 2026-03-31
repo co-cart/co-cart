@@ -1,4 +1,4 @@
-CoCart API - Decoupling Made Easy for WooCommerce
+CoCart - Headless REST API for WooCommerce
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@ permission notices:
 
   CoCart - Build headless stores, without building an API
 
-  CoCart is Copyright (c) 2024 CoCart Headless, LLC
+  CoCart is Copyright (c) 2026 CoCart Headless, LLC
 
-  CoCart Core is released under the GPL
+  CoCart Community is released under the GPL
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

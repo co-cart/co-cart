@@ -8,6 +8,7 @@ The CoCart Headless Security Team believes in Responsible Disclosure by alerting
 
 | Version | Supported |
 |---------| --------- |
+| 4.9.x   | Yes       |
 | 4.8.x   | Yes       |
 | 4.7.x   | Yes       |
 | 4.6.x   | Yes       |
@@ -21,13 +22,13 @@ The CoCart Headless Security Team believes in Responsible Disclosure by alerting
 
 ## Reporting a Vulnerability
 
-CoCart core is an open-source plugin for WordPress.
+CoCart Community is an open-source plugin for WordPress.
 
 **For responsible disclosure of security issues, please submit your report based on instructions found on [cocartapi.com/security-policy/](https://cocartapi.com/security-policy/).**
 
 Our most critical targets are:
 
-* CoCart core (this repository)
+* CoCart Community (this repository)
 * cocartapi.com -- the primary marketplace and marketing site.
 
 ## Guidelines

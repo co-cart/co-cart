@@ -1,6 +1,6 @@
-# Contributing to CoCart Core ✨
+# Contributing to CoCart Community ✨
 
-CoCart Core helps power many headless stores across the internet, and with your help making it even more awesome will be greatly appreciated. 😃
+CoCart Community helps power many headless stores across the internet, and with your help making it even more awesome will be greatly appreciated. 😃
 
 There are many ways to contribute to the project!
 
@@ -14,7 +14,7 @@ If you wish to contribute code, please read the information in the sections belo
 
 Use the `good first issue` label to mark your issue as new contributor.
 
-CoCart Core is licensed under the GPLv3+, and all contributions to the project will be released under the same license. You maintain copyright over any contribution you make, and by submitting a pull request, you are agreeing to release that contribution under the GPLv3+ license.
+CoCart Community is licensed under the GPLv3+, and all contributions to the project will be released under the same license. You maintain copyright over any contribution you make, and by submitting a pull request, you are agreeing to release that contribution under the GPLv3+ license.
 
 If you have questions about the process to contribute code or want to discuss details of your contribution, you can ask in the #support channel in the [CoCart community Discord](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) server.
 

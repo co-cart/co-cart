@@ -1,6 +1,6 @@
 <?php
 /**
- * CoCart core setup.
+ * CoCart Community setup.
  *
  * @author  Sébastien Dumont
  * @package CoCart
@@ -431,7 +431,7 @@ final class CoCart {
 			self::deactivate_plugin();
 			wp_die(
 				sprintf(
-					/* translators: %1$s: CoCart Core, %2$s: CoCart Plus */
+					/* translators: %1$s: CoCart, %2$s: CoCart Plus */
 					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ),
 					'CoCart',
 					'CoCart Plus'
@@ -443,7 +443,7 @@ final class CoCart {
 			self::deactivate_plugin();
 			wp_die(
 				sprintf(
-					/* translators: %1$s: CoCart Core, %2$s: CoCart Pro */
+					/* translators: %1$s: CoCart, %2$s: CoCart Pro */
 					esc_html__( '%1$s is not required as it is already packaged within %2$s', 'cart-rest-api-for-woocommerce' ),
 					'CoCart',
 					'CoCart Pro'
