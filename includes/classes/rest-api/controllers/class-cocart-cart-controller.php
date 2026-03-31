@@ -69,10 +69,10 @@ abstract class CoCart_REST_Cart_Controller extends CoCart_REST_Controller {
 				 * @deprecated 5.0.0 No longer used. Authentication is now always required.
 				 */
 				if ( has_filter( 'cocart_secure_registered_users' ) ) {
-					cocart_do_deprecated_filter( 'cocart_secure_registered_users', '5.0.0', null, __( 'This filter has been removed for security. Unauthenticated access to registered user carts is no longer allowed.', 'cart-rest-api-for-woocommerce' ) );
+					cocart_do_deprecated_filter( 'cocart_secure_registered_users', '5.0.0', null, __( 'This filter has been removed for security. Unauthenticated access to registered user carts is no longer allowed.', 'cocart-core' ) );
 				}
 
-				return new \WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate as the customer to access this cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
+				return new \WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate as the customer to access this cart.', 'cocart-core' ), array( 'status' => 403 ) );
 			}
 		}
 
