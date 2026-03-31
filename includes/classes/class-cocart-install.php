@@ -490,7 +490,7 @@ class CoCart_Install {
 				}
 
 				CoCart_Logger::log(
-					sprint_f(
+					sprintf(
 						/* translators: %s = Version of Database */
 						esc_html__( 'Updates from version %s scheduled.', 'cart-rest-api-for-woocommerce' ),
 						$version
