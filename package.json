@@ -73,7 +73,7 @@
 	"devDependencies": {
 		"@lodder/grunt-postcss": "^3.1.1",
 		"autoprefixer": "^10.4.21",
-		"baseline-browser-mapping": "^2.8.31",
+		"baseline-browser-mapping": "^2.10.13",
 		"grunt": "~1.6.1",
 		"grunt-checktextdomain": "1.0.1",
 		"grunt-contrib-clean": "^2.0.1",
