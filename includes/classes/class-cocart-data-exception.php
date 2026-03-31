@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   3.0.0 Introduced.
- * @version 4.0.0
+ * @version 4.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -60,7 +60,7 @@ class CoCart_Data_Exception extends Exception {
 		$this->error_code      = $error_code;
 		$this->additional_data = array_filter( (array) $additional_data );
 
-		$plugin = isset( $this->additional_data['plugin'] ) ? esc_html( $this->additional_data['plugin'] ) : '';
+		$plugin = ! empty( $this->additional_data['plugin'] ) ? esc_html( $this->additional_data['plugin'] ) : 'cart-rest-api-for-woocommerce';
 
 		CoCart_Logger::log( $message, 'error', $plugin );
 

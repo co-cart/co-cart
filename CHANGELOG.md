@@ -28,6 +28,7 @@
 
 ### Developers
 
+* Logger: Log entries now include a source line identifying the calling class, method, file, and line number for easier debugging.
 * Introduced new filter `cocart_etag_cart_routes` to customize which cart routes support ETag.
 * Introduced new filter `cocart_etag_product_routes` to customize which product routes support ETag.
 * Introduced new filter `cocart_etag_routes` to add ETag support for third-party plugin routes.
