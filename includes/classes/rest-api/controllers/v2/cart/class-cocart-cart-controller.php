@@ -1136,31 +1136,31 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_REST_Cart_Controller {
 								'context'     => array( 'view' ),
 								'readonly'    => true,
 								'properties'  => array(
-									'value'        => array(
+									'value'       => array(
 										'description' => __( 'The quantity of the item in the cart.', 'cocart-core' ),
 										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
-									'minimum'      => array(
+									'minimum'     => array(
 										'description' => __( 'The minimum purchase amount required.', 'cocart-core' ),
 										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
-									'maximum'      => array(
+									'maximum'     => array(
 										'description' => __( 'The maximum purchase amount allowed. If -1 the item has an unlimited purchase amount.', 'cocart-core' ),
 										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
-									'multiple_of'  => array(
+									'multiple_of' => array(
 										'description' => __( 'The quantity must be a multiple of this value.', 'cocart-core' ),
 										'type'        => 'number',
 										'context'     => array( 'view' ),
 										'readonly'    => true,
 									),
-									'editable'     => array(
+									'editable'    => array(
 										'description' => __( 'Whether the quantity of the item is editable.', 'cocart-core' ),
 										'type'        => 'boolean',
 										'context'     => array( 'view' ),

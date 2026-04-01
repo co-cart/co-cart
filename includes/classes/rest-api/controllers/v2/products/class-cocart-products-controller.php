@@ -1861,21 +1861,21 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 									'type'        => 'object',
 									'context'     => array( 'view' ),
 									'properties'  => array(
-										'minimum'      => array(
+										'minimum'     => array(
 											'description' => __( 'Minimum purchase quantity allowed for product.', 'cocart-core' ),
 											'type'        => 'integer',
 											'context'     => array( 'view' ),
 											'default'     => 1,
 											'readonly'    => true,
 										),
-										'maximum'      => array(
+										'maximum'     => array(
 											'description' => __( 'Maximum purchase quantity allowed based on stock (if managed).', 'cocart-core' ),
 											'type'        => 'integer',
 											'context'     => array( 'view' ),
 											'default'     => -1,
 											'readonly'    => true,
 										),
-										'multiple_of'  => array(
+										'multiple_of' => array(
 											'description' => __( 'The quantity must be a multiple of this value.', 'cocart-core' ),
 											'type'        => 'integer',
 											'context'     => array( 'view' ),
@@ -2173,21 +2173,21 @@ class CoCart_REST_Products_V2_Controller extends CoCart_REST_Products_Controller
 						'type'        => 'object',
 						'context'     => array( 'view' ),
 						'properties'  => array(
-							'minimum'      => array(
+							'minimum'     => array(
 								'description' => __( 'Minimum purchase quantity allowed for product.', 'cocart-core' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
 								'default'     => 1,
 								'readonly'    => true,
 							),
-							'maximum'      => array(
+							'maximum'     => array(
 								'description' => __( 'Maximum purchase quantity allowed based on stock (if managed).', 'cocart-core' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
 								'default'     => -1,
 								'readonly'    => true,
 							),
-							'multiple_of'  => array(
+							'multiple_of' => array(
 								'description' => __( 'The quantity must be a multiple of this value.', 'cocart-core' ),
 								'type'        => 'integer',
 								'context'     => array( 'view' ),
