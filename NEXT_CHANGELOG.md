@@ -2,7 +2,7 @@
 
 📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
-> Documentation for breaking changes and new features can be found at https://docs.cocartapi.com - once loaded, select "preview" from the top left dropdown menu.
+> Documentation for breaking changes and new features can be found at https://docs.cocartapi.com/updates
 
 ## What's new?
 
