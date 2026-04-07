@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
-	class CoCart_Admin_Action_Links {
+	class CoCart_Admin_Action_Links extends CoCart_Plugin_Updates {
 
 		/**
 		 * Stores the campaign arguments.
@@ -37,26 +37,45 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 			$this->campaign_args['utm_medium']  = 'plugin-admin';
 			$this->campaign_args['utm_content'] = 'action-links';
 
-			add_filter( 'plugin_action_links_' . plugin_basename( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' ), array( $this, 'disable_action_links' ) );
+			// Disable plugin actions if requirements not met.
+			foreach ( array_keys( $this->get_installed_plugins() ) as $plugin_file ) {
+				add_filter( 'plugin_action_links_' . $plugin_file, array( $this, 'disable_action_links' ), 10, 3 );
+			}
+
 			add_filter( 'plugin_action_links_' . plugin_basename( COCART_FILE ), array( $this, 'plugin_action_links' ) );
 			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		} // END __construct()
 
 		/**
-		 * Disable action links for CoCart Community version.
+		 * Disable plugin actions if requirements not met.
 		 *
 		 * @access public
 		 *
 		 * @since 5.0.0 Introduced.
 		 *
-		 * @param array $links An array of plugin links.
+		 * @param array  $plugin_actions An array of plugin links.
+		 * @param string $plugin_file    Path to the plugin file.
+		 * @param array  $plugin_data    An array of plugin data.
 		 *
-		 * @return array $links An array of plugin links.
+		 * @return array $plugin_actions An array of plugin actions.
 		 */
-		public function disable_action_links( $links ) {
-			unset( $links['activate'] );
+		public function disable_action_links( $plugin_actions, $plugin_file, $plugin_data ) {
+			$new_actions = array();
 
-			return $links;
+			if ( empty( $plugin_data['CoCart requires at least'] ) || version_compare( COCART_VERSION, $plugin_data['CoCart requires at least'], '<' ) ) {
+				// If the plugin has an activate link, unset it and add a notice to say why.
+				if ( array_key_exists( 'activate', $plugin_actions ) ) {
+					unset( $plugin_actions['activate'] );
+					$new_actions['activate'] = _x( 'Activate', 'cocart-core' ) . '<span class="screen-reader-text">' . __( 'You cannot activate this plugin as it has unmet requirements.', 'cocart-core' ) . '</span>';
+				}
+			}
+
+			// If plugin is the community plugin, unset the ability to activate.
+			if ( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' === $plugin_file ) {
+				unset( $plugin_actions['activate'] );
+			}
+
+			return array_merge( $new_actions, $plugin_actions );
 		} // END disable_action_links()
 
 		/**
