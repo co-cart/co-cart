@@ -471,8 +471,6 @@ final class CoCart {
 			self::activation_check();
 		}
 
-		self::disable_legacy_version();
-
 		CoCart_Install::install();
 	} // END install_cocart()
 
@@ -523,34 +521,6 @@ final class CoCart {
 			);
 		}
 	} // END activation_check()
-
-	/**
-	 * Disable the legacy version of CoCart core if found.
-	 *
-	 * @access protected
-	 *
-	 * @static
-	 *
-	 * @since 5.0.0 Introduced.
-	 */
-	protected static function disable_legacy_version() {
-		$plugin_to_deactivate = 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php';
-
-		if ( is_multisite() && is_network_admin() ) {
-			$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-			$active_plugins = array_keys( $active_plugins );
-		} else {
-			$active_plugins = (array) get_option( 'active_plugins', array() );
-		}
-
-		foreach ( $active_plugins as $plugin_basename ) {
-			if ( $plugin_to_deactivate === $plugin_basename ) {
-				set_transient( 'cocart_legacy_deactivated', '1', 1 * HOUR_IN_SECONDS );
-				deactivate_plugins( $plugin_basename );
-				return;
-			}
-		}
-	} // END disable_legacy_version()
 
 	/**
 	 * Deactivates the plugin if the environment is not ready.

@@ -12,13 +12,26 @@ if ( ! defined( 'COCART_FILE' ) ) {
 	define( 'COCART_FILE', __FILE__ );
 }
 
+if ( ! defined( 'COCART_CORE_FILE' ) ) {
+	define( 'COCART_CORE_FILE', __FILE__ );
+}
+
 if ( ! defined( 'COCART_SLUG' ) ) {
 	define( 'COCART_SLUG', 'cocart-core' );
 }
 
+require_once untrailingslashit( __DIR__ ) . '/switch-core-cocart.php';
+
+require_once untrailingslashit( __DIR__ ) . '/class-cocart-integrity-check.php';
 // Include the main CoCart class.
 if ( ! class_exists( 'CoCart', false ) ) {
-	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php';
+	include_once untrailingslashit( __DIR__ ) . '/includes/class-cocart.php';
+}
+
+// Check if CoCart Community is active and disable it. This is to prevent conflicts between the two plugins since they share the same core files.
+if ( defined( 'COCART_FILE' ) && defined( 'COCART_CORE_FILE' ) && COCART_FILE !== COCART_CORE_FILE ) {
+	disable_cocart_community_version();
+	return;
 }
 
 /**
