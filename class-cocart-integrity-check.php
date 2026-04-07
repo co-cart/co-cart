@@ -20,4 +20,4 @@ final class CoCart_Integrity_Check {
 	} // END __construct()
 } // END class
 
-new CoCart_Integrity_Check( COCART_SLUG, COCART_FILE );
+new CoCart_Integrity_Check( COCART_SLUG, COCART_CORE_FILE );
