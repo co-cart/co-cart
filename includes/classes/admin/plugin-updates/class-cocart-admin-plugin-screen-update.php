@@ -33,7 +33,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	 * @access public
 	 */
 	public function __construct() {
-		// Prevent the legacy core version from activating.
+		// Prevent the community version from activating.
 		add_filter( 'activated_plugin', array( $this, 'prevent_legacy_activation' ) );
 
 		add_action( 'in_plugin_update_message-' . plugin_basename( COCART_FILE ), array( $this, 'in_plugin_update_message' ), 10, 2 );
@@ -43,7 +43,7 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	} // END __construct()
 
 	/**
-	 * Prevent the legacy core version from activating.
+	 * Prevent the community version from activating.
 	 *
 	 * @access public
 	 *

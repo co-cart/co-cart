@@ -680,7 +680,7 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		} // END setup_wizard_notice()
 
 		/**
-		 * Displays a notice once activated only if a legacy version of CoCart
+		 * Displays a notice once activated only if a community version of CoCart
 		 * from WordPress dot ORG was detected.
 		 *
 		 * @access public

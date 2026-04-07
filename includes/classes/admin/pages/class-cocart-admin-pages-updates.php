@@ -72,7 +72,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 	 */
 	public function output() {
 		$store_url          = CoCart_Helpers::build_shortlink( add_query_arg( CoCart_Helpers::cocart_campaign( $this->campaign_args ), esc_url( COCART_STORE_URL . 'pricing/#paid-plans' ) ) );
-		$manage_license_url = esc_url( 'https://cocartapi.com/billing' );
+		$manage_license_url = esc_url( COCART_BILLING_URL );
 
 		$license_error = get_option( 'cocart_license_error' );
 		?>
@@ -279,7 +279,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 				$message = '<strong><span class="warning dashicons dashicons-warning"></span></strong> ' . sprintf(
 					/* translators: %1$s and %2$s are a link. */
 					esc_html__( 'License is expired. %1$sRenew your license%2$s to get updates again.', 'cocart-core' ),
-					'<a href="' . esc_url( 'https://cocartapi.com/billing' ) . '">',
+					'<a href="' . esc_url( COCART_BILLING_URL ) . '">',
 					'</a>'
 				);
 			} elseif ( isset( $license_details->activated ) || isset( $license_details->deactivated ) ) {
@@ -292,7 +292,7 @@ class CoCart_Admin_Updates_Page extends CoCart_Submenu_Page {
 				$message = sprintf(
 					/* translators: %1$s and %2$s are a link. */
 					__( 'License key is invalid. Please copy and paste %1$syour license key from your account%2$s.', 'cocart-core' ),
-					'<a href="' . esc_url( 'https://cocartapi.com/billing' ) . '">',
+					'<a href="' . esc_url( COCART_BILLING_URL ) . '">',
 					'</a>'
 				);
 			} else {

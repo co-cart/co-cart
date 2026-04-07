@@ -43,7 +43,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 		} // END __construct()
 
 		/**
-		 * Disable action links for CoCart core legacy version.
+		 * Disable action links for CoCart Community version.
 		 *
 		 * @access public
 		 *
@@ -149,7 +149,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 						esc_attr__( 'View %s Documentation', 'cocart-core' ),
 						'CoCart'
 					) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Documentation', 'cocart-core' ) . '</a>',
-					'translate' => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_TRANSLATION_URL ) ) ) . '" title="' . sprintf(
+					'translate' => '<a href="' . esc_url( COCART_TRANSLATION_URL ) . '" title="' . sprintf(
 						/* translators: %s: CoCart */
 						esc_attr__( 'Translate %s', 'cocart-core' ),
 						'CoCart'
