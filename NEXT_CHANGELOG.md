@@ -1,7 +1,9 @@
 # Next Changelog for CoCart Core <!-- omit in toc -->
 
-📢 This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
+> [!WARNING]
+> This changelog is **NOT** final so take it with a grain of salt. Feedback from users while in beta will also help determine the final changelog of the release.
 
+> [!NOTE]
 > Documentation for breaking changes and new features can be found at https://docs.cocartapi.com/updates
 
 ## What's new?

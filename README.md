@@ -12,7 +12,8 @@
 	</a>
 </p>
 
-> [!IMPORTANT] DEVELOPERS NOTE
+> [!IMPORTANT]
+> DEVELOPERS NOTE
 > This branch is to help transition the differences between the Community Edition and Basic, the same features and support but is optimized for performance and provides improvements to support CoCart Plus and additional add-ons.
 > However, it is not a branch you can pull and simply install without authorized help.
 > If you've evaluated CoCart Community Edition and need more powerful features and support for production, please consider purchasing a license where you will not only get support but access to the production ready repository. 👉 [Get CoCart Basic](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=basic)
