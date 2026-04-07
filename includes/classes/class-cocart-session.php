@@ -32,9 +32,6 @@ class CoCart_Load_Cart {
 	public function __construct() {
 		// Loads a cart in session if still valid.
 		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ) );
-
-		// Loads a cart in session if valid.
-		add_action( 'woocommerce_load_cart_from_session', array( $this, 'load_cart_action' ) );
 	} // END __construct()
 
 	/**
