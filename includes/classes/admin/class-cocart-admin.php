@@ -58,8 +58,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			require_once __DIR__ . '/class-cocart-admin-notices.php';                               // Plugin Notices.
 
 			// Plugin identification and updates. @todo re-enable once updates to the updater are completed.
-			// include_once __DIR__ . '/abstract/abstract-class-plugin-updates.php';                   // Plugin identification.
-			// require_once __DIR__ . '/class-cocart-admin-updates.php';                               // Plugin Updates.
+			include_once __DIR__ . '/abstract/abstract-class-plugin-updates.php';                   // Plugin identification.
+			require_once __DIR__ . '/class-cocart-admin-updates.php';                               // Plugin Updates.
 
 			// Plugin search and suggestions.
 			require_once __DIR__ . '/plugin-suggestions/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
@@ -71,7 +71,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			// Pages.
 			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php';                   // Support page.
-			// require_once __DIR__ . '/pages/class-cocart-admin-pages-updates.php';                   // Updates/License Manager page. @todo re-enable once updates to the updater are completed.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-updates.php';                   // Updates/License Manager page. @todo re-enable once updates to the updater are completed.
 			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';                          // Setup Wizard.
 		} // END includes()
 

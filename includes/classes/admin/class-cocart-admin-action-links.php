@@ -66,7 +66,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				// If the plugin has an activate link, unset it and add a notice to say why.
 				if ( array_key_exists( 'activate', $plugin_actions ) ) {
 					unset( $plugin_actions['activate'] );
-					$new_actions['activate'] = _x( 'Activate', 'cocart-core' ) . '<span class="screen-reader-text">' . __( 'You cannot activate this plugin as it has unmet requirements.', 'cocart-core' ) . '</span>';
+					$new_actions['activate'] = __( 'Activate', 'cocart-core' ) . '<span class="screen-reader-text">' . __( 'You cannot activate this plugin as it has unmet requirements.', 'cocart-core' ) . '</span>';
 				}
 			}
 

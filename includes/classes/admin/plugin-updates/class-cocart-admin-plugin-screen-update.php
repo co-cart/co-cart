@@ -34,7 +34,11 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	 */
 	public function __construct() {
 		// Prevent the community version from activating.
-		add_filter( 'activated_plugin', array( $this, 'prevent_legacy_activation' ) );
+		add_filter( 'activate_plugin', array( $this, 'stop_activation' ) );
+
+		// If somehow the community version managed to activate then we need to deactivate it.
+		// We have to use the activated_plugin hook instead of the deactivate_plugins function's second parameter because the latter doesn't work when the plugin is activated from a network admin.
+		add_filter( 'activated_plugin', array( $this, 'maybe_deactivate_plugin' ) );
 
 		add_action( 'in_plugin_update_message-' . plugin_basename( COCART_FILE ), array( $this, 'in_plugin_update_message' ), 10, 2 );
 
@@ -43,19 +47,40 @@ class CoCart_Admin_Plugin_Screen_Update extends CoCart_Admin_Plugin_Updates {
 	} // END __construct()
 
 	/**
-	 * Prevent the community version from activating.
+	 * Stop the community version from activating.
+	 *
+	 * @access public
+	 *
+	 * @since 5.0.0 Introduced.
+	 *
+	 * @param string $plugin The plugin being activated.
+	 */
+	public function stop_activation( $plugin ) {
+		if ( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' === $plugin ) {
+			wp_die(
+				esc_html__( 'The community version of CoCart cannot be activated. You are already using a much better version.', 'cocart-core' ),
+				'CoCart Activation Error',
+				array(
+					'back_link' => true,
+				)
+			);
+		}
+	} // END stop_activation()
+
+	/**
+	 * Deactivate the community version if active.
 	 *
 	 * @access public
 	 *
 	 * @since 5.0.0 Introduced.
 	 */
-	public function prevent_legacy_activation() {
+	public function maybe_deactivate_plugin() {
 		$legacy_plugin = plugin_basename( 'cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce.php' );
 
 		if ( is_plugin_active( $legacy_plugin ) ) {
 			deactivate_plugins( $legacy_plugin );
 		}
-	} // END prevent_legacy_activation()
+	} // END maybe_deactivate_plugin()
 
 	/**
 	 * Show plugin changes on the plugins screen.

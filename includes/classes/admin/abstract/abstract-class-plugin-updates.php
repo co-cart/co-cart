@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class CoCart_Plugin_Updates {
 
 	/**
-	 * Plugin API URL
+	 * Customer Portal API URL
 	 *
 	 * @access protected
 	 *
@@ -27,7 +27,7 @@ abstract class CoCart_Plugin_Updates {
 	 *
 	 * @var string
 	 */
-	protected static $api_url = 'https://api.cocartapi.com';
+	protected static $customer_portal_api_url = 'https://api.polar.sh/v1/customer-portal';
 
 	/**
 	 * Expected plugin data.
@@ -39,10 +39,13 @@ abstract class CoCart_Plugin_Updates {
 	 * @var array
 	 */
 	protected static $plugins = array(
-		'cart-rest-api-for-woocommerce.php' => 'cart-rest-api-for-woocommerce', // Legacy core.
-		'cocart-core.php'                   => 'cocart-core',
+		'cart-rest-api-for-woocommerce.php' => 'cart-rest-api-for-woocommerce', // Community.
+		'cocart-core.php'                   => 'cocart-core', // temp
+		'cocart-basic.php'                  => 'cocart-basic',
 		'cocart-plus.php'                   => 'cocart-plus',
 		'cocart-pro.php'                    => 'cocart-pro',
+		'cocart-white-label.php'            => 'cocart-white-label',
+		'cocart-seo-pack.php'               => 'cocart-seo-pack',
 	);
 
 	/**
@@ -55,10 +58,13 @@ abstract class CoCart_Plugin_Updates {
 	 * @var array
 	 */
 	protected static $slug_to_class_map = array(
-		'cart-rest-api-for-woocommerce' => 'CoCart', // Legacy core.
-		'cocart-core'                   => 'CoCart',
+		'cart-rest-api-for-woocommerce' => 'CoCart', // Community.
+		'cocart-core'                   => 'CoCart', // temp
+		'cocart-basic'                  => 'CoCart',
 		'cocart-plus'                   => 'CoCart_Plus',
 		'cocart-pro'                    => 'CoCart_Pro',
+		'cocart-white-label'            => 'CoCart_White_Label',
+		'cocart-seo-pack'               => 'CoCart\SEOPack\Plugin',
 		'cocart-wpcli-addon'            => 'CoCart\WPCLI\Plugin',
 	);
 
@@ -241,4 +247,34 @@ abstract class CoCart_Plugin_Updates {
 
 		return $plugin_versions;
 	} // END get_installed_plugins_versions()
+
+	/**
+	 * Map the API response to the format WordPress expects.
+	 * Only the bare minimum is required for the API response to work.
+	 *
+	 * @access public
+	 *
+	 * @param string $plugin_slug The plugin slug to map.
+	 *
+	 * @return array The mapped plugin data for the API response.
+	 */
+	public function plugin_map( $plugin_slug ) {
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$plugin_file = $this->get_plugin_file( $plugin_slug );
+
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file );
+
+		return array(
+			'id'           => 'cocart-headless/' . $plugin_slug,
+			'slug'         => $plugin_slug,
+			'new_version'  => $plugin_data['Version'],
+			'url'          => $plugin_data['PluginURI'],
+			'requires'     => $plugin_data['RequiresWP'],
+			'requires_php' => $plugin_data['RequiresPHP'],
+			'package'      => '', // Leave blank, will be provided via `upgrader_package_options` filter when the update is being installed.
+		);
+	} // END plugin_map()
 }
