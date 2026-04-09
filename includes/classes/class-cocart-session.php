@@ -215,7 +215,7 @@ class CoCart_Load_Cart {
 
 			$new_cart = array();
 
-			$new_cart['cart']                       = isset( $requested_cart['cart'] ) ? maybe_unserialize( $requested_cart['cart'] ) : null;
+			$new_cart['cart']                       = isset( $requested_cart['cart'] ) ? maybe_unserialize( $requested_cart['cart'] ) : array();
 			$new_cart['cart_totals']                = isset( $requested_cart['cart_totals'] ) ? maybe_unserialize( $requested_cart['cart_totals'] ) : null;
 			$new_cart['applied_coupons']            = isset( $requested_cart['applied_coupons'] ) ? maybe_unserialize( $requested_cart['applied_coupons'] ) : null;
 			$new_cart['coupon_discount_totals']     = isset( $requested_cart['coupon_discount_totals'] ) ? maybe_unserialize( $requested_cart['coupon_discount_totals'] ) : null;
