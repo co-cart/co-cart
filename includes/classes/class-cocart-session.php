@@ -235,7 +235,7 @@ class CoCart_Load_Cart {
 				$new_cart['cart_cached'] = maybe_unserialize( $requested_cart['cart_cached'] );
 			}
 
-			cocart_deprecated_hook( 'cocart_load_cart_override', '4.6.4' );
+			cocart_do_deprecated_action( 'cocart_load_cart_override', '4.6.4' );
 
 			// Check if we are keeping the cart currently set via the web.
 			$keep_cart = ! empty( $_GET['keep-cart'] ) && filter_var( wp_unslash( $_GET['keep-cart'] ), FILTER_VALIDATE_BOOLEAN ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
