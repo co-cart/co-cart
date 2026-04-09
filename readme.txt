@@ -326,8 +326,25 @@ This is a community edition of the core of CoCart. Response time for support is 
 
 ### Bug Fixes
 
+* Plugin: Fixed fatal error from `sprint_f()` typo in database update scheduler (`sprintf`).
 * REST API: Slugs and permalinks with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of URL-encoded across all product and cart endpoints.
 * REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
+* REST API: Fixed fatal error when adding an invalid product to cart via v2 controller due to missing `WP_Error` check after product validation.
+* Load Cart: Fixed uncaught type error merging an empty cart value.
+
+#### PHP 8.2+ Fixes
+
+* REST API: Fixed warnings for undefined array keys `cart_item_data` and `cart_item_key` in v1 add item controller.
+* Session: Fixed warning for undefined array key `total` in session handler cart hash generation.
+* Plugin: Fixed warnings for undefined array key `count` when database queries return no results in cart counting functions.
+* Plugin: Fixed warning for undefined variable `$per_page` in admin plugin search.
+* Plugin: Fixed deprecated `${var}` string interpolation syntax in plugin update screen.
+
+### Change
+
+* Session: Removed the max expiration exceed limit of 30 days to allow adjusting the lifetimes via the `cocart_cart_expiring` and `cocart_cart_expiration` filters as needed.
+
+> Dev note: You will still be warned "Keeping sessions for longer than X days can cause performance issues and larger session tables."
 
 ### Improvements
 
@@ -339,6 +356,7 @@ This is a community edition of the core of CoCart. Response time for support is 
 
 ### Developers
 
+* Logger: Log entries now include a source line identifying the calling class, method, file, and line number for easier debugging.
 * Introduced new filter `cocart_etag_cart_routes` to customize which cart routes support ETag.
 * Introduced new filter `cocart_etag_product_routes` to customize which product routes support ETag.
 * Introduced new filter `cocart_etag_routes` to add ETag support for third-party plugin routes.
