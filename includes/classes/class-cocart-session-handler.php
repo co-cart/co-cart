@@ -779,6 +779,21 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	} // END set_cart_key()
 
 	/**
+	 * Set customer ID.
+	 *
+	 * Used for loading the cart session so the WooCommerce Cookie does not get destroyed.
+	 *
+	 * @access public
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param string $customer_id Customer ID.
+	 */
+	public function set_customer_id( $customer_id ) {
+		$this->_customer_id = $customer_id;
+	} // END set_customer_id()
+
+	/**
 	 * Get cart hash
 	 *
 	 * @access public
