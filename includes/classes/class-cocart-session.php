@@ -290,7 +290,7 @@ class CoCart_Load_Cart {
 
 			// Sets the PHP session data for the loaded cart.
 			// If either cart, applied_coupons, coupon_discount_totals, coupon_discount_tax_totals or removed_cart_contents are not set then they are nulled as fallback.
-			$wc_session->set( 'cart', ! empty( $new_cart['cart'] ) ? maybe_unserialize( $new_cart['cart'] ) : null );
+			$wc_session->set( 'cart', ! empty( $new_cart['cart'] ) ? maybe_unserialize( $new_cart['cart'] ) : array() );
 			$wc_session->set( 'cart_totals', ! empty( $new_cart['cart_totals'] ) ? maybe_unserialize( $new_cart['cart_totals'] ) : null );
 			$wc_session->set( 'applied_coupons', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['applied_coupons'] ) : null );
 			$wc_session->set( 'coupon_discount_totals', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['coupon_discount_totals'] ) : null );
