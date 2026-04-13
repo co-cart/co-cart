@@ -4,7 +4,7 @@
 	<a href="https://github.com/co-cart/co-cart/blob/trunk/license.txt" target="_blank">
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
 	</a>
-	<img src="https://img.shields.io/badge/WordPress-6.3+-blue.svg" alt="WordPress 6.3+">
+	<img src="https://img.shields.io/badge/WordPress-6.7+-blue.svg" alt="WordPress 6.7+">
 	<img src="https://img.shields.io/badge/WooCommerce-9.0+-7f54b3.svg" alt="WooCommerce 9.0+">
 	<img src="https://img.shields.io/badge/PHP-8.2+-777BB4.svg" alt="PHP 8.2+">
 	<a href="https://github.com/co-cart/co-cart">
