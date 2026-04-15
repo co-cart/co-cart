@@ -238,7 +238,9 @@ class CoCart_Load_Cart {
 			cocart_do_deprecated_action( 'cocart_load_cart_override', '4.6.4' );
 
 			// Check if we are keeping the cart currently set via the web.
-			if ( ! empty( $_GET['keep-cart'] ) && is_bool( $_GET['keep-cart'] ) !== true ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$keep_cart = ! empty( $_GET['keep-cart'] ) && filter_var( wp_unslash( $_GET['keep-cart'] ), FILTER_VALIDATE_BOOLEAN ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			if ( $keep_cart ) {
 				$new_cart_content = array_merge( $new_cart['cart'], maybe_unserialize( $cart_in_session ) );
 				/**
 				 * Filter allows you to adjust the merged cart contents.
