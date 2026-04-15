@@ -19,7 +19,8 @@
 * REST API: Slugs and permalinks with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of URL-encoded across all product and cart endpoints.
 * REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
 * REST API: Fixed fatal error when adding an invalid product to cart via v2 controller due to missing `WP_Error` check after product validation.
-* Load Cart: Fixed uncaught type error merging an empty cart value.
+* REST API: Corrected `Last-Modified` header in GMT per HTTP spec with more robust date parsing.
+* Load Cart: Fixed uncaught type error merging an empty cart value. Reported by [@allkhor](https://github.com/allkhor) 👍
 
 #### PHP 8.2+ Fixes
 
@@ -54,7 +55,7 @@
 
 ### Compatibility
 
-* Tested with WooCommerce v10.6
+* Tested with WooCommerce v10.7
 
 ## v4.8.3 - 26th January, 2026
 
