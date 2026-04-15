@@ -444,30 +444,19 @@ class CoCart_REST_API {
 					}
 
 					if ( $last_modified ) {
-						// Create a DateTime object in GMT.
-						$gmt_date = new DateTime( $last_modified, new DateTimeZone( 'GMT' ) );
-
-						// Determine the site's timezone.
-						$timezone_string = get_option( 'timezone_string' );
-						$gmt_offset      = get_option( 'gmt_offset' );
-
-						if ( ! empty( $timezone_string ) ) {
-							$site_timezone = new DateTimeZone( $timezone_string );
-						} elseif ( is_numeric( $gmt_offset ) ) {
-							$offset_hours   = (int) $gmt_offset;
-							$offset_minutes = abs( $gmt_offset - $offset_hours ) * 60;
-							$site_timezone  = new DateTimeZone( sprintf( '%+03d:%02d', $offset_hours, $offset_minutes ) );
+						if ( is_numeric( $last_modified ) ) {
+							$dt = new DateTime( '@' . (int) $last_modified ); // UTC.
 						} else {
-							$site_timezone = new DateTimeZone( 'UTC' );
+							$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $last_modified, new DateTimeZone( 'GMT' ) );
+							if ( ! $dt ) {
+								$dt = new DateTime( $last_modified, new DateTimeZone( 'GMT' ) );
+							}
 						}
-
-						// Convert to WordPress site timezone.
-						$gmt_date->setTimezone( $site_timezone );
 					} else {
-						$gmt_date = new DateTime( 'now', new DateTimeZone( 'GMT' ) );
+						$dt = new DateTime( 'now', new DateTimeZone( 'GMT' ) );
 					}
 
-					$last_modified = $gmt_date->format( 'D, d M Y H:i:s' ) . ' GMT';
+					$last_modified = $dt->format( 'D, d M Y H:i:s' ) . ' GMT';
 
 					$max_age                = HOUR_IN_SECONDS;
 					$stale_while_revalidate = DAY_IN_SECONDS;
