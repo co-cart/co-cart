@@ -313,6 +313,7 @@ This is a community edition of the core of CoCart. Response time for support is 
 ### Bug Fixes
 
 * Plugin: Fixed fatal error from `sprint_f()` typo in database update scheduler (`sprintf`).
+* REST API: Apply `Access-Control-Allow-Credentials` header correctly.
 * Load Cart: Only trigger warning if hook `cocart_load_cart_override` was used.
 * Load Cart: Fixed uncaught type error merging an empty cart value. Reported by [@allkhor](https://github.com/allkhor) 👍
 * WordPress Dashboard: Fixed HTML issue in the WooCommerce admin bar title.
