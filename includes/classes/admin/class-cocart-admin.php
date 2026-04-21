@@ -44,6 +44,10 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 		 * @since 1.2.0 Introduced.
 		 */
 		public function includes() {
+			if ( ! is_admin() ) {
+				return;
+			}
+
 			// Required files.
 			include_once __DIR__ . '/abstract/abstract-class-submenu-page.php';                     // Admin Abstracts.
 			require_once __DIR__ . '/class-cocart-admin-assets.php';                                // Admin Assets.
