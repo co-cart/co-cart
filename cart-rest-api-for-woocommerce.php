@@ -5,7 +5,7 @@
  * Description: A developer-first REST API to decouple WooCommerce on the frontend to help build modern and scalable storefronts.
  * Author:      CoCart Headless, LLC
  * Author URI:  https://cocartapi.com
- * Version:     4.8.3
+ * Version:     4.8.4
  * Text Domain: cart-rest-api-for-woocommerce
  * Domain Path: /languages/
  * Requires at least: 6.3
