@@ -349,10 +349,11 @@ This is a community edition of the core of CoCart. Response time for support is 
 
 ### Improvements
 
-* Session: Fixed `get_session()` using `wp_cache_set()` instead of `wp_cache_add()`, which caused stale persistent object cache entries to never be overwritten.
-* Session: Fixed `get_session()` and `update_cart()` using an uninitialized expiration value on frontend requests, preventing sessions from being cached after a database read.
-* Session: Fixed `save_data()` writing to object cache with a potentially negative TTL when session expiration was stale or unset.
-* Session: Fixed `update_cart()` not syncing the object cache after a database write, causing subsequent reads to return stale cached data.
+* REST API: Slight performance increase by preventing admin content from loading in the background for every REST request made.
+* Session: Adjusted `get_session()` using `wp_cache_set()` instead of `wp_cache_add()`, which caused stale persistent object cache entries to never be overwritten.
+* Session: Adjusted `get_session()` and `update_cart()` using an uninitialized expiration value on frontend requests, preventing sessions from being cached after a database read.
+* Session: Adjusted `save_data()` writing to object cache with a potentially negative TTL when session expiration was stale or unset.
+* Session: Adjusted `update_cart()` not syncing the object cache after a database write, causing subsequent reads to return stale cached data.
 * Session: Added `get_cache_expiration()` helper to reliably resolve cache expiration across both REST API and frontend contexts.
 
 ### Developers
