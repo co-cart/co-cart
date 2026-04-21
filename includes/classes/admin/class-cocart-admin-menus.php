@@ -114,7 +114,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 								'screen_id' => 'cocart_page_' . $submenu_page['data']['menu_slug'],
 								'title'     => array(
 									'CoCart',
-									preg_replace('/\d/', '', wp_strip_all_tags( $submenu_page['data']['menu_title'], true ) ),
+									preg_replace( '/\d/', '', wp_strip_all_tags( $submenu_page['data']['menu_title'], true ) ),
 								),
 								'path'      => add_query_arg(
 									array(
