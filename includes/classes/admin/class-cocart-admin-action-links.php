@@ -116,7 +116,7 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 					esc_attr__( 'View %s Documentation', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'
 				) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
-				'translate' => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_TRANSLATION_URL ) ) ) . '" title="' . sprintf(
+				'translate' => '<a href="' . esc_url( COCART_TRANSLATION_URL ) . '" title="' . sprintf(
 					/* translators: %s: CoCart */
 					esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ),
 					'CoCart'
