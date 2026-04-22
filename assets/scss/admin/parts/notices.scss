@@ -67,12 +67,12 @@
 
 		.cocart-action {
 			float: right;
+			position: relative;
 			text-align: center;
+			top: 12px;
 
 			.cocart-button {
-				height: auto;
-				line-height: 20px;
-				padding: 6px 50px;
+				margin-right: 1.8rem;
 			}
 		}
 

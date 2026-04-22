@@ -9,7 +9,7 @@ body.cocart-pagestyles .wp-header-end {
 .cocart-wrapped {
   clear: both;
   margin: 0 auto !important;
-  max-width: 700px;
+  max-width: 740px;
   padding: 60px 0 !important;
 }
 .cocart-wrapped .cocart-content {
@@ -27,10 +27,10 @@ body.cocart-pagestyles .wp-header-end {
 .cocart-wrapped .cocart-content.inner form {
   padding: 24px;
 }
-.cocart-wrapped .cocart-content a {
+.cocart-wrapped .cocart-content a:not(.button) {
   color: #6032b0;
 }
-.cocart-wrapped .cocart-content a:hover, .cocart-wrapped .cocart-content a:focus {
+.cocart-wrapped .cocart-content a:not(.button):hover, .cocart-wrapped .cocart-content a:not(.button):focus {
   color: #151515;
 }
 .cocart-wrapped .cocart-content p {
@@ -107,7 +107,6 @@ body:not(.rtl).cocart-pagestyles #wpbody {
 
 .cocart-pagestyles a.button-large,
 .cocart-pagestyles button.button-large {
-  border-radius: 32px !important;
   font-weight: 600;
   padding: 1em !important;
 }
@@ -232,12 +231,12 @@ body:not(.rtl).cocart-pagestyles #wpbody {
 }
 .notice.cocart-notice .cocart-action {
   float: right;
+  position: relative;
   text-align: center;
+  top: 12px;
 }
 .notice.cocart-notice .cocart-action .cocart-button {
-  height: auto;
-  line-height: 20px;
-  padding: 6px 50px;
+  margin-right: 1.8rem;
 }
 .notice.cocart-notice .cocart-notice-inner {
   display: table;

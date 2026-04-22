@@ -12,7 +12,6 @@
 }
 
 @mixin button-large {
-	border-radius: 32px !important;
 	font-weight: 600;
 	padding: 1em !important;
 }
@@ -40,7 +39,7 @@ body.cocart-pagestyles .wp-header-end {
 .cocart-wrapped {
 	clear: both;
 	margin: 0 auto !important;
-	max-width: 700px;
+	max-width: 740px;
 	padding: 60px 0 !important;
 
 	.cocart-content {
@@ -60,7 +59,7 @@ body.cocart-pagestyles .wp-header-end {
 			}
 		}
 
-		a {
+		a:not(.button) {
 			color: variables.$cocart;
 
 			&:hover,
