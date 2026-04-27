@@ -235,7 +235,7 @@ body:not(.rtl).cocart-pagestyles #wpbody {
   text-align: center;
   top: 12px;
 }
-.notice.cocart-notice .cocart-action .cocart-button {
+.notice.cocart-notice.is-dismissible .cocart-button {
   margin-right: 1.8rem;
 }
 .notice.cocart-notice .cocart-notice-inner {

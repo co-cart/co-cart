@@ -29,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.9.0-beta.5';
+	public static $version = '4.9.0-beta.6';
 
 	/**
 	 * CoCart Database Schema version.
@@ -128,8 +128,6 @@ final class CoCart {
 	public static function init() {
 		self::setup_constants();
 		self::includes();
-		self::include_extension_compatibility();
-		self::include_third_party();
 
 		// Install CoCart upon activation.
 		register_activation_hook( COCART_FILE, array( __CLASS__, 'install_cocart' ) );
@@ -142,6 +140,9 @@ final class CoCart {
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'cocart_tasks' ) );
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'woocommerce' ) );
 		add_action( 'woocommerce_loaded', array( __CLASS__, 'background_updater' ) );
+
+		// Load integrations (compatibility modules + third-party plugin support).
+		add_action( 'init', array( __CLASS__, 'include_integrations' ), 5 );
 
 		// Load translation files.
 		add_action( 'init', array( __CLASS__, 'load_plugin_textdomain' ), 0 );
@@ -189,7 +190,7 @@ final class CoCart {
 		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocartapi.com/' );
 		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/' );
 		self::define( 'COCART_REPO_URL', 'https://github.com/co-cart/co-cart' );
-		self::define( 'COCART_NEXT_VERSION', '5.0.0' );
+		// self::define( 'COCART_NEXT_VERSION', '5.0.0' );
 	} // END setup_constants()
 
 	/**
@@ -305,6 +306,9 @@ final class CoCart {
 		include_once __DIR__ . '/cocart-deprecated-functions.php';
 		include_once __DIR__ . '/cocart-formatting-functions.php';
 
+		// Integration Registry — must load before compatibility and third-party modules.
+		include_once __DIR__ . '/classes/class-cocart-integrations.php';
+
 		// Core classes.
 		require_once __DIR__ . '/classes/class-cocart-helpers.php';
 		require_once __DIR__ . '/classes/class-cocart-install.php';
@@ -359,30 +363,17 @@ final class CoCart {
 	} // END background_updater()
 
 	/**
-	 * Include extension compatibility.
+	 * Include all integrations (compatibility modules + third-party plugin support).
 	 *
 	 * @access public
 	 *
 	 * @static
 	 *
-	 * @since 3.0.0 Introduced.
+	 * @since 4.9.0 Introduced.
 	 */
-	public static function include_extension_compatibility() {
-		require_once __DIR__ . '/compatibility/class-cocart-compatibility.php';
-	} // END include_extension_compatibility()
-
-	/**
-	 * Include third party support.
-	 *
-	 * @access public
-	 *
-	 * @static
-	 *
-	 * @since 2.8.1 Introduced.
-	 */
-	public static function include_third_party() {
-		require_once __DIR__ . '/third-party/class-cocart-third-party.php';
-	} // END include_third_party()
+	public static function include_integrations(): void {
+		CoCart_Integrations::load();
+	} // END include_integrations()
 
 	/**
 	 * Install CoCart upon activation.

@@ -6,12 +6,16 @@
  * @package CoCart\Compatibility\Modules
  * @since   3.0.0
  * @version 3.1.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+if ( ! CoCart_Integrations::is_enabled( 'advanced-shipping-packages' ) ) {
+	return;
 }
 
 if ( ! class_exists( 'Advanced_Shipping_Packages_for_WooCommerce' ) ) {

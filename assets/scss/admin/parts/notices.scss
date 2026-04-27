@@ -70,7 +70,9 @@
 			position: relative;
 			text-align: center;
 			top: 12px;
+		}
 
+		&.is-dismissible {
 			.cocart-button {
 				margin-right: 1.8rem;
 			}

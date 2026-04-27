@@ -5,12 +5,16 @@
  * @author  Sébastien Dumont
  * @package CoCart\Third Party\Plugin
  * @since   3.0.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+if ( ! CoCart_Integrations::is_enabled( 'taxjar' ) ) {
+	return;
 }
 
 if ( ! class_exists( 'CoCart_Plugin_TaxJar' ) ) {

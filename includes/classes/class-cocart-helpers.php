@@ -499,6 +499,7 @@ class CoCart_Helpers {
 				'toplevel_page_cocart',
 				'toplevel_page_cocart-network',
 				'cocart_page_cocart-support',
+				'cocart_page_cocart-integrations',
 			)
 		);
 	} // END cocart_get_admin_screens()

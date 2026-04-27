@@ -4,7 +4,7 @@
  *
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Menus
- * @since   2.0.0
+ * @since   2.0.0 Introduced.
  * @version 3.1.0
  * @license GPL-2.0+
  */
@@ -22,7 +22,8 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * A list with the objects that handle submenu pages
 		 *
 		 * @access public
-		 * @var    array
+		 *
+		 * @var array
 		 */
 		public $submenu_pages = array();
 
@@ -43,8 +44,9 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		/**
 		 * Add CoCart to the menu.
 		 *
-		 * @access  public
-		 * @since   2.0.0
+		 * @access public
+		 *
+		 * @since   2.0.0 Introduced.
 		 * @version 3.10.5
 		 */
 		public function add_main_menu_page() {
@@ -114,7 +116,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 								'screen_id' => 'cocart_page_' . $submenu_page['data']['menu_slug'],
 								'title'     => array(
 									'CoCart',
-									preg_replace('/\d/', '', wp_strip_all_tags( $submenu_page['data']['menu_title'], true ) ),
+									preg_replace( '/\d/', '', wp_strip_all_tags( $submenu_page['data']['menu_title'], true ) ),
 								),
 								'path'      => add_query_arg(
 									array(

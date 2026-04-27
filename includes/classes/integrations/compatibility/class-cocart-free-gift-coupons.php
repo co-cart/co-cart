@@ -5,12 +5,16 @@
  * @author  Sébastien Dumont
  * @package CoCart\Compatibility\Modules
  * @since   3.0.0
- * @license GPL-2.0+
+ * @license GPL-3.0
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+if ( ! CoCart_Integrations::is_enabled( 'free-gift-coupons' ) ) {
+	return;
 }
 
 if ( ! class_exists( 'WC_Free_Gift_Coupons' ) ) {
@@ -73,7 +77,7 @@ if ( ! class_exists( 'CoCart_FGC_Compatibility' ) ) {
 
 				return $passed_validation;
 			} catch ( CoCart_Data_Exception $e ) {
-				return CoCart_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
+				return new \WP_Error( $e->getErrorCode(), $e->getMessage(), array( 'status' => $e->getCode() ), $e->getAdditionalData() );
 			}
 		} // END update_cart_validation()
 	} // END class.

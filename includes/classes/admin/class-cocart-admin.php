@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   1.2.0
- * @version 4.0.0
+ * @version 4.9.0
  * @license GPL-2.0+
  */
 
@@ -66,6 +66,7 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 
 			// Pages.
 			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php';                   // Support.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-integrations.php';              // Integrations page.
 			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';                          // Setup Wizard.
 		} // END includes()
 
