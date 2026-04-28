@@ -6,7 +6,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.0.0
- * @version 4.3.25
+ * @version 4.9.0
  * @license GPL-2.0+
  */
 
@@ -94,7 +94,7 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 */
 		public function plugin_list_args( $args ) {
 			$cocart_args = array(
-				'page'     => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * 36 ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				'page'     => isset( $_GET['paged'] ) ? max( 0, intval( $_GET['paged'] - 1 ) * $per_page ) : 0, // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				'per_page' => 36,
 				'author'   => 'cocartforwc',
 			);
@@ -241,16 +241,9 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @return array
 		 */
 		public function get_suggestions() {
-			$data = get_option(
-				'cocart_plugin_suggestions',
-				array(
-					'suggestions' => array(),
-					'updated'     => '',
-				)
-			);
+			$data = get_transient( 'cocart_plugin_suggestions' );
 
-			// If the options have never been updated, or were updated over a week ago, request suggestions.
-			if ( empty( $data['updated'] ) || ( time() - WEEK_IN_SECONDS ) > $data['updated'] ) {
+			if ( false === $data ) {
 				$data = CoCart_Admin_Plugin_Suggestions_Updater::update_plugin_suggestions();
 			}
 
@@ -718,16 +711,9 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				return;
 			}
 
-			$data = get_option(
-				'cocart_plugin_suggestions',
-				array(
-					'suggestions' => array(),
-					'updated'     => '',
-				)
-			);
+			$data = get_transient( 'cocart_plugin_suggestions' );
 
-			// If the options have never been updated, or were updated over a week ago, queue update.
-			if ( empty( $data['updated'] ) || ( time() - WEEK_IN_SECONDS ) > $data['updated'] ) {
+			if ( false === $data ) {
 				$next = WC()->queue()->get_next( 'cocart_update_plugin_suggestions' );
 				if ( ! $next ) {
 					WC()->queue()->cancel_all( 'cocart_update_plugin_suggestions' );

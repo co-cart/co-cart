@@ -52,39 +52,35 @@ class CoCart_Admin_Plugin_Suggestions_Updater {
 	 * @return array Returns plugin suggestions and timestamp.
 	 */
 	public static function update_plugin_suggestions() {
-		$data = get_option(
-			'cocart_plugin_suggestions',
-			array(
-				'suggestions' => array(),
-				'updated'     => time(),
-			)
-		);
-
-		$data['updated'] = time();
-
 		$url     = 'https://suggestions.cocartapi.com/plugin/1.0/suggestions.json';
 		$request = wp_safe_remote_get( $url );
 
 		if ( is_wp_error( $request ) ) {
 			self::retry();
-			return update_option( 'cocart_plugin_suggestions', $data, false );
+			set_transient( 'cocart_plugin_suggestions', array(), DAY_IN_SECONDS );
+			return array();
 		}
 
 		$body = wp_remote_retrieve_body( $request );
 		if ( empty( $body ) ) {
 			self::retry();
-			return update_option( 'cocart_plugin_suggestions', $data, false );
+			set_transient( 'cocart_plugin_suggestions', array(), DAY_IN_SECONDS );
+			return array();
 		}
 
 		$body = json_decode( $body, true );
 		if ( empty( $body ) || ! is_array( $body ) ) {
 			self::retry();
-			return update_option( 'cocart_plugin_suggestions', $data, false );
+			set_transient( 'cocart_plugin_suggestions', array(), DAY_IN_SECONDS );
+			return array();
 		}
 
-		$data['suggestions'] = $body;
+		$data = array(
+			'suggestions' => $body,
+			'updated'     => time(),
+		);
 
-		update_option( 'cocart_plugin_suggestions', $data, false );
+		set_transient( 'cocart_plugin_suggestions', $data, WEEK_IN_SECONDS );
 
 		return $data;
 	} // END update_plugin_suggestions()
