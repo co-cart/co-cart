@@ -4,16 +4,12 @@
 
 @mixin button {
 	color: variables.$white !important;
+	font-weight: 600;
 	min-width: fit-content !important;
 }
 
 @mixin button-alt {
 	color: variables.$cocart !important;
-}
-
-@mixin button-large {
-	font-weight: 600;
-	padding: 1em !important;
 }
 
 @mixin button-hover {
@@ -158,11 +154,6 @@ body:not(.rtl).cocart-pagestyles {
 }
 
 .cocart-pagestyles {
-	a.button-large,
-	button.button-large {
-		@include button-large;
-	}
-
 	a.cocart-button,
 	button.cocart-button {
 		background-color: variables.$cocart-button;

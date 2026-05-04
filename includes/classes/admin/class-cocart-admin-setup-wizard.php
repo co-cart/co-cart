@@ -327,7 +327,7 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			</select>
 
 			<p class="cocart-actions step">
-				<button class="button button-primary button-large cocart-button" value="<?php esc_attr_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?></button>
+				<button class="button button-primary cocart-button" value="<?php esc_attr_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?>" name="save_step"><?php esc_html_e( "Let's go!", 'cart-rest-api-for-woocommerce' ); ?></button>
 			</p>
 		</form>
 		<?php

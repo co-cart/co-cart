@@ -145,13 +145,9 @@ ul.cocart-next-steps {
 		align-items: center;
 
 		.cocart-button {
-			margin: 1em 1.5em !important;
-		}
-
-		.button-large {
 			box-shadow: none;
+			margin: 1em 1.5em !important;
 			min-width: 12em;
-			line-height: 1;
 			height: auto;
 
 			&:focus,

@@ -105,16 +105,12 @@ body:not(.rtl).cocart-pagestyles #wpbody {
   font-weight: 400;
 }
 
-.cocart-pagestyles a.button-large,
-.cocart-pagestyles button.button-large {
-  font-weight: 600;
-  padding: 1em !important;
-}
 .cocart-pagestyles a.cocart-button,
 .cocart-pagestyles button.cocart-button {
   background-color: #5f32d9;
   border-color: #5f32d9;
   color: #fff !important;
+  font-weight: 600;
   min-width: -moz-fit-content !important;
   min-width: fit-content !important;
 }
@@ -122,6 +118,7 @@ body:not(.rtl).cocart-pagestyles #wpbody {
 .cocart-pagestyles button.cocart-button-alt {
   border-color: #6032b0;
   color: #fff !important;
+  font-weight: 600;
   min-width: -moz-fit-content !important;
   min-width: fit-content !important;
   color: #6032b0 !important;
@@ -424,18 +421,15 @@ ul.cocart-next-steps .cocart-next-step-action {
   align-items: center;
 }
 ul.cocart-next-steps .cocart-next-step-action .cocart-button {
-  margin: 1em 1.5em !important;
-}
-ul.cocart-next-steps .cocart-next-step-action .button-large {
   box-shadow: none;
+  margin: 1em 1.5em !important;
   min-width: 12em;
-  line-height: 1;
   height: auto;
 }
-ul.cocart-next-steps .cocart-next-step-action .button-large:focus, ul.cocart-next-steps .cocart-next-step-action .button-large:hover, ul.cocart-next-steps .cocart-next-step-action .button-large:active {
+ul.cocart-next-steps .cocart-next-step-action .cocart-button:focus, ul.cocart-next-steps .cocart-next-step-action .cocart-button:hover, ul.cocart-next-steps .cocart-next-step-action .cocart-button:active {
   box-shadow: none;
 }
-ul.cocart-next-steps .cocart-next-step-action .button-large.button-primary {
+ul.cocart-next-steps .cocart-next-step-action .cocart-button.button-primary {
   margin: 0;
   opacity: 1;
 }
