@@ -12,6 +12,8 @@
 * REST API: Added `CoCart-Cache` response header indicating cache status: `HIT`, `MISS`, or `SKIP`.
 * REST API: Added `_skip_cache` query parameter to bypass caching for individual requests.
 * REST API: Added `stale-while-revalidate` directive to cacheable routes (products) for improved performance.
+* REST API: Added check for `X-HTTP-Method-Override` header if it exists during authentication.
+* WordPress Dashboard: New integrations page to provide more control over which supported plugin is running when making a CoCart request.
 
 ### Bug Fixes
 
