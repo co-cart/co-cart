@@ -276,7 +276,7 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 					'doc_url'      => 'https://wordpress.org/plugins/litespeed-cache/',
 					'icon'         => $icons_url . 'litespeed.svg',
 				),
-				$base . 'third-party/litespeed-cache/class-cocart-plugin-litespeed-cache.php'
+				$base . 'third-party/class-cocart-plugin-litespeed-cache.php'
 			);
 
 			self::add(
@@ -289,7 +289,7 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 					'doc_url'      => 'https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/',
 					'icon'         => '',
 				),
-				$base . 'third-party/taxjar/class-cocart-plugin-taxjar.php'
+				$base . 'third-party/class-cocart-plugin-taxjar.php'
 			);
 
 			// ── CoCart Plus (metadata-only — no file to load) ─────────────────────
