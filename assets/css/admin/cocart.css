@@ -811,7 +811,6 @@ ul.cocart-next-steps .cocart-additional-steps .cocart-actions .button {
   display: flex;
   font-size: 18px;
   width: 18px;
-  height: 18px;
   flex-shrink: 0;
 }
 
@@ -862,6 +861,7 @@ ul.cocart-next-steps .cocart-additional-steps .cocart-actions .button {
   width: 44px;
   height: 24px;
   cursor: pointer;
+  margin: 0 !important;
 }
 .cocart-toggle--disabled {
   cursor: default;

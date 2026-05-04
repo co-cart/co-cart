@@ -202,7 +202,6 @@
 	display: flex;
 	font-size: 18px;
 	width: 18px;
-	height: 18px;
 	flex-shrink: 0;
 }
 
@@ -260,6 +259,7 @@
 	width: 44px;
 	height: 24px;
 	cursor: pointer;
+	margin: 0 !important;
 
 	&--disabled {
 		cursor: default;
