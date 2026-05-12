@@ -55,6 +55,10 @@ curl -X POST https://your-store.com/wp-json/cocart/v2/cart/add-item \
 
 See the [full documentation](https://cocartapi.com/docs/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition) for all available endpoints and [create a sandbox](https://cocartapi.com/try-free-demo/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition) to try it out.
 
+If you use Raycast, install our documentation extension for quick easy access.
+
+<a title="Install cocart-docs Raycast Extension" href="https://www.raycast.com/cocart_headless/cocart-docs"><img src="https://www.raycast.com/cocart_headless/cocart-docs/install_button@2x.png?v=1.1" height="64" alt="Install CoCart Docs Raycast extension" style="height: 64px;"></a>
+
 ## Official SDKs
 
 Get started in your language of choice. Each SDK handles authentication, session management, and cart operations out of the box including currency formatting and timezone for dates.

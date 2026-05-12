@@ -31,6 +31,8 @@ curl -X POST https://your-store.com/wp-json/cocart/v2/cart/add-item \
 
 See the [full documentation](https://cocartapi.com/docs/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=firsttime) for all available endpoints and [create a sandbox](https://cocartapi.com/try-free-demo/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=firsttime) to try it out.
 
+If you use Raycast, [install our documentation extension](https://www.raycast.com/cocart_headless/cocart-docs) for quick easy access.
+
 ## Official SDKs
 
 Get started in your language of choice. Each SDK handles authentication, session management, and cart operations out of the box including currency formatting and timezone for dates.
@@ -355,6 +357,7 @@ This is a community edition of the core of CoCart. Response time for support is 
 * Session: Adjusted `save_data()` writing to object cache with a potentially negative TTL when session expiration was stale or unset.
 * Session: Adjusted `update_cart()` not syncing the object cache after a database write, causing subsequent reads to return stale cached data.
 * Session: Added `get_cache_expiration()` helper to reliably resolve cache expiration across both REST API and frontend contexts.
+* Session: When an authenticated customer provides a guest `cart_key`, their existing cart items are now **merged** with the guest cart rather than replaced by it. Guest items not already present in the user's cart are added; the user's existing items are always preserved. Administrators and shop managers are excluded from this behaviour by design — their sessions are never auto-merged.
 
 ### Developers
 
