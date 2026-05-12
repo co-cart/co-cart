@@ -5,7 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.0 Introduced.
- * @version 4.4.0
+ * @version 4.9.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

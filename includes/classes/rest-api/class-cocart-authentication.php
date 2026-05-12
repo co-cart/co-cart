@@ -446,10 +446,10 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			} else {
 				// Attempt to read JSON from raw input if request is posting and the content type is "application/json".
 				$content_type   = isset( $_SERVER['CONTENT_TYPE'] ) ? trim( sanitize_text_field( wp_unslash( $_SERVER['CONTENT_TYPE'] ) ) ) : '';
-				$request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
+				$request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? wp_unslash( $_SERVER['REQUEST_METHOD'] ) : '';
 
 				// Check X-HTTP-Method-Override header if it exists and is not empty.
-				$request_method = ! empty( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) ) ) : $request_method;
+				$request_method = ! empty( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) ? strtoupper( wp_unslash( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) ) : $request_method;
 
 				if ( 'POST' === $request_method && false !== stripos( $content_type, 'application/json' ) ) {
 					$raw_input = file_get_contents( 'php://input' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
