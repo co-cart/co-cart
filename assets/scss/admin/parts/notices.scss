@@ -24,7 +24,7 @@
 		}
 	}
 
-	&.cocart-notice {
+	&.cocart-notice:not(.notice-error) {
 		border-color: variables.$cocart;
 		padding: 10px !important;
 
