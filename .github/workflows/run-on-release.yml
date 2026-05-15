@@ -1,24 +1,23 @@
-name: Nightly builds
+name: Zip and Checksum on Release
 
 on:
-  schedule:
-    - cron: '0 21 * * 2-6' # 9 PM UTC Tuesday–Saturday (midnight UTC+3)
-  workflow_dispatch:
+  release:
+    types: [published]
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  TARGET_REF: ${{ github.event.release.tag_name }}
   OUTPUT_DIR: "build"
 
 jobs:
   build:
-    if: github.repository_owner == 'co-cart'
-    name: Build nightly
+    if: github.event.release.tag_name != 'nightly'
     runs-on: ubuntu-latest
-    outputs:
-      package_name: ${{ steps.package_info.outputs.package_name }}
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_REF }}
 
       - name: Set Up Node.js
         uses: actions/setup-node@v4
@@ -28,20 +27,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Stamp nightly version
-        run: |
-          BASE_VERSION=$(grep '^ \* Version:' cart-rest-api-for-woocommerce.php | grep -oP '\d+\.\d+\.\d+' | head -n1)
-          if [ -z "${BASE_VERSION}" ]; then
-            echo "::error::Could not extract base version from cart-rest-api-for-woocommerce.php"
-            exit 1
-          fi
-          DATE=$(date -u +%Y%m%d)
-          NIGHTLY_VERSION="${BASE_VERSION}-nightly.${DATE}"
-          sed -i "s/\* Version:.*/* Version:     ${NIGHTLY_VERSION}/" cart-rest-api-for-woocommerce.php
-          sed -i "s/public static \$version = '.*';/public static \$version = '${NIGHTLY_VERSION}';/" includes/class-cocart.php
-          npm version ${NIGHTLY_VERSION} --no-git-tag-version
-          echo "NIGHTLY_VERSION=${NIGHTLY_VERSION}" >> $GITHUB_ENV
 
       - name: Build CSS and JS
         run: npx grunt css js
@@ -62,7 +47,6 @@ jobs:
           PACKAGE_VERSION=$(jq -r '.version' package.json)
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
-          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
 
       - name: Prepare build directory
         run: |
@@ -91,6 +75,7 @@ jobs:
             ! -name ".DS_Store" \
             ! -name ".htaccess" \
             ! -path "./assets/scss/**" \
+            ! -name "*.scss" \
             ! -path "./bin/**" \
             ! -path "./build/**" \
             ! -path "./node_modules/**" \
@@ -108,58 +93,55 @@ jobs:
       - name: Create TAR.GZ Archive
         working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          tar -czf "${{ env.PACKAGE_NAME }}-nightly.tar.gz" "${{ env.PACKAGE_NAME }}"
+          tar -czf "${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
-      - name: Create ZIP archive
+      - name: Create ZIP Archive
         working-directory: ${{ env.OUTPUT_DIR }}
         run: |
-          zip -r "${{ env.PACKAGE_NAME }}-nightly.zip" "${{ env.PACKAGE_NAME }}"
+          zip -r "${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip" "${{ env.PACKAGE_NAME }}"
         shell: bash
 
-      - name: Upload nightly artifact
+      - name: Upload assets
         uses: actions/upload-artifact@v4
         with:
-          name: nightly-zip
+          name: release-artifacts
           path: |
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-nightly.zip
-            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-nightly.tar.gz
-          retention-days: 7
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
+          retention-days: 1
           if-no-files-found: error
           compression-level: 0
 
-  release:
-    name: Deploy nightly build
+  upload:
     needs: build
-    if: github.repository_owner == 'co-cart'
     runs-on: ubuntu-latest
     steps:
-      - name: Download nightly artifact
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_REF }}
+
+      - name: Get Package Info
+        id: package_info
+        run: |
+          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: Download Assets
         uses: actions/download-artifact@v4
         with:
-          name: nightly-zip
-          path: nightly-zip
+          name: release-artifacts
+          path: release-artifacts
+          merge-multiple: true
+      - run: ls -R release-artifacts
 
-      - name: Update nightly tag and release
+      - name: Attach Release Assets
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: nightly
-          name: Nightly build
-          body: Automated nightly build from `${{ github.ref_name }}`. Not intended for production use.
-          prerelease: true
+          tag_name: ${{ env.TARGET_REF }}
           files: |
-            nightly-zip/${{ needs.build.outputs.package_name }}-nightly.zip
-            nightly-zip/${{ needs.build.outputs.package_name }}-nightly.tar.gz
+            release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
+            release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
+          fail_on_unmatched_files: true
           token: ${{ secrets.GITHUB_TOKEN }}
-
-  tag:
-    name: Update nightly tag commit ref
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update nightly tag
-        uses: richardsimko/github-tag-action@v1.0.11
-        with:
-          tag_name: nightly
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

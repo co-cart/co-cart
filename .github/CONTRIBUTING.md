@@ -110,3 +110,17 @@ Translations are managed via the [CoCart Community project on translate.cocartap
 4. Avoid HTML in strings. If HTML is needed, insert it via `sprintf`.
 
 For more detail, see [i18n for WordPress Developers](https://codex.wordpress.org/I18n_for_WordPress_Developers).
+
+## FAQ
+
+**`npm ci` fails with a lock file error.**
+This happens when `package.json` has been updated but `package-lock.json` hasn't been regenerated. Run `npm install` once to sync the lock file, then use `npm ci` on subsequent installs.
+
+**Which template should I use — Enhancement or Feature Request?**
+Use **Enhancement** when you want to improve or extend something that already exists (a current endpoint, hook, filter, or behaviour). Use **Feature Request** when you are proposing something entirely new that CoCart does not currently support.
+
+**My issue was closed with `needs: votes` — is it rejected permanently?**
+No. Closing with `needs: votes` means the idea doesn't fit current priorities, not that it will never happen. We monitor these issues over time; community upvotes and comments signal demand and can bring an issue back into consideration.
+
+**Do I need an issue before opening a pull request?**
+For bug fixes, no — a PR with a clear description is fine. For new features or non-trivial changes, open an issue or discuss in [Discord](https://cocartapi.com/community/) first. This avoids investing time in a PR that may not align with the project's direction.

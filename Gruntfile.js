@@ -243,6 +243,24 @@ module.exports = function(grunt) {
 			},
 		},
 
+		// Download translations from GlotPress
+		glotpress_download: {
+			stable: {
+				options: {
+					domainPath: 'languages',
+					url: 'https://translate.cocartapi.com',
+					slug: '<%= pkg.name %>',
+				}
+			},
+			development: {
+				options: {
+					domainPath: 'languages',
+					url: 'https://translate.cocartapi.com',
+					slug: '<%= pkg.name %>/development',
+				}
+			},
+		},
+
 		// Bump version numbers (replace with version in package.json)
 		replace: {
 			php: {
@@ -488,5 +506,9 @@ module.exports = function(grunt) {
 
 	// Ready for release.
 	grunt.registerTask( 'ready', [ 'version', 'stable', 'css', 'js', 'update-pot', 'zip' ] );
+
+	// Download translations from translate.cocartapi.com.
+	grunt.registerTask( 'get-translations', [ 'glotpress_download:stable' ] );
+	grunt.registerTask( 'get-translations:dev', [ 'glotpress_download:development' ] );
 
 };
