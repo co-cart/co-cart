@@ -1,0 +1,45 @@
+name: 🚀 Feature Request
+description: Suggest a new feature or capability for CoCart Community.
+title: "[Feature Request]: "
+labels: ["type: enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Thanks for contributing!
+
+        Please provide us with the information requested in this form.
+
+        Make sure to look through [existing `type: enhancement` issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue+label%3A%22type%3A+enhancement%22) and [issues needing votes](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+sort%3Areactions-%2B1-desc+label%3A%22needs%3A+votes%22) to see whether your idea is already being discussed.
+        Feel free to contribute to any existing issues.
+
+        **Note:** Feature requests that don't fit current priorities will be closed with a `needs: votes` label and monitored for community interest over time.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: A clear and concise description of the problem or gap this feature would address.
+      placeholder: As a developer building a headless store, I find it difficult to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe the feature you'd like
+      description: A clear and concise description of what you want to happen. Include any API endpoints, hooks, filters, or response changes you'd expect.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: A clear and concise description of any alternative approaches or workarounds you've tried.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or API examples that help illustrate the request.

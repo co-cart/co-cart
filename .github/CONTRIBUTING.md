@@ -1,49 +1,112 @@
 # Contributing to CoCart Community ✨
 
-CoCart Community helps power many headless stores across the internet, and with your help making it even more awesome will be greatly appreciated. 😃
+CoCart Community helps power many headless stores across the internet, and your contributions are greatly appreciated.
 
-There are many ways to contribute to the project!
+This is a **public repository** — open-source under the GPLv3+ license. All contributions to the project will be released under the same license. You maintain copyright over any contribution you make. If you have questions before contributing, reach out in the [CoCart community Discord](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore).
 
-- [Translating strings into your language](#translating-cocart).
-- Answering questions in the [CoCart community Discord](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) server.
-- Testing open [issues](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc) or [pull requests](https://github.com/co-cart/co-cart/pulls?q=is%3Apr+is%3Aopen+sort%3Aupdated-desc) and sharing your findings in a comment.
-- Testing [CoCart beta versions and release candidates](https://github.com/co-cart/cocart-beta-tester). Those are announced in the [CoCart development blog](https://cocartapi.com/blog/).
-- Submitting fixes, improvements, and enhancements.
+## Ways to Contribute
 
-If you wish to contribute code, please read the information in the sections below. Then [fork](https://help.github.com/articles/fork-a-repo/) the correct module for CoCart, commit your changes, and [submit a pull request](https://help.github.com/articles/using-pull-requests/) 🎉
+- **Report a bug** — use the [bug report template](https://github.com/co-cart/co-cart/issues/new?template=bug_report.yml).
+- **Suggest an enhancement** — use the [enhancement template](https://github.com/co-cart/co-cart/issues/new?template=enhancement.yml) for straightforward ideas, or discuss complex proposals in the [Discord community](https://cocartapi.com/community/) first.
+- **Test open issues or pull requests** — look for issues tagged [`status: awaiting triage`](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3A+awaiting+triage%22) and share your findings in a comment.
+- **Submit a fix or improvement** — see [Submitting a Pull Request](#submitting-a-pull-request) below.
+- **Translate strings** — see [Translating CoCart](#translating-cocart) below.
+- **Report a security vulnerability** — see [Security Disclosures](#security-disclosures) below. Do not open a public issue.
 
-Use the `good first issue` label to mark your issue as new contributor.
+## What Happens After You Submit
 
-CoCart Community is licensed under the GPLv3+, and all contributions to the project will be released under the same license. You maintain copyright over any contribution you make, and by submitting a pull request, you are agreeing to release that contribution under the GPLv3+ license.
+All new issues are automatically tagged `status: awaiting triage`. Here is what the label lifecycle looks like:
 
-If you have questions about the process to contribute code or want to discuss details of your contribution, you can ask in the #support channel in the [CoCart community Discord](https://cocartapi.com/community/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore) server.
+1. **`status: awaiting triage`** — your issue was received; a maintainer will review it soon.
+2. Maintainer may add one of:
+   - `needs: template` — your issue was submitted without completing the template. A maintainer will post the required fields and ask you to fill them in.
+   - `needs: author feedback` — a maintainer needs more information from you. Please respond to keep the issue open.
+   - `type: support request` — this is a support question; the issue will be closed automatically with a redirect to Discord.
+3. When you reply to a `needs: author feedback` issue, it transitions automatically to `needs: triage feedback` and a maintainer will re-review.
+4. Maintainer may then add `status: developer reproduction`, `status: needs reproduction`, or `needs: votes` depending on the outcome.
+5. Issues with `needs: author feedback` that receive no activity for 14 days are marked `status: stale` and closed after a further 14 days.
 
-## Getting started
+### Label Reference
 
-- [How to set up WooCommerce development environment](https://github.com/woocommerce/woocommerce/wiki/How-to-set-up-WooCommerce-development-environment)
-- [String localization guidelines](#string-localization-guidelines)
+| Label | What it means for you |
+|---|---|
+| `status: awaiting triage` | Received; a maintainer will review soon |
+| `needs: author feedback` | A maintainer needs more info — please respond to keep the issue open |
+| `needs: template` | Your issue was submitted without the required template details — a maintainer will post what's needed |
+| `needs: triage feedback` | Your reply was received; a maintainer will re-review |
+| `needs: developer feedback` | Under review by a CoCart developer |
+| `needs: votes` | Feature is parked; community interest determines whether it is prioritised |
+| `status: needs reproduction` | A developer is attempting to reproduce your bug |
+| `status: developer reproduction` | Bug confirmed internally; being investigated |
+| `status: in progress` | Someone is actively working on this |
+| `status: stale` | No activity for 14 days; auto-closes in 14 more days without a reply |
+| `type: support request` | Redirected to Discord — GitHub is for confirmed bugs and enhancement requests only |
 
-## Coding Guidelines and Development 🛠
+## Local Development Setup
 
-- Ensure you stick to the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/)
-- Ensure you use LF line endings in your code editor. Use [EditorConfig](http://editorconfig.org/) if your editor supports it so that indentation, line endings and other settings are auto configured.
-- When committing, reference your issue number (#1234) and include a note about the fix.
-- Ensure that your code supports the minimum supported versions of PHP and WordPress; this is shown at the top of the `readme.txt` file.
-- Push the changes to your fork and submit a pull request on the development branch of the CoCart repository you forked.
-- Make sure to write good and detailed commit messages (see [this post](https://chris.beams.io/posts/git-commit/) for more on this) and follow all the applicable sections of the pull request template.
-- Please avoid modifying the changelog directly or updating the .pot files. These will be updated by the CoCart team.
+### Requirements
+
+- **Node.js** 20.0.0 or higher — use [nvm](https://github.com/nvm-sh/nvm) to manage versions
+- **Composer** 2.x
+- **PHP** 8.2 or higher
+
+### Getting started
+
+```bash
+# Install Node dependencies
+npm ci
+
+# Install PHP dependencies
+composer install
+
+# Compile CSS and JS to verify your setup
+npx grunt css js
+```
+
+If `npx grunt css js` completes without errors, your environment is ready.
+
+### Useful commands
+
+```bash
+npx grunt watch        # Watch SCSS/JS for changes and recompile automatically
+composer phpcs         # Check PHP coding standards
+composer phpcbf        # Auto-fix coding standards issues
+composer phpstan       # Static analysis
+```
+
+## Submitting a Pull Request
+
+1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository.
+2. Create a branch from `trunk` and make your changes.
+3. Run `composer phpcs` and fix any violations before committing.
+4. When committing, reference the related issue number (e.g. `Fix #123`). Write good, descriptive commit messages — see [this post](https://chris.beams.io/posts/git-commit/) for guidance.
+5. Push to your fork and [open a pull request](https://help.github.com/articles/using-pull-requests/) against `trunk`.
+6. Fill out all applicable sections of the pull request template.
+
+**Labels on pull requests** are set by maintainers — you do not need to add them yourself:
+
+| Label | What it means |
+|---|---|
+| `release: cherry-pick` | This change also needs to land in the current release branch |
+| `release: add changelog` | The changelog entry has not been written yet |
+
+Please do not modify the changelog directly or update `.pot` files — these are handled by the CoCart team.
+
+## Security Disclosures
+
+**Please do not open a public GitHub issue to report a security vulnerability.**
+
+Follow the responsible disclosure process described at [cocartapi.com/security-policy/](https://cocartapi.com/security-policy/). Give us reasonable time to address the issue before disclosing it publicly.
 
 ## Translating CoCart
 
-It is recommended to translate CoCart via the [project on translate.cocartapi.com](https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). You can join and help by translating there.
+Translations are managed via the [CoCart Community project on translate.cocartapi.com](https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/?utm_medium=repo&utm_source=github.com&utm_campaign=readme&utm_content=cocartcore). Join and help translate there — even if CoCart Community is already 100% translated for your language, new strings are added regularly.
 
-If CoCart is already 100% translated for your language, join anyway! The language files are regularly updated with new strings that need translation and will likely be added soon.
+### String Localisation Guidelines
 
-## String localization guidelines
+1. Use `cart-rest-api-for-woocommerce` as the textdomain in all strings.
+2. When using dynamic strings in `printf`/`sprintf` with more than one replacement, use numbered arguments — e.g. `Test %1$s string %2$s.`
+3. Use sentence case — e.g. `Some thing` not `Some Thing`.
+4. Avoid HTML in strings. If HTML is needed, insert it via `sprintf`.
 
- 1. Use `cart-rest-api-for-woocommerce` textdomain in all strings.
- 2. When using dynamic strings in printf/sprintf, if you are replacing > 1 string use numbered args. e.g. `Test %s string %s.` would be `Test %1$s string %2$s.`
- 3. Use sentence case. e.g. `Some Thing` should be `Some thing`.
- 4. Avoid HTML. If needed, insert the HTML using sprintf.
-
-For more information, see WP core document [i18n for WordPress Developers](https://codex.wordpress.org/I18n_for_WordPress_Developers).
+For more detail, see [i18n for WordPress Developers](https://codex.wordpress.org/I18n_for_WordPress_Developers).

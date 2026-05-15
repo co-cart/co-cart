@@ -1,0 +1,117 @@
+name: 🐛 Bug Report
+description: Report a bug if something isn't working as expected in CoCart Community.
+title: "[Bug]: "
+labels: ["priority: low"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Thanks for contributing!
+
+        Please provide us with the information requested in this bug report.
+        Without these details, we won't be able to fully evaluate this issue.
+        Bug reports lacking detail, or for any other reason than to report a bug, may be closed without action.
+
+        While our goal is to address all the issues reported in this repository, GitHub should be treated as a place to report confirmed bugs only.
+        If you have a support question, please use the [CoCart community Discord](https://cocartapi.com/community/) instead.
+
+        Make sure to look through [existing `type: bug` issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue+label%3A%22type%3A+bug%22) to see whether your bug has already been submitted.
+        Feel free to contribute to any existing issues.
+        Search tip: You can filter issues using [our labels](https://github.com/co-cart/co-cart/labels).
+        Search tip: Make use of [GitHub's search syntax](https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests) to refine your search.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm these before submitting the issue.
+      options:
+        - label: I have carried out troubleshooting steps and I believe I have found a bug.
+        - label: I have searched for similar bugs in both open and closed issues and cannot find a duplicate.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: CoCart Community version
+      description: Which version of CoCart Community are you running? Found in **WooCommerce > Status** or the plugin list.
+      placeholder: e.g. 4.8.3
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: A clear and concise description of what actually happens. Please be as descriptive as possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Attach screenshots or recordings directly by dragging & dropping into this field.
+      placeholder: |
+        1. Make a request to...
+        2. With these parameters...
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: WordPress Environment
+      description: |
+        We use the [WooCommerce System Status Report](https://woocommerce.com/document/understanding-the-woocommerce-system-status-report/) to help evaluate the issue.
+        Without this report we won't be able to fully evaluate this issue.
+      value: |
+        <details>
+
+        <summary>WordPress Environment</summary>
+
+        The System Status Report is found in your WordPress admin under **WooCommerce > Status**.
+        Please select "Get system report", then "Copy for GitHub", and then paste it here.
+
+        </details>
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: isolating
+    attributes:
+      label: Isolating the problem
+      description: |
+        Please try testing your site for plugin conflicts.
+        Deactivate all plugins except CoCart Community and WooCommerce, then test again.
+        If the issue is resolved, re-enable plugins one by one to identify which is causing the conflict.
+      options:
+        - label: I have deactivated other plugins and confirmed this bug occurs when only CoCart Community and WooCommerce are active.
+        - label: I can reproduce this bug consistently using the steps above.
+        - label: This bug occurs only when authenticated via JWT or Basic Auth (please note the auth method in Additional context below).
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context here — auth method used, API response bodies, error messages, screenshots, etc.

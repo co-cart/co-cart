@@ -10,15 +10,7 @@ The CoCart Headless Security Team believes in Responsible Disclosure by alerting
 |---------| --------- |
 | 4.9.x   | Yes       |
 | 4.8.x   | Yes       |
-| 4.7.x   | Yes       |
-| 4.6.x   | Yes       |
-| 4.5.x   | Yes       |
-| 4.4.x   | Yes       |
-| 4.3.x   | Yes       |
-| 4.2.x   | No        |
-| 4.1.x   | No        |
-| 4.0.x   | No        |
-| < 4.0.0 | No        |
+| < 4.8.x | No        |
 
 ## Reporting a Vulnerability
 
@@ -26,10 +18,24 @@ CoCart Community is an open-source plugin for WordPress.
 
 **For responsible disclosure of security issues, please submit your report based on instructions found on [cocartapi.com/security-policy/](https://cocartapi.com/security-policy/).**
 
-Our most critical targets are:
+## Scope
 
-* CoCart Community (this repository)
-* cocartapi.com -- the primary marketplace and marketing site.
+**In scope:**
+
+*   CoCart Community (this repository)
+*   cocartapi.com — the primary marketplace and marketing site.
+
+**Out of scope:**
+
+*   The CoCart community Discord server
+*   Third-party plugins or themes that extend CoCart
+*   The translation platform (translate.cocartapi.com)
+*   Issues that only affect end-of-life PHP versions (currently PHP 8.1 and below)
+
+## Response Timeline
+
+*   **Acknowledgement:** We aim to acknowledge your report within 48 hours.
+*   **Fix:** We aim to release a fix within 30 days. Critical vulnerabilities may be patched sooner; lower-severity issues may take longer depending on complexity.
 
 ## Guidelines
 
