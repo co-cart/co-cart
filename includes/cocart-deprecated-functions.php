@@ -130,6 +130,9 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
 		) : esc_html__( ' with no alternative available.', 'cart-rest-api-for-woocommerce' );
 
 		CoCart_Logger::log( $log_string . $message, 'debug' );
+
+		// Return the first argument unchanged so callers are not broken by the deprecation wrapper.
+		return isset( $args[0] ) ? $args[0] : null;
 	} else {
 		return apply_filters_deprecated( $filter, $args, $version, $replacement, $message );
 	}
