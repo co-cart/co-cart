@@ -142,7 +142,7 @@ function cocart_upload_image_from_url( $image_url ) {
 	}
 
 	$file_array         = array();
-	$file_array['name'] = basename( current( explode( '?', $image_url ) ) );
+	$file_array['name'] = basename( wp_parse_url( $image_url, PHP_URL_PATH ) );
 
 	// Download file to temp location.
 	$file_array['tmp_name'] = download_url( $image_url );
@@ -168,6 +168,7 @@ function cocart_upload_image_from_url( $image_url ) {
 	add_filter( 'upload_dir', 'cocart_upload_dir' );
 
 	// Do the validation and storage stuff.
+	try {
 	$file = wp_handle_sideload(
 		$file_array,
 		array(
@@ -176,8 +177,9 @@ function cocart_upload_image_from_url( $image_url ) {
 		),
 		current_time( 'Y/m' )
 	);
-
+	} finally {
 	remove_filter( 'upload_dir', 'cocart_upload_dir' );
+	}
 
 	if ( isset( $file['error'] ) ) {
 		@unlink( $file_array['tmp_name'] ); // @codingStandardsIgnoreLine.
