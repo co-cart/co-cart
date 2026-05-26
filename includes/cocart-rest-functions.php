@@ -103,9 +103,11 @@ function cocart_upload_file( $file ) {
 
 	add_filter( 'upload_dir', 'cocart_upload_dir' );
 
-	$upload = wp_handle_upload( $file, array( 'test_form' => false ) );
-
-	remove_filter( 'upload_dir', 'cocart_upload_dir' );
+	try {
+		$upload = wp_handle_upload( $file, array( 'test_form' => false ) );
+	} finally {
+		remove_filter( 'upload_dir', 'cocart_upload_dir' );
+	}
 
 	return $upload;
 } // END cocart_upload_file()
@@ -169,16 +171,16 @@ function cocart_upload_image_from_url( $image_url ) {
 
 	// Do the validation and storage stuff.
 	try {
-	$file = wp_handle_sideload(
-		$file_array,
-		array(
-			'test_form' => false,
-			'mimes'     => cocart_allowed_image_mime_types(),
-		),
-		current_time( 'Y/m' )
-	);
+		$file = wp_handle_sideload(
+			$file_array,
+			array(
+				'test_form' => false,
+				'mimes'     => cocart_allowed_image_mime_types(),
+			),
+			current_time( 'Y/m' )
+		);
 	} finally {
-	remove_filter( 'upload_dir', 'cocart_upload_dir' );
+		remove_filter( 'upload_dir', 'cocart_upload_dir' );
 	}
 
 	if ( isset( $file['error'] ) ) {
