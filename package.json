@@ -40,7 +40,7 @@
 	"requires_php": "8.2",
 	"tested_up_to": "6.9",
 	"wc_requires": "9.0",
-	"wc_tested_up_to": "10.7",
+	"wc_tested_up_to": "10.8",
 	"license": "GPL-3.0",
 	"copyright": "Copyright (c) 2026, CoCart Headless, LLC",
 	"description": "A developer-first REST API to decouple WooCommerce on the frontend to help build modern and scalable storefronts.",
