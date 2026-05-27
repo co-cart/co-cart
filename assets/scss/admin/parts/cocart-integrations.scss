@@ -62,7 +62,7 @@
 		border-color: #ebebec;
 
 		.cocart-integration-card-header {
-			background: rgba(50, 63, 176, 0.04);
+			background: rgb(50 63 176 / 0.04);
 		}
 	}
 
@@ -81,7 +81,7 @@
 		border-color: variables.$cocart;
 
 		.cocart-integration-card-header {
-			background: rgba(96, 50, 176, 0.04);
+			background: rgb(96 50 176 / 0.04);
 		}
 	}
 }
@@ -234,7 +234,7 @@
 	font-weight: 500;
 	color: #fff;
 	background: #1d2327;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity 0.2s ease, transform 0.2s ease;
@@ -291,7 +291,7 @@
 		background: #fff;
 		border-radius: 50%;
 		transition: transform 0.2s ease;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		box-shadow: 0 1px 3px rgb(0 0 0 / 0.13);
 	}
 }
 

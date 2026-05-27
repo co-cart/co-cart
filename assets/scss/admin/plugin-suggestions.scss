@@ -82,7 +82,6 @@
 
 .cocart-suggestion__bottom {
 	display: flex;
-	-webkit-box-align: center;
 	align-items: center;
 	align-content: space-between;
 	clear: both;
@@ -93,7 +92,6 @@
 }
 
 .cocart-suggestion__text {
-	-webkit-box-flex: 1;
 	flex: 1;
 	margin: 0 24px 0 16px;
 }
