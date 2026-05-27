@@ -1,0 +1,208 @@
+name: CSS Style Lint
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'assets/scss/**'
+      - '.stylelintrc'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/lint-css.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'assets/scss/**'
+      - '.stylelintrc'
+      - 'package.json'
+      - 'package-lock.json'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  stylelint:
+    name: Stylelint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Stylelint
+        id: stylelint
+        run: |
+          npx stylelint "assets/scss/**/*.scss" --formatter json > stylelint-report.json 2>&1 || true
+
+      - name: Parse and report violations
+        if: always()
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+
+            const raw = fs.readFileSync('stylelint-report.json', 'utf8');
+            let results;
+            try {
+              results = JSON.parse(raw);
+            } catch {
+              console.log('No JSON output — stylelint may have exited cleanly or crashed.');
+              return;
+            }
+
+            const violations = results.filter(r => r.warnings.length > 0);
+            if (violations.length === 0) {
+              console.log('No violations found.');
+              return;
+            }
+
+            const ruleLinks = {
+              'color-function-alias-notation': 'https://stylelint.io/user-guide/rules/color-function-alias-notation',
+              'color-function-notation':       'https://stylelint.io/user-guide/rules/color-function-notation',
+              'block-no-empty':                'https://stylelint.io/user-guide/rules/block-no-empty',
+              'shorthand-property-no-redundant-values': 'https://stylelint.io/user-guide/rules/shorthand-property-no-redundant-values',
+              'selector-pseudo-element-colon-notation': 'https://stylelint.io/user-guide/rules/selector-pseudo-element-colon-notation',
+              'unit-no-unknown':               'https://stylelint.io/user-guide/rules/unit-no-unknown',
+              'color-no-invalid-hex':          'https://stylelint.io/user-guide/rules/color-no-invalid-hex',
+              'string-no-newline':             'https://stylelint.io/user-guide/rules/string-no-newline',
+              'function-url-quotes':           'https://stylelint.io/user-guide/rules/function-url-quotes',
+            };
+
+            const suggestions = {
+              'color-function-alias-notation': 'Replace `rgba(r, g, b, a)` with `rgb(r g b / a)` modern syntax, or configure the rule to allow the alias form.',
+              'color-function-notation':       'Use legacy `rgb()` / `rgba()` syntax, or switch to modern `rgb(r g b / a)` notation consistently.',
+              'block-no-empty':                'Remove the empty rule block or add a declaration inside it.',
+              'shorthand-property-no-redundant-values': 'Simplify shorthand values, e.g. `margin: 10px 10px` → `margin: 10px`.',
+              'selector-pseudo-element-colon-notation': 'Use double-colon notation for pseudo-elements, e.g. `::before` instead of `:before`.',
+              'unit-no-unknown':               'Check for typos in unit names (e.g. `px`, `em`, `rem`, `%`).',
+              'color-no-invalid-hex':          'Ensure hex colour values are valid 3, 4, 6, or 8 digit hex codes.',
+              'string-no-newline':             'Remove literal newlines from strings; use string concatenation instead.',
+              'function-url-quotes':           'Wrap `url()` values in quotes: `url("path/to/file")`.',
+            };
+
+            const commit  = context.sha ? context.sha.slice(0, 7) : 'unknown';
+            const runUrl  = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            // Resolve the GitHub username of whoever triggered this run.
+            // For PRs use the PR author; for pushes use the pusher login and
+            // then verify it exists as a GitHub user (git email ≠ GH username).
+            let assignees = [];
+            let authorMention = '';
+            if (context.eventName === 'pull_request') {
+              const prAuthor = context.payload.pull_request.user.login;
+              assignees = [prAuthor];
+              authorMention = `@${prAuthor}`;
+            } else {
+              const pusherLogin = context.payload.pusher?.name;
+              if (pusherLogin) {
+                try {
+                  await github.rest.users.getByUsername({ username: pusherLogin });
+                  assignees = [pusherLogin];
+                  authorMention = `@${pusherLogin}`;
+                } catch {
+                  // pusher name is not a valid GitHub username — skip assignment
+                  authorMention = `\`${pusherLogin}\``;
+                }
+              }
+            }
+
+            const trigger = context.eventName === 'pull_request'
+              ? `PR #${context.payload.pull_request.number}`
+              : `push \`${commit}\``;
+
+            let body = `## CSS Style Lint Violations\n\n`;
+            if (authorMention) {
+              body += `Hey ${authorMention}, stylelint found issues introduced in ${trigger} that need to be fixed.\n\n`;
+            } else {
+              body += `Stylelint found issues in ${trigger} that need to be fixed.\n\n`;
+            }
+            body += `**${violations.length}** file(s) affected. See the [full run log](${runUrl}) for details.\n\n`;
+
+            const seenRules = new Set();
+
+            for (const file of violations) {
+              const relativePath = file.source.replace(process.cwd() + '/', '');
+              body += `### \`${relativePath}\`\n\n`;
+              body += `| Line | Column | Severity | Rule | Message |\n`;
+              body += `|------|--------|----------|------|---------|\n`;
+
+              for (const w of file.warnings) {
+                const ruleLink = ruleLinks[w.rule]
+                  ? `[${w.rule}](${ruleLinks[w.rule]})`
+                  : `\`${w.rule}\``;
+                body += `| ${w.line} | ${w.column} | ${w.severity} | ${ruleLink} | ${w.text.replace(/\s*\(.*\)$/, '')} |\n`;
+                seenRules.add(w.rule);
+              }
+              body += '\n';
+            }
+
+            if (seenRules.size > 0) {
+              body += `## Suggestions\n\n`;
+              for (const rule of seenRules) {
+                const hint = suggestions[rule] || 'Refer to the [Stylelint docs](https://stylelint.io/user-guide/rules) for this rule.';
+                const ruleLabel = ruleLinks[rule] ? `[${rule}](${ruleLinks[rule]})` : `\`${rule}\``;
+                body += `- **${ruleLabel}** — ${hint}\n`;
+              }
+              body += '\n';
+            }
+
+            body += `---\n_Opened automatically by the [CSS Style Lint](${runUrl}) workflow._`;
+
+            // Check for an existing open issue to avoid duplicates
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              state: 'open',
+              labels: 'css-lint',
+              per_page: 10,
+            });
+
+            const existing = issues.find(i => i.title.startsWith('CSS Style Lint Violations'));
+
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+              // Re-assign to the current author in case it changed
+              if (assignees.length > 0) {
+                await github.rest.issues.addAssignees({
+                  owner:        context.repo.owner,
+                  repo:         context.repo.repo,
+                  issue_number: existing.number,
+                  assignees,
+                });
+              }
+              console.log(`Updated existing issue #${existing.number}`);
+            } else {
+              const { data: issue } = await github.rest.issues.create({
+                owner:     context.repo.owner,
+                repo:      context.repo.repo,
+                title:     `CSS Style Lint Violations`,
+                body,
+                labels:    ['css-lint'],
+                assignees,
+              });
+              console.log(`Created issue #${issue.number}`);
+            }
+
+            core.setFailed(`Stylelint found violations in ${violations.length} file(s). See issue for details.`);
