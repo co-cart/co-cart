@@ -21,6 +21,7 @@
 * REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
 * REST API: Fixed fatal error when adding an invalid product to cart via v2 controller due to missing `WP_Error` check after product validation.
 * REST API: Corrected `Last-Modified` header in GMT per HTTP spec with more robust date parsing.
+* Plugin: Fixed `cocart_deprecated_filter()` returning `null` when the debug log was active, causing callers to receive no value from the deprecation wrapper.
 
 #### PHP 8.2+ Fixes
 
@@ -39,6 +40,8 @@
 ### Improvements
 
 * REST API: Slight performance increase by preventing admin content from loading in the background for every REST request made.
+* REST API: `cocart_upload_file()` and `cocart_upload_image_from_url()` now use a `try/finally` block to guarantee the `upload_dir` filter is always removed, even when an exception is thrown during upload.
+* REST API: `cocart_upload_image_from_url()` now uses `wp_parse_url()` to extract the filename from the image URL, correctly stripping query strings instead of splitting on `?`.
 * Session: Adjusted `get_session()` using `wp_cache_set()` instead of `wp_cache_add()`, which caused stale persistent object cache entries to never be overwritten.
 * Session: Adjusted `get_session()` and `update_cart()` using an uninitialized expiration value on frontend requests, preventing sessions from being cached after a database read.
 * Session: Adjusted `save_data()` writing to object cache with a potentially negative TTL when session expiration was stale or unset.
@@ -57,7 +60,7 @@
 ### Compatibility
 
 * Tested with WordPress 7.0
-* Tested with WooCommerce v10.7
+* Tested with WooCommerce v10.8
 
 ## v4.8.3 - 26th January, 2026
 
