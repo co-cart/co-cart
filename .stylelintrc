@@ -6,7 +6,7 @@
 		"alpha-value-notation": "number",
 		"at-rule-empty-line-before": null,
 		"block-no-empty": true,
-		"color-function-notation": ["legacy", { "ignore": ["with-var-inside"] }],
+		"color-function-alias-notation": "without-alpha",
 		"color-hex-alpha": "never",
 		"color-no-invalid-hex": true,
 		"declaration-block-no-duplicate-properties": [true, { "severity": "warning" } ],
