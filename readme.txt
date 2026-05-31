@@ -10,7 +10,7 @@ WC tested up to: 10.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Ship your headless WooCommerce storefront faster. CoCart is the REST API built for modern frontend frameworks — free, powerful, and developer-first.
+Ship your headless WooCommerce storefront faster. CoCart is the REST API built for modern frontend frameworks — open, powerful, and developer-first.
 
 == Description ==
 
