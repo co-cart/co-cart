@@ -621,8 +621,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 							}
 
 							break;
-
-							break;
 					} // END switch
 
 					/**
