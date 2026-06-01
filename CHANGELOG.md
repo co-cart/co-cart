@@ -48,6 +48,10 @@
 * Session: Adjusted `update_cart()` not syncing the object cache after a database write, causing subsequent reads to return stale cached data.
 * Session: Added `get_cache_expiration()` helper to reliably resolve cache expiration across both REST API and frontend contexts.
 
+### Breaking Changes
+
+* REST API: The `cocart_does_product_allow_price_change` filter now defaults to `false`. Price overrides via the `price` parameter on `cocart/v2/cart/add-item` are disabled by default. To restore the previous behaviour, add `add_filter( 'cocart_does_product_allow_price_change', '__return_true' );` — or return `true` conditionally for specific products only.
+
 ### Developers
 
 * Logger: Log entries now include a source line identifying the calling class, method, file, and line number for easier debugging.
