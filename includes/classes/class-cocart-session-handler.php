@@ -419,7 +419,7 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			}
 
 			// Check the source to determine cart expiration to utilize.
-			if ( $this->cart_source === 'cocart' ) {
+			if ( 'cocart' === $this->cart_source ) {
 				$cart_expiration = (int) $this->cart_expiration;
 			} else {
 				$cart_expiration = (int) $this->_session_expiration;

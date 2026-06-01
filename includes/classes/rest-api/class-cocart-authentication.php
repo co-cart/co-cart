@@ -1103,7 +1103,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 
 			$ip_bin     = @inet_pton( $ip );
 			$subnet_bin = @inet_pton( $subnet );
-			if ( $ip_bin === false || $subnet_bin === false ) {
+			if ( false === $ip_bin || false === $subnet_bin ) {
 				return false;
 			}
 
