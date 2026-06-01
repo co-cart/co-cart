@@ -74,7 +74,19 @@ function cocart_do_deprecated_filter( $tag, $version = '', $replacement = null, 
  */
 function cocart_deprecated_hook( $hook, $version, $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || CoCart::is_rest_api_request() ) {
-		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		/**
+		 * WordPress core hook: Fires when a deprecated hook is called.
+		 *
+		 * @see https://developer.wordpress.org/reference/hooks/deprecated_hook_run/
+		 *
+		 * @since WP 4.6.0 Introduced.
+		 *
+		 * @param string $hook        The deprecated hook.
+		 * @param string $replacement The hook that should have been used.
+		 * @param string $version     The version that deprecated the hook.
+		 * @param string $message     A message regarding the change.
+		 */
+		do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
 
@@ -113,7 +125,24 @@ function cocart_deprecated_hook( $hook, $version, $replacement = null, $message 
  */
 function cocart_deprecated_filter( $filter, $args = array(), $version = '', $replacement = null, $message = null ) {
 	if ( wp_doing_ajax() || CoCart::is_rest_api_request() ) {
-		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		if ( ! has_filter( $filter ) ) {
+			return isset( $args[0] ) ? $args[0] : null;
+		}
+
+		/**
+		 * WordPress core hook: Fires when a deprecated filter is called.
+		 *
+		 * @see https://developer.wordpress.org/reference/hooks/deprecated_filter_run/
+		 *
+		 * @since WP 4.6.0 Introduced.
+		 *
+		 * @param string $filter      The deprecated filter.
+		 * @param array  $args        Filter arguments.
+		 * @param string $replacement The filter that should have been used.
+		 * @param string $version     The version that deprecated the filter.
+		 * @param string $message     A message regarding the change.
+		 */
+		do_action( 'deprecated_filter_run', $filter, $args, $replacement, $version, $message ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$message = empty( $message ) ? '' : ' ' . $message;
 
@@ -155,7 +184,18 @@ function cocart_deprecated_filter( $filter, $args = array(), $version = '', $rep
  */
 function cocart_deprecated_function( $function_name, $version = '', $replacement = null ) {
 	if ( wp_doing_ajax() || CoCart::is_rest_api_request() ) {
-		do_action( 'deprecated_function_run', $function_name, $replacement, $version ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		/**
+		 * WordPress core hook: Fires when a deprecated function is called.
+		 *
+		 * @see https://developer.wordpress.org/reference/hooks/deprecated_function_run/
+		 *
+		 * @since WP 3.4.0 Introduced.
+		 *
+		 * @param string $function_name The deprecated function name.
+		 * @param string $replacement   Replacement for the called function.
+		 * @param string $version       The version that deprecated the function.
+		 */
+		do_action( 'deprecated_function_run', $function_name, $replacement, $version ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$log_string = sprintf(
 			/* translators: %1$s: Function name, %2$s: Version */

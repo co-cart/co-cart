@@ -824,8 +824,9 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	public function is_cookie_supported() {
 		cocart_deprecated_function( 'CoCart_Session_Handler::is_cookie_supported', '4.2.0', null );
 
-		return cocart_do_deprecated_filter(
+		return cocart_deprecated_filter(
 			'cocart_cookie_supported',
+			array( true ),
 			'4.2.0',
 			null,
 			sprintf(
@@ -870,17 +871,37 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		cocart_deprecated_function( 'CoCart_Session_Handler::cocart_setcookie', '4.2.0', null );
 
 		if ( ! headers_sent() ) {
-			// samesite - Set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1.
+			// Samesite — set to None by default and only available to those using PHP 7.3 or above. @since 2.9.1.
 			if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
-				setcookie( $name, $value, apply_filters( 'cocart_set_cookie_options', array( 'expires' => $expire, 'secure' => $secure, 'path' => COOKIEPATH ? COOKIEPATH : '/', 'domain' => COOKIE_DOMAIN, 'httponly' => apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ), 'samesite' => apply_filters( 'cocart_cookie_samesite', 'Lax' ) ), $name, $value ) ); // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
+				$cookie_httponly = cocart_deprecated_filter( 'cocart_cookie_httponly', array( $httponly, $name, $value, $expire, $secure ), '4.2.0' );
+				$cookie_samesite = cocart_deprecated_filter( 'cocart_cookie_samesite', array( 'Lax' ), '4.2.0' );
+				$cookie_options  = cocart_deprecated_filter(
+					'cocart_set_cookie_options',
+					array(
+						array(
+							'expires'  => $expire,
+							'secure'   => $secure,
+							'path'     => COOKIEPATH ? COOKIEPATH : '/',
+							'domain'   => COOKIE_DOMAIN,
+							'httponly' => $cookie_httponly,
+							'samesite' => $cookie_samesite,
+						),
+						$name,
+						$value,
+					),
+					'4.2.0'
+				);
+
+				setcookie( $name, $value, $cookie_options ); // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 			} else {
-				setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'cocart_cookie_httponly', $httponly, $name, $value, $expire, $secure ) );
+				$cookie_httponly = cocart_deprecated_filter( 'cocart_cookie_httponly', array( $httponly, $name, $value, $expire, $secure ), '4.2.0' );
+				setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, $cookie_httponly );
 			}
 		} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			headers_sent( $file, $line );
 			trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE ); // @codingStandardsIgnoreLine
 		}
-	} // END cocart_cookie()
+	} // END cocart_setcookie()
 
 	/**
 	 * Get cart data.
@@ -1074,6 +1095,13 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			}
 		}
 
+		/**
+		 * Filter the cart data validity check result.
+		 *
+		 * @since 2.1.0 Introduced.
+		 *
+		 * @param array|false $data The cart data or false if invalid.
+		 */
 		$data = apply_filters( 'cocart_is_cart_data_valid', $data );
 
 		return $data;
@@ -1154,10 +1182,24 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		}
 
 		if ( empty( $cart_expiration ) ) {
+			/**
+			 * Filter the cart expiration time in seconds.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param int $expiring Number of seconds before the cart expires.
+			 */
 			$cart_expiration = time() + intval( apply_filters( 'cocart_cart_expiring', DAY_IN_SECONDS * 7 ) );
 		}
 
 		if ( empty( $cart_source ) ) {
+			/**
+			 * Filter the cart source identifier.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $cart_source The cart source.
+			 */
 			$cart_source = apply_filters( 'cocart_cart_source', $this->cart_source );
 		}
 

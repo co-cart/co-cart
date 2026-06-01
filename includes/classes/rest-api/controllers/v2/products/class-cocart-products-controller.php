@@ -387,8 +387,15 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 	protected function get_images( $product ) {
 		cocart_deprecated_function( 'CoCart_REST_Products_V2_Controller::get_images', '4.2.0', 'CoCart_Utilities_Product_Helpers::get_images' );
 
-		$images           = array();
-		$attachment_ids   = array();
+		$images         = array();
+		$attachment_ids = array();
+		/**
+		 * Filter the image sizes available for product images.
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @param array $sizes Available image sizes.
+		 */
 		$attachment_sizes = apply_filters( 'cocart_products_image_sizes', array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ) );
 
 		// Add featured image.
@@ -776,7 +783,25 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				break;
 			case 'related':
 			default:
-				$ids = array_map( 'absint', array_values( wc_get_related_products( $product->get_id(), apply_filters( 'cocart_products_get_related_products_limit', 5 ), apply_filters( 'cocart_products_get_related_products_exclude_ids', array() ) ) ) );
+				/**
+				 * Filter the maximum number of related products to return.
+				 *
+				 * @since 3.1.0 Introduced.
+				 *
+				 * @param int $limit Maximum number of related products. Default 5.
+				 */
+				$related_limit = apply_filters( 'cocart_products_get_related_products_limit', 5 );
+
+				/**
+				 * Filter the product IDs to exclude from related products.
+				 *
+				 * @since 3.1.0 Introduced.
+				 *
+				 * @param array $exclude_ids Product IDs to exclude.
+				 */
+				$related_exclude = apply_filters( 'cocart_products_get_related_products_exclude_ids', array() );
+
+				$ids = array_map( 'absint', array_values( wc_get_related_products( $product->get_id(), $related_limit, $related_exclude ) ) );
 				break;
 		}
 
