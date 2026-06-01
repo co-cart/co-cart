@@ -29,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.9.0-beta.6';
+	public static $version = '4.9.0-rc.1';
 
 	/**
 	 * CoCart Database Schema version.
@@ -190,7 +190,6 @@ final class CoCart {
 		self::define( 'COCART_DOCUMENTATION_URL', 'https://docs.cocartapi.com/' );
 		self::define( 'COCART_TRANSLATION_URL', 'https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/' );
 		self::define( 'COCART_REPO_URL', 'https://github.com/co-cart/co-cart' );
-		// self::define( 'COCART_NEXT_VERSION', '5.0.0' );
 	} // END setup_constants()
 
 	/**
@@ -335,7 +334,7 @@ final class CoCart {
 		 */
 		if (
 			! defined( 'COCART_WHITE_LABEL' ) ||
-			false === COCART_WHITE_LABEL && is_admin() ||
+			( false === COCART_WHITE_LABEL && is_admin() ) ||
 			( defined( 'WP_CLI' ) && WP_CLI )
 		) {
 			require_once __DIR__ . '/classes/admin/class-cocart-admin.php';
@@ -620,6 +619,14 @@ final class CoCart {
 			$locale = is_admin() ? get_user_locale() : get_locale();
 		}
 
+		/**
+		 * Filter the plugin locale.
+		 *
+		 * @since 1.0.0 Introduced.
+		 *
+		 * @param string $locale     Current locale.
+		 * @param string $text_domain Plugin text domain.
+		 */
 		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		unload_textdomain( COCART_SLUG );

@@ -300,20 +300,26 @@ class CoCart_Load_Cart {
 			$wc_session->set( 'cart_fees', ! empty( $new_cart['cart_fees'] ) ? $new_cart['cart_fees'] : null );
 			$wc_session->set( 'cart_cached', ! empty( $new_cart['cart_cached'] ) ? $new_cart['cart_cached'] : null );
 
-			// If true, notify the customer that there cart has transferred over via the web.
+			// If true, notify the customer that their cart has transferred over via the web.
 			if ( ! empty( $new_cart ) && $notify_customer ) {
-				wc_add_notice(
-					apply_filters( 'cocart_cart_loaded_successful_message',
-						sprintf(
-							/* translators: %1$s: Start of link to Shop archive. %2$s: Start of link to checkout page. %3$s: Closing link tag. */
-							__( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ),
-							'<a href="' . wc_get_page_permalink( 'shop' ) . '">',
-							'<a href="' . wc_get_checkout_url() . '">',
-							'</a>'
-						)
-					),
-					'notice'
+				/**
+				 * Filter the message shown when a cart is successfully loaded.
+				 *
+				 * @since 2.0.0 Introduced.
+				 *
+				 * @param string $message The success message.
+				 */
+				$loaded_message = apply_filters(
+					'cocart_cart_loaded_successful_message',
+					sprintf(
+						/* translators: %1$s: Start of link to Shop archive. %2$s: Start of link to checkout page. %3$s: Closing link tag. */
+						__( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ),
+						'<a href="' . wc_get_page_permalink( 'shop' ) . '">',
+						'<a href="' . wc_get_checkout_url() . '">',
+						'</a>'
+					)
 				);
+				wc_add_notice( $loaded_message, 'notice' );
 			}
 
 			// Set guest customer's cart into session. - This allows the cart to stay synced with the REST API.
@@ -441,6 +447,13 @@ class CoCart_Load_Cart {
 	 * @return boolean
 	 */
 	protected static function maybe_use_cookie_monster() {
+		/**
+		 * Filter whether to use the cookie monster for cart session handling.
+		 *
+		 * @since 3.3.0 Introduced.
+		 *
+		 * @param bool $use_cookie_monster True to use cookie monster, false otherwise.
+		 */
 		return apply_filters( 'cocart_use_cookie_monster', true );
 	} // END maybe_use_cookie_monster()
 } // END class

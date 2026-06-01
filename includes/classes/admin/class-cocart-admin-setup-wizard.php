@@ -71,12 +71,26 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			return $submenu_pages;
 		}
 
+		/**
+		 * Filter to enable or disable the setup wizard.
+		 *
+		 * @since 2.6.0 Introduced.
+		 *
+		 * @param bool $enable_setup_wizard True to enable, false to disable.
+		 */
 		if ( apply_filters( 'cocart_enable_setup_wizard', true ) ) {
 			$submenu_pages['setup-wizard'] = array(
 				'class_name' => 'CoCart_Admin_Setup_Wizard',
 				'data'       => array(
 					'page_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
 					'menu_title' => __( 'Setup Wizard', 'cart-rest-api-for-woocommerce' ),
+					/**
+					 * Filter the capability required to access CoCart admin screens.
+					 *
+					 * @since 2.0.0 Introduced.
+					 *
+					 * @param string $capability Required capability.
+					 */
 					'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
 					'menu_slug'  => 'cocart-setup',
 				),
@@ -122,12 +136,14 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 				'view'    => array( $this, 'cocart_setup_wizard_store_setup' ),
 				'handler' => array( $this, 'cocart_setup_wizard_store_setup_save' ),
 			),
+
 			/*
 			'sessions'    => array(
 				'name'    => __( 'Sessions', 'cart-rest-api-for-woocommerce' ),
 				'view'    => array( $this, 'cocart_setup_wizard_sessions' ),
 				'handler' => array( $this, 'cocart_setup_wizard_sessions_save' ),
-			),*/
+			),
+			*/
 			'ready'       => array(
 				'name'    => __( 'Ready!', 'cart-rest-api-for-woocommerce' ),
 				'view'    => array( $this, 'cocart_setup_wizard_ready' ),
@@ -135,6 +151,13 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			),
 		);
 
+		/**
+		 * Filter the setup wizard steps.
+		 *
+		 * @since 2.6.0 Introduced.
+		 *
+		 * @param array $steps The setup wizard steps.
+		 */
 		$this->steps = apply_filters( 'cocart_setup_wizard_steps', $default_steps );
 		$this->step  = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
@@ -218,7 +241,14 @@ class CoCart_Admin_Setup_Wizard extends CoCart_Submenu_Page {
 			<a class="cocart-setup-wizard-footer-links" href="<?php echo esc_url( $this->get_next_step_link() ); ?>"><?php esc_html_e( 'Skip this step', 'cart-rest-api-for-woocommerce' ); ?></a>
 		<?php endif; ?>
 
-		<?php do_action( 'cocart_setup_wizard_footer' ); ?>
+		<?php
+		/**
+		 * Hook: Fires in the setup wizard footer.
+		 *
+		 * @since 2.6.0 Introduced.
+		 */
+		do_action( 'cocart_setup_wizard_footer' );
+		?>
 
 		</div>
 		<?php

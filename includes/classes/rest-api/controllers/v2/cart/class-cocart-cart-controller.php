@@ -312,9 +312,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) {
 					$cart['taxes'] = $this->get_tax_lines( $cart_instance );
 				} else {
+					/**
+					 * Filter the cart totals taxes total.
+					 *
+					 * @since 3.0.0 Introduced.
+					 *
+					 * @param string $taxes_total Taxes total as a string.
+					 */
+					$taxes_total   = apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $cart_instance->get_taxes_total(), wc_get_price_decimals() ) );
 					$cart['taxes'] = array(
 						'label' => esc_html( WC()->countries->tax_or_vat() ) . $estimated_text,
-						'total' => apply_filters( 'cocart_cart_totals_taxes_total', cocart_prepare_money_response( $cart_instance->get_taxes_total(), wc_get_price_decimals() ) ),
+						'total' => $taxes_total,
 					);
 				}
 			}
@@ -1046,7 +1054,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				}
 				$label = wc_attribute_label( $taxonomy );
 			} else {
-				// If this is a custom option slug, get the options name.
+				/**
+				 * Filter the variation option name for a custom option slug.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param string     $value   The variation option value.
+				 * @param WC_Product $product The product object.
+				 */
 				$value = apply_filters( 'cocart_variation_option_name', $value, $product );
 				$label = wc_attribute_label( str_replace( 'attribute_', '', $key ), $product );
 			}
@@ -1122,6 +1137,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			$discount_amount_html = __( 'Free shipping coupon', 'cart-rest-api-for-woocommerce' );
 		}
 
+		/**
+		 * Filter the coupon discount amount HTML.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string    $discount_amount_html The discount amount HTML.
+		 * @param WC_Coupon $coupon               The coupon object.
+		 */
 		$discount_amount_html = apply_filters( 'cocart_coupon_discount_amount_html', $discount_amount_html, $coupon );
 
 		return $discount_amount_html;
@@ -1142,6 +1165,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	public function fee_html( $cart, $fee ) {
 		$cart_totals_fee_html = $cart->display_prices_including_tax() ? wc_price( $fee->total + $fee->tax ) : wc_price( $fee->total );
 
+		/**
+		 * Filter the cart totals fee HTML.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string  $cart_totals_fee_html The fee HTML string.
+		 * @param object  $fee                  The fee object.
+		 */
 		return apply_filters( 'cocart_cart_totals_fee_html', $cart_totals_fee_html, $fee );
 	} // END fee_html()
 
@@ -1216,6 +1247,17 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 				$cart_contents = $this->get_cart();
 
+				/**
+				 * Filter whether a sold-individually product is found in the cart.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param bool   $found_in_cart Whether the product is already in the cart.
+				 * @param int    $product_id    The product ID.
+				 * @param int    $variation_id  The variation ID.
+				 * @param array  $item_data     The cart item data.
+				 * @param string $item_key      The cart item key.
+				 */
 				$found_in_cart = apply_filters( 'cocart_add_to_cart_sold_individually_found_in_cart', $item_key && $cart_contents[ $item_key ]['quantity'] > 0, $product_id, $variation_id, $item_data, $item_key );
 
 				if ( $found_in_cart ) {
@@ -1535,6 +1577,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 
 		// Backorder notification.
 		if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
+			/**
+			 * Filter the backorder notification message for a cart item.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $notification The backorder notification message.
+			 * @param int    $product_id   The product ID.
+			 */
 			$item['backorders'] = wp_kses_post( apply_filters( 'cocart_cart_item_backorder_notification', esc_html__( 'Available on backorder', 'cart-rest-api-for-woocommerce' ), $_product->get_id() ) );
 		}
 
@@ -1611,9 +1661,8 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 	 *
 	 * @since 3.0.0 Introduced.
 	 *
-	 * @param array           $cart_contents The cart contents passed.
-	 * @param WP_REST_Request $request       The request object.
-	 * @param boolean         $show_thumb    Determines if requested to return the item featured thumbnail.
+	 * @param array   $cart_contents The cart contents passed.
+	 * @param boolean $show_thumb    Determines if requested to return the item featured thumbnail.
 	 *
 	 * @return array $items Returns all items in the cart.
 	 */
@@ -1738,10 +1787,32 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		// Get visible cross sells then sort them at random.
 		$get_cross_sells = array_filter( array_map( 'wc_get_product', $this->get_cart_instance()->get_cross_sells() ), 'wc_products_array_filter_visible' );
 
-		// Handle orderby and limit results.
-		$orderby         = apply_filters( 'cocart_cross_sells_orderby', 'rand' );
+		/**
+		 * Filter the cross-sells orderby value.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $orderby Orderby value. Default 'rand'.
+		 */
+		$orderby = apply_filters( 'cocart_cross_sells_orderby', 'rand' );
+
+		/**
+		 * Filter the cross-sells order direction.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $order Order direction. Default 'desc'.
+		 */
 		$order           = apply_filters( 'cocart_cross_sells_order', 'desc' );
 		$get_cross_sells = wc_products_array_orderby( $get_cross_sells, $orderby, $order );
+
+		/**
+		 * Filter the maximum number of cross-sells to return.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param int $limit Maximum number of cross-sells. Default 3.
+		 */
 		$limit           = apply_filters( 'cocart_cross_sells_total', 3 );
 		$get_cross_sells = $limit > 0 ? array_slice( $get_cross_sells, 0, $limit ) : $get_cross_sells;
 
@@ -1750,8 +1821,31 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 		foreach ( $get_cross_sells as $cross_sell ) {
 			$id = $cross_sell->get_id();
 
-			$thumbnail_id  = apply_filters( 'cocart_cross_sell_item_thumbnail', $cross_sell->get_image_id() );
+			/**
+			 * Filter the cross-sell item thumbnail image ID.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param int $thumbnail_id The thumbnail image ID.
+			 */
+			$thumbnail_id = apply_filters( 'cocart_cross_sell_item_thumbnail', $cross_sell->get_image_id() );
+
+			/**
+			 * Filter the cross-sell item thumbnail size.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $size The thumbnail size. Default 'woocommerce_thumbnail'.
+			 */
 			$thumbnail_src = wp_get_attachment_image_src( $thumbnail_id, apply_filters( 'cocart_cross_sell_item_thumbnail_size', 'woocommerce_thumbnail' ) );
+
+			/**
+			 * Filter the cross-sell item thumbnail source URL.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param string $thumbnail_src The thumbnail source URL.
+			 */
 			$thumbnail_src = apply_filters( 'cocart_item_thumbnail_src', $thumbnail_src[0] );
 
 			$cross_sells[] = array(
@@ -2019,7 +2113,14 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			// Generate a ID based on product ID, variation ID, variation data, and other cart item data.
 			$item_key = $this->get_cart_instance()->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
 
-			// Add item after merging with $cart_item_data - hook to allow plugins to modify cart item.
+			/**
+			 * Filter the cart item data before it is added to the cart.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array  $cart_item The cart item data.
+			 * @param string $item_key  The cart item key.
+			 */
 			$this->get_cart_instance()->cart_contents[ $item_key ] = apply_filters(
 				'cocart_add_cart_item',
 				array_merge(
@@ -2037,6 +2138,13 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				$item_key
 			);
 
+			/**
+			 * Filter the cart contents after an item has been added.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param array $cart_contents The current cart contents.
+			 */
 			$this->get_cart_instance()->cart_contents = apply_filters( 'cocart_cart_contents_changed', $this->get_cart_instance()->cart_contents );
 
 			/**

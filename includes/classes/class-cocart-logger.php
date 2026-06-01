@@ -270,7 +270,8 @@ class CoCart_Logger {
 		$caller_frame = null;
 		$call_site    = null;
 
-		for ( $i = 1; $i < count( $trace ); $i++ ) {
+		$trace_count = count( $trace );
+		for ( $i = 1; $i < $trace_count; $i++ ) {
 			$class = isset( $trace[ $i ]['class'] ) ? $trace[ $i ]['class'] : '';
 
 			if ( ! in_array( $class, $skip_classes, true ) ) {
@@ -333,7 +334,7 @@ class CoCart_Logger {
 	private static function format_log_entry( $message, $plugin, $caller_info = '' ) {
 		$log_time = date_i18n(
 			sprintf( '%s @ %s', get_option( 'date_format' ), get_option( 'time_format' ) ),
-			current_time( 'timestamp' )
+			time()
 		);
 
 		$sources = self::get_sources();

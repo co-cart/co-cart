@@ -240,7 +240,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				/**
 				 * Hook: Hide a CoCart notice.
 				 *
-				 * Example: `cocart_hide_plugin_review_notice'
+				 * @since 3.0.0 Introduced.
+				 *
+				 * Example: `cocart_hide_plugin_review_notice`
+				 *
+				 * @param string $notice_name The name of the notice being hidden.
 				 */
 				do_action( "cocart_hide_{$notice_name}_notice" );
 			}
@@ -339,7 +343,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			/**
 			 * Hook: Hide a CoCart notice.
 			 *
-			 * Example: `cocart_hide_plugin_review_notice'
+			 * @since 3.0.0 Introduced.
+			 *
+			 * Example: `cocart_hide_plugin_review_notice`
+			 *
+			 * @param string $notice_name The name of the notice being hidden.
 			 */
 			do_action( "cocart_hide_{$notice_name}_notice" );
 		} // END hide_notice()
@@ -393,6 +401,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			foreach ( $notices as $notice ) {
+				/**
+				 * Filter to show or hide a specific admin notice.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param bool   $show_notice True to show, false to hide.
+				 * @param string $notice      The notice name.
+				 */
 				if ( ! empty( self::$core_notices[ $notice ] ) && apply_filters( 'cocart_show_admin_notice', true, $notice ) ) {
 					add_action( 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
 				} else {
@@ -453,6 +469,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @return void
 		 */
 		public function base_tables_missing_notice() {
+			/**
+			 * Filter to hide the base tables missing notice.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param mixed $dismissed Whether the notice has been dismissed.
+			 */
 			$notice_dismissed = apply_filters(
 				'cocart_hide_base_tables_missing_nag',
 				get_user_meta( get_current_user_id(), 'dismissed_cocart_base_tables_missing_notice', true )

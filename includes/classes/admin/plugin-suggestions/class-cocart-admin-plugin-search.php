@@ -138,6 +138,11 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 
 				</div>
 				<?php
+				/**
+				 * Hook: Fires before the plugin suggestions table is displayed.
+				 *
+				 * @since 3.1.0 Introduced.
+				 */
 				do_action( 'cocart_before_display_plugins_table' );
 
 				if ( self::allow_suggestions() ) {
@@ -152,6 +157,11 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 					<?php
 				}
 
+				/**
+				 * Hook: Fires after the plugin suggestions table is displayed.
+				 *
+				 * @since 3.1.0 Introduced.
+				 */
 				do_action( 'cocart_after_display_plugins_table' );
 			}
 		} // END cocart_plugin_dashboard()

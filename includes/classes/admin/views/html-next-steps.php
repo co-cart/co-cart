@@ -134,7 +134,13 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 					<a class="button cocart-button-alt" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_COMMUNITY_URL ) ) ) ); ?>" target="_blank" role="button"><?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?></a>
 				</div>
 				<?php
-				// Only show upgrade option if neither CoCart Plus, Pro or above is found.
+				/**
+				 * Filter to show or hide the upgrade action link.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param bool $show True to show the upgrade link, false to hide it.
+				 */
 				if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
 					?>
 				<div class="column wide has-background">

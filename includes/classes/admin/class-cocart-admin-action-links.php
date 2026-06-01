@@ -57,6 +57,13 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 			$page = admin_url( 'admin.php' );
 
+			/**
+			 * Filter to enable or disable the setup wizard.
+			 *
+			 * @since 2.6.0 Introduced.
+			 *
+			 * @param bool $enable_setup_wizard True to enable, false to disable.
+			 */
 			if ( apply_filters( 'cocart_enable_setup_wizard', true ) && current_user_can( 'manage_options' ) ) {
 				$action_links['setup-wizard'] = '<a href="' . add_query_arg(
 					array(
@@ -128,7 +135,13 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
 			);
 
-			// Only show upgrade option if neither CoCart Plus, Pro or above is found.
+			/**
+			 * Filter to show or hide the upgrade action link.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param bool $show True to show the upgrade link, false to hide it.
+			 */
 			if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
 				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'why-upgrade/' ) );
 

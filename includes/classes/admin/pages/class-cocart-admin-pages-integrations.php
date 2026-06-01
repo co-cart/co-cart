@@ -62,12 +62,21 @@ class CoCart_Admin_Integrations_Page extends CoCart_Submenu_Page {
 			return $submenu_pages;
 		}
 
+		/**
+		 * Filter the capability required to access CoCart admin screens.
+		 *
+		 * @since 2.0.0 Introduced.
+		 *
+		 * @param string $capability Required capability.
+		 */
+		$screen_capability = apply_filters( 'cocart_screen_capability', 'manage_options' );
+
 		$submenu_pages['integrations'] = array(
 			'class_name' => 'CoCart_Admin_Integrations_Page',
 			'data'       => array(
 				'page_title' => __( 'Integrations', 'cart-rest-api-for-woocommerce' ),
 				'menu_title' => __( 'Integrations', 'cart-rest-api-for-woocommerce' ),
-				'capability' => apply_filters( 'cocart_screen_capability', 'manage_options' ),
+				'capability' => $screen_capability,
 				'menu_slug'  => 'cocart-integrations',
 			),
 		);
@@ -85,6 +94,13 @@ class CoCart_Admin_Integrations_Page extends CoCart_Submenu_Page {
 	public function ajax_toggle_integration() {
 		check_ajax_referer( 'cocart_integrations_nonce', 'nonce' );
 
+		/**
+		 * Filter the capability required to access CoCart admin screens.
+		 *
+		 * @since 2.0.0 Introduced.
+		 *
+		 * @param string $capability Required capability.
+		 */
 		if ( ! current_user_can( apply_filters( 'cocart_screen_capability', 'manage_options' ) ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'cart-rest-api-for-woocommerce' ) ) );
 		}
@@ -117,6 +133,13 @@ class CoCart_Admin_Integrations_Page extends CoCart_Submenu_Page {
 	public function ajax_search_integrations() {
 		check_ajax_referer( 'cocart_integrations_nonce', 'nonce' );
 
+		/**
+		 * Filter the capability required to access CoCart admin screens.
+		 *
+		 * @since 2.0.0 Introduced.
+		 *
+		 * @param string $capability Required capability.
+		 */
 		if ( ! current_user_can( apply_filters( 'cocart_screen_capability', 'manage_options' ) ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'cart-rest-api-for-woocommerce' ) ) );
 		}

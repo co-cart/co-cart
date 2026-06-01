@@ -99,6 +99,13 @@ class CoCart_REST_API {
 	 * @return array List of Namespaces and Main controller classes.
 	 */
 	protected function get_rest_namespaces() {
+		/**
+		 * Filter the REST API namespaces and controllers.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param array $namespaces Namespaces and their controller classes.
+		 */
 		return apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
@@ -366,6 +373,11 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-variations-controller.php';
 
+		/**
+		 * Hook: Fires after all CoCart REST API controller files are included.
+		 *
+		 * @since 3.0.0 Introduced.
+		 */
 		do_action( 'cocart_rest_api_controllers' );
 	} // END rest_api_includes()
 

@@ -61,7 +61,7 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 		 * @static
 		 *
 		 * @param string $slug Unique slug for the integration (e.g. 'taxjar').
-		 * @param array  $args {
+		 * @param array  $args { Integration arguments.
 		 *     @type string $name             Human-readable name.
 		 *     @type string $description      Short description shown on the admin page.
 		 *     @type string $type             'compatibility', 'third-party', or 'plus'.
@@ -365,7 +365,7 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 		 *
 		 * @static
 		 *
-		 * @param array<string, bool> $settings
+		 * @param array<string, bool> $settings Integration enabled/disabled state keyed by slug.
 		 */
 		private static function save_settings( array $settings ): void {
 			self::$settings = $settings;

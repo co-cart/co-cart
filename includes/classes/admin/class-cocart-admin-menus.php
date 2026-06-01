@@ -50,10 +50,19 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 * @version 3.10.5
 		 */
 		public function add_main_menu_page() {
+			/**
+			 * Filter the capability required to access CoCart admin screens.
+			 *
+			 * @since 2.0.0 Introduced.
+			 *
+			 * @param string $capability Required capability.
+			 */
+			$screen_capability = apply_filters( 'cocart_screen_capability', 'manage_options' );
+
 			add_menu_page(
 				'CoCart',
 				'CoCart',
-				apply_filters( 'cocart_screen_capability', 'manage_options' ),
+				$screen_capability,
 				'cocart',
 				function () {
 					return '';
