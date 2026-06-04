@@ -599,38 +599,23 @@ final class CoCart {
 	/**
 	 * Load the plugin translations if any ready.
 	 *
-	 * Note: the first-loaded translation file overrides any following ones if the same translation is present.
+	 * Note: the first-loaded translation file takes priority over any following ones if the same translation is present.
 	 *
 	 * Locales found in:
 	 *      - WP_LANG_DIR/cart-rest-api-for-woocommerce/cart-rest-api-for-woocommerce-LOCALE.mo
-	 *      - WP_LANG_DIR/plugins/cart-rest-api-for-woocommerce-LOCALE.mo
+	 *      - PLUGIN_DIR/languages/cart-rest-api-for-woocommerce-LOCALE.mo
 	 *
 	 * @access public
 	 *
 	 * @static
 	 *
-	 * @since   1.0.0 Introduced.
-	 * @version 4.3.7
+	 * @since 1.0.0 Introduced.
 	 */
 	public static function load_plugin_textdomain() {
-		if ( function_exists( 'determine_locale' ) ) {
-			$locale = determine_locale();
-		} else {
-			$locale = is_admin() ? get_user_locale() : get_locale();
-		}
-
-		/**
-		 * Filter the plugin locale.
-		 *
-		 * @since 1.0.0 Introduced.
-		 *
-		 * @param string $locale     Current locale.
-		 * @param string $text_domain Plugin text domain.
-		 */
-		$locale = apply_filters( 'plugin_locale', $locale, COCART_SLUG ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		$locale = determine_locale();
 
 		unload_textdomain( COCART_SLUG );
 		load_textdomain( COCART_SLUG, WP_LANG_DIR . '/' . COCART_SLUG . '/' . COCART_SLUG . '-' . $locale . '.mo' );
-		load_plugin_textdomain( COCART_SLUG, false, plugin_basename( dirname( COCART_FILE ) ) . '/languages' ); // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
+		load_textdomain( COCART_SLUG, plugin_dir_path( COCART_FILE ) . 'languages/' . COCART_SLUG . '-' . $locale . '.mo' );
 	} // END load_plugin_textdomain()
 } // END class
