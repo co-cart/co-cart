@@ -39,29 +39,101 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 );
 ?>
 <div class="cocart-newsletter">
-	<p><?php esc_html_e( 'Get product updates, tutorials and more straight to your inbox.', 'cart-rest-api-for-woocommerce' ); ?></p>
-	<form action="https://xyz.us1.list-manage.com/subscribe/post?u=48ead612ad85b23fe2239c6e3&amp;id=d462357844&amp;SIGNUPPAGE=plugin" method="post" target="_blank" rel="noopener noreferrer" novalidate>
+	<p><?php esc_html_e( 'Get the latest blog posts and product updates straight to your inbox.', 'cart-rest-api-for-woocommerce' ); ?></p>
+	<form id="cocart-newsletter-form" novalidate>
 		<div class="newsletter-form-container">
 			<label for="newsletter-email" class="screen-reader-text"><?php esc_html_e( 'Email address', 'cart-rest-api-for-woocommerce' ); ?></label>
 			<input
+				id="newsletter-email"
 				class="newsletter-form-email"
 				type="email"
 				value="<?php echo esc_attr( $user_email ); ?>"
-				name="EMAIL"
+				name="email"
 				placeholder="<?php esc_attr_e( 'Email address', 'cart-rest-api-for-woocommerce' ); ?>"
+				autocomplete="off"
+				data-1p-ignore
 				required
 			>
-			<p class="cocart-actions step newsletter-form-button-container">
+			<div class="cocart-actions step newsletter-form-button-container">
 				<button
 					type="submit"
-					value="<?php esc_attr_e( 'Yes please!', 'cart-rest-api-for-woocommerce' ); ?>"
-					name="subscribe"
-					id="mc-embedded-subscribe"
+					id="newsletter-subscribe-btn"
 					class="button button-primary cocart-button newsletter-form-button"
 				><?php esc_html_e( 'Yes please!', 'cart-rest-api-for-woocommerce' ); ?></button>
-			</p>
+			</div>
 		</div>
+		<p id="newsletter-form-message" role="status" aria-live="polite"></p>
 	</form>
+	<script type="text/javascript">
+	(function () {
+		var form    = document.getElementById('cocart-newsletter-form');
+		var input   = document.getElementById('newsletter-email');
+		var btn     = document.getElementById('newsletter-subscribe-btn');
+		var message = document.getElementById('newsletter-form-message');
+
+		function setMessage(text, type) {
+			message.textContent = text;
+			message.className   = type;
+		}
+
+		input.addEventListener('input', function () {
+			var container = form.querySelector('.newsletter-form-container');
+			if (input.validity.valid) {
+				container.classList.remove('has-error');
+				setMessage('', '');
+			}
+		});
+
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+
+			var email = input.value.trim();
+			var container = form.querySelector('.newsletter-form-container');
+
+			if (!email || !input.validity.valid) {
+				container.classList.add('has-error');
+				setMessage('<?php esc_html_e( 'Please enter a valid email address.', 'cart-rest-api-for-woocommerce' ); ?>', 'error');
+				return;
+			}
+
+			container.classList.remove('has-error');
+
+			btn.disabled    = true;
+			btn.textContent = '<?php esc_html_e( 'Sending…', 'cart-rest-api-for-woocommerce' ); ?>';
+			setMessage('', '');
+
+			fetch('https://api.cocartapi.com/email/subscribe.php', {
+				method:  'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body:    JSON.stringify({ email: email }),
+			})
+				.then(function (res) {
+					var status = res.status;
+					return res.text().then(function (text) {
+						var data = null;
+						try { data = text ? JSON.parse(text) : null; } catch (e) {}
+						return { ok: res.ok, status: status, data: data };
+					});
+				})
+				.then(function (result) {
+					if (result.ok && result.data && result.data.success) {
+						setMessage(result.data.message || '<?php esc_html_e( 'Check your email to confirm your subscription.', 'cart-rest-api-for-woocommerce' ); ?>', 'success');
+						form.reset();
+					} else {
+						var errMsg = (result.data && result.data.error) || '<?php esc_html_e( 'Something went wrong. Please try again.', 'cart-rest-api-for-woocommerce' ); ?>';
+						setMessage(errMsg, 'error');
+					}
+				})
+				.catch(function () {
+					setMessage('<?php esc_html_e( 'Network error. Please check your connection and try again.', 'cart-rest-api-for-woocommerce' ); ?>', 'error');
+				})
+				.finally(function () {
+					btn.disabled    = false;
+					btn.textContent = '<?php esc_html_e( 'Yes please!', 'cart-rest-api-for-woocommerce' ); ?>';
+				});
+		});
+	}());
+	</script>
 </div>
 
 <ul class="cocart-next-steps">

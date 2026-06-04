@@ -32,9 +32,18 @@
 		margin: 0 0 12px;
 	}
 
-	form,
-	p:last-child {
+	form {
 		margin: 0;
+	}
+
+	#newsletter-form-message {
+		min-height: 1.2em;
+		font-size: 13px;
+		margin: 8px 0 0;
+		display: block !important;
+
+		&.success { color: #2d7a3a; }
+		&.error   { color: #b91c1c; }
 	}
 
 	.newsletter-form-container {
@@ -54,8 +63,15 @@
 			flex-grow: 1;
 		}
 
+		&.has-error .newsletter-form-email {
+			border-color: #b91c1c;
+			box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.25);
+		}
+
 		.newsletter-form-button-container {
 			flex-grow: 0;
+			display: flex;
+			align-items: center;
 
 			.button.newsletter-form-button {
 				height: 42px;
