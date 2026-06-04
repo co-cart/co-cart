@@ -1,6 +1,6 @@
 # Changelog for CoCart Community
 
-## v4.9.0 - [DATE]
+## v4.9.0 - June 15th, 2026
 
 ### What's New?
 
@@ -60,6 +60,10 @@
 * Introduced new filter `cocart_etag_routes` to add ETag support for third-party plugin routes.
 * Introduced new filter `cocart_cache_max_age` to customize cache duration (default: 1 hour).
 * Introduced new filter `cocart_stale_while_revalidate` to customize stale-while-revalidate duration (default: 24 hours).
+
+### Deprecation's
+
+* Filter `cocart_secure_registered_users` deprecated for security — unauthenticated access to registered user carts is now always blocked.
 
 ### Compatibility
 
