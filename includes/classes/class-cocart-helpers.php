@@ -505,6 +505,7 @@ class CoCart_Helpers {
 				'woocommerce_page_wc-status',
 				'toplevel_page_cocart',
 				'toplevel_page_cocart-network',
+				'cocart_page_cocart-setup',
 				'cocart_page_cocart-support',
 				'cocart_page_cocart-integrations',
 			)

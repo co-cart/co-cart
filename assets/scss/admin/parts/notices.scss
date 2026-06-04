@@ -81,6 +81,7 @@
 		.cocart-notice-inner {
 			display: table;
 			width: 100%;
+			text-align: left;
 
 			.cocart-notice-icon,
 			.cocart-notice-content,
@@ -126,7 +127,7 @@ body.cocart-pagestyles {
 	.notice:not(.cocart-notice),
 	.updated:not(.cocart-notice),
 	.error:not(.cocart-notice) {
-		display: none;
+		display: none !important;
 	}
 }
 
