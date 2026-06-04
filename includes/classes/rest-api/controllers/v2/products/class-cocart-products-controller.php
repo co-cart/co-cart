@@ -691,8 +691,8 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 			$options = explode( '|', $attribute['value'] );
 
 			foreach ( $options as $attribute ) {
-				$slug                = trim( $attribute );
-				$attributes[ $slug ] = trim( $attribute );
+				$slug                = sanitize_title( $attribute );
+				$attributes[ $slug ] = rawurldecode( $attribute );
 			}
 		}
 
@@ -727,7 +727,7 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				$attribute_prefix = 0 === strpos( $attribute_name, 'attribute_pa_' ) ? 'attribute_pa_' : 'attribute_';
 
 				// Determine the attribute option.
-				$option = array( $attribute => $attribute );
+				$option = array( sanitize_title( $attribute ) => rawurldecode( $attribute ) );
 
 				if ( 'attribute_pa_' === $attribute_prefix ) {
 					// If the attribute is taxonomy-based, fetch the term.
