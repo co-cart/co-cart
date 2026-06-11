@@ -153,6 +153,20 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 	</li>
 	<li class="cocart-next-step-item">
 		<div class="cocart-next-step-description">
+			<p class="next-step-heading"><?php esc_html_e( 'Unlock your store', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<h3 class="next-step-description"><?php esc_html_e( 'Manage Integrations', 'cart-rest-api-for-woocommerce' ); ?></h3>
+			<p class="next-step-extra-info"><?php esc_html_e( 'Enable or disable integrations with other plugins.', 'cart-rest-api-for-woocommerce' ); ?></p>
+		</div>
+		<div class="cocart-next-step-action">
+			<p class="cocart-actions step">
+				<a class="button cocart-button" href="<?php echo esc_url( admin_url( 'admin.php?page=cocart-integrations' ) ); ?>" role="button">
+					<?php esc_html_e( 'View Integrations', 'cart-rest-api-for-woocommerce' ); ?>
+				</a>
+			</p>
+		</div>
+	</li>
+	<li class="cocart-next-step-item">
+		<div class="cocart-next-step-description">
 			<p class="next-step-heading"><?php esc_html_e( 'Need something else?', 'cart-rest-api-for-woocommerce' ); ?></p>
 			<h3 class="next-step-description"><?php esc_html_e( 'Install Plugins', 'cart-rest-api-for-woocommerce' ); ?></h3>
 			<p class="next-step-extra-info"><?php esc_html_e( 'Checkout plugin suggestions by CoCart.', 'cart-rest-api-for-woocommerce' ); ?></p>
@@ -266,7 +280,7 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 								}, 500);
 								upgradeButton.classList.add('expired');
 								upgradeButton.textContent = '<?php esc_html_e( 'View Pricing', 'cart-rest-api-for-woocommerce' ); ?>';
-								upgradeButton.href = '<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ); ?>';
+								upgradeButton.href = <?php echo wp_json_encode( esc_url_raw( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ) ); ?>;
 								return;
 							}
 
