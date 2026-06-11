@@ -42,6 +42,7 @@
 		display: block;
 		font-size: 16px;
 		height: 30px;
+		line-height: inherit;
 		padding-left: 8px;
 		padding-right: 8px;
 		width: calc(100% - 8px - 8px - 2px);
@@ -193,12 +194,6 @@
 	.cocart-setup-wizard-steps {
 		display: none;
 	}
-}
-
-.cocart-setup-wizard .cocart-actions {
-	overflow: hidden;
-	margin: 20px 0 0;
-	position: relative;
 }
 
 .cocart-setup-wizard-footer-links {

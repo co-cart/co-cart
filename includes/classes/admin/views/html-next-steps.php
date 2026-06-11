@@ -230,11 +230,12 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 				if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
 					?>
 				<div class="column wide has-background">
-					<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" viewBox="0 0 16 16" x="56" y="56" style="color: #fff" alignment-baseline="middle">
-						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14h.01M11 14h.01"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.066 4.75H14.25l-1.566 5.088a2 2 0 0 1-1.911 1.412H6.55a2 2 0 0 1-1.99-1.79l-.623-5.92A2 2 0 0 0 1.95 1.75H1.75"/>
-					</svg>
-					<h3><?php esc_html_e( 'Ready to Upgrade?', 'cart-rest-api-for-woocommerce' ); ?></h3>
-					<p><?php esc_html_e( 'Fully unlock your store with API\'s for coupons, shipping and fees. Control and prevent abuse from excessive calls with rate limiting, make batch request with our enhanced support and more.', 'cart-rest-api-for-woocommerce' ); ?></p>
+					<div class="upgrade-header">
+						<svg class="upgrade-icon" width="32" height="32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" viewBox="0 0 16 16" alignment-baseline="middle">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14h.01M11 14h.01"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.066 4.75H14.25l-1.566 5.088a2 2 0 0 1-1.911 1.412H6.55a2 2 0 0 1-1.99-1.79l-.623-5.92A2 2 0 0 0 1.95 1.75H1.75"/>
+						</svg>
+						<h3><?php esc_html_e( 'Ready to Upgrade?', 'cart-rest-api-for-woocommerce' ); ?></h3>
+					</div>
 
 					<?php
 					// Get the timestamp for when CoCart was installed.
@@ -254,17 +255,23 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 					$time_left = ! $week_passed ? -1 : ( $start_time ? max( 0, ( $start_time + 600 ) - time() ) : 600 ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound, 600 seconds = 10 minutes.
 					?>
 
-					<div id="countdown-timer" data-start="<?php echo esc_attr( $time_left ); ?>">
-						<span id="minutes"></span>:<span id="seconds"></span> <?php echo esc_html_e( 'left to upgrade with a 20% discount!', 'cart-rest-api-for-woocommerce' ); ?>
-					</div>
+					<div class="upgrade-body">
+						<p><?php esc_html_e( 'Fully unlock your store with API\'s for coupons, shipping and fees. Control and prevent abuse from excessive calls with rate limiting, make batch request with our enhanced support and more.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
-					<a class="button cocart-button-alt" id="upgrade-button" href="<?php echo 0 === $time_left ? esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ) : esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'why-upgrade/' ) ) ) ); ?>" target="_blank" rel="noopener noreferrer" role="button">
-					<?php
-					echo 0 === $time_left ?
-					esc_html__( 'View Pricing', 'cart-rest-api-for-woocommerce' ) :
-					esc_html__( 'Upgrade Now', 'cart-rest-api-for-woocommerce' );
-					?>
-					</a>
+						<div class="upgrade-action">
+							<div id="countdown-timer" data-start="<?php echo esc_attr( $time_left ); ?>">
+								<span id="minutes"></span>:<span id="seconds"></span> <?php echo esc_html_e( 'left to upgrade with a 20% discount!', 'cart-rest-api-for-woocommerce' ); ?>
+							</div>
+
+							<a class="button button-large" id="upgrade-button" href="<?php echo 0 === $time_left ? esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ) : esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'why-upgrade/' ) ) ) ); ?>" target="_blank" rel="noopener noreferrer" role="button">
+							<?php
+							echo 0 === $time_left ?
+							esc_html__( 'View Pricing', 'cart-rest-api-for-woocommerce' ) :
+							esc_html__( 'Upgrade Now', 'cart-rest-api-for-woocommerce' );
+							?>
+							</a>
+						</div>
+					</div>
 					<script type="text/javascript">
 						document.addEventListener('DOMContentLoaded', function() {
 						const timerDiv = document.getElementById('countdown-timer');

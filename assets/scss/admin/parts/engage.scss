@@ -196,11 +196,14 @@ ul.cocart-next-steps {
 }
 
 #countdown-timer {
-	color: variables.$yellow;
-	font-size: 1.2em;
-	font-weight: bold;
-	margin: 10px 0;
-	text-align: left;
+	background-color: rgba(243, 109, 10, 0.25);
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: variables.$orange;
+	font-size: 0.95em;
+	font-weight: 700;
+	padding: 0.4em 0.8em;
+	text-align: center;
 	transition: opacity 0.5s ease-out;
 }
 
