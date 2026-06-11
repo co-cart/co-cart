@@ -38,7 +38,7 @@
 	},
 	"requires": "6.7",
 	"requires_php": "8.2",
-	"tested_up_to": "6.9",
+	"tested_up_to": "7.0",
 	"wc_requires": "9.0",
 	"wc_tested_up_to": "10.8",
 	"license": "GPL-3.0",
