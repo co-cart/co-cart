@@ -27,9 +27,38 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			// Registers and enqueue Stylesheets.
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 
+			// Registers and enqueue Scripts.
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+
 			// Adds admin body classes.
 			add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 		} // END __construct()
+
+		/**
+		 * Registers and enqueues scripts for CoCart admin pages.
+		 *
+		 * @access public
+		 *
+		 * @since 4.9.0 Introduced.
+		 */
+		public function admin_scripts() {
+			$suffix    = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			$screen    = get_current_screen();
+			$screen_id = $screen ? $screen->id : '';
+
+			if ( strpos( $screen_id, 'cocart-settings' ) !== false ) {
+				$script_path = 'assets/js/admin/cocart-admin-settings' . $suffix . '.js';
+
+				wp_register_script(
+					'cocart-admin-settings',
+					COCART_URL_PATH . '/' . $script_path,
+					array( 'jquery' ),
+					CoCart::get_file_version( COCART_ABSPATH . $script_path ),
+					true
+				);
+				wp_enqueue_script( 'cocart-admin-settings' );
+			}
+		} // END admin_scripts()
 
 		/**
 		 * Registers and enqueue Stylesheets.

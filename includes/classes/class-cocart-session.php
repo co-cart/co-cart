@@ -356,6 +356,9 @@ class CoCart_Load_Cart {
 	 * @return boolean
 	 */
 	public static function maybe_load_cart() {
+		$cocart_settings   = get_option( 'cocart_settings', array() );
+		$load_cart_default = isset( $cocart_settings['features']['load_cart_from_session'] ) && 'no' === $cocart_settings['features']['load_cart_from_session'];
+
 		/**
 		 * Filter checks if "Load Cart from Session" feature is disabled.
 		 *
@@ -363,7 +366,7 @@ class CoCart_Load_Cart {
 		 *
 		 * @return bool
 		 */
-		if ( apply_filters( 'cocart_disable_load_cart', false ) ) {
+		if ( apply_filters( 'cocart_disable_load_cart', $load_cart_default ) ) {
 			return false;
 		}
 

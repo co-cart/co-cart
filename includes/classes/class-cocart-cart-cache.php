@@ -275,6 +275,9 @@ class CoCart_Cart_Cache {
 	 * @return bool True if the cart item is allowed to override the price.
 	 */
 	protected function does_product_allow_price_change( $cart_item, $request ) {
+		$cocart_settings = get_option( 'cocart_settings', array() );
+		$allow_default   = isset( $cocart_settings['features']['name_your_price'] ) && 'yes' === $cocart_settings['features']['name_your_price'];
+
 		/**
 		 * Filter whether a cart item is allowed to override the product price.
 		 *
@@ -288,7 +291,7 @@ class CoCart_Cart_Cache {
 		 * @param array           $cart_item    Cart item.
 		 * @param WP_REST_Request $request      The request object.
 		 */
-		return apply_filters( 'cocart_does_product_allow_price_change', false, $cart_item, $request );
+		return apply_filters( 'cocart_does_product_allow_price_change', $allow_default, $cart_item, $request );
 	} // END does_product_allow_price_change()
 } // END class
 

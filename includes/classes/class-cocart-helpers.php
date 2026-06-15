@@ -507,6 +507,7 @@ class CoCart_Helpers {
 				'toplevel_page_cocart-network',
 				'cocart_page_cocart-setup',
 				'cocart_page_cocart-support',
+				'cocart_page_cocart-settings',
 				'cocart_page_cocart-integrations',
 			)
 		);

@@ -5,6 +5,9 @@
 // Common
 @use "parts/common";
 
+// Modals
+@use "parts/cocart-modal";
+
 // WooCommerce Admin;
 @use "parts/wc-admin";
 
@@ -16,6 +19,9 @@
 
 // Untested Plugins
 @use "parts/untested-plugins";
+
+// Settings
+@use "parts/cocart-settings";
 
 // Integrations
 @use "parts/cocart-integrations";

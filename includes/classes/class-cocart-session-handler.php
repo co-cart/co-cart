@@ -291,8 +291,17 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 	 * @access public
 	 */
 	public function set_cart_expiration() {
+		static $guest_expiration    = null;
+		static $loggedin_expiration = null;
+
+		if ( null === $guest_expiration || null === $loggedin_expiration ) {
+			$session_settings    = get_option( 'cocart_settings', array() )['session'] ?? array();
+			$guest_expiration    = isset( $session_settings['guest_expiration_days'] ) ? (int) $session_settings['guest_expiration_days'] * DAY_IN_SECONDS : 2 * DAY_IN_SECONDS;
+			$loggedin_expiration = isset( $session_settings['loggedin_expiration_days'] ) ? (int) $session_settings['loggedin_expiration_days'] * DAY_IN_SECONDS : WEEK_IN_SECONDS;
+		}
+
 		$expiring_seconds       = DAY_IN_SECONDS;
-		$expiration_seconds     = is_user_logged_in() ? WEEK_IN_SECONDS : 2 * DAY_IN_SECONDS;
+		$expiration_seconds     = is_user_logged_in() ? $loggedin_expiration : $guest_expiration;
 		$max_expiration_seconds = MONTH_IN_SECONDS;
 		$max_expiring_seconds   = $max_expiration_seconds - DAY_IN_SECONDS;
 		$session_limit_exceeded = false;

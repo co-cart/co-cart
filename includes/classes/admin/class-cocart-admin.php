@@ -65,6 +65,8 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			include_once __DIR__ . '/woocommerce/class-cocart-wc-admin-system-status.php';          // WooCommerce System Status.
 
 			// Pages.
+			require_once __DIR__ . '/class-cocart-admin-settings-renderer.php';                    // Settings Renderer.
+			require_once __DIR__ . '/pages/class-cocart-admin-pages-settings.php';                  // Settings page.
 			require_once __DIR__ . '/pages/class-cocart-admin-pages-support.php';                   // Support.
 			require_once __DIR__ . '/pages/class-cocart-admin-pages-integrations.php';              // Integrations page.
 			require_once __DIR__ . '/class-cocart-admin-setup-wizard.php';                          // Setup Wizard.

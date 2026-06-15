@@ -1,0 +1,126 @@
+// ── Dialog modal ──────────────────────────────────────────────────────────────
+
+.cocart-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&[hidden] { display: none; }
+}
+
+.cocart-modal-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgb(0 0 0 / 0.5);
+}
+
+.cocart-modal-box {
+	position: relative;
+	background: #fff;
+	border-radius: 4px;
+	padding: 24px 28px;
+	max-height: 80vh;
+	overflow-y: auto;
+	box-shadow: 0 8px 32px rgb(0 0 0 / 0.25);
+
+	h3 {
+		margin: 0 0 16px;
+		font-size: 14px;
+		word-break: break-all;
+	}
+}
+
+.cocart-upgrade-feature-list {
+	list-style: none;
+	margin: 0 0 16px;
+	padding: 0;
+
+	li {
+		position: relative;
+		padding-left: 24px;
+		margin-bottom: 8px;
+		font-size: 13px;
+		line-height: 1.5;
+
+		&::before {
+			content: '✓';
+			position: absolute;
+			left: 0;
+			color: #4f46e5;
+			font-weight: 700;
+		}
+	}
+}
+
+.cocart-upgrade-offer {
+	font-weight: 600;
+}
+
+.cocart-modal-close {
+	position: absolute;
+	top: 12px;
+	right: 14px;
+	background: none;
+	border: none;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	color: #666;
+
+	&:hover { color: #000; }
+}
+
+.cocart-modal-overlay {
+	background: rgb(0 0 0 / .6);
+	display: none;
+	height: 100%;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 100000;
+}
+
+.cocart-modal-content {
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgb(0 0 0 / .3);
+	margin: 0 auto;
+	position: relative;
+	top: 30%;
+	width: 480px;
+	max-width: 100%;
+}
+
+.cocart-modal-header {
+	background: #fbfbfb;
+	border-bottom: 1px solid #eee;
+	padding: 0.5em 1em;
+	position: relative;
+
+	h4 {
+		font-size: 1.2em;
+		font-weight: 700;
+		letter-spacing: .6px;
+		margin: 0;
+		padding: 0;
+		text-shadow: 1px 1px 1px #fff;
+		text-transform: uppercase;
+	}
+}
+
+.cocart-modal-body {
+	background: #fefefe;
+	border-bottom: 0;
+	padding: 1em;
+}
+
+.cocart-modal-footer {
+	background: #fefefe;
+	border-top: 1px solid #eee;
+	padding: 1em;
+	text-align: right;
+}
