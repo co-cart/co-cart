@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/co-cart/co-cart/trunk/.wordpress-org/banner-772x250.png" alt="CoCart — Headless REST API for WooCommerce" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/cocart-headless/.github/refs/heads/main/profile/banner.png" alt="CoCart — Headless REST API for WooCommerce" /></p>
 
 <p align="center">
 	<a href="https://github.com/co-cart/co-cart/blob/trunk/license.txt" target="_blank">
@@ -27,7 +27,7 @@ CoCart handles the hard parts so you can focus on your store, products and custo
 > [!IMPORTANT]
 > **v4.9.0 is the final major release of CoCart Community Edition.**
 > Going forward, Community Edition will receive security patches only — no new features or performance optimizations.
-> New development continues in [**CoCart Basic**](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition) and higher tiers.
+> New development continues in [**CoCart Starter & CoCart Plus**](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition) and higher tiers.
 > Community Edition remains a great way to evaluate CoCart before purchasing a license.
 
 ## Why Developers Choose CoCart
@@ -91,13 +91,13 @@ Want another language? [Make a request](https://cocartapi.com/suggest-a-feature/
 
 👉 [View full pricing & features](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)
 
-## CoCart Basic
+## CoCart Starter
 
-CoCart Basic contains the same features and support as the Community Edition but is optimized for performance and provides improvements to support CoCart Plus and additional add-ons.
+CoCart Starter contains the same features and support as the Community Edition but is optimized for performance and provides improvements to support CoCart Plus and additional add-ons.
 
 If you've evaluated CoCart Community Edition and need more powerful features and support for production, Basic is the natural next step.
 
-👉 [Get CoCart Basic](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)
+👉 [Get CoCart Starter](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)
 
 ## Upgrade to CoCart Plus
 
@@ -120,7 +120,6 @@ We also have add-ons that extend CoCart to enhance your development and your cus
 | **CORS** - Enables CoCart to work across multiple domains. | [GitHub](https://github.com/cocart-headless/cocart-cors) | - |
 | **Rate Limiting** - Control and prevent abuse from excessive calls. | [GitHub](https://github.com/cocart-headless/cocart-rate-limiting) | CoCart Plus or higher |
 | **JWT Authentication** - Authenticate via a simple JWT Token. | [GitHub](https://github.com/cocart-headless/cocart-jwt-authentication) | - |
-| **White Label** - Use CoCart as your own. Give your clients a sense of ease knowing that you are maintaining the WordPress plugin code behind their headless stores. | [Purchase](https://buy.polar.sh/polar_cl_0nftDGofccsOqZFD4TDvoSOxCZf1MzNggrj544A0gg7) | CoCart Basic minimum |
 
 These add-ons of course come with support too.
 
