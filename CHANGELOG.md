@@ -17,6 +17,7 @@
 
 ### Bug Fixes
 
+* REST API: Requests made via the WordPress REST API batch endpoint were not recognized and caused a fatal error when adding items.
 * REST API: Shipping address fields were blank after submitting billing-only details — billing fields now mirror to shipping when `ship_to_different_address` is not set, matching WooCommerce checkout behaviour. Shipping packages now also return correctly after a complete address is saved.
 * REST API: Slugs, permalinks and attribute names with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of encoded across all product and cart endpoints.
 * REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
