@@ -29,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.9.0-rc.4';
+	public static $version = '4.9.0-rc.5';
 
 	/**
 	 * CoCart Database Schema version.
@@ -497,6 +497,7 @@ final class CoCart {
 	 *
 	 * @since 2.1.0 Introduced.
 	 * @since 4.2.0 Moved to main class.
+	 * @since 4.9.0 Recognize requests made via the WordPress REST API batch endpoint.
 	 *
 	 * @return bool
 	 */
@@ -505,9 +506,16 @@ final class CoCart {
 			return false;
 		}
 
-		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
-		$request_uri         = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$rest_prefix = trailingslashit( rest_get_url_prefix() );
+		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . self::get_api_namespace() . '/' ) );
+
+		// Requests sent via the WP REST API batch endpoint share the cart, session and
+		// customer for every sub-request dispatched, so return true to accept them.
+		if ( ! $is_rest_api_request ) {
+			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'batch/v1' ) );
+		}
 
 		/**
 		 * Filters the REST API requested.
