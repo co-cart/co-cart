@@ -75,15 +75,15 @@ if ( ! class_exists( 'CoCart_Admin_Assets' ) ) {
 			if ( CoCart_Helpers::is_cocart_admin_page() ) {
 				$style_path = 'assets/css/admin/cocart.css';
 
-				wp_register_style( COCART_SLUG . '-admin', COCART_URL_PATH . '/' . $style_path, array(), CoCart::get_file_version( COCART_ABSPATH . $style_path ) );
-				wp_enqueue_style( COCART_SLUG . '-admin' );
-				wp_style_add_data( COCART_SLUG . '-admin', 'rtl', 'replace' );
+				wp_register_style( 'cocart-admin', COCART_URL_PATH . '/' . $style_path, array(), CoCart::get_file_version( COCART_ABSPATH . $style_path ) );
+				wp_enqueue_style( 'cocart-admin' );
+				wp_style_add_data( 'cocart-admin', 'rtl', 'replace' );
 				if ( $suffix ) {
-					wp_style_add_data( COCART_SLUG . '-admin', 'suffix', '.min' );
+					wp_style_add_data( 'cocart-admin', 'suffix', '.min' );
 				}
 			}
 			if ( $suffix ) {
-				wp_style_add_data( COCART_SLUG . '-admin', 'suffix', '.min' );
+				wp_style_add_data( 'cocart-admin', 'suffix', '.min' );
 			}
 		} // END admin_styles()
 
