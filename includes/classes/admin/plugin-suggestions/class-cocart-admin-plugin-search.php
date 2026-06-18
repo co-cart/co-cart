@@ -604,8 +604,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 						case 'install':
 							if ( $status['url'] ) {
 								if ( $compatible_php && $compatible_wp ) {
-									// $nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
-									// $url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
 									if ( ! empty( $plugin['purchase'] ) ) { // @TODO: Add check if CoCart license is active to download and install if source available.
 										$links['cocart-purchase'] = sprintf(
 											'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s" data-name="%s">%s</a>',
