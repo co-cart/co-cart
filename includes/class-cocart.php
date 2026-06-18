@@ -509,7 +509,7 @@ final class CoCart {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . self::get_api_namespace() . '/' ) );
+		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
 
 		// Requests sent via the WP REST API batch endpoint share the cart, session and
 		// customer for every sub-request dispatched, so return true to accept them.

@@ -3,7 +3,7 @@ Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.7
 Requires PHP: 8.2
-Tested up to: 6.9
+Tested up to: 7.0
 Stable tag: 4.8.3
 WC requires at least: 9.0
 WC tested up to: 10.8
@@ -288,7 +288,9 @@ CoCart is open source and community-driven. Every release is tested, maintained,
 
 ### Bug Fixes
 
-* REST API: Slugs and permalinks with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of URL-encoded across all product and cart endpoints.
+* REST API: Requests made via the WordPress REST API batch endpoint were not recognized and caused a fatal error when adding items.
+* REST API: Shipping address fields were blank after submitting billing-only details — billing fields now mirror to shipping when `ship_to_different_address` is not set, matching WooCommerce checkout behaviour. Shipping packages now also return correctly after a complete address is saved.
+* REST API: Slugs, permalinks and attribute names with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of encoded across all product and cart endpoints.
 * REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
 * REST API: Fixed fatal error when adding an invalid product to cart via v2 controller due to missing `WP_Error` check after product validation.
 * REST API: Corrected `Last-Modified` header in GMT per HTTP spec with more robust date parsing.

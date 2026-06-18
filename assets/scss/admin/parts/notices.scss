@@ -28,9 +28,14 @@
 		border-color: variables.$cocart;
 		padding: 10px !important;
 
-		a.button {
+		a.button:not(.button-secondary) {
 			background-color: variables.$cocart-button;
 			border-color: variables.$cocart-button;
+		}
+
+		a.button-secondary {
+			border-color: variables.$cocart-button;
+			color: variables.$cocart-button !important;
 		}
 
 		a.button:hover,
