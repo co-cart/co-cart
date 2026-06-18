@@ -27,6 +27,11 @@ $upgrade_url = CoCart_Helpers::build_shortlink(
 		COCART_STORE_URL . 'why-upgrade/'
 	)
 );
+
+$plus_version      = defined( 'COCART_PLUS_VERSION' ) ? preg_replace( '/-(alpha|beta|rc)\..*/i', '', COCART_PLUS_VERSION ) : '0';
+$has_plus          = version_compare( $plus_version, '1.6', '>=' );
+$starter_installed = defined( 'COCART_VERSION' ) && version_compare( COCART_VERSION, '4.9.0', '>' );
+$show_starter_cta  = $has_plus && ! $starter_installed;
 ?>
 <div id="cocart-settings-toast" class="cocart-toast" aria-live="polite"></div>
 
@@ -98,6 +103,24 @@ $upgrade_url = CoCart_Helpers::build_shortlink(
 	<div class="cocart-modal-backdrop"></div>
 	<div class="cocart-modal-box">
 		<button type="button" class="cocart-modal-close" aria-label="<?php esc_attr_e( 'Close', 'cart-rest-api-for-woocommerce' ); ?>">&times;</button>
+		<?php if ( $show_starter_cta ) : ?>
+		<h3 id="cocart-upgrade-modal-title"><?php esc_html_e( 'You\'re almost there', 'cart-rest-api-for-woocommerce' ); ?></h3>
+		<div id="cocart-upgrade-modal-body">
+			<p>
+			<?php
+			printf(
+				/* translators: %s: Plugin name. */
+				esc_html__( 'Your %1$s license already includes access to these features. Install the %2$s plugin to unlock them.', 'cart-rest-api-for-woocommerce' ),
+				'CoCart Plus',
+				'CoCart Starter'
+			);
+			?>
+			</p>
+			<p>
+				<a href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=upload' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Install CoCart Starter', 'cart-rest-api-for-woocommerce' ); ?></a>
+			</p>
+		</div>
+		<?php else : ?>
 		<h3 id="cocart-upgrade-modal-title"><?php esc_html_e( 'You\'ve outgrown the basics', 'cart-rest-api-for-woocommerce' ); ?></h3>
 		<div id="cocart-upgrade-modal-body">
 			<p><?php esc_html_e( 'These settings are just the tip of the iceberg. Unlock the tools needed for your headless store to go from "it works" to "it scales".', 'cart-rest-api-for-woocommerce' ); ?></p>
@@ -112,6 +135,7 @@ $upgrade_url = CoCart_Helpers::build_shortlink(
 				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="button button-primary" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Claim 20% off', 'cart-rest-api-for-woocommerce' ); ?></a>
 			</p>
 		</div>
+		<?php endif; ?>
 	</div>
 </div>
 
