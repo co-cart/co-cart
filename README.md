@@ -74,7 +74,7 @@ Want another language? [Make a request](https://cocartapi.com/suggest-a-feature/
 
 ## Compare Editions
 
-| Feature | Community (Free) | Basic | Plus |
+| Feature | Community (Free) | Starter | Plus |
 |---------|:---:|:---:|:---:|
 | Cart API (add, update, remove items) | ✅ | ✅ | ✅ |
 | Product search & filtering | ✅ | ✅ | ✅ |
