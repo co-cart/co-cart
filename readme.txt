@@ -286,6 +286,15 @@ CoCart is open source and community-driven. Every release is tested, maintained,
 * REST API: Added check for `X-HTTP-Method-Override` header if it exists during authentication.
 * WordPress Dashboard: New integrations page to provide more control over which supported plugin is running when making a CoCart request.
 
+* Plugin: New settings page providing quick easy control of CoCart without touching code for the following:
+* * CORS and allowed origin.
+* * Authorization header server variable.
+* * Session expiration for guest and logged-in users.
+* * "Load Cart from Session" feature.
+* * "Name Your Price" feature.
+
+> Settings show a locked state when controlled by an external filter with a link providing information as to what and where.
+
 ### Bug Fixes
 
 * REST API: Requests made via the WordPress REST API batch endpoint were not recognized and caused a fatal error when adding items.
