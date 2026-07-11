@@ -37,7 +37,6 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 
 		/**
 		 * Map of slug → absolute file path for integrations that have a loadable file.
-		 * Plus-only or metadata-only integrations have no entry here.
 		 *
 		 * @var array<string, string>
 		 */
@@ -56,6 +55,10 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 		/**
 		 * Register an integration.
 		 *
+		 * External registrants (e.g. CoCart Plus, hooking `cocart_register_integrations`)
+		 * can pass `$file` to have their integration file included automatically by
+		 * `load()`, the same way built-in integrations are loaded via `add()`.
+		 *
 		 * @access public
 		 *
 		 * @static
@@ -72,8 +75,10 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 		 *     @type bool   $upgrade_required True = show Upgrade to Pro button; no toggle.
 		 *     @type bool   $coming_soon True = show "Coming soon" label next to the Upgrade button.
 		 * }
+		 * @param string $file Optional. Absolute path to a file to include when this
+		 *                     integration is loaded.
 		 */
-		public static function register( string $slug, array $args ): void {
+		public static function register( string $slug, array $args, string $file = '' ): void {
 			$defaults = array(
 				'name'             => '',
 				'description'      => '',
@@ -86,6 +91,10 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 			);
 
 			self::$registry[ $slug ] = array_merge( $defaults, $args );
+
+			if ( '' !== $file ) {
+				self::$integration_files[ $slug ] = $file;
+			}
 		} // END register()
 
 		/**
@@ -335,8 +344,7 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 		 * @param string $file Absolute path to the integration file.
 		 */
 		private static function add( string $slug, array $args, string $file ): void {
-			self::register( $slug, $args );
-			self::$integration_files[ $slug ] = $file;
+			self::register( $slug, $args, $file );
 		} // END add()
 
 		// ── Settings persistence ──────────────────────────────────────────────────
