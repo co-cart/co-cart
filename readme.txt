@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.7
 Requires PHP: 8.2
 Tested up to: 7.0
-Stable tag: 4.8.3
+Stable tag: 4.9.0
 WC requires at least: 9.0
 WC tested up to: 10.9
 License: GPLv3
@@ -371,6 +371,20 @@ CoCart is open source and community-driven. Every release is tested, maintained,
 
 * Tested with WordPress 7.0
 * Tested with WooCommerce v10.9
+
+= v4.8.4 - 21st April, 2026 =
+
+### Bug Fixes
+
+* Plugin: Fixed fatal error from `sprint_f()` typo in database update scheduler (`sprintf`).
+* REST API: Apply `Access-Control-Allow-Credentials` header correctly.
+* Load Cart: Only trigger warning if hook `cocart_load_cart_override` was used.
+* Load Cart: Fixed uncaught type error merging an empty cart value. Reported by [@allkhor](https://github.com/allkhor) 👍
+* WordPress Dashboard: Fixed HTML issue in the WooCommerce admin bar title.
+
+### Compatibility
+
+* Tested with WooCommerce v10.7
 
 = v4.8.3 - 26th January, 2026 =
 
