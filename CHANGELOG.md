@@ -1,6 +1,6 @@
 # Changelog for CoCart Community
 
-## v4.9.0 - June 15th, 2026
+## v4.9.0 - July 12th, 2026
 
 ### What's New?
 
@@ -79,7 +79,7 @@
 ### Compatibility
 
 * Tested with WordPress 7.0
-* Tested with WooCommerce v10.8
+* Tested with WooCommerce v10.9
 
 ## v4.8.3 - 26th January, 2026
 
