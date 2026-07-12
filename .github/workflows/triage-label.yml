@@ -18,7 +18,7 @@ jobs:
         issues: write
 
       steps:
-        - uses: actions/checkout@v4
+        - uses: actions/checkout@v7
         # We want to delay the labeling of the issue so that the author has a change to add labels after issue creation.
         - name: 'Delay Labeling'
           run: sleep 3m
