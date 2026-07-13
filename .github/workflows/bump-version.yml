@@ -112,7 +112,7 @@ jobs:
             core.setOutput('isStable', bumpType === 'stable' ? 'true' : 'false');
 
       - name: Set Up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
