@@ -13,9 +13,9 @@
 
 	.woocommerce-layout__header {
 		.woocommerce-layout__header-heading {
-			background: #fff url("../../images/brand/cocart-logo.svg") no-repeat left center;	
-			margin-left: 1.2rem;
-			text-indent: 8.6rem;
+			background: #fff url("../../images/brand/cocart-logo.svg") no-repeat 10px center;	
+			margin: 0;
+			text-indent: 10rem;
 
 			@media screen and (max-width: 784px) {
 				text-indent: 9999px;
