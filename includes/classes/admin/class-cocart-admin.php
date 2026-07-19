@@ -56,9 +56,10 @@ if ( ! class_exists( 'CoCart_Admin' ) ) {
 			require_once __DIR__ . '/class-cocart-admin-menus.php';                                 // Admin Menus.
 			require_once __DIR__ . '/class-cocart-admin-notices.php';                               // Plugin Notices.
 
-			// Plugin search and suggestions.
-			require_once __DIR__ . '/plugin-suggestions/class-cocart-admin-plugin-suggestions.php'; // Plugin Suggestions.
-			require_once __DIR__ . '/plugin-suggestions/class-cocart-admin-plugin-search.php';      // Plugin Search.
+			// Plugin search. The plugin suggestions updater is loaded for all
+			// contexts in CoCart::includes() so the scheduled action callback
+			// is registered when the queue runs via WP-Cron or WP-CLI.
+			require_once __DIR__ . '/plugin-suggestions/class-cocart-admin-plugin-search.php';
 
 			// For WooCommerce.
 			include_once __DIR__ . '/woocommerce/class-cocart-wc-admin-notices.php';                // WooCommerce Admin Notices.

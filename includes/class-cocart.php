@@ -329,6 +329,15 @@ final class CoCart {
 		}
 
 		/**
+		 * The plugin suggestions updater must load in all contexts so the
+		 * scheduled action callback is registered when Action Scheduler
+		 * processes the queue via WP-Cron or WP-CLI.
+		 */
+		if ( ! defined( 'COCART_WHITE_LABEL' ) || false === COCART_WHITE_LABEL ) {
+			require_once __DIR__ . '/classes/admin/plugin-suggestions/class-cocart-admin-plugin-suggestions.php';
+		}
+
+		/**
 		 * Load backend features only if COCART_WHITE_LABEL constant is
 		 * NOT set or IS set to false in user's wp-config.php file.
 		 */
