@@ -23,24 +23,37 @@ class CoCart_Admin_Plugin_Suggestions_Updater {
 	/**
 	 * Setup.
 	 *
+	 * The callback is registered unconditionally so scheduled actions can
+	 * run in any context Action Scheduler processes the queue from,
+	 * including WP-Cron and WP-CLI where admin_init never fires.
+	 *
 	 * @access public
 	 *
 	 * @static
+	 *
+	 * @since 4.9.1 Callback is no longer deferred to admin_init.
 	 */
 	public static function load() {
-		add_action( 'admin_init', array( __CLASS__, 'init' ) );
+		add_action( 'cocart_update_plugin_suggestions', array( __CLASS__, 'run_update_plugin_suggestions' ) );
 	} // END load()
 
 	/**
-	 * Schedule events and hook appropriate actions.
+	 * Runs the scheduled plugin suggestions update.
+	 *
+	 * Action callback wrapper as update_plugin_suggestions()
+	 * returns data for direct callers.
 	 *
 	 * @access public
 	 *
 	 * @static
+	 *
+	 * @since 4.9.1 Introduced.
+	 *
+	 * @return void
 	 */
-	public static function init() {
-		add_action( 'cocart_update_plugin_suggestions', array( __CLASS__, 'update_plugin_suggestions' ) );
-	} // END init()
+	public static function run_update_plugin_suggestions() {
+		self::update_plugin_suggestions();
+	} // END run_update_plugin_suggestions()
 
 	/**
 	 * Fetches new plugin data, updates CoCart plugin suggestions.
