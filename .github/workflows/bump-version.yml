@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -40,7 +40,7 @@ jobs:
 
       - name: Compute new version
         id: compute-new-version
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const bumpType = '${{ inputs.bump-type }}';
@@ -112,7 +112,7 @@ jobs:
             core.setOutput('isStable', bumpType === 'stable' ? 'true' : 'false');
 
       - name: Set Up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'

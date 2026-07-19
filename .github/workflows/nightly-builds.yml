@@ -18,10 +18,10 @@ jobs:
       package_name: ${{ steps.package_info.outputs.package_name }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set Up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -158,7 +158,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update nightly tag
-        uses: richardsimko/github-tag-action@v1.0.11
+        uses: richardsimko/github-tag-action@v2.0.0
         with:
           tag_name: nightly
         env:
