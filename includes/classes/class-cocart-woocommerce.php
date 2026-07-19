@@ -5,8 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.1.2 Introduced.
- * @version 4.6.2
- * @license GPL-3.0
+ * @version 4.8.3
  */
 
 // Exit if accessed directly.
@@ -130,18 +129,29 @@ class CoCart_WooCommerce {
 
 			// Compare the customer ID with the requested cart key. If they match then return error message.
 			if ( ! empty( $cart_key ) && $customer_id === $cart_key ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$error = new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cocart-core' ), array( 'status' => 403 ) );
-				wp_send_json_error( $error, 403 );
-				exit;
+				return new WP_Error( 'cocart_already_authenticating_user', __( 'You are already authenticating as the customer. Cannot set cart key as the user.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 			}
 		} else {
 			$user = get_user_by( 'id', $cart_key );
 
-			// If the user exists then return error message.
-			if ( ! empty( $user ) && apply_filters( 'cocart_secure_registered_users', true ) ) {
-				$error = new WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate customer as the cart key provided is a registered customer.', 'cocart-core' ), array( 'status' => 403 ) );
-				wp_send_json_error( $error, 403 );
-				exit;
+			if ( ! empty( $user ) ) {
+				/**
+				 * Previously allowed disabling the registered user security check.
+				 *
+				 * Deprecated for security reasons: disabling this check allows
+				 * unauthenticated users to access any registered user's cart
+				 * by guessing sequential user IDs. The check is now enforced
+				 * unconditionally. This filter no longer affects behavior.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @deprecated 4.9.0 No longer used. Authentication is now always required.
+				 */
+				if ( has_filter( 'cocart_secure_registered_users' ) ) {
+					cocart_do_deprecated_filter( 'cocart_secure_registered_users', '4.9.0', null, __( 'This filter has been removed for security. Unauthenticated access to registered user carts is no longer allowed.', 'cart-rest-api-for-woocommerce' ) );
+				}
+
+				return new \WP_Error( 'cocart_must_authenticate_user', __( 'Must authenticate as the customer to access this cart.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 403 ) );
 			}
 		}
 

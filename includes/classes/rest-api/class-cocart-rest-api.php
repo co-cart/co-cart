@@ -7,8 +7,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   1.0.0 Introduced.
- * @version 5.0.0
- * @license GPL-3.0
+ * @version 4.9.0
  */
 
 use WC_Customer as Customer;
@@ -88,13 +87,13 @@ class CoCart_REST_API {
 	 */
 	protected function get_rest_namespaces() {
 		/**
-		 * Filter the list of REST API controllers to load.
+		 * Filter the REST API namespaces and controllers.
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @param array $controllers List of $namespace => $controllers to load.
+		 * @param array $namespaces Namespaces and their controller classes.
 		 */
-		$namespaces = apply_filters(
+		return apply_filters(
 			'cocart_rest_api_get_rest_namespaces',
 			array(
 				'cocart/v1' => cocart_rest_should_load_namespace( 'cocart/v1' ) ? $this->get_v1_controllers() : array(),
@@ -692,6 +691,11 @@ class CoCart_REST_API {
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-products-controller.php';
 		require_once __DIR__ . '/controllers/v2/products/class-cocart-product-variations-controller.php';
 
+		/**
+		 * Hook: Fires after all CoCart REST API controller files are included.
+		 *
+		 * @since 3.0.0 Introduced.
+		 */
 		do_action( 'cocart_rest_api_controllers' );
 	} // END rest_api_includes()
 
@@ -727,7 +731,7 @@ class CoCart_REST_API {
 	 *
 	 * @since 3.1.0 Introduced.
 	 * @since 4.1.0 Check against allowed routes to determine if we should cache.
-	 * @since 5.0.0 Allow for set API namespace to be used for control patterns.
+	 * @since 4.9.0 Improved cache control for cacheable routes and more control over cache durations.
 	 *
 	 * @param bool             $served  Whether the request has already been served. Default false.
 	 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
@@ -737,40 +741,21 @@ class CoCart_REST_API {
 	 * @return bool $served Returns true if headers were set.
 	 */
 	public function set_cache_control_headers( $served, $result, $request, $server ) {
-		/**
-		 * Filter allows you set a path to which will prevent from being added to browser cache.
-		 *
-		 * @since 3.6.0 Introduced.
-		 * @since 5.0.0 Added API Namespace as new parameter.
-		 *
-		 * @param array  $cache_control_patterns Cache control patterns.
-		 * @param string $api_namespace          API Namespace
-		 */
-		$regex_path_patterns = apply_filters(
-			'cocart_send_cache_control_patterns',
-			array(
-				'/^' . CoCart::get_api_namespace() . '\/v2\/cart/',
-				'/^' . CoCart::get_api_namespace() . '\/v2\/logout/',
-				'/^' . CoCart::get_api_namespace() . '\/v2\/store/',
-				'/^' . CoCart::get_api_namespace() . '\/v1\/get-cart/',
-				'/^' . CoCart::get_api_namespace() . '\/v1\/logout/',
-			),
-			CoCart::get_api_namespace()
-		);
+		// Force no-cache if _skip_cache parameter is set.
+		$skip_cache = $request->get_param( '_skip_cache' );
 
-		$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
-		? 'no-cache, must-revalidate, max-age=0, no-store, private'
-		: 'no-cache, must-revalidate, max-age=0, no-store';
-
-		foreach ( $regex_path_patterns as $regex_path_pattern ) {
-			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
-				if ( method_exists( $server, 'send_header' ) ) {
-					$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
-					$server->send_header( 'Cache-Control', $cache_control );
-					$server->send_header( 'Pragma', 'no-cache' );
-				}
+		if ( ! empty( $skip_cache ) && in_array( $skip_cache, array( 'true', '1', true, 1 ), true ) ) {
+			if ( method_exists( $server, 'send_header' ) ) {
+				$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
+				$server->send_header( 'Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0' );
+				$server->send_header( 'Pragma', 'no-cache' );
 			}
+			return $served;
 		}
+
+		$is_user_logged_in = function_exists( 'is_user_logged_in' ) && is_user_logged_in();
+		$cache_visibility  = $is_user_logged_in ? 'private' : 'public';
+		$cache_control     = null;
 
 		// Routes that can be cached will set the Last-Modified header.
 		foreach ( $this->get_cacheable_route_patterns() as $regex_path_pattern ) {
@@ -787,32 +772,82 @@ class CoCart_REST_API {
 					}
 
 					if ( $last_modified ) {
-						// Create a DateTime object in GMT.
-						$gmt_date = new DateTime( $last_modified, new DateTimeZone( 'GMT' ) );
-
-						// Determine the site's timezone.
-						$timezone_string = get_option( 'timezone_string' );
-						$gmt_offset      = get_option( 'gmt_offset' );
-
-						if ( ! empty( $timezone_string ) ) {
-							$site_timezone = new DateTimeZone( $timezone_string );
-						} elseif ( is_numeric( $gmt_offset ) ) {
-							$offset_hours   = (int) $gmt_offset;
-							$offset_minutes = abs( $gmt_offset - $offset_hours ) * 60;
-							$site_timezone  = new DateTimeZone( sprintf( '%+03d:%02d', $offset_hours, $offset_minutes ) );
+						if ( is_numeric( $last_modified ) ) {
+							$dt = new DateTime( '@' . (int) $last_modified ); // UTC.
 						} else {
-							$site_timezone = new DateTimeZone( 'UTC' );
+							$dt = DateTime::createFromFormat( 'Y-m-d H:i:s', $last_modified, new DateTimeZone( 'GMT' ) );
+							if ( ! $dt ) {
+								$dt = new DateTime( $last_modified, new DateTimeZone( 'GMT' ) );
+							}
 						}
-
-						// Convert to WordPress site timezone.
-						$gmt_date->setTimezone( $site_timezone );
 					} else {
-						$gmt_date = new DateTime( 'now', new DateTimeZone( 'GMT' ) );
+						$dt = new DateTime( 'now', new DateTimeZone( 'GMT' ) );
 					}
 
-					$last_modified = $gmt_date->format( 'D, d M Y H:i:s' ) . ' GMT';
+					$last_modified = $dt->format( 'D, d M Y H:i:s' ) . ' GMT';
+
+					$max_age                = HOUR_IN_SECONDS;
+					$stale_while_revalidate = DAY_IN_SECONDS;
+
+					/**
+					 * Filter the cache max-age for cacheable routes.
+					 *
+					 * @since 4.9.0 Introduced.
+					 *
+					 * @param int $max_age Cache duration in seconds. Default 3600 (1 hour).
+					 */
+					$max_age = apply_filters( 'cocart_cache_max_age', $max_age );
+
+					/**
+					 * Filter the stale-while-revalidate duration.
+					 *
+					 * @since 4.9.0 Introduced.
+					 *
+					 * @param int $stale_while_revalidate Duration in seconds. Default 86400 (24 hours).
+					 */
+					$stale_while_revalidate = apply_filters( 'cocart_stale_while_revalidate', $stale_while_revalidate );
+
+					$cache_control = sprintf(
+						'%s, must-revalidate, max-age=%d, stale-while-revalidate=%d',
+						$cache_visibility,
+						$max_age,
+						$stale_while_revalidate
+					);
 
 					$server->send_header( 'Last-Modified', $last_modified );
+					$server->send_header( 'Cache-Control', $cache_control );
+				}
+			}
+		}
+
+		/**
+		 * Filter allows you set a path to which will prevent from being added to browser cache.
+		 *
+		 * @since 3.6.0 Introduced.
+		 *
+		 * @param array $cache_control_patterns Cache control patterns.
+		 */
+		$regex_path_patterns = apply_filters(
+			'cocart_send_cache_control_patterns', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+			array(
+				'/^cocart\/v2\/cart/',
+				'/^cocart\/v2\/logout/',
+				'/^cocart\/v2\/store/',
+				'/^cocart\/v1\/get-cart/',
+				'/^cocart\/v1\/logout/',
+			)
+		);
+
+		// Override cache control for non-cacheable routes.
+		$cache_control = 'no-cache, no-store, must-revalidate, max-age=0, ' . $cache_visibility;
+
+		// Routes that should not be cached will set no-cache headers.
+		foreach ( $regex_path_patterns as $regex_path_pattern ) {
+			if ( preg_match( $regex_path_pattern, ltrim( wp_unslash( $request->get_route() ), '/' ) ) ) {
+				if ( method_exists( $server, 'send_header' ) ) {
+					$server->send_header( 'Expires', 'Thu, 01-Jan-70 00:00:01 GMT' );
+					$server->send_header( 'Cache-Control', $cache_control );
+					$server->send_header( 'Pragma', 'no-cache' );
 				}
 			}
 		}
@@ -860,7 +895,7 @@ class CoCart_REST_API {
 	 */
 	protected function prevent_routes_from_initializing() {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
-		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 		$routes = array(
 			CoCart::get_api_namespace() . '/v2/logout',

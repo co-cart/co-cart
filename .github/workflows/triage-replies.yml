@@ -15,7 +15,7 @@ jobs:
             issues: write
         steps:
           - name: Add developer feedback comment
-            uses: actions/github-script@v7
+            uses: actions/github-script@v9
             with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 script: |
@@ -24,18 +24,18 @@ jobs:
                       owner: context.repo.owner,
                       repo: context.repo.repo,
                       body: 'Hi @${{ github.event.issue.user.login }},\n\n\
-                      Thank you for opening the issue! It requires further feedback from the CoCart Core team.\n\n\
-                      We are adding the `needs: developer feedback` label to this issue so that the Core team could take a look.\n\n\
+                      Thank you for opening the issue! It requires further feedback from the CoCart team.\n\n\
+                      We are adding the `needs: developer feedback` label to this issue so that the team could take a look.\n\n\
                       Please note it may take a few days for them to get to this issue. Thank you for your patience.'
                     })
     add-reproduction-comment:
-        if: "github.event.label.name == 'status: reproduction'"
+        if: "github.event.label.name == 'status: needs reproduction'"
         runs-on: ubuntu-latest
         permissions:
             issues: write
         steps:
             - name: Add needs reproduction comment
-              uses: actions/github-script@v7
+              uses: actions/github-script@v9
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |
@@ -54,7 +54,7 @@ jobs:
             issues: write
         steps:
             - name: Add support request comment
-              uses: actions/github-script@v7
+              uses: actions/github-script@v9
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |
@@ -73,7 +73,7 @@ jobs:
                         If we missed something, please leave a comment and we will take a second look.'
                       })
             - name: Close support request issue
-              uses: actions/github-script@v7
+              uses: actions/github-script@v9
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |
@@ -91,7 +91,7 @@ jobs:
             issues: write
         steps:
             - name: Add votes needed comment
-              uses: actions/github-script@v7
+              uses: actions/github-script@v9
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |
@@ -109,7 +109,7 @@ jobs:
                         We'll keep an eye on the popularity of this request."
                       })
             - name: Close votes needed issue
-              uses: actions/github-script@v7
+              uses: actions/github-script@v9
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |
@@ -126,7 +126,7 @@ jobs:
             issues: write
         steps:
             - name: Add reply to fill template
-              uses: actions/github-script@v7
+              uses: actions/github-script@v9
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |

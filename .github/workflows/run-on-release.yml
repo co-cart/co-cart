@@ -5,23 +5,40 @@ on:
     types: [published]
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   TARGET_REF: ${{ github.event.release.tag_name }}
   OUTPUT_DIR: "build"
 
 jobs:
   build:
+    if: github.event.release.tag_name != 'nightly'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ env.TARGET_REF }}
 
       - name: Set Up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build CSS and JS
+        run: npx grunt css js
+
+      - name: Set up WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Update POT file
+        run: wp i18n make-pot . languages/cart-rest-api-for-woocommerce.pot --exclude=node_modules,vendor,tests,releases --allow-root
 
       - name: Get package name and version
         id: package_info
@@ -69,16 +86,6 @@ jobs:
             -print0 | xargs -0 -I {} cp --parents "{}" "${BUILD_DIR}"
         shell: bash
 
-      - name: Generate Checksum File
-        working-directory: ${{ env.BUILD_DIR }}
-        run: |
-          find . -type f \
-            ! -name '*.md5' \
-            -exec md5sum {} + > "checksum.md5"
-          find . -type f \
-            ! -name '*.md5' \
-            -exec sha256sum {} + > "checksum.sha"
-
       - name: Verify build directory contents
         run: |
           ls -R ${{ env.BUILD_DIR }}
@@ -102,8 +109,6 @@ jobs:
           path: |
             ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
             ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
-            ${{ env.BUILD_DIR }}/checksum.md5
-            ${{ env.BUILD_DIR }}/checksum.sha
           retention-days: 1
           if-no-files-found: error
           compression-level: 0
@@ -113,7 +118,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ env.TARGET_REF }}
 
@@ -138,7 +143,5 @@ jobs:
           files: |
             release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.zip
             release-artifacts/${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}.tar.gz
-            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.md5
-            release-artifacts/${{ env.PACKAGE_NAME }}/checksum.sha
           fail_on_unmatched_files: true
           token: ${{ secrets.GITHUB_TOKEN }}

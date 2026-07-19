@@ -1,42 +1,164 @@
 name: Nightly builds
+
 on:
   schedule:
-    - cron: '0 21 * * 2-6' # Run at 9 PM UTC+2 Tuesday through Saturday.
+    - cron: '0 21 * * 2-6' # 9 PM UTC Tuesday–Saturday (midnight UTC+3)
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  OUTPUT_DIR: "build"
+
 jobs:
   build:
     if: github.repository_owner == 'co-cart'
-    name: Nightly builds
-    strategy:
-      fail-fast: false
-      matrix:
-        build: [master]
+    name: Build nightly
     runs-on: ubuntu-latest
+    outputs:
+      package_name: ${{ steps.package_info.outputs.package_name }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v7
         with:
-          ref: ${{ matrix.build }}
-      - name: Build
-        id: build
-        uses: co-cart/action-build@v1
-      - name: Deploy nightly build
-        uses: WebFreak001/deploy-nightly@v3.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PLUGIN_SLUG: "cart-rest-api-for-woocommerce"
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Stamp nightly version
+        run: |
+          BASE_VERSION=$(grep '^ \* Version:' cart-rest-api-for-woocommerce.php | grep -oP '\d+\.\d+\.\d+' | head -n1)
+          if [ -z "${BASE_VERSION}" ]; then
+            echo "::error::Could not extract base version from cart-rest-api-for-woocommerce.php"
+            exit 1
+          fi
+          DATE=$(date -u +%Y%m%d)
+          NIGHTLY_VERSION="${BASE_VERSION}-nightly.${DATE}"
+          sed -i "s/\* Version:.*/* Version:     ${NIGHTLY_VERSION}/" cart-rest-api-for-woocommerce.php
+          sed -i "s/public static \$version = '.*';/public static \$version = '${NIGHTLY_VERSION}';/" includes/class-cocart.php
+          npm version ${NIGHTLY_VERSION} --no-git-tag-version
+          echo "NIGHTLY_VERSION=${NIGHTLY_VERSION}" >> $GITHUB_ENV
+
+      - name: Build CSS and JS
+        run: npx grunt css js
+
+      - name: Set up WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Update POT file
+        run: wp i18n make-pot . languages/cart-rest-api-for-woocommerce.pot --exclude=node_modules,vendor,tests,releases --allow-root
+
+      - name: Get package name and version
+        id: package_info
+        run: |
+          PACKAGE_NAME=$(jq -r '.name' package.json)
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+
+      - name: Prepare build directory
+        run: |
+          BUILD_DIR="${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}"
+          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+          mkdir -p "${BUILD_DIR}"
+          find . -type f \
+            ! -path "./.*" \
+            ! -name "Gruntfile.js" \
+            ! -path "./*/.*" \
+            ! -name "*.dist" \
+            ! -name "*.html" \
+            ! -name "*.json" \
+            ! -name "*.log" \
+            ! -name "*.lock" \
+            ! -name "*.md" \
+            ! -name "*.md5" \
+            ! -name "*.neon" \
+            ! -name "*.scss" \
+            ! -name "*.sh" \
+            ! -name "*.tar.gz" \
+            ! -name "*.txt" \
+            ! -name "*.xml" \
+            ! -name "*.zip" \
+            ! -path "./.*/**" \
+            ! -name ".DS_Store" \
+            ! -name ".htaccess" \
+            ! -path "./assets/scss/**" \
+            ! -path "./bin/**" \
+            ! -path "./build/**" \
+            ! -path "./node_modules/**" \
+            ! -path "./releases/**" \
+            ! -path "./tests/**" \
+            ! -path "./vendor/**" \
+            ! -path "./unit-tests/**" \
+            -print0 | xargs -0 -I {} cp --parents "{}" "${BUILD_DIR}"
+        shell: bash
+
+      - name: Verify build directory contents
+        run: |
+          ls -R ${{ env.BUILD_DIR }}
+
+      - name: Create TAR.GZ Archive
+        working-directory: ${{ env.OUTPUT_DIR }}
+        run: |
+          tar -czf "${{ env.PACKAGE_NAME }}-nightly.tar.gz" "${{ env.PACKAGE_NAME }}"
+        shell: bash
+
+      - name: Create ZIP archive
+        working-directory: ${{ env.OUTPUT_DIR }}
+        run: |
+          zip -r "${{ env.PACKAGE_NAME }}-nightly.zip" "${{ env.PACKAGE_NAME }}"
+        shell: bash
+
+      - name: Upload nightly artifact
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: https://uploads.github.com/repos/${{ github.repository }}/releases/49034208/assets{?name,label}
-          release_id: 49034208
-          asset_path: ${{ steps.build.outputs.zip_path }}
-          asset_name: cocart-${{ matrix.build }}-nightly.zip
-          asset_content_type: application/zip
-          max_releases: 1
-  update:
+          name: nightly-zip
+          path: |
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-nightly.zip
+            ${{ env.OUTPUT_DIR }}/${{ env.PACKAGE_NAME }}-nightly.tar.gz
+          retention-days: 7
+          if-no-files-found: error
+          compression-level: 0
+
+  release:
+    name: Deploy nightly build
+    needs: build
+    if: github.repository_owner == 'co-cart'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download nightly artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nightly-zip
+          path: nightly-zip
+
+      - name: Update nightly tag and release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: Nightly build
+          body: Automated nightly build from `${{ github.ref_name }}`. Not intended for production use.
+          prerelease: true
+          files: |
+            nightly-zip/${{ needs.build.outputs.package_name }}-nightly.zip
+            nightly-zip/${{ needs.build.outputs.package_name }}-nightly.tar.gz
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  tag:
     name: Update nightly tag commit ref
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - name: Update nightly tag
-        uses: richardsimko/github-tag-action@v1.0.11
+        uses: richardsimko/github-tag-action@v2.0.0
         with:
           tag_name: nightly
         env:

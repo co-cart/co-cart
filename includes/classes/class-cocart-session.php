@@ -92,7 +92,7 @@ class CoCart_Load_Cart {
 
 			$new_cart = array();
 
-			$new_cart['cart']                       = isset( $requested_cart['cart'] ) ? maybe_unserialize( $requested_cart['cart'] ) : null;
+			$new_cart['cart']                       = isset( $requested_cart['cart'] ) ? maybe_unserialize( $requested_cart['cart'] ) : array();
 			$new_cart['cart_totals']                = isset( $requested_cart['cart_totals'] ) ? maybe_unserialize( $requested_cart['cart_totals'] ) : null;
 			$new_cart['applied_coupons']            = isset( $requested_cart['applied_coupons'] ) ? maybe_unserialize( $requested_cart['applied_coupons'] ) : null;
 			$new_cart['coupon_discount_totals']     = isset( $requested_cart['coupon_discount_totals'] ) ? maybe_unserialize( $requested_cart['coupon_discount_totals'] ) : null;
@@ -112,10 +112,12 @@ class CoCart_Load_Cart {
 				$new_cart['cart_cached'] = maybe_unserialize( $requested_cart['cart_cached'] );
 			}
 
-			cocart_deprecated_hook( 'cocart_load_cart_override', '4.6.4' );
+			cocart_do_deprecated_action( 'cocart_load_cart_override', '4.6.4' );
 
 			// Check if we are keeping the cart currently set via the web.
-			if ( ! empty( $_GET['keep-cart'] ) && is_bool( $_GET['keep-cart'] ) !== true ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$keep_cart = ! empty( $_GET['keep-cart'] ) && filter_var( wp_unslash( $_GET['keep-cart'] ), FILTER_VALIDATE_BOOLEAN ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			if ( $keep_cart ) {
 				$new_cart_content = array_merge( $new_cart['cart'], maybe_unserialize( $cart_in_session ) );
 				/**
 				 * Filter allows you to adjust the merged cart contents.
@@ -165,7 +167,7 @@ class CoCart_Load_Cart {
 
 			// Sets the PHP session data for the loaded cart.
 			// If either cart, applied_coupons, coupon_discount_totals, coupon_discount_tax_totals or removed_cart_contents are not set then they are nulled as fallback.
-			$wc_session->set( 'cart', ! empty( $new_cart['cart'] ) ? maybe_unserialize( $new_cart['cart'] ) : null );
+			$wc_session->set( 'cart', ! empty( $new_cart['cart'] ) ? maybe_unserialize( $new_cart['cart'] ) : array() );
 			$wc_session->set( 'cart_totals', ! empty( $new_cart['cart_totals'] ) ? maybe_unserialize( $new_cart['cart_totals'] ) : null );
 			$wc_session->set( 'applied_coupons', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['applied_coupons'] ) : null );
 			$wc_session->set( 'coupon_discount_totals', ! empty( $new_cart['applied_coupons'] ) ? maybe_unserialize( $new_cart['coupon_discount_totals'] ) : null );
@@ -175,12 +177,26 @@ class CoCart_Load_Cart {
 			$wc_session->set( 'cart_fees', ! empty( $new_cart['cart_fees'] ) ? $new_cart['cart_fees'] : null );
 			$wc_session->set( 'cart_cached', ! empty( $new_cart['cart_cached'] ) ? $new_cart['cart_cached'] : null );
 
-			// If true, notify the customer that there cart has transferred over via the web.
-			if ( ! empty( $new_cart ) ) {
-				wc_add_notice(
-					esc_html__( 'Cart is not valid! If this is an error, contact for help.', 'cocart-core' ),
-					'error'
+			// If true, notify the customer that their cart has transferred over via the web.
+			if ( ! empty( $new_cart ) && $notify_customer ) {
+				/**
+				 * Filter the message shown when a cart is successfully loaded.
+				 *
+				 * @since 2.0.0 Introduced.
+				 *
+				 * @param string $message The success message.
+				 */
+				$loaded_message = apply_filters(
+					'cocart_cart_loaded_successful_message',
+					sprintf(
+						/* translators: %1$s: Start of link to Shop archive. %2$s: Start of link to checkout page. %3$s: Closing link tag. */
+						__( 'Your 🛒 cart has been transferred over. You may %1$scontinue shopping%3$s or %2$scheckout%3$s.', 'cart-rest-api-for-woocommerce' ),
+						'<a href="' . wc_get_page_permalink( 'shop' ) . '">',
+						'<a href="' . wc_get_checkout_url() . '">',
+						'</a>'
+					)
 				);
+				wc_add_notice( $loaded_message, 'notice' );
 			}
 
 			// Set guest customer's cart into session. - This allows the cart to stay synced with the REST API.
@@ -217,6 +233,9 @@ class CoCart_Load_Cart {
 	 * @return boolean
 	 */
 	public static function maybe_load_cart() {
+		$cocart_settings   = get_option( 'cocart_settings', array() );
+		$load_cart_default = isset( $cocart_settings['features']['load_cart_from_session'] ) && 'no' === $cocart_settings['features']['load_cart_from_session'];
+
 		/**
 		 * Filter checks if "Load Cart from Session" feature is disabled.
 		 *
@@ -224,7 +243,7 @@ class CoCart_Load_Cart {
 		 *
 		 * @return bool
 		 */
-		if ( apply_filters( 'cocart_disable_load_cart', false ) ) {
+		if ( apply_filters( 'cocart_disable_load_cart', $load_cart_default ) ) {
 			return false;
 		}
 
@@ -312,7 +331,14 @@ class CoCart_Load_Cart {
 	 * @return boolean
 	 */
 	protected static function maybe_use_cookie_monster() {
-		return cocart_do_deprecated_filter( 'cocart_use_cookie_monster', '5.0.0', null, __( 'No longer used.', 'cocart-core' ), array( true ) );
+		/**
+		 * Filter whether to use the cookie monster for cart session handling.
+		 *
+		 * @since 3.3.0 Introduced.
+		 *
+		 * @param bool $use_cookie_monster True to use cookie monster, false otherwise.
+		 */
+		return apply_filters( 'cocart_use_cookie_monster', true );
 	} // END maybe_use_cookie_monster()
 
 	/**

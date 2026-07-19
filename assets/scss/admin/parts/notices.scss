@@ -24,13 +24,18 @@
 		}
 	}
 
-	&.cocart-notice {
+	&.cocart-notice:not(.notice-error) {
 		border-color: variables.$cocart;
 		padding: 10px !important;
 
-		a.button {
+		a.button:not(.button-secondary) {
 			background-color: variables.$cocart-button;
 			border-color: variables.$cocart-button;
+		}
+
+		a.button-secondary {
+			border-color: variables.$cocart-button;
+			color: variables.$cocart-button !important;
 		}
 
 		a.button:hover,
@@ -67,18 +72,21 @@
 
 		.cocart-action {
 			float: right;
+			position: relative;
 			text-align: center;
+			top: 12px;
+		}
 
+		&.is-dismissible {
 			.cocart-button {
-				height: auto;
-				line-height: 20px;
-				padding: 6px 50px;
+				margin-right: 1.8rem;
 			}
 		}
 
 		.cocart-notice-inner {
 			display: table;
 			width: 100%;
+			text-align: left;
 
 			.cocart-notice-icon,
 			.cocart-notice-content,
@@ -124,7 +132,7 @@ body.cocart-pagestyles {
 	.notice:not(.cocart-notice),
 	.updated:not(.cocart-notice),
 	.error:not(.cocart-notice) {
-		display: none;
+		display: none !important;
 	}
 }
 

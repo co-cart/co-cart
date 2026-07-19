@@ -110,56 +110,11 @@ class CoCart_Update_Customer_Callback extends CoCart_REST_Callback {
 			// Get current details of the customer if any.
 			$customer = $controller->get_cart_instance()->get_customer();
 
-			foreach ( $fields['billing'] as $key => $value ) {
-				$param_key = str_replace( 'billing_', '', $key );
-
-				// Check if field is required.
-				if ( ! empty( $value['required'] ) && empty( $params[ $param_key ] ) ) {
-					throw new CoCart_Data_Exception(
-						'cocart_billing_field_required',
-						sprintf(
-							/* Translators: %s = Field label */
-							__( '%s is required.', 'cocart-core' ),
-							$value['label']
-						),
-						400
-					);
+			foreach ( $fields as $key ) {
+				// Prepares customer billing field.
+				if ( array_key_exists( $key, $params ) ) {
+					$details[ 'billing_' . $key ] = wc_clean( wp_unslash( $params[ $key ] ) );
 				}
-
-				// Validate email fields.
-				if (
-					array_key_exists( 'email', $params ) && ! \WC_Validation::is_email( wc_clean( wp_unslash( $params['email'] ) ) ) ||
-					! empty( $value['validate'] ) && in_array( 'email', $value['validate'] ) && ! \WC_Validation::is_email( wc_clean( wp_unslash( $params[ $param_key ] ) ) ) // Custom field validation.
-				) {
-					throw new CoCart_Data_Exception(
-						'cocart_email_field_invalid',
-						sprintf(
-							/* Translators: %s = Field value */
-							__( 'The provided email address (%s) is not valid — please provide a valid email address.', 'cocart-core' ),
-							$params[ $param_key ]
-						),
-						400
-					);
-				}
-
-				// Validate phone fields.
-				if (
-					array_key_exists( 'phone', $params ) && ! \WC_Validation::is_phone( wc_clean( wp_unslash( $params['phone'] ) ) ) ||
-					! empty( $value['validate'] ) && isset( $value['validate'] ) && in_array( 'phone', $value['validate'] ) && ! \WC_Validation::is_phone( wc_clean( wp_unslash( $params[ $param_key ] ) ) ) // Custom field validation.
-				) {
-					throw new CoCart_Data_Exception(
-						'cocart_phone_field_invalid',
-						sprintf(
-							/* Translators: %s = Field value */
-							__( 'The provided phone number (%s) is not valid — please provide a valid phone number.', 'cocart-core' ),
-							$params[ $param_key ]
-						),
-						400
-					);
-				}
-
-				// Prepares customer billing fields.
-				array_key_exists( $param_key, $params ) && ! empty( $params[ $param_key ] ) ? $details[ $key ] = wc_clean( wp_unslash( $params[ $param_key ] ) ) : ''; // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 
 				// If a field has not provided a value, then unset it.
 				if ( empty( $details[ 'billing_' . $param_key ] ) ) {
@@ -244,8 +199,9 @@ class CoCart_Update_Customer_Callback extends CoCart_REST_Callback {
 					}
 				}
 
-				// Sees if the customer has entered enough data to calculate shipping yet.
-				if ( ! $customer->get_shipping_country() || ( ! $customer->get_shipping_state() && ! $customer->get_shipping_postcode() ) ) {
+				// Mark shipping as calculated when the customer has provided a complete enough address,
+				// so WooCommerce will calculate and return shipping packages in the response.
+				if ( $customer->get_shipping_country() && ( $customer->get_shipping_state() || $customer->get_shipping_postcode() ) ) {
 					$customer->set_calculated_shipping( true );
 				} else {
 					$customer->set_calculated_shipping( false );

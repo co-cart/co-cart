@@ -6,10 +6,12 @@
         "description": "Issues related to authenticating with JWT."
     },
     {
-        "name": "auth: only",
+        "name": "auth: related",
         "color": "A019E4",
-        "aliases": [],
-        "description": ""
+        "aliases": [
+            "auth: only"
+        ],
+        "description": "Issues that are auth-related only."
     },
     {
         "name": "category: accessibility",
@@ -62,12 +64,6 @@
             "Session"
         ],
         "description": "The issue/PR is related to refactoring."
-    },
-    {
-        "name": "category: won't fix",
-        "color": "9d8403",
-        "aliases": [],
-        "description": "The issue won’t be fixed."
     },
     {
         "name": "good first issue",
@@ -138,8 +134,10 @@
     {
         "name": "focus: session API",
         "color": "1a123d",
-        "aliases": [],
-        "description": "This issue/PR is related to the sessions API."
+        "aliases": [
+            "API: Session"
+        ],
+        "description": "Issues related to the session API."
     },
     {
         "name": "focus: settings",
@@ -205,7 +203,7 @@
         "aliases": [
             "status:needs developer feedback"
         ],
-        "description": "Issues that need feedback from one of the CoCart Core developers."
+        "description": "Issues that need feedback from one of the CoCart developers."
     },
     {
         "name": "needs: help",
@@ -213,7 +211,13 @@
         "aliases": [
             "help wanted"
         ],
-        "description": "Issues that need help from either another CoCart Core developer or community contributor."
+        "description": "Issues that need help from either another CoCart developer or community contributor."
+    },
+    {
+        "name": "needs: template",
+        "color": "393813",
+        "aliases": [],
+        "description": "Issue was submitted without filling out the required template."
     },
     {
         "name": "needs: tests",
@@ -222,12 +226,24 @@
         "description": "The issue/PR needs tests before it can move forward."
     },
     {
+        "name": "needs: triage feedback",
+        "color": "393813",
+        "aliases": [],
+        "description": "Author has responded to the issue; needs re-triage by a team member."
+    },
+    {
+        "name": "needs: votes",
+        "color": "393813",
+        "aliases": [],
+        "description": "Feature request needs community votes before being prioritized."
+    },
+    {
         "name": "PHP: 7.4",
         "color": "0d1413",
         "aliases": [
             "php:7.4"
         ],
-        "description": "Issues related to PHP 7.4 only."
+        "description": "Issues related to PHP 7.4 only. (End of Life — deprecated)"
     },
     {
         "name": "PHP: 8.0",
@@ -235,7 +251,7 @@
         "aliases": [
             "php:8.0"
         ],
-        "description": "Issues related to PHP 8.0 only."
+        "description": "Issues related to PHP 8.0 only. (End of Life — deprecated)"
     },
     {
         "name": "PHP: 8.1",
@@ -243,7 +259,7 @@
         "aliases": [
             "php:8.1"
         ],
-        "description": "Issues related to PHP 8.1 only."
+        "description": "Issues related to PHP 8.1 only. (End of Life — deprecated)"
     },
     {
         "name": "PHP: 8.2",
@@ -251,7 +267,7 @@
         "aliases": [
             "php:8.2"
         ],
-        "description": "Issues related to PHP 8.2 only."
+        "description": "Issues related to PHP 8.2 only. (Security support only — Active LTS)"
     },
     {
         "name": "PHP: 8.3",
@@ -266,22 +282,10 @@
         "description": "Issues related to PHP 8.4 only."
     },
     {
-        "name": "pr: major",
-        "color": "990F3D",
+        "name": "PHP: 8.5",
+        "color": "0d1413",
         "aliases": [],
-        "description": "Add to a PR to trigger a MAJOR version bump when merged."
-    },
-    {
-        "name": "pr: minor",
-        "color": "990F3D",
-        "aliases": [],
-        "description": "Add to a PR to trigger a MINOR version bump when merged."
-    },
-    {
-        "name": "pr: patch",
-        "color": "990F3D",
-        "aliases": [],
-        "description": "Add to a PR to trigger a PATCH version bump when merged."
+        "description": "Issues related to PHP 8.5 only."
     },
     {
         "name": "priority: critical",
@@ -306,7 +310,7 @@
         "aliases": [
             "priority:low"
         ],
-        "description": "The issue/PR is low priority—not many people are affected or there’s a workaround, etc."
+        "description": "The issue/PR is low priority—not many people are affected or there's a workaround, etc."
     },
     {
         "name": "release: add changelog",
@@ -359,10 +363,18 @@
         "description": "This is being worked on."
     },
     {
+        "name": "status: needs reproduction",
+        "color": "14252d",
+        "aliases": [
+            "status: reproduction"
+        ],
+        "description": "Bug needs to be reproduced on the current released version of CoCart."
+    },
+    {
         "name": "status: needs review",
-        "color": "9d8403",
+        "color": "14252d",
         "aliases": [],
-        "description": "PR needs reviewing"
+        "description": "PR needs reviewing."
     },
     {
         "name": "status: on hold",
@@ -385,9 +397,10 @@
         "name": "status: won't fix",
         "color": "14252d",
         "aliases": [
-            "status:wontfix"
+            "status:wontfix",
+            "category: won't fix"
         ],
-        "description": "The issue won’t be fixed."
+        "description": "The issue won't be fixed."
     },
     {
         "name": "type: possible bug",

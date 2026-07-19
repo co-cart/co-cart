@@ -2,7 +2,7 @@
 /**
  * This file is designed to be used to load as package NOT a WP plugin!
  *
- * @version 5.0.0-beta.10
+ * @version 4.9.1
  * @package CoCart
  */
 
@@ -18,7 +18,7 @@ if ( ! defined( 'COCART_SLUG' ) ) {
 
 // Include the main CoCart class.
 if ( ! class_exists( 'CoCart', false ) ) {
-	include_once untrailingslashit( plugin_dir_path( COCART_FILE ) ) . '/includes/class-cocart.php';
+	include_once untrailingslashit( __DIR__ ) . '/includes/class-cocart.php';
 }
 
 /**

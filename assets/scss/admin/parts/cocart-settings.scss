@@ -1,0 +1,383 @@
+// Settings page layout
+
+@use "../../variables";
+
+// Wide wrapper override for 2-column grid
+.cocart-wrapped {
+	&.cocart-wrapped--wide {
+		max-width: 1100px;
+
+		// Allow the accessible pages dropdown to overflow the content box.
+		.cocart-content {
+			overflow: visible;
+		}
+
+		.cocart-content span.cocart-toggle-slider,
+		.cocart-content span.cocart-status-label {
+			margin: 0;
+		}
+	}
+}
+
+.cocart-settings-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0;
+	margin: 0;
+	border-bottom: 2px solid #e2e4e7;
+}
+
+.cocart-settings-tab {
+	background: none;
+	border: none;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -2px;
+	padding: 10px 18px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #50575e;
+	cursor: pointer;
+	line-height: 1.4;
+	transition: color 0.15s, border-color 0.15s;
+
+	&:hover {
+		color: #1d2327;
+	}
+
+	&.is-active {
+		color: #3858e9;
+		border-bottom-color: #3858e9;
+		font-weight: 600;
+	}
+}
+
+.cocart-settings-tab-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 4px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #1d2327;
+	color: #fff;
+	vertical-align: middle;
+
+	.dashicons {
+		font-size: 12px;
+		width: 12px;
+		height: 12px;
+		line-height: 1;
+	}
+}
+
+.cocart-settings-panel {
+	display: none;
+
+	&.is-active {
+		display: block;
+	}
+}
+
+.cocart-settings-section-title {
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+	padding: 16px 0 4px;
+	border-bottom: 1px solid #e2e4e7;
+	margin: 20px 0 0;
+}
+
+.cocart-settings-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 4px;
+
+	th {
+		width: 220px;
+		font-weight: 600;
+		padding: 16px 0;
+		vertical-align: top;
+		text-align: left;
+		color: #1d2327;
+
+		label {
+			font-size: 14px;
+			font-weight: 600;
+			color: #1d2327;
+			margin: 0;
+		}
+	}
+
+	input[readonly],
+	textarea[readonly],
+	input:disabled,
+	textarea:disabled,
+	select:disabled {
+		background-color: #f0f0f1;
+		border-color: #dcdcde;
+		color: #50575e;
+		cursor: default;
+		box-shadow: none;
+	}
+
+	input:disabled,
+	textarea:disabled,
+	select:disabled {
+		cursor: not-allowed !important;
+	}
+
+	td {
+		padding: 16px 0 16px 20px;
+
+		.description {
+			margin: 6px 0 0;
+			color: #646970;
+			font-size: 13px;
+		}
+	}
+
+	tr + tr th,
+	tr + tr td {
+		border-top: 1px solid #f0f0f1;
+	}
+}
+
+.cocart-settings-filter-notice {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 8px 0 0;
+	padding: 8px 10px;
+	background: #fff8e5;
+	border-left: 3px solid #dba617;
+	font-size: 13px;
+	color: #50575e;
+
+	.dashicons {
+		color: #dba617;
+		font-size: 16px;
+		line-height: 1;
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
+	}
+
+	code {
+		background: none;
+		padding: 0;
+	}
+}
+
+.cocart-settings-upgrade-notice {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 8px 0 0;
+	font-size: 12px;
+	color: #646970;
+
+	.dashicons {
+		color: variables.$cocart;
+		font-size: 16px;
+		line-height: 1;
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
+	}
+}
+
+.cocart-upgrade-info-btn {
+	margin-left: 0;
+	font-size: inherit;
+	color: variables.$cocart;
+	font-weight: 500;
+	text-decoration: underline;
+	cursor: pointer;
+
+	&:hover,
+	&:focus {
+		color: variables.$cocart;
+	}
+}
+
+.cocart-page-select {
+	position: relative;
+	max-width: 25em;
+
+	&-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		min-height: 0;
+
+		&:not(:empty) {
+			margin-bottom: 6px;
+		}
+	}
+
+	&--disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+
+		.cocart-page-tag {
+			cursor: not-allowed;
+		}
+	}
+}
+
+.cocart-page-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 2px 6px 2px 10px;
+	background: #f0f0f1;
+	border-radius: 3px;
+	font-size: 12px;
+	line-height: 1.6;
+}
+
+.cocart-page-tag-remove {
+	font-size: 16px;
+	line-height: 1;
+	color: #646970;
+}
+
+.cocart-settings-actions {
+	margin-top: 20px;
+	padding-top: 16px;
+	border-top: 1px solid #e2e4e7;
+
+	#cocart-save-settings:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+
+		&.is-saving {
+			cursor: wait;
+		}
+	}
+}
+
+.cocart-setting-doc-wrap {
+	margin-top: 16px;
+}
+
+.cocart-status-label {
+	font-size: 13px;
+	color: #50575e;
+	margin-left: 4em !important;
+	vertical-align: middle;
+}
+
+// ── Toast notification ────────────────────────────────────────────────────────
+
+.cocart-toast {
+	position: fixed;
+	top: 72px;
+	left: 50%;
+	transform: translateX(-50%) translateY(-12px);
+	padding: 10px 20px;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #fff;
+	background: #1d2327;
+	box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	z-index: 99999;
+
+	&.is-active {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+
+	&.is-error {
+		background: #cc1818;
+	}
+}
+
+// ── Toggle switch ─────────────────────────────────────────────────────────────
+
+.cocart-toggle {
+	position: relative;
+	display: inline-block;
+	flex-shrink: 0;
+	width: 44px;
+	height: 24px;
+	cursor: pointer;
+	margin: 0 !important;
+
+	input[type="checkbox"] {
+		opacity: 0;
+		width: 0;
+		height: 0;
+		position: absolute;
+	}
+}
+
+.cocart-toggle-slider {
+	position: absolute;
+	inset: 0;
+	background: #a7aaad;
+	border-radius: 24px;
+	transition: background 0.2s ease;
+
+	&::before {
+		content: "";
+		position: absolute;
+		width: 18px;
+		height: 18px;
+		left: 3px;
+		top: 3px;
+		background: #fff;
+		border-radius: 50%;
+		transition: transform 0.2s ease;
+		box-shadow: 0 1px 3px rgb(0 0 0 / 0.13);
+	}
+}
+
+.cocart-toggle input:checked + .cocart-toggle-slider {
+	background: var(--wp-admin-theme-color);
+}
+
+.cocart-toggle input:checked + .cocart-toggle-slider::before {
+	transform: translateX(20px);
+}
+
+.cocart-toggle input:focus-visible + .cocart-toggle-slider {
+	outline: 2px solid var(--wp-admin-theme-color);
+	outline-offset: 2px;
+}
+
+.cocart-toggle--locked {
+	cursor: not-allowed !important;
+	opacity: .6;
+
+	input,
+	.cocart-toggle-slider {
+		cursor: not-allowed !important;
+		pointer-events: none;
+	}
+}
+
+// Filter info modal
+@media screen and (max-width: 782px) {
+	#cocart-filter-modal .cocart-modal-box {
+		max-width: 100%;
+	}
+}
+
+.cocart-filter-modal-table {
+	font-size: 12px;
+
+	code { word-break: break-all; }
+}
+
+.cocart-filter-info-btn {
+	margin-left: 8px;
+	font-size: inherit;
+	text-decoration: underline;
+	cursor: pointer;
+}

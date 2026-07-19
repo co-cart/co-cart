@@ -4,17 +4,12 @@
 
 @mixin button {
 	color: variables.$white !important;
+	font-weight: 600;
 	min-width: fit-content !important;
 }
 
 @mixin button-alt {
 	color: variables.$cocart !important;
-}
-
-@mixin button-large {
-	border-radius: 32px !important;
-	font-weight: 600;
-	padding: 1em !important;
 }
 
 @mixin button-hover {
@@ -34,24 +29,49 @@
 }
 
 // Plugin menu
+#adminmenu li#toplevel_page_cocart.wp-has-current-submenu a.wp-has-current-submenu {
+	background-color: variables.$cocart;
+}
+
+// Updates submenu
+#adminmenu #toplevel_page_cocart .wp-submenu a[href="admin.php?page=cocart-updates"],
+#adminmenu #toplevel_page_cocart .wp-submenu a[href="admin.php?page=cocart-updates"].current {
+	color: #FFC233;
+	font-weight: 700;
+}
+
 #toplevel_page_cocart {
-	.wp-submenu li > a { display: flex; align-items: center; }
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"],
+	li:not(:last-child) a[href="admin.php?page=cocart-support"] {
+		position: relative;
+		margin-bottom: 16px;
+	}
 
-	li:not(:last-child) a[href="admin.php?page=cocart-setup"] { position: relative; margin-bottom: 16px; }
-	li:not(:last-child) a[href="admin.php?page=cocart-updates"] { position: relative; margin: 16px 0; }
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"] {
+		position: relative;
+		margin: 16px 0;
+	}
 
-	li:not(:last-child) a[href="admin.php?page=cocart-setup"]:after,
-	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before,
-	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { display: block; content: ''; position: absolute; left: 0; right: 0; height: 0; border-bottom: 1px solid rgba( 255, 255, 255, 0.2 ); }
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"]::after,
+	li:not(:last-child) a[href="admin.php?page=cocart-support"]::after,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]::after {
+		display: block;
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 0;
+		border-bottom: 1px solid rgb(255 255 255 / 0.2);
+	}
 
-	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before { top: -8px; }
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]::before { top: -8px; }
 
-	li:not(:last-child) a[href="admin.php?page=cocart-setup"]:after,
-	li:not(:last-child) a[href="admin.php?page=cocart-add-ons"]:after,
-	li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { bottom: -8px; }
+	li:not(:last-child) a[href="admin.php?page=cocart-setup"]::after,
+	li:not(:last-child) a[href="admin.php?page=cocart-support"]::after,
+	li:not(:last-child) a[href="admin.php?page=cocart-updates"]::after { bottom: -8px; }
 
-	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]:before,
-	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]:after { right: 5px; }
+	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]::before,
+	&.wp-not-current-submenu li:not(:last-child) a[href="admin.php?page=cocart-updates"]::after { right: 5px; }
 }
 
 body.cocart-pagestyles .wp-header-end {
@@ -61,11 +81,11 @@ body.cocart-pagestyles .wp-header-end {
 .cocart-wrapped {
 	clear: both;
 	margin: 0 auto !important;
-	max-width: 700px;
+	max-width: 740px;
 	padding: 60px 0 !important;
 
 	.cocart-content {
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+		box-shadow: 0 1px 3px rgb(0 0 0 / 0.13);
 		padding: 2em;
 		margin: 0 0 20px;
 		background: variables.$white;
@@ -81,7 +101,7 @@ body.cocart-pagestyles .wp-header-end {
 			}
 		}
 
-		a {
+		a:not(.button) {
 			color: variables.$cocart;
 
 			&:hover,
@@ -110,14 +130,18 @@ body.cocart-pagestyles .wp-header-end {
 			font-size: 14px;
 			font-weight: 600;
 			margin-bottom: 0.5em;
-			margin-top: 0.85em;
 		}
 
 		span {
 			display: inline-block;
-			margin-top: 1rem;
 		}
 
+		form {
+			label,
+			span {
+				margin-top: 1rem;
+			}
+		}
 	}
 
 	.column-container {
@@ -145,22 +169,51 @@ body.cocart-pagestyles .wp-header-end {
 			grid-area: wide;
 
 			&.has-background {
-				background: linear-gradient( 135deg, #1f1e30 0%, #3d2e5c 40%, #5a3a85 70%, #804e9b 100% );
-				background-color: variables.$white;
+				background: linear-gradient( 135deg, variables.$cocart-shadow 0%, variables.$cocart 100% );
+				border: 1px solid variables.$cocart-border-color;
 				color: variables.$white;
 				padding: 2em;
 				margin: -8px;
 
+				.upgrade-header {
+					align-items: center;
+					display: flex;
+					gap: 0.75em;
+					margin-bottom: 1em;
+				}
+
+				.upgrade-icon {
+					flex-shrink: 0;
+				}
+
 				h3 {
 					color: variables.$white;
-					line-height: 0;
-					margin: 1em auto;
+					line-height: 1.2;
+					margin: 0;
 					text-align: left;
+				}
+
+				.upgrade-body {
+					align-items: flex-start;
+					display: flex;
+					flex-wrap: wrap;
+					gap: 1.5em;
+					justify-content: space-between;
 				}
 
 				p {
 					color: variables.$white;
-					margin-top: 1em;
+					flex: 1 1 280px;
+					margin: 0;
+				}
+
+				.upgrade-action {
+					align-items: stretch;
+					display: flex;
+					flex: 0 0 auto;
+					flex-direction: column;
+					gap: 0.75em;
+					min-width: 280px;
 				}
 			}
 		}
@@ -180,11 +233,6 @@ body:not(.rtl).cocart-pagestyles {
 }
 
 .cocart-pagestyles {
-	a.button-large,
-	button.button-large {
-		@include button-large;
-	}
-
 	a.cocart-button,
 	button.cocart-button {
 		background-color: variables.$cocart-button;
@@ -220,16 +268,39 @@ body:not(.rtl).cocart-pagestyles {
 	}
 
 	#upgrade-button {
+		background-color: variables.$white !important;
 		border: 2px solid variables.$white;
 		box-shadow: 2px 2px 6px -4px variables.$shadow !important;
+		box-sizing: border-box;
+		color: variables.$cocart !important;
 		grid-area: inherit;
 		height: fit-content;
-		margin: 1.4em auto !important;
+		margin: 0 !important;
+		text-align: center;
+		width: 100% !important;
+
+		&:hover,
+		&:focus {
+			background-color: variables.$smoke-white !important;
+			border-color: variables.$smoke-white;
+			color: variables.$cocart-button-hover !important;
+		}
+
+		&.expired {
+			background-color: variables.$cocart-button !important;
+			border-color: variables.$cocart-button;
+			color: variables.$white !important;
+
+			&:hover,
+			&:focus {
+				@include button-hover;
+			}
+		}
 	}
 }
 
 @media screen and (min-width: 783px) {
-	.cocart-pagestyles {
+	.cocart-pagestyles:not(.cocart-setup) {
 		#wpfooter {
 			display: inherit;
 			position: relative;

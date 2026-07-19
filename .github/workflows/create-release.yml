@@ -1,0 +1,80 @@
+name: Create release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  release:
+    if: github.repository_owner == 'co-cart'
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build CSS and JS
+        run: npx grunt css js
+
+      - name: Set up WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Update POT file
+        run: wp i18n make-pot . languages/cart-rest-api-for-woocommerce.pot --exclude=node_modules,vendor,tests,releases --allow-root
+
+      - name: Commit build assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/css assets/js languages/cart-rest-api-for-woocommerce.pot
+          if ! git diff --cached --quiet; then
+            git commit -m "Build assets and update POT for release"
+            git push origin HEAD
+          fi
+
+      - name: Get current version
+        id: get-version
+        run: |
+          version=$(grep -oP '(?<=Version:\s{1,10})\S+' cart-rest-api-for-woocommerce.php | head -n1)
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "Current version: $version"
+
+      - name: Verify tag does not already exist
+        run: |
+          if git ls-remote --exit-code --tags origin "v${{ steps.get-version.outputs.version }}" > /dev/null; then
+            echo "::error::Tag v${{ steps.get-version.outputs.version }} already exists."
+            exit 1
+          fi
+
+      - name: Create tag
+        run: |
+          git tag v${{ steps.get-version.outputs.version }}
+          git push origin v${{ steps.get-version.outputs.version }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get-version.outputs.version }}
+          name: v${{ steps.get-version.outputs.version }}
+          generate_release_notes: true
+          prerelease: ${{ contains(steps.get-version.outputs.version, '-') }}
+          token: ${{ secrets.GITHUB_TOKEN }}

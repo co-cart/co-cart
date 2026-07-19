@@ -5,8 +5,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Classes
  * @since   2.6.0 Introduced.
- * @version 5.0.0
- * @license GPL-3.0
+ * @version 4.9.0
  */
 
 // Exit if accessed directly.
@@ -49,7 +48,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @since 3.0.0 Introduced.
 		 *
-		 * @var stdClass
+		 * @var WP_User
 		 */
 		protected $user = null;
 
@@ -85,11 +84,6 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @ignore Function ignored when parsed into Code Reference.
 		 */
 		public function __construct() {
-			// Check that we are only authenticating for our API.
-			if ( ! CoCart::is_rest_api_request() ) {
-				return;
-			}
-
 			// Authenticate user.
 			add_filter( 'determine_current_user', array( $this, 'authenticate' ) );
 			add_filter( 'rest_authentication_errors', array( $this, 'authentication_fallback' ) );
@@ -219,6 +213,14 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				$auth_header = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) : '';
 			}
 
+			// Allow the saved "Authorization Header" setting to override the server variable read.
+			$auth_settings   = get_option( 'cocart_settings', array() )['auth'] ?? array();
+			$auth_header_var = $auth_settings['auth_header'] ?? '';
+
+			if ( empty( $auth_header ) && ! empty( $auth_header_var ) && ! empty( $_SERVER[ $auth_header_var ] ) ) {
+				$auth_header = sanitize_text_field( wp_unslash( $_SERVER[ $auth_header_var ] ) );
+			}
+
 			/**
 			 * Filter allows you to change the authorization header.
 			 *
@@ -275,8 +277,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return int|false
 		 */
 		public function authenticate( $user_id ) {
-			// Do not authenticate twice.
-			if ( ! empty( $user_id ) ) {
+			// Do not authenticate twice and check if is a request to our endpoint.
+			if ( ! empty( $user_id ) || ! CoCart::is_rest_api_request() ) {
 				return $user_id;
 			}
 
@@ -454,6 +456,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				$content_type   = isset( $_SERVER['CONTENT_TYPE'] ) ? trim( sanitize_text_field( wp_unslash( $_SERVER['CONTENT_TYPE'] ) ) ) : '';
 				$request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
 
+				// Check X-HTTP-Method-Override header if it exists and is not empty.
+				$request_method = ! empty( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) ) ) : $request_method;
+
 				if ( 'POST' === $request_method && false !== stripos( $content_type, 'application/json' ) ) {
 					$raw_input = file_get_contents( 'php://input' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 
@@ -613,6 +618,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 * @return bool
 		 */
 		public function cors_headers( $served, $result, $request, $server ) {
+			$cocart_settings = get_option( 'cocart_settings', array() );
+			$cors_default    = empty( $cocart_settings['cors']['enable_cors'] ) || 'yes' !== $cocart_settings['cors']['enable_cors'];
+
 			/**
 			 * Modifies if the "Cross Origin Headers" are allowed.
 			 *
@@ -620,7 +628,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 *
 			 * @since 2.2.0 Introduced.
 			 */
-			if ( apply_filters( 'cocart_disable_all_cors', true ) ) {
+			if ( apply_filters( 'cocart_disable_all_cors', $cors_default ) ) {
 				return $served;
 			}
 
@@ -677,9 +685,11 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				$origin = esc_url_raw( $origin );
 			}
 
-			// Fallback to a wildcard if the origin has yet to be determined.
-			if ( empty( $origin ) ) {
-				$origin = '*';
+			// Allow the saved "Allowed Origin" setting to be treated as the allowed origin.
+			$allowed_origin = $cocart_settings['cors']['allowed_origin'] ?? '';
+
+			if ( ! empty( $allowed_origin ) && $origin === $allowed_origin ) {
+				$origin = $allowed_origin;
 			}
 
 			/**
@@ -691,94 +701,17 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			 */
 			$origin = apply_filters( 'cocart_allow_origin', $origin );
 
-			return $origin;
-		} // END get_http_origin()
+			$server->send_header( 'Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE' );
+			$server->send_header( 'Vary', 'Origin', false );
+			$server->send_header( 'Access-Control-Max-Age', '600' ); // Cache the result of preflight requests (600 is the upper limit for Chromium).
+			$server->send_header( 'X-Robots-Tag', 'noindex' );
+			$server->send_header( 'X-Content-Type-Options', 'nosniff' );
 
-		/**
-		 * Retrieves list of allowed HTTP origins.
-		 *
-		 * @access protected
-		 *
-		 * @since 5.0.0 Introduced.
-		 *
-		 * @uses admin_url()
-		 * @uses home_url()
-		 *
-		 * @return string[] Array of origin URLs.
-		 */
-		protected function get_allowed_http_origins() {
-			$admin_origin = parse_url( admin_url() );
-			$home_origin  = parse_url( home_url() );
-
-			// Helper function to construct URL with port if present.
-			$build_origin_url = function ( $scheme, $host, $port ) {
-				$url = $scheme . '://' . $host;
-
-				if ( ! empty( $port ) ) {
-					/**
-					 * Controls the list of ports considered safe for accessing the API.
-					 *
-					 * Filter allows to change and allow external requests for the HTTP request.
-					 *
-					 * @since 5.0.0 Introduced.
-					 *
-					 * @param int[]  $allowed_ports Array of integers for valid ports.
-					 * @param string $host          Host name of the requested URL.
-					 * @param string $url           Requested URL.
-					 */
-					$allowed_ports = apply_filters( 'cocart_http_allowed_safe_ports', array( 80, 443, 8080 ), $host, $url );
-					if ( is_array( $allowed_ports ) && ! in_array( $port, $allowed_ports, true ) ) {
-						return $url;
-					}
-
-					$url .= ':' . $port;
-				}
-
-				return $url;
-			};
-
-			$allowed_origins = array_unique(
-				array(
-					$build_origin_url( 'http', $admin_origin['host'], $admin_origin['port'] ?? '' ),
-					$build_origin_url( 'https', $admin_origin['host'], $admin_origin['port'] ?? '' ),
-					$build_origin_url( 'http', $home_origin['host'], $home_origin['port'] ?? '' ),
-					$build_origin_url( 'https', $home_origin['host'], $home_origin['port'] ?? '' ),
-				)
-			);
-
-			/**
-			 * Filter changes the origin types allowed for HTTP requests.
-			 *
-			 * @since 5.0.0 Introduced.
-			 *
-			 * @param string[] $allowed_origins {
-			 *     Array of default allowed HTTP origins.
-			 *
-			 *     @type string $2 Non-secure URL for home origin.
-			 *     @type string $3 Secure URL for home origin.
-			 * }
-			 */
-			return apply_filters( 'cocart_allowed_http_origins', $allowed_origins );
-		} // END get_allowed_http_origins()
-
-		/**
-		 * Determines if the HTTP origin is an authorized one.
-		 *
-		 * @access protected
-		 *
-		 * @since 5.0.0 Introduced.
-		 *
-		 * @uses CoCart_Authentication()::get_http_origin()
-		 * @uses CoCart_Authentication()::get_allowed_http_origins()
-		 *
-		 * @return string|bool Origin URL if allowed, false if not.
-		 */
-		protected function is_allowed_http_origin() {
-			$origin = $this->get_http_origin();
-
-			// Allow CORS to be simulated on a local environment.
-			if ( $this->is_wp_environment_local() ) {
-				return $origin;
+			// Allow preflight requests and any allowed origins. Preflight requests
+			// are allowed because we'll be unable to validate customer header at that point.
+			if ( $this->is_preflight() || ! is_allowed_http_origin( $origin ) ) {
+				$server->send_header( 'Access-Control-Allow-Origin', $origin );
+				$server->send_header( 'Access-Control-Allow-Credentials', ( ! empty( $origin ) && '*' !== $origin ) ? 'true' : 'false' );
 			}
 
 			if ( ! empty( $origin ) && ! in_array( $origin, $this->get_allowed_http_origins(), true ) ) {
@@ -1128,6 +1061,8 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 				FILTER_VALIDATE_IP,
 				array( FILTER_FLAG_NO_RES_RANGE, FILTER_FLAG_IPV6 )
 			);
+
+			return $ip ? $ip : '0.0.0.0';
 		} // END validate_ip()
 
 		/**
@@ -1164,7 +1099,7 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 		 *
 		 * @return string|null Valid IP string or null.
 		 */
-		private static function parse_ip_from_header_value( $value ) {
+		private static function parse_ip_from_header_value( string $value ) {
 			$value = trim( $value, " \t\n\r\0\x0B\"'" );
 
 			// Split comma-separated lists, take candidates in order.
@@ -1246,9 +1181,9 @@ if ( ! class_exists( 'CoCart_Authentication' ) ) {
 			list( $subnet, $mask ) = explode( '/', $cidr );
 			$mask                  = (int) $mask;
 
-			$ip_bin     = @inet_pton( $ip );
-			$subnet_bin = @inet_pton( $subnet );
-			if ( $ip_bin === false || $subnet_bin === false ) {
+			$ip_bin     = inet_pton( $ip ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			$subnet_bin = inet_pton( $subnet ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			if ( false === $ip_bin || false === $subnet_bin ) {
 				return false;
 			}
 

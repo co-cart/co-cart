@@ -50,6 +50,13 @@ function cocart_prepare_date_response( $date, $utc = true ) {
  * @return array
  */
 function cocart_allowed_image_mime_types() {
+	/**
+	 * Filter the allowed image mime types for upload.
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param array $mime_types Allowed mime types keyed by extension.
+	 */
 	return apply_filters(
 		'cocart_allowed_image_mime_types',
 		array(
@@ -83,6 +90,13 @@ function cocart_upload_dir( $pathdata ) {
 		$pathdata['subdir'] = str_replace( $pathdata['subdir'], $subdir, $pathdata['subdir'] );
 	}
 
+	/**
+	 * Filter the upload directory path data for CoCart uploads.
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param array $pathdata Upload directory path data.
+	 */
 	return apply_filters( 'cocart_upload_dir', $pathdata );
 } // END cocart_upload_dir()
 
@@ -103,9 +117,11 @@ function cocart_upload_file( $file ) {
 
 	add_filter( 'upload_dir', 'cocart_upload_dir' );
 
-	$upload = wp_handle_upload( $file, array( 'test_form' => false ) );
-
-	remove_filter( 'upload_dir', 'cocart_upload_dir' );
+	try {
+		$upload = wp_handle_upload( $file, array( 'test_form' => false ) );
+	} finally {
+		remove_filter( 'upload_dir', 'cocart_upload_dir' );
+	}
 
 	return $upload;
 } // END cocart_upload_file()
@@ -142,7 +158,7 @@ function cocart_upload_image_from_url( $image_url ) {
 	}
 
 	$file_array         = array();
-	$file_array['name'] = basename( current( explode( '?', $image_url ) ) );
+	$file_array['name'] = basename( wp_parse_url( $image_url, PHP_URL_PATH ) );
 
 	// Download file to temp location.
 	$file_array['tmp_name'] = download_url( $image_url );
@@ -168,16 +184,18 @@ function cocart_upload_image_from_url( $image_url ) {
 	add_filter( 'upload_dir', 'cocart_upload_dir' );
 
 	// Do the validation and storage stuff.
-	$file = wp_handle_sideload(
-		$file_array,
-		array(
-			'test_form' => false,
-			'mimes'     => cocart_allowed_image_mime_types(),
-		),
-		current_time( 'Y/m' )
-	);
-
-	remove_filter( 'upload_dir', 'cocart_upload_dir' );
+	try {
+		$file = wp_handle_sideload(
+			$file_array,
+			array(
+				'test_form' => false,
+				'mimes'     => cocart_allowed_image_mime_types(),
+			),
+			current_time( 'Y/m' )
+		);
+	} finally {
+		remove_filter( 'upload_dir', 'cocart_upload_dir' );
+	}
 
 	if ( isset( $file['error'] ) ) {
 		@unlink( $file_array['tmp_name'] ); // @codingStandardsIgnoreLine.
@@ -193,6 +211,14 @@ function cocart_upload_image_from_url( $image_url ) {
 		);
 	}
 
+	/**
+	 * Hook: Fires after an image has been uploaded from a URL.
+	 *
+	 * @since 2.1.2 Introduced.
+	 *
+	 * @param array  $file      Upload data for the image.
+	 * @param string $image_url The source image URL.
+	 */
 	do_action( 'cocart_uploaded_image_from_url', $file, $image_url );
 
 	return $file;
@@ -217,10 +243,10 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
 
 	$image_meta = wp_read_image_metadata( $upload['file'] );
 	if ( $image_meta ) {
-		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) ) {
+		if ( trim( $image_meta['title'] ?? '' ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) ) {
 			$title = wc_clean( $image_meta['title'] );
 		}
-		if ( trim( $image_meta['caption'] ) ) {
+		if ( trim( $image_meta['caption'] ?? '' ) ) {
 			$content = wc_clean( $image_meta['caption'] );
 		}
 	}
@@ -274,6 +300,13 @@ function cocart_set_uploaded_image_as_attachment( $upload, $id = 0 ) {
  * @return string
  */
 function cocart_price_no_html( $price, $args = array() ) {
+	/**
+	 * Filter the price formatting arguments.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param array $args Price formatting arguments.
+	 */
 	$args = apply_filters(
 		'cocart_price_args',
 		wp_parse_args(
@@ -298,26 +331,37 @@ function cocart_price_no_html( $price, $args = array() ) {
 	$negative          = $price < 0;
 
 	/**
-	 * Filter raw price.
+	 * WooCommerce core filter: Filters the raw price before formatting.
+	 *
+	 * @link https://github.com/woocommerce/woocommerce/blob/trunk/plugins/woocommerce/includes/wc-formatting-functions.php
 	 *
 	 * @param float        $raw_price      Raw price.
-	 * @param float|string $original_price Original price as float, or empty string. Since 5.0.0.
+	 * @param float|string $original_price Original price as float, or empty string. Since WC 5.0.0.
 	 */
-	$price = apply_filters( 'raw_woocommerce_price', $negative ? $price * -1 : $price, $original_price ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	$price = apply_filters( 'raw_woocommerce_price', $negative ? $price * -1 : $price, $original_price ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 	/**
-	 * Filter formatted price.
+	 * WooCommerce core filter: Filters the formatted price string.
+	 *
+	 * @link https://github.com/woocommerce/woocommerce/blob/trunk/plugins/woocommerce/includes/wc-formatting-functions.php
 	 *
 	 * @param string       $formatted_price    Formatted price.
 	 * @param float        $price              Unformatted price.
 	 * @param int          $decimals           Number of decimals.
 	 * @param string       $decimal_separator  Decimal separator.
 	 * @param string       $thousand_separator Thousand separator.
-	 * @param float|string $original_price     Original price as float, or empty string. Since 5.0.0.
+	 * @param float|string $original_price     Original price as float, or empty string. Since WC 5.0.0.
 	 */
-	$price = apply_filters( 'formatted_woocommerce_price', number_format( $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'] ), $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'], $original_price ); // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	$price = apply_filters( 'formatted_woocommerce_price', number_format( $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'] ), $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'], $original_price ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-	if ( apply_filters( 'woocommerce_price_trim_zeros', false ) && $args['decimals'] > 0 ) { // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+	/**
+	 * WooCommerce core filter: Filters whether to trim trailing zeros from prices.
+	 *
+	 * @link https://github.com/woocommerce/woocommerce/blob/trunk/plugins/woocommerce/includes/wc-formatting-functions.php
+	 *
+	 * @param bool $trim True to trim zeros, false to keep them.
+	 */
+	if ( apply_filters( 'woocommerce_price_trim_zeros', false ) && $args['decimals'] > 0 ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$price = wc_trim_zeros( $price );
 	}
 
@@ -332,6 +376,8 @@ function cocart_price_no_html( $price, $args = array() ) {
 
 	/**
 	 * Filters the string of price markup.
+	 *
+	 * @since 3.0.0 Introduced.
 	 *
 	 * @param string       $return            Price HTML markup.
 	 * @param string       $price             Formatted price.
@@ -369,11 +415,29 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 	}
 
 	foreach ( $products as $product_id => $qty ) {
-		$titles[] = apply_filters(
+		/**
+		 * Filter the quantity HTML for the add to cart message.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $qty_html   The quantity HTML string.
+		 * @param int    $product_id The product ID.
+		 */
+		$qty_html = apply_filters(
 			'cocart_add_to_cart_qty_html',
 			( $qty > 1 ? $qty . ' &times; ' : '' ),
 			$product_id
-		) . apply_filters(
+		);
+
+		/**
+		 * Filter the item name in quotes for the add to cart message.
+		 *
+		 * @since 3.0.0 Introduced.
+		 *
+		 * @param string $item_name  The item name wrapped in quotes.
+		 * @param int    $product_id The product ID.
+		 */
+		$item_name = apply_filters(
 			'cocart_add_to_cart_item_name_in_quotes',
 			sprintf(
 				/* translators: %s: product name */
@@ -382,7 +446,9 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 			),
 			$product_id
 		);
-		$count += $qty;
+
+		$titles[] = $qty_html . $item_name;
+		$count   += $qty;
 	}
 
 	$titles = array_filter( $titles );
@@ -393,6 +459,15 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 		wc_format_list_of_items( $titles )
 	);
 
+	/**
+	 * Filter the add to cart message HTML.
+	 *
+	 * @since 3.0.0 Introduced.
+	 *
+	 * @param string    $message  The add to cart message.
+	 * @param array|int $products Products added to cart.
+	 * @param bool      $show_qty Whether to show the quantity.
+	 */
 	$message = apply_filters( 'cocart_add_to_cart_message_html', esc_html( $added_text ), $products, $show_qty );
 
 	if ( $return_msg ) {
@@ -421,7 +496,26 @@ function cocart_add_to_cart_message( $products, $show_qty = false, $return_msg =
 function cocart_prepare_money_response( $amount, $decimals = 2, $rounding_mode = PHP_ROUND_HALF_UP ) {
 	cocart_deprecated_function( 'cocart_prepare_money_response', '5.0.0', 'cocart_format_money' );
 
-	return cocart_format_money( $amount );
+	/**
+	 * Filter to disable decimals when preparing a money response.
+	 *
+	 * @since 3.1.0 Introduced.
+	 *
+	 * @param bool $disable_decimals True to disable decimals, false to keep them.
+	 */
+	$disable_decimals = apply_filters( 'cocart_prepare_money_disable_decimals', false );
+
+	if ( $disable_decimals ) {
+		$decimals = 0;
+	}
+
+	return (string) intval(
+		round(
+			( (float) wc_format_decimal( $amount ) ) * ( 10 ** absint( $decimals ) ),
+			0,
+			absint( $rounding_mode )
+		)
+	);
 } // END cocart_prepare_money_response()
 
 /**
@@ -507,8 +601,18 @@ function cocart_get_min_max_price_meta_query( $args ) {
 	$current_min_price = isset( $args['min_price'] ) ? absint( $args['min_price'] ) : 0;
 	$current_max_price = isset( $args['max_price'] ) ? absint( $args['max_price'] ) : PHP_INT_MAX;
 
+	/**
+	 * WooCommerce core filter: Filters the meta query for min/max price filtering.
+	 *
+	 * @link https://github.com/woocommerce/woocommerce/blob/trunk/plugins/woocommerce/includes/wc-deprecated-functions.php
+	 *
+	 * @since WC 3.0.0 Introduced.
+	 * @deprecated WC 3.6.0
+	 *
+	 * @param array $meta_query The meta query array for price range filtering.
+	 */
 	return apply_filters(
-		'woocommerce_get_min_max_price_meta_query', // phpcs:ignore: WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		'woocommerce_get_min_max_price_meta_query', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		array(
 			'key'     => '_price',
 			'value'   => array( $current_min_price, $current_max_price ),

@@ -39,29 +39,101 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 );
 ?>
 <div class="cocart-newsletter">
-	<p><?php esc_html_e( 'Get product updates, tutorials and more straight to your inbox.', 'cocart-core' ); ?></p>
-	<form action="https://xyz.us1.list-manage.com/subscribe/post?u=48ead612ad85b23fe2239c6e3&amp;id=d462357844&amp;SIGNUPPAGE=plugin" method="post" target="_blank" rel="noopener noreferrer" novalidate>
+	<p><?php esc_html_e( 'Get the latest blog posts and product updates straight to your inbox.', 'cart-rest-api-for-woocommerce' ); ?></p>
+	<form id="cocart-newsletter-form" novalidate>
 		<div class="newsletter-form-container">
 			<label for="newsletter-email" class="screen-reader-text"><?php esc_html_e( 'Email address', 'cocart-core' ); ?></label>
 			<input
+				id="newsletter-email"
 				class="newsletter-form-email"
 				type="email"
 				value="<?php echo esc_attr( $user_email ); ?>"
-				name="EMAIL"
-				placeholder="<?php esc_attr_e( 'Email address', 'cocart-core' ); ?>"
+				name="email"
+				placeholder="<?php esc_attr_e( 'Email address', 'cart-rest-api-for-woocommerce' ); ?>"
+				autocomplete="off"
+				data-1p-ignore
 				required
 			>
-			<p class="cocart-actions step newsletter-form-button-container">
+			<div class="cocart-actions step newsletter-form-button-container">
 				<button
 					type="submit"
-					value="<?php esc_attr_e( 'Yes please!', 'cocart-core' ); ?>"
-					name="subscribe"
-					id="mc-embedded-subscribe"
+					id="newsletter-subscribe-btn"
 					class="button button-primary cocart-button newsletter-form-button"
-				><?php esc_html_e( 'Yes please!', 'cocart-core' ); ?></button>
-			</p>
+				><?php esc_html_e( 'Yes please!', 'cart-rest-api-for-woocommerce' ); ?></button>
+			</div>
 		</div>
+		<p id="newsletter-form-message" role="status" aria-live="polite"></p>
 	</form>
+	<script type="text/javascript">
+	(function () {
+		var form    = document.getElementById('cocart-newsletter-form');
+		var input   = document.getElementById('newsletter-email');
+		var btn     = document.getElementById('newsletter-subscribe-btn');
+		var message = document.getElementById('newsletter-form-message');
+
+		function setMessage(text, type) {
+			message.textContent = text;
+			message.className   = type;
+		}
+
+		input.addEventListener('input', function () {
+			var container = form.querySelector('.newsletter-form-container');
+			if (input.validity.valid) {
+				container.classList.remove('has-error');
+				setMessage('', '');
+			}
+		});
+
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+
+			var email = input.value.trim();
+			var container = form.querySelector('.newsletter-form-container');
+
+			if (!email || !input.validity.valid) {
+				container.classList.add('has-error');
+				setMessage('<?php esc_html_e( 'Please enter a valid email address.', 'cart-rest-api-for-woocommerce' ); ?>', 'error');
+				return;
+			}
+
+			container.classList.remove('has-error');
+
+			btn.disabled    = true;
+			btn.textContent = '<?php esc_html_e( 'Sending…', 'cart-rest-api-for-woocommerce' ); ?>';
+			setMessage('', '');
+
+			fetch('https://api.cocartapi.com/email/subscribe.php', {
+				method:  'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body:    JSON.stringify({ email: email }),
+			})
+				.then(function (res) {
+					var status = res.status;
+					return res.text().then(function (text) {
+						var data = null;
+						try { data = text ? JSON.parse(text) : null; } catch (e) {}
+						return { ok: res.ok, status: status, data: data };
+					});
+				})
+				.then(function (result) {
+					if (result.ok && result.data && result.data.success) {
+						setMessage(result.data.message || '<?php esc_html_e( 'Check your email to confirm your subscription.', 'cart-rest-api-for-woocommerce' ); ?>', 'success');
+						form.reset();
+					} else {
+						var errMsg = (result.data && result.data.error) || '<?php esc_html_e( 'Something went wrong. Please try again.', 'cart-rest-api-for-woocommerce' ); ?>';
+						setMessage(errMsg, 'error');
+					}
+				})
+				.catch(function () {
+					setMessage('<?php esc_html_e( 'Network error. Please check your connection and try again.', 'cart-rest-api-for-woocommerce' ); ?>', 'error');
+				})
+				.finally(function () {
+					btn.disabled    = false;
+					btn.textContent = '<?php esc_html_e( 'Yes please!', 'cart-rest-api-for-woocommerce' ); ?>';
+				});
+		});
+	}());
+	</script>
 </div>
 
 <ul class="cocart-next-steps">
@@ -73,22 +145,36 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 		</div>
 		<div class="cocart-next-step-action">
 			<p class="cocart-actions step">
-				<a class="button button-primary button-large cocart-button" href="<?php echo esc_url( COCART_DOCUMENTATION_URL ); ?>" target="_blank" rel="noopener noreferrer" role="button">
-					<?php esc_html_e( 'View Documentation', 'cocart-core' ); ?>
+				<a class="button button-primary cocart-button" href="<?php echo esc_url( COCART_DOCUMENTATION_URL ); ?>" target="_blank" rel="noopener noreferrer" role="button">
+					<?php esc_html_e( 'View Documentation', 'cart-rest-api-for-woocommerce' ); ?>
 				</a>
 			</p>
 		</div>
 	</li>
 	<li class="cocart-next-step-item">
 		<div class="cocart-next-step-description">
-			<p class="next-step-heading"><?php esc_html_e( 'Need something else?', 'cocart-core' ); ?></p>
-			<h3 class="next-step-description"><?php esc_html_e( 'Install Plugins', 'cocart-core' ); ?></h3>
-			<p class="next-step-extra-info"><?php esc_html_e( 'Checkout plugin suggestions by CoCart.', 'cocart-core' ); ?></p>
+			<p class="next-step-heading"><?php esc_html_e( 'Unlock your store', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<h3 class="next-step-description"><?php esc_html_e( 'Manage Integrations', 'cart-rest-api-for-woocommerce' ); ?></h3>
+			<p class="next-step-extra-info"><?php esc_html_e( 'Enable or disable integrations with other plugins.', 'cart-rest-api-for-woocommerce' ); ?></p>
 		</div>
 		<div class="cocart-next-step-action">
 			<p class="cocart-actions step">
-				<a class="button button-large cocart-button" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=cocart' ) ); ?>" target="_blank" role="button">
-					<?php esc_html_e( 'View Plugin Suggestions', 'cocart-core' ); ?>
+				<a class="button cocart-button" href="<?php echo esc_url( admin_url( 'admin.php?page=cocart-integrations' ) ); ?>" role="button">
+					<?php esc_html_e( 'View Integrations', 'cart-rest-api-for-woocommerce' ); ?>
+				</a>
+			</p>
+		</div>
+	</li>
+	<li class="cocart-next-step-item">
+		<div class="cocart-next-step-description">
+			<p class="next-step-heading"><?php esc_html_e( 'Need something else?', 'cart-rest-api-for-woocommerce' ); ?></p>
+			<h3 class="next-step-description"><?php esc_html_e( 'Install Plugins', 'cart-rest-api-for-woocommerce' ); ?></h3>
+			<p class="next-step-extra-info"><?php esc_html_e( 'Checkout plugin suggestions by CoCart.', 'cart-rest-api-for-woocommerce' ); ?></p>
+		</div>
+		<div class="cocart-next-step-action">
+			<p class="cocart-actions step">
+				<a class="button cocart-button" href="<?php echo esc_url( admin_url( 'plugin-install.php?tab=cocart' ) ); ?>" target="_blank" role="button">
+					<?php esc_html_e( 'View Plugin Suggestions', 'cart-rest-api-for-woocommerce' ); ?>
 				</a>
 			</p>
 		</div>
@@ -131,18 +217,25 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 					);
 					?>
 					</p>
-					<a class="button cocart-button-alt" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'community/' ) ) ) ); ?>" target="_blank" role="button"><?php esc_html_e( 'Join Community', 'cocart-core' ); ?></a>
+					<a class="button cocart-button-alt" href="<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_COMMUNITY_URL ) ) ) ); ?>" target="_blank" role="button"><?php esc_html_e( 'Join Community', 'cart-rest-api-for-woocommerce' ); ?></a>
 				</div>
 				<?php
-				// Only show upgrade option if neither CoCart Plus, Pro or above is found.
+				/**
+				 * Filter to show or hide the upgrade action link.
+				 *
+				 * @since 2.1.0 Introduced.
+				 *
+				 * @param bool $show True to show the upgrade link, false to hide it.
+				 */
 				if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
 					?>
 				<div class="column wide has-background">
-					<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" viewBox="0 0 16 16" x="56" y="56" style="color: #fff" alignment-baseline="middle">
-						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14h.01M11 14h.01"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.066 4.75H14.25l-1.566 5.088a2 2 0 0 1-1.911 1.412H6.55a2 2 0 0 1-1.99-1.79l-.623-5.92A2 2 0 0 0 1.95 1.75H1.75"/>
-					</svg>
-					<h3><?php esc_html_e( 'Ready to Upgrade?', 'cocart-core' ); ?></h3>
-					<p><?php esc_html_e( 'Fully unlock the cart API for coupons, shipping, fees, rate limiting, improved batch request support and more.', 'cocart-core' ); ?></p>
+					<div class="upgrade-header">
+						<svg class="upgrade-icon" width="32" height="32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" viewBox="0 0 16 16" alignment-baseline="middle">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14h.01M11 14h.01"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.066 4.75H14.25l-1.566 5.088a2 2 0 0 1-1.911 1.412H6.55a2 2 0 0 1-1.99-1.79l-.623-5.92A2 2 0 0 0 1.95 1.75H1.75"/>
+						</svg>
+						<h3><?php esc_html_e( 'Ready to Upgrade?', 'cart-rest-api-for-woocommerce' ); ?></h3>
+					</div>
 
 					<?php
 					// Get the timestamp for when CoCart was installed.
@@ -162,17 +255,23 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 					$time_left = ! $week_passed ? -1 : ( $start_time ? max( 0, ( $start_time + 600 ) - time() ) : 600 ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound, 600 seconds = 10 minutes.
 					?>
 
-					<div id="countdown-timer" data-start="<?php echo esc_attr( $time_left ); ?>">
-						<span id="minutes"></span>:<span id="seconds"></span> <?php echo esc_html_e( 'left to upgrade with a 20% discount!', 'cocart-core' ); ?>
-					</div>
+					<div class="upgrade-body">
+						<p><?php esc_html_e( 'Fully unlock your store with API\'s for coupons, shipping and fees. Control and prevent abuse from excessive calls with rate limiting, make batch request with our enhanced support and more.', 'cart-rest-api-for-woocommerce' ); ?></p>
 
-					<a class="button button-large cocart-button-alt" id="upgrade-button" href="<?php echo 0 === $time_left ? esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ) : esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'why-upgrade/' ) ) ) ); ?>" target="_blank" rel="noopener noreferrer" role="button">
-					<?php
-					echo 0 === $time_left ?
-					esc_html__( 'View Pricing', 'cocart-core' ) :
-					esc_html__( 'Upgrade Now', 'cocart-core' );
-					?>
-					</a>
+						<div class="upgrade-action">
+							<div id="countdown-timer" data-start="<?php echo esc_attr( $time_left ); ?>">
+								<span id="minutes"></span>:<span id="seconds"></span> <?php echo esc_html_e( 'left to upgrade with a 20% discount!', 'cart-rest-api-for-woocommerce' ); ?>
+							</div>
+
+							<a class="button button-large" id="upgrade-button" href="<?php echo 0 === $time_left ? esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ) : esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'why-upgrade/' ) ) ) ); ?>" target="_blank" rel="noopener noreferrer" role="button">
+							<?php
+							echo 0 === $time_left ?
+							esc_html__( 'View Pricing', 'cart-rest-api-for-woocommerce' ) :
+							esc_html__( 'Upgrade Now', 'cart-rest-api-for-woocommerce' );
+							?>
+							</a>
+						</div>
+					</div>
 					<script type="text/javascript">
 						document.addEventListener('DOMContentLoaded', function() {
 						const timerDiv = document.getElementById('countdown-timer');
@@ -187,8 +286,8 @@ $campaign_args = CoCart_Helpers::cocart_campaign( // phpcs:ignore: WordPress.Nam
 									timerDiv.style.display = 'none';
 								}, 500);
 								upgradeButton.classList.add('expired');
-								upgradeButton.textContent = '<?php esc_html_e( 'View Pricing', 'cocart-core' ); ?>';
-								upgradeButton.href = '<?php echo esc_url( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ); ?>';
+								upgradeButton.textContent = '<?php esc_html_e( 'View Pricing', 'cart-rest-api-for-woocommerce' ); ?>';
+								upgradeButton.href = <?php echo wp_json_encode( esc_url_raw( CoCart_Helpers::build_shortlink( add_query_arg( $campaign_args, esc_url( COCART_STORE_URL . 'pricing/' ) ) ) ) ); ?>;
 								return;
 							}
 

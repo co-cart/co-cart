@@ -5,8 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Menus
  * @since   2.0.0 Introduced.
- * @version 5.0.0
- * @license GPL-3.0
+ * @version 3.1.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -47,14 +47,23 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @since 2.0.0 Introduced.
-		 * @since 5.0.0 Updated menu icon.
+		 * @since   2.0.0 Introduced.
+		 * @version 3.10.5
 		 */
 		public function add_main_menu_page() {
+			/**
+			 * Filter the capability required to access CoCart admin screens.
+			 *
+			 * @since 2.0.0 Introduced.
+			 *
+			 * @param string $capability Required capability.
+			 */
+			$screen_capability = apply_filters( 'cocart_screen_capability', 'manage_options' );
+
 			add_menu_page(
 				'CoCart',
 				'CoCart',
-				apply_filters( 'cocart_screen_capability', 'manage_options' ),
+				$screen_capability,
 				'cocart',
 				function () {
 					return '';
@@ -117,7 +126,7 @@ if ( ! class_exists( 'CoCart_Admin_Menus' ) ) {
 								'screen_id' => 'cocart_page_' . $submenu_page['data']['menu_slug'],
 								'title'     => array(
 									'CoCart',
-									$submenu_page['data']['page_title'],
+									preg_replace( '/\d/', '', wp_strip_all_tags( $submenu_page['data']['menu_title'], true ) ),
 								),
 								'path'      => add_query_arg(
 									array(

@@ -232,7 +232,7 @@ class CoCart_Admin_Plugin_Updates {
 		$matches = array();
 
 		foreach ( $plugins as $file => $plugin ) {
-			// Skip if plugin file is specific to CoCart core
+			// Skip if plugin file is specific to CoCart Community.
 			if ( COCART_SLUG . '/' . COCART_SLUG . '.php' === $file ) {
 				continue;
 			}

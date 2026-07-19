@@ -270,30 +270,39 @@ class CoCart_Cart_Cache {
 	} // END clear_cart_cached()
 
 	/**
-	 * Returns true if the cart item can be allowed to override the price.
+	 * Returns true if the cart item is allowed to override the price.
 	 *
-	 * By default it will always allow overriding the price unless stated otherwise.
+	 * Defaults to false. Enable via the `cocart_does_product_allow_price_change`
+	 * filter to opt in to the Name Your Price feature.
 	 *
 	 * @access protected
 	 *
 	 * @since 4.1.0 Introduced.
+	 * @since 4.9.0 Default changed to false to prevent unauthenticated price manipulation.
 	 *
 	 * @param array           $cart_item The cart item data.
 	 * @param WP_REST_Request $request   The request object.
 	 *
-	 * @return bool True if the cart item can be allowed to override the price.
+	 * @return bool True if the cart item is allowed to override the price.
 	 */
 	protected function does_product_allow_price_change( $cart_item, $request ) {
+		$cocart_settings = get_option( 'cocart_settings', array() );
+		$allow_default   = isset( $cocart_settings['features']['name_your_price'] ) && 'yes' === $cocart_settings['features']['name_your_price'];
+
 		/**
-		 * Filter which products that can be allowed to override the price if not all.
+		 * Filter whether a cart item is allowed to override the product price.
+		 *
+		 * Defaults to false. Return true (globally or per-product) to enable
+		 * the Name Your Price feature for the add-item endpoint.
 		 *
 		 * @since 4.1.0 Introduced.
+		 * @since 4.9.0 Default changed from true to false.
 		 *
-		 * @param bool            $allow_change Allow price change.
+		 * @param bool            $allow_change Allow price override. Default false.
 		 * @param array           $cart_item    Cart item.
 		 * @param WP_REST_Request $request      The request object.
 		 */
-		return apply_filters( 'cocart_does_product_allow_price_change', true, $cart_item, $request );
+		return apply_filters( 'cocart_does_product_allow_price_change', $allow_default, $cart_item, $request );
 	} // END does_product_allow_price_change()
 } // END class
 

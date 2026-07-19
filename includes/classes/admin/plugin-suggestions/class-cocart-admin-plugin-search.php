@@ -6,7 +6,7 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin
  * @since   3.0.0
- * @version 4.3.25
+ * @version 4.9.0
  * @license GPL-2.0+
  */
 
@@ -138,6 +138,11 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 
 				</div>
 				<?php
+				/**
+				 * Hook: Fires before the plugin suggestions table is displayed.
+				 *
+				 * @since 3.1.0 Introduced.
+				 */
 				do_action( 'cocart_before_display_plugins_table' );
 
 				if ( self::allow_suggestions() ) {
@@ -152,6 +157,11 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 					<?php
 				}
 
+				/**
+				 * Hook: Fires after the plugin suggestions table is displayed.
+				 *
+				 * @since 3.1.0 Introduced.
+				 */
 				do_action( 'cocart_after_display_plugins_table' );
 			}
 		} // END cocart_plugin_dashboard()
@@ -180,8 +190,8 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 						),
 						'CoCart'
 					),
-					'supportText' => esc_html__( 'Learn more about these suggestions.', 'cocart-core' ),
-					'supportLink' => 'https://cocart.dev/guide/plugin-suggestions/',
+					'supportText' => esc_html__( 'Learn more about these suggestions.', 'cart-rest-api-for-woocommerce' ),
+					'supportLink' => 'https://docs.cocartapi.com/knowledge-base/plugin-suggestions',
 				)
 			);
 
@@ -241,16 +251,9 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 		 * @return array
 		 */
 		public function get_suggestions() {
-			$data = get_option(
-				'cocart_plugin_suggestions',
-				array(
-					'suggestions' => array(),
-					'updated'     => '',
-				)
-			);
+			$data = get_transient( 'cocart_plugin_suggestions' );
 
-			// If the options have never been updated, or were updated over a week ago, request suggestions.
-			if ( empty( $data['updated'] ) || ( time() - WEEK_IN_SECONDS ) > $data['updated'] ) {
+			if ( false === $data ) {
 				$data = CoCart_Admin_Plugin_Suggestions_Updater::update_plugin_suggestions();
 			}
 
@@ -601,8 +604,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 						case 'install':
 							if ( $status['url'] ) {
 								if ( $compatible_php && $compatible_wp ) {
-									// $nonce = wp_create_nonce( 'install-cocart-plugin_' . $plugin['slug'] );
-									// $url   = self_admin_url( 'update.php?action=install-cocart-plugin&plugin=' . $plugin['slug'] . '&_wpnonce=' . $nonce );
 									if ( ! empty( $plugin['purchase'] ) ) { // @TODO: Add check if CoCart license is active to download and install if source available.
 										$links['cocart-purchase'] = sprintf(
 											'<a class="cocart-plugin-primary button" data-slug="%s" href="%s" target="_blank" rel="noopener noreferrer" aria-label="%s" data-name="%s">%s</a>',
@@ -626,8 +627,6 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 									);
 								}
 							}
-
-							break;
 
 							break;
 					} // END switch
@@ -718,16 +717,9 @@ if ( ! class_exists( 'CoCart_Admin_Plugin_Search' ) ) {
 				return;
 			}
 
-			$data = get_option(
-				'cocart_plugin_suggestions',
-				array(
-					'suggestions' => array(),
-					'updated'     => '',
-				)
-			);
+			$data = get_transient( 'cocart_plugin_suggestions' );
 
-			// If the options have never been updated, or were updated over a week ago, queue update.
-			if ( empty( $data['updated'] ) || ( time() - WEEK_IN_SECONDS ) > $data['updated'] ) {
+			if ( false === $data ) {
 				$next = WC()->queue()->get_next( 'cocart_update_plugin_suggestions' );
 				if ( ! $next ) {
 					WC()->queue()->cancel_all( 'cocart_update_plugin_suggestions' );

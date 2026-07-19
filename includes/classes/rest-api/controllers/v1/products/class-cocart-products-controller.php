@@ -245,18 +245,18 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 	protected function prepare_links( $product ) {
 		$links = array(
 			'self'       => array(
-				'permalink' => get_permalink( $product->get_id() ),
+				'permalink' => urldecode( get_permalink( $product->get_id() ) ),
 				'href'      => rest_url( sprintf( '/%s/%s/%d', $this->namespace, $this->rest_base, $product->get_id() ) ),
 			),
 			'collection' => array(
-				'permalink' => wc_get_page_permalink( 'shop' ),
+				'permalink' => urldecode( wc_get_page_permalink( 'shop' ) ),
 				'href'      => rest_url( sprintf( '/%s/%s', $this->namespace, $this->rest_base ) ),
 			),
 		);
 
 		if ( $product->get_parent_id() ) {
 			$links['parent_product'] = array(
-				'permalink' => get_permalink( $product->get_parent_id() ),
+				'permalink' => urldecode( get_permalink( $product->get_parent_id() ) ),
 				'href'      => rest_url( sprintf( '/%s/products/%d', $this->namespace, $product->get_parent_id() ) ),
 			);
 		}
@@ -267,7 +267,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 			foreach ( $variations as $variation_product ) {
 				$links['variations'][ $variation_product ] = array(
-					'permalink' => get_permalink( $variation_product ),
+					'permalink' => urldecode( get_permalink( $variation_product ) ),
 					'href'      => rest_url( sprintf( '/%s/products/%d/variations/%d', $this->namespace, $product->get_id(), $variation_product ) ),
 				);
 			}
@@ -326,6 +326,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 
 		/**
 		 * Filter the data for a response.
+		 *
+		 * @since 3.1.0 Introduced.
 		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param WC_Product       $product  The product object.
@@ -607,13 +609,11 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			} else {
 				$args['tax_query'] = $tax_query; // phpcs:ignore
 			}
+		} elseif ( ! empty( $args['tax_query'] ) ) {
+			// For product_variations convert the tax_query to a meta_query.
+			$args['meta_query'] = $this->convert_tax_query_to_meta_query( array_merge( $tax_query, $args['tax_query'] ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		} else {
-			// For product_variations we need to convert the tax_query to a meta_query.
-			if ( ! empty( $args['tax_query'] ) ) {
-				$args['meta_query'] = $this->convert_tax_query_to_meta_query( array_merge( $tax_query, $args['tax_query'] ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			} else {
-				$args['meta_query'] = $this->convert_tax_query_to_meta_query( $tax_query ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			}
+			$args['meta_query'] = $this->convert_tax_query_to_meta_query( $tax_query ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		}
 
 		// Filter virtual products.
@@ -742,6 +742,14 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			);
 		}
 
+		/**
+		 * Filter the query arguments for preparing objects.
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @param array           $args    The query arguments.
+		 * @param WP_REST_Request $request The request object.
+		 */
 		return apply_filters( 'cocart_prepare_objects_query', $args, $request );
 	} // END prepare_objects_query()
 
@@ -795,7 +803,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$terms[] = array(
 				'id'   => $term->term_id,
 				'name' => $term->name,
-				'slug' => $term->slug,
+				'slug' => urldecode( $term->slug ),
 			);
 		}
 
@@ -1071,8 +1079,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$data = array(
 			'id'                    => $product->get_id(),
 			'name'                  => $product->get_name( 'view' ),
-			'slug'                  => $product->get_slug( 'view' ),
-			'permalink'             => $product->get_permalink(),
+			'slug'                  => urldecode( $product->get_slug( 'view' ) ),
+			'permalink'             => urldecode( $product->get_permalink() ),
 			'date_created'          => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
 			'date_created_gmt'      => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
 			'date_modified'         => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),
@@ -1124,6 +1132,13 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'review_count'          => $review_count,
 			'rating_html'           => html_entity_decode( wp_strip_all_tags( wc_get_rating_html( $average, $rating_count ) ) ),
 			'reviews'               => array(),
+			/**
+			 * Filter the maximum number of related products to return.
+			 *
+			 * @since 3.1.0 Introduced.
+			 *
+			 * @param int $limit Maximum number of related products. Default 5.
+			 */
 			'related_ids'           => array_map( 'absint', array_values( wc_get_related_products( $product->get_id(), apply_filters( 'cocart_products_get_related_products_limit', 5 ) ) ) ),
 			'upsell_ids'            => array_map( 'absint', $product->get_upsell_ids( 'view' ) ),
 			'cross_sell_ids'        => array_map( 'absint', $product->get_cross_sell_ids( 'view' ) ),
@@ -1159,8 +1174,8 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 		$data = array(
 			'id'                    => $product->get_id(),
 			'name'                  => $product->get_name( 'view' ),
-			'slug'                  => $product->get_slug( 'view' ),
-			'permalink'             => $product->get_permalink(),
+			'slug'                  => urldecode( $product->get_slug( 'view' ) ),
+			'permalink'             => urldecode( $product->get_permalink() ),
 			'date_created'          => wc_rest_prepare_date_response( $product->get_date_created( 'view' ), false ),
 			'date_created_gmt'      => wc_rest_prepare_date_response( $product->get_date_created( 'view' ) ),
 			'date_modified'         => wc_rest_prepare_date_response( $product->get_date_modified( 'view' ), false ),
@@ -2333,6 +2348,13 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			$schema['properties'][ $field_name ] = $field_options['schema'];
 		}
 
+		/**
+		 * Filter the schema properties for a given object type.
+		 *
+		 * @since 3.1.0 Introduced.
+		 *
+		 * @param array $properties The schema properties.
+		 */
 		$schema['properties'] = apply_filters( "cocart_{$object_type}_schema", $schema['properties'] ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		return $schema;

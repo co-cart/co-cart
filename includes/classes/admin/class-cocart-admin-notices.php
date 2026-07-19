@@ -5,8 +5,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\Notices
  * @since   1.2.0 Introduced.
- * @version 4.3.7
- * @license GPL-3.0
+ * @version 4.9.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -60,7 +60,6 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			'check_wc'            => 'check_woocommerce_notice',
 			'plugin_review'       => 'plugin_review_notice',
 			'check_beta'          => 'check_beta_notice',
-			'upgrade_warning'     => 'upgrade_warning_notice',
 			'base_tables_missing' => 'base_tables_missing_notice',
 			'setup_wizard'        => 'setup_wizard_notice',
 			'disabled_wp_source'  => 'disabled_wp_source_notice',
@@ -241,7 +240,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 				/**
 				 * Hook: Hide a CoCart notice.
 				 *
-				 * Example: `cocart_hide_plugin_review_notice'
+				 * @since 3.0.0 Introduced.
+				 *
+				 * Example: `cocart_hide_plugin_review_notice`
+				 *
+				 * @param string $notice_name The name of the notice being hidden.
 				 */
 				do_action( "cocart_hide_{$notice_name}_notice" );
 			}
@@ -340,7 +343,11 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			/**
 			 * Hook: Hide a CoCart notice.
 			 *
-			 * Example: `cocart_hide_plugin_review_notice'
+			 * @since 3.0.0 Introduced.
+			 *
+			 * Example: `cocart_hide_plugin_review_notice`
+			 *
+			 * @param string $notice_name The name of the notice being hidden.
 			 */
 			do_action( "cocart_hide_{$notice_name}_notice" );
 		} // END hide_notice()
@@ -394,6 +401,14 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 			}
 
 			foreach ( $notices as $notice ) {
+				/**
+				 * Filter to show or hide a specific admin notice.
+				 *
+				 * @since 3.0.0 Introduced.
+				 *
+				 * @param bool   $show_notice True to show, false to hide.
+				 * @param string $notice      The notice name.
+				 */
 				if ( ! empty( self::$core_notices[ $notice ] ) && apply_filters( 'cocart_show_admin_notice', true, $notice ) ) {
 					add_action( 'admin_notices', array( $this, self::$core_notices[ $notice ] ) );
 				} else {
@@ -454,6 +469,13 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * @return void
 		 */
 		public function base_tables_missing_notice() {
+			/**
+			 * Filter to hide the base tables missing notice.
+			 *
+			 * @since 3.0.0 Introduced.
+			 *
+			 * @param mixed $dismissed Whether the notice has been dismissed.
+			 */
 			$notice_dismissed = apply_filters(
 				'cocart_hide_base_tables_missing_nag',
 				get_user_meta( get_current_user_id(), 'dismissed_cocart_base_tables_missing_notice', true )
@@ -494,6 +516,8 @@ if ( ! class_exists( 'CoCart_Admin_Notices' ) ) {
 		 * than the new release coming soon.
 		 *
 		 * @access public
+		 *
+		 * @deprecated 4.9.0 Deprecated as the next major release is now expected to be 5.0.0 and the notice is no longer relevant.
 		 *
 		 * @since 1.2.3 Introduced.
 		 * @since 3.10.4 Check how long CoCart has been installed before showing.

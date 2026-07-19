@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ❓ Support Question
+    url: https://cocartapi.com/community/
+    about: For support questions, please use the CoCart community Discord server.
+  - name: 📖 Developer Documentation
+    url: https://docs.cocartapi.com
+    about: Check the developer docs before submitting — your question may already be answered.
+  - name: 📋 Changelog
+    url: https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md
+    about: Check the changelog to see if your issue is already fixed in a newer version.
+  - name: 🌐 Translations
+    url: https://translate.cocartapi.com/projects/cart-rest-api-for-woocommerce/
+    about: Help translate CoCart Community into your language.

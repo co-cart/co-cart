@@ -232,8 +232,8 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 		$quantity       = $product_to_add['quantity'];
 		$variation_id   = $product_to_add['variation_id'];
 		$variation      = $product_to_add['variation'];
-		$cart_item_data = $product_to_add['cart_item_data'];
-		$cart_item_key  = $product_to_add['cart_item_key'];
+		$cart_item_data = $product_to_add['cart_item_data'] ?? array();
+		$cart_item_key  = $product_to_add['cart_item_key'] ?? '';
 		$product_data   = $product_to_add['product_data'];
 
 		// If cart_item_key is set, then the item is already in the cart so just update the quantity.
@@ -330,8 +330,26 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 
 		$product = $item_added['data'];
 
-		// Adds the product name and title.
-		$item_added['product_name']  = apply_filters( 'cocart_item_added_product_name', $product->get_name(), $product, $item_key );
+		/**
+		 * Filter the product name for the added cart item response.
+		 *
+		 * @since 1.0.0 Introduced.
+		 *
+		 * @param string     $name     The product name.
+		 * @param WC_Product $product  The product object.
+		 * @param string     $item_key The cart item key.
+		 */
+		$item_added['product_name'] = apply_filters( 'cocart_item_added_product_name', $product->get_name(), $product, $item_key );
+
+		/**
+		 * Filter the product title for the added cart item response.
+		 *
+		 * @since 1.0.0 Introduced.
+		 *
+		 * @param string     $title    The product title.
+		 * @param WC_Product $product  The product object.
+		 * @param string     $item_key The cart item key.
+		 */
 		$item_added['product_title'] = apply_filters( 'cocart_item_added_product_title', $product->get_title(), $product, $item_key );
 
 		// Add product price.
@@ -469,6 +487,13 @@ class CoCart_Add_Item_Controller extends CoCart_API_Controller {
 			),
 		);
 
+		/**
+		 * Filter the add item schema properties.
+		 *
+		 * @since 1.0.0 Introduced.
+		 *
+		 * @param array $properties The schema properties.
+		 */
 		$schema['properties'] = apply_filters( 'cocart_add_item_schema', $schema['properties'] );
 
 		return $schema;

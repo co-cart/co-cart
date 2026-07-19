@@ -488,6 +488,13 @@ class CoCart_Helpers {
 	 * @return array The screen IDs.
 	 */
 	public static function cocart_get_admin_screens() {
+		/**
+		 * Filter the CoCart admin screen IDs.
+		 *
+		 * @since 2.0.0 Introduced.
+		 *
+		 * @param array $screens Admin screen IDs.
+		 */
 		return apply_filters(
 			'cocart_admin_screens',
 			array(
@@ -499,7 +506,10 @@ class CoCart_Helpers {
 				'woocommerce_page_wc-status',
 				'toplevel_page_cocart',
 				'toplevel_page_cocart-network',
+				'cocart_page_cocart-setup',
 				'cocart_page_cocart-support',
+				'cocart_page_cocart-settings',
+				'cocart_page_cocart-integrations',
 			)
 		);
 	} // END cocart_get_admin_screens()
@@ -517,6 +527,8 @@ class CoCart_Helpers {
 	 *
 	 * @since 2.3.0 Introduced.
 	 * @since 4.3.0 Added optional parameter to exclude an array of screens.
+	 *
+	 * @param array $exclude_screens Optional. Screen IDs to exclude from the check.
 	 *
 	 * @return boolean True if on a CoCart page.
 	 */
@@ -556,6 +568,8 @@ class CoCart_Helpers {
 		/**
 		 * Filter the current users capabilities to install a CoCart plugin.
 		 *
+		 * @since 2.6.0 Introduced.
+		 *
 		 * @param string $capability Capability level.
 		 */
 		if ( current_user_can( apply_filters( 'cocart_install_capability', 'install_plugins' ) ) ) {
@@ -580,6 +594,8 @@ class CoCart_Helpers {
 	public static function is_cocart_ps_active() {
 		/**
 		 * Filter if CoCart Plugin Suggestions should be active.
+		 *
+		 * @since 3.1.0 Introduced.
 		 *
 		 * @param bool $show_suggestions True if CoCart Plugin Suggestions is active.
 		 */
@@ -999,6 +1015,13 @@ class CoCart_Helpers {
 			if ( function_exists( 'wc_admin_connect_page' ) ) {
 				$enabled = true;
 
+				/**
+				 * Filter whether WooCommerce Admin is disabled.
+				 *
+				 * @since 2.6.0 Introduced.
+				 *
+				 * @param bool $disabled True if WooCommerce Admin is disabled.
+				 */
 				if ( apply_filters( 'woocommerce_admin_disabled', false ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 					$enabled = false;
 				}

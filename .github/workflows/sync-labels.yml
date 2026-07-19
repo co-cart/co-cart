@@ -1,13 +1,19 @@
 name: Sync Labels to Repository
 
-on: [issues, pull_request]
+on:
+  issues:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   sync-labels:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Debug .github directory
         run: |

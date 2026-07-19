@@ -1,4 +1,110 @@
-# Changelog for CoCart Core
+# Changelog for CoCart Community
+
+## v4.9.0 - July 12th, 2026
+
+### What's New?
+
+> [!IMPORTANT]
+> PHP version 8.2 is the minimum requirement to install and use CoCart. PHP 7.4, 8.0, and 8.1 are all past end-of-life/security support so to help manage development resources to maintain CoCart, it will no longer be tested on these versions. Running CoCart on PHP 8.2 not only ensures you are secure but it also improves the performance of the CoCart API. Thank you for your understanding.
+
+* REST API: Added ETag support for all cart endpoints (GET/POST/PUT/DELETE) enabling conditional requests with `If-None-Match` header for immediate use.
+* REST API: Added ETag support for product endpoints (products, categories, tags, attributes, reviews).
+* REST API: Added `CoCart-Cache` response header indicating cache status: `HIT`, `MISS`, or `SKIP`.
+* REST API: Added `_skip_cache` query parameter to bypass caching for individual requests.
+* REST API: Added `stale-while-revalidate` directive to cacheable routes (products) for improved performance.
+* REST API: Added check for `X-HTTP-Method-Override` header if it exists during authentication.
+* WordPress Dashboard: New integrations page to provide more control over which supported plugin is running when making a CoCart request.
+
+* Plugin: New settings page providing quick easy control of CoCart without touching code for the following:
+* * CORS and allowed origin.
+* * Authorization header server variable.
+* * Session expiration for guest and logged-in users.
+* * "Load Cart from Session" feature.
+* * "Name Your Price" feature.
+
+> Settings show a locked state when controlled by an external filter with a link providing information as to what and where.
+
+### Bug Fixes
+
+* REST API: Requests made via the WordPress REST API batch endpoint were not recognized and caused a fatal error when adding items.
+* REST API: Shipping address fields were blank after submitting billing-only details — billing fields now mirror to shipping when `ship_to_different_address` is not set, matching WooCommerce checkout behaviour. Shipping packages now also return correctly after a complete address is saved.
+* REST API: Slugs, permalinks and attribute names with non-ASCII characters (e.g., Chinese, Arabic) are now returned decoded instead of encoded across all product and cart endpoints.
+* REST API: Authentication not determining user in time when `rest_url_prefix` filter is used causing several cloned guest sessions with cart items.
+* REST API: Fixed fatal error when adding an invalid product to cart via v2 controller due to missing `WP_Error` check after product validation.
+* REST API: Corrected `Last-Modified` header in GMT per HTTP spec with more robust date parsing.
+* Plugin: Fixed `cocart_deprecated_filter()` returning `null` when the debug log was active, causing callers to receive no value from the deprecation wrapper.
+
+#### PHP 8.2+ Fixes
+
+* REST API: Fixed warnings for undefined array keys `cart_item_data` and `cart_item_key` in v1 add item controller.
+* Session: Fixed warning for undefined array key `total` in session handler cart hash generation.
+* Plugin: Fixed warnings for undefined array key `count` when database queries return no results in cart counting functions.
+* Plugin: Fixed warning for undefined variable `$per_page` in admin plugin search.
+* Plugin: Fixed deprecated `${var}` string interpolation syntax in plugin update screen.
+
+### Change
+
+* Session: Removed the max expiration exceed limit of 30 days to allow adjusting the lifetimes via the `cocart_cart_expiring` and `cocart_cart_expiration` filters as needed.
+
+> Dev note: You will still be warned "Keeping sessions for longer than X days can cause performance issues and larger session tables."
+
+### Improvements
+
+* REST API: Slight performance increase by preventing admin content from loading in the background for every REST request made.
+* REST API: `cocart_upload_file()` and `cocart_upload_image_from_url()` now use a `try/finally` block to guarantee the `upload_dir` filter is always removed, even when an exception is thrown during upload.
+* REST API: `cocart_upload_image_from_url()` now uses `wp_parse_url()` to extract the filename from the image URL, correctly stripping query strings instead of splitting on `?`.
+* Session: Adjusted `get_session()` using `wp_cache_set()` instead of `wp_cache_add()`, which caused stale persistent object cache entries to never be overwritten.
+* Session: Adjusted `get_session()` and `update_cart()` using an uninitialized expiration value on frontend requests, preventing sessions from being cached after a database read.
+* Session: Adjusted `save_data()` writing to object cache with a potentially negative TTL when session expiration was stale or unset.
+* Session: Adjusted `update_cart()` not syncing the object cache after a database write, causing subsequent reads to return stale cached data.
+* Session: Added `get_cache_expiration()` helper to reliably resolve cache expiration across both REST API and frontend contexts.
+
+### Breaking Changes
+
+* REST API: The `cocart_does_product_allow_price_change` filter now defaults to `false`. Price overrides via the `price` parameter on `cocart/v2/cart/add-item` are disabled by default. To restore the previous behaviour, add `add_filter( 'cocart_does_product_allow_price_change', '__return_true' );` — or return `true` conditionally for specific products only.
+
+### Developers
+
+* Logger: Log entries now include a source line identifying the calling class, method, file, and line number for easier debugging.
+* Introduced new filter `cocart_etag_cart_routes` to customize which cart routes support ETag.
+* Introduced new filter `cocart_etag_product_routes` to customize which product routes support ETag.
+* Introduced new filter `cocart_etag_routes` to add ETag support for third-party plugin routes.
+* Introduced new filter `cocart_cache_max_age` to customize cache duration (default: 1 hour).
+* Introduced new filter `cocart_stale_while_revalidate` to customize stale-while-revalidate duration (default: 24 hours).
+
+### Deprecation's
+
+* Filter `cocart_secure_registered_users` deprecated for security — unauthenticated access to registered user carts is now always blocked.
+
+### Compatibility
+
+* Tested with WordPress 7.0
+* Tested with WooCommerce v10.9
+
+## v4.8.4 - 21st April, 2026
+
+### Bug Fixes
+
+* Plugin: Fixed fatal error from `sprint_f()` typo in database update scheduler (`sprintf`).
+* REST API: Apply `Access-Control-Allow-Credentials` header correctly.
+* Load Cart: Only trigger warning if hook `cocart_load_cart_override` was used.
+* Load Cart: Fixed uncaught type error merging an empty cart value. Reported by [@allkhor](https://github.com/allkhor) 👍
+* WordPress Dashboard: Fixed HTML issue in the WooCommerce admin bar title.
+
+### Compatibility
+
+* Tested with WooCommerce v10.7
+
+## v4.8.3 - 26th January, 2026
+
+### Bug Fixes
+
+* REST API: Updating a customer address after one is placed would not update.
+* REST API: Return error responses correctly so all headers return.
+
+### Changes
+
+* Plugin: Updated broken external links throughout the plugin.
 
 ## v4.8.2 - 20th January, 2026
 
@@ -15,7 +121,6 @@
 
 ### Bug Fixes
 
-* REST API: Updating a customer address after one is placed would not update.
 * REST API: No customer data, no applied coupons or removed items in session caused undefined errors.
 * REST API: Customer data was not converting correctly to return in the Session API.
 * REST API: The product object was not passed correctly in the Session API for items.
@@ -664,7 +769,7 @@ In this release we are adding some quality of life improvements.
 
 ### What's New?
 
-* REST API: Added new cart callback that allows you to set the customers billing details. [See guide on how to use](https://cocart.dev/guide/how-to-add-customer-details-to-the-cart/).
+* REST API: Added new cart callback that allows you to set the customers billing details. [See guide on how to use](https://docs.cocartapi.com/getting-started/core/quick-start#adding-customer-information).
 * REST API: Basic Authentication now accepts a customers billing phone number as their username. Password is still required when authenticating.
 * REST API: Added the ability to set the customers billing phone number while adding item/s to cart.
 
@@ -735,7 +840,7 @@ In this release, we are happy to provide some of the various improvements made t
 
 > Developer note: This release requires the quantity parameter to pass the value as a string for both adding items or updating items. If you are not new to CoCart then please update your code to account for this change.
 
-[Find out more about what's new in CoCart 4.0 in our release post!](https://cocart.dev/cocart-4-0-released-now-with-cart-batch-support-and-more/)
+[Find out more about what's new in CoCart 4.0 in our release post!](https://cocartapi.com/cocart-4-0-released-now-with-cart-batch-support-and-more/)
 
 Hope you enjoy this release.
 

@@ -1,0 +1,169 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump-type:
+        description: 'Type of version bump to perform'
+        required: true
+        type: choice
+        options:
+          - internal-build
+          - beta
+          - rc
+          - stable
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  bump:
+    if: github.repository_owner == 'co-cart'
+    name: Bump version (${{ inputs.bump-type }})
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get current version
+        id: get-current-version
+        run: |
+          version=$(grep -oP '(?<=Version:\s{1,10})\S+' cart-rest-api-for-woocommerce.php | head -n1)
+          echo "Current version: $version"
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Compute new version
+        id: compute-new-version
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const bumpType = '${{ inputs.bump-type }}';
+            const currentVersion = '${{ steps.get-current-version.outputs.version }}';
+
+            const writeSummary = async (nextVersion = null) => {
+              const transition = nextVersion
+                ? `from \`${currentVersion}\` to \`${nextVersion}\``
+                : `from \`${currentVersion}\``;
+              await core.summary.addRaw(`🚀 Bumping version ${transition} (${bumpType} bump).\n`).write();
+            };
+
+            const failWithSummary = async (msg) => {
+              await core.summary.addRaw(`\n❌ **Error:** ${msg}\n`).write();
+              core.setFailed(msg);
+            };
+
+            const m = currentVersion.match(
+              /^(?<base>\d+\.\d+)\.(?<patch>\d+)(-(?<pre>internal-build|beta|rc)(\.(?<prenum>\d+))?)?$/
+            );
+
+            if (!m) {
+              await writeSummary();
+              await failWithSummary(`Current version (${currentVersion}) does not match expected format.`);
+              return;
+            }
+
+            const base      = m.groups['base'];
+            const patch     = parseInt(m.groups['patch']);
+            const pre       = m.groups['pre'] ?? '';
+            const preNum    = m.groups['prenum'] ? parseInt(m.groups['prenum']) : 0;
+
+            const invalidBump =
+              (pre === '' && bumpType !== 'stable') ||
+              (pre === 'internal-build' && !['internal-build', 'beta'].includes(bumpType)) ||
+              (pre === 'beta'           && !['beta', 'rc'].includes(bumpType)) ||
+              (pre === 'rc'             && !['rc', 'stable'].includes(bumpType));
+
+            if (invalidBump) {
+              await writeSummary();
+              await failWithSummary(`Cannot perform a '${bumpType}' bump on version ${currentVersion}.`);
+              return;
+            }
+
+            let nextVersion;
+            switch (bumpType) {
+              case 'internal-build':
+                if (pre === 'internal-build') {
+                  nextVersion = `${base}.${patch}-internal-build.${preNum + 1}`;
+                } else {
+                  // Starting a new dev cycle from stable.
+                  const nextMinor = (parseFloat(base) + 0.1).toFixed(1);
+                  nextVersion = `${nextMinor}.0-internal-build.1`;
+                }
+                break;
+              case 'beta':
+                nextVersion = `${base}.${patch}-beta.${pre === 'beta' ? preNum + 1 : 1}`;
+                break;
+              case 'rc':
+                nextVersion = `${base}.${patch}-rc.${pre === 'rc' ? preNum + 1 : 1}`;
+                break;
+              case 'stable':
+                nextVersion = pre ? `${base}.0` : `${base}.${patch + 1}`;
+                break;
+            }
+
+            await writeSummary(nextVersion);
+            core.setOutput('nextVersion', nextVersion);
+            core.setOutput('isStable', bumpType === 'stable' ? 'true' : 'false');
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bump version in package.json
+        run: npm version ${{ steps.compute-new-version.outputs.nextVersion }} --no-git-tag-version
+
+      - name: Update version strings
+        run: |
+          if [ "${{ steps.compute-new-version.outputs.isStable }}" = "true" ]; then
+            npx grunt replace:php replace:readme replace:stable replace:package
+          else
+            npx grunt replace:php replace:readme replace:package
+          fi
+
+      - name: Check for changes
+        run: |
+          if git diff --quiet; then
+            echo "::error::No file changes detected. Version may already be set to ${{ steps.compute-new-version.outputs.nextVersion }}."
+            exit 1
+          fi
+
+      - name: Set up WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Update POT file
+        run: wp i18n make-pot . languages/cart-rest-api-for-woocommerce.pot --exclude=node_modules,vendor,tests,releases --allow-root
+
+      - name: Open PR with changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch_name="bump-version-to-${{ steps.compute-new-version.outputs.nextVersion }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ${branch_name}
+          git add cart-rest-api-for-woocommerce.php includes/class-cocart.php load-package.php readme.txt package.json languages/cart-rest-api-for-woocommerce.pot
+          git commit -m "Bump version to ${{ steps.compute-new-version.outputs.nextVersion }}"
+          git push origin ${branch_name}
+
+          gh pr create \
+            --title "Bump version to \`${{ steps.compute-new-version.outputs.nextVersion }}\`" \
+            --body "This PR updates the version to \`${{ steps.compute-new-version.outputs.nextVersion }}\`." \
+            --base ${{ github.ref_name }} \
+            --head ${branch_name} \
+            --label Release \
+            --reviewer ${{ github.actor }}

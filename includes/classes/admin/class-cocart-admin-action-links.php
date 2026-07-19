@@ -78,6 +78,13 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 
 			$page = admin_url( 'admin.php' );
 
+			/**
+			 * Filter to enable or disable the setup wizard.
+			 *
+			 * @since 2.6.0 Introduced.
+			 *
+			 * @param bool $enable_setup_wizard True to enable, false to disable.
+			 */
 			if ( apply_filters( 'cocart_enable_setup_wizard', true ) && current_user_can( 'manage_options' ) ) {
 				$action_links['setup-wizard'] = '<a href="' . add_query_arg(
 					array(
@@ -97,21 +104,6 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				esc_attr__( 'Support for %s', 'cocart-core' ),
 				'CoCart'
 			) . '">' . esc_attr__( 'Support', 'cocart-core' ) . '</a>';
-
-			// Only show upgrade option if neither CoCart Plus, Pro or above is found.
-			if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
-				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'why-upgrade/' ) );
-
-				$action_links['upgrade'] = sprintf(
-					'<a href="%1$s" title="%2$s" target="_blank" rel="noopener noreferrer" style="color: #6032b0; font-weight: 600;">%2$s</a>',
-					esc_url( $store_url ),
-					sprintf(
-						/* translators: %s: CoCart */
-						esc_attr__( 'Upgrade %s', 'cocart-core' ),
-						'CoCart'
-					)
-				);
-			}
 
 			$links = array_merge( $links, $action_links );
 
@@ -136,33 +128,56 @@ if ( ! class_exists( 'CoCart_Admin_Action_Links' ) ) {
 				return $metadata;
 			}
 
-			if ( plugin_basename( COCART_FILE ) === $file ) {
-				$row_meta = array(
-					'community' => '<a href="' . esc_url( COCART_COMMUNITY_URL ) . '" title="' . sprintf(
-						/* translators: %1$s: CoCart, %2$s :Discord */
-						esc_attr__( 'Join %1$s Community on %2$s', 'cocart-core' ),
-						'CoCart',
-						'Discord'
-					) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Join Community', 'cocart-core' ) . '</a>',
-					'docs'      => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" title="' . sprintf(
-						/* translators: %s: CoCart */
-						esc_attr__( 'View %s Documentation', 'cocart-core' ),
-						'CoCart'
-					) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Documentation', 'cocart-core' ) . '</a>',
-					'translate' => '<a href="' . CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, esc_url( COCART_TRANSLATION_URL ) ) ) . '" title="' . sprintf(
-						/* translators: %s: CoCart */
-						esc_attr__( 'Translate %s', 'cocart-core' ),
-						'CoCart'
-					) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Translate', 'cocart-core' ) . '</a>',
-					'review'    => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" title="' . sprintf(
-						/* translators: %s: CoCart */
-						esc_attr__( 'Submit a review for %s', 'cocart-core' ),
-						'CoCart'
-					) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Leave a Review', 'cocart-core' ) . '</a>',
-				);
-
-				$metadata = array_merge( $metadata, $row_meta );
+			if ( plugin_basename( COCART_FILE ) !== $file ) {
+				return $metadata;
 			}
+
+			$row_meta = array(
+				'community' => '<a href="' . esc_url( COCART_COMMUNITY_URL ) . '" title="' . sprintf(
+					/* translators: %1$s: CoCart, %2$s :Discord */
+					esc_attr__( 'Join %1$s Community on %2$s', 'cart-rest-api-for-woocommerce' ),
+					'CoCart',
+					'Discord'
+				) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Join Community', 'cart-rest-api-for-woocommerce' ) . '</a>',
+				'docs'      => '<a href="' . esc_url( COCART_DOCUMENTATION_URL ) . '" title="' . sprintf(
+					/* translators: %s: CoCart */
+					esc_attr__( 'View %s Documentation', 'cart-rest-api-for-woocommerce' ),
+					'CoCart'
+				) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Documentation', 'cart-rest-api-for-woocommerce' ) . '</a>',
+				'translate' => '<a href="' . esc_url( COCART_TRANSLATION_URL ) . '" title="' . sprintf(
+					/* translators: %s: CoCart */
+					esc_attr__( 'Translate %s', 'cart-rest-api-for-woocommerce' ),
+					'CoCart'
+				) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Translate', 'cart-rest-api-for-woocommerce' ) . '</a>',
+				'review'    => '<a href="' . esc_url( COCART_REVIEW_URL ) . '" title="' . sprintf(
+					/* translators: %s: CoCart */
+					esc_attr__( 'Submit a review for %s', 'cart-rest-api-for-woocommerce' ),
+					'CoCart'
+				) . '" target="_blank" rel="noopener noreferrer">' . esc_attr__( 'Leave a Review', 'cart-rest-api-for-woocommerce' ) . '</a>',
+			);
+
+			/**
+			 * Filter to show or hide the upgrade action link.
+			 *
+			 * @since 2.1.0 Introduced.
+			 *
+			 * @param bool $show True to show the upgrade link, false to hide it.
+			 */
+			if ( apply_filters( 'cocart_show_upgrade_action_link', true ) ) {
+				$store_url = CoCart_Helpers::build_shortlink( add_query_arg( $this->campaign_args, COCART_STORE_URL . 'why-upgrade/' ) );
+
+				$row_meta['upgrade-cocart'] = sprintf(
+					'<a href="%1$s" title="%2$s" target="_blank" rel="noopener noreferrer" style="color: #6032b0; font-weight: 600;">%2$s</a>',
+					esc_url( $store_url ),
+					sprintf(
+						/* translators: %s: CoCart */
+						esc_attr__( 'Upgrade %s', 'cart-rest-api-for-woocommerce' ),
+						'CoCart'
+					)
+				);
+			}
+
+			$metadata = array_merge( $metadata, $row_meta );
 
 			return $metadata;
 		} // END plugin_row_meta()

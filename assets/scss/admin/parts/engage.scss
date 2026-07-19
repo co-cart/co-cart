@@ -32,9 +32,18 @@
 		margin: 0 0 12px;
 	}
 
-	form,
-	p:last-child {
+	form {
 		margin: 0;
+	}
+
+	#newsletter-form-message {
+		min-height: 1.2em;
+		font-size: 13px;
+		margin: 8px 0 0;
+		display: block !important;
+
+		&.success { color: #2d7a3a; }
+		&.error   { color: #b91c1c; }
 	}
 
 	.newsletter-form-container {
@@ -54,8 +63,15 @@
 			flex-grow: 1;
 		}
 
+		&.has-error .newsletter-form-email {
+			border-color: #b91c1c;
+			box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.25);
+		}
+
 		.newsletter-form-button-container {
 			flex-grow: 0;
+			display: flex;
+			align-items: center;
 
 			.button.newsletter-form-button {
 				height: 42px;
@@ -145,13 +161,9 @@ ul.cocart-next-steps {
 		align-items: center;
 
 		.cocart-button {
-			margin: 1em 1.5em !important;
-		}
-
-		.button-large {
 			box-shadow: none;
+			margin: 1em 1.5em !important;
 			min-width: 12em;
-			line-height: 1;
 			height: auto;
 
 			&:focus,
@@ -184,11 +196,14 @@ ul.cocart-next-steps {
 }
 
 #countdown-timer {
-	color: variables.$yellow;
-	font-size: 1.2em;
-	font-weight: bold;
-	margin: 10px 0;
-	text-align: left;
+	background-color: rgba(243, 109, 10, 0.25);
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: variables.$orange;
+	font-size: 0.95em;
+	font-weight: 700;
+	padding: 0.4em 0.8em;
+	text-align: center;
 	transition: opacity 0.5s ease-out;
 }
 

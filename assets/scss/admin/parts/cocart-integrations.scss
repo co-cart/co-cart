@@ -1,0 +1,317 @@
+@use "../../variables";
+
+// Wide wrapper override for 2-column grid
+.cocart-wrapped--wide {
+	max-width: 1100px;
+
+	.cocart-content span.cocart-toggle-slider,
+	.cocart-content span.cocart-integration-status-label,
+	.cocart-content span.cocart-integration-not-installed-icon,
+	.cocart-content span.cocart-integration-coming-soon {
+		margin: 0;
+	}
+}
+
+// Search bar
+.cocart-integrations-search-wrap {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 20px;
+
+	.cocart-integrations-search {
+		width: 96%;
+		margin-right: 10px;
+		max-width: 100%;
+	}
+
+	.spinner {
+		float: none;
+		margin: 0 !important;
+	}
+}
+
+// 2-column card grid
+.cocart-integrations-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
+}
+
+.cocart-integrations-no-results {
+	color: #646970;
+	font-style: italic;
+	grid-column: 1 / -1;
+}
+
+// ── Card ─────────────────────────────────────────────────────────────────────
+
+.cocart-integration-card {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #e2e4e7;
+	border-radius: 4px;
+	background: #fff;
+	overflow: hidden;
+
+	&.is-disabled {
+		border-color: #ebebec;
+	}
+
+	&.is-enabled {
+		border-color: #ebebec;
+
+		.cocart-integration-card-header {
+			background: rgb(50 63 176 / 0.04);
+		}
+	}
+
+	&.is-unavailable {
+		.cocart-integration-icon {
+			filter: grayscale(1);
+		}
+
+		.cocart-integration-card-header,
+		.cocart-integration-card-body {
+			opacity: 0.6;
+		}
+	}
+
+	&.upgrade-required {
+		border-color: variables.$cocart;
+
+		.cocart-integration-card-header {
+			background: rgb(96 50 176 / 0.04);
+		}
+	}
+}
+
+.cocart-integration-card-header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 10px;
+	border-bottom: 1px solid #e2e4e7;
+}
+
+.cocart-integration-card-body {
+	flex: 1;
+	padding: 16px 20px;
+
+	.cocart-integration-description {
+		margin: 0;
+		color: #646970;
+		font-size: 13px;
+		line-height: 1.6;
+	}
+}
+
+.cocart-integration-card-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 20px;
+}
+
+.cocart-integration-footer-left {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	.spinner {
+		float: none;
+		margin: 0 !important;
+	}
+}
+
+.cocart-integration-footer-right {
+	margin-left: auto;
+}
+
+// Icon
+.cocart-integration-icon {
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	img {
+		width: 48px;
+		height: 48px;
+		object-fit: contain;
+	}
+
+	.cocart-integration-icon-placeholder {
+		color: #3858e9;
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&::before {
+			font-size: 32px;
+		}
+	}
+}
+
+.cocart-integration-card {
+	&.upgrade-required {
+		.cocart-integration-icon-placeholder {
+			color: variables.$cocart;
+		}
+	}
+}
+
+.cocart-integration-name {
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.cocart-integration-status-label {
+	font-size: 13px;
+	color: #50575e;
+	margin-left: 3.4rem !important;
+	margin-top: 2px !important;
+}
+
+.cocart-integration-learn-more {
+	font-size: 13px;
+	text-decoration: none;
+	white-space: nowrap;
+	color: variables.$cocart;
+
+	&:hover {
+		color: #151515;
+		text-decoration: underline;
+	}
+}
+
+.cocart-integration-coming-soon {
+	font-size: 13px;
+	font-weight: 600;
+	color: #50575e;
+}
+
+.cocart-integration-not-installed-icon {
+	color: var(--wp-admin-theme-color);
+	display: flex;
+	font-size: 18px;
+	width: 18px;
+	flex-shrink: 0;
+}
+
+.cocart-integration-not-installed-label {
+	font-size: 13px;
+	color: #72777c;
+}
+
+.cocart-integration-upgrade {
+	border-color: variables.$cocart !important;
+	color: variables.$cocart !important;
+	box-shadow: inset 0 0 0 1px variables.$cocart, 0 0 0 currentColor;
+
+	&:hover {
+		border-color: #151515 !important;
+		color: #151515 !important;
+	}
+}
+
+// ── Toast notification ────────────────────────────────────────────────────────
+
+.cocart-integrations-toast {
+	position: fixed;
+	top: 72px;
+	left: 50%;
+	transform: translateX(-50%) translateY(-12px);
+	padding: 10px 20px;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #fff;
+	background: #1d2327;
+	box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	z-index: 99999;
+
+	&.is-active {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+
+	&.is-error {
+		background: #cc1818;
+	}
+}
+
+// ── Toggle switch ─────────────────────────────────────────────────────────────
+
+.cocart-toggle {
+	position: relative;
+	display: inline-block;
+	flex-shrink: 0;
+	width: 44px;
+	height: 24px;
+	cursor: pointer;
+	margin: 0 !important;
+
+	&--disabled {
+		cursor: default;
+		opacity: 0.4;
+	}
+
+	input[type="checkbox"] {
+		opacity: 0;
+		width: 0;
+		height: 0;
+		position: absolute;
+	}
+}
+
+.cocart-toggle-slider {
+	position: absolute;
+	inset: 0;
+	background: #a7aaad;
+	border-radius: 24px;
+	transition: background 0.2s ease;
+
+	&::before {
+		content: "";
+		position: absolute;
+		width: 18px;
+		height: 18px;
+		left: 3px;
+		top: 3px;
+		background: #fff;
+		border-radius: 50%;
+		transition: transform 0.2s ease;
+		box-shadow: 0 1px 3px rgb(0 0 0 / 0.13);
+	}
+}
+
+.cocart-toggle input:checked + .cocart-toggle-slider {
+	background: var(--wp-admin-theme-color);
+}
+
+.cocart-toggle input:checked + .cocart-toggle-slider::before {
+	transform: translateX(20px);
+}
+
+.cocart-toggle input:focus-visible + .cocart-toggle-slider {
+	outline: 2px solid var(--wp-admin-theme-color);
+	outline-offset: 2px;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+
+@media screen and (max-width: 782px) {
+	.cocart-integrations-grid {
+		grid-template-columns: 1fr;
+	}
+}

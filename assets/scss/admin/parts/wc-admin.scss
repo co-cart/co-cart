@@ -1,4 +1,10 @@
-.cocart-pagestyles {
+.cocart-pagestyles:not(.cocart-setup) {
+	// WooCommerce Admin moves the page content out of #wpbody-content into
+	// the embedded layout, leaving this padding behind as empty space.
+	#wpbody-content {
+		padding-bottom: 0;
+	}
+
 	.woocommerce-layout__header-breadcrumbs {
 		margin: 0;
 
@@ -13,7 +19,8 @@
 
 	.woocommerce-layout__header {
 		.woocommerce-layout__header-heading {
-			background: #fff url("../../images/brand/cocart-logo.svg") no-repeat left center;	
+			background: #fff url("../../images/brand/cocart-logo.svg") no-repeat left center;
+			font-weight: 600;
 			margin-left: 1.2rem;
 			text-indent: 8.6rem;
 
@@ -32,6 +39,16 @@
 
 			&.no-sections {
 				top: 8px;
+			}
+		}
+	}
+
+	&.cocart-wc-version-gte-10_9 {
+		.woocommerce-layout__header {
+			.woocommerce-layout__header-heading {
+				background: #fff url("../../images/brand/cocart-logo.svg") no-repeat 10px center;
+				margin: 0;
+				text-indent: 10rem;
 			}
 		}
 	}

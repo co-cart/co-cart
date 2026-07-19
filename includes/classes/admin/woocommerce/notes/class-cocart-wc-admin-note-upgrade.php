@@ -7,8 +7,8 @@
  * @author  Sébastien Dumont
  * @package CoCart\Admin\WooCommerce Admin\Notes
  * @since   3.10.4 Introduced.
- * @version 4.3.7
- * @license GPL-3.0
+ * @version 4.9.0
+ * @license GPL-2.0+
  */
 
 // Exit if accessed directly.
@@ -98,7 +98,7 @@ class CoCart_WC_Admin_Upgrade extends CoCart_WC_Admin_Notes {
 			'title'   => __( 'Ready to take your headless store to the next level?', 'cocart-core' ),
 			'content' => sprintf(
 				/* translators: %s: CoCart. */
-				esc_attr__( 'Upgrade %s and unlock more cart features and supported WooCommerce extensions.', 'cocart-core' ),
+				esc_attr__( 'Upgrade %s and unlock more features and supported WooCommerce extensions.', 'cart-rest-api-for-woocommerce' ),
 				'CoCart'
 			),
 			'name'    => self::NOTE_NAME,
