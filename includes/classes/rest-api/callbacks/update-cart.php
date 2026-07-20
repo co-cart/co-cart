@@ -98,6 +98,19 @@ class CoCart_Cart_Update_Callback extends CoCart_Cart_Extension_Callback {
 						$passed_validation = false;
 					}
 
+					// Check there is enough stock for the requested quantity before it is set on the cart item.
+					if ( $passed_validation && $quantity > 0 && ! $product->has_enough_stock( $quantity ) ) {
+						$message = sprintf(
+							/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
+							__( 'You cannot add %1$s of "%2$s" to the cart — there is not enough stock (only %3$s remaining).', 'cart-rest-api-for-woocommerce' ),
+							$quantity,
+							$product->get_name(),
+							wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product )
+						);
+						wc_add_notice( $message, 'error' );
+						$passed_validation = false;
+					}
+
 					if ( $passed_validation ) {
 						$controller->get_cart_instance()->set_quantity( $item_key, $quantity, false );
 						$cart_updated = true;
