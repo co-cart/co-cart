@@ -359,6 +359,21 @@ class CoCart_REST_Add_Item_V2_Controller extends CoCart_Add_Item_Controller {
 
 				$new_quantity = $quantity + $cart_contents[ $item_key ]['quantity'];
 
+				// Check there is enough stock for the combined quantity before it is set on the cart item.
+				if ( ! $product_data->has_enough_stock( $new_quantity ) ) {
+					$stock_quantity = wc_format_stock_quantity_for_display( $product_data->get_stock_quantity(), $product_data );
+
+					$message = sprintf(
+						/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
+						__( 'You cannot add %1$s of "%2$s" to the cart — there is not enough stock (only %3$s remaining).', 'cart-rest-api-for-woocommerce' ),
+						$new_quantity,
+						$product_data->get_name(),
+						$stock_quantity
+					);
+
+					throw new CoCart_Data_Exception( 'cocart_not_enough_in_stock', $message, 404 );
+				}
+
 				$controller->get_cart_instance()->set_quantity( $item_key, $new_quantity );
 
 				$item_added = $controller->get_cart_item( $item_key, 'add' );
