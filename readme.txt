@@ -20,8 +20,6 @@ CoCart gives WooCommerce a proper frontend REST API: cookie-less session managem
 
 In active development since 2018, with a ★4.9/5 rating from the developers who build headless stores with it every day.
 
-**[Features](#features) | [Why CoCart?](#why-cocart) | [Free vs. CoCart Plus](#free-vs-cocart-plus) | [SDKs & Tools](#sdks--tools) | [Support](#need-support) | [Docs](https://cocartapi.com/docs/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=quicklinks)**
-
 = 🚀 Make your first API call in 2 minutes =
 
 Install CoCart and you're immediately ready to call the API — no setup required:
