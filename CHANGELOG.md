@@ -1,6 +1,22 @@
 # Changelog for CoCart Community
 
-## v4.9.0 - July 12th, 2026
+## v4.9.1 - 20th July, 2026
+
+### Bug Fixes
+
+* REST API: Fixed adding to cart via the v2 add item controller not checking stock for the combined quantity when an item already existed in the cart, allowing the cart to exceed available stock.
+* REST API: Fixed the "Update Cart" callback not checking stock before setting a new item quantity, allowing the cart to be updated beyond available stock.
+* Plugin: Fixed `cocart_update_plugin_suggestions` scheduled action never running via WP-Cron or WP-CLI — the callback was only registered on `admin_init` and the updater class only loaded when `is_admin()` was true, so Action Scheduler could not find a registered callback and the action was never rescheduled. Fixes [#576](https://github.com/co-cart/co-cart/issues/576) reported by [@isam-aqu](https://github.com/isam-aqu).
+
+### Change
+
+* REST API: Standardized "not enough stock" error messages across v1 and v2 cart controllers into a single consistent format.
+
+### Compatibility
+
+* Plugin: Updated styling for the WooCommerce floating admin header refreshed in WooCommerce v10.9.
+
+## v4.9.0 - 12th July, 2026
 
 ### What's New?
 
