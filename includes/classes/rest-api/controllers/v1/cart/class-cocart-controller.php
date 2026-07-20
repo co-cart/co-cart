@@ -858,7 +858,7 @@ class CoCart_API_Controller {
 		if ( ! $product->has_enough_stock( $quantity ) ) {
 			$message = sprintf(
 				/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-				__( 'You cannot add a quantity of %1$s for "%2$s" to the cart because there is not enough stock. - only %3$s remaining!', 'cart-rest-api-for-woocommerce' ),
+				__( 'You cannot add %1$s of "%2$s" to the cart — there is not enough stock (only %3$s remaining).', 'cart-rest-api-for-woocommerce' ),
 				$quantity,
 				$product->get_name(),
 				wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product )
@@ -876,7 +876,7 @@ class CoCart_API_Controller {
 			if ( isset( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] ) && ! $product->has_enough_stock( $products_qty_in_cart[ $product->get_stock_managed_by_id() ] + $quantity ) ) {
 				$message = sprintf(
 					/* translators: 1: Quantity in Stock, 2: Quantity in Cart */
-					__( 'You cannot add that amount to the cart &mdash; we have %1$s in stock and you already have %2$s in your cart.', 'cart-rest-api-for-woocommerce' ),
+					__( 'You cannot add that amount to the cart — there is not enough stock (%1$s available, %2$s already in your cart).', 'cart-rest-api-for-woocommerce' ),
 					wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),
 					wc_format_stock_quantity_for_display( $products_qty_in_cart[ $product->get_stock_managed_by_id() ], $product )
 				);
@@ -956,7 +956,7 @@ class CoCart_API_Controller {
 		if ( ! $current_product->has_enough_stock( $quantity ) ) {
 			$message = sprintf(
 				/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
-				__( 'You cannot add that amount of (%1$s) for "%2$s" to the cart because there is not enough stock, only (%3$s remaining).', 'cart-rest-api-for-woocommerce' ),
+				__( 'You cannot add %1$s of "%2$s" to the cart — there is not enough stock (only %3$s remaining).', 'cart-rest-api-for-woocommerce' ),
 				$quantity,
 				$current_product->get_name(),
 				wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product )

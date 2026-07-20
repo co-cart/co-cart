@@ -924,7 +924,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 			if ( ! $current_product->has_enough_stock( $quantity ) ) {
 				$message = sprintf(
 					/* translators: 1: Quantity Requested, 2: Product Name 3: Quantity in Stock */
-					__( 'You cannot add a quantity of (%1$s) for "%2$s" to the cart because there is not enough stock. - only (%3$s remaining)!', 'cart-rest-api-for-woocommerce' ),
+					__( 'You cannot add %1$s of "%2$s" to the cart — there is not enough stock (only %3$s remaining).', 'cart-rest-api-for-woocommerce' ),
 					$quantity,
 					$current_product->get_name(),
 					wc_format_stock_quantity_for_display( $current_product->get_stock_quantity(), $current_product )
@@ -1334,7 +1334,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				if ( $stock_quantity > 0 ) {
 					$message = sprintf(
 						/* translators: 1: Quantity Requested, 2: Product Name, 3: Quantity in Stock */
-						__( 'You cannot add the amount of %1$s for "%2$s" to the cart because there is not enough stock, only (%3$s) remaining.', 'cart-rest-api-for-woocommerce' ),
+						__( 'You cannot add %1$s of "%2$s" to the cart — there is not enough stock (only %3$s remaining).', 'cart-rest-api-for-woocommerce' ),
 						$quantity,
 						$product->get_name(),
 						$stock_quantity
@@ -1369,7 +1369,7 @@ class CoCart_REST_Cart_V2_Controller extends CoCart_API_Controller {
 				if ( $qty_remaining < $qty_in_cart + $quantity ) {
 					$message = sprintf(
 						/* translators: 1: product name, 2: Quantity in Stock, 3: Quantity in Cart */
-						__( 'You cannot add that amount of "%1$s" to the cart &mdash; we have (%2$s) in stock remaining. You already have (%3$s) in your cart.', 'cart-rest-api-for-woocommerce' ),
+						__( 'You cannot add that amount of "%1$s" to the cart — there is not enough stock (%2$s available, %3$s already in your cart).', 'cart-rest-api-for-woocommerce' ),
 						$product->get_name(),
 						wc_format_stock_quantity_for_display( $product->get_stock_quantity(), $product ),
 						wc_format_stock_quantity_for_display( $qty_in_cart, $product )
