@@ -53,13 +53,8 @@
 		"composer/installers": "^2.0"
 	},
 	"require-dev": {
-		"cocart-headless/cocart-sniffs": "0.0.3",
-		"automattic/vipwpcs": "^3.0",
-		"phpstan/phpstan": "^2.0",
-		"szepeviktor/phpstan-wordpress": "^2.0",
-		"phpstan/extension-installer": "^1.4",
-		"php-stubs/woocommerce-stubs": "^9.1",
-		"php-stubs/wp-cli-stubs": "^2.10"
+		"cocart-headless/cocart-sniffs": "^1.0",
+		"php-parallel-lint/php-parallel-lint": "^1.4"
 	},
 	"scripts": {
 		"phpcs": [
