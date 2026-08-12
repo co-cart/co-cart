@@ -1,5 +1,15 @@
 # Changelog for CoCart Community
 
+## v4.9.2 - 12th August, 2026
+
+### Bug Fixes
+
+* REST API: Products that have password protection were still accessible. Now return as invalid ID when accessed directly and are excluded from results.
+
+### Compatibility
+
+* Tested with WooCommerce v11
+
 ## v4.9.1 - 20th July, 2026
 
 ### Bug Fixes
