@@ -352,6 +352,10 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
 		}
 
+		if ( post_password_required( $object->get_id() ) && ! current_user_can( 'edit_post', $object->get_id() ) ) {
+			return new WP_Error( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), array( 'status' => 404 ) );
+		}
+
 		$data     = $this->prepare_object_for_response( $object, $request );
 		$response = rest_ensure_response( $data );
 
@@ -383,6 +387,7 @@ class CoCart_Products_Controller extends WP_REST_Controller {
 			'fields'              => 'ids',
 			'ignore_sticky_posts' => true,
 			'post_status'         => 'publish',
+			'has_password'        => false,
 			'date_query'          => array(),
 			'post_type'           => 'product',
 		);

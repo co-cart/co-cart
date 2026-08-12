@@ -362,6 +362,10 @@ class CoCart_REST_Products_V2_Controller extends CoCart_Products_Controller {
 				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
 			}
 
+			if ( post_password_required( $_product->get_id() ) && ! current_user_can( 'edit_post', $_product->get_id() ) ) {
+				throw new CoCart_Data_Exception( 'cocart_' . $this->post_type . '_invalid_id', __( 'Invalid ID.', 'cart-rest-api-for-woocommerce' ), 404 );
+			}
+
 			$data     = $this->prepare_object_for_response( $_product, $request );
 			$response = rest_ensure_response( $data );
 
