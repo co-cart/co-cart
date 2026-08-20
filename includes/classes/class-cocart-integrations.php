@@ -296,7 +296,7 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 					'type'         => 'third-party',
 					'detect_class' => 'WC_Taxjar',
 					'doc_url'      => 'https://wordpress.org/plugins/taxjar-simplified-taxes-for-woocommerce/',
-					'icon'         => '',
+					'icon'         => $icons_url . 'taxjar-simplified-taxes-for-woocommerce.png',
 				),
 				$base . 'third-party/class-cocart-plugin-taxjar.php'
 			);
