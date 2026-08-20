@@ -1,7 +1,7 @@
 {
 	"title": "CoCart - Headless REST API for WooCommerce",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "4.9.2",
+	"version": "4.9.3",
 	"private": false,
 	"contributors": [
 		"cocartforwc",
@@ -38,7 +38,7 @@
 	},
 	"requires": "6.7",
 	"requires_php": "8.2",
-	"tested_up_to": "7.0",
+	"tested_up_to": "7.1",
 	"wc_requires": "9.0",
 	"wc_tested_up_to": "11.0",
 	"license": "GPL-3.0",
@@ -74,7 +74,7 @@
 	"devDependencies": {
 		"@lodder/grunt-postcss": "^3.1.1",
 		"autoprefixer": "^10.5.4",
-		"baseline-browser-mapping": "^2.11.13",
+		"baseline-browser-mapping": "^2.11.15",
 		"grunt": "~1.6.3",
 		"grunt-checktextdomain": "1.0.1",
 		"grunt-contrib-clean": "^2.0.1",
@@ -96,7 +96,7 @@
 		"postcss": "~8.5.26",
 		"postcss-scss": "~4.0.9",
 		"prettier": "^3.9.6",
-		"sass": "^1.102.0",
+		"sass": "^1.103.0",
 		"stylelint": "~17.14.1",
 		"stylelint-config-standard-scss": "~17.0.0",
 		"wp-textdomain": "~1.0.1"

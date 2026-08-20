@@ -142,8 +142,9 @@ class CoCart_Product_Validation {
 	 *
 	 * @access public
 	 *
-	 * @since   2.1.2 Introduced.
-	 * @version 2.7.2
+	 * @since 2.1.2 Introduced.
+	 * @since 2.7.2 Prevents variations that are not purchasable from being added to the cart.
+	 * @since 4.9.3 Checks the product's password directly rather than `post_password_required()` function.
 	 *
 	 * @uses CoCart_Logger::log()
 	 * @uses wc_get_product()
@@ -154,7 +155,9 @@ class CoCart_Product_Validation {
 	 * @return bool $passed Result after validating.
 	 */
 	public function protected_product_add_to_cart( $passed, $product_id ) {
-		if ( post_password_required( $product_id ) ) {
+		$post = get_post( $product_id );
+
+		if ( $post && ! empty( $post->post_password ) ) {
 			$passed = false;
 
 			$product = wc_get_product( $product_id );

@@ -1,5 +1,15 @@
 # Changelog for CoCart Community
 
+## v4.9.3 - 20th August, 2026
+
+### Change
+
+* REST API: Checks the product's password directly rather than `post_password_required()` function.
+
+### Compatibility
+
+* Tested with WordPress 7.1
+
 ## v4.9.2 - 12th August, 2026
 
 ### Bug Fixes

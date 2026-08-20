@@ -3,8 +3,8 @@ Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.7
 Requires PHP: 8.2
-Tested up to: 7.0
-Stable tag: 4.9.2
+Tested up to: 7.1
+Stable tag: 4.9.3
 WC requires at least: 9.0
 WC tested up to: 11.0
 License: GPLv3
@@ -288,6 +288,16 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 == Changelog ==
 
 CoCart is open source and community-driven. Every release is tested, maintained, and published here on WordPress.org. Need more power? [CoCart Plus](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) unlocks advanced features and priority support.
+
+= v4.9.3 - 20th August, 2026 =
+
+### Change
+
+* REST API: Checks the product's password directly rather than `post_password_required()` function.
+
+### Compatibility
+
+* Tested with WordPress 7.1
 
 = v4.9.2 - 12th August, 2026 =
 
