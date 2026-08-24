@@ -63,8 +63,7 @@ logs/
 
 # Testing
 /tests/coverage/
-/tests/wordpress/
-/tests/wordpress-tests-lib/
+/tests/wordpress*/
 .phpunit.cache/
 .phpunit.result.cache
 

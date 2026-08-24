@@ -170,6 +170,7 @@ module.exports = function(grunt) {
 						'.wordpress-org',
 						'releases',
 						'node_modules',
+						'tests',
 						'vendor'
 					],
 					mainFile: '<%= pkg.name %>.php', // Main project file.
@@ -237,6 +238,7 @@ module.exports = function(grunt) {
 					'**/*.php', // Include all files
 					'!.wordpress-org/**', // Exclude .wordpress-org/
 					'!node_modules/**', // Exclude node_modules/
+					'!tests/**', // Exclude tests/
 					'!vendor/**' // Exclude vendor/
 				],
 				expand: true

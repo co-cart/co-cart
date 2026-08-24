@@ -1,0 +1,112 @@
+name: PHPUnit Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      php_version:
+        description: PHP version (leave blank to test the full matrix)
+        required: false
+        default: ''
+      wp_version:
+        description: WordPress version (leave blank to test the full matrix)
+        required: false
+        default: ''
+      wc_version:
+        description: WooCommerce version (leave blank to test the full matrix)
+        required: false
+        default: ''
+  push:
+    branches:
+      - development
+      - trunk
+    paths:
+      - '**.php'
+      - 'phpunit.xml.dist'
+      - 'composer.json'
+      - '.github/workflows/phpunit-tests.yml'
+  pull_request:
+    branches:
+      - development
+      - trunk
+    paths:
+      - '**.php'
+      - 'phpunit.xml.dist'
+      - 'composer.json'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # WordPress and WooCommerce minimums, kept in sync with readme.txt.
+  WP_MINIMUM: '6.7'
+  WC_MINIMUM: '9.0'
+
+jobs:
+  phpunit:
+    name: PHP ${{ matrix.php }} / WP ${{ matrix.wp }} / WC ${{ matrix.wc }}
+    runs-on: ubuntu-latest
+    env:
+      WP_TESTS_DIR: /tmp/wordpress-tests-lib
+      WP_CORE_DIR: /tmp/wordpress
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ${{ github.event.inputs.php_version && fromJSON(format('["{0}"]', github.event.inputs.php_version)) || fromJSON('["7.4", "8.0", "8.1"]') }}
+        wp: ${{ github.event.inputs.wp_version && fromJSON(format('["{0}"]', github.event.inputs.wp_version)) || fromJSON('["6.7", "latest"]') }}
+        wc: ${{ github.event.inputs.wc_version && fromJSON(format('["{0}"]', github.event.inputs.wc_version)) || fromJSON('["9.0", "latest"]') }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@4.0.0
+        with:
+          composer-options: '--prefer-dist --no-progress'
+
+      - name: Install Subversion
+        run: sudo apt-get install -y subversion
+
+      - name: Install WordPress test suite
+        run: |
+          WP_VERSION="${{ matrix.wp }}"
+          bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1:3306 "$WP_VERSION"
+
+      - name: Install WooCommerce
+        run: |
+          WC_VERSION="${{ matrix.wc }}"
+          if [ "$WC_VERSION" = "latest" ]; then
+            WC_VERSION=$(curl -s https://api.github.com/repos/woocommerce/woocommerce/releases/latest | jq -r .tag_name | sed 's/^v//')
+          fi
+          echo "Installing WooCommerce $WC_VERSION"
+          curl -sL "https://github.com/woocommerce/woocommerce/releases/download/${WC_VERSION}/woocommerce.zip" -o /tmp/woocommerce.zip
+          unzip -q /tmp/woocommerce.zip -d /tmp/wordpress/wp-content/plugins/
+
+      - name: Copy plugin to test environment
+        run: |
+          mkdir -p /tmp/wordpress/wp-content/plugins/cart-rest-api-for-woocommerce
+          rsync -a --exclude='.git' --exclude='node_modules' . /tmp/wordpress/wp-content/plugins/cart-rest-api-for-woocommerce/
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit -c phpunit.xml.dist --testdox
