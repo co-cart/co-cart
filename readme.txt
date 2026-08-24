@@ -291,7 +291,7 @@ CoCart is open source and community-driven. Every release is tested, maintained,
 
 = v4.9.4 - 24th August, 2026 =
 
-> [!Notice]
+> [!IMPORTANT]
 > PHP 7.4 is once again the minimum requirement to install and use CoCart. While PHP 7.4, 8.0, and 8.1 are past end-of-life/security support, we recognize many hosts still run them, and we don't want that to be a barrier to using CoCart. For the best performance and security, we still recommend running PHP 8.2 or later, but CoCart will continue to function correctly on 7.4+.
 
 ### Change
@@ -338,7 +338,7 @@ CoCart is open source and community-driven. Every release is tested, maintained,
 
 ### What's New?
 
-> [!IMPORTANT]
+> [!WARNING]
 > PHP version 8.2 is the minimum requirement to install and use CoCart. PHP 7.4, 8.0, and 8.1 are all past end-of-life/security support so to help manage development resources to maintain CoCart, it will no longer be tested on these versions. Running CoCart on PHP 8.2 not only ensures you are secure but it also improves the performance of the CoCart API. Thank you for your understanding.
 
 * REST API: Added ETag support for all cart endpoints (GET/POST/PUT/DELETE) enabling conditional requests with `If-None-Match` header for immediate use.
