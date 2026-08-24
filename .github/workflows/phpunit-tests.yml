@@ -23,6 +23,7 @@ on:
       - '**.php'
       - 'phpunit.xml.dist'
       - 'composer.json'
+      - 'bin/**'
       - '.github/workflows/phpunit-tests.yml'
   pull_request:
     branches:
@@ -32,6 +33,7 @@ on:
       - '**.php'
       - 'phpunit.xml.dist'
       - 'composer.json'
+      - 'bin/**'
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -100,7 +102,15 @@ jobs:
             WC_VERSION=$(curl -s https://api.github.com/repos/woocommerce/woocommerce/releases/latest | jq -r .tag_name | sed 's/^v//')
           fi
           echo "Installing WooCommerce $WC_VERSION"
-          curl -sL "https://github.com/woocommerce/woocommerce/releases/download/${WC_VERSION}/woocommerce.zip" -o /tmp/woocommerce.zip
+          URL="https://github.com/woocommerce/woocommerce/releases/download/${WC_VERSION}/woocommerce.zip"
+          if ! curl -sfL "$URL" -o /tmp/woocommerce.zip; then
+            # GitHub release tags are three-part (e.g. 9.0.0); retry with a
+            # trailing .0 for shorthand X.Y matrix/readme-style versions.
+            WC_VERSION="${WC_VERSION}.0"
+            URL="https://github.com/woocommerce/woocommerce/releases/download/${WC_VERSION}/woocommerce.zip"
+            echo "Retrying with WooCommerce $WC_VERSION"
+            curl -sfL "$URL" -o /tmp/woocommerce.zip
+          fi
           unzip -q /tmp/woocommerce.zip -d /tmp/wordpress/wp-content/plugins/
 
       - name: Copy plugin to test environment
