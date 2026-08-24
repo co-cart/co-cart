@@ -1,5 +1,14 @@
 # Changelog for CoCart Community
 
+## v4.9.4 - 24th August, 2026
+
+> [!Notice]
+> PHP 7.4 is once again the minimum requirement to install and use CoCart. While PHP 7.4, 8.0, and 8.1 are past end-of-life/security support, we recognize many hosts still run them, and we don't want that to be a barrier to using CoCart. For the best performance and security, we still recommend running PHP 8.2 or later, but CoCart will continue to function correctly on 7.4+.
+
+### Change
+
+* Reverted PHP version to 7.4 as the minimum requirement to install and use CoCart.
+
 ## v4.9.3 - 20th August, 2026
 
 ### Change

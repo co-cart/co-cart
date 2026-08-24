@@ -2,9 +2,9 @@
 Contributors: cocartforwc, sebd86
 Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.7
-Requires PHP: 8.2
+Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 4.9.3
+Stable tag: 4.9.4
 WC requires at least: 9.0
 WC tested up to: 11.0
 License: GPLv3
@@ -159,13 +159,13 @@ Founder of [CoCart Headless, LLC](https://twitter.com/cocartheadless).
 
 * WordPress v6.7
 * WooCommerce v9.0
-* PHP v8.2
+* PHP v7.4
 
 = Recommended Requirements =
 
 * WordPress v6.7 or higher.
 * WooCommerce v10.0 or higher.
-* PHP v8.3 or higher.
+* PHP v8.2 or higher.
 
 = Automatic installation =
 
@@ -815,6 +815,6 @@ add_filter( 'cocart_get_customer_billing_country', function( $value ) {
 
 == Upgrade Notice ==
 
-= 4.9.0 =
+= 4.9.4 =
 
-PHP version 8.2 is the minimum requirement to install and use CoCart.
+Reverted PHP version to 7.4 as the minimum requirement to install and use CoCart.

@@ -1,7 +1,7 @@
 {
 	"title": "CoCart - Headless REST API for WooCommerce",
 	"name": "cart-rest-api-for-woocommerce",
-	"version": "4.9.3",
+	"version": "4.9.4",
 	"private": false,
 	"contributors": [
 		"cocartforwc",
@@ -37,7 +37,7 @@
 		"url": "https://github.com/co-cart/co-cart/issues"
 	},
 	"requires": "6.7",
-	"requires_php": "8.2",
+	"requires_php": "7.4",
 	"tested_up_to": "7.1",
 	"wc_requires": "9.0",
 	"wc_tested_up_to": "11.0",

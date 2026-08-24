@@ -29,7 +29,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $version = '4.9.3';
+	public static $version = '4.9.4';
 
 	/**
 	 * CoCart Database Schema version.
@@ -92,7 +92,7 @@ final class CoCart {
 	 *
 	 * @var string
 	 */
-	public static $required_php = '8.2';
+	public static $required_php = '7.4';
 
 	/**
 	 * Cloning is forbidden.

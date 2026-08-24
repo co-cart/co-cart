@@ -20,7 +20,7 @@ This file provides guidance for AI coding agents (Claude Code, Codex, Gemini CLI
 - **Main class:** `includes/class-cocart.php` → singleton via `CoCart()`
 - **Autoloader:** `includes/class-cocart-autoloader.php` (PSR-4 from `includes/`)
 - **Text domain:** `cart-rest-api-for-woocommerce`
-- **PHP minimum:** 8.2
+- **PHP minimum:** 7.4
 - **WordPress minimum:** 6.7
 - **WooCommerce minimum:** 9.0
 - **Default branch:** `trunk`

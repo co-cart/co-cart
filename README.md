@@ -6,7 +6,7 @@
 	</a>
 	<img src="https://img.shields.io/badge/WordPress-6.7+-blue.svg" alt="WordPress 6.7+">
 	<img src="https://img.shields.io/badge/WooCommerce-9.0+-7f54b3.svg" alt="WooCommerce 9.0+">
-	<img src="https://img.shields.io/badge/PHP-8.2+-777BB4.svg" alt="PHP 8.2+">
+	<img src="https://img.shields.io/badge/PHP-7.4+-777BB4.svg" alt="PHP 7.4+">
 	<a href="https://github.com/co-cart/co-cart">
 		<img src="https://img.shields.io/github/stars/co-cart/co-cart?style=social" alt="GitHub Stars">
 	</a>
@@ -25,7 +25,7 @@ CoCart handles the hard parts so you can focus on your store, products and custo
 ---
 
 > [!IMPORTANT]
-> **v4.9.0 is the final major release of CoCart Community Edition.**
+> **v4.9 is the final major release of CoCart Community Edition.**
 > Going forward, Community Edition will receive security patches only — no new features or performance optimizations.
 > New development continues in [**CoCart Starter & CoCart Plus**](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition) and higher tiers.
 > Community Edition remains a great way to evaluate CoCart before purchasing a license.
