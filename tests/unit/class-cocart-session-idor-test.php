@@ -246,8 +246,14 @@ class Test_CoCart_Session_IDOR extends CoCart_API_V2_Test_Case {
 	 * @return void
 	 */
 	public function test_shop_manager_can_still_access_customer_cart_by_id() {
-		$customer_id    = $this->factory->user->create( array( 'role' => 'customer' ) );
+		$customer_id     = $this->factory->user->create( array( 'role' => 'customer' ) );
 		$shop_manager_id = $this->factory->user->create( array( 'role' => 'shop_manager' ) );
+
+		// WooCommerce grants `manage_woocommerce` to the shop_manager role via
+		// WC_Install::create_roles(), which runs once per test process — this
+		// test doesn't control when relative to that this runs, so grant the
+		// capability directly rather than assume install-time ordering.
+		wp_roles()->add_cap( 'shop_manager', 'manage_woocommerce' );
 
 		$product = $this->create_product( array( 'name' => 'Customer Cart Product' ) );
 
