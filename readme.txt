@@ -4,7 +4,7 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.7
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 4.9.4
+Stable tag: 4.9.5
 WC requires at least: 9.0
 WC tested up to: 11.0
 License: GPLv3
@@ -288,6 +288,14 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 == Changelog ==
 
 CoCart is open source and community-driven. Every release is tested, maintained, and published here on WordPress.org. Need more power? [CoCart Plus](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) unlocks advanced features and priority support.
+
+= v4.9.5 - 1st September, 2026 =
+
+### Security Patch
+
+This release hardens how the cart session handler validates the cart key, however it is supplied — whether as a request parameter or via the header — ensuring a cart can only be loaded by the account it actually belongs to. It is recommended that you update to this release as soon as possible.
+
+* REST API: Session handler now verifies ownership of the requested cart key before loading cart data, regardless of whether it was supplied via parameter or header.
 
 = v4.9.4 - 24th August, 2026 =
 
@@ -824,6 +832,6 @@ add_filter( 'cocart_get_customer_billing_country', function( $value ) {
 
 == Upgrade Notice ==
 
-= 4.9.4 =
+= 4.9.5 =
 
-Reverted PHP version to 7.4 as the minimum requirement to install and use CoCart.
+Session handler now verifies ownership of the requested cart key before loading cart data, regardless of whether it was supplied via parameter or header.

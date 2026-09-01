@@ -1,5 +1,13 @@
 # Changelog for CoCart Community
 
+## v4.9.5 - 1st September, 2026
+
+### Security Patch
+
+This release hardens how the cart session handler validates the cart key, however it is supplied — whether as a request parameter or via the header — ensuring a cart can only be loaded by the account it actually belongs to. It is recommended that you update to this release as soon as possible.
+
+* REST API: Session handler now verifies ownership of the requested cart key before loading cart data, regardless of whether it was supplied via parameter or header.
+
 ## v4.9.4 - 24th August, 2026
 
 > [!IMPORTANT]
