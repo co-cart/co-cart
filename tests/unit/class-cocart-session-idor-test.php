@@ -250,10 +250,16 @@ class Test_CoCart_Session_IDOR extends CoCart_API_V2_Test_Case {
 		$shop_manager_id = $this->factory->user->create( array( 'role' => 'shop_manager' ) );
 
 		// WooCommerce grants `manage_woocommerce` to the shop_manager role via
-		// WC_Install::create_roles(), which runs once per test process — this
-		// test doesn't control when relative to that this runs, so grant the
-		// capability directly rather than assume install-time ordering.
-		wp_roles()->add_cap( 'shop_manager', 'manage_woocommerce' );
+		// WC_Install::create_roles() — but only by calling WP_Roles::add_cap(),
+		// which updates the raw roles array (and the DB option) without
+		// touching the already-cached WP_Role object that WP_User::get_role_caps()
+		// actually reads capabilities from. On a from-scratch database (as CI
+		// uses, unlike a long-lived local dev DB that already has the option
+		// fully populated from an earlier install) that leaves the cached
+		// shop_manager WP_Role permanently missing manage_woocommerce for the
+		// rest of the test process. Grant it via WP_Role::add_cap() instead,
+		// which updates the cached object directly.
+		wp_roles()->get_role( 'shop_manager' )->add_cap( 'manage_woocommerce' );
 
 		$product = $this->create_product( array( 'name' => 'Customer Cart Product' ) );
 
