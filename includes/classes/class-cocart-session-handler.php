@@ -158,6 +158,14 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 		// Get requested guest cart.
 		$this->_customer_id = $this->get_requested_cart();
 
+		// Reject requests for a cart_key that belongs to a different registered
+		// user. Falling back to no requested cart_key here is safe: it simply
+		// resolves to the requester's own cart (or a new guest cart) below,
+		// exactly as if none had been supplied.
+		if ( $this->is_requesting_unauthorized_cart( $this->_customer_id, $current_user_id ) ) {
+			$this->_customer_id = '';
+		}
+
 		// New cart session created.
 		if ( 0 === $current_user_id && empty( $this->_customer_id ) ) {
 			$this->set_cart_expiration();
@@ -193,6 +201,51 @@ class CoCart_Session_Handler extends WC_Session_Handler {
 			$this->update_cart_timestamp( $this->_customer_id, $this->cart_expiration );
 		}
 	} // END init_session_cocart()
+
+	/**
+	 * Determine if a requested cart_key refers to another registered user's
+	 * cart that the current requester is not permitted to access.
+	 *
+	 * WooCommerce core's own (cookie-based) session handler never faces this
+	 * problem: `_customer_id` there can only come from a cryptographically
+	 * signed cookie or be generated locally — never from a plain, client
+	 * supplied value. CoCart's cart_key has to be a plain request value
+	 * instead, since decoupled/headless clients can't rely on cookies, so
+	 * ownership has to be verified explicitly here.
+	 *
+	 * Guest cart tokens (see generate_key(), always prefixed "t_") are never
+	 * a real user ID, so they are always allowed through unrestricted — this
+	 * is what makes guest-to-logged-in cart transfer on login work.
+	 * Administrators and shop managers are also allowed through, matching
+	 * this class's documented support for admin-assigned cart sessions.
+	 *
+	 * @access private
+	 *
+	 * @since 4.9.5 Introduced.
+	 *
+	 * @param string     $requested_cart_key The requested cart_key.
+	 * @param string|int $current_user_id    The current user's ID as a string, or 0 if a guest.
+	 *
+	 * @return bool True if the request should be denied access to the requested cart_key.
+	 */
+	private function is_requesting_unauthorized_cart( $requested_cart_key, $current_user_id ) {
+		// No cart_key requested, or requesting their own — nothing to check.
+		if ( empty( $requested_cart_key ) || strval( $current_user_id ) === $requested_cart_key ) {
+			return false;
+		}
+
+		// Guest tokens are never a registered user's ID.
+		if ( ! is_numeric( $requested_cart_key ) ) {
+			return false;
+		}
+
+		// Not a real user.
+		if ( ! get_user_by( 'id', $requested_cart_key ) ) {
+			return false;
+		}
+
+		return ! current_user_can( 'manage_woocommerce' ); // phpcs:ignore WordPress.WP.Capabilities.Unknown -- WooCommerce-defined capability, not WP core.
+	} // END is_requesting_unauthorized_cart()
 
 	/**
 	 * Detect if the user is a customer.
