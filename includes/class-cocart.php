@@ -507,6 +507,7 @@ final class CoCart {
 	 * @since 2.1.0 Introduced.
 	 * @since 4.2.0 Moved to main class.
 	 * @since 4.9.0 Recognize requests made via the WordPress REST API batch endpoint.
+	 * @since 4.9.6 Recognize requests made via the `?rest_route=` query parameter (plain permalinks).
 	 *
 	 * @return bool
 	 */
@@ -518,12 +519,16 @@ final class CoCart {
 		$rest_prefix = trailingslashit( rest_get_url_prefix() );
 		$request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) );
+		// Plain permalinks (and Jetpack-signed requests) pass the route via a query
+		// parameter instead of the URI path, e.g. ?rest_route=/cocart/v2/cart.
+		$rest_route = ! empty( $_GET['rest_route'] ) ? esc_url_raw( wp_unslash( $_GET['rest_route'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'cocart/' ) ) || ( false !== strpos( $rest_route, '/cocart/' ) );
 
 		// Requests sent via the WP REST API batch endpoint share the cart, session and
 		// customer for every sub-request dispatched, so return true to accept them.
 		if ( ! $is_rest_api_request ) {
-			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'batch/v1' ) );
+			$is_rest_api_request = ( false !== strpos( $request_uri, $rest_prefix . 'batch/v1' ) ) || ( false !== strpos( $rest_route, '/batch/v1' ) );
 		}
 
 		/**
