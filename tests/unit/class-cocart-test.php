@@ -22,10 +22,16 @@ class Test_CoCart extends CoCart_Unit_Test_Case {
 	/**
 	 * Reset request globals after each test so they don't bleed into others.
 	 *
+	 * `REQUEST_URI` is restored rather than unset: WordPress core's shutdown
+	 * handling (e.g. `_wp_cron()`) reads it unconditionally, so leaving it
+	 * absent after the last test in this class can crash a later shutdown
+	 * hook instead of just this test.
+	 *
 	 * @return void
 	 */
 	public function tearDown(): void {
-		unset( $_SERVER['REQUEST_URI'], $_GET['rest_route'] );
+		$_SERVER['REQUEST_URI'] = '/';
+		unset( $_GET['rest_route'] );
 
 		parent::tearDown();
 	}
