@@ -113,6 +113,10 @@ class CoCart_Admin_Integrations_Page extends CoCart_Submenu_Page {
 		}
 
 		if ( $enable ) {
+			if ( ! CoCart_Integrations::can_be_enabled( $slug ) || ! CoCart_Integrations::has_module( $slug ) ) {
+				wp_send_json_error( array( 'message' => __( 'This integration cannot be enabled yet.', 'cart-rest-api-for-woocommerce' ) ) );
+			}
+
 			CoCart_Integrations::enable( $slug );
 		} else {
 			CoCart_Integrations::disable( $slug );

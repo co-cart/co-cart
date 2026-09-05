@@ -157,6 +157,25 @@ if ( ! class_exists( 'CoCart_Integrations' ) ) {
 		} // END can_be_enabled()
 
 		/**
+		 * Check whether an integration has a registered loader file (support module).
+		 *
+		 * Integrations registered without a file are metadata-only placeholders.
+		 * They must not be enabled even when their required plugin is detected,
+		 * since there is no code to actually load for them.
+		 *
+		 * @access public
+		 *
+		 * @static
+		 *
+		 * @param string $slug Integration slug.
+		 *
+		 * @return bool
+		 */
+		public static function has_module( string $slug ): bool {
+			return isset( self::$integration_files[ $slug ] );
+		} // END has_module()
+
+		/**
 		 * Enable an integration.
 		 *
 		 * @access public

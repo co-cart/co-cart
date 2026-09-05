@@ -23,11 +23,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $upgrade_required = ! empty( $args['upgrade_required'] );
 $coming_soon      = ! empty( $args['coming_soon'] );
+$has_module       = CoCart_Integrations::has_module( $slug );
 
 $card_classes = array( 'cocart-integration-card' );
 if ( $upgrade_required ) {
 	$card_classes[] = 'upgrade-required';
 } elseif ( ! $available ) {
+	$card_classes[] = 'is-unavailable';
+} elseif ( ! $has_module ) {
 	$card_classes[] = 'is-unavailable';
 } elseif ( $enabled ) {
 	$card_classes[] = 'is-enabled';
@@ -69,6 +72,11 @@ $upgrade_url = CoCart_Helpers::build_shortlink(
 				<span class="dashicons dashicons-info-outline cocart-integration-not-installed-icon"></span>
 				<em class="cocart-integration-not-installed-label">
 					<?php echo esc_html__( 'Plugin is not installed.', 'cart-rest-api-for-woocommerce' ); ?>
+				</em>
+			<?php elseif ( ! $has_module ) : ?>
+				<span class="dashicons dashicons-info-outline cocart-integration-not-installed-icon"></span>
+				<em class="cocart-integration-not-installed-label">
+					<?php esc_html_e( 'Plugin is installed.', 'cart-rest-api-for-woocommerce' ); ?>
 				</em>
 			<?php else : ?>
 				<label class="cocart-toggle" title="<?php echo $enabled ? esc_attr__( 'Enabled', 'cart-rest-api-for-woocommerce' ) : esc_attr__( 'Disabled', 'cart-rest-api-for-woocommerce' ); ?>">
