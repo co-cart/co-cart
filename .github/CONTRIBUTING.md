@@ -46,9 +46,9 @@ All new issues are automatically tagged `status: awaiting triage`. Here is what 
 
 ### Requirements
 
-- **Node.js** 20.0.0 or higher — use [nvm](https://github.com/nvm-sh/nvm) to manage versions
+- **Node.js** 22 or higher — use [nvm](https://github.com/nvm-sh/nvm) to manage versions
 - **Composer** 2.x
-- **PHP** 8.2 or higher
+- **PHP** 7.4 or higher
 
 ### Getting started
 
