@@ -4,9 +4,9 @@ Tags: woocommerce, rest-api, decoupled, headless, cart
 Requires at least: 6.7
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 4.9.5
+Stable tag: 4.9.6
 WC requires at least: 9.0
-WC tested up to: 11.0
+WC tested up to: 11.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -289,6 +289,19 @@ We’d love to hear what you have to say. [Share your experience](https://testim
 
 CoCart is open source and community-driven. Every release is tested, maintained, and published here on WordPress.org. Need more power? [CoCart Plus](https://cocartapi.com?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) unlocks advanced features and priority support.
 
+= v4.9.6 - 10th September, 2026 =
+
+### Improvement
+
+> Developer note: We don't recommend using plain permalinks as it reduces the performance of lookup but we added support should it be the only option for you. e.g. `?rest_route=/cocart/v2/products`
+
+* REST API: Recognize requests made via the `?rest_route=` query parameter (plain permalinks).
+* WordPress Dashboard: Prevent enabling integrations without a loader module.
+
+### Compatibility
+
+* Tested with WooCommerce v11.1
+
 = v4.9.5 - 1st September, 2026 =
 
 ### Security Patch
@@ -510,6 +523,6 @@ This release hardens how the cart session handler validates the cart key, howeve
 
 == Upgrade Notice ==
 
-= 4.9.5 =
+= 4.9.6 =
 
-Session handler now verifies ownership of the requested cart key before loading cart data, regardless of whether it was supplied via parameter or header.
+Prevent enabling integrations without a loader module.

@@ -1,5 +1,18 @@
 # Changelog for CoCart Community
 
+## v4.9.6 - 10th September, 2026
+
+### Improvement
+
+> Developer note: We don't recommend using plain permalinks as it reduces the performance of lookup but we added support should it be the only option for you. e.g. `?rest_route=/cocart/v2/products`
+
+* REST API: Recognize requests made via the `?rest_route=` query parameter (plain permalinks).
+* WordPress Dashboard: Prevent enabling integrations without a loader module.
+
+### Compatibility
+
+* Tested with WooCommerce v11.1
+
 ## v4.9.5 - 1st September, 2026
 
 ### Security Patch
