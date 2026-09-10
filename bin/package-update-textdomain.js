@@ -6,6 +6,7 @@ const files = glob.sync('**/*.php', {
     ignore: [
         '**/node_modules/**', // Exclude node_modules
         '**/vendor/**',       // Exclude vendor folder
+        '**/tests/**',       // Exclude tests folder
     ]
 });
 
