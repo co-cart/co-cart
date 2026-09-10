@@ -63,14 +63,25 @@ If you use Raycast, install our documentation extension for quick easy access.
 
 Get started in your language of choice. Each SDK handles authentication, session management, and cart operations out of the box including currency formatting and timezone for dates.
 
-| SDK | Language | Repository |
-|-----|----------|------------|
-| **cocart-js** | TypeScript / JavaScript | [GitHub](https://github.com/cocart-headless/cocart-js) |
-| **cocart-php** | PHP | [GitHub](https://github.com/cocart-headless/cocart-php) |
-| **cocart-python** | Python | [GitHub](https://github.com/cocart-headless/cocart-python) |
-| **cocart-go** | Go | [GitHub](https://github.com/cocart-headless/cocart-go) |
+| SDK | Language | Repository | Public |
+|-----|----------|------------|--------|
+| **cocart-js** | TypeScript / JavaScript | [GitHub](https://github.com/cocart-headless/cocart-js) | [NPM](https://www.npmjs.com/package/@cocartheadless/sdk) |
+| **cocart-php** | PHP | [GitHub](https://github.com/cocart-headless/cocart-php) | --- |
+| **cocart-python** | Python | [GitHub](https://github.com/cocart-headless/cocart-python) | --- |
+| **cocart-go** | Go | [GitHub](https://github.com/cocart-headless/cocart-go) | --- |
+| **cocart-flutter-sdk** | Flutter | [GitHub](https://github.com/cocart-headless/cocart-flutter-sdk) | --- |
+| **cocart-swift-sdk** | Switft | [GitHub](https://github.com/cocart-headless/cocart-swift-sdk) | --- |
+| **cocart-kotlin** | Kotlin | [GitHub](https://github.com/cocart-headless/cocart-kotlin) | --- |
+| **cocart-react-native** | React Native | [GitHub](https://github.com/cocart-headless/cocart-react-native) | --- |
 
 Want another language? [Make a request](https://cocartapi.com/suggest-a-feature/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)
+
+## Developer Tools
+
+* **[CoCart OpenAPI Specs](https://github.com/cocart-headless/cocart-openapi)** — OpenAPI definitions for CoCart REST API endpoints. Use them to generate client libraries, test with Yaak/Postman/Insomnia, or integrate with any tool that supports the OpenAPI standard.
+* **[CoCart Raycast](https://github.com/cocart-headless/cocart-raycast)** - The source to our Raycast extension that lets you search CoCart API documentation quickly, copy URLs, or open them in your browser.
+* **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and auto-completion of functions, classes and hooks.
+* **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 
 ## Compare Editions
 
@@ -80,14 +91,23 @@ Want another language? [Make a request](https://cocartapi.com/suggest-a-feature/
 | Product search & filtering | ✅ | ✅ | ✅ |
 | Session management | ✅ | ✅ | ✅ |
 | Authentication (Basic, JWT) | ✅ | ✅ | ✅ |
-| Performance optimizations | — | ✅ | ✅ |
-| Official support | — | ✅ | ✅ |
-| Coupon management | — | — | ✅ |
-| Shipping calculations | — | — | ✅ |
+| Cache configured ready | ✅ | ✅ | ✅ |
+| Load Cart to Native Site | ✅ | ✅ | ✅ |
+| Name Your Price Built In | ✅ | ✅ | ✅ |
+| Coupon support | — | — | ✅ |
+| Product Shipping Calculator | — | — | ✅ |
 | Cart fees | — | — | ✅ |
-| Advanced Batch API | — | — | ✅ |
-| Rate limiting | — | — | ✅ |
-| Checkout & Subscriptions | — | — | Coming Soon |
+| Advanced Batch Support | — | — | ✅ |
+| Rate Limiting | — | — | ✅ |
+| Account API | — | — | ✅ (In Beta) |
+| Checkout API | — | — | ✅ (In Beta) |
+| Integrations (20+) | — | — | ✅ (In Beta) |
+| Optimized for Performance | — | ✅ | ✅ |
+| Full SDK Support | — | ✅ | ✅ |
+| Forum support | ✅ | — | — |
+| Discord and Email Support | — | ✅ | ✅ |
+| Plugin role back support | — | ✅ | ✅ |
+| White-label ready | — | ✅ | ✅ |
 
 👉 [View full pricing & features](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition)
 
@@ -115,23 +135,16 @@ For more powerful features and enterprise-level control — upgrade to **[CoCart
 
 We also have add-ons that extend CoCart to enhance your development and your customers' shopping experience.
 
-| Add-on             | Repository | Requirements |
-|--------------------|:----------:|:------------:|
-| **CORS** - Enables CoCart to work across multiple domains. | [GitHub](https://github.com/cocart-headless/cocart-cors) | - |
-| **Rate Limiting** - Control and prevent abuse from excessive calls. | [GitHub](https://github.com/cocart-headless/cocart-rate-limiting) | CoCart Plus or higher |
-| **JWT Authentication** - Authenticate via a simple JWT Token. | [GitHub](https://github.com/cocart-headless/cocart-jwt-authentication) | - |
+| Add-on             | Repository | WordPress.org | Requirements |
+|--------------------|:----------:|:-------------:|:------------:|
+| **Rate Limiting** - Control and prevent abuse from excessive calls. | [GitHub](https://github.com/cocart-headless/cocart-rate-limiting) | - | CoCart Plus |
+| **JWT Authentication** - Authenticate via a simple JWT Token. | [GitHub](https://github.com/cocart-headless/cocart-jwt-authentication) | [WordPress](https://wordpress.org/plugins/cocart-jwt-authentication/) | - |
 
 These add-ons of course come with support too.
 
 ## Need Support?
 
 Community Edition support is provided via [our Discord community server](https://cocartapi.com/community/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition). Priority support is available to [paying customers](https://cocartapi.com/pricing/?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition).
-
-## Developer Tools
-
-* **[CoCart OpenAPI Specs](https://github.com/cocart-headless/cocart-openapi)** — OpenAPI definitions for CoCart REST API endpoints. Use them to generate client libraries, test with Yaak/Postman/Insomnia, or integrate with any tool that supports the OpenAPI standard.
-* **[CoCart VSCode](https://github.com/co-cart/cocart-vscode)** extension for Visual Studio Code adds snippets and auto-completion of functions, classes and hooks.
-* **[CoCart Cart Callback Example](https://github.com/co-cart/cocart-cart-callback-example)** provides you an example of registering a callback that can be triggered when updating the cart.
 
 ## Bug Reporting
 
@@ -166,8 +179,8 @@ Do you like the idea of creating a headless store with WooCommerce? Got question
 ## Credits
 
 Website [cocartapi.com](https://cocartapi.com?utm_medium=github.com&utm_source=repository&utm_campaign=readme&utm_content=communityedition) &nbsp;&middot;&nbsp;
-GitHub [@co-cart](https://github.com/co-cart) &nbsp;&middot;&nbsp;
-X/Twitter [@cocartapi](https://twitter.com/cocartapi)
+GitHub [@cocart-headless](https://github.com/cocart-headless) &nbsp;&middot;&nbsp;
+X/Twitter [@cocartapi](https://twitter.com/cocartapi) &nbsp;&middot;&nbsp;
 [Facebook](https://www.facebook.com/cocartforwc/) &nbsp;&middot;&nbsp;
 [Instagram](https://www.instagram.com/cocartheadless/)
 
