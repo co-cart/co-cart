@@ -1,5 +1,5 @@
 {
-	"name": "co-cart/co-cart",
+	"name": "cocart-headless/cocart-community",
 	"description": "Decouple your WooCommerce store with ease with our developer friendly REST API extension.",
 	"homepage": "https://cocartapi.com",
 	"type": "wordpress-plugin",
@@ -35,8 +35,8 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/co-cart/co-cart/issues",
-		"source": "https://github.com/co-cart/co-cart"
+		"issues": "https://github.com/cocart-headless/cocart-community/issues",
+		"source": "https://github.com/cocart-headless/cocart-community"
 	},
 	"funding": [
 		{

@@ -179,7 +179,7 @@ module.exports = function(grunt) {
 					potHeaders: {
 						'poedit': true, // Includes common Poedit headers.
 						'x-poedit-keywordslist': true, // Include a list of all possible gettext functions.
-						'Report-Msgid-Bugs-To': 'https://github.com/co-cart/co-cart/issues',
+						'Report-Msgid-Bugs-To': 'https://github.com/cocart-headless/cocart-community/issues',
 						'language-team': 'CoCart Headless, LLC <support@cocartapi.com>',
 						'language': 'en_US'
 					},

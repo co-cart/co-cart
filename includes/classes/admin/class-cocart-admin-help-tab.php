@@ -126,7 +126,7 @@ if ( ! class_exists( 'CoCart_Admin_Help_Tab' ) ) {
 
 					'<p><span class="dashicons dashicons-wordpress"></span> <a href="' . esc_url( COCART_PLUGIN_URL ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'View details', 'cart-rest-api-for-woocommerce' ) . '</a></p>' .
 
-					'<p><span class="dashicons dashicons-external"></span> <a href="https://github.com/co-cart/co-cart/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'GitHub', 'cart-rest-api-for-woocommerce' ) . '</a></p>'
+					'<p><span class="dashicons dashicons-external"></span> <a href="https://github.com/cocart-headless/cocart-community/" target="_blank" rel="noopener noreferrer">' . esc_html__( 'GitHub', 'cart-rest-api-for-woocommerce' ) . '</a></p>'
 				);
 			}
 		} // END add_help_tabs()

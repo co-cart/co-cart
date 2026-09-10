@@ -31,10 +31,10 @@
 	"homepage": "https://cocartapi.com",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/co-cart/co-cart.git"
+		"url": "https://github.com/cocart-headless/cocart-community.git"
 	},
 	"bugs": {
-		"url": "https://github.com/co-cart/co-cart/issues"
+		"url": "https://github.com/cocart-headless/cocart-community/issues"
 	},
 	"requires": "6.7",
 	"requires_php": "7.4",

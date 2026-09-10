@@ -43,7 +43,7 @@ This release hardens how the cart session handler validates the cart key, howeve
 
 * REST API: Fixed adding to cart via the v2 add item controller not checking stock for the combined quantity when an item already existed in the cart, allowing the cart to exceed available stock.
 * REST API: Fixed the "Update Cart" callback not checking stock before setting a new item quantity, allowing the cart to be updated beyond available stock.
-* Plugin: Fixed `cocart_update_plugin_suggestions` scheduled action never running via WP-Cron or WP-CLI — the callback was only registered on `admin_init` and the updater class only loaded when `is_admin()` was true, so Action Scheduler could not find a registered callback and the action was never rescheduled. Fixes [#576](https://github.com/co-cart/co-cart/issues/576) reported by [@isam-aqu](https://github.com/isam-aqu).
+* Plugin: Fixed `cocart_update_plugin_suggestions` scheduled action never running via WP-Cron or WP-CLI — the callback was only registered on `admin_init` and the updater class only loaded when `is_admin()` was true, so Action Scheduler could not find a registered callback and the action was never rescheduled. Fixes [#576](https://github.com/cocart-headless/cocart-community/issues/576) reported by [@isam-aqu](https://github.com/isam-aqu).
 
 ### Change
 
@@ -265,7 +265,7 @@ This release hardens how the cart session handler validates the cart key, howeve
 
 ### Bug Fix
 
-* REST API: Removing an item stays removed. [Solves issue #534](https://github.com/co-cart/co-cart/issues/534)
+* REST API: Removing an item stays removed. [Solves issue #534](https://github.com/cocart-headless/cocart-community/issues/534)
 
 > WooCommerce v10 caused a cache issue due to a change in the many times session data is handled.
 
@@ -295,7 +295,7 @@ This release hardens how the cart session handler validates the cart key, howeve
 
 ### Bug Fixes
 
-* REST API: Fixed `undefined array key` errors with cart session when cart is empty. [Solves Issue #533](https://github.com/co-cart/co-cart/issues/533)
+* REST API: Fixed `undefined array key` errors with cart session when cart is empty. [Solves Issue #533](https://github.com/cocart-headless/cocart-community/issues/533)
 * REST API: Fixed removing an item using the update endpoint when it thinks quantity value is not numeric.
 
 ### Compatibility
@@ -336,7 +336,7 @@ This release will most likely be the last update released on the WordPress plugi
 
 ### Bug Fix
 
-* REST API: Added missing option for allowing to order products by random. [Solves issue #516](https://github.com/co-cart/co-cart/issues/516)
+* REST API: Added missing option for allowing to order products by random. [Solves issue #516](https://github.com/cocart-headless/cocart-community/issues/516)
 
 ### Plugin Details
 
@@ -354,7 +354,7 @@ This release focuses on supporting such tools like ManageWP, MainWP, Blogvault e
 
 ### Changes
 
-* WordPress Dashboard: Database updates now run automatically if needed. [Resolves issue #511](https://github.com/co-cart/co-cart/issues/511)
+* WordPress Dashboard: Database updates now run automatically if needed. [Resolves issue #511](https://github.com/cocart-headless/cocart-community/issues/511)
 * WordPress Dashboard: Sessions now transfer automatically for new installs.
 * Session: Cart session expiration's are now matching the default expiration WooCommerce set for better compatibility and abandoned cart support.
 * Session: Cart session expiration for logged in users renew daily and expire in a week. This is to keep carts persistent for logged in users.
@@ -363,7 +363,7 @@ This release focuses on supporting such tools like ManageWP, MainWP, Blogvault e
 
 ### Third Party Support
 
-* Plugin: LiteSpeed Cache will now exclude CoCart from being cached. [Commit](https://github.com/co-cart/co-cart/commit/683b4d31b940862b463e2e1a45c8c3c9908a5f47)
+* Plugin: LiteSpeed Cache will now exclude CoCart from being cached. [Commit](https://github.com/cocart-headless/cocart-community/commit/683b4d31b940862b463e2e1a45c8c3c9908a5f47)
 
 ### Developers
 
@@ -372,8 +372,8 @@ This release focuses on supporting such tools like ManageWP, MainWP, Blogvault e
 
 ### Internal
 
-* Improved the logger. [Commit](https://github.com/co-cart/co-cart/commit/32ee652ababfe94a501ff6fd84bff1829c140bf8)
-* Added logs for database update procedure. [Commit](https://github.com/co-cart/co-cart/commit/4bb641005ad01fab405e5ba0200407631e06115c)
+* Improved the logger. [Commit](https://github.com/cocart-headless/cocart-community/commit/32ee652ababfe94a501ff6fd84bff1829c140bf8)
+* Added logs for database update procedure. [Commit](https://github.com/cocart-headless/cocart-community/commit/4bb641005ad01fab405e5ba0200407631e06115c)
 
 ### Deprecations
 
@@ -386,7 +386,7 @@ This release focuses on supporting such tools like ManageWP, MainWP, Blogvault e
 
 ### Bug Fix
 
-* WordPress Dashboard: Fix plugin update warning for core plugin. [Solves issue #506](https://github.com/co-cart/co-cart/issues/506)
+* WordPress Dashboard: Fix plugin update warning for core plugin. [Solves issue #506](https://github.com/cocart-headless/cocart-community/issues/506)
 
 ### Improvement
 
@@ -429,7 +429,7 @@ This release focuses on supporting such tools like ManageWP, MainWP, Blogvault e
 
 ### Bug Fix
 
-* REST API: Fixed critical error when adding an item and asking to return the item details. [Solves issue #509](https://github.com/co-cart/co-cart/issues/509)
+* REST API: Fixed critical error when adding an item and asking to return the item details. [Solves issue #509](https://github.com/cocart-headless/cocart-community/issues/509)
 
 ### Improvements
 
@@ -555,7 +555,7 @@ add_filter( 'cocart_get_customer_billing_country', function( $value ) {
 
 ### Bug Fix
 
-* REST API: Fix persistent cart for registered users. [Solves issue [#474](https://github.com/co-cart/co-cart/issues/474)]
+* REST API: Fix persistent cart for registered users. [Solves issue [#474](https://github.com/cocart-headless/cocart-community/issues/474)]
 
 > Developer note: The last patch was not a great one but have found the root of the issue affecting carts for registered customers and is fixed in this one.
 
@@ -679,7 +679,7 @@ A commit error was spotted shortly after just releasing it and was taken down im
 
 ### Improvements
 
-* REST API: Price of product is now consistent in the Cart API (v2 ONLY). If your store was setup with no decimals the price would not return fully. [Solves issue #429](https://github.com/co-cart/co-cart/issues/429)
+* REST API: Price of product is now consistent in the Cart API (v2 ONLY). If your store was setup with no decimals the price would not return fully. [Solves issue #429](https://github.com/cocart-headless/cocart-community/issues/429)
 * REST API: Value of weight was returning in the wrong format. By returning as a string you get the true value without needing to round it up yourself.
 * WordPress Dashboard: Updated add-on update watcher.
 
@@ -687,7 +687,7 @@ A commit error was spotted shortly after just releasing it and was taken down im
 
 ### 🌋 Hot Fix
 
-This release fixes 3 known issues that were reported. [issue #425](https://github.com/co-cart/co-cart/issues/425), [issue #426](https://github.com/co-cart/co-cart/issues/426), [issue #427](https://github.com/co-cart/co-cart/issues/427) that has been affected since version 4.2 of CoCart.
+This release fixes 3 known issues that were reported. [issue #425](https://github.com/cocart-headless/cocart-community/issues/425), [issue #426](https://github.com/cocart-headless/cocart-community/issues/426), [issue #427](https://github.com/cocart-headless/cocart-community/issues/427) that has been affected since version 4.2 of CoCart.
 
 It was due to the optimizations made to allow CoCart to perform better. Unfortunately it had some unexpected side affects that were not picked up during testing. For that I am sorry. If you haven't rolled back to before 4.2 then this patch is highly recommended.
 
@@ -814,7 +814,7 @@ We also no longer use cookies as a backup for headless. This should also help wi
 
 ### Bug Fix
 
-* Uncaught error with no featured image for a variation of a variable product. [Solves issue 416](https://github.com/co-cart/co-cart/issues/416)
+* Uncaught error with no featured image for a variation of a variable product. [Solves issue 416](https://github.com/cocart-headless/cocart-community/issues/416)
 
 ## v4.1.0 - 6th June, 2024
 
@@ -910,7 +910,7 @@ Hope you enjoy this release.
 ### Bug Fixes
 
 * Plugin: Fixed various text localization issues.
-* REST API: `Access-Control-Allow-Credentials` being outputted as 1 instead of true. [Solves issue 410](https://github.com/co-cart/co-cart/issues/410). Thanks to [@SebastianLamprecht](https://github.com/SebastianLamprecht) for reporting it.
+* REST API: `Access-Control-Allow-Credentials` being outputted as 1 instead of true. [Solves issue 410](https://github.com/cocart-headless/cocart-community/issues/410). Thanks to [@SebastianLamprecht](https://github.com/SebastianLamprecht) for reporting it.
 * REST API: Update cart requests no longer fails and continues to the next item if an item in cart no longer exists.
 * REST API: Products API schema has been completed for v1.
 * REST API: Products API schema has been corrected for v2.
@@ -953,7 +953,7 @@ Hope you enjoy this release.
 * Corrected: Products API v1 Schema for weight object.
 * Added: Missing Products API v1 Schema for Image sizes.
 * Fixed: Schema product type options to match with parameters.
-* Fixed: Products API returning custom attributes with special characters incorrectly. [Solves issue 401](https://github.com/co-cart/co-cart/issues/401)
+* Fixed: Products API returning custom attributes with special characters incorrectly. [Solves issue 401](https://github.com/cocart-headless/cocart-community/issues/401)
 * Fixed: Some requested data was not sanitized.
 
 ### Compatibility
@@ -1099,34 +1099,34 @@ Forgot to update WordPress tested up to tag and a little CSS tweak.
 
 ### What's New?
 
-* Added WordPress Playground notice. [commit 912ebb2](https://github.com/co-cart/co-cart/commit/912ebb24cf096de12aaa6c2aeeab9c59bf4dff5a)
-* Added new admin support page. [commit 2f64980](https://github.com/co-cart/co-cart/commit/2f649804f1be685eba07a6afbeeaa08f7a28acc4)
-* Added new help tab available on any CoCart admin page. [commit 9970ce8](https://github.com/co-cart/co-cart/commit/9970ce86afb8bd6a9ba4019eb7cadb9a96c00992)
-* Filtered the WordPress REST API Index to hide CoCart namespaces and routes unless you have debug enabled. This helps a little with anyone trying to lookup what REST API's you have outside your store setup. [commit 45723d9](https://github.com/co-cart/co-cart/commit/45723d97422b498dbf8c252ea95c0b5029f7e437)
-* Updated license.txt [commit f6b0acb](https://github.com/co-cart/co-cart/commit/f6b0acb07190bd45d6e8b8371a78a2f1102e4dba)
+* Added WordPress Playground notice. [commit 912ebb2](https://github.com/cocart-headless/cocart-community/commit/912ebb24cf096de12aaa6c2aeeab9c59bf4dff5a)
+* Added new admin support page. [commit 2f64980](https://github.com/cocart-headless/cocart-community/commit/2f649804f1be685eba07a6afbeeaa08f7a28acc4)
+* Added new help tab available on any CoCart admin page. [commit 9970ce8](https://github.com/cocart-headless/cocart-community/commit/9970ce86afb8bd6a9ba4019eb7cadb9a96c00992)
+* Filtered the WordPress REST API Index to hide CoCart namespaces and routes unless you have debug enabled. This helps a little with anyone trying to lookup what REST API's you have outside your store setup. [commit 45723d9](https://github.com/cocart-headless/cocart-community/commit/45723d97422b498dbf8c252ea95c0b5029f7e437)
+* Updated license.txt [commit f6b0acb](https://github.com/cocart-headless/cocart-community/commit/f6b0acb07190bd45d6e8b8371a78a2f1102e4dba)
 
 ## Bug Fixes
 
-* Fixed undefined `cart_cached` if price change feature not used. [commit fb472fc](https://github.com/co-cart/co-cart/commit/fb472fc6bb5b1d87eaf46d724207458e0e00e045)
-* Fixed Authentication failing to identify current user if authentication is not provided. [commit f6fb7a4](https://github.com/co-cart/co-cart/commit/f6fb7a4eb809a80144e75c33b4cc35435663661d)
-* Fixed PHP Deprecated: str_replace(): Passing null to parameter 2 (PHP 8.1) [commit 4ebeafd](https://github.com/co-cart/co-cart/commit/4ebeafdb4910248eef16b11bf50c44d019549c89)
+* Fixed undefined `cart_cached` if price change feature not used. [commit fb472fc](https://github.com/cocart-headless/cocart-community/commit/fb472fc6bb5b1d87eaf46d724207458e0e00e045)
+* Fixed Authentication failing to identify current user if authentication is not provided. [commit f6fb7a4](https://github.com/cocart-headless/cocart-community/commit/f6fb7a4eb809a80144e75c33b4cc35435663661d)
+* Fixed PHP Deprecated: str_replace(): Passing null to parameter 2 (PHP 8.1) [commit 4ebeafd](https://github.com/cocart-headless/cocart-community/commit/4ebeafdb4910248eef16b11bf50c44d019549c89)
 
 ## Improvements
 
-* Setup Wizard no longer blocks access to the WordPress dashboard. [commit 00a158e](https://github.com/co-cart/co-cart/commit/00a158ee038550f2d24bdef6184fdc97f203ecc1)
+* Setup Wizard no longer blocks access to the WordPress dashboard. [commit 00a158e](https://github.com/cocart-headless/cocart-community/commit/00a158ee038550f2d24bdef6184fdc97f203ecc1)
 * Moved validation earlier to check if we are on a CoCart page before displaying admin notices.
-* Updated from product name to business name in Setup Wizard page. [commit eede727](https://github.com/co-cart/co-cart/commit/eede727188784d373346d992d164d07591b6bd67)
-* Removed link to deprecated project. [commit ab973ca](https://github.com/co-cart/co-cart/commit/ab973ca5591bc7bb3d699ed0d62f48683ffd47d1)
-* Improved the explanation of "Multiple Domain" option in Setup Wizard. [commit e54e31b](https://github.com/co-cart/co-cart/commit/e54e31b5aef0475afcd365fadc934ec2d9fc7100)
-* Rewrote the admin menu system for a much better page management. [commit 543642e](https://github.com/co-cart/co-cart/commit/543642eba06c7f27a2766025c5395a97556555fb)
-* Simplified the admin notices when the database requires updating and has updated with a dismissible action. [commit 8d995e0](https://github.com/co-cart/co-cart/commit/8d995e05ce86fc0df5c0fe54521febed094e778d)
-* When database has updated, the notice is unset. This prevents the admin notice from showing again even without dismissing the admin notice first on next page load. [commit c90e320](https://github.com/co-cart/co-cart/commit/c90e320581616cedfa43833b27fbbb054fd3c918)
-* There will be no sessions retrieved while WordPress setup is due. [commit fce7910](https://github.com/co-cart/co-cart/commit/fce7910d8849633dc6e55acaa005f3e43d0d4646)
+* Updated from product name to business name in Setup Wizard page. [commit eede727](https://github.com/cocart-headless/cocart-community/commit/eede727188784d373346d992d164d07591b6bd67)
+* Removed link to deprecated project. [commit ab973ca](https://github.com/cocart-headless/cocart-community/commit/ab973ca5591bc7bb3d699ed0d62f48683ffd47d1)
+* Improved the explanation of "Multiple Domain" option in Setup Wizard. [commit e54e31b](https://github.com/cocart-headless/cocart-community/commit/e54e31b5aef0475afcd365fadc934ec2d9fc7100)
+* Rewrote the admin menu system for a much better page management. [commit 543642e](https://github.com/cocart-headless/cocart-community/commit/543642eba06c7f27a2766025c5395a97556555fb)
+* Simplified the admin notices when the database requires updating and has updated with a dismissible action. [commit 8d995e0](https://github.com/cocart-headless/cocart-community/commit/8d995e05ce86fc0df5c0fe54521febed094e778d)
+* When database has updated, the notice is unset. This prevents the admin notice from showing again even without dismissing the admin notice first on next page load. [commit c90e320](https://github.com/cocart-headless/cocart-community/commit/c90e320581616cedfa43833b27fbbb054fd3c918)
+* There will be no sessions retrieved while WordPress setup is due. [commit fce7910](https://github.com/cocart-headless/cocart-community/commit/fce7910d8849633dc6e55acaa005f3e43d0d4646)
 
 ## Deprecations
 
-* Removed "Getting Started" page. [commit ea397e4](https://github.com/co-cart/co-cart/commit/ea397e4bf5a7ec8f1b59a73e5723185e9993b666)
-* Removed "Upgrade" page. [commit 5f9f48c](https://github.com/co-cart/co-cart/commit/5f9f48c9d48fcef135013700f138aae53d98f96e)
+* Removed "Getting Started" page. [commit ea397e4](https://github.com/cocart-headless/cocart-community/commit/ea397e4bf5a7ec8f1b59a73e5723185e9993b666)
+* Removed "Upgrade" page. [commit 5f9f48c](https://github.com/cocart-headless/cocart-community/commit/5f9f48c9d48fcef135013700f138aae53d98f96e)
 
 #### Requirements and Compatibility
 
@@ -1229,13 +1229,13 @@ Introduced a new hook `cocart_cart_loaded` which could be used to trigger a webh
 
 ### Enhancement
 
-* Moved item validation further up to identify sooner if the product no longer exists when attempting to update an item's quantity. [issue #356](https://github.com/co-cart/co-cart/issues/356)
+* Moved item validation further up to identify sooner if the product no longer exists when attempting to update an item's quantity. [issue #356](https://github.com/cocart-headless/cocart-community/issues/356)
 
 ## v3.7.6 - 23rd September, 2022
 
 ### Bug Fixes
 
-* Fixed an issue were on a rare occasion, the product data is somehow not there when updating an item in cart. [issue #355](https://github.com/co-cart/co-cart/issues/355)
+* Fixed an issue were on a rare occasion, the product data is somehow not there when updating an item in cart. [issue #355](https://github.com/cocart-headless/cocart-community/issues/355)
 * Fixed an issue were you add more than one item to the cart with a custom price and then increase the quantity of one of those items after. All other items with a custom price would reset to the original price.
 
 ## v3.7.5 - 14th September, 2022
@@ -1261,7 +1261,7 @@ Originally it was to keep the JSON response valid because a bug at the time was 
 
 Other improvements for supporting third party plugins are in the works.
 
-If you want to discuss supporting a third party plugin, [start a discussion](https://github.com/co-cart/co-cart/discussions) on the CoCart GitHub repository.
+If you want to discuss supporting a third party plugin, [start a discussion](https://github.com/cocart-headless/cocart-community/discussions) on the CoCart GitHub repository.
 
 ## v3.7.3 - 23rd June, 2022
 
@@ -1273,7 +1273,7 @@ If you want to discuss supporting a third party plugin, [start a discussion](htt
 
 ### Improvements
 
-* Adjusted WooCommerce detection when installing CoCart on a completely fresh WordPress install. Related to [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
+* Adjusted WooCommerce detection when installing CoCart on a completely fresh WordPress install. Related to [[issue #341](https://github.com/cocart-headless/cocart-community/issues/341)]
 * Removed "Turn off CoCart" button from admin notice as the plugin already deactivates if WooCommerce not detected.
 * Prevent plugin action links from showing if CoCart is not active.
 
@@ -1295,7 +1295,7 @@ Example of limiting products via category and tag. `wp-json/cocart/v2/products/?
 
 ### What's New
 
-* Improved: CoCart does not proceed with any installation when activated unless WooCommerce is active first. Solves [[issue #341](https://github.com/co-cart/co-cart/issues/341)]
+* Improved: CoCart does not proceed with any installation when activated unless WooCommerce is active first. Solves [[issue #341](https://github.com/cocart-headless/cocart-community/issues/341)]
 
 ### Compatibility
 
@@ -1329,7 +1329,7 @@ Example of limiting products via category and tag. `wp-json/cocart/v2/products/?
 
 * Fixed calling `update_plugin_suggestions()` function the non-static method. For WordPress Dashboard > Plugins > Add New.
 * Fixed undefined `$variations` for `get_variations()` function. For Products API v2 thanks to [@jnz31](https://github.com/jnz31)
-* Improved `get_connected_products()` function to validate product ID's before returning. For Products API v2. Solves [[issue #336](https://github.com/co-cart/co-cart/issues/336)]
+* Improved `get_connected_products()` function to validate product ID's before returning. For Products API v2. Solves [[issue #336](https://github.com/cocart-headless/cocart-community/issues/336)]
 
 ## v3.6.0 - 24th April, 2022
 
@@ -1449,7 +1449,7 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 ### Bug Fix
 
-* When updating an individual item in cart, the product data is not passed when validating the quantity and was causing a fatal error. [[issue #319](https://github.com/co-cart/co-cart/issues/319)]
+* When updating an individual item in cart, the product data is not passed when validating the quantity and was causing a fatal error. [[issue #319](https://github.com/cocart-headless/cocart-community/issues/319)]
 
 > Developer note: This is because an improvement was made when adding items to the cart using the same function that is used to validate the quantity and I forgot to update the parameters for when it's used to update an item. My bad.
 
@@ -1576,7 +1576,7 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 ### Bug Fixes
 
-* Unable to remove items due to validation issue for certain edge cases. Reported by [Rozaliya Stoilova](https://github.com/rozalia) [Issue 287](https://github.com/co-cart/co-cart/issues/287)
+* Unable to remove items due to validation issue for certain edge cases. Reported by [Rozaliya Stoilova](https://github.com/rozalia) [Issue 287](https://github.com/cocart-headless/cocart-community/issues/287)
 * Uncaught Error: Call to undefined function `get_current_screen()`. Reported by [Tommie Lagerroos](https://github.com/lagerroos) for [Frontity](https://frontity.org/) compatibility.
 * Loading of RTL stylesheet if `SCRIPT_DEBUG` is not enabled.
 
@@ -1588,7 +1588,7 @@ All custom headers introduced by CoCart with `X-` prefixes (no longer a recommen
 
 ### Tweaks
 
-* Moved `backorders` and `cart_item_data` into the `get_item()` function instead so it returns data when `return_item` is set to true. Data was missing as it was outside this function. Reduced duplicate code in the process. 👍 Issue reported by [Christian Grosskop](https://github.com/fatheaddrummer) [Issue 288](https://github.com/co-cart/co-cart/issues/288)
+* Moved `backorders` and `cart_item_data` into the `get_item()` function instead so it returns data when `return_item` is set to true. Data was missing as it was outside this function. Reduced duplicate code in the process. 👍 Issue reported by [Christian Grosskop](https://github.com/fatheaddrummer) [Issue 288](https://github.com/cocart-headless/cocart-community/issues/288)
 * The `cart/item` route now extends the `cart` route for better code management.
 * Filter `cocart_cart_item_key_required_message` now passes the correct status for the second parameter.
 
@@ -2042,7 +2042,7 @@ This release brings an improved code base for the backend and connects with WooC
 
 ## v2.2.1 - 26th June, 2020
 
-* Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/co-cart/co-cart/pull/125)
+* Tweaked: Optimized load cart from session when checking if cart is in session. PR [#125](https://github.com/cocart-headless/cocart-community/pull/125)
 
 > This is a community release by [@yordivd](https://github.com/yordivd)
 

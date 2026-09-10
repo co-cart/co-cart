@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				printf(
 					/* translators: 1: Feedback URL, 2: CoCart, 3: Button Text */
 					'<a href="%1$s" class="button button-primary cocart-button" target="_blank" rel="noopener noreferrer" role="button">%3$s</a>',
-					esc_url( 'https://github.com/co-cart/co-cart/issues/new?assignees=&labels=needs%3A+developer+feedback&&title=[v' . COCART_VERSION . ']:%20Title%20of%20the%20issue' ),
+					esc_url( 'https://github.com/cocart-headless/cocart-community/issues/new?assignees=&labels=needs%3A+developer+feedback&&title=[v' . COCART_VERSION . ']:%20Title%20of%20the%20issue' ),
 					'CoCart',
 					esc_html__( 'Give Feedback', 'cart-rest-api-for-woocommerce' )
 				);

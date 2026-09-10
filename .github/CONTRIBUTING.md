@@ -6,9 +6,9 @@ This is a **public repository** — open-source under the GPLv3+ license. All co
 
 ## Ways to Contribute
 
-- **Report a bug** — use the [bug report template](https://github.com/co-cart/co-cart/issues/new?template=bug_report.yml).
-- **Suggest an enhancement** — use the [enhancement template](https://github.com/co-cart/co-cart/issues/new?template=enhancement.yml) for straightforward ideas, or discuss complex proposals in the [Discord community](https://cocartapi.com/community/) first.
-- **Test open issues or pull requests** — look for issues tagged [`status: awaiting triage`](https://github.com/co-cart/co-cart/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3A+awaiting+triage%22) and share your findings in a comment.
+- **Report a bug** — use the [bug report template](https://github.com/cocart-headless/cocart-community/issues/new?template=bug_report.yml).
+- **Suggest an enhancement** — use the [enhancement template](https://github.com/cocart-headless/cocart-community/issues/new?template=enhancement.yml) for straightforward ideas, or discuss complex proposals in the [Discord community](https://cocartapi.com/community/) first.
+- **Test open issues or pull requests** — look for issues tagged [`status: awaiting triage`](https://github.com/cocart-headless/cocart-community/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3A+awaiting+triage%22) and share your findings in a comment.
 - **Submit a fix or improvement** — see [Submitting a Pull Request](#submitting-a-pull-request) below.
 - **Translate strings** — see [Translating CoCart](#translating-cocart) below.
 - **Report a security vulnerability** — see [Security Disclosures](#security-disclosures) below. Do not open a public issue.

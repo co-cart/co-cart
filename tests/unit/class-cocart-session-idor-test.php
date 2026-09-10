@@ -11,7 +11,7 @@
  * once the ownership check is in place: guest-to-logged-in cart transfer on
  * login, and privileged (shop manager) lookup of a customer's cart by ID.
  *
- * @see https://github.com/co-cart/co-cart/security/advisories/GHSA-p7mf-cpmj-c859
+ * @see https://github.com/cocart-headless/cocart-community/security/advisories/GHSA-p7mf-cpmj-c859
  *
  * @package CoCart\Tests\Unit
  */

@@ -15,9 +15,9 @@ body:
         While our goal is to address all the issues reported in this repository, GitHub should be treated as a place to report confirmed bugs only.
         If you have a support question, please use the [CoCart community Discord](https://cocartapi.com/community/) instead.
 
-        Make sure to look through [existing `type: bug` issues](https://github.com/co-cart/co-cart/issues?q=is%3Aopen+is%3Aissue+label%3A%22type%3A+bug%22) to see whether your bug has already been submitted.
+        Make sure to look through [existing `type: bug` issues](https://github.com/cocart-headless/cocart-community/issues?q=is%3Aopen+is%3Aissue+label%3A%22type%3A+bug%22) to see whether your bug has already been submitted.
         Feel free to contribute to any existing issues.
-        Search tip: You can filter issues using [our labels](https://github.com/co-cart/co-cart/labels).
+        Search tip: You can filter issues using [our labels](https://github.com/cocart-headless/cocart-community/labels).
         Search tip: Make use of [GitHub's search syntax](https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests) to refine your search.
 
   - type: checkboxes

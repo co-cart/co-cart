@@ -146,7 +146,7 @@ Free add-ons that extend the core:
 
 * [Website](https://cocartapi.com/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
 * [Documentation](https://cocartapi.com/docs/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink)
-* Follow on [X/Twitter](https://twitter.com/cocartapi), [GitHub](https://github.com/co-cart/co-cart), [Facebook](https://www.facebook.com/cocartforwc/), [Instagram](https://www.instagram.com/cocartheadless/)
+* Follow on [X/Twitter](https://twitter.com/cocartapi), [GitHub](https://github.com/cocart-headless/cocart-community), [Facebook](https://www.facebook.com/cocartforwc/), [Instagram](https://www.instagram.com/cocartheadless/)
 
 #### 💯 Credits
 
@@ -261,7 +261,7 @@ CoCart runs entirely on your WordPress server — there's no external service, n
 
 = Where can I report bugs? =
 
-On the [CoCart GitHub repository](https://github.com/co-cart/co-cart/issues) or in the #bug-report channel of the [Discord community](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink). Search first to avoid duplicates.
+On the [CoCart GitHub repository](https://github.com/cocart-headless/cocart-community/issues) or in the #bug-report channel of the [Discord community](https://cocartapi.com/community/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink). Search first to avoid duplicates.
 
 = Where can I find more answers? =
 
@@ -279,7 +279,7 @@ You can help [translate "CoCart" into your language](https://translate.wordpress
 
 **INTERESTED IN DEVELOPMENT?**
 
-[Browse the code on GitHub](https://github.com/co-cart/co-cart/tree/development/), or follow the [CoCart development blog](https://cocartapi.com/blog/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) for the latest development updates. You can also follow [@cocartapi](https://twitter.com/cocartapi) on Twitter to stay up to date about everything happening with CoCart.
+[Browse the code on GitHub](https://github.com/cocart-headless/cocart-community/tree/development/), or follow the [CoCart development blog](https://cocartapi.com/blog/?utm_medium=website&utm_source=wpplugindirectory&utm_campaign=readme&utm_content=readmelink) for the latest development updates. You can also follow [@cocartapi](https://twitter.com/cocartapi) on Twitter to stay up to date about everything happening with CoCart.
 
 **Please share your experience**
 
@@ -332,7 +332,7 @@ This release hardens how the cart session handler validates the cart key, howeve
 
 * REST API: Fixed adding to cart via the v2 add item controller not checking stock for the combined quantity when an item already existed in the cart, allowing the cart to exceed available stock.
 * REST API: Fixed the "Update Cart" callback not checking stock before setting a new item quantity, allowing the cart to be updated beyond available stock.
-* Plugin: Fixed `cocart_update_plugin_suggestions` scheduled action never running via WP-Cron or WP-CLI — the callback was only registered on `admin_init` and the updater class only loaded when `is_admin()` was true, so Action Scheduler could not find a registered callback and the action was never rescheduled. Fixes [#576](https://github.com/co-cart/co-cart/issues/576) reported by [@isam-aqu](https://github.com/isam-aqu).
+* Plugin: Fixed `cocart_update_plugin_suggestions` scheduled action never running via WP-Cron or WP-CLI — the callback was only registered on `admin_init` and the updater class only loaded when `is_admin()` was true, so Action Scheduler could not find a registered callback and the action was never rescheduled. Fixes [#576](https://github.com/cocart-headless/cocart-community/issues/576) reported by [@isam-aqu](https://github.com/isam-aqu).
 
 ### Change
 
@@ -506,7 +506,7 @@ This release hardens how the cart session handler validates the cart key, howeve
 
 * Tested with WooCommerce v10.2
 
-[View the full changelog here](https://github.com/co-cart/co-cart/blob/trunk/CHANGELOG.md).
+[View the full changelog here](https://github.com/cocart-headless/cocart-community/blob/trunk/CHANGELOG.md).
 
 == Upgrade Notice ==
 

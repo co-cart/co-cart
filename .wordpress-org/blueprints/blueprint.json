@@ -46,7 +46,7 @@
             "path": "/wordpress/wp-content/mu-plugins/dashboard.php",
             "data": {
                 "resource": "url",
-                "url": "https://raw.githubusercontent.com/co-cart/co-cart/trunk/.wordpress-org/blueprints/dashboard.php"
+                "url": "https://raw.githubusercontent.com/cocart-headless/cocart-community/trunk/.wordpress-org/blueprints/dashboard.php"
             }
         },
         {

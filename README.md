@@ -1,14 +1,14 @@
 <p align="center"><img src="https://raw.githubusercontent.com/cocart-headless/.github/refs/heads/main/profile/banner.png" alt="CoCart — Headless REST API for WooCommerce" /></p>
 
 <p align="center">
-	<a href="https://github.com/co-cart/co-cart/blob/trunk/license.txt" target="_blank">
+	<a href="https://github.com/cocart-headless/cocart-community/blob/trunk/license.txt" target="_blank">
 		<img src="https://img.shields.io/badge/license-GPL--3.0%2B-red.svg" alt="Licence">
 	</a>
 	<img src="https://img.shields.io/badge/WordPress-6.7+-blue.svg" alt="WordPress 6.7+">
 	<img src="https://img.shields.io/badge/WooCommerce-9.0+-7f54b3.svg" alt="WooCommerce 9.0+">
 	<img src="https://img.shields.io/badge/PHP-7.4+-777BB4.svg" alt="PHP 7.4+">
-	<a href="https://github.com/co-cart/co-cart">
-		<img src="https://img.shields.io/github/stars/co-cart/co-cart?style=social" alt="GitHub Stars">
+	<a href="https://github.com/cocart-headless/cocart-community">
+		<img src="https://img.shields.io/github/stars/cocart-headless/cocart-community?style=social" alt="GitHub Stars">
 	</a>
 </p>
 
@@ -135,7 +135,7 @@ Community Edition support is provided via [our Discord community server](https:/
 
 ## Bug Reporting
 
-Bug reports for CoCart Community Edition are welcomed in [this repository on GitHub](https://github.com/co-cart/co-cart/issues/new). Please note that GitHub is not a support forum, and that issues that aren't properly qualified as bugs will be closed.
+Bug reports for CoCart Community Edition are welcomed in [this repository on GitHub](https://github.com/cocart-headless/cocart-community/issues/new). Please note that GitHub is not a support forum, and that issues that aren't properly qualified as bugs will be closed.
 
 ## Testimonials
 
